@@ -273,7 +273,6 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
                       aria-current={tag.id === initialTag ? 'true' : undefined}
                     >
                       {tag.label}
-                      <span className={s.browseChipCount}>{tag.count}</span>
                     </a>
                   ))}
               </div>
