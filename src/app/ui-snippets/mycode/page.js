@@ -161,7 +161,7 @@ export default function SavedSnippetsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <IndexOnly>
-        <AdSlot related={<FrontendPlaygroundsStrip />} />
+        <AdSlot related={<FrontendPlaygroundsStrip />} showBlog={false} />
         <SeoSection {...SEO} slug="ui-snippets" title="My Code — Personal HTML CSS JS Code Space" />
       </IndexOnly>
     </>

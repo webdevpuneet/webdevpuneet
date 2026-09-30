@@ -743,7 +743,7 @@ export default async function UiSnippetSlugPage({ params }) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }} />
         {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
         <IndexOnly>
-          <AdSlot related={<FrontendPlaygroundsStrip />} />
+          <AdSlot related={<FrontendPlaygroundsStrip />} showBlog={false} />
           <SeoSection
             slug={`ui-snippets/${slug}`}
             title={content.title}
@@ -915,7 +915,7 @@ Requirements:
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }} />
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
       <RelatedCarousel items={related.items} total={related.total} activeId={sn.id} category={CATEGORIES.find(c => c.id === sn.category)?.label || categoryLabel} />
-      <AdSlot related={<FrontendPlaygroundsStrip />} />
+      <AdSlot related={<FrontendPlaygroundsStrip />} showBlog={false} />
       <SeoSection
         {...SEO}
         titleExtra={(
