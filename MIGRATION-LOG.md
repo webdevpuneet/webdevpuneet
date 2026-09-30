@@ -146,7 +146,7 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
    page, Sidebar Blog tab and LatestBlogPostsCarousel all use it (Blogger JSONP removed). Footer/home "Blog"
    links and 4 old Blogger `/search/label/*` links in playground prose → `/blog/`. Old Blogger post URLs are
    not redirected. WP still on plain permalinks (`?p=1`), so `/blog/feed/` 404s until "Post name" is set.
-2. **Deploy:** 2026-09-30 — `.vscode/sftp.json` created by the user for the new server (plain FTP, remotePath `/`) and added to `.gitignore`. `DEPLOY_ENABLED` is still **false**; flip it in `scripts/deploy.js` when ready. Verify the FTP root is the webdevpuneet.com document root before the first deploy.
+2. **Deploy:** 2026-09-30 — `.vscode/sftp.json` created by the user for the new server (plain FTP, remotePath `/`) and added to `.gitignore`. `DEPLOY_ENABLED = true` since 2026-09-30 (user asked to enable). Verify the FTP root is the webdevpuneet.com document root before the first deploy.
 3. **IndexNow:** after the site is live, set `INDEXNOW_ENABLED = true` (key file ships in `public/`).
 4. **Analytics/Ads (still fwdtools IDs):** GA `G-YZX1VC4PFC` (also in `public/puneet/index.html`),
    AdSense `ca-pub-2762737943861458` (needs the new domain approved in AdSense), Yandex verification meta

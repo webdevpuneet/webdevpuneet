@@ -3,10 +3,9 @@ import os from 'os';
 import path from 'path';
 import { execSync, execFileSync } from 'child_process';
 
-// Disabled until the new webdevpuneet.com server details are provided. To enable:
-// create .vscode/sftp.json for the NEW server (never copy the fwdtools one) and
-// flip DEPLOY_ENABLED to true.
-const DEPLOY_ENABLED = false;
+// Uses .vscode/sftp.json for the webdevpuneet.com server (never the fwdtools one;
+// the file is gitignored). Set to false to block deploys.
+const DEPLOY_ENABLED = true;
 if (!DEPLOY_ENABLED) {
   console.log('Deploy is disabled for webdevpuneet.com (see DEPLOY_ENABLED in scripts/deploy.js).');
   process.exit(0);
