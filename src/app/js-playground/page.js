@@ -257,7 +257,7 @@ export default function JsPlaygroundPage() {
       <div className={styles.toolSection}>
         <JsPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot />
+      <IndexOnly><AdSlot showBlog={false} />
       <SeoSection {...seoData} /></IndexOnly>
     </div>
   );

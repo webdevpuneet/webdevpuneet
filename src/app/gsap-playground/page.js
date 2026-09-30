@@ -196,7 +196,7 @@ export default function GsapPlaygroundPage() {
       <div className={styles.toolSection}>
         <GsapPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot />
+      <IndexOnly><AdSlot showBlog={false} />
       <SeoSection {...SEO} /></IndexOnly>
     </div>
   );

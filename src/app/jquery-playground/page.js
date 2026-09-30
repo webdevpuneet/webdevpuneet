@@ -156,7 +156,7 @@ export default function JqueryPlaygroundPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><JqueryPlaygroundTool /></div>
-      <IndexOnly><AdSlot />
+      <IndexOnly><AdSlot showBlog={false} />
       <SeoSection {...SEO} /></IndexOnly>
     </div>
   );

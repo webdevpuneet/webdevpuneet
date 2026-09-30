@@ -267,7 +267,7 @@ export default function VuePlaygroundPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><VuePlaygroundTool /></div>
-      <IndexOnly><AdSlot />
+      <IndexOnly><AdSlot showBlog={false} />
       <SeoSection {...seoData} /></IndexOnly>
     </div>
   );

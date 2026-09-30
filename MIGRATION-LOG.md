@@ -198,3 +198,8 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 - `npm run deploy` uploaded tools.zip (285 MB); extracting it on the server is still manual.
 - `demos/` (334 files) uploaded straight to `/demos/` over FTP (not part of tools.zip). Live at
   https://webdevpuneet.com/demos/…
+
+## 2026-09-30 — No "Latest From the Blog" on playgrounds
+
+- All 14 `*-playground/page.js` now render `<AdSlot showBlog={false} />`, so the blog carousel no longer shows
+  there. The related strip and ad slot stay. The home page and CategoryPage are unchanged.

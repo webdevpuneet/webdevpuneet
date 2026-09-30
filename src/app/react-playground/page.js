@@ -244,7 +244,7 @@ export default function ReactPlaygroundPage() {
       <div className={styles.toolSection}>
         <ReactPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot />
+      <IndexOnly><AdSlot showBlog={false} />
       <SeoSection {...SEO} /></IndexOnly>
     </div>
   );

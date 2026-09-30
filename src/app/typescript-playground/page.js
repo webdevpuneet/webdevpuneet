@@ -274,7 +274,7 @@ export default function TypeScriptPlaygroundPage() {
       <div className={styles.toolSection}>
         <TypeScriptPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot />
+      <IndexOnly><AdSlot showBlog={false} />
       <SeoSection {...SEO} /></IndexOnly>
     </div>
   );

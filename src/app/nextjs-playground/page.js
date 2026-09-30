@@ -242,7 +242,7 @@ export default function NextjsPlaygroundPage() {
       <div className={styles.toolSection}>
         <NextjsPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot />
+      <IndexOnly><AdSlot showBlog={false} />
       <SeoSection {...seoData} noShare /></IndexOnly>
     </div>
   );

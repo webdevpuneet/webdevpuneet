@@ -269,7 +269,7 @@ export default function SvgPlaygroundPage() {
       <div className={styles.toolSection}>
         <SvgPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot />
+      <IndexOnly><AdSlot showBlog={false} />
       <SeoSection {...seoData} /></IndexOnly>
     </div>
   );
