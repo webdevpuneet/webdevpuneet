@@ -160,6 +160,13 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
    added/approved in AdSense.
 5. **Removal from fwdtools** (the "taking out" step) not done yet — waiting for go-ahead. When done,
    fwdtools will need 301s from the moved URLs to webdevpuneet.com.
+   **Cross-domain canonicals: done 2026-09-30 (in fwdtools).** The 14 frontend playgrounds, `/ui-snippets/`,
+   `/ui-snippets/mycode/`, every snippet + category page (and their `/embed/`), `/ui-snippets/tag/` and each
+   tag page on fwdtools now set `<link rel="canonical">` to the same path on webdevpuneet.com
+   (`CANONICAL_BASE_URL` / `CANONICAL_TAG_BASE` in fwdtools `src/lib/snippet-seo.js`, `snippet-tags.js`,
+   `ui-snippets/[slug]/page.js`). Only the canonical changed — og:url, JSON-LD, sitemap and llms.txt on
+   fwdtools still use fwdtools.com. `/learn-to-code/` was left alone (fwdtools' version lists more playgrounds).
+   Takes effect on fwdtools' next build + deploy.
 6. Not a git repo yet — `git init` + first commit when ready.
 7. Repo leftovers copied as-is from fwdtools (not used by the build): `blog/`, `blog-templates/`,
    `demos/`, `puneet/`, `common/`, `content-audit.md`, `DEVLOG.md` (fwdtools history), one-off
