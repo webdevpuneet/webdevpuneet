@@ -153,6 +153,11 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
    in `src/app/layout.js`. Decide: new property/IDs or keep. (Disqus went away with ai-prompt-studio in Step 10.)
    **ShareThis: switched 2026-09-30** to the webdevpuneet property `60ae07cf93080c0011ad8de0`, product
    `sticky-share-buttons` (was fwdtools `6a23b66f…` / `sop`) in `src/components/ShareThisWidget/index.js`.
+   **Sidebar AdSense: enabled 2026-09-30** — the "Advertisement Space" house-ad placeholder was replaced with the
+   300x250 AdSense unit fwdtools used before (slot `6939815965`, same publisher ID), `<ins>` keyed by pathname
+   and re-pushed per page. Gated by `ADS_ENABLED && SIDEBAR_AD_ENABLED`; on `/ui-snippets/mycode/` it is wrapped in `IndexOnly`
+   (hidden on `?id=…` snippet views). Unit lives in `SidebarTopAd` (pushes once per mount). Needs webdevpuneet.com
+   added/approved in AdSense.
 5. **Removal from fwdtools** (the "taking out" step) not done yet — waiting for go-ahead. When done,
    fwdtools will need 301s from the moved URLs to webdevpuneet.com.
 6. Not a git repo yet — `git init` + first commit when ready.

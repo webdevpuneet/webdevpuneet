@@ -98,7 +98,7 @@ export default function AboutPage() {
 
           <section className={styles.section}>
             <h2>Who Builds It</h2>
-            <p>webdevpuneet.com is built and maintained by <strong>Puneet Sharma</strong>, a freelance frontend developer based in Shimla. Every tool on this site is built, designed, and written by him — in between client projects, early mornings, and weekends. <strong>Aayush</strong>, a friend, thinker, and business enthusiast also based in Shimla, contributes ideas and feedback along the way.</p>
+            <p>webdevpuneet.com is built and maintained by <strong>Puneet Sharma</strong>, a freelance frontend developer based in Shimla. Every tool on this site is built, designed, and written by him — in between client projects, early mornings, and weekends.</p>
             <p>There is no team, no VC funding, no enterprise behind webdevpuneet.com. It is a solo project built because the tools were needed, because building them was a way to learn, and because other developers seemed to need them too.</p>
             <p>If you find a bug, want to suggest a tool, or just want to say something useful, you can reach out at <a href="mailto:puneet438@gmail.com">puneet438@gmail.com</a> or on X at <a href="https://x.com/webdevpuneet" target="_blank" rel="noopener noreferrer">@webdevpuneet</a>.</p>
           </section>

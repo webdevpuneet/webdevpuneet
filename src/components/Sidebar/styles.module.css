@@ -60,13 +60,11 @@
 .collapseInlineBtn:hover { background: var(--surface2); color: var(--accent); }
 
 .brandIcon {
+  display: block;
   width: 26px;
   height: 26px;
-  background: #1e293b;
   border-radius: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  object-fit: cover;
   flex-shrink: 0;
 }
 
@@ -154,130 +152,6 @@
   justify-content: center;
   overflow: hidden;
   padding: 8px 0;
-}
-
-/* Slider shell — a fixed 300x250 box the two slides are stacked inside, so the
-   sidebar layout never shifts as they cross-fade. */
-.adSlider {
-  position: relative;
-  width: 300px;
-  flex-shrink: 0;
-}
-
-.adSlide {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.45s ease;
-}
-.adSlideActive {
-  opacity: 1;
-  visibility: visible;
-}
-@media (prefers-reduced-motion: reduce) {
-  .adSlide { transition: none; }
-}
-
-/* Slot-for-sale slide */
-.adPlaceholder {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  text-align: center;
-  padding: 16px 10px;
-  box-sizing: border-box;
-  border: 1.5px dashed var(--border2);
-  border-radius: 10px;
-  background: var(--surface2);
-  text-decoration: none;
-  transition: border-color 0.15s, background 0.15s;
-}
-.adPlaceholder:hover {
-  border-color: var(--accent);
-  background: var(--accent-dim);
-}
-
-.adPlaceholderLabel {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  color: var(--text3);
-}
-
-.adPlaceholderSize {
-  font-size: 11px;
-  font-weight: 600;
-  font-family: var(--font-mono, monospace);
-  color: var(--text3);
-}
-
-.adPlaceholderDesc {
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--text2);
-}
-
-.adPlaceholderCta {
-  font-size: 12.5px;
-  font-weight: 700;
-  color: var(--accent);
-  margin-top: 4px;
-}
-
-/* Dots sit inside the box so they cost no extra sidebar height. */
-.adDots {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 7px;
-  display: flex;
-  justify-content: center;
-  gap: 5px;
-  z-index: 2;
-}
-
-.adDot {
-  width: 6px;
-  height: 6px;
-  padding: 0;
-  border: none;
-  border-radius: 50%;
-  background: var(--border2);
-  opacity: 0.85;
-  cursor: pointer;
-  transition: background 0.15s, transform 0.15s;
-}
-.adDot:hover { transform: scale(1.25); }
-.adDotActive { background: var(--accent); }
-
-.adBanner {
-  width: 100%;
-  height: 100%;
-  display: block;
-  border-radius: 10px;
-  overflow: hidden;
-  text-decoration: none;
-  border: 1px solid var(--border2);
-  transition: border-color 0.15s, transform 0.15s;
-}
-.adBanner:hover {
-  border-color: var(--accent);
-  transform: translateY(-1px);
-}
-
-/* object-fit guards the slot: this creative is exactly 6:5 so nothing is
-   cropped today, but a replacement at another ratio fills the 300x250 box
-   without stretching rather than breaking the sidebar's layout. */
-.adBannerImg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 /* A plain text row was easy to miss between the ad slot and the library tabs

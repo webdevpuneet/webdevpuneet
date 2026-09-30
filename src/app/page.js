@@ -1,5 +1,6 @@
 import HomeGrid from '@/components/HomeGrid';
 import HomeOmniSearch from '@/components/HomeOmniSearch';
+import ProfileHeroCard from '@/components/ProfileHeroCard';
 import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
 import { getLatestSnippets } from '@/lib/snippet-related';
 import SeoSection from '@/components/SeoSection';
@@ -282,11 +283,13 @@ export default async function Home() {
             <p className={styles.heroTagline}>
               Copy-paste UI snippets and interactive coding playgrounds — all in your browser, instantly.
             </p>
+            <div className={styles.heroSearch}>
+              <HomeOmniSearch />
+            </div>
           </div>
-          <div className={styles.heroSearchCol}>
-            <HomeOmniSearch />
+          <div className={styles.heroProfileCol}>
+            <ProfileHeroCard />
           </div>
-          <span className={styles.heroDecoText} aria-hidden="true">Build<br />Learn<br />Create</span>
           <p className={styles.subtitleSeo}>{SNIPPET_COUNT}+ copy-paste UI snippets — cards, heroes, navbars, modals, forms, loaders and animations — plus {PLAYGROUND_COUNT} learn-to-code playgrounds for HTML, CSS, JavaScript, TypeScript, React, Vue, Next.js, Tailwind and more. Live preview, structured lessons, nothing to install and no account needed.</p>
         </div>
 

@@ -2,6 +2,8 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { isEmbedRoute } from '@/lib/is-embed-route';
+import { ADS_ENABLED, SIDEBAR_AD_ENABLED } from '@/lib/ads-config';
+import IndexOnly from '@/components/SeoSection/IndexOnly';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import styles from './styles.module.css';
 import { CATEGORY_META, LIVE_TOOLS, SEARCHABLE_TOOLS } from '@/lib/tools-registry';
@@ -1319,6 +1321,31 @@ function defaultSidebarViewFor(pathname) {
   return 'tools';
 }
 
+/* Sidebar top ad — fixed 300x250 AdSense medium rectangle (fixed, not "auto",
+   so the sidebar never shifts while a creative loads). The adsbygoogle.js
+   loader lives once site-wide in AdSenseScript; each mount requests an ad for
+   its own fresh <ins> (AdSense won't fill an <ins> that already has one).
+   Delayed so the <ins> is in the DOM and laid out first. */
+function SidebarTopAd() {
+  useEffect(() => {
+    const id = setTimeout(() => {
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
+    }, 800);
+    return () => clearTimeout(id);
+  }, []);
+
+  return (
+    <div className={styles.sidebarTopAd}>
+      <ins
+        className="adsbygoogle"
+        style={{ display: 'inline-block', width: '300px', height: '250px' }}
+        data-ad-client="ca-pub-2762737943861458"
+        data-ad-slot="6939815965"
+      />
+    </div>
+  );
+}
+
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -1548,13 +1575,7 @@ export default function Sidebar() {
         {/* Brand */}
         <div className={styles.brandRow}>
           <a href="/" className={styles.brand}>
-            <div className={styles.brandIcon}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-                <polyline points="16 18 22 12 16 6" stroke="#34d399" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <polyline points="8 6 2 12 8 18" stroke="#a78bfa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <line x1="14" y1="4" x2="10" y2="20" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round" opacity="0.7"/>
-              </svg>
-            </div>
+            <img className={styles.brandIcon} src="/icons/brand-logo.png" alt="" width={26} height={26} />
             <span className={styles.brandText}>webdevpuneet<strong>.com</strong></span>
           </a>
           <button
@@ -1569,20 +1590,14 @@ export default function Sidebar() {
           </button>
         </div>
 
-        {/* Sidebar top ad — 300x250, the same footprint as the AdSense unit it
-            replaces, so dropping a real ad in later is a one-element change.
-            .adSlider keeps that fixed box (the slot fills it), which is also
-            what stops the sidebar shifting once a creative is swapped in. */}
-        <div className={styles.sidebarTopAd}>
-          <div className={styles.adSlider}>
-            <a href="/contact/" className={styles.adPlaceholder}>
-              <span className={styles.adPlaceholderLabel}>Advertisement Space</span>
-              <span className={styles.adPlaceholderSize}>300 × 120</span>
-              <span className={styles.adPlaceholderDesc}>Sponsor for $100/month</span>
-              <span className={styles.adPlaceholderCta}>Advertise here →</span>
-            </a>
-          </div>
-        </div>
+        {/* Sidebar top ad. Keyed by pathname so every page mounts a fresh slot.
+            On My Code it follows the IndexOnly standard: shown on the bare
+            /ui-snippets/mycode/ page, hidden on a saved snippet (?id=…). */}
+        {ADS_ENABLED && SIDEBAR_AD_ENABLED && !isEmbedRoute(pathname) && (
+          pathname.startsWith('/ui-snippets/mycode')
+            ? <IndexOnly><SidebarTopAd key={pathname} /></IndexOnly>
+            : <SidebarTopAd key={pathname} />
+        )}
 
         {/* View tabs — Library / Tools / My Code */}
         <div className={styles.viewTabs}>

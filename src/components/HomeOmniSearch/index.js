@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { SEARCHABLE_TOOLS } from '@/lib/tools-registry';
 import styles from './styles.module.css';
 
-const POPULAR = ['CSS', 'JavaScript', 'React', 'Next.js', 'SVG', 'PDF'];
+const POPULAR = ['CSS', 'JavaScript', 'React', 'Next.js', 'SVG'];
 const MAX_TOOL_RESULTS = 5;
 const MAX_SNIPPET_RESULTS = 5;
 
