@@ -226,3 +226,18 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 
 - `UiSnippetsTool`: the sync group (refresh, GitHub settings, "✓ time") shows only when `inMyCode` is true. It stays
   mounted but hidden elsewhere, so a save started from the library still calls `syncRef.forcePush()`.
+
+## 2026-09-30 — fwdtools My Code redirects too
+
+- `fwdtools/public/.htaccess`: removed the `/ui-snippets/mycode/` exception, so it now 301s to
+  `https://webdevpuneet.com/ui-snippets/mycode/` like every other ui-snippets page (the query string, e.g. `?id=`,
+  is kept). Only `/embed/` URLs and files stay on fwdtools.
+
+## 2026-09-30 — fwdtools: demos + leftover folders removed
+
+- `fwdtools/demos/` removed (`git rm`, 334 files; webdevpuneet has an identical copy). `fwdtools/public/.htaccess`
+  301s `/demos/*` to `https://webdevpuneet.com/demos/*`. The user deleted `/demos` on the fwdtools server by hand.
+- `fwdtools/blog-templates/`, `fwdtools/puneet/` (top-level leftover; `public/puneet/` is the live author page and
+  stays) and the tracked part of `fwdtools/blog/` removed with `git rm`.
+- Kept for now: 14 drafts in `fwdtools/blog/blog-posts/tools/tool-post*.txt`. They're not in git (the `tools/`
+  build-output rule in .gitignore matches them) and have no copy in webdevpuneet.
