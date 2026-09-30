@@ -182,3 +182,19 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 - **Google Analytics ID was fwdtools' (`G-YZX1VC4PFC`).** It's now the webdevpuneet stream `G-SJKRD65SBJ`
   in `src/components/GoogleAnalytics/index.js` and `public/puneet/index.html`.
 - Home search placeholder is now "Search UI snippets and coding playgrounds…" (`HomeOmniSearch`).
+
+## 2026-09-30 — fwdtools: moved pages dropped from sitemaps + llms.txt
+
+- `fwdtools/scripts/postbuild.js`: new `MOVED_TO_WEBDEVPUNEET` set (the 14 frontend playgrounds + `ui-snippets`)
+  is filtered out of `liveTools`, so these pages leave `sitemap-tools`, `sitemap-images` and llms.txt. The whole
+  `sitemap-ui-snippets*.xml` generation and the llms.txt "UI Snippets Components" section are removed, and
+  `sitemap.xml` now indexes 3 sub-sitemaps. `/learn-to-code/` stays listed (category page).
+- `fwdtools/public/robots.txt`: dropped the `Sitemap: …/sitemap-ui-snippets.xml` line.
+- Old `sitemap-ui-snippets*.xml` files on the fwdtools server are no longer linked but will stay there
+  until someone deletes them.
+
+## 2026-09-30 — Deployed + demos uploaded
+
+- `npm run deploy` uploaded tools.zip (285 MB); extracting it on the server is still manual.
+- `demos/` (334 files) uploaded straight to `/demos/` over FTP (not part of tools.zip). Live at
+  https://webdevpuneet.com/demos/…
