@@ -80,7 +80,7 @@ export default function AboutPage() {
               <li><strong>No paywalls.</strong> Every tool is free. There is no "Pro" tier that locks the features you actually need behind a monthly fee.</li>
               <li><strong>Persistent without a cloud.</strong> Features that need to save data — My Code, saved UI Snippets, playground progress — use your browser's storage. Your data stays on your device, not on someone else's server.</li>
               <li><strong>Fast and focused.</strong> No dashboards to navigate, no onboarding flows, no feature tours. Open a tool, use it.</li>
-              <li><strong>Built to learn from.</strong> Playgrounds for HTML, CSS, JavaScript, React, TypeScript, Tailwind, SCSS, Vue, Angular, Next.js, Node.js, Python, PHP, SQL, MongoDB, and more — all with live preview and zero setup. The <a href="/ui-snippets/">UI Snippets</a> library adds {SNIPPET_COUNT}+ real, production-ready components you can read, edit, and learn from.</li>
+              <li><strong>Built to learn from.</strong> Playgrounds for HTML, CSS, JavaScript, React, TypeScript, Tailwind, SCSS, Vue, Angular, Next.js, GSAP, SVG, jQuery, Bootstrap, and more — all with live preview and zero setup. The <a href="/ui-snippets/">UI Snippets</a> library adds {SNIPPET_COUNT}+ real, production-ready components you can read, edit, and learn from.</li>
             </ul>
           </section>
 
@@ -91,7 +91,7 @@ export default function AboutPage() {
             <p>{SNIPPET_COUNT}+ copy-paste HTML, CSS, and JavaScript components with a live editor, personal save space, GitHub Gist sync, and export to HTML, JSX, React + Tailwind, Vue, or Angular. Buttons, modals, tables, animations, hero sections, loaders, charts — every snippet is production-ready and fully editable in the browser. Test each export live in every framework before you download. The fastest way to go from idea to working UI.</p>
 
             <h3><a href="/learn-to-code/">Code Playgrounds — Learn Coding Visually</a></h3>
-            <p>Interactive coding environments for HTML, CSS, JavaScript, React, TypeScript, Tailwind, SCSS, Vue, Angular, Next.js, Node.js, Python, PHP, SQL, MongoDB, and more — all with live preview and zero setup. Write code, see results instantly, and share your work with a link. No install, no configuration, no waiting.</p>
+            <p>Interactive coding environments for HTML, CSS, JavaScript, React, TypeScript, Tailwind, SCSS, Vue, Angular, Next.js, GSAP, SVG, jQuery, Bootstrap, and more — all with live preview and zero setup. Write code, see results instantly, and share your work with a link. No install, no configuration, no waiting.</p>
 
             <p>Looking for developer utilities, PDF and image tools, or freelancer business tools (invoicing, CRM, proposals)? They live on the sister site <a href="https://fwdtools.com/" target="_blank" rel="noopener">fwdtools.com</a>.</p>
           </section>

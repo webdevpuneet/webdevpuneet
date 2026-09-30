@@ -409,7 +409,7 @@ const GistSyncButton = forwardRef(function GistSyncButton(
             Data merges on every device, nothing is deleted.
           </p>
           <div className={styles.popSteps}>
-            <span>1. <a href="https://github.com/settings/tokens/new?scopes=gist&description=FWD+Tools" target="_blank" rel="noopener" className={styles.popLink}>Create a token</a> with <code>gist</code> scope</span>
+            <span>1. <a href="https://github.com/settings/tokens/new?scopes=gist&description=webdevpuneet.com" target="_blank" rel="noopener" className={styles.popLink}>Create a token</a> with <code>gist</code> scope</span>
             <span>2. Paste it below and click Save</span>
             <span>3. Click Sync Now — first sync creates the Gist</span>
           </div>

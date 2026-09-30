@@ -1,41 +1,49 @@
-const BLOG_FEED_BASE = 'https://www.webdevpuneet.com/feeds/posts/default';
+// The blog is a WordPress install at webdevpuneet.com/blog/ (same origin as this
+// site). Posts are read from the WordPress REST API through the ?rest_route=
+// form, which works whether or not pretty permalinks are enabled — /wp-json/
+// and /feed/ only exist once they are.
+export const BLOG_URL = 'https://webdevpuneet.com/blog/';
 
-function extractLink(entry) {
-  const alt = (entry.link || []).find(l => l.rel === 'alternate');
-  return alt ? alt.href : null;
+function postsApiUrl(max) {
+  return `${BLOG_URL}?rest_route=/wp/v2/posts&per_page=${max}&_embed=wp:featuredmedia&_fields=title,link,date,_links,_embedded`;
 }
 
-function extractThumb(entry) {
-  const url = entry.media$thumbnail?.url;
-  if (!url) return null;
-  // Blogger's default feed thumbnail is a tiny 72px *square* crop (the "-c"
-  // suffix forces a square). Dropping "-c" and bumping the size gives back
-  // the original image proportionally resized — the real rectangular photo,
-  // not a cropped square — which is what the card actually needs.
-  return url.replace(/\/s\d+(-c)?\//, '/s640/');
+// WordPress returns titles as HTML (e.g. "It&#8217;s"), so decode the entities
+// the card renders as plain text.
+const NAMED_ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' };
+function decodeEntities(s) {
+  return s
+    .replace(/<[^>]*>/g, '')
+    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)))
+    .replace(/&([a-z]+);/gi, (m, name) => NAMED_ENTITIES[name.toLowerCase()] ?? m);
 }
 
-// Fetches the latest posts from the "UI Snippets" label on the (Blogger-hosted)
-// blog at webdevpuneet.com. Server-only: this must run in a server component,
-// route handler, or other Node context, never client-side — Blogger's public
-// feed doesn't reliably send CORS headers for cross-origin browser fetches,
-// while a plain server-to-server request has no CORS restriction at all.
+// Featured image at a card-friendly size, falling back to the full image.
+function extractThumb(post) {
+  const media = post._embedded?.['wp:featuredmedia']?.[0];
+  if (!media) return null;
+  const sizes = media.media_details?.sizes || {};
+  return (sizes.medium_large || sizes.large || sizes.medium)?.source_url || media.source_url || null;
+}
+
+// Fetches the latest posts as [{ title, href, thumb, date }]. Runs both at
+// build time (home page, server component) and in the browser (sidebar Blog
+// tab, latest-posts carousel); `next.revalidate` is ignored client-side.
 // Fails soft (returns []) on any network or parse error so a blog outage
-// never breaks the snippet page it's embedded on.
+// never breaks the page it's embedded on.
 export async function fetchLatestBlogPosts(max = 4) {
   try {
-    const res = await fetch(`${BLOG_FEED_BASE}?alt=json&max-results=${max}`, {
-      next: { revalidate: 3600 },
-    });
+    const res = await fetch(postsApiUrl(max), { next: { revalidate: 3600 } });
     if (!res.ok) return [];
     const data = await res.json();
-    const entries = data?.feed?.entry || [];
-    return entries
-      .map((entry) => ({
-        title: entry.title?.$t?.trim() || '',
-        href: extractLink(entry),
-        thumb: extractThumb(entry),
-        date: entry.published?.$t || null,
+    if (!Array.isArray(data)) return [];
+    return data
+      .map((post) => ({
+        title: decodeEntities(post.title?.rendered || '').trim(),
+        href: post.link || null,
+        thumb: extractThumb(post),
+        date: post.date || null,
       }))
       .filter((p) => p.title && p.href)
       .slice(0, max);

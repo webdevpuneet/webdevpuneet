@@ -5,6 +5,7 @@ import { isEmbedRoute } from '@/lib/is-embed-route';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import styles from './styles.module.css';
 import { CATEGORY_META, LIVE_TOOLS, SEARCHABLE_TOOLS } from '@/lib/tools-registry';
+import { fetchLatestBlogPosts } from '@/lib/blog-feed';
 import ThemeToggle from '@/components/ThemeToggle';
 import CookieSettingsButton from '@/components/CookieSettingsButton';
 // The lightweight index + categories, not UiSnippetsTool/snippets (which bundles every snippet's source).
@@ -255,11 +256,9 @@ function ToolOfDay({ activeSlug, favourites }) {
 ───────────────────────────────────────────────────────────── */
 const PLAYGROUND_SLUGS = [
   'ui-snippets',
-  'html-playground', 'css-playground', 'js-playground', 'typescript-playground', 'tailwind-playground',
-  'react-playground', 'angular-playground', 'vue-playground', 'nextjs-playground', 'gsap-playground', 'svg-playground',
-  'sql-playground', 'mongo-playground', 'express-playground', 'firebase-playground',
-  'graphql-playground', 'nodejs-playground', 'rest-api-builder-playground',
-  'mind-map',
+  'html-playground', 'css-playground', 'js-playground', 'typescript-playground', 'scss-playground',
+  'tailwind-playground', 'bootstrap5-playground', 'jquery-playground', 'react-playground', 'angular-playground',
+  'vue-playground', 'nextjs-playground', 'gsap-playground', 'svg-playground',
 ];
 const PLAYGROUND_TOOLS = PLAYGROUND_SLUGS.map(s => TOOL_MAP[s]).filter(Boolean);
 
@@ -345,7 +344,7 @@ function UiSnippetsGroup({ pathname, open, onToggle }) {
 
 function PlaygroundsGroup({ activeSlug, open, onToggle }) {
   const bodyRef = useRef(null);
-  const [everOpened, setEverOpened] = useState(false);
+  const [everOpened, setEverOpened] = useState(open);
 
   useEffect(() => {
     if (open && !everOpened) setEverOpened(true);
@@ -1257,53 +1256,11 @@ function MyCodeTab({ pathname, snippets }) {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   BlogTab — latest posts from webdevpuneet.com (Blogger)
+   BlogTab — latest posts from the WordPress blog (webdevpuneet.com/blog/)
 ───────────────────────────────────────────────────────────── */
-const BLOG_FEED_BASE = 'https://www.webdevpuneet.com/feeds/posts/default';
-
 // Module-level cache so switching tabs back and forth in the same session
 // doesn't refetch every time.
 let blogPostsCache = null;
-
-// The blog is on Blogger, which has no CORS headers on its JSON feed, but it
-// does support the classic alt=json-in-script JSONP format — loading it as a
-// <script> tag sidesteps CORS entirely, which also makes this safe to run
-// from a fully static export (no server-side API route needed).
-function fetchLatestBlogPosts() {
-  return new Promise((resolve, reject) => {
-    const cbName = '__wdpBlogCb' + Math.random().toString(36).slice(2);
-    const cleanup = () => {
-      delete window[cbName];
-      script.remove();
-      clearTimeout(timer);
-    };
-    const timer = setTimeout(() => { cleanup(); reject(new Error('timeout')); }, 8000);
-    window[cbName] = (data) => {
-      cleanup();
-      try {
-        const entries = data?.feed?.entry || [];
-        resolve(entries.map(e => {
-          // Blogger's feed thumbnail is a cropped 72×72 square (".../s72-c/...")
-          // — swap that size segment for a wide, uncropped version so the full
-          // header image shows at its own aspect ratio instead of a tiny crop.
-          const rawThumb = e.media$thumbnail?.url || '';
-          const thumb = rawThumb.replace(/\/s\d+(-c)?\//, '/w600/');
-          return {
-            title: e.title?.$t || 'Untitled',
-            url: (e.link || []).find(l => l.rel === 'alternate')?.href || 'https://www.webdevpuneet.com/',
-            thumb,
-          };
-        }));
-      } catch {
-        reject(new Error('parse error'));
-      }
-    };
-    const script = document.createElement('script');
-    script.src = `${BLOG_FEED_BASE}?alt=json-in-script&max-results=10&callback=${cbName}`;
-    script.onerror = () => { cleanup(); reject(new Error('load error')); };
-    document.body.appendChild(script);
-  });
-}
 
 function BlogTab() {
   const [posts, setPosts] = useState(blogPostsCache);
@@ -1312,7 +1269,7 @@ function BlogTab() {
   useEffect(() => {
     if (blogPostsCache) return;
     let cancelled = false;
-    fetchLatestBlogPosts()
+    fetchLatestBlogPosts(10)
       .then(list => {
         if (cancelled) return;
         blogPostsCache = list;
@@ -1335,8 +1292,8 @@ function BlogTab() {
       )}
       {posts?.map((post, i) => (
         <a
-          key={post.url + i}
-          href={post.url}
+          key={post.href + i}
+          href={post.href}
           target="_blank"
           rel="noopener noreferrer"
           className={styles.blogItem}
@@ -1371,7 +1328,7 @@ export default function Sidebar() {
   const [openIds, setOpenIds] = useState(() => new Set());
   const [favourites, setFavourites] = useState([]);
   const [uiSnippetsOpen,   setUiSnippetsOpen]   = useState(true);
-  const [playgroundsOpen,  setPlaygroundsOpen]  = useState(false);
+  const [playgroundsOpen,  setPlaygroundsOpen]  = useState(true);
   const [freelancerOpen,   setFreelancerOpen]   = useState(false);
   const [mobileOpen, setMobileOpen]   = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -1598,7 +1555,7 @@ export default function Sidebar() {
                 <line x1="14" y1="4" x2="10" y2="20" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round" opacity="0.7"/>
               </svg>
             </div>
-            <span className={styles.brandText}>FWD <strong>Tools</strong></span>
+            <span className={styles.brandText}>webdevpuneet<strong>.com</strong></span>
           </a>
           <button
             className={styles.collapseInlineBtn}
@@ -1738,18 +1695,6 @@ export default function Sidebar() {
                       onToggle={() => setFreelancerOpen(v => !v)}
                     />
                   )}
-                  <div className={styles.categories}>
-                    {CATEGORIES.map(cat => (
-                      <CategoryGroup
-                        key={cat.id}
-                        category={cat}
-                        open={openIds.has(cat.id)}
-                        onToggle={() => toggleCategory(cat.id)}
-                        activeSlug={activeSlug}
-                        query=""
-                      />
-                    ))}
-                  </div>
 
                 </>
               )}

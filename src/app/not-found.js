@@ -7,25 +7,19 @@ import styles from './not-found.module.css';
 
 const POPULAR = [
   'typescript-playground', 'tailwind-playground', 'scss-playground', 'nextjs-playground',
-  'angular-playground', 'gsap-playground', 'svg-playground', 'git-playground',
-  'ai-prompt-studio', 'mind-map', 'database-schema-designer', 'rest-api-builder-playground',
+  'angular-playground', 'gsap-playground', 'svg-playground', 'jquery-playground',
+  'bootstrap5-playground', 'css-playground', 'react-playground', 'vue-playground',
 ];
 
 const LEARN = [
   'ui-snippets',
   'html-playground', 'css-playground', 'js-playground', 'react-playground',
-  'vue-playground', 'python-playground', 'sql-playground', 'express-playground',
-];
-
-const BACKEND = [
-  'sql-playground', 'mongo-playground', 'express-playground', 'nodejs-playground',
-  'graphql-playground', 'firebase-playground', 'php-playground', 'python-playground',
+  'vue-playground', 'tailwind-playground', 'nextjs-playground', 'gsap-playground',
 ];
 
 const TOOL_MAP = Object.fromEntries(LIVE_TOOLS.map(t => [t.slug, t]));
 const popularTools = POPULAR.map(s => TOOL_MAP[s]).filter(Boolean);
 const learnTools = LEARN.map(s => TOOL_MAP[s]).filter(Boolean);
-const backendTools = BACKEND.map(s => TOOL_MAP[s]).filter(Boolean);
 
 export default function NotFound() {
   const [query, setQuery] = useState('');
@@ -86,17 +80,6 @@ export default function NotFound() {
             <div className={styles.learnGrid}>
               {learnTools.map(tool => (
                 <a key={tool.slug} href={`/${tool.slug}/`} className={styles.learnCard}>
-                  <img src={`/icons/${tool.slug}.svg`} alt="" width={18} height={18} className={styles.toolIcon} />
-                  <span className={styles.learnName}>{tool.name.replace(' Playground', '')}</span>
-                </a>
-              ))}
-              <a href="/learn-to-code/" className={styles.learnCardMore}>All playgrounds →</a>
-            </div>
-
-            <p className={styles.sectionLabel}>Backend &amp; data</p>
-            <div className={styles.learnGrid}>
-              {backendTools.map(tool => (
-                <a key={tool.slug} href={`/${tool.slug}/`} className={`${styles.learnCard} ${styles.learnCardFreelancer}`}>
                   <img src={`/icons/${tool.slug}.svg`} alt="" width={18} height={18} className={styles.toolIcon} />
                   <span className={styles.learnName}>{tool.name.replace(' Playground', '')}</span>
                 </a>

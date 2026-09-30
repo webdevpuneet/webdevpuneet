@@ -1,7 +1,7 @@
 {
   "name": "webdevpuneet.com — UI Snippets & Learn to Code",
   "short_name": "webdevpuneet",
-  "description": "Free copy-paste UI snippets and interactive coding playgrounds — learn HTML, CSS, JavaScript, React, SQL, Python and more in your browser.",
+  "description": "Free copy-paste UI snippets and interactive coding playgrounds — learn HTML, CSS, JavaScript, React, Vue, Next.js and more in your browser.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "any",

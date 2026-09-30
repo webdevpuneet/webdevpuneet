@@ -15,7 +15,7 @@ const PLAYGROUND_COUNT = LIVE_TOOLS.filter(t => t.slug !== 'ui-snippets').length
 
 export const metadata = {
   title: `UI Snippets & Learn to Code — Free Interactive Playgrounds | webdevpuneet.com`,
-  description: `${SNIPPET_COUNT}+ copy-paste UI snippets and ${PLAYGROUND_COUNT} interactive playgrounds to learn HTML, CSS, JavaScript, TypeScript, React, Vue, Next.js, Tailwind, SQL, Python and more. Live preview, structured lessons. No install, no signup, 100% private.`,
+  description: `${SNIPPET_COUNT}+ copy-paste UI snippets and ${PLAYGROUND_COUNT} interactive playgrounds to learn HTML, CSS, JavaScript, TypeScript, React, Vue, Angular, Next.js, Tailwind, GSAP and more. Live preview, structured lessons. No install, no signup, 100% private.`,
   authors: [{ name: 'Puneet Sharma', url: 'https://www.webdevpuneet.com/' }],
   robots: { index: true, follow: true },
   alternates: { canonical: 'https://webdevpuneet.com' },
@@ -24,7 +24,7 @@ export const metadata = {
     url: 'https://webdevpuneet.com',
     siteName: 'webdevpuneet.com',
     title: `${SNIPPET_COUNT}+ UI Snippets · Learn to Code · Interactive Playgrounds — Free`,
-    description: `${SNIPPET_COUNT}+ copy-paste UI snippets and ${PLAYGROUND_COUNT} interactive playgrounds to learn HTML, CSS, JavaScript, TypeScript, React, Vue, Next.js, Tailwind, SQL, Python and more. Live preview, structured lessons. No install, no signup, 100% private.`,
+    description: `${SNIPPET_COUNT}+ copy-paste UI snippets and ${PLAYGROUND_COUNT} interactive playgrounds to learn HTML, CSS, JavaScript, TypeScript, React, Vue, Angular, Next.js, Tailwind, GSAP and more. Live preview, structured lessons. No install, no signup, 100% private.`,
     images: [{ url: 'https://webdevpuneet.com/images/dev-tools.png', width: 1200, height: 640, alt: 'webdevpuneet.com — UI Snippets & Learn to Code' }],
     locale: 'en_US',
   },
@@ -33,7 +33,7 @@ export const metadata = {
     site: '@webdevpuneet',
     creator: '@webdevpuneet',
     title: `${SNIPPET_COUNT}+ UI Snippets · Learn to Code · Interactive Playgrounds — Free`,
-    description: `${SNIPPET_COUNT}+ copy-paste UI snippets and ${PLAYGROUND_COUNT} interactive coding playgrounds — HTML, CSS, JavaScript, React, Vue, Next.js, SQL, Python and more. No install, no signup, 100% private.`,
+    description: `${SNIPPET_COUNT}+ copy-paste UI snippets and ${PLAYGROUND_COUNT} interactive coding playgrounds — HTML, CSS, JavaScript, React, Vue, Next.js, Tailwind and more. No install, no signup, 100% private.`,
     images: ['https://webdevpuneet.com/images/dev-tools.png'],
   },
 };
@@ -47,7 +47,7 @@ const websiteSchema = {
       name: 'webdevpuneet.com',
       url: 'https://webdevpuneet.com',
       inLanguage: 'en',
-      description: `${SNIPPET_COUNT}+ copy-paste UI snippets (HTML/CSS/JS components) and ${PLAYGROUND_COUNT} interactive coding playgrounds to learn HTML, CSS, JavaScript, TypeScript, React, Vue, Next.js, SQL, Python and more. All free, no signup, runs entirely in your browser.`,
+      description: `${SNIPPET_COUNT}+ copy-paste UI snippets (HTML/CSS/JS components) and ${PLAYGROUND_COUNT} interactive coding playgrounds to learn HTML, CSS, JavaScript, TypeScript, React, Vue, Next.js, Tailwind and more. All free, no signup, runs entirely in your browser.`,
       publisher: { '@id': 'https://webdevpuneet.com/#organization' },
       potentialAction: {
         '@type': 'SearchAction',
@@ -98,7 +98,7 @@ const faqSchema = {
     {
       '@type': 'Question',
       name: 'Which languages and frameworks can I learn?',
-      acceptedAnswer: { '@type': 'Answer', text: 'HTML, CSS, SCSS, JavaScript, TypeScript, jQuery, Bootstrap 5, Tailwind CSS, React, Vue.js, Angular, Next.js, GSAP, SVG, SQL (PostgreSQL via WebAssembly), MongoDB, Express.js, Node.js, GraphQL, Firebase, REST APIs, PHP, Python and Git — each with structured lessons and live preview.' },
+      acceptedAnswer: { '@type': 'Answer', text: 'HTML, CSS, SCSS, JavaScript, TypeScript, jQuery, Bootstrap 5, Tailwind CSS, React, Vue.js, Angular, Next.js, GSAP and SVG — each with structured lessons and live preview.' },
     },
     {
       '@type': 'Question',
@@ -135,14 +135,14 @@ const SEO = {
 
 **UI Snippets** — ${SNIPPET_COUNT}+ production-ready HTML, CSS, and JavaScript components you can copy-paste directly into any project. Cards, heroes, navigation, modals, forms, loaders, animations, dashboards, games and more. No framework required — pure HTML/CSS/JS that works anywhere. Every snippet has a live preview, syntax-highlighted source code, and a dedicated page with framework export tips for React, Vue, and Tailwind. A built-in **Test Exports** preview renders each snippet live in HTML, Tailwind, React, React + Tailwind, Vue, and Angular — so you can confirm the converted code actually works before you download it. **My Code** lets you write and keep your own snippets in the browser.
 
-**Learn to code interactively** — ${PLAYGROUND_COUNT} browser-based playgrounds with no install, no account, and no setup required. The **HTML Playground** teaches semantic markup through 42 lessons. The **CSS Playground** shows every property live with 53 lessons. The **JavaScript Playground** covers 60 lessons from variables through generators and Proxy. The **Tailwind Playground** includes class autocomplete and 48 lessons. The **React Playground** covers 44 lessons from JSX through hooks, portals, and Suspense. The **Vue.js Playground** covers 40 lessons including Composition API, Teleport, and custom directives. The **GSAP Playground** teaches animation with 55 lessons including ScrollTrigger. The **SQL Playground** runs real PostgreSQL via WebAssembly with 35 lessons. The **MongoDB Playground** covers 32 lessons on aggregation, CRUD, and update operators. The **Express.js Playground** covers backend routing, middleware, REST API design, and authentication with 32 lessons. TypeScript, SCSS, jQuery, Bootstrap 5, Angular, Next.js, SVG, Node.js, GraphQL, Firebase, PHP, Python and Git playgrounds round out the full stack. All save progress automatically in your browser.
+**Learn to code interactively** — ${PLAYGROUND_COUNT} browser-based playgrounds with no install, no account, and no setup required. The **HTML Playground** teaches semantic markup through 42 lessons. The **CSS Playground** shows every property live with 53 lessons. The **JavaScript Playground** covers 60 lessons from variables through generators and Proxy. The **Tailwind Playground** includes class autocomplete and 48 lessons. The **React Playground** covers 44 lessons from JSX through hooks, portals, and Suspense. The **Vue.js Playground** covers 40 lessons including Composition API, Teleport, and custom directives. The **GSAP Playground** teaches animation with 55 lessons including ScrollTrigger. TypeScript, SCSS, jQuery, Bootstrap 5, Angular, Next.js and SVG playgrounds round out the frontend stack. All save progress automatically in your browser.
 
 Everything is built with React 19 and runs 100% client-side. No signup, no account, no data uploaded — your code never leaves your device. The interface is keyboard-friendly, fast, and fully mobile-responsive.`,
   },
   features: [
     `${SNIPPET_COUNT}+ copy-paste UI snippets — cards, heroes, navigation, modals, forms, loaders, animations, and dashboards in pure HTML/CSS/JS`,
     'Live preview for every snippet — see exactly how it looks before copying; export to React, Vue, Angular and Tailwind',
-    `${PLAYGROUND_COUNT} interactive coding playgrounds — HTML, CSS, JavaScript, TypeScript, Tailwind, React, Vue.js, Angular, Next.js, GSAP, SQL, MongoDB, Express.js, Python, PHP, Git and more`,
+    `${PLAYGROUND_COUNT} interactive coding playgrounds — HTML, CSS, JavaScript, TypeScript, Tailwind, React, Vue.js, Angular, Next.js, GSAP, SVG, jQuery and Bootstrap 5`,
     'Structured lessons from beginner to pro — no install, no account, progress saved automatically in your browser',
     'My Code — write and keep your own HTML, CSS and JS snippets in the browser',
     '100% browser-based — your code, snippets, and progress never leave your device',
@@ -161,14 +161,14 @@ Everything is built with React 19 and runs 100% client-side. No signup, no accou
       desc: 'HTML, CSS, SCSS, JavaScript, TypeScript, Tailwind, React, Vue.js, Angular, Next.js, GSAP and SVG playgrounds — live editor, instant preview, structured lessons from beginner to pro.',
     },
     {
-      icon: 'SQL',
-      title: 'Learn Backend & Databases',
-      desc: 'SQL (real PostgreSQL via WebAssembly), MongoDB, Express.js, Node.js, GraphQL, Firebase, REST APIs, PHP and Python — all simulated safely in the browser with no server to set up.',
+      icon: 'FLOW',
+      title: 'Animate the Web',
+      desc: 'GSAP and SVG playgrounds teach tweens, timelines, ScrollTrigger, paths and SVG animation with instant visual feedback and replay controls.',
     },
     {
-      icon: 'GIT',
-      title: 'Practice Git Safely',
-      desc: 'Branches, merges, conflicts, rebase, reset and GitHub-style workflows in a browser Git simulator — learn risky commands without touching a real repository.',
+      icon: 'DESIGN',
+      title: 'Style With Any Approach',
+      desc: 'Plain CSS, SCSS, Tailwind and Bootstrap 5 side by side — learn the box model, flexbox, grid, utilities and components with a live preview.',
     },
   ],
   faqs: [
@@ -178,11 +178,11 @@ Everything is built with React 19 and runs 100% client-side. No signup, no accou
     },
     {
       q: 'Who is this site built for?',
-      a: 'webdevpuneet.com is built for frontend developers, students, and anyone learning to code. It covers two areas: UI snippets (copy-paste components) and interactive coding playgrounds (learn HTML/CSS/JS/React/Vue/SQL/Python and more).',
+      a: 'webdevpuneet.com is built for frontend developers, students, and anyone learning to code. It covers two areas: UI snippets (copy-paste components) and interactive coding playgrounds (learn HTML/CSS/JS/TypeScript/React/Vue/Next.js and more).',
     },
     {
       q: 'What are the interactive coding playgrounds?',
-      a: `${PLAYGROUND_COUNT} browser-based coding playgrounds — no install, no account, no setup required. The **HTML Playground** teaches semantic markup through 42 lessons. The **CSS Playground** shows every property live with 53 lessons. The **JavaScript Playground** has 60 lessons from variables through generators and Proxy. The **Tailwind Playground** includes class name autocomplete and 48 lessons. The **React Playground** covers 44 lessons from JSX through hooks, portals, and Suspense. The **Vue.js Playground** covers 40 lessons including Composition API, Teleport, custom directives, and mini-projects. The **GSAP Playground** teaches animation with 55 lessons including ScrollTrigger. The **SQL Playground** runs real PostgreSQL via WebAssembly with 35 lessons. The **MongoDB Playground** simulates real MongoDB with 32 lessons. The **Express.js Playground** covers routing, middleware, REST API design, error handling, and authentication with 32 lessons. All save progress automatically.`,
+      a: `${PLAYGROUND_COUNT} browser-based coding playgrounds — no install, no account, no setup required. The **HTML Playground** teaches semantic markup through 42 lessons. The **CSS Playground** shows every property live with 53 lessons. The **JavaScript Playground** has 60 lessons from variables through generators and Proxy. The **Tailwind Playground** includes class name autocomplete and 48 lessons. The **React Playground** covers 44 lessons from JSX through hooks, portals, and Suspense. The **Vue.js Playground** covers 40 lessons including Composition API, Teleport, custom directives, and mini-projects. The **GSAP Playground** teaches animation with 55 lessons including ScrollTrigger. TypeScript, SCSS, jQuery, Bootstrap 5, Angular, Next.js and SVG playgrounds cover the rest of the frontend stack. All save progress automatically.`,
     },
     {
       q: 'Is everything completely free?',
@@ -208,7 +208,7 @@ Everything is built with React 19 and runs 100% client-side. No signup, no accou
 };
 
 /* ── Home page tool order ──────────────────────────────────────────────────
-   Frontend playgrounds first, then backend/data, then the remaining tools.
+   Frontend playgrounds first, then the remaining tools.
    The UI Snippets library has its own card + carousel, so it is left out.
 ─────────────────────────────────────────────────────────────────────────── */
 const FRONTEND_PLAYGROUND_SLUGS = [
@@ -245,7 +245,6 @@ const SNIPPET_CARD_ITEMS = [
 
 const PLAYGROUND_CARD_SLUGS = ['html-playground', 'css-playground', 'js-playground', 'react-playground', 'vue-playground', 'gsap-playground', 'svg-playground', 'tailwind-playground'];
 
-const BACKEND_CARD_SLUGS = ['sql-playground', 'mongo-playground', 'express-playground', 'nodejs-playground', 'python-playground', 'php-playground', 'git-playground', 'graphql-playground'];
 
 function ItemIcon({ d, accent }) {
   return (
@@ -257,7 +256,6 @@ function ItemIcon({ d, accent }) {
 
 export default async function Home() {
   const playgroundCardTools = PLAYGROUND_CARD_SLUGS.map(slug => LIVE_TOOLS.find(t => t.slug === slug)).filter(Boolean);
-  const backendCardTools = BACKEND_CARD_SLUGS.map(slug => LIVE_TOOLS.find(t => t.slug === slug)).filter(Boolean);
   const latestPosts = await fetchLatestBlogPosts(5);
   const latestSnippets = getLatestSnippets(60);
 
@@ -289,14 +287,14 @@ export default async function Home() {
             <HomeOmniSearch />
           </div>
           <span className={styles.heroDecoText} aria-hidden="true">Build<br />Learn<br />Create</span>
-          <p className={styles.subtitleSeo}>{SNIPPET_COUNT}+ copy-paste UI snippets — cards, heroes, navbars, modals, forms, loaders and animations — plus {PLAYGROUND_COUNT} learn-to-code playgrounds for HTML, CSS, JavaScript, TypeScript, React, Vue, Next.js, SQL, Python and more. Live preview, structured lessons, nothing to install and no account needed.</p>
+          <p className={styles.subtitleSeo}>{SNIPPET_COUNT}+ copy-paste UI snippets — cards, heroes, navbars, modals, forms, loaders and animations — plus {PLAYGROUND_COUNT} learn-to-code playgrounds for HTML, CSS, JavaScript, TypeScript, React, Vue, Next.js, Tailwind and more. Live preview, structured lessons, nothing to install and no account needed.</p>
         </div>
 
       {/* ── Latest UI snippets: newest six, arrows page through the rest ── */}
       <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} />
 
       {/* ── Above-the-fold feature grid ──────────────────────────────────── */}
-      <div className={styles.featureGrid}>
+      <div className={`${styles.featureGrid} ${styles.featureGridThree}`}>
         <div className={styles.featureCard} style={{ '--fc-accent': '#7c3aed' }}>
           <div className={styles.featureCardTop}>
             <span className={styles.featureIcon}>
@@ -361,54 +359,20 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className={styles.featureCard} style={{ '--fc-accent': '#16a34a' }}>
-          <div className={styles.featureCardTop}>
-            <span className={styles.featureIcon}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
-            </span>
-            <h2 className={styles.featureTitle}>Backend &amp; Data</h2>
-            <a href="#tools" className={styles.featureArrowLink} aria-label="Browse all playgrounds">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
-          </div>
-          <p className={styles.featureDesc}>Learn SQL, MongoDB, Node.js, Express, Python, PHP and Git — simulated safely in your browser. No server setup.</p>
-          <div className={styles.featureList}>
-            {backendCardTools.map(tool => (
-              <a key={tool.slug} href={`/${tool.slug}`} className={styles.featureItem}>
-                <span className={styles.featureItemIcon} style={{ background: tool.accent + '18', borderColor: tool.accent + '38' }}>
-                  {tool.icon?.startsWith('/')
-                    ? <img src={tool.icon} alt="" width={15} height={15} />
-                    : <span style={{ color: tool.accent }}>{tool.icon}</span>}
-                </span>
-                <span className={styles.featureItemBody}>
-                  <span className={styles.featureItemTitle}>{tool.name}</span>
-                  <span className={styles.featureItemSub}>{tool.sub}</span>
-                </span>
-                <svg className={styles.featureItemChevron} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6"/></svg>
-              </a>
-            ))}
-          </div>
-          <a href="#tools" className={styles.featureCtaBtn}>Browse All Playgrounds →</a>
-          <div className={styles.featureFootRow}>
-            <span className={styles.featureFootLink}>Databases</span>
-            <span className={styles.featureFootLink}>Server-side</span>
-          </div>
-        </div>
-
         <div className={styles.featureCard} style={{ '--fc-accent': '#e11d48' }}>
           <div className={styles.featureCardTop}>
             <span className={styles.featureIcon}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
             </span>
             <h2 className={styles.featureTitle}>Latest From the Blog</h2>
-            <a href="https://www.webdevpuneet.com/" target="_blank" rel="noopener noreferrer" className={styles.featureArrowLink} aria-label="Visit the blog">
+            <a href="https://webdevpuneet.com/blog/" target="_blank" rel="noopener noreferrer" className={styles.featureArrowLink} aria-label="Visit the blog">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
           </div>
           <p className={styles.featureDesc}>Practical tutorials, examples and guides for modern web development.</p>
           <div className={styles.featureList}>
             {latestPosts.length === 0 && (
-              <p className={styles.featureEmptyNote}>Couldn&apos;t load the latest posts right now — <a href="https://www.webdevpuneet.com/" target="_blank" rel="noopener noreferrer">browse the blog directly</a>.</p>
+              <p className={styles.featureEmptyNote}>Couldn&apos;t load the latest posts right now — <a href="https://webdevpuneet.com/blog/" target="_blank" rel="noopener noreferrer">browse the blog directly</a>.</p>
             )}
             {latestPosts.map(post => (
               <a key={post.href} href={post.href} target="_blank" rel="noopener noreferrer" className={styles.featureBlogItem}>
@@ -421,7 +385,7 @@ export default async function Home() {
               </a>
             ))}
           </div>
-          <a href="https://www.webdevpuneet.com/" target="_blank" rel="noopener noreferrer" className={styles.featureCtaBtn}>Read More Blogs →</a>
+          <a href="https://webdevpuneet.com/blog/" target="_blank" rel="noopener noreferrer" className={styles.featureCtaBtn}>Read More Blogs →</a>
           <div className={styles.featureFootRow}>
             <span className={styles.featureFootLink}>View All Posts</span>
             <span className={styles.featureFootLink}>Development Tips</span>

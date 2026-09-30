@@ -5,18 +5,18 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { isEmbedRoute } from '@/lib/is-embed-route';
 
-const SHARETHIS_PROPERTY = '6a23b66fe48700378aefdeb4';
-const SHARETHIS_PRODUCT = 'sop';
+const SHARETHIS_PROPERTY = '60ae07cf93080c0011ad8de0';
+const SHARETHIS_PRODUCT = 'sticky-share-buttons';
 const SHARETHIS_SRC = `https://platform-api.sharethis.com/js/sharethis.js#property=${SHARETHIS_PROPERTY}&product=${SHARETHIS_PRODUCT}`;
 
-// ShareThis builds its sticky ("sop") share bar once from the page's URL at
+// ShareThis builds its sticky share bar once from the page's URL at
 // load time and has no idea Next.js later swapped the page via client-side
 // navigation — left alone, every share click would point back at whatever
 // page the widget last saw.
 //
 // window.__sharethis__.initialize() is ShareThis's documented re-init hook,
 // but it's only documented for their "inline-share-buttons" product — it does
-// NOT reliably refresh the sticky "sop" widget's share URL (confirmed: still
+// NOT reliably refresh the sticky share widget's share URL (confirmed: still
 // stale after a route change even with the recommended 0.3-1s delay).
 // window.__sharethis__.load(product, config) is the lower-level method
 // ShareThis's own official React wrapper (sharethis-reactjs) calls internally

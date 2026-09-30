@@ -127,10 +127,6 @@ const ALL_PLAYGROUND_SLUGS = [
   'ui-snippets',
   'html-playground','js-playground','typescript-playground','css-playground','scss-playground','tailwind-playground',
   'react-playground','angular-playground','vue-playground','nextjs-playground','gsap-playground',
-  'sql-playground','mongo-playground','express-playground','firebase-playground',
-  'graphql-playground','nodejs-playground','python-playground',
-  'rest-api-builder-playground','ai-prompt-studio',
-  'mind-map','database-schema-designer',
 ];
 
 const ALL_FREELANCER_SLUGS = [
@@ -1231,7 +1227,7 @@ function AiPromptSection({ heading, headingSize = 'h2', label, paragraph, prompt
             <PromptCodeBox text={prompt} />
             <p className={styles.seoP} style={{ marginTop: 10 }}>
               Want to tighten it up first? Run this prompt through the{' '}
-              <a href="/ai-prompt-studio/" className={styles.inlineLink}>AI Prompt Studio</a>{' '}
+              <a href="https://fwdtools.com/ai-prompt-studio/" className={styles.inlineLink}>AI Prompt Studio</a>{' '}
               to score it across 8 quality dimensions, catch anti-patterns, and tune the wording for Claude, ChatGPT, or Gemini before you paste it in.
             </p>
           </>

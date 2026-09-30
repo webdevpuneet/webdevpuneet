@@ -137,7 +137,7 @@ Two lessons on the HTML that affects how your pages appear in search results and
 
 Progress is saved to localStorage automatically. Quick Check questions appear on key lessons for active recall. A sandbox mode on selected lessons lets you write any HTML and see it render live. All code runs fully in your browser — no data is uploaded.
 
-For longer, example-driven walkthroughs of specific HTML concepts, see the [HTML tutorials on webdevpuneet.com](https://www.webdevpuneet.com/search/label/HTML).`,
+For longer, example-driven walkthroughs of specific HTML concepts, see the [HTML tutorials on webdevpuneet.com](https://webdevpuneet.com/blog/).`,
   },
 
   features: [

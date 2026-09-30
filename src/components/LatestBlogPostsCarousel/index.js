@@ -2,57 +2,24 @@
 
 import { useEffect, useRef, useState } from 'react';
 import cs from './styles.module.css';
+import { BLOG_URL, fetchLatestBlogPosts } from '@/lib/blog-feed';
 
 const PAGE_SIZE = 5;
 const MAX_POSTS = 10;
-const BLOG_URL = 'https://www.webdevpuneet.com/';
-const BLOG_FEED_BASE = 'https://www.webdevpuneet.com/feeds/posts/default';
 
 let postsCache = null;
 let postsPromise = null;
 
-// Blogger's JSON feed sends no CORS headers, but does support the classic
-// JSONP form (alt=json-in-script) -- loading it as a <script> tag sidesteps
-// CORS entirely and works from a fully static export, no API route needed.
-// Same technique the sidebar's own Blog tab already uses. Module-level cache
-// means this only ever fetches once per page session, however many times
-// AdSlot (and this carousel with it) mounts across the page.
+// Module-level cache means this only ever fetches once per page session,
+// however many times AdSlot (and this carousel with it) mounts across the page.
 function fetchLatestPosts() {
   if (postsCache) return Promise.resolve(postsCache);
-  if (postsPromise) return postsPromise;
-  postsPromise = new Promise((resolve) => {
-    const cbName = '__wdpLatestBlogCb' + Math.random().toString(36).slice(2);
-    const cleanup = () => { delete window[cbName]; script.remove(); clearTimeout(timer); };
-    const timer = setTimeout(() => { cleanup(); resolve([]); }, 8000);
-    window[cbName] = (data) => {
-      cleanup();
-      try {
-        const entries = data?.feed?.entry || [];
-        const posts = entries
-          .map((e) => {
-            const rawThumb = e.media$thumbnail?.url || '';
-            // Blogger's feed thumbnail is a cropped 72x72 square ("/s72-c/")
-            // -- swap in a wide, uncropped size so the real header image
-            // shows at its own aspect ratio instead of a tiny square crop.
-            const thumb = rawThumb ? rawThumb.replace(/\/s\d+(-c)?\//, '/s640/') : null;
-            return {
-              title: e.title?.$t?.trim() || '',
-              href: (e.link || []).find((l) => l.rel === 'alternate')?.href || '',
-              thumb,
-            };
-          })
-          .filter((p) => p.title && p.href);
-        postsCache = posts;
-        resolve(posts);
-      } catch {
-        resolve([]);
-      }
-    };
-    const script = document.createElement('script');
-    script.src = `${BLOG_FEED_BASE}?alt=json-in-script&max-results=${MAX_POSTS}&callback=${cbName}`;
-    script.onerror = () => { cleanup(); resolve([]); };
-    document.body.appendChild(script);
-  });
+  if (!postsPromise) {
+    postsPromise = fetchLatestBlogPosts(MAX_POSTS).then((posts) => {
+      postsCache = posts;
+      return posts;
+    });
+  }
   return postsPromise;
 }
 

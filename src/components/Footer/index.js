@@ -18,7 +18,7 @@ export default function Footer() {
         <span className={styles.sep}>|</span>
         <a href="/contact/" className={styles.link}>Contact</a>
         <span className={styles.sep}>|</span>
-        <a href="https://www.webdevpuneet.com/" className={styles.link} target="_blank" rel="noopener noreferrer">Blog</a>
+        <a href="https://webdevpuneet.com/blog/" className={styles.link} target="_blank" rel="noopener noreferrer">Blog</a>
         <span className={styles.sep}>|</span>
         <a href="/privacy-policy/" className={styles.link}>Privacy Policy</a>
         <span className={styles.sep}>|</span>

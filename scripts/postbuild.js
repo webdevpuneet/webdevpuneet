@@ -332,7 +332,7 @@ async function main() {
     grouped.get(section).push(tool);
   }
 
-  let llmsTxt = `# webdevpuneet.com\n\n> Free copy-paste UI snippets and interactive coding playgrounds for frontend developers and learners. No sign-up, no data upload, no server processing.\n\nwebdevpuneet.com hosts ${SNIPPETS.length}+ free HTML, CSS & JS UI snippets and ${liveTools.length}+ interactive learn-to-code playgrounds (HTML, CSS, JavaScript, TypeScript, React, Vue, Angular, Next.js, Tailwind, SQL, MongoDB, Node.js, Python, PHP, Git and more) that run entirely in the browser. Everything is free, privacy-first, and works without an account.\n\nMain site: ${BASE_URL}/\nSitemap: ${BASE_URL}/sitemap.xml\nLearn to Code: ${BASE_URL}/learn-to-code/\n`;
+  let llmsTxt = `# webdevpuneet.com\n\n> Free copy-paste UI snippets and interactive coding playgrounds for frontend developers and learners. No sign-up, no data upload, no server processing.\n\nwebdevpuneet.com hosts ${SNIPPETS.length}+ free HTML, CSS & JS UI snippets and ${liveTools.length}+ interactive learn-to-code playgrounds (HTML, CSS, JavaScript, TypeScript, React, Vue, Angular, Next.js, Tailwind, SCSS, Bootstrap, GSAP, SVG and more) that run entirely in the browser. Everything is free, privacy-first, and works without an account.\n\nMain site: ${BASE_URL}/\nSitemap: ${BASE_URL}/sitemap.xml\nLearn to Code: ${BASE_URL}/learn-to-code/\n`;
 
   for (const [heading, tools] of grouped) {
     if (!tools.length) continue;

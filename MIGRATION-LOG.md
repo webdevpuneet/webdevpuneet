@@ -114,18 +114,45 @@
 - Rendered HTML: 0 "FWD Tools" mentions; 0 canonical/og:url pointing at fwdtools.
 - `C:\Projects\fwdtools`: `git status` clean — nothing modified there.
 
+### 2026-09-30 — Step 10: Backend/data playgrounds, AI Prompt Studio and Mind Map removed
+
+User decision: webdevpuneet keeps UI Snippets + the 14 frontend playgrounds only; the 13 removed tools stay
+on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz` (src, public, scripts, log).
+
+- Removed routes + components: `sql-`, `mongo-`, `express-`, `nodejs-`, `python-`, `php-`, `graphql-`,
+  `firebase-`, `git-playground`, `rest-api-builder-playground`, `database-schema-designer`,
+  `ai-prompt-studio`, `mind-map` (+ `DisqusComments`, only used by AI Prompt Studio). 27 icons/OG images deleted.
+- `tools-registry.js` → 15 tools (ui-snippets + html, css, js, typescript, scss, tailwind, bootstrap5, jquery,
+  react, angular, vue, nextjs, gsap, svg). Slug lists pruned in `categories.js`, PlaygroundTopNav, SeoSection,
+  Sidebar, 404 page (backend section removed) and home page.
+- Home: "Backend & Data" card removed (grid now 3 cards, `.featureGridThree`); meta/schema/SEO copy and use
+  cases rewritten frontend-only. `categories.js` learn-to-code: per-tool sections, use cases, FAQ text,
+  metadata/keywords for removed tools dropped; counts 28 → 14. `/learn-to-code/` meta 27 → 14.
+  About page, manifest and postbuild llms.txt intro updated.
+- Sidebar: "Learn to Code" group now lists all 15 live tools; the registry-category accordions
+  ("Dev Tools", "Learn & Think") are no longer rendered.
+- Remaining prose links to removed tools (js-playground, nextjs-playground, SeoSection) → `https://fwdtools.com/<slug>/`.
+- Sidebar "Learn to Code" group now open by default. Branding leftovers missed in Step 4 (split by markup,
+  so a plain-text check didn't catch them): sidebar brand `FWD <strong>Tools</strong>` → `webdevpuneet<strong>.com</strong>`,
+  Terms liability clause, GitHub token description in GistSyncButton.
+- Verified on the dev server (a production build was blocked by the running `npm run dev`): home, learn-to-code,
+  playground, ui-snippets and about pages 200 with no errors and 0 links to removed routes; removed routes 404.
+
 ## Open items / decisions needed
 
-1. **Domain conflict (important):** `www.webdevpuneet.com` currently serves the Blogger blog, and the
-   home page / sidebar / footer pull posts from its feed. `.htaccess` redirects `www` → apex
-   `webdevpuneet.com`. Deploying this site to webdevpuneet.com needs a plan for the blog (e.g. move it to
-   `blog.webdevpuneet.com` and update `src/lib/blog-feed.js`, Sidebar, Footer, LatestBlogPostsCarousel).
+1. **Blog — resolved 2026-09-30:** `www` now points to the cPanel server (`.htaccess` 301s `www` → apex).
+   The blog is a WordPress install at `https://webdevpuneet.com/blog/`. `src/lib/blog-feed.js` now reads the
+   WP REST API via `?rest_route=/wp/v2/posts` (works with plain permalinks) and exports `BLOG_URL`; the home
+   page, Sidebar Blog tab and LatestBlogPostsCarousel all use it (Blogger JSONP removed). Footer/home "Blog"
+   links and 4 old Blogger `/search/label/*` links in playground prose → `/blog/`. Old Blogger post URLs are
+   not redirected. WP still on plain permalinks (`?p=1`), so `/blog/feed/` 404s until "Post name" is set.
 2. **Deploy:** 2026-09-30 — `.vscode/sftp.json` created by the user for the new server (plain FTP, remotePath `/`) and added to `.gitignore`. `DEPLOY_ENABLED` is still **false**; flip it in `scripts/deploy.js` when ready. Verify the FTP root is the webdevpuneet.com document root before the first deploy.
 3. **IndexNow:** after the site is live, set `INDEXNOW_ENABLED = true` (key file ships in `public/`).
 4. **Analytics/Ads (still fwdtools IDs):** GA `G-YZX1VC4PFC` (also in `public/puneet/index.html`),
    AdSense `ca-pub-2762737943861458` (needs the new domain approved in AdSense), Yandex verification meta
-   in `src/app/layout.js`, Disqus shortname `fwdtools` (used on ai-prompt-studio). Decide: new
-   property/IDs or keep.
+   in `src/app/layout.js`. Decide: new property/IDs or keep. (Disqus went away with ai-prompt-studio in Step 10.)
+   **ShareThis: switched 2026-09-30** to the webdevpuneet property `60ae07cf93080c0011ad8de0`, product
+   `sticky-share-buttons` (was fwdtools `6a23b66f…` / `sop`) in `src/components/ShareThisWidget/index.js`.
 5. **Removal from fwdtools** (the "taking out" step) not done yet — waiting for go-ahead. When done,
    fwdtools will need 301s from the moved URLs to webdevpuneet.com.
 6. Not a git repo yet — `git init` + first commit when ready.

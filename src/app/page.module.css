@@ -445,6 +445,10 @@
   padding: 0 20px;
 }
 
+/* Three-card variant (UI Snippets + Coding Playgrounds + Blog). When the grid
+   drops to two columns, the last card spans the full row instead of leaving a gap. */
+.featureGridThree { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
 .featureCard {
   display: flex;
   flex-direction: column;
@@ -929,6 +933,7 @@
 /* Four cards get cramped below 1500px: two rows of two instead. */
 @media (max-width: 1500px) {
   .featureGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .featureGridThree > :last-child { grid-column: 1 / -1; }
 }
 
 /* Hero stacks (text above search) once the row gets tight. */
@@ -968,6 +973,7 @@
   .title { font-size: 26px; letter-spacing: -0.5px; }
   .heroTagline { font-size: 14px; }
   .featureGrid { grid-template-columns: 1fr; padding: 0 12px; }
+  .featureGridThree > :last-child { grid-column: auto; }
   .playgroundGrid { grid-template-columns: 1fr; gap: 6px; }
   .playgroundCard { min-height: 60px; padding: 10px 12px; }
   .playgroundCardArrow { display: none; }
