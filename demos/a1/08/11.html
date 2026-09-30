@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="type=&quot;color&quot;">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>type="color"</h1>
+    <p class="hint">Click the swatch to open the browser's own color picker. The value is always a lowercase 6-digit hex string &mdash; no color library, no custom picker component required.</p>
+  </header>
+  <main class="stageWrap">
+    <form class="colorForm">
+      <label class="field">
+        <span class="fieldLabel">Brand accent color</span>
+        <input type="color" name="accent" value="#6366f1" id="colorInput">
+      </label>
+      <p class="readout"><code id="colorReadout">#6366f1</code></p>
+    </form>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; padding: 20px 16px 36px; }
+
+  .colorForm {
+    width: 100%;
+    max-width: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 24px 20px;
+  }
+  .field { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .fieldLabel { font: 700 12px system-ui, sans-serif; }
+
+  .colorForm input[type="color"] {
+    width: 64px;
+    height: 64px;
+    padding: 0;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    cursor: pointer;
+  }
+
+  .readout { margin: 0; }
+  .readout code {
+    font: 700 14px ui-monospace, monospace;
+    color: var(--accent);
+    background: #eceef3;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var input = document.getElementById('colorInput');
+  var readout = document.getElementById('colorReadout');
+  input.addEventListener('input', function () {
+    readout.textContent = input.value;
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

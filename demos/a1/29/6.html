@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="scrub Controls How the Trigger Drives It">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Toggle scrub on the same timeline</h1>
+    <p class="hint">Scroll to trigger it, then flip scrub and scroll back up to compare. The sequence never changes.</p>
+  </header>
+  <div class="modeRow">
+    <button class="modeBtn modeBtnActive" id="scrubOn">scrub: true</button>
+    <button class="modeBtn" id="scrubOff">scrub: false</button>
+  </div>
+  <div class="spacer">Scroll ↓</div>
+  <div class="stage">
+    <div class="track"><div class="box" id="box"></div></div>
+  </div>
+  <div class="spacer end"></div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .modeRow { display: flex; justify-content: center; gap: 8px; padding: 4px 20px 6px; }
+  .modeBtn {
+    padding: 7px 14px;
+    font: 700 11.5px system-ui, sans-serif;
+    color: var(--ink);
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 7px;
+    cursor: pointer;
+  }
+  .modeBtnActive { color: #fff; background: var(--accent); border-color: var(--accent); }
+  .spacer { height: 220px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 240px; }
+  .stage { display: flex; justify-content: center; align-items: center; height: 130px; padding: 0 24px; }
+  .track { position: relative; width: 100%; max-width: 280px; height: 80px; }
+  .box {
+    position: absolute;
+    top: 0; left: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    background: var(--accent);
+    box-shadow: 0 10px 20px rgba(99,102,241,0.35);
+  }
+</script>
+
+<script type="text/plain" id="js">
+  gsap.registerPlugin(ScrollTrigger);
+
+  var scrubOnBtn = document.getElementById('scrubOn');
+  var scrubOffBtn = document.getElementById('scrubOff');
+  var st = null;
+
+  function build(scrubIsOn) {
+    if (st) { st.kill(); }
+    gsap.set('#box', { clearProps: 'all' });
+
+    var tl = gsap.timeline({ paused: true });
+    tl.to('#box', { x: 140, duration: 0.5 })
+      .to('#box', { y: 50, duration: 0.5 })
+      .to('#box', { rotation: 160, duration: 0.5 });
+
+    st = ScrollTrigger.create({
+      trigger: '.stage',
+      start: 'top 80%',
+      end: 'bottom 30%',
+      scrub: scrubIsOn,
+      animation: tl
+    });
+
+    scrubOnBtn.classList.toggle('modeBtnActive', scrubIsOn);
+    scrubOffBtn.classList.toggle('modeBtnActive', !scrubIsOn);
+    window.scrollTo(0, 0);
+    ScrollTrigger.refresh();
+  }
+
+  scrubOnBtn.addEventListener('click', function () { build(true); });
+  scrubOffBtn.addEventListener('click', function () { build(false); });
+
+  build(true);
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

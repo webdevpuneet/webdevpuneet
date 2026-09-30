@@ -1,0 +1,251 @@
+<h1>Building a Canvas Physics Simulation: Gravity, Elastic Collisions, and the Momentum Math That Makes It Feel Real</h1>
+
+<p>Click a canvas, a ball drops out of nowhere, falls, bounces, and settles. Click it a few more times and the balls start colliding — bouncing off each other believably, big ones shoving small ones aside, everything eventually coming to rest in a loose pile. It looks like a physics engine. It isn't one, not really. It's about 120 lines of JavaScript, a handful of vectors, and one formula from a first-year mechanics course, run inside a <code>requestAnimationFrame</code> loop against the Canvas 2D API.</p>
+
+<p>The <strong>Physics Balls</strong> snippet is a good subject for a full walkthrough precisely because there's nowhere to hide. There's no physics library doing the hard part off-screen — every line of collision response, every bit of integration math, is sitting right there in the file, which means every bug you'd get wrong by hand is also a bug you can learn by reading it correctly once.</p>
+
+<p>Here it is live — click anywhere to drop a ball, drag the sliders to feel what gravity and restitution actually do:</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/physics-balls/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Physics Balls — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p>Grab the code, or open the full editor with live HTML/CSS/JS panels: <a href="https://fwdtools.com/ui-snippets/physics-balls/">Physics Balls on FWD Tools</a>. It's plain HTML, CSS, and JavaScript with zero dependencies — no Matter.js, no Box2D — and the same editor has one-click export buttons for <strong>React</strong>, <strong>Vue</strong>, <strong>Angular</strong>, and <strong>React + Tailwind</strong>.</p>
+
+<p>In this post I'll build the whole thing <strong>A to Z</strong>: the animation loop, why velocity updates before position, how a ball becomes a plain JavaScript object, the exact vector math behind an elastic collision, why mass is the radius squared and not the radius, the wall-bounce restitution, the trail effect, and the two lines that keep balls from visually sinking into each other. By the end you'll be able to explain, not just use, every physics term this code touches.</p>
+
+<h2>What the component actually is</h2>
+
+<p>Four ideas, in the order they matter:</p>
+
+<ol>
+<li><strong>An animation loop</strong> that advances physics and redraws the scene every frame, synced to the display.</li>
+<li><strong>A ball model</strong> — position, velocity, radius, mass — held in a plain array of objects, nothing more exotic than that.</li>
+<li><strong>Two kinds of collision response</strong>: reflecting off a static wall, and exchanging momentum with another moving ball.</li>
+<li><strong>A render step</strong> that draws each ball as a shaded circle, with an optional trail effect layered on top.</li>
+</ol>
+
+<p>Nothing here is specific to balls. Swap the shape and the same loop, the same integration, and most of the same collision math work for any 2D rigid-body toy.</p>
+
+<h2>Where you'd actually use this</h2>
+
+<ul>
+<li><strong>Casual game prototyping.</strong> Gravity, bounce, and elastic collisions are the physics behind a huge share of simple browser games — this is the whole engine for something like a Peggle-style drop toy or a bubble-pop game.</li>
+<li><strong>Teaching collision math.</strong> Vectors, dot products, restitution, and impulse resolution are usually taught on a whiteboard; watching them drive visible motion in real time is a far faster way to internalize them.</li>
+<li><strong>Generative, playful backgrounds.</strong> A cluster of colliding, settling balls makes a livelier hero background than another CSS gradient, and it's a fraction of the weight of a WebGL scene.</li>
+<li><strong>Data and force-directed visualization.</strong> The same collision-avoidance logic — detect overlap, push apart along the normal — is the core of bubble charts and force-directed graph layouts.</li>
+<li><strong>A reference implementation.</strong> When you reach for a real physics library later, having built this by hand once makes concepts like restitution coefficients and impulse resolution far less abstract.</li>
+</ul>
+
+<h2>The markup and the two CSS lines that matter</h2>
+
+<pre><code class="language-html">&lt;div class="app"&gt;
+  &lt;canvas id="canvas"&gt;&lt;/canvas&gt;
+  &lt;div class="controls"&gt;
+    &lt;label&gt;Gravity &lt;span id="gravVal"&gt;0.5&lt;/span&gt;
+      &lt;input type="range" id="gravSlider" min="0" max="2" step="0.05" value="0.5"&gt;
+    &lt;/label&gt;
+    &lt;label&gt;Bounce &lt;span id="bounceVal"&gt;0.75&lt;/span&gt;
+      &lt;input type="range" id="bounceSlider" min="0.3" max="1.0" step="0.05" value="0.75"&gt;
+    &lt;/label&gt;
+    &lt;label class="toggle-label"&gt;&lt;input type="checkbox" id="trailToggle"&gt; Trail&lt;/label&gt;
+    &lt;button id="clearBtn"&gt;Clear All&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+<p>Everything the physics needs lives in JavaScript state — the sliders and checkbox are just a thin control surface over two numbers and a boolean. The one CSS line worth noting up front is <code>#canvas { flex: 1; ... cursor: crosshair; }</code> — the crosshair cursor is the entire hint that clicking spawns a ball, and it costs one CSS declaration instead of an onboarding tooltip.</p>
+
+<h2>Building it, step by step</h2>
+
+<h3>Step 1 — Canvas setup and sizing</h3>
+
+<pre><code class="language-javascript">const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let GRAVITY = 0.5;
+let BOUNCE = 0.75;
+let trail = false;
+let balls = [];
+let hueCounter = 0;
+const MAX_BALLS = 40;
+
+function resize() {
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+}
+resize();
+window.addEventListener('resize', resize);</code></pre>
+
+<p>All the mutable simulation state lives in module-level variables — <code>GRAVITY</code>, <code>BOUNCE</code>, and the <code>balls</code> array are the entire state of the world. <code>resize()</code> reads the canvas's CSS-driven <code>offsetWidth</code>/<code>offsetHeight</code> and writes them onto the canvas's actual pixel dimensions, which is what makes it fill its flex container responsively rather than defaulting to the browser's baked-in 300×150. Calling it once immediately and then again on every window resize keeps the drawing surface honest.</p>
+
+<h3>Step 2 — Spawning a ball</h3>
+
+<pre><code class="language-javascript">function spawnBall(x, y) {
+  if (balls.length >= MAX_BALLS) balls.shift();
+  const r = 15 + Math.random() * 20;
+  balls.push({
+    x, y, r,
+    vx: (Math.random() - 0.5) * 6,
+    vy: -8 - Math.random() * 4,
+    hue: (hueCounter * 37) % 360,
+    mass: r * r,
+  });
+  hueCounter++;
+}
+
+canvas.addEventListener('pointerdown', e => {
+  const rect = canvas.getBoundingClientRect();
+  spawnBall(e.clientX - rect.left, e.clientY - rect.top);
+});</code></pre>
+
+<p>A ball is nothing but a plain object: position (<code>x, y</code>), velocity (<code>vx, vy</code>), a radius, a color, and a mass. That's the entire data model — there's no class, no prototype, because nothing here needs one. <code>getBoundingClientRect()</code> converts a raw page click into coordinates relative to the canvas element itself, which matters the moment the canvas isn't pinned to the top-left of the viewport. The upward launch velocity (<code>vy = -8 - random</code>) is what makes a click feel like a toss rather than a ball simply appearing mid-air, and the <code>MAX_BALLS</code> cap — shifting the oldest ball off the front of the array once you hit 40 — exists because the collision check below is quadratic in the number of balls, and an unbounded array would eventually choke the frame rate.</p>
+
+<p>Mass is set to <strong><code>r * r</code></strong>, not <code>r</code>. That single line is doing more physical work than it looks like: since a circle's area scales with the square of its radius, mass-as-area means a ball twice the radius carries four times the mass — so in a collision it barely moves while shoving the smaller ball hard. Setting mass equal to radius would make a "big" ball feel deceptively light in a collision, since its momentum wouldn't actually scale with how large it visually is.</p>
+
+<h3>Step 3 — Gravity and integration</h3>
+
+<pre><code class="language-javascript">function update() {
+  for (const b of balls) {
+    b.vy += GRAVITY;
+    b.x += b.vx; b.y += b.vy;
+    // ...wall checks below
+  }
+}</code></pre>
+
+<p>Every ball gets the same constant downward acceleration added to its vertical velocity every frame — the discrete form of <code>v = v + a·t</code> with <code>t</code> implicitly equal to one frame. Then position updates using the <em>already-updated</em> velocity: <code>b.x += b.vx</code> happens after <code>b.vy += GRAVITY</code> has run. This ordering has a name — <strong>semi-implicit (symplectic) Euler integration</strong> — and it's not a stylistic choice. Using the new velocity to move the position, rather than the velocity from the start of the frame, is measurably more stable for anything driven by a constant force like gravity. Naive ("explicit") Euler, which moves position with the old velocity and updates velocity afterward, tends to inject energy into the system over time — visible as objects gradually gaining height or speed they shouldn't have. Semi-implicit Euler is one flipped line of code and it's the difference between a simulation that settles and one that slowly explodes.</p>
+
+<h3>Step 4 — Wall collisions and restitution</h3>
+
+<pre><code class="language-javascript">if (b.x - b.r < 0) { b.x = b.r; b.vx = Math.abs(b.vx) * BOUNCE; }
+if (b.x + b.r > canvas.width) { b.x = canvas.width - b.r; b.vx = -Math.abs(b.vx) * BOUNCE; }
+if (b.y - b.r < 0) { b.y = b.r; b.vy = Math.abs(b.vy) * BOUNCE; }
+if (b.y + b.r > canvas.height) { b.y = canvas.height - b.r; b.vy = -Math.abs(b.vy) * BOUNCE; }</code></pre>
+
+<p>Each of the four canvas edges gets the same two-line treatment: clamp the position back inside the boundary, then reflect the relevant velocity component. <code>Math.abs()</code> forces the correct sign regardless of which direction the ball was moving when it crossed the boundary — a ball that's barely poking through a wall due to floating-point drift still gets pushed the right way, rather than the sign of a near-zero velocity flipping unpredictably. The multiplier <code>BOUNCE</code> is the <strong>restitution coefficient</strong>: at 1.0 a ball would bounce forever with no energy loss; below 1.0 — the slider caps at 1.0 and floors at 0.3 — each bounce loses a fraction of speed, which is why balls gradually settle onto the floor instead of bouncing indefinitely.</p>
+
+<h3>Step 5 — The pairwise collision check</h3>
+
+<pre><code class="language-javascript">for (let i = 0; i < balls.length; i++) {
+  for (let j = i+1; j < balls.length; j++) {
+    const a = balls[i], b = balls[j];
+    const dx = b.x - a.x, dy = b.y - a.y;
+    if (Math.sqrt(dx*dx + dy*dy) < a.r + b.r) resolveCollision(a, b);
+  }
+}</code></pre>
+
+<p>Two circles overlap exactly when the distance between their centers is less than the sum of their radii — geometrically the simplest overlap test that exists. The nested loop with <code>j = i + 1</code> checks every unique pair exactly once (never a ball against itself, never the same pair twice), which is the standard pattern for all-pairs comparison. It's an O(n²) check, which is precisely why <code>MAX_BALLS</code> exists: 40 balls is 780 pair checks a frame, trivial; a few thousand would not be. A production engine would replace this with a spatial partition — a grid or quadtree — so only nearby balls get checked at all, but for a demo at this scale, the brute-force version is both correct and fast enough.</p>
+
+<h3>Step 6 — The elastic collision, one line at a time</h3>
+
+<pre><code class="language-javascript">function resolveCollision(a, b) {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const dist = Math.sqrt(dx*dx + dy*dy);
+  if (dist === 0) return;
+  const nx = dx/dist, ny = dy/dist;
+  const dvx = a.vx - b.vx, dvy = a.vy - b.vy;
+  const dot = dvx*nx + dvy*ny;
+  if (dot > 0) return;
+  const totalMass = a.mass + b.mass;
+  const impulse = 2 * dot / totalMass;
+  a.vx -= impulse * b.mass * nx;
+  a.vy -= impulse * b.mass * ny;
+  b.vx += impulse * a.mass * nx;
+  b.vy += impulse * a.mass * ny;
+  const overlap = (a.r + b.r - dist) / 2;
+  a.x -= overlap * nx; a.y -= overlap * ny;
+  b.x += overlap * nx; b.y += overlap * ny;
+}</code></pre>
+
+<p>This function is the entire physics lesson, so it's worth taking apart clause by clause.</p>
+
+<p><strong>The collision normal.</strong> <code>nx, ny</code> is the unit vector pointing from ball A's center to ball B's center — normalized by dividing by the distance so its length is exactly 1. Every subsequent calculation happens along this line, because in a two-body collision between circles, momentum only transfers along the axis connecting their centers; nothing happens perpendicular to it.</p>
+
+<p><strong>Relative velocity along the normal.</strong> <code>dot = dvx*nx + dvy*ny</code> is the dot product of the two balls' relative velocity with the normal — it tells you how fast they're closing along the line between them, as a single signed number. If it's positive, the balls are already moving apart (perhaps they overlapped briefly and are separating), and the function returns immediately — applying an impulse here would incorrectly pull two separating balls back together.</p>
+
+<p><strong>The impulse.</strong> <code>impulse = 2 * dot / totalMass</code> is the standard 1D elastic-collision impulse formula, projected onto the normal. It's derived from two conservation laws holding simultaneously: momentum is conserved (whatever velocity one ball loses, the other gains, weighted by mass) and kinetic energy is conserved (this is a <em>perfectly</em> elastic collision — no energy is lost in the collision itself, only in wall bounces via <code>BOUNCE</code>). Each ball's velocity is then adjusted by that impulse scaled by the <em>other</em> ball's mass: <code>a.vx -= impulse * b.mass * nx</code>. That "other ball's mass" weighting is exactly why a heavy ball barely flinches off a light one while the light one caroms away — the impulse each ball receives is proportional to how much mass it's colliding into.</p>
+
+<p><strong>Positional correction.</strong> Because the simulation advances in discrete time steps rather than continuously, a fast-moving ball can end up slightly inside another before the overlap is even detected. The last two lines push both balls apart by half the overlap distance each, along the same normal. Skip this and colliding balls visibly sink into each other for a frame or two before the velocity change untangles them — a small but very noticeable artifact once you know to look for it.</p>
+
+<h3>Step 7 — Rendering, and the trail effect</h3>
+
+<pre><code class="language-javascript">function draw() {
+  if (trail) {
+    ctx.fillStyle = 'rgba(13,13,26,0.15)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  } else {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#0d0d1a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+  for (const b of balls) {
+    const grd = ctx.createRadialGradient(b.x - b.r*0.3, b.y - b.r*0.3, b.r*0.1, b.x, b.y, b.r);
+    grd.addColorStop(0, \`hsl(\${b.hue},80%,80%)\`);
+    grd.addColorStop(1, \`hsl(\${b.hue},70%,45%)\`);
+    ctx.beginPath();
+    ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
+    ctx.fillStyle = grd;
+    ctx.fill();
+    ctx.strokeStyle = \`hsl(\${b.hue},60%,70%)\`;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+}</code></pre>
+
+<p>Two rendering modes, controlled by one boolean. Normally the canvas clears completely and repaints a flat background every frame — the usual approach. With the trail toggle on, instead of clearing, the code paints a nearly-transparent dark rectangle (<code>rgba(13,13,26,0.15)</code>) over the previous frame. Because that rectangle only partially obscures what's underneath, each frame the older content darkens a little more than the last, and after a few frames it's faded to nothing — producing comet-like motion trails with zero extra bookkeeping. It's a classic, cheap canvas trick: never truly clear, only fade.</p>
+
+<p>Each ball is drawn with a <code>createRadialGradient</code> offset toward the upper-left of its own center, which fakes a light source and gives an otherwise flat circle a glossy, spherical look. The two color stops are generated from the ball's stored <code>hue</code> in HSL space — walking the hue by <code>hueCounter * 37</code> for each new ball spreads colors evenly around the color wheel without ever repeating a nearby shade, since 37 and 360 share no small common factor.</p>
+
+<h3>Step 8 — The loop and the controls</h3>
+
+<pre><code class="language-javascript">function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+loop();</code></pre>
+
+<p>Three lines tie the whole thing together: advance the physics, repaint the frame, schedule the next one. <code>requestAnimationFrame</code> is what makes this feel native rather than janky — it fires in sync with the display's actual refresh rate, and critically, it pauses automatically when the tab is backgrounded, so an idle simulation in a forgotten tab costs the user nothing. The gravity and bounce sliders, the trail checkbox, and the clear button are all thin wrappers that mutate <code>GRAVITY</code>, <code>BOUNCE</code>, <code>trail</code>, and the <code>balls</code> array directly — because those are the only pieces of state the loop reads each frame, changing them is instantly reflected with no extra plumbing.</p>
+
+<h2>Customizing it for your own project</h2>
+
+<ul>
+<li><strong>Delta-time integration.</strong> The current loop assumes a fixed 60fps-ish step. For a simulation that needs to stay physically consistent across different refresh rates, multiply gravity and velocity by the elapsed time since the last frame instead of a flat per-frame constant.</li>
+<li><strong>Spatial partitioning.</strong> Past a few hundred balls, replace the O(n²) pairwise loop with a uniform grid: bucket balls by cell, and only check pairs that share or neighbor a cell.</li>
+<li><strong>Friction and rotation.</strong> Add angular velocity and a friction term at contact points to make balls roll realistically instead of sliding frictionlessly along the floor.</li>
+<li><strong>Variable density.</strong> Decouple mass from a fixed area formula and expose it per ball, so you can simulate a light beach ball and a heavy bowling ball at the same radius.</li>
+<li><strong>Attractors.</strong> Replace or augment constant-downward gravity with a point attractor — compute a normalized direction toward a fixed point and scale by inverse-square distance — for an orbiting, "black hole" variant of the same engine.</li>
+<li><strong>Different shapes.</strong> The wall-bounce and rendering logic is circle-specific, but the core loop structure — integrate, detect, resolve, draw — carries over directly to rectangles or polygons with a different overlap test.</li>
+</ul>
+
+<h2>The one thing deliberately left out</h2>
+
+<p><strong>Rotation.</strong> Real billiard balls spin, and spin changes how they collide via friction at the contact point. This simulation treats every ball as a frictionless point mass with a radius — which keeps the collision math to a single, learnable formula instead of a full rigid-body solver. It's the right simplification for a 200-line demo, and the right thing to add first if you outgrow it.</p>
+
+<h2>Using it in React, Vue, or Angular</h2>
+
+<p>The editor exports all four, and the shape of the port is the same everywhere: the loop, the canvas ref, and the event listeners all belong in a mount effect, with real teardown in its cleanup. In React, create the canvas context and the <code>balls</code> array inside a <code>useEffect</code> with an empty dependency array, keep <code>balls</code> in a <code>useRef</code> rather than component state — it mutates 60 times a second and none of those mutations should trigger a re-render — and cancel the <code>requestAnimationFrame</code> handle plus remove the resize and pointer listeners in the effect's cleanup function. Skipping that cleanup in a single-page app leaves the physics loop running in the background after the component unmounts, still consuming CPU for a canvas nobody can see. Vue's <code>onMounted</code>/<code>onBeforeUnmount</code> and Angular's <code>ngOnInit</code>/<code>ngOnDestroy</code> map onto the same shape directly.</p>
+
+<h2>Build, understand, optimize, and extend it with AI</h2>
+
+<p>This snippet is small enough to hold in your head in full, which makes it an unusually good one to interrogate with an AI assistant rather than just read. Paste this snippet's HTML, CSS, and JS into an assistant like Claude and start with <code>resolveCollision</code>: ask it to walk through why the function returns early when <code>dot > 0</code>, and have it derive the impulse formula <code>2 * dot / totalMass</code> from the two conservation laws — momentum and kinetic energy — so it stops being a memorized line and becomes a formula you could rebuild. Then ask what would visually change if mass were set to <code>r</code> instead of <code>r * r</code>, and try it in a copy: collisions between differently-sized balls start feeling wrong, because momentum stops scaling with how much "stuff" a ball actually represents. For optimization, ask whether the O(n²) pairwise loop needs a spatial grid once <code>MAX_BALLS</code> is raised well past 40, and whether the semi-implicit Euler integration used here would still be accurate enough if you added much faster-moving balls, where tunneling through thin walls becomes possible. For extension, in rough order of difficulty: add friction so balls roll instead of sliding, support different densities per ball instead of a fixed area-based mass, add a point attractor that balls orbit instead of falling straight down, and swap the fixed per-frame step for real delta-time integration. Treat the code less like a finished artifact and more like a starting point for a conversation.</p>
+
+<h3>Prompt to recreate it</h3>
+
+<p>Copy this into your AI assistant of choice to build the component from scratch, or as a jumping-off point for your own variant:</p>
+
+<pre><code class="language-text">Build a canvas physics simulation of bouncing, colliding balls in plain HTML, CSS, and vanilla JavaScript using the Canvas 2D API and requestAnimationFrame — no physics library.
+
+Requirements:
+- Clicking or tapping the canvas spawns a new ball at the pointer position with a random radius, a small random horizontal velocity, and a strong initial upward velocity, converting the click coordinates into canvas space via getBoundingClientRect. Cap the total number of balls by removing the oldest one once a maximum is reached.
+- Each ball must have a mass proportional to the square of its radius (mass scales with area, not radius directly), so that in collisions larger balls visibly push smaller ones around rather than exchanging velocity equally.
+- Every frame, apply a constant gravity acceleration to each ball's vertical velocity, then integrate position using semi-implicit Euler (update velocity first, then use the updated velocity to move position) rather than naive explicit Euler.
+- Detect and resolve wall collisions on all four canvas edges by clamping the ball's position back inside the boundary and reflecting the relevant velocity component, scaled by an adjustable restitution (bounce) coefficient strictly less than 1 so balls lose energy and eventually settle.
+- Detect every unique pair of overlapping balls each frame (distance between centers less than the sum of their radii) and resolve the collision using the mass-weighted 1D elastic collision formula projected onto the collision normal: compute the normal vector between the two centers, the relative velocity's dot product along that normal, skip resolution if the balls are already separating, otherwise apply an impulse to both velocities weighted by the other ball's mass, and push the two balls apart by half their overlap distance along the normal to prevent visual sinking.
+- Provide UI sliders for gravity strength and bounce restitution that update the simulation live, a checkbox that switches the render loop from clearing the canvas each frame to painting a low-alpha rectangle over it instead (creating fading motion trails), and a button that empties the ball array.
+- Render each ball with a radial gradient offset toward one corner to fake a light source, using a distinct hue per ball spaced out in HSL color space.</code></pre>
+
+<h2>Final thought</h2>
+
+<p>The whole simulation rests on a handful of ideas that are each individually simple: acceleration is added to velocity before velocity moves position, a wall reflects a velocity component and scales it down, and two circles trade momentum along the line between their centers in proportion to their mass. None of that is exotic — it's the same physics as a first mechanics course. What makes it feel like a real engine is just applying those ideas consistently, forty times a frame, sixty times a second.</p>
+
+<p>That's the transferable lesson well beyond this file. Most convincing physics on the web isn't hiding a sophisticated solver — it's a small number of correctly-ordered, correctly-derived rules, run reliably every frame. Learn to read <code>resolveCollision</code> and you can read the collision code in most 2D games you'll ever open.</p>
+
+<p>Grab the full HTML, CSS, and JS — or export it straight to React, Vue, Angular, or Tailwind — at <a href="https://fwdtools.com/ui-snippets/physics-balls/">Physics Balls on FWD Tools</a>. It's free, runs entirely in your browser, and needs no sign-up. Browse more components like this one at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a>.</p>

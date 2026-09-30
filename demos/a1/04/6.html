@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Dashboard Tiles — Click to Span">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Dashboard Tiles — Click to Span</h1>
+    <p class="hint">Click any tile to toggle grid-column: span 2 — it grows across the grid and every other tile reflows around it automatically. Flexbox has no equivalent to "span 2 of N tracks."</p>
+  </header>
+  <main class="stageWrap">
+    <div class="dashGrid" id="dashGrid">
+      <div class="tile" data-id="1">Revenue</div>
+      <div class="tile" data-id="2">Signups</div>
+      <div class="tile" data-id="3">Churn</div>
+      <div class="tile" data-id="4">Latency</div>
+      <div class="tile" data-id="5">Errors</div>
+      <div class="tile" data-id="6">Uptime</div>
+    </div>
+    <div class="readout">
+      <span>Spanning tile: <strong id="readoutValue">none</strong></span>
+    </div>
+    <pre class="ruleTag" id="ruleTag">.tile { grid-column: span 1; }</pre>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+  .readout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 16px;
+    font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--sub);
+  }
+  .readout strong { color: var(--accent); font-weight: 700; }
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 8px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .dashGrid {
+    width: 100%;
+    max-width: 460px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    background: #fff;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 70px;
+    gap: 8px;
+  }
+  .tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #eceef3;
+    color: var(--ink);
+    font: 700 12.5px system-ui, sans-serif;
+    cursor: pointer;
+    grid-column: span 1;
+    grid-row: span 1;
+    transition: background .12s, color .12s;
+  }
+  .tile:hover { background: #dfe1f7; }
+
+  /* The rule this demo is about. */
+  .tileSpan {
+    grid-column: span 2;
+    grid-row: span 2;
+    background: linear-gradient(135deg, #818cf8, #6366f1);
+    color: #fff;
+    font-size: 15px;
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var grid = document.getElementById('dashGrid');
+  var out = document.getElementById('readoutValue');
+  var ruleTag = document.getElementById('ruleTag');
+
+  grid.addEventListener('click', function (e) {
+    var tile = e.target.closest('.tile');
+    if (!tile) return;
+    var wasActive = tile.classList.contains('tileSpan');
+    document.querySelectorAll('.tile').forEach(function (t) { t.classList.remove('tileSpan'); });
+    if (!wasActive) {
+      tile.classList.add('tileSpan');
+      out.textContent = tile.textContent;
+      ruleTag.textContent = '.tile[data-id="' + tile.getAttribute('data-id') + '"] {\n  grid-column: span 2;\n  grid-row: span 2;\n}';
+    } else {
+      out.textContent = 'none';
+      ruleTag.textContent = '.tile { grid-column: span 1; }';
+    }
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

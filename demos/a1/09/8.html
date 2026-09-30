@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="threshold &amp; rootMargin visualizer">
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>threshold &amp; rootMargin, live</h1>
+    <p class="hint">Drag the slider, then scroll the box below through the striped zone. The readout is this demo's own observer reporting its real <code>intersectionRatio</code> on every threshold step it crosses.</p>
+  </header>
+  <div class="controls">
+    <label>rootMargin (px)
+      <input type="range" id="margin" min="-120" max="120" step="10" value="0">
+      <span id="marginVal">0px</span>
+    </label>
+  </div>
+  <div class="readout" id="readout">ratio: 0% &middot; isIntersecting: false</div>
+  <div class="scrollZone" id="scrollZone">
+    <div class="pad"></div>
+    <div class="target" id="target">Watch me</div>
+    <div class="pad"></div>
+  </div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 16px 20px 6px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .hint code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
+
+  .controls { display: flex; justify-content: center; padding: 6px 20px 0; }
+  .controls label { display: flex; align-items: center; gap: 8px; font: 700 11.5px system-ui, sans-serif; color: var(--sub); }
+  .controls input[type="range"] { width: 160px; accent-color: var(--accent); }
+  #marginVal { font: 700 11.5px ui-monospace, monospace; color: var(--accent); min-width: 40px; }
+
+  .readout {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    text-align: center;
+    padding: 8px 0;
+    margin-top: 10px;
+    background: #14161c;
+    color: #e3e4e8;
+    font: 700 12px ui-monospace, monospace;
+  }
+
+  .scrollZone {
+    position: relative;
+    max-width: 340px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+  .scrollZone::before {
+    /* the visible trigger band, drawn once for reference at 0 rootMargin */
+    content: '';
+  }
+  .pad { height: 260px; }
+  .target {
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent);
+    color: #fff;
+    font: 700 13px system-ui, sans-serif;
+    border-radius: 12px;
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var marginInput = document.getElementById('margin');
+  var marginVal = document.getElementById('marginVal');
+  var readout = document.getElementById('readout');
+  var target = document.getElementById('target');
+  var io = null;
+
+  var steps = [];
+  for (var i = 0; i <= 20; i++) steps.push(i / 20); // 5% resolution
+
+  function makeObserver() {
+    if (io) io.disconnect();
+    var px = marginInput.value;
+    io = new IntersectionObserver(function (entries) {
+      var e = entries[0];
+      var pct = Math.round(e.intersectionRatio * 100);
+      readout.textContent = 'ratio: ' + pct + '% · isIntersecting: ' + e.isIntersecting;
+      target.style.opacity = 0.4 + e.intersectionRatio * 0.6;
+    }, {
+      rootMargin: px + 'px 0px',
+      threshold: steps
+    });
+    io.observe(target);
+  }
+
+  marginInput.addEventListener('input', function () {
+    marginVal.textContent = marginInput.value + 'px';
+    makeObserver(); // options are read once at construction — a new value needs a new observer
+  });
+
+  makeObserver();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

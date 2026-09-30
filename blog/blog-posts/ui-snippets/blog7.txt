@@ -1,0 +1,137 @@
+<h1>10 Copy-Paste Modal, Popover &amp; Toast Snippets That Don't Feel Bolted On</h1>
+
+<p>Every product eventually needs to interrupt the user — a confirmation before a delete, a settings drawer, a "saved" toast, a command palette for power users. These overlays are deceptively hard to get right: get the animation wrong and it feels janky, forget to trap focus and keyboard users get lost outside the dialog, skip the escape hatch and you've built a trap instead of a modal. Below are 10 free overlay snippets — a confirm dialog, a swipeable action sheet, a Cmd-K command palette, an undo-able snackbar — you can preview live and copy in seconds. Pure HTML, CSS and a few lines of JS, no framework required.</p>
+
+<p>As with every roundup in this series, this isn't just a copy-paste dump. For each snippet you'll find <strong>how it actually works</strong> under the hood, <strong>when to reach for it</strong>, and a quick tip for keeping it accessible. By the end you'll know the small toolkit — escape-hatch handling, focus and scroll management, transform-based enter/exit animation, self-cleaning DOM nodes — behind nearly every overlay on the modern web.</p>
+
+<p>Every snippet below is a <strong>live, interactive preview</strong> — click, type and tab through it right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+
+<h2>The golden rule: give every overlay an escape hatch</h2>
+
+<p>Overlays have a famous failure mode: they're easy to open and easy to forget to close properly. A modal that only closes via its own "X" button strands keyboard users and mobile users who expect a backdrop tap to work. The snippets below all follow the same three rules instead:</p>
+
+<ul>
+<li><strong>Three ways out, always</strong> — Escape key, backdrop click, and an explicit close action. All of the dialogs and sheets below wire up <code>keydown</code> for Escape and compare <code>e.target === overlay</code> on click so only a genuine backdrop tap closes it, not a click that bubbled up from inside.</li>
+<li><strong>Open/close as a symmetric pair</strong> — every snippet has a matching <code>open()</code>/<code>close()</code> (or equivalent) that adds a listener on open and removes it on close, so nothing leaks when the overlay is dismissed and reopened repeatedly.</li>
+<li><strong>Animate the transform, not the display</strong> — sheets and drawers slide in with <code>translateX</code>/<code>translateY</code>, dialogs and popovers scale in from 0.95, and only the <em>final</em> step flips <code>display: none</code>. That's what makes them glide instead of pop.</li>
+</ul>
+
+<p>Get this pattern once and you can build almost any overlay without a library. Now the snippets.</p>
+
+<h2>1. Modal / Dialog — the overlay every other pattern here builds on</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/modal/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Modal / Dialog — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a fixed-position <code>.overlay</code> and a centred <code>.modal</code> box both sit hidden until a <code>.show</code> class is toggled by <code>openModal()</code>/<code>closeModal()</code>. That single class change drives everything — the overlay fades in via <code>opacity</code>, and the modal itself scales up from <code>transform: scale(0.95)</code> to <code>scale(1)</code> on a short transition, which reads as the dialog "arriving" rather than snapping into place. Closing reverses the same transition before the box is removed from the layout.</p>
+
+<p><strong>When to use it:</strong> anything that needs the page behind it to visually recede — settings panels, image previews, forms that don't deserve their own route. <strong>Tip:</strong> keep the scale transition under 200ms; anything longer and the modal feels like it's fighting the user's click instead of responding to it.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/modal/">Modal / Dialog</a></p>
+
+<h2>2. Confirm Dialog — the type-to-confirm delete guard</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/confirm-dialog/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Confirm Dialog — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the Delete button starts <code>disabled</code> and stays that way until <code>checkPhrase()</code> confirms the text field's value matches a target phrase pulled from the DOM on every keystroke. Committing runs a small fake-progress sequence — the button swaps its label to "Deleting…" then to a checkmark and "Deleted" after a <code>setTimeout</code> — so the destructive action gets its own moment of feedback instead of just vanishing. The backdrop-click handler compares <code>e.target === overlay</code> so clicks inside the dialog never accidentally close it mid-type.</p>
+
+<p><strong>When to use it:</strong> irreversible actions — deleting an account, a repo, a production database. A plain "Are you sure?" gets clicked through on autopilot; typing the resource's name forces a half-second of genuine attention. <strong>Tip:</strong> only reach for type-to-confirm on truly destructive, hard-to-undo actions — using it for routine deletes trains users to type without reading, which defeats the point.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/confirm-dialog/">Confirm Dialog</a></p>
+
+<h2>3. Side Drawer — off-canvas panels with spring easing</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/drawer/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Side Drawer — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a left navigation drawer and a right settings panel share one <code>open(side)</code>/<code>close()</code> pair. Each panel starts off-screen at <code>translateX(-100%)</code> or <code>translateX(100%)</code> and slides to <code>translateX(0)</code> using <code>cubic-bezier(0.32, 0.72, 0, 1)</code> — the same overshoot-free spring curve iOS uses for its own sheets, which is what makes the slide feel weighted instead of linear. Opening a drawer also attaches an Escape <code>keydown</code> listener that <code>close()</code> removes again, so held-open state never leaks a stray handler.</p>
+
+<p><strong>When to use it:</strong> primary navigation on mobile, or secondary panels (filters, settings, cart) you don't want competing with the main content for screen space. <strong>Tip:</strong> lock <code>body</code> scroll while a drawer is open — a background page that keeps scrolling behind a fixed panel is one of the most common overlay bugs, and it's a one-line fix (<code>overflow: hidden</code> on open, removed on close).</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/drawer/">Side Drawer</a></p>
+
+<h2>4. Bottom Sheet — the mobile-native pattern for the web</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/bottom-sheet/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bottom Sheet — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the same spring easing as the drawer, applied vertically — the panel rests at <code>translateY(100%)</code> and rises to <code>0</code> when <code>openSheet(type)</code> runs. That one function does double duty: it also swaps which content block is visible, toggling between a share grid and a filter-chip list by flipping their <code>display</code> property, so one sheet shell serves two different jobs. The share variant wires a "Copy link" button to the Clipboard API and flips its label to "Copied!" briefly for confirmation.</p>
+
+<p><strong>When to use it:</strong> mobile-width layouts where a centred modal would look stranded — share sheets, filters, quick actions. Rising from the bottom keeps the action within thumb reach. <strong>Tip:</strong> cap the sheet's height and let its content scroll internally; a bottom sheet that grows past the viewport just becomes a worse modal.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/bottom-sheet/">Bottom Sheet</a></p>
+
+<h2>5. Image Lightbox — full-screen viewing with wraparound navigation</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/image-lightbox/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Image Lightbox — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a grid of thumbnails feeds a single <code>images</code> array; clicking one sets a <code>cur</code> index and adds an <code>.open</code> class that flips the overlay from <code>display: none</code> to <code>flex</code> with a quick fade-in. Prev/next buttons — and the arrow keys, wired only while the lightbox is open — step <code>cur</code> with modulo wraparound (<code>(cur + dir + len) % len</code>), so the last image loops straight back to the first instead of dead-ending. Clicking the backdrop itself closes it, detected the same way as the dialogs above: <code>e.target === e.currentTarget</code>.</p>
+
+<p><strong>When to use it:</strong> product galleries, portfolios, any grid of images that deserves a bigger look without navigating to a new page. <strong>Tip:</strong> only bind the arrow-key listener while the lightbox is actually open — a global keydown handler that's always active will hijack arrow keys the rest of the page might want, like scrolling a nearby carousel.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/image-lightbox/">Image Lightbox</a></p>
+
+<h2>6. Popover — one system, three anchored positions</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/popover/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Popover — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every popover on the page is tracked in a single <code>openPopovers</code> Set, so one global click-outside listener — checking <code>!e.target.closest('.pop-wrap')</code> — and one Escape handler can close all of them at once, instead of each popover needing its own outside-click logic. Visually there are three CSS-positioned variants (<code>.bottom</code>, <code>.top</code>, <code>.right</code>), each with a matching rotated-square arrow element pointing back at its trigger, and each entrance is a <code>scale(0.96 → 1)</code> plus opacity fade rather than a hard cut.</p>
+
+<p><strong>When to use it:</strong> contextual info or a short menu tied to a specific trigger — user menus, info icons, inline pickers. Unlike a modal, a popover doesn't dim the page, so it reads as "extra detail" rather than "interruption." <strong>Tip:</strong> the shared <code>openPopovers</code> Set matters most once you have more than one popover on a page — without it, opening a second popover while the first is still open is a bug users find immediately.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/popover/">Popover</a></p>
+
+<h2>7. Toast Notification — self-cleaning DOM nodes</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/toast-notification/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Toast Notification — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each call creates a fresh toast element with <code>document.createElement</code> rather than reusing a hidden template, slides it in from <code>translateX(110%)</code> with a <code>slideIn</code> keyframe, and after 2800ms triggers a matching <code>slideOut</code>. The node removes itself from the DOM on the <code>animationend</code> event rather than a hardcoded timeout — so the element only ever disappears once its exit animation has actually finished playing, with no orphaned nodes accumulating if toasts fire in quick succession.</p>
+
+<p><strong>When to use it:</strong> one-off, non-critical confirmations — "Saved", "Copied", "Message sent." Toasts should never block interaction or require a click to dismiss. <strong>Tip:</strong> tying removal to <code>animationend</code> instead of <code>setTimeout</code> is the detail that keeps this bulletproof — a timeout-based version can remove the node mid-animation if timing drifts, causing a visible jump.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/toast-notification/">Toast Notification</a></p>
+
+<h2>8. Toast Queue — the production-grade multi-toast manager</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/toast-queue/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Toast Queue — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> where the single toast above handles one notification, this one handles a stream of them. A queue is capped at <code>MAX = 5</code> visible toasts — pushing a sixth force-dismisses the oldest rather than letting the stack grow unbounded. Each toast carries its own CSS progress bar animating <code>width: 100% → 0%</code> over its lifetime; hovering sets <code>animationPlayState: paused</code> so a toast you're reading doesn't vanish mid-read, and leaving resumes it with a shortened remaining timer rather than restarting from full.</p>
+
+<p><strong>When to use it:</strong> any app where multiple notifications can fire close together — bulk actions, background sync status, multi-user activity feeds. A single-toast system either overwrites or overlaps in these cases; a queue doesn't. <strong>Tip:</strong> the pause-on-hover behaviour is worth copying even into simpler toast systems — nothing erodes trust in a notification faster than it disappearing while the user's eyes are still on it.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/toast-queue/">Toast Queue</a></p>
+
+<h2>9. Snackbar with Undo — deleting without really deleting</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/snackbar-undo/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Snackbar with Undo — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> clicking delete removes the row from view immediately, but not for good — its node, parent and next sibling are stashed in a <code>pending</code> object first. If Undo is clicked, <code>insertBefore</code> puts the exact same element back in its exact original position, siblings and all, so nothing reflows unexpectedly. If four seconds pass with no undo, a <code>finalize()</code> timeout commits the delete for real. The countdown bar resets on repeat deletes using a <code>void bar.offsetWidth</code> reflow trick — forcing the browser to acknowledge the reset before re-triggering the animation, since just changing the class again wouldn't restart a CSS animation already at 0%.</p>
+
+<p><strong>When to use it:</strong> any delete that's cheap to reverse — archiving an email, removing a list item, dismissing a card. Deferred deletion turns a scary irreversible action into a safe, reversible one, which means you can skip the confirm dialog entirely. <strong>Tip:</strong> this pairs naturally with the <a href="https://fwdtools.com/ui-snippets/confirm-dialog/">confirm dialog</a> above — reserve the type-to-confirm pattern for truly permanent actions, and use undo-snackbars for everything reversible instead of interrupting the user twice.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/snackbar-undo/">Snackbar with Undo</a></p>
+
+<h2>10. Command Palette — the Cmd-K power-user shortcut</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/command-palette/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Command Palette — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a static <code>COMMANDS</code> array holds every action grouped by category; typing runs <code>filter(query)</code>, which does a simple substring match against each command's name and description and re-groups the survivors. <code>render()</code> then rebuilds the visible list from that filtered set. Arrow keys move an <code>activeIdx</code> pointer up and down the flattened list, and the active item calls <code>scrollIntoView({ block: 'nearest' })</code> so keyboard navigation never scrolls the list further than it has to — a detail most from-scratch implementations get wrong on the first try.</p>
+
+<p><strong>When to use it:</strong> any app with more actions than fit in a toolbar — dashboards, editors, admin panels. A command palette turns "where is that setting" into "type three letters." <strong>Tip:</strong> group results by category even before the user types anything — an unfiltered palette that shows structure (Navigation, Actions, Settings) teaches users what's searchable, which is exactly what gets them to use it a second time.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/command-palette/">Command Palette</a></p>
+
+<h2>The techniques you just collected</h2>
+
+<p>Ten overlays, five reusable ideas — learn these and you can build nearly any dialog, sheet or notification without a library:</p>
+
+<ul>
+<li><strong>Three escape hatches, every time</strong> — Escape key, backdrop click compared with <code>e.target === overlay</code>, and an explicit close control. Skip any one and you've built a trap, not a dialog.</li>
+<li><strong>Symmetric open/close functions</strong> — attach a listener (Escape, arrow-key navigation) when something opens, remove it when it closes. Powers the drawer, the popover set, and the lightbox's keyboard navigation without leaking handlers.</li>
+<li><strong>Transform-based motion, display last</strong> — slide with <code>translateX</code>/<code>translateY</code>, scale in from 0.95–0.96, and only toggle <code>display: none</code> once the exit transition has actually finished.</li>
+<li><strong>Self-cleaning ephemeral nodes</strong> — toasts create their own element and remove it on <code>animationend</code> rather than a timer, so the DOM never fills with orphaned nodes during a burst of notifications.</li>
+<li><strong>Defer the destructive part</strong> — the undo-snackbar's stash-then-<code>finalize()</code> pattern and the confirm dialog's typed-phrase gate are two different answers to the same question: how do you make an irreversible action forgiving?</li>
+</ul>
+
+<h2>Final Thought</h2>
+
+<p>Here's a challenge for your next project: before you reach for a modal library, try wiring up the escape-hatch pattern from these ten snippets yourself. It's maybe 15 lines of JavaScript per overlay, you'll know exactly why it closes when it does, and — the part most teams skip — you'll actually test what happens when a user hits Escape mid-animation or clicks the backdrop twice fast, instead of trusting a library to have handled it.</p>
+
+<p>Every snippet here is part of the free <a href="https://fwdtools.com/ui-snippets/modals/">modals &amp; overlays collection</a> at FWD Tools, alongside a fullscreen menu, an onboarding tour, a cookie consent manager and a product quick-view that didn't make this list — all editable in the browser and exportable to React, Vue, Angular or Tailwind. Earlier roundups in this series cover <a href="https://fwdtools.com/ui-snippets/buttons/">buttons</a>, <a href="https://fwdtools.com/ui-snippets/cards/">hover cards</a>, <a href="https://fwdtools.com/ui-snippets/animations/">text effects</a>, <a href="https://fwdtools.com/ui-snippets/loaders/">loading states</a> and <a href="https://fwdtools.com/ui-snippets/forms/">form inputs</a>.</p>

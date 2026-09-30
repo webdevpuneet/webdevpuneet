@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Container Query Units (cqw)">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Container Query Units (cqw)</h1>
+    <p class="hint">Drag the handle — the heading's font-size is set in <code>cqw</code>, a unit that means "% of the container's width," not "% of the viewport's width" the way <code>vw</code> does. The text scales with the box, with your browser window untouched.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="resizeBox" id="rzBox" style="width:320px">
+      <h2 class="cqHeading">Scales with me</h2>
+      <div class="resizeHandle" id="rzHandle" aria-hidden="true"></div>
+    </div>
+    <div class="readout">
+      <span>Container width: <strong id="readoutValue">320px</strong></span>
+      <span>Computed font-size: <strong id="readoutFont">—</strong></span>
+    </div>
+    <pre class="ruleTag">.cqHeading {
+  font-size: clamp(16px, 9cqw, 48px);
+}</pre>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 50em; font-size: 12.5px; color: var(--sub); }
+  .hint code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+  .readout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 16px;
+    font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--sub);
+  }
+  .readout strong { color: var(--accent); font-weight: 700; }
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 8px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .resizeBox {
+    position: relative;
+    max-width: 100%;
+    min-width: 160px;
+    box-sizing: border-box;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    padding: 20px 26px 20px 16px;
+    background: #fff;
+    overflow: hidden;
+
+    /* Required before cqw/cqh/cqi/cqb mean anything inside this box. */
+    container-type: inline-size;
+  }
+  .resizeHandle {
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 16px;
+    cursor: ew-resize;
+    background: repeating-linear-gradient(90deg, var(--line) 0 2px, transparent 2px 6px);
+    border-left: 1px solid var(--line);
+    touch-action: none;
+  }
+  .resizeHandle:hover { background-color: #eef0ff; }
+
+  /* The rule this demo is about. 1cqw = 1% of the query container's
+     inline size — swap it for vw and the text would stop reacting to the
+     box entirely and start reacting to the browser window instead. */
+  .cqHeading {
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    font-size: clamp(16px, 9cqw, 48px);
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var box = document.getElementById('rzBox');
+  var handle = document.getElementById('rzHandle');
+  var heading = box.querySelector('.cqHeading');
+  var outWidth = document.getElementById('readoutValue');
+  var outFont = document.getElementById('readoutFont');
+  var startX = 0, startWidth = 0, dragging = false;
+
+  function report() {
+    outWidth.textContent = Math.round(box.getBoundingClientRect().width) + 'px';
+    outFont.textContent = Math.round(parseFloat(getComputedStyle(heading).fontSize)) + 'px';
+  }
+
+  function onMove(e) {
+    if (!dragging) return;
+    var x = e.touches ? e.touches[0].clientX : e.clientX;
+    var next = Math.max(160, Math.min(560, startWidth + (x - startX)));
+    box.style.width = next + 'px';
+    report();
+  }
+  function onUp() {
+    dragging = false;
+    document.removeEventListener('pointermove', onMove);
+    document.removeEventListener('pointerup', onUp);
+  }
+  handle.addEventListener('pointerdown', function (e) {
+    dragging = true;
+    startX = e.clientX;
+    startWidth = box.getBoundingClientRect().width;
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp);
+    e.preventDefault();
+  });
+
+  report();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

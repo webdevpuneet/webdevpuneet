@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Silent Success Leaves the User Guessing">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Silent success leaves the user guessing</h1>
+    <p class="hint">Click "Copy" once in each column. Both actually copy the text successfully -- watch how differently that success is communicated.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken</h2>
+        <input class="txt" id="badInput" type="text" value="INVITE-CODE-7Q2" readonly>
+        <button type="button" class="btn" id="badBtn">Copy</button>
+        <p class="status" id="badStatus">Copies successfully. Says nothing about it.</p>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed</h2>
+        <input class="txt" id="goodInput" type="text" value="INVITE-CODE-7Q2" readonly>
+        <button type="button" class="btn" id="goodBtn">Copy</button>
+        <p class="status" id="goodStatus">Same copy, with a visible confirmation.</p>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 52em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .txt { width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); font: 600 12.5px ui-monospace, monospace; color: var(--ink); background: #f9fafb; margin-bottom: 8px; }
+  .btn { padding: 9px 18px; border-radius: 8px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: 700 12.5px system-ui, sans-serif; cursor: pointer; transition: background .15s, color .15s, border-color .15s; min-width: 84px; }
+  .btn:hover { border-color: var(--accent); }
+  .btn.copied { background: var(--green); border-color: var(--green); color: #fff; }
+  .status { margin: 8px 0 0; font-size: 11.5px; color: var(--sub); line-height: 1.5; min-height: 2.8em; }
+  .status.ok { color: var(--green); font-weight: 700; }
+</script>
+
+<script type="text/plain" id="js">
+  function legacyCopyValue(value) {
+    var ta = document.createElement('textarea');
+    ta.value = value;
+    ta.style.position = 'fixed';
+    ta.style.top = '0';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  function setupBad() {
+    var input = document.getElementById('badInput');
+    var btn = document.getElementById('badBtn');
+    var status = document.getElementById('badStatus');
+    var clicks = 0;
+
+    btn.addEventListener('click', function () {
+      // BROKEN: the copy genuinely succeeds -- but nothing on screen
+      // changes at all, so the user has no way to tell.
+      legacyCopyValue(input.value);
+      clicks += 1;
+      status.textContent = 'Clicked ' + clicks + ' time(s). Copy succeeded every time -- the button never changed, so would you know that?';
+    });
+  }
+
+  function setupGood() {
+    var input = document.getElementById('goodInput');
+    var btn = document.getElementById('goodBtn');
+    var status = document.getElementById('goodStatus');
+    var resetTimer = null;
+
+    btn.addEventListener('click', function () {
+      var ok = legacyCopyValue(input.value);
+      if (ok) {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        status.className = 'status ok';
+        status.textContent = 'Copied -- and you know it, because the button just told you.';
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(function () {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 1500);
+      } else {
+        status.textContent = 'Copy failed.';
+      }
+    });
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

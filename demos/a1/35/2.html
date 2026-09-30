@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Heart Icon Fill">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Heart Icon Fill</h1>
+    <p class="hint">Hover or Tab-focus the heart button &mdash; the outline crossfades into a filled heart via a <code>clip-path</code> reveal, no image swap needed.</p>
+  </header>
+  <main class="stageWrap">
+    <button class="heartBtn" aria-label="Like this post">
+      <span class="heart">
+        <span class="outline" aria-hidden="true">&#9825;</span>
+        <span class="fillWrap" aria-hidden="true"><span class="fill">&#10084;</span></span>
+      </span>
+    </button>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; align-items: center; padding: 20px 18px 40px; min-height: 260px; }
+
+  .heartBtn {
+    width: 88px; height: 88px;
+    display: flex; align-items: center; justify-content: center;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(20,22,28,.06);
+  }
+  .heart {
+    position: relative;
+    width: 42px; height: 42px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 38px; line-height: 1;
+  }
+  .outline { color: var(--sub); }
+  .fillWrap {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: #ef4444;
+    clip-path: circle(0% at 50% 50%);
+    transition: clip-path 0.4s cubic-bezier(.34,1.56,.64,1);
+  }
+  .heartBtn:hover .fillWrap,
+  .heartBtn:focus-visible .fillWrap {
+    clip-path: circle(75% at 50% 50%);
+  }
+</script>
+
+<script type="text/plain" id="js">
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

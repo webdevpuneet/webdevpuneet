@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Delegating input Events Across Dynamic Form Rows">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Delegation isn't just for clicks &mdash; input events bubble too</h1>
+    <p class="hint">Add more comment fields freely. One <code>input</code> listener on the form tracks every field's character count, including rows created after the page loaded.</p>
+  </header>
+  <main class="stageWrap">
+    <button type="button" class="addBtn" id="addBtn">Add another field</button>
+    <form class="form" id="form">
+      <div class="field">
+        <label>Comment 1</label>
+        <textarea maxlength="80" rows="2"></textarea>
+        <span class="count">0 / 80</span>
+      </div>
+      <div class="field">
+        <label>Comment 2</label>
+        <textarea maxlength="80" rows="2"></textarea>
+        <span class="count">0 / 80</span>
+      </div>
+    </form>
+    <p class="note" id="note">Type in either field, then add a new one and type there too.</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink:#14161c; --sub:#6b7080; --line:#e3e5ea; --accent:#6366f1; --warn:#d97706; }
+  body { background:#f6f7f9; color:var(--ink); }
+  .bar { padding:18px 20px 8px; text-align:center; }
+  .bar h1 { margin:0 0 4px; font-size:17px; letter-spacing:-0.01em; }
+  .hint { margin:0 auto; max-width:56em; font-size:12.5px; color:var(--sub); }
+  .hint code { background:#eef0f5; padding:1px 5px; border-radius:4px; }
+  .stageWrap { display:flex; flex-direction:column; align-items:center; gap:12px; padding:16px 18px 28px; width:100%; }
+
+  .addBtn {
+    font:700 12.5px system-ui, sans-serif; padding:8px 16px;
+    border:1px solid var(--line); border-radius:7px; background:#fff; color:var(--accent); cursor:pointer;
+  }
+
+  .form { width:100%; max-width:420px; display:flex; flex-direction:column; gap:12px; }
+  .field { background:#fff; border:1px solid var(--line); border-radius:9px; padding:10px 12px; }
+  .field label { display:block; font-size:11.5px; color:var(--sub); margin-bottom:6px; }
+  .field textarea {
+    width:100%; border:1px solid var(--line); border-radius:6px; padding:7px 9px;
+    font:13px system-ui, sans-serif; resize:vertical; outline:none;
+  }
+  .field textarea:focus { border-color:var(--accent); }
+  .count { display:block; text-align:right; font-size:11px; color:var(--sub); margin-top:4px; }
+  .count.warn { color:var(--warn); font-weight:700; }
+  .note { margin:0; font-size:12px; color:var(--sub); text-align:center; max-width:42em; }
+</script>
+
+<script type="text/plain" id="js">
+  var form = document.getElementById('form');
+  var addBtn = document.getElementById('addBtn');
+  var note = document.getElementById('note');
+  var fieldCount = 2;
+
+  // "input" bubbles just like "click" does. One listener on the form
+  // updates whichever field's counter changed, no matter when that field
+  // was added to the DOM.
+  form.addEventListener('input', function (e) {
+    var textarea = e.target.closest('textarea');
+    if (!textarea) return;
+    var count = textarea.closest('.field').querySelector('.count');
+    var len = textarea.value.length;
+    count.textContent = len + ' / 80';
+    count.classList.toggle('warn', len > 60);
+    note.textContent = 'Updated via the single delegated "input" listener on the form.';
+  });
+
+  addBtn.addEventListener('click', function () {
+    fieldCount++;
+    var div = document.createElement('div');
+    div.className = 'field';
+    div.innerHTML = '<label>Comment ' + fieldCount + '</label>' +
+      '<textarea maxlength="80" rows="2"></textarea><span class="count">0 / 80</span>';
+    form.appendChild(div);
+    note.textContent = 'New field added — type in it, its counter updates through the same listener.';
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+
+RewriteEngine On
+
+# --------------------------------------------------
+# Redirect www to non-www (canonical host)
+# --------------------------------------------------
+RewriteCond %{HTTP_HOST} ^www\.webdevpuneet\.com$ [NC]
+RewriteRule ^ https://webdevpuneet.com%{REQUEST_URI} [L,R=301]
+
+# --------------------------------------------------
+# Redirect HTTP to HTTPS
+# --------------------------------------------------
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# --------------------------------------------------
+# Remove duplicate slashes anywhere in URL
+# --------------------------------------------------
+RewriteCond %{REQUEST_URI} ^(.*)//+(.*)$
+RewriteRule ^ %1/%2 [R=301,L,NE]
+
+# --------------------------------------------------
+# Renamed routes (301)
+# /ui-snippets/tag/ -> /ui-snippets/   (the bare tag index only; the
+#   individual /ui-snippets/tag/<tag>/ pages are untouched)
+# --------------------------------------------------
+RewriteRule ^ui-snippets/tag/?$ /ui-snippets/ [R=301,L]
+
+# --------------------------------------------------
+# Return 410 Gone for all /updates/ pages
+# Examples:
+# /bookmark-keeper/updates/
+# /html-playground/updates/
+# --------------------------------------------------
+RewriteRule ^(.+)/updates/?$ - [G,L]
+
+# --------------------------------------------------
+# Add trailing slash to extensionless URLs
+# --------------------------------------------------
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !/$
+RewriteCond %{REQUEST_URI} !\.[^/]+$
+RewriteRule ^(.+)$ /$1/ [R=301,L]
+
+# --------------------------------------------------
+# Serve .html files for trailing-slash URLs
+# --------------------------------------------------
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^(.+)/$ /$1.html [L,QSA]
+
+</IfModule>
+
+# --------------------------------------------------
+# Custom 404
+# --------------------------------------------------
+ErrorDocument 404 /404.html

@@ -1,0 +1,152 @@
+<h1>10 Copy-Paste Card Snippets: 3D Flips, Holographic Glare, Motion-Path Borders &amp; Container Queries</h1>
+
+<p>A card is the most boring component in any design system and the one you ship the most of. It's a box with a border radius. Which is exactly why the interesting question isn't what a card looks like sitting still — it's what happens when someone points at it. A card that tilts toward the cursor, dims its neighbours, catches the light, or grows into a full detail view is doing the same job as the flat box next to it, but it tells the user the thing is interactive before they've clicked anything.</p>
+
+<p>Below are ten free, self-contained card snippets, each built around a <em>different</em> mechanism rather than a different colour scheme: a pure-CSS 3D flip, an animated gradient border, a light bead that follows the border's actual corner radius via CSS Motion Path, a grid that blurs every card except the one you're on, an overlay that enters from the exact edge your cursor crossed, a holographic foil that reacts through blend modes, a parallax card with real per-layer depth, a swipeable deck, a card that expands into a detail panel on a spring, and one that rewrites its own layout based on how wide its container is. Every one is a <strong>live, interactive preview</strong> — hover, tap and drag them right here in the article — and each exports to React, Vue, Angular or Tailwind in one click from its snippet page. Eight of the ten are plain HTML, CSS and vanilla JavaScript with no dependencies at all; the two that use a library (both around 4kb, from a CDN) are flagged where they appear, because in both cases the library is doing something CSS genuinely can't.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>The effect is driven by one number, not a pile of state.</strong> A pointer position normalised to 0–1, a <code>data-pos</code> index, a depth offset attribute, a container width. Each card reads one value and derives everything else from it, which is why they're all short enough to actually read.</li>
+<li><strong>CSS does the animating wherever it can.</strong> Several of these have JavaScript that never animates anything — it sets a custom property or toggles a class and lets the transition run. That's what keeps them smooth on a mid-range phone.</li>
+<li><strong>Blend modes and depth over opacity and drop shadows.</strong> The glare and foil layers compute their colour from what's underneath them, and the 3D cards separate their layers along Z. Both are the difference between "gradient pasted on top" and something that reads as a physical surface.</li>
+<li><strong>Hover isn't the only input.</strong> Touch has no hover and keyboards have no cursor. The focus-cards grid wires the same effect to <code>:focus-within</code> and a tap handler; the deck takes pointer swipes; the flip and expand cards are click-driven. None of them are dead on a phone.</li>
+<li><strong>The content stays readable through the animation.</strong> The expand card animates width and height rather than <code>scale()</code> specifically to avoid squashing its own text, and the 3D cards push their copy forward with <code>translateZ</code> so it stays flat to the viewer. The effect serves the content rather than mangling it.</li>
+</ul>
+
+<h2>1. 3D Flip Card</h2>
+
+<p>Click the card and it rotates in 3D to reveal a completely different back face — front for the summary, back for the detail. Hovering adds a small tilt in either state.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/3d-flip-card/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="3D Flip Card — Free HTML CSS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> four CSS properties carry the whole effect, and there is essentially no JavaScript — the trigger is <code>onclick="this.classList.toggle('flipped')"</code> inline in the markup. The stage sets <code>perspective: 1000px</code>, which is what gives the rotation a vanishing point instead of looking like a flat squash. The card gets <code>transform-style: preserve-3d</code> so its two faces keep their own positions in 3D rather than being flattened into the parent's plane. Each face gets <code>backface-visibility: hidden</code>, which hides a face once it has rotated more than 90° away from you. The trick that ties it together: the back face is <em>pre-rotated</em> to <code>rotateY(180deg)</code> at rest, so it's facing away and invisible. When <code>.flipped</code> rotates the card 180°, the front swings away and is hidden, while the back lands at an effective 0° facing the viewer. Remove either <code>preserve-3d</code> or <code>backface-visibility</code> and the illusion collapses — you'd see both faces at once, one mirrored.</p>
+
+<p><strong>Best for:</strong> flashcards, team cards with a bio on the back, and feature tiles where two screens of content need to share one slot. <strong>Tip:</strong> the flipped hover state uses <code>rotateY(172deg)</code> — 180 minus the 8° hover tilt — so the tilt leans the same way whichever face is showing. Copy that offset trick any time you layer a hover state on top of a transformed base state.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/3d-flip-card/">3D Flip Card</a></p>
+
+<h2>2. Gradient Border Card</h2>
+
+<p>A card wrapped in a 1.5px border that cycles smoothly through indigo, violet and pink — the look every AI and crypto product landing page has converged on.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/gradient-border-card/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Gradient Border Card — Free HTML CSS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> CSS has no way to put a gradient on a border directly with a border radius intact, so this fakes it with a pseudo-element. <code>.card::before</code> sits at <code>inset: -1.5px</code> — extending slightly past the card on all four sides — with <code>border-radius: 19px</code> against the card's 18px so the corners nest correctly, and <code>z-index: -1</code> to put it behind the card's own opaque background. The result is that only the 1.5px strip around the edge is ever visible. The animation is the standard oversized-gradient trick: the background is a <code>linear-gradient</code> at <code>background-size: 300% 300%</code>, and a keyframe slides <code>background-position</code> from <code>0% 50%</code> to <code>100% 50%</code> and back over four seconds, so the colours travel around the edge without anything actually moving. <code>overflow: hidden</code> on the card isn't optional — without it the pseudo-element's overhang bleeds past the rounded corners.</p>
+
+<p><strong>Best for:</strong> highlighting one plan in a pricing grid, a "featured" card, or any panel that needs to look premium without a redesign. <strong>Tip:</strong> the modern upgrade is registering an angle with <code>@property --angle { syntax: '&lt;angle&gt;' }</code> and animating a <code>conic-gradient</code> around it — that gives you a true rotating sweep rather than a panning linear gradient, and it interpolates smoothly because the browser now knows the custom property is an angle rather than a string.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/gradient-border-card/">Gradient Border Card</a></p>
+
+<h2>3. Border Beam</h2>
+
+<p>A bright bead of light that travels continuously around the card's border, banking through the rounded corners like a comet on a track. Two beams chase each other in opposite phases.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/border-beam/embed/" style="width:100%;height:540px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Border Beam — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> this is the one that's worth reading even if you never use the effect, because it's built on <strong>CSS Motion Path</strong> — an API most people still haven't touched. The beam is a 90px gradient pill, and its entire path is one declaration: <code>offset-path: rect(0 100% 100% 0 round 18px)</code> defines a rounded-rectangle track matching the border, animating <code>offset-distance</code> from <code>0%</code> to <code>100%</code> walks the pill around it, and <code>offset-rotate: auto</code> keeps it oriented along its direction of travel so it banks into the corners instead of sliding sideways through them. No SVG path, no per-frame JavaScript, and the browser composites it on the GPU. The comet look comes from the pill being elongated with a transparent-to-bright gradient plus a coloured <code>drop-shadow</code>, and the second beam is the same element with a different hue and a <code>-2s</code> animation delay. The card uses <code>overflow: hidden</code> and <code>isolation: isolate</code> so the glow is clipped to the shape and the stacking context stays self-contained. There's a JavaScript fallback that walks the perimeter manually, but it's gated behind <code>CSS.supports('offset-path', …)</code> and most visitors never run it.</p>
+
+<p><strong>Best for:</strong> drawing the eye to a single card, a CTA panel, or an input that's waiting on the user. <strong>Tip:</strong> the older way to do this — spinning a huge conic gradient behind a masked panel — can't follow a corner radius properly and repaints a much larger area. If you have a spinning-gradient border in your codebase, <code>offset-path</code> is a smaller, more accurate replacement.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/border-beam/">Border Beam</a></p>
+
+<h2>4. Focus Cards</h2>
+
+<p>Hover any card in the grid and it sharpens and lifts while every other card blurs and dims — and its caption fades in. Works from the keyboard and on touch too.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/focus-cards/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Focus Cards — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the core is two CSS rules and no JavaScript decision-making at all. When the <em>grid</em> is hovered, a rule blurs, darkens and slightly shrinks every card inside it. A second, more specific rule targets the card actually under the cursor and restores it to full sharpness, scales it up and raises its z-index and shadow. Because the hovered-card rule wins on specificity, the net effect is "everything dims except this one" — decided entirely by the cascade, which is why there's no active-index state to keep in sync. Captions ride along: they sit at <code>opacity: 0</code> with a small downward offset by default and only transition in on the focused card, so the grid stays clean at rest. The accessibility work is the part worth copying: every card carries <code>tabindex="0"</code>, the dimming rules also fire on <code>:focus-within</code>, and the active styles apply on <code>:focus-visible</code>, so tabbing through produces the identical effect. A small script covers touch by calling <code>focus()</code> on tap — which triggers those same rules — with Escape and a tap on empty space to reset.</p>
+
+<p><strong>Best for:</strong> galleries, team pages, and feature grids where you want attention on one item at a time. <strong>Tip:</strong> <code>blur(2px)</code> and <code>brightness(.6)</code> are the two dials. Blur is expensive on large images across many elements — if a big grid stutters on mobile, drop the blur and keep the brightness and scale change; you lose surprisingly little of the effect.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/focus-cards/">Focus Cards</a></p>
+
+<h2>5. Direction-Aware Hover</h2>
+
+<p>The caption overlay slides in from the exact edge your cursor crossed — enter from the left and it comes from the left, leave through the bottom and it exits downward.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/direction-aware-hover/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Direction-Aware Hover — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the interesting part is how cheaply the entry edge is detected. On <code>pointerenter</code>, the handler converts the cursor's position relative to the card's centre into −0.5…0.5 fractions on each axis and asks one question: which magnitude is larger? If the horizontal offset dominates, the pointer came from the left or right; otherwise top or bottom, with the sign choosing the specific side. That dominant-axis test classifies entry into four directions with no trigonometry. The result is written into two custom properties, <code>--tx</code> and <code>--ty</code>, which park the overlay just outside the matching edge; the CSS then transitions <code>translate(var(--tx), var(--ty))</code> to <code>translate(0, 0)</code> when a <code>.show</code> class is added. One detail makes it work at all: <code>.show</code> is added inside a <code>requestAnimationFrame</code> callback, because the browser needs one frame to register the overlay at its off-screen start before the transition target is applied — set both in the same tick and it jumps straight to visible with no animation. On <code>pointerleave</code> the class is removed and the edge is recomputed from the exit point, so the overlay retreats toward whichever side you actually left by.</p>
+
+<p><strong>Best for:</strong> portfolio and image galleries, category tiles, anything with a caption that shouldn't be on screen permanently. <strong>Tip:</strong> the direction logic doesn't care what it's attached to. Lift the <code>edge()</code> function and the two custom properties and you can point them at menus, tooltips or drawer panels.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/direction-aware-hover/">Direction-Aware Hover</a></p>
+
+<h2>6. Glare Card</h2>
+
+<p>A holographic collectible: it tilts toward your pointer while a bright glare hotspot tracks under the cursor and a rainbow foil sheen flows across the surface.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/glare-card/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Glare Card — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> one <code>pointermove</code> handler drives three separate effects, and the reason it convinces is that two of them are blend modes rather than overlays. The tilt is the familiar part — cursor position converted to 0–1 fractions, mapped to <code>rotateX</code> and <code>rotateY</code> of up to about 14° each, with the vertical axis inverted so the card tips <em>toward</em> the pointer, and a deliberately short <code>.12s</code> transition that smooths the motion without lagging behind the cursor. The glare is a radial gradient whose centre is set by two custom properties, <code>--mx</code> and <code>--my</code>, updated from that same handler, and it uses <code>mix-blend-mode: soft-light</code> so it brightens the colours underneath instead of painting an opaque white blob. The foil is a <code>conic-gradient</code> at <code>background-size: 200%</code> whose <code>background-position</code> pans with the pointer, set to <code>mix-blend-mode: color-dodge</code> — that's what produces the iridescent metallic shimmer against the dark card rather than a flat rainbow wash. Finally, the card body is pushed forward with <code>translateZ(40px)</code> inside the <code>preserve-3d</code> context, so the text parallaxes above the surface effects as the card tilts.</p>
+
+<p><strong>Best for:</strong> collectibles and NFT cards, membership and loyalty cards, event tickets, and a premium tier in a pricing grid. <strong>Tip:</strong> blend modes are the whole lesson here. <code>soft-light</code> and <code>color-dodge</code> derive their output from the layer beneath, so the same glare reads differently over a dark navy card than over white — which is exactly how real reflections behave, and why swapping either one for plain <code>opacity</code> instantly makes it look like a sticker.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/glare-card/">Glare Card</a></p>
+
+<h2>7. Atropos 3D Parallax Card</h2>
+
+<p>A tilt card where every layer moves by a different amount — the badge travels furthest, the background drifts the opposite way — so the card reads as an object with real depth rather than a picture on a hinge.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/atropos-3d-card/embed/" style="width:100%;height:620px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Atropos 3D Parallax Card — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> this is one of the two snippets here that loads a library — Atropos, about 4kb from a CDN — and it earns it, because differential motion between layers is the cue your visual system actually uses to infer depth, and hand-rolling it per element is tedious. The structure is mandatory rather than stylistic: <code>.atropos &gt; .atropos-scale &gt; .atropos-rotate &gt; .atropos-inner</code>, with each level owning exactly one transform. Combine the scale and the rotation onto a single element and they multiply into a visible skew as they animate; splitting them keeps each independent. From there the entire depth design is one attribute per child — <code>data-atropos-offset</code> — holding a plain number: <code>-6</code> on the background gradient, <code>-3</code> on the glow, <code>2</code> and <code>4</code> on the kicker and copy, <code>9</code> on the product orb, <code>14</code> on the corner badge. Negative values move <em>against</em> the pointer, and that opposing motion between backdrop and foreground does more for perceived depth than anything else in the file. Read top to bottom, those numbers are the card's z-order, and adjusting depth means editing one attribute — no CSS, no JavaScript. Two things come free that most tilt scripts don't offer: on touch devices Atropos falls back to <strong>device orientation</strong>, so the card tilts as the phone tilts with no extra code, and the snippet ships a <code>prefers-reduced-motion</code> guard that calls <code>instance.destroy()</code> — leaving a normal static card with its content intact — plus a <code>change</code> listener so toggling the OS setting takes effect without a reload.</p>
+
+<p><strong>Best for:</strong> a product hero, a feature card that needs to stop the scroll, anywhere a flat tilt already looks dated. <strong>Tip:</strong> two restraint settings matter more than the offsets. <code>rotateXMax</code>/<code>rotateYMax</code> are set to 14° where tilt scripts commonly default to 25 or more — past that, text along the far edge visibly smears. And push <code>activeOffset</code> too high and the whole card reads as a zoom, swallowing the per-layer parallax that's meant to be doing the work. Keep individual offsets inside roughly ±20 or layers start to visibly detach from the card edges.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/atropos-3d-card/">Atropos 3D Parallax Card</a></p>
+
+<h2>8. Stacked Cards Deck</h2>
+
+<p>A five-card deck with real physical stacking — swipe or use the arrows to send the top card flying off to the left and promote the one beneath it.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/stacked-cards/embed/" style="width:100%;height:620px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Stacked Cards Deck — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the JavaScript here never animates anything — it only ever writes a number. Each card carries a <code>data-pos</code> attribute from 0 to 4, and five CSS rules define what each depth looks like: position 0 sits at <code>translateY(0) scale(1)</code> at full opacity, and each layer behind it steps down by 10px of Y offset, 3% of scale and a chunk of opacity, ending at <code>translateY(40px) scale(0.88)</code> at 0.2. When you advance, the script recalculates <code>data-pos</code> on every card and the browser interpolates between the old and new rules through <code>transition: transform .45s cubic-bezier(.34,1.56,.64,1)</code>. That easing curve has control points beyond 1, which produces a slight overshoot — the deck settles with a small bounce instead of arriving dead, and that's most of why it feels physical. Dismissal is a separate <code>.exit-left</code> class that translates the top card off-screen with a −8° rotation and a fade, then a 380ms timeout — deliberately just inside the 400ms transition — strips the class, increments the index and re-stacks the deck, so the departed card silently reappears at the bottom. Swipes come from pointer events, and the prev/next buttons drive the same code path. Zero dependencies.</p>
+
+<p><strong>Best for:</strong> onboarding sequences, flashcards, recommendation feeds, and any Tinder-style "one decision at a time" flow. <strong>Tip:</strong> the two numbers that define the whole look are the per-layer Y offset and the per-layer scale step. Widen the offset for a fanned-out deck, tighten both for a thick single-block stack.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/stacked-cards/">Stacked Cards Deck</a></p>
+
+<h2>9. Motion One Spring Card Expand</h2>
+
+<p>Click a card in the grid and it grows into a centred detail panel on a spring, then flies back into its exact slot when closed — the App Store transition, without React.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/motion-flip-expand/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Motion One Spring Card Expand — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> this is the shared-element transition people usually assume requires Framer Motion's <code>layoutId</code>, done in plain JavaScript with Motion One (~4kb, the second and last library in this set) for two things CSS can't provide: a real <code>spring()</code> easing and a promise that resolves when the animation settles. The spring is <code>{ stiffness: 210, damping: 24, mass: 1 }</code> — a physical system rather than a curve, with <em>no duration</em>, so the physics decides when it's done and the open and close feel consistent despite covering different distances. The tiny overshoot at that damping ratio is what the eye reads as weight. Two implementation details are worth stealing. First, it follows FLIP discipline: <code>getBoundingClientRect()</code> captures the card's real position <em>before</em> anything changes, and those values are written straight back as explicit <code>top</code>/<code>left</code>/<code>width</code>/<code>height</code>, so the instant the card goes <code>position: fixed</code> nothing appears to move. Second — the part most implementations miss — an empty placeholder div of exactly the card's measured size is inserted into the grid before the card is lifted out of flow, so the siblings never jump; on close, the animation targets the <em>placeholder's</em> current rect, meaning the card returns to the right slot even if the window was resized mid-transition. Closing waits on <code>anim.finished</code> and then strips the entire inline <code>style</code> attribute in one call, so no stale <code>position: fixed</code> survives into the next open.</p>
+
+<p><strong>Best for:</strong> product and article grids, media libraries, any list-to-detail navigation that shouldn't feel like a page load. <strong>Tip:</strong> note that it animates <code>width</code> and <code>height</code> rather than <code>transform: scale()</code>. Scale is cheaper, but non-uniform scaling distorts the text inside the card — the squashed-headline artifact — and fixing that means counter-scaling every child. For one element, animating layout properties keeps the type crisp and costs nothing you'll notice.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/motion-flip-expand/">Motion One Spring Card Expand</a></p>
+
+<h2>10. Container Query Card</h2>
+
+<p>One card, one set of markup, three genuinely different layouts — decided by the width of its container rather than the width of the window. Drag the handle and watch the breakpoints fire.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/container-query-card/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Container Query Card — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> this is the least flashy snippet here and the one most likely to change how you build cards. Media queries ask how wide the <em>viewport</em> is — but components live in sidebars, grid cells and modals, and a card doesn't know or care what the window is doing. Two declarations fix that: <code>container-type: inline-size</code> makes the wrapper a query container measured on its inline axis, and <code>container-name: card</code> lets queries target it specifically rather than the nearest ancestor container, which becomes essential the moment components nest. <code>container-type</code> also applies size containment — the container's width can no longer be influenced by its contents — and that constraint is precisely why the feature took a decade to ship: without it, a child changing layout could resize the container and re-trigger the query forever. The card's base styles are the narrow layout (media on top, description hidden, one meta item). At <code>@container card (min-width: 340px)</code> it becomes a row with the art at 34%; at <code>480px</code> the art grows to 40%, the meta list rotates from a column into an inline row exposing all three items, and padding and button sizing step up. Note what's changing: layout, visibility and density — the information hierarchy adapts, not just the scale. The demo drives that home by putting the identical markup in a fixed 240px column beside the resizable one, both rendering differently on the same screen with zero props, classes or JavaScript involved.</p>
+
+<p><strong>Best for:</strong> design-system components that have to survive being dropped into any slot, dashboard widgets in resizable grids, and embeddable widgets where you don't control the host page at all. <strong>Tip:</strong> pair the breakpoints with <code>cqi</code> units for the details — <code>1cqi</code> is 1% of the container's inline size, so type and spacing scale fluidly <em>between</em> breakpoints instead of stepping. Between the two you rarely need more than three container breakpoints for any card.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/container-query-card/">Container Query Card</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open any snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs, then paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — or use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page.</li>
+<li><strong>Check what you're actually pulling in.</strong> Eight of these ten need nothing but the three files. The Atropos card and the spring expand card each load a ~4kb library from a CDN — fine for a prototype, but self-host or npm-install it for production so a third-party CDN outage can't take your card layout with it.</li>
+<li><strong>Copy the mechanism, not the card.</strong> The reusable parts here are the <code>edge()</code> dominant-axis test, the "dim the siblings, restore the hovered one" cascade trick, the <code>--mx</code>/<code>--my</code> pointer-to-custom-property pattern, the FLIP measure-then-animate discipline, and the placeholder div that stops a grid from reflowing. All five work on components that aren't cards.</li>
+<li><strong>Set the pointer effects up as progressive enhancement.</strong> The glare card and the direction-aware overlay are hover-driven, so decide what a touch user sees before you ship: the focus-cards grid shows the right approach, wiring the same visual state to <code>:focus-within</code> and a tap handler rather than leaving the effect dead. The Atropos card is the exception — it switches to device orientation on touch by itself.</li>
+<li><strong>Respect <code>prefers-reduced-motion</code>.</strong> The springs, the travelling beam and the parallax are exactly the kind of motion that causes problems for some users. A single <code>@media (prefers-reduced-motion: reduce)</code> block that zeroes the transforms and shortens the transitions is a few lines and makes every one of these safe to ship. The Atropos card already does it in JavaScript — query the media list, tear the instance down, listen for <code>change</code> — and it's a good model for any effect that can't simply be turned off in CSS.</li>
+<li><strong>Keep pointer handlers cheap.</strong> The tilt cards write a transform or a custom property on every <code>pointermove</code>. That's fine for one card, but if you put a dozen on a page, batch the writes into a <code>requestAnimationFrame</code> so you're not forcing style recalculation multiple times per frame.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>What separates these ten from a folder of gradient presets is that each one is a technique with a name — motion path, blend mode, FLIP, containment, the specificity cascade — that happens to be demonstrated on a card. Learn the technique and the card is the least interesting thing you can do with it: the same edge detection drives a menu, the same containment fixes a sidebar widget, the same spring makes any dialog feel like an object rather than a div appearing. Cards are just the most convenient place to practise.</p>
+
+<p>Hover them, drag them, retune the constants, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

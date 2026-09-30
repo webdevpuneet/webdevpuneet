@@ -1,0 +1,238 @@
+<h1>Native CSS Nesting: A Practical Guide to 10 Rules You'll Actually Use</h1>
+
+<p>CSS nesting stopped being a Sass-only convenience and became a real part of the language in 2023 &mdash; Chrome, Edge, Firefox and Safari all parse it natively now, no build step, no preprocessor, no <code>.scss</code> extension. But native nesting isn't a drop-in copy of what Sass has done for over a decade: it has its own explicit placeholder (<code>&amp;</code>), its own rules for when a bare selector means "descendant" versus "compound," and its own specificity behavior that can silently out-rank code you write later in the same file. Get comfortable with the mechanics and it genuinely shortens real stylesheets. Get sloppy with them and you'll ship a bug that never throws an error &mdash; just quietly applies the wrong rule.</p>
+
+<p>The 10 demos below are all live and interactive, and several of them include an on-page readout so you can actually <em>see</em> a subtle effect &mdash; a computed color, a live <code>CSS.supports()</code> check, an equivalent flat selector string &mdash; rather than just take the explanation's word for it. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> &mdash; FWD Tools' free in-browser editor. Change a selector, delete an <code>&amp;</code>, watch what breaks &mdash; that's a faster way to build real intuition than any explanation.</p>
+
+<p>New to CSS in general, or want a guided path through the fundamentals these demos build on? The <a href="https://fwdtools.com/css-playground/">CSS Playground</a> is FWD Tools' free, click-based, in-browser sandbox for exactly this kind of experimentation.</p>
+
+<h2>Why native nesting isn't just "Sass in the browser"</h2>
+
+<p>Sass nesting was purely a source-code convenience &mdash; the preprocessor flattened everything into plain selectors before a browser ever saw it, so there was no runtime behavior to reason about beyond "however it compiles." Native CSS nesting is parsed and applied by the browser itself, which means it has to solve problems Sass never had to: how do you tell a bare tag selector like <code>span { }</code> apart from a declaration that happens to look similar, when both start a line inside a rule block? How does the CSSOM compute specificity for a rule that was never actually written as one long selector chain? The answer to both, as the ten techniques below show, comes back to one small character: <code>&amp;</code>, and where the spec lets you imply it versus where it requires it explicitly.</p>
+
+<h2>1. Basic nesting syntax</h2>
+
+<p>This card's title, body text and link are all styled by selectors written directly inside the parent <code>.card</code> rule &mdash; no <code>&amp;</code>, no preprocessor. Open the demo's CSS tab to see the nested block as authored.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/21/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Basic Native CSS Nesting Syntax Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">.card {
+  border: 1px solid #e3e5ea;
+  padding: 20px;
+
+  h3 { margin: 0 0 8px; font-size: 16px; }
+  p  { margin: 0 0 12px; color: #6b7080; }
+  a  { font-weight: 700; color: #6366f1; }
+}</code></pre>
+
+<p>At parse time, the browser's CSS parser reads each nested rule inside <code>.card { }</code> and resolves it against an implicit nesting context before it ever reaches the CSSOM as a normal style rule. Internally, every nested selector is desugared into a full, standalone selector the same way it always was in a preprocessor &mdash; <code>h3</code> nested inside <code>.card</code> becomes <code>.card h3</code>, <code>p</code> becomes <code>.card p</code>, and so on &mdash; but that desugaring happens inside the browser's own CSS engine, at parse time, not in a separate compile step you run before shipping. The practical result is that the CSSOM you'd inspect in DevTools looks identical to hand-written flat CSS; nesting is a syntax feature of the stylesheet, not a change to how selector matching or the cascade actually works underneath it.</p>
+
+<p><strong>Best for:</strong> keeping a component's related selectors visually grouped in the source without reaching for a build tool &mdash; the most common, lowest-risk nesting use case. <strong>Tip:</strong> declarations and nested rules can be freely mixed inside the same block; there's no requirement to put all plain declarations before all nested rules, though doing so tends to make blocks easier to scan.</p>
+
+<h2>2. The & nesting selector</h2>
+
+<p>Hover the button, then click it to toggle "active," then click Disable. Each state is driven by a nested rule that uses <code>&amp;</code> to attach directly onto the parent &mdash; <code>&amp;:hover</code>, <code>&amp;.active</code>, <code>&amp;:disabled</code>.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/21/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="The Ampersand Nesting Selector Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">.btn {
+  background: #6366f1;
+
+  &:hover    { background: #4f46e5; }
+  &.active   { outline-color: #f59e0b; }
+  &:disabled { background: #b6b8c2; }
+}</code></pre>
+
+<p><code>&amp;</code> is the explicit nesting selector &mdash; it's a placeholder for "whatever the parent selector resolved to at this point," and it lets you attach something directly onto that same element instead of implying a descendant relationship. <code>&amp;:hover</code> compiles to <code>.btn:hover</code>, a compound selector matching the button itself in its hover state; <code>&amp;.active</code> compiles to <code>.btn.active</code>, matching an element that carries both classes simultaneously. This matters because a bare pseudo-class or bare class nested without <code>&amp;</code> would be interpreted completely differently &mdash; <code>.active { }</code> nested inside <code>.btn { }</code> means <code>.btn .active</code>, a descendant, an entirely different (and usually wrong) target. <code>&amp;</code> can also appear more than once in a single compound, and doesn't have to be the first token &mdash; <code>.btn &amp;</code> style constructs are valid, though attaching it directly at the start is by far the most common pattern.</p>
+
+<p><strong>Best for:</strong> any state variant, modifier class, or pseudo-class/pseudo-element that should apply to the same element as the parent rule, not a descendant of it. <strong>Tip:</strong> if you ever get an unexpected descendant match instead of the compound you intended, check whether you dropped the <code>&amp;</code> &mdash; it's the single most common nesting typo.</p>
+
+<h2>3. Nesting container queries inline</h2>
+
+<p>Drag the panel's bottom-right corner to resize it. A <code>@container</code> query is written directly inside the <code>.card</code> rule &mdash; no separate block wrapping the selector from the outside.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/21/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Nesting Container Queries Inline Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">.card {
+  padding: 14px;
+
+  @container cardPanel (min-width: 380px) {
+    padding: 26px;
+    h3 { font-size: 19px; }
+  }
+}</code></pre>
+
+<p>Before nesting, applying a container (or media) query to one selector's declarations meant writing the query as a separate top-level block elsewhere in the file, duplicating the selector inside it, and trusting yourself to keep the two in sync as the component evolved. Nesting <code>@container</code> directly inside the rule it modifies collapses that gap entirely: the conditional declarations live in the same lexical scope as the selector they belong to, and any further nested selectors inside the <code>@container</code> block (like the <code>h3</code> above) are still resolved relative to the original parent, not the container query itself. Under the hood, the parser treats <code>@container</code> (and <code>@media</code>) as a nesting-aware at-rule &mdash; it's still a conditional group rule the same way it always was, but its own body can now contain nested style rules, exactly like an ordinary selector block can.</p>
+
+<p><strong>Best for:</strong> component-scoped responsive styles &mdash; a card, panel, or widget that needs to adapt to its own container's size without a separately authored, easy-to-drift-out-of-sync media or container block elsewhere in the stylesheet. <strong>Tip:</strong> the ancestor establishing the container (<code>container-type</code> and optionally <code>container-name</code>) must exist somewhere up the tree; nesting the query doesn't create the containment context, it just changes where you're allowed to write the condition.</p>
+
+<h2>4. Nesting @supports inline</h2>
+
+<p>This box's border and glow only apply if your browser supports <code>animation-timeline: scroll()</code> &mdash; feature-detected with an <code>@supports</code> block written right inside the <code>.box</code> rule. The readout shows the live result for your browser.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/21/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Nesting @supports Inline Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">.box {
+  border: 2px solid #e3e5ea;
+  color: #6b7080;
+
+  @supports (animation-timeline: scroll()) {
+    border-color: #6366f1;
+    color: #6366f1;
+  }
+}</code></pre>
+
+<p>Just like <code>@container</code>, <code>@supports</code> is a conditional group rule, and nesting support extends to it the same way. The browser evaluates the feature query against its own capabilities exactly once, at stylesheet parse time, and either keeps or discards the entire nested block accordingly &mdash; there's no runtime re-checking, and no way for the condition to change without a page reload. The advantage of nesting it inline over the traditional top-level <code>@supports</code> block is entirely about locality: the fallback styling and the enhanced styling for the same element sit next to each other in the source, so a reader (or a future you) doesn't have to jump elsewhere in the file to see what happens when the feature isn't available. The base declarations outside the <code>@supports</code> block function as the fallback automatically, since a discarded conditional block simply leaves the surrounding rule's other declarations untouched.</p>
+
+<p><strong>Best for:</strong> progressively enhancing a component with a newer CSS feature while keeping an intentional, visible fallback for browsers that don't yet support it, all in one place. <strong>Tip:</strong> <code>@supports</code> checks property/value support, not selector support &mdash; for checking whether the browser understands a selector like <code>&amp;</code> itself, you need the different <code>selector()</code> function covered in technique #9.</p>
+
+<h2>5. The specificity gotcha</h2>
+
+<p>Both rules in this demo target the same paragraph. The nested one looks like a lightweight <code>p { }</code>, but the browser expands it to <code>.card p</code> &mdash; which quietly out-specifies a later <code>.override</code> rule that looks, at a glance, like it should win. The readout shows the computed color and why.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/21/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Nesting Specificity Gotcha Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">.card {
+  p { color: tomato; }   /* compiles to .card p -> specificity 0-2-0 */
+}
+
+.override { color: #1d4ed8; }   /* specificity 0-1-0 -- loses, even though it's later */</code></pre>
+
+<p>This is the single most consequential difference between "nesting as a source-code convenience" and "nesting has zero effect on behavior." A nested rule's specificity is computed exactly as if you'd written out its fully expanded selector by hand &mdash; the compiler doesn't grant nested rules any discount for being visually short. <code>p { }</code> nested inside <code>.card { }</code> reads like a single-element selector, but it computes as <code>.card p</code>, with the specificity of one class plus one type selector. A later, separately authored <code>.override</code> rule has only one class's worth of specificity, and in CSS, specificity &mdash; not source order &mdash; is the tie-breaking mechanism whenever two rules have genuinely different specificity values; source order only decides ties between equally specific rules. The bug this produces is silent: nothing errors, the "override" rule is valid CSS, it simply never wins, and the only way to notice is checking computed styles, exactly like this demo's readout does.</p>
+
+<p><strong>Best for:</strong> understanding why an "obvious" override sometimes fails to apply in nested code &mdash; check the effective specificity of the nested chain before assuming a cascade bug or a browser bug. <strong>Tip:</strong> when you genuinely want a flat, low-specificity override to be able to win against nested component styles, wrap the nested selector in <code>:where()</code> &mdash; it participates in selector matching normally but always contributes zero to specificity.</p>
+
+<h2>6. Nesting pseudo-elements</h2>
+
+<p>The colored dot before each label and the checkmark after it are both generated content &mdash; <code>&amp;::before</code> and <code>&amp;::after</code> nested directly inside <code>.badge</code>, no separate top-level rule needed.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/21/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Nesting Pseudo-Elements Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">.badge {
+  position: relative;
+  padding: 8px 16px 8px 28px;
+
+  &::before { content: ""; position: absolute; left: 12px; /* dot */ }
+  &::after  { content: "\2713"; margin-left: 8px; color: #16a34a; }
+}</code></pre>
+
+<p>Pseudo-elements behave, for nesting purposes, exactly the way pseudo-classes do in technique #2 &mdash; <code>&amp;::before</code> compiles to <code>.badge::before</code>, generating content scoped to that specific pseudo-element on that specific parent. What's worth noticing is that a pseudo-element is not itself a selectable "element" you can further nest inside &mdash; you can't write a rule targeting a child of <code>&amp;::before</code>, because generated content, per the box model, doesn't have DOM children the way real elements do. That's a boundary nesting doesn't change: it groups selectors that were always independently valid CSS, it doesn't grant pseudo-elements new capabilities they never had. In practice this technique mostly saves you from re-typing the parent's class name twice in a stylesheet &mdash; once for the base rule, once each for <code>::before</code> and <code>::after</code> &mdash; which used to be three separate top-level blocks and is now one.</p>
+
+<p><strong>Best for:</strong> decorative generated content &mdash; icons, dividers, badges, tooltips' arrow shapes &mdash; that conceptually belongs with the element that generates it. <strong>Tip:</strong> remember pseudo-elements still need their own <code>content</code> declaration to render at all; nesting doesn't change that requirement, it's easy to nest an <code>&amp;::before</code> block, forget <code>content: ""</code>, and wonder why nothing appears.</p>
+
+<h2>7. Descendant combinator vs & explicit</h2>
+
+<p>Both boxes below have class "card" and both contain a child with class "title." Only one box also carries the "title" class on the card element itself. Compare which element turns purple under each nested rule.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/21/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Descendant Combinator vs Explicit Ampersand Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">.card {
+  .title { color: #6d28d9; }   /* -> .card .title  (descendant: the CHILD) */
+  &.title { border-color: #6366f1; }   /* -> .card.title (compound: itself) */
+}</code></pre>
+
+<p>This is the rule most people get backwards the first time: nesting a bare class selector without <code>&amp;</code> does <em>not</em> mean "add this class to the parent's compound selector" &mdash; it means "match a descendant with this class," exactly as if you'd written the two selectors separated by a space. The nesting spec treats a leading combinator-less selector as an implicit descendant combinator unless <code>&amp;</code> is present to say otherwise. So <code>.title { }</code> nested inside <code>.card { }</code> is <code>.card .title</code>, matching any descendant with that class at any depth, while <code>&amp;.title { }</code> is <code>.card.title</code>, matching only an element that is simultaneously both classes at once, with no combinator between them at all. These aren't two spellings of the same idea &mdash; they target structurally different things, and mixing them up produces styles that apply to the wrong element without any error to flag it.</p>
+
+<p><strong>Best for:</strong> deliberately memorizing this one distinction &mdash; it's the nesting rule most likely to cause a real bug, because both forms are completely valid CSS and neither one errors when it matches nothing (or matches the wrong thing). <strong>Tip:</strong> read a nested selector by mentally inserting a space where <code>&amp;</code> is absent and nothing where it's present &mdash; that mental model matches the spec's behavior exactly.</p>
+
+<h2>8. BEM blocks, elements and modifiers</h2>
+
+<p>Click "Feature it" to add the <code>card--featured</code> modifier. The block, its elements (<code>card__title</code>, <code>card__price</code>) and its modifier are all written inside one <code>.card { }</code> rule using <code>&amp;__</code> and <code>&amp;--</code> concatenation.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/21/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="BEM Blocks with Native Nesting Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">.card {
+  &__title { font-size: 15px; }
+  &__price { font-size: 24px; font-weight: 800; }
+  &--featured { border-color: #6366f1; }
+}</code></pre>
+
+<p><code>&amp;</code> isn't limited to sitting alone at the start of a compound &mdash; it can be directly concatenated with a following identifier with no combinator or whitespace between them, which is exactly what lets it stand in for BEM's naming convention. <code>&amp;__title</code> resolves to <code>.card__title</code>, a single class name formed by literally gluing the parent's resolved text onto <code>__title</code>; it isn't a descendant or a compound of two classes, it's one class, because BEM's convention already encodes the relationship in the name itself rather than in DOM structure. This is arguably where native nesting delivers the biggest line-count win of any technique here: a BEM block with four or five elements and a couple of modifiers used to mean four or five separately authored top-level selectors, each repeating the block name in full; nesting reduces that repetition to writing the block name exactly once.</p>
+
+<p><strong>Best for:</strong> teams already using BEM naming who want the readability benefit without a preprocessor &mdash; this is close to a one-to-one translation of Sass's long-standing <code>&amp;</code>-concatenation pattern for BEM, now running natively. <strong>Tip:</strong> concatenation only works when <code>&amp;</code> is immediately adjacent to the next token with no space; <code>&amp; __title</code> (with a space) is a completely different, almost certainly unintended, descendant-combinator selector.</p>
+
+<h2>9. Browser support and feature detection</h2>
+
+<p>This page runs <code>CSS.supports('selector(&amp;)')</code> live, right now, in your browser, and also feature-detects nesting support in pure CSS using <code>@supports selector(&amp;)</code>. Both results are shown below, matching each other.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/21/9.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Feature-Detecting Native Nesting Support Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">@supports selector(&) {
+  .box {
+    border-color: #6366f1;
+    &::after { content: " \2713 native nesting active"; }
+  }
+}</code></pre>
+
+<p><code>@supports</code> normally checks property/value pairs, but it also accepts a <code>selector()</code> function specifically for feature-detecting selector syntax the parser might not understand &mdash; and critically, an entire stylesheet doesn't fail to parse just because it contains nesting syntax an older engine doesn't recognize; unsupported rules are simply ignored individually, which is what makes this pattern viable as a real fallback strategy rather than an all-or-nothing gate. Native, unprefixed CSS nesting has been supported in Chrome and Edge since version 112, Safari since 16.5, and Firefox since 117 &mdash; which covers effectively all evergreen browsers as of this post, making explicit fallbacks unnecessary for most public-facing sites today. The <code>@supports selector(&amp;)</code> pattern still earns its place for two situations: authoring a component library that has to run correctly on some meaningfully older, still-supported browser target, or simply wanting an honest, self-documenting way to say "this block relies on nesting" directly in the CSS rather than in a comment.</p>
+
+<p><strong>Best for:</strong> libraries or design systems with a browser support matrix that predates 2023, and any codebase that wants nesting-dependent styles to declare their own dependency inline. <strong>Tip:</strong> <code>CSS.supports()</code> in JavaScript and <code>@supports</code> in CSS check the exact same underlying capability &mdash; reach for the JS version when you need the result available to your own script logic, and the CSS version when the fallback is itself just more CSS.</p>
+
+<h2>10. Common mistake: nesting too deep</h2>
+
+<p>Click "Add a level" to nest one rule deeper each time, the way a real stylesheet grows over months. Watch the equivalent flat selector string grow below &mdash; and the warning fire once it stops being something you'd want to debug at 2am.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/21/10.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Nesting Too Deep Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">/* Reads fine nested... */
+.nav {
+  ul { li { a { &:hover { .dropdown { ul { li { color: red; } } } } } } }
+}
+
+/* ...but this is what it actually compiles to */
+.nav ul li a:hover .dropdown ul li { color: red; }</code></pre>
+
+<p>Nothing in the spec limits how many levels deep you can nest &mdash; there's no hard cap the parser enforces, which means the only real ceiling is human readability. Every extra level of nesting adds another element to the eventual flat selector chain, and that flat chain is also what determines specificity (technique #5) and what a browser's selector-matching engine actually has to evaluate right-to-left at runtime for every element on the page. Deep nesting doesn't make the resulting CSS slower in any meaningful sense &mdash; the compiled selector is no more expensive than if you'd hand-written it flat &mdash; but it does make the <em>source</em> progressively harder to scan, because the indentation-driven structure that made shallow nesting pleasant to read starts to visually bury which declaration belongs to which selector once you're five or six levels in. This is the one technique on this list that isn't a feature to reach for; it's a warning sign to recognize in code you or a teammate already wrote.</p>
+
+<p><strong>Best for:</strong> recognizing the moment to stop &mdash; most style guides that adopt native nesting cap it at two or three levels and fall back to a flat, separately authored selector (or a well-named utility class) beyond that. <strong>Tip:</strong> a stylelint rule (<code>max-nesting-depth</code>) can enforce this automatically in CI, catching the problem in review instead of relying on everyone remembering to self-police indentation depth.</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Assuming a nested rule has "discounted" specificity because it looks short.</strong> Demo #5 is the direct proof &mdash; a one-element nested selector can silently out-rank a later, separately authored override with more visible intent but less actual specificity.</li>
+<li><strong>Confusing a bare nested class with an implicit &amp;.</strong> Demo #7's contrast is the whole story: no <code>&amp;</code> before a bare selector means descendant combinator, not "add this to the parent compound" &mdash; those are structurally different targets.</li>
+<li><strong>Forgetting <code>content</code> on a nested pseudo-element.</strong> <code>&amp;::before</code>/<code>&amp;::after</code> still need an explicit <code>content</code> declaration to render anything &mdash; nesting doesn't waive that requirement.</li>
+<li><strong>Nesting past the point of readability out of habit.</strong> Demo #10 shows the actual cost &mdash; no runtime penalty, but a source file that gets progressively harder for the next person (including future you) to scan and debug.</li>
+<li><strong>Not checking <code>@supports selector(&amp;)</code> when targeting older browser baselines.</strong> Nesting is broadly supported in evergreen browsers today, but a library with a wider support matrix still needs an explicit, honest fallback path.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>What's the actual browser support for native CSS nesting?</h3>
+<p>Unprefixed, spec-compliant nesting has shipped in Chrome and Edge since version 112, Safari since 16.5, and Firefox since 117 &mdash; all evergreen browsers support it as of this post. For any project with a support matrix that reaches further back, demo #9's <code>@supports selector(&amp;)</code> pattern is the reliable way to feature-detect it and ship an explicit fallback.</p>
+
+<h3>How is native nesting different from Sass or Less nesting?</h3>
+<p>Sass and Less flatten nested selectors entirely at build time &mdash; by the time CSS reaches the browser, no nesting syntax remains, and the preprocessor's own rules govern ambiguity. Native nesting is parsed by the browser itself, at runtime, which is why it needs its own explicit rules for cases a preprocessor could resolve more loosely &mdash; most notably requiring <code>&amp;</code> to distinguish a compound selector from a descendant one (demo #7), a distinction Sass historically handled with slightly different implicit behavior in older versions.</p>
+
+<h3>Does nesting change how specificity is calculated?</h3>
+<p>No &mdash; and that's exactly the trap. Nesting doesn't introduce a new specificity system; a nested rule's specificity is computed identically to however it would be computed if you'd written the fully expanded selector by hand. Demo #5 exists specifically because that fact is easy to forget when the nested source looks shorter than what it compiles to.</p>
+
+<h3>Can you nest media queries and container queries?</h3>
+<p>Yes &mdash; both <code>@media</code> and <code>@container</code> are nesting-aware conditional group rules, and demo #3 shows <code>@container</code> written directly inside the selector block it modifies rather than wrapping the whole rule from outside. The same pattern works identically for <code>@media</code>.</p>
+
+<h3>Is there a limit to how deep you can nest?</h3>
+<p>Not one the spec or any browser enforces &mdash; there's no hard cap. The practical limit is entirely about readability and debuggability, which is what demo #10 is built to demonstrate: the compiled selector keeps growing with every added level, and past roughly three or four levels most teams find a flat, separately authored rule easier to maintain than the nested equivalent.</p>
+
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to actually feel the specificity gotcha is to click <strong>Fork &amp; Edit</strong> on demo #5, delete the nested <code>p { }</code> block, and add a plain top-level <code>.card p { color: tomato; }</code> rule in its place instead &mdash; nothing about the final color changes, because you've simply hand-written the exact selector the nesting was already compiling to. That's the whole lesson in one edit. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop into a real project.</p>
+
+<p><strong>Recommended next step:</strong> open the <a href="https://fwdtools.com/css-playground/">CSS Playground</a> and rewrite one of your own stylesheets' most repetitive components &mdash; a card, a nav, a form group &mdash; using native nesting instead of repeated top-level selectors. Doing it against your own real CSS, not just these demos, is what makes the specificity and descendant-vs-compound rules actually stick. For more tutorials like this one, browse the <a href="https://www.webdevpuneet.com/search/label/CSS">CSS</a> label on the blog.</p>

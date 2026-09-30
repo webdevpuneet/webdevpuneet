@@ -1,0 +1,35 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.toolSection {
+  flex: none;
+  height: 100dvh;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Gallery routes (bare /ui-snippets/, a category, a tag) show a grid, not the
+   fixed-viewport editor app — let the browser's own scrollbar carry the grid
+   into the SEO content below instead of clipping it into its own inner
+   scroll box on top of the page scroll. */
+.toolSectionGallery {
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+}
+
+@media (max-width: 768px) {
+  .toolSection {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .page {
+    padding-bottom: 80px; /* clear the fixed hamburger button */
+  }
+}
+

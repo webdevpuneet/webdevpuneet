@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="gsap.fromTo() — set both ends">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>gsap.fromTo()</h1>
+    <p class="hint"><code>gsap.fromTo()</code> takes both a starting state and an ending state explicitly — nothing is assumed from the element's current CSS, so the animation looks identical every single time it runs.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="track">
+      <div class="box" id="box"></div>
+    </div>
+  </main>
+  <div class="btnRow">
+    <button class="runBtn" id="runBtn">Run gsap.fromTo()</button>
+  </div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #f59e0b; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; font-family: ui-monospace, monospace; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .hint code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
+  .stageWrap { display: flex; justify-content: center; align-items: center; height: 180px; padding: 0 20px; }
+  .track { position: relative; width: 100%; max-width: 320px; height: 60px; background: #eceef3; border-radius: 30px; }
+  .box {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.3;
+  }
+  .btnRow { display: flex; justify-content: center; padding: 0 20px 32px; }
+  .runBtn { padding: 10px 18px; font: 700 13px system-ui, sans-serif; color: #fff; background: var(--accent); border: none; border-radius: 8px; cursor: pointer; }
+  .runBtn:hover { background: #d97706; }
+</script>
+
+<script type="text/plain" id="js">
+  const box = document.getElementById('box');
+  const track = document.querySelector('.track');
+
+  document.getElementById('runBtn').addEventListener('click', function () {
+    const travel = track.clientWidth - box.clientWidth - 10;
+    gsap.fromTo(box,
+      { x: 0, opacity: 0.3, scale: 1 },
+      { x: travel, opacity: 1, scale: 1.15, duration: 1, ease: 'power1.inOut', yoyo: true, repeat: 1 }
+    );
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

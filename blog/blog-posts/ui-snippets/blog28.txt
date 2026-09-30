@@ -1,0 +1,152 @@
+<h1>10 Copy-Paste Chat & Messaging Snippets That Actually Feel Alive</h1>
+
+<p>A chat surface lives or dies on a handful of small, easy-to-skip details: whether the scroll position jumps to the newest message without a visible lurch, whether a bubble reads as "from them" or "from you" at a glance, whether a typing indicator ever gets stuck on screen after a dropped event. None of that is hard, exactly — but it's the kind of detail that's tedious to get right from scratch every time a product grows a messaging surface, which is most products eventually.</p>
+
+<p>Below are ten free, self-contained messaging snippets covering the jobs a real chat product needs: the core bubble UI with Enter-to-send, a messenger-style inbox sidebar with unread badges and live search, a staggered-dot typing indicator with an idle auto-hide safety net, a WhatsApp-style voice note with a scrubbable waveform, a Facebook-style emoji reaction picker, an @mention autocomplete built on the Selection and Range APIs, a fully nested comment thread with Reddit-style voting, a Zoom-style video call grid with active-speaker glow and spotlight pinning, a floating support chat widget with a spring-open animation, and a team presence list sorted by who's actually around. Every one is a <strong>live, interactive preview</strong> — try them right here in the article — and each exports to React, Vue, Angular or Tailwind in one click from its snippet page. All ten are plain HTML, CSS and vanilla JavaScript, with <strong>no dependencies and no CDN scripts</strong>.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>State lives in one place, not scattered across DOM reads.</strong> A single <code>myReaction</code> variable, a single <code>pinnedIndex</code>, a single <code>typing</code> flag on a data object — every visual change is derived from one source of truth and rebuilt with a render function, instead of five separate style writes that can drift out of sync with each other.</li>
+<li><strong>Auto-scroll and auto-hide both have a safety net.</strong> <code>scrollTop = scrollHeight</code> after every append keeps the newest message visible without a scroll library, and the typing indicator's idle timer hides itself automatically if a "stopped typing" event never arrives — a dropped WebSocket event should never leave stale UI stuck on screen forever.</li>
+<li><strong>Bubble direction is one asymmetric border-radius corner, not a class-based icon.</strong> Outgoing bubbles square off the corner facing the sender's edge of the screen; incoming bubbles square off the opposite one. It's the same three-line trick every messaging app from iMessage to Slack relies on to make direction readable without a label.</li>
+<li><strong>Nothing waits on <code>Math.random()</code> when it needs to be stable.</strong> The voice message waveform is generated once from a seeded pseudo-random function and cached — never regenerated per frame — because a real recording's shape doesn't change between plays, and a demo one shouldn't either.</li>
+<li><strong>Filtered views still point back at the real data.</strong> The conversation list's search keeps each row's original array index through the filter, and the comment thread's reply and vote handlers use scoped <code>:scope &gt;</code> queries so a nested structure never accidentally mutates the wrong node.</li>
+</ul>
+
+<h2>1. Chat UI</h2>
+
+<p>The foundational messaging pattern: a header with an online-status avatar, a scrollable bubble list with incoming and outgoing styles, and an input row with Enter-to-send.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/chat-ui/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Chat UI — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>sendMsg()</code> reads and trims the input, does nothing if it's empty, and otherwise builds a <code>div.msg.outgoing</code> with the text and a <code>toLocaleTimeString</code> stamp, appends it to <code>#msgs</code>, and sets <code>msgs.scrollTop = msgs.scrollHeight</code> so the newest message is always in view — no scroll library, just reading the container's own maximum scroll position after every append. Outgoing and incoming bubbles use opposite asymmetric corners (<code>16px 4px 16px 16px</code> versus <code>4px 16px 16px 16px</code>), the small squared-off "tail" corner that lets a glance tell direction without a label. The input's <code>onkeydown</code> checks for <code>Enter</code> and calls the exact same <code>sendMsg()</code> the button uses, so there's no duplicated send logic between the two paths.</p>
+
+<p><strong>Best for:</strong> AI chatbot interfaces, customer support widgets, and any direct-message prototype — this is the bubble pattern every DM surface from iMessage to Slack shares. <strong>Tip:</strong> the simulated reply is a bare <code>setTimeout</code>; replace it with a WebSocket <code>onmessage</code> handler that appends <code>.msg.incoming</code> divs from real server data.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/chat-ui/">Chat UI</a></p>
+
+<h2>2. Chat Conversation List</h2>
+
+<p>The messenger-style inbox sidebar that sits beside a chat window: avatar with a presence dot, name, last-message preview, relative timestamp, unread badge, and live search.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/chat-conversation-list/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Chat Conversation List — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each conversation is a real <code>&lt;button&gt;</code> laid out with a fixed avatar column and a flexible text column — the critical detail is <code>min-width: 0</code> on that flexible column, since flex items default to refusing to shrink below their content's width, which is what breaks ellipsis truncation on a long preview. An unread conversation communicates through three coordinated signals hanging off one <code>.unread</code> class: a count badge, a bolder dark preview, and an accent-colored timestamp — clicking a row zeroes its <code>unread</code> count and all three disappear together. Search filters on every keystroke with a case-insensitive match against both name and message, but critically maps each row to <code>{ c, i }</code> before filtering, so the click handler still mutates the correct entry in the master array even when the visible list is a shorter, reordered subset.</p>
+
+<p><strong>Best for:</strong> the inbox pane of any messaging product, support-agent dashboards listing open tickets, and team collaboration tools with channel and DM lists. <strong>Tip:</strong> feed the typing flag straight from your WebSocket presence channel — it's a boolean on the data, so a "user is typing" event just flips it and re-renders; nothing else about the row needs to change.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/chat-conversation-list/">Chat Conversation List</a></p>
+
+<h2>3. Typing Indicator</h2>
+
+<p>The three bouncing dots that mean "someone is composing a reply" — built from one shared keyframe, staggered start times, and an idle timer that hides itself if the stop event never arrives.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/typing-indicator/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Typing Indicator — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> all three dots share a single <code>@keyframes</code> that lifts a dot and brightens it before settling — the travelling-wave look comes entirely from <code>animation-delay</code> offsets of 0s, 0.18s and 0.36s, so at any instant the three dots sit at different points in the same cycle. That's the general delay-stagger technique for any sequential dot or bar loader, one animation instead of three. The more important piece is the state: <code>showTyping()</code> reveals the bubble and resets a 4-second idle timer on every call, so if a "stopped typing" WebSocket event is ever dropped, the dots vanish on their own instead of sitting there forever. Hiding animates opacity and collapses height rather than an abrupt <code>display: none</code>, so the message list closes the gap smoothly instead of jumping.</p>
+
+<p><strong>Best for:</strong> any chat, AI assistant, or live-support interface where reassurance that "a reply is coming" matters — pair it with the <a href="https://fwdtools.com/ui-snippets/chat-ui/">Chat UI</a> above for a complete thread. <strong>Tip:</strong> call <code>showTyping()</code> — exposed on <code>window</code> in the demo — every time a typing event arrives over your socket; the idle timer is only a safety net, not the primary trigger.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/typing-indicator/">Typing Indicator</a></p>
+
+<h2>4. Voice Message Bubble</h2>
+
+<p>A WhatsApp-style voice note: a play button, a waveform of forty-six bars that recolors in sync with playback, and full click-to-seek and drag-to-scrub support.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/voice-message-bubble/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Voice Message Bubble — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the bar heights come from <code>generateBarHeights()</code>, called exactly once at load and cached — never recalculated inside the render loop, which would make the waveform flicker to a new random shape every frame. Each height combines a slow sine wave for gentle rise-and-fall with a small seeded jitter from a linear congruential generator rather than <code>Math.random()</code>, so the same waveform shape renders on every mount, the same way a real recording's shape never changes between plays. Playback is driven by <code>requestAnimationFrame</code> accumulating real delta-time into an <code>elapsed</code> variable rather than <code>setInterval</code>, which stays accurate even under dropped frames or background-tab throttling. <code>elapsed / DURATION</code> becomes a bar count that gets the <code>.played</code> class, and dragging uses the unified Pointer Events API with <code>setPointerCapture</code> so a fast scrub keeps tracking even once the pointer leaves the waveform's bounds — the exact same <code>updateUi()</code> call path handles both automatic playback and manual seeking, so the two can never fall out of sync.</p>
+
+<p><strong>Best for:</strong> any chat product's voice-note bubble, voicemail or podcast-clip preview cards, and marketing pages demoing a messaging feature without shipping a real audio file. <strong>Tip:</strong> wiring this to real audio only means swapping the elapsed-time source — read an actual <code>&lt;audio&gt;</code> element's <code>currentTime</code> in a <code>timeupdate</code> listener instead of the manual <code>dt</code> accumulation; the recoloring and drag-to-seek logic stay untouched.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/voice-message-bubble/">Voice Message Bubble</a></p>
+
+<h2>5. Emoji Reaction Bar</h2>
+
+<p>The Facebook-style reaction picker: hover or tap to reveal six emoji in a spring-up popover, each with a CSS-only tooltip, feeding an overlapping count cluster.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/emoji-reaction-bar/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Emoji Reaction Bar — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the popover shows on <code>:hover</code> for pointer devices, but since touch screens have no hover state, the trigger also has an <code>onclick</code> that toggles an <code>.open</code> class revealing the same popover — <code>stopPropagation</code> keeps a document-level outside-click listener from immediately re-closing what the tap just opened. Each emoji's name label is a CSS-only tooltip built from <code>content: attr(data-label)</code> on a <code>::after</code> pseudo-element, no tooltip markup or library required. The single-reaction logic is one line: <code>myReaction = (myReaction === emoji) ? null : emoji</code> — clicking your current reaction removes it, clicking a different one switches. The overlapping count cluster is pure CSS, negative <code>margin-left</code> with white borders faking the stacked-coin look, and when your reaction isn't already among the top three shown, it's unshifted to the front with a highlighted ring and a spring-in <code>scale</code> animation.</p>
+
+<p><strong>Best for:</strong> social feeds and post cards, comment threads, and chat bubbles where nuance beyond a plain like matters. <strong>Tip:</strong> the emoji buttons are real <code>&lt;button&gt;</code> elements already keyboard-reachable — add an <code>aria-label</code> matching each <code>data-label</code> and open the popover on focus too, since an emoji alone isn't descriptive to a screen reader.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/emoji-reaction-bar/">Emoji Reaction Bar</a></p>
+
+<h2>6. Mention Autocomplete</h2>
+
+<p>A working <code>@mention</code> system inside a real <code>contenteditable</code>: type <code>@</code>, get a filtered popup with keyboard navigation, and land a non-editable mention chip at the caret.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/mention-autocomplete/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mention Autocomplete — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> on every <code>input</code> event, <code>getQueryBeforeCaret()</code> reads the current text node up to the caret offset and calls <code>lastIndexOf('@')</code> to find the most recent trigger — if any whitespace sits between the <code>@</code> and the caret, there's no active query and the popup closes, which is how typing a space mid-mention dismisses the dropdown correctly. Arrow keys move a <code>selectedIdx</code> and re-render the filtered list; Enter or a click calls <code>insertMention()</code>, which selects from the <code>@</code> to the caret, deletes it, and inserts a <code>span</code> with <code>contentEditable = "false"</code> — the standard technique that makes a mention chip behave as one atomic unit the cursor jumps over rather than edits inside. A trailing non-breaking space gives the cursor a landing spot immediately after the chip so the next keystroke starts plain text instead of extending the mention.</p>
+
+<p><strong>Best for:</strong> comment systems on project-management and issue-tracking tools, real-time chat, and any collaborative editor that needs to tag people inline. <strong>Tip:</strong> for production reliability across browsers, swap the raw <code>contenteditable</code> for a proper rich-text library (ProseMirror, Tiptap, Slate) — this snippet demonstrates the exact Selection/Range API calls and insertion technique any of those implementations builds on.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/mention-autocomplete/">Mention Autocomplete</a></p>
+
+<h2>7. Comment Thread</h2>
+
+<p>A fully nested discussion thread: self-similar reply structure at any depth, Reddit-style up/down voting with no double-counting, top/newest sorting, and an auto-growing composer.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/comment-thread/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Comment Thread — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every comment is a <code>.comment</code> element containing its own <code>.replies</code> container, which can hold more <code>.comment</code> elements — because the markup is self-similar at every depth, the same functions work regardless of nesting level. Voting stores a base score plus a separate tri-state value (0, 1, or −1) rather than incrementing a raw counter directly, so the displayed count is always <code>base + state</code>: clicking the active arrow again returns to neutral, clicking the opposite arrow switches directly between states, and repeated clicks can never drift or double-count. Reply insertion and voting both use <code>:scope &gt;</code> selectors to target only a comment's own immediate children — critical in a recursive tree, where a plain <code>querySelector</code> could silently match a nested descendant's box instead. Sorting reorders top-level comments by reading <code>data-votes</code> or <code>data-time</code> attributes and re-appending the existing DOM nodes in new order — <code>appendChild</code> on an existing node moves it rather than cloning, so every open reply box and attached handler survives a re-sort.</p>
+
+<p><strong>Best for:</strong> blog and article comment sections, Reddit- or Hacker News-style forums, and product feedback boards where vote sorting should surface the best replies. <strong>Tip:</strong> past three or four nesting levels, thread indentation gets cramped on mobile — cap the cumulative left padding or flatten deeper replies to the same indentation as their parent with a "replying to @user" prefix, the way Reddit handles it.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/comment-thread/">Comment Thread</a></p>
+
+<h2>8. Video Call Grid</h2>
+
+<p>A Zoom-style participant grid: an auto-fit tile layout, animated active-speaker highlighting, mute badges, and click-to-pin spotlight mode with a filmstrip of the rest.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/video-call-grid/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Video Call Grid — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the whole participant layout is one rule, <code>grid-template-columns: repeat(auto-fit, minmax(150px, 1fr))</code> — six people become a 3×2 grid on desktop and reflow to a single column on narrow screens with zero media queries or JavaScript layout math. Clicking a tile sets <code>pinnedIndex</code> and re-renders with a single <code>spotlight</code> class on the grid, which does three things purely in CSS: collapses to one column, hides every tile except the pinned one, and reveals a scrollable filmstrip of the rest — the pinned tile also widens from a 4:3 to a 16:9 <code>aspect-ratio</code>, matching how real meeting apps enlarge a presented feed. A <code>setInterval</code> stands in for real audio levels, promoting a random unmuted participant to <code>.speaking</code> every 2.2 seconds — that class lights a green border, a glow, and a three-bar equalizer built from staggered <code>scaleY</code> keyframes, the same trick used by the voice message bubble above. Camera-off tiles render generated initials over a per-person gradient rather than an image, which is exactly how production call UIs handle a participant with no video.</p>
+
+<p><strong>Best for:</strong> WebRTC video conferencing products, virtual classrooms pinning the teacher while students sit in the filmstrip, and webinar "program view" layouts. <strong>Tip:</strong> the whole component is one <code>render()</code> function over a <code>PEOPLE</code> array — porting it onto live data means replacing the demo interval with your SDK's real <code>audioLevel</code> events and swapping the initials avatar for a <code>&lt;video&gt;</code> element bound to each participant's <code>MediaStream</code>; every other part of the UI works unchanged.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/video-call-grid/">Video Call Grid</a></p>
+
+<h2>9. Floating Chat Support Widget</h2>
+
+<p>The Intercom-style floating support button: a spring-open chat window, a typing indicator before the canned reply, quick-reply chips, and an unread badge.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/floating-chat-widget/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Floating Chat Support Widget — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the chat window's closed state is <code>scale(.8) translateY(20px)</code> with <code>opacity: 0</code> and <code>transform-origin: bottom right</code>; opening transitions to <code>scale(1) translateY(0)</code> using <code>cubic-bezier(.34,1.56,.64,1)</code> — an easing curve that overshoots slightly past 1 before settling, which is what makes the window feel like it "pops" open from the trigger button rather than just fading in. Sending a message shows the typing indicator (three dots on a staggered <code>animation-delay</code> bounce, the same technique as the standalone typing indicator snippet), removes it after a randomized 1.2–1.8 second delay, and appends a reply cycling through a fixed <code>REPLIES</code> array. Quick-reply chips populate the input and immediately send on click, then hide permanently for the session — showing them only before the first message keeps them from cluttering an active conversation. The unread badge uses a <code>transform: scale(0)</code> transition to disappear the moment the window opens, rather than an abrupt visibility toggle.</p>
+
+<p><strong>Best for:</strong> customer support entry points on SaaS products, conversational lead capture on marketing pages, and proactive onboarding nudges for new users. <strong>Tip:</strong> replace the <code>REPLIES</code> mock with a real <code>fetch</code> or WebSocket call inside <code>sendMessage()</code> — show the typing indicator while the request is pending and remove it only once the actual response arrives, rather than on the fixed demo timeout.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/floating-chat-widget/">Floating Chat Support Widget</a></p>
+
+<h2>10. Team Presence List</h2>
+
+<p>A searchable roster of teammates, sorted so the people who are actually around float to the top — active, away and do-not-disturb ahead of offline.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/team-presence-list/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Team Presence List — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a <code>STATUS_RANK</code> lookup (<code>online: 0, away: 1, dnd: 1, offline: 2</code>) drives a <code>sort()</code> on every render, so the list order isn't hardcoded — anyone who comes online moves to the top automatically the next time state changes. The presence dot is absolutely positioned on the avatar's corner with a white border ring, the same cut-out technique the video call grid and chat conversation list both use so it reads cleanly against any avatar color. Search filters on every keystroke against both name and role with a case-insensitive <code>indexOf</code> check, re-running the same sort-and-render pipeline so a filtered result stays correctly ordered rather than just narrowed.</p>
+
+<p><strong>Best for:</strong> team collaboration tools showing who's online next to a channel list, internal directories, and any dashboard where "who's around right now" is a real, recurring question. <strong>Tip:</strong> drive the <code>status</code> field straight from your presence channel's heartbeat events rather than a static array — the rank-based sort means the UI reorders itself correctly the instant the underlying data changes, no extra logic required.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/team-presence-list/">Team Presence List</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open any snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs, then paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — or use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page. All ten are dependency-free, so there's nothing else to install.</li>
+<li><strong>Wire real-time events to a flag or class, not five inline styles.</strong> The typing indicator's idle timer, the presence dot's status, the video grid's speaking class, and the reaction bar's <code>myReaction</code> variable are all single values a WebSocket handler can flip — let CSS descendant selectors do the rest, don't hand-set styles from JavaScript.</li>
+<li><strong>Keep auto-scroll and auto-hide as safety nets, not decoration.</strong> <code>scrollTop = scrollHeight</code> after every append and a 4-second idle timeout on the typing indicator both exist because real-time events get dropped — a chat surface that assumes every event always arrives will eventually show stale or stuck UI.</li>
+<li><strong>Respect the recursive and index-mapping details when you port to a framework.</strong> The comment thread's <code>:scope &gt;</code> queries and the conversation list's original-index mapping through a filter both exist to prevent a specific class of bug — model them as nested data and scoped lookups in React or Vue rather than flattening the structure and losing that guarantee.</li>
+<li><strong>Match bubble direction to your theme, not just your accent color.</strong> The asymmetric corner-radius pattern (a squared corner on the side facing the speaker's edge) is what makes a bubble read as incoming or outgoing at a glance — keep that shape intact even if you restyle everything else.</li>
+<li><strong>Replace every simulated backend before shipping.</strong> The chat widget's canned <code>REPLIES</code> array, the video grid's random-speaker interval, and the voice bubble's fixed <code>DURATION</code> are explicitly demo stand-ins — each snippet's FAQ section spells out exactly what to swap for a real WebSocket, SDK event, or <code>&lt;audio&gt;</code> element.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>Messaging UI looks simple from the outside — bubbles, a dot that pulses, a list that scrolls — right up until you have to build it and discover how much of the feel comes from details that are easy to skip: a scroll position that never jumps, a typing indicator that can't get stuck, a filtered list that still points at the right row. These ten cover the jobs a real messaging surface needs, from the first bubble to a full video call grid, and every one is small enough to read end to end in a few minutes.</p>
+
+<p>Try them, retune the timings, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

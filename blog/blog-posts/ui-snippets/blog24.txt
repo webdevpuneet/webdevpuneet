@@ -1,0 +1,140 @@
+<h1>9 Copy-Paste Mobile Games That Teach Touch Controls, Canvas Physics & Game Loops</h1>
+
+<p>The hard part of a browser game isn't the game — it's the thumb. A dodge game on a desktop is ten lines of keyboard handling; the same game on a phone has to answer questions the keyboard never asks. What happens when a finger slides off the button mid-press? Does holding "fire" on a 120Hz display shoot twice as fast as on a 60Hz one? Is "jump" the same kind of input as "move left", or something else entirely? Get those wrong and the game feels broken in a way no amount of art fixes — the controls fight the player instead of disappearing.</p>
+
+<p>Below are nine free, self-contained canvas games built specifically to get the touch layer right, and each one deliberately picks a <em>different</em> control scheme so the set is a tour of the whole space. The first four: a wave-based space shooter with a D-pad and a hold-to-fire button, a side-scrolling platformer with real gravity and one-way platforms, a top-down tank battle with a four-way cross D-pad and destructible cover, and an endless three-lane runner controlled entirely by taps. The next four push into control schemes the first didn't cover: an Asteroids clone flown by rotate-and-thrust, a Doodle-Jump-style climber steered with just two buttons while it bounces on its own, a Frogger crossing of discrete grid hops, and a one-button cave flyer that's nothing but hold-to-rise. And the ninth is the big one — a full Pac-Man-style maze-chase with buffered turning and three ghosts that each hunt you differently. Every one is a <strong>live, interactive preview</strong> — play them right here in the article on desktop or mobile — and each exports to React, Vue, Angular, or Tailwind in one click from the snippet page. They're pure vanilla JavaScript with zero dependencies and no CDN scripts.</p>
+
+<h2>What these nine get right about controls</h2>
+
+<ul>
+<li><strong>One input state, two input devices.</strong> Nothing moves the player inside an event handler. Keyboard listeners and on-screen buttons both write to a single <code>keys</code> object (or a single <code>flying</code> flag, in the cave flyer) that the game reads once per frame. That's why a held D-pad button feels exactly like a held arrow key, and why there's no second "touch version" of the logic to keep in sync.</li>
+<li><strong>The right input <em>type</em> for each action.</strong> Moving is a held state; firing and thrusting are held states (throttled by a cooldown for the guns); jumping in the platformer, every control in the runner, and every hop in Frogger are discrete taps fired on <code>pointerdown</code>. Choosing held-vs-tap per action is the difference between a jump you can spam into a double-jump and one that behaves.</li>
+<li><strong>Frame-rate independence, done two ways.</strong> Most of these scale movement by delta-time so speed is identical on any display. The platformer, tank game and sky hopper run a <em>fixed timestep</em> instead — because collision against thin platforms and walls, or a precise bounce height, breaks if a single step moves the player too far. Same goal, two correct tools.</li>
+<li><strong>The finger-slides-off case is handled.</strong> Every hold button releases on <code>pointerup</code>, <code>pointercancel</code> <em>and</em> <code>pointerleave</code>, so the ship never gets stuck moving — or the cave flyer stuck rising — when your thumb drifts past the button edge, the single most common mobile-control bug.</li>
+<li><strong>The control scheme is chosen to fit the game, not the reverse.</strong> A D-pad for the shooter, rotate-and-thrust for Asteroids, two steer buttons for an auto-bouncer, a four-way cross for grid hops, one button for the flyer. Each is the minimum input the game actually needs, which is why none of them feel cramped on a phone.</li>
+</ul>
+
+<h2>1. Space Blaster Arcade Game</h2>
+
+<p>A wave-based fixed shooter: move your ship with the on-screen D-pad, hold FIRE to shoot, and clear formations of enemies that march sideways, drop down, and shoot back. Three lives, wave-scaled scoring, and a persisted high score.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/space-blaster-game/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Space Blaster Arcade Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the control model is the whole point. Both the keyboard handlers and the on-screen buttons only flip booleans in a shared <code>keys</code> object — <code>keys.left</code>, <code>keys.right</code>, <code>keys.fire</code> — which <code>update()</code> reads once per frame, so the ship never moves inside an event handler. A tiny <code>hold()</code> helper wires each button through Pointer Events and binds <code>pointerup</code>, <code>pointercancel</code> and <code>pointerleave</code> together, which is what stops the ship gliding forever when a thumb slides off. Firing is the subtle one: holding FIRE sets a flag read every frame, so without a <code>FIRE_COOLDOWN</code> timestamp check a 120Hz display would emit twice the bullets of a 60Hz one — the cooldown makes the shot cadence a function of real milliseconds, not frames. The enemy formation is pure Space Invaders: every living enemy is moved sideways in one pass, and if <em>any</em> of them crosses a screen margin a <code>hitEdge</code> flag reverses the whole block and steps it down in the next pass.</p>
+
+<p><strong>Best for:</strong> a games-portal demo that has to feel good on a phone, and as a reference for the "shared input state" pattern. <strong>Tip:</strong> difficulty lives entirely in <code>buildWave(n)</code> — it scales column count, row count and per-enemy hit points off the wave number, so one function is the entire difficulty curve.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/space-blaster-game/">Space Blaster Arcade Game</a></p>
+
+<h2>2. Pixel Platformer Game</h2>
+
+<p>A side-scroller with real gravity: run with ◀ ▶, tap JUMP to leap, collect coins, dodge spikes, and reach the flag — through a level wider than the screen, with a camera that follows you.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/pixel-platformer-game/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pixel Platformer Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> this one deliberately does <em>not</em> scale movement by delta-time. Platformer collision is sensitive to how far you move per step — a big variable step lets a fast fall tunnel straight through a thin platform between two frames — so the loop drains an accumulator and runs <code>update()</code> in fixed 1/60-second steps, drawing once per rendered frame. The platforms are <strong>one-way</strong>: a landing only registers when the player is moving downward (<code>vy &gt;= 0</code>) and their previous-frame bottom edge was at or above the platform surface, which is the single guard that lets you jump up <em>through</em> a floating platform and land on it coming down. Run and jump are split by input type on purpose — left/right are held flags, but JUMP fires once on <code>pointerdown</code> and only when <code>onGround</code> is true, so holding it can't double-jump. The camera x-offset centres the player and is clamped to the level bounds, and the whole world is drawn through one <code>ctx.translate(-cam, 0)</code>.</p>
+
+<p><strong>Best for:</strong> teaching 2D game physics — gravity integration, one-way collision, and a follow-camera are all here in readable form. <strong>Tip:</strong> the level is plain data. The <code>platforms</code>, <code>spikes</code> and <code>coins</code> arrays and the <code>flag</code> object sit at the top of the file in world coordinates; rearrange them and you've designed a new level without touching the engine.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/pixel-platformer-game/">Pixel Platformer Game</a></p>
+
+<h2>3. Tank Arena Game</h2>
+
+<p>Top-down tank combat: drive with a four-way cross D-pad, tap FIRE to shoot in the direction you're facing, and fight waves of AI tanks across an arena of solid and destructible walls.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/tank-arena-game/embed/" style="width:100%;height:620px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Tank Arena Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> movement is resolved <strong>one axis at a time</strong> in <code>moveTank()</code> — the horizontal step is applied only if the new x is clear, then the vertical step is checked separately. That axis-separation is what lets a tank slide along a wall it's pressed against instead of catching on the corner, and it's three lines. Walls carry hit points: the border is solid and infinite, interior cover blocks start at two and are filtered out of the <code>walls</code> array once a bullet drops them to zero, so cover genuinely erodes and you can shoot a firing lane through it. The enemy AI is intentionally shallow but not random noise — on a timer each tank half the time picks the axis that points most directly at the player (compare horizontal vs vertical distance, move on the larger) and half the time picks a random direction, which makes them pursue without all converging on one path. Like the platformer it runs on a fixed 1/60-second timestep, and the four-way D-pad is a CSS grid so the buttons form a real cross.</p>
+
+<p><strong>Best for:</strong> a four-direction touch template, and a compact reference for tile collision plus a bias-plus-random enemy controller. <strong>Tip:</strong> the <code>spots</code> array in <code>buildWalls()</code> is the arena layout — a list of destructible-block grid cells. Change those coordinates and you've designed a new map; the collision and AI don't care.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/tank-arena-game/">Tank Arena Game</a></p>
+
+<h2>4. Lane Runner Endless Game</h2>
+
+<p>An endless three-lane runner: switch lanes with ◀ ▶, JUMP the green barriers, SLIDE under the amber gates, and dodge red blocks by changing lanes — as the whole thing speeds up and packs tighter.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/lane-runner-game/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Lane Runner Endless Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every control is a <em>discrete tap</em> — there's no held state anywhere, which is why all four buttons just fire their function on <code>pointerdown</code> through a two-line <code>tap()</code> helper with no release handling to manage. The lane is a logical integer 0–2 used for collision, but the runner is <em>drawn</em> at a separate x-position that eases toward the target lane centre each frame (<code>curX += (targetX - curX) * k</code>), so an instant index change reads as a quick slide rather than a teleport — a clean split worth stealing for any grid-snapped-but-fluid movement. The three obstacle types each demand a different verb: a barrier must be jumped, an overhead gate must be slid under, and a block fills every lane but one so it must be dodged. Jump and slide are <em>timed windows</em> (<code>jumpT</code>/<code>slideT</code> countdowns), so mistiming fails exactly like a real runner — jump too early and the window's expired by the time the barrier arrives. Speed and spawn density are both continuous functions of distance travelled, so it never stops getting harder.</p>
+
+<p><strong>Best for:</strong> the most touch-native genre there is, and a demo of discrete-tap controls with zero press-and-hold complexity. <strong>Tip:</strong> the game feel is four numbers — <code>speed</code>'s growth term, <code>JUMP_MS</code>, <code>SLIDE_MS</code>, and the spawn <code>gap</code> floor. Nudge those and you've retuned the entire difficulty ramp.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/lane-runner-game/">Lane Runner Endless Game</a></p>
+
+<h2>5. Asteroids Blaster Game</h2>
+
+<p>The vector classic, on touch: rotate with ↺ ↻, hold THRUST to build momentum, and tap FIRE to break the rocks into smaller, faster ones. Fly off one edge and you appear on the other.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/asteroids-game/embed/" style="width:100%;height:620px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Asteroids Blaster Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> this is the one game here where you don't steer position at all — you steer <em>acceleration</em>. The ship keeps a heading <code>angle</code> and a velocity vector <code>(vx, vy)</code> that are deliberately independent: the rotate buttons change only the angle, THRUST adds a small push <em>along</em> that angle, and every frame the velocity is multiplied by a <code>DRAG</code> factor just under 1 so the ship coasts and slowly bleeds speed rather than stopping dead. That decoupling is the entire feel — you can drift backwards while firing forwards — and it's why the control layout needs a separate thrust button instead of a directional pad. Everything that moves (ship, bullets, rocks) runs through one <code>wrap()</code> function that teleports it across the screen edges, making the field a torus with no walls. And the signature mechanic is three lines: when a bullet is inside a rock's radius, <code>splitRock()</code> awards size-scaled points and, unless the rock is already the smallest, replaces it with two smaller ones on fresh headings — so one slow rock becomes the swarm.</p>
+
+<p><strong>Best for:</strong> a rotational-control template that's genuinely different from a D-pad, and the cleanest small example of momentum-based movement. <strong>Tip:</strong> the whole game feel is three constants — <code>THRUST</code>, <code>DRAG</code> and <code>MAX_V</code>. Lower the drag for an icier, more floaty ship; raise the thrust for a twitchier one.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/asteroids-game/">Asteroids Blaster Game</a></p>
+
+<h2>6. Sky Hopper Game</h2>
+
+<p>A vertical climber that bounces on its own — you only steer. Hold ◀ ▶ to move, land on platforms to auto-bounce, and climb through breakable, moving and spring platforms as far as you can.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/sky-hopper-game/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sky Hopper Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> there is no jump button, and that's the point — reducing the whole control surface to two buttons. The hopper is always under gravity and bounces to a fixed upward velocity whenever it lands, using the same one-way landing test as the platformer: the check only fires while falling (<code>vy &gt; 0</code>) and only when the feet cross a platform's top edge, so you rise straight up through platforms and bounce coming down. Two systems make the endless climb work. The camera is <em>one-directional</em> — it scrolls up when you climb past a line at 42% of the canvas but never scrolls back down, so every bounce is permanent progress and falling below the view is the fail condition. And the platforms are an <em>object pool</em>: ones that scroll off the bottom are filtered out and new ones spawned above the current highest, keeping a fixed, small number in memory no matter how high you get. <code>makePlatform()</code> rolls a type on spawn — normal, breakable (gives way after one bounce), moving, or a purple spring for a super-bounce.</p>
+
+<p><strong>Best for:</strong> the minimal two-button touch game, and a compact reference for a follow-camera plus object pooling. <strong>Tip:</strong> the difficulty is in the spawn odds in <code>makePlatform()</code> and the <code>GAP</code> between platforms — more breakables and a wider gap is a much harder climb.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/sky-hopper-game/">Sky Hopper Game</a></p>
+
+<h2>7. Frog Crossing Game</h2>
+
+<p>Frogger, on a four-way D-pad of discrete hops: dodge the traffic lanes, ride the logs across the river, and fill all four homes at the top without drowning or getting flattened.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/frog-crossing-game/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Frog Crossing Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the clever part is that the two hazards use <em>opposite</em> collision rules on the same board, chosen by the row the frog is on. Each row carries a type, and <code>update()</code> branches on it: on a <code>road</code> row the frog dies if its rectangle overlaps any car, but on a <code>water</code> row the logic inverts — it drowns <em>unless</em> its centre is on a log, and when it is, the log's velocity is added to the frog every frame so it rides along (and it drowns if a log carries it off the edge). That single inversion is the whole risk/reward of the river. Movement is discrete: each press is one committed hop of exactly one tile fired on <code>pointerdown</code>, so timing your hop into a gap is the skill — you can't nudge or cancel it. Each lane is configured with a signed speed, length and gap, and its items scroll and wrap seamlessly, with alternating directions creating the staggered timing windows that turn the crossing into a puzzle.</p>
+
+<p><strong>Best for:</strong> a grid-hop control template for any tile-based touch game, and a neat lesson in how one flipped rule produces completely different play. <strong>Tip:</strong> the entire board tuning is the <code>LANES</code> config object — speeds, gaps and piece lengths per row. Widen the gaps or slow the lanes for an easier crossing.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/frog-crossing-game/">Frog Crossing Game</a></p>
+
+<h2>8. Cave Flyer Game</h2>
+
+<p>One button, nothing else: hold to rise, release to fall, and thread a procedurally generated cave that narrows and speeds up the deeper you fly. The purest test of a single-input game.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/cave-flyer-game/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Cave Flyer Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the physics is gravity versus lift on a single axis. Every frame, if <code>flying</code> is true an upward <code>LIFT</code> acceleration is added to the velocity; if false, a downward <code>GRAV</code> is added instead — the craft is never <em>set</em> to a height, it's always accelerating one way, so hovering means feathering the button exactly like a real helicopter game. Because it's one boolean, the same control is routed through a hold button, the keyboard, <em>and</em> a press on the canvas via one <code>setFly()</code> call, with release bound on <code>pointerup</code>/<code>pointercancel</code>/<code>pointerleave</code> everywhere so the thrust can't stick on. The cave is a list of thin vertical <em>slices</em>, each with a ceiling and floor height; <code>makeSlice()</code> meanders the centre with a bounded random walk so the tunnel curves smoothly, narrows the gap as distance grows, and occasionally juts a stalactite into the passage. Slices scroll off the left and new ones append on the right, and collision only ever tests the single slice under the craft — cheap no matter how long the run.</p>
+
+<p><strong>Best for:</strong> the one-button touch game, and a tidy reference for hold-to-thrust physics plus procedural, recycling terrain. <strong>Tip:</strong> <code>GRAV</code>, <code>LIFT</code> and the starting <code>gap</code> plus its narrowing rate are the entire difficulty. A smaller gap that tightens faster turns a gentle glide into a white-knuckle thread.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/cave-flyer-game/">Cave Flyer Game</a></p>
+
+<h2>9. Dot Muncher Maze Game</h2>
+
+<p>The maze-chase classic, on touch: eat every dot with a four-way D-pad, grab a power pellet to turn the three ghosts blue and chomp them, and don't get caught. Buffered turning, real ghost AI, and a maze that fixes its own mistakes.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/dot-muncher-game/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Dot Muncher Maze Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> this is the most engine-heavy of the nine, and three ideas carry it. First, <strong>tile-locked movement</strong>: every mover — the muncher and each ghost — is a current tile plus a <code>prog</code> value from 0 to 1 toward the next one, with pixel position derived as tile-centre + <code>dir * prog * TS</code>. Turns and wall checks only happen when <code>prog</code> crosses a tile boundary, so nothing can ever clip a wall or turn off-grid no matter the frame rate — the property a maze game lives or dies on. Second, <strong>buffered input</strong>: the D-pad and keyboard set a queued <code>want</code> direction that's applied at the next tile where it's open (with reversal special-cased to fire instantly), which is why pressing a corner slightly early still turns. Third, the ghosts each minimise distance to a different <em>target tile</em> — one chases you directly, one aims a few tiles ahead to cut you off, one wavers — under a scatter/chase timer, flipping to slow random flight when you eat a pellet. The trick worth stealing: at load a <strong>BFS flood-fill</strong> from the player start clears any unreachable dots and picks a reachable ghost spawn, so a hand-drawn maze is <em>always winnable</em> even if you draw a sealed pocket.</p>
+
+<p><strong>Best for:</strong> a grid-maze control template, and by far the best reference here for tile-locked movement plus target-tile chase AI. <strong>Tip:</strong> the board is the <code>MAZE</code> array of strings at the top of the file — redraw it however you like and the BFS cleanup guarantees you can't accidentally make it unsolvable.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/dot-muncher-game/">Dot Muncher Maze Game</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open any snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS, and JS in separate tabs — every one is pure vanilla JavaScript with zero dependencies and no CDN scripts required.</li>
+<li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag, or use the one-click <strong>export to React, Vue, Angular, or Tailwind</strong> right from the snippet page.</li>
+<li>Copy the control layer, not just the game. The shared <code>keys</code> object read once per frame, the <code>hold()</code> helper that releases on <code>pointerup</code>/<code>pointercancel</code>/<code>pointerleave</code>, and the <code>tap()</code> helper for discrete actions are the reusable parts — they turn any keyboard game into a mobile one without a second code path.</li>
+<li>Match the loop to the game. Use delta-time scaling (the shooter, the runner, Asteroids, Frogger, the cave flyer and the muncher) when speed just needs to be consistent; use a fixed timestep (the platformer, the tank game, the sky hopper) when collision against thin walls or platforms — or a precise bounce height — would break under a large variable step. Both patterns are in these files to copy from.</li>
+<li>Each game keeps its content as editable data at the top of the file — <code>buildWave()</code> in the shooter, the level arrays in the platformer, the <code>spots</code> layout in the tank arena, the <code>LANES</code> config in Frogger, the <code>MAZE</code> grid in the muncher, and the tuning constants in the runner, the hopper and the flyer — deliberately separated from the engine below. That's the intended place to adapt them, and it needs no changes to the logic.</li>
+<li>If you wrap one in a React or Vue component, drive the loop from <code>useRef</code>/<code>useEffect</code> and cancel the animation frame in the cleanup function on unmount — and guard the <code>localStorage</code> best-score read/write in <code>try/catch</code>, which these already do, so the game still renders in a sandboxed iframe where storage access throws.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>What these nine share isn't the arcade format — they run from a shooter to a grid-hopper to a one-button flyer to a full maze-chase — it's that the controls were designed first and the game was built on top of them. A single input state so keyboard and touch can't diverge, the right held-vs-tap choice per action, a loop matched to what its collision needs, and the finger-slides-off case handled before it becomes a bug report. That's the unglamorous layer that decides whether a browser game feels like a game or feels like a webpage pretending to be one — and it's a few dozen lines you can lift straight out of any of these.</p>
+
+<p>Play any of them right here, retune the constants, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

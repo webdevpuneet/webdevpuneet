@@ -1,0 +1,118 @@
+<h1>8 Copy-Paste Loading State Snippets That Make Waiting Feel Faster</h1>
+
+<p>Every app makes users wait — for an API response, a page navigation, a file upload, an AI answer. What separates a polished product from a janky one isn't the wait itself, it's what's on screen during it. A blank white page and a well-built skeleton screen can cover the exact same 800&nbsp;ms, and one feels instant while the other feels broken. Below are 8 free loading state snippets — shimmer skeletons, a YouTube-style top bar, animated progress rings, a drag-and-drop upload with real per-file percentages — you can preview live and copy in seconds. Pure HTML, CSS and a few lines of JS, no framework required.</p>
+
+<p>As with every roundup in this series, this isn't just a copy-paste dump. For each snippet you'll find <strong>how it actually works</strong> under the hood, <strong>when to reach for it</strong> (and when it's the wrong call), and a quick tip for customising or keeping it accessible. By the end you'll know the small toolkit — <code>background-position</code> shimmers, <code>stroke-dashoffset</code> maths, the NProgress "trickle" model, staggered <code>animation-delay</code> — behind nearly every loading state you've ever admired.</p>
+
+<p>Every snippet below is a <strong>live, running preview</strong> — watch it right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+
+<h2>The one rule of loading states: match the wait</h2>
+
+<p>Before copying anything, it helps to know which <em>kind</em> of loading state a situation calls for. Get this wrong and even a beautiful animation feels off:</p>
+
+<ul>
+<li><strong>Under ~300&nbsp;ms</strong> — show nothing. A spinner that flashes for a tenth of a second reads as flicker, not feedback.</li>
+<li><strong>Unknown duration, known layout</strong> — use a <strong>skeleton screen</strong>. It previews the structure the user is about to receive, which is why Facebook, LinkedIn and YouTube all use them.</li>
+<li><strong>Unknown duration, unknown layout</strong> — use an <strong>indeterminate spinner or top bar</strong>. It only says "we're working", which is all you honestly know.</li>
+<li><strong>Known progress</strong> (upload percentage, steps completed) — use a <strong>determinate bar or ring</strong>. If you have a real number, show the real number.</li>
+</ul>
+
+<p>One more rule that applies to all eight: when you drop any of these into production, give the loader <code>role="status"</code> and an <code>aria-label</code> so screen readers announce that content is loading, and wrap the animation in a <code>prefers-reduced-motion</code> media query for users who opt out of motion. It's two lines, and it's the difference between decorative and accessible.</p>
+
+<h2>1. Skeleton Loader — the shimmer everyone recognises</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/skeleton-loader/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Skeleton Loader — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every placeholder shares one class with a horizontal <code>linear-gradient</code> — grey, brighter in the middle, grey again — stretched to <code>background-size: 200% 100%</code> so only half is visible at once. A single keyframe animates <code>background-position</code> from <code>200% 0</code> to <code>-200% 0</code>, sweeping the bright band across the element. That's the entire shimmer: no JavaScript, no extra elements, and because <code>background-position</code> doesn't trigger layout or paint, you can animate dozens of skeletons at once with no performance cost.</p>
+
+<p><strong>When to use it:</strong> any card, list or profile whose layout you know before the data arrives. The snippet ships composable shape utilities — a circle for avatars, a tall block for images, thin strips of varying widths for text lines — so you can mirror your real component in a few divs. <strong>Tip:</strong> vary the line widths (60%, 40%, 80%…) — uniform full-width bars look like a wireframe, varied ones read as "text is coming".</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/skeleton-loader/">Skeleton Loader</a></p>
+
+<h2>2. Skeleton Card Grid — the skeleton-to-content swap, done right</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/skeleton-card-grid/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Skeleton Card Grid — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> this one demonstrates the part most skeleton tutorials skip — the handoff. A product grid renders six shimmering placeholder cards, then after the simulated fetch resolves, swaps in the real cards with a short fade-and-rise animation (<code>opacity</code> plus a 6px <code>translateY</code>). Because the skeleton cards have the same dimensions as the real ones, the grid doesn't jump when content lands — no layout shift, which is exactly what Google's CLS metric punishes.</p>
+
+<p><strong>When to use it:</strong> product listings, search results, dashboards — anywhere a grid of items loads from an API. <strong>Tip:</strong> render the same number of skeletons as the items you typically expect. Showing 3 placeholders and delivering 20 results (or the reverse) breaks the illusion that the skeleton was a preview.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/skeleton-card-grid/">Skeleton Card Grid</a></p>
+
+<h2>3. Top Loading Bar — the YouTube/GitHub trickle</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/top-loading-bar/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Top Loading Bar — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the thin bar that slides across the top of the page during navigation solves an honest problem: you <em>can't know</em> how long a request will take, so a real percentage is impossible. The trick — popularised by the NProgress library — is the <strong>trickle model</strong>. On start, the bar jumps to 8%, then a timer nudges it upward by a shrinking amount every 400&nbsp;ms, easing toward but never passing 90%. It races early and slows near the top, conveying activity without ever pretending to be done. When the real work finishes, it snaps to 100% and fades out. The width itself is animated with <code>requestAnimationFrame</code> easing so the motion stays silky, and a glowing "peg" via <code>box-shadow</code> on the leading edge gives it that signature comet look.</p>
+
+<p><strong>When to use it:</strong> route changes in single-page apps and background fetches that shouldn't block the UI. It occupies zero layout space, so the page stays fully usable underneath. <strong>Tip:</strong> wire <code>startBar()</code> to your router's navigation-start event and <code>finishBar()</code> to its complete event — the trickle handles everything in between.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/top-loading-bar/">Top Loading Bar</a></p>
+
+<h2>4. Loading Button — the loading state users trigger themselves</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/loading-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Loading Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the most common loading state isn't a page load — it's the moment after a user clicks <em>Save</em>. This button swaps its label to "Saving…", reveals a tiny inline spinner (a circle with a semi-transparent border and one solid white segment, rotated by a single keyframe), blocks double-clicks with a class guard, then lands on a green "✓ Saved!" confirmation before resetting. Three states — idle, loading, done — driven by two CSS classes and a few lines of JS.</p>
+
+<p><strong>When to use it:</strong> every form submit, save action and checkout button you ship. Feedback at the point of interaction beats a global spinner because the user's eye is already there. <strong>Tip:</strong> the <code>min-width</code> on the button matters more than it looks — it stops the button resizing when the label changes, which would otherwise shift everything around it mid-click.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/loading-button/">Loading Button</a></p>
+
+<h2>5. Dots Loader — four variants from one technique</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/dots-loader/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Dots Loader — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> bounce, pulse, wave and an elastic ring — all built on one idea: give every dot the <em>same</em> animation, then offset each with <code>animation-delay: 0.2s × its index</code>. The stagger is what turns identical keyframes into a travelling wave. The bounce variant pairs <code>translateY</code> with an opacity dip so dots "light up" at the top of their arc; the wave variant stretches bars instead of moving circles; and a bonus button shows the dots working as an inline busy indicator.</p>
+
+<p><strong>When to use it:</strong> chat "typing…" indicators, inline waits inside cards and buttons, anywhere a full skeleton is overkill. Dots are the smallest polite loader there is. <strong>Tip:</strong> keep the loop between 1.2 and 1.5 seconds — faster reads as frantic, slower reads as stalled.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/dots-loader/">Dots Loader</a></p>
+
+<h2>6. SVG Progress Ring — the stroke-dashoffset classic</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/svg-progress-ring/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="SVG Progress Ring — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the circular progress ring you see in Lighthouse scores and fitness apps is one SVG trick. A circle's <code>stroke-dasharray</code> is set to its exact circumference (2πr ≈ 251.2 for a radius of 40), which makes the entire outline one dash. <code>stroke-dashoffset</code> then hides part of that dash — offset by the full circumference and the ring is empty; offset by <code>circumference × (1 − pct/100)</code> and exactly <em>pct</em> percent is drawn. A CSS <code>transition</code> on the offset animates the sweep, the SVG is rotated −90° so progress starts at 12 o'clock, and a small JS counter animates the percentage label in sync.</p>
+
+<p><strong>When to use it:</strong> scores, completion percentages, step progress — any <em>determinate</em> value where the number is the story. <strong>Tip:</strong> <code>stroke-linecap: round</code> is the difference between "developer drew a circle" and "designer made a gauge" — it rounds the sweep's ends so the ring feels finished.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/svg-progress-ring/">SVG Progress Ring</a></p>
+
+<h2>7. CSS Loader Gallery — eight spinners, zero JavaScript, click to copy</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/css-loader-gallery/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="CSS Loader Gallery — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a grid of eight pure-CSS loaders — classic spinner, bouncing dots, pulse ring, shimmer skeleton, orbit, indeterminate progress bar, square grid, typing cursor — each one a self-contained few lines of CSS. The classic spinner is the oldest trick in the book: a circle with a light border, one segment recoloured via <code>border-top-color</code>, rotated forever. The pulse ring scales up while fading out. The square grid is nine cells sharing one fade keyframe with delays incremented by 0.1s so a lit wave sweeps across. Click any card and its minified, standalone CSS lands on your clipboard with a toast confirmation.</p>
+
+<p><strong>When to use it:</strong> the "I just need a spinner, now" moments — no library, no SVG asset, no dependency audit. Because every loader is pure CSS, each costs a single element and keeps animating even when the main thread is busy. <strong>Tip:</strong> the border-top spinner is three lines of CSS; if you're about to install a spinner package, paste this instead.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/css-loader-gallery/">CSS Loader Gallery</a></p>
+
+<h2>8. Upload Progress — real percentages, per file</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/upload-progress/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Upload Progress — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the one loading state where you <em>do</em> have real numbers, done properly. A dashed drop zone accepts drag-and-drop or click-to-browse, then renders a row per file — an icon picked by extension, the filename, a formatted size, and a thin progress bar whose fill animates via a CSS <code>transition</code> on <code>width</code>, so each JS update glides instead of jumping. Every file tracks its own percentage while a summary bar at the bottom aggregates them all into one overall figure, and finished files flip to a green "done" state. Removing a file mid-upload cancels its ticker — a small detail most implementations forget.</p>
+
+<p><strong>When to use it:</strong> any multi-file upload — avatars, attachments, media libraries. Users tolerate long uploads when they can see per-file movement; a single frozen spinner over a 40&nbsp;MB upload is where trust goes to die. <strong>Tip:</strong> the demo simulates progress with timers — swap those for <code>XMLHttpRequest</code>'s <code>upload.onprogress</code> event and the same rendering code shows real network percentages unchanged.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/upload-progress/">Upload Progress</a></p>
+
+<h2>The techniques you just collected</h2>
+
+<p>Eight snippets, but really five reusable ideas — the same handful that power almost every loading state on the modern web:</p>
+
+<ul>
+<li><strong>The background-position shimmer</strong> — an oversized gradient swept across an element. Powers both skeletons and the gallery's skeleton card, and it's compositor-friendly, so it scales to dozens of elements.</li>
+<li><strong>Staggered <code>animation-delay</code></strong> — identical keyframes offset per element to create waves. Powers the dots loader and the gallery's square grid.</li>
+<li><strong><code>stroke-dasharray</code> / <code>stroke-dashoffset</code></strong> — draw exactly <em>n</em> percent of any SVG path. Powers the progress ring and every animated checkmark you've ever seen.</li>
+<li><strong>The trickle model</strong> — fake confident progress toward 90%, then complete on real success. The honest way to show progress you can't measure.</li>
+<li><strong>Transition-smoothed JS updates</strong> — set <code>width</code> from JavaScript, let a CSS <code>transition</code> do the easing. Powers the upload bars and the loading button's state changes.</li>
+</ul>
+
+<h2>Final Thought</h2>
+
+<p>Users forgive waiting; they don't forgive wondering whether anything is happening. Pick the state that matches what you actually know — skeleton for known layouts, trickle bar for unknown durations, ring for real percentages — and the same app suddenly feels faster without a single backend change.</p>
+
+<p>All eight snippets live in the free <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI snippet gallery</a> — preview them live, edit the code in the browser, and export to React, Vue, Angular or Tailwind. And if you missed the earlier roundups in this series, they cover <a href="https://fwdtools.com/ui-snippets/buttons/">copy-paste button snippets</a>, <a href="https://fwdtools.com/ui-snippets/cards/">hover card snippets</a> and <a href="https://fwdtools.com/ui-snippets/animations/">text effect snippets</a>.</p>

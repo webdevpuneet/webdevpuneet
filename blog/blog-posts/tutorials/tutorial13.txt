@@ -1,0 +1,285 @@
+<h1>Building Pong on Canvas: Angle-Reflection Bounce Physics and an AI Paddle That's Meant to Lose Sometimes</h1>
+
+<p>Pong is the game everyone thinks they can write in an afternoon, and mostly they can — a ball, two rectangles, <code>vx *= -1</code> when they touch. What comes out the other end is technically Pong and completely lifeless: the ball ricochets at whatever angle it arrived at, so there's no way to aim, and the computer paddle either tracks the ball perfectly and never loses, or it's been crippled with a random miss chance that feels like the game is throwing the match. Both failures come from the same shortcut — treating the paddle as a flat wall and the opponent as a lookup of <code>ball.y</code>.</p>
+
+<p>The two things that make Pong feel like Pong are small and specific. The bounce angle has to depend on <em>where</em> along the paddle the ball landed, so hitting near an edge is a real tactical choice. And the computer has to move toward the ball at a limited speed rather than teleporting to it, so it loses to shots that are genuinely too fast for it rather than to a dice roll. Here it is running — click Start, then move your mouse over the board or hold Arrow Up/Down. First to 7:</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/pong-game/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pong vs Computer — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p>Grab the code, or open the full editor with live HTML/CSS/JS panels: <a href="https://fwdtools.com/ui-snippets/pong-game/">Pong vs Computer on FWD Tools</a>. It's plain HTML, CSS and JavaScript with zero dependencies, and the same editor exports one-click to <strong>React</strong>, <strong>Vue</strong>, <strong>Angular</strong> and <strong>React + Tailwind</strong>.</p>
+
+<p>In this post I'll build it from the game loop outward: how the canvas is sized and why the mouse handler needs a scale correction that catches almost everyone out, how the ball's reflection angle is computed from the contact point, how the CPU's proportional-with-a-cap tracking produces a fair opponent, why the collision check tests a range rather than a single line, and where the physics would break if you pushed the ball much faster.</p>
+
+<h2>What the component actually is</h2>
+
+<p>Four pieces, in the order they run:</p>
+
+<ol>
+<li><strong>A <code>requestAnimationFrame</code> loop</strong> that calls <code>update()</code> then <code>draw()</code> once per frame — all state changes in one, all pixels in the other, never mixed.</li>
+<li><strong>An input layer</strong> that maps mouse position and held arrow keys onto a single <code>playerY</code> value.</li>
+<li><strong>The physics</strong>: wall reflection, paddle collision, angle-reflection bounce, and a speed that creeps up every rally.</li>
+<li><strong>Match state</strong>: two scores, a serve, and an overlay that ends the game at 7.</li>
+</ol>
+
+<p>The separation between <code>update()</code> and <code>draw()</code> is the one structural decision worth copying into any canvas game you write. <code>draw()</code> reads state and touches nothing; that's why <code>resetMatch()</code> can call it directly to paint a static board before the loop has ever started.</p>
+
+<h2>Where you'd actually use this</h2>
+
+<ul>
+<li><strong>A portfolio Easter egg or games page.</strong> Pong is instantly recognisable and needs no instructions — it's the lowest-friction interactive thing you can put on a static page.</li>
+<li><strong>Learning 2D game physics without an engine.</strong> Velocity integration, reflection, and AABB collision are all here in about eighty lines, with no Matter.js or Phaser abstraction in the way.</li>
+<li><strong>A reference for canvas coordinate scaling.</strong> The CSS-size vs drawing-buffer-size mismatch is a bug people hit in every responsive canvas project; this is a small, clear example of the fix.</li>
+<li><strong>Tuning AI difficulty.</strong> Two numbers control the entire feel of the opponent, which makes this a good sandbox for the general question of what makes a computer player fun rather than merely strong — the same tension the <a href="https://fwdtools.com/ui-snippets/connect-four-game/">Connect Four vs Computer</a> snippet deals with on a discrete board.</li>
+</ul>
+
+<h2>The markup: a canvas, a scoreboard, and an overlay</h2>
+
+<pre><code class="language-html">&lt;div class="pg-canvas-wrap"&gt;
+  &lt;canvas id="pg-canvas" width="480" height="320"&gt;&lt;/canvas&gt;
+  &lt;div class="pg-overlay" id="pg-overlay"&gt;
+    &lt;p class="pg-overlay-title" id="pg-overlay-title"&gt;Pong&lt;/p&gt;
+    &lt;p class="pg-overlay-sub" id="pg-overlay-sub"&gt;Move your mouse over the board, or use Arrow Up/Down. First to 7 wins.&lt;/p&gt;
+    &lt;button class="pg-start-btn" id="pg-start-btn"&gt;Start Game&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+<p>The <code>width="480" height="320"</code> attributes on the canvas are not CSS — they set the size of the drawing buffer, the coordinate space every <code>fillRect</code> and <code>arc</code> call is expressed in. The CSS then does something different:</p>
+
+<pre><code class="language-css">.pg-canvas-wrap { position: relative; width: 100%; aspect-ratio: 3 / 2; }
+#pg-canvas { width: 100%; height: 100%; display: block; background: #020617; cursor: none; }</code></pre>
+
+<p>So the element is stretched to whatever the container allows while the buffer stays 480×320, and the browser scales the rendered result. The <code>aspect-ratio: 3 / 2</code> matches 480:320 exactly, which keeps that scaling uniform — a mismatched ratio would stretch the ball into an ellipse. <code>cursor: none</code> hides the pointer over the board, since the paddle <em>is</em> the cursor.</p>
+
+<p>The overlay sits on top with <code>position: absolute; inset: 0</code> and is toggled with a single <code>.hidden</code> class that sets <code>display: none</code>. Unlike a modal that needs to animate, there's nothing to transition here, so <code>display</code> is the honest choice — it also guarantees the overlay can't swallow mouse events aimed at the canvas while the game is running.</p>
+
+<h2>Step 1 — Constants and the drawing context</h2>
+
+<pre><code class="language-javascript">const canvas = document.getElementById('pg-canvas');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+
+const PADDLE_W = 10, PADDLE_H = 64;
+const BALL_SIZE = 8;
+const PLAYER_X = 16;
+const CPU_X = W - 16 - PADDLE_W;
+const WIN_SCORE = 7;
+const CPU_MAX_SPEED = 4.2;</code></pre>
+
+<p><code>W</code> and <code>H</code> are read from <code>canvas.width</code>, not hardcoded a second time — changing the HTML attribute changes the whole game's coordinate space, and <code>CPU_X</code> recomputes from <code>W</code> so the right paddle stays inset by 16 pixels regardless. <code>CPU_MAX_SPEED = 4.2</code> is the single most important number in the file and gets its own section below.</p>
+
+<p>Everything mutable lives in one row of declarations:</p>
+
+<pre><code class="language-javascript">let playerY, cpuY, ball, playerScore, cpuScore, running, rafHandle;</code></pre>
+
+<p><code>rafHandle</code> is there so the loop can actually be stopped. Every <code>requestAnimationFrame</code> returns an id, and holding onto the latest one is what lets <code>endMatch()</code> call <code>cancelAnimationFrame(rafHandle)</code> instead of leaving a loop spinning in the background — the most common leak in hand-written canvas games.</p>
+
+<h2>Step 2 — Serving the ball</h2>
+
+<pre><code class="language-javascript">function serveBall() {
+  const dir = Math.random() &lt; 0.5 ? -1 : 1;
+  const angle = (Math.random() * 0.5 - 0.25);
+  ball = {
+    x: W / 2, y: H / 2,
+    vx: dir * 4.2,
+    vy: angle * 4.2,
+  };
+}</code></pre>
+
+<p>The ball is a plain object recreated on every serve rather than mutated in place, so there's no chance of a stale velocity surviving from the previous point. <code>dir</code> picks a side at random; <code>angle</code> lands in the range −0.25 to +0.25 and is used as a rough slope rather than a true angle in radians, which is fine here because the numbers are small — it just means serves are never perfectly horizontal and never steep. The horizontal component stays a constant <code>4.2</code>, so every point starts at the same base pace no matter how frantic the previous rally got.</p>
+
+<h2>Step 3 — Input, and the scale correction everyone forgets</h2>
+
+<pre><code class="language-javascript">canvas.addEventListener('mousemove', e =&gt; {
+  const rect = canvas.getBoundingClientRect();
+  const scaleY = H / rect.height;
+  const mouseY = (e.clientY - rect.top) * scaleY;
+  playerY = clamp(mouseY - PADDLE_H / 2, 0, H - PADDLE_H);
+});</code></pre>
+
+<p>This is the part worth reading twice. <code>e.clientY</code> is a position in CSS pixels relative to the viewport. Subtracting <code>rect.top</code> makes it relative to the canvas element. But that element is whatever height the layout gave it while the drawing buffer is fixed at 320 — so if it renders 480 tall, a point halfway down sits at CSS-pixel 240 and canvas-pixel 160. Multiplying by <code>H / rect.height</code> converts between the two spaces.</p>
+
+<p>Skip that multiply and the game still <em>works</em>, which is what makes the bug so persistent: the error is zero at the top edge and grows as you move down, in proportion to how far the render size has diverged from the buffer size. The paddle drifts further from the cursor the lower you go, and once the element is rendering much larger than 320 pixels tall, the bottom of the board becomes unreachable. Any canvas sized with CSS needs this correction on every pointer handler it has.</p>
+
+<p>The <code>- PADDLE_H / 2</code> centres the paddle on the cursor rather than hanging it from the top edge, and <code>clamp</code> keeps it on the board:</p>
+
+<pre><code class="language-javascript">function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }</code></pre>
+
+<p>Keyboard input is handled differently, and deliberately so:</p>
+
+<pre><code class="language-javascript">const keys = {};
+document.addEventListener('keydown', e =&gt; {
+  if (e.key === 'ArrowUp' || e.key === 'ArrowDown') e.preventDefault();
+  keys[e.key] = true;
+});
+document.addEventListener('keyup', e =&gt; { keys[e.key] = false; });</code></pre>
+
+<p>The handlers don't move the paddle — they only record which keys are currently down. The movement happens in <code>update()</code>, once per frame. That distinction matters because <code>keydown</code> fires on the OS key-repeat schedule: one event, a pause of several hundred milliseconds, then a rapid stream. Moving the paddle directly in the handler would produce exactly that stutter. Reading a flag every frame instead gives smooth, constant-speed motion from the moment the key goes down. The <code>preventDefault()</code> stops the arrow keys from scrolling the page underneath the game.</p>
+
+<h2>Step 4 — The loop</h2>
+
+<pre><code class="language-javascript">function loop() {
+  if (!running) return;
+  update();
+  draw();
+  rafHandle = requestAnimationFrame(loop);
+}</code></pre>
+
+<p>Six lines, and the <code>if (!running) return;</code> guard at the top is what makes the loop self-terminating: anything that sets <code>running = false</code> stops the game at the next frame boundary without needing to reach for the handle. <code>startGame()</code> calls <code>cancelAnimationFrame(rafHandle)</code> before starting a fresh loop, which is belt-and-braces against ever having two loops running at once — a doubled loop would silently double the ball's speed, since <code>update()</code> would run twice per frame.</p>
+
+<p>Note that the physics is expressed in pixels per <em>frame</em>, not per second. On a 60Hz display the ball moves 4.2px per frame; on a 120Hz display it moves the same distance twice as often, so the game runs at double speed. Fixing that means multiplying every velocity by a delta-time computed from the timestamp <code>requestAnimationFrame</code> passes to its callback. It's a genuine limitation, left out here to keep the physics readable, and the first thing to add if you ship this anywhere real.</p>
+
+<h2>Step 5 — The CPU paddle</h2>
+
+<pre><code class="language-javascript">const cpuCenter = cpuY + PADDLE_H / 2;
+const targetCenter = ball.y;
+const diff = targetCenter - cpuCenter;
+const cpuStep = clamp(diff * 0.09, -CPU_MAX_SPEED, CPU_MAX_SPEED);
+cpuY = clamp(cpuY + cpuStep, 0, H - PADDLE_H);</code></pre>
+
+<p>Five lines, and the entire difficulty of the game lives in the two numbers inside them. The naive version — <code>cpuY = ball.y - PADDLE_H / 2</code> — produces a paddle that is mathematically unbeatable, because it's not really playing, it's just reading the answer. Nobody enjoys that, and everybody can tell.</p>
+
+<p>This version moves toward the ball by 9% of the remaining distance per frame, capped at 4.2 pixels. Those two limits do different jobs. The proportional factor gives the paddle a natural easing profile: it accelerates when the ball is far away and settles gently when it's close, rather than jittering around the target. The cap is what actually makes it beatable — no matter how far the ball is, the paddle cannot cover more than 4.2 pixels of vertical distance in a frame. Since the ball's speed climbs to 9, a steeply-angled shot late in a rally simply crosses the court faster than the paddle can climb, and it scores.</p>
+
+<p>That's the design point worth taking away: the opponent loses to shots that are genuinely too fast for it, not to a random number. Every loss is legible to the player — you can see the paddle chasing and falling short — and every loss is something they can learn to cause on purpose by aiming for the edges. A random miss chance produces the same win rate and none of that.</p>
+
+<p>Also note what the CPU is tracking: <code>ball.y</code>, the ball's position <em>right now</em>. It isn't predicting where the ball will end up, so it chases even while the ball is travelling away from it. Adding trajectory prediction — projecting the ball's path to the CPU's x-position, including wall bounces — is the obvious way to make it dramatically stronger, and the natural top end of a difficulty selector.</p>
+
+<h2>Step 6 — Angle-reflection bounce</h2>
+
+<pre><code class="language-javascript">function bounceOffPaddle(paddleY) {
+  const relativeHit = (ball.y - paddleY) / PADDLE_H;
+  const clampedRel = clamp(relativeHit, 0, 1);
+  const angle = (clampedRel - 0.5) * (Math.PI / 3);
+  const speed = Math.min(9, Math.hypot(ball.vx, ball.vy) * 1.06);
+  const dir = ball.vx &lt; 0 ? 1 : -1;
+  ball.vx = dir * speed * Math.cos(angle);
+  ball.vy = speed * Math.sin(angle);
+}</code></pre>
+
+<p>This is the function that separates Pong from two rectangles and a bouncing dot. It runs in four steps.</p>
+
+<p><strong>Where did it hit?</strong> <code>relativeHit</code> is the contact point expressed as a fraction of the paddle's height: 0 at the top edge, 0.5 dead centre, 1 at the bottom. Subtracting 0.5 recentres that to −0.5…+0.5, and multiplying by <code>Math.PI / 3</code> (60°) maps it to a rebound angle between −60° and +60°. A centre hit gives an angle of 0 and returns the ball flat; an edge hit gives the full 60° and fires it steeply across the court. That's the whole aiming mechanic — the paddle behaves like a curved surface, and the player controls the return angle by positioning it.</p>
+
+<p><strong>How fast?</strong> <code>Math.hypot(ball.vx, ball.vy)</code> is the ball's current speed — the length of its velocity vector — and multiplying by <code>1.06</code> adds 6% on every paddle hit. <code>Math.min(9, ...)</code> caps it. That single line is why long rallies get tense: after ten exchanges the ball is moving at roughly 7.5, fast enough that the CPU's 4.2px cap starts to bite.</p>
+
+<p><strong>Which way?</strong> <code>dir</code> flips the horizontal direction based on which way the ball was already going, which is what makes the same function work for both paddles without a parameter telling it which side it's on.</p>
+
+<p><strong>Rebuild the velocity.</strong> The final two lines decompose the new speed and angle back into <code>vx</code> and <code>vy</code> with cosine and sine. This is the important structural difference from a mirror bounce: the incoming velocity is discarded entirely, and the outgoing velocity is constructed from scratch out of a speed and an angle. A flat <code>vx *= -1</code> preserves the incoming angle, which is precisely why it feels dead — the ball can only ever return along the path it arrived on, and the player has no influence over it at all.</p>
+
+<h2>Step 7 — Collision detection</h2>
+
+<pre><code class="language-javascript">if (ball.vx &lt; 0 &amp;&amp; ball.x - BALL_SIZE / 2 &lt;= PLAYER_X + PADDLE_W &amp;&amp; ball.x - BALL_SIZE / 2 &gt;= PLAYER_X - 10) {
+  if (ball.y &gt;= playerY &amp;&amp; ball.y &lt;= playerY + PADDLE_H) {
+    bounceOffPaddle(playerY);
+    ball.x = PLAYER_X + PADDLE_W + BALL_SIZE / 2;
+  }
+}</code></pre>
+
+<p>Three conditions have to hold. <code>ball.vx &lt; 0</code> means the ball is travelling left, toward the player — without it, a ball that has just bounced off the paddle and is still overlapping it would be caught again on the next frame and sent back, producing a ball glued to the paddle face. <code>ball.x</code> has to be within a band around the paddle's front face, and <code>ball.y</code> has to overlap the paddle's vertical extent.</p>
+
+<p>That x-band is the interesting part. It isn't a test against a single line — it's a 20-pixel-deep window, spanning <code>PLAYER_X - 10</code> to <code>PLAYER_X + PADDLE_W</code>, because the ball moves in discrete jumps of up to 9 pixels per frame and can easily skip straight over a zero-width boundary between one frame and the next. That's tunnelling, and widening the test zone past the maximum per-frame movement is the cheap fix for it. It's why the speed cap of 9 and the width of that band are linked: raise the cap without widening the band and the ball will start passing through paddles.</p>
+
+<p>The last line pushes the ball clear of the paddle after the bounce. Without it, a ball that ended a frame slightly <em>inside</em> the paddle would still be inside on the next frame, and the direction guard alone might not save it. Snapping it to the paddle's face is the standard resolution step.</p>
+
+<p>Wall bounces need none of this:</p>
+
+<pre><code class="language-javascript">if (ball.y - BALL_SIZE / 2 &lt;= 0) {
+  ball.y = BALL_SIZE / 2;
+  ball.vy *= -1;
+}</code></pre>
+
+<p>Same snap-then-reflect pattern, but the reflection really is a plain sign flip, because a wall is flat and has no aiming semantics. This is exactly the mirror bounce that would be wrong on a paddle and is right here.</p>
+
+<h2>Step 8 — Scoring and match state</h2>
+
+<pre><code class="language-javascript">if (ball.x &lt; 0) {
+  cpuScore++;
+  cpuScoreEl.textContent = cpuScore;
+  handlePointScored();
+} else if (ball.x &gt; W) {
+  playerScore++;
+  playerScoreEl.textContent = playerScore;
+  handlePointScored();
+}
+
+function handlePointScored() {
+  if (playerScore &gt;= WIN_SCORE || cpuScore &gt;= WIN_SCORE) endMatch();
+  else resetPositions();
+}</code></pre>
+
+<p>The score test is <code>ball.x &lt; 0</code>, not <code>ball.x &lt; PLAYER_X</code> — the ball has to leave the canvas entirely, so a near-miss visibly sails past the paddle before the point registers rather than blinking out the instant it clears it.</p>
+
+<p>Both branches funnel into <code>handlePointScored()</code>, which is the only place the win condition is checked. The alternative — testing for 7 in each branch separately — is two copies of the same rule, and the kind of thing that drifts the moment someone adds a "win by two" tiebreak. <code>endMatch()</code> then sets <code>running = false</code>, cancels the frame, and reuses the same overlay the game started with, only with different text and a "Play Again" label on the button. One overlay, three states, no second element to keep in sync.</p>
+
+<h2>Step 9 — Drawing</h2>
+
+<pre><code class="language-javascript">function draw() {
+  ctx.fillStyle = '#020617';
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.strokeStyle = '#1e293b';
+  ctx.setLineDash([6, 10]);
+  ctx.beginPath();
+  ctx.moveTo(W / 2, 0);
+  ctx.lineTo(W / 2, H);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  // paddles and ball...
+}</code></pre>
+
+<p>Canvas has no scene graph and no concept of objects that persist between frames — every frame is repainted from nothing, starting with a full-board <code>fillRect</code> that erases the previous one. Skip that first fill and the ball smears a trail across the board, which is occasionally a nice effect and usually a bug.</p>
+
+<p>The <code>setLineDash([])</code> reset at the end is a detail worth internalising. The 2D context is a single piece of mutable global state: set a dash pattern and <em>everything</em> stroked afterwards is dashed, this frame and every frame after, until something resets it. The same is true of <code>fillStyle</code>, <code>lineWidth</code>, and transforms. Setting each property immediately before the call that needs it — as this function does, re-assigning <code>fillStyle</code> before each of the paddles and the ball — is how you avoid the class of bug where adding a shape at the bottom of <code>draw()</code> silently recolours something at the top.</p>
+
+<h2>Customizing it for your own project</h2>
+
+<ul>
+<li><strong>Add a difficulty selector.</strong> Expose <code>CPU_MAX_SPEED</code> and the <code>0.09</code> tracking factor as a pair, and offer three presets. Roughly: 3.0/0.06 for easy, the shipped 4.2/0.09 for normal, 6.0/0.14 for hard.</li>
+<li><strong>Make it frame-rate independent.</strong> Take the timestamp <code>requestAnimationFrame</code> passes to <code>loop(t)</code>, derive a delta from the previous frame, and scale every velocity by it. Without this the game runs at double speed on a 120Hz display.</li>
+<li><strong>Add local two-player.</strong> The CPU logic is five contiguous lines inside <code>update()</code>. Replace them with <code>keys['w']</code> and <code>keys['s']</code> checks mirroring the player's arrow handling and you have a two-player game on one keyboard.</li>
+<li><strong>Add game feel.</strong> A short screen shake, a particle burst at the contact point, or a brief paddle flash on impact — see <a href="https://fwdtools.com/ui-snippets/canvas-confetti-burst/">canvas confetti burst</a> for a particle system that drops in on the same context.</li>
+<li><strong>Add touch controls.</strong> A <code>touchmove</code> handler reading <code>e.touches[0].clientY</code> through the same scale correction is a few lines, and without it the game is unplayable on mobile.</li>
+</ul>
+
+<h2>The things deliberately left out</h2>
+
+<p><strong>Delta-time physics.</strong> Covered above: velocities are per-frame, so refresh rate changes the game's speed. The most important omission in the file.</p>
+
+<p><strong>Continuous collision detection.</strong> The fixed detection band is a crude approximation of a swept collision test. It holds because the speed is capped at 9, and it stops holding the moment you raise that cap. The real fix is to test the ball's path segment from its previous position to its current one against the paddle rather than testing its position alone.</p>
+
+<p><strong>Spin, and paddle velocity.</strong> Real Pong variants factor in how fast the paddle was moving at the moment of contact, letting a player add pace or cut the ball. Here the bounce depends only on <em>where</em> the ball hit, not on what the paddle was doing.</p>
+
+<p><strong>Sound.</strong> Three short blips — paddle, wall, score — do more for arcade feel than any visual effect on this list, and the Web Audio API can generate all three with an oscillator rather than any asset files.</p>
+
+<h2>Using it in React, Vue, or Angular</h2>
+
+<p>The editor exports all four, and canvas games port differently from typical DOM components — the important instinct is to <em>not</em> put the game state into framework state. <code>ball</code>, <code>playerY</code>, and <code>cpuY</code> change sixty times a second and are only ever read by <code>draw()</code>; routing them through <code>useState</code> would trigger sixty re-renders a second to update pixels the framework isn't managing anyway. They belong in a <code>useRef</code> (or a plain instance field in Angular), mutated directly by the loop.</p>
+
+<p>What <em>does</em> belong in component state is the small set of values the DOM actually displays: the two scores and whether the overlay is showing. Those change a handful of times per match, so let the framework render them and delete the <code>textContent</code> assignments.</p>
+
+<p>The canvas element comes from a ref rather than <code>getElementById</code>, and the loop starts in a mount effect whose cleanup calls <code>cancelAnimationFrame</code> — <code>useEffect</code> with an empty dependency array in React, <code>onMounted</code>/<code>onUnmounted</code> in Vue, <code>ngAfterViewInit</code>/<code>ngOnDestroy</code> in Angular. Forgetting that cleanup leaves a loop running against a detached canvas after the component unmounts, and in React's development StrictMode you'll get two of them, which is a useful early warning that the cleanup is missing.</p>
+
+<h2>Build, understand, optimize, and extend it with AI</h2>
+
+<p>This snippet rewards being interrogated rather than skimmed, because most of its decisions are numeric and their consequences aren't obvious from reading. Paste the HTML, CSS and JS into an assistant like Claude and start with the opponent: ask it to work out, given a ball speed of 9 and a 60° bounce, roughly how much vertical distance the ball covers while crossing the court, and compare that to what the CPU paddle can cover at 4.2px per frame — the answer tells you exactly which shots are winnable and why. Then have it audit the collision code specifically for tunnelling: at what ball speed does that detection band stop being wide enough, and what does the swept-segment version look like instead? For optimization, ask whether <code>draw()</code> is doing redundant work — the centre line and background never change, so could they live on a second, static canvas layered underneath, and does that actually pay for itself at this size? For extension, in roughly increasing order of difficulty: add a difficulty selector wired to both CPU constants; convert the physics to delta-time and have it explain why the paddle's 6px-per-frame arrow-key movement needs the same treatment; add oscillator-based sound effects on paddle and wall hits; and finally give the CPU trajectory prediction — projecting the ball's path to <code>CPU_X</code> including wall bounces — then ask it how to deliberately degrade that prediction so the opponent stays beatable. That last one is the whole game-design lesson in a single refactor.</p>
+
+<h3>Prompt to recreate it</h3>
+
+<p>Copy this into your AI assistant of choice to build the component from scratch, or as a jumping-off point for your own variant:</p>
+
+<pre><code class="language-text">Build a Pong game against a computer opponent using the HTML5 Canvas API in plain HTML, CSS, and JavaScript — no frameworks, no build tooling.
+
+Requirements:
+- Two paddles on a canvas: the human player's paddle controlled by mouse movement over the canvas (correctly scaled from screen pixels to canvas coordinates) and by Arrow Up/Down keys, restricted to vertical movement only and clamped within the canvas bounds; the computer's paddle on the opposite side.
+- A computer-controlled paddle that tracks the ball's vertical position using a deliberately imperfect, rate-limited movement speed (for example a proportional step toward the ball's position capped at a maximum pixels-per-frame value) rather than snapping instantly to the ball — a perfectly tracking paddle must be avoided since it would be unbeatable and not fun.
+- A ball that moves continuously via a requestAnimationFrame loop, bounces off the top and bottom walls with simple vertical reflection, and bounces off either paddle with real angle-reflection physics where the rebound angle depends on exactly where along the paddle's height the ball made contact (centre hits return nearly straight, edge hits return at a steep angle).
+- Ball speed that increases slightly with each paddle hit (capped at a reasonable maximum) so rallies build tension over time rather than staying at a flat constant speed.
+- Keyboard input tracked through a held-keys object updated on keydown/keyup and read once per frame inside the update function, rather than moving the paddle directly in the keydown handler, so movement is smooth and unaffected by OS key-repeat delay.
+- A visible score for both the player and the computer that increments when the ball fully passes the opposing side, immediately followed by re-centring both paddles and serving a new ball toward a random side with a slight randomized angle.
+- A "first to 7 points wins" round-end state that stops the game loop, clearly displays who won and the final score, and offers a restart control that resets both scores and paddle positions and starts a fresh match.</code></pre>
+
+<h2>Final thought</h2>
+
+<p>The line worth keeping from this one is the CPU paddle's speed cap. It would have been easier to make the opponent beatable by giving it a 15% chance to freeze for a few frames, and the win rate would come out about the same — but the game would feel completely different, because the player would have no idea why they were winning. The cap makes losing legible: you can watch the paddle chasing and falling short, and you learn that steep, fast returns are what beat it.</p>
+
+<p>That generalises past games. Any system that has to be imperfect on purpose — a search ranking that shouldn't always surface the same result, a recommendation feed that needs variety, a simulated opponent of any kind — has the same choice between adding randomness and adding a constraint. Randomness is one line and produces behaviour nobody can reason about. A constraint takes slightly more thought and produces behaviour people can learn to work with, which is almost always the thing you actually wanted.</p>

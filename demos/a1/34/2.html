@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="snap as an explicit array">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>snap as an explicit array</h1>
+    <p class="hint">Scroll slowly and release anywhere. The stop points below are deliberately uneven &mdash; a short intro, a long deep-dive, a short outro &mdash; and release always lands on one of the three, never an evenly-spaced fraction.</p>
+  </header>
+  <div class="spacer">Scroll &darr;</div>
+  <div class="pinSection">
+    <div class="weightBar">
+      <div class="seg s1">Intro</div>
+      <div class="seg s2">Deep-dive</div>
+      <div class="seg s3">Outro</div>
+    </div>
+    <div class="card" id="card">
+      <div class="title" id="title">Intro</div>
+      <div class="pct" id="pct">progress 0.00</div>
+    </div>
+  </div>
+  <div class="spacer end">Released &mdash; keep scrolling</div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .spacer { height: 220px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 320px; }
+  .pinSection { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; height: 220px; }
+  .weightBar { display: flex; width: 300px; height: 20px; border-radius: 6px; overflow: hidden; box-shadow: 0 0 0 1px var(--line) inset; }
+  .seg { display: flex; align-items: center; justify-content: center; font: 700 9px system-ui, sans-serif; color: #fff; letter-spacing: 0.03em; }
+  .s1 { width: 15%; background: #f59e0b; }
+  .s2 { width: 55%; background: #ea580c; }
+  .s3 { width: 30%; background: #dc2626; }
+  .card {
+    width: 260px;
+    padding: 20px 22px;
+    text-align: center;
+    background: #ea580c;
+    color: #fff;
+    border-radius: 14px;
+    box-shadow: 0 14px 34px rgba(234,88,12,0.32);
+  }
+  .title { font: 800 18px system-ui, sans-serif; }
+  .pct { margin-top: 6px; font: 700 11px ui-monospace, monospace; opacity: 0.9; }
+</script>
+
+<script type="text/plain" id="js">
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Uneven weights: Intro is 15% of the scroll, Deep-dive is 55%, Outro is 30%.
+  var STOPS = [0, 0.15, 0.7, 1];
+
+  var title = document.getElementById('title');
+  var pct = document.getElementById('pct');
+  var card = document.getElementById('card');
+
+  ScrollTrigger.create({
+    trigger: '.pinSection',
+    start: 'top top',
+    end: '+=1200',
+    pin: true,
+    scrub: 1,
+    snap: STOPS, // explicit array — snap only ever lands on one of these four values
+    onUpdate: function (self) {
+      pct.textContent = 'progress ' + self.progress.toFixed(2);
+      var i = self.progress < 0.15 ? 0 : self.progress < 0.7 ? 1 : 2;
+      title.textContent = ['Intro', 'Deep-dive', 'Outro'][i];
+      card.style.background = ['#ea580c', '#dc2626', '#f59e0b'][i];
+    }
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

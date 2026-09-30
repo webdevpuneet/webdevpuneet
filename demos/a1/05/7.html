@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Independent Fields Don't Need a Reducer">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Independent Fields Don't Need a Reducer</h1>
+    <p class="hint">Type in either field, or flip the checkbox — three plain useState calls, none of them aware the others exist, because none of them need to be.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px 26px; }
+
+  .card { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 320px; padding: 20px; border: 1.5px dashed var(--line); border-radius: 12px; background: #fff; box-sizing: border-box; }
+  .fieldRow { display: flex; flex-direction: column; gap: 4px; }
+  .fieldRow label { font: 700 11px system-ui, sans-serif; color: var(--sub); text-transform: uppercase; letter-spacing: 0.04em; }
+  .fieldRow input[type="text"], .fieldRow input[type="email"] {
+    font: 13px system-ui, sans-serif;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    box-sizing: border-box;
+  }
+  .fieldRow input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .checkRow { display: flex; align-items: center; gap: 8px; font: 12.5px system-ui, sans-serif; }
+
+  .out { font: 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: #14151a; color: #9ea3b5; padding: 10px 12px; border-radius: 8px; white-space: pre-wrap; word-break: break-word; }
+  .out strong { color: #7dd3fc; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+
+  function ContactForm() {
+    var s1 = useState(''), name = s1[0], setName = s1[1];
+    var s2 = useState(''), email = s2[0], setEmail = s2[1];
+    var s3 = useState(false), subscribe = s3[0], setSubscribe = s3[1];
+
+    return e('div', { className: 'card' },
+      e('div', { className: 'fieldRow' },
+        e('label', null, 'Name'),
+        e('input', { type: 'text', value: name, onChange: function (ev) { setName(ev.target.value); }, placeholder: 'Ada Lovelace' })
+      ),
+      e('div', { className: 'fieldRow' },
+        e('label', null, 'Email'),
+        e('input', { type: 'email', value: email, onChange: function (ev) { setEmail(ev.target.value); }, placeholder: 'ada@example.com' })
+      ),
+      e('label', { className: 'checkRow' },
+        e('input', { type: 'checkbox', checked: subscribe, onChange: function (ev) { setSubscribe(ev.target.checked); } }),
+        'Subscribe to updates'
+      ),
+      e('pre', { className: 'out' },
+        e('span', null, '{ '),
+        e('strong', null, 'name'), ': "' + name + '", ',
+        e('strong', null, 'email'), ': "' + email + '", ',
+        e('strong', null, 'subscribe'), ': ' + subscribe + ' }'
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(ContactForm));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

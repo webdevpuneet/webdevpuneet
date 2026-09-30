@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Sorting a List: Nodes Reused vs Nodes Recreated">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Sorting: DOM nodes reused vs recreated</h1>
+    <p class="hint">Click "Sort A→Z" a few times with stable keys on. Nothing flashes. Toggle "unstable key" on and sort again — every row flashes and the mount count jumps.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px 28px; }
+  .frame { width: 100%; max-width: 480px; background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 16px; text-align: center; }
+  .row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px; align-items: center; }
+  .btn { padding: 8px 12px; border-radius: 8px; border: none; background: var(--accent); color: #fff; font: 700 12.5px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { background: #4f52d6; }
+  .btn.ghost { background: #fff; color: var(--ink); border: 1.5px solid var(--line); }
+  .toggle { display: flex; align-items: center; gap: 6px; font: 600 11.5px system-ui, sans-serif; }
+  .stat { font: 700 11.5px ui-monospace, monospace; color: var(--sub); margin-bottom: 8px; }
+  .item { padding: 8px 10px; border: 1.5px solid var(--line); border-radius: 8px; margin-bottom: 6px; background: #f9f9fb; font: 700 13px ui-monospace, monospace; text-align: left; }
+  .item.flashIn { animation: flashPulse 0.9s ease-out; }
+  @keyframes flashPulse { 0% { background: #fde68a; border-color: #f59e0b; } 100% { background: #f9f9fb; border-color: var(--line); } }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; text-align: left; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useEffect = React.useEffect;
+
+  var totalMountsCounter = { current: 0 };
+  var renderKeyForItem = { current: 0 };
+
+  function Row(props) {
+    useEffect(function () {
+      totalMountsCounter.current += 1;
+      props.onMount(totalMountsCounter.current);
+    }, []); // empty deps -- fires once per mount, never on a props update
+
+    return e('div', { className: 'item flashIn' }, props.item.label);
+  }
+
+  function Demo() {
+    var itemsState = useState([
+      { id: 1, label: 'Mango' },
+      { id: 2, label: 'Apple' },
+      { id: 3, label: 'Fig' },
+      { id: 4, label: 'Cherry' }
+    ]);
+    var items = itemsState[0];
+    var setItems = itemsState[1];
+
+    var unstableState = useState(false);
+    var unstable = unstableState[0];
+    var setUnstable = unstableState[1];
+
+    var mountsState = useState(0);
+    var mounts = mountsState[0];
+    var setMounts = mountsState[1];
+
+    var ascState = useState(true);
+    var asc = ascState[0];
+    var setAsc = ascState[1];
+
+    function sort() {
+      var next = items.slice().sort(function (a, b) {
+        return asc ? a.label.localeCompare(b.label) : b.label.localeCompare(a.label);
+      });
+      setItems(next);
+      setAsc(!asc); // flips direction each click so re-sorting is always visible
+    }
+
+    return e('div', { className: 'frame' },
+      e('div', { className: 'row' },
+        e('button', { className: 'btn', onClick: sort }, 'Sort A↔Z'),
+        e('label', { className: 'toggle' },
+          e('input', { type: 'checkbox', checked: unstable, onChange: function () { setUnstable(!unstable); } }),
+          'unstable key (random)'
+        )
+      ),
+      e('div', { className: 'stat' }, 'total row components mounted since page load: ' + mounts),
+      items.map(function (item) {
+        // stable: key travels with the item's identity, so sorting just
+        // MOVES existing DOM nodes -- no unmount, no remount, no flash.
+        // unstable: a fresh random key every render forces React to treat
+        // every row as brand new -- full unmount + remount + flash, every time.
+        var k = unstable ? (item.id + '-' + Math.random()) : item.id;
+        return e(Row, { key: k, item: item, onMount: setMounts });
+      }),
+      e('p', { className: 'note' }, unstable
+        ? 'Key is now Math.random() on every render, so no two renders ever produce a matching key — React can’t tell "this is the same Fig row, just moved" from "this is a new row." Every sort tears down and rebuilds all four instances, which is exactly why every row flashes together and the mount counter jumps by 4 each click.'
+        : 'Key is the item\'s stable id. Sorting changes the ARRAY order, but React matches old keys to new keys first, then just moves the four existing DOM nodes into their new positions — it never unmounts or remounts any of them, so nothing flashes and the mount counter stays frozen at 4 no matter how many times you sort.')
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!-- wp:heading {"level":1} -->
+<h1 class="wp-block-heading">8 Copy-Paste Text Effect Snippets That Turn Headlines Into Hooks</h1>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Your headline is the first thing visitors read — and usually the only thing, if it doesn't hold them. A well-chosen text effect buys you an extra second of attention: a typewriter cycling through what you build, a number counting up to your real revenue, a departure-board flip spelling out your launch date. Below are 8 free text effect snippets you can preview live and copy in seconds. Pure HTML, CSS and a few lines of JS, no framework, no library.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>As with every roundup in this series, this isn't just a copy-paste dump. For each effect you'll find <strong>how it actually works</strong> under the hood, <strong>when to reach for it</strong> (and when it's the wrong call), and a quick tip for customising or keeping it accessible. By the end you'll know the small toolkit — <code>background-clip: text</code>, per-letter animation delays, <code>requestAnimationFrame</code> easing, pseudo-element layering — behind nearly every animated headline you've ever screenshotted.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every effect below is a <strong>live, running preview</strong> — watch it right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">One rule before you animate any text</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Text effects have a failure mode that buttons and cards don't: <strong>the content itself is the animation</strong>. If the effect is too aggressive, visitors can't read the very words you're trying to emphasise. So before copying anything below, keep three principles in mind:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>The text must be readable at every frame</strong> — effects that briefly scramble or flicker (glitch, scramble, split-flap) should settle into a stable, legible resting state quickly, not loop forever over body copy.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Keep real text in the DOM</strong> — all eight snippets below render actual characters, not images or canvas pixels, so screen readers and search engines see the words even while they're animating.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>One animated headline per screen</strong> — a typewriter <em>and</em> a gradient shimmer <em>and</em> a sparkle field on the same viewport isn't emphasis, it's noise. Pick the one effect that matches your message.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. Typewriter Effect</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The classic "I build <em>fast UIs</em>… <em>clean code</em>… <em>cool things</em>" hero, typing and deleting a rotating list of phrases next to a blinking cursor. Twenty years old as an idea, and still the highest-converting trick on developer portfolios.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/typewriter/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Typewriter Effect — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> a single <code>tick()</code> function slices the current word one character longer (or shorter, when deleting) and writes it with <code>textContent</code>, then re-schedules itself with <code>setTimeout</code>. Two state variables — the word index and a <code>deleting</code> flag — drive the whole loop: type to the end, pause ~1.8s so the phrase can be read, delete back to zero, move to the next word. The blinking cursor is pure CSS: a <code>|</code> character with an <code>opacity</code> keyframe using <code>step-end</code> timing so it snaps on and off like a real terminal caret instead of fading.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> personal portfolios, agency heroes, and any headline of the form "We do X, Y and Z" where the rotating slot carries the variety. <strong>Tip:</strong> give the typed span a <code>min-width</code> (the snippet uses <code>2ch</code>) or reserve the line height — otherwise the layout reflows every time a word deletes to zero characters, and the page visibly jumps.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/typewriter/">Typewriter Effect</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. Animated Gradient Text</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A headline filled with a slowly flowing multi-colour gradient — the signature look of every modern AI and SaaS launch page. Zero JavaScript, four lines of CSS that matter.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/gradient-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Animated Gradient Text — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> the element gets a <code>linear-gradient</code> background, then <code>background-clip: text</code> plus <code>-webkit-text-fill-color: transparent</code> clip that background to the letter shapes — the text becomes a window onto the gradient behind it. The motion comes from setting <code>background-size: 300%</code> (so the gradient is three times wider than the text) and animating <code>background-position</code> across it on a loop. One detail makes the loop seamless: the gradient's last colour stop repeats its first, so the moment it wraps around is invisible.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> product heroes, feature section headings, and the one keyword inside a headline you want to pop ("Build <em>beautiful</em> interfaces"). <strong>Tip:</strong> apply it to a <code>&lt;span&gt;</code> around two or three words, not whole paragraphs — gradient body text is genuinely harder to read, and the effect loses its meaning when everything shimmers.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/gradient-text/">Animated Gradient Text</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. Glitch Text</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A cyberpunk headline that periodically tears into cyan, magenta and green slices before snapping back whole — pure CSS, no JavaScript at all. The go-to for anything that wants to feel like a broken CRT.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/glitch-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Glitch Text — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> the trick is <code>content: attr(data-text)</code> — the headline's <code>::before</code> and <code>::after</code> pseudo-elements each render a full copy of the text, stacked exactly on top of the original. Each copy gets a different colour, a <code>clip-path</code> that shows only a horizontal band of it, and its own keyframe animation that jerks it left and right with <code>translateX</code> and <code>skewX</code>. Crucially, the copies sit at <code>opacity: 0</code> for ~85% of the loop — the glitch is a brief spasm, not a constant state, which is exactly what makes it read as a malfunction.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> gaming sites, cybersecurity products, music/event pages, 404 pages, and dev tools with a terminal aesthetic. <strong>Tip:</strong> keep the <code>data-text</code> attribute in sync with the visible text — if you change the headline but forget the attribute, the glitch layers will spell a different word, which is a fun bug exactly once.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/glitch-text/">Glitch Text</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. Text Scramble (Decode Effect)</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The headline starts as random symbols and resolves into real words one character at a time, left to right — the "decrypting…" effect from every hacker movie, in about 15 lines of JavaScript.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/text-scramble/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Text Scramble — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> a <code>requestAnimationFrame</code> loop rebuilds the string every frame. Each character checks its position against a rising <code>iteration</code> counter: positions below it show the real character, locked in; positions above it show a fresh random symbol from a pool of letters, digits and punctuation. Because the counter climbs by 0.3 per frame rather than 1, each character churns for a few frames before its turn comes — that flicker before the lock-in is what sells the "decoding" feel. Spaces pass straight through so word shapes stay visible mid-scramble.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> security and crypto products, API/developer tools, and section headings that reveal on scroll or hover. It pairs naturally with the <a href="https://fwdtools.com/ui-snippets/evervault-card/">Evervault-style reveal card</a> for a full "encrypted brand" look. <strong>Tip:</strong> run the scramble once on entry, not on a loop — repeated scrambling of the same headline reads as broken rather than clever.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/text-scramble/">Text Scramble</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Number Ticker (Count-Up Stats)</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Revenue, requests per day, uptime — stat numbers that spin up from zero the moment they scroll into view, easing to a stop like an odometer. The single most effective way to make metrics feel earned rather than claimed.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/number-ticker/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Number Ticker — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> each stat declares its target in a <code>data-to</code> attribute (plus optional prefix, suffix and decimal places), and a <code>requestAnimationFrame</code> loop multiplies that target by an eased progress value each frame. The easing is <code>easeOutExpo</code> — blisteringly fast at the start, then a long settle — which is what produces the satisfying odometer spin-down. An <code>IntersectionObserver</code> holds the whole thing until the stats actually scroll into view, so visitors always see the count happen instead of arriving after it finished. A formatter re-inserts thousands separators on every frame.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> landing page stat rows, dashboards, fundraising totals, and case-study results sections. <strong>Tip:</strong> set <code>font-variant-numeric: tabular-nums</code> on the number (this snippet already does) — without it, digits have different widths and the whole stat card wobbles horizontally while counting.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/number-ticker/">Number Ticker</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. Wave Text</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Each letter bobs up and down in sequence, sending a smooth wave rippling through the word — with a rainbow variant where every character gets its own colour. Playful, loopable, and surprisingly useful as a loading state.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/wave-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Wave Text — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> a few lines of JS split the string into one <code>&lt;span&gt;</code> per character, and every span runs the <em>same</em> two-keyframe animation — just <code>translateY(0)</code> to <code>translateY(-16px)</code> and back. The wave comes entirely from a staggered <code>animation-delay</code>: each letter starts a fraction of a second after its neighbour, so identical bounces read as one travelling ripple. The rainbow variant is pure CSS on top, using <code>:nth-child</code> to hand each position its own colour and glow.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> loading screens ("LOADING…" genuinely suits it), kids' and gaming brands, and short celebratory moments like "YOU WIN". <strong>Tip:</strong> per-letter staggering is the master technique here — swap the <code>translateY</code> for opacity, blur, or rotation and the same delay pattern gives you fade-in-by-letter, focus-in-by-letter, and a dozen other reveals for free.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/wave-text/">Wave Text</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. Sparkles Text</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Tiny four-pointed stars spawn at random positions around a gradient headline, twinkle through a scale-and-rotate flourish, and fade away — a continuous ambient shimmer that makes one line of text feel like the main event.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/sparkles-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sparkles Text — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> every ~220ms, a spawner measures the headline with <code>getBoundingClientRect()</code>, picks a random point inside a slightly padded version of that box, and injects a small inline-SVG star with a random size, colour and lifespan. The lifespan is passed as a CSS custom property (<code>--life</code>) that drives a single keyframe — scale 0 → 1 → 0 with a half-turn of rotation — and a matching <code>setTimeout</code> removes the node when its animation ends, so the DOM never accumulates dead sparkles. The snippet also checks <code>prefers-reduced-motion</code> up front and simply doesn't start the spawner for users who've opted out.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> "magic"-positioned products — AI features, premium tiers, launch announcements — and anywhere a single word ("New", "Pro") deserves literal sparkle. <strong>Tip:</strong> the spawn interval is the knob that matters: 200–250ms feels alive, under 100ms looks like static, and over 500ms reads as a bug rather than an effect.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/sparkles-text/">Sparkles Text</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. Split-Flap Display</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>An airport departure board rebuilt in CSS: each character lives on a mechanical flap that physically flips over, cycling through the alphabet until it lands on the right letter. The most theatrical effect in this list — and people will sit and watch it loop.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/split-flap-display/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Split-Flap Display — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> each cell is split into a static top half and bottom half, each showing half a character through <code>overflow: hidden</code>. When a letter changes, two extra animated flaps do the mechanical work: a top flap folds down from <code>transform-origin: bottom center</code> showing the old letter, and a bottom flap unfolds to reveal the new one, all inside a <code>perspective</code> container so the fold looks three-dimensional. <code>backface-visibility: hidden</code> keeps the reverse side from ghosting through mid-flip. To land on a target letter, each cell simply flips through the character set in order — just like the real electromechanical boards.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> countdowns and launch dates, travel and event sites, retro-industrial brand moments, and hero headlines that change on a timer. <strong>Tip:</strong> stagger each cell's flip start by a few milliseconds — real boards never flip in perfect unison, and that slight mechanical chaos is most of the charm.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/split-flap-display/">Split-Flap Display</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">How to drop these into your project</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Every snippet is framework-agnostic, so the workflow is the same wherever you're building:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol class="wp-block-list">
+<!-- wp:list-item -->
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS (if any) before your closing <code>&lt;/body&gt;</code> tag.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Prefer a component? Use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> and drop the file straight into your app.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Swap the demo copy for your own — every effect here works on arbitrary text, so change the words, colours and timing, not the mechanism.</li>
+<!-- /wp:list-item -->
+</ol>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Keep animated text accessible</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Animated text has sharper accessibility edges than most UI effects, because the content and the animation are the same thing. Three rules cover almost every case:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li>For effects that rewrite the DOM every frame (typewriter, scramble, ticker), screen readers can announce every intermediate state. Either put <code>aria-hidden="true"</code> on the animated element and provide the final text in a visually-hidden sibling, or set <code>aria-live="off"</code> so the churn stays silent.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Wrap continuous loops (glitch, wave, sparkles, gradient shimmer) in <code>@media (prefers-reduced-motion: reduce)</code> and fall back to plain styled text — the sparkles snippet above shows the JS-side version of the same check.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Check contrast at the gradient's <em>weakest</em> stop, not its average — a gradient that passes 4.5:1 in indigo can quietly fail where it passes through yellow.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Final Thought</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>These are just 8 of dozens of text effects you can copy for free — no login, no sign-up, everything runs in your browser. More importantly, the techniques behind them — <code>background-clip: text</code> for gradient fills, <code>attr(data-text)</code> layering for glitch copies, per-letter spans with staggered delays, and <code>requestAnimationFrame</code> loops with real easing — are a small, reusable toolkit. Master these four and you can build nearly any animated headline you've ever bookmarked.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/animations/">FWD Tools UI Snippets — Animations</a>. And if you're styling the rest of the page too, the companion roundups cover <a href="https://fwdtools.com/ui-snippets/buttons/">copy-paste button snippets</a> and <a href="https://fwdtools.com/ui-snippets/cards/">hover card snippets</a>.</p>
+<!-- /wp:paragraph -->

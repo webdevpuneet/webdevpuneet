@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="animation-fill-mode with scroll-driven animation">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>animation-fill-mode with scroll-driven animation</h1>
+    <p class="hint">Scroll down slowly. The amber box has no fill mode &mdash; it's already visible before you reach it, then jumps. The purple box sets animation-fill-mode: both and holds its state correctly.</p>
+  </header>
+  <div class="spacer">Scroll ↓</div>
+  <div class="box boxNoFill"><span>no fill-mode: pops early, then jumps</span></div>
+  <div class="spacer">keep scrolling</div>
+  <div class="box boxFill"><span>fill-mode: both: holds state correctly</span></div>
+  <div class="spacer end"></div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 16px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .spacer { height: 220px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 260px; }
+
+  .box {
+    max-width: 320px;
+    margin: 0 auto;
+    padding: 28px;
+    border-radius: 12px;
+    text-align: center;
+    font: 700 13px system-ui, sans-serif;
+  }
+
+  .boxNoFill {
+    background: #fff7ed;
+    border: 2px solid #fdba74;
+    color: #b45309;
+    animation: reveal linear;
+    animation-timeline: view();
+    animation-range: entry;
+  }
+
+  .boxFill {
+    background: #f5f3ff;
+    border: 2px solid #c4b5fd;
+    color: #6d28d9;
+    animation: reveal linear both;
+    animation-timeline: view();
+    animation-range: entry;
+  }
+
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(40px) scale(0.94); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+</script>
+
+<script type="text/plain" id="js">
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

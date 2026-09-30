@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="type=&quot;range&quot;">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>type="range"</h1>
+    <p class="hint">Drag the slider &mdash; it snaps to the tick marks because of a <code>list</code> attribute pointing at a <code>&lt;datalist&gt;</code>, a pairing most developers never realize <code>range</code> supports.</p>
+  </header>
+  <main class="stageWrap">
+    <form class="rangeForm">
+      <label class="field">
+        <span class="fieldLabel">Volume</span>
+        <input type="range" name="volume" min="0" max="100" step="25" value="50" list="volTicks" id="volInput">
+        <datalist id="volTicks">
+          <option value="0"></option>
+          <option value="25"></option>
+          <option value="50"></option>
+          <option value="75"></option>
+          <option value="100"></option>
+        </datalist>
+      </label>
+      <p class="readout"><strong id="volReadout">50</strong>%</p>
+    </form>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .bar h1 code { font: 700 15px ui-monospace, monospace; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .hint code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
+  .stageWrap { display: flex; justify-content: center; padding: 20px 16px 36px; }
+
+  .rangeForm {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 24px 20px;
+  }
+  .field { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+  .fieldLabel { font: 700 12px system-ui, sans-serif; text-align: center; }
+
+  .rangeForm input[type="range"] { width: 100%; accent-color: var(--accent); }
+
+  .readout { margin: 0; font: 700 20px system-ui, sans-serif; color: var(--accent); }
+</script>
+
+<script type="text/plain" id="js">
+  var input = document.getElementById('volInput');
+  var readout = document.getElementById('volReadout');
+  input.addEventListener('input', function () {
+    readout.textContent = input.value;
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Layer Order Beats Specificity">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Layer order beats specificity</h1>
+    <p class="hint">The paragraph below is matched by a heavy-specificity selector in the "base" layer and a single-class selector in the "override" layer. The readout shows which one actually wins, and why.</p>
+  </header>
+  <main class="stageWrap">
+    <article class="card">
+      <p class="target" id="target">Which rule wins?</p>
+    </article>
+    <p class="note" id="note">Computing...</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 50em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 30px 18px 34px; }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 30px;
+  }
+
+  /* Layer order is declared upfront: "base" first, "override" second. */
+  @layer base, override;
+
+  /* base is FIRST in layer order -- lowest priority of the two, no matter
+     how specific its selector is. This selector has specificity (1,2,0):
+     one ID, plus the class repeated twice. */
+  @layer base {
+    #target.target.target {
+      color: #1d4ed8;
+      font-weight: 800;
+    }
+  }
+
+  /* override is SECOND in layer order -- highest priority of the two.
+     This selector has specificity (0,1,0), far lower than base's rule,
+     and it still wins because layer order is checked before specificity. */
+  @layer override {
+    .target {
+      color: #dc2626;
+      font-weight: 800;
+    }
+  }
+
+  .note { margin: 0; max-width: 50em; font-size: 12.5px; color: var(--sub); text-align: center; }
+  .note strong { color: var(--ink); }
+</script>
+
+<script type="text/plain" id="js">
+  var target = document.getElementById('target');
+  var note = document.getElementById('note');
+  var color = getComputedStyle(target).color;
+  var isOverride = color === 'rgb(220, 38, 38)';
+
+  note.innerHTML = isOverride
+    ? 'Computed color: <strong>red</strong> (the "override" layer rule). Its selector is only <strong>.target</strong> (specificity 0-1-0) &mdash; far less specific than the "base" layer\'s <strong>#target.target.target</strong> (specificity 1-2-0). It still won, because "override" is declared later in the layer order, and layer order is compared before specificity ever enters the picture.'
+    : 'Computed color: <strong>blue</strong>. (Unexpected in a spec-compliant browser &mdash; the later layer should have won.)';
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

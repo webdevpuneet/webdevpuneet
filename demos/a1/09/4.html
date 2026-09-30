@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Scrollspy nav highlighting">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <nav class="spyNav" id="spyNav">
+    <a href="#s1" data-target="s1" class="active">One</a>
+    <a href="#s2" data-target="s2">Two</a>
+    <a href="#s3" data-target="s3">Three</a>
+    <a href="#s4" data-target="s4">Four</a>
+  </nav>
+  <main class="stage">
+    <section id="s1" class="section"><h2>1. Overview</h2><p>Scroll and watch the nav above &mdash; no click needed. Whichever section is most visible gets the highlight.</p></section>
+    <section id="s2" class="section"><h2>2. Details</h2><p>Each section is observed at several thresholds, so the callback fires as scroll position crosses each 10% step of visibility, not just fully in or fully out.</p></section>
+    <section id="s3" class="section"><h2>3. Usage</h2><p>The section with the single highest <code>intersectionRatio</code> among all currently-intersecting entries wins the active state.</p></section>
+    <section id="s4" class="section"><h2>4. Wrap-up</h2><p>This is the same technique real docs sites and long-form articles use for a "you are here" table of contents.</p></section>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+
+  .spyNav {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    gap: 4px;
+    padding: 10px 16px;
+    background: #fff;
+    border-bottom: 1.5px solid var(--line);
+  }
+  .spyNav a {
+    padding: 7px 13px;
+    font: 700 12.5px system-ui, sans-serif;
+    color: var(--sub);
+    text-decoration: none;
+    border-radius: 7px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .spyNav a.active { background: var(--accent); color: #fff; }
+
+  .stage { max-width: 460px; margin: 0 auto; padding: 0 22px; }
+  .section { min-height: 260px; padding: 34px 0; border-bottom: 1px dashed var(--line); }
+  .section:last-child { border-bottom: none; min-height: 320px; }
+  .section h2 { margin: 0 0 8px; font-size: 16px; }
+  .section p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--sub); }
+  .section code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
+</script>
+
+<script type="text/plain" id="js">
+  var links = document.querySelectorAll('.spyNav a');
+  var ratios = {};
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      ratios[entry.target.id] = entry.isIntersecting ? entry.intersectionRatio : 0;
+    });
+
+    // Pick the section with the largest visible share, not just "the first
+    // one that's on screen" — that's what keeps the highlight stable when
+    // two sections are both partly visible at once.
+    var bestId = null, bestRatio = 0;
+    Object.keys(ratios).forEach(function (id) {
+      if (ratios[id] > bestRatio) { bestRatio = ratios[id]; bestId = id; }
+    });
+    if (!bestId) return;
+
+    links.forEach(function (a) {
+      a.classList.toggle('active', a.dataset.target === bestId);
+    });
+  }, { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] });
+
+  document.querySelectorAll('.section').forEach(function (s) { io.observe(s); });
+
+  links.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.getElementById(a.dataset.target).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

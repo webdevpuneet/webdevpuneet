@@ -1,0 +1,229 @@
+<h1>Building a Music Player Card: Why UI State Should Follow the &lt;audio&gt; Element, Not Guess Ahead of It</h1>
+
+<p>The naive version of a play button sets a <code>playing</code> variable to <code>true</code> the instant it's clicked, then updates the icon and the spinning vinyl to match. It looks right in every manual test, because a click and a successful play basically always happen together — until they don't. A track finishes on its own. A browser blocks autoplay before the user has interacted with the page. A file 404s. In every one of those cases, the UI already committed to "playing" before the browser confirmed anything, and now the record is spinning over audio that isn't making a sound. The <strong>Music Player Card</strong> snippet plays real audio through a native <code>&lt;audio&gt;</code> element and fixes this by inverting the order: the UI never assumes — it waits for the audio element's own <code>play</code>, <code>pause</code>, and <code>ended</code> events and updates from those. Here's the finished card, with real sample tracks wired in — press play, let a track run out, and watch it advance on its own:</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/music-player/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Music Player Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p>Grab the code, or open the full editor with live HTML/CSS/JS panels: <a href="https://fwdtools.com/ui-snippets/music-player/">Music Player Card on FWD Tools</a>. It's plain HTML, CSS and JavaScript with zero dependencies — a native <code>&lt;audio&gt;</code> element, no Web Audio API, no external player library — and the same editor exports one-click to <strong>React</strong>, <strong>Vue</strong>, <strong>Angular</strong> and <strong>React + Tailwind</strong>.</p>
+
+<p>In this post I'll build it piece by piece: why the vinyl's spin state is toggled rather than swapped, why the play/pause icon and the vinyl are updated from the audio element's own events instead of inside the click handler, how track switching wraps around cleanly with modulo arithmetic, how real progress comes from <code>timeupdate</code> instead of a timer, and how a track ending on its own advances to the next one without the UI falling out of sync.</p>
+
+<h2>What the component actually is</h2>
+
+<p>Four moving parts, all ultimately answerable to one thing — the real <code>&lt;audio&gt;</code> element's own state:</p>
+
+<ol>
+<li><strong>A <code>playing</code> boolean</strong> that mirrors the audio element's actual play state — it's written in exactly one place, and never optimistically.</li>
+<li><strong>A <code>tracks</code> array</strong> of plain objects (name, artist, an MP3 <code>src</code>) that <code>next()</code>/<code>prev()</code> walk with wraparound.</li>
+<li><strong>A CSS keyframe animation that's always running, just paused</strong> — the vinyl spin exists on the element from the first paint; play/pause only flips whether it advances.</li>
+<li><strong>A set of listeners on the <code>&lt;audio&gt;</code> element</strong> — <code>play</code>, <code>pause</code>, <code>ended</code>, <code>timeupdate</code>, <code>loadedmetadata</code> — that are the only things allowed to update the visible playback state.</li>
+</ol>
+
+<p>The structural idea worth carrying into other projects is the fourth one: when you're wrapping a native element that already has its own well-defined state and events — <code>&lt;audio&gt;</code>, <code>&lt;video&gt;</code>, a <code>&lt;dialog&gt;</code>, a native <code>&lt;details&gt;</code> — resist the urge to track that state a second time in a variable you update by hand at the point of interaction. Read it back out of the element's own events instead. The element becomes the single source of truth, and your UI is a reflection of it rather than a parallel guess that can drift.</p>
+
+<h2>Where you'd actually use this</h2>
+
+<ul>
+<li><strong>An embedded podcast or audio widget.</strong> Point the <code>tracks</code> array at your own episode files and the play/pause, seek, and progress bar all work immediately.</li>
+<li><strong>A "now playing" card on a portfolio or landing page.</strong> Ambient background music for a creative site, with a player that matches the aesthetic instead of a bare browser control.</li>
+<li><strong>Any UI with a toggle that drives a looping animation.</strong> A "live" indicator, a pulsing recording dot, a spinning loader you want to pause without resetting — the play-state pattern generalizes past music entirely.</li>
+<li><strong>A reference for wrapping a native element's state correctly.</strong> The same event-driven pattern used here for <code>&lt;audio&gt;</code> applies just as directly to a custom <code>&lt;video&gt;</code> UI or any component built on top of a browser element that already manages its own state.</li>
+</ul>
+
+<h2>The markup: one card, one hidden audio element</h2>
+
+<pre><code class="language-html">&lt;div class="player"&gt;
+  &lt;div class="album" id="album"&gt;
+    &lt;div class="vinyl" id="vinyl"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="meta"&gt;
+    &lt;div class="track-info"&gt;
+      &lt;div class="track-name"&gt;Midnight City&lt;/div&gt;
+      &lt;div class="artist"&gt;M83&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;button class="like-btn" id="like" onclick="toggleLike()"&gt;...&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="progress-wrap"&gt;
+    &lt;span class="time" id="cur"&gt;1:24&lt;/span&gt;
+    &lt;div class="progress-track" id="track" onclick="seek(event)"&gt;
+      &lt;div class="progress-fill" id="fill" style="width:35%"&gt;
+        &lt;div class="thumb"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;span class="time"&gt;3:53&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="controls"&gt;
+    &lt;button class="ctrl-btn prev" onclick="prev()"&gt;...&lt;/button&gt;
+    &lt;button class="play-btn" id="play" onclick="togglePlay()"&gt;
+      &lt;svg id="play-icon"&gt;...&lt;/svg&gt;
+    &lt;/button&gt;
+    &lt;button class="ctrl-btn next" onclick="next()"&gt;...&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="volume-row"&gt;
+    ...
+    &lt;input type="range" class="vol-slider" value="70" oninput="setVol(this.value)" /&gt;
+    ...
+  &lt;/div&gt;
+  &lt;audio id="audio" preload="metadata"&gt;&lt;/audio&gt;
+&lt;/div&gt;</code></pre>
+
+<p>The <code>&lt;audio&gt;</code> element has no <code>src</code> in the markup and no visible controls — it's a plain, unstyled playback engine that <code>load()</code> points at whichever track is current. There's exactly one <code>&lt;svg id="play-icon"&gt;</code> element too, not a play icon and a pause icon layered on top of each other with one hidden — that's deliberate, and Step 2 explains why. The progress bar is a track with a fill inside it and a thumb inside that — three nested elements so the fill's width can be animated with a plain CSS <code>width</code> transition while the thumb rides along at its edge for free, with no separate position calculation.</p>
+
+<h2>Step 1 — The vinyl: an animation that's always running, just paused</h2>
+
+<pre><code class="language-css">.vinyl {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #1e293b 12px, transparent 12px),
+              repeating-conic-gradient(rgba(255,255,255,0.04) 0deg, rgba(0,0,0,0.08) 10deg);
+  animation: spin 4s linear infinite paused;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.vinyl.spinning { animation-play-state: running; }</code></pre>
+
+<pre><code class="language-javascript">vinyl.classList.toggle('spinning', playing);</code></pre>
+
+<p>The <code>animation</code> shorthand on <code>.vinyl</code> ends with the keyword <code>paused</code> — the fifth value in the shorthand, easy to miss if you're used to writing name/duration/timing/iteration and stopping there. That keyword sets <code>animation-play-state: paused</code> from the very first paint. The animation isn't absent; it's frozen at whatever rotation it happens to be sitting at, which at load time is 0°.</p>
+
+<p><code>.spinning</code> does exactly one thing: it flips that same property to <code>running</code>. The keyframes, duration, and iteration count are untouched — the browser simply resumes advancing the rotation from wherever it left off. Pause at 137° and press play again, and it continues from 137°, not from 0°.</p>
+
+<p>Compare that to the version most people write first: add a <code>.spinning</code> class that itself declares <code>animation: spin 4s linear infinite</code>, and remove the class to stop. That works for the first play. But removing a CSS animation from an element and re-adding the same animation later doesn't resume it — it restarts it, because as far as the browser is concerned a fresh <code>animation</code> declaration is a fresh animation instance with its own clock at zero. The visible symptom is a record that jumps back to the label-up position every time you press play after a pause. <code>animation-play-state</code> is the one property designed specifically to avoid that: it pauses and resumes the <em>same</em> running instance instead of destroying and recreating it.</p>
+
+<p>The general rule worth keeping: if an animation needs to <em>start and stop repeatedly while preserving position</em> — a spinner, a marquee, a pulsing dot, anything you can pause mid-cycle — toggle <code>animation-play-state</code>, not the animation declaration itself. Reserve adding/removing the animation for effects that are supposed to restart from the top every time they're triggered, like a shake or a one-shot entrance.</p>
+
+<h2>Step 2 — Let the audio element's own events drive the UI</h2>
+
+<pre><code class="language-javascript">function togglePlay() {
+  if (audio.paused) { audio.play(); } else { audio.pause(); }
+}
+
+function setPlayingUI(isPlaying) {
+  playing = isPlaying;
+  vinyl.classList.toggle('spinning', playing);
+  document.getElementById('play-icon').innerHTML = playing
+    ? '&lt;rect x="6" y="4" width="4" height="16"/&gt;&lt;rect x="14" y="4" width="4" height="16"/&gt;'
+    : '&lt;polygon points="5 3 19 12 5 21 5 3"/&gt;';
+}
+
+audio.addEventListener('play', () => setPlayingUI(true));
+audio.addEventListener('pause', () => setPlayingUI(false));
+audio.addEventListener('ended', () => next(true));</code></pre>
+
+<p>Notice what <code>togglePlay()</code> doesn't do: it never sets <code>playing</code>, never touches <code>classList</code>, never writes to the icon. All it does is ask the audio element to play or pause — the same instruction a user gives by hand. Every visible change is made by <code>setPlayingUI()</code>, and the only things allowed to call it are the audio element's own <code>play</code> and <code>pause</code> events. That's a subtle but load-bearing distinction: <code>audio.play()</code> is asynchronous and can be rejected (autoplay policies, a file that fails to load), so writing <code>playing = true</code> right after calling it would be recording an intention, not a fact. Waiting for the <code>play</code> event to actually fire means the UI only ever reflects what genuinely happened.</p>
+
+<p>This is also what fixes auto-advance. <code>ended</code> fires when a track finishes on its own, with no click involved at all, and it calls <code>next(true)</code> to load and immediately start the next track. Because the vinyl and icon are driven by <code>play</code>/<code>pause</code> rather than by whatever code path happened to trigger the change, a track ending naturally updates the UI exactly the same way a manual pause would — there's no separate "did the track end on its own" branch that has to remember to also flip the icon back. One function, three unrelated-looking events, and no way for them to drift apart.</p>
+
+<p><code>classList.toggle('spinning', playing)</code> still uses the two-argument force form rather than plain <code>toggle('spinning')</code> — passing a boolean makes the class match it exactly, add when true, remove when false, regardless of what it was a moment ago. That matters even more here than in a hand-toggled version, because <code>setPlayingUI()</code> can now be invoked from three different listeners; a one-argument flip would have no way to guarantee it lands in the right state if two of those ever fired close together.</p>
+
+<p>The icon swap takes the same idea further: instead of a play <code>&lt;svg&gt;</code> and a pause <code>&lt;svg&gt;</code> both sitting in the DOM with one given <code>display: none</code>, there's a single <code>&lt;svg id="play-icon"&gt;</code> whose <em>inner</em> markup is replaced outright via <code>innerHTML</code>. There's no second element's visibility to keep synchronized — just one piece of state, written in one function, called from one place.</p>
+
+<h2>Step 3 — Track switching with modulo wraparound</h2>
+
+<pre><code class="language-javascript">const tracks = [
+  { name: 'Sunset Drive', artist: 'SoundHelix', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+  { name: 'Night Runner', artist: 'SoundHelix', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' },
+  { name: 'Open Road', artist: 'SoundHelix', src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3' },
+];
+let idx = 0, playing = false;
+
+function load(i, autoplay) {
+  idx = i;
+  const t = tracks[i];
+  document.querySelector('.track-name').textContent = t.name;
+  document.querySelector('.artist').textContent = t.artist;
+  document.querySelectorAll('.time')[1].textContent = '0:00';
+  fill.style.width = '0%';
+  cur.textContent = '0:00';
+  audio.src = t.src;
+  if (autoplay) { audio.play(); }
+}
+
+function next(autoplay) { load((idx + 1) % tracks.length, autoplay !== undefined ? autoplay : playing); }
+function prev() { load((idx - 1 + tracks.length) % tracks.length, playing); }</code></pre>
+
+<p><code>load()</code> is the only function that touches the track-display DOM or the audio element's <code>src</code>, and every caller funnels through it. It resets the fill, the elapsed label, and the duration label to zero before assigning the new <code>src</code> — otherwise the old track's numbers would sit on screen for a moment, stale, until the new file's own events start firing. The <code>autoplay</code> parameter is what lets one function serve two different callers with two different intentions: a manual click on "next" while paused shouldn't start playback, but <code>next(true)</code> from the <code>ended</code> listener should. <code>prev()</code> and a plain click on "next" fall back to whatever <code>playing</code> currently is, so switching tracks mid-playback keeps playing, and switching while paused stays paused.</p>
+
+<p>The modulo arithmetic underneath is the part worth internalizing rather than pattern-matching. <code>(idx + 1) % tracks.length</code> wraps forward cleanly: at the last index, <code>idx + 1</code> equals <code>tracks.length</code>, and anything modulo its own length is 0 — back to the start. Going backward needs the extra <code>+ tracks.length</code> that's easy to leave out: at <code>idx === 0</code>, plain <code>(idx - 1) % tracks.length</code> evaluates to <code>-1 % 3</code>, which in JavaScript is <code>-1</code>, not <code>2</code> — JavaScript's <code>%</code> keeps the sign of the dividend rather than always returning a positive remainder. Adding <code>tracks.length</code> before the modulo shifts <code>-1</code> up to <code>tracks.length - 1</code> first, so the result lands back in range. Any time you're wrapping an index downward in JavaScript, that's the line to remember.</p>
+
+<h2>Step 4 — Real progress, from timeupdate and loadedmetadata</h2>
+
+<pre><code class="language-javascript">audio.addEventListener('loadedmetadata', () => {
+  document.querySelectorAll('.time')[1].textContent = format(audio.duration);
+});
+
+audio.addEventListener('timeupdate', () => {
+  if (!audio.duration) return;
+  fill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+  cur.textContent = format(audio.currentTime);
+});
+
+function format(sec) {
+  sec = Math.max(0, Math.floor(sec));
+  return Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0');
+}</code></pre>
+
+<p>There's no timer anywhere in this version. <code>timeupdate</code> is an event the browser fires on its own as a track plays — roughly four times a second, though the spec leaves the exact cadence up to the browser — and both the progress fill and the elapsed-time label are derived straight from <code>audio.currentTime</code> and <code>audio.duration</code> each time it fires. That's a strictly more honest number than a hand-rolled <code>setInterval</code> incrementing a percentage by a fixed amount: it can't drift from the actual file, and it doesn't need to parse a duration string like <code>"3:53"</code> back into seconds, because <code>audio.duration</code> already is the real number of seconds.</p>
+
+<p>The duration label has its own event because it isn't known at all until the browser has read the file's metadata — that's what <code>loadedmetadata</code> signals. Until then it reads <code>0:00</code>, which is why <code>load()</code> resets it explicitly rather than leaving the previous track's duration on screen while the new one loads.</p>
+
+<h2>Step 5 — Click-to-seek writes straight to currentTime</h2>
+
+<pre><code class="language-javascript">function seek(e) {
+  if (!audio.duration) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  const pct = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+  audio.currentTime = pct * audio.duration;
+}</code></pre>
+
+<p>The geometry is the same conversion that shows up in any draggable or clickable bar: a click's page-relative <code>clientX</code> is meaningless on its own, so it's translated into a position <em>relative to the bar itself</em> by subtracting the bar's left edge (from <code>getBoundingClientRect()</code>), then normalized into a 0–1 fraction by dividing by the bar's own width. What's different from a simulated player is the last line — the fraction is multiplied by <code>audio.duration</code> and written directly to <code>audio.currentTime</code>, which actually moves playback to that instant. The fill doesn't need to be set here at all; the next <code>timeupdate</code> event, which fires almost immediately after a seek, catches it up to the new position on its own. The <code>if (!audio.duration) return</code> guard matters for the same reason the duration label starts blank: clicking the bar before metadata has loaded would otherwise try to multiply a fraction by <code>NaN</code>.</p>
+
+<h2>Customizing it for your own project</h2>
+
+<ul>
+<li><strong>Point it at your own audio.</strong> Replace each track's <code>src</code> with your own hosted MP3 (same-origin, or a CORS-enabled CDN). Nothing else in the code needs to change — <code>load()</code>, <code>seek()</code>, and the progress bar all read entirely from the audio element.</li>
+<li><strong>Change the vinyl's spin speed or the album gradient's shift speed independently.</strong> They're two separate <code>animation</code> declarations (<code>spin</code> on <code>.vinyl</code>, <code>albumShift</code> on <code>.album</code>) with no shared timing, so retuning one doesn't touch the other.</li>
+<li><strong>Add a shuffle button that actually shuffles.</strong> Give it an <code>onclick</code> that calls <code>load(Math.floor(Math.random() * tracks.length), playing)</code> — it only needs to produce a valid index and the current playback intent; <code>load()</code> handles the rest.</li>
+<li><strong>Add a repeat mode.</strong> The <code>ended</code> listener is already the single place a track's natural end is handled — a repeat-one mode is a check there that calls <code>load(idx, true)</code> instead of <code>next(true)</code>.</li>
+<li><strong>Add a real like/favorites list.</strong> <code>toggleLike()</code> currently only flips a CSS class; persist liked track indices to an array or <code>localStorage</code> alongside it if you want the state to survive a track switch or reload.</li>
+</ul>
+
+<h2>The things deliberately left out</h2>
+
+<p><strong>The Web Audio API and any real audio decoding.</strong> No <code>AudioContext</code>, no analyser node, no waveform. This is a plain <code>&lt;audio&gt;</code> element, which is the right tool for "play this file with standard controls" — a full Web Audio pipeline (gain nodes, an analyser-driven visualizer) is a different, much larger project layered on top, only worth it if you actually need frequency data for a visualizer.</p>
+
+<p><strong>Drag-to-seek.</strong> The progress bar responds to a click but not to a mousedown-drag-mouseup sequence across it. Real scrubbing needs <code>mousedown</code>/<code>touchstart</code> to start tracking, a <code>mousemove</code>/<code>touchmove</code> listener on <code>document</code> (not just the bar, so the drag doesn't break if the pointer leaves it), and cleanup on <code>mouseup</code>. It's a natural next step but a genuinely separate piece of event-handling logic from the single-click case here.</p>
+
+<p><strong>Handling a failed load.</strong> The audio element has an <code>error</code> event for a file that 404s or fails to decode, and it's not wired up here — a production version should listen for it and show something other than a record that silently never starts spinning.</p>
+
+<p><strong>A playlist/queue panel.</strong> The <code>tracks</code> array and <code>load(i, autoplay)</code> already have everything a queue UI needs — render each track as a row, call <code>load(i, true)</code> on click, highlight whichever row matches the current <code>idx</code> — but it's a second UI surface, not a change to the player card itself.</p>
+
+<h2>Using it in React, Vue, or Angular</h2>
+
+<p>The editor exports all four, and the pattern maps cleanly because the source of truth is already an element's events rather than a hand-maintained variable. <code>playing</code> and <code>idx</code> still map to <code>useState</code>, but they should only ever be set from inside the <code>&lt;audio&gt;</code> element's event handlers — never optimistically inside the click handler that calls <code>.play()</code> or <code>.pause()</code>, for the same reason described in Step 2. Keep a <code>ref</code> to the audio element, attach <code>play</code>/<code>pause</code>/<code>ended</code>/<code>timeupdate</code>/<code>loadedmetadata</code> listeners in a <code>useEffect</code> with an empty dependency array, and return a cleanup function that removes all five — an audio element that outlives its component and keeps firing <code>timeupdate</code> into state that no longer renders anywhere is a real, if quiet, memory leak.</p>
+
+<p>The vinyl's <code>classList.toggle</code> becomes a conditional class driven straight from the <code>playing</code> state variable (<code>className={playing ? 'vinyl spinning' : 'vinyl'}</code>), and the play icon's inner markup swaps via a ternary in JSX rather than an <code>innerHTML</code> write — but both should still be downstream of the same state, updated in the same place, for the same reason they're centralized in <code>setPlayingUI()</code> here.</p>
+
+<h2>Build, understand, optimize, and extend it with AI</h2>
+
+<p>This snippet is small enough to hold in your head, which makes it a good one to pressure-test rather than just read. Paste the HTML, CSS and JS into an assistant like Claude and ask it to rewrite <code>togglePlay()</code> so it sets <code>playing = true</code> and toggles the vinyl class directly, right before calling <code>audio.play()</code>, instead of waiting for the <code>play</code> event — then have it describe exactly what the UI would show if that <code>play()</code> call were rejected by the browser's autoplay policy. Getting the assistant to state the desync in its own words is worth more than being told the rule up front. From there, ask it to explain why routing the <code>ended</code> event through the same <code>next(autoplay)</code> function that the click handlers use, rather than writing separate logic for "track finished on its own," is what keeps the icon and vinyl correct in both cases. For extension, in roughly increasing order of effort: wire up the <code>error</code> event with a visible failure state; add a repeat-one mode; add drag-to-seek instead of click-only; and build a queue panel listing every track with the currently playing one highlighted.</p>
+
+<h3>Prompt to recreate it</h3>
+
+<p>Copy this into your AI assistant of choice to build the component from scratch, or as a jumping-off point for your own variant:</p>
+
+<pre><code class="language-text">Build a "music player card" UI in plain HTML, CSS, and JavaScript that plays real audio through a native &lt;audio&gt; element — no Web Audio API, no external player library.
+
+Requirements:
+- A card showing a square album-art area with a continuously animated background gradient, a smaller circular "vinyl" disc centered on it that only spins while audio is actually playing (using CSS animation-play-state toggled between paused and running, not by adding/removing the animation itself, so a pause preserves the current rotation angle rather than resetting it).
+- Track metadata (name, artist, and a src URL to an MP3 file) driven from an array of track objects; a like/heart button that toggles a filled state independent of playback.
+- A hidden &lt;audio&gt; element whose src is set from the current track. A single function must drive the vinyl spin state, the play/pause icon, and an internal "playing" flag together, and that function must be called FROM the audio element's own play/pause events — never set that state optimistically right before calling audio.play()/audio.pause(), so the UI can never desync from what the browser is actually doing (e.g. if playback is blocked or a track fails to load).
+- A clickable progress bar with a draggable-looking thumb, driven entirely by the audio element's timeupdate event (not a timer) — the fill width and an elapsed mm:ss label should both be computed from audio.currentTime and audio.duration. Clicking anywhere on the bar must set audio.currentTime based on the click's position relative to the bar's own bounding rect, guarded against a click before duration is known.
+- The total-duration label should be read from the audio element's real duration once the loadedmetadata event fires, not hardcoded per track, and should reset to 0:00 immediately when a track switch begins.
+- Previous/next buttons that move to another track in the array with wraparound at both ends using modulo arithmetic (remember plain negative modulo doesn't wrap correctly in JavaScript), loading the new track's src and metadata into the DOM through one shared load(index, autoplay) function that both buttons call, where autoplay controls whether the new track starts playing immediately or only loads.
+- When a track ends (the audio element's native "ended" event), call the same next() function used by the manual next button, passing true for autoplay, so playback continues seamlessly into the next track and the play/pause icon and vinyl update correctly without any separate code path.
+- A volume slider wired to audio.volume (0–1 range, converted from the slider's 0–100 value) so it's a real, functional control.</code></pre>
+
+<h2>Final thought</h2>
+
+<p>The line worth keeping from this build is about where state is allowed to be written. It's tempting to update the UI at the moment of interaction — the click happened, so set <code>playing = true</code> right there and move on. That works until the thing you're wrapping has any asynchrony or any way to change state on its own, and a native <code>&lt;audio&gt;</code> element has both: <code>.play()</code> can be rejected, and <code>ended</code> fires with no click involved at all. The fix generalizes past music players: when you're building UI on top of something that already has real state and fires real events — audio, video, a WebSocket connection, a form's own validity — write your UI updates inside listeners for that thing's events, not inside the code that asks it to change. The element becomes the one place truth lives, and your UI just reads it back.</p>
+
+<p>The second thing worth keeping is smaller but shows up even more often: when two or three things are supposed to change together — a class, an icon, a boolean — put them in one function and call that function from every path that can trigger the change, rather than duplicating the update at each call site. That's what makes a track ending on its own look identical, from the UI's perspective, to a user clicking pause.</p>

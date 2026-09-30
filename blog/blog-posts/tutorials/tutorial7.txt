@@ -1,0 +1,291 @@
+<h1>Building a Pivot Table in Vanilla JavaScript: Cross-Tabs, Measures, and Totals That Don't Lie</h1>
+
+<p>"Pivot table" sounds like a feature you buy. It's the thing spreadsheets are famous for and the thing every BI tool puts on its pricing page, and when a stakeholder asks for one on a dashboard the instinct is to reach for a grid library or export the data to Excel and let them do it themselves. The <strong>Pivot Table</strong> snippet does the whole job — cross-tabulation, switchable measures, row totals, column totals, grand total — in about forty lines of plain JavaScript, and the interesting part isn't the rendering. It's that a handful of those lines encode a decision most implementations get subtly wrong.</p>
+
+<p>Here it is live — switch the measure and watch every number in the grid, including the totals, recompute:</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/pivot-table/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pivot Table — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p>Grab the code, or open the full editor with live HTML/CSS/JS panels: <a href="https://fwdtools.com/ui-snippets/pivot-table/">Pivot Table on FWD Tools</a>. The snippet is plain HTML, CSS, and JavaScript, but the same editor has one-click export buttons for <strong>React</strong>, <strong>Vue</strong>, <strong>Angular</strong>, and <strong>React + Tailwind</strong> if you'd rather drop it into a component-based project.</p>
+
+<p>In this post I'll build the whole thing <strong>A to Z</strong>: the data shape, how the axes are discovered rather than declared, the single aggregate function that every number in the table flows through, why the totals must ignore the cells they sit next to, and the two CSS properties that make a dense numeric grid readable. By the end you'll understand the mechanism behind every pivot you've ever used — and know exactly where the naive version breaks.</p>
+
+<h2>What a pivot table actually is</h2>
+
+<p>Strip away the spreadsheet associations and a pivot is a reshaping operation. You start with a flat log — one row per event, per sale, per response:</p>
+
+<pre><code class="language-javascript">{ region: 'North', quarter: 'Q1', sales: 120 }
+{ region: 'North', quarter: 'Q2', sales: 150 }
+{ region: 'South', quarter: 'Q1', sales: 80 }
+// ...</code></pre>
+
+<p>and you end with a matrix: one field becomes the rows, another becomes the columns, and a third is summarized at every intersection.</p>
+
+<pre><code class="language-text">           Q1    Q2    Q3    Q4   Total
+North     120   150    90   200     560
+South      80   110   140   130     460
+East      200   170   160   210     740
+Total     400   430   390   540    1760</code></pre>
+
+<p>That's it. Three field names in, one grid out. Twelve rows of raw data become a shape a human can actually read — which is the entire reason pivots exist, and why the person asking for one is rarely asking for a spreadsheet. They're asking to be able to see the answer.</p>
+
+<p>The mechanical core is one sentence: <strong>for every combination of a row value and a column value, find the records that match both and reduce them to a single number.</strong> Everything else in this snippet — the measure selector, the totals, the styling — is scaffolding around that sentence.</p>
+
+<h2>Where you'd actually use one</h2>
+
+<p>Cross-tabulation shows up far outside finance dashboards, because "count these things by two dimensions at once" is a question every dataset eventually gets asked:</p>
+
+<ul>
+<li><strong>Sales and revenue reporting.</strong> Region by quarter, product by channel, rep by month. The canonical case, and the one your stakeholders will recognize instantly.</li>
+<li><strong>Analytics breakdowns.</strong> Events by source and device, signups by campaign and week — the summary that sits above the raw <a href="https://fwdtools.com/ui-snippets/data-table/">data table</a> of individual rows.</li>
+<li><strong>Budgeting and spend.</strong> Category by month, with subtotals that have to add up correctly because someone is going to check them.</li>
+<li><strong>Survey cross-tabs.</strong> Answers to question A grouped against answers to question B, which is the standard first analysis of any survey.</li>
+<li><strong>Inventory and logistics.</strong> Stock by warehouse and product type, shipments by carrier and destination.</li>
+<li><strong>Support and ops.</strong> Tickets by priority and team, incidents by service and severity — usually with <em>count</em> as the measure rather than a sum.</li>
+</ul>
+
+<p>In every one of these, the reason to build rather than install is the same: the pivot itself is small, and what you'll actually need to customize — how a cell is formatted, what a click on it drills into, which measures make sense for your domain — is exactly the part a library hides behind configuration.</p>
+
+<h2>The tech stack: an array, a select, and a table</h2>
+
+<p>There's no CDN script tag in this snippet. Three things carry it:</p>
+
+<ul>
+<li><strong>Plain array methods</strong> — <code>reduce</code>, <code>filter</code> and <code>map</code>, plus a single <code>Math.round</code>. No date library, no lodash, no data frame.</li>
+<li><strong>A real <code>&lt;table&gt;</code></strong>, generated as an HTML string and assigned once per render, with proper <code>thead</code>, <code>tbody</code> and <code>tfoot</code> sections.</li>
+<li><strong>A single <code>&lt;select&gt;</code></strong> for the measure, whose <code>change</code> event re-runs the whole render.</li>
+</ul>
+
+<p>The markup is small enough to read in one go — a title bar with the measure selector, and a scroll container around the table that the JavaScript fills:</p>
+
+<pre><code class="language-html">&lt;div class="pv-wrap"&gt;
+  &lt;div class="pv-bar"&gt;
+    &lt;h3&gt;Sales pivot&lt;/h3&gt;
+    &lt;label class="pv-agg"&gt;Measure
+      &lt;select id="pvAgg"&gt;
+        &lt;option value="sum"&gt;Sum&lt;/option&gt;
+        &lt;option value="avg"&gt;Average&lt;/option&gt;
+        &lt;option value="count"&gt;Count&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/label&gt;
+  &lt;/div&gt;
+  &lt;div class="pv-scroll"&gt;&lt;table class="pv-table" id="pvTable"&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+<p>Note what isn't there: not a single <code>&lt;tr&gt;</code>. A pivot's shape depends on its data, so writing any of the grid by hand would mean rewriting it the moment the data changes.</p>
+
+<h2>Building it, step by step</h2>
+
+<h3>Step 1 — The data shape, and three constants</h3>
+
+<p>The input is a flat array of plain objects, and three constants name which field plays which role:</p>
+
+<pre><code class="language-javascript">var DATA = [
+  { region: 'North', quarter: 'Q1', sales: 120 }, { region: 'North', quarter: 'Q2', sales: 150 },
+  { region: 'North', quarter: 'Q3', sales: 90 },  { region: 'North', quarter: 'Q4', sales: 200 },
+  { region: 'South', quarter: 'Q1', sales: 80 },  { region: 'South', quarter: 'Q2', sales: 110 },
+  { region: 'South', quarter: 'Q3', sales: 140 }, { region: 'South', quarter: 'Q4', sales: 130 },
+  { region: 'East',  quarter: 'Q1', sales: 200 }, { region: 'East',  quarter: 'Q2', sales: 170 },
+  { region: 'East',  quarter: 'Q3', sales: 160 }, { region: 'East',  quarter: 'Q4', sales: 210 },
+];
+var ROW = 'region', COL = 'quarter', VAL = 'sales';</code></pre>
+
+<p>Those three strings are the whole configuration of the pivot. Nothing downstream mentions regions or quarters — the code says <code>r[ROW]</code> and <code>r[COL]</code>, so pointing it at a different pair of dimensions is a one-line edit, and wiring them to two dropdowns turns it into a fully interactive pivot without touching the logic.</p>
+
+<p>This is the same discipline that makes the rest of the snippet short: keep the data flat and generic, and let the field names be values rather than identifiers baked into the code.</p>
+
+<h3>Step 2 — Discovering the axes instead of declaring them</h3>
+
+<p>A pivot's rows and columns come from the data, not from a config:</p>
+
+<pre><code class="language-javascript">function uniq(field) {
+  return DATA.reduce(function (a, r) {
+    if (a.indexOf(r[field]) &lt; 0) a.push(r[field]);
+    return a;
+  }, []);
+}</code></pre>
+
+<p>Walk the records, collect each distinct value the first time you see it. Add a "West" region to the data and a West row appears; drop East entirely and its row disappears. There is no list of regions to keep in sync, which is the kind of maintenance bug that only surfaces in production when someone adds a category.</p>
+
+<p><strong>One consequence worth knowing:</strong> because <code>uniq()</code> preserves first-seen order, the axes come out in the order the data happens to be in. Here that's a gift — the records are already grouped North, South, East and ordered Q1 through Q4, so the grid reads naturally. Feed it records in arrival order from an API and your quarters may come out Q3, Q1, Q4, Q2. If the axis has a natural order, sort it explicitly:</p>
+
+<pre><code class="language-javascript">function rowTotal(v, how) {
+  return aggregate(DATA.filter(function (r) { return r[ROW] === v; }), how);
+}
+
+var cols = uniq(COL).sort();                     // alphabetical — Q1 through Q4
+var rows = uniq(ROW).sort(function (a, b) {      // or biggest row first
+  return rowTotal(b, how) - rowTotal(a, how);
+});</code></pre>
+
+<p>Sorting rows by their total is the more useful default for a report, because it puts the biggest contributor at the top where people look first. (<code>aggregate()</code> is the function from the next step, and <code>how</code> is whichever measure is currently selected — both are already in scope by the time the axes are built.)</p>
+
+<h3>Step 3 — One function that defines every measure</h3>
+
+<p>Here's the piece the whole table depends on:</p>
+
+<pre><code class="language-javascript">function aggregate(records, how) {
+  if (!records.length) return how === 'count' ? 0 : '';
+  if (how === 'count') return records.length;
+  var sum = records.reduce(function (s, r) { return s + r[VAL]; }, 0);
+  return how === 'avg' ? Math.round(sum / records.length) : sum;
+}</code></pre>
+
+<p>Four lines, three measures. Count is the tally of matching records, sum totals the measured field, and average divides one by the other. The signature is the important part: it takes <em>any</em> set of records and returns a single value, which means it doesn't care whether it's being asked about a single cell, a whole row, a whole column, or the entire dataset. That generality is what lets the same function serve all four roles in the next three steps.</p>
+
+<p>The empty-set guard on the first line is deliberately asymmetric, and correctly so. If no records match an intersection, the <em>count</em> is genuinely zero — that's a real answer. But the sum and the average of nothing aren't zero, they're undefined, so the function returns an empty string and the cell renders blank. A grid full of misleading <code>0</code>s where you actually mean "no data" is one of the most common ways a report lies to the person reading it, and telling those two states apart costs one ternary.</p>
+
+<h3>Step 4 — The body: filter at every intersection</h3>
+
+<p>This is the cross-tabulation itself, and it's a loop inside a loop:</p>
+
+<pre><code class="language-javascript">var body = rows.map(function (rv) {
+  var cells = cols.map(function (cv) {
+    var match = DATA.filter(function (r) { return r[ROW] === rv && r[COL] === cv; });
+    return '&lt;td class="pv-cell"&gt;' + aggregate(match, how) + '&lt;/td&gt;';
+  }).join('');
+  var rowRecs = DATA.filter(function (r) { return r[ROW] === rv; });
+  return '&lt;tr&gt;&lt;td class="pv-rowhead"&gt;' + rv + '&lt;/td&gt;' + cells +
+         '&lt;td class="pv-total"&gt;' + aggregate(rowRecs, how) + '&lt;/td&gt;&lt;/tr&gt;';
+}).join('');</code></pre>
+
+<p>For each row value, map across the column values; at each pair, filter the records matching both and hand them to <code>aggregate</code>. Read the two <code>filter</code> conditions next to each other and the structure of a pivot is right there in the source: the cell filter tests <em>both</em> dimensions, the row-total filter tests <em>one</em>.</p>
+
+<p>That second filter is the first appearance of the idea this whole component turns on, so it's worth stating before we get to the footer: the Total column is not the sum of the cells to its left. It's an independent aggregation of every record in that row.</p>
+
+<h3>Step 5 — The header, and a corner that labels itself</h3>
+
+<pre><code class="language-javascript">var head = '&lt;thead&gt;&lt;tr&gt;&lt;th class="pv-corner"&gt;' + ROW + ' / ' + COL + '&lt;/th&gt;' +
+  cols.map(function (c) { return '&lt;th&gt;' + c + '&lt;/th&gt;'; }).join('') +
+  '&lt;th&gt;Total&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;';</code></pre>
+
+<p>The header is the same <code>cols</code> array the body iterates, bracketed by a corner cell and a Total cell — which guarantees the header can never disagree with the body about how many columns there are, a class of bug that hand-written table headers produce constantly.</p>
+
+<p>The corner reads "region / quarter" because it interpolates the field-name constants directly. It's a small thing that pays off the moment the dimensions become user-selectable: change <code>ROW</code> to <code>'product'</code> and the corner relabels itself with no extra work. Swap in prettier display names with a lookup object when you need them.</p>
+
+<h3>Step 6 — The footer, and the detail that separates a pivot from a grid</h3>
+
+<pre><code class="language-javascript">var foot = '&lt;tfoot&gt;&lt;tr&gt;&lt;td class="pv-rowhead"&gt;Total&lt;/td&gt;' +
+  cols.map(function (cv) {
+    var colRecs = DATA.filter(function (r) { return r[COL] === cv; });
+    return '&lt;td&gt;' + aggregate(colRecs, how) + '&lt;/td&gt;';
+  }).join('') +
+  '&lt;td&gt;' + aggregate(DATA, how) + '&lt;/td&gt;&lt;/tr&gt;&lt;/tfoot&gt;';</code></pre>
+
+<p>Same pattern: filter by the column dimension alone for each column total, then pass the entire <code>DATA</code> array for the grand total in the corner. Four different aggregation scopes — cell, row, column, everything — expressed as four different filters into one function.</p>
+
+<p><strong>Now the part I promised.</strong> The obvious optimization here is to skip the filtering and add up numbers you've already computed: sum the cells across a row for the row total, sum the row totals for the grand total. It's less code and fewer passes over the data, and for sum and count it produces exactly the right answer.</p>
+
+<p>It is also wrong, and it will ship.</p>
+
+<p>Switch the measure to Average. A row total computed by averaging the cell averages treats every cell as equally important, regardless of how many records each one represents. Say North/Q1 holds three sales averaging 100 and North/Q2 holds a single sale of 200. Average the two cells and you get 150. The true average across those four records is <code>(300 + 200) / 4 = 125</code>. The cell-derived figure isn't a rounding difference — it's a different statistic, and it's the one nobody asked for.</p>
+
+<p>Average is what statisticians call a non-additive measure, and it isn't alone: median, distinct count, percentage, and ratio all break the same way. Aggregating the raw records at every scope costs a few extra passes and is correct for <em>all</em> measures, including ones you add later without re-examining this decision. That's the trade the snippet makes deliberately.</p>
+
+<p>Worth noting for anyone checking the math in the live demo: the sample data has exactly one record per intersection, so the cell-averaging shortcut would coincidentally agree with the correct answer there. The bug only appears once cells hold different numbers of records — which is to say, on real data. That's precisely why it survives code review and reaches production.</p>
+
+<h3>Step 7 — Rendering, in one assignment</h3>
+
+<pre><code class="language-javascript">function render() {
+  var how = aggSel.value;
+  var rows = uniq(ROW), cols = uniq(COL);
+  // ...head, body, foot built as above...
+  table.innerHTML = head + '&lt;tbody&gt;' + body + '&lt;/tbody&gt;' + foot;
+}
+
+aggSel.addEventListener('change', render);
+render();</code></pre>
+
+<p><code>render()</code> is a pure function of the data plus the selected measure, and it rebuilds the entire table in a single <code>innerHTML</code> assignment. There's no patching, no "update just the totals" path, and therefore no way for one part of the grid to be showing sums while another shows averages. For a grid of this size, one full rebuild is imperceptible and worth far more than the DOM diffing it avoids.</p>
+
+<p>The last two lines are the whole wiring: re-render on change, and render once on load so the table isn't empty until someone touches the selector.</p>
+
+<p>One caveat before this goes near user-supplied data: values are interpolated straight into an HTML string, so a region named <code>&lt;img onerror=…&gt;</code> would execute. Run row and column labels through an escape function if your dimensions come from anywhere you don't control — measured values are numbers, so those are safe.</p>
+
+<h3>Step 8 — Making a numeric grid readable</h3>
+
+<p>The CSS is short, and two properties do most of the work:</p>
+
+<pre><code class="language-css">.pv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.pv-table th, .pv-table td { padding: 9px 13px; text-align: right; white-space: nowrap; }
+.pv-table th.pv-corner,
+.pv-table th.pv-rowhead,
+.pv-table td.pv-rowhead { text-align: left; font-weight: 700; }
+.pv-total, .pv-table tfoot td { font-weight: 800; background: #f8fafc; }
+.pv-table tfoot td { border-top: 2px solid #e2e8f0; }
+.pv-scroll { overflow-x: auto; }</code></pre>
+
+<p><strong>Right-aligned numbers with <code>tabular-nums</code></strong> is the pair that makes a column of figures comparable at a glance. Right alignment lines up the units, tens and hundreds columns; <code>font-variant-numeric: tabular-nums</code> forces every digit to the same width in fonts that would otherwise render a "1" narrower than a "0", which is what stops a column of numbers from looking subtly ragged. Labels stay left-aligned, because text reads from the left and numbers compare from the right.</p>
+
+<p>The rest is hierarchy: totals get a tinted background and heavier weight so they read as summaries rather than more data, a 2px top border separates the footer from the body, and the wrapper scrolls horizontally so a pivot with twenty columns degrades gracefully instead of squeezing every cell into illegibility.</p>
+
+<h2>Customizing it for your own project</h2>
+
+<p>Almost every change worth making is small:</p>
+
+<ul>
+<li><strong>Different dimensions.</strong> Change <code>ROW</code>, <code>COL</code> and <code>VAL</code>. Bind them to three <code>&lt;select&gt;</code> elements populated from <code>Object.keys(DATA[0])</code> and call <code>render()</code> on change — that's a fully interactive pivot in about ten extra lines.</li>
+<li><strong>More measures.</strong> Add a branch to <code>aggregate()</code>: min and max are one <code>Math</code> call each, distinct count is <code>new Set(records.map(r =&gt; r[VAL])).size</code>, median is a sort plus a midpoint. Because everything routes through this one function, a new measure works in the cells and all three tiers of totals at once.</li>
+<li><strong>Formatted cells.</strong> Wrap the value in <code>Intl.NumberFormat</code> for currency or percentages — but format at the point of rendering only, never before aggregation, or you'll be summing strings.</li>
+<li><strong>Percentage of total.</strong> Divide each cell by the grand total you already compute, and the grid switches from absolute numbers to share of the whole.</li>
+<li><strong>Conditional formatting.</strong> One class on the <code>&lt;td&gt;</code> based on the aggregated number turns the grid into a heat map — the single highest-value addition for a report people scan rather than read.</li>
+<li><strong>Drill-down.</strong> Each cell already knows its filtered records; stash the row and column values in <code>data-</code> attributes and a click can open the underlying rows in an <a href="https://fwdtools.com/ui-snippets/expandable-table/">expandable table</a> or a modal.</li>
+</ul>
+
+<h2>The one thing deliberately left simple</h2>
+
+<p>The filter-per-intersection approach in Step 4 scans the entire <code>DATA</code> array once for every cell, plus once per row and once per column. That's <code>O(rows × cols × records)</code>, and for a 3×4 grid over twelve records it's nothing — a few hundred comparisons, faster than the browser can paint the result.</p>
+
+<p>It is also the first thing to go when the dataset grows. The fix is a single grouping pass:</p>
+
+<pre><code class="language-javascript">var buckets = new Map();                       // 'North|Q1' -&gt; [records]
+DATA.forEach(function (r) {
+  var key = r[ROW] + '|' + r[COL];
+  if (!buckets.has(key)) buckets.set(key, []);
+  buckets.get(key).push(r);
+});
+// then each cell is a lookup, not a scan:
+var match = buckets.get(rv + '|' + cv) || [];</code></pre>
+
+<p>One walk through the records, then every cell is an <code>O(1)</code> map read — the whole render becomes linear in the size of the data. Row and column totals can be accumulated in two more maps during the same pass, or derived by concatenating the relevant buckets, which still aggregates raw records and so keeps Step 6's correctness guarantee intact.</p>
+
+<p>The snippet ships the readable version on purpose, because the clarity of "filter the records that match both" is the thing worth learning first, and because a pivot over a few dozen intersections genuinely doesn't need the map. Reach for the grouping pass when your record count reaches the thousands — the same restructuring is also what you need for a third dimension, where the key simply becomes <code>row + '|' + col + '|' + page</code> and a selector chooses which slice is rendered.</p>
+
+<h2>Using it in React, Vue, or Angular</h2>
+
+<p>The editor exports all four, and the port is unusually clean because the logic is already a pure function of data plus one piece of state.</p>
+
+<p>In React, the measure is <code>useState</code> and the pivoted structure is a <code>useMemo</code> keyed on the data and the measure — returning arrays of rows, columns, cells and totals rather than an HTML string, which the JSX then maps over. Deriving the grid in a memo rather than storing it in state is the whole trick: a pivot is not state, it's a projection of state, and keeping it in <code>useState</code> is how the grid and the selector fall out of sync.</p>
+
+<p>Vue is the closest match to the original — <code>uniq</code> and <code>aggregate</code> move into a <code>computed</code> that returns the same structure, and the template does the two nested <code>v-for</code>s. Angular mirrors it with a signal for the measure and a <code>computed()</code> for the grid, rendered with <code>@for</code>. In all three, <code>aggregate()</code> itself is copied over untouched, because it's plain arithmetic over an array with no DOM in sight — which is a decent sign the original was factored correctly.</p>
+
+<h2>Build, understand, optimize, and extend it with AI</h2>
+
+<p>This snippet rewards being interrogated rather than pasted. Paste the HTML, CSS and JS into an AI assistant like Claude and start with the one question the whole design turns on: ask it to explain why the row and column totals re-filter the raw records instead of summing the cells that are already on screen, then ask it to construct a small unbalanced dataset — different numbers of records per intersection — where the two approaches disagree under the Average measure, and to compute both answers by hand. Seeing the two numbers side by side makes the point permanently in a way that reading about non-additive measures does not. Follow it with "what does <code>aggregate</code> return for an empty set, and why is <code>count</code> treated differently?" For performance, ask it to convert the filter-per-cell approach into the single grouping pass described above, keeping the totals correct for the Average measure — a good exercise precisely because the obvious version of that refactor is where correctness usually gets lost. Then extend, roughly in order of value: a heat-map class driven by each cell's share of the grand total, dropdowns that let the user choose the row, column and measure fields at runtime, sorting rows by their total, a click-to-drill-down that shows the records behind a cell, CSV export of the rendered grid, and a third "page" dimension with a slice selector. Treat the code less like a finished artifact and more like a starting point for a conversation.</p>
+
+<h3>Prompt to recreate it</h3>
+
+<p>Copy this into your AI assistant of choice to build the component from scratch, or as a jumping-off point for your own variant:</p>
+
+<pre><code class="language-text">Build a pivot table that cross-tabulates a flat array of records in plain HTML, CSS, and vanilla JavaScript, with no charting or spreadsheet library.
+
+Requirements:
+- Start from a flat array of plain objects (for example, each with a region, a quarter, and a numeric sales value) and three configurable field names: which field becomes the row dimension, which becomes the column dimension, and which numeric field is being measured.
+- Derive the unique values for the row dimension and the unique values for the column dimension directly from the data (not hardcoded), and build a table where every row/column intersection is a cell showing the aggregated measure for exactly the records matching both that row's value and that column's value.
+- Implement a single aggregate function that supports at least three modes — sum, average, and count — and route every cell, every row total, every column total, and the grand total through that one function so switching modes can never leave some totals using a different calculation than others. For an empty set of records it should return 0 for count but a blank cell for sum and average, so "no data" never renders as a misleading zero.
+- Add a dropdown that lets the user switch the aggregation mode live, causing the entire grid (cells and all totals) to recompute and re-render immediately.
+- Add a totals column at the right of each row and a totals row at the bottom of the table, plus a grand total in their intersection — and make sure every one of these totals is computed by aggregating the underlying raw records that match that slice, not by summing the already-rendered cell values, so the average mode's totals stay mathematically correct.
+- Style numeric cells with right-aligned, tabular-figure text and header/label cells left-aligned, give the totals column and footer row a tinted background and heavier weight, and make the table scroll horizontally if there are more columns than fit the container.</code></pre>
+
+<h2>Final thought</h2>
+
+<p>What makes this snippet worth studying isn't the table — it's that a feature with a reputation for being enterprise software turns out to be two nested <code>map</code>s and a <code>filter</code> at every intersection. Discover the axes from the data, aggregate the records at each intersection, and render. Forty lines.</p>
+
+<p>The part that's actually hard has nothing to do with rendering at all: knowing that a total is a question about records, not about the numbers next to it. Get that right and your report can add measures forever without anyone finding a row that doesn't add up. Get it wrong and everything looks fine until the day the data becomes unbalanced and a number on a slide turns out to be indefensible.</p>
+
+<p>Grab the full HTML, CSS, and JS — or export it straight to React, Vue, Angular, or Tailwind — at <a href="https://fwdtools.com/ui-snippets/pivot-table/">Pivot Table on FWD Tools</a>. It's free, runs entirely in your browser, and needs no sign-up. Browse more components like this one at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a>.</p>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Empty Dashboard Widget">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Empty dashboard widget</h1>
+    <p class="hint">This chart widget has no sales yet. Click "Add sample data" to see it populate into the shape it hints at now.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="widget">
+      <div class="widgetHead">
+        <span class="widgetTitle">Sales this week</span>
+        <button type="button" class="addBtn" id="addBtn">Add sample data</button>
+      </div>
+      <div class="widgetBody" id="widgetBody"></div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; padding: 20px 16px 28px; }
+
+  .widget { width: 100%; max-width: 380px; border: 1px solid var(--line); border-radius: 12px; background: #fff; overflow: hidden; }
+  .widgetHead { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .widgetTitle { font-size: 13px; font-weight: 700; }
+  .addBtn {
+    padding: 6px 12px; border-radius: 7px; border: 1.5px solid var(--line);
+    background: #fff; color: var(--accent); font: 700 11px system-ui, sans-serif; cursor: pointer;
+  }
+  .addBtn:hover { border-color: var(--accent); background: #eef0ff; }
+  .addBtn:disabled { opacity: 0.4; cursor: default; }
+
+  .widgetBody { height: 190px; padding: 16px; display: flex; align-items: flex-end; justify-content: center; position: relative; }
+
+  .placeholderBars { display: flex; align-items: flex-end; gap: 10px; width: 100%; height: 100%; opacity: 0.5; }
+  .pbar { flex: 1; background: repeating-linear-gradient(45deg, var(--line), var(--line) 4px, #eef0f3 4px, #eef0f3 8px); border-radius: 4px 4px 0 0; }
+  .placeholderNote {
+    position: absolute; bottom: 10px; left: 0; right: 0; text-align: center;
+    font-size: 11.5px; color: var(--sub); font-weight: 600;
+  }
+
+  .realBars { display: flex; align-items: flex-end; gap: 10px; width: 100%; height: 100%; }
+  .rbar { flex: 1; background: var(--accent); border-radius: 4px 4px 0 0; animation: grow 0.5s ease; transform-origin: bottom; }
+  @keyframes grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+</script>
+
+<script type="text/plain" id="js">
+  var widgetBody = document.getElementById('widgetBody');
+  var addBtn = document.getElementById('addBtn');
+
+  function renderEmpty() {
+    var heights = [30, 55, 20, 65, 40, 25, 50];
+    var bars = heights.map(function (h) {
+      return '<div class="pbar" style="height:' + h + '%"></div>';
+    }).join('');
+    widgetBody.innerHTML =
+      '<div class="placeholderBars">' + bars + '</div>' +
+      '<div class="placeholderNote">No sales yet this week</div>';
+  }
+
+  function renderData() {
+    var heights = [45, 70, 35, 90, 60, 50, 80];
+    var bars = heights.map(function (h) {
+      return '<div class="rbar" style="height:' + h + '%"></div>';
+    }).join('');
+    widgetBody.innerHTML = '<div class="realBars">' + bars + '</div>';
+    addBtn.disabled = true;
+  }
+
+  addBtn.addEventListener('click', renderData);
+
+  renderEmpty();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

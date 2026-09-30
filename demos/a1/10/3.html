@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Flexbox centering">
+
+<script type="text/plain" id="html">
+  <div class="stage">
+    <div class="box">Centered on both axes</div>
+  </div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .stage {
+    height: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    background: repeating-linear-gradient(45deg, #eceef3, #eceef3 12px, #f6f7f9 12px, #f6f7f9 24px);
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+  }
+  .box {
+    padding: 18px 26px;
+    background: var(--accent);
+    color: #fff;
+    font: 700 14px system-ui, sans-serif;
+    border-radius: 10px;
+    box-shadow: 0 10px 26px rgba(99,102,241,0.35);
+  }
+</script>
+
+<script type="text/plain" id="js">
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

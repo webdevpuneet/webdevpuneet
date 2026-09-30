@@ -1,0 +1,166 @@
+<h1>10 Copy-Paste Table Snippets That Replace a Data Grid Library</h1>
+
+<p>The moment a project needs to show a list of records, someone suggests installing a data grid. It's an understandable reflex — sorting, filtering, pagination, selection and export sound like a lot of work — but the honest version of most requirements is "a table with three or four of those features," and a grid library answers it with a large dependency, its own data conventions, and a theming system you'll spend a day fighting. Below are 10 free table snippets you can preview live and copy in seconds: a complete admin table, click-to-sort headers, per-column filters, client-side pagination, frozen header and first column, row selection with a bulk action bar, inline cell editing, expandable detail rows, a correct CSV export, and a real pivot table.</p>
+
+<p>Each one comes with <strong>how it actually works</strong>, <strong>when to reach for it</strong>, and a tip for adapting it. They're all plain HTML, CSS, and vanilla JavaScript over a real <code>&lt;table&gt;</code> — no grid library, no virtual DOM, no build step.</p>
+
+<p>Every snippet below is a <strong>live, interactive preview</strong> — sort it, filter it, page through it, right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+
+<h2>What makes a table usable rather than just present</h2>
+
+<p>Tables fail in a small number of predictable ways, and each snippet below fixes at least one of them:</p>
+
+<ul>
+<li><strong>Sort and format are two different things.</strong> A column showing "$89.99" is text to a computer. If the raw value isn't kept somewhere the code can reach, sorting silently produces nonsense — and nobody notices until a customer does.</li>
+<li><strong>State belongs in data, not in the DOM.</strong> Which rows are selected, which page you're on, which columns are visible — the snippets that survive real use keep those in a variable and re-derive the markup from it. The ones that read checked-ness back out of the DOM drift out of sync the first time anything re-renders.</li>
+<li><strong>The screen has edges.</strong> Wide tables scroll sideways and long ones scroll down, and both lose the context that made the numbers meaningful. Sticky headers, frozen columns and pagination all exist for the same reason.</li>
+</ul>
+
+<p>Keep those three in mind as you scroll.</p>
+
+<h2>1. Data Table</h2>
+
+<p>The complete admin table you'd otherwise assemble from four separate tutorials: live search with a result count, status badges, row checkboxes with select-all, gradient avatar initials, Edit and Remove row actions, and a styled pagination footer.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/data-table/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Data Table — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the search is deliberately naïve in the best way — for each row it reads <code>row.textContent</code>, which returns every visible character in that row as one string, and checks whether the lowercased search term appears in it. One <code>includes()</code> matches name, email, role, department and status simultaneously, with no per-column logic and no need to touch the function when you add a column. Non-matching rows get a class that sets <code>display: none</code>, and the same pass counts the survivors for the "Showing 3 of 5" line in the footer. The avatars are initials on a CSS gradient rather than images, so there's nothing to load and nothing to break when a URL 404s.</p>
+
+<p><strong>Best for:</strong> the user, order or record list at the centre of any admin panel — the screen you build first and then keep adding to. <strong>Tip:</strong> that <code>textContent</code> search is perfect up to a few hundred rows and quietly wrong beyond them, because it scans every row on every keystroke. Past that point, debounce the input by ~150&nbsp;ms before you reach for anything cleverer. The pagination footer here is styled markup rather than working paging — drop in the logic from snippet 4 below when you need it to do something.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/data-table/">Data Table</a></p>
+
+<h2>2. Sortable Table</h2>
+
+<p>Click a header to sort ascending, click again for descending, with an arrow indicator on the active column — and correct numeric ordering on columns that display currency and units.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/sortable-table/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sortable Table — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each sortable header carries <code>data-col</code> (which column index) and optionally <code>data-type="number"</code>, and the handler reads the header's current class to decide the next direction. Rows are spread into an array, sorted, and re-appended — the DOM order <em>is</em> the sort result, so nothing needs re-rendering. The important part is the <code>data-val</code> attribute on formatted cells: a cell reading "$89.99" also carries <code>data-val="89.99"</code>, because <code>parseFloat("$89.99")</code> returns <code>NaN</code> and a table sorted on <code>NaN</code> just shuffles. The direction arrow is a CSS <code>::after</code> driven by the header's class, so JavaScript never touches it.</p>
+
+<p><strong>Best for:</strong> any table where "cheapest first" or "newest first" is a question users will ask — which is nearly all of them. <strong>Tip:</strong> the <code>data-val</code> pattern generalises further than prices. Put an ISO date in it for a column showing "14 Mar", or a rank number for a column showing badges, and the same comparison sorts them correctly.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/sortable-table/">Sortable Table</a></p>
+
+<h2>3. Filterable Table</h2>
+
+<p>A filter input in every column header, combined with AND logic, plus match highlighting, a numeric minimum filter, a live result count and a clear-all button.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/filterable-table/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Filterable Table — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each header input writes into a <code>filters</code> array indexed by column, and a row survives only if it satisfies <em>every</em> active filter — which is the whole point, because "Engineering <em>and</em> Berlin" is a question a single search box cannot express. Text columns match case-insensitive substrings; the salary column is treated as a <em>minimum</em> instead, since nobody searches a salary for the characters "100000". Matches are wrapped in a <code>&lt;mark&gt;</code>, and the order there matters: the cell text is HTML-escaped first and only then is the matched slice wrapped, so a value containing <code>&lt;</code> or <code>&amp;</code> can never inject markup.</p>
+
+<p><strong>Best for:</strong> reporting screens and directories — anywhere users arrive knowing two or three things about the record they want. <strong>Tip:</strong> the count, the empty state and the clear button look like polish and aren't. Without them a user who filters down to zero rows sees a blank table and assumes it's broken.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/filterable-table/">Filterable Table</a></p>
+
+<h2>4. Pagination Table</h2>
+
+<p>Client-side paging done properly: smart page numbers with an ellipsis for the gaps, prev/next buttons that disable at the ends, a rows-per-page selector, and a "Showing 1–10 of 48 results" info bar.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/pagination-table/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pagination Table — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the full dataset lives in an array and the render pass slices it — <code>start = (page - 1) * perPage</code>, then <code>data.slice(start, end)</code> — rebuilding the body and the controls together on every change. The page buttons are the part most hand-rolled paginations get wrong: rather than printing every page number, it shows the first page, the pages either side of the current one, and the last page, running the result through a <code>Set</code> to deduplicate and dropping an ellipsis into the gaps. Changing the rows-per-page selector also resets to page 1, so you can never be left stranded on a page number that no longer exists.</p>
+
+<p><strong>Best for:</strong> any list past a couple of screens, and the default choice over infinite scroll whenever users need to find a specific record rather than browse. <strong>Tip:</strong> moving to server-side paging changes surprisingly little — swap the <code>slice()</code> for a fetch with <code>page</code> and <code>limit</code> parameters and compute the button range from the total count the API returns.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/pagination-table/">Pagination Table</a></p>
+
+<h2>5. Sticky Header Table</h2>
+
+<p>Frozen panes, the spreadsheet feature every wide table needs: the header row pinned to the top and the first column pinned to the left, both staying put while the rest scrolls in two directions — with no JavaScript at all.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/sticky-header-table/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sticky Header Table — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> three <code>position: sticky</code> rules inside a scrolling container — <code>top: 0</code> on the header cells, <code>left: 0</code> on the first column, and <em>both</em> on the corner cell that belongs to each. Stacking order is what makes or breaks it: the header sits at <code>z-index: 2</code>, the frozen column at <code>1</code>, and the corner at <code>3</code> so it stays above both where they cross. Each sticky cell also needs an opaque background, or scrolled content shows straight through it. And the whole thing uses <code>border-collapse: separate</code>, because sticky positioning is unreliable with collapsed borders — those belong to the table rather than the cells — so row dividers are drawn per cell instead.</p>
+
+<p><strong>Best for:</strong> wide financial, analytics and comparison tables where losing the column heading means losing the meaning of the number you're looking at. <strong>Tip:</strong> freeze exactly one column. Two feels like control and leaves phone users a sliver of scrollable width.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/sticky-header-table/">Sticky Header Table</a></p>
+
+<h2>6. Selectable Table</h2>
+
+<p>Row selection with the details that make it feel professional: a tri-state select-all header, shift-click to grab a range, whole-row click targets, a live count, and a bulk action bar that appears only when something is selected.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/selectable-table/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Selectable Table — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the selection lives in a <code>Set</code> and everything visible is derived from it in one refresh pass — the row highlights, the checkboxes, the count, and the header's state. That header checkbox is <em>checked</em> when all rows are selected, <em>indeterminate</em> when only some are, and empty when none are; skip the middle state, as most hand-built tables do, and a half-selected table shows a fully-ticked header, which is simply a lie. Shift-click remembers the last index clicked and adds the whole range between it and the new row, the same gesture your file manager uses.</p>
+
+<p><strong>Best for:</strong> any table with bulk operations behind it — delete, export, assign, tag. <strong>Tip:</strong> this demo stores row <em>indices</em> in the Set, which is fine for one static page and breaks the instant rows are sorted or paginated, because index 2 is now a different record. Store stable ids instead before you ship it. If you want the floating toolbar as its own component, the <a href="https://fwdtools.com/ui-snippets/bulk-actions-bar/">Bulk Actions Bar</a> snippet isolates that half.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/selectable-table/">Selectable Table</a></p>
+
+<h2>7. Editable Table</h2>
+
+<p>Spreadsheet-style inline editing: every cell is a text field that looks like plain text until you click it, with add-row, delete-row, a live row count and a save button.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/editable-table/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Editable Table — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the trick is entirely in the CSS. Each cell holds a real <code>&lt;input&gt;</code> with a transparent border and background, so it reads as text; on hover a faint border appears, and on focus a full indigo border with a soft shadow ring. Nothing is swapped in or out of the DOM, which is why there's no flicker and no lost keystroke when you click straight from one cell into another. The data binding is deliberately plain: each input writes back to <code>rows[i][key]</code> on input, and the table re-renders from that array, so the array is always the truth and there's no two-way binding machinery to reason about. A new row slides in with an animation and auto-focuses its first cell.</p>
+
+<p><strong>Best for:</strong> settings tables, team and pricing management, CMS field editors — anywhere users change several small values in one sitting and a modal per row would be torture. <strong>Tip:</strong> add a "saved" indicator or an autosave debounce. An explicit save button is honest, but a table full of edits and no feedback makes people re-check every field before they trust it.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/editable-table/">Editable Table</a></p>
+
+<h2>8. Expandable Rows Table</h2>
+
+<p>Summary rows that open to reveal their detail — click an order and its line items unfold underneath, with a rotating chevron and accordion behaviour so only one is open at a time.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/expandable-table/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Expandable Rows Table — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every visible row is paired with a hidden detail row directly beneath it, tied together by the row's <code>data-id</code> and a matching <code>id</code> on its detail row. Toggling adds a class to both; the detail row's CSS flips from <code>display: none</code> to <code>display: table-row</code>, which is the specific value that keeps it inside the table's layout rather than collapsing it into a block. Before opening one, the handler closes any that are open — accordion behaviour, and deleting that block is all it takes to allow several at once. The detail cell spans every column with <code>colspan</code> and holds a nested table with its own header, indented behind an accent left border so the hierarchy is visible at a glance.</p>
+
+<p><strong>Best for:</strong> orders and their line items, invoices, expense categories, test suites and their cases — any parent record whose detail is too much for a column but too little for its own page. <strong>Tip:</strong> if you change the outer column count, update the <code>colspan</code> to match, or the detail panel will sit misaligned under a table that otherwise looks fine. For genuinely recursive data rather than two fixed levels, the <a href="https://fwdtools.com/ui-snippets/tree-table/">Tree Table</a> handles unlimited nesting.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/expandable-table/">Expandable Rows Table</a></p>
+
+<h2>9. CSV Export Table</h2>
+
+<p>The "Export to CSV" button every table eventually needs, implemented correctly: RFC-4180 quoting, a UTF-8 BOM so Excel doesn't mangle accents, a dated filename, and no server round-trip.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/csv-export-table/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="CSV Export Table — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> one small function does the load-bearing work. A value is wrapped in double quotes, with its own quotes doubled, only when it contains a comma, a quote, or a newline — exactly the RFC-4180 rule — so <code>Marco "Cosmo" Rossi</code> exports as <code>"Marco ""Cosmo"" Rossi"</code> and an address with a comma in it stays in one column instead of spilling into the next. The file then gets a UTF-8 byte-order mark prepended, which is the one-character difference between Excel showing "Café" and showing "CafÃ©". The string becomes a <code>Blob</code>, an object URL, and a programmatically clicked <code>&lt;a download&gt;</code> — the data never leaves the device.</p>
+
+<p><strong>Best for:</strong> any admin screen where someone will eventually say "can I get this in a spreadsheet?" — which is every admin screen. <strong>Tip:</strong> this exports the rows currently in the page's data. Once your table is paginated or filtered server-side, that silently becomes "export page 1 of 40", so point the button at an endpoint that streams the full dataset through the same escaping rules.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/csv-export-table/">CSV Export Table</a></p>
+
+<h2>10. Pivot Table</h2>
+
+<p>The spreadsheet feature people assume needs a BI tool: flat records cross-tabulated by row and column, with switchable sum/average/count measures and correct totals on both axes.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/pivot-table/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pivot Table — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> three constants at the top name which field becomes the rows, which becomes the columns, and which is being measured. The code derives the unique values of each dimension from the data itself, then for every row/column intersection filters the records matching both and aggregates them. Every cell, every row total, every column total and the grand total run through one <code>aggregate()</code> function, which is what keeps the measure switch consistent. And the totals are computed from the <em>raw records</em>, never by adding up the displayed cells — for sum that happens to be the same answer, but averaging a row of averages is mathematically wrong, and getting that right is the line between a pivot and a grid of numbers.</p>
+
+<p><strong>Best for:</strong> sales by region and quarter, spend by category and month, survey cross-tabs, inventory by location and type — any moment someone exports to a spreadsheet purely to build a pivot. <strong>Tip:</strong> the demo filters the whole dataset once per cell, which is clear to read and fine for dozens of intersections. Over thousands of records, group the records once into a map keyed by row-plus-column and read each cell from it instead.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/pivot-table/">Pivot Table</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<p>Every snippet is framework-agnostic, so the workflow is the same wherever you're building:</p>
+
+<ol>
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs.</li>
+<li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — none of these ten need a CDN script or a build step.</li>
+<li>Prefer a component? Use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page.</li>
+<li>Replace the demo array (or the sample rows) with your API response. Most of these render from data, so that's the only change between mockup and working screen.</li>
+<li>Combining two is usually trivial — they share the same <code>thead</code>/<code>tbody</code> structure, so sorting, searching and pagination can be layered onto the same table without conflicting.</li>
+</ol>
+
+<h2>A few table principles worth keeping</h2>
+
+<ul>
+<li><strong>Keep the sortable value next to the readable one.</strong> Format for humans in the cell, store the raw number or ISO date in <code>data-val</code>, and sorting, filtering and export all stay correct for free.</li>
+<li><strong>Let one structure own the state.</strong> The <code>Set</code> in the selectable table, the array in the editable table, the column config in a toggle — a single source that the DOM is rendered from, rather than state read back out of the DOM.</li>
+<li><strong>Use a real <code>&lt;table&gt;</code>.</strong> Every snippet here does. You get column alignment, screen-reader row and column semantics, and <code>colspan</code> for free — all of which a grid of divs has to reimplement badly.</li>
+<li><strong>Add features on demand, not in advance.</strong> Each of these is a few dozen lines. Install the dependency the day you genuinely need column virtualisation over 50,000 rows, not on the assumption you might.</li>
+</ul>
+
+<h2>Final Thought</h2>
+
+<p>These ten cover the whole life of a table — show the records, sort them, filter them, page them, keep the headings visible, select and act in bulk, edit in place, drill into detail, export to a spreadsheet, and summarise into a cross-tab. Start with the <a href="https://fwdtools.com/ui-snippets/data-table/">Data Table</a> and layer on only what your users actually request. When they want more, the same library has a <a href="https://fwdtools.com/ui-snippets/resizable-columns-table/">Resizable Columns Table</a> with double-click auto-fit, a <a href="https://fwdtools.com/ui-snippets/data-table-column-toggle/">Column Toggle</a> for dense grids, an <a href="https://fwdtools.com/ui-snippets/infinite-scroll-table/">Infinite Scroll Table</a> that lazy-loads pages with an IntersectionObserver sentinel, and a <a href="https://fwdtools.com/ui-snippets/bar-chart/">Bar Chart</a> for when the numbers deserve a picture — all dependency-free too.</p>
+
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

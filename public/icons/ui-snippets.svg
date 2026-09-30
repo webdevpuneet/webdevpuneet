@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <!-- Code brackets -->
+  <path d="M8 9L5 12L8 15" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16 9L19 12L16 15" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Slash -->
+  <path d="M13 6L11 18" stroke="#a78bfa" stroke-width="1.75" stroke-linecap="round"/>
+  <!-- Card outline suggesting component -->
+  <rect x="2" y="3" width="20" height="18" rx="3" stroke="#6366f1" stroke-width="1.5" opacity="0.25"/>
+</svg>

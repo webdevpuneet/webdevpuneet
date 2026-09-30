@@ -1,0 +1,227 @@
+<h1>Why Your React Component Re-Renders (and How to Prove It)</h1>
+
+<p>"Just wrap it in useMemo" or "add React.memo" is advice you can follow without ever knowing whether it fixed anything, because the actual question — did this component re-render, and why — is invisible unless you go looking for it. React doesn't log renders to the console, the DOM doesn't visibly change when a render happens without a DOM write, and a component that re-renders 40 times a second can look completely identical to one that renders once. This post isn't about fixing re-renders; it's about proving they happened, seeing exactly what triggered them, and telling the difference between a real problem and React doing precisely what it's supposed to.</p>
+
+<p>The 9 demos below are all live and interactive, and nearly all of them put a visible render counter — a plain <code>useRef</code> incremented directly in the component body — next to whatever else is happening, because that counter is the only thing that actually proves the function body re-ran. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> — FWD Tools' free in-browser editor. If you'd rather build a render-tracking component from a blank slate, the <a href="https://fwdtools.com/react-playground/">React Playground</a> is FWD Tools' full in-browser React sandbox, no install or build step required for either.</p>
+
+<h2>Ground rules before you start counting renders</h2>
+
+<p>A "render" in React has two separate phases that this whole post depends on you keeping apart. The <strong>render phase</strong> is React calling your component function to figure out what the output should look like — this is pure computation, it doesn't touch the screen, and it's what a <code>useRef</code> counter incremented in the function body actually measures. The <strong>commit phase</strong> is React comparing that output to what's already on screen and writing only the differences to the real DOM. A component can render without committing anything (demo #9 proves this directly), and a render can be triggered by state, by props, by a parent, or by a hook's internal machinery that has nothing to do with what the component visibly displays. Every demo below isolates one specific trigger so you can watch it in isolation, without any of the other seven muddying the read.</p>
+
+<h2>1. A Parent Re-Render Always Re-Renders Its Children</h2>
+
+<p>Click "Re-render parent" a few times. Child's props never change — watch its render count climb anyway.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/23/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A Parent Re-Render Always Re-Renders Its Children Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">function Child(props) {
+  var renderCountRef = useRef(0);
+  renderCountRef.current += 1;   // proves the function body ran
+  return e('div', null, props.label);
+}
+
+function Parent() {
+  var tickState = useState(0);
+  // re-rendering Parent for ANY reason re-renders Child too,
+  // even though Child's props never change
+  return e(Child, { label: 'static-label' });
+}</code></pre>
+
+<p>By default, React has no idea whether a child's output would actually differ before it calls that child's function — it simply calls it. When a component re-renders, React walks the entire subtree of elements that component returns and calls every function component in it again, unconditionally, to build the new tree it will diff against the old one. There's no built-in check for "did this child's props actually change" unless you explicitly ask for one; the default behavior treats every child as needing a fresh render purely because its parent rendered. This is why a single state update near the root of an app can cascade into hundreds of component functions running even though only one small piece of the UI actually needs to change — React is being thorough by default, not smart by default. The smartness (skipping children whose props are unchanged) is opt-in, which is exactly what demo #5 adds on top of this one.</p>
+
+<p><strong>Best for:</strong> understanding why a component you never touched shows up in a profiler flame graph — it's very likely just a descendant of something that did change. <strong>Tip:</strong> before reaching for <code>React.memo</code> anywhere, confirm with a render counter (like this one) that the child is actually re-rendering more than you expect; guessing wastes the optimization on components that were never the bottleneck.</p>
+
+<h2>2. setState With the Same Value: Primitive vs Object</h2>
+
+<p>Click "Set to 5" repeatedly on the left, and "Set to {n:5}" repeatedly on the right. Watch each render counter.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/23/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="setState With the Same Value: Primitive vs Object Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">var numState = useState(5);
+setNum(5);              // Object.is(5, 5) is true -- React bails out, no re-render
+
+var objState = useState({ n: 5 });
+setObj({ n: 5 });       // a NEW object -- never Object.is-equal to the old one,
+                         // so this always re-renders even though the contents match</code></pre>
+
+<p>React's state setter has a built-in short-circuit: before scheduling a re-render, it compares the new value to the current value with <code>Object.is</code>, the same comparison used for dependency arrays and <code>React.memo</code>'s prop check. For primitives — numbers, strings, booleans — <code>Object.is</code> compares by value, so calling <code>setNum(5)</code> when <code>num</code> is already <code>5</code> finds equality and React skips the re-render entirely, as if the call never happened. For objects and arrays, <code>Object.is</code> compares by reference, and <code>{ n: 5 }</code> is a brand-new object every time that line executes — it is never the same reference as the previous state, regardless of whether its contents are identical. React has no way to know the two objects "mean" the same thing without you telling it, so it always schedules a re-render. This single asymmetry is the root cause behind a large share of "why does this re-render every time I click" bugs involving object or array state.</p>
+
+<p><strong>Best for:</strong> understanding exactly which state updates React will short-circuit for free versus which ones always cost a render. <strong>Tip:</strong> if you're updating object state with the same logical value repeatedly (a form field that keeps resetting to itself, a filter re-applied), consider whether a primitive representation of the value that actually changed would let this bail-out help you — or track the "did it actually change" logic yourself before calling the setter.</p>
+
+<h2>3. Build a "Why Did This Render" Diff Readout</h2>
+
+<p>Change name, change age, or click "Set age to itself." Watch the diff line explain each render.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/23/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Build a Why-Did-This-Render Diff Readout Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">var prevRef = useRef({ name: name, age: age });
+var reasons = [];
+if (prevRef.current.name !== name) reasons.push('name changed');
+if (prevRef.current.age !== age) reasons.push('age changed');
+prevRef.current = { name: name, age: age };   // update AFTER comparing
+// reasons.join(', ') is your "why did this render" readout</code></pre>
+
+<p>The real React DevTools extension has a "highlight updates" feature and, in the profiler, a "why did this render" section — but neither can attach to a component running inside a sandboxed iframe the way these demos do, which is exactly the gap this pattern fills. The technique is simple and works anywhere: a ref holds a snapshot of the props or state you care about from the previous render, and on every subsequent render — before overwriting that ref — you compare each field to its old value. Because a ref's <code>.current</code> mutation doesn't itself trigger anything, this comparison is free to do as part of the render body without causing extra renders of its own. What makes this more useful than just staring at a render counter is that it turns "this component rendered" into "this component rendered because <code>age</code> went from 30 to 31" — the actual diagnostic information you need to decide whether a render was expected or not.</p>
+
+<p><strong>Best for:</strong> debugging a component that's rendering more than expected when you don't have DevTools attached, or when you need the reasoning logged/displayed rather than just visually highlighted. <strong>Tip:</strong> this same ref-diff pattern is the core of most third-party "why did you render" libraries — you're looking at a minimal version of what they do under the hood.</p>
+
+<h2>4. A Context Change Re-Renders Every Consumer</h2>
+
+<p>Click "Toggle theme." Watch both consumers re-render, even the one that never reads the theme value.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/23/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A Context Change Re-Renders Every Consumer Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">var ThemeContext = createContext(null);
+
+function AnyConsumer() {
+  useContext(ThemeContext);   // subscribing at all is enough --
+  return e('div', null, 'hi'); // this re-renders on every Provider value change,
+}                               // even though it never reads the value in its output</code></pre>
+
+<p>Calling <code>useContext(SomeContext)</code> subscribes the calling component to that context, full stop — React doesn't inspect what you do with the returned value afterward. When a <code>Provider</code>'s <code>value</code> prop changes (compared with <code>Object.is</code>, same as everywhere else), React re-renders every single component beneath that provider that called <code>useContext</code> on it, regardless of whether that component's rendered output actually depends on the part of the value that changed. This is different from props, where a parent re-rendering doesn't necessarily mean a specific prop changed — with context, any change to the value object triggers every consumer, because React can't see inside your component to know which fields you actually use. This is also why a context value containing several unrelated pieces of state (theme AND user AND settings, say, bundled into one object) is a common performance trap: updating any one of them re-renders every consumer of the whole context, not just the ones that care about that piece.</p>
+
+<p><strong>Best for:</strong> understanding why a component wrapped in <code>React.memo</code> can still re-render constantly — <code>React.memo</code> only checks props, and context bypasses props entirely. <strong>Tip:</strong> splitting one large context into several narrower ones (or memoizing selector logic with a library) is the usual fix once you've confirmed with a render counter, like this one, that this is actually what's happening.</p>
+
+<h2>5. Proving React.memo Stops (or Doesn't Stop) a Re-Render</h2>
+
+<p>Click "Unrelated tick" a few times. Both children are wrapped in React.memo — watch which render counter still climbs.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/23/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Proving React.memo Stops (or Doesn't Stop) a Re-Render Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">var stableHandler = function () {};          // defined once, outside render
+var StableChild = React.memo(StableChildImpl);
+e(StableChild, { onAction: stableHandler }); // same ref every render -- memo works
+
+var UnstableChild = React.memo(UnstableChildImpl);
+e(UnstableChild, { onAction: function () {} }); // new ref every render -- memo defeated</code></pre>
+
+<p>This is demo #1 with the opt-in smartness switched on, and the point is to actually watch both outcomes side by side rather than take either on faith. <code>React.memo</code> wraps a component so that before React calls its function again, it shallow-compares every new prop against the previous render's prop of the same name, using <code>Object.is</code>. If every prop matches, React skips calling the component function entirely — this is the one case in this whole post where a re-render is genuinely prevented rather than just made cheaper. The left column's <code>onAction</code> is a function defined once outside the render body, so its reference never changes and the shallow compare keeps finding equality, click after click. The right column's <code>onAction</code> is a fresh arrow function on every render of the parent, so even though it does functionally the same nothing as the left one, it's a different object every time, the shallow compare fails, and <code>React.memo</code> renders the child anyway — proving that memoization is only as strong as the least stable prop you hand it.</p>
+
+<p><strong>Best for:</strong> confirming, with a number instead of a guess, whether <code>React.memo</code> is actually doing anything for a given component and prop set. <strong>Tip:</strong> wrapping a component in <code>React.memo</code> without also stabilizing every non-primitive prop it receives (with <code>useCallback</code> or <code>useMemo</code> at the source) buys you nothing — check the render counter before assuming the optimization landed.</p>
+
+<h2>6. Changing a key Remounts — It Doesn't Just Re-Render</h2>
+
+<p>Click "Update text" (same key), then "New key" (forces a fresh key). Watch the mount count and internal state.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/23/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Changing a key Remounts, It Doesn't Just Re-Render Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">e(Counter, { key: keyVal });  // same keyVal across renders -> same instance,
+                               // internal state (like a useState counter) survives
+
+// keyVal changes -> React treats this as a DIFFERENT element entirely:
+// old instance is unmounted and discarded, a brand-new one is mounted,
+// all of its internal state starts over from scratch</code></pre>
+
+<p>This post has mostly been about re-renders, but <code>key</code> triggers something categorically different: a remount. React uses an element's type and position (or its explicit <code>key</code>, when one is given) to decide whether a new element in the tree refers to the same component instance as before or a different one. When the key changes, React doesn't diff the old instance against the new element at all — it tears the old instance down completely (running cleanup effects, discarding all of its hooks and internal state) and constructs a fresh instance from nothing, exactly as if it had never existed. This is why the demo's internal click counter resets to zero on a key change but survives a same-key update: a re-render preserves a component's <code>useState</code> across calls because it's the same fiber being reconciled, while a remount creates a brand-new fiber with brand-new state. "Re-rendered" and "recreated from scratch" produce visually similar results but are completely different operations underneath, and only one of them destroys state.</p>
+
+<p><strong>Best for:</strong> intentionally resetting a component's entire internal state (form fields, scroll position, animation state) by changing its key — a common and correct pattern, not a bug. <strong>Tip:</strong> an accidental remount is a classic performance and UX bug when it's unintentional — using array index as a key in a reorderable list, or a key derived from something that changes more often than you think, will silently reset state you meant to keep.</p>
+
+<h2>7. StrictMode's Double-Render vs a Real Extra Re-Render</h2>
+
+<p>Click "Mount inside StrictMode" once, then "Click me" once on each mounted instance. Compare the jump in each counter.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/23/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="StrictMode's Double-Render vs a Real Extra Re-Render Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// Development build + StrictMode: React deliberately renders (and mounts)
+// twice on purpose, to surface impure render logic
+e(React.StrictMode, null, e(Counter, null));
+
+// Production build: StrictMode's extra render pass is compiled away entirely --
+// this exact same tree renders exactly once</code></pre>
+
+<p>In development, <code>React.StrictMode</code> deliberately calls a wrapped component's render (and, for class components, certain lifecycle methods) twice in a row, throwing away the second result — it's a diagnostic feature specifically designed to catch side effects that shouldn't live in a component's render body, by making them run an obviously-wrong number of times. This is not a bug, it's not a performance regression in production (the double-render only happens in development builds), and it's not something to "fix" by removing StrictMode from your app — that just hides bugs it would have caught. The practical diagnostic question is how to tell StrictMode's expected one-time doubling apart from a genuine runaway re-render bug: StrictMode's extra render happens once, immediately, on mount, and then stops — the counter jumps by a fixed, small amount and goes flat. A real bug (a missing dependency causing an effect to loop, an unstable object recreated every render feeding back into state) keeps climbing indefinitely as you interact, with no fixed ceiling.</p>
+
+<p><strong>Best for:</strong> not panicking the first time you notice a component in development rendering "twice" for no visible reason — check whether it's inside StrictMode before assuming a real bug. <strong>Tip:</strong> this demo intentionally loads React's development build instead of the production build the rest of this post uses, because StrictMode's double-render behavior is itself a development-only feature and doesn't exist in a production bundle at all.</p>
+
+<h2>8. A Custom Hook's Internal State Re-Renders Its Caller</h2>
+
+<p>Click "Nudge window width (hook-internal)." The component never reads that value, yet it still re-renders.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/23/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A Custom Hook's Internal State Re-Renders Its Caller Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">function useWindowWidthLogger() {
+  var widthState = useState(320);           // lives inside the CALLER's fiber
+  return { label: 'tracker active', bump: function () {
+    widthState[1](widthState[0] + 10);       // re-renders the caller,
+  } };                                        // even though `label` never changes
+}
+
+function Demo() {
+  var tracker = useWindowWidthLogger();
+  return e('div', null, tracker.label);      // only ever displays the fixed label
+}</code></pre>
+
+<p>A custom hook is not a separate component with its own render cycle — it's just a function that gets to call other hooks, and every hook it calls (<code>useState</code>, <code>useReducer</code>, <code>useContext</code>) attaches its state directly to whichever component's fiber is currently rendering, which is the fiber of the component that ultimately called the custom hook. There's no isolation boundary between a custom hook's internals and its caller: calling a <code>setState</code> function that lives inside a custom hook schedules a re-render of the calling component exactly as if that <code>useState</code> call had been written directly in the component body. This means a hook's return value can look completely stable and unrelated to whatever just changed — the demo's hook always returns the same hard-coded label — while the act of updating the hook's own private state still forces the entire calling component to run again. Custom hooks are for organizing and reusing logic, not for sandboxing render triggers; anything that updates state anywhere inside a component's call graph re-renders that component.</p>
+
+<p><strong>Best for:</strong> tracing an unexplained re-render back through a custom hook whose return value gave no obvious hint that it was the cause. <strong>Tip:</strong> if a hook tracks something the component doesn't actually need reflected in its own render, consider whether that tracking belongs in a ref (no re-render) instead of state (always a re-render) inside the hook.</p>
+
+<h2>9. A Re-Render Doesn't Always Mean a DOM Write</h2>
+
+<p>Click "Re-render with identical output." The render count climbs, but the DOM-write count and the flash below don't move.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/23/9.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A Re-Render Doesn't Always Mean a DOM Write Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">function Demo() {
+  renderCountRef.current += 1;    // climbs on EVERY call, unconditionally
+  var text = 'STATUS: OK';        // always the same string, every render
+
+  useLayoutEffect(function () {
+    // only fires when React's diff actually found a real DOM change to commit
+    domWriteCountRef.current += 1;
+  }, [text]);
+
+  return e('div', null, text);
+}</code></pre>
+
+<p>This is the render-phase/commit-phase split from the ground rules made concrete. Clicking the button always triggers a state update, which always causes React to call the component function again — the render-phase counter is unconditional and climbs on every click, no exceptions. But the element tree that function returns is identical to what it returned last time: the same string, in the same position, in the same element type. React's reconciler compares the new tree to the previous committed tree node by node, and when it finds no actual difference, it skips writing anything to the real DOM for that node — the commit phase has nothing to do. <code>useLayoutEffect</code> without a meaningful dependency change only re-fires when React actually touched the DOM in a way relevant to it, which is why the DOM-write counter and the flash animation stay frozen while the render counter keeps moving. "Re-rendered" describes React recomputing what the UI should be; "the DOM changed" describes React acting on a difference it actually found — and a very large fraction of renders in a typical app produce no difference at all.</p>
+
+<p><strong>Best for:</strong> understanding why "my component re-renders a lot" doesn't automatically mean "my component is causing visible repaints or layout thrash" — reconciliation's diffing is what keeps those two things from being the same problem. <strong>Tip:</strong> this is also why blindly optimizing away renders (with <code>React.memo</code>, <code>useMemo</code>, everywhere) can be solving a problem that reconciliation was already solving for free — profile the actual DOM writes, not just the render count, before assuming a render is expensive.</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Assuming a component re-rendering means something visibly changed.</strong> Demo #9 shows React's reconciler skipping the DOM write entirely when the output is identical — a render and a repaint are not the same event.</li>
+<li><strong>Panicking over StrictMode's double-render in development.</strong> Demo #7's fixed, one-time jump on mount is expected behavior and vanishes in a production build; a counter that keeps climbing during normal interaction is the real signal to chase.</li>
+<li><strong>Adding React.memo without stabilizing every non-primitive prop the memoized component receives.</strong> Demo #5 shows a single unstable function prop defeating the shallow comparison completely, regardless of how many other props are perfectly stable.</li>
+<li><strong>Bundling unrelated state into one context value.</strong> Demo #4 shows every consumer re-rendering on any change to the value, whether or not that consumer reads the part that changed.</li>
+<li><strong>Using an unstable or index-based key in a list and being surprised when internal state resets.</strong> Demo #6 shows that a key change isn't a re-render at all — it's a full unmount-and-remount, and any state inside that component is gone, not just refreshed.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>Does a re-render always mean a DOM update happened?</h3>
+<p>No. A re-render is React calling your component function to compute what the output should look like (the render phase); a DOM update only happens in the commit phase, and only for the specific nodes where React's diff against the previous tree found an actual difference. Demo #9 makes this distinction directly measurable — the render count and the DOM-write count diverge on every click.</p>
+
+<h3>What's the actual difference between the render phase and the commit phase?</h3>
+<p>The render phase is React calling your component (and every descendant component in the affected subtree) to build a new element tree — this is pure, side-effect-free computation from React's perspective, and it can even be paused, thrown away, or redone by React's scheduler without anything user-visible happening. The commit phase happens afterward: React takes the diff between the new tree and the previously committed one and applies only the necessary mutations to the real DOM, then runs effects. Everything this post's render counters measure is render-phase; everything the demo #9 DOM-write counter measures is commit-phase.</p>
+
+<h3>Does React DevTools' "highlight updates" feature show the same thing these demos show?</h3>
+<p>Conceptually yes — it flashes a colored outline around a component when it re-renders, which is the same underlying event a <code>useRef</code> render counter is measuring. The difference is that DevTools' highlight is a visual, once-off flash tied to the browser extension attaching to a real page, which can't run inside a sandboxed iframe the way these demos do; that's exactly why demo #3 builds an explicit diff readout as a substitute you can embed anywhere, including here.</p>
+
+<h3>Is a re-render always bad for performance?</h3>
+<p>No — most re-renders in a typical app are cheap, especially once you consider that many of them (as demo #9 shows) never even reach a DOM write. React was explicitly designed around the assumption that re-rendering is the default, low-cost operation, and that the expensive part is DOM mutation, not function calls. Optimizing away renders with <code>React.memo</code>, <code>useMemo</code>, or <code>useCallback</code> has its own cost (the comparison itself, the memory to hold cached values) and is worth it specifically when a render is measurably expensive or unusually frequent — not as a default habit applied everywhere.</p>
+
+<h3>Why does demo #7 load a different React build than the other demos?</h3>
+<p>StrictMode's deliberate double-render is itself a development-only diagnostic feature — it's compiled out of production builds entirely, so the production-minified React build the other eight demos use would show no doubling at all inside <code>React.StrictMode</code>. Demo #7 loads React's unminified development build specifically so the behavior it's demonstrating actually exists to observe.</p>
+
+<p>The fastest way to make any of this stick is to Fork &amp; Edit demo #1 — the simplest one — and add a second child alongside the existing one, this time wrapped in <code>React.memo</code> with no props at all. Watch its render counter stay flat next to its unmemoized sibling climbing on every parent tick, and the difference between "re-renders by default" and "opted out of re-rendering" stops being something you have to take on faith. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop into a real project.</p>
+
+<p><strong>Recommended next step:</strong> open the <a href="https://fwdtools.com/react-playground/">React Playground</a> — FWD Tools' full in-browser React sandbox — and rebuild demo #3's render-diff readout from scratch, tracking a piece of state from your own component instead of the demo's name/age pair. Building the comparison logic yourself, not just reading it, is what makes it a tool you'll actually reach for the next time a component re-renders for reasons you can't explain. For more tutorials like this one, browse the <a href="https://www.webdevpuneet.com/search/label/React">React</a> label on the blog.</p>

@@ -1,0 +1,151 @@
+<h1>10 New Developer-Tool Snippets: JWTs, Regex, Subnets, and Data Viz Built From Real Math</h1>
+
+<p>Most "developer tool" pages on the web are wrappers around a paste box that quietly ships your input to a server. A JWT decoder that emails you your own token, a regex tester that runs on someone else's backend, a base64 decoder you have to trust not to log what you typed — none of that should be necessary for problems this small. Every snippet below runs entirely in the browser: real <code>base64url</code> decoding, a real <code>RegExp</code> engine, real 32-bit bitwise subnet math, a real Gaussian kernel density estimate for the violin chart — nothing faked, nothing transmitted anywhere.</p>
+
+<p>These ten are the newest addition to the library, and they lean deliberately into two categories that hadn't gotten much attention yet: small developer utilities you'd normally open a random website for, and statistical/relational charts built by hand with SVG instead of a charting library. Every one is a <strong>live, interactive preview</strong> you can try right here in the article, and each exports to React, Vue, Angular or Tailwind in one click from its snippet page.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>Decode with the real algorithm, not an approximation.</strong> The JWT decoder's <code>base64UrlDecode()</code> reverse-swaps <code>-</code>/<code>_</code> back to <code>+</code>/<code>/</code> and re-pads to a multiple of four <em>before</em> calling <code>atob()</code>, then routes the result through a <code>Uint8Array</code> and <code>TextDecoder('utf-8')</code> — the exact two steps that separate a decoder that handles real-world unicode claims from one that mangles them.</li>
+<li><strong>Validate the actual pattern the user typed, don't pre-filter it.</strong> The regex tester builds a genuine <code>new RegExp(pattern, flags)</code> on every keystroke inside a <code>try/catch</code>, surfacing the browser's real syntax error message the instant a pattern is invalid — no simplified subset, no custom parser standing in for the actual engine.</li>
+<li><strong>Bitwise math, not string manipulation, for anything address-shaped.</strong> The CIDR calculator computes the subnet mask as <code>(0xFFFFFFFF &lt;&lt; (32 - prefix)) &gt;&gt;&gt; 0</code> and derives the network and broadcast addresses with real <code>&amp;</code>/<code>|</code>/<code>~</code> operations against a packed 32-bit integer — the same arithmetic a router actually performs, not a lookup table of common prefixes.</li>
+<li><strong>One shared function powers every output variant.</strong> The text case converter tokenizes an input string exactly once and feeds that single token array into ten independent formatter functions — <code>toCamel</code>, <code>toSnake</code>, <code>toKebab</code>, and the rest — so every casing convention stays perfectly consistent with each other because they all start from the identical word boundaries.</li>
+<li><strong>Statistical charts compute their shape from data, they don't fake it with a gradient.</strong> The violin plot's <code>kde()</code> runs a genuine Gaussian kernel density estimate across 60 points per group with a per-group adaptive bandwidth, and the chord diagram builds every ribbon's width directly from an adjacency matrix — both are values a real dataset produces, not an SVG shape hand-tuned to look plausible.</li>
+</ul>
+
+<h2>1. JWT Decoder &amp; Inspector</h2>
+
+<p>Paste any JSON Web Token and get its header, payload, and signature decoded live, with automatic expiry detection — entirely client-side, no token ever leaves the page.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/jwt-decoder/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="JWT Decoder & Inspector — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a JWT's three segments are base64url-encoded, not plain base64 — RFC 4648 §5 swaps <code>+</code>/<code>/</code> for <code>-</code>/<code>_</code> and drops padding so the token is URL-safe. Since the browser's <code>atob()</code> only understands standard base64, <code>base64UrlDecode()</code> reverses those substitutions and re-pads to a multiple of four characters first, then decodes the resulting binary string through a <code>Uint8Array</code> and <code>TextDecoder('utf-8')</code> — skipping that byte-array round trip is exactly what makes naive decoders mangle unicode names in claim values. The header and payload are <code>JSON.parse</code>d in <em>separate</em> try/catch blocks, so a corrupted payload doesn't hide a perfectly valid header. Expiry is checked against the <code>exp</code> claim — a Unix timestamp in seconds per RFC 7519 — compared to <code>Math.floor(Date.now() / 1000)</code>, flipping the badge to an amber "Expired" state the moment it's past due.</p>
+
+<p><strong>Best for:</strong> debugging an auth integration straight from a token copied out of a network tab, or teaching that a JWT is just three readable JSON blobs joined by dots, not an opaque encrypted blob. <strong>Tip:</strong> the signature panel is intentionally display-only — verifying it needs the signing secret or public key, which a client-side tool should never ask you to paste in.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/jwt-decoder/">JWT Decoder &amp; Inspector</a></p>
+
+<h2>2. Regex Tester &amp; Match Visualizer</h2>
+
+<p>Type a pattern and flags, and every match highlights live against your test string, with per-match capture groups broken out below — powered by the browser's actual <code>RegExp</code> engine, not a simulation of one.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/regex-tester/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Regex Tester & Match Visualizer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every keystroke rebuilds a real <code>new RegExp(pattern, flags)</code> inside a try/catch, and an invalid pattern surfaces the engine's genuine syntax error message rather than a generic "invalid regex" string — so a stray unclosed group tells you exactly what's wrong. Matching runs a manual <code>while ((m = re.exec(text)) !== null)</code> loop rather than <code>String.matchAll()</code>, which matters for one specific edge case: a global regex that can match a zero-length string (like <code>x*</code>) would loop forever without the explicit <code>if (m.index === re.lastIndex) re.lastIndex++</code> guard that manually advances the cursor. A 500-iteration cap backstops that guard against any pattern that still misbehaves. Highlighting alternates two <code>&lt;mark&gt;</code> classes across consecutive matches purely so adjacent matches stay visually distinguishable even when they touch.</p>
+
+<p><strong>Best for:</strong> building and debugging a pattern before it goes anywhere near production code, or teaching regex syntax with instant visual feedback instead of a mental model of what should match. <strong>Tip:</strong> toggle the flag checkboxes instead of typing flags by hand — they stay in sync with the flags input field in both directions.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/regex-tester/">Regex Tester &amp; Match Visualizer</a></p>
+
+<h2>3. CIDR / Subnet Calculator</h2>
+
+<p>Enter an address in CIDR notation and get the network address, broadcast address, subnet mask, wildcard mask, and usable host range — computed with real 32-bit bitwise arithmetic, not a lookup table.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/cidr-subnet-calculator/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="CIDR / Subnet Calculator — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the IPv4 address is packed into a single 32-bit integer via <code>ipToInt()</code>, and the subnet mask is derived as <code>(0xFFFFFFFF &lt;&lt; (32 - prefix)) &gt;&gt;&gt; 0</code> — a left-shift by however many host bits the prefix leaves, with the unsigned-right-shift-by-zero trick to force the result back into an unsigned 32-bit range (JavaScript's bitwise operators otherwise treat the result as signed). The network address is <code>ipInt &amp; maskInt</code>, the broadcast address is <code>networkInt | (~maskInt &gt;&gt;&gt; 0)</code>, and usable host count is <code>2^(32-prefix) - 2</code> — the same arithmetic any router performs, made visible. The two boundary cases are handled explicitly rather than falling out of the general formula: a <code>/32</code> is a single host route with no broadcast distinction, and a <code>/31</code> is a point-to-point link (RFC 3021) where both addresses are usable with no reserved broadcast.</p>
+
+<p><strong>Best for:</strong> planning a VPC or subnet layout, or checking whether two address ranges overlap before assigning them. <strong>Tip:</strong> the binary breakdown row shows exactly which bits belong to the network portion versus the host portion — useful for building intuition about why a given prefix produces the host count it does.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/cidr-subnet-calculator/">CIDR / Subnet Calculator</a></p>
+
+<h2>4. UUID / ULID Generator &amp; Validator</h2>
+
+<p>Generate cryptographically random UUID v4s or time-sortable ULIDs, bulk-generate up to 100 at once, and validate a pasted identifier against both formats.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/uuid-ulid-generator/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="UUID / ULID Generator & Validator — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> UUID v4 generation prefers <code>crypto.randomUUID()</code> where available, falling back to <code>crypto.getRandomValues()</code> on 16 raw bytes with the version and variant bits set by hand — <code>bytes[6] = (bytes[6] &amp; 0x0f) | 0x40</code> forces the version-4 nibble, and <code>bytes[8] = (bytes[8] &amp; 0x3f) | 0x80</code> forces the RFC 4122 variant bits, which is what makes the output a spec-correct UUID v4 rather than just 16 random bytes formatted with dashes. ULID generation packs the current millisecond timestamp into 6 bytes and 10 bytes of cryptographic randomness, then encodes the combined 128 bits through Crockford's Base32 alphabet (which excludes visually ambiguous characters like <code>I</code>, <code>L</code>, <code>O</code>, and <code>U</code>) five bits at a time — the timestamp prefix is exactly why ULIDs sort lexicographically in the same order they were created, unlike UUIDs.</p>
+
+<p><strong>Best for:</strong> generating primary keys or idempotency keys during development, or quickly checking whether a string a teammate pasted into Slack is actually a valid identifier before debugging further. <strong>Tip:</strong> reach for ULID over UUID v4 specifically when you need IDs that sort chronologically in a database index — the embedded timestamp does that for free.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/uuid-ulid-generator/">UUID / ULID Generator &amp; Validator</a></p>
+
+<h2>5. Base64 &amp; URL-Safe Encoder/Decoder</h2>
+
+<p>Encode and decode Base64 in both directions, with a toggle for the URL-safe variant and correct handling of unicode text — not just ASCII.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/base64-playground/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Base64 & URL-Safe Encoder/Decoder — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> plain <code>btoa()</code> throws on any character outside the Latin-1 range, which is why <code>utf8ToB64()</code> first runs the input through <code>new TextEncoder().encode()</code> to get real UTF-8 bytes before base64-encoding them — the same unicode-safety gap the JWT decoder above solves from the decode side. The URL-safe toggle runs a second, independent transform on top of standard base64: swapping <code>+</code>/<code>/</code> for <code>-</code>/<code>_</code> and stripping the trailing <code>=</code> padding, matching the encoding JWTs and many URL query parameters actually use. A live byte-size readout compares the encoded and decoded lengths side by side, which is a fast way to internalize base64's roughly 33% size overhead without doing the math yourself.</p>
+
+<p><strong>Best for:</strong> quickly checking what a base64 blob actually contains, or converting a string to the URL-safe variant needed for a query parameter or a JWT segment. <strong>Tip:</strong> the URL-safe toggle re-encodes or re-decodes automatically the moment you switch it, so you can compare both variants of the same input without retyping anything.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/base64-playground/">Base64 &amp; URL-Safe Encoder/Decoder</a></p>
+
+<h2>6. Unix Timestamp Converter</h2>
+
+<p>Convert freely between a Unix timestamp and a human date, in either seconds or milliseconds, with a live "time ago" readout and a constantly-updating current-timestamp display.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/unix-timestamp-converter/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Unix Timestamp Converter — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the two input directions are genuinely independent functions — <code>fromTimestamp()</code> builds a <code>Date</code> from the numeric input, respecting whether the seconds/milliseconds unit selector is set before multiplying by 1000, while <code>fromDate()</code> reads a native <code>&lt;input type="datetime-local"&gt;</code> value and converts the other way — so editing either field updates the other without a feedback loop overwriting what you just typed. The relative-time readout ("3 hours ago", "in 2 days") is built on <code>Intl.RelativeTimeFormat('en', { numeric: 'auto' })</code>, a browser-native API that picks the correct unit (seconds, minutes, hours, days) and correct grammar automatically rather than a hand-rolled set of if/else thresholds. The "Now" display re-renders every second via <code>setInterval</code>, so the current epoch timestamp is always live, not a snapshot from page load.</p>
+
+<p><strong>Best for:</strong> converting an epoch value out of a log line or API response into a readable date, or figuring out what timestamp to hardcode for a specific future or past moment in a test. <strong>Tip:</strong> the unit selector (seconds vs. milliseconds) matters more than it looks — a timestamp in the wrong unit is off by a factor of 1000, which reads as either 1970 or a date thousands of years in the future.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/unix-timestamp-converter/">Unix Timestamp Converter</a></p>
+
+<h2>7. Violin Plot Chart</h2>
+
+<p>Four groups of response-time data rendered as real violin shapes — width at each height genuinely reflects how common that value was, computed with a from-scratch Gaussian kernel density estimate.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/violin-plot-chart/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Violin Plot Chart — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>kde()</code> evaluates a genuine Gaussian kernel density estimate at 60 points spanning each group's value range, summing a bell-curve contribution from every raw sample at every evaluation point and normalizing by sample count and bandwidth — the textbook KDE formula, not an approximation. Bandwidth (how smoothed the resulting curve looks) is derived per group as roughly one-ninth of that group's own value spread, so a tightly-clustered group and a widely-spread group each get proportionally appropriate smoothing automatically instead of one fixed constant that over- or under-smooths depending on the data. The resulting density values become horizontal half-widths, scaled relative to that group's own peak density, then mirrored left and right of the group's center and joined into one closed SVG path — that mirroring is what produces the classic symmetric violin silhouette. A white bar marking the median is computed separately via linear-interpolation quantile estimation, not just the middle array index.</p>
+
+<p><strong>Best for:</strong> comparing full distribution shape across categories — not just an average — where a bar chart would hide whether a group is bimodal, tightly clustered, or has a long tail. <strong>Tip:</strong> swap the synthetic <code>gen()</code> calls for your own raw sample arrays — any plain array of numbers works directly with both <code>kde()</code> and <code>quantile()</code> with no other changes needed.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/violin-plot-chart/">Violin Plot Chart</a></p>
+
+<h2>8. Parallel Coordinates Chart</h2>
+
+<p>Compare several laptops across five completely different-unit specs — price in dollars, battery in hours, weight in kilograms — on one shared set of vertical axes, with hover-to-isolate on any line.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/parallel-coordinates-chart/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Parallel Coordinates Chart — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each axis independently normalizes its own values to a 0-to-1 fraction via <code>normalize()</code>, using that axis's own configured min and max — so dollars, hours, and kilograms never need to share a unit, only a 0-to-1 fraction, before <code>valueY()</code> maps that fraction onto the same shared pixel height every axis uses. An optional <code>invert</code> flag per axis flips which direction counts as "better" — for weight, where lower is preferable, <code>normalize()</code> computes <code>1 - t</code> instead of <code>t</code>, keeping "higher on the chart" consistently meaning "the better value" across every axis regardless of its underlying semantics. Hovering isolates one line through a single shared <code>setActive(name)</code> function wired to every path and legend swatch, toggling a near-zero-opacity <code>.dim</code> class on everything else and a thicker, full-opacity <code>.active</code> class on the matching line — plain CSS class toggling, no redraw.</p>
+
+<p><strong>Best for:</strong> comparing products, plans, or configurations across many attributes at once — the exact case where a bar chart per attribute would require flipping between five separate charts to see one item's full profile. <strong>Tip:</strong> keep the axis count around four to seven — parallel coordinates get visually noisy past that, where a <a href="https://fwdtools.com/ui-snippets/radar-chart/">radar chart</a> or a plain comparison table communicates better.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/parallel-coordinates-chart/">Parallel Coordinates Chart</a></p>
+
+<h2>9. Chord Diagram Chart</h2>
+
+<p>A circular diagram showing how items moved between four teams — ribbon thickness genuinely reflects the transferred amount, computed directly from a raw adjacency matrix, with hover-to-isolate on any group's flows.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/chord-diagram-chart/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Chord Diagram Chart — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the entire diagram is driven by one plain 2D array, <code>matrix[i][j]</code>, read as "items handed off from group i to group j." Each group's outer arc length is proportional to its row-plus-column total (everything it sent and received), and that arc subdivides into sub-segments proportional to each individual flow — outgoing amounts first, then incoming — so the arc itself already visually communicates a group's send/receive balance before a single ribbon is drawn. Ribbons connecting two groups are built as one curved path per unordered pair, with both the i→j and j→i values folded into a single ribbon width, then rendered as a quadratic Bézier curve — a single control point placed exactly at the diagram's center — so the connections read as flowing through the middle rather than as straight chords cutting across it.</p>
+
+<p><strong>Best for:</strong> visualizing flow or exchange between a small number of categories — support tickets moving between teams, funds moving between accounts, traffic moving between page sections — where a matrix table alone doesn't communicate scale as immediately. <strong>Tip:</strong> chord diagrams stop being readable past roughly six to eight groups; for larger relational datasets, a <a href="https://fwdtools.com/ui-snippets/sankey-diagram/">Sankey-style flow</a> diagram or a plain heatmap of the same matrix communicates better.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/chord-diagram-chart/">Chord Diagram Chart</a></p>
+
+<h2>10. Text Case Converter</h2>
+
+<p>Type or paste text once and see it instantly converted into ten naming conventions at once — UPPERCASE, camelCase, snake_case, kebab-case, and more — each with its own copy button.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/text-case-converter/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Text Case Converter — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a single <code>tokenize()</code> function splits the input into words exactly once — handling spaces, hyphens, underscores, and camelCase boundaries all in one pass — and every one of the ten output formatters (<code>toCamel</code>, <code>toPascal</code>, <code>toSnake</code>, <code>toKebab</code>, <code>toConstant</code>, and the rest) consumes that identical token array rather than re-parsing the raw string itself. That shared source of truth is what guarantees every convention's word boundaries stay perfectly consistent with each other — camelCase and snake_case will always agree on where one word ends and the next begins, because they're built from the same tokens rather than two independent parsing passes that could disagree on an edge case.</p>
+
+<p><strong>Best for:</strong> converting a database column name to a JavaScript variable name, a React component name to a URL slug, or any other identifier that needs to cross a naming-convention boundary between two systems. <strong>Tip:</strong> paste a multi-word phrase with mixed punctuation (like an existing kebab-case CSS class) to see the tokenizer correctly split on hyphens as well as spaces.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/text-case-converter/">Text Case Converter</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open any snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs, then paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — or use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page. None of these ten need anything installed — no regex library, no charting library, no crypto polyfill — just the browser's own built-in APIs.</li>
+<li><strong>Reach for the real browser API before reaching for a library.</strong> <code>crypto.randomUUID()</code>, <code>crypto.getRandomValues()</code>, <code>TextEncoder</code>/<code>TextDecoder</code>, <code>Intl.RelativeTimeFormat</code>, and the native <code>RegExp</code> engine cover most of what a "developer tool" utility actually needs — check the platform before adding a dependency for something it already does.</li>
+<li><strong>Keep independently-computed values independently computed.</strong> The JWT decoder's header and payload parse in separate try/catch blocks, and the parallel coordinates chart normalizes every axis against its own min/max — resist the temptation to short-circuit on the first failure or share one scale across everything, since that's exactly what breaks the case where only one part of the input is actually wrong.</li>
+<li><strong>Derive smoothing and scaling parameters from the data itself, not a fixed constant.</strong> The violin plot's bandwidth is computed as a fraction of each group's own value range — a single hardcoded bandwidth would over-smooth tightly clustered data and under-smooth widely spread data in the same chart.</li>
+<li><strong>One shared parsing pass beats several independent ones.</strong> The text case converter's single <code>tokenize()</code> call feeding ten formatters is the same principle as the JWT decoder's shared <code>base64UrlDecode()</code> — do the hard, error-prone parsing step exactly once, then keep every downstream consumer as a simple, unlikely-to-disagree transform of that one result.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>The common thread across all ten, despite spanning debugging utilities and statistical charts, is the same one: use the real algorithm or the real browser API, not a stand-in that merely looks correct in a demo. A JWT decoder that skips the base64url re-padding step, a subnet calculator built on string manipulation instead of bitwise math, a violin plot with a hand-tuned SVG shape instead of an actual kernel density estimate — every one of those shortcuts is invisible until someone hits the exact edge case it doesn't handle: a unicode claim, a <code>/31</code> point-to-point link, a bimodal distribution that a smooth gradient can't represent. Building the real thing costs a little more up front and holds up under every input a real user eventually throws at it.</p>
+
+<p>Try them, retune them to your own data, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

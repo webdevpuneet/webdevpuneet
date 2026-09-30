@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Delegating Keyboard Activation, Not Just Clicks">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Delegation isn't just click &mdash; keyboard activation needs it too</h1>
+    <p class="hint">These star ratings are <code>&lt;span role="button"&gt;</code>, not real buttons, so Enter and Space don't activate them for free. One delegated <code>keydown</code> listener (plus one <code>click</code> listener) makes every star, on every row, keyboard-accessible.</p>
+  </header>
+  <main class="stageWrap">
+    <button type="button" class="addBtn" id="addBtn">Add another row to rate</button>
+    <div class="rows" id="rows">
+      <div class="row"><span class="rowLabel">Feature A</span><span class="stars" data-value="0">
+        <span class="star" role="button" tabindex="0" data-i="1">&#9734;</span><span class="star" role="button" tabindex="0" data-i="2">&#9734;</span><span class="star" role="button" tabindex="0" data-i="3">&#9734;</span><span class="star" role="button" tabindex="0" data-i="4">&#9734;</span><span class="star" role="button" tabindex="0" data-i="5">&#9734;</span>
+      </span></div>
+    </div>
+    <p class="note" id="note">Tab to a star and press Enter or Space — or just click. Both paths go through delegation.</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink:#14161c; --sub:#6b7080; --line:#e3e5ea; --accent:#6366f1; --star:#f59e0b; }
+  body { background:#f6f7f9; color:var(--ink); }
+  .bar { padding:18px 20px 8px; text-align:center; }
+  .bar h1 { margin:0 0 4px; font-size:16.5px; letter-spacing:-0.01em; }
+  .hint { margin:0 auto; max-width:60em; font-size:12.5px; color:var(--sub); }
+  .hint code { background:#eef0f5; padding:1px 5px; border-radius:4px; }
+  .stageWrap { display:flex; flex-direction:column; align-items:center; gap:12px; padding:16px 18px 28px; width:100%; }
+
+  .addBtn {
+    font:700 12.5px system-ui, sans-serif; padding:8px 16px;
+    border:1px solid var(--line); border-radius:7px; background:#fff; color:var(--accent); cursor:pointer;
+  }
+
+  .rows { width:100%; max-width:420px; display:flex; flex-direction:column; gap:8px; }
+  .row {
+    display:flex; align-items:center; justify-content:space-between;
+    background:#fff; border:1px solid var(--line); border-radius:9px; padding:10px 14px;
+  }
+  .rowLabel { font-size:13px; }
+  .stars { display:flex; gap:2px; }
+  .star {
+    font-size:20px; color:#d7dae2; cursor:pointer; line-height:1; border-radius:4px; padding:1px;
+  }
+  .star:focus-visible { outline:2px solid var(--accent); outline-offset:1px; }
+  .star.filled { color:var(--star); }
+  .note { margin:0; font-size:12px; color:var(--sub); text-align:center; max-width:46em; }
+</script>
+
+<script type="text/plain" id="js">
+  var rows = document.getElementById('rows');
+  var addBtn = document.getElementById('addBtn');
+  var note = document.getElementById('note');
+  var rowCount = 1;
+
+  function applyRating(starsEl, value) {
+    starsEl.dataset.value = value;
+    starsEl.querySelectorAll('.star').forEach(function (s) {
+      s.classList.toggle('filled', Number(s.dataset.i) <= value);
+    });
+  }
+
+  function rate(star) {
+    var starsEl = star.closest('.stars');
+    applyRating(starsEl, Number(star.dataset.i));
+  }
+
+  // Mouse users get a delegated click listener...
+  rows.addEventListener('click', function (e) {
+    var star = e.target.closest('.star');
+    if (!star) return;
+    rate(star);
+    note.textContent = 'Rated via click, handled by the one delegated click listener.';
+  });
+
+  // ...and keyboard users get a delegated keydown listener, since a <span
+  // role="button"> gets no native Enter/Space activation the way a real
+  // <button> would. Both listeners live on the same container, once.
+  rows.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var star = e.target.closest('.star');
+    if (!star) return;
+    e.preventDefault();
+    rate(star);
+    note.textContent = 'Rated via ' + e.key + ', handled by the one delegated keydown listener.';
+  });
+
+  addBtn.addEventListener('click', function () {
+    rowCount++;
+    var row = document.createElement('div');
+    row.className = 'row';
+    var starsHtml = '';
+    for (var i = 1; i <= 5; i++) {
+      starsHtml += '<span class="star" role="button" tabindex="0" data-i="' + i + '">&#9734;</span>';
+    }
+    row.innerHTML = '<span class="rowLabel">Feature ' + String.fromCharCode(64 + rowCount) + '</span>' +
+      '<span class="stars" data-value="0">' + starsHtml + '</span>';
+    rows.appendChild(row);
+    note.textContent = 'New row added — its stars already respond to click and keyboard.';
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

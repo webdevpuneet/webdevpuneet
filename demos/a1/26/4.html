@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Simulating @import layer()">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Simulating <code>@import ... layer()</code></h1>
+    <p class="hint">A real cross-file <code>@import</code> can't run reliably inside an embedded iframe, so this demo simulates the effect of <code>@import url(vendor.css) layer(vendor);</code> with an inline <code>@layer vendor { }</code> block containing the same rules. The cascade math is identical either way.</p>
+  </header>
+  <main class="stageWrap">
+    <button type="button" class="target" id="target">Button</button>
+    <p class="note" id="note">Computing...</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 54em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 36px 18px 40px; }
+
+  @layer vendor, app;
+
+  /* Simulates: @import url("vendor-buttons.css") layer(vendor);
+     A whole imported stylesheet's rules land in ONE layer with one line,
+     even though the file itself never mentions @layer internally. */
+  @layer vendor {
+    .target {
+      padding: 16px 30px;
+      font: 700 15px system-ui, sans-serif;
+      background: #eab308;
+      color: #422006;
+      border: 4px double #78350f;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+  }
+
+  @layer app {
+    .target {
+      padding: 12px 22px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+    }
+  }
+
+  .note { margin: 0; max-width: 54em; font-size: 12.5px; color: var(--sub); text-align: center; }
+  .note strong { color: var(--ink); }
+</script>
+
+<script type="text/plain" id="js">
+  var target = document.getElementById('target');
+  var note = document.getElementById('note');
+  var bg = getComputedStyle(target).backgroundColor;
+  var isApp = bg === 'rgb(99, 102, 241)';
+
+  note.innerHTML = isApp
+    ? 'Computed background: <strong>indigo</strong> (the "app" layer). The simulated import assigned the vendor stylesheet\'s rules to the "vendor" layer, declared first in <code>@layer vendor, app;</code> &mdash; so the app\'s own layered rules, declared second, override the vendor look without a single extra specificity point.'
+    : 'Computed background: <strong>yellow</strong>. (Unexpected in a spec-compliant browser.)';
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

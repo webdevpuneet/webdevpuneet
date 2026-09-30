@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Required Fields">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Required Fields</h1>
+    <p class="hint">Try clicking "Create account" without filling every field &mdash; the browser blocks the submit itself and points at the first empty one. No JavaScript is running this form at all.</p>
+  </header>
+  <main class="stageWrap">
+    <form class="signupForm" action="#" method="get" onsubmit="return false">
+      <label class="field">
+        <span class="fieldLabel">Full name</span>
+        <input type="text" name="name" required placeholder=" ">
+      </label>
+      <label class="field">
+        <span class="fieldLabel">Email address</span>
+        <input type="email" name="email" required placeholder=" ">
+      </label>
+      <label class="field">
+        <span class="fieldLabel">Company <em>(optional)</em></span>
+        <input type="text" name="company" placeholder=" ">
+      </label>
+      <button type="submit" class="submitBtn">Create account</button>
+    </form>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+    --ok: #16a34a;
+    --err: #dc2626;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; padding: 14px 16px 32px; }
+
+  .signupForm {
+    width: 100%;
+    max-width: 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .fieldLabel { font: 700 12px system-ui, sans-serif; color: var(--ink); }
+  .fieldLabel em { font-weight: 500; color: var(--sub); font-style: normal; }
+
+  .signupForm input {
+    padding: 10px 12px;
+    font: 500 14px system-ui, sans-serif;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    outline: none;
+    background: #fff;
+  }
+  .signupForm input:focus { border-color: var(--accent); }
+
+  /* Only flag a required field as invalid once the user has actually typed
+     something and cleared it, or moved on leaving it invalid on submit —
+     :placeholder-shown means "still empty," so this keeps a blank required
+     field from looking like an error before the visitor has touched it. */
+  .signupForm input:required:not(:placeholder-shown):invalid {
+    border-color: var(--err);
+    background: #fef2f2;
+  }
+  .signupForm input:required:not(:placeholder-shown):valid {
+    border-color: var(--ok);
+    background: #f0fdf4;
+  }
+
+  .submitBtn {
+    margin-top: 4px;
+    padding: 11px 16px;
+    font: 700 13px system-ui, sans-serif;
+    border: none;
+    border-radius: 9px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+  }
+  .submitBtn:hover { background: #4f52d9; }
+</script>
+
+<script type="text/plain" id="js">
+  /* No JavaScript — the required attribute alone is what blocks submission
+     and triggers the browser's own validation message bubble. */
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<h1>10 Free ECharts Data Visualization Snippets: A Synced Candlestick + Volume Panel, a Sankey Diagram That Actually Traces Drop-Off &amp; a Sliding-Window Realtime Chart</h1>
+
+<p>This batch opens a new corner of the collection: real data visualization built on Apache ECharts instead of hand-rolled SVG. All ten load the genuine <code>echarts.min.js</code> from a CDN and lean on the parts of the library that are easy to get wrong the first time — dataZoom ranges that have to stay in sync across two axes, a treemap that has to know when to stop revealing levels, and a "live" chart that has to update forever without its memory growing forever. None of these are toy configurations; every one is the kind of chart an actual analytics or ops dashboard would ship.</p>
+
+<p>Every one is a <strong>live, interactive preview</strong> you can try right here in the article, and each exports to React, Vue, Angular or Tailwind in one click from its snippet page.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>Zoom that stays in sync across two panels, not one.</strong> The candlestick chart shares a single dataZoom and a linked crosshair across its price and volume panels, so dragging the slider — or hovering a candle — never leaves the two panels looking at different dates.</li>
+<li><strong>Percentages relative to the step before, not the top.</strong> The funnel chart computes each stage's conversion rate against the stage directly above it, which is the number that actually finds the weakest step — percent-of-total quietly hides exactly that.</li>
+<li><strong>Drilling down one level at a time, on purpose.</strong> The storage treemap sets <code>leafDepth: 1</code> so the first view shows only the five top-level categories — without it, every grandchild in the dataset renders flattened together with no category left to click.</li>
+<li><strong>A sliding window, not a growing array.</strong> The realtime chart trims points older than sixty seconds off the front of its data array on every tick, so a chart left running for an hour uses the same memory as one left running for a minute.</li>
+<li><strong>A total that updates from what's actually visible.</strong> The revenue line's header sum isn't computed once — a dataZoom event handler recalculates it from only the currently zoomed-in range, every time you drag.</li>
+</ul>
+
+<h2>1. ECharts Animated Revenue Line with Zoom Brush</h2>
+
+<p>A 90-day revenue line with a gradient area fill, a draggable zoom slider, and a running total that recalculates for whatever date range is currently in view.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/echarts-revenue-line-zoom-brush/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ECharts Animated Revenue Line with Zoom Brush — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> two <code>dataZoom</code> components — one <code>inside</code> for scroll/pinch, one <code>slider</code> for the draggable handles — share the same <code>start</code>/<code>end</code> percentages, so ECharts keeps them synchronized automatically. A <code>dataZoom</code> event fires on every drag or scroll, and its handler reads the current range back off <code>chart.getOption()</code>, maps it to array indices, and sums only that slice of the data — which is why the header total changes as you zoom instead of staying fixed to the whole dataset.</p>
+
+<p><strong>Best for:</strong> revenue dashboards, analytics products, and any metric-over-time chart where readers need both the big picture and a way to drop into one specific week. <strong>Tip:</strong> pair with the stacked area traffic chart elsewhere in this collection for a trend-plus-composition view of the same period.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/echarts-revenue-line-zoom-brush/">ECharts Animated Revenue Line with Zoom Brush</a></p>
+
+<h2>2. ECharts KPI Gauge Cluster</h2>
+
+<p>Three speedometer-style gauges — CPU, memory, and uptime — sharing one chart instance, animating to new readings every few seconds.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/echarts-kpi-gauge-cluster/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ECharts KPI Gauge Cluster — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each gauge is its own series entry with a <code>center</code> given as a percentage pair, which is what positions three gauges side by side in a single <code>echarts.init</code> call instead of stacking them on top of each other. Custom <code>startAngle</code>/<code>endAngle</code> values sweep the arc across roughly three-quarters of a circle for the speedometer shape, and <code>detail: { valueAnimation: true }</code> is the one line that makes each number roll smoothly to its new value instead of jump-cutting on every update.</p>
+
+<p><strong>Best for:</strong> ops dashboards, SLA and uptime pages, and SaaS usage panels showing several percentage-based KPIs at once. <strong>Tip:</strong> pair with the live-updating realtime chart elsewhere in this collection for a fuller live ops board.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/echarts-kpi-gauge-cluster/">ECharts KPI Gauge Cluster</a></p>
+
+<h2>3. ECharts Sankey User Flow Diagram</h2>
+
+<p>A user journey from landing page through signup, trial, and paid conversion, with every drop-off path drawn as a proportionally-sized ribbon instead of hidden inside a shrinking bar.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/echarts-sankey-user-flow/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ECharts Sankey User Flow Diagram — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the whole diagram is two flat arrays — named nodes, and <code>{ source, target, value }</code> links between them — with no manual layout math; ECharts derives every column position and ribbon thickness from the graph itself. The two outcome nodes, Paid and Churned, are reached by paths of different lengths, so both get an explicit <code>depth: 4</code> to pin them into the same rightmost column. Hovering a node or ribbon with <code>emphasis.focus: 'adjacency'</code> dims everything not directly connected to it, which is what makes one specific path traceable in a diagram this dense.</p>
+
+<p><strong>Best for:</strong> product analytics, growth reviews, and any report where seeing where users actually go matters more than a single conversion percentage. <strong>Tip:</strong> pair with the funnel conversion chart elsewhere in this collection for the same journey's stage-by-stage numbers.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/echarts-sankey-user-flow/">ECharts Sankey User Flow Diagram</a></p>
+
+<h2>4. ECharts Calendar Heatmap</h2>
+
+<p>A GitHub-style contribution graph — a full year of daily activity as a color-scaled grid, with an exact count on hover and a running yearly total in the header.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/echarts-calendar-heatmap/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ECharts Calendar Heatmap — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the heatmap series targets <code>coordinateSystem: 'calendar'</code> instead of the usual Cartesian grid, so a plain <code>[date, value]</code> pair is enough — ECharts converts each date into the correct week-column and day-row cell itself. A <code>visualMap</code> component set to <code>show: false</code> still does its job of mapping each value to a color along the five-stop green scale; it just doesn't render its own legend, which would be redundant here. The sample data comes from a seeded generator weighted toward zero, so most days are quiet and only some burst, matching what a real activity graph actually looks like.</p>
+
+<p><strong>Best for:</strong> developer profile pages, habit and streak trackers, and any daily-count metric worth seeing as a full year at a glance. <strong>Tip:</strong> pair with the treemap storage breakdown elsewhere in this collection for a category view of the same kind of data.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/echarts-calendar-heatmap/">ECharts Calendar Heatmap</a></p>
+
+<h2>5. ECharts Funnel Conversion Chart</h2>
+
+<p>A five-stage checkout funnel where each segment's label shows its conversion rate relative to the stage above it — the number that actually finds the weakest step.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/echarts-funnel-conversion/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ECharts Funnel Conversion Chart — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> before the chart option is even built, a small pass over the stage data computes each stage's rate against the one directly before it, not against the top of the funnel — that precomputed array is what both the inline labels and the tooltip read from. <code>sort: 'none'</code> keeps the funnel in the stages' real sequential order instead of ECharts' default largest-first sort, and <code>minSize: '18%'</code> floors every segment's width so the smallest stage near the bottom stays readable instead of shrinking to an unreadable sliver.</p>
+
+<p><strong>Best for:</strong> e-commerce checkout analysis, onboarding flow reviews, and sales or hiring pipelines. <strong>Tip:</strong> pair with the Sankey user flow diagram elsewhere in this collection to see exactly where the users who don't convert actually go.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/echarts-funnel-conversion/">ECharts Funnel Conversion Chart</a></p>
+
+<h2>6. ECharts Treemap Storage Breakdown</h2>
+
+<p>A clickable storage breakdown where box area encodes size — click a category to zoom into its subcategories, click the header to zoom back out.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/echarts-treemap-storage-breakdown/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ECharts Treemap Storage Breakdown — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>leafDepth: 1</code> is what keeps the first view to exactly the five top-level categories — without it, ECharts renders every leaf in the whole nested dataset at once, with no "Photos" or "Videos" box left to click. <code>nodeClick: 'zoomToNode'</code> handles the drill-in itself, and getting back out calls <code>chart.dispatchAction({ type: 'treemapRootToNode', targetNode: '' })</code>, since re-calling <code>setOption</code> would just redraw the same zoomed-in view rather than resetting it. Each top-level node carries its own explicit <code>itemStyle.color</code> so a category's color never shifts depending on how the values happen to rank.</p>
+
+<p><strong>Best for:</strong> storage and disk usage screens, budget breakdowns, and org headcount views with a real drill-down hierarchy. <strong>Tip:</strong> pair with the calendar heatmap elsewhere in this collection for a second, time-based view of usage.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/echarts-treemap-storage-breakdown/">ECharts Treemap Storage Breakdown</a></p>
+
+<h2>7. ECharts Stacked Area Traffic Breakdown</h2>
+
+<p>Five traffic sources stacked into one 14-day area chart — click any legend item to drop it from the stack and watch the total re-draw automatically.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/echarts-stacked-area-traffic/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ECharts Stacked Area Traffic Breakdown — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every series shares the identical <code>stack: 'total'</code> string, which is the only thing that turns five separate area charts into one stacked one — ECharts sums whichever series are currently visible at each x position. Toggling a legend entry to hide a source is a built-in interaction, and because the stack total is recomputed from what's still visible, hiding "Paid Ads" doesn't leave a gap — the remaining four simply re-sum to a smaller total. <code>emphasis.focus: 'series'</code> dims everything but the hovered area, so one source's shape can be traced through the stack.</p>
+
+<p><strong>Best for:</strong> marketing analytics, revenue composition reports, and infrastructure load breakdowns by service or region. <strong>Tip:</strong> pair with the revenue line chart elsewhere in this collection for trend plus composition on an executive dashboard.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/echarts-stacked-area-traffic/">ECharts Stacked Area Traffic Breakdown</a></p>
+
+<h2>8. ECharts Radar Skill Comparison</h2>
+
+<p>Two overlapping profiles — a candidate and a role's requirements — across six skill axes, so gaps and strengths are visible without reading a single number.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/echarts-radar-skill-comparison/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ECharts Radar Skill Comparison — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the six-axis grid is declared once as its own <code>radar</code> component, and the actual comparison lives in the series' <code>data</code> array as two separate profile objects, each with its own values, fill, and line style — adding a third profile is just a third object in that array. The role-requirement line is dashed as well as differently colored, deliberately, so the two shapes stay distinguishable without relying on color perception alone. Every axis shares the same <code>max</code>, which keeps the hexagon grid regular so a given radius means the same thing on every axis.</p>
+
+<p><strong>Best for:</strong> hiring and performance reviews, competitive product analysis, and quarter-over-quarter capability tracking. <strong>Tip:</strong> pair with the stacked area traffic chart elsewhere in this collection as a second multi-series comparison pattern.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/echarts-radar-skill-comparison/">ECharts Radar Skill Comparison</a></p>
+
+<h2>9. ECharts Candlestick with Volume Panel</h2>
+
+<p>A price candlestick chart with a color-matched volume panel underneath, both zooming and crosshair-syncing together as one linked chart.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/echarts-candlestick-volume-panel/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ECharts Candlestick with Volume Panel — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a two-entry <code>grid</code> array stacks a tall price region above a short volume region inside one canvas, with every axis and series assigned to one of the two via <code>gridIndex</code>. Both <code>dataZoom</code> entries list <code>xAxisIndex: [0, 1]</code>, so a single slider drives both panels' visible range together, and <code>axisPointer: { link: [{ xAxisIndex: 'all' }] }</code> keeps the hover crosshair aligned across both. Each volume bar's color is computed from that same day's own open-versus-close, not set independently, so the volume panel alone tells you whether heavy days were up or down.</p>
+
+<p><strong>Best for:</strong> trading and finance dashboards, crypto trackers, and portfolio detail views needing the standard price-plus-volume layout. <strong>Tip:</strong> pair with the live-updating realtime chart elsewhere in this collection for a streaming-price variant of the same idea.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/echarts-candlestick-volume-panel/">ECharts Candlestick with Volume Panel</a></p>
+
+<h2>10. ECharts Live-Updating Realtime Chart</h2>
+
+<p>A sliding one-minute window that adds a new data point every second, drops old points off the front, and includes a genuine pause/resume control.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/echarts-live-realtime-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ECharts Live-Updating Realtime Chart — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every second, one new <code>[timestamp, value]</code> point is pushed onto the data array, and a <code>while</code> loop trims off every point older than the visible window from the front — since points are always appended in increasing time order, the oldest ones are always first, so the array's length stays roughly constant no matter how long the chart runs. Each tick calls <code>chart.setOption({ series: [{ data }] })</code> with only the changed data rather than rebuilding the whole option, which ECharts merges into what's already configured. Pausing doesn't stop the interval at all — it flips a boolean the interval checks before doing anything, which is simpler than tearing the timer down and recreating it.</p>
+
+<p><strong>Best for:</strong> server and infra monitoring, IoT dashboards, live trading tickers, and any metric that has to keep updating without leaking memory. <strong>Tip:</strong> pair with the KPI gauge cluster elsewhere in this collection for a fuller live ops room.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/echarts-live-realtime-chart/">ECharts Live-Updating Realtime Chart</a></p>
+
+<h2>ECharts vs. Chart.js vs. D3.js: which one for which chart?</h2>
+
+<p>All ten snippets above use ECharts specifically, and it's worth being clear about why, since the three libraries aren't really competing for the same job.</p>
+
+<ul>
+<li><strong>Chart.js</strong> covers the common chart types — line, bar, pie, doughnut — with the smallest API surface of the three. It's the right default for a straightforward dashboard chart with no unusual interaction, but it has no built-in Sankey, treemap, or calendar heatmap, and linking two chart panels together (like the candlestick-plus-volume pattern above) means wiring that up yourself.</li>
+<li><strong>D3.js</strong> isn't a charting library at all — it's a toolkit for binding data to arbitrary SVG or Canvas elements. That's exactly what you want when a design calls for something genuinely custom that no chart library has a name for, but it means building axes, scales, and transitions from primitives every time, even for a chart type ECharts ships as a one-line <code>series.type</code>.</li>
+<li><strong>ECharts</strong> sits between them: a large catalog of ready-made, unusual chart types (Sankey, treemap, calendar heatmap, gauge, candlestick) that Chart.js doesn't have, plus the composable pieces — linked axes, synced dataZoom, shared tooltips across grids — needed to combine them into one dashboard, without dropping down to raw SVG the way D3 requires.</li>
+</ul>
+
+<p>As a rule of thumb: reach for <strong>Chart.js</strong> when the chart is a standard type and the bundle size matters most, <strong>D3.js</strong> when the visualization is genuinely bespoke and no library has the chart type built in, and <strong>ECharts</strong> — as in every snippet above — when you need one of its less common built-in chart types, or need several charts to zoom, filter, or highlight in sync with each other.</p>
+
+<p>Same as every batch before it, each of these ten lives in the category that actually fits its shape, so they surface alongside every other snippet of that kind rather than sitting in a library of their own. Find these ten and every other data-visualization snippet in the collection in one place via the <a href="https://fwdtools.com/ui-snippets/tag/data-visualization/">Data Visualization tag</a>. Open any of them above and you land straight in the live editor, HTML/CSS/JS tabs and all; click <strong>Save as</strong> to copy it into <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and start changing it.</p>

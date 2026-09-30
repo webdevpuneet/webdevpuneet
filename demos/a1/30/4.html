@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Floating Label Inputs">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Floating label inputs</h1>
+    <p class="hint">Click into the field — the placeholder animates up into a label above the input instead of just vanishing.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="floatField">
+      <input class="field" type="text" id="name" placeholder=" ">
+      <label class="floatLabel" for="name">Full name</label>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; padding: 50px 16px 28px; }
+
+  .floatField { position: relative; width: 100%; max-width: 300px; }
+  .field {
+    width: 100%; padding: 18px 12px 8px; border-radius: 8px;
+    border: 1.5px solid var(--line); font: 15px system-ui, sans-serif; outline: none;
+    background: #fff; box-sizing: border-box;
+    transition: border-color 0.15s ease;
+  }
+  .field:focus { border-color: var(--accent); }
+
+  .floatLabel {
+    position: absolute; left: 13px; top: 16px;
+    font: 15px system-ui, sans-serif; color: var(--sub);
+    pointer-events: none; transform-origin: left top;
+    transition: transform 0.15s ease, color 0.15s ease, top 0.15s ease;
+  }
+
+  /* Floats up when focused, or when it has content (:placeholder-shown is
+     false once anything is typed since the placeholder is a single space). */
+  .field:focus + .floatLabel,
+  .field:not(:placeholder-shown) + .floatLabel {
+    top: 7px;
+    transform: scale(0.72);
+    color: var(--accent);
+  }
+  .field:not(:focus):not(:placeholder-shown) + .floatLabel { color: var(--sub); }
+</script>
+
+<script type="text/plain" id="js">
+  // Pure CSS drives the float itself via :focus and :placeholder-shown;
+  // no JavaScript is needed for the animation. This script only exists to
+  // demonstrate the field still behaves like a normal input.
+  var name = document.getElementById('name');
+  name.addEventListener('blur', function () {
+    // no-op: the label state is fully CSS-driven off the input's own value
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

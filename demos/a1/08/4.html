@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="type=&quot;number&quot;">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>type="number"</h1>
+    <p class="hint">Use the spinner arrows or type directly &mdash; the value can't go below 1 or above 10. On a phone this opens a numeric keypad, but note the caveat below about when this type is actually the wrong choice.</p>
+  </header>
+  <main class="stageWrap">
+    <form class="numForm" action="#" method="get" onsubmit="return false">
+      <label class="field">
+        <span class="fieldLabel">Quantity</span>
+        <input type="number" name="qty" min="1" max="10" step="1" value="1" id="qtyInput">
+      </label>
+      <p class="readout">Current value: <strong id="qtyReadout">1</strong></p>
+    </form>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; padding: 20px 16px 36px; }
+
+  .numForm {
+    width: 100%;
+    max-width: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 24px 20px;
+  }
+  .field { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+  .fieldLabel { font: 700 12px system-ui, sans-serif; text-align: center; }
+
+  .numForm input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    font: 600 18px system-ui, sans-serif;
+    text-align: center;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    outline: none;
+  }
+  .numForm input:focus { border-color: var(--accent); }
+
+  .readout { margin: 0; font-size: 12px; color: var(--sub); }
+  .readout strong { color: var(--accent); font-size: 14px; }
+</script>
+
+<script type="text/plain" id="js">
+  var input = document.getElementById('qtyInput');
+  var readout = document.getElementById('qtyReadout');
+  input.addEventListener('input', function () {
+    readout.textContent = input.value || '(empty)';
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Associating Tabs and Panels with aria-controls and aria-labelledby">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Associating tabs and panels correctly</h1>
+    <p class="hint">Click each tab and check the "what a screen reader announces" log. It's built directly from each panel's actual aria-labelledby/id wiring, the same relationship a screen reader would read.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken (no id relationship)</h2>
+        <div class="tablist" id="badTablist" role="tablist" aria-label="Pricing">
+          <button type="button" class="tab active" id="badTabA" role="tab" aria-selected="true" tabindex="0" data-panel="badPanelX">Monthly</button>
+          <button type="button" class="tab" id="badTabB" role="tab" aria-selected="false" tabindex="-1" data-panel="badPanelY">Yearly</button>
+        </div>
+        <div class="panel" id="badPanelX" role="tabpanel">$12/month, billed monthly.</div>
+        <div class="panel" id="badPanelY" role="tabpanel" hidden>$96/year, billed annually.</div>
+        <div class="log" id="badLog"></div>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed (aria-controls / aria-labelledby)</h2>
+        <div class="tablist" id="goodTablist" role="tablist" aria-label="Pricing">
+          <button type="button" class="tab active" id="goodTabA" role="tab" aria-selected="true" tabindex="0" aria-controls="goodPanelX" data-panel="goodPanelX">Monthly</button>
+          <button type="button" class="tab" id="goodTabB" role="tab" aria-selected="false" tabindex="-1" aria-controls="goodPanelY" data-panel="goodPanelY">Yearly</button>
+        </div>
+        <div class="panel" id="goodPanelX" role="tabpanel" aria-labelledby="goodTabA">$12/month, billed monthly.</div>
+        <div class="panel" id="goodPanelY" role="tabpanel" aria-labelledby="goodTabB" hidden>$96/year, billed annually.</div>
+        <div class="log" id="goodLog"></div>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 52em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 640px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .tablist { display: flex; gap: 4px; border-bottom: 2px solid var(--line); }
+  .tab { padding: 8px 10px; border: none; background: transparent; font: 700 12px system-ui, sans-serif; color: var(--sub); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; border-radius: 6px 6px 0 0; }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .panel { padding: 10px 4px; font-size: 12.5px; color: var(--ink); line-height: 1.5; font-weight: 700; }
+  .log { margin-top: 8px; background: #0f1117; color: #c9d1d9; border-radius: 8px; padding: 8px 10px; font: 11px ui-monospace, monospace; max-height: 110px; overflow-y: auto; }
+  .log div { padding: 1px 0; }
+  .log .ok { color: #4ade80; }
+  .log .err { color: #f87171; }
+</script>
+
+<script type="text/plain" id="js">
+  function logLine(logEl, text, cls) {
+    var line = document.createElement('div');
+    if (cls) line.className = cls;
+    line.textContent = text;
+    logEl.appendChild(line);
+    logEl.scrollTop = logEl.scrollHeight;
+    while (logEl.children.length > 7) logEl.removeChild(logEl.firstChild);
+  }
+
+  function setupBad() {
+    var tabs = [document.getElementById('badTabA'), document.getElementById('badTabB')];
+    var panels = [document.getElementById('badPanelX'), document.getElementById('badPanelY')];
+    var log = document.getElementById('badLog');
+    logLine(log, 'Neither tab has aria-controls, neither panel has aria-labelledby.', 'err');
+
+    for (var i = 0; i < tabs.length; i++) {
+      (function (idx) {
+        tabs[idx].addEventListener('click', function () {
+          for (var j = 0; j < tabs.length; j++) {
+            tabs[j].classList.remove('active');
+            tabs[j].setAttribute('aria-selected', 'false');
+            tabs[j].tabIndex = -1;
+            panels[j].hidden = true;
+          }
+          tabs[idx].classList.add('active');
+          tabs[idx].setAttribute('aria-selected', 'true');
+          tabs[idx].tabIndex = 0;
+          panels[idx].hidden = false;
+          logLine(log, 'Announcement: "region" -- unlabeled. The screen reader has no way to say which tab this content belongs to.', 'err');
+        });
+      })(i);
+    }
+  }
+
+  function setupGood() {
+    var tabs = [document.getElementById('goodTabA'), document.getElementById('goodTabB')];
+    var panels = [document.getElementById('goodPanelX'), document.getElementById('goodPanelY')];
+    var log = document.getElementById('goodLog');
+    logLine(log, 'Each tab has aria-controls pointing at its panel; each panel has aria-labelledby pointing back.', 'ok');
+
+    for (var i = 0; i < tabs.length; i++) {
+      (function (idx) {
+        tabs[idx].addEventListener('click', function () {
+          for (var j = 0; j < tabs.length; j++) {
+            tabs[j].classList.remove('active');
+            tabs[j].setAttribute('aria-selected', 'false');
+            tabs[j].tabIndex = -1;
+            panels[j].hidden = true;
+          }
+          tabs[idx].classList.add('active');
+          tabs[idx].setAttribute('aria-selected', 'true');
+          tabs[idx].tabIndex = 0;
+          panels[idx].hidden = false;
+          var labelId = panels[idx].getAttribute('aria-labelledby');
+          var labelText = document.getElementById(labelId).textContent;
+          logLine(log, 'Announcement: "tab panel, ' + labelText + '" -- the relationship is explicit.', 'ok');
+        });
+      })(i);
+    }
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

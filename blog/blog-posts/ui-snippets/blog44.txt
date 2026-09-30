@@ -1,0 +1,137 @@
+<h1>10 Free Bootstrap 5 Snippets for Smarter Forms &amp; Access Control: An Undo Toast, Nested Conditional Fields &amp; a Genuinely Locked Admin Permission</h1>
+
+<p>This batch is about the interactions that separate a form from a good form — a delete that can be undone instead of confirmed, a field that only appears when two conditions are both true, a click-to-edit row that only ever has one editor open at a time. It closes with the access-control side of the same coin: a permission a role can never accidentally lose, and a version history that's honest about which one is actually live. Every one still loads the genuine <code>bootstrap.min.css</code> and <code>bootstrap.bundle.min.js</code> from a CDN and builds on Bootstrap's real component classes.</p>
+
+<p>Every one is a <strong>live, interactive preview</strong> you can try right here in the article, and each exports to React, Vue, Angular or Tailwind in one click from its snippet page.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>Undo that restores position, not just presence.</strong> The undo toast records both the deleted item and its original index, so clicking Undo splices it back exactly where it was — never appended to the end of the list.</li>
+<li><strong>Conditions that genuinely nest.</strong> The conditional form fields snippet has one field that requires two separate inputs to both be true at once — a wider switch statement over a single dropdown couldn't produce that on its own.</li>
+<li><strong>Only one editor open at a time, on purpose.</strong> Both the inline profile editor and the inline table cell editor guarantee a single open editor, closing (or committing) any other in-progress edit rather than letting two ambiguous editors coexist.</li>
+<li><strong>A lock that's structural, not just discouraged.</strong> The permission matrix's Admin column is genuinely disabled at the click-handler level, and the feature flag panel resets a flag's rollout to zero the moment it's turned off, so neither state can silently drift from what it's supposed to mean.</li>
+<li><strong>State recomputed, never separately tracked.</strong> The form progress indicator, the audit log's combined filters, and the version history's "current" badge are all derived fresh from one source of truth every time, so nothing can quietly fall out of sync.</li>
+</ul>
+
+<h2>1. Bootstrap Undo Action Toast</h2>
+
+<p>Delete an inbox item and a real Bootstrap toast offers Undo — restoring the item to its exact original position, and correctly forgetting the undo the moment a second item is deleted.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-undo-action-toast/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Undo Action Toast — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the exact index of the deleted item is recorded alongside the item itself, and Undo re-inserts it there via <code>splice(lastIndex, 0, lastRemoved)</code> rather than pushing it back onto the end — appending it would silently reorder the list every time Undo ran. Only the single most recent deletion is ever recoverable, matching what one visible toast can honestly represent; deleting a second item overwrites the first one's undo state entirely.</p>
+
+<p><strong>Best for:</strong> email, task, and note lists where a safety net beats a confirmation modal for a cheap, reversible action. <strong>Tip:</strong> a real implementation should delay the actual backend delete call until the toast's autohide fires with no Undo click, so an in-time Undo can cancel it before anything is persisted.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-undo-action-toast/">Bootstrap Undo Action Toast</a></p>
+
+<h2>2. Bootstrap Form Progress Indicator</h2>
+
+<p>A single-page profile form where a live percentage bar fills as each of five mixed-type fields is completed, turning green and enabling Save only at 100%.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-form-progress-indicator/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Form Progress Indicator — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>isFilled()</code> correctly branches per field type — a text field is filled when its trimmed value is non-empty, while a file input is filled based on <code>.files.length</code>, since its <code>.value</code> is deliberately unreliable in every browser. Text fields listen for <code>input</code>; the file field listens for <code>change</code>, since file inputs never fire <code>input</code> on selection — a common bug in a homemade version of this pattern.</p>
+
+<p><strong>Best for:</strong> profile-completion and onboarding forms with several optional fields, distinct from a multi-step wizard since everything lives on one page at once. <strong>Tip:</strong> weight fields unevenly if some genuinely matter more than others toward "complete."</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-form-progress-indicator/">Bootstrap Form Progress Indicator</a></p>
+
+<h2>3. Bootstrap Conditional Form Fields</h2>
+
+<p>Field groups that show and hide based on a dropdown selection — including one field that only appears when the selection <em>and</em> a separate checkbox are both true at once.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-conditional-form-fields/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Conditional Form Fields — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> one <code>update()</code> function is the only place field visibility is decided, triggered by every control that could affect it. The EIN field is the genuinely nested case — visible only when the type is Nonprofit <em>and</em> the "registered" checkbox is checked — which a flat "one field per dropdown option" implementation has no way to express on its own.</p>
+
+<p><strong>Best for:</strong> account-type signup forms and any settings form where an advanced option should only surface once a related toggle is enabled. <strong>Tip:</strong> <code>update()</code> runs unconditionally on load too, so a form pre-filled with existing data always shows the right fields from the first render.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-conditional-form-fields/">Bootstrap Conditional Form Fields</a></p>
+
+<h2>4. Bootstrap Inline Form Editing</h2>
+
+<p>Click-to-edit profile fields — only one editor is ever open at a time, Enter saves, Escape cancels, and an empty save is silently rejected.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-inline-form-editing/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Inline Form Editing — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each row remembers its own last-saved value on the row itself, so reopening an editor always starts from a known-good state rather than stale, cancelled text. Opening a new field's editor calls <code>closeAllExcept()</code>, discarding any other row's unsaved edit — a deliberate choice to avoid two ambiguous open editors at once. Enter and Escape inside the input click the row's own real Save and Cancel buttons rather than duplicating their logic.</p>
+
+<p><strong>Best for:</strong> profile and account settings pages where editing a field shouldn't require a separate form or page reload. <strong>Tip:</strong> saving a cleared, empty field intentionally keeps the previous value rather than blanking it.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-inline-form-editing/">Bootstrap Inline Form Editing</a></p>
+
+<h2>5. Bootstrap Timezone Selector</h2>
+
+<p>A searchable timezone picker matching by city name or by UTC offset directly, with full keyboard navigation and correctly formatted half-hour offsets like UTC+05:30.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-timezone-selector/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Timezone Selector — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>formatOffset()</code> splits the offset into whole-hour and remainder-minute parts rather than assuming every timezone sits on a whole-hour boundary — a formatter that assumes integers breaks the instant it hits India's UTC+5:30. Search matches the formatted offset string as well as the city name, so typing "+9" finds Tokyo the same way typing "tokyo" would, and keyboard navigation repaints from a separate <code>paint()</code> function rather than re-filtering, so arrowing through results never accidentally resets the list.</p>
+
+<p><strong>Best for:</strong> scheduling and meeting-planning tools, and account localization settings. <strong>Tip:</strong> swap the small illustrative zone list for the browser's real <code>Intl.supportedValuesOf('timeZone')</code> for full IANA coverage with correct DST handling.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-timezone-selector/">Bootstrap Timezone Selector</a></p>
+
+<h2>6. Bootstrap Session Activity Timeline</h2>
+
+<p>An active-sessions list with device, location, and last-active time per row — a "This device" badge on the current session, which deliberately has no Sign Out button of its own.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-session-activity-timeline/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Session Activity Timeline — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a <code>current: true</code> flag drives both the visible badge and, more importantly, withholds the Sign Out button entirely from that one row — a real security page shouldn't let a user casually revoke the very session they're using to view the list. Signing out of any other session removes it from the array and re-renders, the same shape a real revoke-session API call would take.</p>
+
+<p><strong>Best for:</strong> account security and "manage your devices" settings pages. <strong>Tip:</strong> pair with the re-authentication modal elsewhere in this collection for a complete account-security section.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-session-activity-timeline/">Bootstrap Session Activity Timeline</a></p>
+
+<h2>7. Bootstrap User Permission Matrix</h2>
+
+<p>A clickable role/permission grid — toggle any Viewer or Editor cell directly, while Admin stays genuinely locked to every permission, not just pre-checked and still editable.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-user-permission-matrix/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap User Permission Matrix — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> permission state lives in one plain object keyed by role, each holding a boolean array indexed identically to the permission rows. Admin's row isn't just pre-checked — every cell is fixed <code>true</code> and marked locked, and the click handler explicitly bails out on a locked cell before ever touching the underlying grid. That's what makes it structurally impossible, not just discouraged, to accidentally uncheck a permission a role is supposed to always guarantee.</p>
+
+<p><strong>Best for:</strong> admin panels managing team or workspace roles, and enterprise access-control settings. <strong>Tip:</strong> adding a fourth role or a sixth permission is a one-line addition to the source arrays — no changes to the render or toggle logic.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-user-permission-matrix/">Bootstrap User Permission Matrix</a></p>
+
+<h2>8. Bootstrap Feature Flag Toggle Panel</h2>
+
+<p>Each flag pairs an on/off switch with a rollout-percentage slider that only exists in the DOM while the flag is enabled, and resets cleanly on disable.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-feature-flag-toggle-panel/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Feature Flag Toggle Panel — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> switching a flag off resets its rollout to 0 rather than leaving a stale percentage that would misrepresent the flag's actual state the next time someone glances at it; switching it back on defaults to 100% rather than an ambiguous leftover value. Two narrowly-scoped delegated listeners — one for the switch's <code>change</code>, one for the slider's <code>input</code> — cover every row without per-row re-binding after each render.</p>
+
+<p><strong>Best for:</strong> internal engineering and product admin tools controlling gradual feature rollouts. <strong>Tip:</strong> the slider listens for <code>input</code> specifically so the percentage label updates live while dragging, not only after release.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-feature-flag-toggle-panel/">Bootstrap Feature Flag Toggle Panel</a></p>
+
+<h2>9. Bootstrap Audit Log Viewer</h2>
+
+<p>Search by actor or action text, filter by event type, and both combine with real AND logic — with safely highlighted matches in a searchable admin activity log.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-audit-log-viewer/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Audit Log Viewer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> search text and the type dropdown filter the same array together in one function — an entry only shows when both conditions pass, so searching one actor while filtering to an unrelated type correctly returns nothing rather than behaving like an accidental OR. Each entry's severity tone is stored independently of its type, since two events of the same category (a routine invite, a suspicious new-device sign-in) can carry very different real significance.</p>
+
+<p><strong>Best for:</strong> admin security dashboards and SOC2-style compliance activity reporting. <strong>Tip:</strong> the highlight logic reuses the same escape-then-match technique as the search-highlighting snippet — safe against both HTML injection and regex-special characters.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-audit-log-viewer/">Bootstrap Audit Log Viewer</a></p>
+
+<h2>10. Bootstrap Version History Panel</h2>
+
+<p>A version list where "current" is a single comparison value, not a flag stuck on any one version — restoring an old version moves the badge, and the confirmation names exactly what's about to change.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-version-history-panel/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Version History Panel — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a single <code>currentId</code> variable is compared against every version's id at render time, so restoring an older version is just reassigning that one value — the "current" badge and the missing Restore button both automatically follow it to the new row. The current version deliberately has no Restore button of its own, since restoring onto itself would be a meaningless offered action. Restoring is a genuine two-step confirmation, with the modal's message generated from that specific version's real author and summary.</p>
+
+<p><strong>Best for:</strong> CMS and document editors, and configuration history in admin tools. <strong>Tip:</strong> pair with a diff viewer to show exactly what a restore would change before committing to it.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-version-history-panel/">Bootstrap Version History Panel</a></p>
+
+<p>Same as every batch before it, each of these ten lives in the category that actually fits its shape, so they surface alongside every other snippet of that kind rather than sitting in a library of their own. Find these ten and every other Bootstrap snippet in the collection in one place via the <a href="https://fwdtools.com/ui-snippets/tag/bootstrap/">Bootstrap tag</a>. Open any of them above and you land straight in the live editor, HTML/CSS/JS tabs and all; click <strong>Save as</strong> to copy it into <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and start changing it.</p>

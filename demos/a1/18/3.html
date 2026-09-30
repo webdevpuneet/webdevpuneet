@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="A Missing Dependency Serves a Stale Memoized Value">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>A missing dependency serves a stale memoized value</h1>
+    <p class="hint">Click "+1 qty" a few times without touching price. Watch the total on each side -- one of them stops updating.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 17px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 18px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 8px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .stat { font: 800 24px ui-monospace, monospace; margin-bottom: 4px; }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; }
+  .inputs { display: flex; gap: 10px; align-items: center; font-size: 12.5px; color: var(--sub); }
+  .row { display: flex; gap: 10px; }
+  .btn { padding: 9px 16px; border-radius: 9px; border: none; background: var(--accent); color: #fff; font: 700 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { background: #4f52d6; }
+  .btn.ghost { background: #fff; color: var(--ink); border: 1.5px solid var(--line); }
+  code { background: #eceef3; padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useMemo = React.useMemo;
+
+  function Demo() {
+    var priceState = useState(10);
+    var price = priceState[0];
+    var setPrice = priceState[1];
+
+    var qtyState = useState(1);
+    var qty = qtyState[0];
+    var setQty = qtyState[1];
+
+    // BROKEN: reads both `price` and `qty`, but only lists `price` in the
+    // dependency array. React has no idea this calculation also depends on
+    // `qty`, so it keeps returning the value from the last render where
+    // `price` changed -- even though `qty` has since moved on.
+    var badTotal = useMemo(function () {
+      return price * qty;
+    }, [price]);
+
+    // FIXED: both values the calculation actually reads are listed, so the
+    // memo recalculates whenever either one changes.
+    var goodTotal = useMemo(function () {
+      return price * qty;
+    }, [price, qty]);
+
+    return e(React.Fragment, null,
+      e('div', { className: 'cols' },
+        e('div', { className: 'col' },
+          e('h2', { className: 'colTitle bad' }, 'Missing qty dep'),
+          e('div', { className: 'stat' }, '$' + badTotal),
+          e('p', { className: 'note' }, 'Stale -- frozen at whatever qty was the last time price changed.')
+        ),
+        e('div', { className: 'col' },
+          e('h2', { className: 'colTitle good' }, 'Both deps listed'),
+          e('div', { className: 'stat' }, '$' + goodTotal),
+          e('p', { className: 'note' }, 'Always correct -- recalculates whenever price or qty changes.')
+        )
+      ),
+      e('div', { className: 'inputs' },
+        e('span', null, 'price: $' + price + ' | qty: ' + qty)
+      ),
+      e('div', { className: 'row' },
+        e('button', { className: 'btn ghost', onClick: function () { setQty(qty + 1); } }, '+1 qty'),
+        e('button', { className: 'btn', onClick: function () { setPrice(price + 1); } }, '+1 price')
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

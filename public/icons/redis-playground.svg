@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Redis Playground</title>
+  <rect width="64" height="64" rx="14" fill="#dc2626"/>
+  <path d="M13 23 32 14l19 9-19 9-19-9Z" fill="#fff"/>
+  <path d="m13 31 19 9 19-9v6l-19 9-19-9v-6Z" fill="#fee2e2"/>
+  <path d="m13 41 19 9 19-9v5l-19 9-19-9v-5Z" fill="#fecaca"/>
+  <circle cx="24" cy="23" r="2" fill="#dc2626"/>
+  <circle cx="32" cy="19" r="2" fill="#dc2626"/>
+  <circle cx="40" cy="23" r="2" fill="#dc2626"/>
+</svg>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Lazy Load Image Grid">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Lazy Load Image Grid</h1>
+    <p class="hint">Scroll down &mdash; tiles fetch their image only once they come near the viewport.</p>
+    <div class="counter"><strong id="count">0</strong> of <span id="total">0</span> loaded</div>
+  </header>
+
+  <main class="grid" id="grid"></main>
+
+  <footer class="end">You reached the end.</footer>
+</script>
+
+<script type="text/plain" id="css">
+  body {
+    background: #f6f7f9;
+    color: #1e1f26;
+  }
+
+  .bar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid #e3e5ea;
+  }
+
+  .bar h1 {
+    margin: 0;
+    font-size: 17px;
+    letter-spacing: -0.01em;
+  }
+
+  .hint {
+    margin: 4px 0 0;
+    font-size: 12.5px;
+    color: #6b7080;
+  }
+
+  .counter {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    padding: 5px 12px;
+    font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    border-radius: 20px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 14px;
+    padding: 20px;
+  }
+
+  .tile {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #e6e8ee;
+    box-shadow: 0 1px 2px rgba(20, 22, 30, 0.08);
+  }
+
+  /* Shimmer stands in for the picture until the real bytes arrive. */
+  .tile::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(100deg, #e6e8ee 30%, #f3f4f8 50%, #e6e8ee 70%);
+    background-size: 300% 100%;
+    animation: shimmer 1.2s linear infinite;
+  }
+
+  .tile.is-loaded::after {
+    display: none;
+  }
+
+  @keyframes shimmer {
+    from { background-position: 150% 0; }
+    to   { background-position: -150% 0; }
+  }
+
+  .tile img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0;
+    transform: scale(1.04);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+  }
+
+  .tile.is-loaded img {
+    opacity: 1;
+    transform: none;
+  }
+
+  .label {
+    position: absolute;
+    z-index: 2;
+    left: 8px;
+    bottom: 8px;
+    padding: 3px 9px;
+    font: 600 11px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #fff;
+    background: rgba(20, 22, 30, 0.55);
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease 0.15s;
+  }
+
+  .tile.is-loaded .label {
+    opacity: 1;
+  }
+
+  .end {
+    padding: 40px 20px 60px;
+    text-align: center;
+    font-size: 13px;
+    color: #9aa0b0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tile::after { animation: none; }
+    .tile img { transition: none; }
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var TILE_COUNT = 36;
+  var HUES = [212, 258, 340, 24, 158, 190];
+
+  var grid = document.getElementById('grid');
+  var countEl = document.getElementById('count');
+  document.getElementById('total').textContent = TILE_COUNT;
+
+  var loaded = 0;
+
+  /* Each "photo" is a generated SVG, so the demo needs no network and works
+     offline — the lazy-loading mechanics are identical either way. */
+  function makeImage(i) {
+    var hue = HUES[i % HUES.length];
+    var svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">' +
+        '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+          '<stop offset="0" stop-color="hsl(' + hue + ',72%,58%)"/>' +
+          '<stop offset="1" stop-color="hsl(' + ((hue + 48) % 360) + ',68%,40%)"/>' +
+        '</linearGradient></defs>' +
+        '<rect width="400" height="300" fill="url(#g)"/>' +
+        '<circle cx="' + (60 + (i * 37) % 280) + '" cy="' + (70 + (i * 53) % 160) +
+          '" r="58" fill="rgba(255,255,255,0.18)"/>' +
+        '<circle cx="' + (140 + (i * 71) % 220) + '" cy="' + (110 + (i * 29) % 150) +
+          '" r="34" fill="rgba(255,255,255,0.14)"/>' +
+      '</svg>';
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
+
+  for (var i = 1; i <= TILE_COUNT; i++) {
+    var tile = document.createElement('figure');
+    tile.className = 'tile';
+    var img = document.createElement('img');
+    img.alt = 'Photo ' + i;
+    // The URL lives in data-src, so the browser has nothing to fetch yet.
+    img.dataset.src = makeImage(i);
+    var label = document.createElement('figcaption');
+    label.className = 'label';
+    label.textContent = '#' + i;
+    tile.appendChild(img);
+    tile.appendChild(label);
+    grid.appendChild(tile);
+  }
+
+  function reveal(img) {
+    if (img.dataset.loading) return;
+    img.dataset.loading = '1';
+    var src = img.dataset.src;
+    img.addEventListener('load', function () {
+      img.parentNode.classList.add('is-loaded');
+      countEl.textContent = ++loaded;
+    });
+    // A short stagger stands in for real network latency, so the skeleton
+    // state is actually visible on a fast local connection.
+    setTimeout(function () { img.src = src; }, 250 + Math.random() * 450);
+  }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        reveal(entry.target);
+        io.unobserve(entry.target); // one load per tile, then stop watching
+      });
+    }, {
+      // Start fetching 200px before a tile scrolls into view.
+      rootMargin: '200px 0px',
+      threshold: 0.01
+    });
+
+    Array.prototype.forEach.call(grid.querySelectorAll('img'), function (img) {
+      io.observe(img);
+    });
+  } else {
+    // No observer support: just load everything.
+    Array.prototype.forEach.call(grid.querySelectorAll('img'), reveal);
+  }
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

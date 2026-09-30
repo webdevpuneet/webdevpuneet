@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="start / end position strings">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>start / end position strings</h1>
+    <p class="hint">The green line is fixed at 80% down this preview &mdash; that's <code>start: 'top 80%'</code> made visible. Watch the readout as the target's top edge crosses it.</p>
+  </header>
+  <div class="line startLine"><span>start: top 80%</span></div>
+  <div class="readout" id="readout">progress: 0.00 · inactive</div>
+  <div class="spacer">Scroll ↓</div>
+  <div class="target">TARGET</div>
+  <div class="spacer end"></div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #2563eb; }
+  body { background: #f6f7f9; color: var(--ink); position: relative; }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .hint code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
+  .line { position: fixed; left: 0; right: 0; top: 80%; height: 2px; background: var(--accent); z-index: 5; }
+  .line span { position: absolute; right: 10px; top: -20px; font: 700 10.5px ui-monospace, monospace; color: var(--accent); background: #fff; padding: 2px 6px; border-radius: 5px; border: 1px solid var(--accent); }
+  .readout { position: fixed; left: 10px; top: 8px; z-index: 6; font: 700 11px ui-monospace, monospace; background: #14161c; color: #d1fae5; padding: 5px 9px; border-radius: 6px; }
+  .spacer { height: 220px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 280px; }
+  .target {
+    max-width: 280px;
+    margin: 0 auto;
+    padding: 30px;
+    text-align: center;
+    background: var(--accent);
+    color: #fff;
+    font: 800 14px system-ui, sans-serif;
+    border-radius: 14px;
+    box-shadow: 0 14px 34px rgba(37,99,235,0.3);
+  }
+</script>
+
+<script type="text/plain" id="js">
+  gsap.registerPlugin(ScrollTrigger);
+
+  var readout = document.getElementById('readout');
+
+  gsap.from('.target', {
+    opacity: 0,
+    scale: 0.85,
+    duration: 0.6,
+    scrollTrigger: {
+      trigger: '.target',
+      start: 'top 80%',
+      end: 'top 40%',
+      onUpdate: function (self) {
+        readout.textContent = 'progress: ' + self.progress.toFixed(2) + ' · ' + (self.isActive ? 'active' : 'inactive');
+      }
+    }
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Forgetting hidden on Inactive Panels">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Forgetting "hidden" on inactive panels</h1>
+    <p class="hint">Click the first tab, then press Tab repeatedly. Watch whether focus ever lands on a link that belongs to an invisible, inactive panel.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken (hidden with CSS only)</h2>
+        <div class="tablist" id="badTablist" role="tablist" aria-label="Docs">
+          <button type="button" class="tab active" id="badTab0" role="tab" aria-selected="true" tabindex="0">Overview</button>
+          <button type="button" class="tab" id="badTab1" role="tab" aria-selected="false" tabindex="-1">API</button>
+        </div>
+        <div class="panel visible" id="badPanel0" role="tabpanel">Overview text. <a href="#" id="badLinkVisible">Visible link</a></div>
+        <div class="panel cssHidden" id="badPanel1" role="tabpanel">API text. <a href="#" id="badLinkHidden">Hidden link (still focusable!)</a></div>
+        <p class="stat" id="badStat">Focus landed on: (click Overview first)</p>
+        <div class="log" id="badLog"></div>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed (hidden attribute)</h2>
+        <div class="tablist" id="goodTablist" role="tablist" aria-label="Docs">
+          <button type="button" class="tab active" id="goodTab0" role="tab" aria-selected="true" tabindex="0">Overview</button>
+          <button type="button" class="tab" id="goodTab1" role="tab" aria-selected="false" tabindex="-1">API</button>
+        </div>
+        <div class="panel" id="goodPanel0" role="tabpanel">Overview text. <a href="#" id="goodLinkVisible">Visible link</a></div>
+        <div class="panel" id="goodPanel1" role="tabpanel" hidden>API text. <a href="#" id="goodLinkHidden">Unreachable link</a></div>
+        <p class="stat" id="goodStat">Focus landed on: (click Overview first)</p>
+        <div class="log" id="goodLog"></div>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 52em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 640px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .tablist { display: flex; gap: 4px; border-bottom: 2px solid var(--line); }
+  .tab { padding: 8px 10px; border: none; background: transparent; font: 700 12px system-ui, sans-serif; color: var(--sub); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; border-radius: 6px 6px 0 0; }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .panel { padding: 10px 4px; font-size: 12.5px; color: var(--ink); line-height: 1.5; }
+  .panel.cssHidden { height: 0; overflow: hidden; padding: 0; margin: 0; opacity: 0; }
+  .panel a { color: var(--accent); font-weight: 700; }
+  .panel a:focus { outline: 2px solid var(--red); background: #fdeaea; }
+  .stat { margin: 8px 0 0; font: 800 12.5px ui-monospace, monospace; }
+  .log { margin-top: 6px; background: #0f1117; color: #c9d1d9; border-radius: 8px; padding: 8px 10px; font: 11px ui-monospace, monospace; max-height: 90px; overflow-y: auto; }
+  .log div { padding: 1px 0; }
+  .log .ok { color: #4ade80; }
+  .log .err { color: #f87171; }
+</script>
+
+<script type="text/plain" id="js">
+  function logLine(logEl, text, cls) {
+    var line = document.createElement('div');
+    if (cls) line.className = cls;
+    line.textContent = text;
+    logEl.appendChild(line);
+    logEl.scrollTop = logEl.scrollHeight;
+    while (logEl.children.length > 6) logEl.removeChild(logEl.firstChild);
+  }
+
+  function setupBad() {
+    var tab0 = document.getElementById('badTab0');
+    var tab1 = document.getElementById('badTab1');
+    var panel1 = document.getElementById('badPanel1');
+    var linkHidden = document.getElementById('badLinkHidden');
+    var linkVisible = document.getElementById('badLinkVisible');
+    var stat = document.getElementById('badStat');
+    var log = document.getElementById('badLog');
+
+    tab0.addEventListener('click', function () { tab0.focus(); });
+
+    linkHidden.addEventListener('focus', function () {
+      stat.textContent = 'Focus landed on: "Hidden link" (inside an INACTIVE panel!)';
+      logLine(log, 'CSS-hidden panel still allowed keyboard focus to reach it.', 'err');
+    });
+    linkVisible.addEventListener('focus', function () {
+      stat.textContent = 'Focus landed on: "Visible link"';
+    });
+    linkHidden.addEventListener('click', function (e) { e.preventDefault(); });
+    linkVisible.addEventListener('click', function (e) { e.preventDefault(); });
+
+    tab1.addEventListener('click', function () { tab1.focus(); });
+  }
+
+  function setupGood() {
+    var tab0 = document.getElementById('goodTab0');
+    var tab1 = document.getElementById('goodTab1');
+    var panel1 = document.getElementById('goodPanel1');
+    var linkHidden = document.getElementById('goodLinkHidden');
+    var linkVisible = document.getElementById('goodLinkVisible');
+    var stat = document.getElementById('goodStat');
+    var log = document.getElementById('goodLog');
+
+    tab0.addEventListener('click', function () { tab0.focus(); });
+
+    linkHidden.addEventListener('focus', function () {
+      stat.textContent = 'Focus landed on: "Unreachable link" (this should never happen)';
+    });
+    linkVisible.addEventListener('focus', function () {
+      stat.textContent = 'Focus landed on: "Visible link"';
+      logLine(log, 'hidden attribute removed the inactive panel from the tab order entirely.', 'ok');
+    });
+    linkHidden.addEventListener('click', function (e) { e.preventDefault(); });
+    linkVisible.addEventListener('click', function (e) { e.preventDefault(); });
+
+    tab1.addEventListener('click', function () { tab1.focus(); });
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

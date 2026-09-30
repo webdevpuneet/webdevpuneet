@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Manual vs Automatic Tab Activation">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Manual vs. automatic tab activation</h1>
+    <p class="hint">Focus the first tab in each tablist, then press ArrowRight twice without pressing Enter. Watch when the panel content actually changes in each column.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle auto">Automatic activation</h2>
+        <div class="tablist" id="autoTablist" role="tablist" aria-label="Report range">
+          <button type="button" class="tab active" id="autoTab0" role="tab" aria-selected="true" tabindex="0" data-idx="0">Day</button>
+          <button type="button" class="tab" id="autoTab1" role="tab" aria-selected="false" tabindex="-1" data-idx="1">Week</button>
+          <button type="button" class="tab" id="autoTab2" role="tab" aria-selected="false" tabindex="-1" data-idx="2">Month</button>
+        </div>
+        <div class="panel" id="autoPanel">Showing: Day</div>
+        <div class="log" id="autoLog"></div>
+      </div>
+      <div class="col">
+        <h2 class="colTitle manual">Manual activation</h2>
+        <div class="tablist" id="manTablist" role="tablist" aria-label="Report range">
+          <button type="button" class="tab active" id="manTab0" role="tab" aria-selected="true" tabindex="0" data-idx="0">Day</button>
+          <button type="button" class="tab" id="manTab1" role="tab" aria-selected="false" tabindex="-1" data-idx="1">Week</button>
+          <button type="button" class="tab" id="manTab2" role="tab" aria-selected="false" tabindex="-1" data-idx="2">Month</button>
+        </div>
+        <div class="panel" id="manPanel">Showing: Day</div>
+        <p class="note" id="manNote">Focused tab is "Day" -- panel still shows Day until Enter/Space is pressed.</p>
+        <div class="log" id="manLog"></div>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --purple: #7c3aed; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 52em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 640px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; }
+  .colTitle.auto { color: var(--accent); background: #eef0fe; }
+  .colTitle.manual { color: var(--purple); background: #f3ebfe; }
+  .tablist { display: flex; gap: 4px; border-bottom: 2px solid var(--line); }
+  .tab { padding: 8px 10px; border: none; background: transparent; font: 700 12px system-ui, sans-serif; color: var(--sub); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; border-radius: 6px 6px 0 0; }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab:focus { outline: 2px solid var(--purple); outline-offset: -2px; }
+  .panel { padding: 10px 4px; font-size: 12.5px; color: var(--ink); line-height: 1.5; min-height: 26px; font-weight: 700; }
+  .note { margin: 4px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; min-height: 2.6em; }
+  .log { margin-top: 6px; background: #0f1117; color: #c9d1d9; border-radius: 8px; padding: 8px 10px; font: 11px ui-monospace, monospace; max-height: 90px; overflow-y: auto; }
+  .log div { padding: 1px 0; }
+  .log .ok { color: #4ade80; }
+  .log .warn { color: #fbbf24; }
+</script>
+
+<script type="text/plain" id="js">
+  function logLine(logEl, text, cls) {
+    var line = document.createElement('div');
+    if (cls) line.className = cls;
+    line.textContent = text;
+    logEl.appendChild(line);
+    logEl.scrollTop = logEl.scrollHeight;
+    while (logEl.children.length > 6) logEl.removeChild(logEl.firstChild);
+  }
+
+  function setupAuto() {
+    var tablist = document.getElementById('autoTablist');
+    var tabs = [document.getElementById('autoTab0'), document.getElementById('autoTab1'), document.getElementById('autoTab2')];
+    var panel = document.getElementById('autoPanel');
+    var log = document.getElementById('autoLog');
+    var currentIdx = 0;
+
+    function activate(idx) {
+      for (var j = 0; j < tabs.length; j++) {
+        tabs[j].classList.remove('active');
+        tabs[j].setAttribute('aria-selected', 'false');
+        tabs[j].tabIndex = -1;
+      }
+      tabs[idx].classList.add('active');
+      tabs[idx].setAttribute('aria-selected', 'true');
+      tabs[idx].tabIndex = 0;
+      tabs[idx].focus();
+      panel.textContent = 'Showing: ' + tabs[idx].textContent;
+      currentIdx = idx;
+      logLine(log, 'Focus moved to "' + tabs[idx].textContent + '" -- panel switched immediately.', 'ok');
+    }
+
+    for (var i = 0; i < tabs.length; i++) {
+      (function (idx) { tabs[idx].addEventListener('click', function () { activate(idx); }); })(i);
+    }
+
+    // AUTOMATIC ACTIVATION: moving focus with the arrow keys also
+    // switches the visible panel, in the same keystroke.
+    tablist.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); activate((currentIdx + 1) % tabs.length); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); activate((currentIdx - 1 + tabs.length) % tabs.length); }
+    });
+  }
+
+  function setupManual() {
+    var tablist = document.getElementById('manTablist');
+    var tabs = [document.getElementById('manTab0'), document.getElementById('manTab1'), document.getElementById('manTab2')];
+    var panel = document.getElementById('manPanel');
+    var note = document.getElementById('manNote');
+    var log = document.getElementById('manLog');
+    var focusedIdx = 0;
+    var selectedIdx = 0;
+
+    function moveFocus(idx) {
+      tabs[focusedIdx].tabIndex = -1;
+      focusedIdx = idx;
+      tabs[focusedIdx].tabIndex = 0;
+      tabs[focusedIdx].focus();
+      note.textContent = 'Focused tab is "' + tabs[focusedIdx].textContent + '" -- panel still shows ' + tabs[selectedIdx].textContent + ' until Enter/Space is pressed.';
+      logLine(log, 'Focus moved to "' + tabs[focusedIdx].textContent + '" -- panel NOT switched yet.', 'warn');
+    }
+
+    function select(idx) {
+      tabs[selectedIdx].classList.remove('active');
+      tabs[selectedIdx].setAttribute('aria-selected', 'false');
+      selectedIdx = idx;
+      tabs[selectedIdx].classList.add('active');
+      tabs[selectedIdx].setAttribute('aria-selected', 'true');
+      panel.textContent = 'Showing: ' + tabs[selectedIdx].textContent;
+      note.textContent = 'Activated "' + tabs[selectedIdx].textContent + '" with Enter -- panel switched now.';
+      logLine(log, 'Enter pressed -- panel switched to "' + tabs[selectedIdx].textContent + '"', 'ok');
+    }
+
+    for (var i = 0; i < tabs.length; i++) {
+      (function (idx) {
+        tabs[idx].addEventListener('click', function () { moveFocus(idx); select(idx); });
+      })(i);
+    }
+
+    // MANUAL ACTIVATION: arrow keys only move focus. The panel only
+    // switches once the user explicitly presses Enter or Space.
+    tablist.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); moveFocus((focusedIdx + 1) % tabs.length); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); moveFocus((focusedIdx - 1 + tabs.length) % tabs.length); }
+      else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(focusedIdx); }
+    });
+  }
+
+  setupAuto();
+  setupManual();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Length Limits: minlength, maxlength">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Length Limits &mdash; minlength, maxlength</h1>
+    <p class="hint">The bio field physically stops accepting keystrokes at 140 characters. The password field will let you type anything, but won't let the form submit under 8 characters.</p>
+  </header>
+  <main class="stageWrap">
+    <form class="lenForm" action="#" method="get" onsubmit="return false">
+      <label class="field">
+        <span class="fieldLabel">Password</span>
+        <input type="password" name="password" required minlength="8" placeholder=" ">
+        <span class="fieldHelp">At least 8 characters</span>
+      </label>
+      <label class="field">
+        <span class="fieldLabel">Short bio</span>
+        <textarea name="bio" maxlength="140" rows="3" placeholder="Say something about yourself…"></textarea>
+        <span class="fieldHelp">Maximum 140 characters &mdash; the field simply won't accept more</span>
+      </label>
+      <button type="submit" class="submitBtn">Save profile</button>
+    </form>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --ok: #16a34a; --err: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; padding: 14px 16px 32px; }
+
+  .lenForm {
+    width: 100%;
+    max-width: 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .fieldLabel { font: 700 12px system-ui, sans-serif; }
+  .fieldHelp { font-size: 11px; color: var(--sub); }
+
+  .lenForm input, .lenForm textarea {
+    padding: 10px 12px;
+    font: 500 14px system-ui, sans-serif;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    outline: none;
+    resize: none;
+  }
+  .lenForm input:focus, .lenForm textarea:focus { border-color: var(--accent); }
+  .lenForm input:not(:placeholder-shown):invalid { border-color: var(--err); background: #fef2f2; }
+  .lenForm input:not(:placeholder-shown):valid { border-color: var(--ok); background: #f0fdf4; }
+
+  .submitBtn {
+    padding: 11px 16px;
+    font: 700 13px system-ui, sans-serif;
+    border: none;
+    border-radius: 9px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+  }
+  .submitBtn:hover { background: #4f52d9; }
+</script>
+
+<script type="text/plain" id="js">
+  /* No JavaScript — minlength blocks submission below the threshold, and
+     maxlength blocks typing past the ceiling. Both are enforced by the
+     browser before your code ever sees the value. */
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

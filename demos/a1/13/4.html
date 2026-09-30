@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Fixing a Stale Closure in setInterval">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Stale closure vs. a ref that stays fresh</h1>
+    <p class="hint">Start the ticker, then flip the mode a few times before it logs. The "stale" side reports whatever mode was active when the interval was created; the "fixed" side always reports the mode right now.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --red: #ef4444; --green: #16a34a; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px 28px; }
+  .btnRow { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .btn {
+    padding: 9px 14px;
+    font: 700 12.5px system-ui, sans-serif;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .btn.ghost { background: #eceef3; color: var(--ink); }
+  .mode { font: 800 13px system-ui, sans-serif; color: var(--ink); }
+  .logs { display: flex; gap: 12px; width: 100%; max-width: 480px; }
+  .logCol { flex: 1; background: #fff; border: 1.5px dashed var(--line); border-radius: 10px; padding: 10px; min-height: 130px; }
+  .logCol h4 { margin: 0 0 6px; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--sub); text-align: center; }
+  .logCol.stale h4 { color: var(--red); }
+  .logCol.fixed h4 { color: var(--green); }
+  .logLine { font: 600 11px ui-monospace, monospace; color: var(--ink); padding: 2px 0; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useRef = React.useRef;
+  var useEffect = React.useEffect;
+
+  function StaleClosureDemo() {
+    var modeState = useState('A'), mode = modeState[0], setMode = modeState[1];
+    var runningState = useState(false), running = runningState[0], setRunning = runningState[1];
+    var staleLogState = useState([]), staleLog = staleLogState[0], setStaleLog = staleLogState[1];
+    var fixedLogState = useState([]), fixedLog = fixedLogState[0], setFixedLog = fixedLogState[1];
+    var modeRef = useRef(mode);
+
+    useEffect(function () { modeRef.current = mode; }, [mode]);
+
+    useEffect(function () {
+      if (!running) return;
+      var count = 0;
+      var id = setInterval(function () {
+        count = count + 1;
+        // Stale: closes over "mode" as it was when the effect ran.
+        setStaleLog(function (log) { return log.concat('Tick ' + count + ': mode was "' + mode + '"').slice(-4); });
+        // Fixed: reads the ref, which is always current.
+        setFixedLog(function (log) { return log.concat('Tick ' + count + ': mode is "' + modeRef.current + '"').slice(-4); });
+      }, 1200);
+      return function () { clearInterval(id); };
+      // eslint-disable-next-line
+    }, [running]);
+
+    return e('div', { className: 'stageWrap', style: { padding: 0 } },
+      e('div', { className: 'mode' }, 'Current mode: ', mode),
+      e('div', { className: 'btnRow' },
+        e('button', { className: 'btn', onClick: function () { setMode(mode === 'A' ? 'B' : 'A'); } }, 'Flip mode'),
+        e('button', { className: 'btn ghost', onClick: function () { setRunning(!running); if (running) { setStaleLog([]); setFixedLog([]); } } }, running ? 'Stop ticker' : 'Start ticker')
+      ),
+      e('div', { className: 'logs' },
+        e('div', { className: 'logCol stale' },
+          e('h4', null, 'Stale closure'),
+          staleLog.map(function (l, i) { return e('div', { className: 'logLine', key: i }, l); })
+        ),
+        e('div', { className: 'logCol fixed' },
+          e('h4', null, 'Fixed with a ref'),
+          fixedLog.map(function (l, i) { return e('div', { className: 'logLine', key: i }, l); })
+        )
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(StaleClosureDemo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

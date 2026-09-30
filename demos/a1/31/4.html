@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Inherits True vs False">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>inherits: true vs inherits: false</h1>
+    <p class="hint">Both trees set --level on their top-level wrapper only. The left tree's property is registered with inherits: true, the right with inherits: false. The readout shows the computed value at each nesting depth.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="row">
+      <div class="tree" id="inhTree">
+        <p class="tag">inherits: true</p>
+        <div class="lvl lvl0" data-lvl="0">
+          level 0
+          <div class="lvl lvl1" data-lvl="1">
+            level 1
+            <div class="lvl lvl2" data-lvl="2">level 2</div>
+          </div>
+        </div>
+      </div>
+      <div class="tree" id="noInhTree">
+        <p class="tag">inherits: false</p>
+        <div class="lvl2 lvl0b" data-lvl="0">
+          level 0
+          <div class="lvl2 lvl1b" data-lvl="1">
+            level 1
+            <div class="lvl2 lvl2b" data-lvl="2">level 2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="note" id="note">Computing...</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 54em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 22px 18px 30px; }
+  .row { display: flex; gap: 22px; flex-wrap: wrap; justify-content: center; }
+  .tree { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 14px; width: 210px; }
+  .tag { margin: 0 0 8px; font: 700 12px system-ui, sans-serif; color: var(--accent); text-align: center; }
+
+  @property --level {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+  }
+
+  @property --level2 {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 0;
+  }
+
+  .lvl0 { --level: 7; }
+  .lvl { border: 1px dashed var(--line); border-radius: 8px; padding: 10px; font-size: 11.5px; color: var(--sub); }
+
+  .lvl0b { --level2: 7; }
+  .lvl2 { border: 1px dashed var(--line); border-radius: 8px; padding: 10px; font-size: 11.5px; color: var(--sub); }
+
+  .note { margin: 0; max-width: 60em; font-size: 12.5px; color: var(--sub); text-align: center; }
+  .note strong { color: var(--ink); }
+</script>
+
+<script type="text/plain" id="js">
+  var note = document.getElementById('note');
+
+  function readAll(selector, prop) {
+    var els = document.querySelectorAll(selector);
+    var out = [];
+    els.forEach(function (el) {
+      out.push('level ' + el.getAttribute('data-lvl') + '=' + getComputedStyle(el).getPropertyValue(prop).trim());
+    });
+    return out.join(', ');
+  }
+
+  var inh = readAll('#inhTree .lvl', '--level');
+  var noInh = readAll('#noInhTree .lvl2', '--level2');
+
+  note.innerHTML = '<strong>inherits: true</strong> (--level, only set at level 0): ' + inh + ' &mdash; the value cascades down through every descendant automatically. <strong>inherits: false</strong> (--level2, only set at level 0): ' + noInh + ' &mdash; children fall straight back to the registered initial-value of 0 instead of inheriting level 0\'s 7, because the property was registered not to inherit.';
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

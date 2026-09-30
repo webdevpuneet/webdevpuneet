@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Delegated Dropdown Menu with Dynamic Items">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>A menu that grows options at runtime, with one selection listener</h1>
+    <p class="hint">Click "Add a custom option" to inject a brand-new menu item, then pick it. The selection listener lives on the menu container and was written before that item existed.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="menuWrap">
+      <button class="menuBtn" id="menuBtn">Assign to &#9662;</button>
+      <ul class="menu" id="menu" hidden>
+        <li class="opt" data-value="alex">Alex</li>
+        <li class="opt" data-value="sam">Sam</li>
+        <li class="opt" data-value="jordan">Jordan</li>
+        <li class="addOpt" id="addOpt">+ Add a custom option&hellip;</li>
+      </ul>
+    </div>
+    <p class="selected">Assigned to: <strong id="selectedOut">nobody yet</strong></p>
+    <p class="note" id="note">Open the menu, add a custom name, then select it.</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink:#14161c; --sub:#6b7080; --line:#e3e5ea; --accent:#6366f1; }
+  body { background:#f6f7f9; color:var(--ink); }
+  .bar { padding:18px 20px 8px; text-align:center; }
+  .bar h1 { margin:0 0 4px; font-size:17px; letter-spacing:-0.01em; }
+  .hint { margin:0 auto; max-width:56em; font-size:12.5px; color:var(--sub); }
+  .stageWrap { display:flex; flex-direction:column; align-items:center; gap:12px; padding:16px 18px 28px; }
+
+  .menuWrap { position:relative; }
+  .menuBtn {
+    font:700 13px system-ui, sans-serif; padding:9px 18px;
+    border:1px solid var(--line); border-radius:8px; background:#fff; cursor:pointer;
+  }
+  .menu {
+    position:absolute; top:calc(100% + 6px); left:0; margin:0; padding:6px;
+    list-style:none; background:#fff; border:1px solid var(--line); border-radius:9px;
+    box-shadow:0 8px 24px rgba(20,22,28,.1); min-width:180px; z-index:2;
+  }
+  .opt, .addOpt {
+    padding:8px 10px; border-radius:6px; font-size:13px; cursor:pointer;
+  }
+  .opt:hover, .addOpt:hover { background:#eef0ff; color:var(--accent); }
+  .addOpt { border-top:1px solid var(--line); margin-top:4px; padding-top:10px; color:var(--sub); font-size:12px; }
+
+  .selected { font-size:13px; margin:0; }
+  .selected strong { color:var(--accent); }
+  .note { margin:0; font-size:12px; color:var(--sub); text-align:center; max-width:42em; }
+</script>
+
+<script type="text/plain" id="js">
+  var menuBtn = document.getElementById('menuBtn');
+  var menu = document.getElementById('menu');
+  var selectedOut = document.getElementById('selectedOut');
+  var note = document.getElementById('note');
+  var customCount = 0;
+
+  menuBtn.addEventListener('click', function () {
+    menu.hidden = !menu.hidden;
+  });
+
+  // One listener on <ul class="menu">. It handles the three options that
+  // existed at page load, the "add option" row, AND every option this
+  // listener itself will go on to create.
+  menu.addEventListener('click', function (e) {
+    var addRow = e.target.closest('#addOpt');
+    if (addRow) {
+      customCount++;
+      var name = 'Custom ' + customCount;
+      var li = document.createElement('li');
+      li.className = 'opt';
+      li.dataset.value = name.toLowerCase().replace(' ', '-');
+      li.textContent = name;
+      addRow.before(li);
+      note.textContent = '"' + name + '" was added after the listener existed — click it, it already works.';
+      return;
+    }
+
+    var opt = e.target.closest('.opt');
+    if (opt) {
+      selectedOut.textContent = opt.textContent;
+      menu.hidden = true;
+      note.textContent = 'Selected via the same listener that handled the original three options.';
+    }
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.menuWrap')) menu.hidden = true;
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

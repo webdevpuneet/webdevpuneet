@@ -1,0 +1,225 @@
+<h1>GSAP Tutorial for Beginners: Animate Your First HTML Element</h1>
+
+<p>GSAP (GreenSock Animation Platform) is the JavaScript animation library most professional sites actually reach for once plain CSS transitions stop being enough &mdash; smooth cross-browser easing, animations you can sequence and reverse on command, and a scroll-triggering system (ScrollTrigger) that would otherwise take real effort to build by hand. It's also, refreshingly, not hard to get started with: the entire library boils down to a handful of core ideas, and once you've animated your first element you already understand most of what real GSAP code looks like. This tutorial builds those ideas up one at a time, from moving a single box to a scroll-triggered reveal, using nothing but the free CDN build &mdash; no install, no build step, no account.</p>
+
+<p>Every demo below is <strong>live and interactive</strong> right here in the article &mdash; click the buttons, hover the card, scroll the last one. Each embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact code, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/" target="_blank" rel="noopener">My Code</a> &mdash; FWD Tools' free in-browser editor. Change a duration, swap an ease, and see what happens &mdash; that's a much faster way to build real intuition for GSAP than reading about it.</p>
+
+<p>Once this post clicks, the <a href="https://fwdtools.com/gsap-playground/" target="_blank" rel="noopener">GSAP Playground</a> is the natural next stop &mdash; a free, click-based, in-browser course that runs beginner to pro across 55 lessons in 18 chapters, covering everything from <code>gsap.to()</code> through timelines, stagger, ScrollTrigger, and the official plugins, each with a live editor and instant preview.</p>
+
+<h2>Why reach for GSAP instead of plain CSS?</h2>
+
+<p>CSS transitions and <code>@keyframes</code> genuinely handle a lot of simple cases fine, and this tutorial isn't telling you to abandon them. GSAP earns its place once an animation needs to be controlled from JavaScript rather than just declared once and left alone: playing, pausing, reversing, or restarting on demand; chaining several animations into one precise sequence without a pile of <code>animation-delay</code> values; animating properties CSS can't touch directly, like a number counting up or a value along an SVG path; or triggering smoothly off scroll position instead of just a class toggle. It also quietly papers over years of small cross-browser inconsistencies in how transforms and easing behave, so an animation that looks right in one browser looks right everywhere. Every demo below is deliberately simple, but each one demonstrates a real, load-bearing piece of how GSAP code is actually written.</p>
+
+<h2>1. gsap.to() &mdash; your first tween</h2>
+
+<p>The single most-used line in all of GSAP. It animates an element <em>toward</em> the values you give it, starting from wherever it already is right now.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/11/1.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="gsap.to Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>gsap.to('.box', {
+  x: 160,
+  rotation: 360,
+  backgroundColor: '#16a34a',
+  duration: 1.2,
+  ease: 'power2.out'
+});</code></pre>
+
+<p>A "tween" (short for "in-betweening") is GSAP's core unit of animation: one call, one target, one set of end values, one duration. Note <code>x</code> and <code>rotation</code> rather than raw CSS <code>transform</code> strings &mdash; GSAP quietly handles combining transforms under the hood, which is genuinely fiddly to get right by hand, especially once translation and rotation need to animate at the same time. <code>ease</code> shapes the rate of change over that duration; without one specified, GSAP defaults to a gentle <code>power1.out</code> rather than the linear motion most people expect. <code>gsap.to()</code> can animate almost any numeric CSS property, plus a handful of GSAP-specific shorthand properties like <code>x</code>/<code>y</code> for transforms.</p>
+
+<p><strong>Best for:</strong> the vast majority of one-off animations &mdash; moving, resizing, fading, or recoloring something in response to code running. <strong>Tip:</strong> nothing here needs a build step or npm install &mdash; the single CDN script tag in this demo's CDN panel is the entire dependency.</p>
+
+<h2>2. gsap.from() &mdash; animate from a state</h2>
+
+<p>The mirror image of <code>gsap.to()</code>: instead of animating toward values you give it, it animates <em>from</em> them back to the element's real, current CSS state.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/11/2.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="gsap.from Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>gsap.from('.card', {
+  opacity: 0,
+  y: -40,
+  scale: 0.8,
+  duration: 0.8,
+  ease: 'back.out(1.7)'
+});</code></pre>
+
+<p>This is the technique behind almost every "entrance animation" you've seen on a real website: the card's actual layout position never changes at all &mdash; only the starting point of its animation does. GSAP briefly sets the element to the values you provided, then animates it forward to whatever its normal CSS already says, so you never have to hand-write the destination values yourself. That also means a <code>gsap.from()</code> tween is instantly reversible into a <code>gsap.to()</code> in your head: the numbers you'd write are simply the numbers you already wrote here.</p>
+
+<p><strong>Best for:</strong> entrance animations &mdash; a card, modal, or section fading and sliding into its normal resting position the moment it appears. <strong>Tip:</strong> because the destination is "whatever the CSS already says," redesigning the element's final look later needs zero changes to this tween &mdash; only the CSS.</p>
+
+<h2>3. gsap.fromTo() &mdash; set both ends explicitly</h2>
+
+<p>The most explicit of the three: you specify the starting values and the ending values yourself, so the animation looks identical no matter what state the element happened to be in beforehand.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/11/3.html" style="width:100%;height:380px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="gsap.fromTo Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>gsap.fromTo('.dot',
+  { x: 0, opacity: 0.3, scale: 1 },
+  { x: 260, opacity: 1, scale: 1.15, duration: 1, ease: 'power1.inOut' }
+);</code></pre>
+
+<p><code>gsap.to()</code> depends on wherever the element already is; <code>gsap.from()</code> depends on whatever its final CSS already says. <code>gsap.fromTo()</code> depends on neither &mdash; both objects are spelled out, so replaying the animation (as this demo does, via <code>yoyo</code> and <code>repeat</code>) always starts from the exact same place every time, which matters a lot once an animation needs to run more than once from a predictable state.</p>
+
+<p><strong>Best for:</strong> any animation that needs to replay identically &mdash; a toggle switch, a progress indicator, or anything triggered repeatedly by user interaction rather than played once on load. <strong>Tip:</strong> if an animation ever looks "off" the second time it plays but fine the first time, that's usually a sign it should be a <code>fromTo()</code> instead of a <code>to()</code> or <code>from()</code>.</p>
+
+<h2>4. Easing changes everything</h2>
+
+<p>Same distance, same duration, four completely different feelings. Easing is where GSAP animations stop looking like a spreadsheet and start looking like real motion.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/11/4.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GSAP Easing Comparison Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>gsap.to('.dot', { x: 260, duration: 1.4, ease: 'power2.out' });
+// also try: 'none', 'back.out(2)', 'bounce.out', 'elastic.out(1, 0.3)'</code></pre>
+
+<p><code>ease</code> is a plain string naming one of GSAP's built-in easing functions, and the differences are dramatic: <code>none</code> (linear) moves at a perfectly constant speed and reads as mechanical; a <code>power</code> family ease (<code>power1</code> through <code>power4</code>, each with <code>.in</code>/<code>.out</code>/<code>.inOut</code> variants) accelerates or decelerates smoothly, which is what almost all natural-feeling UI motion actually uses; <code>back</code> overshoots past the target and springs back; <code>bounce</code> literally bounces like a dropped ball. Getting comfortable naming a handful of these by ear is one of the highest-value things to learn early &mdash; the exact same tween code reads as completely different quality of motion depending only on this one string.</p>
+
+<p><strong>Best for:</strong> tuning any animation's personality without touching its duration, distance, or target values. <strong>Tip:</strong> <code>power2.out</code> or <code>power3.out</code> is a safe, professional-feeling default for most UI motion &mdash; reach for <code>back</code> or <code>elastic</code> deliberately for playful moments, not by default everywhere.</p>
+
+<h2>5. duration &amp; delay</h2>
+
+<p>Two properties that are easy to mix up: <code>duration</code> controls how long a tween takes; <code>delay</code> controls how long it waits before starting at all.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/11/5.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GSAP duration and delay Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>gsap.to('.box', { y: 0, opacity: 1, duration: 0.6, delay: 0.4 });</code></pre>
+
+<p>Both boxes in a slower/faster comparison would take the same <em>duration</em> to complete once they start &mdash; what <code>delay</code> changes is purely when that clock starts ticking, measured in seconds from the moment the tween is created (or, inside a timeline, from a point you control, as demo #6 shows next). This distinction matters most once several elements need to appear in a deliberate sequence rather than all at once: getting that sequence right by hand means carefully calculating a different <code>delay</code> for every single element, which is exactly the tedious math the next two techniques exist to eliminate.</p>
+
+<p><strong>Best for:</strong> a small, fixed number of elements that need to start at specific, deliberately chosen moments. <strong>Tip:</strong> once you're hand-calculating more than two or three different delay values for similar elements, that's the signal to reach for <code>stagger</code> (demo #7) instead.</p>
+
+<h2>6. gsap.timeline() &mdash; chaining tweens</h2>
+
+<p>A timeline is a container that plays multiple tweens in order automatically &mdash; no delay math required at all.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/11/6.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="gsap.timeline Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>const tl = gsap.timeline();
+tl.to('.box', { x: 120, duration: 0.6 })
+  .to('.box', { y: 60, duration: 0.6 })
+  .to('.box', { rotation: 180, duration: 0.6 });</code></pre>
+
+<p>Chaining <code>.to()</code> calls onto a timeline (instead of calling <code>gsap.to()</code> directly, three separate times) means each step automatically starts exactly when the previous one finishes &mdash; add a sixth step, or reorder two of them, and nothing else needs recalculating. This is the single biggest reason real GSAP code reaches for timelines almost immediately: any animation with more than one meaningful step benefits from one, and a timeline itself can be paused, reversed, or replayed as a single unit, exactly like an individual tween can.</p>
+
+<p><strong>Best for:</strong> any multi-step animation &mdash; an intro sequence, a multi-part hover effect, a step-by-step onboarding animation. <strong>Tip:</strong> GSAP timelines support position parameters (like <code>"-=0.2"</code> as a second argument to <code>.to()</code>) for overlapping steps slightly instead of always waiting for a full, clean handoff &mdash; worth exploring once the basic chain above feels comfortable.</p>
+
+<h2>7. stagger &mdash; animating a group</h2>
+
+<p>One call, ten targets, one <code>stagger</code> value &mdash; the fix for the "hand-calculating delays" problem demo #5 raised.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/11/7.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GSAP Stagger Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>gsap.from('.col', {
+  scaleY: 0,
+  duration: 0.5,
+  stagger: 0.07
+});</code></pre>
+
+<p>Pass a CSS selector matching multiple elements to any tween method, add a <code>stagger</code> value, and GSAP automatically offsets each target's individual start time by that many seconds &mdash; the first bar starts immediately, the second 0.07s later, the third 0.07s after that, and so on, with zero loop or per-element math required. <code>stagger</code> also accepts an options object for more control (staggering from the center outward, or from a specific index), but the plain number shown here covers the large majority of real use cases: a list of cards, a grid of icons, or a row of chart bars all revealing themselves in a natural, cascading sequence instead of popping in simultaneously.</p>
+
+<p><strong>Best for:</strong> revealing a list, grid, or row of similar items one after another instead of all at once. <strong>Tip:</strong> a stagger between roughly <code>0.05</code> and <code>0.1</code> seconds reads as a natural cascade for most UI lists &mdash; much larger than that starts to feel slow and deliberate rather than snappy.</p>
+
+<h2>8. repeat &amp; yoyo &mdash; looping</h2>
+
+<p>Two properties for animations that don't just play once: <code>repeat</code> controls how many extra times a tween plays, and <code>yoyo</code> controls whether it reverses each time instead of snapping back to the start.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/11/8.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GSAP repeat and yoyo Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>gsap.to('.pulse', {
+  scale: 1.5,
+  duration: 0.6,
+  repeat: -1,
+  yoyo: true
+});</code></pre>
+
+<p><code>repeat: -1</code> is GSAP's convention for "loop forever" &mdash; a plain positive number instead (like <code>repeat: 3</code>) plays that many additional times and then stops. Without <code>yoyo: true</code>, each repeat snaps instantly back to the tween's starting values before playing forward again, which usually reads as a visible jump; with it, the tween plays forward, then genuinely reverses back to where it started, then forward again, producing the smooth back-and-forth "breathing" pulse this demo shows. This combination is exactly how most looping attention-getters &mdash; a pulsing notification dot, a subtly breathing call-to-action button &mdash; are actually built.</p>
+
+<p><strong>Best for:</strong> pulsing indicators, breathing buttons, and any subtle looping attention cue. <strong>Tip:</strong> always give yourself a way to stop or kill a <code>repeat: -1</code> tween (this demo's Stop button calls <code>.kill()</code>) &mdash; an infinite loop with no way to end it is very easy to accidentally leave running in real code.</p>
+
+<h2>9. Animating on a real event</h2>
+
+<p>Everything above ran on a button click for the sake of a clean demo. This is how GSAP actually ships in real interfaces &mdash; tied to a genuine user interaction, not autoplay.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/11/9.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GSAP Hover Animation Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>card.addEventListener('mouseenter', function () {
+  gsap.to(card, { y: -8, duration: 0.3, ease: 'power2.out' });
+});
+card.addEventListener('mouseleave', function () {
+  gsap.to(card, { y: 0, duration: 0.3 });
+});</code></pre>
+
+<p>There's nothing GSAP-specific about the event listeners themselves &mdash; <code>mouseenter</code> and <code>mouseleave</code> are plain DOM events, exactly as they'd be used with any other JavaScript. The only GSAP-specific part is what happens inside each handler: a fresh <code>gsap.to()</code> call with the values for that state. Calling <code>gsap.to()</code> again mid-animation (say, if the cursor leaves before the hover animation finished) doesn't fight the previous tween or cause a jarring jump &mdash; GSAP automatically overwrites the specific properties being re-animated and smoothly continues from the element's current values, not the interrupted animation's original starting point.</p>
+
+<p><strong>Best for:</strong> hover states, focus states, click feedback &mdash; any animation that should respond to something the visitor actually does. <strong>Tip:</strong> this "smooth overwrite on interrupt" behavior is a real, deliberate GSAP feature, not a lucky accident &mdash; it's a big part of why GSAP hover effects feel more polished than naive manual class-toggling under fast mouse movement.</p>
+
+<h2>10. ScrollTrigger &mdash; a first taste</h2>
+
+<p>The exact same <code>gsap.from()</code> from demo #2, just handed a <code>scrollTrigger</code> option instead of firing immediately or on click.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/11/10.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GSAP ScrollTrigger First Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>gsap.registerPlugin(ScrollTrigger);
+
+gsap.from('.reveal', {
+  opacity: 0,
+  y: 50,
+  duration: 0.8,
+  scrollTrigger: {
+    trigger: '.reveal',
+    start: 'top 80%'
+  }
+});</code></pre>
+
+<p>ScrollTrigger is an official GSAP plugin (loaded from its own CDN script, separate from core GSAP) that needs one line of setup &mdash; <code>gsap.registerPlugin(ScrollTrigger)</code> &mdash; before it can be used. Once registered, any tween can take a <code>scrollTrigger</code> object instead of playing right away: <code>trigger</code> names the element to watch, and <code>start: 'top 80%'</code> means "fire when this element's top edge reaches 80% down the viewport." This barely scratches the surface of what ScrollTrigger can do &mdash; scroll-scrubbed animations, pinned sections, and full scroll-driven storytelling all build on this exact same foundation, and a whole separate FWD Tools post digs much deeper into it.</p>
+
+<p><strong>Best for:</strong> the simplest, most common scroll-triggered use case &mdash; an element fading and sliding in the moment it enters view. <strong>Tip:</strong> for a full deep dive into scroll-triggered animation &mdash; scrubbing, pinning, thresholds, and several more real patterns &mdash; look for "How to Detect When an Element Enters the Viewport Without a Library" on the <a href="https://www.webdevpuneet.com/search/label/JavaScript" target="_blank" rel="noopener">JavaScript</a> label on this blog, which covers the same underlying mechanics from the browser API side.</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Reaching for <code>gsap.to()</code> when the goal is really an entrance animation.</strong> <code>gsap.to()</code> needs you to know and hand-write the destination values; <code>gsap.from()</code> (demo #2) already knows them &mdash; they're just the element's existing CSS.</li>
+<li><strong>Hand-calculating a different <code>delay</code> for every item in a list.</strong> That's exactly the tedious math <code>stagger</code> (demo #7) exists to replace &mdash; one property instead of N carefully-computed numbers.</li>
+<li><strong>Chaining animations with manual <code>setTimeout()</code> calls instead of a timeline.</strong> A <code>gsap.timeline()</code> (demo #6) sequences steps automatically and lets the whole sequence be paused, reversed, or replayed as one unit &mdash; a pile of timeouts can do none of that.</li>
+<li><strong>Starting a <code>repeat: -1</code> tween with no way to stop it.</strong> An infinite loop needs a reference to the tween (or timeline) so <code>.kill()</code> or <code>.pause()</code> can actually be called on it later, exactly as demo #8's Stop button does.</li>
+<li><strong>Forgetting <code>gsap.registerPlugin(ScrollTrigger)</code> before using scrollTrigger.</strong> ScrollTrigger ships as a separate script from core GSAP and has to be explicitly registered once, or any <code>scrollTrigger</code> option on a tween is silently ignored.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>Do I need to install GSAP with npm to follow this tutorial?</h3>
+<p>No &mdash; every demo above loads GSAP from a CDN with a single <code>&lt;script&gt;</code> tag, visible in each demo's CDN panel. npm installation matters once a project has a real build step (React, Vue, a bundler), but nothing here requires one.</p>
+
+<h3>Is GSAP free to use?</h3>
+<p>Yes. As of 2024, GSAP (including every plugin, ScrollTrigger included) is completely free for all use, commercial included, under GreenSock's standard license &mdash; the older paid "Club GreenSock" membership tier no longer applies to the plugins used in this tutorial.</p>
+
+<h3>What's the difference between gsap.to(), gsap.from(), and gsap.fromTo()?</h3>
+<p><code>gsap.to()</code> animates from the element's current state to values you specify. <code>gsap.from()</code> animates from values you specify back to the element's current (real) CSS state. <code>gsap.fromTo()</code> specifies both ends explicitly, depending on neither the element's current state nor its final CSS &mdash; see demos #1, #2, and #3 for a side-by-side comparison of exactly this.</p>
+
+<h3>Why does my animation snap back to normal instead of staying at its end state?</h3>
+<p>This usually means the animated CSS property was also set with a real stylesheet rule that keeps re-applying after the tween's inline styles are considered, or an unrelated re-render reset the element's markup. Double-check nothing else in the page is setting the same property, and confirm the tween isn't accidentally being killed or overwritten by another tween targeting the same element right after it.</p>
+
+<h3>Can GSAP animate things CSS transitions can't?</h3>
+<p>Yes &mdash; GSAP can animate along an SVG path, tween a plain JavaScript number (useful for a count-up effect), sequence dozens of steps precisely with a timeline, and hook into scroll position via ScrollTrigger, none of which plain CSS transitions or <code>@keyframes</code> can do on their own.</p>
+
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to actually lock this in is to click <strong>Fork &amp; Edit</strong> on demo #6, add a fourth <code>.to()</code> step to the timeline, and watch it slot into the sequence with zero delay math of your own. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/" target="_blank" rel="noopener">My Code</a> and it's yours to keep, tweak further, or drop straight into a real project.</p>
+
+<p><strong>Recommended next step:</strong> open the <a href="https://fwdtools.com/gsap-playground/" target="_blank" rel="noopener">GSAP Playground</a> and work through its early chapters on tweens and timelines &mdash; free, click-based lessons with a live editor, covering exactly the ground this post just introduced, one guided step at a time. For more tutorials like this one, browse the <a href="https://www.webdevpuneet.com/search/label/JavaScript" target="_blank" rel="noopener">JavaScript</a> label on the blog.</p>

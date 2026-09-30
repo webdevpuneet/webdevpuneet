@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Overlapping Copy Calls Race Each Other">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Overlapping copy calls race each other</h1>
+    <p class="hint">Click "Copy A" then immediately "Copy B" in quick succession (within a second) in each column. Watch the log to see which value actually ends up recorded as copied.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken</h2>
+        <div class="btnRow">
+          <button type="button" class="btn" id="badA">Copy A</button>
+          <button type="button" class="btn" id="badB">Copy B</button>
+        </div>
+        <p class="status" id="badStatus">Shares one reused element, with an async gap.</p>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed</h2>
+        <div class="btnRow">
+          <button type="button" class="btn" id="goodA">Copy A</button>
+          <button type="button" class="btn" id="goodB">Copy B</button>
+        </div>
+        <p class="status" id="goodStatus">A busy lock ignores overlapping requests.</p>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 58em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .btnRow { display: flex; gap: 8px; justify-content: center; margin-bottom: 8px; }
+  .btn { padding: 9px 14px; border-radius: 8px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: 700 12.5px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { border-color: var(--accent); }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .status { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.6; min-height: 4.5em; text-align: left; white-space: pre-line; }
+  .status .ok { color: var(--green); font-weight: 700; }
+  .status .err { color: var(--red); font-weight: 700; }
+</script>
+
+<script type="text/plain" id="js">
+  var badLog = [];
+  var goodLog = [];
+
+  function render(el, log) {
+    el.innerHTML = log.slice(-4).join('\n');
+  }
+
+  // BROKEN: one shared textarea across all calls, plus an artificial async
+  // gap between selecting it and running execCommand -- simulating the kind
+  // of timing gap real code can hit (a microtask, a layout read, etc).
+  var sharedTa = document.createElement('textarea');
+  sharedTa.style.position = 'fixed';
+  sharedTa.style.top = '0';
+  sharedTa.style.left = '-9999px';
+
+  function copyBroken(label, value, statusEl) {
+    sharedTa.value = value;
+    if (!sharedTa.parentNode) document.body.appendChild(sharedTa);
+    sharedTa.focus();
+    sharedTa.select();
+    var claimedValue = sharedTa.value; // what THIS call thinks it's about to copy
+    setTimeout(function () {
+      var actualValue = sharedTa.value; // may have been overwritten by another call by now
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      var mismatch = actualValue !== claimedValue;
+      badLog.push((mismatch ? '<span class="err">' : '<span class="ok">') +
+        label + ' wanted "' + claimedValue + '", clipboard now holds "' + actualValue + '"' +
+        (mismatch ? ' -- MISMATCH' : '') + '</span>');
+      render(statusEl, badLog);
+    }, 250);
+  }
+
+  function setupBad() {
+    var statusEl = document.getElementById('badStatus');
+    document.getElementById('badA').addEventListener('click', function () {
+      copyBroken('Copy A', 'value-A', statusEl);
+    });
+    document.getElementById('badB').addEventListener('click', function () {
+      copyBroken('Copy B', 'value-B', statusEl);
+    });
+  }
+
+  // FIXED: a busy flag rejects any copy request that overlaps one already
+  // in flight, so two clicks in quick succession can never interleave.
+  var busy = false;
+
+  function copyFixed(label, value, statusEl) {
+    if (busy) {
+      goodLog.push('<span class="err">' + label + ' ignored -- a copy was already in progress</span>');
+      render(statusEl, goodLog);
+      return;
+    }
+    busy = true;
+    var ta = document.createElement('textarea');
+    ta.value = value;
+    ta.style.position = 'fixed';
+    ta.style.top = '0';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    setTimeout(function () {
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      goodLog.push('<span class="ok">' + label + ' copied "' + value + '" cleanly</span>');
+      render(statusEl, goodLog);
+      busy = false;
+    }, 250);
+  }
+
+  function setupGood() {
+    var statusEl = document.getElementById('goodStatus');
+    document.getElementById('goodA').addEventListener('click', function () {
+      copyFixed('Copy A', 'value-A', statusEl);
+    });
+    document.getElementById('goodB').addEventListener('click', function () {
+      copyFixed('Copy B', 'value-B', statusEl);
+    });
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

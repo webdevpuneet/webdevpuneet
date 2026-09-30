@@ -1,0 +1,152 @@
+<h1>10 Footer Snippets for Every Job a Footer Actually Has</h1>
+
+<p>Most footers get built the same tired way: copy the header nav, stack it under a "© 2026" line, ship it. That's fine for a footer whose only job is to end the page politely. It falls apart the moment the footer has to do something specific — reassure a technical buyer the service is up, push a mobile app install, close a long scroll with real energy, or just get out of the way entirely on a site that doesn't need a link directory. A footer is the last thing a visitor sees before they convert or leave, and treating it as an afterthought wastes that position.</p>
+
+<p>Below are ten free, self-contained footer snippets, each built around a different job: a full link-directory mega footer with a working newsletter form, a deliberately bare one-row footer, a frosted glass panel that needs something colourful behind it, a drifting aurora gradient behind a closing CTA, an app-shell status bar with a real ⌘K command palette, a SaaS status strip with a toggleable incident state, a back-to-top button whose ring tracks real scroll position, a scroll-triggered sticky CTA bar, a seamless auto-scrolling marquee, and an App Store / Google Play download footer with a CSS-only QR code. Every one is a <strong>live, interactive preview</strong> — try them right here in the article — and each exports to React, Vue, Angular or Tailwind in one click from its snippet page. All ten are plain HTML, CSS and (where needed) vanilla JavaScript, with <strong>no dependencies and no CDN scripts</strong>.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>Every footer answers a specific question, not a generic one.</strong> "Is this service up right now?" gets a status strip. "How do I get the app?" gets store badges and a QR code. "How far down this page am I?" gets a ring that reads real scroll position. A footer that tries to answer every question at once answers none of them well.</li>
+<li><strong>State lives in one place and CSS does the rest.</strong> A single <code>data-theme</code> attribute, a single <code>.stf-down</code> class, one duplicated marquee track — one boolean or one structural trick drives every coordinated visual change through descendant selectors, instead of JavaScript setting five style properties by hand.</li>
+<li><strong>CSS interpolates, JavaScript just sets the target.</strong> The scroll-progress ring and the sticky CTA bar don't run a <code>requestAnimationFrame</code> loop for their motion. JS computes a number on <code>scroll</code> and writes it once; a CSS <code>transition</code> handles every frame of the actual movement.</li>
+<li><strong>Motion respects the OS setting, every time.</strong> The aurora blobs, the pulsing status dot, and the marquee scroll each ship (or are called out where they don't) with a <code>prefers-reduced-motion: reduce</code> query that keeps the state legible without the animation.</li>
+<li><strong>Placeholders are labelled, not disguised.</strong> The CSS-grid "QR code" and the SVG-badge App Store buttons look convincing, but the docs are explicit that they're layout demonstrations, not brand-compliant artwork or a scannable code — so nobody ships them by accident.</li>
+</ul>
+
+<h2>1. Mega Footer</h2>
+
+<p>The full link-directory footer: a brand column with social icons and a newsletter form, four navigational link groups, a "Hiring" badge tucked into one link, and a bottom bar with a language selector.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/mega-footer/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mega Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> two nested CSS grids do the layout. The outer grid is <code>340px 1fr</code> — a fixed brand column beside a fluid link area — and the inner link area is <code>repeat(4, 1fr)</code> for the four equal-width groups. Both collapse independently at the same 900px breakpoint: the outer grid stacks to one column, the inner grid drops to two, and a second breakpoint at 520px keeps it at two columns rather than forcing single-file. The newsletter's <code>subscribe()</code> validates the email against a basic regex, shows a red inline error for anything invalid, and on success shows a green confirmation while disabling the input and button so the same address can't be submitted twice — the whole interaction is one function with no framework.</p>
+
+<p><strong>Best for:</strong> SaaS products, developer tools, and any site with real depth — documentation, a blog, legal pages, multiple product lines — where a link directory is doing genuine navigational work. <strong>Tip:</strong> replace the hardcoded anchor lists with a data array of <code>{ heading, links[] }</code> objects and map over them. It turns the footer into something a CMS or a single config file can drive, instead of raw markup someone edits by hand every time a link changes.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/mega-footer/">Mega Footer</a></p>
+
+<h2>2. Minimal Footer</h2>
+
+<p>The deliberate opposite of the mega footer: one flex row, three groups — brand, four links, two social icons and a copyright — and nothing else.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/minimal-footer/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Minimal Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the entire layout is one line — <code>display: flex; justify-content: space-between</code> — holding exactly three children, with the nav links floating naturally in the middle between the brand and the icon cluster. No grid template, no manual margins, no breakpoint math for three groups that just need to spread apart. The link list is a real <code>&lt;nav aria-label="Footer"&gt;</code> rather than a bag of anchors in a <code>div</code>, which matters more here than in a page's primary navigation: it's the landmark that lets a screen reader jump straight to "the other nav" instead of reading through the entire page first. The one responsive rule that exists — stack to a column below 640px, keep the icon cluster spread with its own <code>justify-content: space-between</code> — is the entire mobile treatment.</p>
+
+<p><strong>Best for:</strong> marketing pages, small SaaS products, and personal sites where the header already carries the real navigation and the footer's only remaining job is closure. <strong>Tip:</strong> if you're reaching for a fourth link group or a newsletter box, that's the signal you've outgrown this footer — reach for the mega footer instead rather than bolting extra sections onto a component built to stay this small.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/minimal-footer/">Minimal Footer</a></p>
+
+<h2>3. Glass Footer</h2>
+
+<p>A frosted-glass panel floating over a colourful, multi-blob gradient backdrop — the full glassmorphism recipe, with a graceful fallback for browsers that don't support it.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/glass-footer/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Glass Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> glassmorphism is three CSS declarations living together on one element — a translucent <code>background</code>, <code>backdrop-filter: blur(18px)</code>, and a faint light-catching <code>border</code> — and removing any one collapses the illusion in a different way: background alone looks like a plain transparent box, blur without the border looks like it's floating with no defined edge. The part that's easy to skip when copy-pasting just the panel CSS is the backdrop itself: three overlapping <code>radial-gradient</code> blobs in different colours behind everything, because <code>backdrop-filter</code> has nothing worth blurring behind a flat single-colour page. An <code>@supports not (backdrop-filter: blur(1px))</code> query swaps the panel to a solid, opaque background for the small minority of browsers that can't render the filter, so unsupported browsers get a legible fallback instead of a barely-visible low-contrast box.</p>
+
+<p><strong>Best for:</strong> product pages that already commit to a vibrant gradient or photo backdrop, AI and crypto marketing sites, and anywhere else glassmorphism is already the visual language. <strong>Tip:</strong> keep the panel capped at a <code>max-width</code> and centred rather than full-bleed. A glass bar touching both edges of the viewport loses the backdrop contrast at its border that makes the "floating object" read convincing in the first place.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/glass-footer/">Glass Footer</a></p>
+
+<h2>4. Aurora Gradient Footer</h2>
+
+<p>Three large, blurred colour blobs drift independently behind a centred closing CTA, borrowing the ambient-glow trick from modern SaaS hero sections and putting it at the bottom of the page instead.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/aurora-gradient-footer/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Aurora Gradient Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> three <code>radial-gradient</code> circles each run their own <code>@keyframes</code> animation on a different duration — 16s, 20s, 18s — and a different translate/scale path. Giving each blob independent, slightly-out-of-sync timing is the entire trick: three blobs pulsing in perfect sync would read as one mechanical thing, while three drifting at different speeds reads as organic weather. Rather than blurring each blob individually, a single <code>filter: blur(60px)</code> sits on the parent wrapper and applies to all three at once — cheaper to composite and the only knob you need to tune the whole effect's softness. Everything the user actually reads sits in its own <code>z-index: 1</code> stacking layer above the aurora, so the ambient motion never has to fight the text for legibility; it's structurally behind the content, not blended with it.</p>
+
+<p><strong>Best for:</strong> SaaS and AI product marketing sites that already open with an aurora hero, so the footer's final CTA feels like part of the same designed experience rather than a generic close-out. <strong>Tip:</strong> gate the drift behind <code>prefers-reduced-motion: reduce</code> before shipping — this snippet ships without that query on purpose, as a reminder that "no JavaScript" doesn't mean "no motion consideration."</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/aurora-gradient-footer/">Aurora Gradient Footer</a></p>
+
+<h2>5. Command Bar Footer</h2>
+
+<p>A slim, IDE-style status bar with a live connection indicator, a real ⌘K command palette, a light/dark toggle, and a "synced Xs ago" timestamp that keeps recalculating.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/command-bar-footer/embed/" style="width:100%;height:500px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Command Bar Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> this is a status bar for a logged-in app shell, not a marketing footer — modelled on the bar you'd find in an IDE or a project dashboard. The ⌘K badge is a genuine shortcut: a document-level <code>keydown</code> listener checks <code>(isMac ? e.metaKey : e.ctrlKey) && e.key.toLowerCase() === 'k'</code>, calls <code>preventDefault()</code> to stop the browser's own shortcut from intercepting it, and opens the same palette a click does. <code>navigator.platform</code> (with a user-agent fallback) decides both the badge's label and which modifier the listener actually checks, so the shortcut works correctly rather than silently doing nothing on Windows and Linux. The theme toggle flips one <code>data-theme</code> attribute on the app's root wrapper, and every themed rule in the stylesheet is scoped under that attribute — one change re-themes the whole shell, not just the bar. A <code>setInterval</code> recomputes the "synced" label every second against the moment the page loaded, because a timestamp rendered once and left alone goes stale the instant more time passes.</p>
+
+<p><strong>Best for:</strong> SaaS dashboards, developer tools, and any web app where a persistent status strip needs to reassure the user the app is connected while offering instant, keyboard-first navigation. <strong>Tip:</strong> the four palette commands are placeholders — wire each button's click handler to a real action (navigation, search, opening a modal) and consider adding arrow-key navigation through the list so the whole palette is usable without a mouse.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/command-bar-footer/">Command Bar Footer</a></p>
+
+<h2>6. Status Bar Footer</h2>
+
+<p>A pulsing "All systems operational" strip sits above a conventional footer, with a demo toggle that flips the whole thing to a red incident state.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/status-bar-footer/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Status Bar Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> developer-tool and infrastructure sites almost universally put a status indicator somewhere a prospective customer can see it before they trust the service with production traffic, and this builds that strip as the footer's top band. A static green dot reads as decoration; a <code>@keyframes</code> animation gently cycling its opacity between 1 and 0.45 reads as "this is a live signal," the same visual grammar as a recording indicator. Clicking "Simulate incident" toggles a single <code>.stf-down</code> class on the strip's container, and CSS handles everything from there — background tint, border colour, dot colour and text colour all key off that one class via descendant selectors, while the JavaScript only swaps two strings. One boolean, five coordinated visual changes, zero manually-set inline styles.</p>
+
+<p><strong>Best for:</strong> developer tools, API and platform providers, and any product selling uptime as part of its pitch — where the absence of a visible status signal can itself read as a red flag to an experienced buyer. <strong>Tip:</strong> replace the click-toggled demo state with a <code>fetch</code> to your real status provider on page load, and decide what a failed status check itself should show — a third "unknown" state is usually the right answer, not silently defaulting to "operational."</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/status-bar-footer/">Status Bar Footer</a></p>
+
+<h2>7. Scroll Progress Footer</h2>
+
+<p>A fixed back-to-top button whose ring fills to the exact percentage of the page you've scrolled — not a fixed-duration animation, a live read of scroll position.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/scroll-progress-footer/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll Progress Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the button is two concentric SVG circles sharing a centre and radius — a faint static track and an animated arc using <code>stroke-dasharray</code> set to the circle's exact circumference (<code>2πr</code>, computed once as <code>CIRC</code>) with <code>stroke-dashoffset</code> driven toward zero as the arc draws in, the whole SVG rotated <code>-90deg</code> so it fills from 12 o'clock. On every <code>scroll</code> event — registered <code>{ passive: true }</code> so the browser never waits to see if the handler blocks it — the fraction scrolled becomes <code>strokeDashoffset = CIRC * (1 - pct)</code>: full circumference (empty ring) at the top, zero (complete ring) at the bottom. There's deliberately no <code>requestAnimationFrame</code> loop here; a short <code>0.1s linear</code> CSS transition smooths the per-event jitter, because the ring only needs to update when a scroll event actually fires.</p>
+
+<p><strong>Best for:</strong> documentation, long-form articles, and changelogs — anywhere "how much content is left" is a real, recurring question, doubling as a functional back-to-top control once the reader is done. <strong>Tip:</strong> if you resize the ring, update the <code>CIRC</code> constant to <code>2 * Math.PI * r</code> with the new radius. The stroke math depends on that value matching the SVG circle's actual <code>r</code> exactly, or the ring only appears to fill partway.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/scroll-progress-footer/">Scroll Progress Footer</a></p>
+
+<h2>8. Sticky CTA Footer</h2>
+
+<p>A floating call-to-action bar slides up from the bottom once you scroll past the hero, and tucks away again the moment you return to the top.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/sticky-cta-footer/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sticky CTA Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the bar starts translated below the viewport at <code>opacity: 0</code>, and a scroll handler toggles an <code>is-shown</code> class once <code>window.scrollY</code> passes a threshold — about 320px, roughly past the hero — removing it again above that point so the bar never covers content at the very top. The handler itself never does layout work directly: it sets a <code>ticking</code> flag and schedules the actual class toggle inside a <code>requestAnimationFrame</code> callback, guaranteeing at most one update per frame no matter how many native scroll events fire in between. The show and hide are a single CSS transition on <code>transform</code> and <code>opacity</code> with an ease-out <code>cubic-bezier</code>, which keeps the motion on the compositor and jank-free. A "Maybe later" button sets a <code>dismissed</code> flag that the update function checks and early-returns on, so the bar stays gone for the rest of the session once closed.</p>
+
+<p><strong>Best for:</strong> trial prompts and conversion bars that need to stay in reach without a blocking popup — pair it with an announcement bar at the top or an exit-intent popup for the two remaining moments a visitor might convert. <strong>Tip:</strong> persist the <code>dismissed</code> flag to <code>localStorage</code> so it stays hidden across visits rather than resetting every session — the current in-memory flag is a demo choice, not a production one.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/sticky-cta-footer/">Sticky CTA Footer</a></p>
+
+<h2>9. Marquee Footer</h2>
+
+<p>A huge, continuously scrolling band of words sits above a conventional link row — pure CSS animation, no JavaScript, and it pauses the instant your cursor lands on it.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/marquee-footer/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Marquee Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the trick is deceptively simple. The track contains the same sequence of words twice in a row, laid out with <code>display: flex; width: max-content</code> so the track is exactly twice as wide as one copy of the content — <code>max-content</code> isn't optional here, since without it the flex track would shrink to its parent's width and break the "-50% equals exactly one copy" math the whole animation depends on. A <code>@keyframes</code> animation moves the track from <code>translateX(0)</code> to <code>translateX(-50%)</code> — precisely one copy's width — over 22 seconds, linear, and because the second copy is identical to the first, the reset from -50% back to 0% is invisible: no seam, no jump, an apparently infinite loop built from a track that's secretly only two repeats long. A <code>mask: linear-gradient(...)</code> fades both edges to transparent so words appear to dissolve into the page rather than getting clipped mid-character, and <code>animation-play-state: paused</code> on hover freezes the scroll so the real, clickable link row underneath never has to compete with motion for attention.</p>
+
+<p><strong>Best for:</strong> agency and portfolio closings, product launch pages repeating a campaign phrase, and any site already leaning into bold, kinetic typography elsewhere in the design. <strong>Tip:</strong> if you change the scroll speed, only the <code>@keyframes</code> duration needs to move — the <code>-50%</code> distance stays fixed regardless, since it's tied to the doubled content's width, not the timing.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/marquee-footer/">Marquee Footer</a></p>
+
+<h2>10. App Download Footer</h2>
+
+<p>A footer built entirely around getting a visitor into your mobile app: real App Store and Google Play badges, a scannable-looking QR code built from pure CSS, and a slim legal row underneath.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/app-download-footer/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="App Download Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> both store badges are inline SVG glyphs plus text inside real <code>&lt;a&gt;</code> tags, not screenshots of Apple's or Google's official artwork — which means the text stays selectable and screen-reader friendly, the badge recolours and resizes with plain CSS, and there's no image request blocking the footer's first paint. The "QR code" is a fixed 8×8 <code>display: grid</code> with fifteen cells positioned by explicit <code>grid-area</code> coordinates to resemble a scan pattern — it's not a real, decodable code, and the docs say so directly: it demonstrates the zero-dependency way to get QR-code <em>styling</em> into a footer instantly, with the expectation you'll swap in a genuinely generated image once you have a real store link to encode. The footer splits cleanly into a persuasive top section and a slim, reusable bottom bar, so the pitch never has to share visual weight with boilerplate legal links.</p>
+
+<p><strong>Best for:</strong> mobile-first product marketing sites, SaaS products with a companion app, and content sites (news, fitness, finance) that want the same download push to close every article. <strong>Tip:</strong> before shipping, replace both placeholders — swap the CSS grid for a real QR image encoding your store link, and swap the demo badges for Apple's and Google's official, brand-compliant badge assets. This snippet's job is proving out the layout, not the final artwork.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/app-download-footer/">App Download Footer</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open any snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs, then paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — or use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page. All ten are dependency-free, so there's nothing else to install.</li>
+<li><strong>Pick the footer for the question your page is actually asking.</strong> A mega footer for a site with real navigational depth, a minimal footer when the header already carries that job, a status strip when uptime is part of the pitch, a download footer when the app is the point. Stacking several of these jobs into one footer is how you end up back at a generic mega-footer nobody reads.</li>
+<li><strong>Keep the one-attribute-drives-everything pattern intact.</strong> The theme toggle's <code>data-theme</code> and the status strip's <code>.stf-down</code> class are the reusable parts. Restyle the colours and copy freely; don't split that single source of truth into several manually-synced style updates.</li>
+<li><strong>Respect <code>prefers-reduced-motion</code>, including where a snippet doesn't yet.</strong> Most of these ship the query already; the aurora gradient footer is a deliberate exception, included as a reminder to add it yourself before shipping motion-heavy CSS to production.</li>
+<li><strong>Ship real assets before you ship to production.</strong> The QR code and store badges in the app download footer, and the four placeholder commands in the command bar footer's palette, are explicitly stand-ins. Swap them for the real thing before launch, not after someone notices.</li>
+<li><strong>In React, mind the listeners.</strong> The command bar's keydown handler, the scroll-progress ring's scroll listener, and the sticky CTA's scroll handler all need to attach in a mount effect and clean up on unmount, or they'll fire against state that no longer exists.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>A footer that just closes the page is fine right up until the page needs the footer to do something — reassure, convert, orient, or simply step aside. These ten are built around ten different answers to "what is this footer actually for," and every one of them is small enough to read end to end in a few minutes: a single grid, one boolean class, one duplicated track. None of them need a library to earn their place at the bottom of the page.</p>
+
+<p>Try them, retune the timings, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

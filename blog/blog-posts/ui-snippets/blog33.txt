@@ -1,0 +1,151 @@
+<h1>10 Admin Table & Modal Snippets: Sticky Columns, Bulk Edit, and Stacked Dialogs Done Right</h1>
+
+<p>An admin data table looks simple from the outside — rows, columns, maybe a checkbox. What's actually hard is everything that happens once real users start pushing on it: pinning two columns and expecting them to stack without overlapping, shift-clicking a range the way Gmail trained them to, editing a dozen scattered cells and wanting one Save instead of a dozen. None of that is exotic — it's well-understood behavior with one correct implementation, and getting the details slightly wrong (a hardcoded sticky offset, an undo stack that's really just a boolean) is what makes homemade admin tools feel subtly broken compared to Sheets, Gmail, or a real desktop app.</p>
+
+<p>Below are ten free, self-contained snippets covering exactly that class of problem — sticky columns, dynamic show/hide, density switching, inline bulk edit, expandable rows, anchor-based range selection, a pick-your-columns export, a real draggable/resizable window, a modal stack, and a proper undo/redo history. Every one is a <strong>live, interactive preview</strong> you can try right here in the article, and each exports to React, Vue, Angular or Tailwind in one click from its snippet page.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>Recalculate from scratch, never patch incrementally.</strong> The column-pin toggle's <code>recalculateStickyOffsets()</code> walks every column left to right and rebuilds every sticky <code>left</code> value from a running total on every single change — which is what guarantees pinning or unpinning columns in any order always produces a correct, non-overlapping stack, instead of a bespoke delta calculation that only worked for the one sequence it was tested with.</li>
+<li><strong>One shared attribute keeps a header and its whole column in lockstep.</strong> The column-visibility menu, the pin toggle, and the export selector all link a control to an entire column — header cell and every row's cell — through one common <code>data-col</code>/<code>data-key</code> value and a single query, so a header can never end up hidden while its body cells still show, or vice versa.</li>
+<li><strong>Dirty state belongs on the individual unit that changed, not the whole record.</strong> The inline bulk-edit table tracks a <code>Map</code> of original values keyed per <em>cell</em>, not per row — so "3 unsaved changes" can mean three different fields in three different rows, matching how someone actually corrects a spreadsheet-like table rather than forcing an all-or-nothing row edit mode.</li>
+<li><strong>An anchor is not the same thing as "the last thing clicked."</strong> The Gmail/Sheets-style range selector tracks an anchor that updates on a plain click or a Cmd/Ctrl-click, but deliberately <em>not</em> on a Shift-click — which is exactly what lets repeated Shift-clicks recalculate a range from a stable point instead of accidentally chaining forward from wherever the last Shift-click landed.</li>
+<li><strong>A stack of DOM elements beats a boolean the moment nesting is possible.</strong> The stacked modal manager and the undo/redo toolbar both replace a single "is it open" flag with an actual ordered array — of open modals, or of full state snapshots — because only an array can answer "which one exactly" and "what's now on top," which every subsequent operation depends on.</li>
+</ul>
+
+<h2>1. Table Column Visibility Toggle Menu</h2>
+
+<p>A dropdown checklist that genuinely adds and removes entire table columns — header and every row's cell together — not a menu that just looks like it does something.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/table-column-visibility-toggle/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Table Column Visibility Toggle Menu — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every optional column's header and every row's matching cell share one <code>data-col</code> value, and so does the checkbox controlling it. <code>applyVisibility()</code> runs a single <code>table.querySelectorAll('[data-col="' + col + '"]')</code> scoped to the whole table per checkbox — one query that matches the header cell <em>and</em> every body cell for that column at once, toggling a shared <code>.col-hidden</code> class on all of them together. The one column with no <code>data-col</code> attribute (Name) is structurally exempt from the whole system, modeling the realistic rule that a table needs at least one identifying column always visible — and the visible-column counter explicitly adds 1 to both sides of its ratio to account for that always-on column.</p>
+
+<p><strong>Best for:</strong> admin user/order tables and CRM-style views where different users care about different fields. <strong>Tip:</strong> persist each checkbox's checked state to localStorage on change and restore it before the first <code>applyVisibility()</code> call to make column choices survive a reload.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/table-column-visibility-toggle/">Table Column Visibility Toggle Menu</a></p>
+
+<h2>2. Table Row Density Toggle</h2>
+
+<p>A three-way Compact/Comfortable/Spacious switch, built as a real accessible radio group, that changes only vertical padding and font-size and persists the choice across reloads.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/table-row-density-toggle/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Table Row Density Toggle — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each density mode's CSS touches exactly two properties — <code>padding</code> and <code>font-size</code> — and nothing about column widths or visible data ever changes between modes, keeping density purely about vertical rhythm rather than information density. The three buttons live inside a container with <code>role="radiogroup"</code>, each carrying <code>role="radio"</code> and a live <code>aria-checked</code>, since a density choice is inherently mutually exclusive — exactly the semantic a radio group communicates that three unrelated buttons wouldn't. The chosen density is written to <code>localStorage</code> and read back on load, both wrapped in <code>try/catch</code> (storage can throw in private browsing) and validated against the three known-good values before being trusted, falling back to "comfortable" if the stored value is missing or corrupted.</p>
+
+<p><strong>Best for:</strong> support-ticket queues and any data-heavy admin table where power users want to scan more rows while casual users want breathing room. <strong>Tip:</strong> give each independently-togglable table on a page its own <code>STORAGE_KEY</code> so their density preferences don't collide.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/table-row-density-toggle/">Table Row Density Toggle</a></p>
+
+<h2>3. Table Column Pin/Unpin Toggle</h2>
+
+<p>Click a pin icon on any header and that column sticks to the left edge while the rest scrolls underneath — and unlike a single hardcoded frozen column, any number of columns can be pinned and they stack correctly in order.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/table-column-pin-toggle/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Table Column Pin/Unpin Toggle — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> CSS <code>position: sticky</code> needs an explicit <code>left</code> offset, and that offset is different for every pinned column depending on how wide every <em>other already-pinned</em> column is. <code>recalculateStickyOffsets()</code> walks every column left to right, and for each pinned one assigns <code>left</code> equal to a running total of every prior pinned column's actual rendered width — recalculated fully from scratch on every pin, unpin, and window resize, rather than patched incrementally. Every <code>&lt;td&gt;</code> in a column is queried alongside its header via a shared <code>data-col</code> attribute, so a whole column pins and unpins as one atomic visual unit.</p>
+
+<p><strong>Best for:</strong> wide financial and reporting grids where users need Excel-style freeze-panes, but per-user and per-column rather than one fixed developer choice. <strong>Tip:</strong> serialize the <code>pinnedCols</code> Set to localStorage on every change to persist a user's pinned columns across sessions.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/table-column-pin-toggle/">Table Column Pin/Unpin Toggle</a></p>
+
+<h2>4. Table Export with Column Selector</h2>
+
+<p>An Export panel where the user picks exactly which columns to include and whether to generate CSV or JSON — reading live from the rendered table so the export always matches what's actually on screen.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/table-export-column-selector/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Table Export with Column Selector — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>collectRows()</code> reads directly from the rendered <code>&lt;table&gt;</code>'s <code>tbody</code> rows via each cell's <code>data-key</code> attribute rather than a separate JavaScript data array — so if the table is later hooked up to sorting or filtering, the export automatically reflects whatever is currently visible with zero extra wiring. <code>toCsv()</code>'s escaping function checks every cell for a comma, quote, or newline and only then wraps it in quotes with internal quotes doubled — the standard CSV escaping rule, applied unconditionally rather than treated as an edge case a naive <code>.join(',')</code> would silently corrupt. A separate <code>COLUMN_LABELS</code> map keeps human-readable export headers decoupled from the internal <code>data-key</code> names used for both the checkboxes and the DOM queries.</p>
+
+<p><strong>Best for:</strong> finance and reconciliation exports where a team needs specific column subsets, not the whole schema. <strong>Tip:</strong> swap the <code>exportPreview.textContent</code> assignment for a <code>Blob</code> plus a temporary download-attribute anchor to trigger an actual file download instead of an on-page preview.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/table-export-column-selector/">Table Export with Column Selector</a></p>
+
+<h2>5. Inline Cell Bulk-Edit Table</h2>
+
+<p>Every cell is directly editable via <code>contenteditable</code>, and a floating save bar counts unsaved changes across the whole table — not per row — letting you fix scattered fields and commit them all in one batch.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/table-inline-cell-bulk-edit/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Inline Cell Bulk-Edit Table — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every editable cell's original text is captured into a <code>Map</code> keyed by the DOM node itself on load. Every <code>input</code> event compares the live text back against that stored original — if a user types something and then types it back, the dirty flag clears automatically, since the comparison is always against the true original rather than "has this cell ever been touched." <code>updateBar()</code> counts <code>.cell.dirty</code> across the <em>entire table</em>, which is why "3 unsaved changes" naturally means three fields scattered across however many rows, matching how someone actually works through a table rather than forcing a whole-row edit mode. Enter is intercepted to blur the cell instead of inserting a line break, since these are single-line values.</p>
+
+<p><strong>Best for:</strong> internal product-catalog tools where an ops team corrects prices or stock counts across many SKUs without opening a modal per row. <strong>Tip:</strong> inside the Save handler, collect each dirty cell's <code>closest('tr[data-row]')</code> id and <code>data-field</code> before clearing dirty state, and send the whole batch as one <code>PATCH</code> request.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/table-inline-cell-bulk-edit/">Inline Cell Bulk-Edit Table</a></p>
+
+<h2>6. Expandable Row Detail Table</h2>
+
+<p>Click any row and a full-width detail panel unfolds beneath it with line items and metadata — inline drill-down with no modal and no navigation away from the list.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/expandable-row-detail-table/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Expandable Row Detail Table — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each record is genuinely two <code>&lt;tr&gt;</code> elements — a summary row and a detail row containing one full-width <code>&lt;td colspan&gt;</code> — linked by matching <code>data-row</code>/<code>data-detail-for</code> values rather than assumed DOM adjacency, so the toggle looks up the correct detail row explicitly even if the table structure changes around it. The summary row carries a real, live <code>aria-expanded</code> state kept in sync with the detail row's <code>hidden</code> attribute (the native boolean attribute, not a CSS class) in the exact same click handler — and a single delegated click listener on the table means rows added later, e.g. from pagination, work immediately with no extra wiring.</p>
+
+<p><strong>Best for:</strong> order-management and transaction tables where a summary list needs to stay scannable but full line-item detail should be one click away. <strong>Tip:</strong> lazy-load a row's detail content via a <code>fetch</code> call the first time it's expanded instead of rendering every detail panel upfront.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/expandable-row-detail-table/">Expandable Row Detail Table</a></p>
+
+<h2>7. Shift-Click Range Select in a Table</h2>
+
+<p>Genuine Gmail/Sheets-style selection: plain click selects one row, Shift-click selects the whole range to it, Cmd/Ctrl-click toggles a single row without disturbing the rest.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/shift-click-range-select-table/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Shift-Click Range Select in a Table — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>anchorIndex</code> tracks the last row clicked <em>without</em> the Shift modifier — not simply "the last row clicked." That distinction is the whole trick: click row 2, Shift-click row 6 (selects 2–6), then Shift-click row 4 — the range recalculates as 2–4, not "extend from 6 to 4," because the anchor never moved during either Shift-click. <code>selectRange()</code> clears the selection before filling the new range, since Shift-click defines a fresh contiguous range rather than adding to an existing one — that's what Cmd/Ctrl-click is for — and unlike Shift-click, it deliberately does move the anchor, letting the two modes compose the way they do in a real file manager. Every row's checkbox has <code>pointer-events: none</code>, rendered purely as a reflection of a <code>selected</code> Set rather than an independent control, so the two can never fall out of sync.</p>
+
+<p><strong>Best for:</strong> any admin list, inbox, or file-browser grid where users expect their OS's native multi-select conventions to just work. <strong>Tip:</strong> pair this with a long-press-to-enter-selection-mode pattern for touch devices, where Shift/Ctrl modifiers don't exist.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/shift-click-range-select-table/">Shift-Click Range Select in a Table</a></p>
+
+<h2>8. Resizable, Draggable Floating Modal Window</h2>
+
+<p>A real desktop-style panel — drag it by its title bar, resize it from any edge or corner — with correctly clamped minimum size and edge-anchored resizing so the opposite side never jumps.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/resizable-draggable-modal-window/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Resizable, Draggable Floating Modal Window — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> both drag and resize call <code>setPointerCapture(e.pointerId)</code> on <code>pointerdown</code>, which routes every subsequent pointer event to that same element even once the pointer strays outside a narrow 6px resize handle mid-gesture — without it, a fast drag would silently stop tracking the instant the cursor left the strip. Every resize calculation measures against the drag's fixed <em>starting</em> snapshot (<code>resizeState.startW + dx</code>), never accumulated frame by frame, avoiding drift over a long gesture. Dragging the west or north edge updates both size <em>and</em> position together — the new width is clamped first, then <code>left</code> is derived from exactly how much that clamped width differs from the start, which is what keeps the window's opposite edge perfectly stationary even once the minimum-size clamp kicks in. One shared resize routine checks which characters appear in a handle's <code>data-dir</code> string, so the corner handle needs zero special-case code — it simply combines its two adjacent edges' logic automatically.</p>
+
+<p><strong>Best for:</strong> floating notes panels, debug overlays, or live-preview windows that shouldn't block the content behind them. <strong>Tip:</strong> store <code>win.style.top/left/width/height</code> to localStorage on <code>pointerup</code> so the window reopens exactly where a user left it.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/resizable-draggable-modal-window/">Resizable, Draggable Floating Modal Window</a></p>
+
+<h2>9. Stacked Modal Manager</h2>
+
+<p>Open a modal from inside another modal — and a third from inside that — with each backdrop compounding correctly, Escape closing exactly one layer per press, and focus always landing somewhere sensible.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/stacked-modal-manager/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Stacked Modal Manager — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>stack</code> is a real array of the open overlay DOM elements in open order, not a boolean or a counter — closing needs to know exactly <em>which</em> modal to remove (always <code>stack.pop()</code>), and a counter alone couldn't answer that. The <code>keydown</code> listener calls <code>closeTopModal()</code> — singular — on every Escape press, deliberately never clearing the whole stack at once, since a nested "discard changes?" confirmation exists specifically to be seen before the user is returned to what's beneath it. Each overlay's <code>z-index</code> is set to <code>50 + depth</code> at creation time, so stacking order always stays derived from — and therefore consistent with — the actual array order, and each layer's own semi-transparent backdrop compounds visually with the ones below it for a natural progressive dim with zero manual opacity math.</p>
+
+<p><strong>Best for:</strong> a destructive action inside one modal opening a confirmation on top of it, or an admin tool that needs a drill-down detail modal launched from inside a list modal. <strong>Tip:</strong> add a proper focus trap within each individual layer so Tab cycles only within the topmost modal's own focusable elements.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/stacked-modal-manager/">Stacked Modal Manager</a></p>
+
+<h2>10. Undo/Redo History Toolbar with Jump-to-State</h2>
+
+<p>A genuinely correct undo/redo system — full state snapshots plus a single pointer, with a history panel letting you jump straight to any prior point, not just step one at a time.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/undo-redo-history-toolbar/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Undo/Redo History Toolbar with Jump-to-State — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> rather than storing each action as an inverse operation (which requires writing and maintaining a correct "undo" for every distinct action type), the whole system is an array of full state snapshots plus a single <code>pointer</code> index. <code>undo()</code> and <code>redo()</code> do nothing but move that pointer and call <code>render()</code>, which simply displays whatever snapshot lives at <code>history[pointer]</code> — trivially correct by construction no matter how the state got there. <code>pushState()</code> calls <code>history.slice(0, pointer + 1)</code> before appending, discarding the abandoned "future" branch the instant a new action happens after an undo — without this, stale future states would linger and redo could jump to something inconsistent with what's actually happened since. Clicking any entry in the history list is not a special case at all: it sets <code>pointer</code> directly and calls the identical <code>render()</code> that a single undo or redo step uses.</p>
+
+<p><strong>Best for:</strong> canvas/drawing tools, form builders, and any editor where "just show me what it looked like N steps ago" beats hand-writing an inverse for every action. <strong>Tip:</strong> for high-frequency actions like typing, coalesce rapid successive changes into one history entry (committing only after a pause) rather than pushing a snapshot per keystroke — the pointer/array pattern underneath stays identical either way.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/undo-redo-history-toolbar/">Undo/Redo History Toolbar with Jump-to-State</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open any snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs, then paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — or use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page. None of these ten need anything installed — no table/grid library, no modal library, pure vanilla JS.</li>
+<li><strong>Recompute derived layout state from scratch, don't patch it.</strong> The pin toggle's sticky offsets and the modal stack's z-index both rebuild themselves entirely from current state on every change — resist the temptation to write an incremental "just adjust the delta" version, since it's the source of most of these patterns' subtle bugs in hand-rolled versions.</li>
+<li><strong>Give every control-and-target pair one shared identifying attribute.</strong> Visibility, pinning, and export selection all link a checkbox/button to an entire column purely through a matching <code>data-col</code>/<code>data-key</code> value queried once — that single shared key is what makes header and body cells impossible to desynchronize.</li>
+<li><strong>Reach for an array the moment "more than one at a time" becomes possible.</strong> A boolean or counter answers "is something open" or "how many," but not "which one" or "what's now on top" — the stacked modal manager and the undo history both need exactly that, which only an ordered array provides.</li>
+<li><strong>Use Pointer Events with <code>setPointerCapture</code> for any drag or resize handle.</strong> A plain <code>mousemove</code> listener silently stops tracking the moment a fast gesture outruns a narrow handle's bounds; pointer capture keeps every subsequent event routed to the same element regardless of where the cursor strays.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>None of these ten snippets are visually flashy — there's no particle system or WebGL shader in the batch. What they share is that each one is a piece of interaction behavior users already have strong, specific expectations for, learned from Excel, Gmail, Sheets, and every desktop OS they've ever used — and those expectations have one correct underlying implementation, not several equally valid ones. A sticky column that doesn't recalculate its offset from scratch, a range-select that treats "last clicked" as the anchor, an undo system built from per-action inverses instead of snapshots — each of those shortcuts looks fine in a quick demo and then breaks in exactly the case a real user will eventually hit. Get the actual pattern right once, as these do, and it holds up under arbitrary nesting, arbitrary column counts, and arbitrary edit sequences with no special-casing required.</p>
+
+<p>Try them, retune them to your own data, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

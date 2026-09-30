@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="The Bug Multiple useState Calls Invite">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>The Bug Multiple useState Calls Invite</h1>
+    <p class="hint">Two counters that are supposed to always move together. Click "Increment Both" a few times on the left — then flip the toggle and try the same thing on the reducer version.</p>
+  </header>
+  <main class="stageWrap">
+    <button type="button" id="toggleBtn" class="toggleBtn">Switch to useReducer</button>
+    <div id="root"></div>
+    <pre class="ruleTag" id="ruleTag"></pre>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+    --bad: #ef4444;
+    --good: #22c55e;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 14px 16px 26px; }
+
+  .toggleBtn { font: 700 12.5px system-ui, sans-serif; padding: 8px 16px; border: 1px solid var(--line); border-radius: 7px; background: #fff; color: var(--accent); cursor: pointer; }
+  .toggleBtn:hover { background: #eef0ff; }
+
+  .card { display: flex; flex-direction: column; align-items: center; gap: 16px; width: 280px; padding: 20px; border: 1.5px dashed var(--line); border-radius: 12px; background: #fff; }
+  .pair { display: flex; gap: 20px; }
+  .field { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .field label { font: 700 11px system-ui, sans-serif; color: var(--sub); text-transform: uppercase; letter-spacing: 0.04em; }
+  .field .val { font: 800 30px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+  .status { font: 700 12px system-ui, sans-serif; padding: 5px 12px; border-radius: 999px; }
+  .status--ok { background: #dcfce7; color: #15803d; }
+  .status--bad { background: #fee2e2; color: #b91c1c; }
+
+  .actBtn { padding: 9px 16px; font: 700 12.5px system-ui, sans-serif; color: #fff; background: var(--accent); border: none; border-radius: 8px; cursor: pointer; }
+  .actBtn:hover { filter: brightness(1.08); }
+  .actBtn--ghost { background: #eceef3; color: var(--ink); }
+  .btnRow { display: flex; gap: 8px; }
+
+  .ruleTag { font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #3f4252; background: #eceef3; padding: 10px 14px; border-radius: 10px; max-width: 100%; overflow-x: auto; white-space: pre; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useReducer = React.useReducer;
+
+  function BuggyPair() {
+    var s1 = useState(0), a = s1[0], setA = s1[1];
+    var s2 = useState(0), b = s2[0], setB = s2[1];
+
+    // The bug: this handler was written by copy-pasting the single-counter
+    // handler and reads `a` for both updates instead of `b`.
+    function incrementBoth() {
+      setA(a + 1);
+      setB(a + 1);
+    }
+    function reset() { setA(0); setB(0); }
+
+    var inSync = a === b;
+    return e('div', { className: 'card' },
+      e('div', { className: 'pair' },
+        e('div', { className: 'field' }, e('label', null, 'Counter A'), e('div', { className: 'val' }, a)),
+        e('div', { className: 'field' }, e('label', null, 'Counter B'), e('div', { className: 'val' }, b))
+      ),
+      e('div', { className: 'status ' + (inSync ? 'status--ok' : 'status--bad') }, inSync ? 'in sync' : 'out of sync!'),
+      e('div', { className: 'btnRow' },
+        e('button', { className: 'actBtn', onClick: incrementBoth }, 'Increment Both'),
+        e('button', { className: 'actBtn actBtn--ghost', onClick: reset }, 'Reset')
+      )
+    );
+  }
+
+  function pairReducer(state, action) {
+    switch (action.type) {
+      case 'incrementBoth': return { a: state.a + 1, b: state.b + 1 };
+      case 'reset': return { a: 0, b: 0 };
+      default: return state;
+    }
+  }
+
+  function ReducerPair() {
+    var r = useReducer(pairReducer, { a: 0, b: 0 }), state = r[0], dispatch = r[1];
+    return e('div', { className: 'card' },
+      e('div', { className: 'pair' },
+        e('div', { className: 'field' }, e('label', null, 'Counter A'), e('div', { className: 'val' }, state.a)),
+        e('div', { className: 'field' }, e('label', null, 'Counter B'), e('div', { className: 'val' }, state.b))
+      ),
+      e('div', { className: 'status status--ok' }, 'in sync'),
+      e('div', { className: 'btnRow' },
+        e('button', { className: 'actBtn', onClick: function () { dispatch({ type: 'incrementBoth' }); } }, 'Increment Both'),
+        e('button', { className: 'actBtn actBtn--ghost', onClick: function () { dispatch({ type: 'reset' }); } }, 'Reset')
+      )
+    );
+  }
+
+  var isReducer = false;
+  var root = ReactDOM.createRoot(document.getElementById('root'));
+  var btn = document.getElementById('toggleBtn');
+  var ruleTag = document.getElementById('ruleTag');
+
+  var STATE_RULE = 'const [a, setA] = useState(0);\nconst [b, setB] = useState(0);\n\n// two separate calls, easy to update only one by mistake\nfunction incrementBoth() {\n  setA(a + 1);\n  setB(a + 1);   // bug: should read b\n}';
+  var REDUCER_RULE = "const [state, dispatch] = useReducer(pairReducer, { a: 0, b: 0 });\n\n// one transition updates both fields from one source of truth\ndispatch({ type: 'incrementBoth' });";
+
+  function render() {
+    root.render(e(isReducer ? ReducerPair : BuggyPair));
+    ruleTag.textContent = isReducer ? REDUCER_RULE : STATE_RULE;
+    btn.textContent = isReducer ? 'Switch to useState' : 'Switch to useReducer';
+  }
+
+  btn.addEventListener('click', function () { isReducer = !isReducer; render(); });
+  render();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

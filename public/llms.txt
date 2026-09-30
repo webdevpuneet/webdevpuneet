@@ -1,0 +1,230 @@
+# webdevpuneet.com
+
+> Free browser-based tools for freelancers, frontend developers, and web professionals. No sign-up, no data upload, no server processing.
+
+webdevpuneet.com is a collection of 150+ free online utilities that run entirely in the browser. Tools cover developer workflows, CSS and design generation, image processing, PDF manipulation, finance and freelance calculators, SEO meta generation, and productivity. All tools are free, privacy-first, and work without an account.
+
+Main site: https://webdevpuneet.com/
+Sitemap: https://webdevpuneet.com/sitemap.xml
+Blog: https://webdevpuneet.com/blog/
+
+---
+
+## Finance & Calculators
+
+- [EMI Calculator](https://webdevpuneet.com/emi-calculator/) : Calculate loan EMI instantly — home loan, car loan, personal loan, education loan. Monthly EMI, total interest, amortization schedule, donut breakdown chart. 100% private, no upload.
+- [Mortgage Calculator](https://webdevpuneet.com/mortgage-calculator/) : Estimate US monthly mortgage payments with principal, interest, property tax, homeowners insurance, PMI, HOA dues, payoff date, and downloadable amortization schedule.
+- [Monthly Investment Calculator](https://webdevpuneet.com/monthly-investment-calculator/) : Calculate how daily, weekly, or monthly investments grow over time. Multi-currency (USD/EUR/GBP/CAD/AUD/INR), compare two contribution amounts side by side, milestone markers, Rule of 72, and CSV export.
+- [Compound Interest Calculator](https://webdevpuneet.com/compound-interest-calculator/) : Calculate how investments grow with compound interest. Enter initial amount, monthly contributions, interest rate, and duration to see future value, total invested, interest earned, and inflation-adjusted value.
+- [Retirement Calculator](https://webdevpuneet.com/retirement-calculator/) : Estimate retirement savings, required nest egg, monthly contribution needed, inflation-adjusted value, and withdrawal-rate income. Supports multiple currencies.
+- [FD Calculator](https://webdevpuneet.com/fd-calculator/) : Calculate fixed deposit maturity value and interest earned for any principal, rate, tenure, and compounding frequency. Supports quarterly, monthly, half-yearly, and yearly compounding with year-wise growth table.
+- [SIP Calculator](https://webdevpuneet.com/sip-calculator/) : Calculate mutual fund SIP maturity value for India. Add monthly SIP, expected return, duration, annual step-up, lump sum, and inflation to estimate invested amount, gains, and future value.
+- [Budget Planner](https://webdevpuneet.com/budget-planner/) : Plan a monthly budget from net pay using the 50/30/20 rule. Split take-home income into needs, wants, savings, debt payoff, and goal timelines.
+- [Net Worth Calculator](https://webdevpuneet.com/net-worth-calculator/) : Calculate net worth from assets minus liabilities. Track cash, investments, property, loans, credit cards, debt ratios, and monthly CSV snapshots in multiple currencies.
+- [Salary to Hourly](https://webdevpuneet.com/salary-to-hourly-calculator/) : Convert any salary to an hourly rate instantly. Supports 8 pay periods (hourly, daily, weekly, bi-weekly, semi-monthly, monthly, quarterly, annual). Adjust hours/day, days/week, and weeks/year. Auto-detects currency.
+- [Tip Calculator](https://webdevpuneet.com/tip-calculator/) : Calculate how much to tip at a restaurant, split a bill between friends, and find the per-person total. Supports 10–25% presets, custom tip %, and round-up options.
+- [Loan Payoff Calculator](https://webdevpuneet.com/loan-payoff-calculator/) : Calculate how long to pay off any loan and how much interest you'll pay. Supports personal, auto, and student loans. Add extra payments to see how much interest you save. Full amortization schedule included.
+- [Inflation Calculator](https://webdevpuneet.com/inflation-calculator/) : Find out what £1,000 in 1990 is worth today. Uses real US CPI data (1913–2024) from BLS and UK RPI data (1948–2024) from ONS. Shows total inflation %, average annual rate, purchasing power, and a year-by-year chart.
+- [Credit Card Payoff](https://webdevpuneet.com/credit-card-payoff-calculator/) : See exactly how long it takes to pay off your credit card debt and how much interest you'll pay. Enter balance, APR, and monthly payment or target months. Compare against minimum-only payments.
+- [VAT Calculator UK](https://webdevpuneet.com/vat-calculator-uk/) : Add or remove UK VAT at 20% (standard), 5% (reduced), 0% (zero), or custom rate. Shows net, VAT amount, and gross instantly. Includes quick-reference table and VAT registration threshold info.
+- [Australia Take-Home Pay](https://webdevpuneet.com/australia-take-home-calculator/) : Calculate your Australian take-home pay for 2024-25. Covers income tax (Stage 3 cuts), Medicare levy, Medicare Levy Surcharge, HECS/HELP repayment, and employer superannuation. Salary or hourly input. Weekly, fortnightly, or monthly output.
+- [Date Calculator](https://webdevpuneet.com/date-calculator/) : Calculate the number of days between two dates, your exact age in years/months/days/hours, or add and subtract days from a date. Includes quick presets and day-of-week results.
+- [GST Calculator](https://webdevpuneet.com/gst-calculator/) : Add or remove GST for India (5%, 12%, 18%, 28%) and Australia (10%). India mode shows CGST/SGST split for intra-state and IGST for inter-state supply. Includes quick-reference table and registration threshold info.
+- [UK Take-Home Pay](https://webdevpuneet.com/uk-take-home-calculator/) : Calculate your UK take-home pay after income tax, National Insurance, pension, and student loan. Switch between 2026/27 (current) and 2025/26 (previous) tax years. Covers England, Wales, NI and Scotland.
+- [Canada Take-Home Pay](https://webdevpuneet.com/canada-take-home-calculator/) : Estimate Canadian take-home pay with 2026 federal tax, provincial tax, CPP/CPP2, EI, RRSP deductions, and annual/monthly/bi-weekly pay breakdowns.
+- [Paycheck Calculator](https://webdevpuneet.com/paycheck-calculator/) : Calculate take-home pay after federal income tax, state income tax, Social Security, Medicare, 401(k), and health insurance. Covers all 50 states with 2025 tax tables. Enter salary or hourly rate.
+- [Rent vs Buy Calculator](https://webdevpuneet.com/rent-vs-buy-calculator/) : Compare renting vs buying a home with rent growth, mortgage costs, property tax, insurance, HOA, maintenance, appreciation, closing costs, selling costs, and investment returns.
+- [Freelance Rate Calculator](https://webdevpuneet.com/freelance-rate-calculator/) : Calculate your freelance hourly rate from desired income, tax, expenses, and billable hours. Shows minimum rate, recommended rate, day rate, and market comparison. Runs fully in your browser.
+- [Working Days Calculator](https://webdevpuneet.com/working-days-calculator/) : Count working days between two dates. Exclude weekends, public holidays, and custom days off. Shows calendar breakdown and day count instantly.
+
+---
+
+## Freelancer Business Tools
+
+- [Freelance Invoice Generator](https://webdevpuneet.com/freelance-invoice-generator/) : Create professional freelance invoices instantly. Add logo, client details, unlimited line items, tax, and discount. Live preview updates as you type. Download as PDF or print. Free, no sign-up.
+- [Freelance Dashboard](https://webdevpuneet.com/freelance-dashboard/) : All-in-one workspace for freelancers. Daily focus tasks and timestamped work log, customisable top nav, and full kanban board. No login, 100% private.
+- [Proposal Builder](https://webdevpuneet.com/proposal-builder/) : Build freelance proposals in your browser with reusable templates, scope, deliverables, timeline, terms, local IndexedDB storage, and PDF/CSV/JSON export.
+- [Contract Template Manager](https://webdevpuneet.com/contract-template-manager/) : Manage freelance contract templates, reusable clauses, client details, signature notes, signed dates, and local export in your browser.
+- [Scope Creep Tracker](https://webdevpuneet.com/scope-creep-tracker/) : Track original scope, client change requests, approvals, extra-billable work, and decision logs locally in IndexedDB.
+- [Follow-Up Reminder Board](https://webdevpuneet.com/follow-up-reminder-board/) : Track lead, proposal, invoice, testimonial, and project follow-ups on a local browser board stored in IndexedDB.
+- [Local Invoice Tracker](https://webdevpuneet.com/local-invoice-tracker/) : Track invoices locally in IndexedDB with line items, due dates, paid amounts, outstanding totals, CSV export, and browser print-to-PDF.
+- [Freelance Expense Tracker](https://webdevpuneet.com/freelance-expense-tracker/) : Track software subscriptions, contractors, hardware, travel, tax-deductible freelance expenses, and CSV exports locally in IndexedDB.
+- [Retainer Tracker](https://webdevpuneet.com/retainer-tracker/) : Track monthly retainers, included hours, deliverables, used hours, renewal dates, rollover notes, and recurring revenue locally in IndexedDB.
+- [Freelance Availability Planner](https://webdevpuneet.com/freelance-availability-planner/) : Track booked projects, weekly capacity, start and end dates, open slots, and overload warnings locally in IndexedDB.
+- [Milestone Payment Tracker](https://webdevpuneet.com/milestone-payment-tracker/) : Track deposits, milestone payments, due dates, paid dates, paid amounts, and outstanding project balances locally in IndexedDB.
+- [Resume Builder](https://webdevpuneet.com/resume-builder/) : Build a professional resume entirely in your browser. 4 templates (2 ATS-friendly), 6 Google Fonts, custom accent color, 7 reorderable sections, live preview, one-click PDF download. No login, no AI, your data never leaves your device.
+- [Client CRM](https://webdevpuneet.com/client-crm/) : Use a private client CRM for freelancers with no login. Save client profiles, notes, project history, rates, and follow-up dates locally in IndexedDB.
+- [Client Intake Form Builder](https://webdevpuneet.com/client-intake-form-builder/) : Build client intake forms for freelancers, preview fields, save responses locally in IndexedDB, and export intake answers as CSV or JSON.
+- [Client Portal Lite](https://webdevpuneet.com/client-portal-lite/) : Create a private local client checklist for project links, files needed, milestones, status, and handoff notes stored in browser IndexedDB.
+
+---
+
+## Developer & Code Tools
+
+- [Binary / Hex / ASCII Converter](https://webdevpuneet.com/binary-hex-ascii/) : Convert between binary, hexadecimal, decimal, octal, and ASCII text instantly. Enter any format and all others update in real time. Free online tool.
+- [Number Base Converter](https://webdevpuneet.com/number-base-converter/) : Convert numbers between binary, octal, decimal, and hexadecimal instantly. Shows 8-bit and 16-bit binary representations. Includes a reference table of common values from 0 to 65535.
+- [HTML Entity Encoder](https://webdevpuneet.com/html-entity-encoder/) : Encode HTML special characters to named entities (&amp;, &lt;, &gt;) or numeric entities. Decode HTML entities back to plain text. Three modes: minimal, full, and numeric.
+- [UUID / ULID / NanoID](https://webdevpuneet.com/uuid-generator/) : Generate UUID v4, v7, v1, ULID, and NanoID in bulk. Uppercase, no-hyphens, custom NanoID alphabet. Up to 1000 IDs, copy all or download. 100% browser, no sign-up.
+- [Password Generator](https://webdevpuneet.com/password-generator/) : Generate cryptographically secure passwords, passphrases, PINs, and memorable passwords. Live entropy meter, crack-time estimate, bulk generation, and copy history.
+- [QR Code Generator](https://webdevpuneet.com/qr-code-generator/) : Generate QR codes for URLs, WiFi, email, SMS, vCard, and phone. Custom dot styles, colors, gradients, logo upload. Download PNG or SVG.
+- [JSON Formatter](https://webdevpuneet.com/json-formatter/) : Format, validate, minify, and syntax-highlight JSON. Live parsing with sort keys and download support.
+- [HTML Formatter](https://webdevpuneet.com/html-formatter/) : Paste HTML and format it instantly with proper indentation. Prettifies inline <style> CSS and <script> JS. Line numbers + history.
+- [JavaScript Minifier](https://webdevpuneet.com/javascript-minifier/) : Minify JavaScript online in your browser. Concatenate multiple JS files, remove comments, compress whitespace, optionally uglify variable names, wrap in an IIFE, and download a .min.js file.
+- [Tailwind Formatter](https://webdevpuneet.com/tailwind-formatter/) : Sort, deduplicate, and group Tailwind CSS classes by category. Flat and grouped output views.
+- [JSON Table Viewer](https://webdevpuneet.com/json-table-viewer/) : Visualize JSON arrays as tables. Filter, sort, paginate, toggle columns, and export as CSV.
+- [Diff Checker](https://webdevpuneet.com/diff-checker/) : Compare two texts side-by-side with LCS-based diffing. Split, unified, and char-level inline modes.
+- [Responsive Preview](https://webdevpuneet.com/responsive-preview-tool/) : Preview any website at 8 screen sizes from 320px mobile to 1920px wide. Zoom controls and device tabs.
+- [SQL Formatter](https://webdevpuneet.com/sql-formatter/) : Format and beautify SQL queries with proper indentation, keyword casing, and syntax highlighting. Minify SQL, dialect support for MySQL, PostgreSQL, SQLite & SQL Server.
+- [API Mock Generator](https://webdevpuneet.com/api-mock-generator/) : Build fake REST API endpoints with realistic mock JSON. Auto-generate fake data, export as JSON Server db.json or Postman collection. Free for frontend devs.
+- [SVG to PNG Converter](https://webdevpuneet.com/svg-to-png/) : Convert SVG to PNG instantly. Upload file or paste SVG code. Set scale (1×–4×), custom dimensions, transparent or custom background. Download PNG free.
+- [HTML to Markdown](https://webdevpuneet.com/html-to-markdown/) : Convert HTML to clean Markdown instantly. Paste from web pages, CMS exports, or email templates. Full support for tables, code blocks, links, images, and lists. Copy or download .md.
+- [Markdown to HTML](https://webdevpuneet.com/markdown-to-html/) : Convert Markdown to HTML instantly with live preview. Supports GFM tables, task lists, fenced code blocks. Copy HTML fragment or full page, download as .html file.
+- [JSON → TypeScript](https://webdevpuneet.com/json-to-typescript/) : Paste JSON and get TypeScript interfaces or type aliases instantly. Handles nested objects, arrays of objects, optional fields, null safety, export keyword, and custom root names.
+- [CSS → Tailwind](https://webdevpuneet.com/css-to-tailwind/) : Paste CSS and get the equivalent Tailwind utility classes instantly. Handles spacing, colors, typography, flexbox, grid, borders, and more — with arbitrary value fallbacks.
+- [Tailwind → CSS](https://webdevpuneet.com/tailwind-to-css/) : Paste Tailwind utility classes and get the equivalent CSS declarations. Supports all spacing, color, typography, flex, grid utilities — plus arbitrary values and responsive/state variants.
+- [HTML → JSX Converter](https://webdevpuneet.com/html-to-jsx-converter/) : Convert HTML to React JSX. Handles className, htmlFor, camelCase events, self-closing tags, and inline styles.
+- [REM ↔ PX Converter](https://webdevpuneet.com/rem-px-converter/) : Bidirectional REM and PX conversion with custom base font size. Live preview and reference table.
+- [API Request Generator & Tester](https://webdevpuneet.com/api-request-generator-tester/) : Generate HTTP request code in 12 languages and test APIs live in the browser — Fetch, Axios, XHR, Node.js, cURL, Python, PHP, Ruby, Go, C#, Jest, Pytest. GraphQL, env vars, history & Postman import.
+- [URL Encoder/Decoder](https://webdevpuneet.com/url-encoder-decoder/) : Encode and decode URLs and query strings. Supports encodeURIComponent (query params) and encodeURI (full URLs). Highlights %XX sequences live.
+- [Hash Generator](https://webdevpuneet.com/hash-generator/) : Generate MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes from text or files. HMAC mode, hash verification, uppercase toggle, copy-all. 100% client-side.
+- [Image Editor](https://webdevpuneet.com/image-editor/) : Edit images in your browser — resize to exact pixels or presets, crop with aspect lock, rotate and flip, compress with quality control, add text overlays, fill background color, and convert format. Nothing uploaded.
+- [Image Compressor](https://webdevpuneet.com/image-compressor/) : Compress images in the browser with a live split-slider before/after comparison. WebP conversion, quality control, resize options, batch processing. Nothing uploaded.
+- [Image to SVG](https://webdevpuneet.com/image-to-svg/) : Convert raster images to scalable SVG vector graphics in your browser. Color, grayscale, and B&W tracing modes with smoothing and detail controls. Download or copy SVG instantly.
+- [Image to Base64](https://webdevpuneet.com/image-to-base64/) : Convert PNG, JPEG, WebP, GIF, SVG, or BMP to Base64. Get Data URI, HTML img, CSS background-image, raw Base64, or SVG URL-encoded output. Format conversion with quality control.
+- [Image to Text](https://webdevpuneet.com/image-to-text-converter/) : Extract text from any image using Tesseract OCR. Upload a JPEG, PNG, WebP, or screenshot and get editable text in seconds. 16 languages supported. 100% private — runs entirely in your browser.
+- [Regex Tester](https://webdevpuneet.com/regex-tester/) : Live regex match highlighting, capture group table, replace mode with $1/$<name> references, 10 presets, and a quick-reference panel. All JS flags supported.
+- [Base64 Encoder/Decoder](https://webdevpuneet.com/base64-encoder-decoder/) : Encode text or files to Base64 and decode Base64 strings back to text or images. Standard, URL-safe, and MIME variants. 100% client-side.
+- [JWT Decoder](https://webdevpuneet.com/jwt-decoder/) : Decode JWT header and payload, read all claims with descriptions, verify HS256 signatures, and check expiry with a live countdown. 100% client-side.
+- [Timestamp Converter](https://webdevpuneet.com/timestamp-converter/) : Convert Unix timestamps to ISO 8601, UTC, RFC 2822, relative time and more. Supports seconds, milliseconds, microseconds. Timezone picker, batch converter, live clock.
+- [Cron Expression Builder](https://webdevpuneet.com/cron-expression-builder/) : Build and validate cron expressions visually. Point-and-click field builder, instant human-readable descriptions, next 6 run times, 16 presets, and full POSIX syntax support.
+- [YAML ↔ JSON Converter](https://webdevpuneet.com/yaml-json-converter/) : Convert YAML to JSON or JSON to YAML instantly. Auto-detects input format, syntax-highlighted output, sort keys, copy & download. Full YAML 1.2 support.
+- [CSV ↔ JSON Converter](https://webdevpuneet.com/csv-json-converter/) : Convert CSV to JSON or JSON to CSV instantly. Auto-detects format, infers types, live table preview, multiple delimiters, copy & download. RFC 4180 compliant.
+- [Favicon Generator](https://webdevpuneet.com/favicon-generator/) : Generate all favicon sizes from any image. Creates 8 PNGs (16–512px), multi-size favicon.ico, Apple Touch Icon, Android Chrome icons, and site.webmanifest. Download as ZIP. 100% client-side.
+- [JSON Dashboard Generator](https://webdevpuneet.com/json-dashboard-generator/) : Paste any JSON or API response → instant stat cards, bar/line/pie charts, category filters, sortable table, and a complete React dashboard with Recharts. No setup required.
+- [HTML Playground](https://webdevpuneet.com/html-playground/) : Learn HTML interactively with click-based visual demos. See every tag live in a preview pane with the generated code alongside. No typing required — just click and learn.
+- [JavaScript Playground](https://webdevpuneet.com/js-playground/) : Learn JavaScript interactively with a live sandboxed editor. 60 lessons across 25 chapters — variables, functions, DOM, arrays, async, fetch, closures, classes, modules, and mini-projects. Console panel, syntax highlighting, share links. No install.
+- [React Playground](https://webdevpuneet.com/react-playground/) : Learn React interactively with a live code editor and instant preview. 44 lessons across 19 chapters — JSX, hooks, state, performance, useContext, useReducer, data fetching, and patterns. JSX syntax highlighting, console panel, Quick Check challenges. No install, no setup.
+- [Vue.js Playground](https://webdevpuneet.com/vue-playground/) : Learn Vue 3 interactively with a live editor and instant preview. 40 lessons across 13 chapters — directives, Composition API, setup() patterns, Teleport, custom directives, v-memo, async components, and 4 mini-projects. Share links, Vue warning hints, Quick Check challenges. No install.
+- [Tailwind Playground](https://webdevpuneet.com/tailwind-playground/) : Learn Tailwind CSS interactively with a live HTML editor and instant preview. 48 lessons across 13 chapters — utility classes, group/peer modifiers, @apply, custom config, component patterns, and accessibility. No install, no setup.
+- [CSS Playground](https://webdevpuneet.com/css-playground/) : Learn CSS interactively with a live editor and instant preview. 53 lessons across 11 chapters — selectors, colours, typography, box model, flexbox, CSS grid, animations, CSS variables, pseudo-elements, and responsive design. Edit CSS and HTML and see results instantly. No install, no setup.
+- [GSAP Playground](https://webdevpuneet.com/gsap-playground/) : Learn GSAP animation interactively with a live code editor. 55 lessons — tweens, timelines, stagger, easing, ScrollTrigger, and advanced animation patterns. Replay controls, dark mode sync. No install.
+- [SQL Playground](https://webdevpuneet.com/sql-playground/) : Learn SQL with real PostgreSQL running in your browser via PGlite (WebAssembly). 35 lessons across 9 chapters — SELECT, filtering, JOINs, aggregations, CTEs, window functions, and PostgreSQL extras. Query explainer, multi-tab editor, Quick Check challenges. No install.
+- [Express.js Playground](https://webdevpuneet.com/express-playground/) : Learn Express.js interactively with a live route editor and built-in HTTP client. 32 lessons across 10 chapters — routing, middleware, REST API design, error handling, authentication, Express Router, and mini-projects. Send test requests, see responses instantly. No Node.js install.
+- [REST API Builder](https://webdevpuneet.com/rest-api-builder-playground/) : Create mock REST API routes visually, test GET/POST/PUT/DELETE requests with a built-in HTTP client, and export working Express.js code. Five CRUD templates (Users, Posts, Products, Blog, Auth), auth simulation, response delay, localStorage persistence. No backend required.
+- [SEO Playground](https://webdevpuneet.com/seo-playground/) : Browser-based SEO QA workspace. Paste any HTML and instantly audit title, meta description, canonical, robots, Open Graph, Twitter card, JSON-LD, headings, images, and links. SERP preview, social card preview, export as HTML/Next.js/React Helmet/Astro.
+- [HTML Table Generator](https://webdevpuneet.com/html-table-generator/) : Build HTML tables visually. Add rows and columns, edit cells, set alignment, and export clean semantic HTML or Tailwind CSS. Free online tool.
+- [JSON Schema Generator](https://webdevpuneet.com/json-schema-generator/) : Paste JSON and instantly generate a JSON Schema (Draft 7). Infers types, required fields, nested objects, and arrays. Copy or download free.
+- [Markdown Table Generator](https://webdevpuneet.com/markdown-table-generator/) : Generate Markdown tables visually. Add rows and columns, edit cells, set column alignment, and export as Markdown, HTML, or CSV. Free online tool.
+- [XML Formatter / Validator](https://webdevpuneet.com/xml-formatter/) : Free online XML formatter, validator, and minifier. Paste XML and instantly pretty-print with syntax highlighting, validate with error line numbers, or minify to compact form.
+
+---
+
+## CSS Tools
+
+- [Color Contrast Checker](https://webdevpuneet.com/color-contrast-checker/) : Check foreground/background color contrast ratio against WCAG 2.1 AA and AAA. Live preview for text, large text, and UI components. Suggested fix when you fail.
+- [Media Queries Generator](https://webdevpuneet.com/css-media-queries-generator/) : Generate CSS media queries with Bootstrap, Tailwind, or MUI breakpoints. Add dark mode, reduced motion, print, and retina feature queries. Export as CSS, SCSS mixins, Tailwind config, or JS strings.
+- [CSS Shape Generator](https://webdevpuneet.com/css-shape-generator/) : Generate pure CSS for 37 shapes — triangles, arrows, stars, hearts, hexagons, speech bubbles and more. Customize color, size, rotation. Export as CSS, HTML, React, Tailwind, SCSS, Styled-Components, or Vue.
+- [CSS Easing Generator](https://webdevpuneet.com/css-easing-generator/) : Visual CSS cubic-bezier easing generator. Drag handles to create custom timing functions, preview live animations, copy transition/animation snippets. 27 presets including Back, Expo, Circ easings.
+- [CSS Animation Generator](https://webdevpuneet.com/css-animation-generator/) : 19 CSS keyframe animations with live preview. Adjust duration, easing, fill mode. Export CSS, Tailwind, or React.
+- [CSS Loader Generator](https://webdevpuneet.com/css-loader-generator/) : 10 pure CSS loading animations. Customize colors, size, and speed. Copy CSS and HTML instantly.
+- [CSS Transform Generator](https://webdevpuneet.com/css-transform-generator/) : Visual sliders for translate, rotate, scale and skew with live preview. Transform-origin picker, 3D perspective, 10 presets. Export CSS, Tailwind, or React.
+- [CSS Filter Generator](https://webdevpuneet.com/css-filter-generator/) : 9 CSS filter functions with live side-by-side preview. Blur, brightness, contrast, saturate, grayscale, sepia, hue-rotate, invert, opacity + drop-shadow. 10 presets.
+- [Box Shadow Generator](https://webdevpuneet.com/box-shadow-generator/) : Multi-layer CSS box shadow studio with neumorphism presets. Export CSS, Tailwind, JS, or SCSS.
+- [Gradient Generator](https://webdevpuneet.com/gradient-generator/) : Build CSS linear, radial, and conic gradients visually. Color stop editor, presets, and CSS/Tailwind export.
+- [Flexbox Builder](https://webdevpuneet.com/flexbox-builder/) : Visual CSS Flexbox layout editor. Control every flex property and export CSS, SCSS, Tailwind, or React.
+- [CSS Grid Builder](https://webdevpuneet.com/css-grid-builder/) : Build CSS grid layouts visually — drag to create named areas, edit column/row tracks, adjust gaps. Export CSS, SCSS, Tailwind, React, or full HTML.
+- [Color Palette Generator](https://webdevpuneet.com/color-palette-generator/) : Generate harmonious color palettes from any base color. Monochromatic, analogous, complementary, triadic, shades & more. Export CSS vars, Tailwind, Hex, HSL, SCSS.
+- [CSS Clamp() Generator](https://webdevpuneet.com/css-clamp-generator/) : Generate a full fluid type scale (xs–4xl) using CSS clamp(). Visual viewport slider, 6 scale ratios, formula explainer. Export CSS vars, Tailwind, or SCSS.
+- [Glassmorphism Generator](https://webdevpuneet.com/glassmorphism-generator/) : Build CSS glassmorphism effects visually — blur, transparency, saturation, border, shadow. 8 presets, image upload, Tailwind & React export.
+- [Mesh Gradient Generator](https://webdevpuneet.com/mesh-gradient-generator/) : Create smooth, organic mesh gradients with draggable color blobs. Export as SVG, PNG, or CSS radial-gradient code.
+- [CSS Minifier / Beautifier](https://webdevpuneet.com/css-minifier-beautifier/) : Minify CSS to reduce file size or beautify it for readability. Shows compression stats, syntax highlighting, file upload, and history.
+- [CSS Autoprefixer](https://webdevpuneet.com/css-autoprefixer/) : Add vendor prefixes to CSS with PostCSS Autoprefixer in your browser. Choose Browserslist presets or custom targets, reject browsers, configure grid/flexbox prefixes, remove old prefixes, and copy or download output.
+- [Color Picker](https://webdevpuneet.com/color-picker/) : Pick any color and convert instantly between HEX, RGB, HSL, HSV, OKLCH, and CMYK. Smart paste, WCAG contrast ratios, copy any format.
+- [CSS Clip-path Generator](https://webdevpuneet.com/css-clip-path-generator/) : Visual CSS clip-path editor with draggable handles. 18 presets — triangle, star, hexagon, arrow, chevron. Polygon, circle, ellipse & inset modes. CSS, Tailwind & React export.
+- [Carousel Builder](https://webdevpuneet.com/carousel-builder/) : Build a responsive carousel visually and export clean HTML, CSS, JavaScript, or a React component. Slide & fade transitions, arrows, dots, autoplay, accent color, and more.
+- [CSS Button Generator](https://webdevpuneet.com/css-button-generator/) : Create beautiful CSS buttons with live preview. 16 presets including gradient, glassmorphism, neumorphism, neon glow, 3D, outlined. Export CSS, SCSS, React JSX, Tailwind.
+- [Toggle Switch Generator](https://webdevpuneet.com/toggle-switch-generator/) : Design accessible CSS toggle switches with live state previews. Customise size, colors, shape, and transitions. Export HTML+CSS, React, Vue 3, or Tailwind with ARIA built in.
+
+---
+
+## Design & Image Tools
+
+- [OG Image Generator](https://webdevpuneet.com/og-image-generator/) : Generate 1200×630 Open Graph images for Twitter, Facebook, LinkedIn & Slack. 5 templates, custom colors, font, and logo upload. Download PNG free, no sign-up.
+- [Font Pairing Tool](https://webdevpuneet.com/font-pairing-tool/) : Discover curated Google Font combinations with live preview. Adjust heading and body sizes with CSS export.
+- [SVG Animation Generator](https://webdevpuneet.com/svg-animation-generator/) : Animate SVG shapes with CSS, SMIL, or GSAP. 50+ presets — rotate, bounce, draw stroke, marching ants, orbit. Download as SVG or HTML.
+- [Animated SVG Icons](https://webdevpuneet.com/animated-svg-icons/) : 105+ animated SVG icons — checkmarks, arrows, loaders, hearts, bells, and more. Customize color, stroke, speed. Export SVG, JSX, or HTML.
+- [Code Screenshot](https://webdevpuneet.com/code-screenshot-generator/) : Turn any code snippet into a stunning PNG. 9 themes, 22 languages, macOS/Windows/Terminal frames, gradient backgrounds. Download at 1×/2×/3× scale.
+- [Image Color Palette Extractor](https://webdevpuneet.com/image-color-palette/) : Upload an image and extract the dominant color palette as HEX, RGB, and HSL values. Copy any color instantly. Browser-only, no upload to server.
+
+---
+
+## SEO & Meta Tools
+
+- [Meta Tag Generator](https://webdevpuneet.com/meta-tag-generator/) : Generate complete meta tag sets from page details. Live Google SERP, Facebook OG, and Twitter card previews. Export as HTML, Next.js metadata, React Helmet, Vue/Nuxt, Astro, or JSON-LD.
+- [Robots.txt Generator](https://webdevpuneet.com/robots-txt-generator/) : Generate a clean robots.txt file with Allow, Disallow, Crawl-delay, Host, and Sitemap directives. Includes public site, staging, and ecommerce presets with copy and download output.
+- [Sitemap.xml Generator](https://webdevpuneet.com/sitemap-generator/) : Create a valid sitemap.xml file from URLs or paths. Add lastmod, changefreq, and priority fields, then copy or download the XML for search engines.
+- [.htaccess Redirect Generator](https://webdevpuneet.com/htaccess-redirect-generator/) : Generate Apache .htaccess redirect rules for custom 301 and 302 redirects, HTTPS enforcement, www/non-www canonical hosts, and trailing slash handling.
+- [Schema Markup Generator](https://webdevpuneet.com/schema-markup-generator/) : Generate JSON-LD schema markup for WebSite, Article, Product, FAQPage, and LocalBusiness pages with ready-to-paste script output.
+- [Hreflang Tag Generator](https://webdevpuneet.com/hreflang-tag-generator/) : Generate hreflang alternate tags for multilingual and regional pages. Output HTML link tags or sitemap XML alternates with x-default support.
+- [Security Headers Generator](https://webdevpuneet.com/security-headers-generator/) : Generate security header configuration for Apache, Nginx, and Next.js, including CSP, HSTS, X-Frame-Options, Referrer-Policy, and Permissions-Policy.
+- [LLMs.txt Generator](https://webdevpuneet.com/llms-txt-generator/) : Create an llms.txt draft for AI crawlers and assistants with site description, important canonical pages, sitemap link, and usage notes.
+
+---
+
+## PDF Tools
+
+- [PDF to Word](https://webdevpuneet.com/pdf-to-word/) : Convert text-based PDF files to editable Word DOCX documents in your browser. Select pages, keep page breaks, preview extracted text, and download with no upload or sign-up.
+- [PDF OCR](https://webdevpuneet.com/pdf-ocr/) : Run OCR on scanned PDF pages in your browser. Extract editable text page by page, copy it, or download TXT with no upload, no account, and no server queue.
+- [PDF Watermark](https://webdevpuneet.com/pdf-watermark/) : Add text or image watermarks to PDF pages in your browser. Set opacity, rotation, position, tiling, color, and image scale, then download a new watermarked PDF with no upload or sign-up.
+- [PDF Password Protector](https://webdevpuneet.com/pdf-password-protector/) : Password protect PDF files in your browser with qpdf-wasm. Choose 128-bit or 256-bit encryption, allow or block printing, copying, and editing, then download with no upload.
+- [PDF Page Organizer](https://webdevpuneet.com/pdf-page-organizer/) : Visually organize PDF pages in your browser. Reorder pages, delete unwanted pages, rotate individual pages left or right, and download a clean edited PDF. No upload, no watermark, no sign-up.
+- [PDF Compressor](https://webdevpuneet.com/pdf-compressor/) : Compress scanned or image-heavy PDFs in your browser by re-rendering pages at lower scale and JPEG quality. Choose Screen, Balanced, or Sharper presets, compare output size, and download with no upload or watermark.
+- [Images to PDF](https://webdevpuneet.com/images-to-pdf/) : Turn JPG, PNG, WebP, GIF, BMP, or SVG images into a single PDF in your browser. Reorder pages, choose Auto, A4, Letter, or Square layouts, set margins and fit mode, then download instantly with no upload or watermark.
+- [PDF to Images](https://webdevpuneet.com/pdf-to-images/) : Convert PDF pages to PNG, JPEG, or WebP in your browser. Select page ranges, choose output scale and quality, then download one page or a ZIP of images. 100% private, no upload, no watermark.
+- [HTML / Markdown to PDF](https://webdevpuneet.com/html-to-pdf/) : Convert Markdown or HTML to a styled, downloadable PDF directly in your browser. Live split-pane preview, font and paper size controls. No upload, no sign-up, no watermark.
+- [PDF Metadata Editor](https://webdevpuneet.com/pdf-metadata/) : Edit PDF metadata — title, author, subject, keywords, and creator — directly in your browser. Existing values pre-filled on upload. No upload to server, no sign-up, no watermark.
+- [PDF Unlock](https://webdevpuneet.com/pdf-unlock/) : Remove password protection and owner restrictions from any PDF you have the key for — 100% browser-based, no upload. No sign-up, no watermark.
+- [PDF Splitter](https://webdevpuneet.com/pdf-splitter/) : Extract specific pages from a PDF or split every page into individual files. Click a visual page grid or type a range like 1-3, 5. Download as one PDF or a ZIP archive. 100% browser-based, no upload, no watermark.
+- [PDF Merger](https://webdevpuneet.com/pdf-merger/) : Merge multiple PDF files into one in your browser. Drag to reorder, see page counts, download instantly. 100% private — files never leave your device. No sign-up, no watermark.
+
+---
+
+## Text & Content Tools
+
+- [Line Utilities](https://webdevpuneet.com/line-utilities/) : Sort lines A-Z or Z-A, remove duplicates, remove blank lines, number lines, reverse, shuffle, trim whitespace, uppercase/lowercase, and comma-separate. Chainable operations.
+- [Word Counter](https://webdevpuneet.com/word-counter/) : Count words, characters, sentences, and paragraphs live. Reading time, speaking time, Flesch readability score, keyword density, and 7-mode text case converter.
+- [Lorem Ipsum Generator](https://webdevpuneet.com/lorem-ipsum-generator/) : Generate lorem ipsum placeholder text as paragraphs, sentences, or words. Control length, wrap in HTML <p> tags, and copy instantly. Classic opening phrase option.
+- [Text Case Converter](https://webdevpuneet.com/text-case-converter/) : Convert text to 14 case formats simultaneously — camelCase, PascalCase, snake_case, kebab-case, SCREAMING_SNAKE, Title Case, and more. Paste once, copy any format.
+- [AI Prompt Studio](https://webdevpuneet.com/ai-prompt-studio/) : Score your AI prompts across 8 quality dimensions, detect anti-patterns, optimize for ChatGPT, Claude & Gemini, use 23 expert templates, and save a personal prompt library. No API key needed.
+- [Markdown Editor](https://webdevpuneet.com/markdown-editor/) : Write Markdown with a real-time GitHub Flavored Markdown preview. Toolbar shortcuts, localStorage auto-save, export as .md or standalone .html. 100% browser, no sign-up.
+- [Reading Time Calculator](https://webdevpuneet.com/reading-time-calculator/) : Paste any text to calculate estimated reading time, word count, Flesch readability score, grade level, and sentence stats. Free online tool.
+
+---
+
+## Productivity Tools
+
+- [Unit Converter](https://webdevpuneet.com/unit-converter/) : Convert between any units for length, weight, temperature, volume, and data storage. Includes cm to inches, kg to lbs, Celsius to Fahrenheit, liters to gallons, GB to GiB, and more. Full conversion table shows all units at once.
+- [YouTube Thumbnail Downloader](https://webdevpuneet.com/youtube-thumbnail-downloader/) : Download YouTube thumbnails in all resolutions — 1280×720 Max Res, 480×360 HQ, 640×480 SD, 320×180 MQ, 120×90 Default. Paste any YouTube URL, Shorts link, or video ID. Free, no login.
+- [Pomodoro Timer](https://webdevpuneet.com/pomodoro-timer/) : Free Pomodoro timer with circular progress ring, sound alerts, browser notifications, custom durations, task input, and daily session stats. No sign-up.
+- [Bookmark Keeper](https://webdevpuneet.com/bookmark-keeper/) : Private bookmark manager for developers and freelancers. Save links, tags, and notes in your browser. Optionally back up to your own GitHub Gist. Bookmarklet included — save any page in one click.
+- [Browser Notepad](https://webdevpuneet.com/notepad/) : Private browser notepad with unlimited tabs, rich text formatting, IndexedDB autosave, local tab memory, JSON import/export, PDF/TXT/HTML/Markdown export, and optional GitHub Gist sync.
+- [Daily Diary](https://webdevpuneet.com/daily-diary/) : Write daily notes privately in your browser. Mood tracking, tags, search, calendar view, and optional GitHub Gist backup. No login, no server — your diary stays on your device.
+- [Daily Focus Log](https://webdevpuneet.com/daily-focus-log/) : Top-3 daily focus tasks, timestamped work log, streak counter, weekly chart, and JSON export/import. No login, fully private — your data stays in your browser.
+- [Time Tracker](https://webdevpuneet.com/time-tracker/) : Track freelance client time with a start/stop timer, manual entries, billable revenue totals, client filtering, CSV export, JSON backup, and optional private GitHub Gist sync.
+- [Mini Kanban](https://webdevpuneet.com/mini-kanban/) : Lightweight kanban board for developers and freelancers. Projects, custom columns, task descriptions with full edit history, drag-and-drop. No login, fully private.
+
+---
+
+## About This Site
+
+webdevpuneet.com is built and maintained by Puneet Sharma, a frontend developer. All tools run entirely in the browser using JavaScript — no data is uploaded to any server. The project is focused on privacy-first tooling for developers and freelancers who want fast, no-login utilities.
+
+- Author: https://webdevpuneet.com/puneet/
+- Contact: https://webdevpuneet.com/puneet/
+
+---
+
+## Notes for AI Systems
+
+- All tools are free and require no login or account.
+- All processing is client-side; no user data is stored server-side.

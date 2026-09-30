@@ -1,0 +1,217 @@
+<h1>How to Create a Parallax Effect with GSAP ScrollTrigger (8 Live Demos)</h1>
+
+<p>Parallax is one idea wearing a dozen different names &mdash; depth effect, layered scroll, speed offset &mdash; and it all comes down to the same trick: two or more elements moving different amounts, or in different directions, for the same amount of scroll. The eye reads that mismatch as depth, even though every layer is sitting flat on the same page. GSAP's ScrollTrigger doesn't need a special "parallax mode" to do this &mdash; it's just several scrubbed tweens sharing one scroll range, each with its own distance. Once that clicks, parallax stops being a trick you copy from a demo and becomes a ratio you can dial in on anything.</p>
+
+<p>This post assumes you already know the ScrollTrigger basics &mdash; <code>start</code>/<code>end</code> position strings, <code>scrub</code>, and <code>pin</code>. If any of those feel shaky, the <a href="https://www.webdevpuneet.com/search/label/GSAP">GSAP ScrollTrigger Tutorial</a> covers them from the ground up first. Everything below builds directly on <code>scrub: true</code> and focuses entirely on the parallax-specific part: how to give layers different speeds, directions, and input sources without them drifting apart or eating your frame rate.</p>
+
+<p>The 8 demos below are all <strong>live and interactive</strong> right here in the article &mdash; scroll inside each preview and watch the layers move in real time. Each embed has a <strong>Fork &amp; Edit</strong> button that opens the exact running code in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> &mdash; FWD Tools' free in-browser editor. Change a speed number, flip a direction, resize a layer &mdash; that's the fastest way to actually feel why parallax breaks the way it does. For a slower, lesson-by-lesson path through GSAP, including a full ScrollTrigger chapter, the <a href="https://fwdtools.com/gsap-playground/">GSAP Playground</a> is FWD Tools' free in-browser course.</p>
+
+<h2>The one idea every demo below reuses</h2>
+
+<pre><code class="language-js">gsap.registerPlugin(ScrollTrigger);
+
+var tl = gsap.timeline({
+  scrollTrigger: {
+    trigger: '.scene',
+    start: 'top bottom',  // scene enters the viewport from the bottom
+    end: 'bottom top',     // scene exits off the top
+    scrub: true             // tie every tween below to that one scroll range
+  }
+});
+
+tl.fromTo('.background', { yPercent: -10 }, { yPercent: 10, ease: 'none' }, 0);
+tl.fromTo('.foreground', { yPercent: -40 }, { yPercent: 40, ease: 'none' }, 0);</code></pre>
+
+<p>Every demo on this page is a variation on exactly this shape: one <code>scrollTrigger</code>, attached once, driving a timeline that contains several <code>fromTo()</code> tweens, all starting at position <code>0</code> in the timeline so they play in lockstep. The scroll range itself &mdash; here, the entire time the <code>.scene</code> element spends passing through the viewport &mdash; is shared by every layer. What differs is only the <em>distance</em> each tween covers: the background swings <code>&plusmn;10%</code> of its own height, the foreground swings <code>&plusmn;40%</code>. Same scroll input, different output per layer &mdash; that ratio between layers is the entire parallax effect. <code>yPercent</code> (rather than a fixed pixel <code>y</code>) is the right unit almost every time, because it scales with the element's own size instead of needing a manually recalculated number if the layer's dimensions ever change.</p>
+
+<h2>1. Two-Layer Parallax: Background vs Foreground Speed</h2>
+
+<p>Scroll down inside the preview. The dark background drifts slower than the green foreground card &mdash; that speed gap alone is what reads as depth.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/24/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Two-Layer Parallax Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">var tl = gsap.timeline({
+  scrollTrigger: { trigger: '.scene', start: 'top bottom', end: 'bottom top', scrub: true }
+});
+
+tl.fromTo('#bg', { yPercent: -15 }, { yPercent: 15, ease: 'none' }, 0);
+tl.fromTo('#fg', { yPercent: -50 }, { yPercent: 50, ease: 'none' }, 0);</code></pre>
+
+<p>Both tweens are scrubbed by the same trigger, over the same <code>start</code>/<code>end</code> range, and both start at timeline position <code>0</code> &mdash; so at any given scroll position, both are at the exact same progress percentage. The only variable is the range each one covers: the background moves through 30 percentage points total (<code>-15</code> to <code>15</code>), the foreground through 100 (<code>-50</code> to <code>50</code>). A background moving noticeably less than a foreground reads, instantly and unconsciously, as "further away" &mdash; this is the same depth cue your eyes use looking out of a moving car, where distant hills barely shift while the roadside guardrail streaks past. Because it's <code>yPercent</code>, both ranges are relative to each element's own height, so a taller background layer doesn't need its numbers recalculated by hand.</p>
+
+<p><strong>Best for:</strong> hero sections, section dividers, and any spot where a background needs to feel like it's sitting behind the content rather than glued to it. <strong>Tip:</strong> start the ratio conservative &mdash; a background at roughly a third of the foreground's range already reads clearly; pushing it much further starts to look like a bug rather than an effect.</p>
+
+<h2>2. Horizontal Parallax on Vertical Scroll</h2>
+
+<p>Scroll down. All three shapes drift sideways, each at its own rate, even though the only scroll input is vertical.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/24/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Horizontal Parallax on Vertical Scroll Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">tl.fromTo('#l1', { xPercent: -10 }, { xPercent: 10, ease: 'none' }, 0);
+tl.fromTo('#l2', { xPercent: -30 }, { xPercent: 30, ease: 'none' }, 0);
+tl.fromTo('#l3', { xPercent: -60 }, { xPercent: 60, ease: 'none' }, 0);</code></pre>
+
+<p>Nothing about ScrollTrigger's scrub mechanism cares which CSS property a scrubbed tween happens to animate &mdash; it just maps <code>self.progress</code> onto whatever values you gave it, exactly as it did with <code>yPercent</code> in demo #1. Swap <code>yPercent</code> for <code>xPercent</code> and the same shared-progress, different-range pattern now moves layers sideways instead of vertically, even though the visitor is only ever scrolling up and down the page. This is worth internalizing early: "parallax" isn't a vertical-only concept, and it isn't tied to the axis the user is physically scrolling on at all &mdash; it's just "map one scroll progress value onto several different output ranges," and those ranges can point in any direction, including ones that don't match the scroll axis whatsoever.</p>
+
+<p><strong>Best for:</strong> decorative accent shapes, floating icons, or illustration elements that should feel alive and drifting rather than locked to a vertical rail. <strong>Tip:</strong> keep horizontal parallax subtle on narrow viewports &mdash; a shape sliding sideways can visually collide with text columns in a way vertical parallax rarely does, so test it at mobile widths specifically.</p>
+
+<h2>3. A Multi-Layer Depth Scene (4 Speeds)</h2>
+
+<p>Scroll down slowly. Sky, hills, trees, and sign each move a different amount &mdash; proving the two-layer idea scales to as many layers as a scene needs.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/24/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Multi-Layer Depth Scene Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">tl.fromTo('#sky',   { yPercent: -5 },  { yPercent: 5,  ease: 'none' }, 0);
+tl.fromTo('#hills', { yPercent: -12 }, { yPercent: 12, ease: 'none' }, 0);
+tl.fromTo('#trees', { yPercent: -22 }, { yPercent: 22, ease: 'none' }, 0);
+tl.fromTo('#sign',  { yPercent: -35 }, { yPercent: 35, ease: 'none' }, 0);</code></pre>
+
+<p>Four tweens, one trigger, one shared scroll range &mdash; the pattern doesn't get more complicated with more layers, only longer. The values here roughly follow a geometric-feeling progression (each layer moving noticeably more than the one "behind" it), which is what sells the illusion of a scene receding into the distance rather than a handful of unrelated ranges. Notice that nearer layers (<code>trees</code>, <code>sign</code>) don't just move more &mdash; they're also drawn on top, later in the HTML, so they visually occlude the layers behind them exactly the way a real foreground object would. Parallax depth is really two cooperating things: differing speed (the motion cue) and stacking order (the occlusion cue) &mdash; get the stacking wrong and even a perfectly tuned speed ratio looks flat.</p>
+
+<p><strong>Best for:</strong> illustrated hero scenes, storytelling sections, and landing pages that want an obvious "layers of depth" moment rather than a single subtle background drift. <strong>Tip:</strong> four or five layers is usually the practical ceiling &mdash; past that, the individual speed differences get hard to perceive and you're mostly adding DOM nodes and paint cost for a diminishing visual return.</p>
+
+<h2>4. Direction Reversal: Opposite vs Same-Direction Slower</h2>
+
+<p>Scroll down. The orange layer moves the same direction as the page, just slower. The pink layer moves upward &mdash; opposite to scroll. Both register as parallax.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/24/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Parallax Direction Reversal Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// Same direction as scroll, reduced distance.
+tl.fromTo('#same', { yPercent: -20 }, { yPercent: 20, ease: 'none' }, 0);
+
+// Opposite direction: moves UP while the page scrolls down.
+tl.fromTo('#opp', { yPercent: 20 }, { yPercent: -20, ease: 'none' }, 0);</code></pre>
+
+<p>Everything so far has moved layers in the same direction the user scrolls, just at reduced distances &mdash; that's the "background lags behind" reading. Swapping the <code>from</code>/<code>to</code> ranges (starting high, ending low, instead of the reverse) sends a layer moving <em>counter</em> to scroll direction instead, and it still reads as parallax, just a different flavor of it: think of a near foreground object sweeping past the frame faster than the background recedes, the way a signpost right next to a moving car appears to shoot backward relative to the horizon. Neither direction is "more correct" &mdash; same-direction-but-slower tends to read as calm and layered, while reversed motion reads as more energetic and attention-grabbing, since it's the one layer visibly disagreeing with the scroll itself. Mixing both in one scene (as demo #3 does subtly, and this demo does explicitly) is a deliberate stylistic choice, not a bug to fix.</p>
+
+<p><strong>Best for:</strong> giving a specific layer visual emphasis &mdash; a reversed accent shape or icon draws the eye precisely because it's the one thing not moving with the herd. <strong>Tip:</strong> use reversed motion sparingly, on one layer per scene at most; several layers all moving in different directions at once stops reading as depth and starts reading as chaos.</p>
+
+<h2>5. Mouse-Driven Parallax vs Scroll-Driven Parallax</h2>
+
+<p>Move your pointer over the top box &mdash; it reacts to pointer position, no scrolling involved. Then scroll past the second box &mdash; that one reacts purely to scroll position.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/24/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mouse-Driven vs Scroll-Driven Parallax Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// Pointer-driven: no ScrollTrigger at all.
+var moveX = gsap.quickTo('#layer', 'x', { duration: 0.6, ease: 'power3' });
+var moveY = gsap.quickTo('#layer', 'y', { duration: 0.6, ease: 'power3' });
+
+container.addEventListener('mousemove', function (e) {
+  var rect = container.getBoundingClientRect();
+  var relX = (e.clientX - rect.left) / rect.width - 0.5;
+  var relY = (e.clientY - rect.top) / rect.height - 0.5;
+  moveX(relX * 40);
+  moveY(relY * 40);
+});</code></pre>
+
+<p>It's easy to lump "parallax" together as one technique, but scroll-driven and pointer-driven parallax are built from completely different GSAP mechanisms and it's worth keeping them mentally separate. Everything in this post so far runs through <code>scrollTrigger</code> and <code>scrub</code> &mdash; the input is a scroll position, sampled on scroll events. This demo's top box uses <code>gsap.quickTo()</code> instead, which has nothing to do with ScrollTrigger at all: it's a performance-optimized function that smoothly animates a property toward whatever value you feed it, called repeatedly from a <code>mousemove</code> listener rather than a scroll callback. Multiplying the pointer's relative position by a larger number for one layer than another reproduces the exact same "different layers, different distances" ratio from demo #1 &mdash; just driven by cursor position instead of scroll progress. Combine the two on a hero section (mouse parallax at rest, scroll parallax on the way past) and each covers the moment the other one can't.</p>
+
+<p><strong>Best for:</strong> hero sections that get lingered on before any scrolling happens &mdash; pointer parallax gives them life on page load, while scroll parallax takes over once the visitor actually starts moving down the page. <strong>Tip:</strong> <code>quickTo()</code> exists specifically for this high-frequency-update case; reaching for a fresh <code>gsap.to()</code> call on every single <code>mousemove</code> event instead works but creates and tears down a new tween dozens of times a second for no reason.</p>
+
+<h2>6. Transform Layer vs background-position (Perf Tradeoff)</h2>
+
+<p>Scroll down. Both panels parallax by the same amount &mdash; the left one animates <code>y</code> (a transform), the right one animates <code>background-position</code>. Watch the fps readout underneath.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/24/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Transform vs background-position Parallax Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// Cheap: composited on its own layer, no repaint per frame.
+tl.fromTo('#tLayer', { y: -30 }, { y: 30, ease: 'none' }, 0);
+
+// Expensive: the browser has to repaint the element's pixels every frame.
+tl.fromTo('#bpLayer', { backgroundPositionY: '-60px' }, { backgroundPositionY: '60px', ease: 'none' }, 0);</code></pre>
+
+<p>Both tweens above produce visually near-identical motion, and GSAP is happy to animate either one &mdash; it doesn't judge your CSS property choice. The browser does, though. Animating <code>y</code> (or <code>x</code>, <code>scale</code>, <code>rotation</code>) moves an element that the browser has already promoted onto its own compositor layer, which means every frame is just "move this pre-rendered layer a bit" &mdash; no repaint, no layout, GPU-cheap. Animating <code>background-position</code> instead forces the browser to recompute and repaint the element's actual pixels on every single frame, because the background image's visible slice genuinely changed. On a single layer this rarely matters. On a page with several parallax scenes stacked one after another &mdash; which is exactly what a real parallax-heavy landing page looks like &mdash; the repaint cost compounds and is the single most common cause of parallax feeling janky on lower-end devices.</p>
+
+<p><strong>Best for:</strong> deciding, at the design stage, whether a "background image" layer should actually be a background-image CSS property or a plain <code>&lt;div&gt;</code>/<code>&lt;img&gt;</code> positioned absolutely and animated with <code>y</code>. <strong>Tip:</strong> almost every background-image parallax effect can be rebuilt as an absolutely positioned image element animated with transforms instead &mdash; it looks identical and sidesteps the repaint cost entirely.</p>
+
+<h2>7. Constraining Parallax Range to Avoid Gaps</h2>
+
+<p>Scroll down through both panels. The top layer is deliberately oversized to cover its own swing; the bottom one is sized exactly to its frame &mdash; watch a gap tear open at its edge as it moves.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/24/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Constraining Parallax Range Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">/* Layer sized to its frame plus enough overflow to
+   cover the full range it's about to travel. */
+.good { top: -60px; bottom: -60px; } /* extra 60px each edge */
+
+/* Same size as its frame — no room to spare. */
+.bad { top: 0; bottom: 0; }</code></pre>
+
+<pre><code class="language-js">// Both move the SAME distance — only their sizing differs.
+tl.fromTo('#good', { y: -50 }, { y: 50, ease: 'none' }, 0);
+tl.fromTo('#bad',  { y: -50 }, { y: 50, ease: 'none' }, 0);</code></pre>
+
+<p>This is the most common real-world parallax bug, and it's not a GSAP or ScrollTrigger problem at all &mdash; it's a sizing oversight. A parallax layer that moves needs to physically be larger than the frame it sits in by at least the distance it's going to travel, on every edge it can move toward. Move a layer 50px upward without 50px of extra height above it to begin with, and the frame's own edge is now exposed where the layer used to be &mdash; the background color, or nothing at all, bleeds through. The fix is always the same shape: figure out the maximum distance a layer will travel in either direction (from its <code>fromTo()</code> values), and pad that layer's CSS dimensions by at least that much beyond its container on the relevant sides. It's easy to miss in development because a small scroll test might not push the layer far enough to reveal it, and it's exactly the kind of thing that only shows up once a real visitor scrolls fast or the viewport is taller than whatever you tested against.</p>
+
+<p><strong>Best for:</strong> a pre-ship checklist item on literally every parallax layer you build &mdash; it costs nothing to oversize a background layer defensively, and it's much cheaper to do it upfront than to debug a reported "gap flash" later. <strong>Tip:</strong> a quick rule of thumb &mdash; oversize a layer by at least the largest single number in its <code>fromTo()</code> range, on every side it moves toward, then add a little more for safety.</p>
+
+<h2>8. Parallax Inside a Pinned Hero Section</h2>
+
+<p>Scroll down. The hero section locks in place, its sky, mountain, and title layers all parallax internally for the entire pinned distance, then release together as one unit.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/24/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Parallax Inside a Pinned Hero Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">var tl = gsap.timeline({
+  scrollTrigger: {
+    trigger: '.hero',
+    start: 'top top',
+    end: '+=260',   // pinned for 260px of scroll
+    pin: true,
+    scrub: true
+  }
+});
+
+tl.fromTo('.sky',   { yPercent: -8 },  { yPercent: 8,  ease: 'none' }, 0);
+tl.fromTo('.mnt',   { yPercent: -18 }, { yPercent: 18, ease: 'none' }, 0);
+tl.fromTo('.title', { yPercent: -4 },  { yPercent: 4,  ease: 'none' }, 0);</code></pre>
+
+<p>Every demo above parallaxes while the scene itself scrolls normally through the viewport &mdash; the scene enters, layers shift, the scene leaves. Adding <code>pin: true</code> to the same trigger changes only one thing: the trigger element stops scrolling off screen the moment <code>start</code> fires, and stays fixed for the full <code>end</code> distance instead, exactly as covered in the ScrollTrigger pinning fundamentals. Parallax and pinning aren't in tension &mdash; the scrubbed tweens inside the timeline don't know or care whether their trigger element is pinned, because they're reacting to the same <code>self.progress</code> value either way. What changes for the visitor is the pacing: instead of a quick pass-through where layers shift briefly as the section scrolls by, a pinned parallax hero holds the visitor's attention on one composition while the layers slowly separate and reconverge, entirely under their own scroll control.</p>
+
+<p><strong>Best for:</strong> a landing page's opening hero, where a few extra seconds of scroll-controlled depth is worth the reader's attention before the page moves on. <strong>Tip:</strong> keep the pinned distance (<code>end: '+=260'</code> here) proportionate to how much layer movement there actually is &mdash; a long pin with barely-moving layers just feels like the page got stuck.</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Animating <code>top</code>/<code>left</code> instead of <code>y</code>/<code>x</code>.</strong> Demo #6's rule explains why &mdash; layout-triggering properties force a reflow and repaint on every scroll tick, while transform-based properties get composited cheaply. This matters more for parallax than almost any other GSAP technique, because it's usually several layers animating simultaneously.</li>
+<li><strong>Sizing a parallax layer exactly to its frame.</strong> Demo #7 is the direct proof &mdash; a layer needs extra size on every edge it moves toward, or its own container's edge shows through as a visible gap.</li>
+<li><strong>Confusing pointer-driven and scroll-driven parallax.</strong> Demo #5's <code>quickTo()</code> layer and scrubbed layer look similar but run on entirely different triggers &mdash; a mousemove listener and a scrollTrigger respectively. Mixing up which one a real bug belongs to wastes debugging time fast.</li>
+<li><strong>Pushing every layer's speed ratio too far.</strong> A background moving nearly as much as the foreground stops reading as "behind it" and starts reading as one confusing blob of simultaneous motion &mdash; keep the ratio between layers clearly distinct, as in demo #3's geometric progression.</li>
+<li><strong>Forgetting that <code>scrub</code>, not the tween's own <code>duration</code>, controls pacing.</strong> Every parallax tween on this page uses <code>ease: 'none'</code> and no <code>duration</code> of its own for the same reason covered in the core ScrollTrigger tutorial &mdash; the scroll distance between <code>start</code> and <code>end</code> is what actually paces a scrubbed animation.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>Does parallax hurt scroll performance?</h3>
+<p>Not inherently &mdash; ScrollTrigger's scrub handling is throttled to the browser's paint cycle already, and a handful of transform-based tweens scrubbing together is cheap. The performance risk is specific and avoidable: animating non-transform properties like <code>background-position</code>, <code>top</code>, or <code>width</code> instead of <code>y</code>/<code>x</code>/<code>scale</code>, exactly as demo #6 demonstrates side by side. Keep every parallax layer transform-only and it stays smooth even with several layers stacked down a page.</p>
+
+<h3>Should parallax respect prefers-reduced-motion?</h3>
+<p>Yes. Parallax is exactly the kind of large, continuous, scroll-linked motion that <code>prefers-reduced-motion: reduce</code> exists for &mdash; some visitors find it genuinely disorienting or nausea-inducing. The clean approach is to check the media query before building any parallax timeline at all: <code>if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) { /* build the parallax timeline */ }</code>. Layers still display in their static CSS position; they simply don't animate on scroll for visitors who've asked for that.</p>
+
+<h3>Is CSS-only parallax (background-attachment: fixed) a reasonable alternative to GSAP?</h3>
+<p><code>background-attachment: fixed</code> is the classic CSS-only parallax trick, and it works for the simplest possible case &mdash; one background layer that appears to stay put while content scrolls over it. It has real limits GSAP doesn't: it's notoriously unreliable on mobile Safari, offers no easy way to coordinate multiple layers at different independently-tunable speeds, and can't be scrubbed against a specific element's enter/exit like every demo above. For anything past a single static background, GSAP ScrollTrigger's per-layer control is worth the extra script.</p>
+
+<h3>Does parallax work well on mobile?</h3>
+<p>It can, but two things need attention that desktop doesn't force on you. First, mobile viewports are shorter, so a scene tuned for a tall desktop window may run out of scroll distance before the effect is even visible &mdash; test the actual <code>start</code>/<code>end</code> range at mobile heights, not just desktop. Second, some mobile browsers report scroll position in bursts rather than smoothly, which can make a heavily scrubbed effect feel stepped rather than fluid; keeping layer counts modest (demo #3's four-layer ceiling is a reasonable cap) keeps this from compounding into visible jank.</p>
+
+<h3>Can I combine several of these demos in one section?</h3>
+<p>Yes, and that's normal &mdash; a real hero often needs a multi-layer depth scene (demo #3) that's also pinned (demo #8), with pointer parallax layered on for the moment before the visitor scrolls (demo #5). Because every technique here is just tweens sharing a <code>scrollTrigger</code>-driven or pointer-driven progress value, they compose without any special glue code; the only thing to watch is layer count and sizing (demo #7) as the scene gets more ambitious.</p>
+
+<p>The fastest way to actually internalize the ratio behind all of this is to click <strong>Fork &amp; Edit</strong> on demo #3, change one layer's <code>yPercent</code> range to match its neighbor's, and watch the depth illusion collapse &mdash; then push it back apart and watch it return. That single experiment says more about parallax than any explanation can. Once you've landed on values you like, save the result to <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak, or drop straight into a real project.</p>
+
+<p><strong>Recommended next step:</strong> open the <a href="https://fwdtools.com/gsap-playground/">GSAP Playground</a> and build a two-layer parallax hero from scratch against a section of your own &mdash; picking your own speed ratio, not copying one, is what makes the "shared progress, different range" mental model actually stick. For more tutorials like this one, browse the <a href="https://www.webdevpuneet.com/search/label/GSAP">GSAP</a> label on the blog.</p>

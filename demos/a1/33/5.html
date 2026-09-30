@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="useLayoutEffect Blocks Paint: The Performance Cost">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Same 350ms of work, very different feel</h1>
+    <p class="hint">Click "Run expensive work" on each side and watch the spinner AND whether "Loading..." ever actually appears on screen before the freeze.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 16px 20px 6px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 17px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 12px 16px 28px; }
+  .cols { width: 100%; max-width: 540px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 12px; text-align: center; }
+  .colHead { font: 700 12px ui-monospace, monospace; margin-bottom: 8px; }
+  .colHead.eff { color: var(--red); }
+  .colHead.layout { color: var(--green); }
+  .spin { width: 26px; height: 26px; margin: 4px auto 8px; border: 3px solid #e5e7eb; border-top-color: var(--accent); border-radius: 50%; animation: sp 0.6s linear infinite; }
+  @keyframes sp { to { transform: rotate(360deg); } }
+  .status { font: 700 13px ui-monospace, monospace; min-height: 18px; margin-bottom: 8px; }
+  .btn { width: 100%; padding: 7px 8px; border-radius: 8px; border: none; background: var(--ink); color: #fff; font: 700 11px system-ui, sans-serif; cursor: pointer; margin-bottom: 6px; }
+  .log { background: #14161c; color: #a7f3d0; font: 10px ui-monospace, monospace; border-radius: 6px; padding: 6px 7px; height: 70px; overflow-y: auto; line-height: 1.5; text-align: left; }
+  .note { margin: 8px 0 0; max-width: 540px; font-size: 11px; color: var(--sub); line-height: 1.5; text-align: center; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useRef = React.useRef;
+  var useEffect = React.useEffect;
+  var useLayoutEffect = React.useLayoutEffect;
+
+  var t0 = performance.now();
+  function ms() { return (performance.now() - t0).toFixed(0); }
+
+  function burnMs(durationMs) {
+    var end = performance.now() + durationMs;
+    while (performance.now() < end) { /* deliberately blocks the main thread */ }
+  }
+
+  function Panel(props) {
+    var statusState = useState('idle'); // idle -> loading -> done
+    var status = statusState[0];
+    var setStatus = statusState[1];
+
+    var runState = useState(0);
+    var runId = runState[0];
+    var setRunId = runState[1];
+
+    var logRef = useRef([]);
+    var forceState = useState(0);
+    var forceTick = forceState[1];
+
+    function log(msg) {
+      logRef.current = logRef.current.concat([msg]).slice(-4);
+      forceTick(function (n) { return n + 1; });
+    }
+
+    var hook = props.mode === 'layout' ? useLayoutEffect : useEffect;
+
+    hook(function () {
+      if (status !== 'loading') return;
+      requestAnimationFrame(function () {
+        log('PAINTED status=loading at ' + ms() + 'ms');
+      });
+      burnMs(350); // the "expensive work" -- identical on both sides
+      setStatus('done');
+    }, [status, runId]);
+
+    function run() {
+      logRef.current = [];
+      log('clicked at ' + ms() + 'ms');
+      setStatus('loading');
+      setRunId(function (n) { return n + 1; });
+    }
+
+    return e('div', { className: 'col' },
+      e('div', { className: 'colHead ' + (props.mode === 'layout' ? 'layout' : 'eff') }, props.mode === 'layout' ? 'useLayoutEffect' : 'useEffect'),
+      e('div', { className: 'spin' }),
+      e('div', { className: 'status' }, status === 'idle' ? '' : status === 'loading' ? 'Loading...' : 'Done'),
+      e('button', { className: 'btn', onClick: run }, 'Run expensive work (350ms)'),
+      e('div', { className: 'log' }, logRef.current.map(function (msg, i) {
+        return e('div', { key: i }, msg);
+      }))
+    );
+  }
+
+  function Demo() {
+    return e('div', { className: 'cols' },
+      e(Panel, { mode: 'effect' }),
+      e(Panel, { mode: 'layout' })
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    e('div', null,
+      e(Demo),
+      e('p', { className: 'note' }, 'The spinner is a pure CSS animation with no JavaScript driving it -- watch it stutter or freeze during the 350ms burn on both sides, because a synchronous busy-loop blocks the main thread no matter which hook runs it. The difference is the "Loading..." text: on the useEffect side, the browser gets to paint it before the burn starts (check the log). On the useLayoutEffect side, the burn runs before that paint is allowed to happen, so "Loading..." may never actually reach the screen -- the whole 350ms is a dead freeze with no feedback at all.')
+    )
+  );
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

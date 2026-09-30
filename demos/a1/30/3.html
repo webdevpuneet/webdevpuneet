@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Show/Hide Password Toggle">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Show / hide password toggle</h1>
+    <p class="hint">Type something into the field, then click the eye icon to reveal it as plain text and click again to mask it.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="panel">
+      <label class="fieldLabel" for="pw">Password</label>
+      <div class="fieldWrap">
+        <input class="field" type="password" id="pw" value="hunter2024" autocomplete="off">
+        <button type="button" class="eyeBtn" id="eyeBtn" aria-label="Show password" aria-pressed="false">
+          <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; padding: 40px 16px 28px; }
+
+  .panel { width: 100%; max-width: 320px; }
+  .fieldLabel { display: block; font: 700 12px system-ui, sans-serif; margin-bottom: 6px; }
+  .fieldWrap { position: relative; }
+  .field {
+    width: 100%; padding: 10px 42px 10px 12px; border-radius: 8px;
+    border: 1.5px solid var(--line); font: 14px system-ui, sans-serif; outline: none;
+    box-sizing: border-box;
+  }
+  .field:focus { border-color: var(--accent); }
+
+  .eyeBtn {
+    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    width: 30px; height: 30px; border: none; background: transparent;
+    color: var(--sub); cursor: pointer; display: flex; align-items: center; justify-content: center;
+    border-radius: 6px; transition: color 0.15s ease, background 0.15s ease;
+  }
+  .eyeBtn:hover { background: #eef0f4; color: var(--ink); }
+  .eyeBtn.active { color: var(--accent); }
+</script>
+
+<script type="text/plain" id="js">
+  var pw = document.getElementById('pw');
+  var eyeBtn = document.getElementById('eyeBtn');
+  var eyeIcon = document.getElementById('eyeIcon');
+
+  var SLASH = '<path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.5 21.5 0 0 1 5.06-6.06M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.6 21.6 0 0 1-3.22 4.6M14.12 14.12a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+  var OPEN = '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path><circle cx="12" cy="12" r="3"></circle>';
+
+  var visible = false;
+
+  eyeBtn.addEventListener('click', function () {
+    visible = !visible;
+    pw.type = visible ? 'text' : 'password';
+    eyeIcon.innerHTML = visible ? SLASH : OPEN;
+    eyeBtn.className = 'eyeBtn' + (visible ? ' active' : '');
+    eyeBtn.setAttribute('aria-pressed', visible ? 'true' : 'false');
+    eyeBtn.setAttribute('aria-label', visible ? 'Hide password' : 'Show password');
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Segmented OTP Input">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Segmented OTP input</h1>
+    <p class="hint">Type a digit into the first box — focus auto-advances to the next box. Backspace on an empty box jumps back one.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="otpRow" id="otpRow">
+      <input class="otpBox" type="text" inputmode="numeric" maxlength="1" data-i="0">
+      <input class="otpBox" type="text" inputmode="numeric" maxlength="1" data-i="1">
+      <input class="otpBox" type="text" inputmode="numeric" maxlength="1" data-i="2">
+      <input class="otpBox" type="text" inputmode="numeric" maxlength="1" data-i="3">
+      <input class="otpBox" type="text" inputmode="numeric" maxlength="1" data-i="4">
+      <input class="otpBox" type="text" inputmode="numeric" maxlength="1" data-i="5">
+    </div>
+    <p class="statusLabel" id="statusLabel">&nbsp;</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 46px 16px 28px; }
+
+  .otpRow { display: flex; gap: 8px; }
+  .otpBox {
+    width: 40px; height: 48px; text-align: center;
+    border-radius: 8px; border: 1.5px solid var(--line);
+    font: 700 19px ui-monospace, monospace; outline: none;
+    transition: border-color 0.15s ease;
+  }
+  .otpBox:focus { border-color: var(--accent); }
+  .otpBox.filled { border-color: #cfd2f7; background: #f5f5fe; }
+
+  .statusLabel { margin: 0; font: 700 12.5px system-ui, sans-serif; color: var(--green); min-height: 16px; }
+</script>
+
+<script type="text/plain" id="js">
+  var row = document.getElementById('otpRow');
+  var boxes = Array.prototype.slice.call(row.querySelectorAll('.otpBox'));
+  var statusLabel = document.getElementById('statusLabel');
+
+  function checkComplete() {
+    var code = boxes.map(function (b) { return b.value; }).join('');
+    statusLabel.textContent = code.length === boxes.length ? 'Code entered: ' + code : ' ';
+  }
+
+  boxes.forEach(function (box, i) {
+    box.addEventListener('input', function () {
+      box.value = box.value.replace(/\D/g, '').slice(0, 1);
+      box.classList.toggle('filled', !!box.value);
+      if (box.value && boxes[i + 1]) boxes[i + 1].focus();
+      checkComplete();
+    });
+
+    box.addEventListener('keydown', function (e) {
+      if (e.key === 'Backspace' && !box.value && boxes[i - 1]) {
+        boxes[i - 1].focus();
+        boxes[i - 1].value = '';
+        boxes[i - 1].classList.remove('filled');
+        checkComplete();
+      }
+    });
+
+    // Pasting a full code fills every box at once from the paste position.
+    box.addEventListener('paste', function (e) {
+      var text = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
+      if (!text) return;
+      e.preventDefault();
+      for (var j = 0; j < text.length && i + j < boxes.length; j++) {
+        boxes[i + j].value = text.charAt(j);
+        boxes[i + j].classList.add('filled');
+      }
+      var next = boxes[Math.min(i + text.length, boxes.length - 1)];
+      next.focus();
+      checkComplete();
+    });
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

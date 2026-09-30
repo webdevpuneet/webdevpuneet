@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Anonymous Layers">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Anonymous layers</h1>
+    <p class="hint">Two separate <code>@layer { }</code> blocks with no name both target the same paragraph. They're still two distinct layers, ranked by source order &mdash; but unlike named layers, neither can be referenced or reopened again from elsewhere in the file.</p>
+  </header>
+  <main class="stageWrap">
+    <article class="card">
+      <p class="target" id="target">Sample text</p>
+    </article>
+    <p class="note" id="note">Computing...</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 54em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 30px 18px 34px; }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 30px;
+  }
+
+  /* Anonymous layer #1 -- gets an internal, unreferenceable identity.
+     It's still a real layer with a real position in the order. */
+  @layer {
+    .target {
+      color: #9333ea;
+      font-weight: 800;
+    }
+  }
+
+  /* Anonymous layer #2 -- a DIFFERENT layer from the one above, even
+     though neither has a name to tell them apart in the source. Being
+     declared second gives it the higher priority of the two. */
+  @layer {
+    .target {
+      color: #0891b2;
+      font-weight: 800;
+    }
+  }
+
+  .note { margin: 0; max-width: 54em; font-size: 12.5px; color: var(--sub); text-align: center; }
+  .note strong { color: var(--ink); }
+</script>
+
+<script type="text/plain" id="js">
+  var target = document.getElementById('target');
+  var note = document.getElementById('note');
+  var color = getComputedStyle(target).color;
+  var isSecond = color === 'rgb(8, 145, 178)';
+
+  note.innerHTML = isSecond
+    ? 'Computed color: <strong>teal</strong> (the second anonymous layer). Each <code>@layer { }</code> with no name still creates its own distinct, ordered layer &mdash; the second one declared outranks the first, same as named layers. The difference is you can never target either one again by name from elsewhere in the stylesheet, which is why anonymous layers are mostly used for one-off, self-contained groupings rather than reusable buckets like "reset" or "components".'
+    : 'Computed color: <strong>purple</strong>. (Unexpected &mdash; the second anonymous layer should have won.)';
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

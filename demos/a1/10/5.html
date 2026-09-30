@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Grid place-content: center">
+
+<script type="text/plain" id="html">
+  <div class="stage">
+    <div class="grid">
+      <div class="cell">1</div>
+      <div class="cell">2</div>
+      <div class="cell">3</div>
+      <div class="cell">4</div>
+    </div>
+  </div>
+  <p class="hint">The 2×2 grid's own tracks are centered — not just the text inside each cell.</p>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #f59e0b; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .stage {
+    height: 300px;
+    display: grid;
+    place-content: center;
+    margin: 20px 20px 0;
+    background: repeating-linear-gradient(45deg, #eceef3, #eceef3 12px, #f6f7f9 12px, #f6f7f9 24px);
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 70px);
+    gap: 10px;
+  }
+  .cell {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent);
+    color: #fff;
+    font: 800 20px system-ui, sans-serif;
+    border-radius: 10px;
+  }
+  .hint { text-align: center; margin: 12px 20px 0; font-size: 12px; color: var(--sub); }
+</script>
+
+<script type="text/plain" id="js">
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

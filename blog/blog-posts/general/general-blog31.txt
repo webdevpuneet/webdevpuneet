@@ -1,0 +1,279 @@
+<h1>12 Form UX Patterns You Can Copy</h1>
+
+<p>A form is the single most abandoned piece of UI on the web, and the reason is rarely the fields themselves — it's the feedback around them. A generic "invalid input" banner at the top leaves the user hunting for what actually went wrong. A field that clears itself after an error erases five minutes of typing over one missing character. A submit button with no reaction to a click gets clicked three more times. None of this requires a redesign to fix — it's a known set of interaction patterns, each solving one specific moment of doubt a user hits while filling something out. This post is a gallery of twelve distinct form UX patterns, each implemented in plain HTML, CSS and vanilla JavaScript, so you can see exactly how each one is built and which specific problem it solves.</p>
+
+<p>Every demo below is <strong>live and interactive</strong> right here in the article — type into the actual input, click the actual button, and watch the pattern react in real time, the same way it would in a production form. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact code, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> — FWD Tools' free in-browser editor. Change a regex, swap a threshold, delete a transition — that's a faster way to understand why a pattern feels right than any explanation.</p>
+
+<p>New to building interactive forms from scratch? The <a href="https://fwdtools.com/js-playground/">JavaScript Playground</a> is a free, click-based, in-browser course that covers the event handling, DOM updates and state tracking every pattern below is built from, one guided step at a time.</p>
+
+<h2>Why form feedback matters more than form design</h2>
+
+<p>Most of the friction in a form isn't the number of fields — it's how much doubt the user has to sit with between typing something and finding out whether it worked. Every pattern below closes that gap in a different place: some validate the instant you type, so an error is caught before you've moved to the next field; some preview what you'll get before you commit, like a strength meter or a live-formatted card number; some just make the interface honest about what's happening, like a disabled button that visibly says it's working instead of going silently unresponsive. None of these are exotic — they're small, well-understood conventions users already recognize from other products, which is exactly why they lower cognitive load instead of adding to it. Knowing which moment of doubt a given field creates is what determines which pattern below actually fixes it.</p>
+
+<h2>1. Real-Time Inline Validation</h2>
+
+<p>Type into the email field — you'll see it validate as you type, not just after you hit submit. Try "a", then "a@b", then a full address.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/30/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Real-Time Inline Validation Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-js">function checkEmail(val) {
+  var trimmed = val.trim();
+  if (!trimmed) return { state: '', text: ' ' };
+  var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed);
+  if (ok) return { state: 'valid', text: '✓ Looks good' };
+  if (trimmed.indexOf('@') === -1) return { state: 'invalid', text: 'Missing the @ symbol' };
+  return { state: 'invalid', text: 'Enter a complete email address' };
+}</code></pre>
+
+<p>The field's <code>input</code> event fires on every keystroke, and each time it runs the same check the submit handler would eventually run — the only difference is when the result gets shown. That timing shift is the whole pattern: instead of a user discovering an error after committing to the entire form and clicking submit, they see it the moment it becomes true, while the field is still in front of them and the fix is a single keystroke away. The check itself is deliberately specific rather than a single pass/fail — noticing there's no "@" yet produces a more useful message than a blanket "invalid," because it tells the user exactly what's still missing instead of making them guess. Trimming whitespace before testing also matters here; rejecting a technically valid address over a leading or trailing space that autofill or a paste commonly introduces is a false negative, not real validation.</p>
+
+<p><strong>Best for:</strong> any field with a checkable format — email, username availability, phone number — where an error is cheap to catch immediately and expensive to catch later. <strong>Tip:</strong> validate on <code>input</code> only after the field has content; validating an empty field the instant it's focused just shows an error before the user has done anything wrong.</p>
+
+<h2>2. Password Strength Meter</h2>
+
+<p>Type a password — the bar and label update live as you type, before you ever submit anything. Try something short, then add numbers, symbols and mixed case.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/30/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Password Strength Meter Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-js">function score(val) {
+  if (!val) return 0;
+  var points = 0;
+  if (val.length >= 8) points++;
+  if (val.length >= 12) points++;
+  if (/[a-z]/.test(val) && /[A-Z]/.test(val)) points++;
+  if (/[0-9]/.test(val)) points++;
+  if (/[^A-Za-z0-9]/.test(val)) points++;
+  return Math.min(points, 5);
+}</code></pre>
+
+<p>Each criterion the password meets — length past 8, length past 12, mixed case, a digit, a symbol — adds one point, and the total maps to a five-level bar with its own color and label. The value of showing this live, rather than only after a failed submit, is that it turns "make a stronger password" from an abstract instruction into an immediate, visible consequence of what's already been typed: add a number and the bar visibly moves. That feedback loop is what gets users to actually improve a weak password in place, instead of submitting a weak one and being told after the fact to try again. The scoring here is a simplified stand-in for what real strength meters typically use — a library like zxcvbn that also checks against common password lists and predictable patterns — but the interaction principle is identical regardless of how sophisticated the scoring function is.</p>
+
+<p><strong>Best for:</strong> any account-creation or password-change form where users are choosing their own password rather than receiving one. <strong>Tip:</strong> a strength meter should guide, not gate — pair it with a real minimum requirement enforced on submit, but never block a technically strong password just because the meter's heuristic scored it a level lower than expected.</p>
+
+<h2>3. Show/Hide Password Toggle</h2>
+
+<p>Type something into the field, then click the eye icon to reveal it as plain text, and click again to mask it.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/30/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Show/Hide Password Toggle Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-js">eyeBtn.addEventListener('click', function () {
+  visible = !visible;
+  pw.type = visible ? 'text' : 'password';
+  eyeIcon.innerHTML = visible ? SLASH : OPEN;
+  eyeBtn.setAttribute('aria-pressed', visible ? 'true' : 'false');
+});</code></pre>
+
+<p>The entire mechanism is one line — flipping the input's <code>type</code> attribute between <code>password</code> and <code>text</code> — but that single toggle solves a genuinely common failure mode: a masked password field with no visibility check means a typo goes unnoticed until the login or signup attempt fails, at which point the user has no idea whether they mistyped the password or something else broke. Letting users briefly see what they typed removes that ambiguity entirely, at the cost of the field being readable if someone happens to be looking at the screen — a trade-off worth making by default, since it's user-initiated and reversible with one more click. Setting <code>aria-pressed</code> on the button is what makes the toggle's current state legible to assistive technology, not just to sighted users watching the icon swap.</p>
+
+<p><strong>Best for:</strong> any password field, especially on mobile where fat-finger typos on a small keyboard are common and masked text makes them invisible. <strong>Tip:</strong> default the field to masked, never revealed — the toggle should always be an opt-in the user reaches for, not a surprise default that exposes a password on a shared or public screen.</p>
+
+<h2>4. Floating Label Inputs</h2>
+
+<p>Click into the field — the placeholder animates up into a label above the input instead of just disappearing.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/30/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Floating Label Inputs Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-css">.field:focus + .floatLabel,
+.field:not(:placeholder-shown) + .floatLabel {
+  top: 7px;
+  transform: scale(0.72);
+  color: var(--accent);
+}</code></pre>
+
+<p>A plain placeholder has a well-known problem: once the user starts typing, the label disappears with it, so if they get interrupted or scroll back up, the field's purpose is gone along with the text that was standing in for it. A floating label fixes this by being a real, permanently visible <code>&lt;label&gt;</code> element that simply repositions — sitting inside the field as a placeholder-style hint when empty and unfocused, then animating up above the input the moment it's focused or has content, using nothing but the adjacent-sibling selector and the <code>:placeholder-shown</code> pseudo-class (which requires the input's actual placeholder to be a single space, a small but necessary trick). No JavaScript is needed to drive the animation at all — it's a pure CSS state machine keyed off two selectors the browser already tracks. The result keeps the field's label permanently legible without spending the vertical space a static label above every field would cost.</p>
+
+<p><strong>Best for:</strong> compact forms, login screens, and any layout where space is tight enough that a permanently visible label above every field feels heavy. <strong>Tip:</strong> keep the floated label's contrast and size legible at its shrunken scale — a label that becomes too small or too light once it floats defeats the purpose of keeping it visible in the first place.</p>
+
+<h2>5. Card Number Input Masking</h2>
+
+<p>Type digits into the field — they're auto-grouped into 4-digit blocks as you type, the way a real card number reads.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/30/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Card Number Input Masking Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-js">function formatCard(raw) {
+  var digits = raw.replace(/\D/g, '').slice(0, 16);
+  var groups = [];
+  for (var i = 0; i < digits.length; i += 4) groups.push(digits.slice(i, i + 4));
+  return groups.join(' ');
+}</code></pre>
+
+<p>Every keystroke strips the field down to its raw digits, caps it at 16, then rebuilds it as space-separated groups of four before writing it back into the input — so what the user sees always matches the familiar printed layout of a physical card, regardless of whether they typed the spaces themselves. This is input masking's core value: it removes an entire category of formatting mistake by never asking the user to type the formatting at all, while also making a 16-digit string dramatically easier to visually verify before submitting, since four-digit chunks are far easier for a human eye to scan and catch a transposed digit in than one unbroken run of sixteen. The same technique — strip to raw characters, re-render in a fixed pattern — applies directly to phone numbers, dates and any other input with a conventional printed shape.</p>
+
+<p><strong>Best for:</strong> card numbers, phone numbers, and any input with a widely recognized printed format the user already expects to see reflected back. <strong>Tip:</strong> always store and submit the raw, unformatted digits — the mask is a display convenience, and validation or submission logic should never depend on the spaces being present.</p>
+
+<h2>6. Character Counter with Color Warning</h2>
+
+<p>Type into the bio field — the counter turns amber as you approach the limit and red once you're over it, well before you try to submit.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/30/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Character Counter with Color Warning Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-js">function update() {
+  var len = bio.value.length;
+  counter.textContent = len + ' / ' + LIMIT;
+  var cls = 'counter';
+  if (len > LIMIT) cls += ' over';
+  else if (len >= LIMIT * 0.85) cls += ' warn';
+  counter.className = cls;
+}</code></pre>
+
+<p>A raw "140 / 500" counter technically conveys the same information at every character count, but it puts equal visual weight on "plenty of room left" and "about to run out" — the reader has to do the subtraction themselves to know how urgent it is. Color removes that arithmetic: neutral gray while there's comfortable room, amber once the count crosses roughly 85% of the target, red the moment it's exceeded. That gradient gives a glanceable sense of urgency without the user having to read the numbers at all, which matters most in a form with several fields where a counter easily goes unread in plain text. Keeping the counter tied to a soft target below the field's hard <code>maxlength</code> also matters — it lets users keep typing past the suggested length if they need to, while still steering most of them toward a concise answer.</p>
+
+<p><strong>Best for:</strong> bios, tweet-style posts, SMS-length messages, and any field with a soft or hard length target the user should stay aware of while composing. <strong>Tip:</strong> never rely on color alone — pair it with the visible number, since color-only feedback is invisible to colorblind users and to anyone glancing at a low-contrast screen.</p>
+
+<h2>7. Segmented OTP Input</h2>
+
+<p>Type a digit into the first box — focus auto-advances to the next box. Backspace on an empty box jumps back one, and pasting a full code fills every box at once.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/30/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Segmented OTP Input Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-js">box.addEventListener('input', function () {
+  box.value = box.value.replace(/\D/g, '').slice(0, 1);
+  if (box.value && boxes[i + 1]) boxes[i + 1].focus();
+});
+box.addEventListener('keydown', function (e) {
+  if (e.key === 'Backspace' && !box.value && boxes[i - 1]) boxes[i - 1].focus();
+});</code></pre>
+
+<p>Six single-character inputs stand in for one six-digit code, and each box's own <code>input</code> event is what drives the interaction — the instant a digit lands, focus jumps to the next box automatically, so the user never has to manually tab between them. Backspace on an already-empty box moving focus back one is what makes correcting a mistake feel natural rather than requiring a mouse click to re-select the right box. The paste handler exists because this pattern's most common real use — a code delivered by SMS or email — is almost always copied rather than typed, and a segmented input that can't accept a full pasted string forces users into typing each digit by hand, defeating the format's entire convenience. The visual segmentation itself also reduces transcription error: a code broken into six distinct boxes is easier to read back correctly from a notification than the same six digits run together.</p>
+
+<p><strong>Best for:</strong> one-time passcodes, two-factor codes, and any fixed-length numeric code delivered externally that the user needs to re-enter. <strong>Tip:</strong> always wire up the paste handler — a user who received the code by SMS is going to try pasting it before they try typing it, and a segmented input that silently fails to accept a paste reads as broken.</p>
+
+<h2>8. Auto-Growing Textarea</h2>
+
+<p>Type a few lines, then keep going past the visible edge — the box grows taller to fit instead of showing an internal scrollbar.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/30/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Auto-Growing Textarea Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-js">function resize() {
+  note.style.height = 'auto';
+  note.style.height = Math.min(note.scrollHeight, 220) + 'px';
+}
+note.addEventListener('input', resize);</code></pre>
+
+<p>Resetting the height to <code>auto</code> before reading <code>scrollHeight</code> is the part that's easy to miss and essential to the effect — without that reset, the browser reports the textarea's current fixed height back to itself, and the box can grow but never shrink again after a long paragraph is deleted. With the reset in place, every keystroke briefly collapses the box to its natural content height, reads how tall the content actually needs, then sets the height to match, capped at a maximum so a genuinely huge paste still gets an internal scrollbar rather than swallowing the whole page. The advantage over a fixed-height textarea with its own scrollbar is that the user can always see everything they've written at once while composing, rather than losing the beginning of a long message to an internal scroll region the moment it grows past a few lines.</p>
+
+<p><strong>Best for:</strong> comments, messages, and any free-text field where the amount a user will write is genuinely unpredictable. <strong>Tip:</strong> always keep a <code>max-height</code> with <code>overflow</code> re-enabled past it — an unbounded auto-growing textarea on a very long paste can grow taller than the viewport and push the rest of the form off screen.</p>
+
+<h2>9. Multi-Step Progress Indicator</h2>
+
+<p>Click "Next" to move through the steps — the indicator marks exactly which step you're on and which are already complete.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/30/9.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Multi-Step Progress Indicator Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-js">stepEls.forEach(function (el, i) {
+  el.className = 'step' + (i < current ? ' done' : i === current ? ' active' : '');
+  el.querySelector('.dot').textContent = i < current ? '✓' : (i + 1);
+});
+panelText.textContent = 'Step ' + (current + 1) + ' of ' + stepEls.length;</code></pre>
+
+<p>Each step dot carries one of three states — done, active, or upcoming — derived purely from comparing its own index against the current step number, and re-rendering all of them on every navigation is cheap enough that there's no need for more complex state tracking. What this buys the user is something a single "Step 2" text label doesn't: a spatial sense of how much is left, at a glance, without reading anything. A four-step form and a nine-step form communicate very different commitments even before the user reads a single field, and a progress indicator is what lets them make that judgment up front instead of discovering the form's true length one step at a time. Completed steps rendering as a checkmark rather than just a different color also reassures the user that earlier answers were actually captured, not just visually passed through.</p>
+
+<p><strong>Best for:</strong> checkout flows, onboarding wizards, and any form long enough that splitting it into steps reduces the up-front intimidation of one long scroll. <strong>Tip:</strong> keep total step count visible from the very first step — showing "Step 1" with no indication of how many steps exist in total is worse than a single long form, since it removes the ability to judge the commitment at all.</p>
+
+<h2>10. Field-Specific Error Messages</h2>
+
+<p>Leave a field empty or type a short password, then click "Create account" — each error appears next to the field that caused it, not in one banner at the top.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/30/10.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Field-Specific Error Messages Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-js">if (!uname.value.trim()) {
+  setError(uname, unameError, 'Username is required');
+  ok = false;
+}
+if (!ok) {
+  (uname.classList.contains('error') ? uname : pw2).focus();
+}</code></pre>
+
+<p>Each field owns its own error element directly beneath it, and the validation logic writes into that specific element rather than a single shared message area — so if both the username and password fail, the user sees two distinct, specific messages exactly where the corresponding inputs are, instead of one generic line like "please fix the errors below" that leaves them scanning the entire form to find what's actually wrong. Moving focus to the first failing field on submit closes the loop entirely: the cursor lands exactly where the fix needs to happen, with no scrolling or hunting required. This is a small implementation difference from a top-of-form banner — a per-field error element instead of one shared one — but it's the difference between a form that tells the user what's wrong and one that just tells them something is wrong.</p>
+
+<p><strong>Best for:</strong> any form with more than one required or validated field, which is to say almost every form beyond a single search box. <strong>Tip:</strong> keep a reserved space for the error message even when it's empty, the way the demo's <code>&nbsp;</code> placeholder does — otherwise the field visibly shifts position the instant an error appears, which is its own small jarring surprise on top of the error itself.</p>
+
+<h2>11. Preserving Input Across Validation Errors</h2>
+
+<p>Fill in the name and message, leave the email blank, then submit — only the email field flags an error; your other answers stay exactly as typed.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/30/11.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Preserving Input Across Validation Errors Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-js">form.addEventListener('submit', function (e) {
+  e.preventDefault();
+  // Only femail is ever touched here -- fname.value and fmsg.value
+  // are never read, cleared, or reset by this handler at all.
+  if (!ok) { femail.className = 'field error'; femail.focus(); return; }
+});</code></pre>
+
+<p>The important thing about this demo's code is what it doesn't do: the submit handler only ever reads and writes the one field that actually failed, and never touches the others in any way, which means there's nothing in the logic capable of clearing them even by accident. This matters because the far more common failure mode isn't a deliberate "clear the form on error" decision — it's a handler that re-renders the entire form from a fresh state object on every submission attempt, silently dropping whatever the user had typed into fields that were never invalid in the first place. A user who's filled out eight fields correctly and gotten one wrong has already invested real effort; making them retype the other seven because of one mistake is one of the fastest ways to turn a fixable error into an abandoned form entirely.</p>
+
+<p><strong>Best for:</strong> any form with more than a couple of fields, especially longer ones like signup, checkout or contact forms where retyping everything is a genuine cost. <strong>Tip:</strong> build validation as a per-field check that touches only the field it's checking — never as a full-form reset-and-rebuild, which is what accidentally wipes valid answers in the first place.</p>
+
+<h2>12. Submit Button Loading State</h2>
+
+<p>Fill in the field (or leave it) and click "Submit" — the button disables and shows a spinner while the form fakes a network round trip, then confirms.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/30/12.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Submit Button Loading State Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-js">submitBtn.disabled = true;
+btnLabel.innerHTML = '<span class="spinnerSm"></span> Submitting…';
+
+setTimeout(function () {
+  submitBtn.className = 'submitBtn done';
+  btnLabel.textContent = '✓ Submitted';
+}, 1500);</code></pre>
+
+<p>This is the same disabled-plus-spinner mechanism that applies to any save action, narrowed to the specific moment a form is handed off — the button that was just clicked becomes the loading indicator, immediately disabled so a second click can't fire a duplicate submission while the first request is still in flight. For a form specifically, that duplicate-submit risk is higher stakes than most buttons: a double-submitted payment, signup or order isn't just a wasted request, it's often a real problem for the backend to deduplicate after the fact. Fixing the button's width before the label text changes length (from "Submit" to "Submitting…" to "Submitted") is what keeps the button from visibly resizing at each stage, which would otherwise make an already brief interaction feel jumpy.</p>
+
+<p><strong>Best for:</strong> every form submission without exception — payment, signup, checkout, contact, and anything else a user might otherwise click twice. <strong>Tip:</strong> always disable the actual button element, not just overlay a spinner on top of it — a spinner sitting over a still-clickable button is one of the most common sources of duplicate form submissions in production.</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Validating too aggressively while the user is still typing the first character.</strong> Flashing an error the instant a field gains focus, before the user has typed anything wrong, trains people to ignore validation messages entirely — wait for real content, or for blur, before judging a field.</li>
+<li><strong>Clearing the whole form when only one field fails.</strong> Re-rendering the entire form from scratch on a failed submission is what silently wipes valid answers along with the invalid one — demo #11 shows why touching only the failing field avoids this entirely.</li>
+<li><strong>A single generic "invalid input" message with no field reference.</strong> A banner at the top of a multi-field form forces the user to hunt for what's actually wrong — demo #10's per-field messages remove that search entirely.</li>
+<li><strong>No visible required-field indicator before submission.</strong> If "required" is only discovered as an error after a failed submit, the user is debugging your form instead of filling it out — mark required fields clearly up front, before anyone has a chance to skip one.</li>
+<li><strong>Disabling submit with no explanation of why.</strong> A grayed-out button and no label change reads as broken, not busy — demo #12's spinner-plus-text-change combination is what keeps a disabled control legible instead of looking frozen.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>Should I validate on input, on blur, or only on submit?</h3>
+<p>Validate on <code>blur</code> for the first pass on any given field — it catches an error the moment the user moves on without interrupting them mid-keystroke. Once a field has already shown an error, switch to validating on <code>input</code> for that field specifically, so the message disappears the instant it's actually fixed rather than lingering until the next blur. Reserve submit-time validation as the final safety net that catches anything skipped, not as the primary mechanism — by the time submit fires, most errors should already be visible.</p>
+
+<h3>How do I make validation errors accessible to screen reader users?</h3>
+<p>Associate each error message with its field using <code>aria-describedby</code>, and mark the field itself with <code>aria-invalid="true"</code> while the error is active, so a screen reader announces both the field's state and the reason together. Wrapping the error text in a live region (<code>aria-live="polite"</code>) also ensures newly appearing messages get announced even when focus hasn't moved, which matters for errors surfaced by a submit attempt rather than a blur on the specific field.</p>
+
+<h3>Are password strength meters mandatory, or just a suggestion?</h3>
+<p>They're a suggestion, and should stay one — a strength meter's job is to guide the user toward a stronger password in the moment, not to gate submission on its own heuristic. The actual requirement enforced on submit should be a separate, explicit rule (minimum length, for instance), because a scoring algorithm's opinion of "strong enough" is inherently approximate and shouldn't be the sole gatekeeper for something as consequential as account access.</p>
+
+<h3>Why does input masking format as you type instead of after you submit?</h3>
+<p>Formatting at submit time means the user spends the entire time they're typing looking at an unformatted string, which is exactly when a formatted view is most useful for catching a typo. Formatting live, as demo #5 does for a card number, means what's on screen while typing already matches the shape the user recognizes, so a mistake is visible immediately rather than only after the fact.</p>
+
+<h3>Do all twelve of these patterns belong in every form?</h3>
+<p>No — each one solves a specific kind of field or moment, and stacking all twelve onto one short form would be more overhead than help. A two-field newsletter signup needs little beyond field-specific errors and a loading submit button; a multi-page checkout with a password and a card number is where most of this gallery earns its place at once.</p>
+
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to actually internalize this is to click <strong>Fork &amp; Edit</strong> on demo #11 — the one that preserves input across errors — and change the submit handler to reset <code>fname.value</code> and <code>fmsg.value</code> alongside the email error. Watch how much more punishing the same mistake suddenly feels once the other answers vanish with it; that's the exact cost every "reset the whole form" implementation is quietly imposing, just usually hidden from view until a real user hits it. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop straight into a real project.</p>
+
+<p><strong>Recommended next step:</strong> open the <a href="https://fwdtools.com/js-playground/">JavaScript Playground</a> and build a validation pattern of your own from scratch — start with inline validation on a single field, then try combining the field-specific errors from demo #10 with the input-preserving submit handler from demo #11 on a form you're actually working on. For more posts like this one, browse the <a href="https://www.webdevpuneet.com/search/label/UX">UX</a> label on the blog.</p>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Duplicate Keys: What React Actually Does">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Duplicate keys: what React actually does</h1>
+    <p class="hint">Open devtools console. Click "Give item 2 a duplicate key," then "Remove item 1" and watch which label actually disappears.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px 28px; }
+  .frame { width: 100%; max-width: 480px; background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 16px; text-align: center; }
+  .row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px; }
+  .btn { padding: 8px 12px; border-radius: 8px; border: none; background: var(--accent); color: #fff; font: 700 12px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { background: #4f52d6; }
+  .btn.red { background: var(--red); }
+  .item { padding: 8px 10px; border: 1.5px solid var(--line); border-radius: 8px; margin-bottom: 6px; background: #f9f9fb; font: 700 13px ui-monospace, monospace; text-align: left; display: flex; justify-content: space-between; }
+  .item .k { color: var(--sub); font-weight: 600; font-size: 11px; }
+  .item.dup { border-color: var(--red); background: #fef2f2; }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; text-align: left; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+
+  function Demo() {
+    var itemsState = useState([
+      { id: 1, label: 'Item One' },
+      { id: 2, label: 'Item Two' },
+      { id: 3, label: 'Item Three' }
+    ]);
+    var items = itemsState[0];
+    var setItems = itemsState[1];
+
+    var dupedState = useState(false);
+    var duped = dupedState[0];
+    var setDuped = dupedState[1];
+
+    function makeDuplicate() {
+      // item 2 now shares key "1" with item 1 -- an intentional bug
+      setDuped(true);
+    }
+
+    function removeFirst() {
+      setItems(items.slice(1));
+    }
+
+    return e('div', { className: 'frame' },
+      e('div', { className: 'row' },
+        e('button', { className: 'btn', onClick: makeDuplicate, disabled: duped }, 'Give item 2 a duplicate key'),
+        e('button', { className: 'btn red', onClick: removeFirst }, 'Remove item 1')
+      ),
+      items.map(function (item, i) {
+        // BROKEN ON PURPOSE: item at index 1 reuses key "1" from item 0
+        // once `duped` is true, instead of its own id.
+        var key = duped && i === 1 ? '1' : String(item.id);
+        var isDup = duped && (i === 0 || i === 1);
+        return e('div', { key: key, className: 'item' + (isDup ? ' dup' : '') },
+          e('span', null, item.label),
+          e('span', { className: 'k' }, 'key="' + key + '"')
+        );
+      }),
+      e('p', { className: 'note' }, duped
+        ? 'Check the console: React logged "Encountered two children with the same key." Two siblings now share key="1". React\'s reconciler keeps a single map from key to child — when a second element claims a key already in that map, the earlier entry is silently overwritten. Click "Remove item 1" now and notice React doesn\'t necessarily drop the row you expect; because the key map only had one slot for "1", which visible row was actually backed by which data became ambiguous the moment the duplicate was introduced.'
+        : 'Every key below is unique right now (1, 2, 3) — no warning, no ambiguity. Click the first button to introduce a duplicate and watch the console.')
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

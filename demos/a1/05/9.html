@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="A Reducer Is Just a Function — Replay It">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>A Reducer Is Just a Function — Replay It</h1>
+    <p class="hint">"Replay" feeds the same six actions into the reducer every single time, with no clicking involved. Same actions, same starting state, same result — because a reducer is a pure function, not a sequence of live UI events.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px 26px; }
+
+  .card { display: flex; flex-direction: column; align-items: center; gap: 14px; width: 300px; padding: 20px; border: 1.5px dashed var(--line); border-radius: 12px; background: #fff; }
+  .countValue { font: 800 34px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--accent); }
+  .actBtn { padding: 9px 18px; font: 700 12.5px system-ui, sans-serif; color: #fff; background: var(--accent); border: none; border-radius: 8px; cursor: pointer; }
+  .actBtn:hover:not(:disabled) { filter: brightness(1.08); }
+  .actBtn:disabled { background: #cfd2db; cursor: not-allowed; }
+
+  .steps { width: 100%; font: 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: #14151a; color: #6c7286; border-radius: 8px; padding: 10px 12px; box-sizing: border-box; }
+  .step { padding: 1px 0; }
+  .step--done { color: #7dd3fc; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useReducer = React.useReducer;
+  var useState = React.useState;
+
+  var SCRIPT = [
+    { type: 'increment' }, { type: 'increment' }, { type: 'incrementBy', payload: 5 },
+    { type: 'decrement' }, { type: 'increment' }, { type: 'reset' }
+  ];
+
+  function reducer(state, action) {
+    switch (action.type) {
+      case 'increment': return state + 1;
+      case 'decrement': return state - 1;
+      case 'incrementBy': return state + action.payload;
+      case 'reset': return 0;
+      default: return state;
+    }
+  }
+
+  function fmt(a) {
+    return "dispatch({ type: '" + a.type + "'" + (a.payload !== undefined ? ', payload: ' + a.payload : '') + ' })';
+  }
+
+  function Replayer() {
+    var r = useReducer(reducer, 0), count = r[0], dispatch = r[1];
+    var s = useState(0), step = s[0], setStep = s[1];
+    var playing = React.useRef(false);
+
+    function replay() {
+      if (playing.current) return;
+      playing.current = true;
+      dispatch({ type: 'reset' });
+      setStep(0);
+      SCRIPT.forEach(function (action, i) {
+        setTimeout(function () {
+          dispatch(action);
+          setStep(i + 1);
+          if (i === SCRIPT.length - 1) playing.current = false;
+        }, (i + 1) * 350);
+      });
+    }
+
+    return e('div', { className: 'card' },
+      e('div', { className: 'countValue' }, count),
+      e('button', { className: 'actBtn', onClick: replay }, 'Replay the script'),
+      e('div', { className: 'steps' },
+        SCRIPT.map(function (a, i) {
+          return e('div', { key: i, className: 'step' + (i < step ? ' step--done' : '') }, (i + 1) + '. ' + fmt(a));
+        })
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Replayer));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

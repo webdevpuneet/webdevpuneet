@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Status-Highlighted Table Row">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+      <h1>Status-Highlighted Table Row</h1>
+      <p class="hint">Click "Cycle status" on a row — the whole row’s background and status column react to whichever status cell it currently contains.</p>
+    </header>
+    <main class="stageWrap">
+      <table class="statusTable" id="stage">
+          <thead><tr><th>Order</th><th>Status</th><th></th></tr></thead>
+          <tbody>
+            <tr>
+              <td>#1042</td>
+              <td class="statusCell status-ok">On track</td>
+              <td><button type="button" class="cycleBtn">Cycle status</button></td>
+            </tr>
+            <tr>
+              <td>#1043</td>
+              <td class="statusCell status-overdue">Overdue</td>
+              <td><button type="button" class="cycleBtn">Cycle status</button></td>
+            </tr>
+            <tr>
+              <td>#1044</td>
+              <td class="statusCell status-error">Failed</td>
+              <td><button type="button" class="cycleBtn">Cycle status</button></td>
+            </tr>
+          </tbody>
+        </table>
+      <div class="readout">
+        <span>Flagged rows: <strong id="readoutValue">&mdash;</strong></span>
+      </div>
+      <pre class="ruleTag">tr:has(td.status-overdue) {
+    background: #fef2f2;
+  }
+  tr:has(td.status-error) {
+    background: #fff7ed;
+  }</pre>
+    </main>
+</script>
+
+<script type="text/plain" id="css">
+
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+  .stage {
+    width: 100%;
+    max-width: 560px;
+    box-sizing: border-box;
+    padding: 26px 24px;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    background: #fff;
+  }
+  .readout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 16px;
+    font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--sub);
+  }
+  .readout strong { color: var(--accent); font-weight: 700; }
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 6px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .statusTable { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .statusTable th, .statusTable td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); }
+  .statusTable th { color: var(--sub); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
+  .statusCell { font-weight: 700; }
+  .status-ok { color: #16a34a; }
+  .status-overdue { color: #dc2626; }
+  .status-error { color: #d97706; }
+  .cycleBtn {
+    font: 600 11px system-ui, sans-serif;
+    padding: 4px 9px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+  }
+  .cycleBtn:hover { border-color: var(--accent); }
+
+  /* The rule this demo is about. */
+  tr:has(td.status-overdue) { background: #fef2f2; }
+  tr:has(td.status-error) { background: #fff7ed; }
+</script>
+
+<script type="text/plain" id="js">
+  var stage = document.getElementById('stage');
+    var out = document.getElementById('readoutValue');
+    var ORDER = ['status-ok', 'status-overdue', 'status-error'];
+    var LABEL = { 'status-ok': 'On track', 'status-overdue': 'Overdue', 'status-error': 'Failed' };
+    function report() {
+      var flagged = stage.querySelectorAll('tr:has(td.status-overdue), tr:has(td.status-error)').length;
+      out.textContent = flagged;
+    }
+    stage.addEventListener('click', function (e) {
+      if (!e.target.classList.contains('cycleBtn')) return;
+      var cell = e.target.closest('tr').querySelector('.statusCell');
+      var idx = ORDER.findIndex(function (c) { return cell.classList.contains(c); });
+      var next = ORDER[(idx + 1) % ORDER.length];
+      ORDER.forEach(function (c) { cell.classList.remove(c); });
+      cell.classList.add(next);
+      cell.textContent = LABEL[next];
+      report();
+    });
+    report();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

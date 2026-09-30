@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Copying From a setTimeout Fails With No User Gesture">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Copying from a setTimeout fails with no user gesture</h1>
+    <p class="hint">The broken column tries to copy automatically 2 seconds after the page loads, with no click involved. The fixed column only copies from a real button press. Watch the log in both.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken</h2>
+        <p class="note">Copies "auto-copied-text" automatically, 2s after load.</p>
+        <p class="status" id="badStatus">Waiting for the timer...</p>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed</h2>
+        <button type="button" class="btn" id="goodBtn">Copy "clicked-text"</button>
+        <p class="status" id="goodStatus">Only ever copies from inside this click handler.</p>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 56em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .note { font-size: 11.5px; color: var(--sub); margin: 0 0 10px; }
+  .btn { padding: 9px 18px; border-radius: 8px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: 700 12.5px system-ui, sans-serif; cursor: pointer; margin-bottom: 8px; }
+  .btn:hover { border-color: var(--accent); }
+  .status { margin: 8px 0 0; font-size: 11.5px; color: var(--sub); line-height: 1.5; min-height: 3.6em; }
+  .status.ok { color: var(--green); font-weight: 700; }
+  .status.err { color: var(--red); font-weight: 700; }
+</script>
+
+<script type="text/plain" id="js">
+  function legacyCopyValue(value) {
+    var ta = document.createElement('textarea');
+    ta.value = value;
+    ta.style.position = 'fixed';
+    ta.style.top = '0';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  function attemptCopy(text, onResult) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(
+        function () { onResult(true, 'navigator.clipboard', null); },
+        function (err) { onResult(false, 'navigator.clipboard', err && err.name); }
+      );
+    } else {
+      onResult(legacyCopyValue(text), 'execCommand', null);
+    }
+  }
+
+  function setupBad() {
+    var status = document.getElementById('badStatus');
+    setTimeout(function () {
+      status.textContent = 'Timer fired. Attempting copy with no user gesture behind it...';
+      // BROKEN: this runs from a timer, not a click. There is no user
+      // activation at this point, no matter how the timer was scheduled.
+      attemptCopy('auto-copied-text', function (ok, via, errName) {
+        if (ok) {
+          status.className = 'status ok';
+          status.textContent = 'Copied via ' + via + ' (unexpected -- this should not normally succeed without a gesture).';
+        } else {
+          status.className = 'status err';
+          status.textContent = 'Rejected via ' + via + (errName ? ' (' + errName + ')' : '') +
+            ' -- no transient user activation, so the browser refused the write.';
+        }
+      });
+    }, 2000);
+  }
+
+  function setupGood() {
+    var btn = document.getElementById('goodBtn');
+    var status = document.getElementById('goodStatus');
+
+    btn.addEventListener('click', function () {
+      status.className = 'status';
+      status.textContent = 'Copying from inside the click handler...';
+      // FIXED: this call happens synchronously inside a real click handler,
+      // so it runs within the browser's user-activation window.
+      attemptCopy('clicked-text', function (ok, via, errName) {
+        if (ok) {
+          status.className = 'status ok';
+          status.textContent = 'Copied via ' + via + ' -- a genuine click gave this the activation it needed.';
+        } else {
+          status.className = 'status err';
+          status.textContent = 'Rejected via ' + via + (errName ? ' (' + errName + ')' : '') + '.';
+        }
+      });
+    });
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

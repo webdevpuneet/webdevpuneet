@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="When Delegation Breaks: stopPropagation">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>When delegation breaks: a stray stopPropagation()</h1>
+    <p class="hint">Both cards have an outer "select card" listener on the container. The right card's own inner button calls <code>stopPropagation()</code> to stop its click from also selecting the card &mdash; toggle it to see the outer listener stop firing entirely for that card.</p>
+  </header>
+  <main class="stageWrap">
+    <button type="button" class="toggleBtn" id="toggleBtn">stopPropagation: ON</button>
+    <div class="cards" id="cards">
+      <article class="card" data-id="1">
+        <h3>Plan A</h3>
+        <button class="innerBtn" data-id="1">Info (no stopPropagation)</button>
+      </article>
+      <article class="card" data-id="2">
+        <h3>Plan B</h3>
+        <button class="innerBtn stops" data-id="2">Info (calls stopPropagation)</button>
+      </article>
+    </div>
+    <p class="note" id="note">Click "Info" on each card, then click empty space on each card.</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink:#14161c; --sub:#6b7080; --line:#e3e5ea; --accent:#6366f1; }
+  body { background:#f6f7f9; color:var(--ink); }
+  .bar { padding:18px 20px 8px; text-align:center; }
+  .bar h1 { margin:0 0 4px; font-size:17px; letter-spacing:-0.01em; }
+  .hint { margin:0 auto; max-width:58em; font-size:12.5px; color:var(--sub); }
+  .hint code { background:#eef0f5; padding:1px 5px; border-radius:4px; }
+  .stageWrap { display:flex; flex-direction:column; align-items:center; gap:14px; padding:16px 18px 28px; }
+
+  .toggleBtn {
+    font:700 12.5px system-ui, sans-serif; padding:8px 16px;
+    border:1px solid var(--line); border-radius:7px; background:#fff; color:var(--accent); cursor:pointer;
+  }
+
+  .cards { display:flex; gap:14px; }
+  .card {
+    background:#fff; border:2px solid var(--line); border-radius:12px; padding:16px;
+    width:180px; cursor:pointer; transition:border-color .15s;
+  }
+  .card.selected { border-color:var(--accent); background:#f5f6ff; }
+  .card h3 { margin:0 0 10px; font-size:14px; }
+  .innerBtn {
+    font-size:11px; padding:6px 8px; border:1px solid var(--line); border-radius:6px;
+    background:#fff; cursor:pointer; width:100%;
+  }
+  .note { margin:0; font-size:12px; color:var(--sub); text-align:center; max-width:46em; min-height:16px; }
+</script>
+
+<script type="text/plain" id="js">
+  var cards = document.getElementById('cards');
+  var note = document.getElementById('note');
+  var toggleBtn = document.getElementById('toggleBtn');
+  var stopEnabled = true;
+
+  // The delegated listener that selects a card.
+  cards.addEventListener('click', function (e) {
+    var card = e.target.closest('.card');
+    if (!card) return;
+    document.querySelectorAll('.card').forEach(function (c) { c.classList.remove('selected'); });
+    card.classList.add('selected');
+    note.textContent = 'Outer delegated listener selected card ' + card.dataset.id + '.';
+  });
+
+  // Card 2's inner button optionally calls stopPropagation, which prevents
+  // its click from ever reaching the .cards listener above — the event
+  // simply never bubbles that far.
+  cards.addEventListener('click', function (e) {
+    var innerBtn = e.target.closest('.innerBtn');
+    if (!innerBtn) return;
+    if (innerBtn.classList.contains('stops') && stopEnabled) {
+      e.stopPropagation();
+      note.textContent = 'Info button called stopPropagation() — the outer "select card" listener never even ran for this click.';
+    } else {
+      note.textContent = 'Info button ran, and the click still bubbled up to select the card.';
+    }
+  });
+
+  toggleBtn.addEventListener('click', function () {
+    stopEnabled = !stopEnabled;
+    toggleBtn.textContent = 'stopPropagation: ' + (stopEnabled ? 'ON' : 'OFF');
+    note.textContent = stopEnabled
+      ? 'stopPropagation is back on for card 2\'s Info button.'
+      : 'stopPropagation disabled — now card 2 behaves exactly like card 1.';
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

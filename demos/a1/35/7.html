@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Hover Tooltip">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Hover Tooltip</h1>
+    <p class="hint">Hover or Tab-focus the button &mdash; the tooltip fades and slides up from below it, positioned entirely with CSS.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="tipWrap">
+      <button class="tipTrigger">Hover me</button>
+      <span class="tip" role="tooltip">Saves your changes instantly</span>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; align-items: center; padding: 40px 18px; min-height: 260px; }
+
+  .tipWrap { position: relative; display: inline-block; }
+  .tipTrigger {
+    padding: 10px 20px;
+    font: 600 13.5px system-ui, -apple-system, sans-serif;
+    color: #fff;
+    background: var(--ink);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .tip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translate(-50%, 4px);
+    padding: 7px 12px;
+    font: 600 12px system-ui, -apple-system, sans-serif;
+    color: #fff;
+    background: var(--ink);
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .tip::after {
+    content: '';
+    position: absolute; top: 100%; left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--ink);
+  }
+  .tipTrigger:hover ~ .tip,
+  .tipTrigger:focus-visible ~ .tip {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+</script>
+
+<script type="text/plain" id="js">
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

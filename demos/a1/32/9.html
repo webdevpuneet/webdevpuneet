@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Starting a Panel Open by Default, Correctly">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Starting a panel open by default -- without a flash of the wrong state</h1>
+    <p class="hint">Both panels below are meant to start open on page load, before you click anything. Reload this frame (or just look now) -- the broken one loads visually collapsed despite its content being marked "open," and its aria-expanded lies about the real state. The fixed one is genuinely open from the first paint.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken (state mismatch on load)</h2>
+        <div class="acc-item">
+          <button type="button" class="acc-trigger" id="badTrigger" aria-expanded="false" aria-controls="badPanel">
+            Getting started <span class="chev">&#9662;</span>
+          </button>
+          <div class="acc-panel" id="badPanel">
+            <div class="acc-panel-inner"><p>This panel is supposed to be open by default so new users see it immediately, without needing to click anything.</p></div>
+          </div>
+        </div>
+        <p class="note" id="badNote">aria-expanded on load: <code>false</code> &middot; grid-template-rows: <code>0fr</code> -- the panel LOOKS closed even though the content was meant to be shown right away.</p>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed (matches real state on load)</h2>
+        <div class="acc-item">
+          <button type="button" class="acc-trigger open" id="goodTrigger" aria-expanded="true" aria-controls="goodPanel">
+            Getting started <span class="chev">&#9662;</span>
+          </button>
+          <div class="acc-panel open" id="goodPanel">
+            <div class="acc-panel-inner"><p>This panel is supposed to be open by default so new users see it immediately, without needing to click anything.</p></div>
+          </div>
+        </div>
+        <p class="note" id="goodNote">aria-expanded on load: <code>true</code> &middot; grid-template-rows: <code>1fr</code> -- markup, ARIA state, and visible height all agree from the very first paint.</p>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 15.5px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 60em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 600px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; }
+  .colTitle { margin: 0 0 10px; font: 700 11px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; text-align: center; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .acc-item { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .acc-trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border: none; background: #fafafc; color: var(--ink); font: 700 12px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .acc-trigger:hover { background: #f0f1f5; }
+  .chev { transition: transform .25s ease; color: var(--sub); }
+  .acc-trigger[aria-expanded="true"] .chev { transform: rotate(180deg); }
+  .acc-panel-inner { padding: 10px 12px; font-size: 12px; line-height: 1.55; color: var(--sub); }
+  .acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+  .acc-panel.open { grid-template-rows: 1fr; }
+  .acc-panel .acc-panel-inner { overflow: hidden; min-height: 0; }
+  .note { margin: 8px 2px 0; font-size: 11px; color: var(--sub); line-height: 1.6; }
+  .note code { background: #f0f1f5; padding: 1px 5px; border-radius: 4px; font: 700 10.5px ui-monospace, monospace; color: var(--ink); }
+</script>
+
+<script type="text/plain" id="js">
+  function setupBad() {
+    var trigger = document.getElementById('badTrigger');
+    var panel = document.getElementById('badPanel');
+
+    // BROKEN: the markup only ever sets aria-expanded="false" and leaves
+    // the panel at its default collapsed grid-template-rows: 0fr. The
+    // author's intent -- "open by default" -- was never actually written
+    // into the initial DOM state. Only the FIRST click will open it,
+    // which means the content this panel was supposed to show
+    // immediately is invisible on first paint, exactly when it matters.
+    trigger.addEventListener('click', function () {
+      var isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      trigger.setAttribute('aria-expanded', String(!isOpen));
+      panel.classList.toggle('open', !isOpen);
+    });
+  }
+
+  function setupGood() {
+    var trigger = document.getElementById('goodTrigger');
+    var panel = document.getElementById('goodPanel');
+
+    // FIXED: the initial HTML already carries aria-expanded="true" on the
+    // trigger and the "open" class (grid-template-rows: 1fr) on the
+    // panel. Nothing needs to run on load to fix a mismatch, because
+    // there never was one -- markup, ARIA state, and rendered height
+    // describe the same "open" reality from the very first paint.
+    trigger.addEventListener('click', function () {
+      var isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      trigger.setAttribute('aria-expanded', String(!isOpen));
+      panel.classList.toggle('open', !isOpen);
+    });
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

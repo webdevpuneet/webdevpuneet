@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Assuming navigator.clipboard Exists Crashes Old Browsers">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Assuming navigator.clipboard exists crashes old browsers</h1>
+    <p class="hint">The broken column reaches straight for navigator.clipboard.writeText with no check. The fixed column feature-detects first. Click "Copy" in each and watch the log. A toggle below simulates an old browser where the API object is simply missing.</p>
+  </header>
+  <main class="stageWrap">
+    <label class="toggle"><input type="checkbox" id="simulateOld"> Simulate a browser with no navigator.clipboard at all</label>
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken</h2>
+        <button type="button" class="btn" id="badBtn">Copy</button>
+        <p class="status" id="badStatus">No feature check -- reaches for the object directly.</p>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed</h2>
+        <button type="button" class="btn" id="goodBtn">Copy</button>
+        <p class="status" id="goodStatus">Checks the object exists before touching it.</p>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 58em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 16px 16px 28px; }
+  .toggle { font-size: 12px; color: var(--ink); background: #fff; border: 1px solid var(--line); padding: 7px 12px; border-radius: 8px; display: flex; align-items: center; gap: 7px; cursor: pointer; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .btn { padding: 9px 18px; border-radius: 8px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: 700 12.5px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { border-color: var(--accent); }
+  .status { margin: 8px 0 0; font-size: 11.5px; color: var(--sub); line-height: 1.5; min-height: 3.4em; }
+  .status.ok { color: var(--green); font-weight: 700; }
+  .status.err { color: var(--red); font-weight: 700; }
+</script>
+
+<script type="text/plain" id="js">
+  function legacyCopyValue(value) {
+    var ta = document.createElement('textarea');
+    ta.value = value;
+    ta.style.position = 'fixed';
+    ta.style.top = '0';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  // Simulates the object simply not existing, the way it doesn't on some
+  // older iOS Safari versions, some WebViews, and insecure contexts.
+  function getClipboardOrUndefined() {
+    var simulate = document.getElementById('simulateOld').checked;
+    return simulate ? undefined : navigator.clipboard;
+  }
+
+  function setupBad() {
+    var btn = document.getElementById('badBtn');
+    var status = document.getElementById('badStatus');
+
+    btn.addEventListener('click', function () {
+      // BROKEN: reaches straight for .writeText on whatever
+      // getClipboardOrUndefined() returns, with no existence check.
+      try {
+        var clipboard = getClipboardOrUndefined();
+        clipboard.writeText('text'); // throws synchronously if clipboard is undefined
+        status.className = 'status ok';
+        status.textContent = 'Called writeText() successfully.';
+      } catch (e) {
+        status.className = 'status err';
+        status.textContent = 'Threw: ' + e.constructor.name + ': ' + e.message +
+          ' -- a hard crash, not a graceful rejection.';
+      }
+    });
+  }
+
+  function setupGood() {
+    var btn = document.getElementById('goodBtn');
+    var status = document.getElementById('goodStatus');
+
+    btn.addEventListener('click', function () {
+      // FIXED: checks the object (and the method on it) exist before ever
+      // calling anything on them.
+      var clipboard = getClipboardOrUndefined();
+      if (clipboard && clipboard.writeText && window.isSecureContext) {
+        clipboard.writeText('text').then(
+          function () { status.className = 'status ok'; status.textContent = 'Copied via navigator.clipboard.'; },
+          function () {
+            var ok = legacyCopyValue('text');
+            status.className = ok ? 'status ok' : 'status err';
+            status.textContent = ok ? 'Copied via execCommand fallback.' : 'Both paths failed.';
+          }
+        );
+      } else {
+        var ok = legacyCopyValue('text');
+        status.className = ok ? 'status ok' : 'status err';
+        status.textContent = ok
+          ? 'navigator.clipboard unavailable here -- copied via execCommand fallback instead, no crash.'
+          : 'navigator.clipboard unavailable and the legacy fallback failed too -- showed a manual-copy message instead of throwing.';
+      }
+    });
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

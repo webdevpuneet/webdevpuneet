@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Exposing an Imperative API with useImperativeHandle">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>A child component's own ref API</h1>
+    <p class="hint">The parent's buttons never touch a DOM node directly &mdash; they call <code>.focus()</code> and <code>.clear()</code>, two methods the child component chose to expose on its own ref.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 20px 16px 30px; }
+  .textInput { padding: 10px 12px; font: 500 14px system-ui, sans-serif; border: 1.5px solid var(--line); border-radius: 8px; width: 220px; }
+  .btnRow { display: flex; gap: 8px; }
+  .btn { padding: 9px 15px; font: 700 12.5px system-ui, sans-serif; color: #fff; background: var(--accent); border: none; border-radius: 8px; cursor: pointer; }
+  .btn.ghost { background: #eceef3; color: var(--ink); }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useRef = React.useRef;
+  var useImperativeHandle = React.useImperativeHandle;
+  var forwardRef = React.forwardRef;
+
+  var FancyInput = forwardRef(function (props, ref) {
+    var innerRef = useRef(null);
+
+    useImperativeHandle(ref, function () {
+      return {
+        focus: function () { innerRef.current.focus(); },
+        clear: function () { innerRef.current.value = ''; innerRef.current.focus(); }
+      };
+    });
+
+    return e('input', { ref: innerRef, className: 'textInput', placeholder: 'Type something...' });
+  });
+
+  function ParentDemo() {
+    var fancyRef = useRef(null);
+
+    return e('div', { className: 'stageWrap', style: { padding: 0 } },
+      e(FancyInput, { ref: fancyRef }),
+      e('div', { className: 'btnRow' },
+        e('button', { className: 'btn', onClick: function () { fancyRef.current.focus(); } }, 'Call .focus()'),
+        e('button', { className: 'btn ghost', onClick: function () { fancyRef.current.clear(); } }, 'Call .clear()')
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(ParentDemo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Preserving Input Across Validation Errors">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Preserving input across validation errors</h1>
+    <p class="hint">Fill in the name and message, leave the email blank, then submit — only the email field clears to an error state; your other answers stay exactly as typed.</p>
+  </header>
+  <main class="stageWrap">
+    <form id="form" novalidate>
+      <div class="fieldGroup">
+        <label class="fieldLabel" for="fname">Name</label>
+        <input class="field" type="text" id="fname" value="Alex Rivera">
+      </div>
+      <div class="fieldGroup">
+        <label class="fieldLabel" for="femail">Email</label>
+        <input class="field" type="text" id="femail">
+        <p class="fieldError" id="femailError">&nbsp;</p>
+      </div>
+      <div class="fieldGroup">
+        <label class="fieldLabel" for="fmsg">Message</label>
+        <textarea class="field" id="fmsg" rows="3">Hi, I'd like to ask about your pricing for a small team.</textarea>
+      </div>
+      <button type="submit" class="submitBtn">Send message</button>
+    </form>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --red: #dc2626; --green: #16a34a; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; padding: 20px 16px 28px; }
+
+  form { width: 100%; max-width: 300px; }
+  .fieldGroup { margin-bottom: 12px; }
+  .fieldLabel { display: block; font: 700 12px system-ui, sans-serif; margin-bottom: 5px; }
+  .field {
+    width: 100%; padding: 9px 11px; border-radius: 8px; resize: none;
+    border: 1.5px solid var(--line); font: 13.5px system-ui, sans-serif; outline: none;
+    box-sizing: border-box; transition: border-color 0.15s ease;
+  }
+  .field:focus { border-color: var(--accent); }
+  .field.error { border-color: var(--red); background: #fef2f2; }
+
+  .fieldError { margin: 5px 0 0; font-size: 11px; font-weight: 700; color: var(--red); min-height: 13px; }
+
+  .submitBtn {
+    margin-top: 2px; width: 100%; padding: 10px; border-radius: 9px; border: none;
+    background: var(--accent); color: #fff; font: 700 13px system-ui, sans-serif; cursor: pointer;
+  }
+  .submitBtn:hover { background: #4f52d6; }
+</script>
+
+<script type="text/plain" id="js">
+  var form = document.getElementById('form');
+  var femail = document.getElementById('femail');
+  var femailError = document.getElementById('femailError');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    // Note what this does NOT do: it never touches fname.value or
+    // fmsg.value. Only the field that actually failed gets flagged.
+    var trimmed = femail.value.trim();
+    var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed);
+
+    if (!ok) {
+      femail.className = 'field error';
+      femailError.textContent = 'A valid email is required to send this';
+      femail.focus();
+      return;
+    }
+
+    femail.className = 'field';
+    femailError.textContent = '✓ Message sent — all fields kept exactly as entered';
+    femailError.style.color = '#16a34a';
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

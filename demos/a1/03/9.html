@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Style Container Queries">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Style Container Queries</h1>
+    <p class="hint">Click the switch — it doesn't resize anything. It flips a custom property on the container, and <code>@container style()</code> reacts to that property's value instead of to a width or height. Newer than size-based container queries, so check browser support before depending on it.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="densityBox" id="densityBox">
+      <button class="densityToggle" id="densityToggle" type="button">Switch to compact</button>
+      <div class="densityCard">
+        <strong>Notification settings</strong>
+        <p>Choose how you're notified about account activity and billing.</p>
+      </div>
+    </div>
+    <div class="readout">
+      <span>--density: <strong id="readoutValue">comfortable</strong></span>
+    </div>
+    <pre class="ruleTag">.densityBox { container-name: densitybox; }
+
+@container densitybox style(--density: compact) {
+  .densityCard { padding: 8px 10px; }
+  .densityCard p { display: none; }
+}</pre>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 56em; font-size: 12.5px; color: var(--sub); }
+  .hint code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+  .readout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 16px;
+    font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--sub);
+  }
+  .readout strong { color: var(--accent); font-weight: 700; }
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 8px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .densityBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 320px;
+    max-width: 100%;
+
+    /* No container-type needed here — a style() query reads a custom
+       property's computed value, not the box's size. */
+    container-name: densitybox;
+    --density: comfortable;
+  }
+  .densityToggle {
+    padding: 6px 14px;
+    font: 700 12px system-ui, -apple-system, sans-serif;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .densityCard {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 16px;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+    font-size: 13px;
+  }
+  .densityCard p { margin: 6px 0 0; color: var(--sub); font-size: 12px; }
+
+  /* The rule this demo is about. */
+  @container densitybox style(--density: compact) {
+    .densityCard { padding: 8px 10px; }
+    .densityCard p { display: none; }
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var box = document.getElementById('densityBox');
+  var toggle = document.getElementById('densityToggle');
+  var out = document.getElementById('readoutValue');
+  var compact = false;
+
+  toggle.addEventListener('click', function () {
+    compact = !compact;
+    box.style.setProperty('--density', compact ? 'compact' : 'comfortable');
+    toggle.textContent = compact ? 'Switch to comfortable' : 'Switch to compact';
+    out.textContent = compact ? 'compact' : 'comfortable';
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

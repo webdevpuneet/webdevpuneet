@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Registering the Handler Mid-Click Closes the Menu Instantly">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Registering the outside handler during the SAME click closes the menu instantly</h1>
+    <p class="hint">Click each trigger once. The broken menu appears to do nothing -- it opens and closes in the same event. The fixed one stays open normally.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken</h2>
+        <div class="menuWrap">
+          <button type="button" class="trigger" id="badTrigger">Open menu</button>
+          <div class="menu" id="badMenu"><p class="menuItem">Menu content</p></div>
+        </div>
+        <p class="stat" id="badStat">State: closed</p>
+        <p class="note" id="badNote">Click "Open menu."</p>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed</h2>
+        <div class="menuWrap">
+          <button type="button" class="trigger" id="goodTrigger">Open menu</button>
+          <div class="menu" id="goodMenu"><p class="menuItem">Menu content</p></div>
+        </div>
+        <p class="stat" id="goodStat">State: closed</p>
+        <p class="note" id="goodNote">Click "Open menu."</p>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 52em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .menuWrap { position: relative; display: inline-block; margin-bottom: 8px; }
+  .trigger { padding: 9px 16px; border-radius: 8px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: 700 12.5px system-ui, sans-serif; cursor: pointer; }
+  .trigger:hover { border-color: var(--accent); }
+  .menu { position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); display: none; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; box-shadow: 0 6px 20px rgba(0,0,0,.08); min-width: 140px; z-index: 5; }
+  .menu.open { display: block; }
+  .menuItem { margin: 0; font-size: 12.5px; }
+  .stat { margin: 4px 0 0; font: 800 13px ui-monospace, monospace; }
+  .note { margin: 6px 0 0; font-size: 11.5px; color: var(--sub); line-height: 1.5; min-height: 2.6em; }
+</script>
+
+<script type="text/plain" id="js">
+  function setupBad() {
+    var trigger = document.getElementById('badTrigger');
+    var menu = document.getElementById('badMenu');
+    var stat = document.getElementById('badStat');
+    var note = document.getElementById('badNote');
+
+    function closeOnOutsideClick() {
+      menu.classList.remove('open');
+      stat.textContent = 'State: closed';
+      note.textContent = 'Closed immediately -- the same click event that opened it was still bubbling up to document when this listener was added.';
+    }
+
+    // BROKEN: the document listener is added INSIDE the click handler that
+    // just opened the menu. That click event is still bubbling toward
+    // document, and a listener added mid-bubble still fires for the
+    // event currently in flight -- so the menu closes on the same click.
+    trigger.addEventListener('click', function () {
+      menu.classList.add('open');
+      stat.textContent = 'State: open';
+      document.addEventListener('click', closeOnOutsideClick, { once: true });
+    });
+  }
+
+  function setupGood() {
+    var trigger = document.getElementById('goodTrigger');
+    var menu = document.getElementById('goodMenu');
+    var stat = document.getElementById('goodStat');
+    var note = document.getElementById('goodNote');
+
+    function closeOnOutsideClick(e) {
+      if (menu.contains(e.target) || trigger.contains(e.target)) return;
+      menu.classList.remove('open');
+      stat.textContent = 'State: closed';
+      note.textContent = 'Closed by a genuine outside click.';
+      document.removeEventListener('click', closeOnOutsideClick);
+    }
+
+    // FIXED: defer attaching the listener until the current event loop
+    // tick has finished, with setTimeout(fn, 0). By the time it actually
+    // attaches, the click that opened the menu has already finished
+    // bubbling, so it can't catch itself.
+    trigger.addEventListener('click', function () {
+      menu.classList.add('open');
+      stat.textContent = 'State: open';
+      note.textContent = 'Open -- click elsewhere to close it.';
+      setTimeout(function () {
+        document.addEventListener('click', closeOnOutsideClick);
+      }, 0);
+    });
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

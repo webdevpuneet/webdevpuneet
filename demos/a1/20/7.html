@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Optimistic UI Update">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Optimistic UI update</h1>
+    <p class="hint">Click the heart a few times — it updates instantly, before any "server" reply. About 1 in 4 clicks simulates a failed request and rolls back, so you can see both outcomes.</p>
+  </header>
+  <main class="stageWrap">
+    <button type="button" class="likeBtn" id="likeBtn">
+      <span class="heart" id="heart">&#9825;</span>
+      <span id="count">128</span>
+    </button>
+    <p class="statusLabel" id="statusLabel">&nbsp;</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 50px 16px 28px; }
+
+  .likeBtn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 20px; border-radius: 999px; border: 1.5px solid var(--line);
+    background: #fff; color: var(--ink); font: 700 14px system-ui, sans-serif; cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+  .likeBtn:hover { border-color: var(--accent); }
+  .heart { font-size: 17px; line-height: 1; color: var(--sub); transition: color 0.15s ease, transform 0.15s ease; }
+  .heart.liked { color: #e11d48; }
+  .heart.pop { transform: scale(1.3); }
+
+  .statusLabel { margin: 0; font-size: 12px; font-weight: 700; min-height: 16px; }
+  .statusLabel.ok { color: var(--green); }
+  .statusLabel.fail { color: var(--red); }
+</script>
+
+<script type="text/plain" id="js">
+  var likeBtn = document.getElementById('likeBtn');
+  var heart = document.getElementById('heart');
+  var countEl = document.getElementById('count');
+  var statusLabel = document.getElementById('statusLabel');
+
+  var count = 128;
+  var liked = false;
+  var pending = false;
+
+  likeBtn.addEventListener('click', function () {
+    if (pending) return;
+    pending = true;
+
+    var wasLiked = liked;
+    var wasCount = count;
+
+    // Update the UI immediately -- this is the "optimistic" part. The real
+    // request hasn't even been sent yet, let alone answered.
+    liked = !liked;
+    count = liked ? count + 1 : count - 1;
+    heart.textContent = liked ? '♥' : '♡';
+    heart.className = 'heart' + (liked ? ' liked pop' : '');
+    countEl.textContent = count;
+    statusLabel.textContent = 'Saving…';
+    statusLabel.className = 'statusLabel';
+
+    setTimeout(function () {
+      heart.classList.remove('pop');
+      var failed = Math.random() < 0.25;
+
+      if (failed) {
+        // Roll back to exactly what it was before the optimistic update.
+        liked = wasLiked;
+        count = wasCount;
+        heart.textContent = liked ? '♥' : '♡';
+        heart.className = 'heart' + (liked ? ' liked' : '');
+        countEl.textContent = count;
+        statusLabel.textContent = 'Sync failed — reverted';
+        statusLabel.className = 'statusLabel fail';
+      } else {
+        statusLabel.textContent = 'Saved';
+        statusLabel.className = 'statusLabel ok';
+      }
+      pending = false;
+    }, 1400);
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

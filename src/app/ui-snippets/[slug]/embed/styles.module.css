@@ -1,0 +1,280 @@
+/* Full-bleed embed target — fills whatever box a third-party <iframe> gives it.
+   No site chrome renders on this route (see src/lib/is-embed-route.js gating
+   in Sidebar/Footer/RightPanel/ToolNudge), so this is the entire visible page.
+   CodePen-style: dark top bar with HTML/CSS/JS/Result tabs above the pane. */
+.embedWrap {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+/* ── Top bar ── */
+.topBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  height: 38px;
+  flex-shrink: 0;
+  background: #1e1f26;
+  border-bottom: 1px solid #34363f;
+}
+
+.embedTitle {
+  color: #e3e4e8;
+  font: 700 12px/1 system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  margin-right: auto;
+}
+
+.tabGroup {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.tabBtn {
+  padding: 5px 11px;
+  font: 600 11.5px system-ui, -apple-system, sans-serif;
+  color: #aab0bc;
+  background: #2c2e36;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.tabBtn:hover {
+  background: #383a44;
+  color: #e3e4e8;
+}
+
+.tabBtnActive,
+.tabBtnActive:hover {
+  background: #fff;
+  color: #1e1f26;
+}
+
+.popOutBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 5px;
+  border: none;
+  background: #2c2e36;
+  color: #aab0bc;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.popOutBtn:hover {
+  background: #383a44;
+  color: #e3e4e8;
+}
+
+.editLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  flex-shrink: 0;
+  border-radius: 5px;
+  background: #6366f1;
+  color: #fff;
+  font: 700 11.5px system-ui, -apple-system, sans-serif;
+  text-decoration: none;
+  transition: background 0.12s;
+}
+
+.editLink:hover {
+  background: #4f52e0;
+}
+
+/* ── Compact top bar on narrow embed widths (mobile viewports, small
+   third-party iframes) — title and edit-button label give way first so
+   the tabs (the primary controls) always stay fully usable. ── */
+@media (max-width: 420px) {
+  .topBar {
+    padding: 0 6px;
+    gap: 6px;
+    height: 34px;
+  }
+
+  .embedTitle {
+    display: none;
+  }
+
+  .tabBtn {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  .popOutBtn {
+    /* .embedTitle carries margin-right: auto to push this group right, but
+       it collapses out of flow when hidden above — reclaim the push here
+       (on the first element of the trailing cluster) so the pop-out and
+       edit buttons still land flush against the right edge. */
+    margin-left: auto;
+  }
+
+  .editLink {
+    padding: 6px;
+    gap: 0;
+  }
+
+  .editLabel {
+    display: none;
+  }
+}
+
+/* ── Body panes ── */
+.body {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+}
+
+.resultPane {
+  position: absolute;
+  inset: 0;
+}
+
+/* Kept mounted but hidden so iframe state (animations, scroll, inputs) survives */
+.resultPaneHidden {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.embedFrame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #fff;
+}
+
+.codePane {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  background: #14151a;
+  z-index: 2;
+}
+
+/* Shiki renders its own <pre><code> inside this div — reset its inline
+   theme background so the dark .codePane background shows through, and
+   apply the embed's own font/spacing on top of the highlighted markup. */
+.codePre :global(pre) {
+  margin: 0;
+  padding: 14px 16px 40px;
+  font: 12px/1.65 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  white-space: pre;
+  tab-size: 2;
+  background: transparent !important;
+  overflow: visible;
+}
+
+.codePre :global(code) {
+  font-family: inherit;
+  font-size: inherit;
+  background: transparent !important;
+}
+
+/* ── CDN libraries strip (JS tab only) — tells readers which external
+   scripts the srcDoc pulls in that aren't visible in the JS code itself. ── */
+.cdnStrip {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #1a1c22;
+  border-bottom: 1px solid #34363f;
+}
+
+.cdnStripLabel {
+  font: 700 10px system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.05em;
+  color: #7c8194;
+  flex-shrink: 0;
+}
+
+.cdnChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+}
+
+.cdnChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  font: 600 11px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: #c7c9f5;
+  background: #2c2e36;
+  border: 1px solid #44465264;
+  border-radius: 20px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.cdnChip:hover {
+  background: #383a44;
+  color: #fff;
+  border-color: #6366f1;
+}
+
+@media (max-width: 420px) {
+  .cdnStrip {
+    padding: 7px 10px;
+    gap: 6px;
+  }
+
+  .cdnChip {
+    padding: 3px 8px;
+    font-size: 10.5px;
+  }
+}
+
+.copyBtn {
+  position: sticky;
+  top: 8px;
+  float: right;
+  margin: 8px 10px 0 0;
+  padding: 4px 12px;
+  font: 700 11px system-ui, -apple-system, sans-serif;
+  color: #e3e4e8;
+  background: #2c2e36;
+  border: 1px solid #44465264;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 3;
+  transition: background 0.12s;
+}
+
+.copyBtn:hover {
+  background: #383a44;
+}
+
+@media (max-width: 420px) {
+  .copyBtn {
+    padding: 4px 9px;
+    font-size: 10.5px;
+    margin: 6px 8px 0 0;
+  }
+}

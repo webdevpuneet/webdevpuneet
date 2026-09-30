@@ -1,0 +1,151 @@
+<h1>10 New Copy-Paste Landing Page Snippets: A Working Command Palette, Three Pricing Calculators That Do Real Arithmetic & Modals That Hold Real State</h1>
+
+<p>Landing page sections are usually where interactivity goes to die — a "pricing calculator" that multiplies one number by one rate, a hero animation that plays once and never responds to anything, a modal that opens and closes and does nothing in between. The ten snippets below take the opposite position: the command palette in the hero is genuinely keyboard-navigable with grouped results and match highlighting, all three pricing widgets recompute a real bill from per-resource allowances and overage rates on every input event, and the three modals each run a small state machine — a two-month date range with hover preview, a format-and-field export picker, and a moderation report form whose validation changes depending on which reason you pick.</p>
+
+<p>Every one is a <strong>live, interactive preview</strong> you can try right here in the article, and each exports to React, Vue, Angular or Tailwind in one click from its snippet page.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>Totals are derived, never tracked.</strong> The seat-mix calculator keeps no running total anywhere. Each role card carries its rate on <code>data-rate</code> and its count on <code>data-count</code>, and <code>recalcTotals()</code> re-reads both across every card on every click. There is nothing to fall out of sync, because the only place the total exists is the moment it is computed — the single most reliable pattern for any calculator with more than one input.</li>
+<li><strong>Interpolated HTML is escaped at every boundary.</strong> The command palette builds its result rows as an HTML string, which is exactly where injected markup usually creeps in. Its <code>highlight()</code> function splits the text at the match index and escapes each of the three pieces — before, match, after — separately, then joins them around a <code>&lt;mark&gt;</code>. The highlight is real markup; the content around it can never be.</li>
+<li><strong>One function owns every derived piece of UI state.</strong> In the export modal, the summary sentence, the export button's disabled state, and the select-all button's label are all written by a single <code>updateSummary()</code>. Splitting them across three handlers is how you end up with a button that says "Deselect all" next to a summary that says "Select at least one field" — the classic half-updated state in any picker.</li>
+<li><strong>Filtering hides, it does not re-render.</strong> The integration grid never removes a tile from the DOM. It toggles two classes — one to fade and pull a non-match out of the grid's flow, one to highlight a genuine match — so restoring the full grid costs nothing and no element ever loses focus or hover state mid-search.</li>
+<li><strong>Simulated activity is staggered on purpose.</strong> The plan-popularity counters each schedule their own next bump with <code>4000 + Math.random() * 7000</code> and a recursive <code>setTimeout</code>, rather than sharing one interval. Real signups arriving on three plans are not synchronised, and three numbers ticking in lockstep is the detail that gives a fake live counter away instantly.</li>
+</ul>
+
+<h2>1. Hero with Interactive Command Palette Demo</h2>
+
+<p>A developer-tool hero with a fully working Cmd+K-style palette in the fold — type to filter across grouped commands, arrow through the results, press Enter to run the highlighted one.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/hero-command-palette-search-demo/embed/" style="width:100%;height:720px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Hero with Interactive Command Palette Demo — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>render()</code> filters the command array on a lowercase <code>indexOf</code> match against the command name, then walks the matches emitting a <code>.cpd-group-label</code> whenever the current command's group differs from the previous one — which is why the source array is ordered by group, and that ordering is the only reason the headings need no separate grouping pass. Keyboard handling is deliberately clamped rather than wrapping: <code>ArrowDown</code> is <code>Math.min(activeIndex + 1, currentMatches.length - 1)</code> and <code>ArrowUp</code> is <code>Math.max(activeIndex - 1, 0)</code>, so holding an arrow key parks at the end of the list instead of cycling past it. Every keystroke resets the selection to the first result, and a guard resets it again if a narrower query leaves the old index out of range. Hovering a row moves the active selection to it, so the mouse and the keyboard drive one shared highlight rather than two competing ones.</p>
+
+<p><strong>Best for:</strong> the hero of a developer tool or internal platform, where letting a visitor <em>use</em> the interface in the fold argues for the product better than a screenshot of it. <strong>Tip:</strong> the Escape key clears the input and blurs it rather than closing anything — if you lift the palette into a real overlay, that is the one handler to rewrite first.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/hero-command-palette-search-demo/">Hero with Interactive Command Palette Demo</a></p>
+
+<h2>2. Hero with Integration Ecosystem Grid</h2>
+
+<p>A hub-and-grid hero: integration tiles arranged around a glowing central node, with a search box that filters them live and a count that stays honest about how many are showing.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/hero-integration-ecosystem-grid/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Hero with Integration Ecosystem Grid — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>applyFilter()</code> reads each tile's <code>data-name</code> attribute rather than its visible text, so the searchable string and the label can differ — useful when a tile shows a logo and needs to match an alias too. Two classes do two separate jobs: <code>.ieg-node-hidden</code> fades and scales a non-match down, then switches it to <code>position: absolute</code> so it leaves the grid flow without a gap; <code>.ieg-node-match</code> adds the border glow, and is gated on <code>matches &amp;&amp; query !== ''</code> so an empty search doesn't light up every tile at once and look like a rendering bug. The count is incremented inside the same loop that classifies each tile, which is what keeps "X integrations shown" exactly equal to what is on screen — including the unfiltered case, where every tile counts.</p>
+
+<p><strong>Best for:</strong> a product whose main objection is "does it work with what we already use" — a searchable grid answers it in two seconds where a static logo wall makes the visitor hunt. <strong>Tip:</strong> add tiles by pasting more <code>.ieg-node</code> divs with a <code>data-name</code> into the grid; the filter re-queries the DOM on load, so no JavaScript changes.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/hero-integration-ecosystem-grid/">Hero with Integration Ecosystem Grid</a></p>
+
+<h2>3. Hero with Press Mentions and Founder Quote</h2>
+
+<p>Two trust signals in one composition: a press-logo strip under the headline, and a quote card that rotates between a founder, an investor and a customer with clickable dots.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/hero-press-mentions-founder-quote/embed/" style="width:100%;height:660px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Hero with Press Mentions and Founder Quote — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the rotation fades the quote text and the avatar only — never the card — which is the detail that stops the section jumping as quotes of different lengths swap in and out. <code>showQuote()</code> sets both elements to <code>opacity: 0</code>, waits 180ms for the transition to land, then writes the new text, name, role and initials before fading back in, so nothing is ever visible mid-swap. Clicking a dot passes <code>isManual = true</code>, which calls <code>restartTimer()</code> to <code>clearInterval</code> the running five-second cycle and start a fresh one — without that, a visitor who clicks to read quote three watches it auto-advance a few hundred milliseconds later. The dots are rebuilt on every change with an <code>aria-label</code> per dot, so the control is announced as "Show quote 2" rather than as an unlabelled button.</p>
+
+<p><strong>Best for:</strong> a company that has press coverage or a recognisable investor and is currently wasting it in a footer. <strong>Tip:</strong> keep the quotes within roughly one line of each other in length — the fade hides a swap, but it cannot hide a card that grows by three lines.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/hero-press-mentions-founder-quote/">Hero with Press Mentions and Founder Quote</a></p>
+
+<h2>4. Hero with Company Milestone Timeline Strip</h2>
+
+<p>A horizontal year timeline where clicking any point fills the connecting track up to it and swaps in that milestone's detail card — a company story told as a progress bar rather than a bullet list.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/hero-milestone-timeline-strip/embed/" style="width:100%;height:620px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Hero with Company Milestone Timeline Strip — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the filled portion of the track is pure arithmetic — <code>(index / (points.length - 1)) * 100</code> as a percentage width — which means the first point leaves the track empty, the last fills it completely, and adding a sixth milestone needs no hand-tuned values anywhere. The guard for <code>points.length &gt; 1</code> exists so a single-milestone timeline skips the division entirely instead of dividing by zero. Selection state lives in one place: <code>selectMilestone()</code> toggles <code>.mts-point-active</code> across every point in one pass instead of tracking and un-setting the previous one, so the active class can never end up on two points at once. The detail card uses the same fade-out, swap, fade-in sequence as the quote hero, at a shorter 120ms because the content underneath it is shorter.</p>
+
+<p><strong>Best for:</strong> an about page or a founder-led landing page where the company's age <em>is</em> the credibility argument. <strong>Tip:</strong> the years come from the markup and the copy from the JavaScript array — keep the two lists in the same order, since the click handler indexes into the array by the point's <code>data-index</code>.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/hero-milestone-timeline-strip/">Hero with Company Milestone Timeline Strip</a></p>
+
+<h2>5. Role-Based Seat Mix Pricing Calculator</h2>
+
+<p>Admin, Editor and Viewer seats each with their own rate and their own stepper, totalling to a live team price — plus a blended average per seat that most per-seat pricing pages never show.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/pricing-role-based-seat-mix-calculator/embed/" style="width:100%;height:660px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Role-Based Seat Mix Pricing Calculator — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> there is no running total held in a variable. Every stepper click writes the new count back to that card's <code>data-count</code> attribute and then calls <code>recalcTotals()</code>, which loops all three cards, reads <code>data-rate</code> and <code>data-count</code> fresh, and re-derives seats, price and average from scratch. The DOM is the single source of truth, so a mis-fired event or a count set from outside the widget still produces a correct total on the next recalculation. The average line divides only when <code>totalSeats &gt; 0</code>, which is the difference between showing <code>$0.00</code> and showing <code>NaN</code> the moment someone empties every role. <code>adjustCount()</code> clamps to <code>Math.max(0, Math.min(999, current + delta))</code> so the minus button stops at zero rather than going negative. The dimmed look of an unused role is the same idea taken one step further: it comes from a pure CSS rule, <code>.rsm-role:has(.rsm-count[data-count="0"])</code>, so the visual state reads the very same attribute the arithmetic does and needs no JavaScript to stay in step.</p>
+
+<p><strong>Best for:</strong> any product priced per seat where the seats are not all worth the same — the calculator does the job a three-column table cannot, which is answering "what would <em>my</em> team cost?" <strong>Tip:</strong> the rates live entirely in <code>data-rate</code> in the markup, so a pricing change is an HTML edit and never a JavaScript one.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/pricing-role-based-seat-mix-calculator/">Role-Based Seat Mix Pricing Calculator</a></p>
+
+<h2>6. Multi-Resource Usage Billing Simulator</h2>
+
+<p>Three sliders — API requests, storage, bandwidth — each with its own included allowance and its own overage rate, summing with a base fee into a live estimated bill.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/pricing-multi-resource-usage-simulator/embed/" style="width:100%;height:680px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Multi-Resource Usage Billing Simulator — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the pricing model is one honest line — <code>Math.max(0, usage - included) * rate</code> — applied per resource, which is what makes the included allowance behave the way a real bill does: everything under it costs nothing, and only the excess is charged. The <code>Math.max(0, …)</code> is doing real work; without it, staying under an allowance would produce a negative cost that quietly subtracts from the other resources' charges. Each resource is read once at startup into an object holding its rate, allowance, slider and output elements, and <code>recalc()</code> then re-sums the whole bill — base fee included — on every <code>input</code> event rather than adjusting a stored subtotal. Money and units get separate formatters: <code>toLocaleString</code> with two fixed decimals for currency, and a rounded, thousands-separated integer for usage.</p>
+
+<p><strong>Best for:</strong> usage-based products where the pricing page's real job is to convince a visitor their workload lands in the affordable band. <strong>Tip:</strong> change <code>BASE_FEE</code> and the <code>data-included</code> / <code>data-rate</code> attributes to match your plan; the arithmetic and the formatting need no changes at all.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/pricing-multi-resource-usage-simulator/">Multi-Resource Usage Billing Simulator</a></p>
+
+<h2>7. Pricing Cards with Live Plan Popularity Counter</h2>
+
+<p>A three-tier pricing grid where each card carries its own "picked this in the last hour" counter, ticking independently with a pulsing activity dot.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/pricing-plan-popularity-live-counter/embed/" style="width:100%;height:700px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pricing Cards with Live Plan Popularity Counter — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each counter schedules its own next bump with a recursive <code>setTimeout</code> at <code>4000 + Math.random() * 7000</code> milliseconds instead of sharing a single interval — so the three cards drift apart within seconds and stay apart, which is exactly how three plans receiving real signups would behave. The increment is weighted rather than uniform: <code>Math.random() &lt; 0.7</code> adds one, otherwise two, so the sequence has the occasional double-step of real traffic without ever jumping implausibly. Each bump adds a <code>.ppc-pop-bump</code> class that is removed 600ms later, flashing the number green just long enough to catch the eye of someone not staring directly at that card. The starting numbers come from <code>data-base</code> in the markup, so the counters begin somewhere credible rather than at zero.</p>
+
+<p><strong>Best for:</strong> a pricing page where a middle tier deserves a nudge — social proof at the point of decision rather than three paragraphs above it. <strong>Tip:</strong> wire it to real data before shipping if you can. Swap the recursive timer for a polled endpoint and keep the bump animation; a fabricated counter is a small claim, but it is still a claim.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/pricing-plan-popularity-live-counter/">Pricing Cards with Live Plan Popularity Counter</a></p>
+
+<h2>8. Booking Date Range Picker Modal</h2>
+
+<p>Two side-by-side month calendars sharing one range selection, with live hover preview of the in-between days and a nights count computed from the actual dates.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/modal-date-range-picker/embed/" style="width:100%;height:760px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Booking Date Range Picker Modal — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the whole picker runs on a three-branch state machine in <code>selectDate()</code>. With no start (or a complete range already chosen) the click sets a new start and clears everything else; a click <em>before</em> the current start moves the start rather than rejecting the click, which is what a person means when they click backwards; anything else sets the end. Hover preview is one line of cleverness: <code>previewEnd = rangeEnd || hoverDate</code>, so the same in-range comparison renders both the committed range and the tentative one, with no second code path. Each month grid is rebuilt from <code>new Date(year, month, 1).getDay()</code> for the leading blanks and <code>new Date(year, month + 1, 0).getDate()</code> for the day count — the day-zero-of-next-month trick that gets February right in a leap year without any special casing. Nights are <code>Math.round((rangeEnd - rangeStart) / 86400000)</code>, and the rounding is deliberate: across a daylight-saving boundary the difference is 23 or 25 hours, which rounds to the one night a guest actually stayed.</p>
+
+<p><strong>Best for:</strong> booking, rental and reservation flows, where a range picker that previews the stay as you move the cursor removes most of the guesswork from picking a checkout date. <strong>Tip:</strong> past dates are disabled at render by comparing against a <code>today</code> normalised to midnight — normalising is what stops today's own date counting as past once the clock passes midnight-plus-anything.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/modal-date-range-picker/">Booking Date Range Picker Modal</a></p>
+
+<h2>9. Export Data Modal with Format and Field Picker</h2>
+
+<p>Pick CSV, JSON or PDF, tick exactly which fields to include, and read a summary line that always matches both choices — with the export button disabled until the selection makes sense.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/modal-export-data-download-picker/embed/" style="width:100%;height:720px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Export Data Modal with Format and Field Picker — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> one function, <code>updateSummary()</code>, writes every piece of derived state — the summary sentence, the export button's <code>disabled</code> flag, and whether the bulk toggle reads "Select all" or "Deselect all" — and every handler calls it rather than updating its own corner of the UI. That is why the modal cannot reach a contradictory state like an enabled export button next to a zero-field selection. The bulk toggle decides its action from the current reality via <code>fieldCheckboxes.every(…)</code> over the live checkbox states instead of tracking a flag, so it stays correct even after a visitor unticks one box by hand. Pluralisation is handled inline (<code>'field' + (checkedCount === 1 ? '' : 's')</code>) because "1 fields" is the kind of small wrongness people notice in an otherwise polished dialog, and the export click swaps the button into a "Preparing…" state before restoring it through the same summary function.</p>
+
+<p><strong>Best for:</strong> any admin or reporting screen where "Export" currently dumps every column into a CSV and hopes. <strong>Tip:</strong> the click handler already collects the checked field values into an array — that array plus <code>selectedFormat</code> is the entire payload a real export endpoint needs.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/modal-export-data-download-picker/">Export Data Modal with Format and Field Picker</a></p>
+
+<h2>10. Report Content Modal with Reason Picker</h2>
+
+<p>A moderation report flow: radio reasons, an optional details field that only appears when it is actually needed, live validation hints, and a confirmation step that replaces the form instead of clearing it.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/modal-report-content-flag-reason/embed/" style="width:100%;height:700px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Report Content Modal with Reason Picker — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>updateFormState()</code> runs the whole form from the currently selected reason. The details textarea is revealed by toggling the native <code>hidden</code> property when the reason is "Something else" — the one case where a free-text explanation is genuinely required — and stays hidden for the specific reasons that already say enough on their own. Validation is expressed as three ordered branches producing three different hint messages: no reason selected, "Something else" chosen with an empty textarea, and everything valid, at which point the hint switches from an instruction to a reassurance ("Reports are reviewed within 24 hours"). The character counter updates on every keystroke and calls the same state function, so clearing the textarea re-disables submit immediately rather than at submit time. Submitting swaps the entire first step out for a confirmation step, which is what makes the outcome unambiguous — a form that merely clears itself looks identical to a form that failed.</p>
+
+<p><strong>Best for:</strong> community platforms, marketplaces and comment systems, where the report dialog is the one interface a user meets at their most frustrated and least patient. <strong>Tip:</strong> the submit handler already has <code>reason</code> and <code>details</code> in hand with a commented-out <code>fetch</code> showing exactly where a real <code>POST /api/reports</code> goes.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/modal-report-content-flag-reason/">Report Content Modal with Reason Picker</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open any snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs, then paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — or use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page. All ten are dependency-free vanilla JavaScript; none of them need anything installed.</li>
+<li><strong>Keep your pricing in the markup, not the code.</strong> All three calculators read their rates and allowances from <code>data-</code> attributes, which means a price change is an HTML edit that a marketer can make and a code review can read at a glance. Resist the urge to move those numbers into the JavaScript when you port the snippet — that is the change that turns a pricing update into a deploy.</li>
+<li><strong>Re-derive, don't accumulate.</strong> Every widget here recomputes its totals and its summary text from scratch on each event instead of adjusting a stored value. It costs nothing at these sizes and it removes an entire category of bug, which is why the seat calculator can never disagree with its own steppers.</li>
+<li><strong>Give every modal an Escape key and a backdrop click.</strong> All three modals close on both, plus their own close button. It is a handful of lines, and their absence is the single most common reason a dialog feels broken — particularly to anyone navigating without a mouse.</li>
+<li><strong>Be careful with the fake live counter.</strong> The plan-popularity widget is the one snippet in this batch that asserts something about the world rather than about your product. Wire it to real signup data if you can, or reframe the label into something you can stand behind; the animation and the pulse work identically either way.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>The common thread across this batch is that state is computed rather than remembered. There is no stored total in the seat calculator, no cached subtotal in the usage simulator, no "is everything selected" flag in the export modal, no separately tracked previous active point in the timeline. Every one of those values is re-derived from the DOM or from the inputs at the moment it is displayed — which is why none of these widgets can end up showing two numbers that disagree with each other.</p>
+
+<p>That is a small discipline with an outsized payoff on exactly this kind of surface, where a visitor is doing arithmetic in their head about whether to buy. Try them, retune the rates and copy to your own product, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

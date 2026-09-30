@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="useMemo Caches a Value, useCallback Only Caches a Function">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>useMemo caches a value, useCallback only caches a function</h1>
+    <p class="hint">Click "Unrelated tick" a few times. Both sides display the same greeting -- watch the compute counter on each.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 16px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 18px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 8px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .stat { font: 800 24px ui-monospace, monospace; margin-bottom: 4px; }
+  .val { font: 600 12px ui-monospace, monospace; color: var(--sub); margin-bottom: 8px; }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; }
+  .btn { padding: 9px 18px; border-radius: 9px; border: none; background: var(--accent); color: #fff; font: 700 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { background: #4f52d6; }
+  code { background: #eceef3; padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useMemo = React.useMemo;
+  var useCallback = React.useCallback;
+  var useRef = React.useRef;
+
+  function buildGreeting(name) {
+    return 'Hello, ' + name + '!';
+  }
+
+  function Demo() {
+    var nameState = useState('Ada');
+    var name = nameState[0];
+
+    var tickState = useState(0);
+    var tick = tickState[0];
+    var setTick = tickState[1];
+
+    var memoCallsRef = useRef(0);
+    var callbackCallsRef = useRef(0);
+
+    // useMemo caches the RESULT. The function only runs again when `name`
+    // changes -- the unrelated tick button causes a render but not a
+    // recomputation.
+    var memoGreeting = useMemo(function () {
+      memoCallsRef.current += 1;
+      return buildGreeting(name);
+    }, [name]);
+
+    // useCallback caches the FUNCTION ITSELF, not its result. `getGreeting`
+    // keeps the same reference across renders where `name` hasn't changed --
+    // but it still has to be CALLED to get a value, and calling it always
+    // re-runs the body, every render, regardless of the dependency array.
+    var getGreeting = useCallback(function () {
+      callbackCallsRef.current += 1;
+      return buildGreeting(name);
+    }, [name]);
+    var callbackGreeting = getGreeting();
+
+    return e(React.Fragment, null,
+      e('div', { className: 'cols' },
+        e('div', { className: 'col' },
+          e('h2', { className: 'colTitle good' }, 'useMemo(fn, deps)'),
+          e('div', { className: 'stat' }, memoCallsRef.current),
+          e('div', { className: 'val' }, memoGreeting),
+          e('p', { className: 'note' }, 'Caches the greeting itself. Skips recomputation when name is unchanged.')
+        ),
+        e('div', { className: 'col' },
+          e('h2', { className: 'colTitle bad' }, 'useCallback(fn, deps)()'),
+          e('div', { className: 'stat' }, callbackCallsRef.current),
+          e('div', { className: 'val' }, callbackGreeting),
+          e('p', { className: 'note' }, 'Caches only the FUNCTION reference. Calling it still recomputes every render.')
+        )
+      ),
+      e('button', { className: 'btn', onClick: function () { setTick(tick + 1); } }, 'Unrelated tick (' + tick + ')')
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

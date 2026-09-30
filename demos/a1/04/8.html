@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Overlapping Elements — Something Flexbox Can't Do">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Overlapping Elements — Something Flexbox Can't Do</h1>
+    <p class="hint">Click a corner — the status badge jumps there by grid line coordinates alone, sharing the exact same cell as the avatar behind it. No position: absolute anywhere in this CSS.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cornerBtns">
+      <button type="button" class="cornerBtn cornerBtnActive" data-corner="tr">top-right</button>
+      <button type="button" class="cornerBtn" data-corner="tl">top-left</button>
+      <button type="button" class="cornerBtn" data-corner="br">bottom-right</button>
+      <button type="button" class="cornerBtn" data-corner="bl">bottom-left</button>
+    </div>
+    <div class="avatarGrid">
+      <div class="avatar">DR</div>
+      <div class="badge badge--tr" id="badge">●</div>
+    </div>
+    <pre class="ruleTag" id="ruleTag">.avatar { grid-area: 1 / 1 / 3 / 3; }
+.badge  { grid-area: 1 / 3 / 2 / 4; }</pre>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 14px 16px 26px; }
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 8px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .cornerBtns { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+  .cornerBtn {
+    font: 600 11.5px system-ui, sans-serif;
+    padding: 5px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--sub);
+    cursor: pointer;
+  }
+  .cornerBtn:hover { background: #f0f1f5; }
+  .cornerBtnActive, .cornerBtnActive:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  /* The rule this demo is about — a 3x3 line grid lets two elements share
+     a cell, with the second one simply painted after the first in DOM order. */
+  .avatarGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 30px);
+    grid-template-rows: repeat(3, 30px);
+    padding: 20px;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    background: #fff;
+  }
+  .avatar {
+    grid-area: 1 / 1 / 3 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #818cf8, #6366f1);
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  .badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #22c55e;
+    color: #fff;
+    font-size: 11px;
+    border: 3px solid #fff;
+  }
+  .badge--tr { grid-area: 1 / 3 / 2 / 4; }
+  .badge--tl { grid-area: 1 / 1 / 2 / 2; }
+  .badge--br { grid-area: 3 / 3 / 4 / 4; }
+  .badge--bl { grid-area: 3 / 1 / 4 / 2; }
+</script>
+
+<script type="text/plain" id="js">
+  var buttons = document.querySelectorAll('.cornerBtn');
+  var badge = document.getElementById('badge');
+  var ruleTag = document.getElementById('ruleTag');
+  var AREAS = {
+    tr: '1 / 3 / 2 / 4',
+    tl: '1 / 1 / 2 / 2',
+    br: '3 / 3 / 4 / 4',
+    bl: '3 / 1 / 4 / 2'
+  };
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var corner = b.getAttribute('data-corner');
+      buttons.forEach(function (o) { o.classList.toggle('cornerBtnActive', o === b); });
+      badge.className = 'badge badge--' + corner;
+      ruleTag.textContent = '.avatar { grid-area: 1 / 1 / 3 / 3; }\n.badge  { grid-area: ' + AREAS[corner] + '; }';
+    });
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

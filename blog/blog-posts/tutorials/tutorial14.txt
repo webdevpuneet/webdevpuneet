@@ -1,0 +1,336 @@
+<h1>Building a Scroll-Hoisted Flag: Why clip-path Beats scaleX for Reveal Animations</h1>
+
+<p>Every August a wave of Independence Day pages ships with the same animation: a flag that autoplays on load, waves for three seconds, and is finished before anyone has scrolled far enough to see it. The visitor arrives to a loop already in progress, watches a GIF, and leaves. Nothing about it is wrong, exactly — it's just that the most participatory moment of the day, the hoisting itself, has been turned into something that happens <em>at</em> the viewer rather than something they do.</p>
+
+<p>Tying the hoist to scroll position fixes that for free. The visitor pulls the flag up the pole at their own pace, stops halfway if they want, and scrolls back to watch it again. But scroll-driven animation has a specific set of traps — reading layout on every scroll event, fighting the browser over who owns an element's <code>transform</code>, and one reveal technique that quietly ruins any artwork with a circle in it. Here's the finished piece; scroll it:</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/independence-day-flag-hoist/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Independence Day Flag Hoist — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p>Grab the code, or open the full editor with live HTML/CSS/JS panels: <a href="https://fwdtools.com/ui-snippets/independence-day-flag-hoist/">Independence Day Flag Hoist on FWD Tools</a>. It's plain HTML, CSS and JavaScript with zero dependencies — no GSAP, no ScrollTrigger, no images — and the same editor exports one-click to <strong>React</strong>, <strong>Vue</strong>, <strong>Angular</strong> and <strong>React + Tailwind</strong>.</p>
+
+<p>In this post I'll build it from the scroll handler outward: how a single progress number drives every stage of the sequence, why the unfurl uses <code>clip-path</code> instead of the scale transform everyone reaches for first, how the flag's official 3:2 geometry falls out of a single CSS custom property, how twenty-four chakra spokes are laid out exactly rather than by eye, and the transform-ownership rule that keeps a JavaScript-driven animation from fighting a CSS one.</p>
+
+<h2>What the component actually is</h2>
+
+<p>Four pieces, in the order they run:</p>
+
+<ol>
+<li><strong>A tall section with a sticky stage</strong> — the pinning is pure CSS, with no JavaScript involved in holding the scene in place.</li>
+<li><strong>One progress value</strong> derived from <code>getBoundingClientRect()</code>, clamped to 0–1, recomputed at most once per frame.</li>
+<li><strong>A phase mapper</strong> that fans that single number out into overlapping sub-ranges, one per stage of the sequence.</li>
+<li><strong>Two generated element sets</strong> — the twenty-four chakra spokes and the petal shower — built once in JavaScript rather than written out by hand in the markup.</li>
+</ol>
+
+<p>The structural decision worth copying is that <em>nothing</em> in this component is stateful in the usual sense. There's no "current stage" variable, no timeline object, no list of animations that have already fired. Almost every visual property is a pure function of scroll position, recalculated from scratch each frame — the petal shower in Step 9 is the single exception, and it needs a latch precisely because it's the one thing that isn't. That purity is what makes scrubbing backwards work without a line of code written to handle it.</p>
+
+<h2>Where you'd actually use this</h2>
+
+<ul>
+<li><strong>A national-day or festival campaign page.</strong> The obvious one, and the reason it exists — but the rig is artwork-agnostic, so the same mechanism carries a banner, a curtain, or a product.</li>
+<li><strong>Any "lift and reveal" hero.</strong> Hoist, unfurl, settle into motion is a three-beat structure that fits product unveilings as well as it fits flags.</li>
+<li><strong>Learning scroll-linked animation without a library.</strong> GSAP with ScrollTrigger is excellent and lands around 40KB minified; the core idea it wraps is about fifteen lines, and they're all here with nothing abstracted away.</li>
+<li><strong>A reference for multi-stage progress mapping.</strong> The <code>phase()</code> helper below is the piece that generalises furthest — any scroll story with several beats needs exactly this, whether that's an <a href="https://fwdtools.com/ui-snippets/text-reveal-scroll/">on-scroll text reveal</a> or a pinned product walkthrough.</li>
+</ul>
+
+<h2>The markup: a spacer, a stage, and a rig</h2>
+
+<pre><code class="language-html">&lt;section class="ind-section" id="indSection"&gt;
+  &lt;div class="ind-stage"&gt;
+    &lt;div class="ind-sun" id="indSun"&gt;&lt;/div&gt;
+    &lt;div class="ind-scene"&gt;
+      &lt;div class="ind-rig" id="indRig"&gt;
+        &lt;div class="ind-pole"&gt;
+          &lt;span class="ind-finial"&gt;&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="ind-flagwrap" id="indFlagWrap"&gt;
+          &lt;div class="ind-bundle" id="indBundle"&gt;&lt;/div&gt;
+          &lt;div class="ind-flag" id="indFlag"&gt;
+            &lt;div class="ind-band ind-saffron"&gt;&lt;/div&gt;
+            &lt;div class="ind-band ind-white"&gt;
+              &lt;div class="ind-chakra" id="indChakra"&gt;&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="ind-band ind-green"&gt;&lt;/div&gt;
+            &lt;div class="ind-shine"&gt;&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;span class="ind-base"&gt;&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+
+<p>The nesting looks deeper than it needs to be, but every level is load-bearing. <code>.ind-section</code> is tall and provides the scroll distance. <code>.ind-stage</code> is the sticky child that pins. <code>.ind-rig</code> groups the pole and the flag so the pair can be centred as one unit — centre the pole on its own and the assembly sits visibly off-axis once the flag opens to one side of it.</p>
+
+<p>The split between <code>.ind-flagwrap</code> and <code>.ind-flag</code> is the important one, and I'll come back to it in Step 6: the wrapper is moved by JavaScript, the flag inside it is animated by CSS, and keeping them as separate elements is what stops those two from overwriting each other's <code>transform</code>.</p>
+
+<h2>Step 1 — Pinning with sticky, not JavaScript</h2>
+
+<pre><code class="language-css">.ind-section { min-height: 340vh; position: relative; }
+
+.ind-stage {
+  position: sticky; top: 0; height: 100vh; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}</code></pre>
+
+<p>Two rules and the pinning is done. The section is 340vh tall, the stage is exactly one viewport tall and sticks to the top of it, so as the page scrolls through the section the stage stays fixed on screen until the section's bottom edge passes — giving roughly 2.4 screens of scroll during which the scene is visible and static.</p>
+
+<p>It's worth saying plainly what this replaces. Library-based pinning generally works by switching the element to <code>position: fixed</code> at a scroll threshold and adding a spacer to compensate for the height it no longer occupies, then reversing that at the end. It works, but it's a lot of machinery, and it runs in JavaScript on the main thread. <code>position: sticky</code> is the browser doing the same job natively, in the compositor, with no listener and nothing to unwind. If your pinned section is a single element, you almost certainly do not need a library for the pinning part.</p>
+
+<p>The one requirement people trip over: a sticky element sticks within its <em>parent</em>, so the parent must be taller than the sticky child, and no ancestor may have <code>overflow: hidden</code> — that silently disables stickiness with no error and no warning. The <code>overflow: hidden</code> here is on <code>.ind-stage</code> itself (to clip the petals), which is fine; put it on <code>.ind-section</code> and the whole effect stops working.</p>
+
+<h2>Step 2 — One progress number</h2>
+
+<pre><code class="language-javascript">var rect = section.getBoundingClientRect();
+var total = section.offsetHeight - window.innerHeight;
+var p = total &gt; 0 ? Math.max(0, Math.min(1, -rect.top / total)) : 0;</code></pre>
+
+<p>This is the whole measurement layer. <code>rect.top</code> is the section's distance from the top of the viewport: positive while the section is still below the fold, zero at the moment it reaches the top, and increasingly negative as it scrolls past. So <code>-rect.top</code> is "how far into the section we are, in pixels".</p>
+
+<p><code>total</code> is the scrollable distance <em>within</em> the section — its full height minus one viewport, because the last screenful is when the sticky stage is unpinning rather than pinned. Dividing gives a 0-to-1 fraction, and the <code>Math.max</code>/<code>Math.min</code> pair clamps it so anything above or below the section reads as exactly 0 or 1 rather than a runaway negative.</p>
+
+<p>The <code>total &gt; 0</code> guard handles the degenerate case where the section is shorter than the viewport — on a very short window, or if someone edits <code>min-height</code> down — where the division would otherwise produce <code>Infinity</code> or <code>NaN</code> and propagate a broken transform into the DOM.</p>
+
+<p>Note what this approach doesn't need: no <code>window.scrollY</code>, no stored offset of the section from the document top, no recalculation when something above the section changes height. <code>getBoundingClientRect()</code> is always relative to the viewport <em>right now</em>, so a late-loading image that pushes the section down is handled automatically. Anything computed from <code>offsetTop</code> would need invalidating; this doesn't.</p>
+
+<h2>Step 3 — Throttling to one read per frame</h2>
+
+<pre><code class="language-javascript">function onScroll() {
+  if (ticking) return;
+  ticking = true;
+  requestAnimationFrame(update);
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });</code></pre>
+
+<p>Scroll events can fire more often than the screen repaints, particularly from high-precision trackpads and wheels. Running <code>update()</code> on each one means calling <code>getBoundingClientRect()</code> several times to produce a single visual result, and since that call forces the browser to flush pending layout, it's one of the more expensive things you can do repeatedly. Modern browsers already align scroll events to the frame in many cases, but that's an optimisation you don't control — the guard costs two lines and makes the guarantee yours.</p>
+
+<p>The <code>ticking</code> flag collapses that: the first scroll event of a frame schedules an update and sets the flag, every subsequent event returns immediately, and <code>update()</code> clears the flag when it runs. The result is exactly one layout read and one batch of style writes per painted frame, no matter how fast the input arrives.</p>
+
+<p><code>{ passive: true }</code> is the other half. By default the browser must wait to see whether a scroll listener calls <code>preventDefault()</code> before it can commit the scroll, so a slow handler delays the scroll itself. Declaring the listener passive promises it won't cancel anything, letting the browser scroll immediately and run the handler alongside. On a listener that only reads position, there is no reason not to.</p>
+
+<h2>Step 4 — Phases: fanning one number out</h2>
+
+<pre><code class="language-javascript">function phase(p, start, end) {
+  return Math.max(0, Math.min(1, (p - start) / (end - start)));
+}
+
+function easeOut(t) { return 1 - Math.pow(1 - t, 3); }</code></pre>
+
+<p>Five lines, and they're the reusable heart of the component. <code>phase()</code> takes the global 0–1 progress and remaps a slice of it onto a fresh 0–1 range, clamping outside that slice. <code>phase(p, 0.56, 0.78)</code> reads as: stay at 0 until the scroll is 56% through the section, then run 0→1 across the next 22%, then hold at 1 for the rest.</p>
+
+<p>That single helper is what lets each stage be written independently:</p>
+
+<pre><code class="language-javascript">var hoist = easeOut(phase(p, 0.04, 0.56));
+var unfurl = phase(p, 0.56, 0.78);</code></pre>
+
+<p>The hoist owns the first half of the scroll, the unfurl picks up exactly where it ends, and the greeting has its own threshold later. Re-timing any stage is a two-number edit that can't affect the others, because each one clamps to its own range. Without this, you end up writing a chain of <code>if (p &gt; 0.56 &amp;&amp; p &lt; 0.78)</code> branches with the interpolation inlined into each, and the arithmetic for "where am I within this stage" repeated four times with slightly different bugs in each copy.</p>
+
+<p><code>easeOut</code> is a cubic: fast at the start, decelerating to a stop. It's applied to the hoist and nothing else, because it's modelling something physical — a rope being pulled hand over hand and eased off as the flag nears the top. The unfurl stays linear, since cloth opening in the wind has no particular reason to decelerate.</p>
+
+<h2>Step 5 — The reveal, and why scaleX is the wrong tool</h2>
+
+<pre><code class="language-javascript">flag.style.clipPath = 'inset(0 ' + ((1 - unfurl) * 100).toFixed(2) + '% 0 0)';</code></pre>
+
+<p>This is the line I'd most want someone to take away from the whole build.</p>
+
+<p>The instinct when you need something to open from a fixed edge is <code>transform: scaleX()</code> with <code>transform-origin: left</code>. It's hardware-accelerated, it's one property, and it's what most reveal tutorials reach for. It is also wrong here, and the reason is that <strong>a scale transform scales the element's children too</strong>.</p>
+
+<p>The flag has a circle in the middle of it. Under <code>scaleX(0.3)</code>, the Ashoka Chakra isn't a small circle — it's an ellipse squashed to 30% of its width, and it stays an ellipse through the entire animation, only becoming round on the final frame. Every spoke is distorted with it. The artwork is wrong for the whole reveal and correct only when the reveal is over, which is precisely backwards.</p>
+
+<p><code>clip-path: inset(0 N% 0 0)</code> does something categorically different: it doesn't transform anything, it just hides part of it. The four values are the inset from top, right, bottom and left, so <code>inset(0 100% 0 0)</code> clips everything in from the right edge — fully hidden — and <code>inset(0 0 0 0)</code> clips nothing. Sweeping that right-hand value from 100% to 0 wipes the flag into view left to right while every pixel stays exactly where and what size it would be. The chakra is a perfect circle at 1% revealed and at 100% revealed.</p>
+
+<p>The general rule: <strong>use a transform when you want the content to change shape, and a clip when you want it revealed at its true size.</strong> Scale for a card popping in, clip for anything with internal geometry that has to stay honest — a logo, a circle, text, an icon. A transform is the cheaper of the two in principle, since it's the one property browsers most reliably keep on the compositor, but on an element this size the difference is not measurable and correctness is the deciding factor.</p>
+
+<p>The rolled bundle fades out across the same range, so the flag appears to come out of it:</p>
+
+<pre><code class="language-javascript">bundle.style.opacity = String(1 - unfurl);
+bundle.style.transform = 'scaleX(' + (1 - unfurl * 0.4) + ')';</code></pre>
+
+<p>Here <code>scaleX</code> <em>is</em> the right call, because the bundle is a plain gradient with no internal geometry — there's nothing inside it that distortion could damage.</p>
+
+<h2>Step 6 — Who owns the transform</h2>
+
+<p>This is the bug that catches people combining scroll-driven JavaScript with CSS keyframes, and the reason for the wrapper element noted back in the markup.</p>
+
+<p>The flag has to do two things at once when it's hoisted: sit at a scroll-determined height on the pole, and wave. The height is a <code>translateY</code> written by JavaScript every frame. The wave is a CSS animation that also wants to write <code>transform</code>. Put both on the same element and they collide — a running CSS animation wins the cascade over an inline style, so the JavaScript positioning is simply discarded, and the flag snaps back to the pole's base the instant the wave starts.</p>
+
+<p>The fix is structural rather than clever: give each one its own element.</p>
+
+<pre><code class="language-javascript">// JS owns the wrapper's transform
+wrap.style.transform = 'translateY(' + ((1 - hoist) * travel) + 'px)';
+
+// CSS owns the flag's transform, via a class
+flag.classList.toggle('waving', !reduced &amp;&amp; unfurl &gt; 0.995);</code></pre>
+
+<pre><code class="language-css">.ind-flag.waving { animation: indWave 3.4s ease-in-out infinite; }
+
+@keyframes indWave {
+  0%, 100% { transform: perspective(500px) rotateY(0deg) skewY(0deg); }
+  30%      { transform: perspective(500px) rotateY(-7deg) skewY(-1.1deg); }
+  65%      { transform: perspective(500px) rotateY(6deg) skewY(1deg); }
+}</code></pre>
+
+<p>The wrapper translates; the flag inside it rotates and skews. They compose naturally because they're nested, and neither can clobber the other. The same principle applies any time a scroll handler and a keyframe animation both want to move something: separate elements, or separate properties, but never both writing <code>transform</code> on one node.</p>
+
+<p>Notice too that the wave is toggled by a class rather than started with <code>element.animate()</code> or a style assignment. The class is set on every frame via <code>classList.toggle</code> with a boolean second argument, which is a no-op when the state hasn't changed — so there's no need to track whether the animation is already running.</p>
+
+<p>The travel distance is measured, not hardcoded:</p>
+
+<pre><code class="language-javascript">var travel = rig.clientHeight - wrap.offsetHeight;</code></pre>
+
+<p>The flag climbs from "as far down as it can go while still fully on the pole" to zero. Because both numbers are read from the live layout, the hoist is automatically correct at any viewport size, and the <code>resize</code> listener re-runs <code>update()</code> so a rotated phone recalculates rather than leaving the flag at a stale offset.</p>
+
+<h2>Step 7 — Flag geometry from one custom property</h2>
+
+<pre><code class="language-css">.ind-rig {
+  --fw: clamp(168px, 40vw, 252px);
+  --fh: calc(var(--fw) / 1.5);     /* the flag's official 3:2 ratio */
+}
+
+.ind-chakra {
+  /* each band is fh/3 tall; the chakra is 3/4 of that, per the flag code */
+  width: calc(var(--fh) / 3 * 0.75);
+  height: calc(var(--fh) / 3 * 0.75);
+  border: 1.6px solid #000080; border-radius: 50%;
+}</code></pre>
+
+<p>The Indian flag is specified at a 3:2 width-to-height ratio, three equal horizontal bands, and an Ashoka Chakra whose diameter is three quarters of the height of the white band. Expressing that as arithmetic rather than as pixel values means the whole thing is correct at every size: <code>--fw</code> is responsive via <code>clamp()</code>, <code>--fh</code> is derived from it, and the chakra is derived from that. Change the one <code>clamp()</code> and every proportion follows.</p>
+
+<p>It's worth writing the intent into the <code>calc()</code> rather than collapsing it. <code>calc(var(--fh) / 3 * 0.75)</code> reduces algebraically to <code>var(--fh) / 4</code>, which is shorter and tells the next reader nothing. The unreduced form states the rule — three bands, three quarters of one — so if someone later changes the number of bands, the relationship is visible. I'll admit the practical reason I feel strongly about this: my first version of that line was <code>calc(var(--fh) / 4 * 0.75)</code>, which double-applied the ratio and rendered the chakra noticeably undersized. Written in the reduced form, that mistake is invisible on inspection; written as bands-and-fractions, it reads as obviously wrong.</p>
+
+<h2>Step 8 — Twenty-four spokes, laid out exactly</h2>
+
+<pre><code class="language-javascript">function buildChakra() {
+  for (var i = 0; i &lt; 24; i++) {
+    var spoke = document.createElement('span');
+    spoke.className = 'ind-spoke';
+    spoke.style.transform = 'rotate(' + (i * 15) + 'deg)';
+    chakra.appendChild(spoke);
+  }
+}</code></pre>
+
+<pre><code class="language-css">.ind-spoke {
+  position: absolute; left: calc(50% - 0.7px); top: 50%;
+  width: 1.4px; height: 50%;
+  background: #000080;
+  transform-origin: 50% 0;   /* pivot on the hub, so 24 × 15° radiates evenly */
+}</code></pre>
+
+<p>The chakra has exactly twenty-four spokes — it's a defined element of the flag, not a decorative choice — and 360 ÷ 24 gives 15° between them.</p>
+
+<p>The layout trick is <code>transform-origin: 50% 0</code>. Each spoke is a thin bar positioned with its <em>top</em> edge at the centre of the circle and extending down to the rim, a length of 50% of the container. Setting the transform origin to the top-centre of that bar means it pivots around the hub rather than around its own middle, so a plain <code>rotate(i * 15deg)</code> swings it out like a clock hand. Twenty-four of those produce a mathematically exact wheel.</p>
+
+<p>The alternative — positioning each spoke with trigonometry, computing an x/y offset per spoke with <code>Math.cos</code> and <code>Math.sin</code> and then rotating it to match — gets you to the same picture with considerably more arithmetic and a rounding error at every step. When a shape radiates from a point, moving the origin to that point is almost always the shorter path.</p>
+
+<p>Generating the spokes in JavaScript rather than writing twenty-four <code>&lt;span&gt;</code> elements into the HTML keeps the markup honest about what it is: the chakra is one element with a rule, not twenty-four hand-placed decorations. It also means the whole wheel rotates as a unit with a single transform on the parent:</p>
+
+<pre><code class="language-javascript">chakra.style.transform = 'rotate(' + (hoist * 540).toFixed(1) + 'deg)';</code></pre>
+
+<p>540 degrees is one and a half turns across the hoist, which reads as motion without the strobing that a faster spin produces against the spokes' own regularity.</p>
+
+<h2>Step 9 — A petal shower that rearms</h2>
+
+<pre><code class="language-javascript">if (!showering &amp;&amp; unfurl &gt; 0.99) {
+  showering = true;
+  petals.classList.add('falling');
+} else if (showering &amp;&amp; unfurl &lt; 0.5) {
+  showering = false;
+  petals.classList.remove('falling');   // rearm if the user scrolls back up
+}</code></pre>
+
+<p>The petals are the one genuinely stateful thing in the component, because they're a one-shot event rather than a continuous function of position — they fall when the flag opens, and they shouldn't restart on every frame that the flag happens to be open.</p>
+
+<p>The pattern is a latch with hysteresis. It fires at 0.99 and only resets below 0.5, and that gap is the point: a single threshold would flicker on and off as the value jitters across it, restarting the animation constantly. Setting the reset well below the trigger means the visitor has to genuinely scroll back before it rearms. This is the same idea as a thermostat's deadband, and it applies to any scroll-triggered one-shot.</p>
+
+<p>The petals themselves are built once, with the randomness baked into inline styles rather than computed per frame:</p>
+
+<pre><code class="language-javascript">for (var i = 0; i &lt; 22; i++) {
+  var p = document.createElement('span');
+  p.className = 'ind-petal';
+  p.style.left = (Math.random() * 100) + '%';
+  p.style.background = PETAL_COLORS[i % PETAL_COLORS.length];
+  p.style.animationDuration = (2.6 + Math.random() * 2.2) + 's';
+  p.style.animationDelay = (Math.random() * 1.6) + 's';
+  petals.appendChild(p);
+}</code></pre>
+
+<p>Randomised durations and delays are what stop twenty-two identical elements from reading as a single falling row. The colours cycle deterministically through the tricolour rather than being random, so the mix stays balanced instead of occasionally dealing eight greens in a row.</p>
+
+<h2>Step 10 — Reduced motion, done properly</h2>
+
+<pre><code class="language-javascript">var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function buildPetals() {
+  if (reduced) return;
+  // ...
+}</code></pre>
+
+<pre><code class="language-css">@media (prefers-reduced-motion: reduce) {
+  .ind-cue::after, .ind-flag.waving, .ind-flag.waving .ind-shine { animation: none; }
+  .ind-petals { display: none; }
+}</code></pre>
+
+<p>The distinction this makes is the one that matters for scroll animation, and it's routinely got wrong in both directions.</p>
+
+<p>What <code>prefers-reduced-motion</code> asks you to remove is <em>autonomous</em> motion — things that move on their own, loop indefinitely, or fly across the screen without being asked. The waving flag, the sheen sweep, the bouncing scroll cue and the falling petals are all exactly that, so they're all disabled.</p>
+
+<p>The hoist and unfurl are not. They're direct, one-to-one responses to the visitor's own scrolling — the same category as the page moving when you scroll it. Stripping those out would leave a blank stage and a broken page rather than a calmer one. Reduced motion means less gratuitous movement, not no movement, and the honest test is whether the motion happens <em>to</em> the user or <em>because of</em> them.</p>
+
+<p>The JavaScript check and the CSS media query are both present on purpose. The media query handles the CSS animations; the JavaScript check stops twenty-two DOM nodes being created that will never be visible.</p>
+
+<h2>Customizing it for your own project</h2>
+
+<ul>
+<li><strong>Change the pacing.</strong> <code>min-height</code> on <code>.ind-section</code> controls how much scrolling the whole sequence takes; the <code>phase()</code> fractions control how that budget is divided. They're independent, so you can slow the whole thing down without re-timing anything.</li>
+<li><strong>Swap the artwork.</strong> The rig doesn't know it's carrying a flag. Replace the three bands with a banner, a product shot, or a curtain and the hoist, clip-path unfurl and wave all still apply.</li>
+<li><strong>Add a half-mast variant.</strong> Change the hoist's end value from 1 to 0.5 and the flag stops halfway — the appropriate treatment for a remembrance page, and a one-number change.</li>
+<li><strong>Draw the chakra as SVG.</strong> Twenty-four <code>&lt;line&gt;</code> elements in an inline <code>&lt;svg&gt;</code> would let you stroke and animate each spoke individually, and would scale more crisply than sub-pixel <code>&lt;span&gt;</code> widths at very large sizes.</li>
+<li><strong>Try native scroll-driven animations.</strong> <code>animation-timeline: view()</code> can express this entirely in CSS with no scroll listener at all, running off the main thread. Support is still short of universal, so treat it as a progressive enhancement layered over this handler rather than a replacement.</li>
+</ul>
+
+<h2>The things deliberately left out</h2>
+
+<p><strong>Cloth simulation.</strong> The wave is a skew and a rotation on a rigid rectangle. A real flag ripples in bands that travel across it, which needs either a canvas/WebGL mesh with per-vertex displacement or a stack of slices each phase-shifted from the last. Both are far more code than the effect justifies at this size.</p>
+
+<p><strong>An IntersectionObserver gate.</strong> The scroll listener runs for the entire page lifetime, including when the section is nowhere near the viewport. The work is trivial — one rect read, clamped arithmetic — so it doesn't matter here, but on a page with several of these, gating each handler on an observer so only the visible one computes is the correct pattern.</p>
+
+<p><strong>Layout-read batching.</strong> <code>update()</code> reads <code>clientHeight</code> and <code>offsetHeight</code> and then writes styles, which is the interleaving that causes forced synchronous layout. It's safe here because the reads all happen before the writes within one frame, but if you extend this with more measured elements, keep that ordering deliberate rather than accidental.</p>
+
+<p><strong>A reduced-motion change listener.</strong> The preference is read once at load. Someone toggling the OS setting with the page already open won't see it take effect until they reload. <code>matchMedia(...).addEventListener('change', ...)</code> fixes it if you care.</p>
+
+<h2>Using it in React, Vue, or Angular</h2>
+
+<p>The editor exports all four, and the port is mostly about lifecycle discipline. Nothing in this component belongs in framework state: the progress value changes on every frame and is read only by style writes the framework isn't managing, so routing it through <code>useState</code> would trigger a re-render per frame to update properties React never touches. Keep element handles in refs and write to <code>.style</code> directly, exactly as the vanilla version does.</p>
+
+<p>The generation steps — <code>buildChakra()</code> and <code>buildPetals()</code> — must run exactly once. In React's development StrictMode, effects run twice on mount, so an unguarded builder appends forty-eight spokes instead of twenty-four. Either clear the container at the top of the builder or return a cleanup that empties it; the second is better practice, since it's also what you want on unmount.</p>
+
+<p>Both listeners need removing on teardown. Register <code>scroll</code> and <code>resize</code> inside the same effect that builds the DOM and return a function that removes both — <code>useEffect</code> with an empty dependency array in React, <code>onMounted</code>/<code>onUnmounted</code> in Vue, <code>ngAfterViewInit</code>/<code>ngOnDestroy</code> in Angular. A leaked scroll handler holding a reference to a detached section is a genuine memory leak, and it'll keep calling <code>getBoundingClientRect()</code> on every scroll of every subsequent page in a single-page app.</p>
+
+<h2>Build, understand, optimize, and extend it with AI</h2>
+
+<p>This component is a good one to interrogate because most of its decisions are structural, and structural decisions are exactly what an assistant can pressure-test. Paste the HTML, CSS and JS into an assistant like Claude and start with the reveal: ask it to rewrite the unfurl using <code>transform: scaleX()</code> instead of <code>clip-path</code>, then describe precisely what happens to the chakra at 30% progress — having it articulate the failure is worth more than reading the rule. Then ask it to move the wave animation from <code>.ind-flag</code> onto <code>.ind-flagwrap</code> and explain why the flag drops to the base of the pole the moment the animation starts; that's the transform-ownership collision made concrete. For optimization, ask whether <code>update()</code> can avoid its layout reads entirely by caching <code>rig.clientHeight</code> and <code>wrap.offsetHeight</code> on resize instead of measuring every frame, and what that trades away. For extension, in roughly increasing order of difficulty: add a half-mast mode; rebuild the chakra as inline SVG with individually animatable spokes; gate the scroll handler behind an IntersectionObserver; port the entire sequence to CSS <code>animation-timeline: view()</code> with the JavaScript version as a fallback; and finally replace the rigid wave with a sliced cloth simulation where each vertical strip is phase-offset from its neighbour, then ask it how many strips are needed before the ripple reads as continuous.</p>
+
+<h3>Prompt to recreate it</h3>
+
+<p>Copy this into your AI assistant of choice to build the component from scratch, or as a jumping-off point for your own variant:</p>
+
+<pre><code class="language-text">Build a scroll-triggered Indian Independence Day flag hoisting animation in plain HTML, CSS, and JavaScript — no frameworks, no libraries, no external images.
+
+Requirements:
+- A tall section containing a position: sticky stage that pins for the length of the scroll. Compute a single 0..1 progress value from getBoundingClientRect() as -rect.top / (section.offsetHeight - window.innerHeight), clamped, with a guard for the case where that denominator is zero or negative.
+- Throttle the scroll handler with requestAnimationFrame and a ticking flag so layout is read at most once per painted frame, and register the listener as passive. Recompute on resize.
+- Map that one progress value onto separate stages with a phase(p, start, end) helper that remaps and clamps to a sub-range: hoist roughly 4%-56%, unfurl 56%-78%, greeting past 85%. Do not write per-stage if/else branches with the interpolation inlined.
+- Stage 1: a rolled flag bundle climbs the pole via translateY, eased with an ease-out cubic so it decelerates at the top. Measure the travel distance from the live layout rather than hardcoding it.
+- Stage 2: the flag unfurls left to right using an animated clip-path: inset(0 N% 0 0) — NOT scaleX, because scaling the container would distort the circular chakra inside it for the entire reveal.
+- Keep the JavaScript-driven translateY and the CSS wave animation on two different nested elements, so a running CSS animation cannot override the inline transform the scroll handler writes.
+- Draw the flag to the official 3:2 ratio using a CSS custom property and calc, with three equal horizontal bands in #FF9933, #FFFFFF and #138808.
+- Generate the Ashoka Chakra in JavaScript: exactly 24 navy (#000080) spokes at 15-degree intervals, each absolutely positioned with transform-origin at the hub so a single rotate() lays it out, inside a circular ring sized to three quarters of the white band height. Rotate the whole chakra with the hoist progress.
+- Stage 3: once unfurled, add a class that starts a looping CSS wave animation plus a sheen sweep, trigger a one-time shower of falling tricolour petals created in JS with randomised positions and durations, and fade in a "Happy Independence Day / Jai Hind" greeting.
+- Latch the petal shower with hysteresis — fire above 0.99, reset below 0.5 — so it does not restart every frame but does rearm if the user scrolls back up.
+- Respect prefers-reduced-motion: skip generating petals in JS and disable the wave, sheen and cue keyframes in CSS, while leaving the scroll-driven hoist and unfurl working, since those are direct responses to the user's own scrolling rather than autonomous motion.</code></pre>
+
+<h2>Final thought</h2>
+
+<p>The line worth keeping from this build is the clip-versus-scale distinction, because it generalises so far past flags. Any time you reveal an element that has internal geometry — a circle, a logo, an icon, text — a scale transform will distort that geometry for the entire duration of the reveal and correct it only at the final frame. The animation is wrong throughout and right at the end, which is the opposite of what you want, and it's the sort of wrong that's easy to miss in review because the still frame everyone looks at is the finished one.</p>
+
+<p>The deeper version of the same point is about ownership. Most of the difficulty in scroll animation isn't the maths — the maths is one subtraction and a clamp. It's deciding which layer owns what: sticky owns the pinning, JavaScript owns the position, CSS owns the loop, and each of those lives on its own element so none of them can overwrite another. Get that division right and the code stays about fifteen lines of arithmetic. Get it wrong and you'll spend an afternoon wondering why your flag keeps falling off the pole.</p>

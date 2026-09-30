@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Password Strength Meter">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Password strength meter</h1>
+    <p class="hint">Type a password — the bar and label update live as you type, before you ever submit anything.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="panel">
+      <label class="fieldLabel" for="pw">Password</label>
+      <input class="field" type="password" id="pw" placeholder="Choose a password" autocomplete="off">
+      <div class="meterTrack"><div class="meterFill" id="meterFill"></div></div>
+      <p class="strengthLabel" id="strengthLabel">&nbsp;</p>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; padding: 30px 16px 28px; }
+
+  .panel { width: 100%; max-width: 320px; }
+  .fieldLabel { display: block; font: 700 12px system-ui, sans-serif; margin-bottom: 6px; }
+  .field {
+    width: 100%; padding: 10px 12px; border-radius: 8px;
+    border: 1.5px solid var(--line); font: 14px system-ui, sans-serif; outline: none;
+  }
+  .field:focus { border-color: var(--accent); }
+
+  .meterTrack { margin-top: 10px; height: 6px; border-radius: 999px; background: #e7e9ee; overflow: hidden; }
+  .meterFill {
+    height: 100%; width: 0%; border-radius: 999px; background: #dc2626;
+    transition: width 0.2s ease, background 0.2s ease;
+  }
+  .strengthLabel { margin: 7px 0 0; font-size: 12px; font-weight: 700; color: var(--sub); min-height: 16px; }
+</script>
+
+<script type="text/plain" id="js">
+  var pw = document.getElementById('pw');
+  var meterFill = document.getElementById('meterFill');
+  var strengthLabel = document.getElementById('strengthLabel');
+
+  var LEVELS = [
+    { pct: 0,   color: '#e7e9ee', text: ' ' },
+    { pct: 20,  color: '#dc2626', text: 'Very weak' },
+    { pct: 40,  color: '#f97316', text: 'Weak' },
+    { pct: 60,  color: '#eab308', text: 'Fair' },
+    { pct: 80,  color: '#84cc16', text: 'Good' },
+    { pct: 100, color: '#16a34a', text: 'Strong' }
+  ];
+
+  function score(val) {
+    if (!val) return 0;
+    var points = 0;
+    if (val.length >= 8) points++;
+    if (val.length >= 12) points++;
+    if (/[a-z]/.test(val) && /[A-Z]/.test(val)) points++;
+    if (/[0-9]/.test(val)) points++;
+    if (/[^A-Za-z0-9]/.test(val)) points++;
+    return Math.min(points, 5);
+  }
+
+  pw.addEventListener('input', function () {
+    var level = LEVELS[score(pw.value)];
+    meterFill.style.width = level.pct + '%';
+    meterFill.style.background = level.color;
+    strengthLabel.textContent = level.text;
+    strengthLabel.style.color = level.pct === 0 ? '#6b7080' : level.color;
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

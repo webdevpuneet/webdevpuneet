@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="A Custom Hook's Internal State Re-Renders Its Caller">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>A custom hook's internal state re-renders its caller</h1>
+    <p class="hint">Click "Nudge window width (hook-internal)." The component never reads that value, yet it still re-renders.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px 28px; }
+  .frame { width: 100%; max-width: 480px; background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 16px; text-align: center; }
+  .stat { font: 800 22px ui-monospace, monospace; margin-bottom: 8px; }
+  .out { font: 600 12px ui-monospace, monospace; color: var(--sub); margin-bottom: 12px; }
+  .btn { padding: 9px 16px; border-radius: 9px; border: none; background: var(--accent); color: #fff; font: 700 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { background: #4f52d6; }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; }
+  code { background: #eceef3; padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useRef = React.useRef;
+  var useEffect = React.useEffect;
+
+  // A custom hook that tracks something the caller never asked to see.
+  // It returns a completely stable, hard-coded label -- but calling
+  // setWidth (its own internal state setter) still re-renders whatever
+  // component called this hook, because hooks don't have their own
+  // isolated render cycle. There is only ever one component render.
+  function useWindowWidthLogger() {
+    var widthState = useState(320);
+    var width = widthState[0];
+    var setWidth = widthState[1];
+
+    return { label: 'tracker active', bump: function () { setWidth(width + 10); }, width: width };
+  }
+
+  function Demo() {
+    var tracker = useWindowWidthLogger();
+    var renderCountRef = useRef(0);
+    renderCountRef.current += 1;
+
+    return e('div', { className: 'frame' },
+      e('div', { className: 'stat' }, 'Component renders: ' + renderCountRef.current),
+      e('div', { className: 'out' }, 'component only displays a fixed label: "' + tracker.label + '"'),
+      e('div', { className: 'out' }, '(hook’s internal width, not shown in UI: ' + tracker.width + ')'),
+      e('button', { className: 'btn', onClick: tracker.bump }, 'Nudge window width (hook-internal)'),
+      e('p', { className: 'note' }, 'The component’s own JSX never reads ', e('code', null, 'tracker.width'), '. But a custom hook’s ', e('code', null, 'useState'), ' lives inside the calling component’s fiber — there’s no separate render tree for the hook — so calling its setter re-renders the whole component function, label and all, regardless of whether the returned value looks related to what changed.')
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

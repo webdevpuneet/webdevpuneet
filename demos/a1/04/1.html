@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Flex vs. Grid — Same Markup, One Toggle">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Flex vs. Grid — Same Markup, One Toggle</h1>
+    <p class="hint">Six identical tiles, one class swap. Click the toggle and watch the exact same HTML arrange itself completely differently under Flexbox vs. Grid.</p>
+  </header>
+  <main class="stageWrap">
+    <button type="button" id="toggleBtn" class="toggleBtn">Switch to Grid</button>
+    <div class="tileBox tileBox--flex" id="tileBox">
+      <div class="tile">1</div>
+      <div class="tile">2</div>
+      <div class="tile">3</div>
+      <div class="tile">4</div>
+      <div class="tile">5</div>
+      <div class="tile">6</div>
+    </div>
+    <div class="readout">
+      <span>display: <strong id="readoutValue">flex</strong></span>
+    </div>
+    <pre class="ruleTag" id="ruleTag">.tileBox { display: flex; }</pre>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+  .readout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 16px;
+    font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--sub);
+  }
+  .readout strong { color: var(--accent); font-weight: 700; }
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 8px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .toggleBtn {
+    font: 700 12.5px system-ui, sans-serif;
+    padding: 8px 16px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: #fff;
+    color: var(--accent);
+    cursor: pointer;
+  }
+  .toggleBtn:hover { background: #eef0ff; }
+
+  .tileBox {
+    width: 100%;
+    max-width: 460px;
+    box-sizing: border-box;
+    padding: 14px;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    background: #fff;
+  }
+  .tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 52px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #818cf8, #6366f1);
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  /* Same six children, two completely different layout engines. */
+  .tileBox--flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tileBox--flex .tile { flex: 1 1 120px; }
+
+  .tileBox--grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var box = document.getElementById('tileBox');
+  var btn = document.getElementById('toggleBtn');
+  var outValue = document.getElementById('readoutValue');
+  var ruleTag = document.getElementById('ruleTag');
+  var isGrid = false;
+
+  var FLEX_RULE = '.tileBox {\n  display: flex;\n  flex-wrap: wrap;\n}\n.tile { flex: 1 1 120px; }';
+  var GRID_RULE = '.tileBox {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n}';
+
+  function render() {
+    box.className = 'tileBox ' + (isGrid ? 'tileBox--grid' : 'tileBox--flex');
+    outValue.textContent = isGrid ? 'grid' : 'flex';
+    ruleTag.textContent = isGrid ? GRID_RULE : FLEX_RULE;
+    btn.textContent = isGrid ? 'Switch to Flexbox' : 'Switch to Grid';
+  }
+
+  btn.addEventListener('click', function () {
+    isGrid = !isGrid;
+    render();
+  });
+
+  render();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

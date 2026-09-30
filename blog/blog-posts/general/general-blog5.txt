@@ -1,0 +1,219 @@
+<h1>CSS Grid vs Flexbox: When Should You Use Each?</h1>
+
+<p>Every front-end developer eventually asks the same question: "should this be Grid or Flexbox?" The honest answer isn't a rulebook, it's one distinction that resolves almost every case: <strong>Flexbox lays things out along one dimension at a time</strong> — a row, or a column, deciding how items share space and wrap along that single line — while <strong>Grid lays things out in two dimensions at once</strong>, addressing a row and a column together as coordinates on a shared matrix. Once that clicks, most "which one do I use" questions answer themselves.</p>
+
+<p>The 10 demos below are all real and interactive — drag a handle, click a button, move a slider — so you can watch each engine's actual behavior instead of reading about it secondhand. Several place the same content under both engines side by side so the difference isn't a claim, it's something you can see happen.</p>
+
+<p>Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> &mdash; FWD Tools' free in-browser editor. Swap <code>display: flex</code> for <code>display: grid</code> on a real layout and watch what breaks — that's a faster way to build real intuition than any explanation.</p>
+
+<h2>The one-sentence rule</h2>
+
+<pre><code>/* Flexbox: one axis, content-driven */
+.row { display: flex; }
+
+/* Grid: two axes, structure-driven */
+.layout { display: grid; grid-template-columns: repeat(3, 1fr); }</code></pre>
+
+<p>Flexbox was designed for <strong>distributing space among items along one line</strong> — a toolbar, a button group, a row of tags that wraps like text. It doesn't know about rows and columns as a coordinate system; when it wraps, each new line is its own independent flex line with no memory of the ones before it. Grid was designed for <strong>defining a structure first</strong> — rows and columns as real tracks — and then placing items into that structure by coordinate, area name, or letting them auto-place into the next open cell. Neither one is the "advanced" or "outdated" choice; they're solving genuinely different problems, and most real interfaces need both at once, nested inside each other.</p>
+
+<h2>1. Flex vs. Grid, Same Markup, One Toggle</h2>
+
+<p>Click the toggle — the exact same six HTML tiles rearrange completely differently depending on which engine is switched on, because that's the only thing that changed.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/04/1.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Flex vs. Grid — Same Markup, One Toggle Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>/* Flex mode */
+.tileBox { display: flex; flex-wrap: wrap; }
+.tile { flex: 1 1 120px; }
+
+/* Grid mode */
+.tileBox { display: grid; grid-template-columns: repeat(3, 1fr); }</code></pre>
+
+<p>In flex mode, each tile's width is a negotiation — <code>flex: 1 1 120px</code> says "start around 120px, then grow or shrink to fill the line," and the browser works that out per row as it wraps. In grid mode, there's no negotiation: three explicit column tracks exist whether or not there's content in them yet, and every tile simply occupies one. That's the core difference in miniature — Flexbox reacts to its content, Grid defines a structure and places content into it.</p>
+
+<p><strong>Best for:</strong> deciding, on any real layout, which mental model actually fits — "I want these items to flow and share space" points to Flexbox; "I want a fixed structure the content drops into" points to Grid. <strong>Tip:</strong> if you find yourself fighting Flexbox to keep things aligned in neat rows and columns, that resistance is usually the sign you actually wanted Grid.</p>
+
+<h2>2. Flexbox Perfect Centering</h2>
+
+<p>Click through justify-content and align-items — a single flex child moves independently along the horizontal and vertical axis, the fastest true-centering trick in CSS.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/04/2.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Flexbox Perfect Centering Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.centerBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}</code></pre>
+
+<p><code>justify-content</code> controls alignment along the <strong>main axis</strong> (horizontal, by default) and <code>align-items</code> controls the <strong>cross axis</strong> (vertical, by default) — two separate properties because Flexbox only ever really has one axis it's actively distributing space along, with the other one handled as a secondary concern. This exact two-line combination — <code>display: flex</code> plus both centering properties — replaced years of table-cell hacks, negative-margin tricks, and absolute-position-plus-transform workarounds for what is probably the single most common layout request in CSS.</p>
+
+<p><strong>Best for:</strong> centering a modal, a loading spinner, an icon inside a button, or literally any single child inside a container. <strong>Tip:</strong> Grid can do this exact trick too, with <code>place-items: center</code> on the parent — for a single centered child, which property you reach for is purely a matter of which one you already have <code>display</code> set to.</p>
+
+<h2>3. Grid's Second Axis — Click Any Cell</h2>
+
+<p>Click any cell in the 4x3 grid — it reports its row <em>and</em> column at once, something a one-dimensional layout system has no vocabulary for.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/04/3.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Grid's Second Axis Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.gridBox {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 60px);
+}</code></pre>
+
+<p>Every one of these twelve cells has a genuine coordinate — the third cell in the second row is unambiguously "row 2, column 3," the same way a spreadsheet cell is B2. Flexbox has no equivalent concept: ask a flex item "what row are you in" and the honest answer is that flex items aren't in rows at all, they're just the Nth item on a line that happened to wrap. Grid's coordinate system is what makes everything from explicit placement to spanning (demo #6) to full-page layout (demo #10) possible.</p>
+
+<p><strong>Best for:</strong> any layout where a genuine two-dimensional relationship between items matters — a calendar, a seating chart, a spreadsheet-like UI, a page template with header/sidebar/main/footer. <strong>Tip:</strong> <code>grid-template-columns</code> and <code>grid-template-rows</code> can be set independently — a grid doesn't have to be square or even regular; rows and columns can each have their own sizes.</p>
+
+<h2>4. Auto-Fit Card Grid — No Media Query</h2>
+
+<p>Drag the handle — the column count changes entirely on its own. Search this demo's CSS for <code>@media</code> and you won't find one.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/04/4.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Auto-Fit Card Grid Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+}</code></pre>
+
+<p><code>repeat(auto-fit, minmax(110px, 1fr))</code> reads as: "fit as many columns as you can, as long as each is at least 110px, and stretch them evenly to fill whatever's left over." The browser recalculates the column count itself on every resize — no breakpoint list to maintain, no JavaScript <code>ResizeObserver</code>, and it adapts to genuinely any width rather than jumping between a fixed set of pre-decided layouts the way media-query breakpoints do.</p>
+
+<p><strong>Best for:</strong> product grids, image galleries, dashboard cards — any repeating collection of same-sized items where you want "as many as fit" rather than a hand-picked column count per breakpoint. <strong>Tip:</strong> <code>auto-fit</code> collapses empty leftover tracks so existing columns stretch to fill the row; the near-identical <code>auto-fill</code> keeps those empty tracks reserved instead, which matters if you specifically don't want items stretching wider once there are fewer of them than fit.</p>
+
+<h2>5. Flexbox Wrap — One Dimension at a Time</h2>
+
+<p>Drag the handle narrower — tags flow and wrap exactly like words in a sentence, because that's genuinely the same mechanism Flexbox is using.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/04/5.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Flexbox Wrap Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}</code></pre>
+
+<p>Without <code>flex-wrap: wrap</code>, flex items shrink to squeeze onto one line no matter how many there are, which is rarely what you want for a variable-length list of tags. With it, Flexbox places items one at a time, moving to a new line only when the current one runs out of room — and once it wraps, each line is a fresh, independent flex line with no relationship to the lines above or below it. That independence is exactly why Grid's real, shared row and column tracks (demo #3) are the tool to reach for whenever content needs to stay aligned across multiple rows, not just within one.</p>
+
+<p><strong>Best for:</strong> tag lists, chip filters, a row of buttons that needs to gracefully wrap on narrow screens, breadcrumbs — anything that behaves like a run of inline content that should reflow. <strong>Tip:</strong> <code>gap</code> works inside flex-wrap exactly like it does in Grid now, so you no longer need the old margin-and-negative-margin trick to get even spacing between wrapped items.</p>
+
+<h2>6. Dashboard Tiles — Click to Span</h2>
+
+<p>Click any tile — it grows to span two columns and two rows, and every other tile reflows around it automatically, the way a real dashboard's "make this widget bigger" feature works.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/04/6.html" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Dashboard Tiles Spanning Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.tile { grid-column: span 2; grid-row: span 2; }</code></pre>
+
+<p><code>span 2</code> tells an item to occupy two tracks instead of one, in whichever axis you set it on, and the grid's auto-placement algorithm quietly reflows every other item around that larger footprint — nothing else in the markup or CSS needs to change. This is a genuinely Grid-only move: Flexbox items don't have a concept of "spanning two of the other items' worth of space" in a structural sense, only of growing to claim more of the leftover space along the one axis it has.</p>
+
+<p><strong>Best for:</strong> dashboards, bento-style layouts, any grid of cards where a handful of items are meant to stand out as visually larger than the rest. <strong>Tip:</strong> pair spanning items with <code>grid-auto-flow: dense</code> on the container if you want the auto-placement algorithm to backfill gaps left behind by a spanning item, rather than leaving visible holes in the grid.</p>
+
+<h2>7. Flexbox order — Reorder Without Touching the DOM</h2>
+
+<p>Click "Move first" on any step — its visual position changes instantly, while its actual position in the underlying HTML never moves at all.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/04/7.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Flexbox order Property Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.step { order: 0; }   /* default */
+.step.first { order: -1; }</code></pre>
+
+<p>Every flex (and grid) item has a default <code>order</code> of 0, and items are painted in ascending order value, falling back to source order for ties. Setting one item to <code>-1</code> moves it visually ahead of everything else without touching a single line of markup — useful for something like putting a "primary" action button visually first on desktop while keeping the DOM order accessible-first (screen readers and keyboard tab order still follow source order, not visual <code>order</code>, which is exactly why this should be reserved for visual-only cases).</p>
+
+<p><strong>Best for:</strong> swapping which element appears first at different breakpoints without duplicating markup — a common pattern for "image left on desktop, image below text on mobile." <strong>Tip:</strong> Grid items support the same <code>order</code> property, but explicit <code>grid-column</code>/<code>grid-row</code> placement is usually the more precise tool once you're already committed to Grid's coordinate system.</p>
+
+<h2>8. Overlapping Elements — Something Flexbox Can't Do</h2>
+
+<p>Click a corner — a status badge jumps there by grid line coordinates alone, genuinely sharing a cell with the avatar behind it, with no <code>position: absolute</code> anywhere in the CSS.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/04/8.html" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Grid Overlapping Elements Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.avatar { grid-area: 1 / 1 / 3 / 3; }
+.badge  { grid-area: 1 / 3 / 2 / 4; }</code></pre>
+
+<p>The four numbers in <code>grid-area</code> are row-start / column-start / row-end / column-end line numbers — genuine coordinates on the grid's shared line system. Because two items can be told to occupy overlapping line ranges, the browser simply paints the later one in DOM order on top, no stacking context or offset positioning required. Flexbox has nothing comparable: flex items each claim their own slice of the main axis and can't be told to deliberately occupy the same space as a sibling.</p>
+
+<p><strong>Best for:</strong> notification badges, corner ribbons, an image with a caption overlay, or any layered composition where the pieces genuinely belong to the same layout rather than being decoratively positioned on top of it. <strong>Tip:</strong> this only works cleanly because both elements are direct children of the same grid — the moment you need to overlap elements that live in unrelated parts of the DOM, <code>position: absolute</code> is still the right tool.</p>
+
+<h2>9. flex-grow — Distributing Leftover Space</h2>
+
+<p>Drag the slider — the middle panel claims an ever-larger share of whatever space is left once the two fixed-width panels beside it are accounted for.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/04/9.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="flex-grow Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.fixed { flex: 0 0 80px; }
+.middle { flex-grow: 1; }</code></pre>
+
+<p>The two fixed panels use <code>flex: 0 0 80px</code> — don't grow, don't shrink, stay at exactly 80px — which leaves a predictable amount of leftover space for the flexible one to claim. Push <code>flex-grow</code> past 1 with multiple growing siblings and the number becomes a genuine ratio: an item at <code>flex-grow: 2</code> claims twice as much of the leftover space as a sibling at <code>flex-grow: 1</code>, which is the actual mechanism behind "make this column twice as wide as that one" layouts.</p>
+
+<p><strong>Best for:</strong> a sidebar-plus-content layout where the sidebar has a fixed width and the content should fill everything else, a toolbar with fixed-width icon buttons and one flexible search field, or any row where some items should stay their natural size while one absorbs whatever's left. <strong>Tip:</strong> <code>flex-grow</code> only distributes <em>leftover</em> space — it does nothing if the row's items already fill or overflow the container, which is the most common reason a <code>flex-grow</code> value seems to have no effect.</p>
+
+<h2>10. grid-template-areas — Rearrange the Whole Page in One Rule</h2>
+
+<p>Click the toggle — header, nav, main and aside completely rearrange from a desktop layout to a stacked mobile one. The HTML order of those five elements never changes; only the ASCII map does.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/04/10.html" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="grid-template-areas Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.layout {
+  grid-template-areas:
+    "header header"
+    "nav    main"
+    "nav    aside"
+    "footer footer";
+}
+.layout--mobile {
+  grid-template-areas:
+    "header" "nav" "main" "aside" "footer";
+}</code></pre>
+
+<p><code>grid-template-areas</code> lets you name regions of the grid and literally draw the layout as an ASCII map, with each child assigned to a name via <code>grid-area</code> rather than a numeric coordinate. The genuinely powerful part is that redefining the map inside a media query — as this demo's toggle does — completely restructures the page layout in one rule, without moving a single element in the DOM, reordering flex items with <code>order</code>, or reaching for JavaScript. This is the pattern behind most real "responsive page shell" implementations built with Grid.</p>
+
+<p><strong>Best for:</strong> the outermost structural layout of a page or app shell — header, nav, main content, sidebar, footer — anywhere the relationship between major regions needs to change shape entirely between breakpoints. <strong>Tip:</strong> area names must form a valid rectangle in the map (an area can't be split into two disconnected blocks), and every cell in the map needs a name or an explicit <code>.</code> for an intentionally empty cell — a ragged map with mismatched column counts per row is a hard CSS syntax error, not a silent failure.</p>
+
+<h2>Choosing between them, in practice</h2>
+
+<ul>
+<li><strong>Use Flexbox when content should drive the layout.</strong> A nav bar, a button group, a list of tags — you don't know or care exactly how many items there are or how wide each one is; you just want them to sit in a row (or column) and share space sensibly.</li>
+<li><strong>Use Grid when structure should drive the layout.</strong> A page shell, a dashboard, a photo gallery with a deliberate column count — you're defining a shape first, and content gets placed into it.</li>
+<li><strong>Use both, nested.</strong> The overwhelmingly common real-world pattern is Grid for the outer page structure (demo #10) with Flexbox inside individual regions — a flex row of buttons inside a grid-placed header, a flex-wrap tag list inside a grid-placed card. Neither engine needs to know the other exists.</li>
+<li><strong>If you're fighting for alignment across rows and columns, that's a Grid problem, not a Flexbox problem.</strong> Flex-wrap's independent lines (demo #5) are exactly why forcing "card grid" layouts into Flexbox eventually needs hacks that Grid does for free.</li>
+<li><strong>If you're fighting to get something to just flow and wrap naturally, that's a Flexbox problem, not a Grid problem.</strong> Defining explicit tracks for a genuinely variable-length, variable-width list of items (a tag cloud, a list of filter chips) usually fights Grid more than it helps.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>Is CSS Grid replacing Flexbox?</h3>
+<p>No — they were built for different jobs and both remain actively maintained parts of the CSS spec. Flexbox is the right tool for one-dimensional, content-driven layout; Grid is the right tool for two-dimensional, structure-driven layout. Most production interfaces use both together, as demo #10's nesting pattern shows.</p>
+
+<h3>Can Flexbox do a two-dimensional layout?</h3>
+<p>Not really, and demo #5 shows why: once a flex row wraps, each new line is an independent flex container with no shared column relationship to the lines above or below it, so items in different wrapped rows won't reliably align into columns. Grid's rows and columns are real, shared tracks (demo #3) specifically so that alignment holds across the whole structure.</p>
+
+<h3>Can Grid do everything Flexbox can?</h3>
+<p>Mostly yes for alignment (<code>place-items: center</code> covers demo #2's trick) but not for content-driven flow — a Grid needs its tracks defined (explicitly or via auto-placement rules), whereas Flexbox's <code>flex-wrap</code> naturally reflows a variable number of variable-width items the way text wraps, with no track definitions required at all.</p>
+
+<h3>What does grid-template-areas actually do?</h3>
+<p>It lets you name regions of a grid and lay them out as a literal ASCII map in your CSS, then assign each child element to a named region with <code>grid-area</code>. Redefining that map — commonly inside a media query, as demo #10 does with a button — restructures the entire layout without touching the DOM order or any individual element's placement rule.</p>
+
+<h3>What's the difference between flex-grow and Grid's fr unit?</h3>
+<p><code>flex-grow</code> (demo #9) distributes whatever space is <em>left over</em> after every item's base size is accounted for, along one axis. Grid's <code>fr</code> unit (used throughout demos #1, #4, and #6) divides the available space in a track listing directly — <code>1fr 2fr</code> means the second column gets twice the first column's share of the row's total width, not of some leftover remainder. They solve a similar problem but the underlying math isn't identical.</p>
+
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to actually internalize the difference between these two engines is to click <strong>Fork &amp; Edit</strong> on whichever demo felt least intuitive, delete a property, and watch exactly what breaks. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or reuse in a real project.</p>

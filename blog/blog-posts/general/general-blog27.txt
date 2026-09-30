@@ -1,0 +1,222 @@
+<h1>CSS Cascade Layers (@layer) Explained with Practical Examples</h1>
+
+<p>For years, the only real weapon in a CSS override fight was specificity &mdash; stack more classes, reach for an ID, or eventually give up and write <code>!important</code>. Cascade Layers change that entirely. With <code>@layer</code>, you can declare that an entire bucket of rules &mdash; a reset, a component library, a vendor stylesheet, your own utilities &mdash; always outranks another bucket, regardless of how specific any individual selector inside it is. It's not a new specificity system; it's a new sorting pass that runs <em>before</em> specificity ever gets consulted, and once you see it working, most long-running specificity wars in a real codebase stop looking like a selector problem and start looking like a missing layer.</p>
+
+<p>The nine demos below are all live and interactive, and nearly every one includes an on-page readout so you can actually <em>see</em> which rule won and why &mdash; a computed color, a computed background, a winner that flips when you click a button &mdash; rather than just take the explanation's word for it. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> &mdash; FWD Tools' free in-browser editor. Delete a layer declaration, reorder two blocks, add an <code>!important</code> &mdash; watching the winner change is a faster way to build real intuition than any explanation.</p>
+
+<p>New to CSS in general, or want a guided path through the fundamentals these demos build on? The <a href="https://fwdtools.com/css-playground/">CSS Playground</a> is FWD Tools' free, click-based, in-browser sandbox for exactly this kind of experimentation.</p>
+
+<h2>Why cascade layers exist</h2>
+
+<p>Before <code>@layer</code>, the cascade had exactly one tool for resolving conflicting rules of equal origin and importance: specificity, with source order as the tie-breaker when specificity was equal. That works fine in a small stylesheet, but it falls apart the moment real-world CSS gets layered from multiple sources &mdash; a CSS reset, a component library, a third-party widget's stylesheet, your own utility classes &mdash; each written by a different author with a different specificity budget in mind. The only way to guarantee your utility class beat the component library's rule was to make your selector more specific than theirs, which meant reading their source first, which meant a permanently fragile arms race that broke the next time either side changed a selector. Cascade Layers add an entirely new sorting criterion that's evaluated before specificity: which named (or unnamed) layer a rule belongs to, in an order you declare explicitly. Get the layer order right once, and every rule inside a lower layer loses to every rule in a higher layer, forever, no specificity math required.</p>
+
+<h2>1. Layer order beats specificity</h2>
+
+<p>The paragraph below is matched by a heavy-specificity selector in the "base" layer and a single-class selector in the "override" layer. The readout shows which one actually wins, and why.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/26/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Layer Order Beats Specificity Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">@layer base, override;
+
+@layer base {
+  #target.target.target { color: blue; }   /* specificity 1-2-0 */
+}
+
+@layer override {
+  .target { color: red; }   /* specificity 0-1-0 -- wins anyway */
+}</code></pre>
+
+<p>When the browser resolves which of two competing declarations applies, it doesn't jump straight to comparing specificity values &mdash; it runs a multi-step sort, and layer order is one of the earliest steps in that sort, well before specificity is even consulted. First it groups declarations by origin (author styles vs. user-agent styles vs. user styles) and importance, then within author-normal styles it sorts by layer order, and only <em>within a single layer</em> does it fall back to comparing specificity, and only within equal specificity does it fall back to source order. That's why an ID-plus-two-classes selector in an earlier layer can lose outright to a single class in a later layer: the layer comparison happens first and settles the question completely, so the browser never even reaches the point of comparing 1-2-0 against 0-1-0. Specificity hasn't been removed from CSS &mdash; it's been demoted to a tie-breaker that only matters once two competing rules already agree on which layer they're in.</p>
+
+<p><strong>Best for:</strong> ending specificity arms races between a reset/base stylesheet and the styles meant to override it &mdash; put the reset in an earlier layer and every later layer wins automatically. <strong>Tip:</strong> declare the full layer order upfront with a statement like <code>@layer base, override;</code> so the relationship is documented in one place rather than inferred from wherever each block happens to appear.</p>
+
+<h2>2. Unlayered styles always win</h2>
+
+<p>The paragraph below is matched by a high-specificity rule inside a layer, and a single-class rule that was never assigned to any layer. The readout shows which one wins.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/26/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Unlayered Styles Always Win Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">@layer base {
+  .target.target.target { color: green; }   /* specificity 0-3-0 */
+}
+
+.target { color: grey; }   /* unlayered, 0-1-0 -- wins anyway */</code></pre>
+
+<p>This is the single most common surprise when a team first adopts <code>@layer</code>, and it's a direct consequence of how the spec defines an "implicit final layer." Every rule that was never wrapped in an <code>@layer</code> block at all isn't treated as belonging to no layer &mdash; it's treated as belonging to one imaginary, unnamed layer that's always sorted after every layer you declared, named or anonymous. That means unlayered author CSS is, by construction, the single highest-priority bucket of normal-importance author styles that exists, full stop, regardless of how many classes or IDs a layered rule stacks up. This has a very practical consequence: once any part of a codebase starts using <code>@layer</code> at all, code that's still unlayered gains a quiet, permanent advantage it didn't have before &mdash; which is exactly why teams migrating an existing stylesheet to layers usually wrap the <em>whole</em> stylesheet in layers deliberately, rather than adding just one or two new layers and leaving the rest unlayered by accident.</p>
+
+<p><strong>Best for:</strong> understanding why a plain, low-specificity override you wrote outside any <code>@layer</code> block keeps winning against layered component styles even when you didn't intend it to. <strong>Tip:</strong> if you want a genuinely un-overridable escape hatch for one-off page-specific fixes, leaving it unlayered on purpose is a legitimate, spec-sanctioned pattern &mdash; just document that it's intentional.</p>
+
+<h2>3. Declared vs. implicit layer order</h2>
+
+<p>No upfront <code>@layer reset, override;</code> statement is used in this demo &mdash; the two buttons inject the same two layer blocks in different physical orders. Click each and watch the winner flip.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/26/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Declared vs Implicit Layer Order Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">/* No statement declaring order upfront -- order is set by whichever
+   layer the parser meets FIRST in the source. */
+@layer reset    { .target { color: green; } }
+@layer override { .target { color: red; } }   /* met last -- wins */
+
+/* Swap the physical order and the winner swaps too: */
+@layer override { .target { color: red; } }
+@layer reset    { .target { color: green; } }  /* now met last -- wins */</code></pre>
+
+<p>A layer's position in the order is fixed the very first time the parser encounters any reference to it &mdash; whether that's a bare statement like <code>@layer name;</code>, a full block like <code>@layer name { }</code>, or an <code>@import ... layer(name)</code>. If you never write an upfront statement declaring the full order, the browser has no choice but to build that order incrementally, purely from the sequence in which layer names show up as it parses the file top to bottom, and whichever layer is met last ends up with the highest priority. This is exactly why relying on implicit order is fragile in any real project: the moment your build tooling concatenates files in a different sequence, or a teammate reorders imports, or a new file gets inserted between two existing ones, the resulting layer order can silently change without a single line inside any individual layer block being edited. Declaring the full order upfront in one explicit statement removes that dependency on file concatenation order entirely &mdash; the order is fixed the instant the statement is parsed, before any of the layers' actual rules are even read.</p>
+
+<p><strong>Best for:</strong> any project assembling CSS from more than one file or import &mdash; declare the complete layer order in one upfront statement near the top of your entry stylesheet so it can never depend on how files happen to get concatenated. <strong>Tip:</strong> a single <code>@layer reset, base, components, utilities;</code> statement at the very top of your main stylesheet is a common, low-cost habit that eliminates this entire category of bug.</p>
+
+<h2>4. Simulating @import ... layer()</h2>
+
+<p>A real cross-file <code>@import</code> can't run reliably inside an embedded iframe, so this demo simulates the effect of <code>@import url(vendor.css) layer(vendor);</code> with an inline <code>@layer vendor { }</code> block containing the same rules. The cascade math is identical either way.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/26/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Simulating @import layer() Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">@layer vendor, app;
+
+/* Real syntax (not runnable in this embedded demo):
+   @import url("vendor-buttons.css") layer(vendor); */
+
+@layer vendor { .target { /* vendor's own rules, unmodified */ } }
+@layer app    { .target { /* your rules -- layer(app) wins    */ } }</code></pre>
+
+<p><code>@import</code> has supported an optional <code>layer()</code> function for a while now, and it solves a specific problem: assigning an entire externally-authored stylesheet to one layer without editing a single line inside that file. Normally, importing a third-party stylesheet means every selector inside it competes on specificity and source order exactly like your own code &mdash; with <code>layer(name)</code> appended to the import, the whole file's rules are treated as if every one of them had been wrapped in <code>@layer name { }</code>, sight unseen, as the browser parses the import. This demo can't execute a real network <code>@import</code> reliably inside a sandboxed embed, so it simulates the identical end state with an inline layer block containing equivalent rules &mdash; the cascade behavior you'd get from the real import syntax is exactly what's shown here, just without an actual second HTTP request involved.</p>
+
+<p><strong>Best for:</strong> pulling in any external CSS &mdash; a component library, an icon set, a vendor widget &mdash; whose internal specificity you don't control and don't want to fight, in a single line at the import site. <strong>Tip:</strong> <code>layer()</code> on an <code>@import</code> only accepts a single layer name (or none, for an anonymous layer) &mdash; you can't split one imported file's rules across multiple layers from the import statement alone.</p>
+
+<h2>5. Nesting rules inside a layer</h2>
+
+<p>Hover the card. Its hover state and inner title are written with native CSS nesting (<code>&amp;</code> and a bare nested selector), all inside a single <code>@layer components { }</code> block &mdash; the two features compose without any special syntax.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/26/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Nesting Rules Inside a Layer Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">@layer components {
+  .card {
+    padding: 20px;
+
+    &:hover { border-color: indigo; }   /* -> .card:hover, inside components */
+    h3      { margin: 0 0 6px; }        /* -> .card h3, inside components   */
+  }
+}</code></pre>
+
+<p>Cascade layers and native CSS nesting are independent features that both landed in browsers around the same time, and they compose cleanly because they operate on entirely different parts of the pipeline. Nesting is resolved at parse time, purely as a syntax convenience for writing out selectors &mdash; <code>&amp;:hover</code> inside <code>.card { }</code> expands to <code>.card:hover</code> before the rule is ever placed anywhere, exactly as it would outside any layer. Layering happens afterward, as a property of where that fully-expanded rule gets sorted in the cascade. In other words, wrapping a nested block in <code>@layer</code> doesn't change what the nested selectors expand to, and nesting selectors inside a layer doesn't change which layer they belong to &mdash; the whole block simply belongs to whichever layer physically contains it, the same way a plain, unnested rule would. This makes it safe to reorganize a component's styles into nested blocks purely for readability without worrying that doing so will quietly shift its cascade priority.</p>
+
+<p><strong>Best for:</strong> writing genuinely modern CSS &mdash; component-scoped nested selectors, grouped inside a named layer for predictable cross-component priority &mdash; without either feature getting in the other's way. <strong>Tip:</strong> the nested rule's specificity is computed exactly as if you'd written it flat, so specificity gotchas from nesting alone (like a bare nested selector quietly becoming a descendant combinator) still apply fully inside a layer; the layer only changes which OTHER layers it beats, not its own internal specificity.</p>
+
+<h2>6. Re-opening the same named layer</h2>
+
+<p>The "base" layer is opened, closed, and then opened again later in the file &mdash; physically after the "utilities" layer. The readout shows base still loses to utilities, proving a named layer keeps one fixed position no matter how many times you re-open it.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/26/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Re-Opening the Same Layer Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">@layer base      { .target { color: green; } }   /* base's position fixed here */
+@layer utilities { .target { color: red; } }      /* utilities ranks after base */
+
+/* Reopened LATER in the file -- does not move base's position */
+@layer base { .target { text-decoration: underline; } }</code></pre>
+
+<p>A named layer is an identity, not a physical block of source &mdash; every <code>@layer base { }</code> block that shares the name "base" anywhere in a stylesheet (or across multiple imported stylesheets) contributes its declarations to the same single layer, merged together as if all of them had been written in one contiguous block at the position where "base" was first encountered. This is what makes named layers genuinely useful for splitting concerns across files: a design system's core file can open <code>@layer components;</code> near the top to reserve its position in the order, and then a dozen separate component files, each imported later, can each add their own rules into that same "components" layer with their own <code>@layer components { }</code> blocks, without any of them being able to accidentally shift where "components" sits relative to "utilities" or "overrides." The position is locked in at first mention; every subsequent mention is purely additive.</p>
+
+<p><strong>Best for:</strong> splitting one logical layer's rules across multiple files or multiple points in a single file &mdash; a design system's components, added to incrementally as new components are built, while keeping one fixed priority relative to the rest of the app. <strong>Tip:</strong> this is also why a bare <code>@layer name;</code> statement with no body is a useful pattern on its own &mdash; it reserves a layer's position in the order immediately, before any of its actual rules exist yet.</p>
+
+<h2>7. Anonymous layers</h2>
+
+<p>Two separate <code>@layer { }</code> blocks with no name both target the same paragraph. They're still two distinct layers, ranked by source order &mdash; but unlike named layers, neither can be referenced or reopened again from elsewhere in the file.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/26/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Anonymous Layers Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">@layer {
+  .target { color: purple; }   /* anonymous layer #1 */
+}
+
+@layer {
+  .target { color: teal; }     /* anonymous layer #2 -- different layer, wins */
+}</code></pre>
+
+<p><code>@layer</code> without a name is still a fully valid cascade layer &mdash; the browser generates an internal identity for it that simply isn't exposed to the author, which means it behaves identically to a named layer for ordering and specificity purposes but can never be targeted again by a later <code>@layer thatname { }</code> block the way technique #6 relies on for named layers. Every anonymous <code>@layer { }</code> block you write creates a brand-new, separate layer, even if two anonymous blocks sit right next to each other and even if their contents look related. This is precisely why anonymous layers see far less real-world use than named ones: the moment a codebase grows past a single file or a single author, you lose the ability to add more rules into an anonymous layer from anywhere else, and you lose the self-documenting value of a name like "reset" or "vendor" showing up in an upfront order statement.</p>
+
+<p><strong>Best for:</strong> a small, genuinely self-contained, one-off grouping of rules inside a single file where you want layer-based priority but have no need to reference the layer again. <strong>Tip:</strong> if you're ever tempted to reach for an anonymous layer, ask whether you'll want to add to it later from anywhere else in the project &mdash; if there's any chance you will, name it instead; the cost of naming a layer is one word.</p>
+
+<h2>8. Taming vendor CSS with a low-priority layer</h2>
+
+<p>The alert box below is styled by a simulated vendor stylesheet with aggressive, high-specificity selectors, plus one plain unlayered class from your own CSS. Nothing here won a specificity war &mdash; the vendor rules simply live in a layer declared first.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/26/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Taming Third-Party CSS with Layers Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">@layer vendor;
+
+@layer vendor {
+  div.vendor-alert.vendor-alert--warning[class] {
+    background: yellow;   /* specificity 0-3-1 -- doesn't matter */
+  }
+}
+
+.vendor-alert { background: #eef0ff; }   /* unlayered, wins outright */</code></pre>
+
+<p>This is the use case that made cascade layers worth shipping in the first place. Before <code>@layer</code>, "override a third-party stylesheet" meant reading its selectors to find the highest specificity value used anywhere inside it, then writing something that beat that value everywhere you needed an override &mdash; a strategy that broke the instant the vendor shipped an update with a more specific selector than the ones you'd already out-specified. Assigning the entire vendor file to one layer, declared earlier than everything of your own, sidesteps the problem structurally instead of combatively: it doesn't matter what specificity the vendor's authors used, doesn't matter if they update their selectors next release, and doesn't matter if their file even uses <code>!important</code> on normal declarations, because none of that can push a rule out of its own layer. Your own plain, unlayered CSS beats it by construction, every time, with zero specificity math required on your end.</p>
+
+<p><strong>Best for:</strong> any third-party CSS you can wrap in an import or a layer block but don't control the contents of &mdash; component libraries, embedded widgets, legacy vendor stylesheets you've inherited. <strong>Tip:</strong> if the vendor file uses <code>!important</code> internally, layering alone won't save you &mdash; jump to technique #9, since <code>!important</code> reverses the usual layer-priority direction.</p>
+
+<h2>9. !important reverses layer order</h2>
+
+<p>All three rules in this demo target the same paragraph with <code>!important</code>: one in the "reset" layer (declared first), one in the "theme" layer (declared second), and one completely unlayered. Normally later-and-unlayered would win &mdash; with <code>!important</code>, the result flips.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/26/9.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="!important Reverses Layer Order Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">@layer reset, theme;
+
+@layer reset { .target { color: green !important; } }  /* wins */
+@layer theme { .target { color: red !important; } }
+.target       { color: blue !important; }               /* loses -- weakest */</code></pre>
+
+<p>This is the single most counter-intuitive rule in the entire spec, and it exists to preserve a promise CSS has always made: <code>!important</code> is meant to be a last-resort override that a page author can rely on beating ordinary component styles, and if layering simply obeyed the same order for important declarations as for normal ones, an unlayered <code>!important</code> would already be winning by default &mdash; which would make it useless as an escape hatch specifically for beating a layer you can't otherwise reorder. So the spec reverses the entire ordering for important declarations: among rules using <code>!important</code>, the <em>earliest</em>-declared layer wins, and the implicit unlayered "layer" &mdash; the strongest bucket for normal declarations &mdash; becomes the <em>weakest</em> bucket for important ones. The practical read: normal declarations flow "last layer wins, unlayered beats everything"; important declarations flow the exact opposite, "first layer wins, unlayered beats nothing." Mixing the two inside the same override attempt, without knowing this, produces results that look like the cascade broke.</p>
+
+<p><strong>Best for:</strong> understanding why an <code>!important</code> declaration you added to "definitely" win didn't &mdash; check whether it's unlayered and competing against a layered <code>!important</code>, since the layered one wins that specific fight. <strong>Tip:</strong> the cleanest practical takeaway is to avoid mixing <code>!important</code> across layers at all wherever possible; if a layer legitimately needs to always win, put it first in your order and skip <code>!important</code> entirely &mdash; that gets you the same guarantee for normal declarations without the reversed mental model.</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Assuming a more specific selector will still win against a lower layer.</strong> Demo #1 is the direct proof &mdash; once two rules are in different layers, specificity is never consulted at all; the layer comparison already settled it.</li>
+<li><strong>Forgetting that unlayered CSS quietly outranks every layer.</strong> Demo #2 shows a three-class selector losing to a single unlayered class &mdash; a common surprise the first time a team partially migrates a stylesheet to layers.</li>
+<li><strong>Relying on implicit layer order from file/import concatenation.</strong> Demo #3's toggle proves the order can flip without a single rule changing, just from reordering which layer block the parser meets first &mdash; declare the order upfront instead.</li>
+<li><strong>Assuming <code>!important</code> behaves the same way across layers as normal declarations.</strong> Demo #9 shows the order fully reversed &mdash; earliest layer wins, unlayered loses &mdash; the opposite of how normal declarations resolve.</li>
+<li><strong>Reaching for an anonymous layer when you'll need to add to it later.</strong> Demo #7's anonymous layers can never be reopened by name from elsewhere &mdash; if a layer needs to grow across files, it needs a name.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>What's the browser support for @layer?</h3>
+<p>Cascade Layers have shipped in Chrome and Edge since version 99, Safari since 15.4, and Firefox since 97 &mdash; all evergreen browsers support the feature as of this post, and it's safe to use on the public web without a fallback for any reasonably modern browser support target.</p>
+
+<h3>Do layers work with !important, and does it change anything?</h3>
+<p>Yes, and it changes quite a lot &mdash; this is demo #9's whole point. For normal declarations, later-declared layers win and unlayered styles win over all of them. For <code>!important</code> declarations, that order is fully reversed: the earliest-declared layer's <code>!important</code> wins, and unlayered <code>!important</code> becomes the weakest option of the group. It's genuinely one of the least intuitive parts of the spec, and worth memorizing rather than re-deriving each time.</p>
+
+<h3>Can you use @layer together with native CSS nesting?</h3>
+<p>Yes, cleanly &mdash; demo #5 shows a nested <code>&amp;:hover</code> block and a bare nested descendant selector both living inside one <code>@layer components { }</code> block. Nesting resolves selectors at parse time; layering sorts the resulting fully-expanded rule afterward. Neither feature changes what the other one does.</p>
+
+<h3>What happens to styles that were never put in any layer?</h3>
+<p>They're not exempt from the layering system &mdash; they're treated as belonging to one implicit, unnamed layer that's always sorted after every layer you declared (demo #2), for normal declarations. That's why unlayered CSS behaves as the strongest bucket in the codebase once any layers exist at all, which is worth knowing before adopting <code>@layer</code> only partially in an existing stylesheet.</p>
+
+<h3>Does specificity matter at all once you're using layers?</h3>
+<p>Yes, but only within a single layer. The browser's full sort is: origin and importance first, then layer order, then specificity, then source order &mdash; each step only runs as a tie-breaker for whatever the previous step left tied. Two rules in the same layer still resolve exactly like ordinary CSS always has, by specificity and then source order; it's only cross-layer comparisons where specificity stops mattering entirely.</p>
+
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to feel how much layer order controls the outcome is to click <strong>Fork &amp; Edit</strong> on demo #1, swap the order in <code>@layer base, override;</code> to <code>@layer override, base;</code>, and watch the winning color flip &mdash; nothing about either selector's specificity changed, only which layer comes last. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop into a real project.</p>
+
+<p><strong>Recommended next step:</strong> open the <a href="https://fwdtools.com/css-playground/">CSS Playground</a> and wrap one of your own stylesheets' trickiest override situations &mdash; a component library fighting your own utility classes, or a vendor widget you've been out-specifying by hand &mdash; in an explicit <code>@layer</code> order. Doing it against a real specificity fight you've actually hit is what makes the layer-before-specificity mental model stick. For more tutorials like this one, browse the <a href="https://www.webdevpuneet.com/search/label/CSS">CSS</a> label on the blog.</p>

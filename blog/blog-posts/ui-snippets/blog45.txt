@@ -1,0 +1,137 @@
+<h1>10 Free Bootstrap 5 Snippets for Dev Tools &amp; Data Tables: A Real LCS Diff Algorithm, Drag-and-Drop Reordering &amp; a Rate Limiter That Isn't a Flat Cooldown</h1>
+
+<p>The last batch closes out this collection with the tools that sit behind the scenes of most real admin panels: a CI/CD pipeline status view, a proper line-level diff instead of a naive position comparison, and a table cell you can click and edit without losing your place. It ends with two interaction patterns worth knowing well beyond their specific demo — genuine HTML5 drag-and-drop, and a sliding-window rate limiter that behaves like a real API's, not a flat "wait 30 seconds" cooldown. Every one still loads the genuine <code>bootstrap.min.css</code> and <code>bootstrap.bundle.min.js</code> from a CDN and builds on Bootstrap's real component classes.</p>
+
+<p>Every one is a <strong>live, interactive preview</strong> you can try right here in the article, and each exports to React, Vue, Angular or Tailwind in one click from its snippet page.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>A real algorithm where a shortcut would visibly break.</strong> The diff viewer implements genuine longest-common-subsequence matching, not an index-by-index comparison that would misreport every line after a single insertion as "changed."</li>
+<li><strong>One commit function, one guard against firing twice.</strong> The inline table cell editor discovered — and fixes — a subtle bug where removing a focused input from the DOM fires a native <code>blur</code> event, which could otherwise silently overwrite an Escape-cancelled edit with an unwanted save.</li>
+<li><strong>Bursts allowed, limits still real.</strong> The rate-limited action button models a sliding window, not a flat per-click cooldown — the first several clicks fire instantly, and only exceeding the limit starts a live countdown, the way a real API's 429 response actually behaves.</li>
+<li><strong>The one line that's easy to forget.</strong> The drag-to-reorder list calls out <code>e.preventDefault()</code> inside <code>dragover</code> explicitly — skip it and the browser refuses every drop silently, no matter how correct the rest of the logic is.</li>
+<li><strong>A guaranteed-visible failure path.</strong> The deployment status panel scripts its first attempt to fail at a specific stage so the Retry flow is always reachable in this preview, then restarts the entire pipeline from Build on retry — matching how CI/CD systems actually recover.</li>
+</ul>
+
+<h2>1. Bootstrap Diff Viewer</h2>
+
+<p>A real line-level text diff using genuine longest-common-subsequence matching — added lines highlighted green, removed lines struck through red, and unchanged lines correctly recognized even between edits.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-diff-viewer/embed/" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Diff Viewer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a dynamic-programming table records the length of the longest matching subsequence between the remaining old and new lines from every position, built from the bottom-right corner upward. Walking that table forward turns the LCS lengths into an actual sequence of same/add/remove operations — comparing <code>dp[i+1][j]</code> against <code>dp[i][j+1]</code> at each mismatch decides whether a line was removed or inserted, always preserving the longer eventual match. That's what correctly identifies an unchanged line as unchanged even when the lines around it were edited.</p>
+
+<p><strong>Best for:</strong> document and CMS revision comparisons, and configuration change review. <strong>Tip:</strong> pair with the version history panel elsewhere in this collection to show exactly what a restore would change before committing to it.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-diff-viewer/">Bootstrap Diff Viewer</a></p>
+
+<h2>2. Bootstrap Deployment Status Panel</h2>
+
+<p>A Build → Test → Staging → Production pipeline that animates through in order, fails on its first attempt at a specific stage, and fully restarts from Build on Retry.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-deployment-status-panel/embed/" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Deployment Status Panel — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> one status array — pending, active, done, or failed per stage — drives every dot's color and icon, so nothing is ever a separately toggled class that could drift from the array. The first attempt is scripted to fail at Staging specifically so the failure and Retry path are always reachable in this preview; Retry calls the exact same run function a fresh deploy uses, restarting the whole pipeline rather than resuming from the point of failure, matching how most real CI/CD retries actually behave.</p>
+
+<p><strong>Best for:</strong> internal deployment dashboards and release-management admin tools. <strong>Tip:</strong> pair with the feature flag panel elsewhere in this collection for a fuller release-management view.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-deployment-status-panel/">Bootstrap Deployment Status Panel</a></p>
+
+<h2>3. Bootstrap Environment Variable Viewer</h2>
+
+<p>Secret values stay masked by default with a per-row Reveal toggle; non-secret values show plainly, and every value has a working Copy action regardless of visibility.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-environment-variable-viewer/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Environment Variable Viewer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> which secrets are currently revealed lives in one Set of row indices, so toggling one variable's visibility never affects any other secret's independent state. Only variables actually marked secret get a Reveal control at all — a plainly public value like <code>NODE_ENV</code> has nothing to hide. Copy always reads the true underlying value directly from the data array, regardless of whether that row is currently masked on screen.</p>
+
+<p><strong>Best for:</strong> internal admin tools, deployment dashboards, and API key/credential review screens. <strong>Tip:</strong> the masked placeholder's length scales with the real value's length, hinting at scale without leaking content.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-environment-variable-viewer/">Bootstrap Environment Variable Viewer</a></p>
+
+<h2>4. Bootstrap Webhook Event Viewer</h2>
+
+<p>Expandable delivery rows reveal a raw JSON payload, status-coded by response family, with a working Retry on any failed delivery that updates it to succeeded in place.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-webhook-event-viewer/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Webhook Event Viewer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each delivery tracks its own <code>open</code> boolean, so expanding one payload has no effect on any other row's expanded state — multiple rows can stay open at once. Retry only ever appears on a delivery whose status is 400 or above, since retrying an already-successful delivery has no meaningful action to perform; clicking it disables the button, simulates the redelivery, and updates that specific event's status and timestamp in place.</p>
+
+<p><strong>Best for:</strong> payment and billing integration dashboards, and internal API monitoring tools. <strong>Tip:</strong> pair with the API response viewer elsewhere in this collection for a fuller request/response debugging panel.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-webhook-event-viewer/">Bootstrap Webhook Event Viewer</a></p>
+
+<h2>5. Bootstrap Inline Table Cell Editing</h2>
+
+<p>Click a Qty or price cell to edit it in place — Enter or clicking away saves a validated number, and Escape reverts, guarded against a subtle DOM-removal bug that could otherwise overwrite the cancel.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-inline-table-cell-editing/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Inline Table Cell Editing — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> Enter, blur, and Escape all funnel through one <code>commit(save)</code> function, guarded by a <code>committed</code> flag for a genuinely subtle reason — removing a focused input from the DOM (which re-rendering does) itself fires a native <code>blur</code> event on it. Without the guard, pressing Escape would discard an edit, re-render, and then that synthetic blur would immediately re-fire a save with the same stale value, silently undoing the cancel a moment later. A save is only applied when the parsed value is a valid non-negative number.</p>
+
+<p><strong>Best for:</strong> inventory, pricing, and spreadsheet-style admin tables where a quick numeric correction shouldn't need a separate edit form. <strong>Tip:</strong> this is exactly the kind of race condition that's easy to miss in a homemade version and only shows up as an intermittent, hard-to-reproduce bug.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-inline-table-cell-editing/">Bootstrap Inline Table Cell Editing</a></p>
+
+<h2>6. Bootstrap CSV Import Preview</h2>
+
+<p>Paste CSV text and preview every row before importing — a real quoted-field parser, per-row validation with specific error reasons, and a live valid-vs-error count.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-csv-import-preview/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap CSV Import Preview — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the parser walks each line character by character tracking whether it's currently inside quotes, only treating a comma as a field separator outside them — a plain <code>line.split(',')</code> would incorrectly split a quoted field like "Reyes, Dana" into two columns. Validation returns an array of specific error strings per row rather than one pass/fail boolean, so a flagged row explains exactly what's wrong with it. Column headers are read from the pasted data itself, never hardcoded.</p>
+
+<p><strong>Best for:</strong> bulk user, contact, or product import tools where catching data problems before the import runs beats discovering them after. <strong>Tip:</strong> this handles the common real-world CSV cases, not the full RFC 4180 spec — reach for a library like PapaParse for fully compliant parsing of arbitrary files.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-csv-import-preview/">Bootstrap CSV Import Preview</a></p>
+
+<h2>7. Bootstrap Currency Switcher</h2>
+
+<p>One base USD price recalculates live as you switch currency — correctly formatted per currency, including zero-decimal currencies like JPY that shouldn't show cents.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-currency-switcher/embed/" style="width:100%;height:340px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Currency Switcher — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> one base price and a rates table (rate, symbol, and decimal count per currency) is all the render function needs — switching currency never touches a separately maintained price, so every conversion stays consistent with the same source number. The per-currency decimal count is what correctly renders yen as a whole number while dollars still show two decimals, and <code>toLocaleString()</code> supplies real thousands-separator grouping for free.</p>
+
+<p><strong>Best for:</strong> pricing pages and SaaS billing screens serving customers across multiple currency regions. <strong>Tip:</strong> the fixed rates here are illustrative — a real implementation should fetch live rates from an actual exchange-rate API.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-currency-switcher/">Bootstrap Currency Switcher</a></p>
+
+<h2>8. Bootstrap Table Column Visibility Toggle</h2>
+
+<p>A dropdown checklist showing and hiding table columns — the header and every row re-render from the same filtered column list, and one column stays genuinely locked visible.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-table-column-visibility-toggle/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Table Column Visibility Toggle — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> visible columns are tracked in a Set rather than separately toggled per-column flags, which is what turns rendering the whole table into a one-line filter shared by both the header and every row — a header and its cells can never disagree about which columns exist. The dropdown uses Bootstrap's real <code>data-bs-auto-close="outside"</code> so it stays open across several checkbox clicks, and one column's checkbox is genuinely disabled, since a table with no identifying column left visible is close to meaningless.</p>
+
+<p><strong>Best for:</strong> admin data tables with more columns than comfortably fit, and internal reporting dashboards. <strong>Tip:</strong> without the auto-close option, Bootstrap's dropdown closes on the very first checkbox click, making multi-column toggling frustratingly slow.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-table-column-visibility-toggle/">Bootstrap Table Column Visibility Toggle</a></p>
+
+<h2>9. Bootstrap Rate-Limited Action Button</h2>
+
+<p>A genuine sliding-window rate limiter on a "Send invite" button — the first several clicks fire instantly, and only exceeding the limit starts a live, accurately-recomputed countdown.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-rate-limited-action-button/embed/" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Rate-Limited Action Button — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> click timestamps are recorded and pruned against a rolling window, so the button only blocks once the real limit has genuinely been reached within that window — not on every click equally, the way a flat cooldown would. One function returns the exact milliseconds until the oldest click ages out, read by both the click handler and the countdown display, so they can never disagree. The countdown recomputes from real timestamps on every 250ms tick rather than decrementing a stored number, staying accurate even through background-tab timer throttling.</p>
+
+<p><strong>Best for:</strong> invite, resend, and notification-sending buttons where a genuine burst should be allowed before anything blocks. <strong>Tip:</strong> this mirrors how a real API's sliding-window rate limit and 429 response actually behaves, not a naive per-click delay.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-rate-limited-action-button/">Bootstrap Rate-Limited Action Button</a></p>
+
+<h2>10. Bootstrap Drag-to-Reorder List</h2>
+
+<p>A real native HTML5 drag-and-drop reorderable list — a live rank number per row, a clear drop-target indicator, and array splicing that keeps order exactly right.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-drag-to-reorder-list/embed/" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Drag-to-Reorder List — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> this uses the browser's genuine native Drag and Drop API — <code>draggable="true"</code> plus <code>dragstart</code>/<code>dragover</code>/<code>drop</code> — the same approach this collection's kanban board uses for moving cards between columns. The one line that's easy to leave out and silently breaks everything is <code>e.preventDefault()</code> inside <code>dragover</code>; without it the browser refuses the drop entirely and no <code>drop</code> event ever fires. The reorder itself is a real array splice-out/splice-in, so the visible rank numbers are always the list's true current order, never a purely visual DOM shuffle disconnected from the data.</p>
+
+<p><strong>Best for:</strong> priority lists, custom sort preferences, and dashboard widget ordering. <strong>Tip:</strong> native HTML5 drag-and-drop has inconsistent support on mobile touch browsers — pair with a Pointer Events fallback for a production implementation targeting touch devices.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-drag-to-reorder-list/">Bootstrap Drag-to-Reorder List</a></p>
+
+<p>Same as every batch before it, each of these ten lives in the category that actually fits its shape, so they surface alongside every other snippet of that kind rather than sitting in a library of their own. Find these ten and every other Bootstrap snippet in the collection in one place via the <a href="https://fwdtools.com/ui-snippets/tag/bootstrap/">Bootstrap tag</a>. Open any of them above and you land straight in the live editor, HTML/CSS/JS tabs and all; click <strong>Save as</strong> to copy it into <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and start changing it.</p>

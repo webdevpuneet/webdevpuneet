@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Button Loading State">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Button loading state</h1>
+    <p class="hint">Click "Save changes" — the button itself becomes the loading indicator: disabled, a spinner in place of its icon, then a confirmed state.</p>
+  </header>
+  <main class="stageWrap">
+    <button type="button" class="saveBtn" id="saveBtn">
+      <span class="icon" id="icon">&#10003;</span>
+      <span id="label">Save changes</span>
+    </button>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 60px 16px 28px; }
+
+  .saveBtn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 24px; border-radius: 9px; border: none;
+    background: var(--accent); color: #fff; font: 700 14px system-ui, sans-serif;
+    cursor: pointer; min-width: 168px; justify-content: center;
+    transition: background 0.2s ease;
+  }
+  .saveBtn:hover:not(:disabled) { background: #4f52d6; }
+  .saveBtn:disabled { cursor: default; }
+  .saveBtn.saving { background: #8688e8; }
+  .saveBtn.done { background: var(--green); }
+
+  .icon { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; }
+
+  .spinnerSm {
+    width: 15px; height: 15px; border-radius: 50%;
+    border: 2.5px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</script>
+
+<script type="text/plain" id="js">
+  var saveBtn = document.getElementById('saveBtn');
+  var icon = document.getElementById('icon');
+  var label = document.getElementById('label');
+  var state = 'idle';
+
+  saveBtn.addEventListener('click', function () {
+    if (state !== 'idle') return;
+    state = 'saving';
+    saveBtn.disabled = true;
+    saveBtn.className = 'saveBtn saving';
+    icon.innerHTML = '<span class="spinnerSm"></span>';
+    label.textContent = 'Saving…';
+
+    setTimeout(function () {
+      state = 'done';
+      saveBtn.className = 'saveBtn done';
+      icon.textContent = '✓';
+      label.textContent = 'Saved';
+      saveBtn.disabled = false;
+
+      setTimeout(function () {
+        state = 'idle';
+        saveBtn.className = 'saveBtn';
+        icon.textContent = '✓';
+        label.textContent = 'Save changes';
+      }, 1600);
+    }, 1600);
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

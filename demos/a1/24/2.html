@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Horizontal parallax">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Horizontal parallax</h1>
+    <p class="hint">Scroll down &mdash; each shape drifts sideways at its own rate while the page itself only moves vertically.</p>
+  </header>
+  <div class="spacer">Scroll ↓</div>
+  <div class="scene">
+    <div class="layer l1" id="l1">Far &mdash; 0.2x</div>
+    <div class="layer l2" id="l2">Mid &mdash; 0.6x</div>
+    <div class="layer l3" id="l3">Near &mdash; 1.2x</div>
+  </div>
+  <div class="spacer end"></div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #2563eb; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .spacer { height: 220px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 320px; }
+  .scene { position: relative; height: 300px; margin: 0 20px; overflow: hidden; border-radius: 12px; background: #eef2f7; }
+  .layer { position: absolute; top: 50%; width: 130px; height: 80px; margin-top: -40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font: 800 11px system-ui, sans-serif; color: #fff; }
+  .l1 { left: -10%; background: #94a3b8; }
+  .l2 { left: 35%; background: #3b82f6; }
+  .l3 { left: 78%; background: var(--accent); box-shadow: 0 14px 28px rgba(37,99,235,0.4); }
+</script>
+
+<script type="text/plain" id="js">
+  gsap.registerPlugin(ScrollTrigger);
+
+  var tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.scene',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: true
+    }
+  });
+
+  tl.fromTo('#l1', { xPercent: -10 }, { xPercent: 10, ease: 'none' }, 0);
+  tl.fromTo('#l2', { xPercent: -30 }, { xPercent: 30, ease: 'none' }, 0);
+  tl.fromTo('#l3', { xPercent: -60 }, { xPercent: 60, ease: 'none' }, 0);
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

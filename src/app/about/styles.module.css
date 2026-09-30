@@ -1,0 +1,16 @@
+@keyframes heartPump {
+  0%, 100% { transform: scale(1); }
+  14%       { transform: scale(1.2); }
+  28%       { transform: scale(1); }
+  42%       { transform: scale(1.15); }
+  70%       { transform: scale(1); }
+}
+
+.heart {
+  display: inline-block;
+  color: #ec4899;
+  transform-origin: center;
+  animation: heartPump 1.35s ease-in-out infinite;
+  vertical-align: middle;
+  margin-right: 4px;
+}

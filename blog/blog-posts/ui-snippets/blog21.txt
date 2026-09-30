@@ -1,0 +1,137 @@
+<h1>9 Copy-Paste Mini-Game Snippets That Actually Play (Wordle, Simon, a 15-Puzzle &amp; More)</h1>
+
+<p>Most "game" snippets on the web are screenshots — a static mockup of a Wordle board or a piano that doesn't make a sound. These nine are different: every one is a fully playable, self-contained game with real logic underneath, not a decorative shell. The 15-puzzle only ever shuffles into solvable states. The Tic-Tac-Toe opponent actually tries to win and block instead of clicking randomly. The Wordle clone correctly handles repeated letters, which is the single most common bug in every "build a Wordle clone" tutorial. The piano makes real musical notes through the Web Audio API, not a beep.</p>
+
+<p>Below: a WPM typing test with live character-diffing, a reaction-time tester built on <code>performance.now()</code>, a Simon Says memory game with async-driven sequence playback, Whack-a-Mole with self-rescheduling randomised timers, a provably-solvable 15-puzzle, a Tic-Tac-Toe opponent with real heuristics, a Wordle-style word guesser with correct duplicate-letter scoring, a Morse code translator that plays real audio at the exact international timing ratios, and a fully playable virtual piano. Every one is a <strong>live, interactive preview</strong> — play them right here in the article — and each exports to React, Vue, Angular, or Tailwind in one click from the snippet page.</p>
+
+<h2>Why these aren't just decorative</h2>
+
+<ul>
+<li><strong>The logic is actually correct, not just plausible-looking.</strong> A naive Wordle clone double-credits repeated letters; a naive 15-puzzle shuffle can produce an unsolvable board about half the time; a naive Tic-Tac-Toe "AI" just picks a random empty cell. Every one of those failure modes is a genuinely common bug, and every snippet here specifically avoids it.</li>
+<li><strong>Timing is measured with the right clock.</strong> The reaction tester uses <code>performance.now()</code>, not <code>Date.now()</code>, because it's high-resolution and immune to system clock adjustments — the same API browser profiling tools use internally. The Morse player derives every dot, dash, and silence from one base unit so the whole rhythm stays proportionally correct at any speed.</li>
+<li><strong>Async state is modelled, not faked.</strong> Simon's sequence playback is a real <code>async function</code> that <code>await</code>s each flash in order, which is what lets the code read top-to-bottom like synchronous logic while staying fully non-blocking — no nested <code>setTimeout</code> callback pyramids.</li>
+</ul>
+
+<h2>1. Typing Speed Test (WPM Counter)</h2>
+
+<p>Type a random sample sentence and watch a live WPM and accuracy counter update as you go, with every character coloured correct or incorrect in real time.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/typing-speed-test/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Typing Speed Test WPM Counter — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> WPM uses the standard typing-test convention that one "word" equals five characters including spaces — <code>words = typed.length / 5</code>, then <code>wpm = Math.round((typed.length / 5) / (elapsedSeconds / 60))</code> — which normalises scoring across sentences with different average word lengths instead of counting actual word boundaries. The timer deliberately does not start on page load: it starts on the very first <code>input</code> event via a null-check on <code>startTime</code>, so time spent reading the prompt before you start typing never counts against you. A <code>setInterval</code> running every 100ms recalculates WPM, accuracy, and elapsed time continuously so the numbers update smoothly rather than jumping only on keystrokes.</p>
+
+<p><strong>Best for:</strong> keyboarding-practice sites, recruiting pages for typing-heavy roles, and portfolio pieces that want to demonstrate real-time DOM diffing. <strong>Tip:</strong> the character-diffing and timing logic are cleanly separated from rendering, which makes this a good base to extend into a fixed-duration 60-second mode.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/typing-speed-test/">Typing Speed Test (WPM Counter)</a></p>
+
+<h2>2. Reaction Time Tester</h2>
+
+<p>Wait for the panel to turn green, then click as fast as you can — click too early and it's a "Too soon!" fail, not a valid time.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/reaction-time-tester/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Reaction Time Tester Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> if the wait before "go" were a fixed duration, users would learn to time their click by rhythm instead of genuinely reacting. <code>randomDelay()</code> returns <code>1500 + Math.random() * 2500</code> — a random 1.5 to 4 second wait — passed into a cancellable <code>setTimeout</code>. The instant the panel flips green, <code>goTime = performance.now()</code> captures a high-resolution timestamp, and a click during the ready state computes <code>Math.round(performance.now() - goTime)</code> for the result in whole milliseconds. <code>performance.now()</code> is sub-millisecond precise and immune to system clock changes, which is exactly why browser profiling tools use it instead of <code>Date.now()</code>.</p>
+
+<p><strong>Best for:</strong> neuroscience/cognitive-testing demo sites, "test your reflexes" landing pages, and as a teaching example for correct browser timing APIs. <strong>Tip:</strong> the cancellable timeout is the important detail — without it, a stray "go" state can fire after the round already ended in a too-soon failure.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/reaction-time-tester/">Reaction Time Tester Game</a></p>
+
+<h2>3. Simon Says Colour Sequence Game</h2>
+
+<p>The classic four-pad memory game — the sequence plays back, you repeat it, a correct repeat adds one more colour, and a wrong tap ends the run with your score saved.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/simon-sequence-game/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Simon Says Colour Sequence Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the whole game state is one growing array, <code>sequence</code>, which gains a new random colour from <code>COLORS = ['red', 'green', 'blue', 'yellow']</code> every round. Rather than chaining <code>setTimeout</code> callbacks — unreadable once you're flashing ten pads in order — each flash is wrapped in a Promise-returning <code>lightPad(color, duration)</code> helper, awaited one at a time inside an <code>async function playSequence()</code>: <code>for (let i = 0; i &lt; sequence.length; i++) { await lightPad(sequence[i], 480); }</code>. That reads top-to-bottom like synchronous code while staying fully non-blocking. The best score persists across sessions via <code>localStorage</code>.</p>
+
+<p><strong>Best for:</strong> memory-training apps, waiting-room/kiosk entertainment, and as a clean reference for the async/await sequencing pattern itself, independent of the game. <strong>Tip:</strong> the promise-per-flash pattern here generalises to any UI that needs to play a scripted sequence of animations in order without a callback pyramid.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/simon-sequence-game/">Simon Says Colour Sequence Game</a></p>
+
+<h2>4. Whack-a-Mole Game</h2>
+
+<p>A 3x3 grid of holes, a mole that pops up at unpredictable intervals, a satisfying squash-hit animation, and a 30-second countdown against your best score.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/whack-a-mole-game/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Whack-a-Mole Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the tricky part of Whack-a-Mole isn't the animation, it's coordinating a randomised, self-rescheduling timer with real user input while keeping one source of truth for "what's clickable right now." A single <code>activeHole</code> reference tracks the currently-up mole; each pop schedules its own retract via <code>setTimeout</code> and then reschedules the next pop, with both the pop interval and up-time randomised per round. A separate one-second <code>setInterval</code> drives the 30-second countdown independently. The best score reads and writes <code>localStorage</code> under the key <code>whack-a-mole-best</code>, only flashing "New best score!" when the record actually breaks.</p>
+
+<p><strong>Best for:</strong> arcade-style landing page easter eggs, kids'-app portfolio pieces, and 404 pages that want to give visitors something to do. <strong>Tip:</strong> the single-<code>activeHole</code>-reference pattern is the right way to prevent double-scoring in any "only one thing can be active" game — resist the temptation to track state per-cell instead.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/whack-a-mole-game/">Whack-a-Mole Game</a></p>
+
+<h2>5. Sliding Number Puzzle (15-Puzzle)</h2>
+
+<p>The classic 4x4 sliding tile puzzle — shuffled a way that guarantees it's actually solvable, which is the detail most from-scratch implementations get wrong.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/sliding-puzzle-game/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sliding Number Puzzle 15-Puzzle — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a purely random permutation of 15 tiles is unsolvable roughly half the time — permutation parity makes solvability a real mathematical constraint, not a formality. <code>shuffleFromSolved()</code> sidesteps the problem entirely by starting from the solved board and replaying 250 random <em>legal</em> slides, which can never leave a solvable state. A subtler bug it also avoids: naively picking any random legal neighbor lets the blank tile bounce back and forth between the same two cells, producing a shuffle that looks busy but barely mixes the board. The snippet tracks <code>lastEmpty</code>, the blank's position before the previous move, and filters it out of the candidate list each iteration, forcing every step to make genuine progress.</p>
+
+<p><strong>Best for:</strong> waiting-screen distractions, brain-teaser content sections, and as a teaching example of permutation parity in a genuinely visual, hands-on way. <strong>Tip:</strong> tiles animate with <code>transform: translate()</code> rather than layout properties, so the slide is a pure GPU-composited move with no reflow cost.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/sliding-puzzle-game/">Sliding Number Puzzle (15-Puzzle)</a></p>
+
+<h2>6. Tic-Tac-Toe vs Computer</h2>
+
+<p>A real opponent, not a random-move bot: it takes a winning move when one exists, blocks yours when you have one, and otherwise prefers the centre, then corners, then edges.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/tic-tac-toe-game/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Tic-Tac-Toe vs Computer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>computerMove()</code> runs a short, ordered heuristic chain instead of a full minimax search: first <code>findWinningMove('O')</code> checks whether the computer can win this turn and takes it immediately; if not, the same function is reused with the human's mark to check <code>findWinningMove('X')</code> and block it; if neither applies, it takes the centre cell if open, then a random open corner, then a random open edge. Reusing one <code>findWinningMove(mark)</code> function for both the "can I win" and "must I block" checks — just by swapping which mark it's called with — is what keeps the whole AI to a handful of lines instead of a full game-tree search, while still playing a genuinely competent, not-obviously-beatable game.</p>
+
+<p><strong>Best for:</strong> any site that wants a quick, low-stakes interactive moment — pricing page easter eggs, loading-screen distractions, kids' educational sites. <strong>Tip:</strong> the win/block/centre/corner/edge heuristic ordering is a reusable pattern worth knowing even outside Tic-Tac-Toe — it's the classic "good enough without search" approach to simple perfect-information games.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/tic-tac-toe-game/">Tic-Tac-Toe vs Computer</a></p>
+
+<h2>7. Word Guess Game (Wordle-Style)</h2>
+
+<p>A 6x5 Wordle clone with correctly-implemented duplicate-letter scoring — the single detail that breaks nearly every from-scratch Wordle tutorial.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/word-guess-game/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Word Guess Game Wordle-Style — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a naive scorer checks whether each guessed letter exists anywhere in the target and colours it yellow if so — which breaks the moment a letter repeats. Guess ERASE against target CRANE and a naive check marks both E's yellow, even though CRANE only has one E. <code>scoreGuess()</code> fixes this with two passes sharing one <code>consumed</code> tracking array: pass one marks every exact-position match green and immediately consumes that target index; pass two then searches for an <em>unconsumed</em> occurrence of each remaining letter via <code>targetLetters.findIndex((t, idx) => t === letter &amp;&amp; !consumed[idx])</code>, marking it yellow and consuming it if found. Because consumption is tracked per target-letter-index and shared across both passes, a target with exactly one E can only ever credit one guessed E — matching real Wordle behaviour exactly.</p>
+
+<p><strong>Best for:</strong> word-game portfolio pieces, ESL/vocabulary-learning sites, and as a genuinely useful interview-prep or tutorial artifact — the CRANE/ERASE edge case is a well-known trap worth walking through concretely. <strong>Tip:</strong> if you're extending this, test any change against a target and guess that share exactly two of the same letter — that's where naive scoring silently breaks.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/word-guess-game/">Word Guess Game (Wordle-Style)</a></p>
+
+<h2>8. Morse Code Translator &amp; Player</h2>
+
+<p>Type text, watch it convert to dots and dashes live, then hear it played back as real audio at exactly the international Morse timing ratios.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/morse-code-translator/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Morse Code Translator and Player — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> Morse code is defined entirely by timing ratios, not any visual shape — a dot is 1 unit, a dash is 3 units, the gap within one character is 1 unit, between letters 3 units, between words 7 units. This snippet derives every duration from one <code>UNIT_MS</code> constant (<code>DOT = UNIT_MS</code>, <code>DASH = UNIT_MS * 3</code>, <code>LETTER_GAP = UNIT_MS * 3</code>, <code>WORD_GAP = UNIT_MS * 7</code>), so changing playback speed is a single-line edit that scales the entire rhythm proportionally. Audio comes from a real <code>OscillatorNode</code>/<code>GainNode</code> pair created fresh per beep (an oscillator is single-use — once stopped it can't restart), set to a 600Hz sine tone, with <code>oscillator.stop()</code> scheduled against the audio context's own high-resolution clock rather than a JavaScript timer, so playback timing never drifts.</p>
+
+<p><strong>Best for:</strong> ham-radio and signals-history content, scouting/survival-skills educational sites, and as a genuinely interesting small scheduling problem to study if you've never scheduled audio against an <code>AudioContext</code> clock before. <strong>Tip:</strong> the <code>AudioContext</code> is created lazily on first user interaction specifically to respect browser autoplay policies, which require an audio context to originate from a real user gesture.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/morse-code-translator/">Morse Code Translator &amp; Player</a></p>
+
+<h2>9. Virtual Piano Keyboard</h2>
+
+<p>A real playable piano — click a key or press the mapped computer key, and hear the actual musically-correct note, not a generic beep.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/virtual-piano-keys/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Virtual Piano Keyboard — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every key carries a real equal-tempered frequency (C4 = 261.63 Hz, up through B4 = 493.88 Hz), computed from the standard 12-tone equal temperament formula <code>freq = 440 * 2^((n-49)/12)</code> where A4 = 440 Hz. Pressing a key builds an <code>OscillatorNode</code> set to <code>type: 'triangle'</code> — a softer, more piano-like timbre than the harsh default sine wave — routed through a <code>GainNode</code> implementing a real attack/decay envelope: <code>linearRampToValueAtTime</code> ramps volume up over 20ms to avoid the audible "click" a hard volume jump causes, then an exponential ramp eases into sustain. Releasing the key ramps gain back down over 400ms before calling <code>osc.stop()</code>, producing a natural decay instead of an abrupt cutoff. The black keys are absolutely positioned overlapping the white keys, exactly like a real keyboard layout.</p>
+
+<p><strong>Best for:</strong> music-education sites, a reference implementation for anyone learning <code>AudioContext</code>/<code>OscillatorNode</code>/<code>GainNode</code> envelope shaping for the first time, and as a base for interval-recognition or chord-building quiz tools. <strong>Tip:</strong> every key's <code>data-freq</code> attribute is copy-pasteable — it's a ready reference for converting note names to playback frequency in any other audio project.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/virtual-piano-keys/">Virtual Piano Keyboard</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS, and JS in separate tabs — every game here is pure vanilla JavaScript with zero dependencies and no CDN scripts required.</li>
+<li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag, or use the one-click <strong>export to React, Vue, Angular, or Tailwind</strong> right from the snippet page.</li>
+<li>Games with audio (the Morse player and the piano) create their <code>AudioContext</code> lazily, only on the first click or keypress — never on mount — so they respect every browser's autoplay policy automatically. Keep that pattern if you extend them.</li>
+<li>Games with persisted state (Whack-a-Mole's best score, Simon's high score) use a single, clearly-named <code>localStorage</code> key. If you embed more than one of these on the same page, double check the keys don't collide.</li>
+<li>Every game manages its own timers (<code>setInterval</code>/<code>setTimeout</code>) internally and cleans them up on reset — if you wrap one in a React/Vue component, mirror that cleanup inside your unmount lifecycle so a game left running in an unmounted component doesn't keep firing.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>What separates a "fun" snippet from a genuinely useful one is whether the logic underneath is actually correct — a Wordle clone that mis-scores repeated letters, a puzzle that shuffles into an unsolvable state, or an AI opponent that just clicks randomly all fail in ways a careful player notices immediately. Every game here specifically gets the non-obvious part right, which is exactly what makes them worth studying even if you never ship a game: the duplicate-letter scoring pattern, the legal-move shuffle, the win/block/centre heuristic, and the audio-context timing all generalize far beyond the game they're wrapped in.</p>
+
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

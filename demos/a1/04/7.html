@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Flexbox order — Reorder Without Touching the DOM">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Flexbox order — Reorder Without Touching the DOM</h1>
+    <p class="hint">Click "Move first" on any step — its visual position changes instantly, but its position in the HTML markup below never does.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="stepRow" id="stepRow">
+      <div class="step" data-order="0">
+        <strong>1. Sign up</strong>
+        <button type="button" class="moveBtn">Move first</button>
+      </div>
+      <div class="step" data-order="0">
+        <strong>2. Verify email</strong>
+        <button type="button" class="moveBtn">Move first</button>
+      </div>
+      <div class="step" data-order="0">
+        <strong>3. Add payment</strong>
+        <button type="button" class="moveBtn">Move first</button>
+      </div>
+      <div class="step" data-order="0">
+        <strong>4. Confirm</strong>
+        <button type="button" class="moveBtn">Move first</button>
+      </div>
+    </div>
+    <div class="readout">
+      <span>DOM order never changes — only <code>order</code> does.</span>
+    </div>
+    <pre class="ruleTag" id="ruleTag">/* every .step starts at order: 0 */</pre>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+  .readout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 16px;
+    font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--sub);
+  }
+  .readout code {
+    font: 700 11.5px ui-monospace, monospace;
+    color: var(--accent);
+  }
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 8px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  /* The rule this demo is about. */
+  .stepRow {
+    width: 100%;
+    max-width: 460px;
+    box-sizing: border-box;
+    padding: 14px;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    background: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .step {
+    flex: 1 1 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 8px;
+    border-radius: 8px;
+    background: #eceef3;
+    font-size: 12.5px;
+    transition: order 0s;
+  }
+  .moveBtn {
+    font: 700 10.5px system-ui, sans-serif;
+    padding: 4px 9px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--accent);
+    cursor: pointer;
+  }
+  .moveBtn:hover { background: #eef0ff; }
+</script>
+
+<script type="text/plain" id="js">
+  var row = document.getElementById('stepRow');
+  var ruleTag = document.getElementById('ruleTag');
+
+  function labelFor(step) {
+    return step.querySelector('strong').textContent;
+  }
+
+  function report() {
+    var out = [];
+    Array.prototype.forEach.call(row.children, function (step) {
+      out.push(labelFor(step).replace(/^\d+\.\s*/, '') + ' → order: ' + (step.style.order || '0'));
+    });
+    ruleTag.textContent = out.join('\n');
+  }
+
+  row.addEventListener('click', function (e) {
+    if (!e.target.classList.contains('moveBtn')) return;
+    var step = e.target.closest('.step');
+    Array.prototype.forEach.call(row.children, function (s) { s.style.order = '0'; });
+    step.style.order = '-1';
+    report();
+  });
+
+  report();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

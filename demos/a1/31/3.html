@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Registered Percentage Driving a Conic Gradient">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Registered &lt;percentage&gt; animating a conic-gradient stop</h1>
+    <p class="hint">Click "Fill to 80%". The dial's fill stop is one registered --fill custom property, animated by a plain transition &mdash; no JavaScript touches the gradient itself, only the class toggle.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="dial" id="dial">
+      <div class="dialInner" id="dialInner">0%</div>
+    </div>
+    <button class="btn" id="fillBtn" type="button">Fill to 80%</button>
+    <p class="note" id="note">Computing...</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 54em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 30px 18px 30px; }
+
+  @property --fill {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 0%;
+  }
+
+  .dial {
+    --fill: 0%;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: conic-gradient(var(--accent) var(--fill), var(--line) var(--fill));
+    transition: --fill 1.4s cubic-bezier(.22,.8,.28,1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+  }
+
+  .dial.filled { --fill: 80%; }
+
+  .dialInner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 700 20px system-ui, sans-serif;
+    color: var(--ink);
+  }
+
+  .btn { border: 0; border-radius: 8px; background: var(--accent); color: #fff; font: 700 13px system-ui, sans-serif; padding: 10px 18px; cursor: pointer; }
+  .btn:active { transform: translateY(1px); }
+  .note { margin: 0; max-width: 54em; font-size: 12.5px; color: var(--sub); text-align: center; }
+  .note strong { color: var(--ink); }
+</script>
+
+<script type="text/plain" id="js">
+  var dial = document.getElementById('dial');
+  var dialInner = document.getElementById('dialInner');
+  var btn = document.getElementById('fillBtn');
+  var note = document.getElementById('note');
+
+  function readFill() {
+    var v = getComputedStyle(dial).getPropertyValue('--fill').trim();
+    dialInner.textContent = v;
+    return v;
+  }
+
+  readFill();
+  note.textContent = 'The --fill percentage currently reads ' + getComputedStyle(dial).getPropertyValue('--fill').trim() + '. Click the button to animate it to 80% -- the conic-gradient stop position and the label both track the same single registered value.';
+
+  btn.addEventListener('click', function () {
+    dial.classList.toggle('filled');
+    var raf = 0;
+    function tick() {
+      readFill();
+      raf = requestAnimationFrame(tick);
+    }
+    tick();
+    setTimeout(function () {
+      cancelAnimationFrame(raf);
+      var v = readFill();
+      note.innerHTML = 'Transition finished. <strong>--fill</strong> now computes to <strong>' + v + '</strong>, read live via getComputedStyle on every frame while the conic-gradient repainted -- one registered &lt;percentage&gt; driving both the visual stop and the on-page number.';
+    }, 1500);
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

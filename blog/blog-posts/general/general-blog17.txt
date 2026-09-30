@@ -1,0 +1,234 @@
+<h1>useEffect Explained: 8 Common Mistakes and How to Fix Them</h1>
+
+<p>Almost every confusing <code>useEffect</code> bug comes from the same handful of misunderstandings, repeated in different clothes: treating the dependency array as optional, closing over a value that's already gone stale, forgetting that objects are compared by reference, or reaching for an effect when the answer was a plain calculation or an event handler all along. None of these are edge cases — they're the ones nearly every React developer hits in their first few months, and several of them ship into production because nothing crashes when they're wrong; the UI just quietly does the incorrect thing.</p>
+
+<p>The 8 demos below are all live and interactive, and every one that has a "broken" side keeps it running right next to the fix so you can watch the actual difference in behavior, not just read about it. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> — FWD Tools' free in-browser editor. Change a dependency array, delete a cleanup function, see what breaks — that's a faster way to build real intuition than any explanation.</p>
+
+<h2>The one-sentence rule</h2>
+
+<pre><code class="language-js">useEffect(function () {
+  // runs after React commits this render to the screen
+  doSomething(value);
+
+  return function () {
+    // runs before the NEXT effect run, and once more on unmount
+    undoSomething();
+  };
+}, [value]); // React re-runs the effect only when something in THIS array changed</code></pre>
+
+<p><code>useEffect</code> is a way to say "after the screen updates, synchronize something outside React with what just changed" — a subscription, a timer, the document title, a network request. The dependency array is not a performance knob you can skip; it's the actual list of values the effect closes over, and it's how React decides whether to re-run. Get it wrong in either direction — too few values, or a value that changes identity every render even though its contents don't — and the effect runs at the wrong time, not just too often or too rarely. Every demo below is one specific way that goes wrong, and the one-line fix for it.</p>
+
+<h2>When should you actually use useEffect?</h2>
+
+<p>Half of the mistakes below aren't really about dependency arrays or cleanup functions — they're about reaching for an effect when nothing outside React was involved in the first place. Before writing one, it's worth checking which category the logic actually falls into.</p>
+
+<p><strong>Use an Effect for:</strong></p>
+
+<ul>
+<li>Synchronizing with an external system (a non-React widget, a map instance, a chart library)</li>
+<li>Subscriptions (WebSockets, event emitters, external stores)</li>
+<li>Timers (<code>setInterval</code>, <code>setTimeout</code> that needs to persist across renders)</li>
+<li>Browser APIs (<code>document.title</code>, focus management, <code>IntersectionObserver</code>)</li>
+<li>Network synchronization (fetching data that depends on props or state)</li>
+</ul>
+
+<p><strong>Don't use an Effect for:</strong></p>
+
+<ul>
+<li>Calculating derived values (demo #6 below — just compute it during render)</li>
+<li>Handling user events (demo #7 below — put the logic in the handler that caused it)</li>
+<li>Transforming data for rendering (filtering, sorting, formatting — do it inline or with <code>useMemo</code>)</li>
+<li>Updating state simply because another state changed (a giveaway that the "derived" state should be a calculation instead)</li>
+</ul>
+
+<p>The syntax of <code>useEffect</code> is genuinely small — a function and a dependency array. Most of the pain people associate with it actually comes from using it in the second list above, where no dependency array or cleanup function would have fixed the real problem: the effect shouldn't have existed. Keep that distinction in mind as you go through the 8 demos — #1 through #5 are genuine effect mistakes (timing, closures, cleanup, race conditions), while #6, #7, and #8 are really about recognizing when an effect was the wrong tool to begin with.</p>
+
+<h2>1. No Dependency Array Runs After Every Single Render</h2>
+
+<p>Both counters share one unrelated "tick" button. Watch the effect-run count on each side as you click it.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/16/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Missing Dependency Array Runs on Every Render Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">useEffect(function () {
+  // no array at all -- runs after EVERY render, no matter what changed
+});
+
+useEffect(function () {
+  // empty array -- runs exactly once, after the first render
+}, []);</code></pre>
+
+<p>Leaving off the dependency array entirely doesn't mean "run once" — it means React has no list to compare against, so it treats the effect as always needing to re-run. Clicking the unrelated tick button in this demo causes a render for a reason that has nothing to do with either effect, and the "no array" side still fires anyway, climbing every time. The empty-array side runs once, at mount, and never again, because comparing against an empty list never finds a difference. The visual proof here uses a ref rather than state to track the run count deliberately — calling <code>setState</code> unconditionally inside a no-array effect is itself a classic way to create an accidental infinite render loop, which is exactly demo #4 later in this post.</p>
+
+<p><strong>Best for:</strong> understanding that "I forgot the array" and "I meant an empty array" are two completely different behaviors, not a stricter/looser version of the same thing. <strong>Tip:</strong> if you genuinely need something to run after every render, that's usually a sign the logic belongs somewhere else — a plain calculation during render, or the event handler that actually caused the change.</p>
+
+<h2>2. Stale Closure from a Missing Dependency</h2>
+
+<p>Click "+1" a few times, then click Start on each side. The broken one keeps adding 1 to a frozen old count; the fixed one reads the real current count.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/16/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Stale Closure from a Missing Dependency Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">useEffect(function () {
+  var id = setInterval(function () {
+    setLog(count + 1);   // "count" is whatever it was WHEN THIS EFFECT RAN
+  }, 500);
+  return function () { clearInterval(id); };
+}, [count]);   // include it, and a new interval is created with a fresh closure</code></pre>
+
+<p>A JavaScript closure captures the actual variable binding available when the function was created — not a live, ever-updating reference. When <code>count</code> is missing from the dependency array, the interval callback is created once and keeps reading whatever <code>count</code> equaled at that exact moment, forever, even as the real value moves on. Including <code>count</code> in the array is what makes React tear down the old interval and create a new one — with a fresh closure over the current value — every time the count actually changes. In the demo, bump the count while both intervals are already running: the broken side keeps adding to the number it started with, while the fixed side always adds to whatever the count genuinely is right now.</p>
+
+<p><strong>Best for:</strong> any effect that sets up a timer, subscription, or event listener that reads component state inside its callback — the dependency array is what keeps that callback from going stale. <strong>Tip:</strong> if a value legitimately shouldn't trigger a re-subscription but the callback still needs its current value, a ref that's updated on every render (not included in the array) is the usual escape hatch — that's worth its own dedicated post.</p>
+
+<h2>3. Forgetting the Cleanup Function Leaks the Interval</h2>
+
+<p>Mount a timer, let it tick a few times, then unmount it. Without a cleanup function, it keeps running invisibly and logging in the background.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/16/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Forgetting the Cleanup Function Leaks the Interval Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">useEffect(function () {
+  var id = setInterval(tick, 500);
+  return function () { clearInterval(id); };   // <-- easy to forget, never optional
+}, []);</code></pre>
+
+<p>React doesn't know what <code>setInterval</code>, <code>addEventListener</code>, or a subscription's <code>.connect()</code> actually did — it only knows to call whatever function your effect returns, right before the next effect run and once more on unmount. Skip the <code>return</code> statement, and nothing ever tells the browser to stop that timer. In this demo, unmounting the component removes it from the screen entirely, but the log panel underneath — driven by the same leaked interval, writing to a plain variable outside React — keeps growing. The component is gone; the interval it created is not.</p>
+
+<p><strong>Best for:</strong> any effect that creates something with an explicit teardown API — timers, event listeners, subscriptions, observers, WebSocket connections. If the thing you created has a matching "stop" method, your effect needs a cleanup function that calls it. <strong>Tip:</strong> a missing cleanup function rarely throws an error or shows up in a quick test — it shows up as a slow memory leak or duplicate event handlers after a user navigates around your app for a few minutes, which is exactly what makes it worth checking for deliberately rather than waiting to notice.</p>
+
+<h2>4. A New Object Every Render Breaks the Dependency Array</h2>
+
+<p>Both effects depend on a filter object built the same way. Click Start on each and watch what happens to the run count.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/16/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A New Object Every Render Breaks the Dependency Array Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// BROKEN: a new object, every single render
+var filters = { min: minPrice };
+
+// FIXED: the same object reference until minPrice actually changes
+var filters = useMemo(function () {
+  return { min: minPrice };
+}, [minPrice]);</code></pre>
+
+<p>React compares dependency array entries with <code>Object.is</code> — essentially <code>===</code> — which checks identity, not contents. <code>{ min: 10 }</code> built on one render and <code>{ min: 10 }</code> built on the next are never <code>===</code> to each other, even though they look identical, because object literals create a brand-new reference every time they're evaluated. If that object is a dependency and the effect also updates state, the result is a genuine infinite loop: render creates a new object, effect sees a "changed" dependency and runs, running updates state, updating state triggers a render, which creates another new object. This demo caps the broken side at 40 runs specifically so it can't freeze your tab — in real, unguarded code, this exact shape is one of the most common causes of a page that locks up or spikes to 100% CPU. <code>useMemo</code> fixes it by returning the exact same object reference across renders until <code>minPrice</code> itself changes, which is the actual value the effect should care about.</p>
+
+<p><strong>Best for:</strong> recognizing "Maximum update depth exceeded" or an unexplained CPU spike as a reference-identity problem first, before assuming the logic itself is wrong. <strong>Tip:</strong> this applies identically to arrays and to inline functions passed as dependencies — <code>useMemo</code> for computed values, <code>useCallback</code> for functions, same underlying reason.</p>
+
+<h2>5. Race Condition from a Missing Ignore Flag</h2>
+
+<p>Click "Ada" then immediately click "Bo" — Ada's search is deliberately slower. Watch which name ends up on screen.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/16/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Race Condition from a Missing Ignore Flag Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">useEffect(function () {
+  var ignore = false;
+  fetchResults(query).then(function (data) {
+    if (!ignore) setResults(data);   // check BEFORE applying a late response
+  });
+  return function () { ignore = true; };   // flips true the moment a newer request starts
+}, [query]);</code></pre>
+
+<p>Nothing about <code>fetch</code> or a promise guarantees that requests resolve in the order they were sent. A fast, later request can finish before a slow, earlier one — and without anything to stop it, the earlier response still calls <code>setResults</code> when it eventually arrives, overwriting the correct, more recent answer with a stale one. The fix isn't cancelling the actual network request — it's a local <code>ignore</code> flag, scoped to that one specific effect run, that a fresh effect run's cleanup function flips to <code>true</code> before applying its own response. In the demo, searching "Ada" and immediately searching "Bo" means Bo's fast response arrives first — the broken panel still lets Ada's slow response clobber it a moment later; the fixed panel's stale response checks the flag and quietly no-ops.</p>
+
+<p><strong>Best for:</strong> any effect that fetches data based on a value that can change again before the request finishes — search-as-you-type, tab switching, paginated data, anything driven by fast user input. <strong>Tip:</strong> if you're using a data-fetching library (React Query, SWR, or React's own <code>use</code> with Suspense), this exact problem is already solved for you internally — this pattern matters most when you're calling <code>fetch</code> directly inside a plain <code>useEffect</code>.</p>
+
+<h2>6. Derived State Doesn't Need an Effect</h2>
+
+<p>Type in the cart. Both totals end up correct — but watch the render counter while you type.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/16/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Derived State Doesn't Need an Effect Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// Unnecessary: its own state, kept in sync with an effect
+useEffect(function () { setTotal(qty * price); }, [qty, price]);
+
+// Just calculate it -- no state, no effect, no extra render
+var total = qty * price;</code></pre>
+
+<p>If a value can be computed directly from props or state already available during render, it doesn't need to be state itself — storing it separately and syncing it with an effect means every change to the inputs causes two renders instead of one: the first with the stale, not-yet-recalculated value, and a second, effect-triggered one with the corrected value. Neither render is wrong forever, but the first one is genuinely wasted work the browser has to do and, briefly, paint. In this demo, both cart totals are numerically correct at rest — the difference only shows up in the render counter, which is exactly why this mistake is easy to ship without noticing: nothing about the final UI looks broken, it's just quietly doing more work than it needs to.</p>
+
+<p><strong>Best for:</strong> catching state that's actually just a calculation wearing a <code>useState</code> costume — totals, filtered lists, formatted strings, anything fully determined by other values you already have. <strong>Tip:</strong> the giveaway is usually an effect whose entire body is a single <code>setSomething(...)</code> call with no external system involved — no timer, no subscription, no network call, nothing outside React. If that's all it does, it's very likely a candidate to become a plain variable instead.</p>
+
+<h2>7. A Side Effect That Should Be an Event Handler</h2>
+
+<p>Click "Load saved cart" on each side — it sets a quantity directly, the way restoring from storage would. No item was actually added, so no toast should appear.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/16/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A Side Effect That Should Be an Event Handler Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// Reacts to a STATE CHANGE -- can't tell WHY qty changed
+useEffect(function () {
+  if (qty > 0) showToast('Item added');
+}, [qty]);
+
+// Reacts to the ACTUAL EVENT -- knows exactly what just happened
+function handleAdd() {
+  setQty(qty + 1);
+  showToast('Item added');
+}</code></pre>
+
+<p>An effect that watches a piece of state and reacts when it changes has no way to know <em>why</em> it changed — only that it did. If quantity can change for more than one reason (a user clicking "Add," but also loading a saved cart, undoing an action, or syncing from a server), an effect keyed to quantity fires the same way for all of them, even the ones that shouldn't trigger an "item added" toast at all. The fix is recognizing that "the user clicked Add" is an event you already have direct access to — it belongs in the click handler that causes it, not inferred after the fact from a state change. In the demo, loading a saved cart sets the same quantity state both panels track; the broken panel's effect can't distinguish that from a real add and shows the toast anyway, while the fixed panel's load handler simply never calls the toast function.</p>
+
+<p><strong>Best for:</strong> analytics events, toasts, confirmations, and any "when the user does X" logic — if you can name the user action that should trigger it, it almost always belongs in that action's handler. <strong>Tip:</strong> this is one of the most common patterns in the official React docs' "You Might Not Need an Effect" guidance, and for good reason — it's the single easiest category of unnecessary effect to actually remove once you're looking for it.</p>
+
+<h2>8. One Effect, Two Unrelated Concerns</h2>
+
+<p>Change the theme (unrelated to chat). Watch whether the chat connection below reconnects when it has no reason to.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/16/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="One Effect, Two Unrelated Concerns Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// One effect, two concerns -- theme changes force a chat reconnect
+useEffect(function () {
+  connectToChat();
+  document.title = 'Theme: ' + theme;
+}, [theme]);
+
+// Split by concern -- each effect has only the dependency it actually needs
+useEffect(function () { connectToChat(); }, []);
+useEffect(function () { document.title = 'Theme: ' + theme; }, [theme]);</code></pre>
+
+<p>A dependency array has to honestly list every value the effect body reads — there's no way to include a value for one line and exempt it for another. Once an unrelated concern shares an effect with something that does depend on a fast-changing value, that unrelated concern is forced to re-run on the same schedule, whether it needs to or not. In the demo, switching between light and dark theme has nothing to do with the chat connection, but the combined effect reconnects anyway because <code>theme</code> is in its dependency array. Splitting into two effects — one with an empty array for the connection, one with <code>[theme]</code> for the title — lets each concern re-run only on its own actual schedule.</p>
+
+<p><strong>Best for:</strong> any effect whose body you'd describe with the word "and" — connects to chat <em>and</em> updates the title, logs analytics <em>and</em> starts a timer. That "and" is usually the sign it should be two effects. <strong>Tip:</strong> this is also why <code>useEffect</code> can be called as many times as you want inside one component — there's no cost to splitting by concern, and the dependency arrays end up smaller and more honest as a direct result.</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Treating the dependency array as a performance setting instead of a correctness requirement.</strong> Demos #1 and #2 both come from the same root cause — the array isn't optional tuning, it's the actual list of values the effect's closure depends on.</li>
+<li><strong>Assuming two objects with the same contents are the same dependency.</strong> Demo #4 is the direct proof — <code>{ min: 10 }</code> is never <code>===</code> to another <code>{ min: 10 }</code>, no matter how identical they look.</li>
+<li><strong>Forgetting that a promise can resolve out of order.</strong> Demo #5's race condition exists because nothing about async code guarantees the request sent first finishes first.</li>
+<li><strong>Reaching for an effect before checking if it's just a calculation or an event.</strong> Demos #6 and #7 are both "you might not need an effect" in disguise — one is derivable during render, the other already has a real event to hook into.</li>
+<li><strong>Cramming multiple concerns into one effect because they happen to run at the same time.</strong> Demo #8 shows the actual cost — an unrelated concern gets forced onto a schedule it never needed.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>Why does my effect run twice in development?</h3>
+<p>In development, React 18's Strict Mode deliberately mounts, unmounts, and remounts every component once to surface exactly the bugs these demos cover — a missing cleanup function becomes obvious immediately, instead of only showing up later as a slow leak in production. It's intentional and only happens in development; a correctly cleaned-up effect (like demo #3's fixed version would be) handles the extra mount/unmount cycle without any visible difference.</p>
+
+<h3>Do I need to add every function I call inside an effect to the dependency array?</h3>
+<p>If the function is defined inside the component (and therefore recreated every render), yes, in principle — though a new function reference every render creates the exact same "always different" problem demo #4 shows with objects. The usual fixes are moving the function outside the component if it doesn't need any props or state, or wrapping it in <code>useCallback</code> if it does, so its reference stays stable across renders that don't actually change its behavior.</p>
+
+<h3>What's the actual difference between useEffect and useLayoutEffect?</h3>
+<p><code>useEffect</code> runs after the browser has painted the updated screen — asynchronous relative to what the user sees. <code>useLayoutEffect</code> runs synchronously, after React updates the DOM but before the browser paints — useful for measuring layout (like an element's size or position) and adjusting something before the user ever sees a flicker. Every demo in this post correctly uses <code>useEffect</code>; reach for <code>useLayoutEffect</code> only when you specifically need to prevent a visual flash caused by a DOM read-then-write.</p>
+
+<h3>Can I make useEffect's callback itself async?</h3>
+<p>Not directly — <code>useEffect</code> expects its callback to return either nothing or a cleanup function, and an <code>async</code> function always returns a promise instead. Demo #5 sidesteps this entirely by chaining <code>.then()</code> on the promise rather than using <code>await</code>, which keeps the effect callback itself synchronous. If you do want <code>await</code>-style syntax, the fix is the same idea one level deeper: define a separate <code>async</code> function inside the effect and call it immediately, keeping the outer effect function itself synchronous.</p>
+
+<h3>Why does the linter warn about missing dependencies, and should I always listen to it?</h3>
+<p>The <code>exhaustive-deps</code> ESLint rule is checking for exactly the stale-closure bug in demo #2 — it flags any value your effect reads that isn't listed in the array. It's right often enough that disabling it should be rare and deliberate, not a reflex; when it seems wrong, the more common resolution is restructuring the effect (as in several demos above) rather than silencing the warning.</p>
+
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to internalize this is to click <strong>Fork &amp; Edit</strong> on demo #4 — the infinite-loop one — and swap the <code>useMemo</code>'d object back for a plain object literal on the fixed side. Watch it immediately start climbing toward the same 40-run cap the broken side hits. That single experiment explains more than any diagram. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop into a real project.</p>
+
+<p><strong>Recommended next step:</strong> open the <a href="https://fwdtools.com/react-playground/">React Playground</a> — FWD Tools' full in-browser React sandbox — and rebuild demo #5's race-condition fix from scratch against a search box of your own. Typing it out yourself, not just reading it, is what makes the pattern stick. For more tutorials like this one, browse the <a href="https://www.webdevpuneet.com/search/label/React">React</a> label on the blog.</p>

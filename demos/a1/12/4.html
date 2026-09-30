@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Animating box-shadow">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>box-shadow</h1>
+    <p class="hint"><code>box-shadow</code> is a single compound value, not several numeric sub-properties &mdash; GSAP's CSSPlugin still parses and interpolates it directly, string to string.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="card" id="card">Hover me</div>
+  </main>
+  <div class="btnRow">
+    <button class="runBtn" id="runBtn">Lift</button>
+    <button class="resetBtn" id="resetBtn">Reset</button>
+  </div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; font-family: ui-monospace, monospace; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .hint code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
+  .stageWrap { display: flex; justify-content: center; align-items: center; height: 220px; }
+  .card {
+    padding: 30px 40px;
+    background: #fff;
+    border-radius: 14px;
+    font: 700 14px system-ui, sans-serif;
+    color: var(--ink);
+    box-shadow: 0 1px 2px rgba(20,22,28,0.08);
+  }
+  .btnRow { display: flex; justify-content: center; gap: 10px; padding: 0 20px 32px; }
+  .runBtn, .resetBtn {
+    padding: 10px 18px;
+    font: 700 13px system-ui, sans-serif;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .runBtn { color: #fff; background: var(--accent); }
+  .runBtn:hover { background: #4f52d9; }
+  .resetBtn { color: var(--ink); background: #fff; border: 1.5px solid var(--line); }
+</script>
+
+<script type="text/plain" id="js">
+  const card = document.getElementById('card');
+
+  document.getElementById('runBtn').addEventListener('click', function () {
+    gsap.to(card, {
+      y: -10,
+      boxShadow: '0 22px 34px rgba(99,102,241,0.28)',
+      duration: 0.5,
+      ease: 'power2.out'
+    });
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', function () {
+    gsap.to(card, {
+      y: 0,
+      boxShadow: '0 1px 2px rgba(20,22,28,0.08)',
+      duration: 0.4
+    });
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

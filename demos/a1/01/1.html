@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Fluid Heading Typography">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+      <h1>Fluid Heading Typography</h1>
+      <p class="hint">Drag the handle to resize the box — the heading’s font-size scales smoothly between its floor and ceiling.</p>
+    </header>
+  
+    <main class="stageWrap">
+      <div class="stage" id="stage">
+        <h2 id="demoEl" class="demoEl demoHeading">Design that adapts.</h2>
+        <div class="handle" id="handle" role="slider" tabindex="0" aria-label="Drag to resize the preview"
+             aria-valuemin="220" aria-valuemax="860" aria-valuenow="560">
+          <span class="handleGrip"></span>
+        </div>
+      </div>
+      <div class="readout">
+        <span class="readoutItem">Container width: <strong id="stageWidth">560</strong>px</span>
+        <span class="readoutItem">font-size: <strong id="propValue">&mdash;</strong></span>
+      </div>
+      <code class="clampTag">clamp(20px, 6px + 5.2cqw, 48px)</code>
+    </main>
+</script>
+
+<script type="text/plain" id="css">
+
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+
+  body {
+    background: #f6f7f9;
+    color: var(--ink);
+  }
+
+  .bar {
+    padding: 18px 20px 8px;
+    text-align: center;
+  }
+
+  .bar h1 {
+    margin: 0 0 4px;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+  }
+
+  .hint {
+    margin: 0;
+    font-size: 12.5px;
+    color: var(--sub);
+  }
+
+  .stageWrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px 26px;
+  }
+
+  /* container-type turns cqw inside .demo-el's clamp() into a measurement of
+     THIS box, not the browser viewport — so dragging the handle is what
+     drives the fluid value, independent of the reader's actual window. */
+  .stage {
+    position: relative;
+    container-type: inline-size;
+    container-name: stage;
+    width: 560px;
+    max-width: 100%;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    background: #fff;
+    transition: none;
+  }
+
+  .handle {
+    position: absolute;
+    top: 0;
+    right: -3px;
+    bottom: 0;
+    width: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: ew-resize;
+    touch-action: none;
+  }
+
+  .handleGrip {
+    width: 6px;
+    height: 44px;
+    border-radius: 4px;
+    background: var(--accent);
+    opacity: 0.85;
+    box-shadow: 0 1px 3px rgba(20, 22, 30, 0.25);
+  }
+
+  .handle:hover .handleGrip,
+  .handle:focus-visible .handleGrip {
+    opacity: 1;
+    transform: scaleX(1.15);
+  }
+
+  .readout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 16px;
+    font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--sub);
+  }
+
+  .readoutItem strong {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .clampTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 5px 12px;
+    border-radius: 20px;
+  }
+
+  @media (max-width: 480px) {
+    .stage { width: 320px; }
+  }
+
+  .demoHeading {
+    margin: 0;
+    padding: 32px 24px;
+    font-size: clamp(20px, 6px + 5.2cqw, 48px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    text-align: center;
+  }
+</script>
+
+<script type="text/plain" id="js">
+  function readProp(el) { return Math.round(parseFloat(getComputedStyle(el).fontSize)) + 'px'; }
+  
+    var stage = document.getElementById('stage');
+    var handle = document.getElementById('handle');
+    var widthEl = document.getElementById('stageWidth');
+    var valueEl = document.getElementById('propValue');
+    var demoEl = document.getElementById('demoEl');
+  
+    var MIN_W = 220;
+    var MAX_W = 860;
+  
+    function currentWidth() {
+      return stage.getBoundingClientRect().width;
+    }
+  
+    function readComputed() {
+      valueEl.textContent = readProp(demoEl);
+    }
+  
+    function updateReadout() {
+      var w = Math.round(currentWidth());
+      widthEl.textContent = w;
+      handle.setAttribute('aria-valuenow', w);
+      readComputed();
+    }
+  
+    function setWidth(px) {
+      px = Math.max(MIN_W, Math.min(MAX_W, px));
+      stage.style.width = px + 'px';
+      updateReadout();
+    }
+  
+    // Pointer drag — one listener set handles mouse, touch and pen alike.
+    var dragging = false;
+    var startX = 0;
+    var startW = 0;
+  
+    handle.addEventListener('pointerdown', function (e) {
+      dragging = true;
+      startX = e.clientX;
+      startW = currentWidth();
+      handle.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+  
+    handle.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      setWidth(startW + (e.clientX - startX));
+    });
+  
+    function stopDrag() { dragging = false; }
+    handle.addEventListener('pointerup', stopDrag);
+    handle.addEventListener('pointercancel', stopDrag);
+  
+    // Keyboard: left/right (and shift for a bigger step) resize the stage
+    // without a mouse, keeping the slider role genuinely operable.
+    handle.addEventListener('keydown', function (e) {
+      var step = e.shiftKey ? 40 : 12;
+      if (e.key === 'ArrowLeft')  { setWidth(currentWidth() - step); e.preventDefault(); }
+      if (e.key === 'ArrowRight') { setWidth(currentWidth() + step); e.preventDefault(); }
+    });
+  
+    // A ResizeObserver, not just the drag handler, so the readout is right
+    // immediately on load and if the container ever resizes some other way
+    // (e.g. the iframe itself being resized by its host page).
+    new ResizeObserver(updateReadout).observe(stage);
+    updateReadout();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

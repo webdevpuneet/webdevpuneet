@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title=":valid and :invalid Styling">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Styling with :valid / :invalid</h1>
+    <p class="hint">Type into each field and watch the border color and the check/× icon react instantly &mdash; that's pure CSS reading the browser's own validity state, live, as you type.</p>
+  </header>
+  <main class="stageWrap">
+    <form class="statusForm" action="#" method="get" onsubmit="return false">
+      <label class="field">
+        <span class="fieldLabel">Full name</span>
+        <div class="inputWrap">
+          <input type="text" name="name" required minlength="2" placeholder=" ">
+          <span class="icon iconOk">✓</span>
+          <span class="icon iconErr">×</span>
+        </div>
+      </label>
+      <label class="field">
+        <span class="fieldLabel">Email</span>
+        <div class="inputWrap">
+          <input type="email" name="email" required placeholder=" ">
+          <span class="icon iconOk">✓</span>
+          <span class="icon iconErr">×</span>
+        </div>
+      </label>
+    </form>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --ok: #16a34a; --err: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; padding: 20px 16px 36px; }
+
+  .statusForm {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .fieldLabel { font: 700 12px system-ui, sans-serif; }
+
+  .inputWrap { position: relative; }
+  .statusForm input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 34px 10px 12px;
+    font: 500 14px system-ui, sans-serif;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    outline: none;
+  }
+  .statusForm input:focus { border-color: var(--accent); }
+
+  .icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font: 800 15px system-ui, sans-serif;
+    opacity: 0;
+    transition: opacity .12s;
+  }
+  .iconOk { color: var(--ok); }
+  .iconErr { color: var(--err); }
+
+  /* Pristine (untouched, empty) fields show neither icon nor color — only
+     once the field is no longer showing its placeholder does either state
+     become visible, so an empty required field doesn't look broken on load. */
+  .statusForm input:not(:placeholder-shown):valid { border-color: var(--ok); background: #f0fdf4; }
+  .statusForm input:not(:placeholder-shown):invalid { border-color: var(--err); background: #fef2f2; }
+  .statusForm input:not(:placeholder-shown):valid ~ .iconOk { opacity: 1; }
+  .statusForm input:not(:placeholder-shown):invalid ~ .iconErr { opacity: 1; }
+</script>
+
+<script type="text/plain" id="js">
+  /* No JavaScript — :valid, :invalid and :placeholder-shown are all native
+     CSS pseudo-classes that reflect the input's constraint-validation state. */
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

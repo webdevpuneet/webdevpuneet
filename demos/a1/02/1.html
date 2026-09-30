@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Selectable Plan Card">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+      <h1>Selectable Plan Card</h1>
+      <p class="hint">Click a card to select it — the whole card’s border, background and checkmark react to its own radio input being checked.</p>
+    </header>
+    <main class="stageWrap">
+      <div class="planGrid" id="stage">
+          <label class="planCard">
+            <input type="radio" name="plan" class="planRadio" value="Starter" checked>
+            <span class="planCheck">&#10003;</span>
+            <strong>Starter</strong>
+            <span class="planPrice">$0/mo</span>
+          </label>
+          <label class="planCard">
+            <input type="radio" name="plan" class="planRadio" value="Pro">
+            <span class="planCheck">&#10003;</span>
+            <strong>Pro</strong>
+            <span class="planPrice">$24/mo</span>
+          </label>
+          <label class="planCard">
+            <input type="radio" name="plan" class="planRadio" value="Team">
+            <span class="planCheck">&#10003;</span>
+            <strong>Team</strong>
+            <span class="planPrice">$79/mo</span>
+          </label>
+        </div>
+      <div class="readout">
+        <span>Selected plan: <strong id="readoutValue">&mdash;</strong></span>
+      </div>
+      <pre class="ruleTag">.planCard:has(input:checked) {
+    border-color: var(--accent);
+    background: #eef0ff;
+  }</pre>
+    </main>
+</script>
+
+<script type="text/plain" id="css">
+
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+  .stage {
+    width: 100%;
+    max-width: 560px;
+    box-sizing: border-box;
+    padding: 26px 24px;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    background: #fff;
+  }
+  .readout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 16px;
+    font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--sub);
+  }
+  .readout strong { color: var(--accent); font-weight: 700; }
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 6px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .planGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .planCard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 12px;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+  .planRadio { position: absolute; opacity: 0; }
+  .planCheck {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #fff;
+    background: var(--accent);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity .15s, transform .15s;
+  }
+  .planPrice { font-size: 12px; color: var(--sub); }
+
+  /* The rule this demo is about — everything above is just card styling. */
+  .planCard:has(.planRadio:checked) {
+    border-color: var(--accent);
+    background: #eef0ff;
+  }
+  .planCard:has(.planRadio:checked) .planCheck {
+    opacity: 1;
+    transform: scale(1);
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var stage = document.getElementById('stage');
+    var out = document.getElementById('readoutValue');
+    function report() {
+      var checked = stage.querySelector('.planRadio:checked');
+      out.textContent = checked ? checked.value : 'none';
+    }
+    stage.addEventListener('change', report);
+    report();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

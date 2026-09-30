@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Named scroll-timeline">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Named scroll-timeline</h1>
+    <p class="hint">The dot below is driven by the scroll position of the gray box further down &mdash; a completely different element, nowhere near it in the DOM. Scroll inside the box and watch the dot.</p>
+  </header>
+  <div class="dotTrack"><div class="dot" id="dot"></div></div>
+  <div class="scrollBox" id="scrollBox">
+    <div class="innerSpacer">Scroll inside this box ↓</div>
+    <p class="innerContent">This box declares scroll-timeline-name: --box on itself. The dot above references animation-timeline: --box, even though it's a completely different element elsewhere in the document.</p>
+    <div class="innerSpacer">More content</div>
+  </div>
+  <div class="spacer end"></div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+
+  .dotTrack {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    max-width: 300px;
+    margin: 16px auto 0;
+    height: 14px;
+    background: var(--line);
+    border-radius: 8px;
+  }
+
+  .dot {
+    width: 22px;
+    height: 22px;
+    margin-top: -4px;
+    border-radius: 50%;
+    background: #6366f1;
+    box-shadow: 0 8px 18px rgba(99, 102, 241, 0.4);
+    animation: slide linear;
+    animation-timeline: --box;
+  }
+
+  @keyframes slide {
+    from { transform: translateX(0); }
+    to   { transform: translateX(278px); }
+  }
+
+  .scrollBox {
+    max-width: 340px;
+    margin: 26px auto;
+    height: 220px;
+    overflow-y: auto;
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    background: #fff;
+    scroll-timeline-name: --box;
+    scroll-timeline-axis: y;
+  }
+
+  .innerSpacer { height: 170px; display: flex; align-items: center; justify-content: center; color: var(--sub); font-size: 12px; }
+  .innerContent { padding: 0 16px; font-size: 12px; color: var(--sub); line-height: 1.6; }
+  .spacer.end { height: 40px; }
+</script>
+
+<script type="text/plain" id="js">
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

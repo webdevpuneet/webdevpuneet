@@ -1,0 +1,331 @@
+<!-- wp:heading {"level":1} -->
+<h1 class="wp-block-heading">8 Copy-Paste Hover Card Snippets That Make Any UI Feel Alive</h1>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A plain card with a border and a drop shadow gets the job done, but it doesn't get remembered. The cards that make a portfolio or landing page feel "designed" almost always have one thing in common: they react to you. Below are 8 free hover-card snippets — cursor-tracking glows, 3D tilts, twinkling stars, scrambled text reveals — you can preview live and copy in seconds. Pure HTML, CSS and a few lines of JS, no framework required.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>This isn't just a copy-paste dump, either. For every card you'll find <strong>how the effect actually works</strong>, <strong>when to reach for it</strong> (and when not to), and a quick tip for customising or keeping it accessible. By the end you'll understand the handful of CSS and JavaScript techniques — CSS custom properties as a bridge from JS to CSS, 3D transforms, clip-path and mask tricks — that power almost every "wow" card effect on the modern web.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every card below is a <strong>live, interactive preview</strong> — move your cursor over it right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">What makes a hover card feel "good"?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Before the snippets, it's worth knowing what you're actually copying. A card that feels satisfying — rather than gimmicky — almost always gets four things right:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>The cursor is the input</strong> — the best effects don't just play a canned animation on hover, they track the pointer's exact position and respond to it, which is what makes them feel physical rather than scripted.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>CSS custom properties as the bridge</strong> — JavaScript reads the mouse position once and writes it into a <code>--mx</code>/<code>--my</code> variable; CSS does the actual rendering. That split keeps the JS tiny and the animation buttery, because the browser — not a JS loop — repaints the gradient or transform every frame.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Restraint</strong> — one striking effect per card. Stack a tilt, a glow, a border animation and a shadow bounce on the same element and it reads as noisy rather than premium.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>A graceful default state</strong> — the card should still look complete before anyone touches it. Hover should enhance, not carry, the design.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Keep those four in mind as you scroll — each snippet below leans on one or more of them.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. Spotlight Hover Card</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A soft radial glow that follows your cursor around inside the card, with a matching light picking out the border. It's the single most common effect on modern SaaS feature grids — and it's cheaper to build than it looks.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/spotlight-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Spotlight Hover Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> a <code>pointermove</code> listener converts the cursor's screen position into coordinates relative to the card and writes them to two CSS custom properties, <code>--mx</code> and <code>--my</code>. A <code>radial-gradient</code> background reads those variables as its centre point, so the glow appears to "follow" the mouse — but the actual repainting is done entirely by CSS. The illuminated border is a second, sharper radial gradient on a pseudo-element, masked with <code>mask-composite: exclude</code> so only a thin ring around the edge shows through.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> feature grids, pricing tiers, and dashboard widgets where you want a whole row of cards to feel cohesive rather than each one shouting for attention. <strong>Tip:</strong> if you're driving multiple cards from one shared listener (like a grid), update every card's variables together — it reads as one connected surface instead of independent hotspots.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/spotlight-card/">Spotlight Hover Card</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. 3D Card Tilt</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The card leans away from your cursor like a physical object catching the light, then eases back flat the instant you leave. It's the effect that made "Aceternity-style" component libraries so popular — and it's about 15 lines of JS.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/3d-card-tilt/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="3D Card Tilt — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> on <code>mousemove</code>, the script finds the cursor's offset from the card's centre with <code>getBoundingClientRect()</code>, normalises it to a small range, and applies <code>transform: perspective(800px) rotateX(...) rotateY(...)</code> — tilting toward whichever edge is closest to the cursor. Because rotation is inverted on one axis, the card behaves like it's hinged at the pointer rather than spinning in place. On <code>mouseleave</code> the transform resets to flat with a CSS transition, so it glides back instead of snapping.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> product cards, portfolio pieces, and any single hero card where a bit of "craft" pays off. <strong>Tip:</strong> keep the rotation range small (5–10°) — a dramatic tilt looks impressive in isolation but turns nauseating the moment you put six of these cards in a grid.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/3d-card-tilt/">3D Card Tilt</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. Glowing Stars Card</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A dark card seeded with a grid of tiny "stars" that sit dim and still — until you hover, and a random scatter of them twinkles to life. It's one of the most atmospheric effects on this list for almost no runtime cost.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/glowing-stars-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Glowing Stars Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> the sky is a CSS grid of small dots, and roughly a third of them get an <code>.on</code> class at build time so the pattern looks random rather than uniform. Each "on" star has its own CSS keyframe animation with <code>animation-play-state: paused</code> by default — so nothing is actually running, and costs zero CPU, until <code>:hover</code> flips the play state to <code>running</code>. That's the trick: dozens of independent animations sit dormant, ready to go, instead of being created and destroyed on hover.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> dark-themed portfolios, developer tool landing pages, and "premium/AI" product cards where a bit of atmosphere sells the brand. <strong>Tip:</strong> the paused-by-default pattern here is reusable well beyond stars — any card with many small looping animations should pause them until hover so idle cards on a long page don't quietly burn battery.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/glowing-stars-card/">Glowing Stars Card</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. Wobble Card</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Grab the card with your cursor and it tilts around like a piece of card stock pinned at the centre, snapping flat the moment you let go. It reads as playful and tactile rather than sleek — a nice change of pace from glassy, corporate hovers.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/wobble-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Wobble Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> a <code>pointermove</code> handler converts the cursor position into a normalised <code>-1</code> to <code>1</code> range across the card's width and height, then feeds those values into <code>rotateX()</code>/<code>rotateY()</code> with a multiplier — the further from centre, the bigger the wobble. A <code>cubic-bezier</code> transition on the transform is what sells the "springy card stock" feeling rather than a mechanical tilt, and the reset on <code>pointerleave</code> uses the same easing so it settles rather than snapping flat.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> playful brands, gift/reward cards, and app onboarding screens where a bit of personality is welcome. <strong>Tip:</strong> pair the <code>cursor: grab</code> styling from this snippet with a subtle scale-up on hover — it reinforces that the card is "physically" reacting to you, not just tilting on autopilot.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/wobble-card/">Wobble Card</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Meteor Card</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Streaking meteors fall diagonally across the card on a loop, each trailing a soft gradient tail. It's a purely decorative, ambient effect — no interaction required — that instantly makes a card feel like it belongs on a "launching soon" page.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/meteor-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Meteor Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> each meteor is a tiny absolutely-positioned dot with a <code>::before</code> pseudo-element stretched into a thin gradient line — the "tail" fading from bright to transparent. A CSS keyframe animates each meteor's <code>transform</code> diagonally from just above the card to past its bottom edge, and staggered negative <code>animation-delay</code> values on each one make them fall at different moments instead of in unison, so the loop never feels mechanical.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> "coming soon" pages, AI/space-themed product cards, and a single hero testimonial or pricing card you want to feel a little more alive without demanding interaction. <strong>Heads-up:</strong> because it's a continuous loop, wrap it in <code>@media (prefers-reduced-motion: reduce)</code> and freeze it to a static gradient background for users who've opted out of motion.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/meteor-card/">Meteor Card</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. Evervault-Style Reveal Card</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The card is filled edge-to-edge with a wall of scrambled, encrypted-looking characters — invisible until your cursor sweeps a small window of clarity over them, Matrix-decoder style. Genuinely one of the coolest small effects you can copy for free.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/evervault-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Evervault-Style Reveal Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> the scrambled text sits in the card at <code>opacity: 0</code> by default, with a <code>mask-image: radial-gradient(140px circle at var(--mx) var(--my), #000 0%, transparent 60%)</code> — a mask that's only "visible" in a small circle. The same <code>pointermove</code>-to-CSS-variable trick from the spotlight card drives that circle to follow the cursor, and the card fades the whole stream to <code>opacity: 1</code> on hover so the mask has something to reveal. Everywhere the mask is transparent, the text is effectively erased even though it's still rendered.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> developer tools, security/crypto products, and API or "under the hood" feature cards where a decoding motif fits the brand. <strong>Tip:</strong> keep the revealed circle small (120–160px) — too large and you lose the "flashlight in the dark" feeling that makes the effect work.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/evervault-card/">Evervault-Style Reveal Card</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. Neo-Brutalist Card</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A thick black border and a hard-edged, offset drop shadow — no blur, no gradient — that shifts and shrinks as you hover and click, like a sticker being pressed. It's the opposite aesthetic of a soft glow card, and just as popular right now.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/neo-brutalist-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Neo-Brutalist Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> the signature "brutalist" shadow is a <code>box-shadow</code> with <strong>zero blur radius</strong> — just an offset, like <code>8px 8px 0 #111</code> — which reads as a hard, flat shape instead of a soft shadow. On hover the card translates up and to the left while the shadow offset grows, so the gap between card and shadow widens, exaggerating the "lifted off the page" look; on <code>:active</code> both invert, so the card presses down into its own shadow. It's all instant, un-eased transforms — brutalism doesn't do gentle easing curves.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> bold, high-contrast brands, indie products, and portfolio or link-in-bio pages that want to look deliberately "undesigned". <strong>Tip:</strong> this style lives or dies on colour contrast — stick to two or three flat, saturated colours and pure black borders rather than soft greys, or the brutalist effect just looks unfinished.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/neo-brutalist-card/">Neo-Brutalist Card</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. Glassmorphism Card</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A frosted, translucent pane that lets a colourful background blur through it — the "glass" look that's been everywhere since iOS and Windows adopted it for system UI. Still one of the fastest ways to make a card feel modern.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/glass-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Glassmorphism Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> the card is a semi-transparent background colour (typically white or black at 10–20% opacity) combined with <code>backdrop-filter: blur(16px)</code> — a property that blurs whatever sits <em>behind</em> the element, not the element itself. That's the whole trick: the card stays sharp and legible while the busy gradient or image behind it turns into soft, out-of-focus colour. A thin, semi-transparent border finishes the look by catching a hint of light along the edge.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> login and signup panels over a photo or gradient hero, dashboard overlays, and any UI sitting on top of imagery. <strong>Heads-up:</strong> <code>backdrop-filter</code> is a genuine GPU cost, so avoid stacking dozens of glass cards on one screen — and always pair the include with the <code>-webkit-</code> prefix for full Safari support.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/glass-card/">Glassmorphism Card</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">How to drop these into your project</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Every snippet is framework-agnostic, so the workflow is the same wherever you're building:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol class="wp-block-list">
+<!-- wp:list-item -->
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS (if any) before your closing <code>&lt;/body&gt;</code> tag.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Prefer a component? Use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> and drop the file straight into your app.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Recolour to your brand by editing the gradient stops, accent colour, or CSS custom properties at the top of each snippet.</li>
+<!-- /wp:list-item -->
+</ol>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Keep your cards accessible and performant</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Great visuals shouldn't cost you usability or battery life. Three quick rules cover almost every case:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li>Prefer animating <code>transform</code> and <code>opacity</code> over properties like <code>width</code>, <code>top</code>, or <code>box-shadow</code> blur radius on every frame — the former run on the GPU compositor, the latter trigger layout or paint work that can visibly stutter on lower-end devices.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>If a card is interactive (a link or button wrapped in the effect), keep a visible <code>:focus-visible</code> outline — cursor-tracking effects are, by definition, invisible to keyboard users, so focus states are the only feedback they get.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Wrap continuous loops (meteors, twinkling stars, shimmer) in <code>@media (prefers-reduced-motion: reduce)</code> and fall back to a static version for users who've opted out of animation.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Final Thought</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>These are just 8 of dozens of card styles you can copy for free — no login, no sign-up, everything runs in your browser. More importantly, the techniques behind them — cursor position piped into CSS custom properties, 3D perspective transforms, radial masks, and paused-until-hover animations — are the same building blocks that power tooltips, buttons, and entire hero sections. Learn them once here and you'll recognise them everywhere.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/cards/">FWD Tools UI Snippets — Cards</a> — it's free and runs entirely in your browser. Looking for the button-focused version of this roundup? Check out <a href="https://fwdtools.com/ui-snippets/buttons/">8 Copy-Paste CSS Button Snippets</a> too.</p>
+<!-- /wp:paragraph -->

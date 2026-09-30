@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Parallax inside a pinned hero">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Parallax inside a pinned hero</h1>
+    <p class="hint">Scroll down. The hero locks in place and its layers parallax internally for the whole pinned distance, then release together.</p>
+  </header>
+  <div class="spacer">Scroll ↓</div>
+  <div class="hero" id="hero">
+    <div class="layer sky2">Sky &mdash; 0.15x</div>
+    <div class="layer mnt">Mountains &mdash; 0.45x</div>
+    <div class="layer title">
+      <h2>Pinned Hero</h2>
+      <p>Layers move while the section stays put</p>
+    </div>
+  </div>
+  <div class="spacer end">Released &mdash; normal scroll resumes</div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #0ea5e9; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .spacer { height: 200px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 240px; }
+  .hero { position: relative; height: 220px; margin: 0; overflow: hidden; }
+  .layer { position: absolute; display: flex; align-items: flex-start; justify-content: center; padding-top: 10px; font: 800 11px system-ui, sans-serif; color: #fff; }
+  .sky2 { inset: -30px 0; background: linear-gradient(180deg, #0c4a6e, #0ea5e9); }
+  .mnt { left: -10%; right: -10%; bottom: -30px; height: 55%; background: #075985; border-radius: 60% 60% 0 0 / 40px 40px 0 0; align-items: flex-start; padding-top: 8px; }
+  .title { inset: 0; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding-top: 0; }
+  .title h2 { margin: 0 0 6px; font-size: 24px; font-weight: 800; text-shadow: 0 4px 14px rgba(0,0,0,0.35); }
+  .title p { margin: 0; font-size: 12px; opacity: 0.9; }
+</script>
+
+<script type="text/plain" id="js">
+  gsap.registerPlugin(ScrollTrigger);
+
+  var tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.hero',
+      start: 'top top',
+      end: '+=260',
+      pin: true,
+      scrub: true
+    }
+  });
+
+  tl.fromTo('.sky2', { yPercent: -8 }, { yPercent: 8, ease: 'none' }, 0);
+  tl.fromTo('.mnt', { yPercent: -18 }, { yPercent: 18, ease: 'none' }, 0);
+  tl.fromTo('.title', { yPercent: -4 }, { yPercent: 4, ease: 'none' }, 0);
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

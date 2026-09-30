@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Stale Closure from a Missing Dependency">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>The interval remembers the count from when it was created</h1>
+    <p class="hint">Click "+1" a few times, then click Start on each side. The broken one keeps adding 1 to a frozen old count; the fixed one reads the real current count.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 17px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px 28px; }
+  .manual { display: flex; align-items: center; gap: 10px; font: 700 13px system-ui, sans-serif; }
+  .manualBtn { padding: 7px 14px; border-radius: 8px; border: 1.5px solid var(--line); background: #fff; cursor: pointer; font-weight: 700; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 8px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .stat { font: 800 26px ui-monospace, monospace; color: var(--ink); margin-bottom: 8px; }
+  .runBtn { padding: 8px 14px; border-radius: 8px; border: none; background: var(--accent); color: #fff; font: 700 12.5px system-ui, sans-serif; cursor: pointer; }
+  .runBtn:disabled { opacity: .5; cursor: default; }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useEffect = React.useEffect;
+  var useRef = React.useRef;
+
+  function Demo() {
+    var countState = useState(0);
+    var count = countState[0];
+    var setCount = countState[1];
+
+    var badLogState = useState(0);
+    var badLog = badLogState[0];
+    var setBadLog = badLogState[1];
+    var badRunning = useState(false);
+    var goodLogState = useState(0);
+    var goodLog = goodLogState[0];
+    var setGoodLog = goodLogState[1];
+    var goodRunning = useState(false);
+
+    var badOn = badRunning[0];
+    var setBadOn = badRunning[1];
+    var goodOn = goodRunning[0];
+    var setGoodOn = goodRunning[1];
+
+    // BROKEN: this effect's dependency array is empty, so the interval
+    // callback is created ONCE, closing over whatever `count` was AT THAT
+    // MOMENT. Every tick after that reads the same stale value forever --
+    // classic stale closure.
+    useEffect(function () {
+      if (!badOn) return;
+      var id = setInterval(function () {
+        setBadLog(count + 1);
+      }, 500);
+      return function () { clearInterval(id); };
+    }, [badOn]);
+
+    // FIXED: including count in the dependency array means React tears down
+    // the old interval and creates a fresh one -- with a fresh closure over
+    // the current count -- every time count changes.
+    useEffect(function () {
+      if (!goodOn) return;
+      var id = setInterval(function () {
+        setGoodLog(count + 1);
+      }, 500);
+      return function () { clearInterval(id); };
+    }, [goodOn, count]);
+
+    return e('div', null,
+      e('div', { className: 'manual' },
+        'Real current count: ' + count,
+        e('button', { className: 'manualBtn', onClick: function () { setCount(count + 1); } }, '+1')
+      ),
+      e('div', { className: 'cols', style: { marginTop: '14px' } },
+        e('div', { className: 'col' },
+          e('h2', { className: 'colTitle bad' }, 'Stale (no count dep)'),
+          e('div', { className: 'stat' }, badLog),
+          e('button', { className: 'runBtn', disabled: badOn, onClick: function () { setBadLog(count); setBadOn(true); } }, badOn ? 'Running...' : 'Start'),
+          e('p', { className: 'note' }, 'Keeps adding to the count from when Start was clicked.')
+        ),
+        e('div', { className: 'col' },
+          e('h2', { className: 'colTitle good' }, 'Fresh ([count] dep)'),
+          e('div', { className: 'stat' }, goodLog),
+          e('button', { className: 'runBtn', disabled: goodOn, onClick: function () { setGoodLog(count); setGoodOn(true); } }, goodOn ? 'Running...' : 'Start'),
+          e('p', { className: 'note' }, 'Always adds to whatever the count actually is right now.')
+        )
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

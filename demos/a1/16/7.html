@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="A Side Effect That Should Be an Event Handler">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>"When X happens, do Y" is an event handler, not an effect</h1>
+    <p class="hint">Click "Load saved cart" on each side &mdash; it sets a quantity directly, the way restoring from storage would. No item was actually added, so no toast should appear.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 16.5px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 18px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; min-height: 150px; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; text-align: center; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .addBtn { display: block; width: 100%; padding: 8px; border-radius: 8px; border: 1.5px solid var(--line); background: #f8fafc; font: 700 12.5px system-ui, sans-serif; cursor: pointer; margin-bottom: 10px; }
+  .cartLine { font-size: 12.5px; text-align: center; color: var(--sub); margin-bottom: 8px; }
+  .toastLog { font-size: 11px; color: var(--ink); background: #f1f5f9; border-radius: 7px; padding: 6px 8px; min-height: 50px; }
+  .toastLog div { padding: 2px 0; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useEffect = React.useEffect;
+
+  function BadCart() {
+    var qtyState = useState(0);
+    var qty = qtyState[0];
+    var setQty = qtyState[1];
+    var toastsState = useState([]);
+    var toasts = toastsState[0];
+    var setToasts = toastsState[1];
+
+    // ANTI-PATTERN: reacting to a state change with an effect, when the
+    // "event" (the click) is right there and already known. This effect
+    // has no way to tell "quantity went up because the user clicked Add"
+    // apart from "quantity changed for ANY reason" -- including a qty set
+    // directly by loading a saved cart, where nothing was actually added.
+    useEffect(function () {
+      if (qty === 0) return;
+      setToasts(function (t) { return t.concat('"Item added" toast (qty: ' + qty + ')'); });
+    }, [qty]);
+
+    return e('div', null,
+      e('button', { className: 'addBtn', onClick: function () { setQty(qty + 1); } }, 'Add item'),
+      e('button', { className: 'addBtn', onClick: function () { setQty(5); } }, 'Load saved cart (qty 5)'),
+      e('div', { className: 'cartLine' }, 'Qty in cart: ' + qty),
+      e('div', { className: 'toastLog' }, toasts.slice(-3).map(function (t, i) { return e('div', { key: i }, t); }))
+    );
+  }
+
+  function GoodCart() {
+    var qtyState = useState(0);
+    var qty = qtyState[0];
+    var setQty = qtyState[1];
+    var toastsState = useState([]);
+    var toasts = toastsState[0];
+    var setToasts = toastsState[1];
+
+    // FIXED: the toast belongs directly in the click handler, right next to
+    // the state update that caused it. No effect needed -- "this specific
+    // click added an item" is exactly what already happened here. Loading a
+    // saved cart is a SEPARATE handler that sets qty without ever touching
+    // toasts, so it correctly stays silent.
+    function handleAdd() {
+      var next = qty + 1;
+      setQty(next);
+      setToasts(function (t) { return t.concat('"Item added" toast (qty: ' + next + ')'); });
+    }
+    function handleLoad() {
+      setQty(5); // no toast -- nothing was "added" by the user just now
+    }
+
+    return e('div', null,
+      e('button', { className: 'addBtn', onClick: handleAdd }, 'Add item'),
+      e('button', { className: 'addBtn', onClick: handleLoad }, 'Load saved cart (qty 5)'),
+      e('div', { className: 'cartLine' }, 'Qty in cart: ' + qty),
+      e('div', { className: 'toastLog' }, toasts.slice(-3).map(function (t, i) { return e('div', { key: i }, t); }))
+    );
+  }
+
+  function Demo() {
+    return e('div', { className: 'cols' },
+      e('div', { className: 'col' },
+        e('h2', { className: 'colTitle bad' }, 'Effect reacts to qty'),
+        e(BadCart)
+      ),
+      e('div', { className: 'col' },
+        e('h2', { className: 'colTitle good' }, 'Handler fires the toast'),
+        e(GoodCart)
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

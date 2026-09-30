@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Declared vs Implicit Layer Order">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Declared vs. implicit layer order</h1>
+    <p class="hint">No upfront <code>@layer reset, override;</code> statement is used here &mdash; the two buttons inject the SAME two layer blocks in different physical orders. Click each and watch the winner flip, because without a declared order, order is set by whichever layer block is first encountered in the source.</p>
+  </header>
+  <main class="stageWrap">
+    <article class="card">
+      <p class="target" id="target">Sample text</p>
+    </article>
+    <div class="row">
+      <button type="button" class="toggleBtn" id="orderA">reset block first, override block second</button>
+      <button type="button" class="toggleBtn" id="orderB">override block first, reset block second</button>
+    </div>
+    <p class="note" id="note">Click a button to inject that source order.</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 52em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 26px 18px 34px; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 30px;
+  }
+
+  .target { font-weight: 800; color: #9aa0ab; }
+
+  .toggleBtn {
+    padding: 9px 14px;
+    font: 700 12px system-ui, sans-serif;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .toggleBtn:hover { background: #eef0ff; }
+  .toggleBtn.active { border-color: var(--accent); color: var(--accent); }
+
+  .note { margin: 0; max-width: 52em; font-size: 12.5px; color: var(--sub); text-align: center; }
+  .note strong { color: var(--ink); }
+</script>
+
+<script type="text/plain" id="js">
+  var target = document.getElementById('target');
+  var note = document.getElementById('note');
+  var orderA = document.getElementById('orderA');
+  var orderB = document.getElementById('orderB');
+  var dynStyle = null;
+
+  function inject(resetFirst) {
+    if (dynStyle) dynStyle.remove();
+    dynStyle = document.createElement('style');
+
+    /* No "@layer reset, override;" statement anywhere -- so layer creation
+       order is decided purely by which @layer block the parser meets first.
+       Whichever layer is met LAST gets the highest priority. */
+    dynStyle.textContent = resetFirst
+      ? '@layer reset { .target { color: #16a34a; } }\n' +
+        '@layer override { .target { color: #dc2626; } }'
+      : '@layer override { .target { color: #dc2626; } }\n' +
+        '@layer reset { .target { color: #16a34a; } }';
+
+    document.head.appendChild(dynStyle);
+
+    requestAnimationFrame(function () {
+      var color = getComputedStyle(target).color;
+      var winner = color === 'rgb(220, 38, 38)' ? 'override' : (color === 'rgb(22, 163, 74)' ? 'reset' : '?');
+      note.innerHTML = 'Source order: <strong>' + (resetFirst ? 'reset block, then override block' : 'override block, then reset block') +
+        '</strong>. Winning layer: <strong>' + winner + '</strong> &mdash; whichever layer block the parser met LAST just became the highest-priority layer, because no upfront <code>@layer reset, override;</code> statement fixed the order in advance.';
+    });
+
+    orderA.classList.toggle('active', resetFirst);
+    orderB.classList.toggle('active', !resetFirst);
+  }
+
+  orderA.addEventListener('click', function () { inject(true); });
+  orderB.addEventListener('click', function () { inject(false); });
+
+  inject(true);
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

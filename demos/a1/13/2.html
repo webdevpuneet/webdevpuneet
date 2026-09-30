@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="A Value That Doesn't Trigger a Re-render">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>State vs. ref, side by side</h1>
+    <p class="hint">Both counters go up on every click. Only one of them makes the paragraph below actually update on screen.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 20px 16px 30px; }
+  .row { display: flex; gap: 14px; }
+  .box {
+    width: 190px;
+    padding: 16px;
+    background: #fff;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .box h3 { margin: 0 0 8px; font-size: 12.5px; color: var(--sub); text-transform: uppercase; letter-spacing: .04em; }
+  .box .val { font: 800 30px ui-monospace, monospace; color: var(--accent); }
+  .clickBtn {
+    padding: 9px 16px;
+    font: 700 13px system-ui, sans-serif;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .note { font-size: 12px; color: var(--sub); max-width: 30em; text-align: center; }
+  .note b { color: var(--green); }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useRef = React.useRef;
+
+  function StateVsRef() {
+    var s = useState(0), stateClicks = s[0], setStateClicks = s[1];
+    var refClicks = useRef(0);
+    var forceRenderState = useState(0);
+    var forceRender = forceRenderState[1];
+
+    function handleClick() {
+      setStateClicks(stateClicks + 1);
+      refClicks.current = refClicks.current + 1;
+    }
+
+    return e('div', { className: 'stageWrap', style: { padding: 0 } },
+      e('div', { className: 'row' },
+        e('div', { className: 'box' },
+          e('h3', null, 'useState'),
+          e('div', { className: 'val' }, stateClicks)
+        ),
+        e('div', { className: 'box' },
+          e('h3', null, 'useRef'),
+          e('div', { className: 'val' }, refClicks.current)
+        )
+      ),
+      e('button', { className: 'clickBtn', onClick: handleClick }, 'Click both'),
+      e('button', { className: 'clickBtn', style: { background: '#eceef3', color: 'var(--ink)' }, onClick: function () { forceRender(function (n) { return n + 1; }); } }, 'Force a re-render'),
+      e('p', { className: 'note' },
+        'The ref number is genuinely changing every click — it just never triggers a re-render, so the screen stays stale until something else (like the button above) forces one. ',
+        e('b', null, 'That’s the whole difference.')
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(StateVsRef));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Initial-Value as a Genuine Fallback">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>initial-value: a genuine fallback, not just a default</h1>
+    <p class="hint">Neither box below ever sets its custom property anywhere in this stylesheet. One is registered with an initial-value; the other is a plain, never-set custom property. The readout shows what each actually computes to.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="row">
+      <div class="box regBox" id="regBox">registered</div>
+      <div class="box plainBox" id="plainBox">plain</div>
+    </div>
+    <p class="note" id="note">Computing...</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 54em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 30px 18px 30px; }
+  .row { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; }
+  .box { width: 150px; height: 90px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font: 700 13px system-ui, sans-serif; }
+
+  /* --gap is registered with a real fallback -- never set anywhere below. */
+  @property --gap {
+    syntax: '<length>';
+    inherits: false;
+    initial-value: 16px;
+  }
+
+  .regBox {
+    background: var(--accent);
+    padding: var(--gap);
+    /* border-spacing-like use: initial-value fills in when unset */
+    border-radius: calc(10px + var(--gap) / 2);
+  }
+
+  /* --gap2 is a plain custom property -- never set anywhere either, no @property. */
+  .plainBox {
+    background: #f59e0b;
+    padding: var(--gap2, 16px);
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var regBox = document.getElementById('regBox');
+  var plainBox = document.getElementById('plainBox');
+  var note = document.getElementById('note');
+
+  var regVal = getComputedStyle(regBox).getPropertyValue('--gap').trim();
+  var plainVal = getComputedStyle(plainBox).getPropertyValue('--gap2').trim();
+
+  note.innerHTML = 'Neither <strong>--gap</strong> nor <strong>--gap2</strong> is set anywhere in this stylesheet. Registered <strong>--gap</strong> computes to <strong>' + (regVal || '(empty)') + '</strong> &mdash; the registration\'s initial-value guarantees a real, typed value exists even when nothing ever assigns one. The plain <strong>--gap2</strong> computes to <strong>' + (plainVal || '(empty string -- invalid at computed-value time)') + '</strong> when read directly; the box only looks fine because the var() call above fell back to a hardcoded 16px default written inline, which is a separate, per-use fallback -- not a property-level guarantee the way initial-value is.';
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

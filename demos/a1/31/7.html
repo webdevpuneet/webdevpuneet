@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Syntax Mismatch Falls Back to Initial-Value">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Syntax mismatch: invalid value falls back to initial-value</h1>
+    <p class="hint">--pad is registered as a &lt;length&gt;. The box below has --pad set to the string "banana", which does not match &lt;length&gt;. The readout shows the computed value the box actually renders with.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="box" id="box">padding driven by --pad</div>
+    <p class="note" id="note">Computing...</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 54em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 30px 18px 30px; }
+
+  @property --pad {
+    syntax: '<length>';
+    inherits: false;
+    initial-value: 12px;
+  }
+
+  .box {
+    /* Invalid at computed-value time: "banana" does not match <length>. */
+    --pad: banana;
+    padding: var(--pad);
+    background: #fff;
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    max-width: 320px;
+    font: 600 13px system-ui, sans-serif;
+    color: var(--ink);
+    text-align: center;
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var box = document.getElementById('box');
+  var note = document.getElementById('note');
+
+  var pad = getComputedStyle(box).getPropertyValue('--pad').trim();
+  var appliedPadding = getComputedStyle(box).paddingTop;
+
+  note.innerHTML = 'This box was authored with <strong>--pad: banana;</strong> even though --pad is registered as &lt;length&gt;. The computed <strong>--pad</strong> reads <strong>' + pad + '</strong> and the box\'s actual rendered padding-top is <strong>' + appliedPadding + '</strong> &mdash; the invalid token never reaches layout. Because "banana" fails to parse as a &lt;length&gt;, the registration\'s guaranteed-invalid handling substitutes the declared initial-value (12px) instead of letting garbage propagate, which is exactly what a plain, unregistered custom property cannot do.';
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Rescuing Clicks with closest()">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Without closest(), clicking the icon does nothing</h1>
+    <p class="hint">Both rows look identical. Click the trash icon itself (not just the button padding) on each — the naive version misses it, the closest() version doesn't.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="row">
+      <span class="rowLabel">Naive: <code>e.target.className === 'del'</code></span>
+      <ul class="list" id="listNaive">
+        <li class="item">Invoice #1042 <button class="del">&#128465;<span class="glyphExtra"></span></button></li>
+        <li class="item">Invoice #1043 <button class="del">&#128465;<span class="glyphExtra"></span></button></li>
+      </ul>
+    </div>
+    <div class="row">
+      <span class="rowLabel">Fixed: <code>e.target.closest('.del')</code></span>
+      <ul class="list" id="listFixed">
+        <li class="item">Invoice #2042 <button class="del">&#128465;<span class="glyphExtra"></span></button></li>
+        <li class="item">Invoice #2043 <button class="del">&#128465;<span class="glyphExtra"></span></button></li>
+      </ul>
+    </div>
+    <p class="note" id="note">Try clicking directly on the trash glyph in both lists.</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink:#14161c; --sub:#6b7080; --line:#e3e5ea; --accent:#6366f1; --bad:#dc2626; }
+  body { background:#f6f7f9; color:var(--ink); }
+  .bar { padding:18px 20px 8px; text-align:center; }
+  .bar h1 { margin:0 0 4px; font-size:17.5px; letter-spacing:-0.01em; }
+  .hint { margin:0 auto; max-width:54em; font-size:12.5px; color:var(--sub); }
+  .stageWrap { display:flex; flex-direction:column; align-items:center; gap:14px; padding:16px 18px 28px; width:100%; }
+
+  .row { width:100%; max-width:420px; }
+  .rowLabel { font-size:11.5px; color:var(--sub); display:block; margin-bottom:6px; }
+  .rowLabel code { background:#eef0f5; padding:1px 5px; border-radius:4px; }
+
+  .list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
+  .item {
+    display:flex; align-items:center; justify-content:space-between;
+    background:#fff; border:1px solid var(--line); border-radius:8px; padding:9px 12px;
+    font-size:13px;
+  }
+  .del {
+    border:none; background:transparent; cursor:pointer; font-size:16px;
+    padding:6px 10px; border-radius:6px; color:var(--sub); position:relative;
+  }
+  .del:hover { background:#fee2e2; }
+  .note { margin:0; font-size:12px; color:var(--sub); text-align:center; max-width:42em; min-height:16px; }
+</script>
+
+<script type="text/plain" id="js">
+  var listNaive = document.getElementById('listNaive');
+  var listFixed = document.getElementById('listFixed');
+  var note = document.getElementById('note');
+
+  // Naive: checks e.target directly. Clicking the emoji glyph inside the
+  // button means e.target is a text node's rendered glyph area — in most
+  // browsers a click on the glyph still targets the <button>, but any extra
+  // wrapper (like the span here) breaks the exact-match check.
+  listNaive.addEventListener('click', function (e) {
+    if (e.target.className === 'del') {
+      e.target.closest('.item').style.opacity = '0.3';
+      note.textContent = 'Naive handler fired — but only because you hit the button padding, not the wrapped glyph area.';
+    } else {
+      note.textContent = 'Naive handler did nothing: e.target was the inner <span>, and its className is not exactly "del".';
+    }
+  });
+
+  // Fixed: closest() walks up from whatever was actually clicked until it
+  // finds a .del ancestor (or the button itself), so the exact descendant
+  // clicked no longer matters.
+  listFixed.addEventListener('click', function (e) {
+    var btn = e.target.closest('.del');
+    if (btn) {
+      btn.closest('.item').style.opacity = '0.3';
+      note.textContent = 'Fixed handler fired via closest(\'.del\') — it doesn\'t matter which descendant of the button you clicked.';
+    }
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="No Escape Key Handler Traps Keyboard Users">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>No Escape handler leaves keyboard users stuck with the menu open</h1>
+    <p class="hint">Open each menu, then press the Escape key on your keyboard (don't click anywhere). Watch which menu actually closes.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken</h2>
+        <div class="menuWrap">
+          <button type="button" class="trigger" id="badTrigger">Open menu</button>
+          <div class="menu" id="badMenu"><p class="menuItem">Menu content</p></div>
+        </div>
+        <p class="stat" id="badStat">State: closed</p>
+        <p class="note" id="badNote">Only an outside-click handler -- no keydown listener at all.</p>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed</h2>
+        <div class="menuWrap">
+          <button type="button" class="trigger" id="goodTrigger">Open menu</button>
+          <div class="menu" id="goodMenu"><p class="menuItem">Menu content</p></div>
+        </div>
+        <p class="stat" id="goodStat">State: closed</p>
+        <p class="note" id="goodNote">Outside-click handler PLUS a keydown listener for Escape.</p>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 54em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .menuWrap { position: relative; display: inline-block; margin-bottom: 8px; }
+  .trigger { padding: 9px 16px; border-radius: 8px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: 700 12.5px system-ui, sans-serif; cursor: pointer; }
+  .trigger:hover, .trigger:focus-visible { border-color: var(--accent); }
+  .menu { position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); display: none; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; box-shadow: 0 6px 20px rgba(0,0,0,.08); min-width: 150px; z-index: 5; }
+  .menu.open { display: block; }
+  .menuItem { margin: 0; font-size: 12.5px; }
+  .stat { margin: 4px 0 0; font: 800 13px ui-monospace, monospace; }
+  .note { margin: 6px 0 0; font-size: 11.5px; color: var(--sub); line-height: 1.5; min-height: 2.6em; }
+</script>
+
+<script type="text/plain" id="js">
+  function setupBad() {
+    var trigger = document.getElementById('badTrigger');
+    var menu = document.getElementById('badMenu');
+    var stat = document.getElementById('badStat');
+    var note = document.getElementById('badNote');
+
+    trigger.addEventListener('click', function () {
+      menu.classList.add('open');
+      stat.textContent = 'State: open';
+      note.textContent = 'Open. Press Escape now.';
+    });
+
+    // BROKEN: outside-click handling only. There is no keydown listener,
+    // so a keyboard user who never moves the mouse has no way to close
+    // this menu short of clicking somewhere with a pointer.
+    document.addEventListener('click', function (e) {
+      if (!menu.contains(e.target) && !trigger.contains(e.target)) {
+        menu.classList.remove('open');
+        stat.textContent = 'State: closed';
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && menu.classList.contains('open')) {
+        note.textContent = 'Escape was pressed, but nothing is listening for it -- the menu is still open.';
+      }
+    });
+  }
+
+  function setupGood() {
+    var trigger = document.getElementById('goodTrigger');
+    var menu = document.getElementById('goodMenu');
+    var stat = document.getElementById('goodStat');
+    var note = document.getElementById('goodNote');
+
+    function closeMenu(reason) {
+      menu.classList.remove('open');
+      stat.textContent = 'State: closed';
+      note.textContent = reason;
+    }
+
+    trigger.addEventListener('click', function () {
+      menu.classList.add('open');
+      stat.textContent = 'State: open';
+      note.textContent = 'Open. Press Escape now.';
+    });
+
+    document.addEventListener('click', function (e) {
+      if (menu.classList.contains('open') && !menu.contains(e.target) && !trigger.contains(e.target)) {
+        closeMenu('Closed by an outside click.');
+      }
+    });
+
+    // FIXED: a dedicated keydown listener treats Escape as a first-class
+    // way to close the menu, and returns focus to the trigger so keyboard
+    // users don't lose their place on the page.
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && menu.classList.contains('open')) {
+        closeMenu('Closed by Escape -- focus was returned to the trigger.');
+        trigger.focus();
+      }
+    });
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

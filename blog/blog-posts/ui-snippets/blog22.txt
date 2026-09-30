@@ -1,0 +1,149 @@
+<h1>10 Copy-Paste Login &amp; Auth Snippets That Get Users In Without Friction</h1>
+
+<p>The sign-in screen is the highest-stakes UI you will ever ship. It's the one component every returning user touches, it stands between someone and the product they already decided to use, and it fails in ways that are invisible from the inside — a missing <code>autocomplete</code> attribute that stops a password manager from filling, an OTP field that won't accept a pasted code, a validation message that fires on the first keystroke and shouts at someone who is still typing. None of that shows up in a screenshot. All of it shows up in your completion rate.</p>
+
+<p>Below are ten free auth snippets you can preview live and copy in seconds: a full login card with social sign-in, a frosted-glass login form, a signup form with a strength meter that gives advice instead of verdicts, a live password requirements checklist, a six-box OTP screen with paste support, a magic-link flow, a passkey button with real WebAuthn feature detection, a PIN pad, a canvas pattern lock, and a slide-to-verify captcha. Every one is a <strong>live, interactive preview</strong> — try them right here in the article — and each exports to React, Vue, Angular, or Tailwind in one click from the snippet page.</p>
+
+<h2>What separates these from a mockup</h2>
+
+<ul>
+<li><strong>The password-manager contract is honoured.</strong> Sign-in fields carry <code>autocomplete="email"</code> and <code>autocomplete="current-password"</code>; the signup form uses <code>autocomplete="new-password"</code>, which is what actually triggers Chrome and Safari to offer a generated password; the OTP screen carries <code>autocomplete="one-time-code"</code> with <code>inputmode="numeric"</code>, which is what surfaces the SMS code above the mobile keyboard. These attributes are the difference between a two-tap sign-in and a manual one.</li>
+<li><strong>Validation timing is deliberate, not accidental.</strong> The signup form follows the "reward early, punish late" rule — validate on blur, then re-validate on every keystroke <em>only</em> for a field that has already erred, so a correction is confirmed instantly while a first attempt is never interrupted mid-word.</li>
+<li><strong>The strength meters disagree with each other on purpose.</strong> One enforces every composition rule before it will let you submit; the other weights length and offers guidance while only a minimum length blocks submission. Both are legitimate, they suit different products, and the sections below say plainly which is which so you can pick rather than inherit.</li>
+</ul>
+
+<h2>1. Auth Login Card</h2>
+
+<p>The complete sign-in screen: Google and GitHub buttons up top, an email/password form below the divider, inline validation, a show/hide toggle, "keep me signed in", and a real loading state.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/auth-login-card/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Auth Login Card — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> validation runs on submit, not on every keystroke — email against a lightweight <code>/^[^@]+@[^@]+\.[^@]+$/</code> check, password against an eight-character minimum — and a shared <code>setError(id, msg)</code> helper toggles the field's error class and writes the message into a matching <code>#<em>id</em>Err</code> element, so adding a field means adding markup rather than logic. On submit the button is disabled and relabelled "Signing in…", which is the cheapest possible fix for the double-submit bug that plagues hand-rolled login forms. The detail that earns its keep is invisible: <code>autocomplete="email"</code> and <code>autocomplete="current-password"</code> on the two inputs. <code>current-password</code> tells the browser this is an existing credential to fill rather than a new one to generate, and setting <code>autocomplete="off"</code> instead — still a common "security" reflex — simply breaks password managers and costs you completions.</p>
+
+<p><strong>Best for:</strong> any SaaS or dashboard sign-in, as the default starting point before you customise. <strong>Tip:</strong> the social buttons sit above the email form because a one-click trusted provider beats remembering another password; the "or continue with email" divider is pure flex plus pseudo-element lines, so it scales to any card width without a fixed rule.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/auth-login-card/">Auth Login Card</a></p>
+
+<h2>2. Glassmorphism Login Form</h2>
+
+<p>A frosted-glass card floating over slow-drifting colour blobs, with floating labels, a shake-on-error animation, and a success state that closes the loop.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/glassmorphism-login/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Glassmorphism Login Form — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the glass is three properties working together, not one — <code>backdrop-filter: blur(20px)</code> to blur what's behind, a semi-transparent <code>rgba(255,255,255,0.12)</code> background so there's something to blur through, and a 1px <code>rgba(255,255,255,0.22)</code> border that catches the light like a real edge. Drop any one and the effect collapses into flat translucency. Behind the card, three heavily blurred blobs animate on <code>@keyframes</code> at deliberately mismatched durations (14s, 17s, 20s) so the composite never visibly loops. The floating labels are pure CSS: <code>:focus</code> and <code>:not(:placeholder-shown)</code> together cover "being typed in" and "already has a value", which is the whole behaviour with no JavaScript at all. The shake on failed validation uses the reflow trick — remove the class, read <code>card.offsetWidth</code> to force a synchronous style recalculation (the <code>void</code> operator just discards the value), re-add it — which is how you restart a CSS animation that's already played.</p>
+
+<p><strong>Best for:</strong> portfolio pieces, design-led marketing sites, and any product whose brand can carry a bold background. <strong>Tip:</strong> <code>backdrop-filter</code> is expensive to composite and unsupported in a few environments, so give the card a more opaque fallback background — around <code>rgba(255,255,255,0.85)</code> — for the case where the blur silently doesn't apply and unblurred blobs would otherwise sit behind your input text.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/glassmorphism-login/">Glassmorphism Login Form</a></p>
+
+<h2>3. Signup Form</h2>
+
+<p>Name, email, password and terms, with per-field validators, a strength meter that tells you how to improve, and a success overlay that names the address it just mailed.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/signup-form/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Signup Form — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every field maps to one entry in a <code>validators</code> object where each function returns an error string or an empty one, so validity and message are a single source of truth instead of a chain of <code>if</code> blocks. The timing is the part worth stealing: a <code>touched</code> map records which fields have been blurred, blur triggers validation, and <code>input</code> re-validates <em>only</em> once a field is in <code>touched</code>. That's the "reward early, punish late" pattern — nobody gets scolded for a half-typed email, and everybody gets instant confirmation the moment they fix one. <code>scorePassword()</code> awards points for length ≥ 8, length ≥ 12, mixed case, a digit, and a symbol, mapping to five meter levels whose labels instruct rather than judge ("Weak — add numbers or symbols"). Crucially the meter is advisory: only the eight-character minimum blocks submission. Mandatory composition rules are the pattern that produces "Password1!" — length-weighted scoring plus guidance produces genuinely stronger passwords.</p>
+
+<p><strong>Best for:</strong> consumer signups and any funnel where abandonment is the metric you actually care about. <strong>Tip:</strong> <code>autocomplete="new-password"</code> on the password field is what makes Chrome and Safari offer to generate and store a strong password — the single highest-leverage attribute on the whole form.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/signup-form/">Signup Form</a></p>
+
+<h2>4. Password Requirements Checklist</h2>
+
+<p>Five rules that tick off live as you type, a four-tier strength bar, and a submit button that stays disabled until every rule is met.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/password-requirements-checklist/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Password Requirements Checklist — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the rules are data, not markup — a <code>RULES</code> array of <code>{ id, label, test }</code> objects that renders the checklist on load and drives every subsequent update, so adding a sixth requirement is one array entry and nothing else. Each <code>input</code> event re-runs every predicate, toggles a <code>met</code> class on the matching <code>&lt;li&gt;</code>, derives a 1–4 strength tier from how many passed, and sets <code>submit.disabled = passed !== RULES.length</code>. Showing all five rules up front — rather than revealing them one failure at a time — is the point of the pattern: users can see the whole target before they start, which is why it consistently beats a bare "password must contain…" error message after the fact.</p>
+
+<p><strong>Best for:</strong> enterprise, fintech, healthcare — anywhere a written password policy exists and compliance requires you to enforce it visibly. <strong>Tip:</strong> this snippet and the signup form above take deliberately opposite positions on hard composition rules. Use this one when a policy obliges you to; use the signup form's advisory meter when it doesn't. Shipping both patterns on the same product is how you end up with contradictory rules on your reset-password page.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/password-requirements-checklist/">Password Requirements Checklist</a></p>
+
+<h2>5. OTP Verification Screen</h2>
+
+<p>Six single-digit boxes that auto-advance as you type, accept a pasted code into any box, verify the moment they're full, and gate the resend behind a 30-second countdown.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/otp-verification/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="OTP Verification Screen — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> six inputs behave like one field. The <code>input</code> handler strips non-digits with <code>replace(/[^0-9]/g, '').slice(0, 1)</code> and moves focus forward; <code>keydown</code> handles the two cases people always hit — Backspace in an empty box jumps <em>back</em> instead of doing nothing, and arrow keys move between boxes. The <code>paste</code> handler is the one most implementations forget and the one users reach for most: it calls <code>preventDefault()</code>, pulls the digits out of the clipboard text, distributes them across all six inputs, focuses the first empty one, and verifies immediately if the code is complete. Pair that with <code>autocomplete="one-time-code"</code> on the first input and <code>inputmode="numeric"</code> throughout, and a mobile user can verify in one tap from the keyboard suggestion strip. A wrong code shakes, clears itself after 700ms and refocuses box one, so retrying costs zero clicks.</p>
+
+<p><strong>Best for:</strong> 2FA, SMS and email verification, and passwordless flows. <strong>Tip:</strong> the 30-second resend cooldown starts automatically on load, not on first click — that's what stops impatient users from firing three SMS messages at your gateway before the first one lands.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/otp-verification/">OTP Verification Screen</a></p>
+
+<h2>6. Magic Link Login</h2>
+
+<p>One email field, one button, then a "check your inbox" panel that echoes the exact address it sent to — with a cooldown on resend and a way back to fix a typo.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/magic-link-login/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Magic Link Login — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the whole flow is two panels toggled by the <code>hidden</code> attribute rather than two pages, so there's no navigation and no lost state. Validation runs against <code>/^[^\s@]+@[^\s@]+\.[^\s@]+$/</code> — note the <code>\s</code> exclusions, which catch the trailing space that a copy-paste from an email client so often carries. The sent panel writes the submitted address into <code>#mllSentEmail</code>, which is the detail that makes this pattern survive contact with real users: the single biggest failure mode of magic links is a typo'd address, and showing the address back turns a silent five-minute wait into an instant "that's wrong". The Back button exists for exactly that moment, and it clears the cooldown interval on the way out so no orphaned timer keeps ticking against a hidden button.</p>
+
+<p><strong>Best for:</strong> low-friction consumer products, internal tools, and anything where you'd rather not store passwords at all. <strong>Tip:</strong> keep the resend cooldown even though nothing is visibly rate-limited on the client — it's user-facing feedback that a request is already in flight, which is what actually stops the double-send.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/magic-link-login/">Magic Link Login</a></p>
+
+<h2>7. Passkey Login</h2>
+
+<p>The passwordless sign-in button — tap it and the card enters a waiting-for-the-authenticator state before confirming, the same interaction shape as a Face ID or Windows Hello prompt.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/passkey-login/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Passkey Login — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the authenticator prompt is simulated — you can't fake a real credential ceremony in a snippet — but the support check is not. <code>typeof window.PublicKeyCredential !== 'undefined'</code> is the genuine WebAuthn feature detection, the same line you'd keep in production to decide whether to offer the passkey path at all, and an unsupported browser gets a distinct message rather than a broken button. The interaction shape is the real lesson: a passkey sign-in has a mandatory dead period while the operating system owns the screen, so the card goes into an explicit <code>loading</code> state and stays there. Skip that and users tap twice, because a button that looks idle while the OS sheet is animating in reads as a button that didn't register.</p>
+
+<p><strong>Best for:</strong> modern products adding passwordless sign-in alongside an existing password flow. <strong>Tip:</strong> when you wire this to the real API, the <code>navigator.credentials.get()</code> promise rejects when a user dismisses the system prompt — treat that rejection as a cancel that quietly restores the idle state, not as an error worth showing.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/passkey-login/">Passkey Login</a></p>
+
+<h2>8. PIN Pad</h2>
+
+<p>A four-digit keypad with filling dots, a physical-keyboard fallback, and a shake-and-clear on the wrong code.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/pin-pad/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="PIN Pad — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the entire state is one string, <code>pin</code>, and <code>render()</code> just maps its length onto the filled dots — a small enough model that no state ever gets out of sync with the display. Reaching four digits schedules <code>check()</code> 180ms later rather than immediately; that pause exists so the fourth dot visibly fills before the verdict lands, which is what makes the interaction feel like a device instead of a form. A document-level <code>keydown</code> listener maps number keys and Backspace onto the same functions the on-screen buttons call, so the pad is usable from a real keyboard without a second code path. Failure uses the same restart-the-animation reflow trick as the glassmorphism card, then clears the PIN after 450ms so the shake finishes before the dots empty.</p>
+
+<p><strong>Best for:</strong> kiosk and POS screens, app lock screens, and "confirm with your PIN" steps in front of a sensitive action. <strong>Tip:</strong> a client-side <code>CORRECT</code> constant is a demo affordance, not a security model — the real check belongs on the server, with attempt throttling there too.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/pin-pad/">PIN Pad</a></p>
+
+<h2>9. Pattern Lock</h2>
+
+<p>The Android-style 3x3 swipe pattern, drawn on canvas: connect four or more dots, watch the line follow your finger, and get locked out for ten seconds after three wrong attempts.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/pattern-lock/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pattern Lock — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a <code>&lt;canvas&gt;</code> holds nine dots with cached coordinates, and one <code>draw()</code> function repaints the whole scene on every pointer event — connected segments, the live line from the last dot to the pointer, then every dot in its current state. Redrawing everything is far simpler than patching regions and is effectively free at this size. Three details carry the interaction. Coordinates are converted in <code>toCanvas()</code> by scaling against <code>getBoundingClientRect()</code>, so hit detection stays correct when CSS displays the canvas at a size other than its backing resolution — the bug behind almost every "my canvas clicks are offset" question. Pointer events plus <code>setPointerCapture()</code> mean one code path serves mouse, touch and stylus, and a drag that leaves the canvas still tracks. And <code>!pattern.includes(dot.idx)</code> is what stops a dot being consumed twice as your finger passes back over it. Patterns are compared with <code>JSON.stringify</code> — order matters, which is the whole security premise — with a minimum of four dots, three attempts, and a ten-second lockout.</p>
+
+<p><strong>Best for:</strong> mobile-style lock screens, app prototypes, and kiosk apps where a swipe beats a keyboard. <strong>Tip:</strong> the change-pattern mode makes you draw twice and compares the two attempts before committing — the same confirm-by-repetition contract as a password change, and worth keeping if you extend it.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/pattern-lock/">Pattern Lock</a></p>
+
+<h2>10. Slider Captcha</h2>
+
+<p>Drag the puzzle piece into the gap to verify — no images to squint at, no traffic lights, and it works with a mouse, a finger, or a stylus.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/slider-captcha/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Slider Captcha — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>setup()</code> picks a fresh gap position between 40% and 85% of the stage width every round, so the target is never learnable. The handle and the piece are separate elements moving in separate coordinate spaces, linked by a normalised ratio: the drag distance becomes <code>t = px / range</code>, and the piece is placed at <code>8 + t * pieceRange</code>. That indirection is what keeps the piece landing on the gap when the track and the stage are different widths — hard-coding a 1:1 pixel mapping is the bug that makes these sliders feel subtly broken on narrow screens. Verification allows ±6px of slop, which is forgiving enough for a fingertip and tight enough to require aim. The whole drag is built on pointer events with listeners attached to <code>document</code> during the gesture, so releasing outside the track still ends the drag cleanly, and a <code>resize</code> listener re-runs <code>setup()</code> because every stored pixel offset is invalidated by a width change.</p>
+
+<p><strong>Best for:</strong> comment forms, waitlists and demo requests — friction-light bot deterrence where a full captcha service is overkill. <strong>Tip:</strong> treat this as a UI for a server-side check, not a check in itself. A real implementation sends the drop position and the gesture's timing to the server to score; anything decided purely in the browser can be skipped by anything that isn't a browser.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/slider-captcha/">Slider Captcha</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS, and JS in separate tabs — every one of these is pure vanilla JavaScript with zero dependencies and no CDN scripts required.</li>
+<li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag, or use the one-click <strong>export to React, Vue, Angular, or Tailwind</strong> right from the snippet page.</li>
+<li>Keep the <code>autocomplete</code> attributes exactly as they are when you port these — <code>email</code> and <code>current-password</code> for sign-in, <code>new-password</code> for signup, <code>one-time-code</code> for OTP. They look like decoration and they are the reason password managers work.</li>
+<li>Every hardcoded credential here (<code>CORRECT = '123456'</code>, the PIN, the pattern) is a demo stand-in for a server call. Replace each with a <code>fetch</code> to your own endpoint and keep the real verification — plus rate limiting and lockout — on the server; the client-side attempt counters are feedback, not enforcement.</li>
+<li>Several of these run timers: the OTP and magic-link cooldowns use <code>setInterval</code>, and the pattern lock's lockout does too. If you wrap one in a React or Vue component, clear those intervals on unmount — the magic-link snippet already models this by clearing its cooldown when you navigate back.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>Auth UI is judged almost entirely on the details nobody photographs. The paste handler on an OTP field, the blur-then-live validation rhythm, the disabled button that prevents a double submit, the echoed email address that turns a silent failure into an obvious one, the <code>autocomplete</code> value that lets a password manager do its job — each is a few lines, and together they're most of the gap between a login screen that converts and one that quietly leaks users. Every snippet here gets those small things right, which is what makes them worth reading even if you end up restyling all of it.</p>
+
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

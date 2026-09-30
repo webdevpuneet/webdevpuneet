@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Per-Item Listeners vs One Delegated Listener">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>1 listener vs 200 listeners</h1>
+    <p class="hint">Add 200 rows both ways and watch the counter. The delegated grid attaches one listener, ever. The direct grid attaches one per cell, every single time you add more.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="controls">
+      <button type="button" class="addBtn" id="addBtn">Add 200 more rows to both grids</button>
+      <button type="button" class="resetBtn" id="resetBtn">Reset</button>
+    </div>
+    <div class="cols">
+      <section class="col">
+        <h3>Direct listener <span class="tag bad">per cell</span></h3>
+        <div class="grid" id="directGrid"></div>
+        <p class="count">Listeners attached: <strong id="directCount">0</strong></p>
+      </section>
+      <section class="col">
+        <h3>Delegated listener <span class="tag good">on the container</span></h3>
+        <div class="grid" id="delegGrid"></div>
+        <p class="count">Listeners attached: <strong id="delegCount">1</strong></p>
+      </section>
+    </div>
+    <p class="note" id="note">Click any cell in either grid — both work identically. The difference is entirely in setup cost, not behavior.</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink:#14161c; --sub:#6b7080; --line:#e3e5ea; --accent:#6366f1; --bad:#dc2626; --good:#16a34a; }
+  body { background:#f6f7f9; color:var(--ink); }
+  .bar { padding:18px 20px 8px; text-align:center; }
+  .bar h1 { margin:0 0 4px; font-size:18px; letter-spacing:-0.01em; }
+  .hint { margin:0 auto; max-width:52em; font-size:12.5px; color:var(--sub); }
+  .stageWrap { display:flex; flex-direction:column; align-items:center; gap:14px; padding:16px 18px 28px; width:100%; }
+
+  .controls { display:flex; gap:10px; }
+  .addBtn, .resetBtn {
+    font:700 12.5px system-ui, sans-serif; padding:8px 16px;
+    border:1px solid var(--line); border-radius:7px; cursor:pointer;
+  }
+  .addBtn { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .resetBtn { background:#fff; color:var(--ink); }
+
+  .cols { display:flex; gap:16px; width:100%; max-width:640px; }
+  .col { flex:1; background:#fff; border:1px solid var(--line); border-radius:10px; padding:12px; }
+  .col h3 { margin:0 0 8px; font-size:13px; display:flex; align-items:center; gap:6px; }
+  .tag { font-size:10px; font-weight:700; padding:2px 6px; border-radius:5px; }
+  .tag.bad { background:#fee2e2; color:var(--bad); }
+  .tag.good { background:#dcfce7; color:var(--good); }
+
+  .grid { display:grid; grid-template-columns:repeat(10, 1fr); gap:3px; max-height:180px; overflow:auto; }
+  .cell {
+    aspect-ratio:1; background:#eef0f5; border-radius:3px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; font-size:9px; color:var(--sub);
+  }
+  .cell:hover { background:#dfe2ee; }
+  .cell.hit { background:var(--accent); color:#fff; }
+  .count { margin:8px 0 0; font-size:12px; text-align:center; }
+  .note { margin:0; font-size:12px; color:var(--sub); text-align:center; max-width:42em; }
+</script>
+
+<script type="text/plain" id="js">
+  var directGrid = document.getElementById('directGrid');
+  var delegGrid = document.getElementById('delegGrid');
+  var directCount = document.getElementById('directCount');
+  var delegCount = document.getElementById('delegCount');
+  var note = document.getElementById('note');
+  var directTotal = 0;
+
+  function flash(cell) {
+    cell.classList.add('hit');
+    setTimeout(function () { cell.classList.remove('hit'); }, 250);
+  }
+
+  // Delegated grid: ONE listener, attached once, handles every cell forever.
+  delegGrid.addEventListener('click', function (e) {
+    var cell = e.target.closest('.cell');
+    if (cell) {
+      flash(cell);
+      note.textContent = 'Delegated grid handled the click with the same single listener it started with.';
+    }
+  });
+
+  function addRows(n) {
+    for (var i = 0; i < n; i++) {
+      var d = document.createElement('div');
+      d.className = 'cell';
+      // Direct approach: a brand new listener for every single cell.
+      d.addEventListener('click', function () {
+        flash(this);
+        note.textContent = 'Direct grid handled the click too — but it needed a dedicated listener for this exact cell.';
+      });
+      directGrid.appendChild(d);
+      directTotal++;
+
+      var d2 = document.createElement('div');
+      d2.className = 'cell';
+      delegGrid.appendChild(d2);
+    }
+    directCount.textContent = directTotal;
+  }
+
+  document.getElementById('addBtn').addEventListener('click', function () { addRows(200); });
+  document.getElementById('resetBtn').addEventListener('click', function () {
+    directGrid.innerHTML = '';
+    delegGrid.innerHTML = '';
+    directTotal = 0;
+    directCount.textContent = '0';
+    note.textContent = 'Reset. Add rows again and watch the direct-listener count climb while the delegated count stays at 1.';
+  });
+
+  addRows(30);
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Imperative Scrolling and Measuring">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Scroll and measure, on demand</h1>
+    <p class="hint">The buttons call real DOM methods on the scroll container through a ref &mdash; nothing here is tracked in state, so scrolling itself never triggers a React re-render.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 18px 16px 28px; }
+  .scrollBox { width: 260px; height: 150px; overflow-y: auto; background: #fff; border: 1.5px solid var(--line); border-radius: 10px; }
+  .scrollBox div { padding: 10px 14px; border-bottom: 1px solid #f1f1f5; font-size: 13px; }
+  .btnRow { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .btn { padding: 8px 13px; font: 700 12px system-ui, sans-serif; color: #fff; background: var(--accent); border: none; border-radius: 7px; cursor: pointer; }
+  .btn.ghost { background: #eceef3; color: var(--ink); }
+  .readout { font: 700 12px ui-monospace, monospace; color: var(--ink); background: #eceef3; padding: 8px 12px; border-radius: 8px; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useRef = React.useRef;
+  var useState = React.useState;
+
+  function ScrollDemo() {
+    var boxRef = useRef(null);
+    var readoutState = useState('Not measured yet'), readout = readoutState[0], setReadout = readoutState[1];
+
+    function scrollToTop() {
+      boxRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function scrollToBottom() {
+      boxRef.current.scrollTo({ top: boxRef.current.scrollHeight, behavior: 'smooth' });
+    }
+    function measure() {
+      var el = boxRef.current;
+      setReadout('scrollTop: ' + Math.round(el.scrollTop) + 'px of ' + Math.round(el.scrollHeight - el.clientHeight) + 'px max');
+    }
+
+    var items = [];
+    for (var i = 1; i <= 20; i++) items.push(e('div', { key: i }, 'Item ' + i));
+
+    return e('div', { className: 'stageWrap', style: { padding: 0 } },
+      e('div', { className: 'scrollBox', ref: boxRef }, items),
+      e('div', { className: 'btnRow' },
+        e('button', { className: 'btn', onClick: scrollToTop }, 'Scroll to top'),
+        e('button', { className: 'btn', onClick: scrollToBottom }, 'Scroll to bottom'),
+        e('button', { className: 'btn ghost', onClick: measure }, 'Measure scroll position')
+      ),
+      e('div', { className: 'readout' }, readout)
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(ScrollDemo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

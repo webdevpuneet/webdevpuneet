@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Arrow Keys Move Between Tabs, Not Tab">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Arrow keys move between tabs, not Tab</h1>
+    <p class="hint">Click the first tab to focus it, then press the Right Arrow key twice, then Left Arrow once. Watch the keydown log below each tablist.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken (no keydown handler)</h2>
+        <div class="tablist" id="badTablist" role="tablist" aria-label="Fruit">
+          <button type="button" class="tab active" id="badTab0" role="tab" aria-selected="true" tabindex="0" data-idx="0">Apple</button>
+          <button type="button" class="tab" id="badTab1" role="tab" aria-selected="false" tabindex="-1" data-idx="1">Banana</button>
+          <button type="button" class="tab" id="badTab2" role="tab" aria-selected="false" tabindex="-1" data-idx="2">Cherry</button>
+        </div>
+        <p class="stat">Focused tab: <span id="badFocused">Apple</span></p>
+        <div class="log" id="badLog"></div>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed (ArrowLeft / ArrowRight)</h2>
+        <div class="tablist" id="goodTablist" role="tablist" aria-label="Fruit">
+          <button type="button" class="tab active" id="goodTab0" role="tab" aria-selected="true" tabindex="0" data-idx="0">Apple</button>
+          <button type="button" class="tab" id="goodTab1" role="tab" aria-selected="false" tabindex="-1" data-idx="1">Banana</button>
+          <button type="button" class="tab" id="goodTab2" role="tab" aria-selected="false" tabindex="-1" data-idx="2">Cherry</button>
+        </div>
+        <p class="stat">Focused tab: <span id="goodFocused">Apple</span></p>
+        <div class="log" id="goodLog"></div>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 52em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 640px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .tablist { display: flex; gap: 4px; border-bottom: 2px solid var(--line); }
+  .tab { padding: 8px 10px; border: none; background: transparent; font: 700 12px system-ui, sans-serif; color: var(--sub); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; border-radius: 6px 6px 0 0; }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .stat { margin: 8px 0 0; font: 800 13px ui-monospace, monospace; }
+  .log { margin-top: 6px; background: #0f1117; color: #c9d1d9; border-radius: 8px; padding: 8px 10px; font: 11px ui-monospace, monospace; max-height: 100px; overflow-y: auto; }
+  .log div { padding: 1px 0; }
+  .log .ok { color: #4ade80; }
+  .log .warn { color: #fbbf24; }
+</script>
+
+<script type="text/plain" id="js">
+  function logLine(logEl, text, cls) {
+    var line = document.createElement('div');
+    if (cls) line.className = cls;
+    line.textContent = text;
+    logEl.appendChild(line);
+    logEl.scrollTop = logEl.scrollHeight;
+    while (logEl.children.length > 7) logEl.removeChild(logEl.firstChild);
+  }
+
+  function setupBad() {
+    var tablist = document.getElementById('badTablist');
+    var tabs = [document.getElementById('badTab0'), document.getElementById('badTab1'), document.getElementById('badTab2')];
+    var focusedEl = document.getElementById('badFocused');
+    var log = document.getElementById('badLog');
+
+    for (var i = 0; i < tabs.length; i++) {
+      tabs[i].addEventListener('click', function (e) { focusedEl.textContent = e.target.textContent; });
+    }
+
+    // BROKEN: no keydown handler at all -- arrow keys do nothing.
+    tablist.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        logLine(log, 'ArrowKey pressed (' + e.key + ') -- no handler, nothing happened.', 'warn');
+      }
+    });
+  }
+
+  function setupGood() {
+    var tablist = document.getElementById('goodTablist');
+    var tabs = [document.getElementById('goodTab0'), document.getElementById('goodTab1'), document.getElementById('goodTab2')];
+    var focusedEl = document.getElementById('goodFocused');
+    var log = document.getElementById('goodLog');
+    var currentIdx = 0;
+
+    function activate(idx) {
+      for (var j = 0; j < tabs.length; j++) {
+        tabs[j].classList.remove('active');
+        tabs[j].setAttribute('aria-selected', 'false');
+        tabs[j].tabIndex = -1;
+      }
+      tabs[idx].classList.add('active');
+      tabs[idx].setAttribute('aria-selected', 'true');
+      tabs[idx].tabIndex = 0;
+      tabs[idx].focus();
+      focusedEl.textContent = tabs[idx].textContent;
+      currentIdx = idx;
+    }
+
+    for (var i = 0; i < tabs.length; i++) {
+      (function (idx) { tabs[idx].addEventListener('click', function () { activate(idx); }); })(i);
+    }
+
+    // FIXED: ArrowLeft/ArrowRight moves focus (and activation) between tabs,
+    // wrapping around at each end.
+    tablist.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        activate((currentIdx + 1) % tabs.length);
+        logLine(log, 'ArrowRight -- moved to "' + tabs[currentIdx].textContent + '"', 'ok');
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        activate((currentIdx - 1 + tabs.length) % tabs.length);
+        logLine(log, 'ArrowLeft -- moved to "' + tabs[currentIdx].textContent + '"', 'ok');
+      }
+    });
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

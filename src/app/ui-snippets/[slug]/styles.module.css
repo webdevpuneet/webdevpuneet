@@ -1,0 +1,185 @@
+.screenshotSection {
+  margin-top: 24px;
+}
+
+.screenshotHeading {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+.screenshotFrame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.screenshotImg {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* ── Static source-code section (SSR'd for indexability), rendered inside
+   SeoSection's own padded column right after "Build, Understand, Optimize,
+   and Extend It With AI" — no horizontal padding of its own needed here. ── */
+.sourceCodeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.sourceCodeTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.sourceCodeBlock {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.sourceCodeLangLabel {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text2);
+  background: var(--surface);
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sourceCodePre { overflow-x: auto; }
+.sourceCodePre :global(pre.shiki) {
+  margin: 0;
+  padding: 14px 16px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+
+/* ── Tag pages (/ui-snippets/tag/ and /ui-snippets/tag/[tag]/) ───────────── */
+
+.tagRelated { margin-top: 4px; }
+
+.tagRelatedTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+}
+
+.tagRelatedRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tagRelatedChip,
+.tagChipLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.tagRelatedChip:hover,
+.tagChipLink:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+/* Tag chips rendered directly under a snippet's H1 */
+.snippetTagRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0 0;
+}
+
+.snippetTagLabel {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text2);
+}
+
+/* Tag index grid */
+.tagIndexTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+}
+
+.tagIndexIntro {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text2);
+  margin: 0 0 18px;
+  max-width: 68ch;
+}
+
+.tagIndexGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 8px;
+}
+
+.tagIndexCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  text-decoration: none;
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+.tagIndexCard:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+
+.tagIndexName {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.tagIndexCount {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 2px 8px;
+  border-radius: 20px;
+}

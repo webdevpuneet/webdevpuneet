@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Live Invalid-Field Highlight">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+      <h1>Live Invalid-Field Highlight</h1>
+      <p class="hint">Type an email address — the field’s wrapper turns red the moment the input is invalid, and back to normal once it’s a valid address.</p>
+    </header>
+    <main class="stageWrap">
+      <div class="stage" id="stage">
+          <div class="field">
+            <label for="emailIn">Work email</label>
+            <input id="emailIn" type="email" placeholder="you@company.com" required>
+            <span class="fieldMsg">Enter a valid email address.</span>
+          </div>
+        </div>
+      <div class="readout">
+        <span>Field state: <strong id="readoutValue">&mdash;</strong></span>
+      </div>
+      <pre class="ruleTag">.field:has(input:not(:placeholder-shown):invalid) {
+    border-color: #dc2626;
+    background: #fef2f2;
+  }</pre>
+    </main>
+</script>
+
+<script type="text/plain" id="css">
+
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+  .stage {
+    width: 100%;
+    max-width: 560px;
+    box-sizing: border-box;
+    padding: 26px 24px;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    background: #fff;
+  }
+  .readout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 16px;
+    font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--sub);
+  }
+  .readout strong { color: var(--accent); font-weight: 700; }
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 6px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    transition: border-color .15s, background .15s;
+  }
+  .field label { font-size: 12px; font-weight: 700; color: var(--sub); }
+  .field input {
+    font: 14px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+  }
+  .fieldMsg { display: none; font-size: 11.5px; color: #dc2626; }
+
+  /* :not(:placeholder-shown) keeps this from firing on an untouched, empty
+     required field — :invalid alone would make the field red before the
+     visitor has typed anything. */
+  .field:has(input:not(:placeholder-shown):invalid) {
+    border-color: #dc2626;
+    background: #fef2f2;
+  }
+  .field:has(input:not(:placeholder-shown):invalid) .fieldMsg { display: block; }
+  .field:has(input:valid) { border-color: #16a34a; }
+</script>
+
+<script type="text/plain" id="js">
+  var stage = document.getElementById('stage');
+    var input = stage.querySelector('input');
+    var out = document.getElementById('readoutValue');
+    function report() {
+      if (!input.value) out.textContent = 'empty';
+      else out.textContent = input.checkValidity() ? 'valid' : 'invalid';
+    }
+    input.addEventListener('input', report);
+    report();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

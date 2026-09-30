@@ -1,0 +1,210 @@
+<h1>How to Detect When an Element Enters the Viewport Without a Library</h1>
+
+<p>The classic way to know when something scrolls into view is a <code>scroll</code> event listener that calls <code>getBoundingClientRect()</code> on every element you care about, on every single scroll frame &mdash; forcing a synchronous layout recalculation each time, dozens of times a second, for every element being watched. It works, but it's the kind of code that quietly tanks scroll performance on a long page and gets worse the more things you watch. The <code>IntersectionObserver</code> API replaces all of that: you describe what "in view" means once, hand it a set of elements, and the browser tells you &mdash; asynchronously, without your code ever forcing a synchronous layout recalculation to find out &mdash; exactly when each one crosses that line. No library, no polling, and it's been supported in every major browser for years.</p>
+
+<p>The eight demos below are all real, interactive and scrollable &mdash; scroll inside each one and watch it react live. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/" target="_blank" rel="noopener">My Code</a> &mdash; FWD Tools' free in-browser editor. Change a threshold, a rootMargin, or a class name and watch what actually happens &mdash; that's a faster way to build real intuition for this API than any explanation.</p>
+
+<p>If vanilla JS and browser APIs in general are still shaky ground, the <a href="https://fwdtools.com/js-playground/" target="_blank" rel="noopener">JavaScript Playground</a> is worth having open alongside this post &mdash; a free, click-based, in-browser course that runs beginner to pro, with dedicated chapters covering the DOM and browser APIs as a guided curriculum.</p>
+
+<h2>Why IntersectionObserver beats a scroll listener</h2>
+
+<p>A <code>scroll</code> handler runs constantly, whether or not anything interesting actually happened, and every <code>getBoundingClientRect()</code> call inside it forces the browser to recompute layout synchronously &mdash; the exact kind of work that causes visible jank on a busy page. <code>IntersectionObserver</code> flips the model entirely: you register a callback once, and the browser calls it only when an element's visibility actually crosses a threshold you defined, computed asynchronously and batched efficiently regardless of how many elements you're watching. Ten watched elements cost about the same as a thousand. That single architectural difference is why it's the right default answer for scroll-triggered animation, lazy loading, infinite scroll, and visibility tracking of every kind &mdash; the eight demos below are eight different shapes the same one API takes.</p>
+
+<h2>1. Fade-in on scroll</h2>
+
+<p>Each card fades and slides up the moment it enters view, once, and never re-triggers on a second pass.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/09/1.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Fade-in on Scroll Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>var io = new IntersectionObserver(function (entries) {
+  entries.forEach(function (entry) {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add('in');
+    io.unobserve(entry.target); // animate once, then stop watching it
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });</code></pre>
+
+<p>The callback receives an array of entries, not just one &mdash; if several observed elements cross the threshold in the same frame, they all arrive together in a single call, which is part of why this scales so well. Calling <code>unobserve()</code> the moment an element has done its job (rather than leaving it watched forever) is what keeps a page with hundreds of reveal animations from accumulating hundreds of live observers it no longer needs.</p>
+
+<p><strong>Best for:</strong> scroll-triggered entrance animations on landing pages, portfolios, and long-form content. <strong>Tip:</strong> a <code>threshold</code> of <code>0.2</code> here means "20% of the element must be visible" &mdash; raise it toward <code>1</code> for an animation that should only fire once something is almost fully on screen.</p>
+
+<h2>2. Lazy-loading images</h2>
+
+<p>Every image starts with an empty <code>src</code> and a placeholder pattern. Scroll, and each one's real <code>data-src</code> only gets assigned once it's about to enter view.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/09/2.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Lazy-Loading Images Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>var io = new IntersectionObserver(function (entries) {
+  entries.forEach(function (entry) {
+    if (!entry.isIntersecting) return;
+    var img = entry.target;
+    io.unobserve(img);
+    img.src = img.dataset.src; // the real network request starts here
+  });
+}, { rootMargin: '200px 0px' }); // start loading before it's actually visible
+
+document.querySelectorAll('.lazy').forEach(function (img) { io.observe(img); });</code></pre>
+
+<p><code>rootMargin</code> grows or shrinks the trigger area independently of the element's actual visible box &mdash; a positive value here means the image starts loading 200px before it would otherwise be considered "in view," so by the time a visitor actually scrolls to it, it's often already there. This is the same underlying technique the browser's own native <code>loading="lazy"</code> attribute uses; reach for <code>IntersectionObserver</code> directly when you need more control than that attribute gives you &mdash; a loaded-count readout like this demo's, a custom placeholder swap, or coordinating the load with something else on the page.</p>
+
+<p><strong>Best for:</strong> image-heavy pages, galleries, and feeds where loading every image up front would waste bandwidth on images the visitor may never scroll to. <strong>Tip:</strong> for plain <code>&lt;img&gt;</code> lazy-loading with no extra logic attached, <code>loading="lazy"</code> as a native HTML attribute needs zero JavaScript at all &mdash; this pattern earns its keep once you need custom behavior on top.</p>
+
+<h2>3. Infinite scroll list</h2>
+
+<p>A one-pixel-tall sentinel below the last row is what triggers loading the next batch &mdash; no scroll or resize listener anywhere.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/09/3.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Infinite Scroll List Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>var io = new IntersectionObserver(function (entries) {
+  if (entries[0].isIntersecting) {
+    loadNextPage(); // a real fetch() call, in practice
+  }
+}, { rootMargin: '150px' }); // fetch before the sentinel is fully on-screen
+
+io.observe(sentinelElement);</code></pre>
+
+<p>The sentinel itself renders nothing &mdash; it's an empty element that exists purely as a trigger. Watching it instead of watching every row individually means the observer count stays at exactly one no matter how many rows have loaded, which is what keeps this pattern cheap at any list length. This is the same core technique behind the auto-loading list in FWD Tools' own <a href="https://fwdtools.com/ui-snippets/" target="_blank" rel="noopener">UI Snippets</a> sidebar &mdash; there, the observer watches the "Load next" button itself rather than a separate invisible element, so the button doubles as its own trigger and stays in the DOM as a manual fallback if the observer never fires.</p>
+
+<p><strong>Best for:</strong> feeds, search results, and any list too long to load in one request. <strong>Tip:</strong> keep the manual "Load more" button in the DOM alongside the sentinel, hidden or not, as a fallback for the rare case a reader's browser or extension blocks the observer &mdash; it costs nothing and guarantees the list is never permanently stuck.</p>
+
+<h2>4. Scrollspy nav highlighting</h2>
+
+<p>Scroll and watch the nav bar above react &mdash; no click needed. Whichever section is most visible gets the highlight.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/09/4.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scrollspy Nav Highlighting Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>var io = new IntersectionObserver(function (entries) {
+  entries.forEach(function (entry) {
+    ratios[entry.target.id] = entry.isIntersecting ? entry.intersectionRatio : 0;
+  });
+  var bestId = Object.keys(ratios).reduce(function (a, b) {
+    return ratios[a] > ratios[b] ? a : b;
+  });
+  highlightNavLink(bestId);
+}, { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] });
+
+sections.forEach(function (s) { io.observe(s); });</code></pre>
+
+<p>A single number &mdash; <code>isIntersecting</code> &mdash; isn't enough here, because two adjacent sections are routinely both partly on screen at once during a scroll. Passing an array of thresholds instead of one number makes the callback fire again at every 10% step of visibility change, giving a live <code>intersectionRatio</code> precise enough to compare sections against each other and pick a genuine winner, rather than just flipping a boolean.</p>
+
+<p><strong>Best for:</strong> "you are here" table-of-contents navs on docs sites and long-form articles. <strong>Tip:</strong> a dense threshold array like this one costs more callback invocations than a single <code>0.5</code> &mdash; fine for a handful of sections, but worth trimming for a page watching dozens of them.</p>
+
+<h2>5. Count-up stats on scroll</h2>
+
+<p>Each number counts up from zero the instant it comes into view, once, and never restarts if you scroll past it again.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/09/5.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Count-Up Stats on Scroll Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>var io = new IntersectionObserver(function (entries) {
+  entries.forEach(function (entry) {
+    if (!entry.isIntersecting) return;
+    animateCountUp(entry.target);
+    io.unobserve(entry.target); // count once — never restart on re-entry
+  });
+}, { threshold: 0.6 });
+
+document.querySelectorAll('.num').forEach(function (el) { io.observe(el); });</code></pre>
+
+<p>The count-up animation itself is a separate concern, driven by <code>requestAnimationFrame</code> with an eased progress curve &mdash; <code>IntersectionObserver</code>'s only job is deciding the one moment to kick it off. That separation is worth keeping in every demo on this page: the observer decides <em>when</em>, plain DOM/CSS/animation code decides <em>what</em>. A <code>threshold</code> of <code>0.6</code> here means a stat card has to be genuinely mostly on screen before its number starts moving, not just barely peeking into view.</p>
+
+<p><strong>Best for:</strong> landing-page stat sections, dashboards, and anywhere a number should feel like it's "counting up" the first time a visitor sees it. <strong>Tip:</strong> always <code>unobserve()</code> after the animation starts &mdash; without it, scrolling past the stat and back triggers the count-up again every single time, which reads as broken rather than intentional.</p>
+
+<h2>6. Floating button on scroll</h2>
+
+<p>A "Back to top" button stays hidden while the hero is on screen, then fades in the instant it scrolls away.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/09/6.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Floating Button on Scroll Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>var io = new IntersectionObserver(function (entries) {
+  // isIntersecting is false the instant the hero has fully scrolled away —
+  // that single boolean is the entire "should the button show" condition.
+  toggleBtn.classList.toggle('show', !entries[0].isIntersecting);
+}, { threshold: 0 });
+
+io.observe(heroElement);</code></pre>
+
+<p>This demo watches the hero, not the button &mdash; the button's visibility is just the inverse of the hero's. That's a genuinely useful reframing for a lot of "show this when scrolled past that" UI: rather than tracking a scroll position number and comparing it to some pixel threshold you have to update every time the layout changes, watch the actual element that marks the boundary and let the browser tell you when it's gone.</p>
+
+<p><strong>Best for:</strong> back-to-top buttons, sticky "buy now" bars, and any UI that should only appear once a visitor has scrolled past a specific landmark. <strong>Tip:</strong> <code>threshold: 0</code> means "any pixel of the hero visible at all counts as intersecting" &mdash; the button won't show until the hero is completely, not just mostly, off screen.</p>
+
+<h2>7. Auto-pause off-screen</h2>
+
+<p>This visualizer is "playing." Scroll it out of view and it pauses itself; scroll back and it resumes &mdash; the same pattern a background video or audio player uses.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/09/7.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Auto-Pause Off-Screen Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>var io = new IntersectionObserver(function (entries) {
+  if (entries[0].isIntersecting) { video.play(); }
+  else { video.pause(); }
+}, { threshold: 0.5 });
+
+io.observe(video);</code></pre>
+
+<p>Autoplaying video is a common source of wasted CPU, battery, and bandwidth on a long page &mdash; a background hero video or an audio visualizer still running while scrolled three screens away serves nobody. The same technique works for pausing a purely visual animation loop off-screen too &mdash; toggle a CSS class instead of calling <code>play()</code>/<code>pause()</code>, and the rest of the logic is identical.</p>
+
+<p><strong>Best for:</strong> background/hero videos, audio visualizers, and any looping animation expensive enough that it shouldn't run while nobody can see it. <strong>Tip:</strong> a <code>threshold</code> around <code>0.5</code> avoids a distracting play/pause flicker right at the edge of the viewport that a <code>threshold: 0</code> would cause.</p>
+
+<h2>8. threshold &amp; rootMargin visualizer</h2>
+
+<p>Drag the slider, then scroll the box through the striped zone. The readout is a real observer reporting its live <code>intersectionRatio</code> on every threshold step it crosses.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/09/8.html" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="threshold and rootMargin Visualizer Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>var io = new IntersectionObserver(callback, {
+  root: null,          // null = the browser viewport (or the nearest scrollable ancestor)
+  rootMargin: '0px',   // shrinks/grows the trigger box, CSS-margin syntax
+  threshold: [0, 0.25, 0.5, 0.75, 1] // fire again at each of these visibility steps
+});</code></pre>
+
+<p>These three options are the entire API surface, and they're read once, at construction &mdash; there's no method to update them on a live observer, which is why the slider in this demo tears down and rebuilds the observer on every change rather than mutating one in place. <code>root</code> defaults to the browser viewport but can be any scrollable ancestor element, which is exactly what makes this work correctly inside a scrolling card, modal, or sidebar rather than only the whole page. A negative <code>rootMargin</code> shrinks the trigger zone inward &mdash; useful for "must be well inside the viewport, not just barely peeking in" logic &mdash; while a positive one, as demo #2 uses, grows it outward for early triggering.</p>
+
+<p><strong>Best for:</strong> debugging exactly why an observer is firing earlier or later than expected, and building intuition before tuning the real thing in demos #1&ndash;7. <strong>Tip:</strong> when in doubt, start with <code>threshold: 0</code> (fires on any visibility at all) and a single number rather than an array &mdash; reach for an array only once you genuinely need multiple callback firings across a visibility range, as demo #4's scrollspy does.</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Forgetting to call <code>unobserve()</code> after a one-time effect.</strong> A fade-in, a lazy image swap, or a count-up animation should only ever fire once per element &mdash; without <code>unobserve()</code>, scrolling an element out and back triggers it again, every time, which reads as a bug rather than a feature.</li>
+<li><strong>Trying to change <code>threshold</code> or <code>rootMargin</code> on a live observer.</strong> Both are read once at construction and cannot be updated afterward &mdash; changing either genuinely requires disconnecting the old observer and creating a new one, as demo #8 does on every slider move.</li>
+<li><strong>Reaching for <code>threshold: 1</code> and expecting it to reliably fire.</strong> An element taller than the viewport (or its <code>root</code>) can never reach 100% visibility at once, so a threshold of exactly <code>1</code> may never trigger for it &mdash; a fractional threshold like <code>0.9</code> is almost always the safer choice for large elements.</li>
+<li><strong>Watching hundreds of individual elements instead of one sentinel.</strong> Demo #3's infinite scroll watches a single empty sentinel element, not every row &mdash; watching every row individually works but scales far worse for no real benefit once a sentinel does the same job for one observer's worth of cost.</li>
+<li><strong>Assuming <code>isIntersecting</code> alone is enough for "which is most visible."</strong> When two elements are both partially on screen, as in demo #4's scrollspy, only comparing their <code>intersectionRatio</code> values against each other tells you which one is genuinely more visible right now.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>Does IntersectionObserver work inside a scrolling container, not just the page?</h3>
+<p>Yes &mdash; pass that container element as the <code>root</code> option instead of leaving it at the default <code>null</code> (which means the browser viewport). The element being observed still needs to be a descendant of that root for intersection to be measured correctly.</p>
+
+<h3>Can I observe the same element with more than one observer?</h3>
+<p>Yes, and it's a completely normal pattern &mdash; each observer runs independently with its own options and callback. Demo #6's floating button and a hypothetical analytics tracker could both watch the same hero element with two separate observers and neither would interfere with the other.</p>
+
+<h3>Is browser support good enough to use this without a fallback?</h3>
+<p><code>IntersectionObserver</code> has shipped in every major browser (Chrome, Firefox, Safari, Edge) for several years now and needs no polyfill for the vast majority of real-world traffic. Check <a href="https://caniuse.com/intersectionobserver" target="_blank" rel="noopener">caniuse.com</a> for current numbers if a project specifically needs to support very old browser versions.</p>
+
+<h3>What's the difference between isIntersecting and intersectionRatio?</h3>
+<p><code>isIntersecting</code> is a plain boolean &mdash; is any part of the element visible at all, relative to the thresholds you set. <code>intersectionRatio</code> is the actual number behind that boolean, from <code>0</code> to <code>1</code>, representing exactly what fraction of the element is currently visible. Most simple show/hide logic only needs the boolean, as in demos #1, #2, #5, #6, and #7; anything comparing degrees of visibility against each other, like demo #4's scrollspy, needs the real ratio.</p>
+
+<h3>Should I use this instead of the native loading="lazy" attribute for images?</h3>
+<p>Not if plain lazy-loaded images are all you need &mdash; <code>loading="lazy"</code> on an <code>&lt;img&gt;</code> tag does that natively with zero JavaScript. Reach for <code>IntersectionObserver</code>, as demo #2 does, once you need something the attribute alone can't give you: a custom placeholder swap, a loaded-count readout, coordinating the load with an animation, or lazy-loading something that isn't a plain image at all.</p>
+
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to actually internalize the differences is to click <strong>Fork &amp; Edit</strong> on demo #1, change its <code>threshold</code> from <code>0.2</code> to <code>0.9</code>, and watch exactly how much further you now have to scroll before the card animates in. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/" target="_blank" rel="noopener">My Code</a> and it's yours to keep, tweak further, or reuse in a real project.</p>
+
+<p><strong>Recommended next step:</strong> open the <a href="https://fwdtools.com/js-playground/" target="_blank" rel="noopener">JavaScript Playground</a> and work through its DOM and browser APIs chapters &mdash; free, click-based lessons covering exactly this kind of ground, built for the pattern this post covers. For more tutorials like this one, browse the <a href="https://www.webdevpuneet.com/search/label/JavaScript" target="_blank" rel="noopener">JavaScript</a> label on the blog.</p>

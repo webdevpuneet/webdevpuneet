@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Nested Timelines Under One Outer ScrollTrigger">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Nested timelines, one trigger</h1>
+    <p class="hint">Scroll slowly. One outer timeline drives two child timelines in sequence &mdash; scrubbed by exactly one ScrollTrigger.</p>
+  </header>
+  <div class="spacer">Scroll ↓</div>
+  <div class="stage">
+    <div class="card cardA" id="cardA">A</div>
+    <div class="card cardB" id="cardB">B</div>
+  </div>
+  <div class="readout" id="readout">progress: 0.00</div>
+  <div class="spacer end"></div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --accent2: #d97706; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .spacer { height: 220px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 240px; }
+  .stage { position: relative; display: flex; justify-content: center; align-items: center; gap: 30px; height: 140px; }
+  .card {
+    width: 74px;
+    height: 74px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font: 800 18px system-ui, sans-serif;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .cardA { background: var(--accent); box-shadow: 0 10px 20px rgba(99,102,241,0.35); }
+  .cardB { background: var(--accent2); box-shadow: 0 10px 20px rgba(217,119,6,0.35); }
+  .readout { text-align: center; margin-top: 6px; font: 700 12px ui-monospace, monospace; color: var(--accent); }
+</script>
+
+<script type="text/plain" id="js">
+  gsap.registerPlugin(ScrollTrigger);
+
+  var readout = document.getElementById('readout');
+
+  var introTl = gsap.timeline()
+    .to('#cardA', { opacity: 1, y: 0, duration: 0.5 })
+    .to('#cardB', { opacity: 1, y: 0, duration: 0.5 }, '<0.15');
+
+  var moveTl = gsap.timeline()
+    .to('#cardA', { x: 50, duration: 0.5 })
+    .to('#cardB', { x: -50, duration: 0.5 }, '<');
+
+  var parentTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.stage',
+      start: 'top 80%',
+      end: 'bottom 20%',
+      scrub: true,
+      onUpdate: function (self) {
+        readout.textContent = 'progress: ' + self.progress.toFixed(2);
+      }
+    }
+  });
+
+  parentTl.add(introTl).add(moveTl, '+=0.2');
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

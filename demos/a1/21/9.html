@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Feature-Detecting Nesting Support">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Feature-detecting nesting support</h1>
+    <p class="hint">This page runs <code>CSS.supports('selector(&amp;)')</code> live, right now, in your browser, and also feature-detects it in pure CSS using <code>@supports selector(&amp;)</code>. Both results are shown below.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="box" id="cssBox">
+      <p>Styled by <code>@supports selector(&amp;)</code></p>
+    </div>
+    <p class="note" id="note">Checking...</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 50em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 30px 18px 36px; }
+
+  .box {
+    width: 300px;
+    padding: 20px;
+    text-align: center;
+    background: #fdf2f2;
+    border: 2px solid #f3c9c9;
+    border-radius: 12px;
+    font: 700 13px system-ui, sans-serif;
+    color: #9f1239;
+  }
+
+  /* This is the demo: the CSS itself asks "do I understand &?" before relying on it */
+  @supports selector(&) {
+    .box {
+      background: #eef0ff;
+      border-color: var(--accent);
+      color: var(--accent);
+
+      &::after {
+        content: " \2713 native nesting active";
+      }
+    }
+  }
+
+  .note { margin: 0; max-width: 50em; font-size: 12.5px; text-align: center; line-height: 1.6; }
+  .note.yes { color: #16a34a; font-weight: 700; }
+  .note.no { color: #dc2626; font-weight: 700; }
+</script>
+
+<script type="text/plain" id="js">
+  var note = document.getElementById('note');
+  var supported = CSS.supports('selector(&)');
+  note.textContent = supported
+    ? 'CSS.supports("selector(&)") -> true. Your browser understands the nesting selector, so the @supports selector(&) block above applied (indigo box).'
+    : 'CSS.supports("selector(&)") -> false. Your browser does not understand &, so the @supports selector(&) block was skipped and the plain fallback (pink box) stayed active.';
+  note.classList.add(supported ? 'yes' : 'no');
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

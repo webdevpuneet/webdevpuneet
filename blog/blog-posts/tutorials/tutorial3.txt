@@ -1,0 +1,178 @@
+<h1>Building an Airport-Style Split-Flap Display With CSS 3D Transforms</h1>
+
+<p>You've seen this board before, even if you don't know its name: the departures sign at an old train station or airport, where every letter sits on its own mechanical card and flips through the alphabet with a satisfying <em>clack</em> until it lands on the right character. It's called a <strong>split-flap display</strong>, or a Solari board after the company that made them famous. The <strong>Split Flap Display</strong> snippet recreates the whole thing — the two-beat flip, the mechanical seam down the middle of each letter, the left-to-right ripple as a message updates — using nothing but layered <code>&lt;div&gt;</code>s, CSS 3D transforms, and a JavaScript timing engine. No video, no sprite sheet, no canvas.</p>
+
+<p>Here's the effect live — type your own message, or just watch it cycle through presets:</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/split-flap-display/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Split Flap Display — Free CSS 3D Snippet by FWD Tools"></iframe>
+
+<p>Grab the code, or open the full editor with live HTML/CSS/JS panels: <a href="https://fwdtools.com/ui-snippets/split-flap-display/">Split Flap Display on FWD Tools</a>. It's plain HTML, CSS, and JavaScript, but the same editor has one-click export buttons for <strong>React</strong>, <strong>Vue</strong>, <strong>Angular</strong>, and <strong>React + Tailwind</strong> if you'd rather drop it into a component-based project than copy raw markup.</p>
+
+<p>In this post I'll walk through the whole thing <strong>A to Z</strong> — what the effect actually is, where it earns its keep, and then the full build: how one character gets split across two static halves, the two-beat rotateX flip that recreates a physical flap, the step-through-the-alphabet cycling logic, and the staggered timing that makes a whole message ripple into place. By the end you'll understand it well enough to rebuild it from scratch or bend it into something of your own.</p>
+
+<h2>What the effect actually is</h2>
+
+<p>Strip away the mechanical styling and the mechanism is simple to state: the board is a row of fixed-size cells, one per character. Each cell can show any glyph from a fixed character set — a leading space, then A through Z, then 0 through 9 — and knows both its <strong>current</strong> character and its <strong>target</strong> character. When a new message arrives, every cell that needs to change doesn't jump straight there. It advances one character at a time through the set, playing a small flip animation at every step, until it reaches the target. Change a cell from A to G and you'll visibly see it flap through B, C, D, E, F before landing on G — exactly like the real thing.</p>
+
+<p>Layered on top of that per-cell mechanism is a column stagger: when a whole message changes, the cells don't all start flipping at once. Each column's animation begins a little later than the one before it, so the message updates as a ripple sweeping left to right rather than a flat, simultaneous snap.</p>
+
+<h2>Where you'd actually use this</h2>
+
+<p>A split-flap board is a strong visual signature, and it earns its place in a specific set of spots:</p>
+
+<ul>
+<li><strong>Retro hero headers.</strong> A tagline or brand name that flaps into place on load reads as far more crafted and deliberate than text that's just already there.</li>
+<li><strong>Live status and departures boards.</strong> Show queue numbers, scores, or arrival times that visibly flip when the underlying value changes, rather than silently swapping text.</li>
+<li><strong>Countdown and launch reveals.</strong> Flap a date or product name into view to build anticipation before a reveal, the same way an airport board announces a new gate.</li>
+<li><strong>Game scoreboards and title screens.</strong> A score or level name that mechanically flips into place feels more tactile than a static number swap.</li>
+<li><strong>Brand microsites.</strong> A Solari board is instantly recognizable nostalgia — a strong, memorable signature for a campaign or product page.</li>
+</ul>
+
+<p>In every one of these, the appeal is the same: a split-flap board behaves like a physical object with real inertia, which nothing about a plain text swap or a CSS fade naturally gives you.</p>
+
+<h2>The tech stack: CSS 3D transforms and the DOM, nothing else</h2>
+
+<p>This snippet uses nothing but the browser's built-in CSS 3D transform properties — <code>perspective</code>, <code>rotateX</code>, <code>transform-origin</code>, and <code>backface-visibility</code> — plus vanilla JavaScript driving <code>setTimeout</code> and <code>requestAnimationFrame</code>. No CDN script tags, no npm install, no build step. The entire illusion of a mechanical flap rests on rotating flat rectangles around a horizontal hinge and hiding whichever side is facing away from the viewer at any given moment.</p>
+
+<p>If CSS 3D transforms are new territory for you, the core idea to hold onto is that <code>perspective</code> on a parent element creates a 3D viewing frustum for its children, so a <code>rotateX</code> on a child doesn't just squash it flat — it genuinely appears to tilt back into the screen, exactly like a real hinged card catching the light differently as it turns.</p>
+
+<h2>Building it, step by step</h2>
+
+<h3>Step 1 — The HTML and CSS: five layered pieces per cell</h3>
+
+<p>The board itself is just a flex row of identical cells, each built from the same five-piece structure:</p>
+
+<pre><code class="language-html">&lt;div class="flap-cell"&gt;
+  &lt;div class="top"&gt;&lt;span&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="bot"&gt;&lt;span&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="divider"&gt;&lt;/div&gt;
+  &lt;div class="flap-top-anim" style="display:none"&gt;&lt;span&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="flap-bot-anim" style="display:none"&gt;&lt;span&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+<p><code>.top</code> and <code>.bot</code> are the resting state — they show the current character split across the seam and sit there whenever a cell isn't mid-flip. <code>.divider</code> is a thin line drawn across the exact middle of the cell to mimic the physical seam where a real flap card splits in two. <code>.flap-top-anim</code> and <code>.flap-bot-anim</code> are the two pieces that actually rotate during a flip, and they stay hidden (<code>display: none</code>) except for the brief moment they're animating.</p>
+
+<p>Each cell carries <code>perspective: 300px</code>, which is what makes the child rotations that follow look like genuine 3D hinges instead of a flat squash. Both static halves clip their character with <code>overflow: hidden</code>: the <code>.top</code> half aligns its glyph to the top with <code>align-items: flex-start</code> so only the upper portion of the letter shows, and the <code>.bot</code> half aligns to the bottom with <code>align-items: flex-end</code> so only the lower portion shows. Stack them together and one full-height character reads correctly, split cleanly across the horizontal seam — exactly like a physical flap card.</p>
+
+<h3>Step 2 — The two-beat flip: rotating away, then rotating in</h3>
+
+<p>A real split-flap card flips in two beats: the old top leaf rotates down and away out of view, then the new bottom leaf rotates up into place. The code reproduces that with two elements rotating around opposite hinges. The animated top flap hinges at its bottom edge:</p>
+
+<pre><code class="language-css">.flap-cell .flap-top-anim {
+  transform-origin: bottom center;
+  backface-visibility: hidden;
+}</code></pre>
+
+<p>It starts flat at <code>rotateX(0deg)</code> showing the <em>previous</em> character, and rotates forward to <code>rotateX(90deg)</code> — folding away from the viewer edge-on until it disappears, revealing the static <code>.top</code> underneath (which has already been silently updated to the <em>next</em> character). The animated bottom flap hinges at its top edge instead:</p>
+
+<pre><code class="language-css">.flap-cell .flap-bot-anim {
+  transform-origin: top center;
+  backface-visibility: hidden;
+}</code></pre>
+
+<p>It starts folded away at <code>rotateX(-90deg)</code>, already showing the <em>next</em> character edge-on and invisible, then rotates down to <code>rotateX(0deg)</code> to snap flat into its resting position. <code>backface-visibility: hidden</code> on both pieces is what keeps the reverse side of each rotating card from flashing into view mid-turn — without it, you'd briefly see a mirrored, wrong-looking glyph as each flap passes through its edge-on position.</p>
+
+<p>The JavaScript sequences the two halves with short <code>setTimeout</code> delays around 55ms apart, so the top folds away first and the bottom snaps in right after — that small offset between the two rotations is what reads as a single convincing mechanical clack rather than two unrelated spins.</p>
+
+<h3>Step 3 — The double requestAnimationFrame trick</h3>
+
+<p>Before every flip, the code has to set each animated flap to its <em>start</em> transform with transitions disabled, then re-enable the transition and apply the <em>end</em> transform a moment later — otherwise the browser has nothing to animate <em>from</em>:</p>
+
+<pre><code class="language-javascript">animTop.style.transition = 'none';
+animTop.style.transform = 'rotateX(0deg)';
+
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    animTop.style.transition = 'transform 0.05s ease-in';
+    animTop.style.transform = 'rotateX(90deg)';
+  });
+});</code></pre>
+
+<p>A single <code>requestAnimationFrame</code> isn't reliable enough here — browsers can still batch the "disable transition, set start value" write together with the very next write in the same paint, collapsing both into one and skipping the animation entirely. Nesting two calls guarantees a full frame has actually been painted with the start transform in place before the transition is turned back on and the end transform is applied. This double-rAF pattern is the standard, reliable way to trigger a CSS transition from JavaScript, and it's worth recognizing anywhere you see a snippet toggling <code>transition: none</code> before an animation.</p>
+
+<h3>Step 4 — Stepping through the character set instead of jumping</h3>
+
+<p>Each cell tracks a <code>current</code> index and a <code>target</code> index into a shared character set:</p>
+
+<pre><code class="language-javascript">const CHARSET = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';</code></pre>
+
+<p>The recursive <code>animateStep</code> function is the whole engine. It doesn't move a cell straight to its target — it advances <code>current</code> by exactly one position, using modular arithmetic to wrap back to the start of the charset if needed, plays one flip animation for that single step, and then calls itself again once the flip finishes:</p>
+
+<pre><code class="language-javascript">function animateStep(cellObj) {
+  if (cellObj.current === cellObj.target) {
+    cellObj.animating = false;
+    return;
+  }
+  cellObj.animating = true;
+  cellObj.current = (cellObj.current + 1) % CHARSET.length;
+  // ...play one flip from the old character to the new one...
+  setTimeout(() => animateStep(cellObj), 10);
+}</code></pre>
+
+<p>The recursion only stops once <code>current</code> catches up to <code>target</code>. That's the entire reason a cell changing from A to G visibly flaps through B, C, D, E, F on the way — it's not a scripted sequence, it's just this one function repeatedly asking "am I there yet?" and taking one more step if not.</p>
+
+<h3>Step 5 — Setting a message: eight cells, staggered</h3>
+
+<p>The board is a fixed number of cells (eight in this build). <code>displayMessage</code> pads or trims whatever text comes in to exactly that length:</p>
+
+<pre><code class="language-javascript">function padMsg(msg) {
+  return msg.toUpperCase().padEnd(NUM_CELLS, ' ').slice(0, NUM_CELLS);
+}</code></pre>
+
+<p>Then for every cell it looks up the target character's index in <code>CHARSET</code> (falling back to a space for anything outside the supported set) and kicks off <code>animateStep</code> — but not all at once. Each cell's start is delayed by <code>i * 40</code> milliseconds, where <code>i</code> is its column position:</p>
+
+<pre><code class="language-javascript">padded.split('').forEach((ch, i) => {
+  const idx = CHARSET.indexOf(ch) === -1 ? 0 : CHARSET.indexOf(ch);
+  cells[i].target = idx;
+  if (!cells[i].animating) {
+    setTimeout(() => animateStep(cells[i]), i * 40);
+  }
+});</code></pre>
+
+<p>That single <code>i * 40</code> offset is what produces the left-to-right ripple across the whole board — without it, every cell would start flipping in the exact same instant, and the board would lose the sense of a mechanical wave passing over it. A per-cell <code>animating</code> flag guards against a second message arriving mid-flip from starting a duplicate animation chain on the same cell.</p>
+
+<h3>Step 6 — Keeping the board alive: presets and auto-cycling</h3>
+
+<p>A row of preset buttons is generated from a small array of sample messages, each wired to call <code>displayMessage</code> on click. A text input lets visitors type up to eight characters of their own, committing on the Set button or the Enter key. And a <code>setInterval</code> quietly rotates through the presets every few seconds on its own, so the board is never sitting frozen — much like a real departures sign that's always mid-update for something.</p>
+
+<h2>Customizing it for your own project</h2>
+
+<p>A few knobs worth knowing about if you're adapting this:</p>
+
+<ul>
+<li><strong>Character set</strong> — add symbols, punctuation, or lowercase letters to <code>CHARSET</code>. The cycling logic uses <code>indexOf</code> and modular arithmetic, so it adapts to any length automatically, though a longer set means more intermediate flips for characters far apart in the string.</li>
+<li><strong>Flip speed</strong> — the transition durations on the animated flaps (around 0.05s each) and the 55ms <code>setTimeout</code> gap between the top and bottom beats together control how snappy or leisurely each individual flip feels.</li>
+<li><strong>Ripple timing</strong> — the <code>i * 40</code> per-column stagger controls how pronounced the left-to-right wave looks; raise it for a slower, more deliberate sweep, or drop it toward zero for a near-simultaneous update.</li>
+<li><strong>Board size</strong> — <code>NUM_CELLS</code> controls how many characters the board holds; the cell-creation loop and padding logic both scale automatically.</li>
+</ul>
+
+<h2>Using it in React, Vue, or Angular</h2>
+
+<p>The one rule that matters when porting this into a component framework is: create the cells and kick off any initial cycling inside a mount lifecycle hook — <code>useEffect</code> in React, <code>onMounted</code> in Vue, <code>ngAfterViewInit</code> in Angular — never at module or render time, since the DOM elements the animation manipulates directly need to exist first. Keep each cell's <code>current</code>/<code>target</code>/<code>animating</code> state in a ref or plain array rather than component state, since re-rendering the whole board on every single character flip would fight the recursive <code>setTimeout</code> chain and stutter the animation. On unmount, clear any active <code>setInterval</code> auto-cycling and let in-flight <code>setTimeout</code> chains run out naturally rather than trying to cancel mid-flip. When the message is passed in as a prop, call the same <code>displayMessage</code>-equivalent logic whenever it changes, exactly like the Set button does in the vanilla version.</p>
+
+<p>The FWD Tools snippet editor has one-click exports for all of this already built if you'd rather skip writing the conversion by hand — grab the React, Vue, Angular, or Tailwind version directly from the snippet page.</p>
+
+<h2>Build, understand, optimize, and extend it with AI</h2>
+
+<p>You don't have to trace every hinge rotation and timing offset by hand. Paste the snippet's HTML, CSS, and JS into an AI coding assistant like Claude and ask it to walk through exactly why the two animated flaps need opposite <code>transform-origin</code> values, or why a single <code>requestAnimationFrame</code> isn't enough to reliably trigger the transition. The same assistant can help optimize it — for instance, checking whether the recursive <code>animateStep</code> calls could be replaced with a single driving loop for boards with many more cells, or whether the per-step <code>setTimeout</code> chain introduces any visible jitter under load. It's just as useful for extending the effect: ask it to add a sound effect on each flap, wire the board up to a live data feed like a real countdown or ticket queue, or support a taller multi-row board for longer messages. Treat the code less like a finished artifact and more like a starting point for a conversation.</p>
+
+<h3>Prompt to recreate it</h3>
+
+<p>Copy this into your AI assistant of choice to build the effect from scratch, or as a jumping-off point for your own variant:</p>
+
+<pre><code class="language-text">Build an airport-style "split-flap display" (Solari board) in plain HTML, CSS, and JavaScript using only CSS 3D transforms — no canvas, no video, no sprite images, no libraries.
+
+Requirements:
+- A row of fixed-size cells, one per character, each with CSS `perspective` set on the cell so child rotations look like real 3D hinges rather than a flat squash.
+- Each cell is built from five layered pieces: a static top half and static bottom half showing the resting character (clipped with overflow hidden, top half aligned to its top edge, bottom half aligned to its bottom edge, so together they show one full-height glyph split across a seam), a thin divider line across the middle, and two animated flap elements that are hidden except during a flip.
+- The top animated flap must have `transform-origin: bottom center` and rotate from rotateX(0deg) to rotateX(90deg) to fold away and reveal the character underneath. The bottom animated flap must have the opposite hinge, `transform-origin: top center`, and rotate from rotateX(-90deg) up to rotateX(0deg) to snap the new character into place. Both need `backface-visibility: hidden` so their reverse side never flashes into view mid-rotation.
+- Every cell tracks a current index and a target index into a shared character set (a leading space, then A–Z, then 0–9). A recursive step function must advance the current index by exactly one position per call (wrapping with modular arithmetic), play one two-beat flip animation for that single step, and call itself again until current equals target — so a cell changing from A to G visibly flaps through every letter in between rather than jumping.
+- Before triggering each rotation, apply the start transform with `transition: none`, then re-enable the transition and apply the end transform inside two nested requestAnimationFrame calls (not just one), so the browser reliably paints the start state before the transition begins.
+- When a new message is set, stagger each column's animation start by an increasing delay (e.g. columnIndex * 40ms) so the whole board updates as a left-to-right ripple instead of all cells flipping simultaneously.
+- Add a text input and a Set button to commit a custom message, plus a row of preset buttons and a setInterval that auto-cycles through presets every few seconds.</code></pre>
+
+<h2>Final thought</h2>
+
+<p>What makes this snippet worth studying isn't the retro charm — it's the underlying pattern: a convincing mechanical animation is often just two flat rectangles rotating around opposite hinges with their reverse sides hidden, sequenced a beat apart. Swap the hinge orientation, the timing, or what triggers a step, and the exact same technique reproduces flip clocks, page-turn effects, or any UI element that needs to feel like it has physical weight and inertia rather than just fading between two states.</p>
+
+<p>Grab the full HTML, CSS, and JS — or export it straight to React, Vue, Angular, or Tailwind — at <a href="https://fwdtools.com/ui-snippets/split-flap-display/">Split Flap Display on FWD Tools</a>. It's free, runs entirely in your browser, and needs no sign-up. Browse more CSS 3D and animation effects like this one at <a href="https://fwdtools.com/ui-snippets/animations/">FWD Tools UI Snippets — Animations</a>.</p>

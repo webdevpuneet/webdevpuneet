@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="grid-template-areas — Rearrange the Whole Page in One Rule">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>grid-template-areas — Rearrange the Whole Page in One Rule</h1>
+    <p class="hint">Click "Mobile layout" — header, nav, main and aside completely rearrange. The HTML order never changes; only the ASCII map inside grid-template-areas does.</p>
+  </header>
+  <main class="stageWrap">
+    <button type="button" id="toggleBtn" class="toggleBtn">Switch to mobile layout</button>
+    <div class="layoutGrid" id="layoutGrid">
+      <div class="area area--header">header</div>
+      <div class="area area--nav">nav</div>
+      <div class="area area--main">main</div>
+      <div class="area area--aside">aside</div>
+      <div class="area area--footer">footer</div>
+    </div>
+    <pre class="ruleTag" id="ruleTag">grid-template-areas:
+  "header header"
+  "nav    main"
+  "nav    aside"
+  "footer footer";</pre>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 8px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .toggleBtn {
+    font: 700 12.5px system-ui, sans-serif;
+    padding: 8px 16px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: #fff;
+    color: var(--accent);
+    cursor: pointer;
+  }
+  .toggleBtn:hover { background: #eef0ff; }
+
+  /* The rule this demo is about — the DOM order of the five children below
+     never changes between the two layouts, only this map does. */
+  .layoutGrid {
+    width: 100%;
+    max-width: 380px;
+    height: 320px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    background: #fff;
+    display: grid;
+    gap: 8px;
+    grid-template-columns: 90px 1fr;
+    grid-template-rows: 50px 1fr 1fr 50px;
+    grid-template-areas:
+      "header header"
+      "nav    main"
+      "nav    aside"
+      "footer footer";
+  }
+  .layoutGrid--mobile {
+    grid-template-columns: 1fr;
+    grid-template-rows: 44px 44px 1fr 1fr 44px;
+    grid-template-areas:
+      "header"
+      "nav"
+      "main"
+      "aside"
+      "footer";
+  }
+
+  .area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #eceef3;
+    color: var(--ink);
+    font: 700 12px ui-monospace, monospace;
+  }
+  .area--header { grid-area: header; background: linear-gradient(135deg, #818cf8, #6366f1); color: #fff; }
+  .area--nav    { grid-area: nav; }
+  .area--main   { grid-area: main; background: #eef0ff; color: var(--accent); }
+  .area--aside  { grid-area: aside; }
+  .area--footer { grid-area: footer; }
+</script>
+
+<script type="text/plain" id="js">
+  var grid = document.getElementById('layoutGrid');
+  var btn = document.getElementById('toggleBtn');
+  var ruleTag = document.getElementById('ruleTag');
+  var isMobile = false;
+
+  var DESKTOP_RULE = 'grid-template-areas:\n  "header header"\n  "nav    main"\n  "nav    aside"\n  "footer footer";';
+  var MOBILE_RULE = 'grid-template-areas:\n  "header"\n  "nav"\n  "main"\n  "aside"\n  "footer";';
+
+  function render() {
+    grid.className = 'layoutGrid' + (isMobile ? ' layoutGrid--mobile' : '');
+    ruleTag.textContent = isMobile ? MOBILE_RULE : DESKTOP_RULE;
+    btn.textContent = isMobile ? 'Switch to desktop layout' : 'Switch to mobile layout';
+  }
+
+  btn.addEventListener('click', function () {
+    isMobile = !isMobile;
+    render();
+  });
+
+  render();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Do You Even Need a Timeline?">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Bare tween vs timeline</h1>
+    <p class="hint">Toggle the mode, then scroll. A single scrolled property needs no timeline; ordered steps do.</p>
+  </header>
+  <div class="modeRow">
+    <button class="modeBtn modeBtnActive" id="modeA">A: gsap.to() only</button>
+    <button class="modeBtn" id="modeB">B: timeline (3 steps)</button>
+  </div>
+  <div class="spacer">Scroll ↓</div>
+  <div class="stage">
+    <div class="circle" id="circle"></div>
+  </div>
+  <div class="spacer end"></div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .modeRow { display: flex; justify-content: center; gap: 8px; padding: 4px 20px 6px; }
+  .modeBtn {
+    padding: 7px 14px;
+    font: 700 11.5px system-ui, sans-serif;
+    color: var(--ink);
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 7px;
+    cursor: pointer;
+  }
+  .modeBtnActive { color: #fff; background: var(--accent); border-color: var(--accent); }
+  .spacer { height: 220px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 240px; }
+  .stage { display: flex; justify-content: center; align-items: center; height: 140px; }
+  .circle { width: 56px; height: 56px; border-radius: 50%; background: var(--accent); box-shadow: 0 10px 20px rgba(99,102,241,0.35); }
+</script>
+
+<script type="text/plain" id="js">
+  gsap.registerPlugin(ScrollTrigger);
+
+  var modeABtn = document.getElementById('modeA');
+  var modeBBtn = document.getElementById('modeB');
+
+  function killAll() {
+    ScrollTrigger.getAll().forEach(function (st) { st.kill(); });
+    gsap.set('#circle', { clearProps: 'all' });
+  }
+
+  function buildA() {
+    gsap.to('#circle', {
+      scale: 2.2,
+      ease: 'none',
+      scrollTrigger: { trigger: '.stage', start: 'top 80%', end: 'bottom 30%', scrub: true }
+    });
+  }
+
+  function buildB() {
+    var tl = gsap.timeline({
+      scrollTrigger: { trigger: '.stage', start: 'top 80%', end: 'bottom 30%', scrub: true }
+    });
+    tl.to('#circle', { x: -80, ease: 'none' })
+      .to('#circle', { scale: 2.2, ease: 'none' })
+      .to('#circle', { rotation: 180, ease: 'none' });
+  }
+
+  function setMode(mode) {
+    killAll();
+    if (mode === 'A') { buildA(); } else { buildB(); }
+    modeABtn.classList.toggle('modeBtnActive', mode === 'A');
+    modeBBtn.classList.toggle('modeBtnActive', mode === 'B');
+    window.scrollTo(0, 0);
+    ScrollTrigger.refresh();
+  }
+
+  modeABtn.addEventListener('click', function () { setMode('A'); });
+  modeBBtn.addEventListener('click', function () { setMode('B'); });
+
+  buildA();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

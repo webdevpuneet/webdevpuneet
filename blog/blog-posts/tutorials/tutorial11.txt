@@ -1,0 +1,281 @@
+<h1>Building a Virtual Scroll List: 10,000 Rows, One Screenful of DOM</h1>
+
+<p>Render a list of ten thousand rows the obvious way and the browser will do exactly what you asked: create ten thousand elements, lay out ten thousand elements, paint ten thousand elements, and hold all of them in memory for as long as the page is open. The first paint takes a visible beat. Scrolling stutters. Adding a search box makes it worse, because now every keystroke rebuilds all ten thousand. And the whole time, the user is looking at about nine of them.</p>
+
+<p>Virtual scrolling fixes this by rendering only what fits on screen while making the scrollbar behave as though the entire list were there. It's the technique behind every fast data grid, log viewer, chat history and file browser you've used, and it's the reason <code>react-window</code>, <code>TanStack Virtual</code> and their equivalents exist in every framework ecosystem. It's also — and this is the part worth internalizing — about forty lines of arithmetic. There's no clever data structure and no framework magic. There's a fixed row height, a division, and a small pool of recycled DOM nodes.</p>
+
+<p>The <strong>Virtual Scroll List</strong> snippet is a good subject for a full walkthrough because it doesn't stop at the toy version. It has a live search that filters the dataset and resizes the scrollbar to match, and a sort toggle that reorders ten thousand records instantly — both of which are where naive implementations fall apart. Here it is live: scroll it hard, search it, sort it, and if you have devtools open, watch the row count in the inspector sit in the teens the whole time.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/virtual-scroll/embed/" style="width:100%;height:620px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Virtual Scroll List — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p>Grab the code, or open the full editor with live HTML/CSS/JS panels: <a href="https://fwdtools.com/ui-snippets/virtual-scroll/">Virtual Scroll List on FWD Tools</a>. It's plain HTML, CSS and JavaScript with zero dependencies — about 120 lines of JavaScript including the fake data — and the same editor has one-click export buttons for <strong>React</strong>, <strong>Vue</strong>, <strong>Angular</strong> and <strong>React + Tailwind</strong>.</p>
+
+<p>In this post I'll build the whole thing <strong>A to Z</strong>: the three structural pieces and why each one exists, the index math that turns a scroll offset into an array slice, why there's a buffer and how big it should be, how the row pool grows and shrinks instead of being rebuilt, why the scroll handler is throttled to one render per frame, and how search and sort stay instant on ten thousand records. By the end you'll be able to write this from scratch — and, more usefully, know exactly when it's the wrong tool.</p>
+
+<h2>What the component actually is</h2>
+
+<p>Four ideas, in the order they matter:</p>
+
+<ol>
+<li><strong>A spacer</strong> — an empty element whose height equals the full list's height, so the scrollbar is correctly sized even though the rows aren't there.</li>
+<li><strong>Index math</strong> that converts <code>scrollTop</code> into "which slice of the array is currently on screen".</li>
+<li><strong>A row pool</strong> — a dozen or two real DOM elements that get repositioned and refilled instead of created and destroyed.</li>
+<li><strong>A single render function</strong> that every input — scrolling, searching, sorting — calls, so there is exactly one code path that decides what's visible.</li>
+</ol>
+
+<p>Nothing here is specific to a user directory. Swap the row markup and the same four pieces window a log stream, a transaction table, or a file listing.</p>
+
+<h2>Where you'd actually use this</h2>
+
+<ul>
+<li><strong>Data grids and admin tables.</strong> The moment a query can return "all results", you're one careless filter away from rendering a table nobody can scroll.</li>
+<li><strong>Log and event viewers.</strong> These are append-heavy and unbounded by nature — a log viewer without windowing is a memory leak with a scrollbar.</li>
+<li><strong>Chat and message histories.</strong> A long thread is the canonical case, though it's also the hardest variant, since message heights vary.</li>
+<li><strong>Contact lists, file browsers, autocomplete dropdowns.</strong> Anywhere a search can match thousands of items and you want the results to appear instantly instead of "instantly, after a 400ms layout".</li>
+<li><strong>Understanding what your framework's virtualizer is doing.</strong> <code>react-window</code> is a hundred lines of the same idea plus edge cases. Having written it by hand once makes its props — <code>itemSize</code>, <code>overscanCount</code>, <code>estimatedItemSize</code> — read as decisions rather than incantations.</li>
+</ul>
+
+<h2>The markup and the three CSS rules that matter</h2>
+
+<p>The structure is deliberately minimal. Everything above the scroll container is chrome — a heading, a search input, a sort button, a stats row:</p>
+
+<pre><code class="language-html">&lt;div class="scroll-container" id="scrollContainer"&gt;
+  &lt;div id="spacer" class="spacer"&gt;&lt;/div&gt;
+  &lt;div id="listItems" class="list-items"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+<p>Two children, both empty in the HTML. The spacer never receives content — its only job is to be tall. The <code>listItems</code> container holds the row pool. And three CSS rules make that arrangement work:</p>
+
+<pre><code class="language-css">.scroll-container { flex: 1; overflow-y: auto; position: relative; }
+.spacer { width: 100%; }
+.list-items { position: absolute; top: 0; left: 0; right: 0; }</code></pre>
+
+<p><code>overflow-y: auto</code> gives the container its own scrollbar, and <code>position: relative</code> makes it the containing block for what follows. The spacer is a normal-flow element with no content, so the only thing that gives it height is the JavaScript that sets it — and that height is what the scrollbar measures. <code>.list-items</code> is absolutely positioned at the container's origin, which takes it out of flow so it doesn't add to the scroll height, while still scrolling along with the content. The rows inside it are absolutely positioned too, each at its own <code>top</code>.</p>
+
+<p>That's the whole illusion: a tall empty box producing the scrollbar, and a floating layer of real rows positioned over it at the right offsets.</p>
+
+<h2>Building it, step by step</h2>
+
+<h3>Step 1 — The three constants</h3>
+
+<pre><code class="language-javascript">const ITEM_HEIGHT = 64;
+const BUFFER = 4;
+const TOTAL = 10000;</code></pre>
+
+<p><code>ITEM_HEIGHT</code> is the one that carries the whole technique. Because every row is exactly 64 pixels tall, any row's vertical position is <code>index * 64</code> and any scroll offset converts back to an index with a single division. Every piece of math below is a consequence of that constant being true. If it stops being true — if a row wraps to two lines — the arithmetic doesn't error, it just silently starts putting rows in the wrong place.</p>
+
+<p><code>BUFFER</code> is how many extra rows to render above and below the visible window. <code>TOTAL</code> is just the size of the demo dataset.</p>
+
+<h3>Step 2 — Generating ten thousand records</h3>
+
+<pre><code class="language-javascript">function hue(i) { return (i * 137.5) % 360; }
+
+const allData = Array.from({length: TOTAL}, (_, i) =&gt; {
+  const firstName = rand(FIRST_NAMES);
+  const lastName = rand(LAST_NAMES);
+  return {
+    id: i+1,
+    name: firstName + ' ' + lastName,
+    role: rand(ROLES),
+    hue: hue(i),
+    initials: firstName[0] + lastName[0],
+    status: rand(STATUSES),
+  };
+});</code></pre>
+
+<p>Ten thousand plain objects, built once at startup. This is worth noting because it's the part that <em>isn't</em> optimized: the data is all in memory, all the time. Virtual scrolling is a rendering optimization, not a data-loading one — if ten thousand records is too much to hold, you want pagination or incremental fetching, and that's a different technique that composes with this one instead of replacing it.</p>
+
+<p>The <code>hue()</code> function is a small nice touch: multiplying the index by 137.5 degrees — the golden angle — and wrapping at 360 produces avatar colors that never repeat consecutively and never clump, which is the same trick used to generate distinct series colors in charts. The <code>STATUSES</code> array is weighted by repetition (<code>['online','online','online','away','offline','offline']</code>), so a plain random pick lands on "online" half the time without any probability code.</p>
+
+<h3>Step 3 — Sizing the spacer</h3>
+
+<pre><code class="language-javascript">function updateSpacer() {
+  spacer.style.height = (displayData.length * ITEM_HEIGHT) + 'px';
+}</code></pre>
+
+<p>One line, and it's the entire reason the scrollbar feels honest. Ten thousand rows at 64px is a 640,000-pixel-tall element — the scroll thumb becomes a sliver, scrolling to 50% lands you at row 5,000, and a flick of the trackpad travels the same distance it would in a real list.</p>
+
+<p>Note that it measures <code>displayData</code>, not <code>allData</code>. That's the hook that makes search work correctly later: filter down to twelve results and the spacer collapses to 768px — barely more than a screenful — so the scrollbar thumb grows to fill almost the whole track. A virtual list that filters its rows but forgets to resize its spacer is the most common bug in hand-rolled implementations — you get a scrollbar promising thousands of rows and an ocean of blank space below the twelve real ones.</p>
+
+<h3>Step 4 — The visible window math</h3>
+
+<p>This is the core of the whole technique:</p>
+
+<pre><code class="language-javascript">const scrollTop = scrollContainer.scrollTop;
+const containerH = scrollContainer.clientHeight;
+const visibleCount = Math.ceil(containerH / ITEM_HEIGHT);
+let startIdx = Math.floor(scrollTop / ITEM_HEIGHT) - BUFFER;
+let endIdx = startIdx + visibleCount + BUFFER * 2;
+startIdx = Math.max(0, startIdx);
+endIdx = Math.min(displayData.length, endIdx);</code></pre>
+
+<p>Line by line. <code>Math.floor(scrollTop / ITEM_HEIGHT)</code> is how many whole rows have scrolled past the top edge — at <code>scrollTop = 1000</code> with 64px rows, that's row 15. Subtracting <code>BUFFER</code> starts the render four rows earlier than strictly necessary. <code>Math.ceil(containerH / ITEM_HEIGHT)</code> is how many rows fit in the viewport, rounded up because a partially visible row still has to be drawn. The end index is the start plus that count plus <code>BUFFER * 2</code> — one buffer's worth for the rows we backed up over, one for the rows below the fold.</p>
+
+<p>The clamps come last, and the order is worth understanding instead of copying blindly. Because <code>startIdx</code> is clamped to 0 <em>after</em> <code>endIdx</code> has been computed from it, the window at the very top of the list is naturally four rows shorter — there are no rows above index 0 to buffer, and those four rows are not reallocated to the bottom instead. Clamp first and you would simply render four more rows than you need while sitting at the top. Nothing breaks either way; this order just keeps the window the size the arithmetic says it should be.</p>
+
+<p>Plug in real numbers: a 520px-tall container gives <code>visibleCount = 9</code>, so mid-list the window is 9 + 8 = 17 rows. Seventeen elements, whether the array holds ten thousand entries or ten million. That's the entire performance claim, and it's why the cost of this component is bounded by your viewport rather than your data.</p>
+
+<p>Why buffer at all? Because rendering is asynchronous relative to scrolling. A fast fling can move the viewport further than the last render accounted for before the next frame lands, and without spare rows above and below you'd see a strip of empty background flash into view at the leading edge. Four rows is a reasonable default; the cost of raising it is linear (more DOM nodes) and the benefit tops out quickly.</p>
+
+<h3>Step 5 — The row pool</h3>
+
+<pre><code class="language-javascript">const needed = endIdx - startIdx;
+
+while (listItems.children.length &lt; needed) {
+  const row = document.createElement('div');
+  row.className = 'list-row';
+  row.innerHTML = `&lt;div class="avatar"&gt;&lt;/div&gt;&lt;div class="user-info"&gt;&lt;div class="user-name"&gt;&lt;/div&gt;&lt;div class="user-role"&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="status-dot"&gt;&lt;/div&gt;&lt;div class="row-num"&gt;&lt;/div&gt;`;
+  listItems.appendChild(row);
+}
+while (listItems.children.length &gt; needed) {
+  listItems.removeChild(listItems.lastChild);
+}</code></pre>
+
+<p>Two <code>while</code> loops that converge the pool size on <code>needed</code>. Note what they don't do: they never clear the container and rebuild it. The obvious implementation — <code>listItems.innerHTML = ''</code> followed by building 17 fresh rows — would run on every single scroll frame, which means creating and discarding a thousand elements a second, generating constant garbage-collection pressure and throwing away the browser's ability to reuse layout work.</p>
+
+<p>In practice these loops barely run. They fill the pool on the first render, and then adjust it only at the two ends of the list, where the window is clipped — at the very top there are no rows above index 0 to buffer, so the pool is four rows shorter, and it grows by four as you scroll into the body of the list. Through ordinary mid-list scrolling both conditions are false immediately and neither loop does anything. The other times they fire are a container resize and a search that narrows the results to fewer rows than fit on screen. The empty <code>innerHTML</code> skeleton is written once per element, at creation — from then on the row is a fixed structure whose leaves get their text rewritten.</p>
+
+<h3>Step 6 — Writing the rows</h3>
+
+<pre><code class="language-javascript">for (let i = 0; i &lt; needed; i++) {
+  const dataIdx = startIdx + i;
+  const item = displayData[dataIdx];
+  const row = listItems.children[i];
+  const top = dataIdx * ITEM_HEIGHT;
+  row.style.top = top + 'px';
+  row.style.height = ITEM_HEIGHT + 'px';
+
+  const avatar = row.querySelector('.avatar');
+  avatar.textContent = item.initials;
+  avatar.style.background = `hsl(${item.hue}, 55%, 40%)`;
+
+  row.querySelector('.user-name').textContent = item.name;
+  row.querySelector('.user-role').textContent = item.role + ' #' + item.id;
+
+  const dot = row.querySelector('.status-dot');
+  dot.className = 'status-dot ' + item.status;
+
+  row.querySelector('.row-num').textContent = '#' + item.id;
+}</code></pre>
+
+<p>Two indices are in play and keeping them straight is the whole job. <code>i</code> is the position in the pool — 0 through 16, the physical element. <code>dataIdx</code> is the position in the array — 4,213, say. The pool element at position 3 might be showing record 4,216 now and record 8,902 a moment later; it is not "the row for record 4,216", it's just a row.</p>
+
+<p>The line that ties them together is <code>row.style.top = dataIdx * ITEM_HEIGHT</code>. The element's visual position is derived from the <em>data</em> index, not the pool index, which is what places it at its true position in the full ten-thousand-row column even though only seventeen elements exist. Everything else is content assignment.</p>
+
+<p>All the writes use <code>textContent</code> rather than <code>innerHTML</code>. That's faster — no HTML parsing — and it's also the correct default for anything user-supplied, since <code>textContent</code> can't be tricked into executing markup. The one structural write is <code>dot.className = 'status-dot ' + item.status</code>, which replaces the whole class list rather than adding to it; that matters here, because a recycled row still carries the previous record's status class and adding without clearing would leave a green dot on an offline user.</p>
+
+<p>One small oddity in the original: <code>row.style.height</code> is set on every pass even though it's always the same constant. It's harmless — assigning an identical value doesn't invalidate layout — but it's the kind of line that belongs in the pool-creation loop, not the render loop. (There's also a <code>const rows = listItems.children</code> above the loops that nothing ever reads; the code uses <code>listItems.children</code> directly. Both are leftovers, and worth spotting as a reminder that "it's in the render loop" doesn't mean "it needs to be".)</p>
+
+<h3>Step 7 — One render per frame</h3>
+
+<pre><code class="language-javascript">function scheduleRender() {
+  if (rafPending) return;
+  rafPending = true;
+  requestAnimationFrame(() =&gt; { render(); rafPending = false; });
+}
+
+scrollContainer.addEventListener('scroll', scheduleRender);</code></pre>
+
+<p>Scroll events fire whenever the browser feels like it — often several times between two paints, and on some input devices far more. Since the screen can only show one state per frame, any render beyond the first in a frame is work whose output is immediately overwritten.</p>
+
+<p>The pattern here is a "leading-edge coalescer": the first scroll event of a frame schedules a render and raises a flag; every subsequent event returns immediately; the callback renders once and lowers the flag. Note that the render runs inside the <code>requestAnimationFrame</code> callback, which places it in the browser's frame just before layout and paint — so the DOM writes land at the moment the browser is about to lay out anyway, instead of mid-frame where they might force an extra reflow.</p>
+
+<p>It's worth being clear about what this does and doesn't fix. It doesn't make scrolling smooth on its own — the render still happens on the main thread, and at 60fps you have about 16ms for it. What it guarantees is that you never do that work twice for the same visual result, which is often the difference between comfortably inside the frame budget and just outside it.</p>
+
+<h3>Step 8 — Search that filters ten thousand records instantly</h3>
+
+<pre><code class="language-javascript">let searchTimeout = null;
+document.getElementById('searchInput').addEventListener('input', e =&gt; {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() =&gt; {
+    const q = e.target.value.trim().toLowerCase();
+    displayData = q ? allData.filter(d =&gt; d.name.toLowerCase().includes(q) || d.role.toLowerCase().includes(q)) : allData;
+    const n = displayData.length;
+    countLabel.textContent = n.toLocaleString() + ' of 10,000 items';
+    scrollContainer.scrollTop = 0;
+    updateSpacer();
+    render();
+  }, 150);
+});</code></pre>
+
+<p>Four things happen in a deliberate order, and each one matters.</p>
+
+<p><strong>The 150ms debounce.</strong> <code>clearTimeout</code> then <code>setTimeout</code> is the standard shape: each keystroke cancels the pending filter and schedules a new one, so typing "engineer" runs one filter instead of eight. 150ms is short enough to feel immediate and long enough to cover normal typing cadence.</p>
+
+<p><strong>Filtering rebuilds <code>displayData</code> from <code>allData</code>, always.</strong> Filtering the already-filtered array would be faster, but it would also make the search one-way — deleting a character could never widen the results. Re-deriving from the source every time is the version that's correct rather than the one that's clever.</p>
+
+<p><strong>Reset the scroll before resizing the spacer.</strong> If you were at row 8,000 and the search returns twelve matches, a <code>scrollTop</code> of half a million pixels is now past the end of a much shorter list. Setting it to 0 first means the browser never has to reconcile an out-of-range scroll position against a shrinking scroll height.</p>
+
+<p><strong>Then <code>updateSpacer()</code> and <code>render()</code>.</strong> The spacer resizes the scrollbar to the result count; the render repaints the window from the new array. The row pool doesn't change at all unless the results are fewer than a screenful.</p>
+
+<p>And this is where the design pays off: filtering ten thousand objects with <code>Array.filter</code> and two <code>includes</code> calls takes a millisecond or two. It feels instant because <em>the DOM work didn't change</em> — it's still seventeen rows, exactly as it was before you typed. The naive version's search feels slow not because filtering is slow, but because it's followed by rebuilding ten thousand elements.</p>
+
+<h3>Step 9 — Sort</h3>
+
+<pre><code class="language-javascript">document.getElementById('sortBtn').addEventListener('click', () =&gt; {
+  sortDir *= -1;
+  displayData = [...displayData].sort((a,b) =&gt; a.name.localeCompare(b.name) * sortDir);
+  document.getElementById('sortBtn').childNodes[2].textContent = sortDir === 1 ? ' A–Z' : ' Z–A';
+  scrollContainer.scrollTop = 0;
+  render();
+});</code></pre>
+
+<p><code>sortDir</code> flips between 1 and -1, and multiplying the comparator's result by it inverts the ordering without a second comparator — a neat trick that generalizes to any comparison function. The array is copied with a spread before sorting because <code>Array.sort</code> mutates in place, and mutating <code>displayData</code> while it might be pointing at <code>allData</code> would permanently scramble the source data. <code>localeCompare</code> rather than <code>&lt;</code> is the right call for names, since it handles accented characters in the order a human would expect.</p>
+
+<p>Notice what's absent: no <code>updateSpacer()</code>. Sorting reorders the array without changing its length, so the total height — and therefore the scrollbar — is unchanged. Only the contents of the visible window differ, so a single <code>render()</code> is the entire repaint. Sorting ten thousand records is a few milliseconds of pure array work followed by rewriting seventeen rows' worth of text.</p>
+
+<p>The <code>childNodes[2]</code> is the one genuinely fragile line in the file: the button contains a text node, an inline SVG icon, and then the label text, so index 2 is the label. It works, and it will keep working right up until someone reformats the markup. A <code>&lt;span&gt;</code> around the label with a proper query selector would cost nothing and survive editing.</p>
+
+<h2>Customizing it for your own project</h2>
+
+<ul>
+<li><strong>Use <code>transform</code> instead of <code>top</code>.</strong> Writing <code>row.style.transform = 'translateY(' + top + 'px)'</code> moves positioning off the layout path and onto the compositor. At seventeen rows the difference is academic; with a larger buffer or heavier row content it's measurable.</li>
+<li><strong>Make the row height a CSS variable.</strong> Right now 64 lives in both the JavaScript constant and the CSS. Define it once as a custom property and read it back with <code>getComputedStyle</code>, so a design tweak can't silently desynchronize the math from the layout.</li>
+<li><strong>Recompute on resize.</strong> <code>visibleCount</code> is derived from <code>clientHeight</code> on every render, so it's already correct — but nothing triggers a render when the window resizes without scrolling. A <code>ResizeObserver</code> on the container calling <code>scheduleRender</code> closes that gap in two lines.</li>
+<li><strong>Add horizontal virtualization for wide tables.</strong> The same math applied to <code>scrollLeft</code> and a column width windows the columns as well as the rows, which is what makes hundred-column spreadsheets viable.</li>
+<li><strong>Sticky group headers.</strong> Because you know the index of every row on screen, you also know which group the top row belongs to — render one extra absolutely-positioned header pinned to the top of the viewport and you have grouped sections without breaking uniform row height.</li>
+<li><strong>Infinite loading.</strong> When <code>endIdx</code> approaches <code>displayData.length</code>, fetch the next page, append to the array, and call <code>updateSpacer()</code>. Windowing and paging compose cleanly — one bounds the DOM, the other bounds the data.</li>
+</ul>
+
+<h2>The things deliberately left out</h2>
+
+<p><strong>Variable row heights.</strong> This is the big one, and it's why the technique here is the simple version. The moment rows can differ in height, <code>index * ITEM_HEIGHT</code> stops being a valid position and <code>scrollTop / ITEM_HEIGHT</code> stops being a valid index. Real solutions measure rows as they're rendered, cache the measurements, keep a running offset table, and estimate the heights of rows that haven't been seen yet — which is why the scrollbar in a variable-height virtual list subtly shifts as you scroll into fresh territory. It's a genuinely harder problem, and the reason libraries exist.</p>
+
+<p><strong>Accessibility.</strong> The list is a stack of <code>div</code>s with no <code>role="grid"</code>, no <code>aria-rowcount</code> to tell a screen reader that seventeen visible rows represent ten thousand, and no keyboard navigation. This is the standard weakness of every virtualized list — the accessibility tree only contains what's rendered — and it's the first thing to add if the component is going into a real product.</p>
+
+<p><strong>State attached to a row.</strong> Because elements are recycled, a row is not a stable identity. If you add an expandable detail panel, an inline editor or a focused input, that state has to live in the data — keyed by record id — not on the element, or it will appear to jump to a different record when you scroll. This trips people up more often than the math does.</p>
+
+<p><strong>One rough edge worth knowing about:</strong> sorting sets <code>displayData</code> to a sorted copy of the current view, but searching re-derives <code>displayData</code> from <code>allData</code>. So sorting and then searching discards the sort while the button still says "Z–A". The fix is to make one function own the pipeline — filter, then sort, then render — and have both inputs call it, which is the same "one function owns the derived state" principle the render loop already follows.</p>
+
+<h2>Using it in React, Vue, or Angular</h2>
+
+<p>The editor exports all four, and the shape of the port is consistent. The scroll container gets a ref; <code>scrollTop</code> goes into state (or better, a ref plus a throttled state update); the visible slice is derived during render as <code>displayData.slice(startIdx, endIdx)</code> and mapped to elements, each with <code>style={{ top: dataIdx * ITEM_HEIGHT }}</code> and — critically — <code>key={item.id}</code> and not the array index, so React reconciles rows by identity as the window moves.</p>
+
+<p>The one thing to unlearn is the pool. Manual node recycling is exactly what a virtual DOM already does: render a 17-element list from a slice and React will reuse the existing elements and patch their text, which is the same optimization the <code>while</code> loops implement by hand. Keep <code>allData</code> outside component state (it never changes and putting ten thousand objects in state buys you nothing), memoize the filtered-and-sorted array with <code>useMemo</code> keyed on the query and sort direction, and debounce the query in a <code>useEffect</code>. Vue's <code>computed</code> properties map onto the memo directly; Angular's <code>OnPush</code> change detection with a derived observable does the same job. If you'd rather not maintain any of it, <code>react-window</code> and <code>TanStack Virtual</code> implement precisely what's above, plus the variable-height and accessibility work.</p>
+
+<h2>Build, understand, optimize, and extend it with AI</h2>
+
+<p>This snippet rewards being interrogated instead of skimmed, because the interesting parts are ordering decisions, not syntax. Paste its HTML, CSS and JS into an assistant like Claude and start with the window math: ask it to explain why <code>startIdx</code> is clamped to 0 only <em>after</em> <code>endIdx</code> is computed from the unclamped value, and to work out exactly what changes if you swap those two lines — the answer is smaller than it looks, and being able to say precisely how much smaller is the test of whether you understand the window. Then ask what happens if <code>ITEM_HEIGHT</code> is 64 in the JavaScript but a row's actual rendered height is 66 — have it predict the drift and then verify it in a copy, because seeing rows creep out of alignment as you scroll is the fastest way to understand why this technique depends on that constant being exactly true. For optimization, ask whether writing <code>row.style.top</code> should be <code>transform: translateY()</code> instead and what that changes about which browser pipeline stages run, and whether the pool loops could ever thrash if the container is resized continuously. For extension, in roughly increasing difficulty: unify search and sort into a single pipeline function so sorting survives a search, add <code>role="grid"</code> with <code>aria-rowcount</code> and arrow-key navigation that scrolls the focused row into view, add sticky group headers using the fact that you always know the top row's index, and finally attempt variable row heights with a measured offset cache — which will teach you more about why virtualization libraries exist than any amount of reading their source. Treat the code less like a finished artifact and more like a starting point for a conversation.</p>
+
+<h3>Prompt to recreate it</h3>
+
+<p>Copy this into your AI assistant of choice to build the component from scratch, or as a jumping-off point for your own variant:</p>
+
+<pre><code class="language-text">Build a virtual scrolling list that smoothly displays 10,000 rows, in plain HTML, CSS, and vanilla JavaScript with no libraries.
+
+Requirements:
+- A fixed-height scroll container with overflow-y: auto and position: relative, containing exactly two children: an empty "spacer" div whose height is set in JavaScript to the item count times a fixed per-row pixel height, and an absolutely positioned row container overlaying it at top 0. The spacer must never hold content — its only job is to give the scrollbar a correct range and thumb size.
+- A single render function that reads scrollTop and clientHeight, computes a start index as floor(scrollTop / rowHeight) minus a small buffer, an end index as start plus the number of visible rows plus twice that buffer, and only then clamps the start index to 0 and the end index to the array length — in that order, so the window is naturally shorter at the very top of the list rather than rendering phantom rows.
+- Maintain a reusable pool of row elements: grow it by appending new rows while there are fewer elements than needed and shrink it by removing trailing elements while there are more, then rewrite the existing elements' text content in place. Never clear the container and rebuild all rows on a scroll.
+- Position each visible row absolutely at top = its real data index times the fixed row height, so rows appear at their true position in the full list even though only a viewport's worth of elements exist. Assign all text with textContent, and replace (not append to) any class that varies per record so a recycled row cannot keep the previous record's state.
+- Throttle scrolling to at most one render per animation frame using a pending flag plus requestAnimationFrame, so a burst of scroll events coalesces into a single DOM update per frame.
+- Add a search input, debounced by about 150ms, that always filters from the full source array (never from the already-filtered array), resets scrollTop to 0, recalculates the spacer height for the new result count so the scrollbar shrinks to match, and re-renders using the same windowing logic.
+- Add a sort toggle that reorders a copy of the current array (never mutating the source in place) with a direction multiplier of 1 or -1 applied to a localeCompare comparator, resets scroll to the top, and re-renders without touching the spacer height, since sorting does not change the item count.
+- Generate at least 10,000 synthetic records with a name, role, status and a colored avatar with initials, spacing avatar hues by the golden angle (index * 137.5 modulo 360) so adjacent colors never clump.
+- Display a live count of matching items so it is obvious that filtering affects the data while the number of DOM rows stays constant.</code></pre>
+
+<h2>Final thought</h2>
+
+<p>The thing to take away isn't the code, which you could rewrite from memory after reading it twice. It's the shape of the trick: <strong>decouple what the scrollbar believes from what the DOM contains.</strong> One empty element carries the illusion of size, one division converts a pixel offset into an array index, and a pool of a dozen or so elements does all the actual work — forever, at the same cost, whether the list holds ten thousand rows or ten million.</p>
+
+<p>That decoupling shows up all over performance work once you start looking for it. Sprite sheets, texture atlases, tile-based map renderers, database cursors, streaming pagination — all of them are the same bargain in a different costume: keep the model complete, keep the materialized view small, and derive the second from the first on demand. Virtual scrolling is just the version of that bargain you can read in forty lines and watch working in a browser tab.</p>

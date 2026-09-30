@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Horizontal scroll() gallery">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Horizontal scroll() gallery</h1>
+    <p class="hint">Scroll the filmstrip below sideways. The progress bar pinned underneath tracks the gallery's own horizontal scroll via animation-timeline: scroll(inline) &mdash; not the page's vertical scroll.</p>
+  </header>
+  <div class="galleryWrap" id="galleryWrap">
+    <div class="gallery">
+      <div class="card" style="background:#6366f1">1</div>
+      <div class="card" style="background:#8b5cf6">2</div>
+      <div class="card" style="background:#a855f7">3</div>
+      <div class="card" style="background:#d946ef">4</div>
+      <div class="card" style="background:#ec4899">5</div>
+      <div class="card" style="background:#f97316">6</div>
+      <div class="card" style="background:#eab308">7</div>
+    </div>
+    <div class="trackWrap">
+      <div class="track"><div class="fill"></div></div>
+    </div>
+  </div>
+  <p class="hint2">This page doesn't scroll vertically &mdash; only the strip above scrolls horizontally.</p>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .hint2 { margin: 14px auto 0; max-width: 46em; font-size: 12px; color: var(--sub); text-align: center; }
+
+  .galleryWrap {
+    position: relative;
+    max-width: 520px;
+    margin: 26px auto 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    background: #eef0f4;
+    border-radius: 14px;
+    padding-top: 20px;
+  }
+
+  .gallery {
+    display: flex;
+    gap: 14px;
+    padding: 0 20px 46px;
+    width: max-content;
+  }
+
+  .card {
+    flex: 0 0 170px;
+    height: 190px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font: 800 46px system-ui, sans-serif;
+    scroll-snap-align: center;
+  }
+
+  .gallery { scroll-snap-type: x proximity; }
+
+  .trackWrap {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 16px;
+  }
+
+  .track { height: 10px; background: rgba(255, 255, 255, 0.7); border-radius: 6px; overflow: hidden; }
+
+  .fill {
+    height: 100%;
+    width: 100%;
+    transform-origin: left center;
+    background: linear-gradient(90deg, #6366f1, #f97316);
+    animation: grow linear;
+    animation-timeline: scroll(inline);
+  }
+
+  @keyframes grow {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+</script>
+
+<script type="text/plain" id="js">
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

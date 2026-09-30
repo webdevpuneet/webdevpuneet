@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Escalating From useEffect to useLayoutEffect">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>One word changed. Nothing else.</h1>
+    <p class="hint">Pick a longer button label, then click "Show popover." Both panels run the exact same measuring code -- only the hook name differs.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 16px 20px 6px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 17px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 12px 16px 28px; }
+  .controls { display: flex; gap: 8px; align-items: center; margin-bottom: 4px; }
+  select { font: 700 11px ui-monospace, monospace; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--line); }
+  .cols { width: 100%; max-width: 540px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 12px; }
+  .colHead { font: 700 12px ui-monospace, monospace; margin-bottom: 4px; text-align: center; }
+  .colHead.eff { color: var(--red); }
+  .colHead.layout { color: var(--green); }
+  .codeLine { font: 10px ui-monospace, monospace; text-align: center; color: var(--sub); margin-bottom: 8px; }
+  .anchorRow { position: relative; height: 70px; display: flex; justify-content: center; align-items: flex-start; padding-top: 6px; }
+  .anchorBtn { padding: 7px 12px; border-radius: 6px; border: none; background: #e5e7eb; color: var(--ink); font: 700 11px system-ui, sans-serif; }
+  .pop { position: absolute; top: 40px; background: var(--ink); color: #fff; font: 700 10px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; white-space: nowrap; }
+  .btn { width: 100%; padding: 7px 8px; border-radius: 8px; border: none; background: var(--accent); color: #fff; font: 700 11px system-ui, sans-serif; cursor: pointer; margin-bottom: 6px; }
+  .log { background: #14161c; color: #a7f3d0; font: 10px ui-monospace, monospace; border-radius: 6px; padding: 6px 7px; height: 60px; overflow-y: auto; line-height: 1.5; }
+  .log .painted { color: #fca5a5; }
+  .note { margin: 8px 0 0; max-width: 540px; font-size: 11px; color: var(--sub); line-height: 1.5; text-align: center; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useRef = React.useRef;
+  var useEffect = React.useEffect;
+  var useLayoutEffect = React.useLayoutEffect;
+
+  function Panel(props) {
+    var label = props.label; // driven from parent so both panels stay in sync
+    var showState = useState(0);
+    var showId = showState[0];
+    var setShowId = showState[1];
+
+    var btnRef = useRef(null);
+    var popRef = useRef(null);
+    var offsetState = useState(0);
+    var offset = offsetState[0];
+    var setOffset = offsetState[1];
+
+    var logRef = useRef([]);
+    var forceState = useState(0);
+    var forceTick = forceState[1];
+
+    function log(msg, painted) {
+      logRef.current = logRef.current.concat([{ msg: msg, painted: !!painted }]).slice(-4);
+      forceTick(function (n) { return n + 1; });
+    }
+
+    var hook = props.mode === 'layout' ? useLayoutEffect : useEffect;
+
+    hook(function () {
+      if (showId === 0 || !btnRef.current || !popRef.current) return;
+      var bw = btnRef.current.offsetWidth;
+      var pw = popRef.current.offsetWidth;
+      var centered = Math.round((bw - pw) / 2);
+      requestAnimationFrame(function () {
+        log('PAINTED offset=' + offset + 'px', offset === 0);
+      });
+      if (offset !== centered) setOffset(centered);
+    }, [showId, offset, label]);
+
+    function show() {
+      logRef.current = [];
+      setOffset(0); // always starts left-aligned -- the wrong guess
+      setShowId(function (n) { return n + 1; });
+    }
+
+    return e('div', { className: 'col' },
+      e('div', { className: 'colHead ' + (props.mode === 'layout' ? 'layout' : 'eff') }, props.mode === 'layout' ? 'useLayoutEffect' : 'useEffect'),
+      e('div', { className: 'codeLine' }, props.mode === 'layout' ? 'useLayoutEffect(measureAndCenter, [showId])' : 'useEffect(measureAndCenter, [showId])'),
+      e('div', { className: 'anchorRow' },
+        e('button', { className: 'anchorBtn', ref: btnRef }, label),
+        showId > 0 ? e('div', { className: 'pop', ref: popRef, style: { left: offset + 'px' } }, 'centered popover') : null
+      ),
+      e('button', { className: 'btn', onClick: show }, 'Show popover'),
+      e('div', { className: 'log' }, logRef.current.map(function (item, i) {
+        return e('div', { key: i, className: item.painted ? 'painted' : '' }, item.msg);
+      }))
+    );
+  }
+
+  function Demo() {
+    var labelState = useState('Confirm and continue');
+    var label = labelState[0];
+    var setLabel = labelState[1];
+
+    return e('div', null,
+      e('div', { className: 'controls' },
+        e('span', { className: 'codeLine' }, 'button label:'),
+        e('select', {
+          value: label,
+          onChange: function (ev) { setLabel(ev.target.value); }
+        },
+          e('option', { value: 'OK' }, 'OK'),
+          e('option', { value: 'Confirm and continue' }, 'Confirm and continue')
+        )
+      ),
+      e('div', { className: 'cols' },
+        e(Panel, { mode: 'effect', label: label }),
+        e(Panel, { mode: 'layout', label: label })
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    e('div', null,
+      e(Demo),
+      e('p', { className: 'note' }, 'The measuring logic -- read both widths, compute the centered offset, correct it -- is byte-for-byte identical in both panels. The only difference in the source is which hook wraps it. That one-word swap is the entire fix: default to useEffect, and only escalate to useLayoutEffect once a demo like this one (or your own UI) shows you a real, provable wrong frame.')
+    )
+  );
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

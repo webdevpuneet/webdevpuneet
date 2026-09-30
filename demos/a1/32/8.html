@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Nested Accordions Without the Parent Collapsing">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>A nested accordion shouldn't be able to collapse its own parent</h1>
+    <p class="hint">Open "Support" in each column, then open "Chat hours" inside it. The broken parent's own querySelectorAll scoops up the nested trigger as if it were one of its own top-level triggers, so opening the nested item collapses Support right out from under it.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken (query grabs nested triggers)</h2>
+        <div class="acc" id="badAcc" data-single-open="true">
+          <div class="acc-item">
+            <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="badPanel1">Shipping <span class="chev">&#9662;</span></button>
+            <div class="acc-panel" id="badPanel1"><div class="acc-panel-inner"><p>Ships in 2 business days.</p></div></div>
+          </div>
+          <div class="acc-item">
+            <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="badPanel2">Support <span class="chev">&#9662;</span></button>
+            <div class="acc-panel" id="badPanel2">
+              <div class="acc-panel-inner">
+                <p>Reach us through any of the channels below.</p>
+                <div class="acc nested" id="badNested" data-single-open="true">
+                  <div class="acc-item">
+                    <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="badNPanel1">Chat hours <span class="chev">&#9662;</span></button>
+                    <div class="acc-panel" id="badNPanel1"><div class="acc-panel-inner"><p>9am-6pm, Mon-Fri.</p></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="note" id="badNote">Open Support, then Chat hours.</p>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed (scoped to own triggers only)</h2>
+        <div class="acc" id="goodAcc" data-single-open="true">
+          <div class="acc-item">
+            <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="goodPanel1">Shipping <span class="chev">&#9662;</span></button>
+            <div class="acc-panel" id="goodPanel1"><div class="acc-panel-inner"><p>Ships in 2 business days.</p></div></div>
+          </div>
+          <div class="acc-item">
+            <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="goodPanel2">Support <span class="chev">&#9662;</span></button>
+            <div class="acc-panel" id="goodPanel2">
+              <div class="acc-panel-inner">
+                <p>Reach us through any of the channels below.</p>
+                <div class="acc nested" id="goodNested" data-single-open="true">
+                  <div class="acc-item">
+                    <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="goodNPanel1">Chat hours <span class="chev">&#9662;</span></button>
+                    <div class="acc-panel" id="goodNPanel1"><div class="acc-panel-inner"><p>9am-6pm, Mon-Fri.</p></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="note" id="goodNote">Open Support, then Chat hours.</p>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 15.5px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 60em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 600px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; }
+  .colTitle { margin: 0 0 10px; font: 700 11px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; text-align: center; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .acc-item { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-bottom: 8px; }
+  .acc-item:last-child { margin-bottom: 0; }
+  .acc-trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border: none; background: #fafafc; color: var(--ink); font: 700 12px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .acc-trigger:hover { background: #f0f1f5; }
+  .chev { transition: transform .25s ease; color: var(--sub); }
+  .acc-trigger[aria-expanded="true"] .chev { transform: rotate(180deg); }
+  .acc-panel-inner { padding: 9px 12px; font-size: 12px; line-height: 1.5; color: var(--sub); }
+  .acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+  .acc-panel.open { grid-template-rows: 1fr; }
+  .acc-panel .acc-panel-inner { overflow: hidden; min-height: 0; }
+  .acc.nested { margin-top: 8px; }
+  .acc.nested .acc-trigger { background: #f0f1f5; font-size: 11.5px; }
+  .note { margin: 8px 2px 0; font-size: 11.5px; color: var(--sub); line-height: 1.5; min-height: 2.6em; }
+</script>
+
+<script type="text/plain" id="js">
+  function toggleTrigger(trigger, singleOpen, groupTriggers) {
+    var panel = document.getElementById(trigger.getAttribute('aria-controls'));
+    var isOpen = trigger.getAttribute('aria-expanded') === 'true';
+
+    if (singleOpen && !isOpen) {
+      for (var i = 0; i < groupTriggers.length; i++) {
+        if (groupTriggers[i] === trigger) continue;
+        var otherPanel = document.getElementById(groupTriggers[i].getAttribute('aria-controls'));
+        groupTriggers[i].setAttribute('aria-expanded', 'false');
+        otherPanel.classList.remove('open');
+      }
+    }
+
+    trigger.setAttribute('aria-expanded', String(!isOpen));
+    panel.classList.toggle('open', !isOpen);
+  }
+
+  function setupBadAccordion(root) {
+    var singleOpen = root.getAttribute('data-single-open') === 'true';
+    // BROKEN: querySelectorAll searches the ENTIRE subtree, including any
+    // nested accordion rendered inside one of this accordion's own
+    // panels. The nested trigger ends up in this group's trigger list,
+    // so clicking it runs THIS accordion's close-all-others logic --
+    // which closes the very panel the nested accordion lives inside.
+    var triggers = root.querySelectorAll('.acc-trigger');
+
+    triggers.forEach(function (trigger) {
+      trigger.addEventListener('click', function () {
+        toggleTrigger(trigger, singleOpen, triggers);
+      });
+    });
+  }
+
+  function setupGoodAccordion(root) {
+    var singleOpen = root.getAttribute('data-single-open') === 'true';
+    // FIXED: filter out any trigger whose nearest .acc ancestor isn't
+    // THIS root -- that excludes triggers belonging to a nested
+    // accordion, which will set up and manage itself independently.
+    var triggers = Array.prototype.filter.call(
+      root.querySelectorAll('.acc-trigger'),
+      function (t) { return t.closest('.acc') === root; }
+    );
+
+    triggers.forEach(function (trigger) {
+      trigger.addEventListener('click', function (e) {
+        e.stopPropagation();
+        toggleTrigger(trigger, singleOpen, triggers);
+      });
+    });
+  }
+
+  setupBadAccordion(document.getElementById('badNested'));
+  setupBadAccordion(document.getElementById('badAcc'));
+
+  setupGoodAccordion(document.getElementById('goodNested'));
+  setupGoodAccordion(document.getElementById('goodAcc'));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="type=&quot;search&quot;">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>type="search"</h1>
+    <p class="hint">Type something, then look at the right edge of the field &mdash; most browsers show a built-in "clear" (×) button on a search input that a plain text input never gets, for free.</p>
+  </header>
+  <main class="stageWrap">
+    <form class="searchForm" role="search">
+      <label class="field">
+        <span class="fieldLabel">Search snippets</span>
+        <input type="search" name="q" placeholder="Try typing, then clear it…">
+      </label>
+      <p class="fieldHelp">Semantically this also tells assistive tech "this is a search field," which <code>type="text"</code> never communicates on its own.</p>
+    </form>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; padding: 20px 16px 36px; }
+
+  .searchForm {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .fieldLabel { font: 700 12px system-ui, sans-serif; }
+  .fieldHelp { margin: 0; font-size: 11px; color: var(--sub); line-height: 1.5; }
+  .fieldHelp code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
+
+  .searchForm input {
+    padding: 10px 12px;
+    font: 500 14px system-ui, sans-serif;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    outline: none;
+  }
+  .searchForm input:focus { border-color: var(--accent); }
+</script>
+
+<script type="text/plain" id="js">
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

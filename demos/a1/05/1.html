@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Same Counter, Two Hooks">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Same Counter, Two Hooks</h1>
+    <p class="hint">Flip the toggle — it's the same counter UI, rebuilt twice: once with useState, once with useReducer. Click +, &minus;, and Reset on each side to feel the difference in how an update actually happens.</p>
+  </header>
+  <main class="stageWrap">
+    <button type="button" id="toggleBtn" class="toggleBtn">Switch to useReducer</button>
+    <div id="root"></div>
+    <pre class="ruleTag" id="ruleTag"></pre>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 14px 16px 26px; }
+
+  .toggleBtn {
+    font: 700 12.5px system-ui, sans-serif;
+    padding: 8px 16px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: #fff;
+    color: var(--accent);
+    cursor: pointer;
+  }
+  .toggleBtn:hover { background: #eef0ff; }
+
+  .counterCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    width: 220px;
+    padding: 22px 18px;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    background: #fff;
+  }
+  .countValue { font: 800 40px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--accent); }
+  .btnRow { display: flex; gap: 8px; }
+  .ctrlBtn {
+    min-width: 40px;
+    padding: 8px 12px;
+    font: 700 15px system-ui, sans-serif;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .ctrlBtn:hover { filter: brightness(1.08); }
+  .ctrlBtnGhost { background: #eceef3; color: var(--ink); font-size: 12px; }
+
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 10px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useReducer = React.useReducer;
+
+  function CounterUseState() {
+    var s = useState(0), count = s[0], setCount = s[1];
+    return e('div', { className: 'counterCard' },
+      e('div', { className: 'countValue' }, count),
+      e('div', { className: 'btnRow' },
+        e('button', { className: 'ctrlBtn', onClick: function () { setCount(count - 1); } }, '−'),
+        e('button', { className: 'ctrlBtn ctrlBtnGhost', onClick: function () { setCount(0); } }, 'Reset'),
+        e('button', { className: 'ctrlBtn', onClick: function () { setCount(count + 1); } }, '+')
+      )
+    );
+  }
+
+  function reducer(state, action) {
+    switch (action.type) {
+      case 'increment': return { count: state.count + 1 };
+      case 'decrement': return { count: state.count - 1 };
+      case 'reset': return { count: 0 };
+      default: return state;
+    }
+  }
+
+  function CounterUseReducer() {
+    var r = useReducer(reducer, { count: 0 }), state = r[0], dispatch = r[1];
+    return e('div', { className: 'counterCard' },
+      e('div', { className: 'countValue' }, state.count),
+      e('div', { className: 'btnRow' },
+        e('button', { className: 'ctrlBtn', onClick: function () { dispatch({ type: 'decrement' }); } }, '−'),
+        e('button', { className: 'ctrlBtn ctrlBtnGhost', onClick: function () { dispatch({ type: 'reset' }); } }, 'Reset'),
+        e('button', { className: 'ctrlBtn', onClick: function () { dispatch({ type: 'increment' }); } }, '+')
+      )
+    );
+  }
+
+  var isReducer = false;
+  var root = ReactDOM.createRoot(document.getElementById('root'));
+  var btn = document.getElementById('toggleBtn');
+  var ruleTag = document.getElementById('ruleTag');
+
+  var STATE_RULE = 'const [count, setCount] = useState(0);\n\nsetCount(count + 1);   // caller computes the next value\nsetCount(count - 1);\nsetCount(0);';
+  var REDUCER_RULE = "const [state, dispatch] = useReducer(reducer, { count: 0 });\n\ndispatch({ type: 'increment' });  // caller only describes what happened\ndispatch({ type: 'decrement' });\ndispatch({ type: 'reset' });";
+
+  function render() {
+    root.render(e(isReducer ? CounterUseReducer : CounterUseState));
+    ruleTag.textContent = isReducer ? REDUCER_RULE : STATE_RULE;
+    btn.textContent = isReducer ? 'Switch to useState' : 'Switch to useReducer';
+  }
+
+  btn.addEventListener('click', function () { isReducer = !isReducer; render(); });
+  render();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

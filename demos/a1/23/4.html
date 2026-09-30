@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="A Context Change Re-Renders Every Consumer">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>A context change re-renders every consumer</h1>
+    <p class="hint">Click "Toggle theme." Watch both consumers re-render, even the one that never reads the theme value.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 8px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; color: var(--accent); background: #f4f4ff; }
+  .stat { font: 800 24px ui-monospace, monospace; margin-bottom: 6px; }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; }
+  .btn { padding: 9px 16px; border-radius: 9px; border: none; background: var(--accent); color: #fff; font: 700 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { background: #4f52d6; }
+  code { background: #eceef3; padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useRef = React.useRef;
+  var useContext = React.useContext;
+  var createContext = React.createContext;
+
+  var ThemeContext = createContext(null);
+
+  function ThemeConsumer() {
+    var theme = useContext(ThemeContext);
+    var renderCountRef = useRef(0);
+    renderCountRef.current += 1;
+
+    return e('div', { className: 'col' },
+      e('div', { className: 'colTitle' }, 'Reads theme'),
+      e('div', { className: 'stat' }, renderCountRef.current),
+      e('p', { className: 'note' }, 'current theme: ' + theme)
+    );
+  }
+
+  function UnrelatedConsumer() {
+    // subscribes to the context just to prove context propagation, but
+    // never actually reads the theme value in its output
+    useContext(ThemeContext);
+    var renderCountRef = useRef(0);
+    renderCountRef.current += 1;
+
+    return e('div', { className: 'col' },
+      e('div', { className: 'colTitle' }, 'Ignores theme'),
+      e('div', { className: 'stat' }, renderCountRef.current),
+      e('p', { className: 'note' }, 'renders anyway — it only had to be inside the provider tree')
+    );
+  }
+
+  function Demo() {
+    var themeState = useState('light');
+    var theme = themeState[0];
+    var setTheme = themeState[1];
+
+    return e(ThemeContext.Provider, { value: theme },
+      e('div', { className: 'cols' },
+        e(ThemeConsumer),
+        e(UnrelatedConsumer)
+      ),
+      e('div', { style: { marginTop: '14px', textAlign: 'center' } },
+        e('button', { className: 'btn', onClick: function () { setTheme(theme === 'light' ? 'dark' : 'light'); } }, 'Toggle theme (' + theme + ')')
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

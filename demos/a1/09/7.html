@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Auto-pause player off-screen">
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Auto-pause off-screen</h1>
+    <p class="hint">This visualizer is "playing" right now. Scroll it out of view, wait a second, then scroll back &mdash; it pauses itself while hidden and resumes when it's back, the same pattern a background video or audio player uses.</p>
+  </header>
+  <div class="spacer">Scroll down, then back up ↕</div>
+  <main class="stageWrap">
+    <div class="player" id="player">
+      <div class="bars">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="status" id="status">Playing</div>
+    </div>
+  </main>
+  <div class="spacer tall"></div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --ok: #16a34a; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+
+  .spacer { height: 240px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; }
+  .spacer.tall { height: 380px; }
+
+  .stageWrap { display: flex; justify-content: center; padding: 0 16px; }
+  .player {
+    width: 100%;
+    max-width: 320px;
+    padding: 26px 20px;
+    background: #14161c;
+    border-radius: 16px;
+    text-align: center;
+  }
+  .bars { display: flex; align-items: flex-end; justify-content: center; gap: 5px; height: 60px; }
+  .bars span {
+    width: 8px;
+    background: var(--accent);
+    border-radius: 3px;
+    animation: bounce 0.9s ease-in-out infinite;
+    animation-play-state: running;
+  }
+  .bars span:nth-child(1) { height: 20%; animation-delay: 0s; }
+  .bars span:nth-child(2) { height: 55%; animation-delay: 0.1s; }
+  .bars span:nth-child(3) { height: 90%; animation-delay: 0.2s; }
+  .bars span:nth-child(4) { height: 40%; animation-delay: 0.3s; }
+  .bars span:nth-child(5) { height: 70%; animation-delay: 0.4s; }
+  .bars span:nth-child(6) { height: 30%; animation-delay: 0.5s; }
+  .bars span:nth-child(7) { height: 85%; animation-delay: 0.6s; }
+  .bars span:nth-child(8) { height: 50%; animation-delay: 0.7s; }
+  @keyframes bounce { 0%, 100% { transform: scaleY(0.4); } 50% { transform: scaleY(1); } }
+
+  .player.paused .bars span { animation-play-state: paused; }
+
+  .status { margin-top: 16px; font: 700 11.5px system-ui, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ok); }
+  .player.paused .status { color: var(--sub); }
+</script>
+
+<script type="text/plain" id="js">
+  var player = document.getElementById('player');
+  var status = document.getElementById('status');
+
+  var io = new IntersectionObserver(function (entries) {
+    var visible = entries[0].isIntersecting;
+    player.classList.toggle('paused', !visible);
+    status.textContent = visible ? 'Playing' : 'Paused (off-screen)';
+  }, { threshold: 0.5 }); // needs to be genuinely mostly on-screen to count as "visible"
+
+  io.observe(player);
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

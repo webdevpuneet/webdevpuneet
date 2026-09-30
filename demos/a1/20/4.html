@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Determinate Progress Bar">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Determinate progress bar</h1>
+    <p class="hint">Click "Start upload" — the bar fills to an actual known percentage instead of just animating forever, so you always know how much is left.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="panel">
+      <div class="track">
+        <div class="fill" id="fill"></div>
+      </div>
+      <div class="pctRow">
+        <span id="pctLabel">0%</span>
+        <span id="statusLabel">Ready</span>
+      </div>
+    </div>
+    <button type="button" class="triggerBtn" id="triggerBtn">Start upload</button>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 34px 16px 28px; }
+
+  .panel { width: 100%; max-width: 340px; }
+  .track {
+    width: 100%; height: 10px; border-radius: 999px;
+    background: #e7e9ee; overflow: hidden;
+  }
+  .fill {
+    height: 100%; width: 0%; border-radius: 999px;
+    background: var(--accent);
+    transition: width 0.18s linear, background 0.25s ease;
+  }
+  .fill.done { background: var(--green); }
+  .pctRow {
+    display: flex; justify-content: space-between;
+    margin-top: 8px; font: 700 12px ui-monospace, monospace; color: var(--sub);
+  }
+
+  .triggerBtn {
+    padding: 11px 22px; border-radius: 9px; border: none;
+    background: var(--accent); color: #fff; font: 700 13.5px system-ui, sans-serif; cursor: pointer;
+  }
+  .triggerBtn:hover { background: #4f52d6; }
+  .triggerBtn:disabled { opacity: 0.6; cursor: default; }
+</script>
+
+<script type="text/plain" id="js">
+  var fill = document.getElementById('fill');
+  var pctLabel = document.getElementById('pctLabel');
+  var statusLabel = document.getElementById('statusLabel');
+  var triggerBtn = document.getElementById('triggerBtn');
+
+  triggerBtn.addEventListener('click', function () {
+    triggerBtn.disabled = true;
+    triggerBtn.textContent = 'Uploading…';
+    fill.classList.remove('done');
+    fill.style.width = '0%';
+    pctLabel.textContent = '0%';
+    statusLabel.textContent = 'Uploading';
+
+    var pct = 0;
+    var timer = setInterval(function () {
+      // Real uploads report real byte counts; this fakes uneven chunk sizes
+      // so the bar doesn't move at a suspiciously perfect constant rate.
+      pct += 4 + Math.random() * 14;
+      if (pct >= 100) {
+        pct = 100;
+        clearInterval(timer);
+        fill.classList.add('done');
+        statusLabel.textContent = 'Complete';
+        triggerBtn.textContent = 'Run again';
+        triggerBtn.disabled = false;
+      }
+      fill.style.width = pct + '%';
+      pctLabel.textContent = Math.round(pct) + '%';
+    }, 180);
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

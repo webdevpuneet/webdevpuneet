@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Self-Drawing Underline">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Self-Drawing Underline</h1>
+    <p class="hint">Hover the nav links &mdash; an underline pseudo-element scales in from the left instead of just switching opacity.</p>
+  </header>
+  <main class="stageWrap">
+    <nav class="underlineNav">
+      <a href="#" class="uLink">Home</a>
+      <a href="#" class="uLink">Docs</a>
+      <a href="#" class="uLink">Pricing</a>
+    </nav>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; align-items: center; padding: 40px 18px; min-height: 260px; }
+
+  .underlineNav { display: flex; gap: 28px; }
+  .uLink {
+    position: relative;
+    font: 600 15px system-ui, -apple-system, sans-serif;
+    color: var(--ink);
+    text-decoration: none;
+    padding-bottom: 4px;
+  }
+  .uLink::after {
+    content: '';
+    position: absolute; left: 0; bottom: 0;
+    width: 100%; height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+  .uLink:hover::after,
+  .uLink:focus-visible::after {
+    transform: scaleX(1);
+  }
+</script>
+
+<script type="text/plain" id="js">
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

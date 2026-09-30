@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="gsap.to() — your first tween">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>gsap.to()</h1>
+    <p class="hint">Click "Run" below to animate the box — <code>gsap.to()</code> always animates <em>toward</em> the values you give it, starting from wherever the element already is.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="box" id="box">GSAP</div>
+  </main>
+  <div class="btnRow">
+    <button class="runBtn" id="runBtn">Run gsap.to()</button>
+    <button class="resetBtn" id="resetBtn">Reset</button>
+  </div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; font-family: ui-monospace, monospace; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .hint code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
+  .stageWrap { display: flex; justify-content: center; align-items: center; height: 220px; }
+  .box {
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent);
+    color: #fff;
+    font: 800 14px system-ui, sans-serif;
+    border-radius: 12px;
+  }
+  .btnRow { display: flex; justify-content: center; gap: 10px; padding: 0 20px 32px; }
+  .runBtn, .resetBtn {
+    padding: 10px 18px;
+    font: 700 13px system-ui, sans-serif;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .runBtn { color: #fff; background: var(--accent); }
+  .runBtn:hover { background: #4f52d9; }
+  .resetBtn { color: var(--ink); background: #fff; border: 1.5px solid var(--line); }
+</script>
+
+<script type="text/plain" id="js">
+  const box = document.getElementById('box');
+
+  document.getElementById('runBtn').addEventListener('click', function () {
+    gsap.to(box, {
+      x: 160,
+      rotation: 360,
+      backgroundColor: '#16a34a',
+      duration: 1.2,
+      ease: 'power2.out'
+    });
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', function () {
+    gsap.to(box, { x: 0, rotation: 0, backgroundColor: '#6366f1', duration: 0.4 });
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

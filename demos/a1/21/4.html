@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Nesting @supports Inline">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Nesting @supports inline</h1>
+    <p class="hint">This box's border and glow only apply if your browser supports <code>animation-timeline: scroll()</code> &mdash; feature-detected with an <code>@supports</code> block written right inside the <code>.box</code> rule. The readout below shows the live result for your browser.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="box" id="box">
+      <p>Scroll-driven animation support</p>
+    </div>
+    <p class="note" id="note">Checking support...</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 34px 18px 40px; }
+
+  /* This is the demo: @supports nested directly inside the rule it augments */
+  .box {
+    width: 280px;
+    padding: 22px;
+    text-align: center;
+    background: #fff;
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    font: 700 13px system-ui, sans-serif;
+    color: var(--sub);
+    transition: border-color .2s, box-shadow .2s;
+
+    @supports (animation-timeline: scroll()) {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(99,102,241,.15);
+      color: var(--accent);
+    }
+  }
+
+  .note { margin: 0; font-size: 12.5px; color: var(--sub); text-align: center; }
+  .note.yes { color: #16a34a; font-weight: 700; }
+  .note.no { color: #dc2626; font-weight: 700; }
+</script>
+
+<script type="text/plain" id="js">
+  var note = document.getElementById('note');
+  var supported = CSS.supports('animation-timeline: scroll()');
+  note.textContent = supported
+    ? 'CSS.supports("animation-timeline: scroll()") -> true. Your browser matched the nested @supports block, so the box got the accent border and glow.'
+    : 'CSS.supports("animation-timeline: scroll()") -> false. The nested @supports block did not match, so the box stayed in its plain fallback style.';
+  note.classList.add(supported ? 'yes' : 'no');
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

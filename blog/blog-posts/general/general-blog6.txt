@@ -1,0 +1,252 @@
+<h1>React useState vs useReducer: When Should You Use Each?</h1>
+
+<p>Both hooks do the exact same job — they hold state and trigger a re-render when it changes. The real question isn't "which one is more powerful," it's <strong>how you want to describe an update</strong>: with <strong>useState</strong>, the caller hands over the next value directly — <code>setCount(count + 1)</code> says "the count is now this." With <strong>useReducer</strong>, the caller hands over a description of what happened — <code>dispatch({ type: 'increment' })</code> says "this occurred," and one function, the reducer, is the only place that decides what it means for the state. Once that distinction clicks, most "which hook do I reach for" questions answer themselves.</p>
+
+<p>The 10 demos below are all real, running React — click a button, dispatch an action, watch a log — so you can see each hook's actual behavior instead of reading about it secondhand. Several place the same feature under both hooks so the difference isn't a claim, it's something you can click through and feel.</p>
+
+<p>Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> &mdash; FWD Tools' free in-browser editor. Swap a <code>useState</code> call for a <code>useReducer</code> one on a real component and watch what changes — that's a faster way to build real intuition than any explanation. One note on the code you'll see: these demos skip a build step, so the live JS uses <code>React.createElement</code> directly instead of JSX — the logic is identical to the JSX version in every rule snippet below, just without a compiler in between.</p>
+
+<h2>The one-sentence rule</h2>
+
+<pre><code>// useState: the caller computes and hands over the next value
+const [count, setCount] = useState(0);
+setCount(count + 1);
+
+// useReducer: the caller describes what happened; the reducer decides the rest
+const [state, dispatch] = useReducer(reducer, { count: 0 });
+dispatch({ type: 'increment' });</code></pre>
+
+<p><code>useState</code> is a direct pipe: you read the current value, compute the next one yourself, and hand it to the setter. That's ideal when the "next value" logic is genuinely simple and lives comfortably next to wherever you're calling it from. <code>useReducer</code> adds one layer of indirection — a pure <code>(state, action) =&gt; newState</code> function that owns every transition — which pays for itself the moment there's more than one way to reach the same state, more than one field that needs to change together, or logic complex enough that you'd like to read it, and test it, in one place instead of scattered across event handlers.</p>
+
+<h2>1. Same Counter, Two Hooks</h2>
+
+<p>Flip the toggle — the exact same counter UI, rebuilt twice: once with useState, once with useReducer. Click +, &minus;, and Reset on each side.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/05/1.html" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Same Counter, Two Hooks Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>// useState version
+const [count, setCount] = useState(0);
+setCount(count + 1);   // caller computes the next value
+
+// useReducer version
+const [state, dispatch] = useReducer(reducer, { count: 0 });
+dispatch({ type: 'increment' });  // caller only describes what happened</code></pre>
+
+<p>Both versions render identically and behave identically to a user — that's the point. The useState version's three buttons each know exactly what the next count should be and say so directly. The useReducer version's three buttons don't calculate anything; they just name an action, and a single <code>reducer</code> function elsewhere is the only code that ever decides what <code>'increment'</code>, <code>'decrement'</code>, or <code>'reset'</code> actually do to the state. For a counter this simple, that indirection is genuinely optional — which is exactly why it's the clearest place to see it side by side before it starts mattering.</p>
+
+<p><strong>Best for:</strong> building the base mental model before looking at either hook's harder cases. <strong>Tip:</strong> a reducer with a <code>default: return state</code> case is a defensive habit worth keeping even in a trivial reducer like this one — dispatching an unrecognized action type should never throw or silently produce <code>undefined</code>.</p>
+
+<h2>2. useState — One Value, One Setter</h2>
+
+<p>Click the switch. A single independent boolean is the case useState was built for.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/05/2.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="useState One Value One Setter Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>const [on, setOn] = useState(false);
+const [clicks, setClicks] = useState(0);
+
+setOn(prev => !prev);
+setClicks(c => c + 1);</code></pre>
+
+<p>This demo genuinely has two pieces of state — whether the light is on, and how many times it's been clicked — but they don't <em>need</em> to be one piece of state, because nothing about updating one depends on reading the other. Each <code>useState</code> call is fully self-contained, and the functional-updater form (<code>prev =&gt; !prev</code>) means neither setter even needs to close over the current value to stay correct across rapid clicks. Reaching for <code>useReducer</code> here wouldn't be wrong, exactly — it would just be solving a coordination problem that doesn't exist.</p>
+
+<p><strong>Best for:</strong> toggles, single counters, an open/closed flag, a hovered/focused flag — any value whose next state is a short, self-contained calculation. <strong>Tip:</strong> the functional updater form, <code>setOn(prev => !prev)</code>, is worth defaulting to whenever the next value depends on the current one — it sidesteps stale-closure bugs that direct-value updates can hit inside fast event handlers or effects.</p>
+
+<h2>3. useReducer's Action Log</h2>
+
+<p>Every button dispatches a plain object describing what happened. Watch the log — it's a readable history of exactly what this component did, in order.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/05/3.html" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="useReducer Action Log Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':   return { count: state.count + 1 };
+    case 'decrement':   return { count: state.count - 1 };
+    case 'incrementBy': return { count: state.count + action.payload };
+    case 'reset':       return { count: 0 };
+    default:            return state;
+  }
+}</code></pre>
+
+<p>The log in this demo isn't a special feature of <code>useReducer</code> — it's just printing the exact objects each button dispatches, before the reducer ever sees them. That's the underlying benefit made visible: because every update is expressed as a small, named, serializable object rather than an inline calculation, you get a free audit trail of "what happened" for nothing extra. This is the same shape of information tools like Redux DevTools build an entire time-travel debugger on top of — <code>useReducer</code> gives you the raw ingredient without needing a library.</p>
+
+<p><strong>Best for:</strong> any state where knowing <em>what sequence of things happened</em> is genuinely useful for debugging, analytics, or logging — not just the current value. <strong>Tip:</strong> action objects with a <code>payload</code> field, like <code>incrementBy</code> here, are a common and readable convention — <code>{ type, payload }</code> — but nothing enforces it; the shape of an action is entirely up to your reducer.</p>
+
+<h2>4. The Bug Multiple useState Calls Invite</h2>
+
+<p>Two counters that are supposed to always move together. Click "Increment Both" a few times on the left, then flip the toggle and try the reducer version.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/05/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="The Bug Multiple useState Calls Invite Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>// two separate calls — easy to update only one by mistake
+function incrementBoth() {
+  setA(a + 1);
+  setB(a + 1);   // bug: should read b, but the values look interchangeable
+}
+
+// one transition updates both fields from one source of truth
+dispatch({ type: 'incrementBoth' });</code></pre>
+
+<p>This is a real, common bug, not a contrived one: two <code>useState</code> calls that are supposed to stay in lockstep, and a handler that was written (or copy-pasted) carelessly enough to read the wrong variable for the second update. Nothing in the type system or in React itself catches it — <code>a</code> and <code>b</code> are both just numbers, and the bug only shows up as behavior, one click at a time. The reducer version can't make this particular mistake, because there's no second variable to confuse — <code>state.a</code> and <code>state.b</code> are updated together, from the same object, inside the one function that's allowed to touch either of them.</p>
+
+<p><strong>Best for:</strong> recognizing the actual failure mode useReducer exists to prevent — not "useState is bad at counters," but "state that must change together shouldn't live in separate setters." <strong>Tip:</strong> if you ever catch yourself calling more than one setter inside the same event handler for values that are supposed to represent one coherent thing, that's usually the tell that they belong in one <code>useReducer</code> (or one <code>useState</code> holding an object) instead.</p>
+
+<h2>5. A Reducer as a State Machine</h2>
+
+<p>Click "Next" to advance the light through its only three legal transitions. There's no path to an invalid color.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/05/5.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A Reducer as a State Machine Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>const TRANSITIONS = { red: 'green', green: 'yellow', yellow: 'red' };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'next': return TRANSITIONS[state];
+    default:     return state;
+  }
+}</code></pre>
+
+<p>There's exactly one action this reducer understands, and exactly one legal next state for each current state — the traffic light can never jump from red straight to yellow, or sit in some in-between value, because <code>TRANSITIONS[state]</code> simply doesn't have an entry for that. This is <code>useReducer</code> used as what it actually is: a small, explicit state machine. Trying to build the same guarantee with <code>useState</code> would mean re-deriving "what's a valid next color" inline, every single place the light can change — and hoping every call site agrees.</p>
+
+<p><strong>Best for:</strong> anything with a genuinely fixed set of states and a genuinely fixed set of legal transitions between them — a wizard's steps, a media player's play/pause/buffering states, an order's pending/shipped/delivered/cancelled lifecycle. <strong>Tip:</strong> when the transition table grows past a handful of states, a library like XState builds on exactly this pattern with visualization and stricter guarantees — but the core idea, a lookup table plus a reducer, is often all a UI actually needs.</p>
+
+<h2>6. Undo/Redo, Free With a Reducer</h2>
+
+<p>Change the color a few times, then hit Undo. The reducer keeps past and future stacks alongside the present value.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/05/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Undo Redo Free With a Reducer Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>function reducer(state, action) {
+  switch (action.type) {
+    case 'set':  return { past: [...state.past, state.present], present: action.color, future: [] };
+    case 'undo': return { past: state.past.slice(0, -1), present: state.past.at(-1), future: [state.present, ...state.future] };
+    case 'redo': return { past: [...state.past, state.present], present: state.future[0], future: state.future.slice(1) };
+    default:     return state;
+  }
+}</code></pre>
+
+<p>Undo/redo is the demo where the gap between the two hooks stops being subtle. The state here isn't just "the current color" — it's <em>the current color plus its entire history</em>, and every single change (setting a new color, undoing, redoing) has to correctly shuffle three arrays in relation to each other. Writing this with scattered <code>useState</code> calls would mean juggling three separate setters that all have to update in the same tick, in the correct order, from handlers all over the component. As one reducer, it's one function, and every transition is a single, self-contained case.</p>
+
+<p><strong>Best for:</strong> undo/redo, multi-step wizards where "back" needs to restore exact prior state, draft/version history — any feature where "what was the state before this" is itself part of what you're modeling. <strong>Tip:</strong> this exact <code>{ past, present, future }</code> shape is a well-known enough pattern that it has a name — a "history reducer" — and it composes: you can wrap <em>any</em> existing reducer in one generically to add undo/redo to it without touching its original logic.</p>
+
+<h2>7. Independent Fields Don't Need a Reducer</h2>
+
+<p>Type in either field, or flip the checkbox — three plain useState calls, none of them aware the others exist.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/05/7.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Independent Fields Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>const [name, setName] = useState('');
+const [email, setEmail] = useState('');
+const [subscribe, setSubscribe] = useState(false);</code></pre>
+
+<p>It's tempting, once <code>useReducer</code> is on your radar, to reach for it every time a component has "more than one piece of state" — but a form is exactly the case where that instinct usually backfires. These three fields don't validate against each other, don't derive from each other, and no single update ever needs to touch more than one of them. Wrapping them in a reducer would mean writing <code>dispatch({ type: 'setName', value })</code> at every keystroke for no behavioral gain — more code expressing exactly the same three independent facts.</p>
+
+<p><strong>Best for:</strong> forms (up to a point), any UI region where each value's next state is computed from nothing but itself and the new input. <strong>Tip:</strong> the line does move — a form with five-plus interdependent fields, cross-field validation, or a submit path that needs to reset everything atomically is a legitimate signal to consolidate into either one <code>useState({...})</code> object or a <code>useReducer</code>, precisely because the fields have stopped being independent.</p>
+
+<h2>8. One Reducer, One Cart</h2>
+
+<p>Add items, bump quantities, remove a line — every update to this nested array runs through one function.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/05/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="One Reducer One Cart Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>function reducer(items, action) {
+  switch (action.type) {
+    case 'add':       return items.some(i => i.id === action.id)
+                                   ? items.map(i => i.id === action.id ? { ...i, qty: i.qty + 1 } : i)
+                                   : [...items, { ...action.item, qty: 1 }];
+    case 'changeQty': return items.map(i => i.id === action.id ? { ...i, qty: i.qty + action.delta } : i)
+                                   .filter(i => i.qty > 0);
+    case 'remove':    return items.filter(i => i.id !== action.id);
+    default:          return items;
+  }
+}</code></pre>
+
+<p>A shopping cart is a nested array of objects, and updating it immutably — "increment this one item's quantity without mutating the array or the object" — takes a few lines of <code>map</code>/<code>filter</code>/spread every time you do it. With <code>useState</code>, that logic tends to get rewritten (slightly differently, and with slightly different bugs) inside every handler that touches the cart: one version inside "add to cart," a subtly different one inside "change quantity." Here it's written exactly once, inside the reducer, and every call site just describes intent — <code>dispatch({ type: 'add', id })</code> — and trusts the reducer to handle the immutable-update mechanics correctly, the same way, every time.</p>
+
+<p><strong>Best for:</strong> collections — carts, todo lists, kanban boards, multi-select tables — any state shaped like an array or object of records where multiple different operations (add, remove, update-one) all need to preserve immutability correctly. <strong>Tip:</strong> because the reducer here is a plain function with no React inside it, you can copy its body into a unit test and assert <code>reducer(items, { type: 'add', id: 'p1' })</code> directly — no component render, no DOM, no testing-library setup required.</p>
+
+<h2>9. A Reducer Is Just a Function — Replay It</h2>
+
+<p>"Replay" feeds the same six actions into the reducer every time, with no clicking involved. Same actions, same result.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/05/9.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A Reducer Is Just a Function Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>const SCRIPT = [
+  { type: 'increment' }, { type: 'increment' }, { type: 'incrementBy', payload: 5 },
+  { type: 'decrement' }, { type: 'increment' }, { type: 'reset' }
+];
+
+SCRIPT.forEach(action => dispatch(action));</code></pre>
+
+<p>This demo doesn't do anything a user would normally trigger — it's here to make one property concrete: a reducer is a pure function of <code>(state, action) =&gt; newState</code>, with no dependency on anything else in the component. Feed it the same starting state and the same sequence of actions, and you get the same result, every single time, whether that sequence comes from real clicks, a scripted replay like this one, or a test file that never renders a component at all. <code>useState</code> updater functions can be pure too, but they're never captured as data the way an action object is — there's nothing to "replay," because there was never a recorded list of what happened, only a series of direct value changes.</p>
+
+<p><strong>Best for:</strong> understanding <em>why</em> reducers are considered more testable, not just being told that they are. <strong>Tip:</strong> this is also the exact mechanism behind tools like Redux DevTools' time-travel debugging — record the dispatched actions, and you can replay, rewind, or fast-forward through them against the reducer at any time, entirely independent of the UI that originally triggered them.</p>
+
+<h2>10. Which One Should You Use?</h2>
+
+<p>Answer four honest questions about the state you're actually building, and this small quiz tallies a recommendation.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/05/10.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Which One Should You Use Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>const QUESTIONS = [
+  'Is this more than two or three related values that always change together?',
+  'Does figuring out the next state need more than a one-line calculation?',
+  'Do several different event handlers update this same state?',
+  'Would you like to unit-test the state transitions on their own?'
+];
+// two or more "yes" answers → useReducer; otherwise → useState</code></pre>
+
+<p>Fittingly, the quiz itself is built with <code>useReducer</code> — each answer is a dispatched action, and one function decides whether that action advances the question index or finalizes the result. That's not a coincidence for effect; a multi-step quiz with a running tally and a distinct "done" state is exactly the shape of problem — several related pieces of state, several different sources of updates, no single field independently sufficient — that tips the scale toward a reducer, which is precisely what questions 1 and 3 above are asking about.</p>
+
+<p><strong>Best for:</strong> a quick gut-check on any component where you're genuinely unsure which hook fits. <strong>Tip:</strong> treat the result as a strong default, not a law — two "yes" answers is a reasonable line, but a component that's simple today and clearly about to grow (a form you know will gain cross-field validation next sprint) is a fair reason to start with <code>useReducer</code> a little early.</p>
+
+<h2>Choosing between them, in practice</h2>
+
+<ul>
+<li><strong>Use useState when each value's next state is a short, self-contained calculation.</strong> A toggle, a single counter, an independent form field — you don't need to look at anything else to know what the next value should be.</li>
+<li><strong>Use useReducer when several pieces of state change together, or the same state can be reached from several different places.</strong> A cart, a history stack, a wizard, a state machine — you want one function that's the single source of truth for what a given action actually does.</li>
+<li><strong>Reach for useReducer when you want a readable, testable log of what happened, not just the current value.</strong> Demos #3 and #9 show why: actions are data, and data can be logged, replayed, and unit-tested independently of any component.</li>
+<li><strong>Don't reach for useReducer by default.</strong> Demo #7's independent form fields are the common case where adding a reducer is pure ceremony — three unrelated <code>useState</code> calls are simpler to read and simpler to change than one reducer with three unrelated action types.</li>
+<li><strong>The two aren't mutually exclusive within one component.</strong> It's entirely normal for a component to hold one <code>useReducer</code> for its genuinely coupled state (say, a multi-step form's step index and validation) alongside a plain <code>useState</code> for something unrelated (whether a tooltip is currently open).</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>Is useReducer just Redux inside a component?</h3>
+<p>The pattern is the same — a pure <code>(state, action) => newState</code> function plus dispatched action objects — but useReducer is local to one component's state by default and needs nothing installed. Redux exists to solve a different problem on top of that pattern: sharing one store across many components that aren't related by props. If your state lives in and is only used by one component (or one that passes it down a short prop chain), useReducer alone is Redux's core idea without Redux's global-store machinery.</p>
+
+<h3>Is useReducer always the "more correct" choice for complex state?</h3>
+<p>No — complexity has to actually be about <em>coordination</em>, not just quantity. Demo #7's form has three pieces of state, which sounds complex, but none of them coordinate with each other, so useState stays simpler. Demo #4's two counters are the opposite: only two values, but they must always move together, and that coordination requirement is what useReducer actually solves.</p>
+
+<h3>Can I use useReducer for state that's just one primitive value, like a number?</h3>
+<p>Yes — demo #9's counter reducer holds a plain number, not an object. useReducer doesn't require an object-shaped state; it requires that you want dispatched, named actions rather than direct value assignment. The state machine in demo #5 is the same idea with a string instead of a number.</p>
+
+<h3>Does useReducer replace useState entirely once I've learned it?</h3>
+<p>No, and demos #2 and #7 are the case for why: for state with no cross-field logic, useState is genuinely less code and easier to scan, not just "the beginner option." Most real components end up with a mix — some fields as plain useState, one cluster of genuinely coupled state as a single useReducer — rather than standardizing on one hook everywhere.</p>
+
+<h3>How do I test a reducer without rendering a component?</h3>
+<p>Because a reducer is a plain function, you call it directly: <code>expect(reducer(initialState, { type: 'increment' })).toEqual({ count: 1 })</code>, no component, no DOM, no testing-library render step. Demo #8's cart reducer and demo #9's replay script both lean on this — the state logic is fully decoupled from anything React-specific.</p>
+
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to actually internalize the difference between these two hooks is to click <strong>Fork &amp; Edit</strong> on whichever demo felt least intuitive, change one action type, and watch exactly what breaks. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or reuse in a real project.</p>
+
+<p>Want to go deeper than a single embed? The <a href="https://fwdtools.com/react-playground/">React Playground</a> is FWD Tools' full in-browser React sandbox — a real editor with instant preview, built for exactly this kind of edit-and-see learning, without the ten-tab constraint of a blog post.</p>

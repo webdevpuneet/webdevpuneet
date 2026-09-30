@@ -1,0 +1,53 @@
+.adShell {
+  display: block;
+  width: 100%;
+  background: var(--bg);
+}
+
+.relatedFull {
+  width: 100%;
+  padding: 16px 20px 14px;
+}
+
+.adWrap {
+  display: block;
+  width: 100%;
+  max-width: 1296px;
+  margin: 0 auto;
+  padding: 8px 48px;
+  background: var(--bg);
+}
+
+.adWrapContained {
+  display: block;
+  width: 100%;
+  padding: 8px 0;
+  background: var(--bg);
+}
+
+/* 300x600 half-page ad — sticky so it pins as the left column scrolls */
+.adSlot300Wrap {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 16px;
+  width: 100%;
+  overflow: hidden;
+  position: sticky;
+  top: 16px;
+}
+
+@media (max-width: 768px) {
+  .relatedFull {
+    padding: 14px 16px 14px;
+  }
+
+  .adWrap {
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 1500px) {
+  .adSlot300Wrap {
+    position: static;
+  }
+}

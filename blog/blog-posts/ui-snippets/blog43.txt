@@ -1,0 +1,137 @@
+<h1>10 Free Bootstrap 5 Snippets for File Uploads &amp; Account Security: A Real Pan-and-Zoom Cropper, Clipboard Paste &amp; a Session Timer That Actually Locks the Page</h1>
+
+<p>This batch covers the two areas where a "looks right in a screenshot" component most often falls apart in real use: file uploads and account security. A progress bar that doesn't actually track bytes, a duplicate-file check that only catches exact re-selections, a session warning that can be casually clicked away — these are the details that separate a working feature from a decorative one. Every one still loads the genuine <code>bootstrap.min.css</code> and <code>bootstrap.bundle.min.js</code> from a CDN and builds on Bootstrap's real component classes.</p>
+
+<p>Every one is a <strong>live, interactive preview</strong> you can try right here in the article, and each exports to React, Vue, Angular or Tailwind in one click from its snippet page.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>Real coordinate-space math, not a screenshot crop.</strong> The pan-and-zoom image cropper converts the crop frame's visible region back into the original image's natural pixel coordinates, so the output is drawn at full resolution regardless of how zoomed in the preview looks.</li>
+<li><strong>Independent state per file, not one shared progress value.</strong> The multi-file upload queue gives every file its own progress object and timer — cancelling or completing one file has zero effect on any other file uploading in parallel.</li>
+<li><strong>A destructive setting gated by an actual re-check.</strong> The re-authentication modal resets its password field and error state on every single open via Bootstrap's real <code>shown.bs.modal</code> event, so a stale error from a previous attempt never lingers into the next one.</li>
+<li><strong>Browser events dispatched for real, not faked separately.</strong> The offline/online banner's demo buttons dispatch genuine synthetic <code>offline</code>/<code>online</code> Events, exercising the exact same handlers a real connectivity change would — not a parallel set of fake demo-only functions.</li>
+<li><strong>A session lockout that's actually a lockout.</strong> The session expiry warning's modal uses Bootstrap's real static backdrop so an outside click can't dismiss an unanswered warning, and an expired session becomes a genuine full-page overlay, not just another dismissible modal.</li>
+</ul>
+
+<h2>1. Bootstrap File Upload With Progress</h2>
+
+<p>A single-file upload with a realistically uneven animated progress bar, a working Cancel mid-upload, and Retry that restarts the exact same file from zero.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-file-upload-progress/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap File Upload With Progress — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> Cancel and Retry both revolve around one <code>currentFile</code> reference and one interval, cleared through a single <code>reset()</code> function every time either fires — that's what prevents an old interval from silently surviving a cancel and fighting a new upload's progress updates. Retry deliberately calls the exact same <code>startUpload()</code> a fresh file selection uses, restarting from zero rather than pretending to resume, since true resumable uploads need server-side support this demo doesn't have.</p>
+
+<p><strong>Best for:</strong> document, resume, and contract upload forms where a multi-second upload genuinely benefits from a real cancel option. <strong>Tip:</strong> swap the simulated <code>setInterval</code> for a real XHR's <code>upload.onprogress</code> event to drive the same bar from actual bytes transferred.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-file-upload-progress/">Bootstrap File Upload With Progress</a></p>
+
+<h2>2. Bootstrap Multi-File Upload Queue</h2>
+
+<p>Select several files at once and each gets its own independent progress bar uploading in parallel — cancelling or completing one has zero effect on the others.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-multi-file-upload-queue/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Multi-File Upload Queue — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every file becomes its own object with its own <code>progress</code>, <code>status</code>, and interval, started independently the instant it's added. Each row's single action button does double duty — "Cancel" while uploading, "Remove" once done or failed — branching on that file's own status rather than needing two separate buttons. The running "X of Y uploaded" summary recomputes from the files array on every change rather than being tracked as a separate counter that could drift.</p>
+
+<p><strong>Best for:</strong> bulk document or photo uploads and media libraries accepting a batch of assets at once. <strong>Tip:</strong> keep each file's interval reference in a ref-backed map keyed by id when porting to React, to avoid re-creating intervals on every re-render.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-multi-file-upload-queue/">Bootstrap Multi-File Upload Queue</a></p>
+
+<h2>3. Bootstrap Paste-to-Upload (Clipboard Image Paste)</h2>
+
+<p>Click the zone and press Ctrl+V to paste a screenshot directly from the clipboard — no file picker, with a genuine ClipboardEvent driving the whole thing.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-paste-to-upload/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Paste-to-Upload (Clipboard Image Paste) — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the zone needs <code>tabindex="0"</code> to become genuinely focusable, which is a prerequisite for a <code>paste</code> event to ever fire on it at all. The listener reads <code>e.clipboardData.items</code> for the first entry whose type starts with <code>image/</code>, correctly ignoring plain copied text with an explicit message instead of failing silently. The previous object URL is revoked before a new one is created, so repeated pastes never leak memory.</p>
+
+<p><strong>Best for:</strong> bug report forms and support tickets, where pasting a screenshot directly is dramatically faster than saving it to disk first. <strong>Tip:</strong> keep a traditional file input available as a fallback for mobile, where clipboard image paste support is far less consistent than on desktop.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-paste-to-upload/">Bootstrap Paste-to-Upload (Clipboard Image Paste)</a></p>
+
+<h2>4. Bootstrap Duplicate File Detection on Upload</h2>
+
+<p>Select a file that's already been added and it's silently skipped with a clear warning — matched by name, size, and modification time together, not just a filename.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-duplicate-file-detection-upload/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Duplicate File Detection on Upload — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a signature combining a file's name, size, and <code>lastModified</code> timestamp is cheap to compute and specific enough to trust, without needing to hash every byte of every file client-side. Newly accepted files are added to the comparison set as they're processed within the same selection — without that, selecting the identical file twice in one multi-file dialog would let both copies through, since neither would exist in the list yet at comparison time.</p>
+
+<p><strong>Best for:</strong> document attachment forms and bulk import tools where an operator might accidentally re-select something already queued. <strong>Tip:</strong> the warning names the exact files that were skipped, not a generic "duplicate detected" message.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-duplicate-file-detection-upload/">Bootstrap Duplicate File Detection on Upload</a></p>
+
+<h2>5. Bootstrap Image Crop Before Upload</h2>
+
+<p>A real pan-and-zoom cropper — drag to reposition, a zoom slider, and a Save action that computes the exact visible crop back into full-resolution source pixels.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-image-crop-before-upload/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Image Crop Before Upload — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the frame's visible window is tracked in real display pixels, not a CSS transform, which keeps the reverse-mapping math clean — dividing the pan offset and frame size by the current zoom scale recovers the exact source rectangle in the image's natural coordinates. <code>drawImage()</code> then reads from that rectangle on the original, full-resolution image, so the cropped output stays sharp no matter how far zoomed the on-screen preview happened to be. Every drag is clamped so the frame can never reveal empty space at any edge.</p>
+
+<p><strong>Best for:</strong> profile photo and avatar upload flows needing a specific aspect ratio before the file ever reaches the server. <strong>Tip:</strong> pair directly with the avatar upload editor below for a complete photo-selection-to-final-crop pipeline.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-image-crop-before-upload/">Bootstrap Image Crop Before Upload</a></p>
+
+<h2>6. Bootstrap Avatar Upload Editor</h2>
+
+<p>A circular avatar that swaps between initials and a real photo — Save only appears once something has actually changed, not just because the file picker was opened.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-avatar-upload-editor/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Avatar Upload Editor — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the initials and photo states are always kept mutually exclusive, toggled together on every change, with a hidden native file input triggered by a normal styled button — the standard technique for a consistently-stylable upload trigger. Save only reveals itself once a real change has actually happened; opening and cancelling the file picker without selecting anything correctly leaves it hidden, since nothing changed.</p>
+
+<p><strong>Best for:</strong> account and profile settings pages — the standard "change your profile picture" pattern. <strong>Tip:</strong> every object URL is revoked before a new one is created, on both photo change and removal, so repeated changes never leak memory.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-avatar-upload-editor/">Bootstrap Avatar Upload Editor</a></p>
+
+<h2>7. Bootstrap Session Expiry Warning</h2>
+
+<p>An idle-session countdown modal (sped up for this demo) — Stay signed in or Log out now, and an unanswered countdown genuinely locks the page with a full expired overlay.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-session-expiry-warning/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Session Expiry Warning — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> one interval drives the background timer, the warning modal, and the final expired overlay, rather than three separately synchronized timers. The modal uses Bootstrap's real <code>data-bs-backdrop="static"</code> so an outside click can't dismiss an unanswered warning — an expiry notice that's trivially clicked away defeats its own purpose. The expired state is deliberately a full-page overlay, not another dismissible modal, since a genuinely expired session should block interaction entirely until the user restarts.</p>
+
+<p><strong>Best for:</strong> banking, healthcare, and other compliance-sensitive dashboards where a session timeout is a genuine requirement. <strong>Tip:</strong> a real implementation should reset the countdown on genuine activity signals (mousemove, keydown) rather than running on a fixed timer unconditionally.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-session-expiry-warning/">Bootstrap Session Expiry Warning</a></p>
+
+<h2>8. Bootstrap Re-authentication Modal</h2>
+
+<p>Confirm your password before a destructive action proceeds — a genuine wrong-password error state, and every field resets clean on every single reopen.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-reauthentication-modal/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Re-authentication Modal — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> this is a distinct pattern from an idle-timeout warning — it's triggered by a specific action, not elapsed time, via Bootstrap's real <code>data-bs-toggle="modal"</code>. The <code>shown.bs.modal</code> event resets the password field and clears any previous error on every open, not just the first, and a wrong-password error clears itself the instant the user starts correcting it rather than waiting for another failed submit.</p>
+
+<p><strong>Best for:</strong> account deletion, changing an email or payment method, and any high-privilege admin action needing identity confirmation mid-session. <strong>Tip:</strong> a real implementation should send the password to an actual authentication endpoint, treating the modal's success state as driven by that server response.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-reauthentication-modal/">Bootstrap Re-authentication Modal</a></p>
+
+<h2>9. Bootstrap Maintenance Mode Banner</h2>
+
+<p>A dismissible, non-blocking banner announcing an upcoming maintenance window with a live countdown — the app underneath stays fully usable, and dismissal genuinely persists.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-maintenance-banner/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Maintenance Mode Banner — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> this is deliberately not a full-page takeover — it's a plain dismissible Bootstrap alert sitting above completely usable content, distinct from a real maintenance-page snippet meant for actual downtime. Dismissal writes to <code>sessionStorage</code>, guarded in try/catch, and the demo's "Reload page" button re-runs the exact same dismissed-state check a real page load would perform, proving the dismissal genuinely persisted rather than just toggling a CSS class.</p>
+
+<p><strong>Best for:</strong> SaaS dashboards giving advance notice of a deploy or migration window without forcing users out of what they're doing. <strong>Tip:</strong> <code>sessionStorage</code> rather than <code>localStorage</code> is deliberate — a temporary notice should reappear in a brand new session, not stay dismissed forever.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-maintenance-banner/">Bootstrap Maintenance Mode Banner</a></p>
+
+<h2>10. Bootstrap Offline/Online Status Banner</h2>
+
+<p>Driven by the browser's genuine connectivity events — a persistent offline warning, and a brief self-dismissing "Back online" confirmation on reconnect.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-offline-online-status-banner/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Offline/Online Status Banner — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the actual production logic is two lines — real <code>window</code> listeners for <code>offline</code> and <code>online</code> — since the browser already fires these on a genuine connectivity change, nothing needs polling. Because a live preview can't unplug a real network, the two demo buttons dispatch genuine synthetic Events via <code>window.dispatchEvent</code>, exercising the exact same handlers a true disconnect would rather than a parallel set of fake functions. The offline warning persists until resolved; the reconnect confirmation auto-hides after 2.5 seconds.</p>
+
+<p><strong>Best for:</strong> notes apps, PWAs, and any offline-first tool where a user needs to know why an autosave suddenly stopped succeeding. <strong>Tip:</strong> pair with the autosave status snippet elsewhere in this collection to explain exactly why saving paused.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-offline-online-status-banner/">Bootstrap Offline/Online Status Banner</a></p>
+
+<p>Same as every batch before it, each of these ten lives in the category that actually fits its shape, so they surface alongside every other snippet of that kind rather than sitting in a library of their own. Find these ten and every other Bootstrap snippet in the collection in one place via the <a href="https://fwdtools.com/ui-snippets/tag/bootstrap/">Bootstrap tag</a>. Open any of them above and you land straight in the live editor, HTML/CSS/JS tabs and all; click <strong>Save as</strong> to copy it into <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and start changing it.</p>

@@ -1,0 +1,166 @@
+<h1>10 Scroll Animation Snippets That Make Websites Feel Alive (Free, Copy-Paste)</h1>
+
+<p>Scroll is the one interaction every visitor performs. When the page reacts to it — text typing itself out, a line drawing across the screen, a 3D object assembling as you move down — the page stops feeling like a static document and starts feeling like something you're driving. Below are 10 free scroll-animation snippets you can preview live and copy in seconds: an Apple-style image sequence, a scrubbed typewriter, a self-drawing SVG path, stacking cards, a scrollytelling chart, two scroll-driven Lottie animations, a horizontal 3D gallery, a neon tunnel flythrough, and a shatter-and-assemble reveal.</p>
+
+<p>Each one comes with <strong>how the effect actually works</strong>, <strong>when to reach for it</strong>, and a quick tip for adapting it. They span the full range of techniques — pure CSS sticky positioning, GSAP ScrollTrigger, canvas frame-scrubbing, Lottie players, and WebGL — but they all share one idea: the scrollbar is the timeline, so the animation plays forward as you scroll down and backward as you scroll up.</p>
+
+<p>Every snippet below is a <strong>live, interactive preview</strong> — scroll inside it and try the effect right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+
+<h2>What actually makes a scroll animation work</h2>
+
+<p>Before picking an effect, it helps to know what separates a scroll animation that feels premium from one that feels gimmicky. Regardless of which of the ten below you choose, the good ones share three traits:</p>
+
+<ul>
+<li><strong>The scrollbar is the playhead, not a trigger.</strong> The best scroll effects are <em>scrubbed</em> — their progress is tied directly to scroll position, so they run backward when you scroll up. That reversibility is what makes them feel physically connected to your input rather than fired once and forgotten.</li>
+<li><strong>Motion serves the content.</strong> An animation that draws a line between two steps, reveals a stat as you reach it, or assembles a product as it's described earns its place. Motion with no relationship to the copy beside it is just noise.</li>
+<li><strong>It stays smooth on real devices.</strong> Scrubbed effects run on every frame, so they animate cheap properties — transforms, opacity, a canvas draw — and never trigger layout on scroll.</li>
+</ul>
+
+<p>Keep that in mind as you scroll — every snippet below is scroll-driven and reversible, and you can borrow the underlying technique even if you don't use the exact demo.</p>
+
+<h2>1. Scroll Image Sequence</h2>
+
+<p>The technique behind Apple's AirPods and MacBook pages: an animation rendered as individual frames and drawn to a canvas, with the scrollbar acting as the playhead so the sequence plays frame by frame as you scroll.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/scroll-image-sequence/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll Image Sequence — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a set of frames is preloaded, and GSAP's ScrollTrigger scrubs a single frame-index value from the first frame to the last as you scroll through a pinned section. Whichever frame that value lands on is painted to a <code>&lt;canvas&gt;</code> with <code>drawImage</code>, so only one image is ever on screen and the "video" is really just the right still for your scroll position. Because it's scrubbed, scrolling back up plays the sequence in reverse with no extra code.</p>
+
+<p><strong>Best for:</strong> product reveals, hardware and device pages, and hero sections that want cinematic weight without an actual video file. <strong>Tip:</strong> render your sequence at the display size you need and preload every frame before the effect starts — the whole illusion depends on the next frame already being decoded when the scroll reaches it.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/scroll-image-sequence/">Scroll Image Sequence</a></p>
+
+<h2>2. Scroll Typewriter</h2>
+
+<p>The classic typing animation turned into a scrubbed one: characters appear one by one as you scroll down, and un-type — caret and all — when you scroll back up.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/scroll-typewriter/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll Typewriter — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> GSAP ScrollTrigger scrubs a character count from zero to the length of the string as you move through a pinned section, and each frame the snippet shows just that many characters with a blinking caret at the end. Nothing is on a timer, so the reversibility is free — scroll up and the value shrinks, deleting characters one at a time. It's the same scrubbing idea as the image sequence, applied to text instead of frames.</p>
+
+<p><strong>Best for:</strong> landing-page headlines, terminal and code-tool demos, and story sections where a line should "type" into place as the reader arrives. <strong>Tip:</strong> keep the underlying text a real, complete text node and reveal a slice of it — that way it stays selectable and readable by screen readers even mid-animation.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/scroll-typewriter/">Scroll Typewriter</a></p>
+
+<h2>3. Scroll SVG Path Draw</h2>
+
+<p>A winding line or route that appears to draw itself stroke by stroke as you scroll — the technique behind animated roadmaps, timelines, and "how it works" sections.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/scroll-svg-path-draw/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll SVG Path Draw — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the SVG path is given a <code>stroke-dasharray</code> equal to its own total length, so the entire stroke is one long dash followed by an equal gap. GSAP ScrollTrigger then scrubs the <code>stroke-dashoffset</code> from the full length down to zero as you scroll, sliding the dash into view so the line appears to draw. Reverse the scroll and the offset grows again, un-drawing the path.</p>
+
+<p><strong>Best for:</strong> process and roadmap sections, journey maps, and timelines where each waypoint should be revealed as the reader reaches it. <strong>Tip:</strong> attach labels or markers along the path and fade each one in as the draw passes it, so the line and its annotations reveal together instead of the text appearing all at once.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/scroll-svg-path-draw/">Scroll SVG Path Draw</a></p>
+
+<h2>4. Stacking Scroll Cards</h2>
+
+<p>Full-width cards pin to the top of the viewport one after another, and as you keep scrolling the next card slides up to cover the previous one — which shrinks back like a card going into a deck.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/stacking-scroll-cards/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Stacking Scroll Cards — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each card uses <code>position: sticky</code> with a top offset, so it sticks to the top of the viewport while its section scrolls past, and the next sticky card rides up over it. A small scale-down on the outgoing card makes it recede like it's slipping into a stack rather than being flatly hidden. The whole effect is CSS-first — no library needed for the core stacking.</p>
+
+<p><strong>Best for:</strong> feature walkthroughs, step-by-step storytelling, and pricing or plan comparisons where each card deserves a full moment on screen. <strong>Tip:</strong> give each card a slightly different top offset so a sliver of the previous card peeks out above the current one — that visible edge is what reads as a real physical stack.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/stacking-scroll-cards/">Stacking Scroll Cards</a></p>
+
+<h2>5. Scrollytelling Chart</h2>
+
+<p>The data-journalism pattern popularized by the New York Times and The Pudding: narrative steps scroll up one column while a sticky chart beside them morphs to illustrate each step, so the reader controls the pace and the chart always matches the paragraph in view.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/scroll-story-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scrollytelling Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the chart sits in a <code>position: sticky</code> column so it stays fixed on screen while the text steps scroll past it. Each step is tracked as it scrolls into view, and as one becomes active the chart transitions to that step's data — bars regrow, a line redraws, a series highlights. Because the active step is derived from scroll position, scrolling back up returns the chart to the previous state exactly.</p>
+
+<p><strong>Best for:</strong> data stories, annual reports, and explainer sections where numbers need narration rather than a static chart the reader has to interpret alone. <strong>Tip:</strong> animate only between the states you actually narrate — a chart that morphs on every pixel of scroll is distracting; one that settles clearly on each step's data is readable.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/scroll-story-chart/">Scrollytelling Chart</a></p>
+
+<h2>6. Lottie Scroll Scrub</h2>
+
+<p>A Lottie animation played with the scrollbar instead of a clock: as you scroll a pinned section, a progress ring draws itself around a circle and a checkmark strokes in at the end, rewinding when you scroll back up.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/lottie-scroll-scrub/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Lottie Scroll Scrub — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the animation loads with <code>autoplay: false</code> so its internal timer never runs, and GSAP ScrollTrigger scrubs a 0-to-1 value that is mapped onto the animation's frame range. Every frame the snippet calls <code>goToAndStop(frame, true)</code> to seek that exact frame, so scroll position — not time — decides what's on screen. The drawing effect itself is a Lottie trim path animating from 0 to 100 percent.</p>
+
+<p><strong>Best for:</strong> scroll-to-complete progress, onboarding steps, and any section where a designer-made vector animation should advance in step with the copy. <strong>Tip:</strong> the animation here is inline JSON, but you can point the player at your own exported <code>.json</code> file and the scroll logic stays identical.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/lottie-scroll-scrub/">Lottie Scroll Scrub</a></p>
+
+<h2>7. Lottie Scroll Donut Chart</h2>
+
+<p>A multi-color donut that fills one segment at a time as you scroll — each colored slice sweeping in from where the last one ended — and empties again on the way back up.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/lottie-scroll-donut-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Lottie Scroll Donut Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the donut is one thick stroked ring copied into several segments, each trimmed to its own slice with a Lottie trim path. Every segment draws during its own window of the timeline — sized in proportion to its value and laid end to end — so the slices fill in sequence rather than all at once. As with every scrubbed effect here, ScrollTrigger drives the frame and scrolling up un-draws the segments in reverse.</p>
+
+<p><strong>Best for:</strong> budget, market-share, and usage breakdowns, dashboard accents, and report sections where each portion deserves its own beat. <strong>Tip:</strong> the whole chart is generated from one values array — feed it your real proportions and the segment sizes, colors, and draw order adapt automatically.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/lottie-scroll-donut-chart/">Lottie Scroll Donut Chart</a></p>
+
+<h2>8. Three.js Scroll Horizontal Gallery</h2>
+
+<p>Plain vertical page scroll turned into a horizontal pan across a strip of 3D panels — the scrollbar slides the whole gallery sideways while each panel rotates coverflow-style toward the camera as it reaches center.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/three-scroll-horizontal-gallery/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll Horizontal Gallery — Free WebGL Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the panels live in a WebGL scene, and GSAP ScrollTrigger scrubs a value that slides the whole group sideways as you scroll a pinned section vertically. Each panel's rotation is derived from its distance to the center, so it turns to face the camera as it arrives and angles away as it leaves, giving the coverflow tilt. Vertical scroll in, horizontal motion out — with full reversibility.</p>
+
+<p><strong>Best for:</strong> portfolios, product line-ups, and case-study galleries that want a tactile, three-dimensional browse instead of a flat carousel. <strong>Tip:</strong> keep the panel count modest and the textures reasonably sized — a horizontal 3D strip is most striking when each panel is crisp and the motion stays perfectly smooth.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/three-scroll-horizontal-gallery/">Three.js Scroll Horizontal Gallery</a></p>
+
+<h2>9. Three.js Scroll Tunnel Travel</h2>
+
+<p>The visitor is dropped inside a glowing wireframe tube and flown down its length as they scroll — the scrollbar drives the camera directly along a curved 3D path, past neon rings, for a genuine sense of forward speed.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/three-scroll-tunnel/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll Tunnel Travel — Free WebGL Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a single curve is used twice — once to extrude the tube geometry you fly through, and again as the exact path the camera travels — so the camera is always perfectly centered inside the tunnel. ScrollTrigger scrubs one 0-to-1 value that walks the camera along that curve, and the camera looks at a point sampled slightly ahead so it banks naturally into every bend. Neon rings threaded along the path streak past to sell the speed.</p>
+
+<p><strong>Best for:</strong> immersive landing intros, game and esports promos, and music or event pages that want a high-energy scroll journey. <strong>Tip:</strong> reshape the tunnel by editing the control points of the curve — because the geometry and the camera share it, the walls and the flight path update together automatically.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/three-scroll-tunnel/">Three.js Scroll Tunnel Travel</a></p>
+
+<h2>10. Three.js Scroll Shatter & Assemble</h2>
+
+<p>Dozens of glowing crystal fragments start flung apart in space and, as you scroll through a pinned stage, fly inward until every piece locks into its exact position and orientation to form a solid shape.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/three-scroll-shatter-assemble/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll Shatter & Assemble — Free WebGL Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every fragment stores both a scattered start transform and a target position and rotation on the assembled surface. ScrollTrigger scrubs a single 0-to-1 value, and each frame every fragment's position is interpolated between its start and target while its rotation is smoothly slerped, so scrolling assembles the object and scrolling back explodes it apart again. A three-light rig gives the crystal shards their glassy, faceted shading.</p>
+
+<p><strong>Best for:</strong> product and brand reveals, launch pages, and hero moments where an object should feel like it's being constructed as the visitor scrolls into it. <strong>Tip:</strong> the assembled target is just a set of points on a shape — swap it for your own logo or product silhouette and the same fly-in-and-lock motion reassembles that instead.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/three-scroll-shatter-assemble/">Three.js Scroll Shatter & Assemble</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<p>Every snippet is framework-agnostic, so the workflow is the same wherever you're building:</p>
+
+<ol>
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs, plus any CDN scripts it needs (GSAP, Three.js, or lottie-web).</li>
+<li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — and add the CDN script tags for the heavier effects.</li>
+<li>Prefer a component? Use the one-click <strong>export to React, Vue, Angular or Tailwind</strong>, and remember to register the ScrollTrigger in a mount effect and clean it up on unmount.</li>
+<li>Swap the placeholder content — frames, copy, chart data, 3D target shape — for your own before shipping. Every one of these is a starting point, not a finished section.</li>
+</ol>
+
+<h2>Keep your scroll animations fast and accessible</h2>
+
+<p>A scroll effect that looks great but janks the page or excludes users isn't doing its job. Three rules cover almost every case:</p>
+
+<ul>
+<li><strong>Scrub, don't fire-and-forget.</strong> Tie progress to scroll position (a numeric ScrollTrigger scrub, or seeking a frame) rather than starting a fixed-duration animation on entry — that's what makes an effect reversible and feel connected to the user's input.</li>
+<li><strong>Respect <code>prefers-reduced-motion</code>.</strong> For heavy 3D or fast-moving effects, offer a reduced or static fallback for visitors who've asked for less motion, and never trap them in a long pinned section they can't scroll past.</li>
+<li><strong>Clean up on unmount.</strong> In a framework, kill ScrollTrigger instances and call <code>renderer.dispose()</code> or <code>anim.destroy()</code> when the component leaves, so pins, WebGL contexts, and scroll listeners don't leak between pages.</li>
+</ul>
+
+<h2>Final Thought</h2>
+
+<p>These ten span every layer of the stack — a pure-CSS sticky stack, a GSAP-scrubbed typewriter, a canvas image sequence, two scroll-driven Lottie animations, and three WebGL scenes — but they're all the same idea underneath: make the scrollbar the timeline, and derive everything on screen from one scrubbed value. Once that clicks, you stop thinking of scroll animations as separate tricks and start seeing them as one technique pointed at different content — text, an SVG path, a chart, a Lottie frame, or a 3D camera.</p>
+
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/scroll/">FWD Tools UI Snippets — Scroll Effects</a> — it's free and runs entirely in your browser.</p>

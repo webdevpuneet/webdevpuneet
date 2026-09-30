@@ -1,0 +1,143 @@
+<h1>8 Copy-Paste Navigation Snippets That Make Menus Feel Instant</h1>
+
+<p>Navigation is the one part of a site every single visitor touches, yet it's usually the part developers rush — a plain <code>&lt;ul&gt;</code>, a media query, done. Below are 8 free navigation snippets you can preview live and copy in seconds: a mobile hamburger menu, a mega menu, a collapsible sidebar, a sticky header, a dropdown, breadcrumbs, a mobile bottom bar, and animated tabs.</p>
+
+<p>Each one comes with <strong>how the effect actually works</strong>, <strong>when to reach for it</strong>, and a quick tip for customising or keeping it accessible. Navigation patterns get copy-pasted more than almost anything else in a codebase, so it's worth understanding the handful of techniques — <code>aria-expanded</code> toggling, scroll-position detection, layout-shift-free collapsing — that make the difference between a menu that feels solid and one that feels flaky.</p>
+
+<p>Every snippet below is a <strong>live, interactive preview</strong> — click it, resize it, try it right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+
+<h2>What makes navigation feel "solid"?</h2>
+
+<p>Before the snippets, it helps to know what separates a menu that feels reliable from one that feels flaky. Four things matter most:</p>
+
+<ul>
+<li><strong>Keyboard and screen-reader parity</strong> — every open/close state should be reflected in <code>aria-expanded</code>, and every interactive item reachable with <code>Tab</code> alone.</li>
+<li><strong>No layout shift</strong> — sticky headers, sidebars and dropdowns should reserve their space up front so content doesn't jump when they appear.</li>
+<li><strong>Cheap animation</strong> — transforms and opacity for open/close transitions, not <code>height</code> or <code>top</code>, which force the browser to recalculate layout on every frame.</li>
+<li><strong>A clear current-state indicator</strong> — the active tab, current breadcrumb, or open menu item should always be visually obvious, not just implied by colour.</li>
+</ul>
+
+<p>Keep those four in mind as you scroll — each snippet below leans on one or more of them.</p>
+
+<h2>1. Hamburger Nav</h2>
+
+<p>A responsive nav bar that collapses into a hamburger icon on mobile, with the bars morphing into an X and the menu sliding in — the pattern behind nearly every site's mobile header.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/hamburger-nav/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Hamburger Nav — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a single <code>toggle('open')</code> class swap on click drives everything — CSS handles the rest. The three bars are <code>&lt;span&gt;</code> elements rotated and translated into an X with <code>transform</code>, and the menu panel transitions in with <code>transform: translateX()</code> rather than animating <code>width</code> or <code>display</code>, so it stays smooth even on low-end phones.</p>
+
+<p><strong>Best for:</strong> any responsive site's mobile header — marketing pages, blogs, dashboards. <strong>Tip:</strong> set <code>aria-expanded</code> on the button and move focus into the menu panel when it opens, otherwise keyboard users tab straight past a menu they can't see is open.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/hamburger-nav/">Hamburger Nav</a></p>
+
+<h2>2. Mega Menu</h2>
+
+<p>A full-width dropdown panel with grouped links, icons and a featured column — the navigation pattern SaaS and e-commerce sites use when one nav item hides dozens of destinations.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/mega-menu/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mega Menu — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the trigger button carries <code>aria-haspopup</code> and <code>aria-expanded</code>, and toggling it swaps a class that reveals a full-width panel positioned with <code>position: absolute</code> relative to the nav bar (not the trigger), so it spans edge-to-edge. <code>role="menubar"</code> and <code>role="menuitem"</code> on the structure give screen readers the same mental model as sighted users.</p>
+
+<p><strong>Best for:</strong> product suites, marketplaces, and any site where "Products" or "Solutions" needs to fan out into a dozen links. <strong>Tip:</strong> close the panel on <code>Escape</code> and on click-outside — mega menus are the single most common place users get "stuck" behind an overlay they can't dismiss.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/mega-menu/">Mega Menu</a></p>
+
+<h2>3. Collapsible Sidebar Nav</h2>
+
+<p>A dashboard sidebar that collapses to icon-only width with one click, keeping labels accessible via tooltip — the exact layout behind Notion, Linear and most admin panels.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/sidebar-nav/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Collapsible Sidebar Nav — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the collapse button flips a class on the sidebar that animates its <code>width</code> via a CSS transition and simultaneously fades the text labels with <code>opacity</code>, so icons stay aligned while labels disappear. <code>aria-expanded</code> on the toggle button keeps assistive tech in sync with the visual state.</p>
+
+<p><strong>Best for:</strong> dashboards, admin tools, and any app where screen real estate matters more once a user is a returning power user. <strong>Tip:</strong> persist the collapsed/expanded state in <code>localStorage</code> so the sidebar doesn't reset every time the user reloads the page.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/sidebar-nav/">Collapsible Sidebar Nav</a></p>
+
+<h2>4. Sticky Header</h2>
+
+<p>A header that shrinks and gains a shadow once you scroll past the hero, so navigation stays reachable without permanently eating vertical space.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/sticky-header/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sticky Header — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>position: sticky</code> keeps the header pinned to the top of the viewport with zero JavaScript for the pinning itself. A small scroll listener checks <code>window.scrollY</code> against a threshold and toggles a "scrolled" class that shrinks the header's padding and adds a box-shadow — both cheap, transform-friendly changes rather than anything that reflows the page.</p>
+
+<p><strong>Best for:</strong> long marketing pages, docs sites, and blogs where users need the nav available at any scroll depth. <strong>Tip:</strong> throttle the scroll listener (or use an <code>IntersectionObserver</code> on a sentinel element instead) so it doesn't fire on every single scroll event.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/sticky-header/">Sticky Header</a></p>
+
+<h2>5. Dropdown Menu</h2>
+
+<p>A clean account-menu dropdown with icons, a chevron that rotates on open, and a click-outside-to-close behaviour — the small utility every app header needs at least once.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/dropdown-menu/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Dropdown Menu — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the trigger toggles an <code>open</code> class on its parent, which a sibling-selector rule (<code>.dropdown.open .menu</code>) uses to reveal the panel with a short <code>opacity</code> and <code>transform: translateY()</code> transition — no JavaScript animation library needed. The chevron icon rotates 180° using the same class toggle.</p>
+
+<p><strong>Best for:</strong> account menus, settings menus, and any "one trigger, a handful of actions" pattern in an app header. <strong>Tip:</strong> add a document-level click listener that closes the menu when the click target is outside it — without that, dropdowns are the top source of "stuck open" bug reports.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/dropdown-menu/">Dropdown Menu</a></p>
+
+<h2>6. Breadcrumb</h2>
+
+<p>A minimal, semantic breadcrumb trail — the small navigation piece that tells users (and Google) exactly where a page sits in your site hierarchy.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/breadcrumb/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Breadcrumb — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> it's an ordered list (<code>&lt;ol&gt;</code>) inside a <code>&lt;nav aria-label="Breadcrumb"&gt;</code>, with CSS pseudo-elements (<code>::before</code>) drawing the separator between items so the markup itself stays clean text and links — no stray separator characters cluttering a screen reader's output. The final item gets <code>aria-current="page"</code> instead of a link.</p>
+
+<p><strong>Best for:</strong> e-commerce category pages, docs, and any deep site structure where users need to jump back up a level. <strong>SEO note:</strong> pair the visible trail with <code>BreadcrumbList</code> structured data — that's what turns it into the breadcrumb rich result under your listing in Google search.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/breadcrumb/">Breadcrumb</a></p>
+
+<h2>7. Mobile Bottom Nav</h2>
+
+<p>A fixed, app-style bottom tab bar with an active-state indicator that swaps content panels instantly — the pattern that makes a mobile web page feel like a native app.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bottom-nav/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mobile Bottom Nav — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the bar sits fixed to the viewport bottom with <code>position: fixed</code> and a safe-area inset so it clears the home-indicator strip on iOS. Tapping a tab toggles an <code>active</code> class on both the tab and its matching content panel, swapping <code>display</code> instantly rather than routing to a new page — the same trick single-page apps use for instant tab switches.</p>
+
+<p><strong>Best for:</strong> PWAs, mobile-first web apps, and any site that wants its mobile experience to feel closer to a native app than a shrunk desktop layout. <strong>Tip:</strong> keep it to four or five tabs max — past that, thumbs start missing targets and the bar stops feeling instant.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bottom-nav/">Mobile Bottom Nav</a></p>
+
+<h2>8. Animated Tabs with Indicator</h2>
+
+<p>A tab bar where a highlight pill glides smoothly to the active tab instead of just jumping, plus panel content that crossfades in — a small detail that makes a tabbed UI feel considerably more polished.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/animated-tabs/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Animated Tabs with Indicator — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> on click, the script reads the clicked tab's <code>offsetLeft</code> and <code>offsetWidth</code> via <code>getBoundingClientRect()</code>-style measurement, then applies those values to the indicator element as <code>transform: translateX()</code> and <code>width</code> with a CSS transition — so the pill "travels" between tabs instead of teleporting. The panel swap uses a short <code>opacity</code> crossfade rather than an abrupt cut.</p>
+
+<p><strong>Best for:</strong> settings pages, product feature tours, and any UI with three to six related views. <strong>Tip:</strong> recalculate the indicator's position on window resize, not just on click — otherwise a responsive layout leaves the pill stranded under the wrong tab after the viewport changes.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/animated-tabs/">Animated Tabs with Indicator</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<p>Every snippet is framework-agnostic, so the workflow is the same wherever you're building:</p>
+
+<ol>
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs.</li>
+<li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS (if any) before your closing <code>&lt;/body&gt;</code> tag.</li>
+<li>Prefer a component? Use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> and drop the file straight into your app.</li>
+<li>Recolour to your brand by editing the accent colour, spacing and font variables at the top of each snippet.</li>
+</ol>
+
+<h2>Keep your navigation accessible</h2>
+
+<p>Navigation is the part of a site keyboard and screen-reader users depend on most. Three rules cover almost every case:</p>
+
+<ul>
+<li>Toggle <code>aria-expanded</code> on every open/close trigger — menus, dropdowns and sidebars all need it to announce their state correctly.</li>
+<li>Make sure every menu, dropdown and tab bar is fully operable with <code>Tab</code>, <code>Enter</code> and <code>Escape</code> alone — mouse-only interactions lock out keyboard users entirely.</li>
+<li>Use real landmark elements (<code>&lt;nav&gt;</code>, <code>&lt;ol&gt;</code>, <code>role="menubar"</code>) so assistive tech can jump straight to navigation instead of reading through it line by line.</li>
+</ul>
+
+<h2>Final Thought</h2>
+
+<p>These are just 8 of dozens of navigation patterns you can copy for free — no login, no sign-up, everything runs in your browser. The techniques underneath them — class-toggled state paired with CSS transitions, scroll-position detection, measured-and-transformed indicators, and semantic landmark markup — are the same building blocks behind every menu, tab bar and sidebar you'll ever build. Learn them once here and you'll reach for them on every project.</p>
+
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/navigation/">FWD Tools UI Snippets — Navigation</a> — it's free and runs entirely in your browser.</p>

@@ -1,0 +1,152 @@
+<h1>10 More Copy-Paste Snippets: Real Physics on Canvas, Real 3D Models, and Scroll That Tells a Story</h1>
+
+<p>The easiest way to make a demo look impressive and be worthless is to fake the hard part. A "metaball" effect that's just overlapping blurred circles. A "3D configurator" that recolors a sphere instead of a real product. A scroll story where the text changes but nothing underneath is actually being measured. All ten snippets below refuse that shortcut on purpose: the metaballs are a genuine scalar field summed per sample point, the water ripples solve an actual discretized wave equation, the 3D pieces load real Khronos-licensed <code>.glb</code> models and compute their explode directions from real geometry, and the scroll stories measure a real SVG path length or a real clip-path percentage rather than eyeballing a number that happens to look right.</p>
+
+<p>Below are ten free, self-contained snippets spanning three lanes: hand-rolled Canvas 2D simulations built on real algorithms (flocking, metaballs, finite-difference wave propagation), Three.js scenes that load and manipulate genuine <code>.glb</code> product models, and GSAP ScrollTrigger stories that tie a real measured value — not a guessed one — to scroll position. Every one is a <strong>live, interactive preview</strong> you can try right here in the article, and each exports to React, Vue, Angular or Tailwind in one click from its snippet page.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>Simulate the real thing, don't fake its silhouette.</strong> The water ripple snippet steps forward an actual 2D wave equation on a height-field grid, so two overlapping ripples genuinely interfere the way real water does — a typical "expanding fading circle" ripple effect can't do that because there's no shared physical state for two ripples to interact through.</li>
+<li><strong>Measure geometry instead of guessing numbers.</strong> The GLB exploded-view snippet computes each part's outward direction from its actual position relative to the assembly's bounding-box center — no hand-authored offset per part — and the map journey snippet positions its marker with <code>getPointAtLength</code> instead of interpolating between two fixed coordinates, so it never cuts corners on a curve.</li>
+<li><strong>Clone before you mutate shared state.</strong> The 3D configurator clones every mesh's material the moment the model loads, specifically because a glTF file often reuses one material instance across several parts — skip the clone and one paint-swatch click would recolor geometry that was never meant to change.</li>
+<li><strong>One shared number, several synchronized outputs.</strong> The transformation-story snippet drives its clip-path wipe, its divider line, and its progress bar from the exact same <code>self.progress</code> value inside one <code>onUpdate</code> callback — nothing can drift out of sync because nothing has its own independent clock.</li>
+<li><strong>A permission or a bad build shouldn't mean a blank scene.</strong> Every <code>GLTFLoader.load()</code> call across these snippets has a real error callback that logs the actual failure and substitutes a working, honestly-labeled placeholder — the exploded-view snippet's fallback is even a genuine three-piece assembly, so the explode slider stays functional even when the real model can't load.</li>
+</ul>
+
+<h2>1. Canvas Metaball Blobs</h2>
+
+<p>Soft, gooey blobs that merge and split with a wet, organic pull as they drift and respond to the cursor — a true scalar field sampled and rasterized directly into pixel data, no WebGL, no shader.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/canvas-metaball-blobs/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Metaball Blobs — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> for every point on a coarse sampling grid, <code>render()</code> sums each ball's contribution as <code>radius² / distance²</code> — an inverse-square falloff, the same shape used for gravitational fields — into a shared scalar field. Where that summed field crosses a threshold of <code>1.0</code>, the pixel is "inside" the merged shape; nothing special-cases the merge itself, it's a direct, automatic consequence of two nearby balls' fields overlapping and pushing the combined value over threshold across a wider connected region. Sampling every device pixel at 60fps would be far too slow, so the field is computed on a coarse grid instead and each cell filled as a small flat block, trading a little edge smoothness for real-time performance. The cursor doesn't repel the blobs — within 220px, <code>updateBalls()</code> nudges each ball's velocity toward the pointer by a small constant amount, a deliberately non-physical "wet pull" rather than an accurate force.</p>
+
+<p><strong>Best for:</strong> hero backgrounds, loading screens, and creative-agency sites where an organic, liquid ambient layer reads as more alive than a static gradient. <strong>Tip:</strong> reduce the sampling <code>cell</code> size for finer, smoother edges at the cost of per-frame work, and compare it with <a href="https://fwdtools.com/ui-snippets/canvas-water-ripple-simulation/">Canvas Water Ripple Simulation</a> below for a very different flavor of grid-based canvas simulation.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/canvas-metaball-blobs/">Canvas Metaball Blobs</a></p>
+
+<h2>2. Canvas Boids Flocking Simulation</h2>
+
+<p>A real-time flock of a hundred-plus boids that align, cluster, and avoid collisions with no leader and no central coordination — pure emergent behavior from Craig Reynolds' three classic 1986 steering rules, with the cursor acting as a predator.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/canvas-boids-flocking/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Boids Flocking Simulation — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every frame, <code>flock()</code> looks only at neighbors within a fixed 55px <code>PERCEPTION</code> radius and computes three steering vectors — <strong>separation</strong> (steer away, weighted more strongly the closer a neighbor is), <strong>alignment</strong> (steer toward the average heading of nearby boids), and <strong>cohesion</strong> (steer toward their average position). No boid has any awareness of the flock as a whole; it only ever reacts to whoever happens to be within its own radius. The three vectors aren't averaged equally — separation is weighted roughly 1.6x, alignment 1.0x, cohesion 0.9x — which is the single biggest lever over whether the result reads as a tight flock, a loose swarm, or a scattered mess. Both the individual steering forces and each boid's final velocity pass through a <code>limit()</code> helper that caps magnitude while preserving direction, keeping turns smooth instead of jittery. The cursor predator is just a fourth force summed in on top of the other three: any boid within 120px steers directly away from the pointer.</p>
+
+<p><strong>Best for:</strong> AI/simulation teaching demos, data or nature-themed landing pages, and interactive portfolio pieces that want to demonstrate real algorithmic depth rather than a looping video. <strong>Tip:</strong> the neighbor search is a naive O(n²) scan, intentionally — fine up to a few hundred boids, but worth bucketing into a spatial grid before pushing into the thousands.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/canvas-boids-flocking/">Canvas Boids Flocking Simulation</a></p>
+
+<h2>3. Canvas Water Ripple Simulation</h2>
+
+<p>Click, drag, or touch the surface and real waves propagate outward and interfere with each other — an actual discretized 2D wave equation stepped forward on a height-field grid every frame, not a decorative expanding circle.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/canvas-water-ripple-simulation/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Water Ripple Simulation — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the water surface is two <code>Float32Array</code> grids, <code>current</code> and <code>previous</code>. Every frame, <code>stepWave()</code> takes the sum of its four neighbors' previous heights, halves it, and subtracts the cell's own existing value — <code>(neighborSum / 2 - current[i])</code>, the discrete form of <code>2 × average − old height</code> — then damps the result by a constant just under 1. That's the standard finite-difference discretization of the wave equation, the same family of numerical method used in real fluid and acoustic simulation. Because every disturbance feeds into that same shared grid, overlapping ripples genuinely add together and interfere rather than just drawing on top of each other. Damping is what makes the surface visibly settle back to stillness instead of oscillating forever, compounding a small energy loss every single step. The clever part is the shading: instead of mapping height directly to color, <code>render()</code> computes the local height gradient between neighboring cells and uses that gradient — not the raw height — to brighten or darken the base water color, approximating how a real surface refracts light depending on its slope, which is what gives flat ripples a convincing sense of depth.</p>
+
+<p><strong>Best for:</strong> physics teaching demos, relaxation/wellness apps, and interactive hero sections that want a genuinely tactile, physically-grounded background rather than a loop. <strong>Tip:</strong> pair the technique conceptually with <a href="https://fwdtools.com/ui-snippets/canvas-metaball-blobs/">Canvas Metaball Blobs</a> above — both rasterize a computed scalar field directly into <code>ImageData</code>, just from a very different underlying simulation.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/canvas-water-ripple-simulation/">Canvas Water Ripple Simulation</a></p>
+
+<h2>4. GLB Product Color Configurator</h2>
+
+<p>A real glTF product model, loaded and recolored live by clicking paint swatches and finish presets — not a primitive sphere standing in for "a product," and not a shared material silently repainting parts it shouldn't touch.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/glb-configurator-color-swatches/embed/" style="width:100%;height:620px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GLB Product Color Configurator — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a glTF scene graph frequently reuses one material instance across several mesh nodes to keep the file small — set <code>.color</code> directly on that shared material and every mesh using it recolors, not just the one you meant to change. The moment the model loads, this snippet walks its full node tree with <code>car.traverse()</code> and clones every mesh's material with <code>node.material.clone()</code> before collecting the clones into a <code>paintMaterials</code> array; every swatch and finish click afterward only ever touches those per-instance clones. Scale is never guessed: the loaded model's bounding box is measured with <code>THREE.Box3</code>, its largest dimension found, and the whole model scaled to a known target height — a real fix for a real bug this exact snippet family hit earlier, where different <code>.glb</code> exports decode at wildly different raw sizes. Color and finish are two genuinely independent controls: swatches set <code>.color</code>, finish presets set <code>.metalness</code>/<code>.roughness</code> together, so any of six colors combines correctly with any of three finishes with zero extra state to track.</p>
+
+<p><strong>Best for:</strong> e-commerce product configurators, automotive and vehicle showcases, and any "preview it in your color" flow that currently fakes 3D with a flat image swap. <strong>Tip:</strong> notice the zoom hint in the corner — <code>OrbitControls</code>' own wheel-zoom is deliberately disabled here (it silently hijacks every plain scroll otherwise) and reimplemented as a slider plus Ctrl/Cmd + scroll, the same fix applied across every GLB snippet in this batch.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/glb-configurator-color-swatches/">GLB Product Color Configurator</a></p>
+
+<h2>5. GLB Exploded View Assembly Toggle</h2>
+
+<p>Drag a slider and a real multi-part glTF model pulls itself apart into a technical exploded diagram — with every part's outward direction computed automatically from the assembly's own geometry, not hand-authored one offset at a time.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/glb-exploded-view-toggle/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GLB Exploded View Assembly Toggle — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> most exploded diagrams get built by hand, one offset per part. This one doesn't: <code>model.traverse()</code> flattens every mesh node in the loaded hierarchy — at any nesting depth, with no assumption about a specific model's structure — into a flat list. For each part, its world position is compared against the entire assembly's bounding-box center, and the normalized difference becomes that part's permanent outward direction: parts near the center barely move, parts near the edges explode outward furthest, exactly like a real technical diagram, computed purely from geometry. Positions never accumulate — <code>applyExplode(amount01)</code> always resets each part to its captured original position plus <code>direction × amount01 × MAX_OFFSET</code>, so dragging the slider back and forth ten thousand times can never drift a part out of place. The honest fallback goes a step further than most: if the real model fails to load, the placeholder isn't one mesh, it's a genuine three-piece group, each registered into the same <code>parts</code> array so the explode slider stays fully functional.</p>
+
+<p><strong>Best for:</strong> product manuals, engineering/CAD-adjacent portfolios, and "what's inside" e-commerce sections that want a real interactive diagram instead of a static illustration. <strong>Tip:</strong> because the direction computation makes no assumption about node names, the exact same code works on any multi-part <code>.glb</code> — swap <code>MODEL_URL</code> and it just works.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/glb-exploded-view-toggle/">GLB Exploded View Assembly Toggle</a></p>
+
+<h2>6. Scroll Map Journey Story</h2>
+
+<p>An SVG trail draws itself as you scroll while a marker travels along its exact curved geometry and a waypoint story panel updates the moment it passes each stop — the whole route measured, not approximated.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/scroll-map-journey-story/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll Map Journey Story — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the route's real length is measured once with <code>route.getTotalLength()</code>, then set as both <code>stroke-dasharray</code> and the starting <code>stroke-dashoffset</code> — the classic SVG line-draw technique. Every scroll update sets the offset to <code>routeLength × (1 − progress)</code>, so the drawn portion is always a geometrically exact fraction of the real path, not a rough guess that would draw unevenly across a winding route. The marker doesn't interpolate between two fixed coordinates either, which would visibly cut every corner — <code>route.getPointAtLength(routeLength × progress)</code> asks the path itself for the exact x/y at that fraction of its real length, so it follows every bend precisely. Each waypoint's <code>data-progress</code> value is set to roughly match where that stop actually sits along the path's real length, so a stop lighting up green and the story panel's text changing both happen right as the marker visually arrives — one shared <code>progress</code> value drives the draw, the marker, every stop's state, and the text, so nothing can drift apart.</p>
+
+<p><strong>Best for:</strong> expedition and travel recap pages, delivery/logistics journey explainers, and city walking-tour microsites where the map itself should feel traveled, not just illustrated. <strong>Tip:</strong> swap the abstract path for coordinates traced from a real route, and pair it with <a href="https://fwdtools.com/ui-snippets/scroll-company-timeline/">Scroll Company Timeline</a> for a date-based rather than geography-based journey.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/scroll-map-journey-story/">Scroll Map Journey Story</a></p>
+
+<h2>7. Scroll Transformation Story</h2>
+
+<p>Scroll down and a legacy code block visibly overtakes itself with a clean rewrite through a hard-edged clip-path wipe — no opacity blend, no ambiguity about how much has actually changed at any given scroll position.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/scroll-transformation-story/embed/" style="width:100%;height:620px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll Transformation Story — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the "after" panel sits stacked exactly on top of the "before" panel, starting with <code>clip-path: inset(0 100% 0 0)</code> — fully clipped from its right edge. A single scrubbed ScrollTrigger writes a new <code>inset(0 N% 0 0)</code> on every update, where <code>N</code> shrinks from 100 to 0 as scroll progress climbs. Unlike an opacity crossfade, a clip-path wipe never blends both versions together mid-transition — at any scroll position the frame shows a literal, honest split between exactly how much "before" and "after" is visible. The same <code>self.progress</code> value that drives the wipe also positions a glowing divider line at the identical edge and fills a progress bar, so all three pieces stay permanently in step with each other by construction, not by careful timing. Captions layer a discrete narrative on top of the continuous scrub: a small array of <code>{ at, text }</code> pairs is checked each update for the highest threshold progress has already passed — a lightweight step function needing no second ScrollTrigger.</p>
+
+<p><strong>Best for:</strong> code refactor case studies, design/UI redesign showcases, and brand-refresh microsites — anywhere a before/after genuinely needs to read as one thing overtaking another rather than fading between two states. <strong>Tip:</strong> the wipe mechanic only needs two equal-size stacked panels, so screenshots or a paragraph of edited copy work exactly the same as the code blocks shown here.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/scroll-transformation-story/">Scroll Transformation Story</a></p>
+
+<h2>8. GitHub-Style Contribution Heatmap</h2>
+
+<p>A 53-week activity calendar with five color intensity levels, aligned month labels, and a cursor-following tooltip — the exact grid pattern GitHub popularized, built from CSS Grid and vanilla JavaScript with zero charting library.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/github-contribution-heatmap/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GitHub-Style Contribution Heatmap — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the script computes a 53-week window ending today, then rewinds the start date to the previous Sunday — <code>start = new Date(start.getTime() - start.getDay() * DAY)</code> — so every week lands cleanly into 7 rows with no partial first column. <code>.chm-grid</code> then does the real layout work: <code>grid-template-rows: repeat(7, 11px)</code> with <code>grid-auto-flow: column</code> means pushing 371 day cells in chronological order automatically wraps them into weekly columns, with zero manual row/column math in JavaScript. Rather than mapping counts to color through a continuous gradient, <code>levelFor()</code> buckets each count into five discrete tiers matching GitHub's own convention — five states read faster at a glance than infinite shades. Month labels get positioned with <code>style.gridColumn = weekIndex + 1</code> the moment a Sunday starts a new month, keeping them aligned to the exact column even though months never divide evenly into 53 weeks.</p>
+
+<p><strong>Best for:</strong> developer profile pages, habit and streak trackers, and any internal dashboard that wants a scannable year of daily activity at a glance. <strong>Tip:</strong> the random data generator is a clean drop-in point — swap it for a real <code>fetch()</code> call and every other piece (grid, levels, tooltip, month labels) keeps working unchanged.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/github-contribution-heatmap/">GitHub-Style Contribution Heatmap</a></p>
+
+<h2>9. Text Diff Checker</h2>
+
+<p>Paste two versions of a paragraph and see exactly which words were removed and added, computed by a real longest-common-subsequence algorithm running entirely client-side — no diff-match-patch, no external library.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/text-diff-checker/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Text Diff Checker — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>tokenize()</code> splits on <code>/(\s+)/</code> with a capturing group, which — unlike a plain whitespace split — keeps every run of spaces as its own token, so the diff can tell "quick brown" and "quick  brown" apart and never has to guess where spacing goes on reassembly. <code>diffWords()</code> then builds a dynamic-programming table where <code>dp[i][j]</code> holds the length of the longest common subsequence between the tails of both token arrays starting at <code>i</code> and <code>j</code> — the same core recurrence <code>git diff</code> and most real diff tools use. A forward walk from <code>(0, 0)</code> reconstructs the actual edits: matching tokens are equal, and at a mismatch the walk follows whichever neighboring cell in the table holds the larger value, deciding whether that token was deleted or inserted. Deleted and inserted tokens render inside real <code>&lt;del&gt;</code> and <code>&lt;ins&gt;</code> elements — the semantically correct tags, not styled <code>&lt;span&gt;</code>s — with every token passed through <code>escapeHtml()</code> first so pasted angle brackets can't break the output.</p>
+
+<p><strong>Best for:</strong> contract and legal document review, copyediting tools, and translation QA — anywhere a word-level "what actually changed" answer matters more than a raw text dump. <strong>Tip:</strong> the same <code>diffWords()</code> function works at character granularity too — drop the whitespace-preserving regex and split on empty string for finer-grained diffs within a single changed word.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/text-diff-checker/">Text Diff Checker</a></p>
+
+<h2>10. Half-Star Rating Input</h2>
+
+<p>A pointer-precision star rating that resolves to a genuine half-star, not just five clickable whole stars — the kind of small interaction detail most rating widgets skip entirely.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/half-star-rating-input/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Half-Star Rating Input — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> most star widgets only ever register whole-number clicks — five buttons, five possible values. This one reads the pointer's exact horizontal position within each star via <code>getBoundingClientRect()</code> and compares it against that star's own midpoint: land in the left half and the value resolves to <code>N - 0.5</code>, land in the right half and it resolves to a full <code>N</code>. The visual fill itself uses an overlay-clip technique — a gray outline star renders first, then a gold star sits directly on top inside an <code>overflow: hidden</code> wrapper whose width is set to exactly the resolved rating percentage, clipping the gold glyph down to reveal only that fraction of it, so a 3.5-star value shows precisely half of the fourth star filled rather than rounding up or down to the nearest whole icon.</p>
+
+<p><strong>Best for:</strong> product review forms, app-store-style rating prompts, and any feedback flow where "4 out of 5" genuinely isn't precise enough and a real half-star distinction matters. <strong>Tip:</strong> pair it with <a href="https://fwdtools.com/ui-snippets/app-store-rating-prompt/">App Store Rating Prompt</a> for a full branching flow that routes high and low ratings to different next steps.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/half-star-rating-input/">Half-Star Rating Input</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open any snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs, then paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — or use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page. The GLB and scroll-story snippets need CDN scripts (Three.js core, GLTFLoader, OrbitControls, GSAP, ScrollTrigger); every snippet page lists the exact tags required, and the canvas and mixed snippets in this batch need nothing installed at all.</li>
+<li><strong>Simulate, don't fake the silhouette, when the interaction genuinely depends on it.</strong> A single ripple looks the same whether it's a real wave equation or an expanding fading circle — the difference only shows up the moment two of them overlap. Reach for a real grid-based simulation specifically when your effect needs multiple instances to interact correctly, not as a default for every canvas animation.</li>
+<li><strong>Measure real geometry before you animate against it.</strong> The exploded-view snippet's per-part direction and the map journey's marker position both come from asking Three.js or the SVG path what's actually true — a bounding box, a point at a given path length — rather than hardcoding a number that happens to look right for one specific model or route. That discipline is what makes the same code work correctly on a completely different model or path with zero changes.</li>
+<li><strong>Clone shared state before you mutate it.</strong> Anywhere you're about to change something (a material, a config object, a DOM node) that might be referenced elsewhere, clone it first. The GLB configurator's <code>node.material.clone()</code> is a one-line habit that prevents an entire category of "why did unrelated things change color" bugs.</li>
+<li><strong>In React, Vue, or Angular, all of this moves into mount effects with real cleanup.</strong> Three.js scenes, ScrollTrigger instances, and WebGL contexts all need to be created once against a ref (not <code>querySelectorAll</code>) and explicitly torn down on unmount — each snippet's FAQ section spells out exactly what that cleanup should look like for its specific APIs.</li>
+<li><strong>Every external dependency needs an honest fallback, not a blank state.</strong> Every <code>GLTFLoader.load()</code> call in this batch has a real error callback that substitutes a working placeholder instead of leaving the scene empty. Model your own fallbacks the same way whenever a snippet depends on a CDN asset, a permission, or an API that might fail.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>The thread running through all ten of these isn't a shared visual style — a flocking simulation, a color configurator, and a diff checker don't look anything alike. It's that each one does the actual computation its effect requires instead of approximating it with something that merely looks similar in a screenshot. A metaball field genuinely sums influence per sample point; an exploded view genuinely measures each part's position; a diff checker genuinely runs the LCS recurrence. That discipline is invisible when everything's static, and it's exactly what shows up the moment a user actually interacts with the thing — drags two ripples into each other, scrubs a scroll position back and forth, or pastes in a paragraph with unusual spacing.</p>
+
+<p>Try them, retune the constants, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

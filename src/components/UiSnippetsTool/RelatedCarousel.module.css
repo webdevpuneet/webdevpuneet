@@ -1,0 +1,301 @@
+.categoryNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+  padding: 10px 20px;
+  border: 1px solid var(--border, #e3e5ea);
+  border-radius: 10px;
+  background: var(--surface, #fff);
+}
+
+@media (max-width: 768px) {
+  .categoryNav { padding: 10px 16px; }
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  max-width: 38%;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text2, #4b5563);
+  text-decoration: none;
+}
+.navLink:hover { color: var(--accent, #6366f1); }
+
+.navLinkNext { justify-content: flex-end; text-align: right; }
+
+.navLinkTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.navLinkDisabled { min-width: 0; max-width: 38%; }
+
+.navPosition {
+  flex-shrink: 0;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text3, #9ca3af);
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.section {
+  margin-top: 24px;
+  margin-bottom: 28px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+/* Category strip: one row of chips; hovering (or tabbing into) it drops the
+   remaining rows open over the cards below instead of pushing them down. */
+.catBar {
+  position: relative;
+  z-index: 3;
+  height: 32px;
+  margin-bottom: 12px;
+}
+/* In the snippet page header: no section spacing, and the "More" fade matches the header surface */
+.catBarHeader { margin-bottom: 0; height: 24px; }
+.catBarHeader .catList { top: -4px; gap: 4px; padding: 4px 60px 4px 5px; max-height: 32px; }
+.catBarHeader:hover .catList,
+.catBarHeader:focus-within .catList { max-height: 320px; padding-right: 5px; }
+/* Compact chips so they sit quietly beside the header buttons */
+.catBarHeader .catChip {
+  height: 22px;
+  padding: 0 8px;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text3, #64748b);
+  border-color: color-mix(in srgb, var(--border, #e3e5ea) 80%, transparent);
+}
+.catBarHeader .catChip:hover { color: var(--accent, #6366f1); border-color: var(--accent, #6366f1); }
+.catBarHeader .catChipActive { color: var(--accent, #6366f1); font-weight: 600; }
+.catBarHeader .catMore {
+  height: 24px;
+  font-size: 10.5px;
+  background: linear-gradient(to right, transparent, var(--surface, #fff) 22px);
+}
+.catList {
+  position: absolute;
+  top: -5px;
+  left: -6px;
+  right: -6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 5px 72px 5px 6px;
+  max-height: 38px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  transition: max-height .22s ease, background .15s, box-shadow .15s, border-color .15s;
+}
+.catBar:hover .catList,
+.catBar:focus-within .catList {
+  max-height: 320px;
+  padding-right: 6px;
+  background: var(--surface, #fff);
+  border-color: var(--border, #e3e5ea);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, .16);
+}
+.catChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 10px;
+  border: 1px solid var(--border, #e3e5ea);
+  border-radius: 999px;
+  background: var(--surface, #fff);
+  color: var(--text2, #4b5563);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color .12s, color .12s, background .12s;
+}
+.catChip:hover { border-color: var(--accent, #6366f1); color: var(--accent, #6366f1); }
+.catChip:focus-visible { outline: 2px solid var(--accent, #6366f1); outline-offset: 1px; }
+.catChipActive {
+  border-color: color-mix(in srgb, var(--accent, #6366f1) 45%, transparent);
+  background: color-mix(in srgb, var(--accent, #6366f1) 10%, var(--surface, #fff));
+  color: var(--accent, #6366f1);
+}
+/* "More" hint at the row's end; fades out once the strip is open. */
+.catMore {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding-left: 22px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text3, #94a3b8);
+  background: linear-gradient(to right, transparent, var(--bg, #f1f5f9) 22px);
+  pointer-events: none;
+  transition: opacity .15s;
+}
+.catBar:hover .catMore,
+.catBar:focus-within .catMore { opacity: 0; }
+@media (hover: none) {
+  .catList { overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; padding-right: 6px; }
+  .catMore { display: none; }
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.headCount {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text2, #64748b);
+}
+
+.navBtns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.pageIndicator {
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text3, #94a3b8);
+}
+
+.navBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text2);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.navBtn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+.navBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.track {
+  display: flex;
+  gap: 12px;
+}
+
+.card {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.12s, box-shadow 0.12s, transform 0.12s;
+}
+.card:hover {
+  border-color: #a5b4fc;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+  transform: translateY(-1px);
+}
+
+.card.cardActive {
+  border-color: var(--accent, #6366f1);
+  box-shadow: 0 0 0 1.5px var(--accent, #6366f1);
+}
+
+
+@media (max-width: 768px) {
+  .track {
+    flex-wrap: wrap;
+  }
+  .card {
+    flex-basis: calc(50% - 6px);
+  }
+}
+
+/* Home strip: below 1300px, three cards a row (the six-per-page strip wraps to two rows). */
+@media (max-width: 1300px) {
+  .trackThree { flex-wrap: wrap; }
+  .trackThree .card { flex: 0 0 calc((100% - 24px) / 3); }
+}
+@media (max-width: 768px) {
+  .trackThree .card { flex-basis: calc(50% - 6px); }
+}
+
+.thumb {
+  width: 100%;
+  height: 125px;
+  object-fit: scale-down;
+  display: block;
+  background: var(--bg2, #f1f5f9);
+}
+
+.cardTitle {
+  margin: 0;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text, #1e293b);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* "View all" link in a carousel header (home page strip) */
+.viewAll {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent, #6366f1);
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent, #6366f1) 30%, transparent);
+  background: color-mix(in srgb, var(--accent, #6366f1) 8%, transparent);
+  transition: background .15s, border-color .15s;
+}
+.viewAll:hover { background: color-mix(in srgb, var(--accent, #6366f1) 16%, transparent); border-color: var(--accent, #6366f1); }
+.viewAll:focus-visible { outline: 2px solid var(--accent, #6366f1); outline-offset: 2px; }

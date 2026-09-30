@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Favorite Toggle Gallery Card">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+      <h1>Favorite Toggle Gallery Card</h1>
+      <p class="hint">Click the heart on any card — unlike the plan-card demo, these are independent checkboxes, so any number of cards can be favorited at once.</p>
+    </header>
+    <main class="stageWrap">
+      <div class="galleryGrid" id="stage">
+          <figure class="galleryCard">
+            <div class="galleryArt" style="--h:250"></div>
+            <figcaption>
+              <span>Mountain trail</span>
+              <label class="likeLabel">
+                <input type="checkbox" class="likeBox">
+                <span class="heart">&#9825;</span>
+              </label>
+            </figcaption>
+          </figure>
+          <figure class="galleryCard">
+            <div class="galleryArt" style="--h:20"></div>
+            <figcaption>
+              <span>Desert road</span>
+              <label class="likeLabel">
+                <input type="checkbox" class="likeBox">
+                <span class="heart">&#9825;</span>
+              </label>
+            </figcaption>
+          </figure>
+          <figure class="galleryCard">
+            <div class="galleryArt" style="--h:150"></div>
+            <figcaption>
+              <span>City lights</span>
+              <label class="likeLabel">
+                <input type="checkbox" class="likeBox">
+                <span class="heart">&#9825;</span>
+              </label>
+            </figcaption>
+          </figure>
+        </div>
+      <div class="readout">
+        <span>Favorited: <strong id="readoutValue">&mdash;</strong></span>
+      </div>
+      <pre class="ruleTag">.galleryCard:has(.likeBox:checked) {
+    border-color: gold;
+    box-shadow: 0 0 0 3px #fef9c3;
+  }</pre>
+    </main>
+</script>
+
+<script type="text/plain" id="css">
+
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+  .stage {
+    width: 100%;
+    max-width: 560px;
+    box-sizing: border-box;
+    padding: 26px 24px;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    background: #fff;
+  }
+  .readout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 16px;
+    font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--sub);
+  }
+  .readout strong { color: var(--accent); font-weight: 700; }
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 6px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .galleryGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .galleryCard {
+    margin: 0;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .galleryArt {
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, hsl(var(--h) 70% 60%), hsl(calc(var(--h) + 40) 70% 45%));
+  }
+  figcaption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    font-size: 11.5px;
+  }
+  .likeLabel { cursor: pointer; }
+  .likeBox { position: absolute; opacity: 0; }
+  .heart { font-size: 16px; color: var(--sub); }
+
+  /* The rule this demo is about. */
+  .galleryCard:has(.likeBox:checked) {
+    border-color: gold;
+    box-shadow: 0 0 0 3px #fef9c3;
+  }
+  .galleryCard:has(.likeBox:checked) .heart { color: #d97706; }
+  .galleryCard:has(.likeBox:checked) .heart::before { content: '\2665'; }
+</script>
+
+<script type="text/plain" id="js">
+  var stage = document.getElementById('stage');
+    var out = document.getElementById('readoutValue');
+    function report() { out.textContent = stage.querySelectorAll('.likeBox:checked').length; }
+    stage.addEventListener('change', report);
+    report();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

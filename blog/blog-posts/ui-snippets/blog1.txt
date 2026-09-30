@@ -1,0 +1,331 @@
+<!-- wp:heading {"level":1} -->
+<h1 class="wp-block-heading">8 Copy-Paste CSS Button Snippets You Can Drop Into Any Site</h1>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Every project needs buttons, and hand-coding a good one — hover state, animation, accessibility and all — eats more time than it should. Below are 8 free button snippets you can preview live and copy in seconds. Each one is pure HTML, CSS and (where needed) a few lines of JS, with no framework required.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>But this isn't just a copy-paste dump. For every button you'll find <strong>how the effect actually works</strong>, <strong>when to reach for it</strong> (and when not to), and a quick tip for customising or keeping it accessible. By the end you'll not only have eight buttons — you'll understand the handful of CSS and JavaScript techniques that power almost every button micro-interaction on the modern web.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every button below is a <strong>live, interactive preview</strong> — hover it, click it, try it right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">What makes a button feel "good"?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Before the snippets, it helps to know what you're actually copying. A button that feels satisfying almost always gets four things right:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Instant visual feedback</strong> — hover, focus and active states that respond in under 200&nbsp;ms so the button feels connected to your cursor.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Motion with purpose</strong> — animation that guides attention to the primary action, not decoration for its own sake.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Performance</strong> — effects built on <code>transform</code> and <code>opacity</code> (which the GPU handles) rather than properties that trigger expensive layout repaints.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Accessibility</strong> — real <code>&lt;button&gt;</code> elements, visible focus rings, and respect for <code>prefers-reduced-motion</code> so animation never becomes a barrier.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>Keep those four in mind as you scroll — each snippet below leans on one or more of them.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. Gradient Button</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Three animated CSS gradient buttons — a moving gradient, a shine sweep, and a gradient border — with hover lifts and zero JavaScript. It's the fastest way to make a call-to-action feel premium.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/gradient-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Gradient Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> the moving gradient sets a <code>background-size</code> larger than the button (e.g. <code>200%</code>) and animates <code>background-position</code>, so the colours slide across a fixed frame. The gradient border uses a <code>::before</code> pseudo-element sized slightly larger than the button, sitting behind it — a trick that dodges the fact that <code>border-image</code> can't be rounded.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> hero calls-to-action, pricing "Get started" buttons, and SaaS landing pages where the primary action needs to feel high-value. <strong>Tip:</strong> swap the two gradient stops for your brand colours and keep the animation duration around 3–4&nbsp;s — faster than that reads as jittery rather than premium.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/gradient-button/">Gradient Button</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. Ripple Button</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A Material-style ripple that expands from the exact click position in about 10 lines of JS. Comes in solid and outline variants, and exports cleanly to React, Vue and Tailwind.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/ripple-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Ripple Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> on click, the script reads the button's position with <code>getBoundingClientRect()</code>, subtracts it from the cursor coordinates to find the exact origin, and drops in a <code>&lt;span&gt;</code> that a CSS keyframe scales up and fades out. The element removes itself when the animation ends, so clicks never pile up stray nodes in the DOM.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> app UIs, dashboards, and anything with a Material or Android feel where users expect touch feedback. <strong>Tip:</strong> the ripple is the single most recognisable "this is interactive" cue you can add — it works beautifully on <a href="https://fwdtools.com/ui-snippets/cards/">cards</a> and list items too, not just buttons.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/ripple-button/">Ripple Button</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. Shimmer Button</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A rotating conic spark border, a sheen sweep on hover, and a click ripple — all GPU-light so it stays smooth on mobile. Perfect for a hero CTA that needs to catch the eye.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/shimmer-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Shimmer Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> the animated border is a <code>conic-gradient</code> rotated with a CSS custom property (<code>@property --angle</code>) so the browser can animate the angle on the GPU. The sheen is a diagonal light-coloured gradient that slides across on hover using a <code>transform: translateX()</code> transition — no repaint, no jank.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> a single, unmissable primary action — a "Start free trial" or "Buy now" hero button. <strong>Tip:</strong> use shimmer sparingly. One shimmering button on a page pulls the eye; three of them compete and cancel each other out.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/shimmer-button/">Shimmer Button</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. Neon Glow Buttons</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Cyberpunk neon buttons built from layered box-shadow and text-shadow in cyan, pink, green and purple — pure CSS, no images. Great for dark-themed landing pages and gaming sites.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/neon-glow/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Neon Glow Buttons — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> the glow is several <code>box-shadow</code> layers stacked in the same hue — a tight, bright inner shadow for the core and progressively wider, softer shadows for the ambient spread. On hover the shadow radii grow, so the button appears to "light up". A matching <code>text-shadow</code> makes the label glow too.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> dark UIs, gaming and crypto sites, music and event pages, and developer tools with a terminal aesthetic. <strong>Accessibility note:</strong> neon only reads well on a dark background — check that your label still hits a 4.5:1 contrast ratio, because pure glow can leave the core text hard to read.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/neon-glow/">Neon Glow Buttons</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Magnetic Button</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This button pulls toward the cursor using a little vector math and <code>getBoundingClientRect</code>, then smoothly snaps back when you leave. It's the kind of micro-interaction that makes a portfolio feel expensive.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/magnetic-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Magnetic Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> on <code>mousemove</code>, the script measures the distance from the cursor to the button's centre and applies a proportional <code>translate</code> so the button drifts toward the pointer. A <code>requestAnimationFrame</code> loop eases the movement (a lerp — linear interpolation) so it glides rather than snapping, and resets to zero on <code>mouseleave</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> portfolios, agency sites, and premium product pages where craft is part of the pitch. <strong>Tip:</strong> keep the pull radius small (roughly the button's own size) and skip it on touch devices — there's no cursor to attract to, so gate it behind a <code>(hover: hover)</code> media query.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/magnetic-button/">Magnetic Button</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. Liquid Button</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The fill rises as gooey metaballs that merge into one liquid mass on hover, using an SVG goo filter. It's a showstopper for creative agency sites and product launches.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/liquid-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Liquid Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> the "goo" is an SVG filter that blurs the shapes, then cranks up the alpha contrast so blurry edges snap back into a single crisp outline — blobs that overlap visually fuse. Small circles animate upward behind the label, and the filter makes them read as one rising liquid.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> a single hero moment — a launch page, an award-style portfolio, a creative agency landing. <strong>Heads-up:</strong> SVG filters are the heaviest effect here, so use one instance, not a grid of them, and always provide a plain hover fallback for reduced-motion users.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/liquid-button/">Liquid Button</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. 3D Push Button</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A tactile 3D push button in pure CSS — the top face drops onto a darker shadow face on click, exactly like pressing a real key. Simple, satisfying, and framework-friendly.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/3d-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="3D Push Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> a darker element sits directly behind the button as its "base". The face is pushed up with <code>translateY</code>, exposing the base as a 3D edge. On <code>:active</code> the face translates down to meet the base, so the depth collapses — the exact motion of pressing a physical key. It's all <code>transform</code>, so it stays perfectly smooth.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> games, kids' products, playful brands, and any interface where a chunky, physical feel fits. <strong>Tip:</strong> because it's pure CSS with a real <code>:active</code> state, it works on touch out of the box and needs zero JavaScript — one of the most robust snippets in this list.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/3d-button/">3D Push Button</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. Pulse Button</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A call-to-action button that emits staggered expanding pulse rings to draw the eye, with a live/stop toggle and off-screen pausing so it never wastes battery. Ideal for "Sign up" or "Buy now".</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://fwdtools.com/ui-snippets/pulse-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pulse Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong> the rings are pseudo-elements that scale up and fade out on a loop, each with a staggered <code>animation-delay</code> so a new ring leaves before the last one finishes — the classic "radar" pulse. An <code>IntersectionObserver</code> pauses the animation when the button scrolls out of view, which keeps it off the CPU and easy on battery.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> the one action you most want clicked — "Sign up", "Buy now", a notification dot, or a chat launcher. <strong>Tip:</strong> a pulse is a strong attention magnet, so limit it to a single element per screen and pair it with clear, benefit-led label text.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/pulse-button/">Pulse Button</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:spacer {"height":"48px"} -->
+<div style="height:48px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">How to drop these into your project</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Every snippet is framework-agnostic, so the workflow is the same wherever you're building:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list {"ordered":true} -->
+<ol class="wp-block-list">
+<!-- wp:list-item -->
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS (if any) before your closing <code>&lt;/body&gt;</code> tag.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Prefer a component? Use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> and drop the file straight into your app.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Recolour to your brand by editing the gradient stops, accent colour, or CSS custom properties at the top of each snippet.</li>
+<!-- /wp:list-item -->
+</ol>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Keep your buttons accessible</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Great visuals shouldn't cost you usability. Three quick rules cover almost every case:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li>Use a real <code>&lt;button&gt;</code> (or <code>&lt;a&gt;</code> for navigation) so keyboard and screen-reader users get the behaviour for free — never a bare <code>&lt;div&gt;</code> with a click handler.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Keep a visible <code>:focus-visible</code> outline. If a design removes the default ring, add your own — keyboard users rely on it to see where they are.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Wrap heavier motion in <code>@media (prefers-reduced-motion: reduce)</code> and fall back to a simple colour or shadow change for users who opt out of animation.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Final Thought</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>These are just 8 of dozens of button styles you can copy for free — no login, no sign-up, everything runs in your browser. More importantly, the techniques behind them — animated gradients, click-origin ripples, layered glows, lerped magnetic motion, SVG goo, 3D transforms and looping pulses — are the same building blocks you'll reuse across every interactive element you make. Learn them once here and you'll reach for them again and again.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/buttons/">FWD Tools UI Snippets — Buttons</a> — it's free and runs entirely in your browser.</p>
+<!-- /wp:paragraph -->

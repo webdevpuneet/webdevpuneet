@@ -1,0 +1,174 @@
+/* ============================================================
+   Cookie consent popover — fixed, bottom-left site chrome.
+   Tokens up top so colours / spacing / radius / shadow are easy
+   to retheme in one place.
+   ============================================================ */
+.banner {
+  --cc-surface:       #ffffff;
+  --cc-text:          #1e293b;
+  --cc-text-muted:    #64748b;
+  --cc-primary:       #4f46e5;
+  --cc-primary-hover: #4338ca;
+  --cc-primary-text:  #ffffff;
+  --cc-border:        #e2e8f0;
+  --cc-outline-hover: #f1f5f9;
+  --cc-link:          #4f46e5;
+  --cc-icon-bg:       #eef2ff;
+  --cc-focus-ring:    #6366f1;
+  --cc-radius:        18px;
+  --cc-radius-btn:    10px;
+  --cc-shadow:        0 12px 40px -8px rgba(15, 23, 42, .25),
+                      0 4px 12px -4px rgba(15, 23, 42, .12);
+  --cc-ease:          cubic-bezier(.16, 1, .3, 1);
+}
+
+.banner {
+  position: fixed;
+  bottom: 51px;            /* the Hire Me / Support row is 43px tall: 8px of air above it */
+  left: 10px;
+  z-index: 1200;
+
+  /* The sidebar is 320px wide; 10px + 300px + 10px keeps the popover inside it. */
+  width: 300px;
+  max-width: calc(100vw - 20px);
+
+  background: var(--cc-surface);
+  color: var(--cc-text);
+  border: 1px solid var(--cc-border);
+  border-radius: var(--cc-radius);
+  box-shadow: var(--cc-shadow);
+  padding: 22px;
+
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Entrance: fade + slide up (the .visible class flips it on) */
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .45s var(--cc-ease), transform .45s var(--cc-ease);
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banner { transition: opacity .2s ease; transform: none; }
+}
+
+/* ---- Header ---- */
+.head {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 12px;
+}
+
+.icon {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  color: var(--cc-primary);
+  background: var(--cc-icon-bg);
+  border-radius: 12px;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--cc-text);
+}
+
+/* ---- Body ---- */
+.desc {
+  margin: 0 0 18px;
+  font-size: .875rem;
+  line-height: 1.6;
+  color: var(--cc-text-muted);
+}
+
+.link {
+  color: var(--cc-link);
+  font-weight: 600;
+  text-decoration: none;
+}
+.link:hover { text-decoration: underline; }
+
+/* ---- Actions ---- */
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  flex: 1;
+  padding: 11px 16px;
+  font: inherit;
+  font-size: .875rem;
+  font-weight: 600;
+  border-radius: var(--cc-radius-btn);
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease,
+              color .18s ease, transform .08s ease;
+}
+.btn:active { transform: translateY(1px); }
+
+.primary {
+  background: var(--cc-primary);
+  color: var(--cc-primary-text);
+}
+.primary:hover { background: var(--cc-primary-hover); }
+
+.outline {
+  background: transparent;
+  color: var(--cc-text);
+  border-color: var(--cc-border);
+}
+.outline:hover { background: var(--cc-outline-hover); }
+
+/* Visible keyboard focus for every interactive element */
+.btn:focus-visible,
+.link:focus-visible {
+  outline: 3px solid var(--cc-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 480px) {
+  .banner {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    width: auto;
+  }
+}
+
+/* ---- Collapsed pill ---- */
+.pill {
+  position: fixed;
+  bottom: 51px;            /* same spot as the banner: 8px above the Hire Me / Support row */
+  left: 10px;
+  z-index: 1200;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px 8px 11px;
+  font: 700 12.5px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #4338ca;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  box-shadow: 0 6px 20px -6px rgba(15, 23, 42, .28);
+  cursor: pointer;
+  animation: ccPillIn .35s cubic-bezier(.16, 1, .3, 1) both;
+  --cc-icon-bg: #eef2ff;
+}
+.pill:hover { background: #eef2ff; border-color: #c7d2fe; }
+.pill:focus-visible { outline: 2px solid #6366f1; outline-offset: 2px; }
+@keyframes ccPillIn { from { opacity: 0; transform: translateY(10px) scale(.92); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .pill { animation: none; } }
+@media (max-width: 480px) { .pill { left: 12px; bottom: 12px; } }

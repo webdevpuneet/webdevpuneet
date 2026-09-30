@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="contains() Fails for Content Rendered Outside the Menu's DOM Subtree">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>contains() fails for a submenu that's appended straight to &lt;body&gt;</h1>
+    <p class="hint">Click each trigger, then click an item inside the small submenu tooltip that pops up (it's appended to the very end of &lt;body&gt; for stacking, not nested inside the menu).</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken</h2>
+        <div class="menuWrap">
+          <button type="button" class="trigger" id="badTrigger">Menu &#9662;</button>
+          <div class="menu" id="badMenu">
+            <button class="menuItem" id="badSubBtn">More &#9656;</button>
+          </div>
+        </div>
+        <p class="note" id="badNote">Uses menuEl.contains(e.target).</p>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed</h2>
+        <div class="menuWrap">
+          <button type="button" class="trigger" id="goodTrigger">Menu &#9662;</button>
+          <div class="menu" id="goodMenu" data-menu-scope="dropdown">
+            <button class="menuItem" id="goodSubBtn">More &#9656;</button>
+          </div>
+        </div>
+        <p class="note" id="goodNote">Uses a shared data-menu-scope attribute instead of DOM position.</p>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 56em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .menuWrap { position: relative; display: inline-block; margin-bottom: 8px; }
+  .trigger { padding: 9px 16px; border-radius: 8px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: 700 12.5px system-ui, sans-serif; cursor: pointer; }
+  .trigger:hover { border-color: var(--accent); }
+  .menu { position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); display: none; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 6px; box-shadow: 0 6px 20px rgba(0,0,0,.08); min-width: 100px; z-index: 5; }
+  .menu.open { display: block; }
+  .menuItem { padding: 7px 10px; border: none; background: transparent; border-radius: 6px; font: 500 12.5px system-ui, sans-serif; color: var(--ink); cursor: pointer; width: 100%; text-align: left; }
+  .menuItem:hover { background: #f0f1f5; }
+  .submenuTip { position: fixed; background: #14161c; color: #fff; border-radius: 8px; padding: 8px; display: none; flex-direction: column; gap: 2px; z-index: 50; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+  .submenuTip.open { display: flex; }
+  .submenuTip button { text-align: left; padding: 6px 10px; border: none; background: transparent; color: #fff; border-radius: 6px; font: 500 12.5px system-ui, sans-serif; cursor: pointer; }
+  .submenuTip button:hover { background: rgba(255,255,255,.12); }
+  .note { margin: 6px 0 0; font-size: 11.5px; color: var(--sub); line-height: 1.5; min-height: 2.6em; }
+</script>
+
+<script type="text/plain" id="js">
+  function makeSubmenu(id) {
+    var tip = document.createElement('div');
+    tip.className = 'submenuTip';
+    tip.id = id;
+    tip.setAttribute('data-menu-scope', 'dropdown');
+    tip.innerHTML = '<button data-item="Export">Export</button><button data-item="Duplicate">Duplicate</button>';
+    // Appended directly to <body> -- a common real-world pattern for
+    // tooltips/submenus so they aren't clipped by a parent's overflow:hidden
+    // or trapped under a lower z-index stacking context.
+    document.body.appendChild(tip);
+    return tip;
+  }
+
+  function positionNear(el, tip) {
+    var r = el.getBoundingClientRect();
+    tip.style.top = (r.bottom + 6) + 'px';
+    tip.style.left = r.left + 'px';
+  }
+
+  function setupBad() {
+    var trigger = document.getElementById('badTrigger');
+    var menu = document.getElementById('badMenu');
+    var subBtn = document.getElementById('badSubBtn');
+    var note = document.getElementById('badNote');
+    var tip = makeSubmenu('badTip');
+
+    trigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      menu.classList.toggle('open');
+      tip.classList.remove('open');
+    });
+
+    subBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      positionNear(subBtn, tip);
+      tip.classList.toggle('open');
+    });
+
+    tip.addEventListener('click', function (e) {
+      var item = e.target.closest('button');
+      if (item) note.textContent = 'You clicked "' + item.dataset.item + '" -- if the menu stayed open long enough.';
+    });
+
+    // BROKEN: only checks whether the click is inside the menu element.
+    // The submenu tooltip lives outside <div id="badMenu"> in the DOM
+    // (it's a sibling appended to <body>), so contains() returns false
+    // for clicks inside it, even though it's visually part of the menu.
+    document.addEventListener('click', function (e) {
+      if (!menu.contains(e.target) && !trigger.contains(e.target)) {
+        menu.classList.remove('open');
+        tip.classList.remove('open');
+        note.textContent = 'Closed -- menuEl.contains() said this click was outside, even though it hit the submenu.';
+      }
+    });
+  }
+
+  function setupGood() {
+    var trigger = document.getElementById('goodTrigger');
+    var menu = document.getElementById('goodMenu');
+    var subBtn = document.getElementById('goodSubBtn');
+    var note = document.getElementById('goodNote');
+    var tip = makeSubmenu('goodTip');
+
+    trigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      menu.classList.toggle('open');
+      tip.classList.remove('open');
+    });
+
+    subBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      positionNear(subBtn, tip);
+      tip.classList.toggle('open');
+    });
+
+    tip.addEventListener('click', function (e) {
+      var item = e.target.closest('button');
+      if (item) {
+        note.textContent = 'You clicked "' + item.dataset.item + '" -- and the menu correctly stayed open until now.';
+        menu.classList.remove('open');
+        tip.classList.remove('open');
+      }
+    });
+
+    // FIXED: every part of this widget -- the menu AND the portal-appended
+    // submenu -- shares a data-menu-scope attribute. The outside check
+    // walks up with closest() looking for that scope, which works
+    // regardless of where in the DOM tree the element actually lives.
+    document.addEventListener('click', function (e) {
+      var insideScope = e.target.closest('[data-menu-scope="dropdown"]');
+      var insideTrigger = trigger.contains(e.target);
+      if (!insideScope && !insideTrigger) {
+        menu.classList.remove('open');
+        tip.classList.remove('open');
+        note.textContent = 'Closed -- that click was genuinely outside the whole scoped widget.';
+      }
+    });
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

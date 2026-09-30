@@ -1,0 +1,198 @@
+<h1>Building an @Mention Autocomplete: The Caret-Scanning Trick Behind Every Trigger Popup</h1>
+
+<p>Type <code>@</code> into a Slack message, a Linear comment, or a Notion doc and a little popup appears, filtered to whoever you're typing next. It feels like a small feature. It isn't. A plain <code>&lt;input&gt;</code> gives you a text value and a cursor position for free — but the moment you need rich content like a coloured, non-editable "chip" sitting inline with normal text, you're in <code>contenteditable</code> territory, and the browser hands you almost nothing. There's no built-in "what's the user typing right now" API. You get a <code>Selection</code> object, a <code>Range</code>, and the DOM tree itself, and you have to reconstruct "is there an unfinished mention behind the cursor, and if so what letters has the user typed since the @" by hand, on every keystroke. The <strong>Mention Autocomplete</strong> snippet does exactly that — live search popup, keyboard navigation, and a real inline chip — in plain JavaScript with no editor library. Here it is, working:</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/mention-autocomplete/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mention Autocomplete — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p>Grab the code, or open the full editor with live HTML/CSS/JS panels: <a href="https://fwdtools.com/ui-snippets/mention-autocomplete/">Mention Autocomplete on FWD Tools</a>. It's plain HTML, CSS and JavaScript with zero dependencies — no ProseMirror, no Tiptap, no Slate, just the browser's own Selection and Range APIs — and the same editor exports one-click to <strong>React</strong>, <strong>Vue</strong>, <strong>Angular</strong> and <strong>React + Tailwind</strong>.</p>
+
+<p>In this post I'll build it piece by piece: why the trigger-detection logic only ever looks at the current text node instead of the whole editor, how a saved <code>Range</code> object survives between keystrokes so the mention can be inserted in exactly the right place, why the chip has to be <code>contentEditable="false"</code> and why that alone isn't enough, and how a trailing non-breaking space is what stops the cursor from getting trapped inside the thing it just inserted.</p>
+
+<h2>What the component actually is</h2>
+
+<p>Four moving parts, all hung off one contenteditable div:</p>
+
+<ol>
+<li><strong>A trigger scanner</strong> that runs on every <code>input</code> event, looks backward from the caret for an unclosed <code>@</code>, and decides whether a mention query is currently "live."</li>
+<li><strong>A saved <code>Range</code></strong> — <code>mentionRange</code> — captured the moment a query becomes live, so the exact insertion point survives while the user keeps typing and the popup keeps re-filtering.</li>
+<li><strong>A filtered popup list</strong> with a <code>selectedIdx</code> for keyboard highlighting, kept in sync with a global reference to whichever users are currently visible.</li>
+<li><strong>A chip-insertion routine</strong> that deletes the typed <code>@query</code> text, inserts a non-editable <code>&lt;span&gt;</code> in its place, and moves the caret to a landing spot immediately after it.</li>
+</ol>
+
+<p>The structural idea worth carrying into other projects is the first one: never try to parse "what is the user typing" from the editor's entire content. Scan backward from the caret, stop at the first thing that disqualifies a match (whitespace, the start of the text node), and treat everything else as noise you don't need to look at. That's the difference between an autocomplete that responds instantly on every keystroke and one that re-parses an ever-growing document to answer a question that only ever depends on the last few characters.</p>
+
+<h2>Where you'd actually use this</h2>
+
+<ul>
+<li><strong>Comment systems on project-management and issue-tracking tools.</strong> Tag a teammate in a Linear- or Jira-style comment thread and trigger a real notification when the comment posts.</li>
+<li><strong>Real-time chat.</strong> The same trigger-and-chip pattern is exactly what Slack and Discord use for in-message mentions, just with a WebSocket on the other end of "post."</li>
+<li><strong>Collaborative document editors.</strong> Any block-based or rich-text editor that needs to let one person reference another inline, without breaking the surrounding text into separate, unrelated nodes.</li>
+<li><strong>A reference for the Selection and Range APIs generally.</strong> <code>getSelection()</code>, <code>getRangeAt()</code>, <code>setStart</code>/<code>setEnd</code>, and <code>insertNode()</code> are the foundation of every rich-text feature in the browser — slash commands, inline formatting toolbars, custom autocomplete of any kind — and they're genuinely hard to learn without a working example to read.</li>
+</ul>
+
+<h2>The markup: a contenteditable div and an absolutely positioned popup</h2>
+
+<pre><code class="language-html">&lt;div class="editor-wrap"&gt;
+  &lt;div class="editor" id="editor" contenteditable="true"
+       data-placeholder="Type @ to mention someone…"
+       oninput="onInput(event)" onkeydown="onKeyDown(event)"&gt;&lt;/div&gt;
+  &lt;div class="mention-popup" id="popup" style="display:none"&gt;
+    &lt;div class="popup-list" id="popupList"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+<pre><code class="language-css">.editor:empty::before { content: attr(data-placeholder); color: #94a3b8; pointer-events: none; }
+.mention { background: #ede9fe; color: #6d28d9; border-radius: 4px; padding: 1px 3px; font-weight: 700; }
+.mention-popup {
+  position: absolute; left: 12px; top: 100%; z-index: 50; width: 240px;
+  background: #fff; border: 1.5px solid #e2e8f0; border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1); overflow: hidden; margin-top: 4px;
+}</code></pre>
+
+<p>There's no <code>&lt;textarea&gt;</code> anywhere — the editable surface is a plain <code>&lt;div&gt;</code> with <code>contenteditable="true"</code>, because a textarea can only ever hold a flat string and has no way to embed a styled, non-text chip inline with normal characters. The placeholder is a pure CSS trick — <code>.editor:empty::before</code> reads <code>content: attr(data-placeholder)</code> only when the div has zero child nodes, so it disappears the instant any content, including a single space, exists. The popup is positioned with <code>top: 100%</code> relative to <code>.editor-wrap</code>, which anchors it directly under the whole editor rather than trying to track the caret's own pixel coordinates — a reasonable simplification for a fixed-height single-line-ish input, though a multi-line editor with mentions mid-paragraph would need to measure the caret's actual position instead.</p>
+
+<h2>Step 1 — Finding the caret, then scanning backward from it</h2>
+
+<pre><code class="language-javascript">function getCaretRange() {
+  var sel = window.getSelection();
+  if (!sel || sel.rangeCount === 0) return null;
+  return sel.getRangeAt(0);
+}
+
+function getQueryBeforeCaret(range) {
+  var node = range.startContainer;
+  if (node.nodeType !== Node.TEXT_NODE) return null;
+  var text = node.textContent.slice(0, range.startOffset);
+  var atIdx = text.lastIndexOf('@');
+  if (atIdx === -1) return null;
+  var between = text.slice(atIdx + 1);
+  if (/\s/.test(between)) return null;
+  return { text: between, atIdx: atIdx, node: node };
+}</code></pre>
+
+<p><code>window.getSelection()</code> is the browser's live pointer to whatever is currently selected or where the cursor sits — <code>getRangeAt(0)</code> pulls the first (and, outside of Firefox's multi-range text selection, only) <code>Range</code> out of it. A <code>Range</code> is two boundary points, a start container/offset pair and an end container/offset pair; for a collapsed cursor with no selection, start and end are the same point, and <code>range.startContainer</code> is the specific DOM node the cursor sits inside.
+
+The function bails immediately if that container isn't a text node — clicking right after a mention chip, for instance, can land the cursor on the editor <code>&lt;div&gt;</code> itself rather than inside text, and there's no query to detect there. When it is a text node, <code>text.slice(0, range.startOffset)</code> gets <em>only</em> the characters before the cursor in that one node — not the whole editor's content, just this fragment — and <code>lastIndexOf('@')</code> finds the closest unclosed <code>@</code> behind the cursor. If there's whitespace between that <code>@</code> and the cursor, the function returns <code>null</code>: typing <code>@alice, could you</code> should stop suggesting the moment the space after "alice" lands, and this single regex check is what makes that happen.</p>
+
+<h2>Step 2 — Saving the Range so it survives the next keystroke</h2>
+
+<pre><code class="language-javascript">var mentionRange = null;
+
+function onInput() {
+  var range = getCaretRange();
+  if (!range) { hidePopup(); return; }
+  var info = getQueryBeforeCaret(range);
+  if (!info) { hidePopup(); return; }
+  mentionRange = range.cloneRange();
+  query = info.text;
+  selectedIdx = 0;
+  showPopup(info.text);
+}</code></pre>
+
+<p>Notice that <code>onInput</code> runs on every keystroke, not just the first <code>@</code> — so <code>mentionRange</code> is continuously reassigned to a fresh clone as the query grows, always tracking the caret's current position at the end of whatever's been typed so far. That reassignment alone would work with a plain <code>range</code> reference too, if the only thing that ever changed the caret were typing. The reason it has to be <code>range.cloneRange()</code> and not just <code>range</code> is the case that isn't typing: selecting a result is very often a <em>mouse click</em> on a popup row, and clicking anywhere outside the editor moves the browser's live selection off the text entirely — <code>window.getSelection()</code> no longer points anywhere near the query the instant that happens. A live <code>Range</code> object obtained from <code>getRangeAt(0)</code> is tied to that live selection; if <code>insertMention()</code> tried to read boundaries from it after the click has already stolen focus, it would find nothing usable. <code>cloneRange()</code> copies the boundary points into an independent object the instant it's called, so <code>mentionRange</code> keeps pointing at the query's real position in the text regardless of where the user's mouse — and the browser's live selection — goes next.</p>
+
+<h2>Step 3 — Keyboard navigation, scoped to only fire while the popup is open</h2>
+
+<pre><code class="language-javascript">function onKeyDown(e) {
+  var popup = document.getElementById('popup');
+  if (popup.style.display === 'none') return;
+  var filtered = window.__filteredUsers || [];
+  if (e.key === 'ArrowDown') { e.preventDefault(); selectedIdx = Math.min(selectedIdx + 1, filtered.length - 1); showPopup(query); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); selectedIdx = Math.max(selectedIdx - 1, 0); showPopup(query); }
+  else if (e.key === 'Enter' && filtered.length) { e.preventDefault(); insertMention(filtered[selectedIdx].id); }
+  else if (e.key === 'Escape') { hidePopup(); }
+}</code></pre>
+
+<p>The very first line is the load-bearing one: if the popup isn't visible, the function returns immediately and every other keystroke — including Arrow keys and Enter — falls straight through to the browser's normal contenteditable behaviour. Without that guard, pressing Enter to start a new line while the popup happens to be closed would get silently swallowed by a stale keydown handler, which is a genuinely confusing bug to track down because it only reproduces intermittently. <code>e.preventDefault()</code> on Arrow keys stops the browser's own default behaviour — moving the text cursor up or down a line — from firing at the same time as the popup's own highlight change; without it you'd see the caret jump around the editor while also watching the popup's selection move, two things happening from one keypress.
+
+<code>window.__filteredUsers</code> is worth pausing on: it's a global the popup renderer writes to every time it filters, purely so the keydown handler — a separate function with no other way to know what's currently on screen — can read "how many results exist right now" without recomputing the filter itself. It's not elegant, but it's an honest admission that two functions need to agree on the same list, and a global is the plainest way to share it in a dependency-free snippet. In a framework version this becomes one piece of component state instead.</p>
+
+<h2>Step 4 — Inserting the chip and landing the cursor just past it</h2>
+
+<pre><code class="language-javascript">function insertMention(userId) {
+  var user = users.find(function(u) { return u.id === userId; });
+  if (!user || !mentionRange) { hidePopup(); return; }
+  var range = mentionRange.cloneRange();
+  var node = range.startContainer;
+  var caretOffset = range.startOffset;
+  var atIdx = node.textContent.lastIndexOf('@', caretOffset);
+  range.setStart(node, atIdx);
+  range.setEnd(node, caretOffset);
+
+  var sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+
+  var mention = document.createElement('span');
+  mention.className = 'mention';
+  mention.dataset.uid = user.id;
+  mention.contentEditable = 'false';
+  mention.textContent = '@' + user.name;
+
+  range.deleteContents();
+  range.insertNode(mention);
+
+  var space = document.createTextNode(' ');
+  mention.after(space);
+  var newRange = document.createRange();
+  newRange.setStartAfter(space);
+  newRange.collapse(true);
+  sel.removeAllRanges();
+  sel.addRange(newRange);
+
+  hidePopup();
+}</code></pre>
+
+<p>This function does four things in order, and the order matters. First, it re-derives exactly which characters to replace: it clones the saved range again, reads its <code>startOffset</code> — the caret's position — into a plain variable <em>before touching the range at all</em>, then finds the <code>@</code> index and stretches the range from there to that saved offset. That local variable isn't ceremony; it's load-bearing. <code>range.setStart(node, atIdx)</code> mutates the range object in place, which means <code>range.startOffset</code> itself changes the instant that line runs — it now reports <code>atIdx</code>, not the caret position it held a moment ago. Compute the end boundary from <code>range.startOffset</code> <em>after</em> calling <code>setStart</code> and you're asking the range what its own start currently is, not where the caret actually was — the two calls collapse into a zero-width range at the <code>@</code>, <code>deleteContents()</code> has nothing to delete, and the chip gets inserted right before the original <code>@query</code> text instead of replacing it, leaving it sitting there stale next to the new chip. Reading <code>startOffset</code> into <code>caretOffset</code> first, before any mutation, is what keeps the two boundary calls talking about the same original position. Second, the function selects that range in the live document with <code>sel.addRange(range)</code>, because <code>range.deleteContents()</code> and <code>range.insertNode()</code> operate on the range's own boundaries regardless of what's selected — the explicit selection isn't strictly required for those two calls, but it keeps the visible selection state consistent with what the code is about to do.
+
+Third — and this is the one line that makes the whole feature work — <code>mention.contentEditable = 'false'</code>. Setting it on this one span, inside an ancestor that itself has <code>contenteditable="true"</code>, makes the browser treat that span as an atomic, non-editable island: the user's cursor can land next to it but never inside it, they can't split it in half by typing in the middle, and pressing backspace next to it deletes the whole chip in one action rather than eating it character by character. This is a real, if slightly obscure, feature of contenteditable — a "false" island nested inside a "true" ancestor — and it's the entire reason the mention behaves like a discrete object instead of coloured text the user can accidentally mangle.
+
+Fourth, after <code>insertNode()</code> places the chip, a literal non-breaking space (<code> </code>, not a regular space) is inserted immediately after it, and a brand new <code>Range</code> is built and collapsed to sit right after that space. This step exists because of what setting <code>contentEditable="false"</code> costs you: the browser has nowhere sensible to put a text cursor <em>inside</em> a non-editable node, so without something to land on right after the chip, focus can behave unpredictably — jumping to the end of the whole editor, or refusing to let the user type at all until they click somewhere else. The trailing character gives the cursor an explicit, ordinary text-node position to sit in, one character past the chip, so the very next keystroke types normal text immediately after the mention instead of getting lost.</p>
+
+<h2>Customizing it for your own project</h2>
+
+<ul>
+<li><strong>Swap the static <code>users</code> array for a real API call.</strong> Debounce <code>onInput</code>'s trigger check by a hundred milliseconds or so and fetch matches server-side once a query is live — the trigger-detection logic doesn't change, only where the filtered list comes from.</li>
+<li><strong>Support more than one trigger character.</strong> A hashtag popup for tags is the same <code>getQueryBeforeCaret</code> logic with <code>lastIndexOf('#')</code> instead of <code>'@'</code> and a second, differently styled chip class.</li>
+<li><strong>Extract mentioned users on submit.</strong> <code>editor.querySelectorAll('.mention[data-uid]')</code> gives you every chip in the message; map over it for <code>parseInt(span.dataset.uid)</code> to build the notification list you send alongside the comment.</li>
+<li><strong>Restrict results to real context.</strong> Filter the <code>users</code> array (or the API query) to only members of the current channel, project, or document, rather than the whole org.</li>
+</ul>
+
+<h2>The things deliberately left out</h2>
+
+<p><strong>Mid-word matching.</strong> <code>getQueryBeforeCaret</code> only ever looks backward from the caret to the nearest <code>@</code> in the current text node — it doesn't handle a cursor placed in the middle of an existing mention or reopening a popup by clicking back into typed-but-uncommitted <code>@text</code>. That's a reasonable scope cut for a snippet, but a production editor built on this would need to decide explicitly what happens if a user clicks back into the middle of "@ali|ce" and starts typing again.</p>
+
+<p><strong>Cross-text-node scanning.</strong> The trigger scanner bails out the moment <code>range.startContainer</code> isn't a text node, and it never looks at a previous sibling node even if the <code>@</code> logically sits just before the caret's node — which can happen right after an existing chip, since a chip and the text after it are separate DOM nodes. A more robust version would walk backward across node boundaries, not just within one.</p>
+
+<p><strong>Accessibility.</strong> Screen reader announcement of "mention suggestions opened," "3 of 6 selected," and the mention chip's own accessible name are all missing here. A real implementation needs <code>aria-live</code> on the popup and proper roles (<code>role="listbox"</code>/<code>role="option"</code>) on the list, on top of the interaction logic this snippet focuses on.</p>
+
+<p><strong>Undo/redo correctness.</strong> Directly manipulating the DOM with <code>insertNode</code> works, but the browser's native undo stack doesn't always reconstruct programmatic DOM changes cleanly the way it does real typed input — this is exactly the kind of edge case that libraries like ProseMirror and Tiptap exist to solve properly with a structured document model instead of raw contenteditable.</p>
+
+<h2>Using it in React, Vue, or Angular</h2>
+
+<p>The core Selection and Range calls are framework-agnostic — they operate on the real DOM regardless of what rendered it — but the way you reach the editor node changes. Hold a <code>ref</code> to the contenteditable div rather than letting JSX manage its children (React re-rendering the editor's content on every keystroke would fight with the browser's own cursor placement, since React has no idea a <code>Range</code> currently points into that subtree). Keep <code>popupOpen</code>, <code>query</code>, <code>filteredUsers</code>, and <code>selectedIdx</code> in <code>useState</code> so the popup itself renders declaratively, but leave <code>onInput</code>/<code>onKeyDown</code> as imperative handlers that call the same <code>getCaretRange</code>/<code>getQueryBeforeCaret</code>/<code>insertMention</code> logic directly against the ref's current DOM node. The one thing to actively avoid: never let a state update re-render the editor's own <code>innerHTML</code> from a controlled value, or the cursor position and the mention chips you've already inserted will both be at the mercy of React's diffing instead of your own explicit Range management.</p>
+
+<h2>Build, understand, optimize, and extend it with AI</h2>
+
+<p>The Selection/Range calls here are the kind of code that's easy to copy and hard to actually reason about without stepping through it. Paste the HTML, CSS and JS into an assistant like Claude and ask it to trace, character by character, what <code>getQueryBeforeCaret</code> returns for the text <code>"hey @al"</code> with the caret at the very end — then ask what it returns for <code>"hey @al ice"</code> with the caret after "ice," and get it to explain in its own words why the second case correctly reports no active mention. That's a sharper test of understanding than reading the whitespace check and nodding along. From there, ask it to explain exactly why <code>mentionRange</code> has to be a <code>cloneRange()</code> rather than the live range object, and to describe what visibly breaks if you remove that clone. For extension, in roughly increasing order of effort: add debounced server-side user search in place of the static array; support a second trigger character for tags; handle a caret positioned across two text nodes (immediately after an existing chip); and wire up <code>aria-live</code> announcements for the popup's open/select/close states.</p>
+
+<h3>Prompt to recreate it</h3>
+
+<p>Copy this into your AI assistant of choice to build the component from scratch, or as a jumping-off point for your own variant:</p>
+
+<pre><code class="language-text">Build an "at-mention autocomplete" for a contenteditable comment box in plain HTML, CSS, and JavaScript using only the Selection and Range APIs — no libraries, no textarea.
+
+Requirements:
+- A contenteditable div that shows a placeholder via the CSS :empty::before content trick, plus an absolutely positioned popup list anchored below it.
+- On every input event, get the current caret with window.getSelection().getRangeAt(0), and only look inside the active text node (bail out if the range's start container isn't a text node). Slice that node's text up to the caret offset and search backward for the most recent at-sign with lastIndexOf. If there is any whitespace between that at-sign and the caret, treat it as no active mention and close the popup.
+- When an at-sign with no trailing whitespace is found, treat everything after it as a live search query, filter a list of users by that query (case-insensitive), and render the filtered results in the popup with an avatar, name, and role per row, highlighting one row as the keyboard-selected item.
+- Save a clone (not a live reference) of the caret's Range the moment a query becomes active, so the exact insertion point survives further typing while the popup keeps re-filtering.
+- Support ArrowUp and ArrowDown to move the selected index and re-render the list, Enter to insert the currently selected user, and Escape to dismiss the popup, all intercepted in a keydown handler that only acts while the popup is open — every other key must fall through to normal editing behavior untouched.
+- On selection, use the saved Range to find the at-sign again and delete the typed "at-sign plus query" text. Read the range's caret offset into a local variable BEFORE calling setStart on it — mutating a Range's start boundary changes what that same range reports as its own startOffset from that point on, so if you compute the end boundary from the range's startOffset after already moving the start, you'll get a zero-width range at the at-sign instead of one spanning the whole typed query, and the old text will be left behind, undeleted, next to the new chip. Then insert a new inline span element for the mention that has contentEditable set to false and a class marking it visually distinct (e.g. background tint, bold), and insert a literal non-breaking space text node immediately after it and move the caret to just after that space, so the user's next keystroke starts plain text rather than editing inside the chip.
+- Persist mention data as a data attribute (e.g. the user's id) on the chip span so the mentioned users can be extracted later from the editor's innerHTML when the comment is submitted.</code></pre>
+
+<h2>Final thought</h2>
+
+<p>The habit worth keeping from this build is scoping every check to the smallest thing it actually needs to know. The trigger scanner never reads the whole editor's content — it reads the characters before the caret in one text node. The keydown handler never processes a key unless the popup is actually open. The chip insertion never touches anything outside the range it saved at the exact moment the query started. Each of those is a case of resisting the more obvious, more expensive version — parse everything, handle every key everywhere, search the whole document for the last "@" — in favor of a version that only looks at the one place the answer can possibly be.</p>
+
+<p>The second thing worth keeping is specific to contenteditable, but it generalizes to any browser API where the "current" state is a live, mutable reference rather than a plain value: know which objects the browser will keep changing out from under you, and clone the ones you need to survive past this tick. <code>getRangeAt(0)</code> hands you the browser's own tracked range; if you're going to use it later, after more input has happened, <code>cloneRange()</code> isn't a defensive habit, it's the only way the code is correct at all.</p>

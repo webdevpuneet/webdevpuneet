@@ -1,0 +1,218 @@
+<h1>Native Page Transitions Without a Library: A View Transitions API Walkthrough</h1>
+
+<p>The "thumbnail grows into a full-page hero" effect — click a product photo and watch it physically expand into the detail page, corners softening, caption gliding into place — used to mean pulling in a FLIP animation library and doing <code>getBoundingClientRect()</code> math by hand. The <strong>View Transitions Gallery</strong> snippet does the same morph with a single browser API and two CSS classes. No library. No math. The browser screenshots both states and animates between them for you.</p>
+
+<p>Here's the effect live — click a card, then click Back:</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/view-transitions-gallery/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="View Transitions Gallery — Free View Transitions API Snippet by FWD Tools"></iframe>
+
+<p>Grab the code, or open the full editor with live HTML/CSS/JS panels: <a href="https://fwdtools.com/ui-snippets/view-transitions-gallery/">View Transitions Gallery on FWD Tools</a>. The snippet is plain HTML, CSS, and JavaScript, but the same editor also has one-click export buttons for <strong>React</strong>, <strong>Vue</strong>, <strong>Angular</strong>, and <strong>React + Tailwind</strong> if you'd rather drop it straight into a component-based project than copy raw markup.</p>
+
+<p>In this post I'm going to walk through the whole thing <strong>A to Z</strong> — what the effect actually is, where you'd use it, and then the full build: the HTML, the CSS, and every line of JavaScript that makes the morph, the reverse, and the graceful fallback work. By the end you'll understand the API well enough to wire it into your own router.</p>
+
+<h2>What the effect actually is</h2>
+
+<p>Strip away the gradient artwork and the mechanism is simple to state: there are two views on the page — a grid and a detail view — and only one is ever visible at a time. Click a card, and the grid hides while the detail view appears. Normally that would be an instant, jarring swap. Here, the browser instead <em>screenshots</em> the page just before the swap and just after it, and animates between the two screenshots — including morphing the clicked thumbnail's exact position, size, and corner radius into the detail hero's position, size, and corner radius, as one continuous shape. The caption text does the same thing, sliding and resizing into the title.</p>
+
+<p>The critical thing to understand up front: nothing about your layout is actually moving. The browser isn't repositioning a real element across the page — it's cross-fading and transform-interpolating between two static captures. That's what makes it fast (it's pure compositor work, not layout thrashing) and what makes it possible without a single line of animation math in your JavaScript.</p>
+
+<h2>Where you'd actually use this</h2>
+
+<p>This isn't a novelty for animation demos — the shared-element morph earns its place anywhere a click should feel like it's opening the thing you clicked, not replacing it with something else:</p>
+
+<ul>
+<li><strong>E-commerce product grids.</strong> The product photo a shopper clicked becomes the detail-page hero, keeping visual context through the navigation instead of resetting the page cold.</li>
+<li><strong>Photo galleries and portfolios.</strong> The classic grid-to-lightbox expansion — a photographer's or design agency's case-study grid gets an Apple-Photos-style zoom for free.</li>
+<li><strong>Dashboard drill-downs.</strong> An analytics card expanding into a full report view, or an inbox row opening into message detail, shows the user exactly where the data they clicked went.</li>
+<li><strong>SPA route transitions.</strong> Replacing a hard page-swap with a morph between list and detail routes, without reaching for a 40KB animation library just for that one interaction.</li>
+<li><strong>Kanban and task boards.</strong> A card opening into a full task modal, with the card's title and status pill visibly becoming the modal's header.</li>
+<li><strong>Multi-page (non-SPA) sites.</strong> The same morph works across full page loads with zero JavaScript at all, using the API's cross-document mode — genuinely useful for blogs and marketing sites that were never going to become a SPA.</li>
+</ul>
+
+<p>In every one of these, the payoff is the same: the interface communicates continuity. The user doesn't have to reconstruct where they are — the shape they clicked visibly became the shape they're now looking at.</p>
+
+<h2>The tech stack: zero dependencies, one browser API</h2>
+
+<p>Unlike most animation-heavy snippets, there's no CDN script tag here at all. The entire effect runs on a native browser API — <a href="https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API" target="_blank" rel="noopener">the View Transitions API</a> — which ships built into the browser itself. The whole surface area you touch is one method, <code>document.startViewTransition()</code>, plus one CSS property, <code>view-transition-name</code>, plus a handful of browser-generated pseudo-elements you can style like any other CSS selector.</p>
+
+<p>That said, it's not universal yet. As of this writing, same-document view transitions work in Chrome, Edge, Safari, and Samsung Internet; Firefox has the implementation in progress. Because of that, this snippet is built around a feature-detection helper from the very first line of its JavaScript — you'll see it in Step 3 below — so the gallery is fully functional everywhere, with the morph as pure enhancement on top for browsers that support it.</p>
+
+<h2>Building it, step by step</h2>
+
+<h3>Step 1 — The HTML: two views, one hidden</h3>
+
+<p>The markup is almost boringly simple, and that's the point — the API does the hard work, not the structure. A grid view holds the card list; a detail view sits right beside it with the native <code>hidden</code> attribute, so it doesn't exist visually (or in the accessibility tree) until JavaScript reveals it:</p>
+
+<pre><code class="language-html">&lt;div class="grid-view" id="grid-view"&gt;
+  &lt;h2 class="view-title"&gt;Collection&lt;/h2&gt;
+  &lt;div class="cards" id="cards"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="detail-view" id="detail-view" hidden&gt;
+  &lt;button class="back-btn" id="back-btn"&gt;← Back&lt;/button&gt;
+  &lt;div class="detail-hero" id="detail-hero"&gt;&lt;/div&gt;
+  &lt;h2 class="detail-title" id="detail-title"&gt;&lt;/h2&gt;
+  &lt;p class="detail-sub" id="detail-sub"&gt;&lt;/p&gt;
+  &lt;p class="detail-body"&gt;Explanatory copy about the transition, static per card.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p class="support-note" id="support-note" hidden&gt;Your browser doesn't support the View Transitions API — views switch instantly instead.&lt;/p&gt;</code></pre>
+
+<p>Notice the detail view's hero, title, and subtitle are all empty at this point — no hardcoded content. JavaScript fills them in per-card when a card is clicked, which is what makes one detail view double as the destination for all six cards instead of needing six separate detail sections. The <code>support-note</code> paragraph sits outside both views, hidden by default — it's the fallback message Step 3 reveals when the browser doesn't support the API at all.</p>
+
+<h3>Step 2 — The CSS: naming the elements that should morph</h3>
+
+<p>This is the one property the whole effect hinges on, and it's a single line per element:</p>
+
+<pre><code class="language-css">.vt-hero { view-transition-name: hero; }
+.vt-title { view-transition-name: hero-title; }</code></pre>
+
+<p>Whichever element currently carries the <code>vt-hero</code> class at the moment a transition starts is what the browser treats as "the hero" for that transition — and whichever element carries it once the transition's DOM mutation finishes is what the hero morphs <em>into</em>. Same idea for <code>vt-title</code> with the caption. That's the entire declarative surface: name two things the same name at two different moments, and the browser does the rest.</p>
+
+<p>The rest of the CSS in this snippet is motion tuning, applied to browser-generated pseudo-elements rather than to your own elements:</p>
+
+<pre><code class="language-css">::view-transition-group(hero),
+::view-transition-group(hero-title) {
+  animation-duration: 0.45s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}</code></pre>
+
+<p><code>::view-transition-group(hero)</code> targets the browser's own animation wrapper for the element named <code>hero</code> — slowing it to 0.45s with an easing curve makes the morph read clearly instead of flashing by at the API's fast default. <code>::view-transition-old(root)</code> and <code>::view-transition-new(root)</code> separately tune how the rest of the page (everything without a transition name) cross-fades. And the <code>prefers-reduced-motion</code> block is not optional decoration — it's the one accessibility line every real implementation needs, and it's just as easy to forget as it is to add.</p>
+
+<h3>Step 3 — The JS: one helper that gates the entire API</h3>
+
+<p>Every single place this snippet touches the View Transitions API funnels through one five-line function:</p>
+
+<pre><code class="language-javascript">function withTransition(mutate) {
+  if (!document.startViewTransition) {
+    document.getElementById('support-note').hidden = false;
+    mutate();
+    return;
+  }
+  document.startViewTransition(mutate);
+}</code></pre>
+
+<p>If the browser supports the API, the DOM-mutating function you pass in gets wrapped in <code>document.startViewTransition()</code> and the morph happens automatically. If it doesn't, the same mutation still runs — immediately, with no animation — and a small notice appears. The app is <em>fully functional</em> either way. This is the correct adoption model for a brand-new browser API: never gate functionality on it, only gate the polish.</p>
+
+<h3>Step 4 — The core trick: tag before, mutate inside, retag after</h3>
+
+<p>This is the part that trips people up the first time they read the source, so it's worth sitting with. <code>view-transition-name</code> has one hard rule: <strong>the name must be unique in the DOM at the moment the browser takes a snapshot.</strong> A grid of six thumbnails obviously can't all be named <code>hero</code> at once — the browser would have no way to know which one you meant, and it would silently cancel the transition.</p>
+
+<p>The snippet's answer is to treat the name as something that <em>moves</em>, not something that's permanently attached to any one element:</p>
+
+<pre><code class="language-javascript">function openDetail(i) {
+  const it = ITEMS[i];
+  currentIdx = i;
+
+  // 1. Tag the clicked thumbnail BEFORE the transition starts, so the
+  //    browser's "old" snapshot captures it under the name "hero".
+  const thumb = cardsEl.children[i].querySelector('.card-thumb');
+  const name  = cardsEl.children[i].querySelector('.card-name');
+  thumb.classList.add('vt-hero');
+  name.classList.add('vt-title');
+
+  withTransition(() => {
+    // 2. Inside the callback: untag the thumbnail, tag the detail hero
+    //    with the SAME name, and mutate the DOM to the new state.
+    thumb.classList.remove('vt-hero');
+    name.classList.remove('vt-title');
+    document.getElementById('detail-hero').style.background = it.bg;
+    document.getElementById('detail-hero').classList.add('vt-hero');
+    document.getElementById('detail-title').textContent = it.name;
+    document.getElementById('detail-title').classList.add('vt-title');
+    document.getElementById('detail-sub').textContent = it.sub;
+    gridView.hidden = true;
+    detailView.hidden = false;
+  });
+}</code></pre>
+
+<p>Read that in order and the whole API clicks into place. <strong>Before</strong> <code>startViewTransition</code> is even called, the clicked thumbnail gets tagged — that's what the browser's "old" screenshot captures. <strong>Inside</strong> the mutation callback — which runs synchronously as part of the transition's own lifecycle — the tag moves off the thumbnail and onto the detail hero, and only then does the actual DOM swap (hide grid, show detail) happen. That's what the "new" screenshot captures. One name, worn by two different elements at two different moments. The browser pairs them up automatically and animates position, size, and border-radius from one box to the other.</p>
+
+<p>Get the order wrong — tag the hero before calling <code>startViewTransition</code>, say, instead of inside the callback — and there's a moment where two elements share the name at once, or where neither does at the right moment, and the transition silently fails to morph. The order in this function isn't stylistic; it's the entire mechanism.</p>
+
+<h3>Step 5 — The reverse morph, and why it isn't automatic</h3>
+
+<p>Unlike some scrub-based effects where reversing is a free side effect of the underlying engine, closing the detail view here needs its own explicit choreography — because "reverse" just means running the same tag-then-mutate pattern with the roles swapped:</p>
+
+<pre><code class="language-javascript">function closeDetail() {
+  const i = currentIdx;
+  withTransition(() => {
+    document.getElementById('detail-hero').classList.remove('vt-hero');
+    document.getElementById('detail-title').classList.remove('vt-title');
+    detailView.hidden = true;
+    gridView.hidden = false;
+    const thumb = cardsEl.children[i].querySelector('.card-thumb');
+    const name  = cardsEl.children[i].querySelector('.card-name');
+    thumb.classList.add('vt-hero');
+    name.classList.add('vt-title');
+  });
+}</code></pre>
+
+<p>The detail hero is the "old" state this time, and the original grid thumbnail — the exact one the user clicked, tracked via <code>currentIdx</code> — is retagged as the "new" state. The browser doesn't know or care which direction is "forward"; it just morphs whatever was named <code>hero</code> a moment ago into whatever is named <code>hero</code> now. Because that's symmetric, the detail hero shrinks back into the precise grid cell it came from, not just any thumbnail.</p>
+
+<h3>Step 6 — Cleanup: why stray tags would break the next click</h3>
+
+<p>Remember the hard rule from Step 4 — one name, unique at snapshot time. After <code>closeDetail()</code> runs, the grid thumbnail is left wearing the <code>vt-hero</code> class permanently, ready for its next transition. That's intentional and harmless <em>until</em> a second click happens before cleanup, or an edge case leaves two elements tagged at once. The snippet guards against this with a short timeout after every transition:</p>
+
+<pre><code class="language-javascript">const done = document.startViewTransition ? 500 : 0;
+setTimeout(() => {
+  document.querySelectorAll('.vt-hero').forEach(el => el.classList.remove('vt-hero'));
+  document.querySelectorAll('.vt-title').forEach(el => el.classList.remove('vt-title'));
+}, done);</code></pre>
+
+<p>It's a small detail, but it's the difference between a demo that works once and one that survives a user clicking rapidly through the whole gallery. Every future transition starts from a clean slate — no element carries a transition name unless it's actively mid-morph.</p>
+
+<h2>Customizing it for your own project</h2>
+
+<p>A few knobs worth knowing about if you're adapting this:</p>
+
+<ul>
+<li><strong>Swap in real photos</strong> — replace the gradient <code>&lt;div&gt;</code>s with <code>&lt;img&gt;</code> elements sharing the same <code>src</code> (or a matching <code>srcset</code>). Images morph exactly like gradients since the browser is animating a screenshot either way; add <code>object-fit: cover</code> on both if the crops differ.</li>
+<li><strong>Tune the motion in CSS only</strong> — adjust <code>::view-transition-group(hero)</code>'s <code>animation-duration</code> (0.3–0.5s reads best for a morph) and try <code>cubic-bezier(0.34, 1.3, 0.64, 1)</code> for a springier feel. You never need to touch JavaScript to change how the transition looks — that separation is the API's real advantage.</li>
+<li><strong>Animate the body text separately</strong> — give the detail paragraph its own <code>view-transition-name</code> and define <code>@keyframes</code> on its <code>::view-transition-new()</code> selector to slide it up instead of just cross-fading with the rest of the page.</li>
+<li><strong>Extend to a list where several items morph at once</strong> — the single moving class works for one-at-a-time hero transitions. For multi-item cases, switch to per-item names set inline (<code>element.style.viewTransitionName = 'card-' + id</code>) so each item gets a name unique enough to never collide with its siblings.</li>
+</ul>
+
+<h2>Using it in React, Vue, or Angular</h2>
+
+<p>In React, keep the <code>withTransition</code> helper as-is, but wrap the state update that flips views in <code>flushSync</code>: <code>document.startViewTransition(() =&gt; flushSync(() =&gt; setView('detail')))</code>. That matters because the API's contract is "mutate synchronously inside the callback" — plain <code>setState</code> alone is asynchronous, so without <code>flushSync</code> the browser's "new" snapshot can be taken before React has actually committed the DOM change, and the morph silently doesn't happen. React's experimental <code>&lt;ViewTransition&gt;</code> component wraps this exact mechanic if you'd rather not manage it by hand.</p>
+
+<p>Angular's router has first-class support: <code>provideRouter(routes, withViewTransitions())</code> wraps every navigation in <code>startViewTransition</code> automatically, so your job shrinks to just adding the transition-name classes and CSS — no manual <code>withTransition</code> calls needed for route-driven morphs. For non-router state changes, call the API manually and mutate inside a signal update wrapped in the callback, the same tag-before/retag-inside pattern as Step 4.</p>
+
+<p>The FWD Tools snippet editor has one-click exports for all of this already built if you'd rather skip the conversion by hand — grab the React, Vue, Angular, or Tailwind version directly from the snippet page.</p>
+
+<h2>Build, understand, optimize, and extend it with AI</h2>
+
+<p>The whole API is small enough that an AI coding assistant like Claude can teach it to you through this one file. Paste in the snippet's HTML, CSS, and JS and ask it to trace a single click end to end: what exactly the browser snapshots the instant <code>startViewTransition</code> is called, why the <code>vt-hero</code> class is added to the thumbnail <em>before</em> that call but moved to the detail hero <em>inside</em> the callback, and what would visibly break if you swapped that order — then actually swap it in a copy and watch the transition silently fail to morph. That single experiment teaches the uniqueness rule better than any explanation.</p>
+
+<p>Once the mechanism is clear, put the assistant to work on your real codebase: ask it to wire <code>withTransition()</code> into your router — <code>flushSync</code> for React, <code>withViewTransitions()</code> for Angular, or a <code>@view-transition</code> CSS rule if you're on a classic multi-page site — and to convert this demo's single-hero naming into per-item inline names for a list where several elements might morph at once. It's also worth asking for taste: have it propose a few duration/easing pairs for the group animation, or generate the <code>prefers-reduced-motion</code> and no-API fallback variants for whatever specific browser-support matrix your project needs to hit.</p>
+
+<h3>Prompt to recreate it</h3>
+
+<p>Copy this into your AI assistant of choice to build the effect from scratch, or as a jumping-off point for your own variant:</p>
+
+<pre><code class="language-text">Build a grid-to-detail gallery using the native View Transitions API in plain HTML, CSS, and JavaScript — a shared-element morph with no animation libraries and no FLIP math.
+
+Requirements:
+- A grid of card thumbnails with captions, plus a hidden detail view (back button, hero, title, subtitle); clicking a card switches to the detail view and Back returns to the grid.
+- Route every view switch through a small helper that wraps the DOM mutation in document.startViewTransition when the API exists, and runs the mutation directly otherwise, so the app is fully functional in unsupported browsers (with a small notice shown there).
+- Implement the shared-element morph with dynamic naming: a CSS class carrying view-transition-name is added to the clicked thumbnail immediately BEFORE starting the transition, then INSIDE the mutation callback the class is removed from the thumbnail and added to the detail hero — so the browser captures the thumbnail as the old state and the hero as the new state, and morphs position, size, and border-radius between them automatically.
+- Morph the caption into the detail title the same way with a second transition name. Reverse both morphs on Back so the hero returns to the exact originating grid cell, and clean up all transition-name classes after the animation completes so no two elements can ever share a name (which would cancel the transition).
+- Style the motion entirely in CSS: slow the named ::view-transition-group animations to roughly 0.4–0.5s with a smooth easing curve, tune the root cross-fade duration separately, and include a prefers-reduced-motion block that disables all view-transition animations.
+- Comment the code explaining the snapshot → mutate → animate lifecycle: why the mutation must happen inside the callback, what the browser pairs by name, and why tag order (before the call vs. inside it) is not stylistic but load-bearing.</code></pre>
+
+<h2>Final thought</h2>
+
+<p>What makes this snippet worth studying isn't the specific grid-to-detail layout — it's the pattern underneath: <code>view-transition-name</code> lets you tell the browser "these two elements, at these two moments, are the same thing," and it handles the entire position/size/radius interpolation for you as pure compositor work. Once that clicks, you stop thinking of it as "a gallery effect" and start seeing it as a general-purpose continuity primitive — usable for route changes, modal openings, list reordering, even full page navigations on sites that were never going to become single-page apps.</p>
+
+<p>Grab the full HTML, CSS, and JS — or export it straight to React, Vue, Angular, or Tailwind — at <a href="https://fwdtools.com/ui-snippets/view-transitions-gallery/">View Transitions Gallery on FWD Tools</a>. It's free, runs entirely in your browser, and needs no sign-up. Browse more effects like this one at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a>.</p>

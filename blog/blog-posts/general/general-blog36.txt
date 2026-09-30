@@ -1,0 +1,324 @@
+<h1>14 Microinteractions You Can Build with CSS Alone</h1>
+
+<p>Microinteractions are the small stuff — a button that presses like a real button, a heart that fills in, a toggle that slides instead of snapping. They're easy to dismiss as polish, but they're the difference between an interface that feels alive and one that feels like a wireframe with colors filled in. What's less obvious is how much of that feel comes from CSS by itself, with zero JavaScript involved. The checkbox hack, <code>:focus-within</code>, <code>:active</code>, <code>:invalid</code>, and a handful of transition and animation properties cover a surprising amount of ground — accordions, star ratings, toggles, even a timed "success" state. This post is a gallery of fourteen such patterns, each one genuinely, verifiably CSS-only.</p>
+
+<p>Every demo below is <strong>live and interactive</strong> right here in the article — hover, click, focus, or type into each one and watch the actual selector-driven behavior play out. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact code, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> — FWD Tools' free in-browser editor. Because there's no JavaScript to strip out, forking these is the fastest way to see exactly which selector is doing the work — delete one line and watch the whole interaction fall apart.</p>
+
+<p>New to building these from scratch? The <a href="https://fwdtools.com/css-playground/">CSS Playground</a> is a free, click-based, in-browser course that covers the selectors, transitions and animations every pattern below is built from, one guided step at a time.</p>
+
+<h2>Why "no JavaScript" is a genuinely useful constraint</h2>
+
+<p>It's tempting to reach for JavaScript the moment an interface needs to "remember" something — whether a panel is open, which star is selected, whether a switch is on. But HTML already has state-holding form controls built in: a checkbox is either checked or it isn't, a radio group already enforces "exactly one selected," and <code>&lt;details&gt;</code> already tracks open/closed. Pairing those native, already-stateful elements with the sibling combinator (<code>~</code>), <code>:checked</code>, <code>:focus-within</code>, and <code>:has()</code>-adjacent tricks means a real chunk of what looks like "app behavior" is actually just CSS reacting to a form control's own state — no event listeners, no re-renders, nothing to hydrate. The patterns below split roughly into two families: pure hover/focus feedback (presses, lifts, glows, underlines) that needs nothing but a pseudo-class, and checkbox-driven "toggled state" interactions (accordions, switches, star ratings) that borrow a hidden form control to fake having memory. Knowing which family a given moment in your UI belongs to is what tells you whether CSS alone can actually carry it, or whether it's time to bring in real JavaScript.</p>
+
+<h2>1. Satisfying Button Press</h2>
+
+<p>Press and hold the button — it scales down and the shadow tightens the instant you press it, then springs back on release.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/35/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Satisfying Button Press Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-css">.btn {
+  transform: scale(1);
+  box-shadow: 0 4px 12px rgba(99,102,241,.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn:active {
+  transform: scale(0.94);
+  box-shadow: 0 1px 3px rgba(99,102,241,.3);
+}</code></pre>
+
+<p><code>:active</code> is the pseudo-class that's true for exactly as long as the mouse button (or a touch, or Space/Enter on a focused button) is physically held down on the element — it's a different lifetime than <code>:focus</code>, which persists after release, or <code>:hover</code>, which doesn't require a click at all. Scaling down and simultaneously shrinking the shadow is what sells "press": the shadow is standing in for the button's height off the page, so a smaller shadow reads as the button moving closer to the surface, the same visual logic real buttons and keycaps use. Because both properties are on a short <code>transition</code>, the press and the release both animate instead of snapping, which is what makes it feel tactile rather than like a broken click state. No JavaScript is needed because the browser already tracks "is this being pressed right now" — CSS just has to react to it.</p>
+
+<p><strong>Best for:</strong> any primary call-to-action button, especially on touch devices where the press-release cycle is the only feedback available before the tap completes. <strong>Tip:</strong> keep the scale change small (4-8%) — anything larger reads as a bounce or a glitch rather than a press.</p>
+
+<h2>2. Heart Icon Fill</h2>
+
+<p>Hover or Tab-focus the heart button — the outline heart crossfades into a solid filled heart, expanding outward from the center.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/35/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Heart Icon Fill Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-css">.fillWrap {
+  position: absolute; inset: 0;
+  color: #ef4444;
+  clip-path: circle(0% at 50% 50%);
+  transition: clip-path 0.4s cubic-bezier(.34,1.56,.64,1);
+}
+.heartBtn:hover .fillWrap {
+  clip-path: circle(75% at 50% 50%);
+}</code></pre>
+
+<p>Two hearts are stacked directly on top of each other — a plain outline-colored one underneath, and a red filled one absolutely positioned above it. The filled heart starts clipped down to a zero-radius circle at its own center, meaning it's technically present in the DOM and fully styled, but invisible because <code>clip-path</code> has cut it down to nothing. Hovering expands that circle's radius from 0% to 75%, which reveals the filled heart growing outward from its center rather than fading in uniformly — a more deliberate, "bursting into view" motion than a plain opacity crossfade would give. The bouncy <code>cubic-bezier</code> timing function overshoots slightly past 75% before settling, which is what gives the reveal its snap. This same clip-path-circle technique generalizes to any icon-swap — outline-to-filled stars, empty-to-checked boxes — anywhere you want a state change to feel like it's expanding from a point rather than just appearing.</p>
+
+<p><strong>Best for:</strong> like/favorite buttons and any binary icon toggle where the "on" state should feel like it's arriving with energy, not just swapping. <strong>Tip:</strong> always include <code>:focus-visible</code> alongside <code>:hover</code> — a hover-only reveal is invisible to anyone navigating by keyboard.</p>
+
+<h2>3. Custom Toggle Switch</h2>
+
+<p>Click the switch — it's a real checkbox underneath, styled entirely with <code>:checked</code> and a sibling selector, with a thumb that slides smoothly across.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/35/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Custom Toggle Switch Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-css">.toggle input { position: absolute; opacity: 0; }
+.track { background: #d7d9e0; transition: background 0.25s ease; }
+.thumb { transform: translateX(0); transition: transform 0.25s cubic-bezier(.34,1.56,.64,1); }
+.toggle input:checked ~ .track { background: var(--accent); }
+.toggle input:checked ~ .track .thumb { transform: translateX(20px); }</code></pre>
+
+<p>This is the checkbox hack in its purest form: a real <code>&lt;input type="checkbox"&gt;</code> is visually hidden with <code>opacity: 0</code> (not <code>display: none</code>, which would remove it from keyboard tab order and break clicking on its label), and the visible pill-and-thumb shape sitting next to it is plain, unclickable <code>&lt;span&gt;</code> markup. Because both the input and the visual track sit inside the same <code>&lt;label&gt;</code>, clicking anywhere in the label toggles the underlying checkbox — that's a native HTML behavior, not a CSS trick. The trick is purely the styling: <code>input:checked ~ .track</code> uses the general sibling combinator to reach the visual track only when its associated checkbox is checked, sliding the thumb and recoloring the background. The browser's real checked/unchecked state is what's actually being tracked; CSS is just painting it to look like an iOS-style switch instead of a checkbox.</p>
+
+<p><strong>Best for:</strong> any binary settings toggle — notifications, dark mode, feature flags — where the interaction genuinely maps to a checkbox's own semantics. <strong>Tip:</strong> keep <code>role</code> implicit by using a real checkbox rather than a styled <code>&lt;div&gt;</code> — screen readers already announce a checkbox's checked state correctly, which a fully custom element would have to reimplement with ARIA.</p>
+
+<h2>4. Focus Glow Input</h2>
+
+<p>Click into the field — the border color shifts, a soft glow expands around it, and the label floats up and shrinks, all triggered by <code>:focus</code>.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/35/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Focus Glow Input Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-css">.field input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(99,102,241,.15);
+}
+.field input:focus ~ label,
+.field input:not(:placeholder-shown) ~ label {
+  transform: translateY(-11px) scale(0.78);
+}</code></pre>
+
+<p>Three separate signals fire from the same <code>:focus</code> event: the border recolors, a spread-out <code>box-shadow</code> (with no blur, just a wide spread) simulates a soft glow ring around the field, and the label — a sibling element, not a wrapper — animates upward and shrinks via <code>transform</code>. The label's floating behavior actually needs two selectors, not one: <code>:focus</code> handles the case while actively typing, but <code>:not(:placeholder-shown)</code> is what keeps the label floated once you click away from a field that still has text in it. That second selector depends on the input having a placeholder attribute at all — even an empty one (<code>placeholder=" "</code>) — since <code>:placeholder-shown</code> only matches while the placeholder is actually visible, which stops being true the moment any character is typed. Together they cover both "currently focused" and "has content but not focused," which is the actual state a floating label needs to track.</p>
+
+<p><strong>Best for:</strong> any labeled text input where you want focus to feel confirmed at a glance, especially in longer forms where users tab quickly between fields. <strong>Tip:</strong> keep the glow's spread subtle (3-5px) and low-opacity — a heavy glow on every field in a long form gets visually noisy fast.</p>
+
+<h2>5. Card Lift on Hover</h2>
+
+<p>Hover over the card — it lifts slightly off the page with <code>translateY</code> while its shadow grows and softens to match.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/35/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Card Lift on Hover Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-css">.liftCard {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(20,22,28,.05);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.liftCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 30px -10px rgba(20,22,28,.18);
+}</code></pre>
+
+<p>The card itself doesn't move very far — 8 pixels — but the shadow does almost all of the work of selling a much bigger lift. At rest, the shadow is tight and faint, sitting almost directly under the card, consistent with something resting flat on the page. On hover, the shadow grows larger, softer, and shifts implicitly downward (via the negative <code>-10px</code> spread pulling it slightly inward at the edges while the blur radius grows), which is exactly how a real object's cast shadow spreads out and softens as it lifts away from a surface and the light source. Animating both properties together, on the same duration, is what keeps them reading as one coherent motion instead of two separate effects; try commenting out the shadow's transition and the card will visibly "snap" its shadow into place a beat after the position settles, which breaks the illusion.</p>
+
+<p><strong>Best for:</strong> clickable cards in a grid — pricing tiers, product cards, dashboard tiles — where hover needs to communicate "this is interactive" before the user commits to a click. <strong>Tip:</strong> pair the hover state with a <code>cursor: pointer</code> declaration if the card itself is the click target, not just a link or button inside it — otherwise the lift implies clickability the cursor doesn't confirm.</p>
+
+<h2>6. Checkbox-Hack Accordion</h2>
+
+<p>Click a question — each row hides a checkbox behind its label, and the answer's height animates open only when that checkbox is checked.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/35/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Checkbox-Hack Accordion Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-css">.acc-input { position: absolute; opacity: 0; }
+.acc-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+.acc-input:checked ~ .acc-body { max-height: 140px; }
+.acc-input:checked ~ .acc-head .acc-plus { transform: rotate(45deg); }</code></pre>
+
+<p>This is the same checkbox-hack mechanism as the toggle switch, applied to an entirely different visual result: instead of a sliding thumb, <code>:checked</code> drives a <code>max-height</code> transition on the answer text, and separately rotates a <code>+</code> glyph into an <code>×</code> shape. Each question's checkbox, label, and answer are independent siblings inside their own wrapper, so multiple items can be open at once — there's no group behavior forcing only one answer visible, unlike a native <code>&lt;details&gt;</code> element with a shared <code>name</code> attribute. Animating <code>max-height</code> instead of <code>height</code> is a deliberate workaround: CSS transitions can't animate to or from <code>height: auto</code> because the browser doesn't know the target height ahead of time, but transitioning to a fixed <code>max-height</code> larger than the content will ever need produces the same visual open/close, at the cost of the animation's speed not being perfectly proportional to the actual content length.</p>
+
+<p><strong>Best for:</strong> FAQ sections, settings panels, and any list of question/answer or label/detail pairs where JavaScript would otherwise just be toggling a class. <strong>Tip:</strong> set <code>max-height</code> generously above your longest expected answer — too tight a value clips the content, and too loose a value adds a visible pause at the end of the collapse animation.</p>
+
+<h2>7. Hover Tooltip</h2>
+
+<p>Hover or Tab-focus the button — a tooltip fades in and slides up from just below it, positioned entirely with CSS, no JavaScript measuring involved.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/35/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Hover Tooltip Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-css">.tip {
+  position: absolute; bottom: calc(100% + 10px); left: 50%;
+  transform: translate(-50%, 4px);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.tipTrigger:hover ~ .tip { opacity: 1; transform: translate(-50%, 0); }</code></pre>
+
+<p>The tooltip is positioned once, statically, using <code>bottom: calc(100% + 10px)</code> relative to a <code>position: relative</code> wrapper — that places it exactly 10px above the trigger regardless of the trigger's size, with no JavaScript ever measuring the button's bounding box. It starts both invisible (<code>opacity: 0</code>) and offset 4px lower than its resting position, then the sibling selector on the trigger's <code>:hover</code> and <code>:focus-visible</code> states animates both properties back to their natural values, which is what produces the fade-and-rise motion rather than a flat fade. <code>pointer-events: none</code> on the tooltip matters more than it looks like it should — without it, briefly hovering the tooltip itself (rather than the trigger) could interfere with the mouse leaving the trigger's hover state and cause the tooltip to flicker. The small triangle is a separate absolutely-positioned pseudo-element with transparent borders on three sides — a classic CSS-only arrow shape with no image or SVG needed.</p>
+
+<p><strong>Best for:</strong> icon-only buttons, truncated text, and any control whose purpose needs one extra word of clarification without adding visible label text. <strong>Tip:</strong> always trigger on <code>:focus-visible</code> as well as <code>:hover</code> — a tooltip that only a mouse can reveal is information a keyboard user never gets.</p>
+
+<h2>8. Self-Drawing Underline</h2>
+
+<p>Hover the nav links — an underline appears to draw itself in from the left edge, rather than just switching from invisible to visible.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/35/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Self-Drawing Underline Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-css">.uLink::after {
+  content: '';
+  position: absolute; left: 0; bottom: 0;
+  width: 100%; height: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.uLink:hover::after { transform: scaleX(1); }</code></pre>
+
+<p>The underline is a <code>::after</code> pseudo-element already sized to the link's full width at all times — what changes on hover isn't its width, but its <code>transform: scaleX()</code>, animating from 0 (fully collapsed, invisible) to 1 (full width). Setting <code>transform-origin: left</code> is what pins the collapse point to the left edge instead of the center, which is what makes the line look like it's drawing in from where a cursor would start reading, rather than expanding outward from the middle like a zipper. This is a meaningfully better technique than animating <code>width</code> directly for two reasons: <code>transform</code> runs on the GPU compositor without triggering layout recalculation, and unlike a bare width animation, <code>transformorigin</code> gives explicit control over which edge the growth anchors to. The exact same pattern works for a "read more" arrow that slides right, a card border that draws around its edge, or any other reveal that should feel directional rather than instantaneous.</p>
+
+<p><strong>Best for:</strong> navigation links, text-based CTAs, and any inline link where the underline itself is the primary hover signal. <strong>Tip:</strong> keep the duration under 300ms — a slow-drawing underline on a fast mouse movement across several links will visibly lag behind the cursor and look sluggish.</p>
+
+<h2>9. Timed Copy Confirmation</h2>
+
+<p>Click the button — a hidden checkbox flips a "Copied!" state on, which then fades back out on its own after a couple of seconds, with no JavaScript timer involved.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/35/9.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Timed Copy Confirmation Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-css">.copyDone { opacity: 0; }
+.copyInput:checked ~ .copyDone { animation: copyPulse 2.4s ease forwards; }
+@keyframes copyPulse {
+  0% { opacity: 0; } 10% { opacity: 1; }
+  85% { opacity: 1; } 100% { opacity: 0; }
+}</code></pre>
+
+<p>Worth being upfront about: an actual "copy to clipboard" action requires the Clipboard API, which is JavaScript — no CSS selector can read or write the system clipboard. What this demo isolates honestly is the second half of that interaction: the timed, self-reverting confirmation state that appears after a copy succeeds. Checking the hidden checkbox doesn't just flip a static class — it starts a <code>@keyframes</code> animation on the "Copied!" layer that holds full opacity from 10% to 85% of its 2.4-second duration, then fades back to 0, all without any <code>setTimeout</code>. Because it's a genuine animation rather than a transition, it can encode a hold-then-fade sequence in one declaration instead of needing JavaScript to schedule a second state change. In a real implementation, a few lines of JS would call <code>navigator.clipboard.writeText()</code> and toggle the checkbox's <code>checked</code> property programmatically — the CSS side shown here would work identically either way.</p>
+
+<p><strong>Best for:</strong> "copy code" and "copy link" buttons where a brief, self-dismissing confirmation is clearer than a persistent state change. <strong>Tip:</strong> don't skip the real clipboard write in production — this pattern only covers the visual confirmation half; pair it with the one line of actual JavaScript the interaction needs.</p>
+
+<h2>10. CSS-Only Star Rating</h2>
+
+<p>Hover across the stars to preview a rating, then click to lock it in — the fill follows your cursor before you've committed to anything.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/35/10.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="CSS-Only Star Rating Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-css">.stars { display: flex; flex-direction: row-reverse; }
+.stars label:hover,
+.stars label:hover ~ label { color: #f59e0b; }
+.stars input:checked ~ label { color: #f59e0b; }</code></pre>
+
+<p>This one takes real thought to get right. Five radio inputs share one <code>name</code>, so only one can ever be checked — the browser's native "pick one of these" behavior does the state management. The markup order is deliberately reversed (5 stars first, 1 star last), then <code>flex-direction: row-reverse</code> flips the visual order back to normal left-to-right. That reversal is what makes the sibling combinator work in the right direction: CSS's <code>~</code> only selects <em>later</em> siblings, never earlier ones, so with the DOM in descending order, hovering the 2-star label and applying color to it plus everything after it in the DOM (the 1-star label) fills exactly the two leftmost stars visually. The same logic drives the checked state permanently once a rating is picked. It's a genuinely clever abuse of a combinator that was never designed with this in mind, and it's worth forking specifically to see the reversed markup order for yourself.</p>
+
+<p><strong>Best for:</strong> lightweight rating widgets — reviews, feedback forms, satisfaction surveys — where the result also needs to submit as a real form value. <strong>Tip:</strong> a radio group has no "clear" option built in; if users need to un-rate something, add a hidden sixth radio bound to a "no rating" label, since unchecking a radio with pure CSS isn't otherwise possible.</p>
+
+<h2>11. Animated Disclosure Triangle</h2>
+
+<p>Click the summary line — it's a native <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code> element, and the triangle rotates open using nothing but an attribute selector.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/35/11.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Animated Disclosure Triangle Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-css">.disc summary { list-style: none; }
+.disc summary::-webkit-details-marker { display: none; }
+.chev { transition: transform 0.25s ease; }
+.disc[open] .chev { transform: rotate(90deg); }</code></pre>
+
+<p><code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> are the one pattern on this list that needs no checkbox hack at all — the browser already gives every <code>&lt;details&gt;</code> element a real, inspectable <code>open</code> boolean attribute that toggles when its <code>&lt;summary&gt;</code> is clicked, with zero CSS or JavaScript required just to make it expand and collapse. What CSS adds here is purely cosmetic: the browser's default marker (a triangle in most browsers, driven by <code>list-style</code> in Firefox and a pseudo-element in Chrome/Safari) is hidden through both routes to cover all engines, and a hand-placed <code>&lt;span&gt;</code> glyph takes its place. The attribute selector <code>[open]</code> then matches the <code>&lt;details&gt;</code> element only while it's expanded, which is what drives the custom triangle's rotation. Because the open/closed state is native HTML rather than a class toggled by JavaScript, this is also the most robust pattern here — it degrades gracefully even with CSS disabled entirely.</p>
+
+<p><strong>Best for:</strong> FAQ items, expandable settings, and any single disclosure where you don't need the multi-item independence the checkbox-hack accordion (#6) provides. <strong>Tip:</strong> give same-named <code>&lt;details&gt;</code> elements a shared <code>name</code> attribute if you want opening one to automatically close the others — that grouping behavior is also native, added without any extra CSS or JS.</p>
+
+<h2>12. Shake on Invalid</h2>
+
+<p>Type an incomplete email address and click away — the field's border turns red and shakes once, driven entirely by the browser's own validation.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/35/12.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Shake on Invalid Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-css">.shakeField input:not(:placeholder-shown):invalid {
+  border-color: #ef4444;
+  animation: shake 0.4s ease;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+}</code></pre>
+
+<p>The browser evaluates <code>:invalid</code> continuously against an input's own <code>type</code> and validation attributes (here, <code>type="email"</code> and <code>required</code>) with no JavaScript involved — but applying the shake unconditionally the moment the page loads would be wrong, since an empty required field is technically invalid before the user has even had a chance to type anything. That's what <code>:not(:placeholder-shown)</code> filters out: it only matches once the placeholder has disappeared, meaning the user has actually typed something (even something that gets deleted again), which is a reasonable proxy for "this field has been interacted with." The shake itself briefly restarts on every re-triggering, because a CSS animation replays whenever the property driving it is removed and reapplied — each keystroke that keeps the field invalid retriggers <code>:invalid</code> matching, and modern browsers restart the animation accordingly. It's a firm, honest visual "no" without needing a single line of validation JavaScript.</p>
+
+<p><strong>Best for:</strong> quick inline validation on simple fields (email, required text) where the browser's built-in constraint validation is sufficient and a custom JS validator would be overkill. <strong>Tip:</strong> don't rely on this for anything beyond a visual nudge — always validate again server-side, since client-side <code>:invalid</code> can be bypassed entirely by disabling JavaScript... or, in this case, simply isn't run at all on form submission via other means.</p>
+
+<h2>13. Shimmer Loading Placeholder</h2>
+
+<p>No click needed here — just watch the gray blocks shimmer continuously, a brief callback to the same CSS-only technique that carries real loading states.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/35/13.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Shimmer Loading Placeholder Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-css">.shimmer {
+  background: linear-gradient(90deg, #e7e9ee 25%, #f4f5f8 37%, #e7e9ee 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.3s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}</code></pre>
+
+<p>Included here as the odd one out — it isn't triggered by any user action at all, and that's the point worth calling out about microinteractions in general: not every one needs a trigger. A shimmer runs continuously and passively, communicating "this is still loading, and nothing is broken" for as long as it's on screen. The mechanism itself is a wide gradient (four times the element's own width) sliding across a fixed-size box by animating <code>background-position</code>, which the browser can run smoothly without recalculating layout on every frame — the same reason <code>transform</code>-based animations elsewhere on this page stay smooth. It's worth keeping in this "CSS microinteractions" list specifically because it's easy to file shimmer under "loading state" and forget it's built from exactly the same primitives — a gradient, a <code>@keyframes</code> block, and <code>infinite</code> — as everything else here that does have a trigger.</p>
+
+<p><strong>Best for:</strong> any placeholder that stands in for content still being fetched — cards, avatars, list rows. <strong>Tip:</strong> for a deeper look at loading-state patterns specifically, including when shimmer beats a plain pulse, see the dedicated <a href="https://www.webdevpuneet.com/search/label/UX">loading states post</a> on this blog.</p>
+
+<h2>14. New-Item Badge Pulse</h2>
+
+<p>Click "Simulate new item" — a hidden checkbox stands in for a real event, and the notification badge pulses once to draw the eye toward it.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/35/14.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="New-Item Badge Pulse Demo by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong></p>
+
+<pre><code class="language-css">.pulseInput:checked ~ .bell .badge {
+  animation: badgePulse 0.5s ease;
+}
+@keyframes badgePulse {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}</code></pre>
+
+<p>In a real product, this checkbox would be a stand-in for something like a WebSocket message or a polling response confirming a new notification arrived — this demo can't fake that arrival with pure CSS, so a checkbox click plays the role instead, which is worth being upfront about rather than presenting it as more than it is. What it does demonstrate honestly is the pulse itself: an animation that grows the badge to 150% scale and back down in half a second, drawing the eye without needing to say anything. Because it's triggered by <code>:checked</code> rather than a permanent state class, the same sibling-combinator mechanism used for the toggle switch (#3) and accordion (#6) is doing the heavy lifting again — one hidden form control standing in for whatever real trigger a live app would actually have. In production, the equivalent CSS would fire the same way off a class toggled by whatever code receives the real notification.</p>
+
+<p><strong>Best for:</strong> notification bells, cart counters, and any badge where a new value arriving deserves a moment of visual emphasis before it settles into the background. <strong>Tip:</strong> a single pulse (not <code>infinite</code>) is almost always correct — a badge that keeps pulsing forever stops meaning "something new" and starts meaning "something is wrong with this page."</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Checkbox-hack state that resets on page refresh.</strong> An accordion or toggle built this way isn't real application state — reloading the page snaps everything back to its default <code>checked</code> value, which is fine for decorative UI but wrong for anything the user expects to persist, like a settings toggle.</li>
+<li><strong><code>:hover</code>-only interactions being unreachable on touch devices.</strong> There's no mouse hovering a phone screen — any interaction gated purely on <code>:hover</code> with no <code>:focus</code> or tap-equivalent fallback simply doesn't exist for touch users, which rules it out for anything essential rather than decorative.</li>
+<li><strong>Overusing animation until the UI feels busy.</strong> A lift here, a pulse there, an underline drawing somewhere else — each one alone is subtle, but stacking several unrelated motions on screen at once starts to compete for attention instead of quietly supporting it.</li>
+<li><strong>Styling only <code>:hover</code> and forgetting <code>:focus-visible</code>.</strong> A button, link, or icon that only reveals its feedback state to a mouse leaves keyboard users with no equivalent signal — every hover effect on this page is paired with a focus equivalent for exactly this reason.</li>
+<li><strong>Ignoring <code>prefers-reduced-motion</code>.</strong> Presses, lifts, shakes and pulses are all motion, and motion can trigger real discomfort for users with vestibular disorders; wrapping non-essential animations in a <code>@media (prefers-reduced-motion: reduce)</code> check that shortens or removes them is a one-line fix with real accessibility impact.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>When does a microinteraction actually need JavaScript instead of the checkbox hack?</h3>
+<p>The moment the interaction needs to talk to something outside the page — reading or writing the real clipboard (#9), calling an API, persisting state across a reload, or reacting to an event with no corresponding native HTML control (like a WebSocket message, standing in for demo #14's checkbox click) — CSS alone can't do it. As a rule of thumb: if the state genuinely needs to be remembered, shared, or synced anywhere beyond "is this one HTML element currently checked," it's time for JavaScript.</p>
+
+<h3>Is the checkbox hack an anti-pattern?</h3>
+<p>Not inherently — it's a legitimate technique for small, self-contained, non-persistent UI state like an accordion or a switch that doesn't need to survive a reload, and it ships less code than the JavaScript equivalent for that exact case. It becomes a genuine anti-pattern when it's stretched to fake something it was never meant to hold, like a multi-step form's progress or state that needs to sync with a server — at that point, reach for real state management instead of forcing more hidden checkboxes to carry weight they can't actually bear.</p>
+
+<h3>Are :hover-only interactions an accessibility problem?</h3>
+<p>Yes, on two fronts. Touch devices have no hover state at all, so anything gated purely on <code>:hover</code> is simply unreachable there; and keyboard users navigate by focus, not by mouse position, so an interaction that only responds to <code>:hover</code> and not <code>:focus-visible</code> is invisible to them too. Every demo above pairs its hover trigger with a focus equivalent specifically to avoid this — it's a small addition that closes a real gap.</p>
+
+<h3>How do I respect prefers-reduced-motion for interactions like these?</h3>
+<p>Wrap the animated properties in a media query and either shorten the duration or remove the motion entirely for users who've set the preference at the OS level: <code>@media (prefers-reduced-motion: reduce) { .btn { transition: none; } }</code> is enough for a simple case like the button press. For anything built on <code>@keyframes</code> — the shake, the pulse, the shimmer — the same query can swap <code>animation: none</code> in, keeping the end state (like the red border on an invalid field) intact while dropping only the motion.</p>
+
+<h3>Why do some of these demos use the checkbox hack and others don't need it at all?</h3>
+<p>Whenever the interaction is a direct, momentary reaction to the cursor or keyboard focus — a press, a lift, a glow, an underline — a pseudo-class like <code>:active</code>, <code>:hover</code>, or <code>:focus</code> is all that's needed, because the browser is already tracking that state continuously. The checkbox hack only comes into play when the interaction needs to persist past the triggering action — a switch staying on after the click ends, an accordion staying open after the mouse moves away — which is state a plain pseudo-class can't hold on its own, but a checkbox's native <code>checked</code> attribute can.</p>
+
+<p>Every demo above ships its full HTML and CSS in the <strong>HTML / CSS</strong> tabs in its own top bar — there's no JS tab with anything in it, because there's genuinely nothing there. The fastest way to actually internalize this is to click <strong>Fork &amp; Edit</strong> on demo #10 — the star rating — and look at the markup order before you look at the CSS at all; the DOM being deliberately reversed is the part that's easy to miss just from reading the rendered result. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop straight into a real project.</p>
+
+<p><strong>Recommended next step:</strong> open the <a href="https://fwdtools.com/css-playground/">CSS Playground</a> and build one of these from scratch — start with the button press, then work up to the checkbox-hack accordion once <code>:checked</code> and the sibling combinator feel natural. For more posts like this one, browse the <a href="https://www.webdevpuneet.com/search/label/UX">UX</a> label on the blog.</p>

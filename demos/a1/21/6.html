@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Nesting Pseudo-Elements">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Nesting pseudo-elements</h1>
+    <p class="hint">The colored dot before each label and the checkmark after it are both generated content&mdash;<code>&amp;::before</code> and <code>&amp;::after</code> nested directly inside <code>.badge</code>, no separate top-level rule needed.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="badges">
+      <span class="badge">Shipped</span>
+      <span class="badge">Reviewed</span>
+      <span class="badge">Deployed</span>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; padding: 40px 18px 48px; }
+  .badges { display: flex; flex-direction: column; gap: 12px; }
+
+  /* This is the demo: pseudo-elements nested straight inside the rule */
+  .badge {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px 8px 28px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font: 700 13px system-ui, sans-serif;
+    color: var(--ink);
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      transform: translateY(-50%);
+    }
+
+    &::after {
+      content: "\2713";
+      margin-left: 8px;
+      color: #16a34a;
+      font-weight: 900;
+    }
+  }
+</script>
+
+<script type="text/plain" id="js">
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

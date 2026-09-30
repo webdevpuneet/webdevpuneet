@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Derived State Doesn't Need an Effect">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>If you can calculate it, you don't need an effect for it</h1>
+    <p class="hint">Type in the cart. Both totals end up correct &mdash; but watch the render counter while you type.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 17px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 18px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; text-align: center; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .row { display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; margin-bottom: 6px; }
+  .row input { width: 46px; padding: 4px 6px; border: 1.5px solid var(--line); border-radius: 6px; text-align: center; }
+  .total { font: 800 18px ui-monospace, monospace; text-align: center; margin: 10px 0 4px; }
+  .renders { font-size: 11px; color: var(--sub); text-align: center; }
+  .renders b { color: var(--ink); }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useEffect = React.useEffect;
+
+  var PRICE = { Widget: 8, Gadget: 15 };
+
+  function BadCart() {
+    var widgetState = useState(1);
+    var widgetQty = widgetState[0];
+    var setWidgetQty = widgetState[1];
+    var gadgetState = useState(1);
+    var gadgetQty = gadgetState[0];
+    var setGadgetQty = gadgetState[1];
+    var totalState = useState(0);
+    var total = totalState[0];
+    var setTotal = totalState[1];
+    var renderCount = React.useRef(0);
+    renderCount.current += 1;
+
+    // ANTI-PATTERN: total is fully computable from widgetQty and gadgetQty
+    // -- it doesn't need to be its own state at all. Storing it in state
+    // and syncing it with an effect means every quantity change causes
+    // TWO renders: one with the stale total, then a second one (triggered
+    // by setTotal inside the effect) with the correct total.
+    useEffect(function () {
+      setTotal(widgetQty * PRICE.Widget + gadgetQty * PRICE.Gadget);
+    }, [widgetQty, gadgetQty]);
+
+    return e('div', null,
+      e('div', { className: 'row' }, 'Widget ($8)', e('input', { type: 'number', min: 0, value: widgetQty, onChange: function (ev) { setWidgetQty(Number(ev.target.value) || 0); } })),
+      e('div', { className: 'row' }, 'Gadget ($15)', e('input', { type: 'number', min: 0, value: gadgetQty, onChange: function (ev) { setGadgetQty(Number(ev.target.value) || 0); } })),
+      e('div', { className: 'total' }, '$' + total),
+      e('div', { className: 'renders' }, 'Renders so far: ', e('b', null, renderCount.current))
+    );
+  }
+
+  function GoodCart() {
+    var widgetState = useState(1);
+    var widgetQty = widgetState[0];
+    var setWidgetQty = widgetState[1];
+    var gadgetState = useState(1);
+    var gadgetQty = gadgetState[0];
+    var setGadgetQty = gadgetState[1];
+    var renderCount = React.useRef(0);
+    renderCount.current += 1;
+
+    // FIXED: just calculate it, right here, during render. No state, no
+    // effect, no extra render -- one input change is exactly one render.
+    var total = widgetQty * PRICE.Widget + gadgetQty * PRICE.Gadget;
+
+    return e('div', null,
+      e('div', { className: 'row' }, 'Widget ($8)', e('input', { type: 'number', min: 0, value: widgetQty, onChange: function (ev) { setWidgetQty(Number(ev.target.value) || 0); } })),
+      e('div', { className: 'row' }, 'Gadget ($15)', e('input', { type: 'number', min: 0, value: gadgetQty, onChange: function (ev) { setGadgetQty(Number(ev.target.value) || 0); } })),
+      e('div', { className: 'total' }, '$' + total),
+      e('div', { className: 'renders' }, 'Renders so far: ', e('b', null, renderCount.current))
+    );
+  }
+
+  function Demo() {
+    return e('div', { className: 'cols' },
+      e('div', { className: 'col' },
+        e('h2', { className: 'colTitle bad' }, 'State + effect'),
+        e(BadCart)
+      ),
+      e('div', { className: 'col' },
+        e('h2', { className: 'colTitle good' }, 'Computed during render'),
+        e(GoodCart)
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

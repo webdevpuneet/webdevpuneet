@@ -1,0 +1,191 @@
+<h1>Building a Cmd+K Command Palette: Global Shortcuts, Grouped Search, and Keyboard-Only Navigation</h1>
+
+<p>There's a specific moment in a product's growth where the navigation menu stops working. Not literally — the links still click — but the number of things a user might want to do has outgrown the number of things that fit in a sidebar. So features get nested three menus deep, or a search icon gets bolted onto the header, and both solve the problem badly. VS Code, Linear, Raycast, GitHub and Notion all converged on the same fix: press Cmd+K (or Ctrl+K), type a few characters, hit Enter. No hierarchy to remember, no hunting — just naming the thing you want.</p>
+
+<p>The interesting part isn't the idea, it's that a real, keyboard-complete implementation is genuinely small — one global keydown listener, one array of commands, one filter function, and about a dozen lines of arrow-key bookkeeping. Nothing here needs a fuzzy-search library or a UI framework. Here it is live: click into the preview and press Cmd+K (or the button), type to filter, and use the arrow keys and Enter without touching the mouse.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/command-palette/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Command Palette — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p>Grab the code, or open the full editor with live HTML/CSS/JS panels: <a href="https://fwdtools.com/ui-snippets/command-palette/">Command Palette on FWD Tools</a>. It's plain HTML, CSS and JavaScript with zero dependencies, and the same editor exports one-click to <strong>React</strong>, <strong>Vue</strong>, <strong>Angular</strong> and <strong>React + Tailwind</strong>.</p>
+
+<p>In this post I'll build the whole thing from the keydown listener up: how a global shortcut avoids stepping on the browser's own Cmd+K, how commands are grouped and rendered from one flat array, how the substring filter works and where it falls short of real fuzzy matching, how arrow-key navigation keeps a highlighted index in sync with the DOM, and what changes when you wire the placeholder <code>alert()</code> up to real actions.</p>
+
+<h2>What the component actually is</h2>
+
+<p>Four pieces, and the order they matter in:</p>
+
+<ol>
+<li><strong>A global keydown listener</strong> that works no matter what's focused on the page — the whole point of a command palette is that you don't have to click anything first.</li>
+<li><strong>A flat array of command objects</strong>, each with a group, an icon, a name, a description and an optional shortcut — the single source of truth for what's searchable.</li>
+<li><strong>A filter-and-render pass</strong> that turns a search query into a grouped, re-rendered list on every keystroke.</li>
+<li><strong>An active-index tracker</strong> that keeps arrow-key navigation, mouse hover, and Enter all pointing at the same command.</li>
+</ol>
+
+<p>Swap the <code>COMMANDS</code> array and the same four pieces become a file finder, a settings search, or a slash-command menu — the mechanics don't care what's being searched.</p>
+
+<h2>Where you'd actually use this</h2>
+
+<ul>
+<li><strong>SaaS dashboards with deep navigation.</strong> Replace three levels of nested menu with one search box — see the <a href="https://fwdtools.com/ui-snippets/mega-menu/">mega menu</a> for the alternative you're often replacing.</li>
+<li><strong>Developer tools.</strong> Power users expect Cmd+K by now; pair it with a <a href="https://fwdtools.com/ui-snippets/keyboard-shortcuts/">keyboard shortcuts</a> cheat sheet for the rest of the app.</li>
+<li><strong>Any app where "find the thing" beats "remember where the thing lives."</strong> Settings pages, admin panels, documentation sites — anywhere the number of destinations has outgrown a visible menu.</li>
+<li><strong>Learning keyboard event handling.</strong> <code>metaKey</code> vs <code>ctrlKey</code> detection, <code>preventDefault()</code>, and dynamic DOM rendering from a data array are all here in isolation, without a framework's event system in the way.</li>
+</ul>
+
+<h2>The markup: an overlay, a search row, and an empty list</h2>
+
+<pre><code class="language-html">&lt;div class="overlay" id="overlay" onclick="closePalette()"&gt;&lt;/div&gt;
+&lt;div class="palette" id="palette" role="dialog" aria-modal="true"&gt;
+  &lt;div class="search-row"&gt;
+    &lt;svg ...&gt;&lt;/svg&gt;
+    &lt;input id="cmd-q" class="cmd-input" placeholder="Search commands…" oninput="filter(this.value)" autocomplete="off" /&gt;
+    &lt;kbd class="esc-key" onclick="closePalette()"&gt;ESC&lt;/kbd&gt;
+  &lt;/div&gt;
+  &lt;div id="cmd-list" class="cmd-list"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+<p>Two elements do the structural work: <code>#overlay</code>, a full-screen backdrop that closes the palette on click, and <code>#palette</code>, the dialog itself with <code>role="dialog"</code> and <code>aria-modal="true"</code> so assistive tech understands it as a modal. Both start hidden with CSS opacity and <code>pointer-events: none</code> rather than <code>display: none</code> — the reason is purely about the open animation: a scale-and-fade transition needs the element in the layout to animate, and toggling one <code>.show</code> class on each element is simpler than juggling <code>display</code> timing around a CSS transition.</p>
+
+<p>Notice what's <em>not</em> in the markup: the command list. <code>#cmd-list</code> starts empty and is filled entirely by JavaScript from data — there is no hardcoded HTML per command to keep in sync with the search results.</p>
+
+<h2>Step 1 — The command data</h2>
+
+<pre><code class="language-javascript">const COMMANDS = [
+  { group: 'Navigation', icon: '🏠', name: 'Go to Home',        desc: 'Return to the main dashboard',  shortcut: 'G H' },
+  { group: 'Navigation', icon: '📊', name: 'Open Dashboard',    desc: 'View analytics overview',       shortcut: 'G D' },
+  { group: 'Actions',    icon: '➕', name: 'New Document',       desc: 'Create a blank document',       shortcut: '⌘N' },
+  { group: 'Actions',    icon: '📤', name: 'Export as PDF',      desc: 'Download current page as PDF',  shortcut: '⌘E' },
+  { group: 'Theme',      icon: '🌙', name: 'Toggle Dark Mode',   desc: 'Switch color scheme',           shortcut: '⌘T' },
+  { group: 'Help',       icon: '📖', name: 'Documentation',      desc: 'Open the docs in a new tab',   shortcut: '?' },
+];</code></pre>
+
+<p>Plain objects, nothing clever. This is the whole reason the component stays simple: adding a command is adding an object to an array, not writing new markup. The <code>group</code> field is what makes the grouped-headers UI possible — it isn't a separate data structure, it's just a field that <code>render()</code> reads back out.</p>
+
+<h2>Step 2 — Rendering grouped results from a flat array</h2>
+
+<pre><code class="language-javascript">let activeIdx = 0, visible = [];
+
+function render(cmds) {
+  visible = cmds;
+  activeIdx = 0;
+  const el = document.getElementById('cmd-list');
+  if (!cmds.length) { el.innerHTML = '&lt;div class="cmd-empty"&gt;No commands found&lt;/div&gt;'; return; }
+  const groups = [...new Set(cmds.map(c => c.group))];
+  el.innerHTML = groups.map(g => {
+    const items = cmds.filter(c => c.group === g).map((c, i) => {
+      const gi = cmds.indexOf(c);
+      return `&lt;div class="cmd-item${gi === 0 ? ' active' : ''}" data-idx="${gi}" onclick="pick(${gi})"&gt;` +
+        `&lt;div class="cmd-icon"&gt;${c.icon}&lt;/div&gt;` +
+        `&lt;div class="cmd-text"&gt;&lt;div class="cmd-name"&gt;${c.name}&lt;/div&gt;&lt;div class="cmd-desc"&gt;${c.desc}&lt;/div&gt;&lt;/div&gt;` +
+        `${c.shortcut ? `&lt;span class="cmd-shortcut"&gt;${c.shortcut}&lt;/span&gt;` : ''}&lt;/div&gt;`;
+    }).join('');
+    return `&lt;div class="cmd-group-label"&gt;${g}&lt;/div&gt;${items}`;
+  }).join('');
+}</code></pre>
+
+<p>The grouping trick is <code>[...new Set(cmds.map(c => c.group))]</code> — collect every group name that appears in the <em>currently filtered</em> list, deduplicated by <code>Set</code>, in the order they first appear. That's deliberate: if a search matches only "Actions" commands, only the "Actions" header renders — an empty "Navigation" section never shows up, because the groups list is derived from what's visible, not from a fixed list of all possible groups.</p>
+
+<p>Each item's <code>data-idx</code> attribute holds its position in the flat <code>cmds</code> array (found with <code>cmds.indexOf(c)</code>), not its position within its group. That index is what ties the visual grouping back to a single flat list arrow-key navigation can walk in order, regardless of which group boundary it crosses.</p>
+
+<p>Also worth noting: <code>render()</code> resets <code>activeIdx</code> to 0 every time it's called. That means every new search automatically highlights the first result — there's no separate "reset selection" step to remember to call elsewhere.</p>
+
+<h2>Step 3 — The search filter</h2>
+
+<pre><code class="language-javascript">function filter(q) {
+  const lq = q.toLowerCase();
+  render(q ? COMMANDS.filter(c => c.name.toLowerCase().includes(lq) || c.desc.toLowerCase().includes(lq)) : COMMANDS);
+}</code></pre>
+
+<p>This is a substring filter, not fuzzy search, and it's worth being honest about the difference. <code>includes()</code> checks whether the query appears as a contiguous run of characters — typing "dash" matches "Open Dashboard" because "dash" is literally inside "Dashboard." A real fuzzy matcher (the kind VS Code and Raycast use) would also match "opndsh" by checking that each query character appears <em>somewhere</em> in the target, in order, not necessarily adjacent. That's a meaningfully different algorithm — a small state machine walking both strings in parallel — and it's the first thing worth asking an AI assistant to add once the substring version feels too strict.</p>
+
+<p>Searching both <code>name</code> and <code>desc</code> in the same <code>||</code> is a small but real usability choice: a user typing "analytics" finds "Open Dashboard" because the word "analytics" lives in its description, not its name. Restricting the search to just <code>name</code> would miss that.</p>
+
+<h2>Step 4 — Keyboard navigation and the active index</h2>
+
+<pre><code class="language-javascript">function setActive(i) {
+  document.querySelectorAll('.cmd-item').forEach(el => el.classList.remove('active'));
+  const el = document.querySelector(`[data-idx="${i}"]`);
+  if (el) { el.classList.add('active'); el.scrollIntoView({ block: 'nearest' }); activeIdx = i; }
+}
+
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openPalette(); return; }
+  if (!document.getElementById('palette').classList.contains('show')) return;
+  if (e.key === 'Escape') closePalette();
+  if (e.key === 'ArrowDown') { e.preventDefault(); setActive(Math.min(activeIdx + 1, visible.length - 1)); }
+  if (e.key === 'ArrowUp')   { e.preventDefault(); setActive(Math.max(activeIdx - 1, 0)); }
+  if (e.key === 'Enter') pick(activeIdx);
+});</code></pre>
+
+<p>One <code>keydown</code> listener does everything, and the order of its checks matters. The Cmd+K check runs <em>first</em>, unconditionally — it has to work whether the palette is open, closed, or the user is focused on some unrelated input, which is why it's not gated behind any other condition. Every check after it returns early if the palette isn't open, so none of the arrow-key or Enter logic accidentally fires while the palette is hidden and the user is just navigating the rest of the page with arrow keys.</p>
+
+<p><code>setActive(i)</code> is the single function every navigation path funnels through — arrow keys call it, and so does mouse hover (via a corresponding CSS <code>:hover</code> rule mirrored by a JS listener in the full source). It does three things atomically: strips <code>.active</code> from every item, adds it to the one matching <code>data-idx="{i}"</code>, and calls <code>scrollIntoView({ block: 'nearest' })</code> so a highlighted item that's scrolled out of view snaps back into the visible area without over-scrolling past it. <code>Math.min</code> and <code>Math.max</code> clamp the index at the list boundaries instead of wrapping — pressing ArrowDown at the last item just stays there, which is the expected behavior in every palette this pattern is modeled on.</p>
+
+<h2>Step 5 — Opening, closing, and the deliberate focus delay</h2>
+
+<pre><code class="language-javascript">function openPalette() {
+  document.getElementById('overlay').classList.add('show');
+  document.getElementById('palette').classList.add('show');
+  document.getElementById('cmd-q').value = '';
+  render(COMMANDS);
+  setTimeout(() => document.getElementById('cmd-q').focus(), 50);
+}
+function closePalette() {
+  document.getElementById('overlay').classList.remove('show');
+  document.getElementById('palette').classList.remove('show');
+}</code></pre>
+
+<p>Opening resets the search value and re-renders the full unfiltered list every time — the palette never remembers your last query, which matches how every real-world implementation behaves; a stale filtered list from your last search would be confusing to land on. The 50ms <code>setTimeout</code> before focusing the input looks arbitrary but isn't: focusing an element the same tick you toggle its container's opacity from 0 to 1 can fight with the CSS transition in some browsers, so the short delay lets the open animation actually start before the input steals focus and the cursor starts blinking.</p>
+
+<h2>Step 6 — Executing a command</h2>
+
+<pre><code class="language-javascript">function pick(i) { alert('Running: ' + visible[i]?.name); closePalette(); }</code></pre>
+
+<p>This is the one line meant to be replaced. <code>visible</code> — not <code>COMMANDS</code> — is what <code>pick()</code> reads from, because <code>activeIdx</code> is an index into whatever list is currently filtered and displayed, not the full command set. Swapping the <code>alert()</code> for real behavior is a small refactor: build a map from command name to a handler function, and call <code>handlers[visible[i]?.name]?.()</code> instead. A router-backed app would have handlers that call <code>router.push('/dashboard')</code>; a settings palette would have handlers that open a specific panel.</p>
+
+<h2>Customizing it for your own project</h2>
+
+<ul>
+<li><strong>Add real fuzzy matching.</strong> Replace the <code>includes()</code> check with a routine that walks the query and target characters in parallel, matching out-of-order and non-adjacent characters — this is what turns "cmpl" into a match for "Command Palette."</li>
+<li><strong>Add recently-used commands.</strong> Track the last few executed command names in an array (or <code>localStorage</code>), and prepend a "Recent" group to the rendered list when the search query is empty.</li>
+<li><strong>Debounce for large command sets.</strong> At eleven commands, filtering on every keystroke is free. At a few hundred — file names, API endpoints — rebuilding the whole <code>innerHTML</code> string per keystroke starts to cost something; a short debounce or a virtualized list (see the <a href="https://fwdtools.com/ui-snippets/virtual-scroll/">virtual scroll list</a> technique) fixes that.</li>
+<li><strong>Support multi-step commands.</strong> Some commands need a follow-up input — "Rename to…" prompts for text before executing. That's a second screen inside the same dialog, not a new component.</li>
+<li><strong>Wire it to a real router or action dispatcher.</strong> Replace the <code>alert()</code> with an actions map, as described above, so <code>pick()</code> actually does something.</li>
+</ul>
+
+<h2>The things deliberately left out</h2>
+
+<p><strong>Real fuzzy search.</strong> As covered above, the shipped version is a plain substring filter. It's a completely reasonable default for a command set under a few dozen entries, and it's the piece most worth upgrading first as the list grows.</p>
+
+<p><strong>Persistence between sessions.</strong> Recently-used commands, pinned favorites, and custom keyboard shortcuts all reset on reload here. Real implementations back these with <code>localStorage</code> or a user preferences API.</p>
+
+<p><strong>Nested or multi-level commands.</strong> Every command here is a single, flat, terminal action. Tools like Raycast support commands that open a sub-palette (search Home, then search files matching whatever you typed). That's a genuinely different interaction model — a stack of palette states rather than one flat list — and worth building only once the flat version stops being enough.</p>
+
+<h2>Using it in React, Vue, or Angular</h2>
+
+<p>The editor exports all four, and the shape of the port is consistent. <code>open</code>, the search query, and the filtered results all become component state; the global Cmd+K listener moves into a mount-time effect (<code>useEffect</code> with cleanup in React, <code>onMounted</code>/<code>onUnmounted</code> in Vue, <code>ngOnInit</code>/<code>ngOnDestroy</code> in Angular) so the listener is added once and removed on unmount rather than leaking. The filtered-and-grouped list becomes a derived value — <code>useMemo</code> keyed on the query in React, a <code>computed</code> in Vue — recomputed from <code>COMMANDS</code> rather than mutated in place. The one thing to actively unlearn is the DOM-string building in <code>render()</code>: in a framework, you map the filtered array to elements directly and let the framework's own reconciliation handle updates, rather than hand-writing an HTML string and reassigning <code>innerHTML</code>.</p>
+
+<h2>Build, understand, optimize, and extend it with AI</h2>
+
+<p>This snippet is small enough to read start to finish in a few minutes, which makes it a good one to interrogate rather than skim. Paste its HTML, CSS and JS into an assistant like Claude and start with the listener ordering: ask it to explain exactly why the Cmd+K check runs before the "is the palette open" guard, and what would break if those two checks were swapped. Then ask it to trace <code>setActive()</code> and explain why it operates on <code>data-idx</code> attributes read from the DOM rather than keeping a parallel array of element references — and whether that choice would still hold up if the list were virtualized. For optimization, ask whether rebuilding the full <code>innerHTML</code> string on every keystroke is fine at eleven commands but would need a different approach — DOM diffing, or a windowed render — at a few hundred, and have it sketch what that would look like. For extension, in roughly increasing order of difficulty: replace the substring filter with real fuzzy matching and have it explain the character-walking algorithm it writes; add a "Recent" group backed by <code>localStorage</code> that appears only when the search box is empty; and finally attempt a nested sub-palette, where selecting certain commands pushes a new search context onto a stack instead of executing immediately — which is the same architectural leap every real command palette tool eventually makes. Treat the code less like a finished artifact and more like a starting point for a conversation.</p>
+
+<h3>Prompt to recreate it</h3>
+
+<p>Copy this into your AI assistant of choice to build the component from scratch, or as a jumping-off point for your own variant:</p>
+
+<pre><code class="language-text">Build a Cmd+K command palette in plain HTML, CSS, and JavaScript — no fuzzy-search library, no UI framework.
+
+Requirements:
+- A global keydown listener on document that detects both e.metaKey and e.ctrlKey combined with the "k" key, calls preventDefault to stop the browser's own shortcut, and opens the palette from anywhere on the page without requiring focus to be inside it first.
+- A flat array of command objects, each with a group name, an icon, a name, a description, and an optional keyboard shortcut string, rendered by grouping commands under their group label headers dynamically (not hardcoded per-group markup) — and only groups that have at least one currently-visible command should render a header.
+- A search input that filters the command array by checking whether the lowercased query is a substring of either the command's name or its description, re-rendering the grouped list on every keystroke and resetting the active selection to the first result each time.
+- Full keyboard navigation inside the open palette: ArrowDown and ArrowUp move a highlighted-item index up or down clamped to the list bounds (not wrapping), calling scrollIntoView with block: "nearest" so the highlighted item is always visible without page-level scrolling, Enter executes the highlighted command, and Escape closes the palette.
+- An empty state shown when no commands match the current query.
+- Open/close must be driven by toggling a class that animates opacity and a scale transform on the palette panel plus a separate blurred backdrop overlay, not by toggling display or visibility directly.
+- Focus the search input automatically after opening, with enough delay that the open transition has already started, and clear any previous search query so the palette never reopens showing a stale filtered list.</code></pre>
+
+<h2>Final thought</h2>
+
+<p>The trick worth keeping from this one isn't the keyboard handling specifically — it's that every entry point into the same piece of state goes through one function. <code>setActive()</code> is the only thing allowed to change which item is highlighted; <code>render()</code> is the only thing allowed to rebuild the list; <code>pick()</code> is the only thing allowed to execute a command. Arrow keys, mouse hover, typing, and Enter are all just different callers of the same three functions, which is exactly why the highlighted item, the visible list, and the executed command can never drift out of sync with each other.</p>
+
+<p>That's the same discipline worth applying to any component with more than one way to trigger the same change — a filter that can be set by a dropdown, a URL param, and a search box; a selected tab that can be set by a click, a keyboard shortcut, and a deep link. One function, many callers, is a smaller idea than "command palette," and it's the one that actually generalizes.</p>

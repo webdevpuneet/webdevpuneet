@@ -1,0 +1,137 @@
+<h1>10 Free Bootstrap 5 Snippets for Search, Command Palettes &amp; Developer Utilities: A Real Ctrl+K, Safe Regex Highlighting &amp; a Recursive JSON Viewer</h1>
+
+<p>This batch is about the tools power users and developers actually reach for constantly: a Ctrl+K command palette, a search box that remembers what you searched last time, results that highlight exactly what matched, and the small copy/status/code-display components that show up in every dashboard and every README. None of these are decorative — every keyboard shortcut is a real global listener, every highlight is safely escaped, and every copy button falls back correctly outside a secure context. Every one still loads the genuine <code>bootstrap.min.css</code> and <code>bootstrap.bundle.min.js</code> from a CDN and builds on Bootstrap's real component classes.</p>
+
+<p>Every one is a <strong>live, interactive preview</strong> you can try right here in the article, and each exports to React, Vue, Angular or Tailwind in one click from its snippet page.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>Two escaping passes, not one.</strong> The search-highlighting snippet escapes the result text for safe HTML injection <em>and</em> escapes the user's query before it's ever turned into a RegExp — skip either one and a user typing a regex-special character like <code>(</code> either breaks the search or opens an HTML-injection hole.</li>
+<li><strong>A filtered index that can't point past its own list.</strong> The command palette re-clamps its highlighted <code>activeIndex</code> after every keystroke, so filtering down to two results while the fourth item was highlighted can never silently point at nothing.</li>
+<li><strong>Real recursion, not a fixed two levels.</strong> The API response viewer's tree renderer calls itself for every nested object or array however deep, with each collapsible node getting its own unique id so collapsing one section never touches any other.</li>
+<li><strong>Copy that actually falls back.</strong> The copy-to-clipboard and code-block snippets both try the modern <code>navigator.clipboard</code> API first and fall back to a working <code>document.execCommand('copy')</code> path outside a secure context or on a denied permission — and each button tracks its own "flashing" state independently.</li>
+<li><strong>Real range math, not a hardcoded table.</strong> The HTTP status badge classifies any valid 3-digit code by numeric range, correctly coloring a code that never appears in its own reference list.</li>
+</ul>
+
+<h2>1. Bootstrap Filter Chips</h2>
+
+<p>Toggle filter buttons and each active one appears as a removable chip — clicking a chip's &times; deactivates its exact originating toggle button, not just the pill.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-filter-chips/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Filter Chips — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> one <code>active</code> Set is the single source of truth for both the toggle buttons and the chip row, so removing a chip and clicking its toggle button off are always describing the same underlying change. Filters combine with real AND logic — <code>Array.from(active).every(f => matches(p, f))</code> — so stacking "In stock" and "Under $50" narrows the list instead of just adding more results.</p>
+
+<p><strong>Best for:</strong> ecommerce filter sidebars and admin table filters where the currently applied conditions need to stay visible and individually removable. <strong>Tip:</strong> pair with an advanced search panel to summarize a multi-field search as chips.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-filter-chips/">Bootstrap Filter Chips</a></p>
+
+<h2>2. Bootstrap Advanced Search Panel</h2>
+
+<p>A collapsible filter panel — status, priority, a date range — with a live badge counting active filters on the toggle button, and a generated plain-English summary of the current search.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-advanced-search-panel/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Advanced Search Panel — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the panel uses Bootstrap's real <code>collapse</code> component, inheriting its built-in animation and ARIA wiring for free rather than a custom show/hide. The badge counts only the structured dropdown and date fields, not the free-text keyword, since that already has its own visible place in the summary sentence. "Reset" clears every field and re-syncs the badge and summary in one action.</p>
+
+<p><strong>Best for:</strong> support ticket dashboards and any list view needing more than a single search box. <strong>Tip:</strong> combine with filter chips to also show each applied criterion as its own removable pill.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-advanced-search-panel/">Bootstrap Advanced Search Panel</a></p>
+
+<h2>3. Bootstrap Search With Recent Searches</h2>
+
+<p>A search box backed by real <code>localStorage</code> — up to 5 recent searches appear on an empty, focused input, deduplicated and most-recent-first, and clicking one re-runs it instantly.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-search-recent-searches/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Search With Recent Searches — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> re-searching an existing term case-insensitively removes the old entry before unshifting it back to the front, so repeating a search moves it to the top instead of creating a duplicate. The dropdown only ever shows on an empty, focused input — it's a shortcut for starting a new search, not a suggestion list competing with active typing — and every <code>localStorage</code> read/write is wrapped in try/catch so a blocked storage API degrades to "no history" instead of breaking the box.</p>
+
+<p><strong>Best for:</strong> documentation search and any returning-user search box where repeating a recent query in one click beats retyping it. <strong>Tip:</strong> the try/catch guard matters specifically for private browsing, where storage is often blocked or cleared.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-search-recent-searches/">Bootstrap Search With Recent Searches</a></p>
+
+<h2>4. Bootstrap Search Results Highlighting</h2>
+
+<p>A live search where the matching substring of every visible result is wrapped in a real <code>&lt;mark&gt;</code> — safely, even if you search for a character like <code>(</code> that means something different in regex.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-search-results-highlighting/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Search Results Highlighting — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the query is escaped for safe use inside a <code>RegExp</code> before it's ever built into a pattern — without that, a user typing a regex-special character would either throw an error or match unpredictably. The result text is separately HTML-escaped before highlighting, so it can never be misinterpreted as markup. A capturing group in the replacement preserves the original text's exact casing, so searching "grid" still highlights "Grid" with its real capital G.</p>
+
+<p><strong>Best for:</strong> documentation search, admin log viewers, and any filtered list where seeing exactly what matched speeds up scanning. <strong>Tip:</strong> both escaping passes are load-bearing — skip the regex one and a search for <code>*</code> throws; skip the HTML one and result text becomes an injection risk.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-search-results-highlighting/">Bootstrap Search Results Highlighting</a></p>
+
+<h2>5. Bootstrap Command Palette</h2>
+
+<p>A real Ctrl+K (Cmd+K on Mac) command palette built on a genuine Bootstrap modal — live filtering, full arrow-key navigation, and Enter to run the highlighted command.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-command-palette/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Command Palette — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a global <code>keydown</code> listener checks for <code>(e.ctrlKey || e.metaKey) &amp;&amp; e.key === 'k'</code> and funnels into the same <code>open()</code> function the visible button uses, resetting the query and highlight every time. Filtering and keyboard navigation share one <code>activeIndex</code>, re-clamped after every keystroke against the current filtered list's length — the single most common bug in a homemade command palette is skipping that clamp and letting the highlight point past the end of a shortened list.</p>
+
+<p><strong>Best for:</strong> developer tools, internal admin panels, and any SaaS dashboard with more destinations than fit in a menu. <strong>Tip:</strong> pair with the keyboard shortcut help modal below to document every shortcut in one place.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-command-palette/">Bootstrap Command Palette</a></p>
+
+<h2>6. Bootstrap Keyboard Shortcut Help Modal</h2>
+
+<p>Press "?" anywhere on the page to open a modal listing every shortcut by category — except while you're actually typing in a field, where the shortcut correctly stays silent.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-keyboard-shortcut-help-modal/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Keyboard Shortcut Help Modal — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> an <code>isTypingContext()</code> check covers <code>INPUT</code>, <code>TEXTAREA</code>, and <code>isContentEditable</code> elements, and the global "?" listener bails out entirely whenever focus is inside one of them — without it, a user typing a literal question mark into any text field would unexpectedly pop the help modal open mid-sentence.</p>
+
+<p><strong>Best for:</strong> any app with more than a couple of custom keyboard shortcuts, especially one that already has a command palette worth documenting. <strong>Tip:</strong> generate the shortcut list from the same data structure that registers each shortcut's real handler, so the documented list and the actual behavior can never drift apart.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-keyboard-shortcut-help-modal/">Bootstrap Keyboard Shortcut Help Modal</a></p>
+
+<h2>7. Bootstrap Copy-to-Clipboard Feedback</h2>
+
+<p>Two copy buttons — an API key and a referral link — each showing a genuine "Copied!" flash that reverts on its own, with a working fallback outside a secure context.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-copy-to-clipboard-feedback/embed/" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Copy-to-Clipboard Feedback — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> it tries <code>navigator.clipboard.writeText()</code> first and falls back to a working <code>document.execCommand('copy')</code> path — via a temporary off-screen textarea — whenever the modern API is unavailable or its permission is denied. Each button tracks its own "flashing" busy state on its own <code>dataset</code> rather than one shared flag, so copying the API key can never reset or interfere with the referral link's independent flash animation.</p>
+
+<p><strong>Best for:</strong> API keys, tokens, referral links, and any short string a user needs to grab and paste elsewhere with unambiguous confirmation. <strong>Tip:</strong> the per-button busy guard matters the moment a page has more than one copy button — a shared flag would let one button's click interfere with another's.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-copy-to-clipboard-feedback/">Bootstrap Copy-to-Clipboard Feedback</a></p>
+
+<h2>8. Bootstrap API Response Viewer</h2>
+
+<p>A recursively rendered JSON tree, syntax-colored by type, with every object and array independently collapsible — plus a Copy JSON button that always copies a freshly re-serialized, valid document.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-api-response-viewer/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap API Response Viewer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>renderNode()</code> is genuinely recursive — it calls itself for every nested object or array, however deep, rather than special-casing two fixed levels. Each collapsible node gets a unique generated id so its toggle and its children block find each other regardless of how many other collapsible nodes exist elsewhere in the tree, meaning collapsing one section never affects any other. Copy JSON re-serializes the original data object fresh rather than scraping the rendered HTML, so the clipboard always holds valid JSON regardless of what's currently collapsed on screen.</p>
+
+<p><strong>Best for:</strong> internal admin tools and API debugging dashboards where inspecting a payload's exact shape matters. <strong>Tip:</strong> pair with the HTTP status badge below for a fuller request/response inspection panel.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-api-response-viewer/">Bootstrap API Response Viewer</a></p>
+
+<h2>9. Bootstrap Code Block With Copy + Line Numbers</h2>
+
+<p>A dark, editor-style code block with a synchronized line-number gutter and a Copy button that copies the raw source — never the rendered, highlighted HTML.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-code-block-with-copy-line-numbers/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Code Block With Copy + Line Numbers — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the gutter and the code pane are both generated from the exact same array of lines, so a line number and its code can never drift apart even as lines are added or removed. Copy joins the original plain-text array with real newlines rather than reading the DOM's <code>innerHTML</code> — copying rendered HTML would paste literal <code>&lt;span class="..."&gt;</code> tags into whatever the user pastes into.</p>
+
+<p><strong>Best for:</strong> documentation, README pages, and API examples showing a command or usage snippet exactly as a developer would want to copy and run it. <strong>Tip:</strong> the line-based comment/string coloring here is deliberately lightweight — swap in highlight.js from a CDN for genuinely complex multi-language syntax highlighting.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-code-block-with-copy-line-numbers/">Bootstrap Code Block With Copy + Line Numbers</a></p>
+
+<h2>10. Bootstrap HTTP Status Badge</h2>
+
+<p>Type any 3-digit status code and it colors and labels itself live by family — 2xx, 3xx, 4xx, 5xx — plus a row of clickable common codes for quick reference.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-http-status-badge/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap HTTP Status Badge — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a small <code>FAMILIES</code> array of numeric range tests decides every code's color and label — not a lookup table mapping every possible 3-digit code by hand — which is exactly what correctly colors an unusual code like 418 as a client error even though it never appears in the reference list. The input strips non-digit characters live, and an explicit neutral state handles empty or out-of-range input rather than guessing at a family for it.</p>
+
+<p><strong>Best for:</strong> API documentation, internal developer references, and coloring a live table of recent request outcomes by status family. <strong>Tip:</strong> reuse the same <code>familyFor()</code> range logic to color-code a webhook or API log table elsewhere in a dashboard.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-http-status-badge/">Bootstrap HTTP Status Badge</a></p>
+
+<p>Same as every batch before it, each of these ten lives in the category that actually fits its shape, so they surface alongside every other snippet of that kind rather than sitting in a library of their own. Find these ten and every other Bootstrap snippet in the collection in one place via the <a href="https://fwdtools.com/ui-snippets/tag/bootstrap/">Bootstrap tag</a>. Open any of them above and you land straight in the live editor, HTML/CSS/JS tabs and all; click <strong>Save as</strong> to copy it into <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and start changing it.</p>

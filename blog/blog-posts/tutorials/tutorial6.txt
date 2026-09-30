@@ -1,0 +1,317 @@
+<h1>Building a Google-Calendar-Style Week View Scheduler With One Coordinate Transform</h1>
+
+<p>A week-view calendar looks like the kind of component you install rather than write. Blocks floating at exact times, dragging one from Tuesday afternoon to Thursday morning, times snapping to half-hours as your hand moves, a red line marking right now — it reads as "go get FullCalendar." The <strong>Week View Scheduler</strong> snippet does all of it in about a hundred lines of vanilla JavaScript, and the reason it can is that the entire component is <em>one linear equation</em>, written once forwards for rendering and once backwards for dragging.</p>
+
+<p>Here it is live — grab any event block and drag it around the week:</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/week-view-scheduler/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Week View Scheduler — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p>Grab the code, or open the full editor with live HTML/CSS/JS panels: <a href="https://fwdtools.com/ui-snippets/week-view-scheduler/">Week View Scheduler on FWD Tools</a>. The snippet is plain HTML, CSS, and JavaScript, but the same editor has one-click export buttons for <strong>React</strong>, <strong>Vue</strong>, <strong>Angular</strong>, and <strong>React + Tailwind</strong> if you'd rather drop it into a component-based project.</p>
+
+<p>In this post I'll walk through the whole thing <strong>A to Z</strong>: the grid frame, the trick that draws every hour line without a single extra element, the data shape that makes the math trivial, and then the drag interaction line by line — grab offset, pointer capture, column hit-testing, snapping, and clamping. By the end you'll understand not just this snippet but the mechanism inside every scheduler you'll ever inherit.</p>
+
+<h2>What the component actually is</h2>
+
+<p>Strip away the colors and it's this: a fixed-height box representing a range of hours, with events absolutely positioned inside it. An event at 9:30 isn't "in a 9:30 slot" — there are no slots. It's a div whose <code>top</code> happens to be the number of pixels that 9:30 works out to.</p>
+
+<p>That's the whole idea, and it's worth saying plainly because it's the part people expect to be harder than it is:</p>
+
+<pre><code class="language-javascript">top = (event.start - START_HOUR) * HOUR_HEIGHT</code></pre>
+
+<p>With the day starting at 8am and each hour drawn 44px tall, an event at 9.5 (9:30) sits at <code>(9.5 - 8) × 44 = 66px</code> from the top of its column. Height is even simpler: <code>duration × 44</code>. Two multiplications and you have a calendar.</p>
+
+<p>Dragging is the same equation solved for the other variable. You know the pixel position (the pointer), you want the time — so you divide instead of multiply. Everything else in this snippet is polish on top of those two lines.</p>
+
+<h2>Where you'd actually use this</h2>
+
+<p>Week grids show up far outside literal calendars, because the underlying question — "what is happening, when, in which lane?" — is everywhere:</p>
+
+<ul>
+<li><strong>Booking and appointment systems.</strong> Consultants, clinics, salons, tutoring platforms: staff see the week, drag an appointment to move it, and the block's live time label confirms the new slot before they let go.</li>
+<li><strong>Shift and rota planning.</strong> Relabel the columns as <em>people</em> instead of days and the exact same component becomes a staff rota — drag a shift from Priya's column to Alex's and the "day" you're changing is really an assignee.</li>
+<li><strong>Resource scheduling.</strong> Meeting rooms, machines, studio bays, delivery vans. Columns are resources, blocks are bookings, and the cross-column drag <em>is</em> the dispatch action.</li>
+<li><strong>Classroom and conference timetables.</strong> Rooms across the top, sessions as blocks, with color encoding the track.</li>
+<li><strong>Project and capacity planning.</strong> A person's week of allocated work, where dragging is re-planning rather than re-booking.</li>
+<li><strong>Any dashboard that needs "this week at a glance."</strong> It composes cleanly into an <a href="https://fwdtools.com/ui-snippets/dashboard-layout/">admin shell</a> beside your stats row.</li>
+</ul>
+
+<p>In all of these, the reason to build rather than install is the same: a scheduling library is a large dependency with strong opinions about your data, and the customization you'll inevitably need — business rules about what may be dropped where — is exactly where those opinions hurt.</p>
+
+<h2>The tech stack: CSS Grid, absolute positioning, pointer events</h2>
+
+<p>There's no CDN script tag in this snippet. Three browser features carry the whole thing:</p>
+
+<ul>
+<li><strong>CSS Grid</strong> for the frame — one grid definition produces the gutter, the day headers, and the columns.</li>
+<li><strong>Absolute positioning</strong> for events, inside <code>position: relative</code> day columns, which is what makes the transform above meaningful.</li>
+<li><strong>Pointer events</strong> (<code>pointerdown</code> / <code>pointermove</code> / <code>pointerup</code> plus <code>setPointerCapture</code>) for the drag — deliberately <em>not</em> HTML5 drag and drop, for reasons we'll get to in Step 5.</li>
+</ul>
+
+<p>One more thing worth flagging before we start: the coordinate system is defined twice, once in CSS and once in JS, and they must agree. The snippet handles this by making both sides loud about it.</p>
+
+<h2>Building it, step by step</h2>
+
+<h3>Step 1 — The frame: one CSS Grid, two custom properties</h3>
+
+<p>The markup is a single grid containing a corner cell, five day headers, a time gutter, and five day columns. That's it — no wrapper per row, no nested grids:</p>
+
+<pre><code class="language-html">&lt;div class="cal" id="cal"&gt;
+  &lt;div class="corner"&gt;&lt;/div&gt;
+  &lt;div class="day-head"&gt;Mon &lt;span&gt;14&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="day-head"&gt;Tue &lt;span&gt;15&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="day-head today"&gt;Wed &lt;span&gt;16&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="day-head"&gt;Thu &lt;span&gt;17&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="day-head"&gt;Fri &lt;span&gt;18&lt;/span&gt;&lt;/div&gt;
+
+  &lt;div class="gutter" id="gutter"&gt;&lt;/div&gt;
+
+  &lt;div class="day-col" data-day="0"&gt;&lt;/div&gt;
+  &lt;div class="day-col" data-day="1"&gt;&lt;/div&gt;
+  &lt;div class="day-col today-col" data-day="2"&gt;&lt;div class="now-line" id="now-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;div class="day-col" data-day="3"&gt;&lt;/div&gt;
+  &lt;div class="day-col" data-day="4"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+<p>Twelve children, six per row, and the grid slices them into place:</p>
+
+<pre><code class="language-css">.cal {
+  display: grid;
+  grid-template-columns: 48px repeat(5, 1fr);
+  --hour-h: 44px;      /* one hour of vertical space */
+  --start-hour: 8;     /* day begins at 08:00 */
+}</code></pre>
+
+<p>Those two custom properties are the coordinate system. Everything vertical derives from them — the columns are <code>height: calc(var(--hour-h) * 10)</code> for a 10-hour day, and the gutter matches. Change <code>--hour-h</code> to 60px and the entire calendar zooms, with events, hour lines, gutter labels, and the now-line all moving together, because nothing is hard-coded in pixels anywhere else.</p>
+
+<h3>Step 2 — Hour lines for free with a repeating gradient</h3>
+
+<p>The obvious way to draw hour lines is a div per hour. Ten hours × five columns is fifty elements that exist purely to be looked at, and every one of them is another thing that can fall out of sync with the row height.</p>
+
+<p>The snippet paints them instead:</p>
+
+<pre><code class="language-css">.day-col {
+  position: relative;
+  height: calc(var(--hour-h) * 10);
+  border-left: 1px solid #1c2940;
+  /* hour lines drawn with a repeating gradient — zero extra elements */
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 calc(var(--hour-h) - 1px),
+    #1c2940 calc(var(--hour-h) - 1px) var(--hour-h)
+  );
+}</code></pre>
+
+<p>Read it as one repeating band of height <code>--hour-h</code>: transparent for the first <code>--hour-h - 1px</code>, then 1px of line. Because the band length <em>is</em> the hour height, the lines can't drift — they're derived from the same variable that positions the events, so alignment is structural rather than something you maintain. It's the lined-paper CSS trick doing real work.</p>
+
+<p>The <code>position: relative</code> on the same rule is the other half of the foundation: it makes each column the containing block for the absolutely positioned events dropped into it, so an event's <code>top: 66px</code> means "66px from the top of this day," not from the page.</p>
+
+<p>Gutter labels use the forward transform for the first time, generated in a loop:</p>
+
+<pre><code class="language-javascript">for (let h = START + 1; h &lt;= END - 1; h++) {
+  const t = document.createElement('span');
+  t.className = 'tick';
+  t.style.top = (h - START) * HOUR_H + 'px';
+  t.textContent = (h % 12 || 12) + (h &lt; 12 ? 'am' : 'pm');
+  gutter.appendChild(t);
+}</code></pre>
+
+<p>Note <code>(h % 12 || 12)</code> — the standard 24-to-12 hour conversion, where the <code>|| 12</code> catches noon and midnight, which would otherwise render as "0". The tick is pulled up by <code>transform: translateY(-50%)</code> in CSS so the text centers on its line rather than hanging below it.</p>
+
+<h3>Step 3 — Events as data, with times as fractional hours</h3>
+
+<p>Here's the decision that makes everything downstream easy:</p>
+
+<pre><code class="language-javascript">const HOUR_H = 44;        // must match --hour-h
+const START = 8;          // must match --start-hour
+const END = 18;
+const SNAP = 0.5;         // 30-minute snapping
+
+/* Events: day 0–4, start/dur in fractional hours. */
+let EVENTS = [
+  { id: 1, title: 'Design sync',  day: 0, start: 9,   dur: 1,   color: 'indigo' },
+  { id: 3, title: '1:1 with Sam', day: 2, start: 9.5, dur: 0.5, color: 'pink' },
+  { id: 4, title: 'Deep work',    day: 2, start: 13,  dur: 2.5, color: 'indigo' },
+  // ...three more
+];</code></pre>
+
+<p>Times are numbers, not dates and not "09:30" strings. 9:30 is <code>9.5</code>. A two-and-a-half-hour block is <code>dur: 2.5</code>.</p>
+
+<p>That single choice removes an entire category of code. There's no minutes arithmetic, no carrying when a 45-minute meeting starts at 9:45, no date-library import. Adding a duration to a start time is <code>+</code>. Snapping to half-hours is one rounding expression. Comparing two events for overlap is <code>&lt;</code>. Minutes only reappear at the very last moment, in the display formatter:</p>
+
+<pre><code class="language-javascript">function fmt(hFrac) {
+  const h = Math.floor(hFrac), m = Math.round((hFrac - h) * 60);
+  return (h % 12 || 12) + ':' + String(m).padStart(2, '0') + (h &lt; 12 ? 'am' : 'pm');
+}</code></pre>
+
+<p>The comments on <code>HOUR_H</code> and <code>START</code> — "must match --hour-h" — are the honest acknowledgement of the one duplication in the design. The CSS needs the numbers to lay out the grid; the JS needs them to do math. If you'd rather have one source of truth, read them from the computed style on load with <code>parseFloat(getComputedStyle(cal).getPropertyValue('--hour-h'))</code> and delete the constants.</p>
+
+<h3>Step 4 — The forward transform: render()</h3>
+
+<p>Rendering is a pure function of the data. Wipe the events, then place each one:</p>
+
+<pre><code class="language-javascript">function render() {
+  cal.querySelectorAll('.event').forEach(el =&gt; el.remove());
+  EVENTS.forEach(ev =&gt; {
+    const el = document.createElement('div');
+    el.className = 'event ev-' + ev.color;
+    el.dataset.id = ev.id;
+    el.style.top = (ev.start - START) * HOUR_H + 'px';
+    el.style.height = ev.dur * HOUR_H - 3 + 'px';
+    el.innerHTML = '&lt;b&gt;' + ev.title + '&lt;/b&gt;&lt;span class="ev-time"&gt;' +
+      fmt(ev.start) + ' – ' + fmt(ev.start + ev.dur) + '&lt;/span&gt;';
+    cols[ev.day].appendChild(el);
+  });
+}</code></pre>
+
+<p>Three details worth pausing on. <code>ev.day</code> selects the column by index into the <code>cols</code> array — the day axis is pure array indexing, no math at all. The <code>- 3</code> on the height is a visual gutter so consecutive events don't touch and read as one block. And <code>el.dataset.id</code> is the thread back from a DOM node to its data object, which the drag handler pulls on in the next step.</p>
+
+<p>Because position is derived entirely from the data, there's no such thing as a stale layout here. Change any event's <code>start</code> or <code>day</code>, call <code>render()</code>, and the display is correct by construction. There's no second copy of "where things are" to keep in sync.</p>
+
+<h3>Step 5 — Grabbing: pointer capture and the offset that stops the jump</h3>
+
+<p>The drag is three listeners on the calendar container — delegation, so events created later need no wiring. Here's the grab:</p>
+
+<pre><code class="language-javascript">let drag = null;
+
+cal.addEventListener('pointerdown', e =&gt; {
+  const el = e.target.closest('.event');
+  if (!el) return;
+  const ev = EVENTS.find(x =&gt; x.id === +el.dataset.id);
+  drag = { el, ev, offsetY: e.clientY - el.getBoundingClientRect().top };
+  el.classList.add('dragging');
+  el.setPointerCapture(e.pointerId);
+});</code></pre>
+
+<p><strong><code>offsetY</code> is the detail that makes dragging feel right.</strong> It records how far down the block you grabbed. Without it, every drag would begin by snapping the block's top edge to your cursor — grab a two-hour meeting near its bottom and it leaps upward before it moves anywhere. Subtracting the offset later means the block stays exactly where your hand caught it.</p>
+
+<p><strong><code>setPointerCapture</code> is what makes the drag survive.</strong> Once the element captures the pointer, every subsequent <code>pointermove</code> is routed to it regardless of what's physically under the cursor — another column, another event, or briefly outside the calendar. Without capture, dragging across a column border would hand the pointer to a different element and the gesture would die mid-flight, which for a component whose main interaction is <em>crossing columns</em> would be fatal.</p>
+
+<p>This is also the answer to "why not HTML5 drag and drop?" Native DnD is built for discrete drop targets. It gives you a browser-rendered ghost image you can't restyle, coarse coordinates, and no practical way to update the block's time label as it moves. Scheduling needs continuous positional feedback — you're not choosing a bucket, you're choosing a position — so pointer events are the right primitive. (The opposite case, discrete reordering, is where native DnD shines: that's what the <a href="https://fwdtools.com/ui-snippets/dashboard-widget-grid/">Dashboard Widget Grid</a> uses.) The CSS completes the setup with <code>touch-action: none</code> on <code>.event</code>, without which mobile browsers claim the vertical gesture for page scrolling before your handler ever sees it.</p>
+
+<h3>Step 6 — The day axis: hit-testing columns</h3>
+
+<p>Movement resolves two independent things. Horizontally, which day is the pointer over?</p>
+
+<pre><code class="language-javascript">const colIdx = cols.findIndex(c =&gt; {
+  const r = c.getBoundingClientRect();
+  return e.clientX &gt;= r.left && e.clientX &lt; r.right;
+});
+if (colIdx &gt;= 0 && colIdx !== ev.day) {
+  ev.day = colIdx;
+  cols[colIdx].appendChild(el);   // move live between columns
+}</code></pre>
+
+<p>There's no math here at all — just asking each column for its rectangle and testing whether the pointer's x falls inside it. The <code>&gt;= left</code> / <code>&lt; right</code> pairing is deliberate: half-open intervals mean a pointer exactly on a boundary belongs to exactly one column, never two.</p>
+
+<p>The <code>appendChild</code> is the nice part. Because events are absolutely positioned inside their column, re-parenting the node <em>is</em> moving it to another day — its <code>top</code> is already correct for any column, since every column shares the same coordinate system. One line, and the block visibly hops days the instant you cross the border. No placeholder, no ghost, no animation — the real element goes where it's going.</p>
+
+<h3>Step 7 — The time axis: the inverse transform, snap, clamp</h3>
+
+<p>Vertically, we run Step 4's equation backwards:</p>
+
+<pre><code class="language-javascript">const colTop = cols[ev.day].getBoundingClientRect().top;
+let h = START + (e.clientY - colTop - offsetY) / HOUR_H;
+h = Math.round(h / SNAP) * SNAP;
+h = Math.max(START, Math.min(h, END - ev.dur));
+if (h !== ev.start) {
+  ev.start = h;
+  el.style.top = (h - START) * HOUR_H + 'px';
+  el.querySelector('.ev-time').textContent = fmt(h) + ' – ' + fmt(h + ev.dur);
+}</code></pre>
+
+<p>Four steps, four jobs:</p>
+
+<ol>
+<li><strong>Convert.</strong> <code>(clientY - colTop - offsetY)</code> turns a viewport coordinate into a distance from the top of the day, corrected for where you grabbed. Divide by <code>HOUR_H</code> to get hours, add <code>START</code> to get a clock time. It is exactly the render equation rearranged.</li>
+<li><strong>Snap.</strong> <code>Math.round(h / 0.5) * 0.5</code> — the universal quantize-to-a-step idiom. Divide by the step, round, multiply back. Set <code>SNAP</code> to <code>0.25</code> and you have 15-minute precision with no other change.</li>
+<li><strong>Clamp.</strong> <code>Math.min(h, END - ev.dur)</code> is the subtle one: the ceiling isn't the end of the day, it's the last start time that still <em>fits</em> the event. A 2.5-hour block in a day ending at 18 can't start later than 15:30, and the clamp enforces that automatically for every duration.</li>
+<li><strong>Commit — but only on change.</strong> The <code>if (h !== ev.start)</code> guard means the DOM is touched only when the snapped value actually moves, so ~60 pointer events per second collapse into a handful of writes. In vanilla JS that's a nice optimization; in React, as we'll see, it's the difference between smooth and janky.</li>
+</ol>
+
+<p>Notice the order — convert, snap, clamp, <em>then</em> commit. Snapping before clamping means the clamp gets the final say, so an event can never be pushed out of the day by rounding.</p>
+
+<p>And notice what's being updated: <code>ev.start</code>, the data. The DOM styling follows from it, and so does the time label inside the block, which is why the event reads its own new time while you're still dragging it.</p>
+
+<h3>Step 8 — Letting go, and where your API call goes</h3>
+
+<pre><code class="language-javascript">cal.addEventListener('pointerup', () =&gt; {
+  if (!drag) return;
+  drag.el.classList.remove('dragging');
+  // Persist point: EVENTS already holds the new day/start.
+  drag = null;
+});</code></pre>
+
+<p>There is deliberately no math here. Because every move committed to the data as it went, the array is already the new schedule by the time you release — so the release handler drops the lift styling and clears the drag state, nothing more.</p>
+
+<p>That comment marks where a real app plugs in. Fire <code>PATCH /events/:id</code> with <code>{ day, start }</code> right there, and prefer optimistic updates: the block is already where the user put it, so on failure you re-render from the server's version rather than making them watch a spinner. If a drag can cross many intermediate positions, debounce — you only care about where it landed.</p>
+
+<h3>Step 9 — The now-line</h3>
+
+<p>The red line uses the same transform a third time, this time on the clock:</p>
+
+<pre><code class="language-javascript">function positionNow() {
+  const now = new Date();
+  let h = now.getHours() + now.getMinutes() / 60;
+  if (h &lt; START || h &gt; END) h = 11.33;
+  document.getElementById('now-line').style.top = (h - START) * HOUR_H + 'px';
+}
+positionNow();
+setInterval(positionNow, 60000);</code></pre>
+
+<p><code>getHours() + getMinutes() / 60</code> is how you convert a real <code>Date</code> into this component's fractional-hour representation — the same one-liner you'll use to map your API's timestamps onto the grid. The fallback pins the line mid-morning when the current time falls outside working hours, purely so the demo always shows the feature; in production you'd hide the line instead. A one-minute interval is the right refresh rate for a line whose smallest meaningful movement is under a pixel.</p>
+
+<h2>Customizing it for your own project</h2>
+
+<p>Almost every reasonable change is a constant, not a rewrite:</p>
+
+<ul>
+<li><strong>Different hours.</strong> Change <code>START</code>/<code>END</code> in JS and <code>--start-hour</code> plus the <code>* 10</code> column height in CSS. A 7am–7pm day is <code>START = 7</code>, <code>END = 19</code>, <code>calc(var(--hour-h) * 12)</code>.</li>
+<li><strong>Different granularity.</strong> <code>SNAP = 0.25</code> for 15-minute slots, <code>SNAP = 1</code> for hourly-only booking.</li>
+<li><strong>Seven days.</strong> Add two <code>.day-head</code> and two <code>.day-col</code> divs and widen the grid to <code>repeat(7, 1fr)</code>. The JS discovers columns with <code>querySelectorAll</code>, so it needs no edit at all.</li>
+<li><strong>Columns as something other than days.</strong> Nothing in the JS knows what a column means. Put staff names in the headers and <code>ev.day</code> becomes an assignee index — the drag is now reassignment.</li>
+<li><strong>Zoom.</strong> Change <code>--hour-h</code> and <code>HOUR_H</code> together, or better, derive one from the other on load.</li>
+<li><strong>Business rules.</strong> The <code>pointermove</code> handler is your veto point: run a check before committing, and simply don't assign <code>ev.start</code> when a drop is illegal. The block stops moving and the user feels the constraint.</li>
+</ul>
+
+<h2>The two things deliberately left out</h2>
+
+<p>This snippet is a chassis, and it's honest about its edges. Two features are missing on purpose, both marked as extension points:</p>
+
+<p><strong>Overlapping events.</strong> Right now two events at the same time on the same day sit on top of each other. The fix is the algorithm every real calendar uses: per column, sort events by start, then greedily assign each to the first "lane" whose previous event ended before this one starts, opening a new lane when none fits. Then set each block's <code>left</code> to <code>laneIndex / laneCount × 100%</code> and its width to <code>100% / laneCount</code>. That's greedy interval partitioning, it provably uses the minimum number of lanes, and it's roughly fifteen lines inside <code>render()</code> — which also means collisions re-pack live as you drag. If your domain <em>forbids</em> overlaps (one room, one machine), skip packing entirely and reject the drop instead.</p>
+
+<p><strong>Drag-to-create and resize.</strong> Both reuse machinery that already exists. To create: on <code>pointerdown</code> over empty column space, make an event at the snapped pointer hour with <code>dur: SNAP</code>, then let <code>pointermove</code> grow <code>dur</code> using the same inverse transform applied to height instead of top. To resize: same math, triggered from a bottom-edge handle. Neither needs a new concept — just the one equation pointed at a different property.</p>
+
+<h2>Using it in React, Vue, or Angular</h2>
+
+<p>The editor exports all four, but it's worth knowing what genuinely changes. In React, <code>EVENTS</code> becomes state and blocks render from the array with <code>style={{ top: (ev.start - START) * HOUR_H, height: ev.dur * HOUR_H }}</code>. Two things then differ from the vanilla version:</p>
+
+<p>First, the <code>appendChild</code> re-parenting <em>disappears</em>. Each column renders <code>events.filter(e =&gt; e.day === dayIndex)</code>, so changing <code>ev.day</code> in state moves the block between columns automatically. The imperative DOM move was only ever a vanilla-JS convenience.</p>
+
+<p>Second, that <code>if (h !== ev.start)</code> guard becomes load-bearing. Committing every pointer move to state means a re-render per frame; keep the drag in a ref and flush to state only when the <em>snapped</em> value changes, which is a handful of updates per drag instead of hundreds. Angular mirrors the same shape with a signal array and <code>@for</code> per filtered column, running <code>pointermove</code> outside the zone if change detection shows up in a profile.</p>
+
+<h2>Build, understand, optimize, and extend it with AI</h2>
+
+<p>This component rewards being interrogated rather than just pasted. Give the snippet to an AI assistant like Claude and ask it to trace a single drag gesture end to end — the <code>offsetY</code> capture on <code>pointerdown</code>, the <code>findIndex</code> column hit-test, the inverse transform, the <code>Math.round(h / SNAP) * SNAP</code> snap, the <code>END - ev.dur</code> clamp, and the data commit — then ask what visibly breaks if you delete <code>setPointerCapture</code>, and separately if you set <code>offsetY</code> to zero. Both are worth actually trying in a copy: the first kills the drag the moment you cross a column border, the second makes every block jump under your cursor, and feeling those two failures teaches the design better than any paragraph can. For performance, ask it to profile whether <code>getBoundingClientRect()</code> on every column on every <code>pointermove</code> matters at your column count, and to show the cached-rects version that recomputes only on <code>pointerdown</code> and resize. Then extend, in order of value: the greedy lane-packing pass inside <code>render()</code> for overlapping events, drag-to-create on empty column space, bottom-edge resize handles applying the same vertical math to <code>dur</code>, and — the one thing the UI layer genuinely can't absorb — the mapping from your real event API, including timezone normalization, into fractional <code>day</code>/<code>start</code>/<code>dur</code>. Treat the code less like a finished artifact and more like a starting point for a conversation.</p>
+
+<h3>Prompt to recreate it</h3>
+
+<p>Copy this into your AI assistant of choice to build the component from scratch, or as a jumping-off point for your own variant:</p>
+
+<pre><code class="language-text">Build a Google-Calendar-style week view scheduler in plain HTML, CSS, and JavaScript — a time grid with draggable, snapping event blocks. No libraries.
+
+Requirements:
+- One CSS Grid frame (48px time gutter + five equal day columns) with a day-header row where today's date sits in an accent circle; define the coordinate system with two custom properties (--hour-h: 44px, --start-hour: 8) mirrored by JS constants, with columns 10 hours tall for an 8am-6pm day.
+- Paint hour lines with a repeating-linear-gradient on the columns (zero extra elements, inherently synced to --hour-h), and generate gutter time labels (9am...5pm) positioned at (hour - START) * HOUR_H with a -50% translate.
+- Events are plain data — { id, title, day 0-4, start, dur, color } with times as FRACTIONAL hours (9.5 = 9:30) — rendered by a pure function into absolutely positioned blocks: top = (start - START) * HOUR_H, height = dur * HOUR_H, styled as tinted translucent cards with accent left borders, a bold title, and a live time-range line. Include six varied demo events, one 30 minutes, one 2.5 hours.
+- Implement drag-to-reschedule with pointer events and setPointerCapture (comment why native drag & drop is wrong for continuous positional feedback): record the grab offset within the block so it never jumps to the cursor; hit-test the pointer against column rects each move and re-parent the block the moment it crosses into a new day; convert pointer-y back to hours with the inverse transform, snap via Math.round(h / 0.5) * 0.5, clamp to [START, END - dur], and update the block's position AND its time label live from the mutated data. pointerup should only clean up, with a comment marking it as the PATCH persist point since the data already holds the new schedule.
+- Only touch the DOM when the snapped hour actually changes, so ~60 pointer events per second collapse into a few writes.
+- Add touch-action: none on blocks, a dragging lift state (shadow, brightness, z-index), a red now-line with a dot in today's column positioned by the same transform and refreshed each minute (pin it mid-morning when outside working hours so the demo always shows it), and a subtle tint on today's column.
+- Comment the two marked extension points: greedy lane-packing for overlapping events and drag-to-create on empty column space.</code></pre>
+
+<h2>Final thought</h2>
+
+<p>What makes this snippet worth studying isn't the calendar — it's that a component with a reputation for being hard turns out to be one equation used three times. Forward, it renders events. Inverted, it drags them. Applied to <code>new Date()</code>, it draws the now-line. Every other line in the file is presentation or plumbing around those two directions.</p>
+
+<p>Once that clicks, the pattern starts showing up everywhere: video timeline scrubbers, Gantt charts, audio waveform selections, range sliders, anything where a value has a pixel and a pixel has a value. Learn to write the transform and its inverse cleanly, put the snap and the clamp in the right order, and you can build the whole family.</p>
+
+<p>Grab the full HTML, CSS, and JS — or export it straight to React, Vue, Angular, or Tailwind — at <a href="https://fwdtools.com/ui-snippets/week-view-scheduler/">Week View Scheduler on FWD Tools</a>. It's free, runs entirely in your browser, and needs no sign-up. Browse more components like this one at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a>.</p>

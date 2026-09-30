@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="key on Fragment: List Items Without a Wrapper div">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>key on Fragment, no wrapper div needed</h1>
+    <p class="hint">Click "Shuffle rows." Each glossary entry is a &lt;dt&gt;/&lt;dd&gt; pair, siblings in a real &lt;dl&gt;, with no div wrapping them.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px 28px; }
+  .frame { width: 100%; max-width: 480px; background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 16px; text-align: center; }
+  .row { margin-bottom: 10px; }
+  .btn { padding: 8px 12px; border-radius: 8px; border: none; background: var(--accent); color: #fff; font: 700 12.5px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { background: #4f52d6; }
+  dl { text-align: left; border: 1.5px solid var(--line); border-radius: 8px; padding: 10px 14px; background: #f9f9fb; margin: 0; }
+  dt { font: 800 12.5px ui-monospace, monospace; color: var(--accent); margin-top: 8px; }
+  dt:first-child { margin-top: 0; }
+  dd { font: 500 12px system-ui, sans-serif; color: var(--ink); margin: 2px 0 0; }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; text-align: left; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var F = React.Fragment;
+  var useState = React.useState;
+
+  function Term(props) {
+    // dt + dd need to be DIRECT siblings inside <dl> for valid, styleable
+    // HTML -- wrapping them in a div would break that, so a keyed
+    // Fragment stands in for the div, contributing no DOM node of its own
+    return e(F, { key: props.term.id },
+      e('dt', null, props.term.word),
+      e('dd', null, props.term.def)
+    );
+  }
+
+  function Demo() {
+    var termsState = useState([
+      { id: 1, word: 'key', def: 'tells React which array item a rendered element corresponds to' },
+      { id: 2, word: 'reconciliation', def: 'the diffing process that decides what to update in the DOM' },
+      { id: 3, word: 'fiber', def: "React's internal unit of work for a component instance" }
+    ]);
+    var terms = termsState[0];
+    var setTerms = termsState[1];
+
+    function shuffle() {
+      var next = terms.slice();
+      for (var i = next.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = next[i]; next[i] = next[j]; next[j] = tmp;
+      }
+      setTerms(next);
+    }
+
+    return e('div', { className: 'frame' },
+      e('div', { className: 'row' },
+        e('button', { className: 'btn', onClick: shuffle }, 'Shuffle rows')
+      ),
+      e('dl', null,
+        terms.map(function (term) { return e(Term, { term: term }); })
+      ),
+      e('p', { className: 'note' }, 'A list item that needs to render more than one top-level element (here, a <dt> and its <dd>) can’t just return an array or two siblings from .map() without something to hold the key — and wrapping them in a <div> would insert an element <dl> never allows between its <dt>/<dd> children, breaking both the semantics and any CSS relying on direct-sibling selectors. React.Fragment solves this: it accepts a key prop like any element, satisfies the list’s key requirement, and renders zero DOM nodes of its own — the dt and dd it wraps become direct children of the <dl>, exactly as if you’d typed them there by hand.')
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

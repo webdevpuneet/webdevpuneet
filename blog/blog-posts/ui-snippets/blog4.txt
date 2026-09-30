@@ -1,0 +1,87 @@
+<div class="separator" style="clear: both;"><a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5_vimYBrJwI4MNU0JeZqcMqGODSkw-1uaiiJnIydCuRv7nLXdxVDX3gAn6u4aXoYjgffcvPyGF5CFBNkvb3KoOUXfTEceQBb4vCvtvl26pTY-5zZgF4OVrR17dnhMoKK0q89ylqegHHSjguRmYd4IcNS-xGu3L3YmTNxMZDkUnudCJnChJJNFPWMHwN8/s1600/powerful-browser-based-developer-tools.png" style="display: block; padding: 1em 0px; text-align: center;"><img alt="" border="0" data-original-height="683" data-original-width="1024" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5_vimYBrJwI4MNU0JeZqcMqGODSkw-1uaiiJnIydCuRv7nLXdxVDX3gAn6u4aXoYjgffcvPyGF5CFBNkvb3KoOUXfTEceQBb4vCvtvl26pTY-5zZgF4OVrR17dnhMoKK0q89ylqegHHSjguRmYd4IcNS-xGu3L3YmTNxMZDkUnudCJnChJJNFPWMHwN8/s1600/powerful-browser-based-developer-tools.png" /></a></div><p>Every developer has the same graveyard of half-solutions: a JSON formatter that's plastered with ads, a regex tester that wants an account, an image compressor that uploads your files to who-knows-where, and a handful of desktop apps you installed for one feature each. The tools below replace all of that. Each one is <strong>free, runs 100% in your browser, and needs no sign-up</strong> — your data never leaves your machine, because there's no server to send it to.</p>
+
+<p>That last point matters more than it sounds. When you paste a production API response into a formatter or drop a JWT into a decoder, you're often handling tokens, customer records, or internal schemas. A client-side tool processes everything locally with JavaScript and the browser's own APIs — close the tab and it's gone. For each tool below you'll find <strong>what it does</strong>, <strong>the workflow it fits into</strong>, and the specific feature that makes it worth bookmarking over the first Google result.</p>
+
+<h2>1. JSON Formatter — the tab you'll open most</h2>
+
+<p>Paste minified, mangled, or outright broken JSON and get it beautified, validated, and readable in one keystroke. Beyond the basics, it can <strong>sort keys alphabetically</strong> (invaluable when diffing two API responses), minify for payload size checks, and point at the exact position where invalid JSON fails to parse instead of a vague "unexpected token" shrug.</p>
+
+<p><strong>Fits into:</strong> debugging API responses, cleaning up config files, and preparing fixtures for tests. Because it's client-side, it's safe for responses containing real user data — nothing is logged, nothing is uploaded. Pair it with the <a href="https://fwdtools.com/json-to-typescript/">JSON to TypeScript converter</a> below and a raw response becomes typed code in two pastes.</p>
+
+<p>Try it: <a href="https://fwdtools.com/json-formatter/">JSON Formatter</a></p>
+
+<h2>2. Regex Tester — see your pattern think</h2>
+
+<p>A JavaScript regex tester with <strong>live match highlighting</strong> as you type, a capture-group table (including named groups), and all five JS flags. The killer feature is <strong>replace mode with group references</strong> — you can prototype a <code>$1</code>-based substitution against real sample text and watch the output update live, instead of discovering your backreference was off by one after you've already run it across a codebase.</p>
+
+<p><strong>Fits into:</strong> writing validation patterns, crafting search-and-replace operations for refactors, and untangling a regex someone else wrote. Ten common presets (emails, URLs, dates and so on) give you a starting point, and the built-in quick-reference panel means you stop alt-tabbing to MDN for lookahead syntax.</p>
+
+<p>Try it: <a href="https://fwdtools.com/regex-tester/">Regex Tester</a></p>
+
+<h2>3. Diff Checker — what actually changed?</h2>
+
+<p>Paste two versions of anything — code, config, contract copy, SQL dumps — and see added, removed, and changed lines highlighted instantly. It offers <strong>split, unified, and inline views</strong>, so you can read it like a GitHub PR or like a <code>git diff</code>, whichever your brain prefers.</p>
+
+<p><strong>Fits into:</strong> all the diffing that happens <em>outside</em> version control — comparing two API responses, checking what a formatter changed, verifying an edited config against the original, or spotting the one-line difference between staging and production env files. It's the tool <code>git diff</code> can't be, because half of what you compare was never committed anywhere.</p>
+
+<p>Try it: <a href="https://fwdtools.com/diff-checker/">Diff Checker</a></p>
+
+<h2>4. JWT Decoder — read tokens without leaking them</h2>
+
+<p>Paste a JSON Web Token and see its header and payload as formatted JSON, with <strong>plain-English descriptions of each claim</strong> — no more looking up what <code>iat</code>, <code>nbf</code>, or <code>aud</code> mean. It shows a <strong>live expiry countdown</strong> so you instantly know whether the token you're debugging is even still valid, and it can <strong>verify HS256 signatures</strong> right in the browser using the Web Crypto API.</p>
+
+<p><strong>Fits into:</strong> debugging auth flows — the "why is this request 401ing" moments. This is the tool category where client-side processing is non-negotiable: a JWT is a live credential, and pasting one into a site that sends it to a server is handing over a working key. Here, decoding happens locally and nothing is transmitted.</p>
+
+<p>Try it: <a href="https://fwdtools.com/jwt-decoder/">JWT Decoder</a></p>
+
+<h2>5. Flexbox Builder — stop guessing at alignment</h2>
+
+<p>A visual playground for every flex property — direction, wrap, justify, align, gap, and the per-item grow/shrink/basis trio — with a <strong>live preview</strong> that updates as you click. When the layout looks right, export it as <strong>production-ready CSS, SCSS, Tailwind classes, or a React component</strong> in one click.</p>
+
+<p><strong>Fits into:</strong> the daily "was it <code>align-items</code> or <code>justify-content</code>?" cycle. Instead of edit-save-refresh guessing in DevTools, you manipulate the real thing and copy the answer. It's also the fastest way to <em>teach</em> flexbox — juniors can see cause and effect instantly. Building a grid instead? There's a matching <a href="https://fwdtools.com/css-grid-builder/">CSS Grid Builder</a>.</p>
+
+<p>Try it: <a href="https://fwdtools.com/flexbox-builder/">Flexbox Builder</a></p>
+
+<h2>6. Code Screenshot Generator — make your snippets presentable</h2>
+
+<p>Turn any code snippet into a polished image with <strong>syntax highlighting, editor themes, and gradient backgrounds</strong> — the beautiful code cards you see all over Twitter/X, LinkedIn, and conference slides. Paste code, pick a theme, download the image.</p>
+
+<p><strong>Fits into:</strong> sharing knowledge anywhere plain text loses formatting — social posts, blog thumbnails, documentation callouts, slide decks, and README hero images. A screenshot of your editor works, but it drags along your file tree, your tabs, and whatever was in your terminal; a generated card shows exactly the lines you chose and nothing else.</p>
+
+<p>Try it: <a href="https://fwdtools.com/code-screenshot-generator/">Code Screenshot Generator</a></p>
+
+<h2>7. Image Compressor — TinyPNG without the upload</h2>
+
+<p>Drop a folder's worth of images at once and compress them <strong>in parallel, entirely in your browser</strong> — then convert to <strong>WebP, AVIF, or JPEG</strong>, and hit Download All. A live <strong>split-slider before/after comparison</strong> shows exactly what the quality slider costs you, and social media presets resize to platform dimensions while they compress.</p>
+
+<p><strong>Fits into:</strong> the asset pass before every deploy. Oversized images are still the number-one cause of slow Largest Contentful Paint scores, and converting hero images to AVIF or WebP is the cheapest performance win available. Because there are no uploads, there are also no file-size limits, no queues, and no client screenshots sitting on a stranger's server.</p>
+
+<p>Try it: <a href="https://fwdtools.com/image-compressor/">Image Compressor</a></p>
+
+<h2>8. Cron Expression Builder — never misread <code>0 0 * * 1</code> again</h2>
+
+<p>Build cron schedules visually and get an <strong>instant human-readable description</strong> ("At 09:00 on Monday") plus a list of the <strong>next run times</strong>, so you can sanity-check the schedule before it fires at 3 a.m. instead of 3 p.m. It breaks down each of the five fields, validates full POSIX syntax, and includes presets for the schedules everyone actually uses.</p>
+
+<p><strong>Fits into:</strong> CI pipelines, scheduled jobs, backup scripts, and Kubernetes CronJobs — anywhere a five-field string silently controls when things happen. Cron syntax is famously write-only; the "next run times" list turns it into something you can verify rather than trust.</p>
+
+<p>Try it: <a href="https://fwdtools.com/cron-expression-builder/">Cron Expression Builder</a></p>
+
+<h2>Bonus: JSON to TypeScript — types from real data</h2>
+
+<p>One more that earns its bookmark: paste any JSON and get <strong>TypeScript interfaces or type aliases</strong> generated instantly — nested objects, arrays, null values, optional fields, custom root names and the <code>export</code> keyword all handled. Writing types by hand from a big API response is transcription work; this does it in one paste. Try it: <a href="https://fwdtools.com/json-to-typescript/">JSON to TypeScript</a>.</p>
+
+<h2>Why "runs in your browser" is the feature that matters</h2>
+
+<p>All eight tools share one architecture: the page you load <em>is</em> the tool. There's no backend doing the work, which has three practical consequences worth understanding:</p>
+
+<ul>
+<li><strong>Privacy by construction</strong> — tokens, API responses, client images and unreleased code never leave your machine. There's nothing to breach because nothing is stored.</li>
+<li><strong>No limits or paywalls</strong> — server-based tools meter usage because compute costs them money. Client-side tools use <em>your</em> CPU, so there's nothing to meter: no file-size caps, no daily quotas, no "upgrade to Pro".</li>
+<li><strong>Speed</strong> — no upload, no queue, no round trip. Compressing twenty images or formatting a 5&nbsp;MB JSON blob happens at local speed.</li>
+</ul>
+
+<h2>Final Thought</h2>
+
+<p>These eight are the daily drivers, but they're a fraction of the collection — there are also full <a href="https://fwdtools.com/react-playground/">code playgrounds</a> for React, Python, SQL and a dozen other stacks, a suite of <a href="https://fwdtools.com/pdf-tools/">PDF tools</a> for merging, splitting and compressing, and generators for everything from <a href="https://fwdtools.com/box-shadow-generator/">box shadows</a> to <a href="https://fwdtools.com/meta-tag-generator/">meta tags</a>. Everything is free, browser-based, and sign-up-free.</p>
+
+<p>Browse the full collection at <a href="https://fwdtools.com/">FWD Tools</a> — and if you're building UI as well as debugging it, the companion roundups cover <a href="https://fwdtools.com/ui-snippets/buttons/">copy-paste button snippets</a>, <a href="https://fwdtools.com/ui-snippets/cards/">hover card snippets</a> and <a href="https://fwdtools.com/ui-snippets/animations/">text effect snippets</a>.</p>

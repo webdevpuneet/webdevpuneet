@@ -1,0 +1,166 @@
+<h1>10 Copy-Paste Pricing Snippets That Make Plans Easy to Choose</h1>
+
+<p>A pricing page has one job — get the visitor to pick a plan and click — and yet it's one of the most commonly under-designed sections on the entire site. Below are 10 free pricing snippets you can preview live and copy in seconds: a classic two-tier card, a monthly/annual toggle, a 3D flip card that hides the fine print until you ask for it, a radio-card plan selector, a seat-based pricing slider, a full feature-comparison table, an enterprise "contact sales" tier, a pricing FAQ built to remove last-minute doubt, a money-back guarantee trust section, and an ROI calculator that turns your price into a savings number a buyer can defend to their boss.</p>
+
+<p>Each one comes with <strong>how it actually works</strong>, <strong>when to reach for it</strong>, and a quick tip for adapting it. They're all plain HTML, CSS, and (where needed) a few lines of vanilla JavaScript — no framework, no pricing-table library.</p>
+
+<p>Every snippet below is a <strong>live, interactive preview</strong> — toggle it, drag it, click it right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+
+<h2>What actually makes a pricing section convert</h2>
+
+<p>Before picking a layout, it helps to know what separates a pricing page that converts from one that just lists numbers. Every snippet below leans on the same handful of proven patterns:</p>
+
+<ul>
+<li><strong>One plan is visually the answer.</strong> A "Most Popular" badge, a highlighted border, or a taller card isn't decoration — it removes the decision paralysis of three equally-weighted options and nudges visitors toward the plan you actually want most people on.</li>
+<li><strong>Annual savings are shown, not just offered.</strong> A toggle with a live "Save 20%" badge converts better than a footnote, because the visitor sees the discount apply in real time instead of having to do the math themselves.</li>
+<li><strong>Objections get answered before they're asked.</strong> Refund policy, what happens over your usage limit, whether there's a free tier — a well-placed FAQ directly under the pricing tiers can measurably lift conversion by removing doubt right where it would otherwise cause someone to leave.</li>
+</ul>
+
+<p>Keep those three in mind as you look through the ten below — every one of them is built around at least one of these ideas, not just styled to look nice.</p>
+
+<h2>1. Pricing Card</h2>
+
+<p>The classic two-tier pricing card: two plans side by side, one clearly marked as the recommended option, with a checkmarked feature list under each price.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/pricing-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pricing Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the featured plan gets a distinct border and a "Popular" badge so it's the first thing the eye lands on, and every feature-list checkmark is drawn with a CSS pseudo-element rather than an icon font or an SVG import — keeping the whole card dependency-free. The layout is pure HTML and CSS, so it drops into any page with zero JavaScript required.</p>
+
+<p><strong>Best for:</strong> the default pricing block for any SaaS or subscription product with two clear tiers. <strong>Tip:</strong> don't skip the "Popular" badge even with only two plans — a card with no visual emphasis at all forces visitors to read every line before deciding, and most won't.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/pricing-card/">Pricing Card</a></p>
+
+<h2>2. Pricing Toggle</h2>
+
+<p>Three plans with a monthly/annual switch above them — flip it and every price on the page updates live, with a "Save 20%" badge appearing on the annual side.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/pricing-toggle/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pricing Toggle — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each plan stores both its monthly and annual price in the underlying data, and flipping the sliding-knob toggle swaps which value is displayed across all three cards at once, with the savings badge only appearing on the annual side. Because both numbers exist ahead of time, there's no calculation happening on click — just a display swap, which is why it feels instant.</p>
+
+<p><strong>Best for:</strong> any pricing page where annual billing is meaningfully cheaper and you want that saving to be obvious rather than buried in a footnote. <strong>Tip:</strong> default the toggle to whichever billing period you actually want most signups on — most products default to annual, since that's the number the toggle is designed to sell.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/pricing-toggle/">Pricing Toggle</a></p>
+
+<h2>3. Flip Pricing Card</h2>
+
+<p>A pricing card that flips over in genuine 3D when you click it — the front stays clean with just the plan name, price, and a CTA, and the back reveals the complete feature list.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/flip-pricing-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Flip Pricing Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the card is built with CSS <code>preserve-3d</code>, so rotating its inner wrapper 180 degrees on the Y axis turns the front face away from the viewer at the exact moment the back face rotates into view — a real 3D flip, not a cross-fade. This resolves the constant tension on pricing cards between a scannable front and a buyer who wants the full feature breakdown, without a modal or a tooltip stealing focus from the page.</p>
+
+<p><strong>Best for:</strong> pricing sections where you want the initial scan to stay uncluttered but still want the detail one click away for visitors who are actually comparing. <strong>Tip:</strong> keep the front face genuinely minimal — price, plan name, one-line pitch, CTA — the flip only earns its place if the front is meaningfully simpler than the back.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/flip-pricing-card/">Flip Pricing Card</a></p>
+
+<h2>4. Plan Selector</h2>
+
+<p>Three plans shown as selectable radio cards rather than static columns — click one and it takes the active border, while a summary bar at the bottom updates with your choice and a single checkout button.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/plan-selector/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Plan Selector — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each card is a real radio input styled as a card, and the active-state border is driven by the modern CSS <code>:has()</code> selector reaching into the card to check whether its own radio is checked — no JavaScript class-toggling needed for the visual state. A live summary bar reflects whichever plan is currently selected, so the single checkout CTA always knows exactly what it's about to submit.</p>
+
+<p><strong>Best for:</strong> upgrade flows, onboarding plan selection, and billing-settings pages — anywhere a user is choosing one plan from several rather than just browsing a marketing page. <strong>Tip:</strong> because it's built on real radio inputs, it's keyboard-navigable and screen-reader friendly out of the box — don't replace the inputs with plain clickable divs when adapting it.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/plan-selector/">Plan Selector</a></p>
+
+<h2>5. Pricing Slider</h2>
+
+<p>Drag a slider to your team size and watch the plan name, per-seat rate, and total price update live — turning a static pricing table into a personalised quote.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/pricing-slider/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pricing Slider — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the slider value maps to a tiered per-seat rate table rather than one flat number, so dragging past a volume threshold drops the effective per-seat price and swaps the displayed plan name and accent colour to match, while the track itself fills to show progress at a glance. Every recalculation happens in plain vanilla JavaScript on the slider's input event, with no separate "calculate" step.</p>
+
+<p><strong>Best for:</strong> seat-based or usage-based products (team plans, API calls, storage tiers) where a flat three-card layout would force you to either round awkwardly or hide your real pricing logic. <strong>Tip:</strong> show the per-seat rate dropping as volume increases explicitly on the label — visitors dragging the slider want to feel rewarded for scaling up, not just see a bigger total.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/pricing-slider/">Pricing Slider</a></p>
+
+<h2>6. Pricing Feature Table</h2>
+
+<p>The full side-by-side comparison grid you scroll to when three cards aren't enough detail — every feature down the left, every plan across the top, and a highlighted popular column running through the middle.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/pricing-feature-table/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pricing Feature Table — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> it's built on a real, semantic HTML <code>&lt;table&gt;</code> rather than a div grid pretending to be one, which is what keeps it accessible and correctly readable by screen readers and search engines alike. Check marks and dashes are CSS-masked rather than emoji or icon-font glyphs, and a small JavaScript enhancement highlights the column under the cursor as you scan across plans, making it easier to compare one tier at a time on a wide table.</p>
+
+<p><strong>Best for:</strong> the detailed comparison section beneath a simpler pricing-card block, or any product with enough plans or features that a three-card layout would need to omit information. <strong>Tip:</strong> don't try to cram this onto mobile as a literal wide table — the responsive version should let a real table degrade to a scrollable or stacked layout rather than shrinking text until it's unreadable.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/pricing-feature-table/">Pricing Feature Table</a></p>
+
+<h2>7. Enterprise Pricing</h2>
+
+<p>The pattern nearly every serious SaaS pricing page uses: one or two self-serve plans on the left, and a distinct Enterprise card on the right with "Custom pricing" and a "Contact sales" button standing in for a dollar amount.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/enterprise-pricing/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Enterprise Pricing — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the Enterprise card intentionally breaks the visual rhythm of the self-serve plans beside it — no price, a highlighted feature list of the things only enterprise buyers care about (SSO, SLA, dedicated support), and a "Talk to sales" CTA in place of "Buy now." A trusted-by logo strip and a short inline FAQ sit underneath to reassure a buyer who's used to a self-serve checkout that a human-led sales process is still the right move for their scale.</p>
+
+<p><strong>Best for:</strong> any product that sells both self-serve and high-touch enterprise deals and needs both funnels living on the same page without confusing either audience. <strong>Tip:</strong> resist putting a price on the enterprise card even a "starting at" one — the entire point of the pattern is routing high-value prospects to a conversation instead of a checkout button.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/enterprise-pricing/">Enterprise Pricing</a></p>
+
+<h2>8. Pricing FAQ</h2>
+
+<p>An accordion of seven common billing questions — free plan availability, overage handling, refunds, and more — sitting right below the pricing tiers where doubt would otherwise cause someone to leave.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/pricing-faq/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pricing FAQ — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each question is a real disclosure widget with a correctly managed <code>aria-expanded</code> state, so the accordion is fully usable by keyboard and announced properly by screen readers — not just a div that toggles a CSS class. A "talk to sales" CTA block sits at the end for the question the FAQ can't answer, catching whatever doubt remains after the pre-filled questions are read.</p>
+
+<p><strong>Best for:</strong> directly under any pricing-card or pricing-table section — this is deliberately the last thing a visitor sees before deciding, not a separate help-center page they'd need to go looking for. <strong>Tip:</strong> write your seven questions from real support tickets and sales-call objections, not guesses — the FAQ only lifts conversion if it answers what people actually hesitate over.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/pricing-faq/">Pricing FAQ</a></p>
+
+<h2>9. Money-Back Guarantee</h2>
+
+<p>A trust section built for the moment right after someone sees your price: a shield badge stating the guarantee duration, a row of trust chips, security badges, and short review cards — all reducing the perceived risk of clicking buy.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/money-back-guarantee/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Money-Back Guarantee — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> it's pure HTML and CSS with no JavaScript at all — the shield badge is an inline SVG, and the trust chips, SSL/SOC2 badges, and review cards are laid out with flexbox and grid. The whole section exists to transfer perceived risk from buyer to seller: research consistently shows a visible, prominent refund guarantee reduces purchase anxiety and can lift conversion by a meaningful margin, simply by answering "what if this doesn't work for me?" before the visitor has to ask it.</p>
+
+<p><strong>Best for:</strong> directly under or beside your pricing cards, especially for higher-priced plans or annual commitments where hesitation is highest. <strong>Tip:</strong> state the guarantee duration as a real number ("30-day money-back guarantee") rather than vague language like "satisfaction guaranteed" — specificity is what makes a guarantee feel credible instead of like marketing filler.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/money-back-guarantee/">Money-Back Guarantee</a></p>
+
+<h2>10. ROI Calculator</h2>
+
+<p>An interactive calculator that turns team size, hours saved, and hourly cost into a monthly value, a net gain after your price, and an ROI percentage — letting a prospect see your product's value in their own numbers instead of yours.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/roi-calculator/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ROI Calculator — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every input (team size, hours saved per person, hourly cost, your product's price) feeds a live vanilla JavaScript calculation on every keystroke or slider drag, producing monthly value, net gain, and an ROI percentage with no submit button or page reload. Because the output is expressed in the buyer's own currency and time saved rather than just your price, it reframes the conversation from "what does this cost" to "what does this return" — the single highest-converting reframe available on a B2B pricing page.</p>
+
+<p><strong>Best for:</strong> B2B and enterprise pricing pages where the buyer needs a number to justify the purchase internally, not just to themselves. <strong>Tip:</strong> pre-fill the inputs with a realistic, slightly conservative default rather than zeroes — an empty calculator asks the visitor to do work before they see any payoff, while a sensible starting number lets them see a positive ROI immediately and then adjust.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/roi-calculator/">ROI Calculator</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<p>Every snippet is framework-agnostic, so the workflow is the same wherever you're building:</p>
+
+<ol>
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs.</li>
+<li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS (where there is any) before your closing <code>&lt;/body&gt;</code> tag — none of these ten need a CDN script or a build step.</li>
+<li>Prefer a component? Use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page.</li>
+<li>Swap the placeholder plan names, prices, and feature lists for your real ones before shipping — every one of these is a starting point, not a finished pricing page.</li>
+</ol>
+
+<h2>A few pricing-page principles worth keeping in mind</h2>
+
+<p>Whichever of the eight you start from, three things tend to separate a pricing section that converts from one that just informs:</p>
+
+<ul>
+<li><strong>Don't make visitors do math.</strong> Show the annual saving, the per-seat total, or the effective discount directly — a toggle or slider that displays the final number beats a footnote every time.</li>
+<li><strong>Keep the recommended plan obvious at a glance.</strong> A badge, a border, or a taller card should make the "safe choice" visible before anyone reads a single feature row.</li>
+<li><strong>Answer objections on the page, not after someone leaves it.</strong> A refund policy or usage-limit question left unanswered is a reason to close the tab and go compare a competitor instead.</li>
+</ul>
+
+<h2>Final Thought</h2>
+
+<p>These ten cover the full range a real pricing page needs — a simple two-tier card, a billing toggle, a detail-on-demand flip card, a selectable radio-card picker, a usage-based slider, a full comparison table, an enterprise tier, a trust-building guarantee section, an ROI calculator for the B2B case, and the FAQ that closes the remaining doubt. Mix and match rather than picking just one: most pricing pages that convert well are a pricing-card or plan-selector block up top, a guarantee or ROI calculator for reassurance, a feature table underneath for detail-seekers, and a FAQ closing it out.</p>
+
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

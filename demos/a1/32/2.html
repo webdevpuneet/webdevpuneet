@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="The max-height Hack Times Short Content Wrong">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>The max-height hack: same duration, wildly different feel</h1>
+    <p class="hint">Both columns use the exact same 400ms max-height transition. Open the SHORT panel in each column, then the LONG one. In the broken column both are timed against a fixed 800px ceiling; the short one finishes visually in a fraction of the transition.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken (fixed max-height: 800px)</h2>
+        <div class="acc-item">
+          <button type="button" class="acc-trigger" id="badTrigger1" aria-expanded="false" aria-controls="badPanel1">
+            Short answer <span class="chev">&#9662;</span>
+          </button>
+          <div class="acc-panel bad-panel" id="badPanel1">
+            <div class="acc-panel-inner"><p>Yes.</p></div>
+          </div>
+        </div>
+        <div class="acc-item" style="margin-top:8px;">
+          <button type="button" class="acc-trigger" id="badTrigger2" aria-expanded="false" aria-controls="badPanel2">
+            Long answer <span class="chev">&#9662;</span>
+          </button>
+          <div class="acc-panel bad-panel" id="badPanel2">
+            <div class="acc-panel-inner"><p>It depends on order volume, warehouse location, the shipping carrier's current capacity, whether the item is in stock at the nearest fulfillment center, and any customs processing required for international addresses.</p></div>
+          </div>
+        </div>
+        <p class="note" id="badNote">Open "Short answer" -- notice how fast it appears relative to the 400ms duration.</p>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed (grid-template-rows)</h2>
+        <div class="acc-item grid-item">
+          <button type="button" class="acc-trigger" id="goodTrigger1" aria-expanded="false" aria-controls="goodPanel1">
+            Short answer <span class="chev">&#9662;</span>
+          </button>
+          <div class="acc-panel good-panel" id="goodPanel1">
+            <div class="acc-panel-inner"><p>Yes.</p></div>
+          </div>
+        </div>
+        <div class="acc-item grid-item" style="margin-top:8px;">
+          <button type="button" class="acc-trigger" id="goodTrigger2" aria-expanded="false" aria-controls="goodPanel2">
+            Long answer <span class="chev">&#9662;</span>
+          </button>
+          <div class="acc-panel good-panel" id="goodPanel2">
+            <div class="acc-panel-inner"><p>It depends on order volume, warehouse location, the shipping carrier's current capacity, whether the item is in stock at the nearest fulfillment center, and any customs processing required for international addresses.</p></div>
+          </div>
+        </div>
+        <p class="note" id="goodNote">Open "Short answer" -- the animation matches its real height, every time.</p>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 16px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 56em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 600px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; }
+  .colTitle { margin: 0 0 10px; font: 700 11px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; text-align: center; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .acc-item { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .acc-trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border: none; background: #fafafc; color: var(--ink); font: 700 12px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .acc-trigger:hover { background: #f0f1f5; }
+  .chev { transition: transform .25s ease; color: var(--sub); }
+  .acc-trigger[aria-expanded="true"] .chev { transform: rotate(180deg); }
+  .acc-panel-inner { padding: 10px 12px; font-size: 12px; line-height: 1.55; color: var(--sub); }
+  .bad-panel { max-height: 0; overflow: hidden; transition: max-height .4s ease; }
+  .bad-panel.open { max-height: 800px; }
+  .grid-item .good-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s ease; }
+  .grid-item .good-panel.open { grid-template-rows: 1fr; }
+  .grid-item .good-panel .acc-panel-inner { overflow: hidden; min-height: 0; }
+  .note { margin: 8px 2px 0; font-size: 11px; color: var(--sub); line-height: 1.5; min-height: 2.6em; }
+</script>
+
+<script type="text/plain" id="js">
+  function setupBad() {
+    var pairs = [
+      { trigger: document.getElementById('badTrigger1'), panel: document.getElementById('badPanel1') },
+      { trigger: document.getElementById('badTrigger2'), panel: document.getElementById('badPanel2') }
+    ];
+    var note = document.getElementById('badNote');
+
+    pairs.forEach(function (pair) {
+      // BROKEN: max-height always animates toward the SAME fixed ceiling
+      // (800px), regardless of how tall the content actually is. The
+      // transition's declared duration (400ms) applies to that 800px
+      // range, not to the visible content, so short content finishes
+      // appearing almost instantly while long content uses the full time.
+      pair.trigger.addEventListener('click', function () {
+        var isOpen = pair.trigger.getAttribute('aria-expanded') === 'true';
+        pair.trigger.setAttribute('aria-expanded', String(!isOpen));
+        pair.panel.classList.toggle('open');
+        note.textContent = 'Same 400ms transition, timed against a fixed 800px -- the shorter the real content, the more abrupt it looks.';
+      });
+    });
+  }
+
+  function setupGood() {
+    var pairs = [
+      { trigger: document.getElementById('goodTrigger1'), panel: document.getElementById('goodPanel1') },
+      { trigger: document.getElementById('goodTrigger2'), panel: document.getElementById('goodPanel2') }
+    ];
+    var note = document.getElementById('goodNote');
+
+    pairs.forEach(function (pair) {
+      // FIXED: grid-template-rows animates from 0fr to 1fr, a fraction of
+      // the row's OWN intrinsic content height rather than a fixed pixel
+      // ceiling. The panel always animates across its real height, so the
+      // same 400ms duration looks proportionate whether the content is
+      // one word or five sentences.
+      pair.trigger.addEventListener('click', function () {
+        var isOpen = pair.trigger.getAttribute('aria-expanded') === 'true';
+        pair.trigger.setAttribute('aria-expanded', String(!isOpen));
+        pair.panel.classList.toggle('open');
+        note.textContent = 'Same 400ms transition, timed against the real content height -- consistent no matter how short or long it is.';
+      });
+    });
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

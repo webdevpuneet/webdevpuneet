@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Taming Third-Party CSS with Layers">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Taming vendor CSS with a low-priority layer</h1>
+    <p class="hint">The alert box below is styled by a simulated vendor stylesheet with aggressive, high-specificity selectors, PLUS one plain unlayered class from your own CSS. Nothing here won a specificity war &mdash; the vendor rules simply live in a layer declared first.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="vendor-alert vendor-alert--warning" id="alertBox">
+      Heads up: this is vendor-supplied markup.
+    </div>
+    <p class="note" id="note">Computing...</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 54em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 34px 18px 40px; }
+
+  /* Vendor CSS is declared first, so it gets the lowest priority --
+     it can never win over anything unlayered, no matter what the
+     vendor's authors did with specificity or !important-free selectors. */
+  @layer vendor;
+
+  @layer vendor {
+    div.vendor-alert.vendor-alert--warning[class] {
+      background: #facc15;
+      color: #713f12;
+      border: 3px solid #a16207;
+      border-radius: 0;
+      padding: 22px;
+      font: italic 700 15px Georgia, serif;
+      text-transform: uppercase;
+      box-shadow: inset 0 0 0 6px #fef08a;
+    }
+  }
+
+  /* Your own override: a single, plain, unlayered class. It doesn't
+     need to out-specify [class] + two classes + a tag -- it just needs
+     to not be inside a layer. */
+  .vendor-alert {
+    max-width: 26em;
+    background: #eef0ff;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 20px;
+    font: 600 13.5px system-ui, sans-serif;
+    text-transform: none;
+    box-shadow: none;
+  }
+
+  .note { margin: 0; max-width: 54em; font-size: 12.5px; color: var(--sub); text-align: center; }
+  .note strong { color: var(--ink); }
+</script>
+
+<script type="text/plain" id="js">
+  var box = document.getElementById('alertBox');
+  var note = document.getElementById('note');
+  var bg = getComputedStyle(box).backgroundColor;
+  var isOverridden = bg === 'rgb(238, 240, 255)';
+
+  note.innerHTML = isOverridden
+    ? 'Computed background: <strong>light indigo</strong> &mdash; your own unlayered rule. The simulated vendor stylesheet used a selector with specificity (0,3,1) &mdash; an attribute selector, two classes, and a tag &mdash; and it still lost to a single unlayered <strong>.vendor-alert</strong> class, because it was assigned to @layer vendor. This is the whole point of layering third-party CSS: you stop needing to out-specify code you don\'t control.'
+    : 'Computed background: <strong>yellow</strong>. (Unexpected &mdash; the unlayered override should have won regardless of the vendor selector\'s specificity.)';
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

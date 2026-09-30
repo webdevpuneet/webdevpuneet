@@ -1,0 +1,188 @@
+<h1>How I Built a Scroll-Scrubbed Typewriter Effect With GSAP ScrollTrigger (Full Breakdown)</h1>
+
+<p>Most "typewriter" effects on the web play on a timer — a character appears every 60ms whether you're watching or not. The <strong>Scroll Typewriter</strong> snippet does something different: your <em>scrollbar</em> is the keyboard. Scroll down and the terminal types itself out, character by character. Scroll back up and it deletes itself in perfect reverse, caret and all. Pause anywhere and the text freezes exactly where your scroll position says it should.</p>
+
+<p>Here's the effect live — try scrolling through it, then scrolling back up:</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/scroll-typewriter/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll Typewriter — Free GSAP ScrollTrigger Snippet by FWD Tools"></iframe>
+
+<p>Grab the code, or open the full editor with live HTML/CSS/JS panels: <a href="https://fwdtools.com/ui-snippets/scroll-typewriter/">Scroll Typewriter on FWD Tools</a>. The snippet is plain HTML, CSS, and JavaScript, but the same editor also has one-click export buttons for <strong>React</strong>, <strong>Vue</strong>, <strong>Angular</strong>, and <strong>React + Tailwind</strong> if you'd rather drop it straight into a component-based project than copy raw markup.</p>
+
+<p>In this post I'm going to walk through the whole thing <strong>A to Z</strong> — what it is, where you'd actually use it, the exact CDN links and GSAP plugin it depends on, and then the full build: the HTML structure, the CSS, and every line of the JavaScript that makes the scrubbing and the reverse-delete work. By the end you'll understand it well enough to rebuild it from scratch or bend it into something of your own.</p>
+
+<h2>What the effect actually is</h2>
+
+<p>Strip away the terminal chrome and the effect is simple to state: a block of text starts fully hidden. As you scroll through a pinned section, characters reveal themselves one at a time — not on a timer, but mapped directly to your scroll position. Scroll a little, get a few characters. Scroll a lot, get a sentence. Scroll backward, and the exact same mapping runs in reverse: characters disappear in the order they appeared, and a blinking caret tracks the true end of the typed text at all times, even across line breaks.</p>
+
+<p>That reversibility is the whole point. A timer-based typewriter can only play forward. This one is "scrubbed" — tied to an input the user directly controls — which is what makes it feel less like an animation you're watching and more like a machine you're operating with your mouse wheel or trackpad.</p>
+
+<h2>Where you'd actually use this</h2>
+
+<p>This isn't just a party trick for a portfolio site — a scroll-scrubbed typewriter earns its place in a few specific spots:</p>
+
+<ul>
+<li><strong>Developer landing pages.</strong> Type your value proposition inside a terminal window instead of a static headline — it fits the audience and the aesthetic in one move.</li>
+<li><strong>Hero statements and manifestos.</strong> Scrub a short, punchy line-by-line statement as the first thing a visitor sees, then hand off into the next section.</li>
+<li><strong>Product storytelling.</strong> Type each chapter heading as readers scroll through a longer narrative page, giving each section its own reveal beat.</li>
+<li><strong>CLI tool demos.</strong> Show a command appearing as if it's being typed live, especially effective paired with a fake terminal output block underneath.</li>
+<li><strong>Portfolio introductions.</strong> A typed self-introduction reads as more deliberate and crafted than a paragraph that's just sitting there on load.</li>
+<li><strong>Interactive articles.</strong> Type out a pull-quote exactly as the reader scrolls to meet it, which is a nice change of pace from a plain fade-in.</li>
+</ul>
+
+<p>In every one of these, the effect works because scrolling is already the thing the user is doing — you're not asking for a new interaction, you're attaching meaning to one they're already performing.</p>
+
+<h2>The tech stack: GSAP and one plugin, from a CDN</h2>
+
+<p>This snippet leans on <a href="https://gsap.com/" target="_blank" rel="noopener">GSAP</a> (GreenSock Animation Platform) plus its <strong>ScrollTrigger</strong> plugin. You could theoretically hand-roll scroll-linked animation with a raw <code>scroll</code> event listener and some math, but ScrollTrigger gives you three things for free that are genuinely hard to get right by hand: robust <strong>pinning</strong> (locking a section in place while its content plays), <strong>scrubbing</strong> (mapping a timeline's progress directly to scroll position instead of scroll-triggered playback), and correct behavior across resizes, mobile browser chrome collapsing, and reduced-motion edge cases.</p>
+
+<p>No build step, no npm install required — two script tags from a CDN are enough:</p>
+
+<pre><code class="language-html">&lt;script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"&gt;&lt;/script&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"&gt;&lt;/script&gt;</code></pre>
+
+<p>Drop those in your <code>&lt;head&gt;</code> or right before your closing <code>&lt;/body&gt;</code> tag, before your own script runs. The very first line of the snippet's JavaScript then registers the plugin with the core library:</p>
+
+<pre><code class="language-javascript">gsap.registerPlugin(ScrollTrigger);</code></pre>
+
+<p>Skip that line and every ScrollTrigger config you write later is silently ignored — it's the one line that's easy to forget and the first thing to check if a scroll effect just isn't firing.</p>
+
+<p>If GSAP itself is new to you, it's worth spending twenty minutes in the <a href="https://fwdtools.com/gsap-playground/">GSAP Playground</a> before diving into ScrollTrigger specifically — it's a free, browser-based course with 55 lessons across 18 chapters covering <code>gsap.to()</code>, timelines, stagger, keyframes, <code>gsap.utils</code>, and a dedicated ScrollTrigger track, each with a live editor and instant preview so you can see exactly what every option does instead of taking this post's word for it.</p>
+
+<h2>Building it, step by step</h2>
+
+<h3>Step 1 — The HTML: text lives in a data attribute, not in markup</h3>
+
+<p>The section that gets pinned carries an <code>id</code> the JavaScript will target in a moment, and inside it, the terminal has a macOS-style title bar (three colored dots) for atmosphere. Each line of copy is a paragraph that carries its real text in a <code>data-text</code> attribute rather than as visible content:</p>
+
+<pre><code class="language-html">&lt;section class="stw-stage" id="stwStage"&gt;
+  &lt;div class="stw-terminal"&gt;
+    &lt;div class="stw-bar"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;div class="stw-body"&gt;
+      &lt;p class="stw-line" data-text="The scrollbar is the keyboard."&gt;&lt;/p&gt;
+      &lt;p class="stw-line stw-accent" data-text="Every tick types a character — reverse to delete."&gt;&lt;/p&gt;
+      &lt;span class="stw-caret" id="stwCaret"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+
+<p>Why an attribute instead of just typing the sentence between the tags? Because JavaScript is about to split this text into one <code>&lt;span&gt;</code> per character, and it needs a clean, single source of truth to read from. If the text lived directly inside the <code>&lt;p&gt;</code>, re-running the split (say, after a hot-reload in development) could double-split already-split spans into nested spans and quietly break everything. Reading from an attribute means the split is always working from the original, untouched string.</p>
+
+<h3>Step 2 — The CSS: <code>display: none</code> is the actual typing mechanism</h3>
+
+<p>This is the part that trips people up when they first read the code, so it's worth sitting with: every character span starts as <code>display: none</code>.</p>
+
+<pre><code class="language-css">.stw-line .ch { display: none; }</code></pre>
+
+<p>Why not <code>opacity: 0</code>, which is the usual go-to for "hidden but reveal-able" content? Because <code>opacity: 0</code> still occupies layout space — the full sentence would sit there invisibly from the very first frame, the line would already be at its final width, and the caret would have nowhere meaningful to sit. <code>display: none</code> removes the element from layout entirely, so a character genuinely doesn't exist until it's revealed — the line's width grows one character at a time, exactly like real typing.</p>
+
+<p>The container also reserves a <code>min-height</code> up front, so the terminal doesn't grow and shift the page as lines get added — the box is stable from the first frame, even though its content isn't there yet.</p>
+
+<h3>Step 3 — The JS: splitting text into character spans</h3>
+
+<p>On load, the script walks every <code>.stw-line</code>, reads its <code>data-text</code>, and builds one <code>&lt;span class="ch"&gt;</code> per character:</p>
+
+<pre><code class="language-javascript">var lines = document.querySelectorAll('.stw-line');
+var allChars = [];
+lines.forEach(function (line) {
+  var text = line.getAttribute('data-text');
+  for (var i = 0; i &lt; text.length; i++) {
+    var span = document.createElement('span');
+    span.className = 'ch';
+    span.textContent = text[i] === ' ' ? '\u00A0' : text[i];
+    line.appendChild(span);
+    allChars.push(span);
+  }
+});</code></pre>
+
+<p>One small but important detail: plain space characters get swapped for <code>'\u00A0'</code> (a non-breaking space). Regular spaces inside individually-wrapped inline spans can collapse or get trimmed by the browser depending on context — a non-breaking space guarantees every gap in the sentence actually renders, even mid-word-wrap.</p>
+
+<p>Every span, across every line, gets pushed into one flat array — <code>allChars</code> — because the animation that follows doesn't care about line boundaries. It just needs one long list of "things to reveal in order."</p>
+
+<h3>Step 4 — The GSAP timeline: pin, scrub, and the stagger trick</h3>
+
+<p>This is the core of the whole effect, and it's shorter than you'd expect:</p>
+
+<pre><code class="language-javascript">var tl = gsap.timeline({
+  scrollTrigger: {
+    trigger: '#stwStage',
+    start: 'top top',
+    end: '+=180%',
+    scrub: true,
+    pin: true
+  }
+});
+
+tl.to(allChars, {
+  display: 'inline',
+  duration: 0.0001,
+  stagger: 1,
+  ease: 'none'
+});</code></pre>
+
+<p>Let's take the ScrollTrigger config first. <code>pin: true</code> locks the terminal in place on screen once you scroll to it, so it doesn't drift away while typing. <code>start: 'top top'</code> means pinning begins the instant the section's top hits the viewport's top. <code>end: '+=180%'</code> means the pin — and the whole typing animation — plays out over 180% of the viewport's height worth of scrolling. And <code>scrub: true</code> is the single most important line here: it means the timeline's progress is tied <em>directly</em> to scroll position, not played once when triggered. Scroll 10% of the way through that 180%, and the timeline is exactly 10% complete. Scroll backward, and the timeline runs backward too.</p>
+
+<p>Now the animation itself, which uses a trick worth understanding on its own: <code>display</code> is not a property GSAP (or CSS, for that matter) can smoothly interpolate — a value is either <code>none</code> or <code>inline</code>, with nothing in between. GSAP's answer to non-tweenable properties is to apply them <em>instantly</em> at the start of their tween. So a tween with <code>duration: 0.0001</code> effectively becomes an instant on/off switch, fired at one precise point along the timeline.</p>
+
+<p><code>stagger: 1</code> is what turns one tween targeting hundreds of characters into hundreds of individually-timed instant switches, spaced evenly across the whole timeline — like teeth on a gear. As the scrubbed playhead crosses each tooth, that one character's <code>display</code> flips to <code>inline</code> and it appears. Scroll a little, cross a few teeth, get a few characters. That's the entire "typing" mechanism — no <code>setInterval</code>, no manual counting, no timer of any kind.</p>
+
+<h3>Step 5 — Why scrolling up deletes text for free</h3>
+
+<p>Here's the part that feels like magic the first time you see it: reverse deletion isn't code anyone wrote. It's a direct consequence of how GSAP handles scrubbing. When a scrubbed timeline's playhead moves backward past a tween's start point, GSAP doesn't just stop — it restores that property to whatever value it recorded <em>before</em> the tween ran. For every character tween, that recorded "before" value is <code>display: none</code>. So scrolling up past a character's tooth simply undoes it, restoring the hidden state. The entire delete animation is really just GSAP's own undo mechanism, and it costs zero extra code.</p>
+
+<h3>Step 6 — Making the caret follow the typing position</h3>
+
+<p>A typewriter without a moving cursor doesn't read as a typewriter. The caret is handled with an <code>onUpdate</code> callback that runs on every single frame of the scrub:</p>
+
+<pre><code class="language-javascript">onUpdate: function () {
+  var last = null;
+  for (var i = allChars.length - 1; i &gt;= 0; i--) {
+    if (allChars[i].style.display === 'inline') { last = allChars[i]; break; }
+  }
+  var host = last ? last.parentNode : lines[0];
+  host.appendChild(caret);
+}</code></pre>
+
+<p>On every update, this walks backward through the full character list until it finds the last one currently visible, then physically re-appends the caret <code>&lt;span&gt;</code> right after it in the DOM. Because that "last visible character" naturally changes as you scroll — including jumping from the end of one line to the start of the next — the caret rides along automatically, with no separate line-tracking logic required. A CSS <code>steps(1)</code> keyframe blink keeps it alive whenever you pause scrolling, so it doesn't look frozen mid-thought.</p>
+
+<h2>Customizing it for your own project</h2>
+
+<p>A few knobs worth knowing about if you're adapting this:</p>
+
+<ul>
+<li><strong>Change the copy</strong> — just edit the <code>data-text</code> attributes. The character split adapts to any length automatically; add as many <code>.stw-line</code> paragraphs as you want.</li>
+<li><strong>Control the pacing</strong> — typing speed is scroll-mapped, not timed, so a longer <code>end</code> value (say <code>+=300%</code>) spreads the same characters across more scroll distance, making each tick type fewer characters and feel more deliberate.</li>
+<li><strong>Longer content</strong> — the splitter handles paragraphs of any length fine; for genuinely long content (thousands of characters), consider splitting by word instead of character to cut the element count down, and stretch the trigger's <code>end</code> so per-tick typing stays readable.</li>
+<li><strong>A different container</strong> — the terminal chrome (traffic-light dots, monospace font) is pure decoration on top of the mechanism. Strip it out and the same character-split-plus-scrub technique works on any headline or paragraph.</li>
+</ul>
+
+<h2>Using it in React, Vue, or Angular</h2>
+
+<p>If you're not working in plain HTML/CSS/JS, the one rule that matters is: do the character split and the timeline setup inside a mount lifecycle hook — <code>useEffect</code> in React, <code>onMounted</code> in Vue, <code>ngAfterViewInit</code> in Angular — never at module or render time, since the DOM elements need to exist first. Query against refs rather than <code>document.querySelector</code> where possible, and in React specifically, guard against double-running the split under Strict Mode by checking whether <code>.ch</code> spans already exist before creating new ones. On unmount, revert a <code>gsap.context()</code> (or manually kill the ScrollTrigger instance) so the pin doesn't linger after the component is gone. Keep every character as a real DOM node rather than component state — re-rendering per character would fight the scrub and tank performance.</p>
+
+<p>The FWD Tools snippet editor has one-click exports for all of this already built if you'd rather skip writing the conversion by hand — grab the React, Vue, Angular, or Tailwind version directly from the snippet page.</p>
+
+<h2>Build, understand, optimize, and extend it with AI</h2>
+
+<p>You don't have to reverse-engineer every ScrollTrigger option by hand. Paste the snippet's HTML, CSS, and JS into an AI coding assistant like Claude and ask it to walk through what each line of the timeline config does, or to explain in plain terms why <code>display</code> can't be tweened directly and what the <code>duration: 0.0001</code> workaround is actually doing. The same assistant can help you optimize it — profiling whether splitting by word instead of character makes sense for a long paragraph, or suggesting a cheaper way to track the caret than walking the full character array on every <code>onUpdate</code> tick. It's just as useful for extending the effect: ask it to add a typing sound on each revealed character, layer in a syntax-highlighted code block instead of plain sentences, or chain multiple terminal sections together so one typewriter hands off to the next as you keep scrolling. Treat the code less like a finished artifact and more like a starting point for a conversation.</p>
+
+<h3>Prompt to recreate it</h3>
+
+<p>Copy this into your AI assistant of choice to build the effect from scratch, or as a jumping-off point for your own variant:</p>
+
+<pre><code class="language-text">Build a "scroll typewriter" effect in plain HTML, CSS, and JavaScript using GSAP and its ScrollTrigger plugin (load both from a CDN, no build step).
+
+Requirements:
+- A pinned section containing one or more lines of text, each line's real text stored in a data-text attribute (not as visible markup).
+- On load, split each line's text into one <span class="ch"> per character, appended to the line. Replace literal spaces with a non-breaking space so gaps don't collapse.
+- Every character span starts with CSS `display: none` (not opacity or visibility) so the line has zero width until a character is revealed.
+- Register a single GSAP timeline on a ScrollTrigger with `pin: true`, `scrub: true`, `start: 'top top'`, and an `end` a few hundred percent of the viewport tall.
+- Inside that timeline, tween all character spans' `display` to `inline` with a near-zero duration (e.g. 0.0001) and a `stagger` of 1, so GSAP treats each character as an instantly-triggered "tooth" spread evenly across the whole scrubbed timeline.
+- Do not write any manual scroll-position math or a setInterval-based timer — the typing speed must come entirely from GSAP's scrub mapping scroll position to timeline progress.
+- Add a blinking caret element that, on every scrollTrigger onUpdate, is moved via appendChild to sit right after whichever character is currently the last one visible, so it visibly tracks the typing position including across line breaks.
+- Confirm and explain: scrolling back up should delete characters in reverse for free, with no extra code, because of how GSAP scrubbing reverts tweened properties past their start point.</code></pre>
+
+<h2>Final thought</h2>
+
+<p>What makes this snippet worth studying isn't the typewriter effect itself — it's the underlying pattern: GSAP's scrub option turns <em>any</em> timeline into something a user can rewind and fast-forward with their own scroll gesture, and the "instant tween as a switch" trick unlocks properties (<code>display</code>, <code>visibility</code>, even class toggles via <code>onStart</code>/<code>onReverseComplete</code>) that don't normally animate at all. Once that clicks, you start seeing scroll-scrubbed versions of effects everywhere — not just typing, but reveals, step-throughs, and state machines, all driven by the same handful of lines.</p>
+
+<p>Grab the full HTML, CSS, and JS — or export it straight to React, Vue, Angular, or Tailwind — at <a href="https://fwdtools.com/ui-snippets/scroll-typewriter/">Scroll Typewriter on FWD Tools</a>. It's free, runs entirely in your browser, and needs no sign-up. Browse more scroll-driven effects like this one at <a href="https://fwdtools.com/ui-snippets/scroll/">FWD Tools UI Snippets — Scroll Effects</a>.</p>

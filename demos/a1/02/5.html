@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Gated Submit Button">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+      <h1>Gated Submit Button</h1>
+      <p class="hint">The submit button is visually disabled and unclickable until the terms checkbox is checked — driven entirely by :has() reaching from the form down to a sibling button.</p>
+    </header>
+    <main class="stageWrap">
+      <form class="gateForm" id="stage">
+          <label class="gateCheck">
+            <input type="checkbox" id="terms">
+            I agree to the Terms of Service
+          </label>
+          <button type="submit" class="submitBtn">Create account</button>
+          <p class="gateHint">Check the box above to enable this button.</p>
+        </form>
+      <div class="readout">
+        <span>Submit button: <strong id="readoutValue">&mdash;</strong></span>
+      </div>
+      <pre class="ruleTag">.gateForm:has(#terms:not(:checked)) .submitBtn {
+    opacity: .45;
+    pointer-events: none;
+  }</pre>
+    </main>
+</script>
+
+<script type="text/plain" id="css">
+
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+  .stage {
+    width: 100%;
+    max-width: 560px;
+    box-sizing: border-box;
+    padding: 26px 24px;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    background: #fff;
+  }
+  .readout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 16px;
+    font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--sub);
+  }
+  .readout strong { color: var(--accent); font-weight: 700; }
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 6px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .gateForm { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .gateCheck { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .submitBtn {
+    font: 700 13px system-ui, sans-serif;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: opacity .15s;
+  }
+  .gateHint { margin: 0; font-size: 11.5px; color: var(--sub); display: none; }
+
+  /* The rule this demo is about. */
+  .gateForm:has(#terms:not(:checked)) .submitBtn {
+    opacity: .45;
+    pointer-events: none;
+  }
+  .gateForm:has(#terms:not(:checked)) .gateHint { display: block; }
+</script>
+
+<script type="text/plain" id="js">
+  var stage = document.getElementById('stage');
+    var terms = stage.querySelector('#terms');
+    var out = document.getElementById('readoutValue');
+    function report() { out.textContent = terms.checked ? 'enabled' : 'disabled'; }
+    terms.addEventListener('change', report);
+    stage.addEventListener('submit', function (e) { e.preventDefault(); });
+    report();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

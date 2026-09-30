@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Single-Open vs Multi-Open, Same Component">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Single-open vs multi-open -- one flag, same base component</h1>
+    <p class="hint">Both accordions are built from the same setup function. Open "Shipping" then "Returns" in each. On the left, opening one closes the other automatically. On the right, both stay open independently.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle modeA">singleOpen: true</h2>
+        <div class="acc" id="singleAcc" data-single-open="true">
+          <div class="acc-item">
+            <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="s-panel-1">Shipping <span class="chev">&#9662;</span></button>
+            <div class="acc-panel" id="s-panel-1"><div class="acc-panel-inner"><p>Ships in 2 business days.</p></div></div>
+          </div>
+          <div class="acc-item">
+            <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="s-panel-2">Returns <span class="chev">&#9662;</span></button>
+            <div class="acc-panel" id="s-panel-2"><div class="acc-panel-inner"><p>30-day return window, tags attached.</p></div></div>
+          </div>
+          <div class="acc-item">
+            <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="s-panel-3">Warranty <span class="chev">&#9662;</span></button>
+            <div class="acc-panel" id="s-panel-3"><div class="acc-panel-inner"><p>1-year limited manufacturer warranty.</p></div></div>
+          </div>
+        </div>
+        <p class="note" id="singleNote">Open panels: <span id="singleCount">0</span></p>
+      </div>
+      <div class="col">
+        <h2 class="colTitle modeB">singleOpen: false</h2>
+        <div class="acc" id="multiAcc" data-single-open="false">
+          <div class="acc-item">
+            <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="m-panel-1">Shipping <span class="chev">&#9662;</span></button>
+            <div class="acc-panel" id="m-panel-1"><div class="acc-panel-inner"><p>Ships in 2 business days.</p></div></div>
+          </div>
+          <div class="acc-item">
+            <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="m-panel-2">Returns <span class="chev">&#9662;</span></button>
+            <div class="acc-panel" id="m-panel-2"><div class="acc-panel-inner"><p>30-day return window, tags attached.</p></div></div>
+          </div>
+          <div class="acc-item">
+            <button type="button" class="acc-trigger" aria-expanded="false" aria-controls="m-panel-3">Warranty <span class="chev">&#9662;</span></button>
+            <div class="acc-panel" id="m-panel-3"><div class="acc-panel-inner"><p>1-year limited manufacturer warranty.</p></div></div>
+          </div>
+        </div>
+        <p class="note" id="multiNote">Open panels: <span id="multiCount">0</span></p>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --purple: #7c3aed; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 16px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 56em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 580px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; }
+  .colTitle { margin: 0 0 10px; font: 700 11.5px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; text-align: center; }
+  .colTitle.modeA { color: var(--accent); background: #eef0fd; }
+  .colTitle.modeB { color: var(--purple); background: #f3ecfe; }
+  .acc-item { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin-bottom: 8px; }
+  .acc-item:last-child { margin-bottom: 0; }
+  .acc-trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border: none; background: #fafafc; color: var(--ink); font: 700 12px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .acc-trigger:hover { background: #f0f1f5; }
+  .chev { transition: transform .25s ease; color: var(--sub); }
+  .acc-trigger[aria-expanded="true"] .chev { transform: rotate(180deg); }
+  .acc-panel-inner { padding: 9px 12px; font-size: 12px; line-height: 1.5; color: var(--sub); }
+  .acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+  .acc-panel.open { grid-template-rows: 1fr; }
+  .acc-panel .acc-panel-inner { overflow: hidden; min-height: 0; }
+  .note { margin: 8px 2px 0; font: 700 12px ui-monospace, monospace; color: var(--ink); }
+</script>
+
+<script type="text/plain" id="js">
+  function setupAccordion(root, countEl) {
+    var singleOpen = root.getAttribute('data-single-open') === 'true';
+    var triggers = root.querySelectorAll('.acc-trigger');
+
+    function updateCount() {
+      var openCount = root.querySelectorAll('.acc-trigger[aria-expanded="true"]').length;
+      countEl.textContent = openCount;
+    }
+
+    function closeAllExcept(exceptTrigger) {
+      for (var i = 0; i < triggers.length; i++) {
+        if (triggers[i] === exceptTrigger) continue;
+        var otherPanel = document.getElementById(triggers[i].getAttribute('aria-controls'));
+        triggers[i].setAttribute('aria-expanded', 'false');
+        otherPanel.classList.remove('open');
+      }
+    }
+
+    triggers.forEach(function (trigger) {
+      var panel = document.getElementById(trigger.getAttribute('aria-controls'));
+
+      trigger.addEventListener('click', function () {
+        var isOpen = trigger.getAttribute('aria-expanded') === 'true';
+
+        // The ONLY difference between the two columns: whether opening a
+        // panel closes every other panel in the same group first. Both
+        // columns run the exact same setupAccordion() function.
+        if (singleOpen && !isOpen) closeAllExcept(trigger);
+
+        trigger.setAttribute('aria-expanded', String(!isOpen));
+        panel.classList.toggle('open', !isOpen);
+        updateCount();
+      });
+    });
+
+    updateCount();
+  }
+
+  setupAccordion(document.getElementById('singleAcc'), document.getElementById('singleCount'));
+  setupAccordion(document.getElementById('multiAcc'), document.getElementById('multiCount'));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

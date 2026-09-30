@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="The & Nesting Selector">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>The &amp; nesting selector</h1>
+    <p class="hint">Hover the button, then click it to toggle "active", then click Disable. Each state is driven by a nested rule that uses <code>&amp;</code> to attach directly onto the parent&mdash;<code>&amp;:hover</code>, <code>&amp;.active</code>, <code>&amp;:disabled</code>.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="row">
+      <button type="button" class="btn" id="mainBtn">Hover / click me</button>
+      <button type="button" class="toggleBtn" id="disableBtn">Disable</button>
+    </div>
+    <p class="note" id="note">Try hovering, then click to toggle "active".</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 30px 18px 34px; }
+  .row { display: flex; gap: 12px; align-items: center; }
+
+  /* This is the demo: & attaches pseudo-classes and a modifier class to the same element */
+  .btn {
+    padding: 12px 22px;
+    font: 700 13.5px system-ui, sans-serif;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .15s, outline-color .15s;
+    outline: 3px solid transparent;
+
+    &:hover {
+      background: #4f46e5;
+    }
+
+    &.active {
+      outline-color: #f59e0b;
+    }
+
+    &:disabled {
+      background: #b6b8c2;
+      cursor: not-allowed;
+    }
+  }
+
+  .toggleBtn {
+    padding: 10px 16px;
+    font: 700 12.5px system-ui, sans-serif;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .toggleBtn:hover { background: #eef0ff; }
+
+  .note { margin: 0; font-size: 12px; color: var(--sub); text-align: center; }
+</script>
+
+<script type="text/plain" id="js">
+  var mainBtn = document.getElementById('mainBtn');
+  var disableBtn = document.getElementById('disableBtn');
+  var note = document.getElementById('note');
+  var disabled = false;
+
+  mainBtn.addEventListener('click', function () {
+    if (disabled) return;
+    mainBtn.classList.toggle('active');
+    note.textContent = mainBtn.classList.contains('active')
+      ? 'active class added -- &.active is firing (orange outline).'
+      : 'active class removed.';
+  });
+
+  disableBtn.addEventListener('click', function () {
+    disabled = !disabled;
+    mainBtn.disabled = disabled;
+    disableBtn.textContent = disabled ? 'Enable' : 'Disable';
+    note.textContent = disabled
+      ? '&:disabled is firing -- button is greyed out and unclickable.'
+      : 'Button re-enabled.';
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

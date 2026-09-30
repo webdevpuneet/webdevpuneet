@@ -1,0 +1,94 @@
+GSAP — BLOG QUEUE
+=================
+Publish top-down. Mark done: [ ] -> [x] and append "-> general-blogNN.txt"
+[~] = partially covered by a published post; only write as a deeper dive.
+
+ALREADY PUBLISHED — DO NOT REPEAT
+---------------------------------
+[x] GSAP Tutorial for Beginners: Animate Your First HTML Element -> general-blog12.txt
+[x] How to Animate CSS Properties with GSAP (With Live Examples) -> general-blog13.txt
+
+Covered as single demos inside blog12 — only revisit as a full deep dive:
+[~] GSAP to(), from() and fromTo() Explained (blog12 demos 1-3)
+[~] GSAP Timelines for Multiple Animations (blog12 demo 6)
+[~] GSAP Easing Explained (blog12 demo 4)
+[~] Delay, Repeat and Yoyo in GSAP (blog12 demos 5, 8)
+[~] GSAP Stagger Explained (blog12 demo 7)
+
+
+TIER 1 — SCROLLTRIGGER (biggest search volume in GSAP)
+-------------------------------------------------------
+[x] GSAP ScrollTrigger Tutorial: Animate Elements on Scroll (10 Live Demos) -> general-blog20.txt (published as "9 Live Demos" — 9 demos earned the topic)
+[~] GSAP ScrollTrigger start and end Explained Visually (blog20 demo #2 — only revisit as a full deeper dive)
+[~] How to Scrub GSAP Animations with ScrollTrigger (blog20 demo #3 — only revisit as a full deeper dive)
+[~] How to Pin a Section with GSAP ScrollTrigger (blog20 demo #5 — only revisit as a full deeper dive)
+[~] ScrollTrigger toggleActions Explained: play, pause, resume, reverse (blog20 demo #4 — only revisit as a full deeper dive)
+[ ] How to Debug ScrollTrigger with markers
+[~] ScrollTrigger.refresh(): Why Your Trigger Positions Break (blog20 demo #9 — only revisit as a full deeper dive)
+[~] How to Build a Horizontal Scrolling Section with GSAP (blog20 demo #6 — only revisit as a full deeper dive)
+[x] How to Create a Parallax Effect with GSAP ScrollTrigger -> general-blog25.txt (published as "8 Live Demos")
+[~] How to Build a Scroll Progress Indicator with GSAP (blog20 demo #7 — only revisit as a full deeper dive)
+[~] How to Animate Cards Into View with GSAP ScrollTrigger (blog20 demo #8's staggered card reveal already covers this — only revisit as a full deeper dive)
+[x] ScrollTrigger snap: Section-by-Section Scrolling -> general-blog35.txt (published as "7 Live Demos")
+
+TIER 2 — CORE API DEEP DIVES
+-----------------------------
+[x] GSAP Timeline vs ScrollTrigger: Understanding the Difference -> general-blog30.txt
+[ ] GSAP vs CSS Animations: When Should You Use Each?
+[ ] gsap.set() vs gsap.to(): When You Need Each
+[ ] GSAP keyframes: Multi-Step Animations in a Single Tween
+[ ] How to Control GSAP Animations: play, pause, reverse, seek and progress
+[ ] gsap.matchMedia(): Responsive Animations Done Properly
+[ ] GSAP defaults and gsap.context(): Cleaner Animation Code
+[ ] How to Animate SVG with GSAP: Stroke, Path and Transform Origin
+[ ] GSAP MotionPath: Animate Anything Along a Curve
+[ ] GSAP Flip: Animate Layout Changes You Didn't Write Coordinates For
+[ ] GSAP Draggable: Build a Custom Slider from Scratch
+
+TIER 3 — UI ANIMATIONS TO BUILD
+--------------------------------
+[ ] How to Animate Text with GSAP: 8 Reveal Effects
+[ ] How to Create a GSAP Text Split Animation Without a Plugin
+[ ] Build a Text Scramble Animation with GSAP
+[ ] How to Create a GSAP Image Reveal Animation
+[ ] How to Build an Animated Navigation Menu with GSAP
+[ ] How to Build a Full-Screen Mobile Menu Animation with GSAP
+[ ] How to Create an Animated Modal with GSAP
+[ ] How to Build a Magnetic Button Effect with GSAP
+[ ] Build a Liquid Button Hover Effect with GSAP
+[ ] How to Create Smooth Hover Animations with GSAP
+[ ] 10 GSAP Micro-Interactions That Make Websites Feel Better
+[ ] How to Create a Staggered Card Animation with GSAP
+[ ] How to Build a Website Preloader with GSAP
+[ ] Build an Animated Number Counter with GSAP
+[ ] How to Create an Infinite Marquee with GSAP
+[ ] Build a Seamless Infinite Image Slider with GSAP
+[ ] Build a GSAP Image Carousel from Scratch
+[ ] Build a Before/After Image Reveal Slider with GSAP
+[ ] How to Create a 3D Card Tilt Effect with GSAP
+[ ] Build a GSAP Cursor Trail Effect
+[ ] How to Create a Cursor-Following Animation with GSAP
+[ ] Build a GSAP Accordion / FAQ Animation
+[ ] Build a Testimonial Slider with GSAP
+[ ] Build a Confetti Celebration Animation with GSAP
+
+TIER 4 — BUILD SOMETHING BIG
+-----------------------------
+[ ] Build an Apple-Style Scroll Animation with GSAP
+[ ] Build a Scroll-Driven Product Showcase with GSAP
+[ ] Build a Sticky Image Sequence Scroll Animation with GSAP
+[ ] Build a Split-Screen Scroll Section with GSAP
+[ ] Build a Scroll-Driven Timeline / Roadmap with GSAP
+[ ] Build a Hero Section Animation with GSAP
+[ ] Build a Modern Animated Landing Page with GSAP
+[ ] Build a GSAP Page Transition (SPA-Style)
+[ ] Build an Animated Stats Dashboard with GSAP
+
+TIER 5 — FRAMEWORK + PERFORMANCE
+---------------------------------
+[ ] GSAP with React: The Complete Setup Guide (useGSAP, cleanup, StrictMode)
+[ ] GSAP with Next.js: Avoiding Hydration and Cleanup Bugs
+[ ] How to Optimize GSAP Animations for Mobile Performance
+[ ] GSAP Performance: What Actually Causes Jank (and How to Find It)
+[ ] How to Animate Images on Page Load with GSAP
+[ ] 10 GSAP Animation Examples You Can Copy and Customize

@@ -1,0 +1,204 @@
+<h1>GSAP Timeline vs ScrollTrigger: Understanding the Difference</h1>
+
+<p>These two get lumped together constantly, but they're not competing tools — they answer completely different questions. <code>gsap.timeline()</code> answers "in what order, and with what overlap, do these tweens play" — it's a sequencer, and its native clock is <strong>time</strong>, measured in seconds. ScrollTrigger answers "what scroll position should currently be reflected on screen" — it's an input source, and its native clock is <strong>scroll distance</strong>, measured in pixels. A timeline has no idea whether it's being played by a click, a <code>setTimeout</code>, or a scrollbar; ScrollTrigger has no idea whether the thing it's driving is one tween or a fifteen-step sequence. The confusion almost always comes from seeing the two combined in every tutorial and assuming they're one feature — they're two independent systems that happen to plug into each other at exactly one point.</p>
+
+<p>This post assumes you already know ScrollTrigger's own options — <code>start</code>, <code>end</code>, <code>scrub</code>, <code>pin</code> — covered in full in the <a href="https://www.webdevpuneet.com/search/label/GSAP">GSAP ScrollTrigger Tutorial</a>. What follows is entirely about the <em>relationship</em> between a timeline and a ScrollTrigger: when you need one, both, or neither, and exactly what changes when a timeline that already works perfectly fine on a click gets handed a <code>scrollTrigger</code> option instead. The 7 demos below are all live and interactive right here in the article. Each one has a <strong>Fork &amp; Edit</strong> button that opens the exact code, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> — swap <code>scrub: true</code> for <code>scrub: false</code> on a real timeline and watch what actually changes, which is a faster way to build this intuition than any explanation.</p>
+
+<h2>The one relationship every demo below comes back to</h2>
+
+<pre><code class="language-js">// A timeline's playhead normally advances on its own, driven by time:
+var tl = gsap.timeline();
+tl.to('.a', { x: 100, duration: 1 }).to('.b', { y: 50, duration: 1 });
+tl.play(); // the playhead now ticks forward automatically, at 1 second per second
+
+// Handing that SAME timeline a scrollTrigger doesn't change one line of the
+// sequence above — it just replaces "ticks forward automatically" with
+// "playhead = current scroll progress, set directly, every scroll event":
+var tl2 = gsap.timeline({
+  scrollTrigger: {
+    trigger: '.stage',
+    start: 'top 80%',
+    end: 'bottom 30%',
+    scrub: true   // this is the whole mechanism — see demo #2 and #6
+  }
+});
+tl2.to('.a', { x: 100, duration: 1 }).to('.b', { y: 50, duration: 1 });</code></pre>
+
+<p>Every GSAP animation — a single tween or a whole timeline — has a <strong>playhead</strong>: a number representing exactly how far through its own timeline it currently is. Normally, something calls <code>.play()</code> and GSAP's internal ticker advances that playhead automatically, once per frame, at the rate of real time. <code>scrub: true</code> on a <code>scrollTrigger</code> option does something different: instead of the ticker owning the playhead, ScrollTrigger sets it directly, on every scroll event, to a value between 0 and 1 that represents how far the scroll position sits between <code>start</code> and <code>end</code>. The timeline itself never finds out the difference — it just gets told "you are now 34% through" instead of being left to tick there on its own. That one substitution is the entire relationship this whole post is about, and every demo below is a variation on it.</p>
+
+<h2>1. A Plain Timeline — No ScrollTrigger At All</h2>
+
+<p>Click "Play Sequence." Three tweens run in order, once, driven purely by GSAP's own clock — nothing here knows the page can even scroll.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/29/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Plain Timeline No ScrollTrigger Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">var tl = gsap.timeline({ paused: true });
+
+tl.to('.box', { x: 160, duration: 0.6 })
+  .to('.box', { y: 70, duration: 0.5 })
+  .to('.box', { rotation: 180, backgroundColor: '#16a34a', duration: 0.5 });
+
+playBtn.addEventListener('click', function () { tl.restart(); });</code></pre>
+
+<p>This is <code>gsap.timeline()</code> in its purest form, with zero ScrollTrigger involved anywhere — worth establishing before anything gets combined, because it's the baseline every other demo modifies. <code>.to()</code> calls chained onto a timeline queue up automatically, one after another, each starting the instant the previous one finishes; that automatic sequencing is the entire value a timeline adds over three separate tweens. <code>{ paused: true }</code> at creation stops it from playing immediately on load, and <code>tl.restart()</code> is what actually drives the playhead forward from 0 — on a click, using GSAP's own internal ticker, completely independent of scroll. Nothing about this timeline changes when it later gets a <code>scrollTrigger</code> option in demo #2; the sequence itself is identical code.</p>
+
+<p><strong>Best for:</strong> the mental baseline for everything below — a multi-step animation with zero scroll awareness, played by a click, a page load, or any other event. <strong>Tip:</strong> notice this timeline's <code>duration</code>s (0.6, 0.5, 0.5 seconds) actually matter here — they control real playback speed. Watch what happens to that in demo #2.</p>
+
+<h2>2. The Same Timeline, Now Scrubbed by ScrollTrigger</h2>
+
+<p>Scroll down slowly, then scroll back up. This is the exact same three-step sequence from demo #1 — but nothing plays until you move the scrollbar, and it runs backward just as easily as forward.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/29/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Same Timeline Scrubbed by ScrollTrigger Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">var tl = gsap.timeline({
+  scrollTrigger: {
+    trigger: '.stage',
+    start: 'top 80%',
+    end: 'bottom 30%',
+    scrub: true
+  }
+});
+
+tl.to('.box', { x: 160, duration: 0.6 })
+  .to('.box', { y: 70, duration: 0.5 })
+  .to('.box', { rotation: 180, backgroundColor: '#16a34a', duration: 0.5 });</code></pre>
+
+<p>Compare this to demo #1's rule and the only real change is <em>where the timeline is constructed</em> — the three chained <code>.to()</code> calls are untouched, same durations, same order. What changed is who owns the playhead: instead of <code>.restart()</code> handing it to GSAP's ticker, the <code>scrollTrigger</code> option hands it to <code>self.progress</code>, recalculated on every scroll event between <code>start</code> and <code>end</code>. This is proof, not just an assertion, that a timeline is only ever a sequence — it genuinely does not care what's setting its playhead. Notice also that the three <code>duration</code> values (0.6, 0.5, 0.5) that controlled real playback speed in demo #1 still exist here, but they no longer control how long anything takes in wall-clock time — only their <em>ratio</em> to each other matters now, since scrub maps the whole timeline's total length onto whatever scroll distance <code>start</code> to <code>end</code> covers.</p>
+
+<p><strong>Best for:</strong> confirming that "give my sequence a scrollTrigger" is genuinely this small a change — no rewrite, no different API, just a different playhead source. <strong>Tip:</strong> add <code>ease: 'none'</code> to scrubbed tweens the same way you would on a single ScrollTrigger-driven tween — the perceived easing should come from how the user scrolls, not from a tween-level ease fighting it.</p>
+
+<h2>3. Position Parameters Choreograph the Timeline, Not the Trigger</h2>
+
+<p>Click "Play Sequence." Watch how the three boxes overlap — B starts before A finishes, and C starts exactly when B does. That relative timing is written entirely inside the timeline.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/29/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Timeline Position Parameters Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">var tl = gsap.timeline({ paused: true });
+
+tl.to('.boxA', { x: 140, duration: 0.7 }, 'go')       // starts at label "go"
+  .to('.boxB', { x: 140, duration: 0.7 }, 'go+=0.25')  // starts 0.25s after "go"
+  .to('.boxC', { x: 140, duration: 0.7 }, '<');         // starts with the PREVIOUS tween</code></pre>
+
+<p>The third argument to <code>.to()</code> is a position parameter, and it's what actually gives a timeline its choreography — everything before it (duration, ease, the properties themselves) describes one tween in isolation, while the position parameter describes <em>when that tween starts relative to everything else already on the timeline</em>. A label like <code>'go'</code> marks a specific point in time that later calls can reference; <code>'go+=0.25'</code> means a quarter-second after that label; <code>'&lt;'</code> means "start at the same time as the previous tween started," and <code>'-=0.2'</code> (not used here, but common) means "start 0.2 seconds before the previous tween ends." None of this logic has anything to do with ScrollTrigger — it's pure timeline API, and it produces the exact same relative overlap whether this timeline is played by a click like here, or scrubbed by a ScrollTrigger exactly as demo #2 wraps one. Position parameters are how a timeline answers "when," and ScrollTrigger only ever answers "how far along right now" — two different questions, always.</p>
+
+<p><strong>Best for:</strong> any sequence where steps should overlap deliberately instead of always waiting for a clean handoff — a staggered intro, a card that lifts while it starts to rotate. <strong>Tip:</strong> labels are worth naming even in a small timeline like this one — <code>'go'</code> reads better than counting <code>"-=0.25"</code> offsets by hand once a sequence grows past three or four steps.</p>
+
+<h2>4. One Shared Timeline vs Three Separate ScrollTriggers</h2>
+
+<p>Scroll down through the three cards, then use the toggle to switch modes and scroll back up to compare. Same three reveals, two different architectures underneath.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/29/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Shared Timeline vs Separate ScrollTriggers Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// A) three independent triggers — each card owns its own moment
+document.querySelectorAll('.card').forEach(function (card) {
+  gsap.from(card, { opacity: 0, y: 40, scrollTrigger: { trigger: card, start: 'top 85%' } });
+});
+
+// B) one timeline, one trigger — the SEQUENCE, not each card, is what's scrubbed
+var tl = gsap.timeline({ scrollTrigger: { trigger: '.cards', start: 'top 80%', end: 'bottom 40%', scrub: true } });
+tl.from('.card1', { opacity: 0, y: 40 }).from('.card2', { opacity: 0, y: 40 }, '+=0.1').from('.card3', { opacity: 0, y: 40 }, '+=0.1');</code></pre>
+
+<p>Both modes end up animating the same three cards, but they're structurally different decisions. Three separate <code>ScrollTrigger</code>s means each card is its own independent unit — it has no idea the other two exist, fires on its own the moment it individually crosses <code>start</code>, and can be reordered, removed, or added to without touching anything else. One shared timeline means the three reveals are a single choreographed unit whose relative order and overlap is fixed by position parameters (exactly like demo #3), and the <em>one</em> ScrollTrigger only ever controls that whole unit's overall progress — scrub it halfway and you get "card 1 fully in, card 2 halfway in," not three independent states. Neither is "correct" in general: independent triggers are simpler to reason about and easier to change individually; a shared timeline guarantees a specific relative rhythm between the steps and only needs ScrollTrigger to recalculate positions once instead of three times.</p>
+
+<p><strong>Best for:</strong> independent triggers when each element's reveal genuinely doesn't depend on the others (demo #8 in the ScrollTrigger tutorial's staggered grid is this same idea using <code>stagger</code> instead). A shared timeline when the steps need a specific, guaranteed relative rhythm to each other — not just "eventually all three appeared." <strong>Tip:</strong> a shared timeline is also cheaper to refresh — one set of <code>start</code>/<code>end</code> pixel numbers to recalculate on layout change instead of one per element.</p>
+
+<h2>5. Do You Even Need a Timeline?</h2>
+
+<p>Toggle between the two modes, then scroll. A single scrollTrigger'd tween needs nothing extra; the multi-step version genuinely can't be written without a timeline underneath it.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/29/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Do You Need a Timeline Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// A) one property, one destination — no timeline needed
+gsap.to('.circle', { scale: 2.4, ease: 'none', scrollTrigger: { trigger: '.stage', start: 'top 80%', end: 'bottom 30%', scrub: true } });
+
+// B) three ordered, related steps — a bare tween can't express "then, then"
+var tl = gsap.timeline({ scrollTrigger: { trigger: '.stage', start: 'top 80%', end: 'bottom 30%', scrub: true } });
+tl.to('.circle', { x: -100, ease: 'none' }).to('.circle', { scale: 2.4, ease: 'none' }).to('.circle', { rotation: 180, ease: 'none' });</code></pre>
+
+<p><code>scrollTrigger</code> is an option available on both <code>gsap.to()</code> directly and on <code>gsap.timeline()</code> — it doesn't require a timeline to exist. When there's genuinely one property moving from one state to another across the scroll distance, wrapping it in a timeline adds a layer with nothing to coordinate: <code>gsap.to('.circle', { scale: 2.4, scrollTrigger: {...} })</code> is already complete on its own. A timeline earns its place the moment there's more than one property or step that needs a defined <em>order</em> or <em>overlap</em> relative to each other — "move left, then grow, then rotate" is information a single tween's flat property list has no way to express, because a tween only knows its own start and end values, not a sequence of them. The tell is the same one from demo #4: ask whether there's a "then" in the description of what should happen.</p>
+
+<p><strong>Best for:</strong> a fast sanity check before reaching for a timeline out of habit — a single parallax layer, a single fade, a single scale rarely needs one. <strong>Tip:</strong> if you're about to write <code>gsap.timeline()</code> and it only ever contains one <code>.to()</code> call, that's a sign to simplify back down to a bare <code>gsap.to()</code> with the same <code>scrollTrigger</code> object.</p>
+
+<h2>6. scrub Controls How the Trigger Drives It — Not the Sequence Itself</h2>
+
+<p>Scroll to trigger it once, then use the toggle to flip scrub on or off and scroll back up to try again. The three-step sequence itself never changes — only how tightly it's bound to the scrollbar does.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/29/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Toggling scrub on the Same Timeline Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">var tl = gsap.timeline({ paused: true });
+tl.to('.box', { x: 140, duration: 0.5 }).to('.box', { y: 60, duration: 0.5 }).to('.box', { rotation: 160, duration: 0.5 });
+
+ScrollTrigger.create({
+  trigger: '.stage',
+  start: 'top 80%',
+  end: 'bottom 30%',
+  scrub: scrubIsOn,     // the ONLY thing this toggle changes
+  animation: tl
+});</code></pre>
+
+<p>This demo rebuilds the identical timeline both times — same three <code>.to()</code> calls, same durations, same order — and changes exactly one setting on the <code>ScrollTrigger</code> wrapping it. With <code>scrub: false</code>, the trigger behaves like demo #1 in this post's tutorial: crossing <code>start</code> calls <code>.play()</code> once, and the timeline runs forward at its own pace on GSAP's ticker, same as if a button had triggered it — scrolling faster, slower, or back up afterward does nothing to it (unless <code>toggleActions</code> is also configured, which is a separate ScrollTrigger option covered in the ScrollTrigger tutorial). With <code>scrub: true</code>, the trigger takes over the playhead directly and ties it to scroll position continuously, exactly as demo #2 explains. <code>scrub</code> is purely a statement about <em>the connection</em> between scroll and playhead — play-once-and-let-it-run, versus continuously-mirror-scroll-position — and it has zero effect on what the timeline itself contains or how its steps relate to each other.</p>
+
+<p><strong>Best for:</strong> the cleanest possible proof that <code>scrub</code> is a property of the trigger's relationship to the timeline, not a property of the timeline itself. <strong>Tip:</strong> a common real bug is expecting a non-scrubbed timeline to "keep up" with fast scrolling — it won't, because once <code>.play()</code> fires it's running on its own duration-based clock, completely detached from further scroll input, by design.</p>
+
+<h2>7. Nested Timelines Under One Outer ScrollTrigger</h2>
+
+<p>Scroll down slowly. One outer timeline drives two separate child timelines in sequence — the whole nested structure is scrubbed by exactly one ScrollTrigger.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/29/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Nested Timelines Under One ScrollTrigger Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">var introTl = gsap.timeline().to('.cardA', { opacity: 1, y: 0 }).to('.cardB', { opacity: 1, y: 0 }, '<0.15');
+var moveTl = gsap.timeline().to('.cardA', { x: 120 }, ).to('.cardB', { x: -120 }, '<');
+
+var parentTl = gsap.timeline({
+  scrollTrigger: { trigger: '.stage', start: 'top 80%', end: 'bottom 20%', scrub: true }
+});
+parentTl.add(introTl).add(moveTl, '+=0.2');</code></pre>
+
+<p><code>.add()</code> is what nests one timeline inside another — <code>introTl</code> and <code>moveTl</code> are each complete, self-contained timelines with their own internal choreography, and <code>parentTl.add(introTl).add(moveTl, '+=0.2')</code> places both of them onto a parent timeline's own sequence, using the exact same position-parameter syntax from demo #3. Once nested, a child timeline's total duration becomes just another chunk of time on the parent's timeline — the parent doesn't need to know or care what's inside <code>introTl</code>, only how long it runs and where it sits relative to <code>moveTl</code>. The genuinely important part is what <em>doesn't</em> change as this nesting gets deeper: there is still exactly one ScrollTrigger, attached to the outermost <code>parentTl</code> only. Scroll position maps to <code>parentTl</code>'s overall progress, and GSAP handles translating that into the correct progress for whichever child timeline that point in time falls inside — the pattern from demo #2 (one scroll input, one playhead, one timeline) doesn't need to change at all just because the timeline being scrubbed happens to contain other timelines instead of only tweens.</p>
+
+<p><strong>Best for:</strong> complex scroll sequences built from genuinely reusable pieces — an "intro" timeline and a "move" timeline here could each be built, tested, and reused independently of ever being scrubbed at all. <strong>Tip:</strong> build and sanity-check nested child timelines on their own first (play them directly, unscrubbed) before nesting them under a scrollTrigger'd parent — it's much easier to debug a sequencing bug in isolation than while also fighting with scroll position.</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Assuming ScrollTrigger needs a timeline to function at all.</strong> Demo #5 shows a bare <code>gsap.to()</code> with a <code>scrollTrigger</code> option working perfectly on its own — a timeline is only for sequencing multiple steps, not a requirement of the plugin.</li>
+<li><strong>Expecting a non-scrubbed, ScrollTrigger'd timeline to track scroll speed.</strong> Demo #6's <code>scrub: false</code> mode plays once on its own clock the moment <code>start</code> fires — scrolling faster or slower afterward has no effect on it, by design.</li>
+<li><strong>Writing position parameters as if ScrollTrigger reads them.</strong> Demo #3's labels and offsets are pure timeline API — ScrollTrigger only ever supplies a 0-to-1 progress value; it has no awareness of a timeline's internal <code>'+=0.25'</code> or <code>'&lt;'</code> choreography.</li>
+<li><strong>Reaching for one shared timeline when elements should reveal fully independently.</strong> Demo #4's separate-triggers mode is simpler and easier to change per element when there's no real relative-timing requirement between them.</li>
+<li><strong>Forgetting that a scrubbed timeline's own tween <code>duration</code>s still matter, just not as wall-clock time.</strong> Demo #2's three durations (0.6, 0.5, 0.5) still set each step's proportional share of the total scrubbed distance — only their <em>ratio</em> stops mapping to real seconds once scrub takes over.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>Do I always need a timeline before I can use ScrollTrigger?</h3>
+<p>No. Demo #5 shows <code>scrollTrigger</code> works as an option directly on <code>gsap.to()</code>, with no timeline involved. Reach for a timeline only once there's more than one step that needs a defined order or overlap relative to each other — a single property animating from one state to another rarely needs one.</p>
+
+<h3>Can one ScrollTrigger control multiple timelines?</h3>
+<p>Yes, two different ways. Demo #7 nests multiple timelines inside one parent timeline via <code>.add()</code>, with a single ScrollTrigger on the outermost one. Separately, nothing stops you from pointing several independent ScrollTriggers at several independent timelines on the same page — that's architecturally closer to demo #4's "separate triggers" mode, just with small timelines instead of single tweens at each one.</p>
+
+<h3>Does a timeline's own duration still matter once scrub is turned on?</h3>
+<p>The absolute numbers stop mapping to real seconds, but the <em>ratios</em> between steps still fully control the choreography — demo #2 and demo #6 both make this explicit. A step given twice the duration of another still takes up twice the proportional share of the scrubbed scroll distance; it just no longer takes twice as many real seconds, because scrub removes the tween's clock from the equation entirely.</p>
+
+<h3>Is it better to use many small ScrollTriggers or one big timeline for performance?</h3>
+<p>For a handful of elements, the difference is not something to worry about — ScrollTrigger's scroll handling is already throttled to the paint cycle regardless of how many triggers exist. Where it does start to matter is refresh cost on layout change: one shared timeline behind one ScrollTrigger means one set of <code>start</code>/<code>end</code> pixel numbers to recalculate, versus one per independent trigger, which is a real (if usually small) difference once you're dealing with dozens of elements rather than three or four.</p>
+
+<h3>If I remove scrollTrigger entirely, does my timeline still work?</h3>
+<p>Completely unchanged — demo #1 and demo #2 in this post use the literal same three <code>.to()</code> calls, and the only difference is whether a <code>scrollTrigger</code> object exists on the timeline's constructor. A timeline has no dependency on ScrollTrigger to function; it's ScrollTrigger that depends on GSAP's core tweening engine, never the other way around.</p>
+
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to lock this in is to click <strong>Fork &amp; Edit</strong> on demo #6, flip <code>scrub</code> back and forth a few times, and watch the exact same timeline switch between "plays once on its own clock" and "tracks the scrollbar directly" — that single toggle is the whole relationship this post is about. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop into a real project.</p>
+
+<p><strong>Recommended next step:</strong> open the <a href="https://fwdtools.com/gsap-playground/">GSAP Playground</a> and rebuild demo #7's nested-timeline structure from scratch against your own content — typing out <code>.add()</code> and a parent <code>scrollTrigger</code> yourself is what makes "one scroll input, any number of nested timelines underneath it" actually stick. For more tutorials like this one, browse the <a href="https://www.webdevpuneet.com/search/label/GSAP">GSAP</a> label on the blog.</p>

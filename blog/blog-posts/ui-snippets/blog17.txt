@@ -1,0 +1,166 @@
+<h1>10 Copy-Paste Mobile App Screen Snippets That Feel Like a Real App</h1>
+
+<p>Mocking up an app idea usually means one of two bad options: wire up a real native project just to test whether a flow feels right, or drop static boxes into Figma that can't actually be clicked, typed into, or swiped. Neither answers the question that actually matters, which is whether the interaction feels good — whether the double-tap registers cleanly, whether the checkout math updates instantly, whether the onboarding carousel tracks a swipe convincingly. Below are 10 free mobile app screens you can preview live and copy in seconds: onboarding, login, a lock screen, a social feed, a stories viewer, a chat thread, a music player, a fitness dashboard, a banking home screen, and a checkout — enough to walk a whole app concept from first launch to paid order.</p>
+
+<p>Each one comes with <strong>how it actually works</strong>, <strong>when to reach for it</strong>, and a tip for adapting it. They're all plain HTML, CSS, and vanilla JavaScript — no native framework, no build step — rendered inside a realistic CSS phone frame with a working status bar, so a screenshot of the embed already looks like a device mockup.</p>
+
+<p>Every snippet below is a <strong>live, interactive preview</strong> — swipe the onboarding, drag the seek bar, watch the totals recalculate, right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+
+<h2>What actually makes a mobile mockup feel real</h2>
+
+<p>Three ideas run through every screen below, and they're worth naming because they're what separates a screen that looks like an app from one that behaves like a picture of an app:</p>
+
+<ul>
+<li><strong>One function owns each piece of derived state.</strong> The checkout's <code>recalc()</code>, the onboarding's <code>go(i)</code>, the fitness rings' per-ring circumference math — each screen routes every interaction that changes a number or a position through a single function, so the UI can never show two numbers that disagree with each other.</li>
+<li><strong>Motion confirms the action, not just decorates it.</strong> A heart that bursts on double-tap, a vinyl disc that only spins while playing, a progress bar that visibly fills before it auto-advances — each animation is reporting a state change, which is what makes tapping something feel like it worked.</li>
+<li><strong>Real form controls under the hood.</strong> Radio buttons for payment methods, a real <code>&lt;form&gt;</code> for chat and login, disabled states on buttons that shouldn't be tappable yet — the phone-frame chrome is cosmetic, but the interactive elements underneath are genuine, focusable, accessible DOM.</li>
+</ul>
+
+<p>Keep those three in mind as you scroll — they're also exactly what to check for if you're evaluating whether a mockup is ready to hand to a developer.</p>
+
+<h2>1. Mobile Onboarding Screens</h2>
+
+<p>The swipeable intro carousel every app shows on first launch: three feature slides with morphing blob illustrations, a worm-style animated progress indicator, a skip button, and a context-aware final screen.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/mobile-onboarding/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mobile Onboarding Screens — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every slide sits in a flex track at <code>min-width: 100%</code>, and moving between them is a single <code>transform: translateX(-index * 100%)</code> on the track — there's no per-slide show/hide, just one number changing and CSS animating the rest. A single <code>go(i)</code> function is the only thing allowed to touch that index: the Next button, the Skip button, and a pointer-swipe gesture (comparing the start and end <code>clientX</code> against a 45px threshold) all call it, so the slide position, the progress dots, and the button label can never drift out of sync with each other. The dots use the "worm" style — the active one stretches from a small circle into a pill via a CSS transition rather than just changing color — and on the last slide, Next relabels itself "Get started" while Skip hides, since skipping the final screen makes no sense.</p>
+
+<p><strong>Best for:</strong> the very first screen of any app pitch or prototype. <strong>Tip:</strong> keep the slide count at three or four — a single <code>go()</code> function scales to any number, but attention for an intro carousel drops off fast past four screens.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/mobile-onboarding/">Mobile Onboarding Screens</a></p>
+
+<h2>2. Mobile Login Screen</h2>
+
+<p>A complete sign-in flow: branding, real inline email and password validation, a password show/hide toggle, a loading submit state, and social buttons.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/mobile-login-screen/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mobile Login Screen — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> submitting the form runs the email through a pragmatic regex and the password against a minimum length, and a failing field gets a red border plus a message that specifically distinguishes "Email is required" from "Enter a valid email address" — generic errors are worse than no error, because they don't tell anyone what to fix. The error clears the moment the field is edited again, so the form guides rather than nags. The reveal button is the standard accessible pattern: it flips the input's <code>type</code> between <code>password</code> and <code>text</code> and updates its own <code>aria-label</code> to match, rather than duplicating the field. On a valid submit, the button enters a disabled-looking loading state with a changed label before confirming — the exact seam where a real auth call belongs.</p>
+
+<p><strong>Best for:</strong> any app's entry point, and a solid reference for form validation UX generally. <strong>Tip:</strong> lift the form out of the phone frame entirely and it works as a responsive web login — nothing in the validation logic depends on the device chrome around it.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/mobile-login-screen/">Mobile Login Screen</a></p>
+
+<h2>3. Mobile Lock Screen</h2>
+
+<p>The first thing a phone shows: a live clock and date, a stack of frosted-glass notifications that cascade in, and a real swipe-up-to-unlock gesture.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/mobile-lock-screen/embed/" style="width:100%;height:620px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mobile Lock Screen — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a <code>tick()</code> function reads the real system clock, formats a 12-hour time and a full weekday-plus-month date from raw <code>Date</code> fields — not a locale shortcut — and keeps it current on an interval, so the lock screen never looks frozen on a placeholder. The notification cards use genuine glassmorphism: a translucent background layered with <code>backdrop-filter: blur(10px)</code> over the gradient wallpaper, entering with a staggered fade-and-slide keyframe so the stack cascades rather than popping in at once. Unlocking works two ways — clicking the grip, or an actual gesture, where <code>pointerdown</code> records a starting Y and <code>pointerup</code> only fires the unlock if the pointer moved up more than a 60px threshold, the same threshold-based swipe detection used for dismissible sheets.</p>
+
+<p><strong>Best for:</strong> app concept pitches and push-notification design, where showing the lock screen first sells the idea before anyone opens the app. <strong>Tip:</strong> the wallpaper is a pure CSS gradient — swap the colors to match a brand in one edit, no image asset required.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/mobile-lock-screen/">Mobile Lock Screen</a></p>
+
+<h2>4. Mobile Feed Screen</h2>
+
+<p>A social timeline: a horizontally scrolling story row, image posts with double-tap-to-like and a bursting heart, live like counts, and a bottom tab bar.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/mobile-feed-screen/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mobile Feed Screen — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the signature gesture is timing-based — a click on the media area records a timestamp, and if a second click lands within 320ms it counts as a double-tap, liking the post if it isn't already liked and replaying a heart-burst animation over the image. Replaying that animation on every double-tap (not just the first) needs a specific trick: the code removes the burst's CSS class, forces a synchronous reflow by reading <code>offsetWidth</code>, then re-adds the class — the standard way to restart a CSS animation that's already run once. The like count is parsed by stripping commas, incremented, and re-formatted with <code>toLocaleString()</code>, so "1,284 likes" correctly becomes "1,285" instead of "1284". Story rings fade from a vivid gradient to grey the moment they're tapped, exactly how real apps mark a story seen.</p>
+
+<p><strong>Best for:</strong> any social or photo-sharing app's home screen. <strong>Tip:</strong> the double-tap gesture is layered on top of the like button, not instead of it — keep both so keyboard and assistive-tech users have a direct way to like a post.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/mobile-feed-screen/">Mobile Feed Screen</a></p>
+
+<h2>5. Mobile Stories Viewer</h2>
+
+<p>A full-screen, self-driving slideshow: segmented progress bars that fill one at a time, tap zones to jump forward or back, hold-to-pause, and a reply bar.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/mobile-stories-viewer/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mobile Stories Viewer — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each segment's fill is a four-second CSS keyframe animation — there's no <code>setInterval</code> counting milliseconds anywhere. The browser owns the timing entirely; JavaScript only listens for the fill's <code>animationend</code> event and advances to the next slide when it fires, which keeps the story precisely in step with what's visually on screen. Two invisible buttons cover roughly the left and right third of the stage for previous and next, and navigating to any slide restarts its bar from zero using the same clear-reflow-reapply trick as the feed screen's heart burst. Hold-to-pause is pure CSS state: a <code>pointerdown</code> anywhere on the stage sets the active bar's <code>animation-play-state</code> to paused, which freezes the fill exactly where it is and resumes from that same point on release — no elapsed-time bookkeeping required.</p>
+
+<p><strong>Best for:</strong> the natural next screen after a feed, or as a lighter, punchier alternative to a full onboarding carousel for a single feature highlight. <strong>Tip:</strong> the CSS-timed approach means pacing is trivial to change per slide — just vary that one keyframe's duration.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/mobile-stories-viewer/">Mobile Stories Viewer</a></p>
+
+<h2>6. Mobile Chat Screen</h2>
+
+<p>A messaging thread: two-sided bubbles with CSS-only tails, an animated typing indicator, read-receipt ticks, and a composer that won't send blank messages.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/mobile-chat-screen/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mobile Chat Screen — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> incoming and outgoing messages share one bubble class and flip alignment purely through their row's flex justification — the "tail" is faked entirely with border-radius, fully rounding three corners and cutting the fourth to a small radius, opposite corners for each direction, so there's no SVG or image involved anywhere. The composer is a real <code>&lt;form&gt;</code>, so pressing Enter submits, and the send button is disabled whenever the trimmed input is empty, re-enabling as you type. On submit, the message appends with a short pop-in animation, the thread scrolls to the bottom via <code>scrollTop = scrollHeight</code>, and a staggered three-dot typing indicator shows before a canned reply lands — the exact two cues real chat apps give while the other side is composing.</p>
+
+<p><strong>Best for:</strong> messaging apps, support widgets, or styling an AI assistant's response thread. <strong>Tip:</strong> swap the <code>setTimeout</code> reply for a WebSocket handler and the rest of the UI — bubbles, scroll, typing indicator — needs no changes at all.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/mobile-chat-screen/">Mobile Chat Screen</a></p>
+
+<h2>7. Mobile Music Player Screen</h2>
+
+<p>A full-screen now-playing view: a spinning vinyl disc that only turns while playing, a draggable seek bar, a real elapsed-time clock, and mode toggles.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/mobile-music-player-screen/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mobile Music Player Screen — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a single <code>render()</code> function is the only place that reads the elapsed seconds and writes the progress fill's width, the knob's position, and the formatted <code>m:ss</code> label — so those three outputs can never disagree. Play starts a one-second interval that advances the clock and calls <code>render()</code>; a class toggle on the album art flips the vinyl disc's rotation animation between <code>paused</code> and <code>running</code>, so it freezes and resumes from exactly where it stopped with zero extra JavaScript. The seek bar supports both a click-to-jump and a real knob drag using Pointer Events — the drag listens on <code>window</code>, not just the track, so the gesture keeps working even if the pointer slides off the bar mid-drag, and the resulting ratio is clamped to stay within 0 and 1.</p>
+
+<p><strong>Best for:</strong> the now-playing screen behind a mini-player bar, or as a scrub-bar reference for any timed media UI. <strong>Tip:</strong> swap the <code>setInterval</code> clock for a real <code>&lt;audio&gt;</code> element's <code>timeupdate</code> event and the render function needs no changes — only the time source moves.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/mobile-music-player-screen/">Mobile Music Player Screen</a></p>
+
+<h2>8. Mobile Fitness Screen</h2>
+
+<p>An activity-tracker home screen: three concentric SVG progress rings that sweep up from empty on load, a stat grid, and a workout history list.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/mobile-fitness-screen/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mobile Fitness Screen — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each ring is an SVG circle whose progress is drawn with the classic <code>stroke-dasharray</code>/<code>stroke-dashoffset</code> technique — the dash length is set to the circle's own circumference (<code>2πr</code>), and the offset shrinks toward zero to reveal more of the arc, rotated -90 degrees so it starts at twelve o'clock like a real wearable. Because the three rings have different radii, each needs its own circumference computed independently — sharing one value across all three would misalign the inner arcs at the same percentage. On load, the rings start fully offset, then a <em>double</em> <code>requestAnimationFrame</code> sets the real target offset on a later frame, which is what makes the browser register a genuine transition from empty to filled instead of just painting the final state instantly.</p>
+
+<p><strong>Best for:</strong> fitness and health apps, or any goal-tracking UI that wants the "closing your rings" moment. <strong>Tip:</strong> the legend beside the rings already spells out each metric in text — treat that as the accessible source of truth and mark the decorative SVG <code>aria-hidden</code>.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/mobile-fitness-screen/">Mobile Fitness Screen</a></p>
+
+<h2>9. Mobile Banking Screen</h2>
+
+<p>An account dashboard: a gradient balance card styled like a physical payment card, a hide-balance toggle that blurs every amount at once, a quick-action grid, and a color-coded transaction list.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/mobile-banking-screen/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mobile Banking Screen — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the privacy toggle is the detail worth studying — tapping the eye flips one shared <code>hidden</code> class across the balance and every transaction amount on the page, and that class doesn't replace the digits with dots, it sets their color to transparent and layers a soft <code>text-shadow</code> blur. The real numbers stay in the DOM the whole time, they just render as an unreadable smudge, which makes revealing them instant with no re-render — and income versus spending rows keep tinted blur shadows so the row's type is still hinted even while redacted. The balance card itself fakes a physical card with a large faded circle bleeding off one corner via an <code>::after</code> pseudo-element, layered behind the content with <code>z-index</code>. Quick-action taps get a tactile pulse from the Web Animations API (<code>element.animate()</code>) rather than a permanent state change, which is the right call for buttons that would navigate elsewhere in a real app.</p>
+
+<p><strong>Best for:</strong> fintech and banking apps, or anywhere a screen needs a genuine privacy affordance. <strong>Tip:</strong> when you adapt this, also swap the accessible text while hidden — an <code>aria-label</code> like "balance hidden" — since the blur is purely visual and a screen reader would otherwise still announce the real figure.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/mobile-banking-screen/">Mobile Banking Screen</a></p>
+
+<h2>10. Mobile Checkout Screen</h2>
+
+<p>The final step: an address card, cart items with quantity steppers, custom-styled payment radios, a working promo code, and a live-recalculating order summary under a sticky pay button.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/mobile-checkout-screen/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mobile Checkout Screen — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every cart item stores its unit price on a <code>data-price</code> attribute, and a single <code>recalc()</code> function is the only place any total gets computed — it walks the items, multiplies price by quantity, applies the current discount rate, adds flat shipping, and writes the subtotal, discount line, grand total, and the sticky bar's total all from that one pass. Every interaction that could change the total, whether a stepper tap or a promo code, calls this same function, which is what keeps the summary and the sticky bar from ever showing two different numbers. The minus stepper deliberately won't drop a quantity below one — that's a guard forcing an explicit remove action instead of an ambiguous zero. The promo code uppercases the input before comparing it, so "save10" and "SAVE10" both work, and gives three distinct states: applied, invalid, and empty, each with its own message.</p>
+
+<p><strong>Best for:</strong> the final screen of any commerce flow, and a solid reference for centralizing totals instead of nudging a running number. <strong>Tip:</strong> the payment methods are genuine radio inputs styled with a <code>:checked ~</code> sibling selector, not divs with click handlers — keep that pattern, since it gives keyboard and screen-reader selection for free.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/mobile-checkout-screen/">Mobile Checkout Screen</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<p>Every snippet is framework-agnostic, so the workflow is the same wherever you're building:</p>
+
+<ol>
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs.</li>
+<li>Paste the HTML into your template, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — none of these ten need a CDN script or a build step.</li>
+<li>Prefer a component? Use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page.</li>
+<li>Keep or discard the phone frame independently — every screen's real content works lifted out as a responsive web layout, since the frame is a wrapper, not a dependency.</li>
+<li>Replace the seeded data — messages, transactions, workouts, cart items — with your real data, and wire each screen's central function (<code>recalc()</code>, <code>render()</code>, <code>go()</code>) to update whenever that data changes.</li>
+</ol>
+
+<h2>A few mobile-UI principles worth keeping</h2>
+
+<ul>
+<li><strong>Route every derived value through one function.</strong> The checkout's totals, the fitness rings' offsets, the music player's progress bar — each is written by exactly one function, which is what makes them trustworthy under rapid interaction.</li>
+<li><strong>Let CSS own timing wherever it can.</strong> The stories viewer's auto-advance and the music player's vinyl spin both hand timing to the browser's animation engine instead of a JavaScript timer, which is both simpler code and a smoother result.</li>
+<li><strong>Redact without destroying data.</strong> The banking screen's blur-not-replace approach to hiding numbers is a broadly useful pattern anywhere sensitive data needs an instant, reversible hide.</li>
+<li><strong>Confirm every tap.</strong> A bursting heart, a pulsing icon, a flashing row — the fastest way to make an interface feel responsive is to never leave a tap without a visible reaction.</li>
+</ul>
+
+<h2>Final thought</h2>
+
+<p>These ten cover a full app arc: launch into <a href="https://fwdtools.com/ui-snippets/mobile-onboarding/">onboarding</a>, sign in, land on a <a href="https://fwdtools.com/ui-snippets/mobile-lock-screen/">lock screen</a> or straight into a <a href="https://fwdtools.com/ui-snippets/mobile-feed-screen/">feed</a>, open a <a href="https://fwdtools.com/ui-snippets/mobile-stories-viewer/">story</a> or a <a href="https://fwdtools.com/ui-snippets/mobile-chat-screen/">conversation</a>, play something, check your stats or your balance, and check out. Start with whichever screen matches the app you're actually building — the <a href="https://fwdtools.com/ui-snippets/mobile-login-screen/">login screen</a> and the <a href="https://fwdtools.com/ui-snippets/mobile-checkout-screen/">checkout</a> are the two almost every app eventually needs regardless of category.</p>
+
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

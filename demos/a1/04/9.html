@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="flex-grow — Distributing Leftover Space">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>flex-grow — Distributing Leftover Space</h1>
+    <p class="hint">Drag the slider to change the middle panel's flex-grow — it claims that share of whatever space is left over once every panel's base width is accounted for.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="sliderRow">
+      <span class="sliderLabel">flex-grow:</span>
+      <input type="range" id="growSlider" min="0" max="5" step="1" value="1">
+      <strong id="growValue">1</strong>
+    </div>
+    <div class="panelRow" id="panelRow">
+      <div class="panel panel--fixed">flex: 0 0 80px</div>
+      <div class="panel panel--grow" id="growPanel">flex-grow: 1</div>
+      <div class="panel panel--fixed">flex: 0 0 80px</div>
+    </div>
+    <pre class="ruleTag" id="ruleTag">.middle { flex-grow: 1; }</pre>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 8px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .sliderRow { display: flex; align-items: center; gap: 10px; }
+  .sliderLabel { font: 700 12px ui-monospace, monospace; color: var(--sub); }
+  #growSlider { width: 160px; accent-color: var(--accent); }
+  #growValue { font: 700 13px ui-monospace, monospace; color: var(--accent); min-width: 12px; text-align: center; }
+
+  /* The rule this demo is about. */
+  .panelRow {
+    width: 100%;
+    max-width: 460px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    background: #fff;
+    display: flex;
+    gap: 8px;
+  }
+  .panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    border-radius: 8px;
+    font: 700 11.5px ui-monospace, monospace;
+    text-align: center;
+    padding: 4px;
+  }
+  .panel--fixed {
+    flex: 0 0 80px;
+    background: #eceef3;
+    color: var(--sub);
+  }
+  .panel--grow {
+    flex-grow: 1;
+    background: linear-gradient(135deg, #818cf8, #6366f1);
+    color: #fff;
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var slider = document.getElementById('growSlider');
+  var growValue = document.getElementById('growValue');
+  var growPanel = document.getElementById('growPanel');
+  var ruleTag = document.getElementById('ruleTag');
+
+  function render() {
+    var v = slider.value;
+    growValue.textContent = v;
+    growPanel.style.flexGrow = v;
+    growPanel.textContent = 'flex-grow: ' + v;
+    ruleTag.textContent = '.middle { flex-grow: ' + v + '; }';
+  }
+
+  slider.addEventListener('input', render);
+  render();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

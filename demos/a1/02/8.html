@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="CSS-Only Dropdown Menu">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+      <h1>CSS-Only Dropdown Menu</h1>
+      <p class="hint">Click the menu button — no JavaScript opens this. A hidden checkbox toggles, and :has() lets the WRAPPER react to it no matter how deeply the menu itself is nested inside.</p>
+    </header>
+    <main class="stageWrap">
+      <div class="ddWrap" id="stage">
+          <input type="checkbox" id="ddToggle" class="ddCheckbox">
+          <label for="ddToggle" class="ddButton">Menu <span class="ddCaret">&#9662;</span></label>
+          <nav class="ddMenu">
+            <a href="javascript:void(0)">Profile</a>
+            <a href="javascript:void(0)">Settings</a>
+            <a href="javascript:void(0)">Sign out</a>
+          </nav>
+        </div>
+      <div class="readout">
+        <span>Menu: <strong id="readoutValue">&mdash;</strong></span>
+      </div>
+      <pre class="ruleTag">.ddWrap:has(#ddToggle:checked) .ddMenu {
+    display: block;
+  }</pre>
+    </main>
+</script>
+
+<script type="text/plain" id="css">
+
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+  .stage {
+    width: 100%;
+    max-width: 560px;
+    box-sizing: border-box;
+    padding: 26px 24px;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    background: #fff;
+  }
+  .readout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 16px;
+    font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--sub);
+  }
+  .readout strong { color: var(--accent); font-weight: 700; }
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 6px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .ddWrap { position: relative; display: inline-block; }
+  .ddCheckbox { position: absolute; opacity: 0; pointer-events: none; }
+  .ddButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font: 700 13px system-ui, sans-serif;
+    padding: 9px 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+  }
+  .ddMenu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 140px;
+    padding: 6px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(20,22,30,.12);
+  }
+  .ddMenu a {
+    display: block;
+    padding: 7px 10px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .ddMenu a:hover { background: #eef0ff; }
+
+  /* The rule this demo is about. */
+  .ddWrap:has(#ddToggle:checked) .ddMenu { display: block; }
+  .ddWrap:has(#ddToggle:checked) .ddButton { border-color: var(--accent); color: var(--accent); }
+  .ddWrap:has(#ddToggle:checked) .ddCaret { transform: rotate(180deg); display: inline-block; }
+</script>
+
+<script type="text/plain" id="js">
+  var stage = document.getElementById('stage');
+    var toggle = stage.querySelector('#ddToggle');
+    var out = document.getElementById('readoutValue');
+    function report() { out.textContent = toggle.checked ? 'open' : 'closed'; }
+    toggle.addEventListener('change', report);
+    document.addEventListener('click', function (e) {
+      if (!stage.contains(e.target)) { toggle.checked = false; report(); }
+    });
+    report();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

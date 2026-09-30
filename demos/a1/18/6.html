@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="An Unmemoized Object Wrecks a Downstream useMemo">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>An unmemoized object wrecks a downstream useMemo</h1>
+    <p class="hint">Click "Unrelated tick" a few times, then try "Raise min price." Watch the filter-run count on each side.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 16px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 18px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 8px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .stat { font: 800 24px ui-monospace, monospace; margin-bottom: 4px; }
+  .val { font: 600 11px ui-monospace, monospace; color: var(--sub); margin-bottom: 8px; }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; }
+  .row { display: flex; gap: 10px; }
+  .btn { padding: 9px 14px; border-radius: 9px; border: none; background: var(--accent); color: #fff; font: 700 12.5px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { background: #4f52d6; }
+  .btn.ghost { background: #fff; color: var(--ink); border: 1.5px solid var(--line); }
+  code { background: #eceef3; padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useMemo = React.useMemo;
+  var useRef = React.useRef;
+
+  var ITEMS = [10, 25, 40, 60, 80, 120];
+
+  // Child does its own memoized filtering, keyed on the `options` object it
+  // receives as a prop. Whether that memo ever gets to skip work depends
+  // entirely on whether the PARENT hands it a stable reference.
+  function List(props) {
+    var runsRef = useRef(0);
+    var filtered = useMemo(function () {
+      runsRef.current += 1;
+      return ITEMS.filter(function (n) { return n >= props.options.min; });
+    }, [props.options]);
+
+    return e('div', { className: 'col' },
+      e('h2', { className: 'colTitle ' + props.tone }, props.label),
+      e('div', { className: 'stat' }, runsRef.current),
+      e('div', { className: 'val' }, filtered.join(', ')),
+      e('p', { className: 'note' }, props.note)
+    );
+  }
+
+  function Demo() {
+    var minState = useState(0);
+    var min = minState[0];
+    var setMin = minState[1];
+
+    var tickState = useState(0);
+    var tick = tickState[0];
+    var setTick = tickState[1];
+
+    // BROKEN: a new object literal every render. Even the unrelated "tick"
+    // button causes this to be recreated, so the child's own useMemo (keyed
+    // on this object) can never find a matching reference to reuse.
+    var badOptions = { min: min };
+
+    // FIXED: useMemo here keeps the same object reference across renders
+    // that don't touch `min`, so the child's downstream memo can actually
+    // skip work when nothing relevant changed.
+    var goodOptions = useMemo(function () { return { min: min }; }, [min]);
+
+    return e(React.Fragment, null,
+      e('div', { className: 'cols' },
+        e(List, { tone: 'bad', label: 'Plain object prop', options: badOptions, note: 'Filters again on every render, tick included.' }),
+        e(List, { tone: 'good', label: 'useMemo\'d object prop', options: goodOptions, note: 'Only filters again when min price changes.' })
+      ),
+      e('div', { className: 'row' },
+        e('button', { className: 'btn ghost', onClick: function () { setTick(tick + 1); } }, 'Unrelated tick (' + tick + ')'),
+        e('button', { className: 'btn', onClick: function () { setMin(min + 20); } }, 'Raise min price (' + min + ')')
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

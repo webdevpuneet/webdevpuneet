@@ -1,0 +1,142 @@
+<h1>8 Copy-Paste Hero Section Snippets That Make Landing Pages Convert</h1>
+
+<p>The hero is the only section of your page every single visitor sees. Get it wrong and nobody scrolls far enough to read your pricing table. Below are 8 free hero snippets you can preview live and copy in seconds: a cinematic video-style background, an animated mesh gradient, a typography-first minimal hero, a personal portfolio card, a word-flip headline, a dark SaaS hero, an app download hero, and an editorial agency hero — all built in plain HTML, CSS and JavaScript.</p>
+
+<p>Each one comes with <strong>how the effect actually works</strong>, <strong>when to reach for it</strong>, and a quick tip for customising it without breaking the layout. A hero doesn't need a video background or a hired illustrator to feel premium — most of what separates a "template" hero from a memorable one is a handful of CSS techniques applied with intent.</p>
+
+<p>Every snippet below is a <strong>live, interactive preview</strong> — hover it, resize it, try it right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+
+<h2>What actually makes a hero section work</h2>
+
+<p>Before picking a style, it helps to know what a hero is actually for. Regardless of which of the eight below you choose, every good hero does three things in the first two seconds:</p>
+
+<ul>
+<li><strong>States the value proposition in one glance</strong> — the headline should answer "what is this and why should I care" without requiring the visitor to read the subheading.</li>
+<li><strong>Establishes credibility fast</strong> — a stat row, an avatar stack, a client logo strip, or a star rating does more trust-building work in that first glance than another paragraph of copy.</li>
+<li><strong>Points to exactly one next action</strong> — a single primary CTA, not three competing buttons. Secondary actions (watch a demo, view work) should visually defer to it.</li>
+</ul>
+
+<p>Keep that checklist in mind as you scroll — every snippet below already implements at least two of the three, and you can borrow pieces across styles.</p>
+
+<h2>1. Video Background Hero</h2>
+
+<p>Three drifting, blurred color blobs stand in for a real video background — no file to load, no autoplay restrictions — with a scanline texture, a left-fade overlay for legible text, and a play button that opens a fullscreen video modal.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/video-bg-hero/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Video Background Hero — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> three absolutely positioned divs use <code>radial-gradient</code> fills with <code>filter: blur(100px)</code>, each drifting on its own duration and delay so they never visibly synchronize — the same organic, shifting color movement you'd associate with real video footage, at zero file size. A <code>repeating-linear-gradient</code> striped at 4px intervals adds a faint scanline grain, and a left-to-right <code>linear-gradient</code> overlay darkens just the side where the text sits so it stays legible without dimming the rest of the frame. Clicking "Watch trailer" adds an <code>.open</code> class to a fullscreen modal with <code>backdrop-filter: blur(12px)</code>, dismissible by the close button, a click outside, or Escape.</p>
+
+<p><strong>Best for:</strong> event and concert landing pages, entertainment and film promotion, premium brand campaigns that want cinematic weight before a real video is ready. <strong>Tip:</strong> the blob background is a placeholder — for production, drop a real <code>&lt;video autoplay muted loop playsinline&gt;</code> inside <code>.bg-anim</code> with <code>object-fit: cover</code> and delete the blob divs; the overlay, scanline, and modal code all keep working unchanged.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/video-bg-hero/">Video Background Hero</a></p>
+
+<h2>2. Minimal Hero</h2>
+
+<p>No gradients, no motion, no dark theme — an inline nav, a kicker label, a fluid headline, dual CTAs, and a proof-stats row on plain white, in the same restrained style Linear, Notion, and Stripe have all used.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/minimal-hero/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Minimal Hero — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the nav sits inline at the top of the same content column — brand on the left, links given <code>flex: 1</code> to push them off the brand, a CTA button on the right — instead of a separate full-width nav bar. The headline uses <code>clamp(36px, 6vw, 64px)</code> for fluid scaling with no media query, and a "kicker → headline → subtitle" three-layer hierarchy sets context before the value proposition. Below a thin horizontal rule, four proof stats sit in a row separated by 1px dividers, each addressing a different objection (adoption, quality, reliability, compliance) in a single compact strip.</p>
+
+<p><strong>Best for:</strong> premium SaaS and developer-tool homepages, consulting and professional-services sites, and any product confident enough not to need a gradient or animation to sell itself. <strong>Tip:</strong> there's zero JavaScript here, so in a React framework this can ship as a pure server component — no hydration cost for a hero that never needs to update client-side.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/minimal-hero/">Minimal Hero</a></p>
+
+<h2>3. Gradient Mesh Hero</h2>
+
+<p>Three large, blurred color blobs drift slowly across a dark background while a shimmer-gradient headline cycles through audience segments — the ambient, painterly aesthetic behind most modern developer-tool landing pages.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/gradient-mesh-hero/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Gradient Mesh Hero — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> three absolutely positioned divs each carry a different-colored <code>radial-gradient</code> with <code>filter: blur(80px)</code>, then drift independently via a shared keyframe played at different delays and directions, so they never visibly synchronize. The headline's cycling word swaps every few seconds by fading out, changing its text content, then fading back in, while a separate gradient sweeps continuously across it via an animated <code>background-position</code> on a 200%-wide gradient fill.</p>
+
+<p><strong>Best for:</strong> SaaS and dev-tool homepages, component libraries, and coming-soon pages that want visual polish before the product ships. <strong>Tip:</strong> every animation here — the drifting blobs, the shimmer sweep, the word fade — moves only <code>transform</code>, <code>opacity</code> or <code>background-position</code>, so it stays on the GPU compositor and won't jank even on a large full-bleed hero.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/gradient-mesh-hero/">Gradient Mesh Hero</a></p>
+
+<h2>4. Portfolio Hero</h2>
+
+<p>A centered personal-branding card with a gradient-initials avatar, a pulsing "open to work" status dot, skill tags, experience stats, and social links — everything a recruiter or client needs to know in one glance.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/portfolio-hero/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Portfolio Hero — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a small green dot in the card's corner uses <code>box-shadow</code> for a glow ring and a <code>blink</code> keyframe animating opacity between 1 and 0.4 — the same "online" indicator pattern borrowed from Discord and Slack — paired with a tinted "Open to work" badge for a second, lower-key availability signal. The avatar is just a gradient-filled circle with initials and a colored <code>box-shadow</code> for lift, so it needs no image file until you're ready to swap in a real photo. Four social icons reuse one <code>.soc</code> class with inline SVG paths and a shared hover state, so adding a fifth platform is one more anchor tag, not new CSS.</p>
+
+<p><strong>Best for:</strong> developer and designer personal sites, freelancer availability pages, and conference-speaker profile pages. <strong>Tip:</strong> the status dot and badge are just color values — switch the green to amber or red (and update the blink keyframe to match) to signal "selective" or "fully booked" instead of writing a new component.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/portfolio-hero/">Portfolio Hero</a></p>
+
+<h2>5. Word Flip Hero</h2>
+
+<p>A single word in the headline cycles vertically through several alternatives — "Build Faster / Smarter / Better / Together" — communicating product versatility in one sentence instead of a paragraph.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/word-flip-hero/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Word Flip Hero — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every word sits stacked in a vertical flex column inside a container clipped to exactly one line's height with <code>overflow: hidden</code>. JavaScript measures a single word's real pixel height at runtime and sets <code>translateY(-index × height)</code> on the column to slide the visible window to the current word — so unlike a fixed-duration CSS keyframe, it works correctly with words of any length, and adding a new word to the cycle is a pure HTML change. The cycling words also carry a gradient text fill that matches the CTA buttons for visual coherence.</p>
+
+<p><strong>Best for:</strong> SaaS and startup landing pages, portfolio headlines that address multiple client types, and agency homepages spanning several service lines. <strong>Tip:</strong> the <code>flip-wrap</code> element carries <code>aria-live="polite"</code>, so screen readers announce each new word after it transitions in — don't strip that attribute if you customize the markup.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/word-flip-hero/">Word Flip Hero</a></p>
+
+<h2>6. Startup Hero</h2>
+
+<p>A dark, no-JavaScript SaaS hero with a pulsing beta badge, a gradient headline, dual call-to-action buttons, an overlapping-avatar social proof row, and a trusted-by logo strip — the complete, conversion-ready pattern in one snippet.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/startup-hero/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Startup Hero — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the ambient background glow comes from two <code>::before</code>/<code>::after</code> pseudo-elements with radial gradients — no images — plus a subtle inline-SVG noise texture layered at 3% opacity for depth. The gradient headline uses the standard <code>background-clip: text</code> technique, and the whole hero is pure HTML and CSS with zero JavaScript, which means it can ship as a server component in a React framework with no client-side hydration cost at all.</p>
+
+<p><strong>Best for:</strong> SaaS product launches, beta announcements, and investor or demo-day landing pages where the trusted-by strip and user count need to read as credible fast. <strong>Tip:</strong> because there's no JS dependency, this is the fastest hero on the list to ship inside a static site or a server-rendered page — swap the badge copy ("Now in public beta" → "Now live") to match your launch stage.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/startup-hero/">Startup Hero</a></p>
+
+<h2>7. App Download Hero</h2>
+
+<p>A split hero with copy and App Store/Google Play buttons on one side and a CSS-only phone mockup showing a live finance app UI on the other — the layout Notion, Linear, and Revolut all use for mobile app landing pages.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/app-download-hero/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="App Download Hero — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the phone frame is built entirely from CSS — a rounded rectangle with a double border simulates the bezel, a small dark rectangle forms the notch, and the "screen" is just a flex column of ordinary divs (header, balance card, bar chart, transaction list). Nothing here is an image or screenshot, so it loads instantly and stays crisp at any pixel density. The store buttons reuse one base class with the official two-line label layout ("Download on the" / "App Store") matching Apple and Google's own badge guidelines.</p>
+
+<p><strong>Best for:</strong> fintech, productivity, and lifestyle app landing pages, Product Hunt launch days, and coming-soon pages collecting pre-launch signups. <strong>Tip:</strong> the phone mockup hides automatically below 700px via a media query — on mobile the text column simply centers itself, so you don't need a separate mobile layout.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/app-download-hero/">App Download Hero</a></p>
+
+<h2>8. Agency Hero</h2>
+
+<p>A bold, three-column editorial layout with an oversized serif headline, a service list that cycles its active item, stat blocks, and a CSS marquee ticker — built entirely in black, white, and grey to let the typography carry the design.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/agency-hero/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Agency Hero — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the layout is a flex row with fixed-width left and right columns and a fluid center column, separated by thin 1px borders for a newspaper-column feel. The headline mixes a 900-weight serif with a 400-weight italic accent word for contrast without adding color. The marquee ticker duplicates its content exactly twice and animates <code>translateX</code> to <code>-50%</code> — since that's precisely the width of one copy, the loop restarts invisibly with zero JavaScript involved.</p>
+
+<p><strong>Best for:</strong> creative agencies, design studios, and senior designer or art director portfolios that want to signal craft through typography rather than gradients. <strong>Tip:</strong> the monochrome palette is intentional — add exactly one brand color to the active service underline and the CTA hover state, and resist adding more; that restraint is what reads as "designed" rather than "templated."</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/agency-hero/">Agency Hero</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<p>Every snippet is framework-agnostic, so the workflow is the same wherever you're building:</p>
+
+<ol>
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs.</li>
+<li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS (if any) before your closing <code>&lt;/body&gt;</code> tag.</li>
+<li>Prefer a component? Use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> and wire the copy, colors, and stats to your own data.</li>
+<li>Swap the placeholder headline, stats, and CTA links for your real product before shipping — every one of these is a starting point, not a finished page.</li>
+</ol>
+
+<h2>Keep your hero fast and accessible</h2>
+
+<p>A hero that looks great but tanks your Lighthouse score or excludes users isn't doing its job. Three rules cover almost every case:</p>
+
+<ul>
+<li>Animate only <code>transform</code>, <code>opacity</code>, and CSS custom properties — anything that triggers layout or paint on every frame (like animating <code>width</code> or <code>top</code> directly) will jank on lower-end devices.</li>
+<li>Respect <code>prefers-reduced-motion</code> — wrap drifting blobs, shimmer sweeps, and cycling words in a media query that freezes them for users who've asked for less motion, without removing the visual design.</li>
+<li>Keep the headline as real, selectable text — gradient and shimmer effects should use <code>background-clip: text</code> on genuine text nodes, never a background image standing in for the words, so screen readers and copy-paste both still work.</li>
+</ul>
+
+<h2>Final Thought</h2>
+
+<p>These are just 8 of dozens of hero styles you can copy for free — no login, no sign-up, no dependency to install. The underlying techniques — blurred radial-gradient blobs standing in for video, fluid clamp() typography, pulsing status-dot indicators, runtime-measured word cycling, and pure-CSS phone mockups — are the same handful of ideas remixed across every award-winning landing page you've bookmarked. Once you've built a few of these by hand, you stop reaching for a hero template and start reaching for the specific technique the page actually needs.</p>
+
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/heroes/">FWD Tools UI Snippets — Heroes</a> — it's free and runs entirely in your browser.</p>

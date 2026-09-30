@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Flexbox Perfect Centering">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Flexbox Perfect Centering</h1>
+    <p class="hint">Click a button to change the container's justify-content or align-items — watch the single child box move along one axis at a time.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="btnRow">
+      <div class="btnGroup">
+        <span class="groupLabel">justify-content</span>
+        <button type="button" class="axisBtn" data-prop="justify" data-val="flex-start">start</button>
+        <button type="button" class="axisBtn axisBtnActive" data-prop="justify" data-val="center">center</button>
+        <button type="button" class="axisBtn" data-prop="justify" data-val="flex-end">end</button>
+        <button type="button" class="axisBtn" data-prop="justify" data-val="space-between">between</button>
+      </div>
+      <div class="btnGroup">
+        <span class="groupLabel">align-items</span>
+        <button type="button" class="axisBtn" data-prop="align" data-val="flex-start">start</button>
+        <button type="button" class="axisBtn axisBtnActive" data-prop="align" data-val="center">center</button>
+        <button type="button" class="axisBtn" data-prop="align" data-val="flex-end">end</button>
+      </div>
+    </div>
+    <div class="centerBox" id="centerBox">
+      <div class="centerChild">I'm centered</div>
+    </div>
+    <pre class="ruleTag" id="ruleTag">.centerBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}</pre>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 8px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .btnRow { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+  .btnGroup { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .groupLabel {
+    font: 700 10.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--sub);
+    margin-right: 2px;
+  }
+  .axisBtn {
+    font: 600 11.5px system-ui, sans-serif;
+    padding: 5px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--sub);
+    cursor: pointer;
+  }
+  .axisBtn:hover { background: #f0f1f5; }
+  .axisBtnActive, .axisBtnActive:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .centerBox {
+    width: 100%;
+    max-width: 460px;
+    height: 200px;
+    box-sizing: border-box;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    background: #fff;
+
+    /* The rule this demo is about. */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .centerChild {
+    padding: 10px 18px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #818cf8, #6366f1);
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var box = document.getElementById('centerBox');
+  var buttons = document.querySelectorAll('.axisBtn');
+  var ruleTag = document.getElementById('ruleTag');
+  var state = { justify: 'center', align: 'center' };
+
+  function render() {
+    box.style.justifyContent = state.justify;
+    box.style.alignItems = state.align;
+    ruleTag.textContent =
+      '.centerBox {\n  display: flex;\n  justify-content: ' + state.justify + ';\n  align-items: ' + state.align + ';\n}';
+  }
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var prop = b.getAttribute('data-prop');
+      state[prop] = b.getAttribute('data-val');
+      document.querySelectorAll('.axisBtn[data-prop="' + prop + '"]').forEach(function (o) {
+        o.classList.toggle('axisBtnActive', o === b);
+      });
+      render();
+    });
+  });
+
+  render();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

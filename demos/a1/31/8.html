@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="CSS.registerProperty() vs @property">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>CSS.registerProperty() vs @property</h1>
+    <p class="hint">Click "Animate both". The left bar is registered from CSS with @property; the right bar is registered from JavaScript with CSS.registerProperty() at page load. Both animate identically.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="row">
+      <div class="swatch">
+        <div class="bar1" id="cssBar"></div>
+        <p class="label">@property (CSS)</p>
+      </div>
+      <div class="swatch">
+        <div class="bar2" id="jsBar"></div>
+        <p class="label">CSS.registerProperty() (JS)</p>
+      </div>
+    </div>
+    <button class="btn" id="animBtn" type="button">Animate both</button>
+    <p class="note" id="note">Both bars share the same syntax, inherits and initial-value -- one declared in the stylesheet, one registered at runtime.</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 54em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 22px 18px 30px; }
+  .row { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
+  .swatch { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .label { margin: 0; font-size: 12px; color: var(--sub); }
+
+  /* Registered declaratively, straight from CSS. */
+  @property --w1 {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 10%;
+  }
+
+  .bar1 {
+    --w1: 10%;
+    width: calc(var(--w1) * 2);
+    max-width: 200px;
+    height: 26px;
+    background: var(--accent);
+    border-radius: 6px;
+    transition: --w1 1s ease;
+  }
+  .bar1.grow { --w1: 90%; }
+
+  /* --w2 is registered from JS below with the identical syntax/inherits/initial-value. */
+  .bar2 {
+    --w2: 10%;
+    width: calc(var(--w2) * 2);
+    max-width: 200px;
+    height: 26px;
+    background: #22c55e;
+    border-radius: 6px;
+    transition: --w2 1s ease;
+  }
+  .bar2.grow { --w2: 90%; }
+
+  .btn { border: 0; border-radius: 8px; background: var(--accent); color: #fff; font: 700 13px system-ui, sans-serif; padding: 10px 18px; cursor: pointer; }
+  .btn:active { transform: translateY(1px); }
+  .note { margin: 0; max-width: 54em; font-size: 12.5px; color: var(--sub); text-align: center; }
+  .note strong { color: var(--ink); }
+</script>
+
+<script type="text/plain" id="js">
+  // The JS equivalent of the @property block above -- same syntax, inherits, initialValue.
+  var jsRegistered = false;
+  if (typeof CSS !== 'undefined' && CSS.registerProperty) {
+    try {
+      CSS.registerProperty({
+        name: '--w2',
+        syntax: '<percentage>',
+        inherits: false,
+        initialValue: '10%'
+      });
+      jsRegistered = true;
+    } catch (e) {
+      // already registered or unsupported -- fine, demo still shows CSS side
+    }
+  }
+
+  var cssBar = document.getElementById('cssBar');
+  var jsBar = document.getElementById('jsBar');
+  var btn = document.getElementById('animBtn');
+  var note = document.getElementById('note');
+
+  btn.addEventListener('click', function () {
+    cssBar.classList.toggle('grow');
+    jsBar.classList.toggle('grow');
+    setTimeout(function () {
+      var w1 = getComputedStyle(cssBar).getPropertyValue('--w1').trim();
+      var w2 = getComputedStyle(jsBar).getPropertyValue('--w2').trim();
+      note.innerHTML = 'CSS.registerProperty() ran ' + (jsRegistered ? 'successfully' : '(already registered)') + ' at load. Mid-transition, @property bar reads <strong>--w1: ' + w1 + '</strong>, CSS.registerProperty() bar reads <strong>--w2: ' + w2 + '</strong> &mdash; both interpolate identically, because they register the exact same syntax descriptor through two different entry points into the same underlying custom property registry.';
+    }, 500);
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

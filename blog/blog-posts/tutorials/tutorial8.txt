@@ -1,0 +1,368 @@
+<h1>Building an AI Streaming Response UI: How to Reveal Rich Text Without Breaking Your HTML</h1>
+
+<p>Streaming is the single feature that makes an AI product feel fast. The model still takes eight seconds to finish its answer, but the first token lands in a few hundred milliseconds — and if you paint that token immediately, the wait stops being a wait and becomes reading time. Every serious assistant does it, and copying the look is easy: reveal characters on a timer and blink a cursor at the end.</p>
+
+<p>Then you try it with an answer that contains <strong>bold text</strong>, a bulleted list, and a code block, and it falls apart. Slice <code>&lt;strong&gt;streaming&lt;/strong&gt;</code> at the fourth character and you've just written <code>&lt;str</code> into the DOM. The <strong>AI Streaming Response</strong> snippet is a complete streaming UI — blinking cursor, token counter, Stop generating, copy and regenerate — and the interesting dozen lines in it are the ones that solve exactly that problem.</p>
+
+<p>Here it is live — hit regenerate to watch it stream again:</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/ai-streaming-response/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="AI Streaming Response — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p>Grab the code, or open the full editor with live HTML/CSS/JS panels: <a href="https://fwdtools.com/ui-snippets/ai-streaming-response/">AI Streaming Response on FWD Tools</a>. The snippet is plain HTML, CSS, and JavaScript, but the same editor has one-click export buttons for <strong>React</strong>, <strong>Vue</strong>, <strong>Angular</strong>, and <strong>React + Tailwind</strong> if you'd rather drop it into a component-based project.</p>
+
+<p>In this post I'll build the whole thing <strong>A to Z</strong>: why the response is modeled as typed blocks instead of one string, the tag-aware slicer that makes partial HTML safe, the three-cursor state machine that walks blocks, characters, and list items, the single cursor element that rides the text, and finally how to replace the simulator with a real Server-Sent Events stream — including the security step you must not skip when the HTML is coming from a model.</p>
+
+<h2>What the component actually is</h2>
+
+<p>Underneath the styling, it's a loop with three jobs: decide what content should be visible right now, render exactly that much of it, and put a cursor at the end. Run that every 45 milliseconds and you have streaming.</p>
+
+<p>The naive version is one line, and it's worth writing down because everything else is a response to its failure:</p>
+
+<pre><code class="language-javascript">el.textContent = fullAnswer.slice(0, n);   // fine for plain text, useless for rich text</code></pre>
+
+<p>That works perfectly until the answer has any structure. Real model output has headings, lists, inline code, links, and fenced code blocks — and the moment you switch <code>textContent</code> for <code>innerHTML</code> to render them, an arbitrary slice point becomes a syntax error you're injecting into the live DOM twenty times a second.</p>
+
+<p>So the snippet does two things: it models the answer as <em>blocks</em> instead of one flat string, and it slices each block with a function that understands where tags start and end.</p>
+
+<h2>Where you'd actually use this</h2>
+
+<ul>
+<li><strong>Any chat assistant.</strong> The reply pane is this component, and it's the difference between a product that feels alive and one that feels broken while it works.</li>
+<li><strong>Inline "summarize this" or "rewrite this" actions.</strong> Short generations benefit most, because a spinner for two seconds reads as a stall while streamed text reads as instant.</li>
+<li><strong>Coding assistants.</strong> Watching a function build itself line by line is genuinely useful — you can tell within two lines whether the model understood the question and hit Stop if it didn't.</li>
+<li><strong>Agent and tool output.</strong> Long-running work streams naturally, and pairs with an <a href="https://fwdtools.com/ui-snippets/ai-agent-steps/">agent steps timeline</a> showing the tool calls behind it.</li>
+<li><strong>Anything with a slow API and a lot to say.</strong> The technique isn't AI-specific. A search that returns results progressively, a report that renders as it computes — same pattern, same code.</li>
+</ul>
+
+<p>And the reason to build it rather than install it: streaming UI libraries make strong assumptions about your markdown pipeline, your framework, and your transport. The mechanism is about a hundred lines, and you'll want to change the parts a library hides.</p>
+
+<h2>The tech stack: a string walker, an interval, and one span</h2>
+
+<p>No dependencies, no CDN tag. Three things carry it:</p>
+
+<ul>
+<li><strong>A tag-aware string slicer</strong> — a dozen lines of plain character walking, and the heart of the whole component.</li>
+<li><strong>A <code>setInterval</code> state machine</strong> holding three positions: which block, how many characters into it, and which list item or code line.</li>
+<li><strong>A single <code>&lt;span&gt;</code></strong> for the blinking cursor, moved instead of recreated — one DOM node for the entire stream.</li>
+</ul>
+
+<p>The markup is almost nothing: a user bubble, an empty container for the assistant's answer, a footer that fades in when the stream ends, and a Stop button.</p>
+
+<pre><code class="language-html">&lt;div class="ai-body"&gt;
+  &lt;div class="ai-content" id="ai-content"&gt;&lt;/div&gt;
+  &lt;div class="ai-footer" id="ai-footer"&gt;
+    &lt;span class="token-count" id="token-count"&gt;0 tokens&lt;/span&gt;
+    &lt;div class="footer-actions"&gt;
+      &lt;button class="icon-btn" id="btn-copy" aria-label="Copy response"&gt;…&lt;/button&gt;
+      &lt;button class="icon-btn" id="btn-regen" aria-label="Regenerate"&gt;…&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="stop-row"&gt;
+  &lt;button class="stop-btn" id="btn-stop"&gt;&lt;span class="stop-square"&gt;&lt;/span&gt; Stop generating&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+<p>Everything inside <code>#ai-content</code> is generated. That's the point — you can't hand-write markup for content that doesn't exist yet.</p>
+
+<h2>Building it, step by step</h2>
+
+<h3>Step 1 — The response as typed blocks</h3>
+
+<p>The answer isn't a string. It's an ordered array of blocks, each with a type:</p>
+
+<pre><code class="language-javascript">const RESPONSE = [
+  { type: 'p',  text: 'Streaming responses show the model&rsquo;s answer &lt;strong&gt;as it is generated&lt;/strong&gt;, token by token…' },
+  { type: 'h3', text: 'How the pieces fit together' },
+  { type: 'ul', items: [
+    '&lt;strong&gt;Server-Sent Events (SSE)&lt;/strong&gt; — the API keeps the HTTP connection open and pushes small &lt;code&gt;data:&lt;/code&gt; chunks…',
+    '&lt;strong&gt;Incremental parsing&lt;/strong&gt; — the client appends each delta to a buffer and re-renders…',
+    '&lt;strong&gt;An abort signal&lt;/strong&gt; — the Stop button calls &lt;code&gt;controller.abort()&lt;/code&gt;…',
+  ]},
+  { type: 'code', lang: 'javascript', lines: [ /* pre-highlighted lines */ ] },
+  { type: 'p',  text: 'The result: perceived latency drops from seconds to &lt;strong&gt;under 300ms&lt;/strong&gt;…' },
+];</code></pre>
+
+<p>This mirrors what a markdown parser produces when it tokenizes a completion — a list of typed nodes, not a wall of text. Modeling it this way buys three things:</p>
+
+<ol>
+<li><strong>Each block knows how to render itself.</strong> A paragraph is a <code>&lt;p&gt;</code>, a list is a <code>&lt;ul&gt;</code> with children, a code block is a styled container with a language header. One switch statement, no parsing at reveal time.</li>
+<li><strong>Different block types can stream differently.</strong> Prose reads best character by character; a code block reads best line by line, because half a line of code is noise. Blocks let you make that choice per type.</li>
+<li><strong>It's the shape a real pipeline gives you anyway.</strong> When you swap in a real stream, your incremental markdown parser emits exactly this: a growing array of typed nodes where only the last one is still changing.</li>
+</ol>
+
+<p>Building the DOM node for a block is a small factory:</p>
+
+<pre><code class="language-javascript">function buildBlock(block) {
+  if (block.type === 'p')  { const el = document.createElement('p');  return { el, text: block.text }; }
+  if (block.type === 'h3') { const el = document.createElement('h3'); return { el, text: block.text }; }
+  if (block.type === 'ul') { const el = document.createElement('ul'); return { el, items: block.items }; }
+  if (block.type === 'code') {
+    const el = document.createElement('div');
+    el.className = 'code-block';
+    el.innerHTML = '&lt;div class="code-head"&gt;&lt;span&gt;' + block.lang + '&lt;/span&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;';
+    return { el, lines: block.lines, codeEl: el.querySelector('code') };
+  }
+}</code></pre>
+
+<p>Notice what it returns: the element, plus <em>which kind of payload it has</em> — <code>text</code>, <code>items</code>, or <code>lines</code>. The streaming loop branches on which of those exists, so adding a new block type later means adding one factory case and one branch, not touching the state machine.</p>
+
+<h3>Step 2 — The problem: slicing HTML at an arbitrary character</h3>
+
+<p>Here's the whole difficulty in one example. Take this string:</p>
+
+<pre><code class="language-text">Streaming shows the &lt;strong&gt;answer&lt;/strong&gt; as it is generated</code></pre>
+
+<p>Ask for the first 25 characters with <code>slice(0, 25)</code> and you get:</p>
+
+<pre><code class="language-text">Streaming shows the &lt;stro</code></pre>
+
+<p>Assign that to <code>innerHTML</code> and the browser does something reasonable but wrong: it either drops the fragment or tries to recover a malformed tag. On the next tick you assign a slightly longer broken string, and the answer flickers as the parser guesses differently each time. Even when it renders, your character count is lying — the user sees 20 visible characters, not 25, because five of them were markup.</p>
+
+<p>So we need a slicer with two properties: <strong>count only characters the user can see</strong>, and <strong>never cut inside a tag</strong>.</p>
+
+<h3>Step 3 — safeSlice(): walking the string with an inTag flag</h3>
+
+<pre><code class="language-javascript">function safeSlice(html, count) {
+  let visible = 0, i = 0, inTag = false;
+  while (i &lt; html.length && visible &lt; count) {
+    if (html[i] === '&lt;') inTag = true;
+    if (!inTag) visible++;
+    if (html[i] === '&gt;') inTag = false;
+    i++;
+  }
+  // never end mid-tag
+  while (i &lt; html.length && inTag) { if (html[i] === '&gt;') { i++; break; } i++; }
+  return html.slice(0, i);
+}</code></pre>
+
+<p>Read the loop body in order, because the order is doing real work:</p>
+
+<ul>
+<li><strong><code>if (html[i] === '&lt;') inTag = true;</code></strong> — the moment we hit an opening angle bracket, we're inside markup.</li>
+<li><strong><code>if (!inTag) visible++;</code></strong> — this runs <em>after</em> the check above, so the <code>&lt;</code> itself is never counted as visible. Only characters outside tags consume the budget.</li>
+<li><strong><code>if (html[i] === '&gt;') inTag = false;</code></strong> — this runs <em>last</em>, so the closing bracket is also excluded from the count before we leave tag mode on the next character.</li>
+</ul>
+
+<p>Swap any two of those three lines and the count drifts by one character per tag — invisible in testing, subtly wrong forever after. The sequencing is the algorithm.</p>
+
+<p>The second loop is the part people forget. When the budget runs out, the pointer might be sitting in the middle of <code>&lt;strong</code>. That loop keeps walking — <em>without</em> counting — until it passes the closing <code>&gt;</code>, so the returned string always ends on a complete tag. Slightly more than <code>count</code> characters of source, never a broken one.</p>
+
+<p>The effect is that <code>&lt;strong&gt;answer&lt;/strong&gt;</code> appears as the <em>word</em> answer growing letter by letter in bold, not as raw markup crawling across the screen. Inline <code>&lt;code&gt;</code> spans and links behave the same way.</p>
+
+<p>One deliberate limitation: this is a tag-aware slicer, not an HTML parser. It doesn't balance tags, so it assumes each block's markup is well-formed and self-contained — which it is, because each block is one paragraph or one list item. That constraint is what lets a dozen lines do the job. If a block could contain an unclosed <code>&lt;div&gt;</code> spanning into the next block, you'd need a real parser, and you'd solve it by parsing into a DOM fragment and revealing text nodes instead.</p>
+
+<h3>Step 4 — stripLen(): knowing when a block is finished</h3>
+
+<p>If <code>safeSlice</code> counts visible characters, the "am I done?" test has to use the same measure:</p>
+
+<pre><code class="language-javascript">function stripLen(html) { return html.replace(/&lt;[^&gt;]*&gt;/g, '').length; }</code></pre>
+
+<p>Strip the tags, count what's left. Compare the character cursor against <em>that</em>, not against <code>html.length</code>. The raw length includes every angle bracket and attribute, so a paragraph with three bold spans would sit there fully rendered for another dozen ticks while the budget burned through markup the reader can't see — a visible stall in the middle of the answer, for no reason.</p>
+
+<p>These two functions are a pair: one produces a prefix by visible-character count, the other measures the total visible-character count. They must agree, and they do because both define "visible" as "outside a tag."</p>
+
+<h3>Step 5 — The state machine: three cursors, one interval</h3>
+
+<p>Now the loop. Three variables track position, and one holds the block currently being revealed:</p>
+
+<pre><code class="language-javascript">let bi = 0, ci = 0, li = 0;   // block index, character index, list-item / line index
+let current = null;
+
+timer = setInterval(() =&gt; {
+  if (!current) {
+    if (bi &gt;= RESPONSE.length) return finish();
+    current = buildBlock(RESPONSE[bi]);
+    content.appendChild(current.el);
+    ci = 0; li = 0;
+  }
+
+  const chunk = 2 + Math.floor(Math.random() * 5);   // 2–6 characters this tick
+  tokens++;
+  tokenEl.textContent = tokens + ' tokens';
+
+  // …reveal branch for text / items / lines…
+}, 45);</code></pre>
+
+<p>The top of the callback is a small "do I have work?" check: if there's no current block, take the next one from the array, create its element, append it, and reset the inner cursors. When the array runs out, <code>finish()</code>.</p>
+
+<p><strong>The random chunk size is not laziness.</strong> A fixed reveal rate looks like a typewriter — mechanical and evenly paced. Real token streams are bursty: tokens are words or word-fragments of varying length, and network chunking clumps them further. Revealing 2 to 6 characters per tick reproduces that irregular rhythm, and it's the difference between "this is animating" and "this is arriving."</p>
+
+<h3>Step 6 — Revealing text, list items, and code</h3>
+
+<p>Each payload type gets its own branch. Prose is the simple one:</p>
+
+<pre><code class="language-javascript">if (current.text !== undefined) {
+  ci += chunk;
+  current.el.innerHTML = safeSlice(current.text, ci);
+  current.el.appendChild(cursor);
+  if (ci &gt;= stripLen(current.text)) { current = null; bi++; }
+}</code></pre>
+
+<p>Advance the character budget, re-render the block at that budget, re-append the cursor, and when the budget covers every visible character, release the block so the next tick picks up the next one.</p>
+
+<p>Lists reveal one <code>&lt;li&gt;</code> at a time, with characters inside each:</p>
+
+<pre><code class="language-javascript">} else if (current.items) {
+  if (li &gt;= current.items.length) { current = null; bi++; return; }
+  let liEl = current.el.children[li];
+  if (!liEl) { liEl = document.createElement('li'); current.el.appendChild(liEl); ci = 0; }
+  ci += chunk;
+  liEl.innerHTML = safeSlice(current.items[li], ci);
+  liEl.appendChild(cursor);
+  if (ci &gt;= stripLen(current.items[li])) { li++; ci = 0; }
+}</code></pre>
+
+<p>Same mechanism one level deeper: <code>li</code> walks the items, <code>ci</code> walks the characters within the current item and resets to zero each time an item completes. The <code>if (!liEl)</code> check creates the element lazily on the first tick that needs it — so a list arrives the way a real one does, a bullet at a time.</p>
+
+<p>Code is the interesting exception:</p>
+
+<pre><code class="language-javascript">} else if (current.lines) {
+  if (li &gt;= current.lines.length) { current = null; bi++; return; }
+  current.codeEl.innerHTML = current.lines.slice(0, li + 1).join('\n');
+  li++;
+}</code></pre>
+
+<p>No character reveal at all — a whole line per tick. This is a design decision, not a shortcut. Half a line of code is unreadable and the eye can't do anything with it, while a completed line is a unit of meaning you can start evaluating immediately. It's also why the demo's code block is stored as an array of pre-highlighted lines: each one is a finished, syntax-colored unit ready to drop in.</p>
+
+<h3>Step 7 — One cursor element, moved instead of recreated</h3>
+
+<p>The blinking cursor looks like it belongs to whichever element is currently streaming, and it does — because it is literally the same node being moved:</p>
+
+<pre><code class="language-javascript">const cursor = document.createElement('span');
+cursor.className = 'stream-cursor';
+// …later, every tick:
+current.el.appendChild(cursor);</code></pre>
+
+<p>This leans on a DOM rule that's easy to forget: <strong>a node can only exist in one place</strong>. <code>appendChild</code> doesn't copy — it moves. So appending the same span to whatever element is currently revealing automatically removes it from where it was, and the cursor walks from paragraph to list item to paragraph with no cleanup code and no risk of leaving a stray cursor behind in a finished block.</p>
+
+<p>The re-append is mandatory, not optional, in the text branch, because <code>innerHTML =</code> wipes the element's children — including the cursor — on every tick. Setting the content and re-appending the cursor are two halves of one operation.</p>
+
+<p>The blink itself is pure CSS, and the timing function matters:</p>
+
+<pre><code class="language-css">.stream-cursor {
+  display: inline-block; width: 8px; height: 15px;
+  background: #a5b4fc; border-radius: 2px;
+  vertical-align: text-bottom; margin-left: 2px;
+  animation: blink 0.9s steps(2, start) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }</code></pre>
+
+<p><code>steps(2, start)</code> gives a hard on/off blink like a terminal caret. Swap it for a default ease and you get a soft pulsing glow — which looks like a decorative effect rather than a cursor. One timing function separates "this is a text caret" from "this is an ornament."</p>
+
+<h3>Step 8 — Finishing, and why Stop is the same function</h3>
+
+<pre><code class="language-javascript">function finish() {
+  clearInterval(timer);
+  const c = content.querySelector('.stream-cursor');
+  if (c) c.remove();
+  stopBtn.classList.remove('visible');
+  footer.classList.add('visible');
+}
+
+stopBtn.addEventListener('click', finish);
+document.getElementById('btn-regen').addEventListener('click', stream);</code></pre>
+
+<p>Stop and natural completion are the same event as far as the UI is concerned: the stream is over, so kill the timer, remove the cursor, hide the Stop button, and fade in the footer with the token count and the copy/regenerate actions. Wiring the Stop button directly to <code>finish</code> — rather than to a separate "cancel" path — is what guarantees a stopped response leaves the interface in exactly the same state as a completed one, which is what users expect. A partial answer is still an answer; they should be able to copy it.</p>
+
+<p>The footer's appearance is a deliberate signal, too. Copy and regenerate stay hidden during generation because acting on a half-written answer is almost never what someone means to do, and a transition on <code>opacity</code> makes the switch feel like a state change rather than a pop-in.</p>
+
+<p>Copy uses <code>innerText</code>, not <code>innerHTML</code>:</p>
+
+<pre><code class="language-javascript">navigator.clipboard.writeText(content.innerText)</code></pre>
+
+<p>The user wants the text they can see, not the markup you rendered it with. <code>innerText</code> also respects rendered line breaks, so pasted output keeps its paragraph structure — which <code>textContent</code> would flatten.</p>
+
+<h3>Step 9 — Replacing the simulator with a real stream</h3>
+
+<p>Everything above is transport-agnostic on purpose. Here's the real thing — a fuller version of the snippet's own streamed code block:</p>
+
+<pre><code class="language-javascript">const controller = new AbortController();
+const res = await fetch('/api/chat', { method: 'POST', body: JSON.stringify({ messages }), signal: controller.signal });
+
+const reader = res.body.getReader();
+const decoder = new TextDecoder();
+let buffer = '';
+
+while (true) {
+  const { done, value } = await reader.read();
+  if (done) break;
+  buffer += decoder.decode(value, { stream: true });
+  render(buffer);            // &lt;- where safeSlice lives
+}
+finish();</code></pre>
+
+<p>Four things to note when you make the swap:</p>
+
+<ol>
+<li><strong>The interval callback becomes the loop body.</strong> Instead of inventing 2–6 characters per tick, you append the real delta to a buffer and render. The reveal logic doesn't change — it's still "render this much of the content" — you're just no longer the one deciding how much arrives.</li>
+<li><strong><code>decoder.decode(value, { stream: true })</code> is not optional.</strong> A UTF-8 character can be split across two network chunks; without the streaming flag you'll get replacement characters in the middle of any non-ASCII text, which is a bug that only shows up once someone asks a question in French.</li>
+<li><strong>Wire Stop to <code>controller.abort()</code> as well as to <code>finish()</code>.</strong> In the demo, stopping just ends an animation. Against a real API it must cancel the request — otherwise the server keeps generating and you keep paying for tokens nobody will ever see.</li>
+<li><strong>Parse SSE frames before you render them.</strong> Chunks arrive as <code>data: {...}</code> lines, sometimes several per chunk and sometimes split mid-line, so buffer by newline and only render complete frames. This is the one place the demo genuinely under-sells the work involved.</li>
+</ol>
+
+<h3>Step 10 — The security step you cannot skip</h3>
+
+<p>In the snippet, the HTML in <code>RESPONSE</code> is written by you, so treating it as trusted markup is fine. <strong>Model output is not.</strong> The moment that content comes from an API, assigning it to <code>innerHTML</code> means any HTML the model produces — because a user asked it to, or because a retrieved document contained it — executes in your page.</p>
+
+<p>The rule is: escape everything, then re-introduce only the markup your own renderer generated.</p>
+
+<pre><code class="language-javascript">function escapeHtml(s) {
+  return s.replace(/&amp;/g, '&amp;amp;').replace(/&lt;/g, '&amp;lt;').replace(/&gt;/g, '&amp;gt;');
+}
+// Escape the raw model text FIRST, then let your markdown renderer emit
+// the &lt;strong&gt;, &lt;code&gt; and &lt;a&gt; tags — so only your tags ever reach innerHTML.</code></pre>
+
+<p>Practically, that means running the model's text through a markdown renderer configured to escape raw HTML (every serious one has that option), and sanitizing the result if you allow links. <code>safeSlice</code> then operates on markup that only your renderer produced, which is exactly the assumption it's built on.</p>
+
+<h2>Customizing it for your own project</h2>
+
+<ul>
+<li><strong>Speed.</strong> The 45&nbsp;ms interval and the 2–6 character chunk set the pace. Faster feels urgent, slower feels deliberate; below about 20&nbsp;ms the eye stops resolving individual characters and it reads as a wipe.</li>
+<li><strong>Cursor style.</strong> A block caret is the terminal look; a thin bar reads more like a text editor. Keep <code>steps()</code> in the animation either way.</li>
+<li><strong>New block types.</strong> Tables, quotes, and images each need one case in <code>buildBlock</code> and one branch in the loop. Follow the code-block precedent for anything where partial rendering is meaningless — reveal it whole.</li>
+<li><strong>Auto-scroll.</strong> Not in the snippet, and the first thing you'll add for a real thread: after each render, scroll the container to the bottom, but <em>only</em> if the user was already near the bottom. Hijacking the scroll of someone reading back through an answer is the most common complaint about streaming chats.</li>
+<li><strong>A real token counter.</strong> The demo counts ticks and calls them tokens. With a real stream, count the deltas your API actually sends, or read the usage numbers most APIs include in the final frame.</li>
+<li><strong>Reduced motion.</strong> Under <code>prefers-reduced-motion</code>, stop the cursor blinking and consider rendering each block complete instead of character by character. The information is identical; only the animation goes away.</li>
+</ul>
+
+<h2>The two things deliberately left out</h2>
+
+<p><strong>An incremental markdown parser.</strong> The block array is standing in for one. In production you get the harder version of the same job: a growing raw string that needs re-parsing on every chunk, where the last node is always incomplete — a half-open code fence, a list item mid-word. The standard solution is to parse the whole buffer each tick with a fast parser and only re-render the tail node, which is affordable because completions are small; the block model here is what its output looks like.</p>
+
+<p><strong>The network layer.</strong> No <code>fetch</code>, no SSE frame parsing, no retry. That's Step 9's job, and keeping it out of the snippet is why the reveal logic reads clearly — the two concerns are genuinely separate, and the same <code>safeSlice</code> works whether the characters come from a timer or a socket.</p>
+
+<h2>Using it in React, Vue, or Angular</h2>
+
+<p>The editor exports all four, and there's one trap worth naming before you port it.</p>
+
+<p>In React, the obvious approach — put the buffer in <code>useState</code> and append to it on every chunk — re-renders the entire message tree twenty times a second, and with a long answer it visibly stutters. Keep the buffer in a <code>useRef</code>, and either flush to state on a <code>requestAnimationFrame</code> or update only when the visible text actually changes. Render the sliced result with <code>dangerouslySetInnerHTML</code> (with Step 10's escaping done first) and drive the cursor as a sibling element rather than as part of the HTML string, so React isn't reconciling it away on every pass. Always clear the interval — or abort the request — in the effect's cleanup, or a component unmounted mid-stream keeps writing to a detached node.</p>
+
+<p>Vue's <code>ref</code> plus <code>v-html</code> maps almost one-to-one with the vanilla version, and Angular does the same with a signal and <code>[innerHTML]</code>, remembering that Angular sanitizes bound HTML by default — which is a feature here, not an obstacle. In all three, <code>safeSlice</code> and <code>stripLen</code> copy across untouched: they're pure string functions with no DOM in sight, which is a good sign the original was factored correctly.</p>
+
+<h2>Build, understand, optimize, and extend it with AI</h2>
+
+<p>This snippet is worth interrogating rather than pasting, and it's an unusually good one to explore with an assistant because the core function is small enough to reason about completely. Paste the HTML, CSS and JS into an AI assistant like Claude and start with <code>safeSlice</code>: ask it to trace the function character by character over <code>Hello &lt;strong&gt;world&lt;/strong&gt;</code> with a count of 8, then ask what breaks if you move the <code>visible++</code> line above the <code>inTag</code> check, and separately if you delete the second while loop entirely. Both failures are instructive and both are invisible until they aren't. Then ask why the completion test uses <code>stripLen()</code> rather than <code>text.length</code>, and have it construct a string where the difference is dramatic. For the real-world version, ask it to replace the <code>setInterval</code> with a <code>fetch</code> plus <code>getReader()</code> loop that parses Server-Sent Event frames, buffers partial lines, decodes with <code>{ stream: true }</code>, and wires the Stop button to an <code>AbortController</code> — then ask it to add the escaping layer from Step 10 and explain precisely which characters must be escaped and why the order of the replacements matters. Finally, extend in order of value: stick-to-bottom auto-scroll that yields when the user scrolls up, an incremental markdown parser feeding the block array, a <code>prefers-reduced-motion</code> path, and per-message regenerate that keeps the conversation history. Treat the code less like a finished artifact and more like a starting point for a conversation.</p>
+
+<h3>Prompt to recreate it</h3>
+
+<p>Copy this into your AI assistant of choice to build the component from scratch, or as a jumping-off point for your own variant:</p>
+
+<pre><code class="language-text">Build an AI streaming response UI in plain HTML, CSS, and vanilla JavaScript — a chat answer that reveals itself progressively like ChatGPT. No libraries.
+
+Requirements:
+- Model the assistant's answer as an ordered array of typed blocks: paragraphs, a heading, a bulleted list, and a fenced code block with a language label and pre-highlighted syntax spans. Each block renders into its own element, created on demand as the stream reaches it.
+- Reveal prose character by character, list items one at a time with characters revealed inside each, and code blocks a whole line per tick (because half a line of code is unreadable). Reveal 2-6 characters per 45ms tick so the pacing is irregular like a real token stream rather than an even typewriter.
+- The blocks contain inline HTML (bold, inline code). Write a safeSlice(html, count) function that walks the string tracking whether it is inside a tag, counts only characters outside tags toward the visible budget, and never returns a string that ends mid-tag — so partial markup is never injected into the DOM. Pair it with a stripLen(html) that measures visible length by stripping tags, and use that to decide when a block is complete.
+- Use ONE span element as the blinking cursor and move it with appendChild so it always sits at the end of whatever is currently streaming (a node can only be in one place, so no cleanup is needed). Animate the blink with steps(2, start) for a hard terminal caret rather than a soft pulse.
+- Show a live token counter and a "Stop generating" button during the stream. Stopping and finishing naturally must run the same function: clear the timer, remove the cursor, hide Stop, and fade in a footer with the token count plus copy and regenerate buttons. Copy should use innerText so the user gets visible text, not markup.
+- Style it as a dark chat thread: user message in an indigo bubble aligned right, assistant answer left with a gradient avatar tile, code blocks in a bordered container with a language header row.
+- Add a comment marking exactly where a real implementation swaps the interval for a fetch + res.body.getReader() loop with an AbortController, and note that model-generated HTML must be escaped before it reaches innerHTML.</code></pre>
+
+<h2>Final thought</h2>
+
+<p>What makes this snippet worth studying isn't the blinking cursor — it's that the hardest part of streaming has nothing to do with networks. Getting bytes out of a <code>fetch</code> is a documented loop anyone can copy. Deciding what "half of this content" means when the content is structured, and rendering that halfway state without corrupting the page, is the actual work, and it's the part every streaming UI has to solve for itself.</p>
+
+<p>The answer here is a dozen lines and one idea: count what the user can see, never cut inside a tag. Once that's in place, everything else — the block types, the cursor, the Stop button, the swap to a real API — is ordinary code.</p>
+
+<p>Grab the full HTML, CSS, and JS — or export it straight to React, Vue, Angular, or Tailwind — at <a href="https://fwdtools.com/ui-snippets/ai-streaming-response/">AI Streaming Response on FWD Tools</a>. It's free, runs entirely in your browser, and needs no sign-up. Browse more components like this one at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a>.</p>

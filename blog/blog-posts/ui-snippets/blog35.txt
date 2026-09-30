@@ -1,0 +1,151 @@
+<h1>10 Scroll Animations Built on the New CSS animation-timeline API (8 With Zero JavaScript)</h1>
+
+<p>For as long as scroll-driven animation has existed on the web, it has meant JavaScript: a <code>scroll</code> event listener, a <code>getBoundingClientRect()</code> call, and — if you wanted it smooth — a <code>requestAnimationFrame</code> loop tying the two together. GSAP's ScrollTrigger made that pattern pleasant to write, but it was still fundamentally the browser's main thread doing math on every scroll tick. The CSS Scroll-Driven Animations API changes the deal entirely: <code>animation-timeline: scroll()</code> and <code>animation-timeline: view()</code> let a <code>@keyframes</code> animation's 0%–100% playback position bind directly to scroll position instead of to a duration in seconds — computed by the browser's compositor, off the main thread, with no listener anywhere in the JavaScript.</p>
+
+<p>Eight of the ten snippets below use exactly that — genuinely zero JavaScript driving the animation, verified by reading the actual <code>js</code> field of each one (it only logs a feature-support check, nothing more). The other two are included deliberately as an honest counterpoint: real numeric counting and per-element staggered reveals still need <code>IntersectionObserver</code> and <code>requestAnimationFrame</code> today, and knowing which category a given effect falls into is most of the skill here. Every one is a <strong>live, interactive preview</strong> you can try right here in the article, and each exports to React, Vue, Angular or Tailwind in one click from its snippet page.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>The timeline doesn't care what it's driving.</strong> <code>animation-timeline: scroll(root)</code> shows up in this batch animating an SVG <code>stroke-dashoffset</code>, a <code>filter: hue-rotate()</code>, a <code>transform: scaleX()</code>, and a CSS <code>counter()</code> — the same primitive, four completely different properties, because a scroll timeline is just a 0%–100% progress value with no opinion about what consumes it.</li>
+<li><strong>A timeline's source and its consumer don't have to be the same element.</strong> The heading-underline snippet puts <code>view-timeline-name: --para-read</code> on a paragraph and <code>animation-timeline: --para-read</code> on a completely different underline bar beneath it — so the underline fills based on how far the reader has scrolled through the paragraph's own text, not its own position.</li>
+<li><strong><code>steps()</code> beats <code>linear</code> the moment the value is discrete.</strong> The section counter animates a CSS <code>counter()</code> — a whole number that cannot interpolate fractionally — using <code>animation: steps(4)</code> rather than <code>linear</code>, so the displayed number always lands on a clean integer instead of a nonsensical blended one.</li>
+<li><strong><code>view-timeline-axis</code> follows the scroll direction the layout actually uses.</strong> Vertical page layouts use the default <code>block</code> axis; the horizontally-scrolling saturation gallery and snap carousel both switch to <code>view-timeline-axis: inline</code> so each frame's timeline tracks its own left-right position instead of a vertical one that would never change.</li>
+<li><strong>An <code>@supports not (...)</code> fallback is not optional.</strong> Every native-CSS snippet in this batch wraps its animation in <code>@supports not (animation-timeline: scroll())</code> or the <code>view()</code> equivalent, resetting to a sane static state — a full ring, a flat card, a mid-hue background — because Firefox and Safari support is still landing, and a browser that ignores the property entirely would otherwise leave the animated value stuck at its starting keyframe.</li>
+</ul>
+
+<h2>1. Native CSS Scroll Progress Ring</h2>
+
+<p>A circular scroll-progress indicator, pinned to a corner, that fills purely from CSS — no scroll listener, no JS loop.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/css-native-scroll-progress-ring/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Native CSS Scroll Progress Ring — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the ring is a standard SVG <code>&lt;circle&gt;</code> with <code>stroke-dasharray</code> set to its own circumference and <code>stroke-dashoffset</code> starting at that same value, which hides the entire stroke — the classic progress-ring trick. What's different here is what animates it: a <code>@keyframes</code> block drives <code>stroke-dashoffset</code> to <code>0</code>, bound via <code>animation-timeline: scroll(root)</code> so its playback position is the document's scroll position, not a duration. The percentage label uses a discrete-step trick — a second scroll-bound animation swaps a pseudo-element's <code>content</code> across ten fixed percentage strings, since plain CSS can't smoothly interpolate an arbitrary numeric string without registering a custom <code>@property</code>.</p>
+
+<p><strong>Best for:</strong> docs and long-form article pages where a corner ring keeps progress visible without competing with a sticky header for the same strip of space. <strong>Tip:</strong> swap <code>scroll(root)</code> for <code>scroll(nearest)</code> to track a scrollable panel instead of the whole document.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/css-native-scroll-progress-ring/">Native CSS Scroll Progress Ring</a></p>
+
+<h2>2. 3D Card Rotate on Scroll (view-timeline)</h2>
+
+<p>Each card rotates in on its Y-axis and settles flat as it enters the viewport, then rotates back out as it leaves — a per-card native timeline, not a shared one.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/view-timeline-card-rotate-3d/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="3D Card Rotate on Scroll (view-timeline) — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every card declares its own <code>view-timeline-name: --card-in</code> and <code>view-timeline-axis: block</code>. Because a <code>view-timeline</code> is scoped to the element that declares it, every card sharing the same custom-ident name still gets a fully independent timeline instance — card two's transit through the viewport has nothing to do with card one's. Two separate <code>animation-range</code> values shape the effect asymmetrically: an entry range rotates the card in as it arrives, and a distinct exit range rotates it back out as it leaves, so the turn is symmetric on both sides of the viewport rather than only animating on the way in.</p>
+
+<p><strong>Best for:</strong> a scroll-paced feature story or portfolio section where each card deserves its own small moment rather than a uniform fade. <strong>Tip:</strong> swap <code>rotateY</code> for <code>rotateX</code> for a top-down tumble, or switch <code>view-timeline-axis</code> to <code>inline</code> for a horizontally scrolling row.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/view-timeline-card-rotate-3d/">3D Card Rotate on Scroll</a></p>
+
+<h2>3. Saturation Gallery (view-timeline, inline axis)</h2>
+
+<p>A horizontally scrolling photo strip where every frame desaturates and blurs toward the edges and sharpens only in the center — the focus effect follows the scroll, not the page.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/view-timeline-saturation-gallery/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Saturation Gallery (view-timeline) — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> most <code>view-timeline</code> demos — including the <a href="https://fwdtools.com/ui-snippets/css-view-timeline-image-reveal/">View Timeline Image Reveal</a> — use the default <code>view-timeline-axis: block</code>, tracking an element's vertical position as the page scrolls down. This gallery sets <code>view-timeline-axis: inline</code> on every frame instead, so each frame's timeline tracks its own horizontal position as the track scrolls sideways — same primitive, aimed at the axis this layout actually scrolls on. The animated properties — <code>filter</code> and <code>transform: scale()</code> — are both compositor-friendly, which matters because up to seven frames can be mid-animation simultaneously during a fast scroll; animating <code>width</code> instead would force layout recalculation on every one of them.</p>
+
+<p><strong>Best for:</strong> a photo strip or portfolio filmstrip where you want the currently-centered image to visually pop without a click or hover. <strong>Tip:</strong> swap the gradient placeholders for real <code>&lt;img&gt;</code> elements with no structural changes needed.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/view-timeline-saturation-gallery/">Saturation Gallery</a></p>
+
+<h2>4. Sticky Section Counter (scroll-timeline)</h2>
+
+<p>The small "02 / 05" indicator pinned beside long-form content, normally built with an IntersectionObserver — reproduced here with a native CSS counter and zero JavaScript writing to the DOM.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/css-scroll-timeline-section-counter/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sticky Section Counter (scroll-timeline) — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a pseudo-element's <code>content: counter(sec-count, decimal-leading-zero)</code> displays a native CSS counter, and a scroll-bound animation on <code>counter-increment</code> steps that counter upward using <code>animation: steps(4)</code> rather than <code>linear</code> — <code>linear</code> would blend between counter values in a way that makes no sense for a whole number, since CSS counters don't interpolate fractionally, while <code>steps(4)</code> forces four clean discrete jumps. A slim vertical track beside the number fills from 0% to 100% height using the exact same <code>animation-timeline: scroll(root)</code> binding, giving a continuous progress cue alongside the discrete counter.</p>
+
+<p><strong>Best for:</strong> editorial sites and documentation pages with a fixed, known number of sections. <strong>Tip:</strong> update <code>counter-reset</code> and the number of increment stops in the keyframes to match your real section count.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/css-scroll-timeline-section-counter/">Sticky Section Counter</a></p>
+
+<h2>5. Hue-Rotating Scroll Background</h2>
+
+<p>The gradient behind the entire page slowly rotates through the color wheel as you scroll — one fixed pseudo-element, one CSS filter, one scroll timeline.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/css-scroll-timeline-hue-rotate-bg/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Hue-Rotating Scroll Background — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a fixed, negative-z-index pseudo-element carries a gradient background with <code>filter: hue-rotate(0deg)</code>, animated by a <code>@keyframes</code> block to <code>hue-rotate(280deg)</code> and bound to <code>animation-timeline: scroll(root)</code>. Because the element is <code>position: fixed</code>, it never itself scrolls — only the filter value driving its appearance changes, computed entirely on the compositor. It's the same primitive as the progress ring and the section counter, aimed at a completely different CSS property, which is really the point of this whole batch: the timeline is agnostic about what it drives.</p>
+
+<p><strong>Best for:</strong> a long-scroll landing page or story where a slowly shifting mood color reinforces progress without a single explicit progress indicator. <strong>Tip:</strong> keep <code>saturate()</code> and <code>brightness()</code> fixed and only animate <code>hue-rotate()</code> so text contrast stays legible throughout the whole scroll range.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/css-scroll-timeline-hue-rotate-bg/">Hue-Rotating Scroll Background</a></p>
+
+<h2>6. Heading Underline Fill (view-timeline)</h2>
+
+<p>The underline beneath each heading fills left-to-right as you scroll past that heading's own paragraph — driven by a timeline attached to the paragraph, consumed by a different element entirely.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/css-view-timeline-underline-progress/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Heading Underline Fill (view-timeline) — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> this is the batch's clearest demonstration that a <code>view-timeline</code>'s source and its consumer don't have to be the same element. The paragraph itself declares <code>view-timeline-name: --para-read</code> — it is the thing being tracked as it moves through the viewport. The underline bar sitting above it, a structurally unrelated element, declares <code>animation-timeline: --para-read</code> on its own <code>::after</code> pseudo-element, referencing that same named timeline to drive a <code>transform: scaleX()</code> fill. The underline visually tracks how far the reader has scrolled through the paragraph's text specifically, not its own position on the page — a cross-element wiring that has no equivalent in a duration-based CSS animation.</p>
+
+<p><strong>Best for:</strong> long-form articles where you want a visible sense of "how much of this specific passage remains" rather than only whole-page progress. <strong>Tip:</strong> tune <code>animation-range: cover 0% cover 85%</code> so the underline finishes filling slightly before the reader reaches the very last line, rather than exactly at it.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/css-view-timeline-underline-progress/">Heading Underline Fill</a></p>
+
+<h2>7. Scroll-Snap Carousel with view-timeline Scale</h2>
+
+<p>Drag, swipe, or scroll the strip — native <code>scroll-snap-type</code> handles the snapping, and the centered slide's scale-up comes purely from a view timeline, with no carousel library and no JS position tracking.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/scroll-snap-view-timeline-carousel/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll-Snap Carousel with view-timeline Scale — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the snapping behavior — <code>scroll-snap-type: x mandatory</code> on the track and <code>scroll-snap-align: center</code> on each slide — is entirely separate from the scaling effect, and that separation is exactly why no carousel library is needed. Each slide independently declares <code>view-timeline-name: --slide-x</code> with <code>view-timeline-axis: inline</code>, and animates <code>transform: scale()</code> from <code>0.82</code> up to <code>1</code> and back down using <code>animation-range: contain 0% contain 100%</code> — the <code>contain</code> range keyword, distinct from the <code>cover</code> range used elsewhere in this batch, ties the animation's full range to the slide being entirely contained within the scrollport rather than merely intersecting it.</p>
+
+<p><strong>Best for:</strong> a testimonial or feature carousel where the active, centered slide should visually announce itself without a JS-tracked "active index" state. <strong>Tip:</strong> the <code>contain</code> range keyword is what makes the scale peak exactly when a slide is fully centered — try swapping it for <code>cover</code> to see the more gradual, less snappy alternative.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/scroll-snap-view-timeline-carousel/">Scroll-Snap Carousel</a></p>
+
+<h2>8. SVG Path Draw via view-timeline</h2>
+
+<p>A route line draws itself in stroke-by-stroke as you scroll, with a dot traveling along the exact same path in sync — no GSAP, no ScrollTrigger, no JavaScript driving either one.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/css-view-timeline-svg-path-draw/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="SVG Path Draw via view-timeline — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the classic SVG line-draw technique — <code>stroke-dasharray</code> set to the path's total length, <code>stroke-dashoffset</code> starting at that same value and animating to <code>0</code> — gets its progress from <code>animation-timeline: --route-in</code> instead of a duration. What makes this one distinct from the progress ring's use of the same trick is that a second element, a small dot positioned via <code>offset-path</code> tracing the identical SVG path data, is bound to the exact same named timeline — so the stroke reveal and the dot's position along the route stay perfectly synchronized, both driven by one shared scroll-linked source of truth rather than two independently-tuned animations that could drift apart.</p>
+
+<p><strong>Best for:</strong> a travel itinerary, a delivery-route explainer, or any scrollytelling piece that benefits from a literal path being traced as the reader progresses. <strong>Tip:</strong> keep the <code>d</code> attribute identical between the visible path and the <code>offset-path</code> value — a mismatch is the most common way this effect breaks.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/css-view-timeline-svg-path-draw/">SVG Path Draw via view-timeline</a></p>
+
+<h2>9. Count-Up Stats on Scroll (IntersectionObserver)</h2>
+
+<p>Stat cards whose numbers count up from zero exactly once when scrolled into view — the deliberate JS counterpoint in this batch, because real numeric interpolation still needs it.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/scroll-reveal-counter-stats/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Count-Up Stats on Scroll (IntersectionObserver) — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> this is included specifically because it's the effect this batch's native-CSS techniques genuinely can't reach yet — plain CSS has no way to smoothly interpolate an arbitrary number into readable text without registering a custom <code>@property</code>, which is why the section counter above used discrete <code>steps()</code> instead. Here, a single shared <code>IntersectionObserver</code> watches every stat number via one <code>querySelectorAll</code> loop — far cheaper than one observer per element — and once a number enters view, <code>requestAnimationFrame</code> drives a 1400ms count from zero to its target, eased with <code>1 - Math.pow(1 - progress, 3)</code> so it decelerates naturally into its final value instead of stopping mechanically. Before animating anything, it checks <code>prefers-reduced-motion</code> and, if set, jumps straight to the final number with no animation loop at all.</p>
+
+<p><strong>Best for:</strong> pricing pages, about pages, and case-study sections with a handful of headline metrics worth a moment of emphasis. <strong>Tip:</strong> this is exactly the kind of effect where JavaScript is the right tool, not CSS — don't force a discrete-<code>steps()</code> counter to fake smooth numeric counting when a small shared observer does it properly.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/scroll-reveal-counter-stats/">Count-Up Stats on Scroll</a></p>
+
+<h2>10. Direction-Aware Grid Reveal (IntersectionObserver)</h2>
+
+<p>Left-column cards slide in from the left, right-column cards from the right, and the middle column rises from below — one shared observer, each card's own direction read from a data attribute.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/scroll-reveal-stagger-columns/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Direction-Aware Grid Reveal (IntersectionObserver) — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the second deliberate JS counterpoint, and for a related but distinct reason from the counter above — this needs per-element branching logic, not just a value the timeline API can't compute. Each card carries a plain <code>data-from="left"</code>/<code>"right"</code>/<code>"up"</code> attribute, and one shared <code>IntersectionObserver</code> callback reads that attribute off whichever card just entered the viewport to decide which pre-set CSS transform to clear. A <code>view-timeline</code> could animate any one card's own entrance, but choosing a <em>different</em> starting transform per card based on a data attribute is exactly the kind of per-element conditional logic that stays firmly in JavaScript's territory rather than CSS's.</p>
+
+<p><strong>Best for:</strong> a services or process-step grid where a uniform fade-up would look flatter than staggered per-column motion. <strong>Tip:</strong> keep the direction distances small (this uses 28–40px) — a direction-aware reveal reads as intentional at a subtle scale and as gimmicky at a large one.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/scroll-reveal-stagger-columns/">Direction-Aware Grid Reveal</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open any snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs, then paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — or use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page. The eight native-CSS snippets need nothing installed at all; the two IntersectionObserver ones are still dependency-free vanilla JS.</li>
+<li><strong>Always ship the <code>@supports not (...)</code> fallback.</strong> Every native snippet here resets to a static, sane state in unsupported browsers rather than leaving a property stuck at its very first keyframe — an invisible ring, a card frozen mid-turn, or a background stuck at its starting hue are all worse than no animation at all.</li>
+<li><strong>Pick <code>scroll()</code> vs <code>view()</code> based on what you're actually tracking.</strong> <code>animation-timeline: scroll(root)</code> (or <code>scroll(nearest)</code>) ties to the whole document's or container's scroll position — right for a progress ring, a background shift, a section counter. <code>animation-timeline: view()</code> (via a named <code>view-timeline</code>) ties to one specific element's transit through the viewport — right for anything that should animate as it individually enters and leaves, like the rotating cards or the saturation gallery.</li>
+<li><strong>Match <code>view-timeline-axis</code> to the layout's real scroll direction.</strong> Leave it at the default <code>block</code> for vertical page scroll; switch to <code>inline</code> the moment the element in question scrolls horizontally, as in the saturation gallery and the snap carousel — using the wrong axis produces a timeline that never actually progresses.</li>
+<li><strong>Don't force CSS to fake what still needs JavaScript.</strong> Smooth numeric counting and per-element conditional branching (like a data-attribute-driven reveal direction) are still squarely JavaScript's job — reach for a shared <code>IntersectionObserver</code> plus <code>requestAnimationFrame</code> for those rather than contorting a discrete-<code>steps()</code> CSS counter into doing something it fundamentally can't.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>The real shift with the Scroll-Driven Animations API isn't that it makes existing effects prettier — it's that it moves an entire category of "listen to scroll, compute a progress value, apply it to a style" code out of JavaScript and onto the compositor, for free, with smoother behavior during fast or inertial scrolling than a hand-rolled listener usually achieves. But the two IntersectionObserver snippets in this batch aren't filler — they're the honest boundary of what the CSS-only approach can do today. A progress value the browser computes for you is not the same primitive as smooth numeric interpolation or per-element conditional logic, and knowing which side of that line a given effect falls on is the actual skill here, not just knowing the new syntax exists.</p>
+
+<p>Try them, retune them to your own layout, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="One Listener Handles Every Item You Ever Add">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>One listener handles every item — including ones that don't exist yet</h1>
+    <p class="hint">Add new to-dos, then click any of them: the ones already on the page and the ones you just typed. There is exactly one click listener in this demo, and it lives on the list, not on the items.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="addRow">
+      <input type="text" id="input" placeholder="Add a to-do and press Enter" />
+    </div>
+    <ul class="list" id="list">
+      <li class="item"><span class="txt">Write the event delegation post</span><button class="del" aria-label="Delete">&times;</button></li>
+      <li class="item"><span class="txt">Ship the demos</span><button class="del" aria-label="Delete">&times;</button></li>
+    </ul>
+    <p class="note" id="note">Click a to-do to mark it done. Click &times; to remove it. Both work on items added a second ago.</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink:#14161c; --sub:#6b7080; --line:#e3e5ea; --accent:#6366f1; }
+  body { background:#f6f7f9; color:var(--ink); }
+  .bar { padding:18px 20px 8px; text-align:center; }
+  .bar h1 { margin:0 0 4px; font-size:18px; letter-spacing:-0.01em; }
+  .hint { margin:0 auto; max-width:50em; font-size:12.5px; color:var(--sub); }
+  .stageWrap { display:flex; flex-direction:column; align-items:center; gap:12px; padding:16px 18px 28px; }
+
+  .addRow { width:100%; max-width:420px; }
+  #input {
+    width:100%; padding:9px 12px; font:13px system-ui, sans-serif;
+    border:1px solid var(--line); border-radius:8px; outline:none;
+  }
+  #input:focus { border-color:var(--accent); }
+
+  .list { list-style:none; margin:0; padding:0; width:100%; max-width:420px; display:flex; flex-direction:column; gap:8px; }
+  .item {
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    background:#fff; border:1px solid var(--line); border-radius:9px; padding:10px 12px;
+    cursor:pointer;
+  }
+  .item:hover { border-color:#c9cce0; }
+  .item.done .txt { text-decoration:line-through; color:var(--sub); }
+  .txt { font-size:13.5px; }
+  .del {
+    border:none; background:transparent; color:var(--sub); font-size:16px;
+    cursor:pointer; line-height:1; padding:2px 6px; border-radius:6px;
+  }
+  .del:hover { background:#fee2e2; color:#dc2626; }
+  .note { margin:0; font-size:12px; color:var(--sub); text-align:center; max-width:42em; }
+</script>
+
+<script type="text/plain" id="js">
+  var list = document.getElementById('list');
+  var input = document.getElementById('input');
+  var note = document.getElementById('note');
+
+  // The ONLY click listener in this whole demo. It lives on the list,
+  // which is created once and never replaced, so this never needs re-binding.
+  list.addEventListener('click', function (e) {
+    var delBtn = e.target.closest('.del');
+    if (delBtn) {
+      var item = delBtn.closest('.item');
+      item.remove();
+      note.textContent = 'Deleted — no listener had to be removed, because none was ever attached to that item.';
+      return;
+    }
+
+    var item = e.target.closest('.item');
+    if (item) {
+      item.classList.toggle('done');
+      note.textContent = item.classList.contains('done')
+        ? 'Marked done — this item was added after the listener was set up, and it still worked.'
+        : 'Marked active again.';
+    }
+  });
+
+  input.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' || !input.value.trim()) return;
+    var li = document.createElement('li');
+    li.className = 'item';
+    li.innerHTML = '<span class="txt"></span><button class="del" aria-label="Delete">&times;</button>';
+    li.querySelector('.txt').textContent = input.value.trim();
+    list.appendChild(li);
+    input.value = '';
+    note.textContent = 'New item added — click it. No new listener was attached, yet it responds instantly.';
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

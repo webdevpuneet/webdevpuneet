@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="No Results But Popular Instead">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>No results, but here&rsquo;s what&rsquo;s popular</h1>
+    <p class="hint">Type a search term that doesn't exist — instead of a dead end, trending articles are suggested. Click one to "open" it.</p>
+  </header>
+  <main class="stageWrap">
+    <input type="text" class="searchInput" id="searchInput" placeholder="Search articles…" autocomplete="off">
+    <div class="results" id="results"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 22px 16px 28px; }
+
+  .searchInput {
+    width: 100%; max-width: 380px; padding: 10px 14px; border-radius: 9px;
+    border: 1.5px solid var(--line); font: 500 13.5px system-ui, sans-serif; color: var(--ink);
+    outline: none; transition: border-color 0.15s ease;
+  }
+  .searchInput:focus { border-color: var(--accent); }
+
+  .results { width: 100%; max-width: 380px; }
+
+  .resultRow {
+    display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+    border: 1px solid var(--line); border-radius: 9px; background: #fff;
+    margin-bottom: 8px; font-size: 13px; font-weight: 600;
+  }
+  .resultDot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+  .emptyHead { text-align: center; padding: 10px 4px 4px; }
+  .emptyTitle { margin: 0 0 2px; font-size: 13.5px; font-weight: 700; }
+  .emptyDesc { margin: 0; font-size: 12px; color: var(--sub); }
+
+  .popularLabel { margin: 16px 0 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--sub); text-align: center; }
+  .popularGrid { display: flex; flex-direction: column; gap: 8px; }
+  .popularCard {
+    display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+    border: 1px solid var(--line); border-radius: 9px; background: #fff; cursor: pointer;
+    text-align: left; font: inherit; color: var(--ink);
+  }
+  .popularCard:hover { border-color: var(--accent); background: #fafaff; }
+  .popularRank { font-size: 12px; font-weight: 800; color: var(--accent); width: 18px; flex-shrink: 0; }
+  .popularTitle { font-size: 12.5px; font-weight: 700; }
+  .popularMeta { font-size: 11px; color: var(--sub); margin-top: 1px; }
+
+  .openedCard {
+    text-align: center; padding: 26px 16px; border: 1px solid var(--line); border-radius: 12px; background: #fff;
+    animation: pop 0.3s ease;
+  }
+  @keyframes pop { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+</script>
+
+<script type="text/plain" id="js">
+  var ARTICLES = ['CSS Grid basics', 'JavaScript closures explained', 'React hooks cheat sheet'];
+  var POPULAR = [
+    { title: 'Flexbox in 5 minutes', meta: '2.4k reads this week' },
+    { title: '10 CSS tricks you forgot about', meta: '1.9k reads this week' },
+    { title: 'Debugging async JavaScript', meta: '1.5k reads this week' }
+  ];
+
+  var searchInput = document.getElementById('searchInput');
+  var results = document.getElementById('results');
+
+  function render(query) {
+    var q = query.trim().toLowerCase();
+    if (!q) { results.innerHTML = ''; return; }
+
+    var matches = ARTICLES.filter(function (a) { return a.toLowerCase().indexOf(q) !== -1; });
+
+    if (matches.length > 0) {
+      results.innerHTML = matches.map(function (m) {
+        return '<div class="resultRow"><span class="resultDot"></span>' + m + '</div>';
+      }).join('');
+      return;
+    }
+
+    var popularHtml = POPULAR.map(function (p, i) {
+      return '<button type="button" class="popularCard" data-title="' + p.title + '">' +
+        '<span class="popularRank">#' + (i + 1) + '</span>' +
+        '<span><span class="popularTitle">' + p.title + '</span><br><span class="popularMeta">' + p.meta + '</span></span>' +
+      '</button>';
+    }).join('');
+
+    results.innerHTML =
+      '<div class="emptyHead">' +
+        '<p class="emptyTitle">No articles match &ldquo;' + escapeHtml(query) + '&rdquo;</p>' +
+        '<p class="emptyDesc">Here&rsquo;s what other readers are enjoying instead.</p>' +
+      '</div>' +
+      '<div class="popularLabel">Popular right now</div>' +
+      '<div class="popularGrid">' + popularHtml + '</div>';
+
+    var cards = results.querySelectorAll('.popularCard');
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].addEventListener('click', function () {
+        var title = this.getAttribute('data-title');
+        results.innerHTML = '<div class="openedCard"><strong>' + title + '</strong><p class="emptyDesc" style="margin-top:6px;">Now reading…</p></div>';
+      });
+    }
+  }
+
+  function escapeHtml(s) {
+    var div = document.createElement('div');
+    div.textContent = s;
+    return div.innerHTML;
+  }
+
+  searchInput.addEventListener('input', function () { render(searchInput.value); });
+  searchInput.value = 'react native gestures';
+  render('react native gestures');
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

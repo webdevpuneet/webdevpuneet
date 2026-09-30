@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Pulsing Typing Indicator">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Pulsing typing indicator</h1>
+    <p class="hint">Click "Send message" — three dots bounce in the reply bubble while a response is "typed," then the dots are replaced by the actual reply text.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="chat">
+      <div class="bubble mine">How long until the export finishes?</div>
+      <div class="bubble theirs" id="theirBubble">
+        <button type="button" class="triggerBtn" id="triggerBtn">Send message</button>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; padding: 26px 16px 28px; }
+
+  .chat { width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 10px; }
+  .bubble { padding: 10px 14px; border-radius: 14px; font-size: 13px; line-height: 1.45; max-width: 85%; }
+  .mine { align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
+  .theirs { align-self: flex-start; background: #fff; border: 1px solid var(--line); border-bottom-left-radius: 4px; min-width: 64px; }
+
+  .triggerBtn {
+    padding: 6px 4px; border: none; background: transparent;
+    color: var(--accent); font: 700 13px system-ui, sans-serif; cursor: pointer;
+  }
+
+  .dots { display: flex; align-items: center; gap: 4px; padding: 4px 2px; }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--sub);
+    animation: bounce 1s ease-in-out infinite;
+  }
+  .dot:nth-child(2) { animation-delay: 0.15s; }
+  .dot:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+    30% { transform: translateY(-4px); opacity: 1; }
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var theirBubble = document.getElementById('theirBubble');
+
+  function attach() {
+    var btn = document.getElementById('triggerBtn');
+    if (btn) btn.addEventListener('click', send);
+  }
+
+  function send() {
+    theirBubble.innerHTML = '<div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>';
+    setTimeout(function () {
+      theirBubble.textContent = 'About 2 more minutes — 90% done.';
+      setTimeout(function () {
+        theirBubble.innerHTML = '<button type="button" class="triggerBtn" id="triggerBtn">Send again</button>';
+        attach();
+      }, 1800);
+    }, 1600);
+  }
+
+  attach();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

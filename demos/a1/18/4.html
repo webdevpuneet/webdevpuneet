@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Memoizing a Cheap Calculation Buys You Nothing">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Memoizing a cheap calculation buys you nothing</h1>
+    <p class="hint">Type in the box. The dependency changes on every keystroke, so both sides recalculate the same number of times.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 17px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 18px 16px 28px; }
+  .field { width: 100%; max-width: 480px; padding: 10px 12px; border-radius: 8px; border: 1.5px solid var(--line); font: 13px system-ui, sans-serif; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 8px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .stat { font: 800 24px ui-monospace, monospace; margin-bottom: 4px; }
+  .val { font: 600 12px ui-monospace, monospace; color: var(--sub); word-break: break-all; margin-bottom: 8px; }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; }
+  code { background: #eceef3; padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useMemo = React.useMemo;
+  var useRef = React.useRef;
+
+  function shout(text) {
+    return text.toUpperCase() + '!';
+  }
+
+  function Demo() {
+    var textState = useState('type here');
+    var text = textState[0];
+    var setText = textState[1];
+
+    var badCallsRef = useRef(0);
+    var goodCallsRef = useRef(0);
+
+    // No useMemo -- just call the (trivially cheap) function directly.
+    badCallsRef.current += 1;
+    var badShouted = shout(text);
+
+    // useMemo'd -- looks "optimized," but its only dependency is `text`,
+    // which changes on literally every keystroke. The dependency check
+    // itself never has a chance to find a match, so this pays for an array
+    // comparison on every render and STILL recalculates every time.
+    var goodShouted = useMemo(function () {
+      goodCallsRef.current += 1;
+      return shout(text);
+    }, [text]);
+
+    return e(React.Fragment, null,
+      e('input', {
+        className: 'field',
+        value: text,
+        onChange: function (ev) { setText(ev.target.value); }
+      }),
+      e('div', { className: 'cols' },
+        e('div', { className: 'col' },
+          e('h2', { className: 'colTitle bad' }, 'No useMemo'),
+          e('div', { className: 'stat' }, badCallsRef.current),
+          e('div', { className: 'val' }, badShouted),
+          e('p', { className: 'note' }, 'Recalculates on every keystroke.')
+        ),
+        e('div', { className: 'col' },
+          e('h2', { className: 'colTitle good' }, 'useMemo'),
+          e('div', { className: 'stat' }, goodCallsRef.current),
+          e('div', { className: 'val' }, goodShouted),
+          e('p', { className: 'note' }, 'Also recalculates every keystroke -- same count, plus a wasted comparison.')
+        )
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

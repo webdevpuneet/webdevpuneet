@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="animation-timeline: view()">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>animation-timeline: view()</h1>
+    <p class="hint">Scroll down. The card below fades and slides in purely because it is entering the frame's own scrollport &mdash; no IntersectionObserver, no scroll event.</p>
+  </header>
+  <div class="spacer">Scroll ↓</div>
+  <div class="card" id="card">
+    <h3>I animate in on scroll</h3>
+    <p>animation-timeline: view() ties this element's own @keyframes progress to its position as it crosses the scrollport &mdash; entering at 0%, fully progressed once it has crossed through to exiting.</p>
+  </div>
+  <div class="spacer end">Keep scrolling</div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .spacer { height: 240px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 280px; }
+
+  .card {
+    max-width: 380px;
+    margin: 0 auto;
+    padding: 24px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(20, 22, 28, 0.08);
+    animation: reveal linear both;
+    animation-timeline: view();
+  }
+
+  .card h3 { margin: 0 0 8px; font-size: 16px; }
+  .card p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--sub); }
+
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(40px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+</script>
+
+<script type="text/plain" id="js">
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

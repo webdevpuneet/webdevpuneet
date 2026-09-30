@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="No-JS Animated Loading Ring">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>A loading ring animated with zero per-frame JavaScript</h1>
+    <p class="hint">This ring spins its progress via a CSS @keyframes animation on a single registered --pct &lt;number&gt;, feeding a conic-gradient. No script ever touches the gradient or runs on a frame loop -- only the readout below polls it, purely to prove it.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="ring" id="ring">
+      <div class="ringInner" id="ringLabel">0</div>
+    </div>
+    <p class="note" id="note">Reading the live --pct value below (readout only -- the animation itself is pure CSS).</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 56em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 26px 18px 30px; }
+
+  @property --pct {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 0;
+  }
+
+  @keyframes fillRing {
+    from { --pct: 0; }
+    to   { --pct: 100; }
+  }
+
+  .ring {
+    --pct: 0;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: conic-gradient(var(--accent) calc(var(--pct) * 1%), var(--line) 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    animation: fillRing 2.4s ease-in-out infinite alternate;
+  }
+
+  .ringInner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 700 20px system-ui, sans-serif;
+    color: var(--ink);
+  }
+
+  .note { margin: 0; max-width: 56em; font-size: 12.5px; color: var(--sub); text-align: center; }
+  .note strong { color: var(--ink); }
+</script>
+
+<script type="text/plain" id="js">
+  var ring = document.getElementById('ring');
+  var label = document.getElementById('ringLabel');
+  var note = document.getElementById('note');
+
+  // This interval only reads and displays the number -- it never sets --pct
+  // or drives the gradient. The animation itself is entirely CSS-owned.
+  setInterval(function () {
+    var pct = getComputedStyle(ring).getPropertyValue('--pct').trim();
+    var rounded = Math.round(parseFloat(pct) || 0);
+    label.textContent = rounded;
+    note.innerHTML = 'Live readout only: <strong>--pct</strong> currently computes to <strong>' + pct + '</strong>. The conic-gradient, the animation loop and the easing are all handled by a single @keyframes rule animating one registered &lt;number&gt; -- this script polls the value to display it, it does not drive it.';
+  }, 120);
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

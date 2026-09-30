@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Throttled Scroll Updates">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Throttled Scroll Updates</h1>
+    <p class="hint">Scroll inside the box below. Raw scroll events can fire dozens of times a second — the throttled counter updates at most once every 150ms no matter how fast you scroll.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="statsRow">
+      <div class="statBox"><span class="statLabel">Raw scroll events</span><span class="statValue" id="rawCount">0</span></div>
+      <div class="statBox"><span class="statLabel">Throttled updates</span><span class="statValue" id="throttleCount">0</span></div>
+    </div>
+    <div class="scrollBox" id="scrollBox">
+      <div class="scrollContent" id="scrollContent"></div>
+    </div>
+    <div class="progressTrack"><div class="progressFill" id="progressFill"></div></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 14px 16px 26px; }
+
+  .statsRow { display: flex; gap: 10px; }
+  .statBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 130px;
+    padding: 10px 14px;
+    border: 1.5px dashed var(--line);
+    border-radius: 10px;
+    background: #fff;
+  }
+  .statLabel { font-size: 10.5px; color: var(--sub); text-transform: uppercase; letter-spacing: .04em; }
+  .statValue { font: 800 22px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--accent); }
+
+  .scrollBox {
+    width: 100%;
+    max-width: 360px;
+    height: 150px;
+    overflow-y: auto;
+    border: 1.5px dashed var(--line);
+    border-radius: 10px;
+    background: #fff;
+  }
+  .scrollContent { padding: 10px 14px; }
+  .scrollRow {
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line);
+    font: 600 12.5px system-ui, sans-serif;
+    color: var(--sub);
+  }
+  .scrollRow:last-child { border-bottom: none; }
+  .scrollRow strong { color: var(--ink); }
+
+  .progressTrack {
+    width: 100%;
+    max-width: 360px;
+    height: 8px;
+    border-radius: 20px;
+    background: #eceef3;
+    overflow: hidden;
+  }
+  .progressFill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    border-radius: 20px;
+    transition: width .08s linear;
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var content = document.getElementById('scrollContent');
+  for (var i = 1; i <= 40; i++) {
+    var row = document.createElement('div');
+    row.className = 'scrollRow';
+    row.innerHTML = 'Row <strong>' + i + '</strong> — keep scrolling to see the throttle catch up';
+    content.appendChild(row);
+  }
+
+  function throttle(fn, limit) {
+    var inThrottle = false;
+    return function () {
+      var args = arguments;
+      if (!inThrottle) {
+        fn.apply(null, args);
+        inThrottle = true;
+        setTimeout(function () { inThrottle = false; }, limit);
+      }
+    };
+  }
+
+  var box = document.getElementById('scrollBox');
+  var rawCountEl = document.getElementById('rawCount');
+  var throttleCountEl = document.getElementById('throttleCount');
+  var fill = document.getElementById('progressFill');
+
+  var rawCount = 0;
+  var throttleCount = 0;
+
+  function updateThrottled() {
+    throttleCount++;
+    throttleCountEl.textContent = throttleCount;
+    var max = box.scrollHeight - box.clientHeight;
+    var pct = max > 0 ? (box.scrollTop / max) * 100 : 0;
+    fill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+  }
+
+  var throttledUpdate = throttle(updateThrottled, 150);
+
+  box.addEventListener('scroll', function () {
+    rawCount++;
+    rawCountEl.textContent = rawCount;
+    throttledUpdate();
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

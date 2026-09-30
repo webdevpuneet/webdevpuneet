@@ -1,0 +1,137 @@
+<h1>10 More Free Bootstrap 5 Snippets: A Kanban Board You Can Actually Drag, a Table That Sorts Dates Correctly & Toasts That Clean Up After Themselves</h1>
+
+<p>The first batch of Bootstrap snippets covered the pages every site needs — navbar, hero, pricing, login, cart. This second batch goes one layer deeper, into the details that separate a snippet that looks right from one that actually behaves right: a kanban board using the browser's real HTML5 Drag and Drop API instead of a library, a data table that sorts a currency column by its raw number instead of its formatted string, and a toast notification system that remembers to clean up its own DOM nodes after itself. Every one still loads the genuine <code>bootstrap.min.css</code> and <code>bootstrap.bundle.min.js</code> from a CDN and builds on Bootstrap's real component classes and JavaScript API.</p>
+
+<p>Every one is a <strong>live, interactive preview</strong> you can try right here in the article, and each exports to React, Vue, Angular or Tailwind in one click from its snippet page.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>Native browser APIs before reaching for a library.</strong> The kanban board's drag-and-drop is the actual HTML5 Drag and Drop API — <code>draggable="true"</code> plus <code>dragstart</code>/<code>dragover</code>/<code>drop</code> listeners — with the one line (<code>e.preventDefault()</code> inside <code>dragover</code>) that's easy to leave out and that silently breaks every drop if you do.</li>
+<li><strong>Sorting the real value, not the formatted text.</strong> The data table's columns each carry a <code>data-type</code> of <code>text</code>, <code>num</code>, or <code>date</code>, and a per-type getter reads each row's raw, unformatted data attribute before comparing — so sorting "Total spent" actually orders by the number, not by a currency string that would silently sort wrong.</li>
+<li><strong>State recalculated from the DOM, not tracked in a separate variable.</strong> The kanban board's per-column counts and the notification dropdown's unread badge are both recomputed by reading what's actually in the DOM after every change, rather than incrementing or decrementing a number that could drift from reality.</li>
+<li><strong>Cleanup that actually happens.</strong> Bootstrap's Toast component hides a dismissed toast but never removes its element — this collection's toast stack listens for the real <code>hidden.bs.toast</code> event and removes the node only once the hide animation has genuinely finished, so triggering dozens of toasts in a session never leaks stale elements.</li>
+<li><strong>One Bootstrap instance, reused correctly.</strong> The lightbox gallery uses a single real Bootstrap modal for all six images, opened to whichever thumbnail was clicked via a shared index — not six separate modal elements — and the notification dropdown's <code>data-bs-auto-close="outside"</code> keeps the panel open across several clicks instead of Bootstrap's default of closing it on the very first one.</li>
+</ul>
+
+<h2>1. Bootstrap Mega Menu Dropdown Navbar</h2>
+
+<p>A real Bootstrap navbar dropdown expanded into a full-width mega menu with grouped link columns and a promo panel — using Bootstrap's own Dropdown component, not a custom-built panel.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-mega-menu-navbar/embed/" style="width:100%;height:580px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Mega Menu Dropdown Navbar — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the dropdown itself is entirely Bootstrap's real Dropdown component via <code>data-bs-toggle="dropdown"</code> — genuine open/close and outside-click handling, no custom JavaScript duplicating it. The full-width panel is a single CSS trick: setting <code>position: static</code> on the parent list item removes the positioning context the dropdown menu would normally anchor to, freeing the absolutely-positioned <code>.dropdown-menu</code> to stretch <code>left: 0; right: 0</code> against the whole navbar instead of Bootstrap's default narrow menu.</p>
+
+<p><strong>Best for:</strong> SaaS marketing sites whose "Products" or "Solutions" nav item has outgrown a simple dropdown list. <strong>Tip:</strong> the promo column is a ready-made spot to spotlight a new feature every time a visitor opens the menu — swap it out without touching the link columns.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-mega-menu-navbar/">Bootstrap Mega Menu Dropdown Navbar</a></p>
+
+<h2>2. Bootstrap Two-Factor Verification Code Form</h2>
+
+<p>A real Bootstrap six-box code entry with auto-advancing focus, backspace-to-previous navigation, and full-code paste support — the standard 2FA input pattern, built correctly.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-2fa-verification-form/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Two-Factor Verification Code Form — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> typing a digit auto-advances focus to the next of the six real Bootstrap <code>form-control</code> boxes, and pressing Backspace on an empty box moves focus back to the previous one, so deleting feels continuous in either direction. The detail most six-box demos skip: a <code>paste</code> event listener intercepts a pasted code and distributes all six digits across the boxes at once, starting from the first box — the way a password manager or a copied SMS code actually arrives, instead of dumping the whole string into whichever single box happened to be focused.</p>
+
+<p><strong>Best for:</strong> any real two-factor authentication or one-time-password flow. <strong>Tip:</strong> the same auto-advance/backspace/paste pattern works for any fixed-length code — invite codes, coupon codes — not just 2FA.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-2fa-verification-form/">Bootstrap Two-Factor Verification Code Form</a></p>
+
+<h2>3. Bootstrap Team Member Card Grid</h2>
+
+<p>A real Bootstrap card grid for an "about" or careers page, with a working department filter — click a button and only the matching team cards stay visible.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-team-member-grid/embed/" style="width:100%;height:660px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Team Member Card Grid — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every team card carries a <code>data-dept</code> attribute, and Bootstrap's real <code>btn-group</code> acts as the filter — clicking a button reads its own <code>data-dept</code>, restyles itself as the active choice by swapping Bootstrap's <code>btn-dark</code>/<code>btn-outline-dark</code> classes, and hides every card whose department doesn't match ("All" simply matches everything). The avatars are CSS gradients keyed off a per-card hue custom property, so the whole grid works immediately with zero headshot photography.</p>
+
+<p><strong>Best for:</strong> about, careers, and directory pages where a growing team benefits from narrowing by department instead of scrolling past everyone. <strong>Tip:</strong> the same data-attribute filter pattern reuses cleanly for a speaker list filterable by track, or a vendor directory filterable by category.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-team-member-grid/">Bootstrap Team Member Card Grid</a></p>
+
+<h2>4. Bootstrap Testimonial Card Carousel</h2>
+
+<p>Bootstrap's real Carousel component, usually shown carrying images, repurposed to carry full testimonial cards instead — star rating, quote, and attribution, one per slide.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-testimonial-carousel/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Testimonial Card Carousel — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the prev/next arrows, the clickable indicator dots, and the slide transition are all Bootstrap's own <code>.carousel</code>/<code>.carousel-inner</code>/<code>.carousel-indicators</code> markup, wired through <code>data-bs-target</code>/<code>data-bs-slide</code> attributes exactly as documented. One deliberate setting: <code>data-bs-ride="false"</code> disables Bootstrap's default auto-advance — a testimonial needs to be read, not glanced at, so this carousel only moves when a visitor clicks an arrow or a dot.</p>
+
+<p><strong>Best for:</strong> customer testimonial and social-proof sections that need to rotate several quotes through the space a single one would otherwise occupy. <strong>Tip:</strong> pair this directly below the Bootstrap pricing table from the first batch — testimonials right under pricing reinforce the decision at the exact moment it matters.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-testimonial-carousel/">Bootstrap Testimonial Card Carousel</a></p>
+
+<h2>5. Bootstrap Usage-Based Pricing Calculator</h2>
+
+<p>A real Bootstrap slider calculator that recomputes an estimated monthly bill live as you drag — API call volume and active seat count both feeding one running total.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-usage-pricing-calculator/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Usage-Based Pricing Calculator — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> two real Bootstrap <code>form-range</code> sliders each trigger the same shared <code>recalc()</code> function on every <code>input</code> event — not <code>change</code>, so the total updates continuously while dragging rather than only once you release the slider. The rate itself comes from two named constants (<code>PER_CALL</code>, <code>PER_SEAT</code>) read directly inside that one function, instead of the calculation being scattered as magic numbers across several places that could drift out of sync with each other.</p>
+
+<p><strong>Best for:</strong> usage-metered SaaS pricing pages — API, storage, or seat-based products all benefit from letting a prospect see a real estimated bill before ever signing up. <strong>Tip:</strong> add a third slider and rate constant (storage, for instance) by copying the existing pattern — one more term inside <code>recalc()</code> and it's fully wired in.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-usage-pricing-calculator/">Bootstrap Usage-Based Pricing Calculator</a></p>
+
+<h2>6. Bootstrap Notification Center Dropdown</h2>
+
+<p>A real Bootstrap dropdown notification center with a live unread badge — click through several notifications in one open panel instead of it closing after the first click.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-notification-center-dropdown/embed/" style="width:100%;height:500px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Notification Center Dropdown — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> Bootstrap's Dropdown closes on any click by default, including a click inside the menu itself — left as-is, marking one notification read would dismiss the whole panel before a second one could be read. This snippet's trigger button carries <code>data-bs-auto-close="outside"</code>, one of Bootstrap's own documented modes, so the panel now closes only on a genuine outside click. The badge count itself isn't hardcoded — <code>updateBadge()</code> recounts how many notifications currently carry an <code>.bsnotif-unread</code> class after every change, and hides itself entirely once that count reaches zero.</p>
+
+<p><strong>Best for:</strong> any app or dashboard header needing the standard bell-icon-with-badge pattern. <strong>Tip:</strong> pair with the Bootstrap admin dashboard sidebar from the first batch for a complete top-bar notification experience.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-notification-center-dropdown/">Bootstrap Notification Center Dropdown</a></p>
+
+<h2>7. Bootstrap Kanban Board with Drag-and-Drop Cards</h2>
+
+<p>A real Bootstrap kanban board where cards genuinely drag between columns using the browser's native HTML5 Drag and Drop API, with a live per-column count.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-kanban-board-cards/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Kanban Board with Drag-and-Drop Cards — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every card carries <code>draggable="true"</code>, and the board is wired with genuine <code>dragstart</code>/<code>dragend</code>/<code>dragover</code>/<code>drop</code> listeners — no third-party drag library. The one line that's easy to leave out: a drop zone's <code>dragover</code> handler must call <code>e.preventDefault()</code>, because browsers reject drops everywhere by default — without it, the <code>drop</code> event simply never fires, no matter how the card is released. Dropping itself is one line, <code>zone.appendChild(dragged)</code>, and a shared <code>updateCounts()</code> re-reads how many cards each column actually contains after every drag ends, so the badges can never go stale.</p>
+
+<p><strong>Best for:</strong> internal tools and lightweight project trackers needing the standard To Do / In Progress / Done pattern without a drag-and-drop dependency. <strong>Tip:</strong> relabel the three columns for a sales or hiring pipeline — the drag/drop logic doesn't care what the columns are called.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-kanban-board-cards/">Bootstrap Kanban Board with Drag-and-Drop Cards</a></p>
+
+<h2>8. Bootstrap Data Table with Sortable Columns</h2>
+
+<p>A real Bootstrap table where clicking any column header sorts by that column's actual data type — text, number, or date — rather than by the formatted text on screen.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-sortable-data-table/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Data Table with Sortable Columns — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> sorting the visible <code>$3,120</code> text as a plain string breaks the moment currency formatting or a non-ISO date enters the picture. Every row instead carries its raw, unformatted value in a data attribute, and a per-type <code>GETTERS</code> object — <code>Number()</code> for numeric columns, <code>new Date().getTime()</code> for the date column — converts it correctly before comparing. Clicking the same header twice flips a shared <code>ascending</code> boolean to reverse direction; clicking a different header resets it back to <code>true</code>, so switching columns never carries over a stale direction from whichever was sorted last.</p>
+
+<p><strong>Best for:</strong> admin dashboards and any table of records past a handful of rows, where sortable columns are close to a baseline expectation. <strong>Tip:</strong> drop this straight into the Bootstrap admin dashboard's orders table from the first batch for a fully interactive records view.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-sortable-data-table/">Bootstrap Data Table with Sortable Columns</a></p>
+
+<h2>9. Bootstrap Image Lightbox Gallery Modal</h2>
+
+<p>A real Bootstrap modal reused as a shared lightbox for a whole thumbnail grid — click-to-enlarge with working prev/next and left/right arrow-key navigation.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-lightbox-gallery-modal/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Image Lightbox Gallery Modal — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> there's exactly one real Bootstrap modal for the entire six-image gallery, not one per thumbnail — clicking a thumbnail sets a shared <code>current</code> index and opens the modal programmatically with <code>modal.show()</code>. One <code>render()</code> function updates both the full-size image and the "N / 6" counter from that same index, which is what keeps the counter, the image, and the prev/next buttons all consistent no matter how you got there — a thumbnail click, a nav button, or an arrow key, since a <code>keydown</code> listener scoped to the modal element adds left/right arrow support on top of what Bootstrap's Modal provides by itself.</p>
+
+<p><strong>Best for:</strong> portfolio, product, and documentation galleries needing click-to-enlarge without pulling in a dedicated lightbox library. <strong>Tip:</strong> the images are CSS gradients by default — swap <code>.bslight-thumb</code> and <code>.bslight-full</code>'s backgrounds for real photo URLs when ready.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-lightbox-gallery-modal/">Bootstrap Image Lightbox Gallery Modal</a></p>
+
+<h2>10. Bootstrap Toast Notification Stack</h2>
+
+<p>Real Bootstrap toasts created on demand and stacked in the corner — each auto-dismisses after 4 seconds and removes itself from the DOM once its hide animation genuinely finishes.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-toast-notification-stack/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Toast Notification Stack — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> most Toast demos show one static example — this one builds what a real app actually needs, creating a fresh <code>&lt;div class="toast"&gt;</code> on every trigger click, appending it into a shared <code>.toast-container</code>, and handing it to a new <code>bootstrap.Toast</code> instance with a real 4-second <code>delay</code> option rather than a custom <code>setTimeout</code>. The detail that matters past a single toast: Bootstrap hides a dismissed toast but never removes its element from the DOM. This snippet listens for Bootstrap's own <code>hidden.bs.toast</code> event — fired only once the hide animation has actually completed — and removes the node then, so triggering dozens of toasts across a session never leaves invisible elements behind.</p>
+
+<p><strong>Best for:</strong> save confirmations and any background action feedback that shouldn't interrupt what someone's doing. <strong>Tip:</strong> wire one of the trigger types directly to a real <code>fetch()</code> call's success/error branches instead of a button click.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-toast-notification-stack/">Bootstrap Toast Notification Stack</a></p>
+
+<p>Same as the first batch, each of these ten lives in the category that actually fits its shape — the mega menu under Navigation, the kanban board under Dashboards, the sortable table under Tables — so they surface alongside every other snippet of that kind rather than sitting in a library of their own. Find these ten, the first batch's ten, and every other Bootstrap snippet in the collection in one place via the <a href="https://fwdtools.com/ui-snippets/tag/bootstrap/">Bootstrap tag</a>. Open any of them above and you land straight in the live editor, HTML/CSS/JS tabs and all; click <strong>Save as</strong> to copy it into <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and start changing it.</p>

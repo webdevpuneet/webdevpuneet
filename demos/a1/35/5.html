@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Card Lift on Hover">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Card Lift on Hover</h1>
+    <p class="hint">Hover over the card &mdash; it lifts slightly with <code>translateY</code> and its shadow grows to sell the elevation.</p>
+  </header>
+  <main class="stageWrap">
+    <article class="liftCard">
+      <div class="liftIcon">&#9733;</div>
+      <h3>Pro Plan</h3>
+      <p>Everything in Free, plus priority support and unlimited projects.</p>
+    </article>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; align-items: center; padding: 20px 18px 40px; min-height: 260px; }
+
+  .liftCard {
+    width: 260px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 1px 2px rgba(20,22,28,.05);
+    transform: translateY(0);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .liftCard:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 30px -10px rgba(20,22,28,.18);
+  }
+  .liftIcon { font-size: 22px; color: #f59e0b; margin-bottom: 8px; }
+  .liftCard h3 { margin: 0 0 6px; font-size: 16px; }
+  .liftCard p { margin: 0; font-size: 12.5px; line-height: 1.6; color: var(--sub); }
+</script>
+
+<script type="text/plain" id="js">
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

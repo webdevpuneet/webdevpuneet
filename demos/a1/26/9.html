@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="!important Reverses Layer Order">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1><code>!important</code> reverses layer order</h1>
+    <p class="hint">All three rules below target the same paragraph with <code>!important</code>: one in the "reset" layer (declared first), one in the "theme" layer (declared second), and one completely unlayered. Normally later-and-unlayered would win &mdash; with <code>!important</code>, the result flips.</p>
+  </header>
+  <main class="stageWrap">
+    <article class="card">
+      <p class="target" id="target">Sample text</p>
+    </article>
+    <p class="note" id="note">Computing...</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 56em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 30px 18px 34px; }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 30px;
+  }
+
+  @layer reset, theme;
+
+  /* "reset" is declared FIRST -- lowest priority for normal declarations.
+     But this is !important, and !important reverses the order entirely:
+     the FIRST-declared layer's !important now has the HIGHEST priority. */
+  @layer reset {
+    .target {
+      color: #16a34a !important;
+      font-weight: 800;
+    }
+  }
+
+  /* "theme" is declared SECOND -- normally the winner. With !important,
+     being later actually makes this rule LOSE to reset's !important. */
+  @layer theme {
+    .target {
+      color: #dc2626 !important;
+      font-weight: 800;
+    }
+  }
+
+  /* Unlayered rules are normally the strongest of all for plain
+     declarations. For !important, it's the opposite: unlayered
+     !important is the WEAKEST of the three here. */
+  .target {
+    color: #1d4ed8 !important;
+    font-weight: 800;
+  }
+
+  .note { margin: 0; max-width: 56em; font-size: 12.5px; color: var(--sub); text-align: center; }
+  .note strong { color: var(--ink); }
+</script>
+
+<script type="text/plain" id="js">
+  var target = document.getElementById('target');
+  var note = document.getElementById('note');
+  var color = getComputedStyle(target).color;
+  var isReset = color === 'rgb(22, 163, 74)';
+
+  note.innerHTML = isReset
+    ? 'Computed color: <strong>green</strong> &mdash; the "reset" layer\'s !important declaration, even though "reset" is declared FIRST (normally the lowest priority) and even though an unlayered !important rule and a "theme" layer !important rule both also target this element. For !important declarations, the cascade order is reversed: the earliest-declared layer wins, and unlayered !important becomes the weakest option of all, not the strongest.'
+    : 'Computed color did not match "reset" green. (Unexpected in a spec-compliant browser &mdash; the first-declared layer\'s !important should win.)';
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

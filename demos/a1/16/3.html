@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Forgetting the Cleanup Function Leaks the Interval">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Unmounting a component doesn't stop its interval for you</h1>
+    <p class="hint">Mount a timer, let it tick a few times, then unmount it. Without a cleanup function, it keeps running invisibly and logging in the background.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 17px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px 28px; }
+  .toggleRow { display: flex; gap: 10px; }
+  .toggleBtn { padding: 9px 16px; border-radius: 9px; border: 1.5px solid var(--line); background: #fff; font: 700 12.5px system-ui, sans-serif; cursor: pointer; }
+  .toggleBtn.active { border-color: var(--accent); background: #eef0ff; color: var(--accent); }
+  .stage { width: 100%; max-width: 420px; min-height: 90px; background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .timerBox .stat { font: 800 24px ui-monospace, monospace; }
+  .empty { color: var(--sub); font-size: 12.5px; padding: 10px 0; }
+  .log { width: 100%; max-width: 420px; background: #0f1117; border-radius: 10px; padding: 10px 14px; font: 12px ui-monospace, monospace; color: #9aa4b2; max-height: 110px; overflow-y: auto; }
+  .log div.warn { color: #f59e0b; }
+  .badgeRow { display: flex; align-items: center; gap: 8px; font-size: 11.5px; color: var(--sub); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
+  .dot.off { background: var(--sub); opacity: .4; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useEffect = React.useEffect;
+
+  // The interval that forgets to clean itself up. It logs into a plain
+  // module-level array (not React state) specifically so it can keep
+  // logging even after the component that created it has been unmounted --
+  // exactly the leaked-timer behavior this demo is illustrating.
+  var leakLog = [];
+  var leakActive = false;
+
+  function LeakyTimer() {
+    var tickState = useState(0);
+    var tick = tickState[0];
+    var setTick = tickState[1];
+
+    useEffect(function () {
+      leakActive = true;
+      var id = setInterval(function () {
+        setTick(function (n) { return n + 1; }); // will throw a warning to console once truly unmounted in StrictMode; here we avoid updating unmounted state directly
+        leakLog.push('tick (leaked interval still running)');
+      }, 500);
+      // NO return statement here -- this is the bug. The interval is never
+      // cleared, so it keeps running forever, even after this component
+      // is removed from the tree.
+    }, []);
+
+    return e('div', { className: 'stage timerBox' },
+      e('div', { className: 'stat' }, tick),
+      e('p', { style: { fontSize: '11px', color: 'var(--sub)', margin: '6px 0 0' } }, 'This timer has no cleanup function.')
+    );
+  }
+
+  function Demo() {
+    var mountedState = useState(true);
+    var mounted = mountedState[0];
+    var setMounted = mountedState[1];
+    var logTickState = useState(0);
+    var setLogTick = logTickState[1];
+
+    // Re-render this wrapper every 500ms just so the log panel below can
+    // reflect leakLog's latest entries, proving the leaked interval really
+    // is still pushing to it after "unmount".
+    useEffect(function () {
+      var id = setInterval(function () { setLogTick(function (n) { return n + 1; }); }, 500);
+      return function () { clearInterval(id); };
+    }, []);
+
+    return e('div', null,
+      e('div', { className: 'toggleRow' },
+        e('button', { className: 'toggleBtn' + (mounted ? ' active' : ''), onClick: function () { setMounted(true); } }, 'Mount timer'),
+        e('button', { className: 'toggleBtn' + (!mounted ? ' active' : ''), onClick: function () { setMounted(false); } }, 'Unmount timer')
+      ),
+      mounted ? e(LeakyTimer) : e('div', { className: 'stage' }, e('p', { className: 'empty' }, 'Timer unmounted from the tree — but check the log below.')),
+      e('div', { className: 'badgeRow', style: { marginTop: '6px' } },
+        e('span', { className: 'dot' + (leakActive ? '' : ' off') }),
+        'Interval created so far: ' + (leakActive ? 'yes' : 'no') + ' — it is NEVER cleared, mounted or not'
+      ),
+      e('div', { className: 'log' },
+        leakLog.slice(-6).map(function (line, i) {
+          return e('div', { key: i, className: 'warn' }, line);
+        })
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

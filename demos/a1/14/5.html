@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Full-Bleed From Inside a Nested Section">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Breaking out from inside a wrapper</h1>
+    <p class="hint">The figure is nested inside a <code>&lt;section&gt;</code>, two levels below the article grid. Subgrid is what lets it still reach the article's full-bleed column lines.</p>
+  </header>
+  <main class="stageWrap">
+    <button type="button" class="toggleBtn" id="toggleBtn">Turn subgrid OFF</button>
+    <article class="article on" id="article">
+      <p>This paragraph is a direct child of the article grid, sitting in the readable centre track.</p>
+
+      <section class="chapter">
+        <p>This paragraph and the figure below are inside a nested &lt;section&gt; — a separate element that normally starts its own layout context.</p>
+        <figure class="bleed">Full-bleed figure, nested two levels deep</figure>
+        <p>Without subgrid, that figure can only span the section's width. It has no way to name the article's outer column lines.</p>
+      </section>
+
+      <p>And the article continues in the centre track.</p>
+    </article>
+    <p class="note" id="note">Subgrid ON — the section inherits the article's columns, so the nested figure reaches edge to edge.</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink:#14161c; --sub:#6b7080; --line:#e3e5ea; --accent:#6366f1; }
+  body { background:#f6f7f9; color:var(--ink); }
+  .bar { padding:18px 20px 8px; text-align:center; }
+  .bar h1 { margin:0 0 4px; font-size:19px; letter-spacing:-0.01em; }
+  .hint { margin:0 auto; max-width:48em; font-size:12.5px; color:var(--sub); }
+  .hint code { background:#eceef3; padding:1px 5px; border-radius:4px; }
+  .stageWrap { display:flex; flex-direction:column; align-items:center; gap:14px; padding:16px 18px 28px; }
+
+  .toggleBtn {
+    font:700 12.5px system-ui, sans-serif; padding:8px 16px;
+    border:1px solid var(--line); border-radius:7px;
+    background:#fff; color:var(--accent); cursor:pointer;
+  }
+  .toggleBtn:hover { background:#eef0ff; }
+
+  /* The article owns three tracks: gutter | readable centre | gutter. */
+  .article {
+    display:grid;
+    grid-template-columns:[full-start] 1fr [content-start] minmax(0, 24em) [content-end] 1fr [full-end];
+    row-gap:12px;
+    width:100%; max-width:580px;
+    background:#fff; border:1px solid var(--line); border-radius:12px;
+    padding:16px 0; overflow:hidden;
+  }
+
+  .article > p { grid-column:content; }
+
+  /* The nested section spans the full width of the article grid. */
+  .chapter { grid-column:full-start / full-end; display:grid; row-gap:12px; }
+
+  /* Subgrid ON: the section adopts the article's own column tracks, so its
+     children can name content / full exactly like a direct child could. */
+  .article.on .chapter { grid-template-columns:subgrid; }
+  .article.on .chapter > p { grid-column:content; }
+  .article.on .chapter > .bleed { grid-column:full-start / full-end; }
+
+  /* Subgrid OFF: the section is a plain one-column grid. Its children can
+     only ever be as wide as the section itself — the outer lines are gone. */
+  .article.off .chapter { grid-template-columns:minmax(0,1fr); padding:0 14px; }
+
+  .article p { margin:0; font-size:13px; line-height:1.6; }
+  .chapter > p { color:var(--sub); }
+
+  .bleed {
+    margin:0; padding:22px 12px; text-align:center;
+    font:700 12px system-ui, sans-serif; color:#fff;
+    background:linear-gradient(120deg,#6366f1,#22d3ee);
+  }
+  .note { margin:0; font-size:12px; color:var(--sub); text-align:center; max-width:44em; }
+</script>
+
+<script type="text/plain" id="js">
+  var article = document.getElementById('article');
+  var btn = document.getElementById('toggleBtn');
+  var note = document.getElementById('note');
+  var on = true;
+
+  btn.addEventListener('click', function () {
+    on = !on;
+    article.classList.toggle('on', on);
+    article.classList.toggle('off', !on);
+    btn.textContent = on ? 'Turn subgrid OFF' : 'Turn subgrid ON';
+    note.textContent = on
+      ? 'Subgrid ON — the section inherits the article’s columns, so the nested figure reaches edge to edge.'
+      : 'Subgrid OFF — the section is its own one-column grid, so the figure can never get wider than the section.';
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

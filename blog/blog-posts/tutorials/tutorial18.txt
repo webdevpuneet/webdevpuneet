@@ -1,0 +1,226 @@
+<h1>Animating a Linked List: Why deleteValue() Waits Before It Touches the Array</h1>
+
+<p>Most data-structure diagrams are static because animating one honestly is more fiddly than it looks. A bar chart just needs a height to transition. A linked list needs something harder: every node has to visually connect to whichever node comes <em>after</em> it, and that "after" relationship reshapes itself on every single insert and delete. Get the sequencing wrong and you don't get a subtly-off animation — you get a jarring snap, or an arrow pointing at a node that's already gone.</p>
+
+<p>The <strong>Linked List Visualizer</strong> snippet is a good subject for a full walkthrough for exactly that reason: it's small enough to read in one sitting, but it has to solve the real problem — insert at head, insert at tail, insert at an arbitrary index, delete by value, and a step-by-step traversal — with connecting arrows that animate in and out correctly no matter what order you click things in. Here it is live — insert a few values, delete one from the middle, then hit Traverse:</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/linked-list-visualizer/embed/" style="width:100%;height:620px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Linked List Visualizer — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p>Grab the code, or open the full editor with live HTML/CSS/JS panels: <a href="https://fwdtools.com/ui-snippets/linked-list-visualizer/">Linked List Visualizer on FWD Tools</a>. It's plain HTML, CSS, and JavaScript with zero dependencies — no animation library, no diagramming library — and the same editor has one-click export buttons for <strong>React</strong>, <strong>Vue</strong>, and <strong>Angular</strong>.</p>
+
+<p>In this post I'll build the whole thing piece by piece: why the data model is a plain array standing in for pointer-linked nodes rather than a class with a real <code>.next</code> reference, how a stable per-node id is what makes the delete animation possible at all, why the status text insists insert-at-head is O(1) even though the array method actually doing the work is O(n), and the exact sequencing trick inside <code>deleteValue()</code> that makes the difference between "the list updates" and "the list updates <em>correctly</em>." Along the way I'll also flag a real escaping bug this exact snippet shipped with — and what it looked like to track down.</p>
+
+<h2>What the component actually is</h2>
+
+<p>Five moving parts, in the order they matter:</p>
+
+<ol>
+<li><strong>A plain array of <code>{id, value}</code> objects</strong>, standing in for a chain of pointer-linked nodes, with array order encoding the same sequence a real linked list's pointers would.</li>
+<li><strong>A stable <code>id</code> per node</strong>, generated once at creation time, that lets a specific logical node's DOM element be tracked across re-renders even as its position in the array shifts.</li>
+<li><strong>A <code>render()</code> function</strong> that rebuilds every node box and connecting arrow from scratch, with a staggered fade-and-scale entrance for anything new.</li>
+<li><strong>Four operations</strong> — insert at head, insert at tail, insert at index, delete by value — each narrating in plain language which conceptual pointer just changed.</li>
+<li><strong>A <code>traverse()</code> function</strong> that walks the rendered nodes in order, animating the exact <code>while (node !== null)</code> loop a real traversal performs.</li>
+</ol>
+
+<p>The idea worth carrying into other projects sits underneath all five: <strong>the naive way to "animate" a list change is to clear the container and rebuild everything from scratch, and that's fine right up until something needs to visually connect to something else.</strong> A todo list can get away with a full redraw because nothing in it points at anything else. A linked list can't — the meaningful visual event isn't "a box appeared," it's "the arrow that used to point from node 2 to node 3 now points from node 2 to node 4, because node 3 is gone." That single distinction is what the rest of this post is really about.</p>
+
+<h2>Where you'd actually use this</h2>
+
+<ul>
+<li><strong>Teaching linked lists and Big-O.</strong> Comparing the head, tail, and index insert status messages side by side — O(1), O(n), and "walks to the insertion point" — turns an abstract complexity claim into something you can click through and read in plain language.</li>
+<li><strong>Interview preparation.</strong> Reversing a list, detecting a cycle, and removing the nth node from the end are all pointer-rewiring exercises — this snippet's insert/delete operations are the same rewiring, just made visible.</li>
+<li><strong>Documentation for a custom data structures library.</strong> Embed it alongside API docs for a linked-list or deque implementation so users get an intuitive picture of insert/delete/traverse before reading a single method signature.</li>
+<li><strong>A reference for id-stable list animation generally.</strong> The stable-id-plus-await-before-mutate pattern this snippet uses generalizes to any animated list — a Kanban board, a notification feed, a reorderable table — not just linked lists specifically.</li>
+</ul>
+
+<h2>Building it, step by step</h2>
+
+<h3>Step 1 — The data model: an array standing in for pointer-linked nodes</h3>
+
+<pre><code class="language-javascript">let list = [];
+let idCounter = 0;
+let busy = false;
+
+function genId() { return 'n' + (idCounter++); }</code></pre>
+
+<p>Under the hood, <code>list</code> is a plain JavaScript array of <code>{id, value}</code> objects — deliberately <em>not</em> a class-based <code>Node</code> with a literal <code>.next</code> reference. Array order already encodes the same sequential relationship a linked list's pointers encode, and it makes rendering dramatically simpler: no walking a chain of references to find "the third node," just <code>list[2]</code>. Every node also gets a stable, monotonically increasing id from <code>genId()</code>. That id is the detail the rest of the snippet is built around — without a stable identity independent of array position, there would be no way to say "fade out <em>this specific</em> node" as opposed to "redraw everything and one fewer box happens to appear." The <code>busy</code> flag is simple but important: it's a one-line lock that every async operation below checks first, so a user can't queue up a second delete while the first one's exit animation is still mid-flight.</p>
+
+<h3>Step 2 — render(): tracking a specific node across re-renders</h3>
+
+<pre><code class="language-javascript">function render(animateNewId) {
+  const track = document.getElementById('track');
+  track.innerHTML = '';
+  list.forEach((node, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'node-wrap';
+    wrap.dataset.id = node.id;
+
+    const box = document.createElement('div');
+    box.className = 'node';
+    box.textContent = node.value;
+    wrap.appendChild(box);
+
+    const arrow = document.createElement('div');
+    arrow.className = 'arrow';
+    wrap.appendChild(arrow);
+
+    track.appendChild(wrap);
+    requestAnimationFrame(() => {
+      wrap.classList.add('shown');
+      requestAnimationFrame(() => arrow.classList.add('shown'));
+    });
+  });
+  const tag = document.createElement('div');
+  tag.className = 'null-tag';
+  tag.textContent = list.length ? 'null' : '(empty list) null';
+  track.appendChild(tag);
+}</code></pre>
+
+<p><code>render()</code> looks, at first glance, like exactly the "clear and rebuild everything" approach I said doesn't work for a linked list. The reason it works here is <code>wrap.dataset.id = node.id</code>: every node's DOM wrapper carries the same stable id as its data, so even though the DOM is torn down and rebuilt on every call, any code that needs to find "the DOM element for node <code>n7</code>" can always do it with a simple attribute match — nothing about a node's <em>identity</em> is lost just because its DOM element got recreated. The double-nested <code>requestAnimationFrame</code> is what makes new nodes fade and scale in instead of just appearing: the element is inserted into the DOM in its final (invisible) state first, and only on the <em>next</em> paint does <code>.shown</code> get added, which is what actually triggers the CSS transition — adding the class in the same frame the element was created would collapse the transition to nothing, since the browser never gets a chance to paint the "before" state. The arrow's own <code>.shown</code> class is deliberately delayed one frame further than its node's, so the arrow visibly follows the node into place instead of appearing simultaneously with it.</p>
+
+<h3>Step 3 — Insert at head: teaching real complexity through a render-array shortcut</h3>
+
+<pre><code class="language-javascript">async function insertHead() {
+  if (busy) return;
+  const value = readValue();
+  if (value === null) return;
+  busy = true;
+  list.unshift({ id: genId(), value });
+  render();
+  setStatus('Inserted "' + value + '" at head — O(1), only the head pointer changes.');
+  busy = false;
+}</code></pre>
+
+<p>This is the step worth reading twice, because there's a genuine, worth-naming tension in it. Clicking Insert Head calls <code>list.unshift(...)</code>. In a <em>real</em> linked list backed by actual node objects with <code>.next</code> pointers, prepending a node is O(1): allocate one new node, point its <code>.next</code> at the current head, repoint the list's head reference at the new node — no other node is touched or moved. But <code>Array.prototype.unshift</code> is not O(1) — every existing element's index has to shift up by one internally, making it O(n). The status message still says O(1), and that's not a bug in the copy: this snippet's underlying representation is a plain array chosen for rendering convenience, and the status text intentionally teaches the <em>real</em> linked-list complexity characteristic that a production implementation with actual <code>{value, next}</code> node objects would exhibit, not the cost of the specific array method standing in for it here. It's the one place the visualization's implementation choice and the concept it's teaching genuinely diverge — worth knowing if you're studying the source, and worth stating explicitly if you ever repurpose this pattern for teaching something else.</p>
+
+<h3>Step 4 — Insert at index: the pointer-rewiring narrative</h3>
+
+<pre><code class="language-javascript">async function insertAt() {
+  if (busy) return;
+  const value = readValue();
+  if (value === null) return;
+  const idxRaw = document.getElementById('index-input').value;
+  let idx = Number(idxRaw);
+  if (Number.isNaN(idx)) idx = list.length;
+  idx = Math.max(0, Math.min(list.length, idx));
+  busy = true;
+  list.splice(idx, 0, { id: genId(), value });
+  render();
+  setStatus('Inserted "' + value + '" at index ' + idx + ' by rewiring the previous node\'s pointer.');
+  busy = false;
+}</code></pre>
+
+<p>The index is clamped into range with <code>Math.max(0, Math.min(list.length, idx))</code> before anything else happens, so an out-of-range or non-numeric input can never produce an invalid splice — it just falls back to the nearest valid position. Conceptually, in pointer terms, inserting at an index means: walk from the head that many steps to find the node right before the insertion point, create the new node with its <code>.next</code> set to whatever used to come after, then repoint the previous node's <code>.next</code> at the new node. Only two pointers change no matter how long the list is — everything after the insertion point keeps pointing at whatever it already pointed at. The status message spells that out in plain language every time, which matters more than it looks: it's reinforcing that a linked-list mutation is a small, local, constant-size edit to the chain, not a bulk rewrite — even though the underlying <code>splice()</code> call, again, is doing array-shifting work under the hood to make that concept visible.</p>
+
+<h3>Step 5 — Delete: why the array only mutates after the animation finishes</h3>
+
+<p>This is the step the whole snippet is really built around. Here's the naive version most people would reach for first:</p>
+
+<pre><code class="language-javascript">// The naive version — don't do this
+async function deleteValueNaive() {
+  const idx = list.findIndex(n => String(n.value) === value);
+  list.splice(idx, 1);  // mutate first...
+  render();              // ...then redraw
+}</code></pre>
+
+<p>That version works in the sense that the list ends up correct. It just never shows an exit animation, because by the time <code>render()</code> runs, the deleted node's data — and any chance of finding its specific DOM element to fade it out — is already gone. Here's what the snippet actually does instead:</p>
+
+<pre><code class="language-javascript">async function deleteValue() {
+  if (busy) return;
+  const value = document.getElementById('value-input').value.trim();
+  if (!value) { setStatus('Type a value in the field, then click Delete Value.'); return; }
+  const idx = list.findIndex(n => String(n.value) === value);
+  if (idx === -1) { setStatus('Value "' + value + '" was not found in the list.'); return; }
+  busy = true;
+  const wraps = document.querySelectorAll('.node-wrap');
+  const target = wraps[idx];
+  if (target) {
+    target.classList.add('removing');
+    await wait(220);
+  }
+  list.splice(idx, 1);
+  render();
+  setStatus('Deleted "' + value + '" — the previous node\'s pointer now skips directly to the next node.');
+  busy = false;
+}
+
+function wait(ms) { return new Promise(res => setTimeout(res, ms)); }</code></pre>
+
+<p>The order of operations is the entire lesson: find the target node's <em>current</em> DOM element (while it still exists, before any mutation), add a <code>.removing</code> class that triggers a CSS opacity/scale-down transition, then <code>await wait(220)</code> — a small helper that turns <code>setTimeout</code> into something you can put on the right side of <code>await</code> — and only <em>after</em> that promise resolves does the function touch the array with <code>splice()</code> and call <code>render()</code>. Animate out, <em>then</em> mutate state, <em>then</em> animate in. Skip the await and you get the naive version's problem: the redraw happens before the fade-out has anything left to fade. Get the order backwards — mutate first, animate second — and you get a worse problem: you're now trying to animate a DOM node that no longer corresponds to any data, which is exactly the kind of stale-reference bug that's painful to track down later. This same await-before-mutate shape is the one to reach for any time you're building an animated list in React, Vue, or plain JavaScript and exit transitions keep looking instant no matter what CSS you throw at them.</p>
+
+<h3>Step 6 — Traverse: animating the pointer-following loop itself</h3>
+
+<pre><code class="language-javascript">async function traverse() {
+  if (busy || !list.length) { if (!list.length) setStatus('List is empty — nothing to traverse.'); return; }
+  busy = true;
+  document.getElementById('btn-traverse').disabled = true;
+  setStatus('Traversing from head via .next pointers...');
+  const wraps = document.querySelectorAll('.node-wrap');
+  for (let i = 0; i < wraps.length; i++) {
+    const box = wraps[i].querySelector('.node');
+    const arrow = wraps[i].querySelector('.arrow');
+    box.classList.add('active');
+    await wait(420);
+    box.classList.remove('active');
+    box.classList.add('found');
+    if (arrow) arrow.classList.add('active');
+    await wait(120);
+  }
+  setStatus('Traversal complete — reached the end of the list (next === null).');
+  document.querySelectorAll('.node.found').forEach(n => setTimeout(() => n.classList.remove('found'), 900));
+  document.querySelectorAll('.arrow.active').forEach(a => setTimeout(() => a.classList.remove('active'), 900));
+  document.getElementById('btn-traverse').disabled = false;
+  busy = false;
+}</code></pre>
+
+<p>This function is a literal animation of the loop <code>while (node !== null) { visit(node); node = node.next; }</code> — a plain <code>for</code> loop over the already-rendered node-wraps, with two sequential <code>await wait(...)</code> calls per iteration: highlight the current node indigo, pause, downgrade it to a settled green "found" state and light up the arrow leading to the next node in amber, pause again, move on. Because each step genuinely waits for the previous one via <code>await</code>, the animation can't get ahead of itself even if a very short or very long list is loaded — the loop paces itself against real elapsed time rather than firing every step in the same frame and relying on CSS alone to stagger them. Disabling the Traverse button for the loop's duration exists for the same reason the <code>busy</code> flag exists everywhere else in this snippet: without it, a second click mid-traversal would start a second overlapping walk over the same DOM nodes, with both loops fighting over the same <code>.active</code>/<code>.found</code> classes.</p>
+
+<h2>The bug this snippet actually shipped with</h2>
+
+<p>Worth including honestly, because it's a genuinely useful thing to know how to spot: this exact file shipped, briefly, with a real syntax error in production — two of the <code>setStatus()</code> calls above (the insert-at-index and delete messages) had an escaped apostrophe written as <code>node\'s pointer</code> where the surrounding string needed <code>node\\'s pointer</code> instead. The difference is one backslash, and it only matters because of where those strings live: the whole <code>js</code> field in this snippet's source file is itself one big backtick-delimited template literal. Inside a backtick string, writing <code>\'</code> is a recognized escape sequence that just collapses down to a plain <code>'</code> character — the backslash gets consumed and doesn't survive into the output. That's fine for prose, but this particular apostrophe was supposed to end up <em>inside</em> a separate, nested single-quoted JavaScript string a few characters later (<code>setStatus('... previous node\'s pointer ...')</code>), and for that inner string to parse correctly once it's actually run in a browser, the apostrophe needs to reach it still escaped — as the two literal characters backslash-then-quote. Writing <code>\\'</code> (an escaped backslash, then a quote) in the outer template literal is what produces that. Get it wrong, as this file briefly did, and the inner single-quoted string ends early at the bare apostrophe, leaving stray trailing characters that the JavaScript parser can't make sense of — a real, page-breaking syntax error, not a cosmetic one. The general rule worth keeping: any time you're writing code-that-writes-code inside a template literal, trace an apostrophe through <em>every</em> layer of quoting it has to survive, not just the outermost one.</p>
+
+<h2>Customizing it for your own project</h2>
+
+<ul>
+<li><strong>A doubly linked list variant.</strong> Add a second arrow per node pointing back toward the previous node, style it distinctly, and mention the conceptual "previous" pointer changing alongside "next" in the status messages — the stable-id rendering and await-before-splice delete logic carry over completely unchanged.</li>
+<li><strong>A reverse() operation.</strong> Visibly flip every arrow's direction — a good exercise in applying the same "animate the transition, then update state" ordering this snippet already uses for delete.</li>
+<li><strong>A search mode.</strong> Reuse the exact traversal loop from Step 6, but stop highlighting and show a "found" state the instant the target value is reached instead of always walking the full list.</li>
+<li><strong>Remove-all-matches.</strong> <code>deleteValue()</code> currently removes only the first match via <code>findIndex()</code>; looping the same delete-and-await sequence (or collecting all matching indices up front) extends it to remove duplicates.</li>
+</ul>
+
+<h2>The things deliberately left out</h2>
+
+<p><strong>Real pointer-based nodes.</strong> As covered in Step 3, the data model is a plain array, not a class with an actual <code>.next</code> reference — the right simplification for keeping rendering simple, but worth knowing if you're porting the concept into a real data-structures implementation rather than a visualization.</p>
+
+<p><strong>Cycle handling.</strong> A production linked-list visualizer that could represent a cycle (deliberately, for teaching Floyd's cycle detection) would need a very different traversal loop — one with a visited-set or a fast/slow pointer, since <code>for (let i = 0; i < wraps.length; i++)</code> assumes a finite, acyclic chain.</p>
+
+<h2>Using it in React, Vue, or Angular</h2>
+
+<p>The pattern ports directly: keep the list array in component state (<code>useState</code> in React), and key each rendered node by its stable <code>id</code> rather than its array index — exactly the same reason this vanilla version stores <code>id</code> on <code>dataset.id</code>. For the delete exit animation specifically, React has no built-in equivalent to "wait, then remove from the array," so either reach for a small animation library's <code>AnimatePresence</code>-style exit-animation support, or replicate this snippet's approach directly: delay the actual array mutation with a <code>setTimeout</code> inside an async handler, and clear that timeout in a <code>useEffect</code> cleanup in case the component unmounts mid-animation. Vue's built-in <code>&lt;TransitionGroup&gt;</code> handles enter/leave animations on list changes automatically and is the more natural fit there. Angular's Animations API offers <code>:enter</code>/<code>:leave</code> triggers on an <code>*ngFor</code> for the same purpose, or you can replicate the manual await-before-mutate pattern inside a component method, again clearing any pending timers in <code>ngOnDestroy</code>.</p>
+
+<h2>Build, understand, optimize, and extend it with AI</h2>
+
+<p>Paste this snippet's JavaScript into an assistant like Claude and start with <code>deleteValue()</code>: ask it to explain exactly why <code>await wait(220)</code> has to happen <em>before</em> <code>list.splice(idx, 1)</code> rather than after, and what visually breaks if you swap the order — that's a sharper test of whether you've actually internalized the animate-then-mutate pattern than just reading the explanation above. From there, ask it to trace through what happens if two deletes are triggered in quick succession without the <code>busy</code> flag, to build intuition for why that one boolean is load-bearing. The same assistant is useful for extending it, too: ask for a doubly-linked variant with reverse-pointing arrows, a search mode that stops traversal early, or a small refactor that swaps the array-based model for real <code>{value, next}</code> node objects so insert-at-head becomes genuinely O(1) instead of just narrated as such. Treat the code less like a finished artifact and more like a starting point for a conversation.</p>
+
+<h3>Prompt to recreate it</h3>
+
+<p>Copy this into your AI assistant of choice to build the component from scratch, or as a jumping-off point for your own variant:</p>
+
+<pre><code class="language-text">Build an animated singly linked list visualizer in plain HTML, CSS, and JavaScript, no libraries or frameworks.
+
+Requirements:
+- Represent the list as an ordered array of nodes, each with a stable unique id generated once at creation time and independent of the node's current array position, so a specific logical node's DOM element can be targeted individually even after the list has changed shape.
+- Render each node as a box connected to the next node by a directional arrow (CSS-drawn or SVG), with a "null" terminator shown after the final node, and give new nodes and their arrows a staggered fade-and-scale entrance animation using a double-nested requestAnimationFrame so the browser has a chance to paint the "before" state first.
+- Support insert at head, insert at tail, and insert at a user-specified (clamped) index. After each insert, display a short status message narrating which conceptual pointer changed — and for insert-at-head specifically, note that a real pointer-based linked list would do this in O(1) time even though the array method used internally here is not O(1), to keep the taught complexity honest.
+- Support delete by value with this exact sequencing: first locate the specific DOM element for the node being removed, add a class that triggers a CSS exit transition, await that transition's duration via a small Promise-wrapping setTimeout helper, and only after that await resolves should the underlying array actually be mutated and the list re-rendered. Do not mutate the array before the exit animation has been given a chance to run against the still-present DOM node.
+- Add a Traverse action that walks the list from the head using a for loop with sequential await-based delays per node, highlighting the current node, then settling it to a "found" state while lighting up the arrow to the next node, visually replaying a while-node-is-not-null pointer-following loop rather than firing all highlights simultaneously.
+- Use a simple boolean "busy" flag checked at the start of every operation (insert, delete, traverse) to prevent overlapping animations if a user triggers a second action while one is still in progress.
+- Keep all animation timing based on CSS transitions plus small async/await delays — no animation library, no canvas.</code></pre>
+
+<h2>Final thought</h2>
+
+<p>The habit worth keeping from this build is the one from Step 5: when a UI change needs both an animation and a state update, the order between them isn't a style preference — it changes what's even possible to animate. Mutate first and the thing you wanted to fade out is already gone by the time you try to fade it. Animate first, wait for it to actually finish, <em>then</em> mutate — and suddenly the hard case (a node disappearing from the middle of a connected chain) is no harder than any other case, because the DOM was never asked to represent state that had already changed out from under it.</p>
+
+<p>The second thing worth keeping is the smaller, sharper lesson from the escaping bug: when code writes code — a template literal building a string of JavaScript, a build script generating source files, a snippet library like this one — every layer of quoting an apostrophe passes through has to be traced individually. It's an easy mistake to make exactly once, and a fast one to spot once you know to look for a literal backslash sitting where an escaped character should be.</p>
+
+<p>Grab the full HTML, CSS, and JS — or export it straight to React, Vue, or Angular — at <a href="https://fwdtools.com/ui-snippets/linked-list-visualizer/">Linked List Visualizer on FWD Tools</a>. It's free, runs entirely in your browser, and needs no sign-up. Browse more components like this one at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a>.</p>

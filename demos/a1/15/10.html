@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="One Header Listener Sorts Any Number of Columns">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Sortable columns: one listener on the header row, no matter how many columns</h1>
+    <p class="hint">Click any column header to sort by it. There's exactly one click listener, attached to <code>&lt;thead&gt;</code> once. Add a fourth or fifth column and it sorts too, with zero new code.</p>
+  </header>
+  <main class="stageWrap">
+    <table class="tbl">
+      <thead id="thead">
+        <tr>
+          <th data-key="name" data-type="string">Name <span class="arrow"></span></th>
+          <th data-key="score" data-type="number">Score <span class="arrow"></span></th>
+          <th data-key="joined" data-type="string">Joined <span class="arrow"></span></th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+        <tr><td data-name="Priya">Priya</td><td data-score="92">92</td><td data-joined="2023-01-04">2023-01-04</td></tr>
+        <tr><td data-name="Marcus">Marcus</td><td data-score="78">78</td><td data-joined="2021-11-19">2021-11-19</td></tr>
+        <tr><td data-name="Elena">Elena</td><td data-score="85">85</td><td data-joined="2022-06-30">2022-06-30</td></tr>
+        <tr><td data-name="Sam">Sam</td><td data-score="67">67</td><td data-joined="2024-03-11">2024-03-11</td></tr>
+      </tbody>
+    </table>
+    <p class="note" id="note">Click "Score" to sort numerically, click again to reverse it.</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink:#14161c; --sub:#6b7080; --line:#e3e5ea; --accent:#6366f1; }
+  body { background:#f6f7f9; color:var(--ink); }
+  .bar { padding:18px 20px 8px; text-align:center; }
+  .bar h1 { margin:0 0 4px; font-size:16.5px; letter-spacing:-0.01em; }
+  .hint { margin:0 auto; max-width:60em; font-size:12.5px; color:var(--sub); }
+  .hint code { background:#eef0f5; padding:1px 5px; border-radius:4px; }
+  .stageWrap { display:flex; flex-direction:column; align-items:center; gap:12px; padding:16px 18px 28px; width:100%; }
+
+  .tbl { width:100%; max-width:460px; border-collapse:collapse; background:#fff; border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .tbl th, .tbl td { text-align:left; padding:9px 12px; font-size:12.5px; border-bottom:1px solid var(--line); }
+  .tbl th {
+    background:#f6f7fb; font-size:11px; text-transform:uppercase; color:var(--sub);
+    cursor:pointer; user-select:none;
+  }
+  .tbl th:hover { color:var(--accent); }
+  .arrow { display:inline-block; width:10px; font-size:10px; }
+  .note { margin:0; font-size:12px; color:var(--sub); text-align:center; max-width:46em; }
+</script>
+
+<script type="text/plain" id="js">
+  var thead = document.getElementById('thead');
+  var tbody = document.getElementById('tbody');
+  var note = document.getElementById('note');
+  var currentKey = null;
+  var ascending = true;
+
+  // One listener on <thead>. It reads data-key/data-type off whichever <th>
+  // was clicked, so this code never has to change when columns are added,
+  // removed or reordered.
+  thead.addEventListener('click', function (e) {
+    var th = e.target.closest('th');
+    if (!th) return;
+    var key = th.dataset.key;
+    var type = th.dataset.type;
+
+    ascending = (key === currentKey) ? !ascending : true;
+    currentKey = key;
+
+    var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+    rows.sort(function (a, b) {
+      var av = a.querySelector('[data-' + key + ']').dataset[key];
+      var bv = b.querySelector('[data-' + key + ']').dataset[key];
+      if (type === 'number') { av = Number(av); bv = Number(bv); }
+      if (av < bv) return ascending ? -1 : 1;
+      if (av > bv) return ascending ? 1 : -1;
+      return 0;
+    });
+    rows.forEach(function (r) { tbody.appendChild(r); });
+
+    thead.querySelectorAll('.arrow').forEach(function (a) { a.textContent = ''; });
+    th.querySelector('.arrow').textContent = ascending ? '↑' : '↓';
+    note.textContent = 'Sorted by "' + key + '" (' + type + '), ' + (ascending ? 'ascending' : 'descending') + ' — same header listener every time.';
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

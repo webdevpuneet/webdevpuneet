@@ -1,0 +1,166 @@
+<h1>10 Copy-Paste E-commerce Snippets That Take a Shopper From Browse to Buy</h1>
+
+<p>An online store is a funnel with a specific set of leaks. People scroll past products that don't look clickable. They bounce because seeing a second photo meant a full page load. They add the wrong size, or can't add anything because the size picker is confusing. They abandon a cart because the total kept changing, or a checkout form asked for fourteen fields at once, or a promo code from an email quietly didn't work. Every one of those is an interface problem, not a merchandising one — and every one of them has a known solution that platform themes charge you a plugin for. Below are 10 free e-commerce snippets you can preview live and copy in seconds: a product card, a quick-view modal, a variant selector, a fly-to-cart animation, a slide-in cart drawer, a free-shipping progress bar, a promo code field, a multi-step checkout, an order summary, and a post-purchase tracking timeline.</p>
+
+<p>Each one comes with <strong>how it actually works</strong>, <strong>when to reach for it</strong>, and a tip for adapting it. They're all plain HTML, CSS, and vanilla JavaScript — no store framework, no cart library, no build step — so they drop into a custom build, a Shopify or WooCommerce theme, or a landing page just as easily.</p>
+
+<p>Every snippet below is a <strong>live, interactive preview</strong> — pick a size, add to cart, open the drawer, right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+
+<h2>What actually moves conversion in a store UI</h2>
+
+<p>Three ideas run through every snippet below, and they're worth naming because they're what separates a store that converts from one that merely looks nice:</p>
+
+<ul>
+<li><strong>Remove page loads between "interested" and "in cart."</strong> Quick view, variant pickers, cart drawers and inline totals all exist for one reason: every full navigation is a place people leave.</li>
+<li><strong>Never let the shopper reach an invalid state.</strong> A disabled add-to-bag until a size is chosen, a struck-through sold-out variant, a quantity that can't hit zero — these prevent the failure that costs most, which is a shopper discovering at checkout that what they wanted was never available.</li>
+<li><strong>Confirm every action visibly.</strong> A price that recalculates, a count that bumps, an item that flies into the cart. Silence after a click reads as a broken button, and a shopper who isn't sure something worked will click again or give up.</li>
+</ul>
+
+<p>Keep those three in mind as you scroll.</p>
+
+<h2>1. Product Card</h2>
+
+<p>The unit every listing page is built from: product image with a discount badge, name and price, colour swatches, a star rating, a wishlist heart, and an add-to-cart button that confirms itself.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/product-card/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Product Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the whole card is about a dozen lines of JavaScript, and it spends them where they matter. Selecting a swatch clears <code>.active</code> from every swatch and sets it on the clicked one — a ring drawn as an offset outline, so the swatch doesn't change size as it becomes selected — with each swatch carrying its colour name on a <code>data-name</code> attribute, ready to send to your cart. The add-to-cart button swaps its own label to "✓ Added!" with a green background and resets itself after two seconds, which both confirms the action and blunts an impatient double-add. The wishlist heart is a one-line class toggle in the markup, and the discount badge is absolutely positioned inside the image wrapper, so it never disturbs the card's layout.</p>
+
+<p><strong>Best for:</strong> category grids, search results, related-products rows, and homepage carousels. <strong>Tip:</strong> the wishlist heart is visual state only in the demo — wire it to your API or <code>localStorage</code> before shipping, because a heart that forgets what it saved on the next page load is worse than no heart at all.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/product-card/">Product Card</a></p>
+
+<h2>2. Product Quick View</h2>
+
+<p>The modal that lets someone inspect a product without leaving the grid: an image gallery with thumbnails, colour swatches, a size picker that knows what's out of stock, a quantity stepper, and an add-to-cart button showing the running total.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/product-quick-view/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Product Quick View — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the gallery and the swatches are rendered from one <code>COLORS</code> array and stay in sync in both directions — picking a thumbnail highlights the matching swatch and vice versa, so there's no way to end up with two different "active" states on screen. Sizes carry an <code>out</code> flag: an out-of-stock size renders struck through, dimmed and <code>disabled</code>, and if someone still manages to submit one, the add handler blocks it with an inline message. The quantity stepper drives a live total printed inside the button itself — "Add to cart · $256" — so the price is never one click away.</p>
+
+<p><strong>Best for:</strong> category and search pages, where the goal is to answer "what does the back look like?" without spending a navigation on it. <strong>Tip:</strong> quick view should shorten the path, not replace the product page. Keep a visible "View full details" link for the shopper who wants the description, the reviews and the shipping information — the ones closest to buying are usually the ones who read all three.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/product-quick-view/">Product Quick View</a></p>
+
+<h2>3. Product Variant Selector</h2>
+
+<p>The size-and-colour picker done properly: swatches that retint the product and update the price, size pills with sold-out states, live stock messaging, and an add-to-bag button that stays disabled until a size is chosen.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/variant-selector/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Product Variant Selector — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each swatch carries its data on attributes — colour name, a gradient string, and a price — so selecting one retints the product image, updates the label and changes the price, because premium colourways genuinely do cost more. The active ring is a layered <code>box-shadow</code> with a white gap, the standard way to show selection without resizing the swatch. Sold-out variants are blocked two different ways depending on the control: a sold-out swatch gets a diagonal slash and flashes a "Sold out" badge when clicked, while a sold-out size uses the native <code>disabled</code> attribute, so the browser itself refuses focus and clicks. And a <code>STOCK</code> map drives honest scarcity messaging — three or fewer left says so.</p>
+
+<p><strong>Best for:</strong> any product page for physical goods, and the single highest-leverage component in this list. <strong>Tip:</strong> the disabled add-to-bag button is the whole feature. Letting a shopper add an item with no size selected is the most common cause of fulfilment errors and refund requests, and the fix is one gate on one button.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/variant-selector/">Product Variant Selector</a></p>
+
+<h2>4. Fly to Cart Button</h2>
+
+<p>The small delight that also does a job: on add, a copy of the product arcs across the screen and lands in the cart icon, which pops and increments.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/fly-to-cart-button/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Fly to Cart Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> on click, the handler measures the product image and the cart icon with <code>getBoundingClientRect()</code>, creates a fixed-position clone of the product, and animates it across the exact pixel delta between the two — so it lands on the cart regardless of layout or scroll position. The path isn't a straight line: a three-keyframe animation lifts the clone upward at the midpoint before it descends, with a slightly overshooting easing and a shrink to about an eighth of full size, so it reads as something tossed rather than dragged. It uses the Web Animations API (<code>element.animate()</code>) rather than CSS keyframes precisely because those distances are only known at click time. Then the detail that makes it work: the count increments in the animation's <code>onfinish</code>, not on click, so the number changes exactly when the item visually lands.</p>
+
+<p><strong>Best for:</strong> stores where the cart lives in a fixed header and the shopper adds from a grid. <strong>Tip:</strong> if you'd rather have a quieter confirmation, the <a href="https://fwdtools.com/ui-snippets/add-to-cart-button/">Add to Cart Button</a> covers the loading-then-success states on the button itself. Whichever you choose, the cart badge must react — an add with no visible consequence anywhere on screen is the most common reason people click twice.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/fly-to-cart-button/">Fly to Cart Button</a></p>
+
+<h2>5. Sticky Cart Drawer</h2>
+
+<p>The slide-in cart behind the cart icon on almost every modern store: line items, quantity steppers, a live subtotal, a checkout button, and a dimmed backdrop you can tap to dismiss.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/sticky-cart-drawer/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sticky Cart Drawer — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the drawer starts off-screen at <code>translateX(100%)</code> and a single <code>.open</code> class slides it to zero on a <code>cubic-bezier</code> curve that eases out with a slight settle. Animating <code>transform</code> rather than <code>right</code> or <code>width</code> keeps the motion on the compositor, so it stays smooth on a mid-range phone. The backdrop is the other half of the pattern: a full-bleed div at <code>opacity: 0; pointer-events: none</code> that gets the same <code>.open</code> class, so one state change both dims the page and makes "click outside to close" work with a single listener. Totals come from a <code>recalc()</code> that re-derives everything from the DOM on every change rather than tracking a running subtotal that could drift.</p>
+
+<p><strong>Best for:</strong> any store where you want the cart reviewable without leaving the page. <strong>Tip:</strong> the drawer is the right moment for an upsell, because the shopper has already committed. That's exactly where the next snippet goes. If you prefer a dropdown anchored under the cart icon instead of a full drawer, the <a href="https://fwdtools.com/ui-snippets/mini-cart/">Mini Cart</a> is the same idea in a smaller footprint.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/sticky-cart-drawer/">Sticky Cart Drawer</a></p>
+
+<h2>6. Free Shipping Progress Bar</h2>
+
+<p>"You're $12.50 away from free shipping" — a progress bar that fills as the cart grows, a message that always names the exact gap, and a celebration when the threshold is crossed.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/free-shipping-bar/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Free Shipping Progress Bar — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the headline rewrites itself across three states — an empty cart frames the goal, a partial cart counts down the precise remaining amount, and a qualified cart celebrates. The fill width is the cart total as a percentage of the threshold, capped at 100% so an over-threshold cart doesn't overflow the track, and crossing the line isn't just a full bar: the gradient shifts from indigo to green, the truck badge turns green, and a celebration emoji springs in at the end of the track on an overshooting curve. Everything animates via <code>width</code> and <code>transform</code> only, so it survives every framework export unchanged. The only input the component needs is the running subtotal.</p>
+
+<p><strong>Best for:</strong> the top of the cart drawer, the cart page, and the first step of checkout. <strong>Tip:</strong> the exact figure is what makes this work. "Spend more for free shipping" gives a shopper nothing to act on, while "$12.50 away" is a specific target — and it is very often less than the shipping fee they'd otherwise pay, which is precisely why they add the extra item.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/free-shipping-bar/">Free Shipping Progress Bar</a></p>
+
+<h2>7. Promo Code Input</h2>
+
+<p>The discount field, implemented correctly: percentage, fixed-amount and free-shipping coupons, specific error messages, an applied state with a remove control, and a total that recalculates live.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/promo-code-input/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Promo Code Input — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> one <code>discountAmount()</code> function handles all three coupon types — a percentage of the subtotal, a flat amount clamped so it can never exceed the subtotal and produce a negative price, and a shipping offset — with each code in a <code>CODES</code> map declaring its own type and value, so adding a coupon is a one-line data change. Validation is ordered and specific: empty field, already applied, or not recognised each get their own message rather than a generic failure. And codes are normalised with <code>trim().toUpperCase()</code> before lookup, so " save20 " and "Save20" both resolve — which removes the single most common reason a perfectly valid code "doesn't work."</p>
+
+<p><strong>Best for:</strong> the cart page and checkout. <strong>Tip:</strong> think carefully about how prominent the field is. A big empty "Got a discount code?" box sends people off to search for one and sometimes out of the funnel entirely — many stores collapse it behind a small link for exactly that reason.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/promo-code-input/">Promo Code Input</a></p>
+
+<h2>8. Multi-Step Checkout</h2>
+
+<p>Checkout split into three focused steps — contact, shipping, payment — with a numbered progress stepper, per-step validation that blocks advancement, back and continue navigation, and a success screen.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/multi-step-checkout/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Multi-Step Checkout — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> all three panels stay mounted in the DOM and only the active one is displayed, which is what makes stepping backward safe — nothing is destroyed, so nothing typed is lost. The stepper's connecting line is a <code>::before</code> pseudo-element behind the numbered circles, and each step's state (upcoming, active, done) is recomputed from the current index on every render, so the indicator can't fall out of step with the form. Continue runs <code>validateStep()</code> against the current panel's required inputs, combining a trimmed emptiness check with the browser's native <code>checkValidity()</code> — which means the email field enforces a valid email for free, without a regex you'd have to maintain.</p>
+
+<p><strong>Best for:</strong> any checkout with more than about six fields, and especially on mobile where a single long form looks endless. <strong>Tip:</strong> validate on Continue, not on every keystroke. Marking a half-typed email address as invalid while someone is still typing it is the fastest way to make a form feel hostile.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/multi-step-checkout/">Multi-Step Checkout</a></p>
+
+<h2>9. Order Summary</h2>
+
+<p>The panel shoppers stare at before committing: line items with quantity steppers, remove buttons with an exit animation, a promo field, and subtotal, tax and total rows that update on every change.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/order-summary/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Order Summary — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> everything flows through one <code>recalc()</code> that reads the current line items, their <code>data-price</code> and their quantities, and rewrites every dependent number in a single pass — so the total can't drift from the lines above it. Quantities clamp at a minimum of one, so a line can never silently reach zero. The nicest detail is the removal: the row gets a <code>.removing</code> class that runs a slide-fade-collapse animation, and because <code>recalc()</code> selects items <em>not</em> being removed, the totals update the instant the animation starts rather than when it ends. The number responds immediately; the row takes its time leaving.</p>
+
+<p><strong>Best for:</strong> the cart page, the checkout sidebar, and the review step before payment. <strong>Tip:</strong> show tax and shipping as their own lines from the start. Every unexplained increase between the cart and the final total is a reason to abandon, and unexpected fees at the last step top nearly every survey of why people abandon carts.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/order-summary/">Order Summary</a></p>
+
+<h2>10. Order Tracking Timeline</h2>
+
+<p>The post-purchase screen that stops "where is my order?" emails before they're sent: a vertical timeline with an animated progress rail, completed checkmarks, a pulsing current stage, a status pill and an ETA.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/order-tracking-timeline/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Order Tracking Timeline — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the whole component is driven by a single <code>current</code> index — change it, call <code>render()</code>, and the rail height, dot colours, checkmarks, text emphasis and status pill all follow. The progress rail is a green gradient whose height is <code>current / (steps − 1)</code> as a percentage, transitioned so progress visibly grows instead of jumping. Dots take one of three states: completed steps get a checkmark that scales in, the current step gets a pulsing ring built from a pure-CSS <code>box-shadow</code> keyframe, and later steps stay grey. Because a single index drives everything, wiring it to real fulfilment events is a one-line change per event.</p>
+
+<p><strong>Best for:</strong> order confirmation pages, account order history, and the "track my order" link in your shipping email. <strong>Tip:</strong> this is a support-cost tool as much as a UI one. Every stage you show — and every ETA you keep honest — is a message your team doesn't have to answer.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/order-tracking-timeline/">Order Tracking Timeline</a></p>
+
+<h2>How to drop these into your store</h2>
+
+<p>Every snippet is framework-agnostic, so the workflow is the same wherever you're building:</p>
+
+<ol>
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs.</li>
+<li>Paste the HTML into your template, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — none of these ten need a CDN script or a build step.</li>
+<li>Prefer a component? Use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page.</li>
+<li>Replace the demo data — the product array, the <code>data-price</code> attributes, the coupon map — with your store's real values, and call the component's render or recalc function whenever the cart changes.</li>
+<li>Keep prices and discounts authoritative on the server. These components compute totals for display; the number you charge should always be recomputed at checkout, or a shopper with devtools can rewrite it.</li>
+</ol>
+
+<h2>A few store-UI principles worth keeping</h2>
+
+<ul>
+<li><strong>Derive totals, never track them.</strong> The cart drawer and the order summary both recompute from their line items on every change. A running total kept in a variable is a bug waiting for a race condition.</li>
+<li><strong>Disable rather than warn.</strong> A greyed-out sold-out size and a gated add-to-bag button prevent mistakes; an error message after the fact only reports them.</li>
+<li><strong>Show the exact number.</strong> "$12.50 away", "Only 3 left", "Add to cart · $256". Specific figures drive behaviour in a way that vague encouragement never does.</li>
+<li><strong>Animate the state change, not the decoration.</strong> The flying clone, the pulsing dot, the collapsing row — each one is telling the shopper what just happened. That's the difference between motion and noise.</li>
+</ul>
+
+<h2>Final Thought</h2>
+
+<p>These ten follow one shopper from a grid to a delivery: see the product, inspect it, choose a variant, add it, review the cart, get nudged to the free-shipping threshold, apply a code, check out in steps, confirm the total, and watch the parcel move. Start with the <a href="https://fwdtools.com/ui-snippets/product-card/">Product Card</a> and the <a href="https://fwdtools.com/ui-snippets/variant-selector/">Variant Selector</a> — between them they cover the two screens where most stores lose people. From there, a <a href="https://fwdtools.com/ui-snippets/stock-urgency-bar/">stock urgency bar</a> for scarcity, a <a href="https://fwdtools.com/ui-snippets/size-guide-modal/">size guide modal</a> to cut returns, a <a href="https://fwdtools.com/ui-snippets/quantity-stepper/">quantity stepper</a> for the cart, and a <a href="https://fwdtools.com/ui-snippets/recently-viewed-carousel/">recently viewed carousel</a> to bring people back to what they were looking at — all dependency-free too.</p>
+
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

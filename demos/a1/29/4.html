@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="One Shared Timeline vs Three Separate ScrollTriggers">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Shared timeline vs separate triggers</h1>
+    <p class="hint">Scroll down through the cards, then flip the mode and scroll back up to compare.</p>
+  </header>
+  <div class="modeRow">
+    <button class="modeBtn modeBtnActive" id="modeA">3 Separate Triggers</button>
+    <button class="modeBtn" id="modeB">1 Shared Timeline</button>
+  </div>
+  <div class="spacer">Scroll ↓</div>
+  <div class="cards">
+    <div class="card card1" id="card1">Card 1</div>
+    <div class="card card2" id="card2">Card 2</div>
+    <div class="card card3" id="card3">Card 3</div>
+  </div>
+  <div class="spacer end"></div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .modeRow { display: flex; justify-content: center; gap: 8px; padding: 4px 20px 6px; }
+  .modeBtn {
+    padding: 7px 14px;
+    font: 700 11.5px system-ui, sans-serif;
+    color: var(--ink);
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 7px;
+    cursor: pointer;
+  }
+  .modeBtnActive { color: #fff; background: var(--accent); border-color: var(--accent); }
+  .spacer { height: 200px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 220px; }
+  .cards { display: flex; flex-direction: column; gap: 90px; max-width: 320px; margin: 0 auto; padding: 0 24px 20px; }
+  .card {
+    padding: 22px;
+    border-radius: 12px;
+    background: var(--accent);
+    color: #fff;
+    font: 800 14px system-ui, sans-serif;
+    box-shadow: 0 12px 24px rgba(99,102,241,0.25);
+  }
+  .card2 { background: #d97706; box-shadow: 0 12px 24px rgba(217,119,6,0.25); }
+  .card3 { background: #16a34a; box-shadow: 0 12px 24px rgba(22,163,74,0.25); }
+</script>
+
+<script type="text/plain" id="js">
+  gsap.registerPlugin(ScrollTrigger);
+
+  var cards = ['#card1', '#card2', '#card3'];
+  var modeABtn = document.getElementById('modeA');
+  var modeBBtn = document.getElementById('modeB');
+  var mode = 'A';
+
+  function killAll() {
+    ScrollTrigger.getAll().forEach(function (st) { st.kill(); });
+    gsap.set(cards, { clearProps: 'all' });
+  }
+
+  function buildA() {
+    cards.forEach(function (sel) {
+      gsap.from(sel, {
+        opacity: 0,
+        x: -40,
+        duration: 0.6,
+        scrollTrigger: { trigger: sel, start: 'top 85%', toggleActions: 'play none play none' }
+      });
+    });
+  }
+
+  function buildB() {
+    var tl = gsap.timeline({
+      scrollTrigger: { trigger: '.cards', start: 'top 85%', end: 'bottom 40%', scrub: true }
+    });
+    tl.from('#card1', { opacity: 0, x: -40 })
+      .from('#card2', { opacity: 0, x: -40 }, '+=0.1')
+      .from('#card3', { opacity: 0, x: -40 }, '+=0.1');
+  }
+
+  function setMode(next) {
+    mode = next;
+    killAll();
+    if (mode === 'A') { buildA(); } else { buildB(); }
+    modeABtn.classList.toggle('modeBtnActive', mode === 'A');
+    modeBBtn.classList.toggle('modeBtnActive', mode === 'B');
+    window.scrollTo(0, 0);
+    ScrollTrigger.refresh();
+  }
+
+  modeABtn.addEventListener('click', function () { setMode('A'); });
+  modeBBtn.addEventListener('click', function () { setMode('B'); });
+
+  buildA();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Empty Shopping Cart">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Empty shopping cart</h1>
+    <p class="hint">Remove both items with the &times; buttons to see the empty cart state, with a way back to browsing.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="panel" id="panel"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 20px 16px 28px; }
+
+  .panel { width: 100%; max-width: 360px; }
+
+  .cartRow {
+    display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+    border: 1px solid var(--line); border-radius: 9px; background: #fff; margin-bottom: 8px;
+  }
+  .cartThumb { width: 36px; height: 36px; border-radius: 8px; background: #eef0ff; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+  .cartInfo { flex: 1; min-width: 0; }
+  .cartName { font-size: 12.5px; font-weight: 700; }
+  .cartPrice { font-size: 11.5px; color: var(--sub); }
+  .removeBtn {
+    width: 26px; height: 26px; border-radius: 7px; border: 1px solid var(--line);
+    background: #fff; color: var(--sub); font-weight: 900; cursor: pointer; flex-shrink: 0;
+  }
+  .removeBtn:hover { border-color: #dc2626; color: #dc2626; }
+
+  .emptyState { text-align: center; padding: 34px 14px 10px; }
+  .emptyIcon {
+    width: 50px; height: 50px; margin: 0 auto 12px; border-radius: 50%;
+    background: #eef0ff; color: var(--accent); display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+  .emptyTitle { margin: 0 0 4px; font-size: 14.5px; font-weight: 700; }
+  .emptyDesc { margin: 0 0 16px; font-size: 12.5px; color: var(--sub); line-height: 1.5; }
+  .browseBtn {
+    padding: 10px 20px; border-radius: 9px; border: none;
+    background: var(--accent); color: #fff; font: 700 13px system-ui, sans-serif; cursor: pointer;
+  }
+  .browseBtn:hover { background: #4f52d6; }
+</script>
+
+<script type="text/plain" id="js">
+  var panel = document.getElementById('panel');
+  var items = [
+    { id: 1, name: 'Canvas tote bag', price: '$24.00', icon: '&#128092;' },
+    { id: 2, name: 'Ceramic mug', price: '$16.00', icon: '&#9749;' }
+  ];
+
+  function render() {
+    if (items.length === 0) {
+      panel.innerHTML =
+        '<div class="emptyState">' +
+          '<div class="emptyIcon">&#128722;</div>' +
+          '<p class="emptyTitle">Your cart is empty</p>' +
+          '<p class="emptyDesc">Looks like you haven&rsquo;t added anything yet. Explore our catalog to find something you&rsquo;ll like.</p>' +
+          '<button type="button" class="browseBtn" id="browseBtn">Browse products</button>' +
+        '</div>';
+      document.getElementById('browseBtn').addEventListener('click', reset);
+      return;
+    }
+
+    panel.innerHTML = items.map(function (it) {
+      return '<div class="cartRow">' +
+        '<div class="cartThumb">' + it.icon + '</div>' +
+        '<div class="cartInfo"><div class="cartName">' + it.name + '</div><div class="cartPrice">' + it.price + '</div></div>' +
+        '<button type="button" class="removeBtn" data-id="' + it.id + '">&times;</button>' +
+      '</div>';
+    }).join('');
+
+    var btns = panel.querySelectorAll('.removeBtn');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener('click', function () {
+        var id = parseInt(this.getAttribute('data-id'), 10);
+        items = items.filter(function (it) { return it.id !== id; });
+        render();
+      });
+    }
+  }
+
+  function reset() {
+    items = [
+      { id: 1, name: 'Canvas tote bag', price: '$24.00', icon: '&#128092;' },
+      { id: 2, name: 'Ceramic mug', price: '$16.00', icon: '&#9749;' }
+    ];
+    render();
+  }
+
+  render();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

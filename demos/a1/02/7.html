@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Step Progress Hover Preview">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+      <h1>Step Progress Hover Preview</h1>
+      <p class="hint">Hover any step — it and every step BEFORE it light up as a preview. Selecting a "previous sibling" like this was impossible in CSS before :has().</p>
+    </header>
+    <main class="stageWrap">
+      <ol class="stepRow" id="stage">
+          <li class="step">1. Ordered</li>
+          <li class="step">2. Packed</li>
+          <li class="step">3. Shipped</li>
+          <li class="step">4. Delivered</li>
+        </ol>
+      <div class="readout">
+        <span>Hovering up to: <strong id="readoutValue">&mdash;</strong></span>
+      </div>
+      <pre class="ruleTag">.step:has(~ .step:hover),
+  .step:hover {
+    background: var(--accent);
+    color: #fff;
+  }</pre>
+    </main>
+</script>
+
+<script type="text/plain" id="css">
+
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+  .stage {
+    width: 100%;
+    max-width: 560px;
+    box-sizing: border-box;
+    padding: 26px 24px;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    background: #fff;
+  }
+  .readout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 16px;
+    font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--sub);
+  }
+  .readout strong { color: var(--accent); font-weight: 700; }
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 6px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .stepRow { display: flex; list-style: none; margin: 0; padding: 0; gap: 6px; counter-reset: none; }
+  .step {
+    flex: 1;
+    text-align: center;
+    padding: 12px 6px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--sub);
+    background: #eceef3;
+    border-radius: 8px;
+    transition: background .12s, color .12s;
+  }
+
+  /* The rule this demo is about — ~ is the general sibling combinator, so
+     ":has(~ .step:hover)" reads as "has a LATER sibling that is hovered",
+     which is exactly what lights up every EARLIER step. */
+  .step:has(~ .step:hover),
+  .step:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var stage = document.getElementById('stage');
+    var out = document.getElementById('readoutValue');
+    function report(e) {
+      var step = e && e.target.closest ? e.target.closest('.step') : null;
+      out.textContent = step ? step.textContent.trim() : 'none';
+    }
+    stage.addEventListener('mouseover', report);
+    stage.addEventListener('mouseleave', function () { out.textContent = 'none'; });
+    out.textContent = 'none';
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

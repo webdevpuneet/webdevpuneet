@@ -1,0 +1,137 @@
+<h1>9 Copy-Paste Three.js Scroll Scenes That Turn Scrolling Into Cinema</h1>
+
+<p>Most "scroll animation" on the web is a fade-in and a parallax layer. These nine are a different category entirely — full WebGL scenes where scrolling <em>is</em> the timeline — the camera flies, particles assemble, gears turn, sand falls — and scrolling back up runs the whole thing in reverse, frame for frame. Each one is built from Three.js and GSAP's ScrollTrigger, loaded straight from a CDN with no bundler and no build step, and every scene is fully reversible because nothing is a one-shot animation — every visual is a pure function of a single scrubbed progress value.</p>
+
+<p>Below: a particle galaxy collapsing out of dust, a camera falling into a black hole's accretion disk, a two-stage rocket flying to orbit with real stage separation, a phone exploding into labeled layers, a five-gear machine that obeys actual tooth-ratio physics, an hourglass that conserves sand volume with a cube-root law, a crystal cluster blooming shard by shard, a book whose pages genuinely bend as they turn, and a night city flyover with a banking camera. All nine are <strong>live, interactive previews</strong> — scroll them right here in the article — and every one exports to React, Vue, Angular, or Tailwind in one click from the snippet page.</p>
+
+<h2>Why these don't feel like typical "scroll effects"</h2>
+
+<ul>
+<li><strong>One number drives everything.</strong> Every scene here reduces to a single scrubbed value — 0 at the top of the section, 1 at the bottom — and derives camera position, particle placement, material state, and HUD text from it each frame. Nothing is a fired, one-way tween, which is exactly what makes scrolling back up replay the scene backwards for free.</li>
+<li><strong>Physics over vibes.</strong> The gear train uses real tooth-ratio math. The hourglass scales sand piles by a cube root so volume is actually conserved. The galaxy's arms use a distance-dependent spiral angle. These aren't random spinning shapes — the motion is correct, which is what makes it read as a machine instead of decoration.</li>
+<li><strong>Thousands of particles, one draw call.</strong> Where a scene needs a crowd — dust, exhaust, sand, city light streaks — it's one <code>THREE.BufferGeometry</code> with a flat <code>Float32Array</code> rendered through <code>THREE.Points</code>, never one mesh per particle. That's the difference between 9,000 particles at 60fps and a frozen tab.</li>
+</ul>
+
+<h2>1. Three.js Scroll Galaxy Formation</h2>
+
+<p>Nine thousand points scattered as a chaotic dust cloud lerp into a rotating four-armed spiral galaxy as you scroll — no physics engine, no per-particle mesh.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/three-scroll-galaxy-formation/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll Galaxy Formation — Free WebGL Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> instead of simulating gravity, every particle's chaotic starting point and its final spiral-arm position are both precomputed once and stored in parallel arrays; the render loop just calls <code>lerp()</code> between them each frame with an eased progress value. The spiral shape comes from a distance-dependent angle (<code>armAngle + dist * 0.5 + sqrt(t) * 2.2</code>), and color is baked into a second <code>BufferAttribute</code> that gradients from white-hot core to violet rim using the same radius value that placed each particle — so color and position can never disagree. <code>AdditiveBlending</code> makes overlapping dust glow instead of muddying to gray.</p>
+
+<p><strong>Best for:</strong> observatory and science-education sites, album or music launches with a cosmic theme, and generative-art portfolios that want to visibly demonstrate the data structure as it forms. <strong>Tip:</strong> because start and target are fixed points, reversibility is free — scroll up and the galaxy dissolves back into scattered dust in exact reverse.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/three-scroll-galaxy-formation/">Three.js Scroll Galaxy Formation</a></p>
+
+<h2>2. Three.js Scroll Black Hole Approach</h2>
+
+<p>The camera falls toward a black hole ringed by a 5,200-particle accretion disk with real Keplerian orbital physics — inner particles genuinely lap the outer rim.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/three-scroll-black-hole/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll Black Hole Approach — Free WebGL Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each disk particle stores just its orbital parameters — radius, phase, a slight tilt — plus an angular velocity following the real Keplerian falloff, <code>ω = 14 / r^1.5</code>, so inner particles visibly outpace the rim exactly the way accretion physics demands. Positions are recomputed from those parameters every frame, never integrated, which keeps the scrub exact at any scroll speed. The event horizon itself is the cheapest mesh in the scene: a plain black <code>MeshBasicMaterial</code> sphere, which ignores all lighting by definition and reads as a literal hole in space against the glowing disk. A "time dilation" multiplier speeds the disk up to 12× as you approach, reported live in the HUD, while the camera's field of view creeps from 60° to 84° for the stretched, pulled-in feeling near the horizon.</p>
+
+<p><strong>Best for:</strong> sci-fi promos, dark-theme portfolio centerpieces, and any "gravity" brand metaphor — aggregators, data lakes, marketplaces that pull everything toward a center. <strong>Tip:</strong> pair it above the <a href="https://fwdtools.com/ui-snippets/three-scroll-galaxy-formation/">galaxy formation</a> snippet for a two-act cosmic scroll story.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/three-scroll-black-hole/">Three.js Scroll Black Hole Approach</a></p>
+
+<h2>3. Three.js Scroll Rocket Launch Sequence</h2>
+
+<p>A two-stage rocket flies from a rumbling launch pad through booster separation to orbit, with a sky that fades from dawn blue to a starfield as altitude climbs.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/three-scroll-rocket-launch/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll Rocket Launch Sequence — Free WebGL Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the scroll range is carved into a real mission profile — pre-launch, boost, a stage-separation window, then orbit burn — and every frame classifies the scrubbed value against those fractions to derive rumble amplitude, thrust level, and HUD phase text. Stage separation needs no re-parenting: the rocket is a <code>Group</code> holding a booster and an upper-stage child group, and after separation only the booster's <em>local</em> transform diverges (falling on its own curve, tumbling) while the parent keeps climbing with the upper stage. The 500-particle exhaust plume is gated entirely by a thrust scalar — it dies naturally at MECO and relights for the orbit burn with no explicit on/off switch anywhere in the code.</p>
+
+<p><strong>Best for:</strong> aerospace and launch-provider sites (the obvious literal fit), and startup "launch" landing pages where liftoff, stage separation, and orbit map neatly onto a countdown, feature tiers, and a closing CTA. <strong>Tip:</strong> the phase-table pattern here — one scrubbed value carved into named acts — is worth studying even if you never build a rocket; it's the cleanest way to sequence any multi-part scroll story.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/three-scroll-rocket-launch/">Three.js Scroll Rocket Launch Sequence</a></p>
+
+<h2>4. Three.js Scroll Exploded Product View</h2>
+
+<p>A stylized phone peels apart into five labeled layers — frame, battery, logic board, display, cover glass — top-down, then the camera orbits the exploded stack for inspection.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/three-scroll-exploded-view/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll Exploded Product View — Free WebGL Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the device is five stacked <code>BoxGeometry</code> slabs, not a downloaded 3D model, so there's no loader or asset URL to break the copy-paste promise. Each layer's separation distance is deliberately uneven rather than evenly fanned — real exploded diagrams give heavy parts more separation than thin films — and a per-layer progress offset makes the stack peel top-down, glass first, frame last, entirely reversible on scroll-up. The single scrubbed value splits at 55%: the first slice drives the explode, the rest sweeps the camera 150° around the separated stack, and a corner label names whichever layer the peel has just reached.</p>
+
+<p><strong>Best for:</strong> hardware and gadget product pages (the strongest trust signal hardware marketing has), SaaS architecture diagrams with layers renamed to your stack, and repair or teardown content. <strong>Tip:</strong> the chips on the logic board are parented directly to it, so they explode automatically — a good reminder that Three.js scene-graph parenting is the cheapest way to move sub-parts in lockstep.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/three-scroll-exploded-view/">Three.js Scroll Exploded Product View</a></p>
+
+<h2>5. Three.js Scroll Gear Train Mechanism</h2>
+
+<p>Five interlocking brass gears where scroll is literally the crank — every downstream gear rotates at its exact tooth-count ratio, counter-rotating at each mesh point like a real machine.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/three-scroll-gear-train/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll Gear Train Mechanism — Free WebGL Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each gear is built procedurally from primitives — a disc, N tooth boxes placed around the rim, a hub, and dark wedges faking spoke cutouts — so tooth count is a real parameter, not decoration. The scrubbed value isn't an abstract 0–1 progress fraction, it's the driver gear's actual angle, tweened from 0 to 4π; every downstream gear's angle is then computed by chaining <code>angle × (teethPrev / teethCurrent)</code> down the train and flipping direction at each mesh point, which is the actual kinematics of spur gears. A half-tooth phase offset on alternating gears keeps teeth interleaving cleanly through contact points instead of clipping through each other.</p>
+
+<p><strong>Best for:</strong> engineering and manufacturing sites where a mechanism that obeys real ratios signals precision, "how it works" process sections where each gear maps to a pipeline stage, and steampunk or heritage-craft brand pages. <strong>Tip:</strong> because ratios are parameter-driven, editing any gear's tooth count updates both the geometry and the motion coherently — it doubles as a live mechanism diagram.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/three-scroll-gear-train/">Three.js Scroll Gear Train Mechanism</a></p>
+
+<h2>6. Three.js Scroll Hourglass Sand Timer</h2>
+
+<p>Sand runs through a glass with genuinely conserved volume — the top pile scales down while the bottom grows by the exact same cube-root law — then the whole instrument flips over at the end of scroll.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/three-scroll-hourglass/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll Hourglass Sand Timer — Free WebGL Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a cone scaled uniformly by <code>s</code> holds <code>s³</code> of its volume, so naively scaling pile height linearly would make sand visibly evaporate mid-run. The correct mapping is <code>scale = cbrt(fraction)</code> — the top pile shrinks by <code>cbrt(1 − run)</code> and the bottom grows by <code>cbrt(run)</code>, so their combined volume stays constant at every scroll position, and the top pile collapses dramatically near the end purely as a consequence of that math, exactly like a real hourglass. A 220-particle sand stream threads the neck with gravity-like acceleration and despawns right at the surface of the rising bottom pile. The final 12% of scroll smoothsteps the whole rig through a half-turn, resetting the timer upside down.</p>
+
+<p><strong>Best for:</strong> deadline and countdown campaigns where urgency should visibly accelerate near the end, and heritage or slow-craft brands (watchmakers, distillers) where patience is the message. <strong>Tip:</strong> the cube-root volume law is worth stealing any time you scale a container to represent "how full" something is — linear scaling will always look wrong.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/three-scroll-hourglass/">Three.js Scroll Hourglass Sand Timer</a></p>
+
+<h2>7. Three.js Scroll Crystal Bloom</h2>
+
+<p>A single seed crystal grows into a cluster of roughly 20 refractive gem shards, each blooming outward in its own staggered window rather than popping in all at once.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/three-scroll-crystal-bloom/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll Crystal Bloom — Free WebGL Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each shard starts life as a plain low-poly icosahedron, non-uniformly stretched along one axis so the same faceted base shape reads as a crystal spike instead of a round gem, with zero extra vertices. Every shard stores its own reveal offset spread across most of the scroll range, so the same global progress value maps to a different local window per shard — the cascade comes from staggered offsets, not a scripted sequence, which is also why scrolling back up collapses the cluster in exact reverse order. Materials feature-detect <code>MeshPhysicalMaterial</code>'s <code>transmission</code> property and fall back to a glossy standard material on older Three.js builds, so the effect degrades gracefully instead of erroring out.</p>
+
+<p><strong>Best for:</strong> jewelry and gemstone product pages, brand-story sections using growth or craftsmanship as a visual metaphor, and fantasy or RPG game sites for loot-reveal or spell-tree moments. <strong>Tip:</strong> the <code>easeOutBack</code> overshoot on each shard's scale-up is what sells the "snapping into place" feel — a plain linear scale reads as mechanical instead of springy.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/three-scroll-crystal-bloom/">Three.js Scroll Crystal Bloom</a></p>
+
+<h2>8. Three.js Scroll 3D Book Page Flip</h2>
+
+<p>An open book on a desk where scroll turns 12 pages one by one, each arcing over the spine with a genuine mid-flip paper bend and printed text lines that ride along.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/three-scroll-book-pages/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll 3D Book Page Flip — Free WebGL Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a page needs to rotate around the book's spine, not its own center, and the snippet gets there with one line — translating the page's <code>PlaneGeometry</code> so its left edge sits at the local origin, which turns a plain <code>rotation.z</code> into the flip itself, no pivot group required. The paper bend is a half-sine vertex displacement, zero at the hinge and free edge and strongest mid-page, restored from a pristine copy of the flat geometry every frame so bends never accumulate. Pages don't turn strictly one after another either — each new page starts lifting once its predecessor is about 65% through its own arc, so two or three pages are visibly airborne at once, the way an actual reader leafs through a book, and the unflipped stack on the right visibly thins as the flipped stack on the left grows.</p>
+
+<p><strong>Best for:</strong> publishing, author, and bookstore sites, portfolios framed as a storybook with a project per spread, and wedding or event pages built as a turning guestbook. <strong>Tip:</strong> the printed lines are children of each page mesh, so they inherit its rotation for free — swap them for a <code>CanvasTexture</code> per page if you want real page content instead of placeholder strips.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/three-scroll-book-pages/">Three.js Scroll 3D Book Page Flip</a></p>
+
+<h2>9. Three.js Scroll City Flyover</h2>
+
+<p>Scroll lifts the camera from street level up over a low-poly neon night skyline, banking gently as it climbs, with glowing windows built from a texture drawn entirely in code.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/three-scroll-city-flyover/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll City Flyover — Free WebGL Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every building is a plain <code>BoxGeometry</code> box with randomized dimensions, arranged in 26 staggered blocks stepping back along Z so the flight path always has structures ahead. The lit-window look comes from a texture drawn at runtime with the 2D Canvas API — a grid of randomly lit warm or cool squares — wrapped as a tileable <code>CanvasTexture</code> and reused across every building at zero network cost, layered as a second transparent shell just outside each building's opaque body. The camera's position is a straight lerp between a low start and a high end point, but its vertical component runs through a separate smoothstep curve so the climb reads as a takeoff arc rather than a diagonal line, and a sine-based drift only kicks in once there's real altitude to bank at.</p>
+
+<p><strong>Best for:</strong> SaaS and startup landing pages opening on a "rising above it all" note, open-world game promos, and real estate or architecture sites previewing a development from the air. <strong>Tip:</strong> generating the window texture on canvas instead of loading an image means the lit-window ratio and color balance are one-line edits, not an asset-editing trip.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/three-scroll-city-flyover/">Three.js Scroll City Flyover</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS, and JS in separate tabs, plus the exact CDN script tags for Three.js and GSAP's ScrollTrigger plugin.</li>
+<li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — none of these nine need a bundler or a build step.</li>
+<li>Prefer a component? Use the one-click <strong>export to React, Vue, Angular, or Tailwind</strong> right from the snippet page. In a framework, build the scene and register the ScrollTrigger inside a mount effect against a canvas ref, then on unmount kill the ScrollTrigger instance and dispose all geometries, materials, and the renderer.</li>
+<li>Every scene is pinned to the viewport while its scroll section is active, so give it enough page height (each snippet's <code>end</code> value, like <code>+=450%</code>) for the effect to breathe. Too short and the scrub feels rushed; too long and visitors scroll past before it resolves.</li>
+<li>All nine scenes are stateless functions of one scrubbed value — resist the urge to add timers, one-shot tweens, or event listeners for "what happens next." Keep new behavior derived from that same progress value and reverse-scrolling stays correct automatically.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>What ties these nine together isn't the WebGL — it's the discipline of deriving every visual from one scrubbed number instead of firing a sequence of animations. That's what makes a 9,000-particle galaxy or a five-gear machine feel controllable rather than just decorative, and it's the same pattern worth carrying into your own scroll work even at a much smaller scale: pick the one thing that actually changes as the user scrolls, and derive everything else from it.</p>
+
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/scroll/">FWD Tools UI Snippets — Scroll Effects</a> — it's free and runs entirely in your browser.</p>

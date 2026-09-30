@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Skeleton-to-Content Crossfade">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Skeleton-to-content crossfade</h1>
+    <p class="hint">Click "Simulate load" — skeleton and real content are stacked in the same box and crossfade, so the card's height never jumps.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="card" id="card">
+      <div class="layer skelLayer" id="skelLayer">
+        <div class="skel w100 tall"></div>
+        <div class="skel w70"></div>
+        <div class="skel w50"></div>
+      </div>
+      <div class="layer realLayer" id="realLayer">
+        <div class="thumb"></div>
+        <h3>Quarterly report is ready</h3>
+        <p>Revenue, retention and the usual charts, generated fresh this morning.</p>
+      </div>
+    </div>
+    <button type="button" class="triggerBtn" id="triggerBtn">Simulate load</button>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --skel: #e7e9ee; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 24px 16px 28px; }
+
+  /* The card is the positioning context; both layers sit absolutely inside
+     it at the SAME size, so swapping opacity never changes the card's
+     own height -- that's what prevents the layout jump. */
+  .card {
+    position: relative; width: 100%; max-width: 340px; height: 168px;
+    background: #fff; border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px; overflow: hidden;
+  }
+  .layer {
+    position: absolute; inset: 0; padding: 16px;
+    display: flex; flex-direction: column; gap: 8px;
+    transition: opacity 0.45s ease;
+  }
+  .skelLayer { opacity: 1; }
+  .realLayer { opacity: 0; }
+  .card.loaded .skelLayer { opacity: 0; }
+  .card.loaded .realLayer { opacity: 1; }
+
+  .skel { border-radius: 6px; background: var(--skel); animation: pulse 1.1s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+  .tall { height: 70px; }
+  .w100 { width: 100%; height: 11px; }
+  .w70 { width: 70%; height: 11px; }
+  .w50 { width: 50%; height: 11px; }
+
+  .thumb { width: 100%; height: 70px; border-radius: 8px; background: linear-gradient(135deg, #6366f1, #22c55e); }
+  .card h3 { margin: 0; font-size: 13.5px; }
+  .card p { margin: 0; font-size: 12px; color: var(--sub); line-height: 1.5; }
+
+  .triggerBtn {
+    padding: 11px 22px; border-radius: 9px; border: none;
+    background: var(--accent); color: #fff; font: 700 13.5px system-ui, sans-serif; cursor: pointer;
+  }
+  .triggerBtn:hover { background: #4f52d6; }
+</script>
+
+<script type="text/plain" id="js">
+  var card = document.getElementById('card');
+  var triggerBtn = document.getElementById('triggerBtn');
+  var loaded = false;
+
+  triggerBtn.addEventListener('click', function () {
+    if (loaded) {
+      card.classList.remove('loaded');
+      triggerBtn.textContent = 'Simulate load';
+      loaded = false;
+      return;
+    }
+    triggerBtn.disabled = true;
+    triggerBtn.textContent = 'Loading…';
+    setTimeout(function () {
+      card.classList.add('loaded');
+      triggerBtn.textContent = 'Run again';
+      triggerBtn.disabled = false;
+      loaded = true;
+    }, 1700);
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

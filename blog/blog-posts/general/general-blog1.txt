@@ -1,0 +1,325 @@
+<h1>How to Learn HTML, CSS, JavaScript and React in the Age of AI (Without Getting Left Behind)</h1>
+
+<p>There's a fear going around, and if you're just starting out you've probably felt it: <em>why learn front-end development at all when AI writes the code?</em></p>
+
+<p>Here's the honest answer. AI writes code fast, and it writes a lot of code that <em>almost</em> works. The gap between "almost works" and "ships" is judgment — knowing why the flex container collapsed, why the event fires twice, why the layout breaks at 380px, why that useEffect loops forever. AI hands you a draft. Someone still has to read it, spot the problem, and fix it. That someone is either you, or the person who gets hired instead of you.</p>
+
+<p>The developers doing well right now aren't the ones who memorized the most syntax. They're the ones who can <strong>read code and know quickly whether it's right</strong>. You don't build that instinct by watching tutorials or by pasting prompts. You build it the way it has always been built: by putting code in an editor, changing one value, and watching what happens.</p>
+
+<p>That's what this guide is about. <strong><a href="https://fwdtools.com/">FWD Tools</a> is a free platform of 180+ browser tools, 25 interactive playgrounds with over 1,000 lessons, and a library of 1,658 real UI components you can open, edit and break.</strong> No install, no sign-up, no account. This post walks you through the whole thing — from your first HTML tag to exporting a React component you built yourself.</p>
+
+<h2>Why "learn by practicing" beats "learn by watching" — especially now</h2>
+
+<p>Tutorial paralysis is real. You watch a 12-hour course, you follow along, everything makes sense, and then you open a blank file and freeze. Nothing transferred, because watching someone else solve a problem builds recognition, not recall.</p>
+
+<p>Practicing works because it forces the loop that actually teaches: <strong>predict → change → observe → correct</strong>. You think <code>justify-content: center</code> will center things vertically. You type it. It doesn't. Now you have a question that <em>matters to you</em>, and the answer sticks. That five-second loop is the entire skill.</p>
+
+<p>AI hasn't made this obsolete — it's made it more valuable. Anyone can generate a component now. Far fewer people can look at a generated component and say "this is using absolute positioning where it should use grid, and it'll break the moment the text is longer." That judgment is the job, and it's built one small experiment at a time.</p>
+
+<h2>Step 1 — Start with HTML: the structure under everything</h2>
+
+<p>Everything on the web is HTML underneath. Before styling or interactivity, you need to know what a document is made of.</p>
+
+<p><strong><a href="https://fwdtools.com/html-playground/">The HTML Playground</a></strong> teaches this with <strong>42 lessons across 13 chapters</strong>, and it's built for absolute beginners — it's click-based, so you don't have to type anything to get started. You click a lesson, the element renders live in front of you, and the code that produced it is shown alongside and highlighted. You see the cause and the effect at the same time.</p>
+
+<p>The progression is deliberate:</p>
+
+<ul>
+<li><strong>Document &amp; basics</strong> — HTML document structure, headings, paragraphs, links, images, lists. The first hour.</li>
+<li><strong>Attributes &amp; layout</strong> — block vs inline, div and span, ordered lists, tables. The mental model of how boxes stack.</li>
+<li><strong>Forms</strong> — input types, form structure, fieldset and legend, button types, and native form validation. Forms are where a lot of beginners quietly give up; here it's a handful of lessons.</li>
+<li><strong>Media</strong> — audio, video, inline SVG, and <code>&lt;picture&gt;</code> with <code>srcset</code> for responsive images.</li>
+<li><strong>Native components</strong> — <code>&lt;details&gt;</code> / <code>&lt;summary&gt;</code> and the <code>&lt;dialog&gt;</code> element. Real accordions and modals with zero JavaScript, which is knowledge many self-taught devs don't pick up for years.</li>
+<li><strong>Advanced</strong> — ARIA roles and landmarks, lazy loading and performance, meta tags, and Open Graph social metadata.</li>
+</ul>
+
+<p>Notice that last group. Accessibility and SEO metadata usually get bolted on at the end of a course, if at all. Learning them alongside the tags themselves is how you end up writing markup that's <em>good</em> by default rather than markup you have to go back and fix.</p>
+
+<h2>Step 2 — CSS: where it starts to feel like design</h2>
+
+<p>CSS is the part people find genuinely hard, and it's usually for one reason: they learned properties in isolation without ever seeing the layout system underneath. Flexbox makes no sense as a list of property names. It makes sense when you change a value and watch the boxes move.</p>
+
+<p><strong><a href="https://fwdtools.com/css-playground/">The CSS Playground</a></strong> gives you a <strong>live CSS + HTML editor with instant preview and 53 lessons across 18 chapters</strong>. Edit the CSS on the left, the result updates on the right immediately. Change one number, see one change. That's the whole learning loop, running as fast as you can type.</p>
+
+<p>What's covered, roughly in the order you should learn it:</p>
+
+<ul>
+<li><strong>Selectors</strong> — element and universal, class and ID, combinators, then the modern <code>:is()</code>, <code>:where()</code> and <code>:has()</code>. That last one is the "parent selector" CSS lacked for twenty years, and it's in browsers now.</li>
+<li><strong>Box model</strong> — box sizing, borders and border radius, box shadow, backgrounds. The foundation of most layout bugs you will ever have.</li>
+<li><strong>Typography</strong> — text decoration and shadow, <code>::first-line</code> and <code>::first-letter</code>, <code>::before</code> and <code>::after</code>.</li>
+<li><strong>Flexbox</strong> — flex container, direction and wrap, alignment. One dimension at a time.</li>
+<li><strong>CSS Grid</strong> — the two-dimensional layout system that replaced a decade of hacks.</li>
+<li><strong>Animations</strong> — transitions, <code>@keyframes</code>, transforms.</li>
+<li><strong>Variables</strong> — declaring and using custom properties, then advanced patterns and <code>@property</code>. This is how real design systems are built.</li>
+<li><strong>Responsive design</strong> — media queries, and then <strong>container queries</strong>, which size components by their container rather than the viewport.</li>
+<li><strong>Modern CSS</strong> — CSS nesting, cascade layers and <code>@layer</code>, clip and mask, blend modes and filters, modern color values.</li>
+</ul>
+
+<p>Work through that and you're not just "learning CSS" — you're ahead of a lot of working developers who learned years ago and stopped.</p>
+
+<h2>Step 3 — JavaScript: making it do things</h2>
+
+<p><strong><a href="https://fwdtools.com/js-playground/">The JavaScript Playground</a></strong> is the biggest of the three: <strong>60 hands-on lessons with a live editor and a real console</strong>. You write JS, you run it, you see output and errors immediately — the same loop as CSS, applied to logic.</p>
+
+<p>It runs from genuine fundamentals through to things senior developers get asked about in interviews:</p>
+
+<ul>
+<li><strong>Foundations</strong> — values and logic, control flow, functions, arrays, objects.</li>
+<li><strong>Modern methods</strong> — <code>map</code>, <code>filter</code>, <code>reduce</code>, destructuring, spread. The syntax you'll read in every codebase.</li>
+<li><strong>DOM and events</strong> — selecting elements, changing them, responding to clicks and input. This is the moment HTML, CSS and JS finally click together as one thing.</li>
+<li><strong>Async</strong> — promises, <code>async</code>/<code>await</code>, <code>fetch</code>, and <code>AbortController</code> for cancelling requests properly.</li>
+<li><strong>Advanced functions</strong> — closures, higher-order functions, currying.</li>
+<li><strong>OOP</strong> — classes, prototypes, inheritance.</li>
+<li><strong>Browser APIs</strong> — Canvas, Web Workers, and Observers (Intersection, Mutation, Resize) — the APIs behind lazy loading, infinite scroll and scroll animations.</li>
+<li><strong>Professional concerns</strong> — debugging, performance, security, testing, regex, generators, Proxy and Reflect, and architecture.</li>
+<li><strong>Mini projects</strong> — where you stop learning features and start building things.</li>
+</ul>
+
+<p>If you only do one thing from this entire post: do the DOM and events chapters, then build something small and ugly with them. That single step converts more beginners into developers than any other.</p>
+
+<h2>Step 4 — Practice for real in your own code space</h2>
+
+<p>Lessons teach you concepts. But there's a second thing you need, and most beginners skip it: <strong>somewhere to keep the things you build.</strong></p>
+
+<p>That's <strong><a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a></strong> — a personal HTML/CSS/JS code space with <strong>no signup and no account</strong>. Click "Create new snippet," write HTML, CSS and JavaScript, watch the live preview, and it saves. Your snippets persist in your browser (in IndexedDB), so they're there tomorrow. Nothing is uploaded, nothing is shared. It's your code, in your browser.</p>
+
+<p>Why this matters more than it sounds: a saved collection of things you built is how you notice you're improving. Month one you save a button that changes color. Month three you save a working modal. Month six you save a filterable data table. That collection is your evidence — to yourself first, and to an employer second.</p>
+
+<p>Two ways to fill it, and you should use both:</p>
+
+<ol>
+<li><strong>Write from scratch.</strong> Take a concept from a lesson and rebuild it without looking. This is the highest-value exercise in learning to code.</li>
+<li><strong>Save from the library.</strong> Open a snippet from the 1,658-component library, change it until it's yours, and save your version.</li>
+</ol>
+
+<p>When you want to work across devices, there's an <strong>optional GitHub Gist sync</strong> — your code, backed up to your own GitHub account, only if you turn it on.</p>
+
+<h2>Step 5 — Learn from 1,658 real components</h2>
+
+<p>Reading real code is how you get good, and it's the step tutorials can't give you. <strong><a href="https://fwdtools.com/ui-snippets/">The UI Snippets library</a></strong> is <strong>1,658 free HTML/CSS/JS components</strong>, every one with a live preview and its full source open in an editor. Not screenshots. Not a paywalled "pro" tier. The actual code, editable in the browser.</p>
+
+<p>They're organized into categories, so you can practice whatever you're currently weakest at:</p>
+
+<ul>
+<li><strong>Animations (201)</strong> — the largest category, because motion is what separates a site that looks amateur from one that doesn't.</li>
+<li><strong>Forms (179)</strong> — inputs, validation, multi-step flows, CSV import mappers.</li>
+<li><strong>Scroll (162)</strong> — parallax, reveal-on-scroll, sticky sections, scroll-driven effects.</li>
+<li><strong>Cards (158)</strong>, <strong>dashboards (122)</strong>, <strong>layouts (93)</strong>, <strong>navigation (87)</strong>, <strong>buttons (78)</strong>.</li>
+<li><strong>Tables (69)</strong>, <strong>loaders (68)</strong>, <strong>charts (67)</strong>, <strong>games (62)</strong>, <strong>modals (61)</strong>, <strong>heroes (58)</strong>, <strong>mobile (54)</strong>, <strong>pricing (50)</strong>, <strong>footers (30)</strong>.</li>
+</ul>
+
+<p>Some concrete ones worth opening today, roughly in order of difficulty:</p>
+
+<ul>
+<li><strong>Search box</strong>, <strong>voting buttons</strong>, <strong>minimal footer</strong> — small, complete, readable in one sitting. Start here.</li>
+<li><strong>Animated tabs</strong> and <strong>flip link</strong> — your first look at how transitions are structured in real code.</li>
+<li><strong>Auth login card</strong> and <strong>hero split-screen form</strong> — layout plus forms together, the most common real-world combination there is.</li>
+<li><strong>CSS-only styled range slider</strong> and <strong>CSS-only parallax perspective section</strong> — impressive effects with zero JavaScript. These change how you think about what CSS can do.</li>
+<li><strong>Command palette</strong> — the ⌘K interface every modern app has. Keyboard handling, filtering, focus management, ARIA dialog roles. A whole curriculum in one component.</li>
+<li><strong>Email inbox</strong>, <strong>live log viewer</strong>, <strong>live market watchlist table</strong> — real application UI, the kind you'll be paid to build.</li>
+<li><strong>Word guess game</strong>, <strong>hex color guess game</strong>, <strong>binary search tree visualizer</strong> — logic-heavy JavaScript that's genuinely fun to read.</li>
+<li><strong>Mouse-move parallax hero</strong>, <strong>liquid blob</strong>, <strong>animated beam</strong>, <strong>stagger grid ripple</strong> — the portfolio-piece stuff.</li>
+</ul>
+
+<p>Here are five of them running live, in order of difficulty. Every one is the real component — interact with it, then open it and read the code that makes it work.</p>
+
+<h3>Animated Tabs with Indicator</h3>
+
+<iframe src="https://fwdtools.com/ui-snippets/animated-tabs/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Animated Tabs with Indicator — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p>Open it: <a href="https://fwdtools.com/ui-snippets/animated-tabs/">Animated Tabs with Indicator</a></p>
+
+<h3>Styled Range Slider — CSS Only</h3>
+
+<iframe src="https://fwdtools.com/ui-snippets/css-only-styled-range-slider/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Styled Range Slider — CSS Only, Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p>Open it: <a href="https://fwdtools.com/ui-snippets/css-only-styled-range-slider/">Styled Range Slider — CSS Only</a></p>
+
+<h3>Command Palette</h3>
+
+<iframe src="https://fwdtools.com/ui-snippets/command-palette/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Command Palette — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p>Open it: <a href="https://fwdtools.com/ui-snippets/command-palette/">Command Palette</a></p>
+
+<h3>Morphing Liquid Blob</h3>
+
+<iframe src="https://fwdtools.com/ui-snippets/liquid-blob/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Morphing Liquid Blob — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p>Open it: <a href="https://fwdtools.com/ui-snippets/liquid-blob/">Morphing Liquid Blob</a></p>
+
+<h3>Word Guess Game (Wordle-Style)</h3>
+
+<iframe src="https://fwdtools.com/ui-snippets/word-guess-game/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Word Guess Game (Wordle-Style) — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p>Open it: <a href="https://fwdtools.com/ui-snippets/word-guess-game/">Word Guess Game (Wordle-Style)</a></p>
+
+<p>Here's the method that turns browsing into learning, and it's worth doing properly:</p>
+
+<ol>
+<li><strong>Preview it.</strong> Watch what it does before you read a line.</li>
+<li><strong>Predict it.</strong> Guess how it works. Write the guess down if you can.</li>
+<li><strong>Read it.</strong> Find out where you were wrong. That gap is the lesson.</li>
+<li><strong>Break it.</strong> Delete a property. Change a duration. Remove an event listener. Watch what falls over — this teaches you what each line was <em>load-bearing</em> for.</li>
+<li><strong>Rebuild it.</strong> Open <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and make it again from memory. This is the step that moves knowledge from "I understood that" to "I can do that."</li>
+</ol>
+
+<h2>Step 6 — Export to React, Vue, Tailwind or Angular</h2>
+
+<p>This is where the platform does something unusual, and it solves a problem that stops a lot of people cold: the jump from vanilla HTML/CSS/JS to a framework.</p>
+
+<p>Every snippet — including the ones you write yourself — can be <strong>exported and previewed live in multiple formats</strong>:</p>
+
+<ul>
+<li><strong>HTML</strong> — plain, portable, works anywhere.</li>
+<li><strong>HTML + Tailwind</strong> — the same component with utility classes instead of a stylesheet.</li>
+<li><strong>React</strong> — a JSX component.</li>
+<li><strong>React + Tailwind</strong> — the most common production stack today.</li>
+<li><strong>Vue</strong> — a Vue 3 single-file component.</li>
+<li><strong>Angular</strong> — an Angular component.</li>
+<li><strong>Embed</strong> — drop the live component into another page.</li>
+</ul>
+
+<p>The learning value here is easy to miss. <strong>You get to see the same component you already understand, expressed several different ways.</strong> You know what the vanilla version does — so when you look at the React version, JSX stops being alien syntax and becomes "oh, that's just my HTML with <code>className</code>." When you look at the Tailwind version, utility classes stop being noise and become "oh, <code>flex items-center gap-2</code> is the CSS I just wrote."</p>
+
+<p>That's not a shortcut around learning React. It's the fastest legitimate on-ramp there is: you're not learning two unfamiliar things at once, you're learning one new notation for something already familiar. And because you can <strong>preview it live in every framework before downloading</strong>, you can verify it works rather than trusting a converter.</p>
+
+<h2>Step 7 — Go deeper: 25 playgrounds, 1,000+ lessons</h2>
+
+<p>HTML, CSS and JS are the foundation. When you're ready to build on it, the same interactive format continues across the stack — every one free, in-browser, no install:</p>
+
+<p><strong>Front-end frameworks</strong></p>
+<ul>
+<li><a href="https://fwdtools.com/react-playground/">React Playground</a> — <strong>68 lessons</strong>. JSX basics, props, state, hooks, forms, lists and conditionals, data and async, Suspense and concurrent rendering, portals, performance and debugging, styling in React, testing, accessibility patterns, GSAP in React, and real-world architecture. The most complete path on the site.</li>
+<li><a href="https://fwdtools.com/vue-playground/">Vue.js Playground</a> — 40 lessons.</li>
+<li><a href="https://fwdtools.com/angular-playground/">Angular Playground</a> — 45 lessons.</li>
+<li><a href="https://fwdtools.com/nextjs-playground/">Next.js Playground</a> — 26 App Router lessons.</li>
+<li><a href="https://fwdtools.com/typescript-playground/">TypeScript Playground</a> — 41 lessons. Learn this earlier than you think you should.</li>
+</ul>
+
+<p><strong>Styling and motion</strong></p>
+<ul>
+<li><a href="https://fwdtools.com/tailwind-playground/">Tailwind CSS Playground</a> — 48 lessons.</li>
+<li><a href="https://fwdtools.com/scss-playground/">SCSS Playground</a> — 45 lessons.</li>
+<li><a href="https://fwdtools.com/bootstrap5-playground/">Bootstrap 5 Playground</a> — 50 lessons.</li>
+<li><a href="https://fwdtools.com/gsap-playground/">GSAP Playground</a> — 55 lessons of professional animation.</li>
+<li><a href="https://fwdtools.com/svg-playground/">SVG Playground</a> — 44 lessons.</li>
+<li><a href="https://fwdtools.com/jquery-playground/">jQuery Playground</a> — 72 lessons. Still everywhere in legacy code you may be paid to maintain.</li>
+</ul>
+
+<p><strong>Back-end, data and tooling</strong></p>
+<ul>
+<li><a href="https://fwdtools.com/git-playground/">Git Playground</a> — 43 lessons. <strong>Do this early.</strong> Git confusion blocks more beginners than any framework.</li>
+<li><a href="https://fwdtools.com/nodejs-playground/">Node.js</a> (31), <a href="https://fwdtools.com/express-playground/">Express.js</a> (38), <a href="https://fwdtools.com/sql-playground/">SQL</a> (39), <a href="https://fwdtools.com/mongo-playground/">MongoDB</a> (37), <a href="https://fwdtools.com/graphql-playground/">GraphQL</a> (28), <a href="https://fwdtools.com/firebase-playground/">Firebase</a> (23), <a href="https://fwdtools.com/redis-playground/">Redis</a> (8), <a href="https://fwdtools.com/python-playground/">Python</a> (29), <a href="https://fwdtools.com/php-playground/">PHP</a> (60).</li>
+</ul>
+
+<h2>The helper tools: your daily working kit</h2>
+
+<p>Alongside the lessons there are <strong>180+ free tools</strong>, and for a learner they serve a specific purpose: <strong>they show you the code behind the result.</strong> You drag a slider, you get CSS you can read. That's a tutorial disguised as a utility.</p>
+
+<h3>CSS tools that teach while you use them</h3>
+
+<ul>
+<li><strong><a href="https://fwdtools.com/flexbox-builder/">Flexbox Builder</a></strong> and <strong><a href="https://fwdtools.com/css-grid-builder/">CSS Grid Builder</a></strong> — click the properties, watch the boxes move, copy the CSS. If flexbox or grid hasn't clicked yet, ten minutes here will do more than an hour of reading.</li>
+<li><strong><a href="https://fwdtools.com/gradient-generator/">Gradient Generator</a></strong>, <strong><a href="https://fwdtools.com/mesh-gradient-generator/">Mesh Gradient Generator</a></strong>, <strong><a href="https://fwdtools.com/box-shadow-generator/">Box Shadow Generator</a></strong>, <strong><a href="https://fwdtools.com/glassmorphism-generator/">Glassmorphism Generator</a></strong>.</li>
+<li><strong><a href="https://fwdtools.com/css-animation-generator/">CSS Animation Generator</a></strong> and <strong><a href="https://fwdtools.com/css-easing-generator/">CSS Easing Generator</a></strong> — easing curves are what make animation feel expensive instead of cheap. Seeing them side by side is the fastest way to understand why.</li>
+<li><strong><a href="https://fwdtools.com/css-clamp-generator/">CSS Clamp Generator</a></strong> — fluid typography that scales between breakpoints. A modern-CSS superpower most people never learn.</li>
+<li><strong><a href="https://fwdtools.com/css-media-queries-generator/">Media Queries Generator</a></strong>, <strong><a href="https://fwdtools.com/css-transform-generator/">Transform Generator</a></strong>, <strong><a href="https://fwdtools.com/css-filter-generator/">Filter Generator</a></strong>, <strong><a href="https://fwdtools.com/css-clip-path-generator/">Clip Path Generator</a></strong>, <strong><a href="https://fwdtools.com/css-shape-generator/">Shape Generator</a></strong>.</li>
+<li><strong><a href="https://fwdtools.com/css-loader-generator/">Loader Generator</a></strong>, <strong><a href="https://fwdtools.com/css-button-generator/">Button Generator</a></strong>, <strong><a href="https://fwdtools.com/toggle-switch-generator/">Toggle Switch Generator</a></strong>, <strong><a href="https://fwdtools.com/svg-wave-generator/">SVG Wave Generator</a></strong>, <strong><a href="https://fwdtools.com/carousel-builder/">Carousel Builder</a></strong>.</li>
+<li><strong><a href="https://fwdtools.com/color-contrast-checker/">Color Contrast Checker</a></strong> — check text against its background for WCAG accessibility. Caring about this early marks you as a professional.</li>
+<li><strong><a href="https://fwdtools.com/color-palette-generator/">Color Palette Generator</a></strong>, <strong><a href="https://fwdtools.com/color-picker/">Color Picker</a></strong>, <strong><a href="https://fwdtools.com/font-pairing-tool/">Font Pairing Tool</a></strong> — for when the code is fine but it still looks wrong.</li>
+<li><strong><a href="https://fwdtools.com/css-minifier-beautifier/">CSS Minifier &amp; Beautifier</a></strong> and <strong><a href="https://fwdtools.com/css-autoprefixer/">CSS Autoprefixer</a></strong>.</li>
+</ul>
+
+<h3>Converters that make frameworks less scary</h3>
+
+<ul>
+<li><strong><a href="https://fwdtools.com/css-to-tailwind/">CSS to Tailwind</a></strong> and <strong><a href="https://fwdtools.com/tailwind-to-css/">Tailwind to CSS</a></strong> — translate in both directions. Possibly the fastest way to actually learn Tailwind: write the CSS you already know, see the utilities it maps to.</li>
+<li><strong><a href="https://fwdtools.com/html-to-jsx-converter/">HTML to JSX</a></strong> — see exactly what changes between HTML and React markup.</li>
+<li><strong><a href="https://fwdtools.com/json-to-typescript/">JSON to TypeScript</a></strong> — turn an API response into typed interfaces.</li>
+<li><strong><a href="https://fwdtools.com/markdown-to-html/">Markdown to HTML</a></strong>, <strong><a href="https://fwdtools.com/html-to-markdown/">HTML to Markdown</a></strong>, <strong><a href="https://fwdtools.com/yaml-json-converter/">YAML ⇄ JSON</a></strong>, <strong><a href="https://fwdtools.com/csv-json-converter/">CSV ⇄ JSON</a></strong>.</li>
+</ul>
+
+<h3>Developer utilities you'll use every week</h3>
+
+<ul>
+<li><strong><a href="https://fwdtools.com/json-formatter/">JSON Formatter</a></strong> and <strong><a href="https://fwdtools.com/json-table-viewer/">JSON Table Viewer</a></strong> — make an API response readable before you try to use it.</li>
+<li><strong><a href="https://fwdtools.com/regex-tester/">Regex Tester</a></strong> — test patterns against real strings instead of guessing.</li>
+<li><strong><a href="https://fwdtools.com/responsive-preview-tool/">Responsive Preview Tool</a></strong> — see your page at every screen size at once.</li>
+<li><strong><a href="https://fwdtools.com/diff-checker/">Diff Checker</a></strong>, <strong><a href="https://fwdtools.com/html-formatter/">HTML Formatter</a></strong>, <strong><a href="https://fwdtools.com/javascript-minifier/">JavaScript Minifier</a></strong>, <strong><a href="https://fwdtools.com/jwt-decoder/">JWT Decoder</a></strong>, <strong><a href="https://fwdtools.com/base64-encoder-decoder/">Base64 Encoder/Decoder</a></strong>, <strong><a href="https://fwdtools.com/uuid-generator/">UUID Generator</a></strong>, <strong><a href="https://fwdtools.com/hash-generator/">Hash Generator</a></strong>, <strong><a href="https://fwdtools.com/cron-expression-builder/">Cron Expression Builder</a></strong>.</li>
+<li><strong><a href="https://fwdtools.com/api-mock-generator/">API Mock Generator</a></strong> and <strong><a href="https://fwdtools.com/rest-api-builder-playground/">REST API Builder</a></strong> — build a front-end against fake data before a back-end exists. This is how you build a portfolio project solo.</li>
+<li><strong><a href="https://fwdtools.com/image-compressor/">Image Compressor</a></strong>, <strong><a href="https://fwdtools.com/svg-to-png/">SVG to PNG</a></strong>, <strong><a href="https://fwdtools.com/favicon-generator/">Favicon Generator</a></strong>, <strong><a href="https://fwdtools.com/image-to-base64/">Image to Base64</a></strong>.</li>
+<li><strong><a href="https://fwdtools.com/code-screenshot-generator/">Code Screenshot Generator</a></strong> — turn code into a shareable image. Underrated for building an audience while you learn.</li>
+<li><strong><a href="https://fwdtools.com/meta-tag-generator/">Meta Tag Generator</a></strong>, <strong><a href="https://fwdtools.com/og-image-generator/">OG Image Generator</a></strong>, <strong><a href="https://fwdtools.com/seo-checker/">SEO Checker</a></strong>, <strong><a href="https://fwdtools.com/schema-markup-generator/">Schema Markup Generator</a></strong>.</li>
+</ul>
+
+<h2>A realistic learning path</h2>
+
+<p>Not a promise about weeks — everyone moves differently. But this is the order that works:</p>
+
+<ol>
+<li><strong>Structure.</strong> <a href="https://fwdtools.com/html-playground/">HTML Playground</a>, the first several chapters. Then build one static page about something you actually care about.</li>
+<li><strong>Style.</strong> <a href="https://fwdtools.com/css-playground/">CSS Playground</a> through flexbox. Then restyle that page. Use <a href="https://fwdtools.com/flexbox-builder/">Flexbox Builder</a> whenever you're stuck.</li>
+<li><strong>Behavior.</strong> <a href="https://fwdtools.com/js-playground/">JS Playground</a> through DOM and events. Then add one interaction to your page — a toggle, a filter, anything.</li>
+<li><strong>Read real code.</strong> Open five <a href="https://fwdtools.com/ui-snippets/">UI Snippets</a> a day. Predict, read, break, rebuild in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a>.</li>
+<li><strong>Depth.</strong> Back to CSS Grid, animations, variables and container queries. Back to JS async, fetch and closures. Learn <a href="https://fwdtools.com/git-playground/">Git</a> now — don't put it off.</li>
+<li><strong>Framework.</strong> Export a snippet you understand to React, study the difference, then work through the <a href="https://fwdtools.com/react-playground/">React Playground</a>. Add <a href="https://fwdtools.com/typescript-playground/">TypeScript</a> and <a href="https://fwdtools.com/tailwind-playground/">Tailwind</a>.</li>
+<li><strong>Ship something.</strong> A real project, start to finish, using <a href="https://fwdtools.com/api-mock-generator/">mock APIs</a> if you need to. Finished beats impressive.</li>
+</ol>
+
+<h2>How to use AI without it stunting you</h2>
+
+<p>AI is a genuinely great tool for a learner — used one way. Used the other way, it quietly prevents you from ever getting good. The difference is simple:</p>
+
+<ul>
+<li><strong>Do</strong> ask it to explain code you're already looking at. "Why does this snippet use <code>position: sticky</code> here?" is an excellent question.</li>
+<li><strong>Do</strong> ask it to review something <em>you</em> wrote in My Code, and tell you what's wrong with it.</li>
+<li><strong>Do</strong> ask it for a different way to solve the problem you just solved, then compare.</li>
+<li><strong>Don't</strong> paste a generated component into a project you can't explain line by line. If you can't explain it, you can't debug it, and it <em>will</em> break.</li>
+<li><strong>Don't</strong> let it write your practice for you. Practice is the whole point; outsourcing it is like paying someone to go to the gym for you.</li>
+</ul>
+
+<p>The rule of thumb: <strong>use AI to explain and review, use your own hands to build.</strong> The playgrounds and My Code exist precisely so you have somewhere to build with your own hands.</p>
+
+<h2>Frequently asked questions</h2>
+
+<h3>Is FWD Tools actually free, or is there a paid tier?</h3>
+<p>Free. All 180+ tools, all 25 playgrounds and every one of the 1,658 UI snippets — including the editor, the live preview and every export format. No account, no sign-up, no install.</p>
+
+<h3>Do I need to install anything to start?</h3>
+<p>No. Every playground, editor and tool runs in your browser. You can start the HTML Playground on a phone in a waiting room.</p>
+
+<h3>Where do my saved snippets go? Is my code private?</h3>
+<p>They're saved in your browser's IndexedDB on that device. Nothing is uploaded and nothing is shared. If you want a backup or access from another device, there's an optional GitHub Gist sync that goes to your own GitHub account — off unless you turn it on.</p>
+
+<h3>Should I learn HTML and CSS first, or jump straight to React?</h3>
+<p>HTML and CSS first. React renders HTML and is styled with CSS — skipping them means every React bug is really an HTML or CSS bug you can't diagnose. The good news is the export feature makes the jump to React short once your foundation is solid.</p>
+
+<h3>Is it still worth learning front-end development when AI can write code?</h3>
+<p>Yes — the value has shifted rather than disappeared. AI produces plausible code quickly; someone still has to judge whether it's correct, accessible, performant and maintainable, and fix it when it isn't. That judgment comes from having written and debugged code yourself. The people struggling right now are the ones who can generate code but not evaluate it.</p>
+
+<h3>Can I use these snippets in a real client or commercial project?</h3>
+<p>Yes — they're free to copy, edit and use. Export the format your stack needs and go.</p>
+
+<h3>Can I edit the library snippets, or only copy them?</h3>
+<p>Edit them freely. Every snippet opens in a live HTML/CSS/JS editor with instant preview, and you can save your modified version into <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> as your own.</p>
+
+<h3>Do the playgrounds track my progress?</h3>
+<p>The lessons are self-contained and openable in any order — jump straight to flexbox or async if that's your gap. What persists is the code <em>you</em> save in My Code, which is the record that actually matters.</p>
+
+<h2>Start with one tag</h2>
+
+<p>The distance between "I want to learn this" and "I'm a developer" is not talent, and it isn't a course you haven't bought yet. It's a few hundred small experiments — each one taking about thirty seconds, each one teaching you one thing you won't forget.</p>
+
+<p>You can start the first one right now, for free, with nothing installed:</p>
+
+<ul>
+<li>Never written code? Open the <strong><a href="https://fwdtools.com/html-playground/">HTML Playground</a></strong> and click through the first chapter.</li>
+<li>Fighting with layouts? Open the <strong><a href="https://fwdtools.com/css-playground/">CSS Playground</a></strong> or the <strong><a href="https://fwdtools.com/flexbox-builder/">Flexbox Builder</a></strong>.</li>
+<li>HTML and CSS solid, JS shaky? Open the <strong><a href="https://fwdtools.com/js-playground/">JavaScript Playground</a></strong> and go straight to DOM and events.</li>
+<li>Want to see what good code looks like? Open <strong><a href="https://fwdtools.com/ui-snippets/">UI Snippets</a></strong>, pick the command palette, and read it.</li>
+<li>Ready to build your own thing? Open <strong><a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a></strong> and click "Create new snippet."</li>
+</ul>
+
+<p>AI didn't close the door on this career. It moved the bar from "can you type the code" to "do you understand it." Understanding is built by practicing — and everything you need to practice is at <a href="https://fwdtools.com/">FWD Tools</a>, free, in your browser, right now.</p>
+
+<p><strong>Open one playground. Change one line. That's the whole beginning.</strong></p>

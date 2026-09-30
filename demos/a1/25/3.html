@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="First-Use Onboarding Empty State">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>First-use onboarding empty state</h1>
+    <p class="hint">This is a brand-new workspace with no projects yet. Click the single call-to-action to create the first one.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="panel" id="panel"></div>
+    <button type="button" class="resetBtn" id="resetBtn" hidden>Reset demo</button>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 20px 16px 28px; }
+
+  .panel { width: 100%; max-width: 380px; min-height: 220px; }
+
+  .emptyState {
+    text-align: center; padding: 40px 20px; border: 1.5px dashed var(--line);
+    border-radius: 14px; background: #fff;
+  }
+  .emptyIcon {
+    width: 54px; height: 54px; margin: 0 auto 14px; border-radius: 14px;
+    background: #eef0ff; color: var(--accent); display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+  }
+  .emptyTitle { margin: 0 0 6px; font-size: 15px; font-weight: 700; }
+  .emptyDesc { margin: 0 0 18px; font-size: 12.5px; color: var(--sub); line-height: 1.5; }
+  .ctaBtn {
+    padding: 11px 22px; border-radius: 9px; border: none;
+    background: var(--accent); color: #fff; font: 700 13.5px system-ui, sans-serif; cursor: pointer;
+  }
+  .ctaBtn:hover { background: #4f52d6; }
+
+  .projectCard {
+    display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+    border: 1px solid var(--line); border-radius: 12px; background: #fff;
+    animation: pop 0.3s ease;
+  }
+  @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .projectIcon {
+    width: 38px; height: 38px; border-radius: 9px; background: #eef0ff;
+    display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0;
+  }
+  .projectName { font-size: 13.5px; font-weight: 700; }
+  .projectMeta { font-size: 11.5px; color: var(--sub); margin-top: 2px; }
+
+  .resetBtn {
+    padding: 7px 14px; border-radius: 7px; border: 1.5px solid var(--line);
+    background: #fff; color: var(--sub); font: 700 11.5px system-ui, sans-serif; cursor: pointer;
+  }
+  .resetBtn:hover { border-color: var(--accent); color: var(--accent); }
+</script>
+
+<script type="text/plain" id="js">
+  var panel = document.getElementById('panel');
+  var resetBtn = document.getElementById('resetBtn');
+
+  function renderEmpty() {
+    panel.innerHTML =
+      '<div class="emptyState">' +
+        '<div class="emptyIcon">&#128193;</div>' +
+        '<p class="emptyTitle">Create your first project</p>' +
+        '<p class="emptyDesc">Projects keep your tasks, files and notes together. You don&rsquo;t have one yet — let&rsquo;s fix that.</p>' +
+        '<button type="button" class="ctaBtn" id="ctaBtn">+ New project</button>' +
+      '</div>';
+    document.getElementById('ctaBtn').addEventListener('click', renderProject);
+    resetBtn.hidden = true;
+  }
+
+  function renderProject() {
+    panel.innerHTML =
+      '<div class="projectCard">' +
+        '<div class="projectIcon">&#128640;</div>' +
+        '<div><div class="projectName">Launch Plan</div><div class="projectMeta">Created just now · 0 tasks</div></div>' +
+      '</div>';
+    resetBtn.hidden = false;
+  }
+
+  resetBtn.addEventListener('click', renderEmpty);
+
+  renderEmpty();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

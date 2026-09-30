@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="The Accessible ARIA Shape of a Trigger and Panel">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>The accessible shape: button, aria-expanded, aria-controls</h1>
+    <p class="hint">Click each trigger and watch the "What a screen reader has to work with" box below it. The broken version gives assistive tech nothing to announce; the fixed version exposes the exact same information sighted users get from the chevron rotating.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken (div, no ARIA)</h2>
+        <div class="acc-item">
+          <div class="acc-trigger" id="badTrigger" tabindex="-1">
+            Payment methods <span class="chev">&#9662;</span>
+          </div>
+          <div class="acc-panel" id="badPanel">
+            <div class="acc-panel-inner"><p>We accept all major credit cards, PayPal, and Apple Pay.</p></div>
+          </div>
+        </div>
+        <p class="a11yBox" id="badA11y">role: (none) &middot; state: (none) &middot; relationship: (none)</p>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed (button + ARIA)</h2>
+        <div class="acc-item">
+          <button type="button" class="acc-trigger" id="goodTrigger" aria-expanded="false" aria-controls="goodPanel">
+            Payment methods <span class="chev">&#9662;</span>
+          </button>
+          <div class="acc-panel" id="goodPanel" role="region" aria-labelledby="goodTrigger">
+            <div class="acc-panel-inner"><p>We accept all major credit cards, PayPal, and Apple Pay.</p></div>
+          </div>
+        </div>
+        <p class="a11yBox" id="goodA11y">role: button &middot; state: aria-expanded=&quot;false&quot; &middot; relationship: aria-controls=&quot;goodPanel&quot;</p>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 16px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 58em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 600px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; }
+  .colTitle { margin: 0 0 10px; font: 700 11px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; text-align: center; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .acc-item { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .acc-trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border: none; background: #fafafc; color: var(--ink); font: 700 12px system-ui, sans-serif; cursor: pointer; text-align: left; box-sizing: border-box; }
+  .acc-trigger:hover { background: #f0f1f5; }
+  .chev { transition: transform .25s ease; color: var(--sub); }
+  .acc-trigger[aria-expanded="true"] .chev, .acc-trigger.open .chev { transform: rotate(180deg); }
+  .acc-panel-inner { padding: 10px 12px; font-size: 12px; line-height: 1.55; color: var(--sub); }
+  .acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+  .acc-panel.open { grid-template-rows: 1fr; }
+  .acc-panel .acc-panel-inner { overflow: hidden; min-height: 0; }
+  .a11yBox { margin: 8px 2px 0; font: 700 10.5px ui-monospace, monospace; color: var(--ink); background: #f0f1f5; border-radius: 6px; padding: 8px 9px; line-height: 1.6; }
+</script>
+
+<script type="text/plain" id="js">
+  function setupBad() {
+    var trigger = document.getElementById('badTrigger');
+    var panel = document.getElementById('badPanel');
+    var a11y = document.getElementById('badA11y');
+
+    // BROKEN: a <div> has no built-in semantics at all. It isn't
+    // announced as a button, it isn't focusable without an explicit
+    // tabindex, and there is no aria-expanded or aria-controls to tell
+    // assistive tech this element toggles something else's visibility.
+    // Clicking it works fine with a mouse -- that's exactly what makes
+    // this bug invisible during normal manual testing.
+    trigger.addEventListener('click', function () {
+      var isOpen = trigger.classList.contains('open');
+      trigger.classList.toggle('open');
+      panel.classList.toggle('open');
+      a11y.textContent = 'role: (none) · state: (none, div has no state to expose) · relationship: (none)';
+    });
+  }
+
+  function setupGood() {
+    var trigger = document.getElementById('goodTrigger');
+    var panel = document.getElementById('goodPanel');
+    var a11y = document.getElementById('goodA11y');
+
+    // FIXED: a real <button> carries an implicit role of "button" for
+    // free. aria-expanded reflects open/closed state directly on the
+    // trigger, and aria-controls names the exact panel it toggles -- both
+    // read aloud by screen readers the moment the button receives focus,
+    // with no extra ARIA plumbing required beyond these two attributes.
+    trigger.addEventListener('click', function () {
+      var isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      trigger.setAttribute('aria-expanded', String(!isOpen));
+      panel.classList.toggle('open', !isOpen);
+      a11y.textContent = 'role: button · state: aria-expanded="' + String(!isOpen) + '" · relationship: aria-controls="goodPanel"';
+    });
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

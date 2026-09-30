@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Shake on Invalid">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Shake on Invalid</h1>
+    <p class="hint">Type an incomplete email and click away &mdash; the field shakes once via a CSS animation triggered by <code>:invalid</code>.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="shakeField">
+      <input type="email" required placeholder="you@example.com">
+      <span class="err">Enter a valid email address</span>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; align-items: center; padding: 40px 18px; min-height: 260px; }
+
+  .shakeField input {
+    width: 240px;
+    padding: 12px;
+    font: 14px system-ui, -apple-system, sans-serif;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  .shakeField input:not(:placeholder-shown):invalid {
+    border-color: #ef4444;
+    animation: shake 0.4s ease;
+  }
+  .shakeField .err {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #ef4444;
+    opacity: 0;
+    height: 0;
+    transition: opacity 0.2s ease;
+  }
+  .shakeField input:not(:placeholder-shown):invalid ~ .err {
+    opacity: 1;
+    height: auto;
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+</script>
+
+<script type="text/plain" id="js">
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

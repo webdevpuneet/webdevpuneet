@@ -1,0 +1,48 @@
+{
+  "name": "webdevpuneet",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "postbuild": "node scripts/postbuild.js",
+    "make-zip": "node scripts/make-zip.js",
+    "tags": "node scripts/generate-snippet-tags.mjs",
+    "tags:report": "node scripts/generate-snippet-tags.mjs --report",
+    "tags:og": "node scripts/make-tag-og-images.mjs",
+    "deploy": "node scripts/deploy.js",
+    "indexnow": "node scripts/indexnow-submit.js",
+    "indexnow:dry": "node scripts/indexnow-submit.js --dry-run",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.5.0",
+    "browserslist": "^4.28.2",
+    "echarts": "^6.0.0",
+    "echarts-for-react": "^3.0.6",
+    "emoji-picker-react": "^4.18.0",
+    "gsap": "^3.15.0",
+    "imagetracerjs": "^1.2.6",
+    "js-yaml": "^4.1.1",
+    "jszip": "^3.10.1",
+    "marked": "^18.0.2",
+    "next": "^15.0.0",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^5.7.284",
+    "postcss": "^8.5.13",
+    "qpdf-wasm": "^0.1.0",
+    "qr-code-styling": "^1.9.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "shiki": "^4.1.0",
+    "tesseract.js": "^7.0.0",
+    "upng-js": "^2.1.0"
+  },
+  "devDependencies": {
+    "eslint": "9.39.4",
+    "eslint-config-next": "15.5.23",
+    "playwright": "^1.60.0"
+  }
+}

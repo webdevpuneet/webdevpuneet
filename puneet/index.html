@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Puneet Sharma — Freelance Frontend Developer & UI Engineer</title>
+  <meta name="description" content="Freelance frontend developer with 15+ years converting Figma designs into pixel-perfect, fast, production-ready HTML, React & WordPress sites. Available for hire on Upwork." />
+  <meta name="keywords" content="freelance frontend developer, Figma to code, React developer, WordPress developer, hire frontend developer, pixel-perfect website, UI engineer, Puneet Sharma" />
+  <meta name="author" content="Puneet Sharma" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://fwdtools.com/puneet/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://fwdtools.com/puneet/" />
+  <meta property="og:title"       content="Puneet Sharma — Freelance Frontend Developer & UI Engineer" />
+  <meta property="og:description" content="15+ years converting Figma designs into pixel-perfect, fast HTML, React & WordPress sites. Available for hire — typically delivers in 2–5 days." />
+  <meta property="og:image"       content="https://fwdtools.com/puneet/puneet.png" />
+  <meta property="og:locale"      content="en_US" />
+  <meta property="og:site_name"   content="Puneet Sharma" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:site"        content="@webdevpuneet" />
+  <meta name="twitter:creator"     content="@webdevpuneet" />
+  <meta name="twitter:title"       content="Puneet Sharma — Freelance Frontend Developer & UI Engineer" />
+  <meta name="twitter:description" content="15+ years converting Figma designs into pixel-perfect, fast HTML, React & WordPress sites. Available for hire — typically delivers in 2–5 days." />
+  <meta name="twitter:image"       content="https://fwdtools.com/puneet/puneet.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2308090b'/%3E%3Crect width='32' height='32' rx='8' fill='none' stroke='%234ade9e' stroke-width='1.5' opacity='0.5'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='13' fill='%234ade9e'%3EPS%3C/text%3E%3C/svg%3E" />
+  <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2308090b'/%3E%3Crect width='32' height='32' rx='8' fill='none' stroke='%234ade9e' stroke-width='1.5' opacity='0.5'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='700' font-size='13' fill='%234ade9e'%3EPS%3C/text%3E%3C/svg%3E" />
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Puneet Sharma",
+    "url": "https://fwdtools.com/puneet/",
+    "image": "https://fwdtools.com/puneet/puneet.png",
+    "jobTitle": "Freelance Frontend Developer & UI Engineer",
+    "description": "Freelance frontend developer with 15+ years converting Figma designs into pixel-perfect, fast, production-ready HTML, React & WordPress sites.",
+    "sameAs": [
+      "https://www.upwork.com/freelancers/~017de423dd2d0e2767",
+      "https://twitter.com/webdevpuneet",
+      "https://fwdtools.com/puneet/"
+    ],
+    "knowsAbout": ["HTML", "CSS", "JavaScript", "TypeScript", "React", "Next.js", "WordPress", "Figma", "Tailwind CSS", "GSAP", "ScrollTrigger", "Framer Motion", "SVG Animation"],
+    "offers": {
+      "@type": "Offer",
+      "description": "Figma to code, React development, WordPress development",
+      "url": "https://www.upwork.com/freelancers/~017de423dd2d0e2767"
+    }
+  }
+  </script>
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YZX1VC4PFC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-YZX1VC4PFC');
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #08090b;
+      --s1:       #0e1014;
+      --s2:       #14161c;
+      --s3:       #1c1f27;
+      --border:   rgba(255,255,255,0.07);
+      --border2:  rgba(255,255,255,0.12);
+      --text:     #e8eaf0;
+      --text2:    #8b90a0;
+      --text3:    #454a5e;
+      --accent:   #4ade9e;
+      --accent2:  #60a5fa;
+      --accent3:  #f472b6;
+      --glow:     rgba(74,222,158,0.18);
+      --font:     'Inter', sans-serif;
+      --mono:     'JetBrains Mono', monospace;
+      --display:  'Space Grotesk', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; line-height: 1.6; overflow-x: hidden; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 60px;
+      background: rgba(8,9,11,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--display); font-weight: 700; font-size: 17px; color: var(--text); text-decoration: none; letter-spacing: -0.3px; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: var(--text2); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--accent); color: #08090b; font-weight: 700; font-size: 13px;
+      padding: 8px 18px; border-radius: 8px; text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 100px 40px 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; top: -200px; right: -100px;
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(74,222,158,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-glow2 {
+      position: absolute; bottom: -100px; left: -200px;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(96,165,250,0.05) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 1140px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1fr 420px; gap: 80px; align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(74,222,158,0.08); border: 1px solid rgba(74,222,158,0.2);
+      border-radius: 100px; padding: 6px 14px; margin-bottom: 24px;
+      font-family: var(--mono); font-size: 11px; color: var(--accent);
+    }
+    .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.85)} }
+    .hero-title {
+      font-family: var(--display); font-size: clamp(38px, 5vw, 62px);
+      font-weight: 800; line-height: 1.08; letter-spacing: -1.5px;
+      margin-bottom: 20px;
+    }
+    .hero-title .line2 { color: var(--accent); }
+    .hero-subtitle {
+      font-size: 17px; color: var(--text2); line-height: 1.7;
+      max-width: 520px; margin-bottom: 36px;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: #08090b;
+      font-weight: 700; font-size: 14px; padding: 13px 26px;
+      border-radius: 10px; text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 0 28px rgba(74,222,158,0.25);
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-2px); box-shadow: 0 0 40px rgba(74,222,158,0.4); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--text);
+      font-weight: 600; font-size: 14px; padding: 13px 26px;
+      border-radius: 10px; text-decoration: none;
+      border: 1px solid var(--border2);
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.25); background: var(--s2); transform: translateY(-2px); }
+    .email-tooltip { position: relative; }
+    .email-tooltip::after {
+      content: 'puneet438@gmail.com';
+      position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%);
+      background: #1a1b1e; color: var(--text); font-size: 12px; font-weight: 500;
+      padding: 6px 12px; border-radius: 7px; white-space: nowrap;
+      border: 1px solid var(--border2);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.18s, transform 0.18s;
+      transform: translateX(-50%) translateY(4px);
+    }
+    .email-tooltip:hover::after {
+      opacity: 1; transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── PHOTO CARD ── */
+    .photo-card {
+      position: relative; display: flex; justify-content: center;
+    }
+    .photo-wrap {
+      position: relative; width: 340px; height: 380px;
+    }
+    .photo-bg {
+      position: absolute; inset: 0; border-radius: 24px;
+      background: linear-gradient(135deg, rgba(74,222,158,0.12), rgba(96,165,250,0.08));
+      border: 1px solid rgba(74,222,158,0.2);
+    }
+    .photo-img {
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 300px; height: auto; border-radius: 0 0 20px 20px;
+      object-fit: cover; object-position: top;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
+    }
+    .photo-tag {
+      position: absolute; top: -14px; right: -14px;
+      background: var(--s2); border: 1px solid var(--border2);
+      border-radius: 12px; padding: 10px 14px;
+      font-family: var(--mono); font-size: 11px; color: var(--accent);
+      white-space: nowrap;
+    }
+    .photo-tag2 {
+      position: absolute; bottom: 20px; left: -20px;
+      background: var(--s2); border: 1px solid var(--border2);
+      border-radius: 12px; padding: 10px 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .photo-tag2 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+    .photo-tag2 span { font-size: 12px; font-weight: 600; }
+
+    /* ── STATS ── */
+    .stats-strip {
+      background: var(--s1); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 28px 40px;
+    }
+    .stats-inner {
+      max-width: 1140px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      divide: 1px solid var(--border);
+    }
+    .stat {
+      text-align: center; padding: 0 20px;
+      border-right: 1px solid var(--border);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-family: var(--display); font-size: 36px; font-weight: 800; color: var(--accent); letter-spacing: -1px; }
+    .stat-label { font-size: 12px; color: var(--text2); margin-top: 2px; }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 90px 40px; }
+    .section-inner { max-width: 1140px; margin: 0 auto; }
+    .section-label {
+      font-family: var(--mono); font-size: 11px; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--display); font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 800; letter-spacing: -0.8px; margin-bottom: 16px; line-height: 1.1;
+    }
+    .section-sub { font-size: 16px; color: var(--text2); max-width: 540px; line-height: 1.7; margin-bottom: 52px; }
+
+    /* ── SERVICES ── */
+    #services { background: var(--bg); }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .service-card {
+      background: var(--s1); border: 1px solid var(--border);
+      border-radius: 16px; padding: 32px; position: relative;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: ''; position: absolute; inset: 0; border-radius: 16px;
+      background: radial-gradient(circle at top left, var(--card-glow, rgba(74,222,158,0.06)), transparent 60%);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .service-card:hover { border-color: var(--border2); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--accent-bg, rgba(74,222,158,0.1));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 20px;
+    }
+    .service-card h3 { font-family: var(--display); font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .service-card p { font-size: 13.5px; color: var(--text2); line-height: 1.7; }
+    .service-tag {
+      display: inline-block; margin-top: 16px;
+      font-family: var(--mono); font-size: 10px; color: var(--accent);
+      background: rgba(74,222,158,0.08); border: 1px solid rgba(74,222,158,0.18);
+      border-radius: 6px; padding: 3px 10px;
+    }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--s1); }
+    .skills-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+    .skills-group { margin-bottom: 32px; }
+    .skills-group-label { font-size: 11px; font-family: var(--mono); color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 14px; }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill {
+      background: var(--s3); border: 1px solid var(--border2);
+      border-radius: 8px; padding: 7px 14px;
+      font-size: 13px; font-weight: 500; color: var(--text);
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      cursor: default;
+    }
+    .pill:hover { border-color: rgba(74,222,158,0.4); color: var(--accent); background: rgba(74,222,158,0.06); }
+    .pill.accent { border-color: rgba(74,222,158,0.3); color: var(--accent); background: rgba(74,222,158,0.07); }
+    .exp-block {
+      background: var(--s2); border: 1px solid var(--border); border-radius: 16px; padding: 28px;
+    }
+    .exp-block h3 { font-family: var(--display); font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .exp-block p { font-size: 13.5px; color: var(--text2); line-height: 1.7; }
+    .exp-num { font-family: var(--display); font-size: 52px; font-weight: 800; color: var(--accent); letter-spacing: -2px; line-height: 1; margin-bottom: 6px; }
+
+    /* ── TOOLS ── */
+    #tools { background: var(--bg); }
+    .tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .tool-card {
+      background: var(--s1); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px;
+      text-decoration: none; color: var(--text);
+      transition: border-color 0.2s, transform 0.2s, background 0.2s;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .tool-card:hover { border-color: rgba(74,222,158,0.35); transform: translateY(-3px); background: var(--s2); }
+    .tool-card-name { font-size: 13px; font-weight: 600; }
+    .tool-card-desc { font-size: 11.5px; color: var(--text2); line-height: 1.5; }
+    /* Compact tools section — tighter cards and group spacing */
+    #tools .skills-group { margin-bottom: 16px; }
+    #tools .skills-group-label { margin-bottom: 9px; }
+    #tools .tools-grid { gap: 10px; }
+    #tools .tool-card { padding: 12px 14px; border-radius: 10px; gap: 3px; }
+    #tools .tool-card-desc { font-size: 11px; line-height: 1.45; }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { background: var(--s1); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .tcard {
+      background: var(--s2); border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px; position: relative;
+    }
+    .tcard-quote { font-size: 40px; color: var(--accent); opacity: 0.3; line-height: 1; margin-bottom: 12px; font-family: Georgia, serif; }
+    .tcard-text { font-size: 14px; color: var(--text2); line-height: 1.75; font-style: italic; margin-bottom: 20px; }
+    .tcard-author { display: flex; align-items: center; gap: 10px; }
+    .tcard-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: #08090b;
+    }
+    .tcard-name { font-size: 13px; font-weight: 600; }
+    .tcard-role { font-size: 11px; color: var(--text3); }
+
+    /* ── PROCESS ── */
+    #process { background: var(--bg); }
+    .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+    .process-steps::before {
+      content: ''; position: absolute; top: 28px; left: 14%; right: 14%;
+      height: 1px; background: linear-gradient(90deg, transparent, var(--border2), var(--border2), transparent);
+    }
+    .step { text-align: center; padding: 0 20px; }
+    .step-num {
+      width: 56px; height: 56px; border-radius: 16px; margin: 0 auto 18px;
+      background: var(--s2); border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--mono); font-size: 15px; font-weight: 600; color: var(--accent);
+      position: relative; z-index: 1;
+    }
+    .step h3 { font-family: var(--display); font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .step p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+    /* ── CTA ── */
+    #contact {
+      background: linear-gradient(135deg, rgba(74,222,158,0.05) 0%, rgba(96,165,250,0.03) 100%);
+      border-top: 1px solid var(--border);
+      text-align: center; padding: 100px 40px;
+    }
+    .cta-inner { max-width: 640px; margin: 0 auto; }
+    .cta-title { font-family: var(--display); font-size: clamp(30px, 4vw, 50px); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+    .cta-title span { color: var(--accent); }
+    .cta-sub { font-size: 16px; color: var(--text2); margin-bottom: 36px; line-height: 1.7; }
+    .cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-upwork {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: #14a800; color: #fff;
+      font-weight: 700; font-size: 14px; padding: 14px 28px;
+      border-radius: 10px; text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+      box-shadow: 0 0 28px rgba(20,168,0,0.25);
+    }
+    .btn-upwork:hover { opacity: 0.88; transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--s1); border-top: 1px solid var(--border);
+      padding: 28px 40px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-left { font-size: 13px; color: var(--text3); }
+    .footer-left a { color: var(--accent); text-decoration: none; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { color: var(--text3); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+
+    /* ── RESPONSIVE ── */
+    /* ── ANIMATIONS ──────────────────────────────────────────────────────── */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(44px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0px); }
+      50%      { transform: translateY(-14px); }
+    }
+    @keyframes navDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes shimmer {
+      0%,100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
+    }
+    @keyframes glowDrift {
+      0%,100% { transform: translate(0,0) scale(1); }
+      33%      { transform: translate(50px,-40px) scale(1.12); }
+      66%      { transform: translate(-30px,25px) scale(0.92); }
+    }
+    @keyframes borderSpin {
+      to { --angle: 360deg; }
+    }
+
+    /* Nav */
+    nav { animation: navDown 0.7s cubic-bezier(0.22,1,0.36,1) both; }
+
+    /* Hero stagger */
+    .hero-badge    { animation: fadeSlideUp 0.7s 0.15s cubic-bezier(0.22,1,0.36,1) both; }
+    .hero-title    { animation: fadeSlideUp 0.8s 0.30s cubic-bezier(0.22,1,0.36,1) both; }
+    .hero-subtitle { animation: fadeSlideUp 0.8s 0.48s cubic-bezier(0.22,1,0.36,1) both; }
+    .hero-actions  { animation: fadeSlideUp 0.8s 0.62s cubic-bezier(0.22,1,0.36,1) both; }
+    .photo-card    { animation: fadeIn 1s 0.35s both; }
+
+    /* Photo float */
+    .photo-wrap { animation: float 5s ease-in-out infinite; }
+
+    /* Gradient accent */
+    .line2 {
+      background: linear-gradient(90deg, #4ade9e 0%, #60a5fa 50%, #4ade9e 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+    }
+
+    /* Hero glows drift */
+    .hero-glow  { animation: glowDrift 9s ease-in-out infinite; }
+    .hero-glow2 { animation: glowDrift 12s ease-in-out infinite reverse; }
+
+    /* Cursor glow */
+    #cursor-glow {
+      position: fixed; pointer-events: none; z-index: 9999;
+      width: 480px; height: 480px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(74,222,158,0.055) 0%, transparent 68%);
+      transform: translate(-50%, -50%);
+      transition: left 0.08s linear, top 0.08s linear;
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(38px);
+      transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Section label/title reveal delay offset */
+    .reveal-label  { transition-delay: 0s; }
+    .reveal-title  { transition-delay: 0.07s; }
+    .reveal-sub    { transition-delay: 0.14s; }
+
+    /* Stat counter */
+    .stat-num { transition: color 0.3s; }
+
+    @media (max-width: 900px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 90px 20px 50px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .photo-card { order: -1; }
+      .photo-wrap { width: 260px; height: 300px; }
+      .photo-img { width: 230px; }
+      .stats-strip { padding: 24px 20px; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+      .stat:nth-child(odd) { border-right: 1px solid var(--border); }
+      .stat:last-child, .stat:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+      section { padding: 60px 20px; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .tools-grid { grid-template-columns: repeat(2, 1fr); }
+      .process-steps { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+      .process-steps::before { display: none; }
+      .skills-layout { grid-template-columns: 1fr; gap: 32px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor-glow"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">PS<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="/" target="_blank">Tools</a></li>
+  </ul>
+  <a href="https://www.upwork.com/freelancers/~017de423dd2d0e2767" target="_blank" rel="noopener noreferrer" class="nav-cta">Hire me →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">Available for freelance work</div>
+      <h1 class="hero-title">
+        Puneet Sharma<br>
+        <span class="line2">Frontend Dev</span><br>
+        & UI Engineer
+      </h1>
+      <p class="hero-subtitle">
+        I convert Figma designs into pixel-perfect, fast, production-ready HTML, React &amp; WordPress sites — typically within 2–5 days. 15+ years of doing this for startups, agencies, and product teams.
+      </p>
+      <div class="hero-actions">
+        <a href="https://www.upwork.com/freelancers/~017de423dd2d0e2767" target="_blank" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><polyline points="15 3 21 3 21 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Hire on Upwork
+        </a>
+        <a href="mailto:puneet438@gmail.com" class="btn-secondary email-tooltip">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Email me
+        </a>
+      </div>
+    </div>
+    <div class="photo-card">
+      <div class="photo-wrap">
+        <div class="photo-bg"></div>
+        <img
+          src="https://fwdtools.com/puneet/puneet.webp"
+          alt="Puneet Sharma"
+          class="photo-img"
+        />
+        <div class="photo-tag">15+ yrs experience</div>
+        <div class="photo-tag2">
+          <div class="dot"></div>
+          <span>Open to work</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat">
+      <div class="stat-num" data-count="15" data-suffix="+">15+</div>
+      <div class="stat-label">Years of experience</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-count="200" data-suffix="+">200+</div>
+      <div class="stat-label">Designs converted</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-count="117" data-suffix="">117</div>
+      <div class="stat-label">Free developer tools built</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" data-suffix="d" data-static="2–5">2–5d</div>
+      <div class="stat-label">Typical delivery time</div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="section-label reveal reveal-label">What I do</div>
+    <h2 class="section-title reveal reveal-title">Services</h2>
+    <p class="section-sub reveal reveal-sub">From Figma file to live production code — fast, clean, and exactly as designed.</p>
+    <div class="services-grid js-stagger">
+      <div class="service-card" style="--card-glow: rgba(74,222,158,0.08)">
+        <div class="service-icon" style="--accent-bg: rgba(74,222,158,0.1)">🎨</div>
+        <h3>Figma &rarr; HTML</h3>
+        <p>Hand-coded, pixel-perfect HTML, CSS &amp; JavaScript straight from your Figma, PSD, or XD file. Every spacing, font, shadow, and interaction — exactly as designed, fully responsive, and fast.</p>
+        <span class="service-tag">HTML · CSS · Tailwind</span>
+      </div>
+      <div class="service-card" style="--card-glow: rgba(96,165,250,0.08)">
+        <div class="service-icon" style="--accent-bg: rgba(96,165,250,0.1)">⚛️</div>
+        <h3>Figma &rarr; React</h3>
+        <p>Your design turned into clean, scalable React &amp; Next.js components built for production. State management, API integration, performance optimization, and smooth animations included.</p>
+        <span class="service-tag" style="color:var(--accent2);background:rgba(96,165,250,0.08);border-color:rgba(96,165,250,0.2)">React · Next.js · TypeScript</span>
+      </div>
+      <div class="service-card" style="--card-glow: rgba(244,114,182,0.08)">
+        <div class="service-icon" style="--accent-bg: rgba(244,114,182,0.1)">🔌</div>
+        <h3>Figma &rarr; WordPress</h3>
+        <p>Your design as a custom WordPress site — built fast, secure, and easy for your team to manage. Theme development, plugin integration, speed optimization, and ACF-powered content.</p>
+        <span class="service-tag" style="color:var(--accent3);background:rgba(244,114,182,0.08);border-color:rgba(244,114,182,0.2)">WordPress · WooCommerce · ACF</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="skills-layout">
+      <div>
+        <div class="section-label reveal reveal-label">Tech stack</div>
+        <h2 class="section-title reveal reveal-title">Skills</h2>
+        <p class="section-sub reveal reveal-sub" style="margin-bottom:36px">Tools and technologies I use every day in production projects.</p>
+        <div class="skills-group">
+          <div class="skills-group-label">Core</div>
+          <div class="skill-pills">
+            <span class="pill accent">HTML5</span>
+            <span class="pill accent">CSS3</span>
+            <span class="pill accent">JavaScript</span>
+            <span class="pill accent">React</span>
+            <span class="pill accent">Next.js</span>
+            <span class="pill accent">TypeScript</span>
+          </div>
+        </div>
+        <div class="skills-group">
+          <div class="skills-group-label">Styling &amp; Animation</div>
+          <div class="skill-pills">
+            <span class="pill">Tailwind CSS</span>
+            <span class="pill">CSS Modules</span>
+            <span class="pill">Sass/SCSS</span>
+            <span class="pill">Styled Components</span>
+            <span class="pill">GSAP</span>
+            <span class="pill">ScrollTrigger</span>
+            <span class="pill">Framer Motion</span>
+            <span class="pill">CSS Animations</span>
+            <span class="pill">SVG Animation</span>
+          </div>
+        </div>
+        <div class="skills-group">
+          <div class="skills-group-label">CMS & Tools</div>
+          <div class="skill-pills">
+            <span class="pill">WordPress</span>
+            <span class="pill">WooCommerce</span>
+            <span class="pill">ACF</span>
+            <span class="pill">Figma</span>
+            <span class="pill">Git</span>
+            <span class="pill">Vite</span>
+          </div>
+        </div>
+        <div class="skills-group">
+          <div class="skills-group-label">Specialities</div>
+          <div class="skill-pills">
+            <span class="pill">Pixel-perfect implementation</span>
+            <span class="pill">Responsive design</span>
+            <span class="pill">Performance optimization</span>
+            <span class="pill">Cross-browser compatibility</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="exp-block">
+          <div class="exp-num">15+</div>
+          <h3>Years converting designs to code</h3>
+          <p style="margin-top:8px">Worked with startups, agencies, and product teams across the globe. From simple landing pages to complex React apps.</p>
+        </div>
+        <div class="exp-block">
+          <div style="font-size:28px;margin-bottom:10px">⚡</div>
+          <h3>2–5 day delivery</h3>
+          <p style="margin-top:8px">Fast turnaround without sacrificing quality. Most Figma-to-code projects are delivered within a week.</p>
+        </div>
+        <div class="exp-block">
+          <div style="font-size:28px;margin-bottom:10px">🎯</div>
+          <h3>Pixel-perfect output</h3>
+          <p style="margin-top:8px">Every margin, shadow, hover state, and animation implemented exactly as in the design. No approximations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-inner">
+    <div class="section-label reveal reveal-label">How it works</div>
+    <h2 class="section-title reveal reveal-title">My Process</h2>
+    <p class="section-sub reveal reveal-sub">Simple, transparent, and built around getting your project live fast.</p>
+    <div class="process-steps js-stagger">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Share your design</h3>
+        <p>Send me your Figma, PSD, or XD file. I review it and confirm scope, timeline, and any questions upfront.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>I build it</h3>
+        <p>Clean, semantic, production-ready code. I work fast — most projects start within 24 hours of kickoff.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Review & refine</h3>
+        <p>You review the live preview. I handle revisions until every detail matches your design exactly.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h3>Handoff</h3>
+        <p>Clean code delivery. GitHub repo, deployment help, or direct handoff to your team — however you need it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="section-inner">
+    <div class="section-label reveal reveal-label">Side projects</div>
+    <h2 class="section-title reveal reveal-title">Free Tools I Built</h2>
+    <p class="section-sub reveal reveal-sub">Alongside client work I build FWD Tools — 450+ copy-paste UI snippets, coding playgrounds, freelancer tools and developer utilities.</p>
+
+    <div class="skills-group" style="margin-top:8px">
+      <div class="skills-group-label">UI Snippets</div>
+      <div class="tools-grid js-stagger">
+        <a href="/ui-snippets/" class="tool-card"><div class="tool-card-name">UI Snippets Library</div><div class="tool-card-desc">442+ copy-paste HTML, CSS & JS components</div></a>
+        <a href="/ui-snippets/heroes/" class="tool-card"><div class="tool-card-name">Heroes & Landing</div><div class="tool-card-desc">Hero sections and landing-page blocks</div></a>
+        <a href="/ui-snippets/cards/" class="tool-card"><div class="tool-card-name">Cards & Pricing</div><div class="tool-card-desc">Content cards, pricing and testimonials</div></a>
+        <a href="/ui-snippets/navigation/" class="tool-card"><div class="tool-card-name">Navbars & Menus</div><div class="tool-card-desc">Navbars, mega menus and mobile nav</div></a>
+      </div>
+    </div>
+
+    <div class="skills-group">
+      <div class="skills-group-label">Learn-to-Code Playgrounds</div>
+      <div class="tools-grid js-stagger">
+        <a href="/html-playground/" class="tool-card"><div class="tool-card-name">HTML Playground</div><div class="tool-card-desc">Write HTML with instant live preview as you type</div></a>
+        <a href="/css-playground/" class="tool-card"><div class="tool-card-name">CSS Playground</div><div class="tool-card-desc">Experiment with CSS and see styles update live</div></a>
+        <a href="/js-playground/" class="tool-card"><div class="tool-card-name">JavaScript Playground</div><div class="tool-card-desc">Run JS in the browser with a built-in console</div></a>
+        <a href="/react-playground/" class="tool-card"><div class="tool-card-name">React Playground</div><div class="tool-card-desc">Live React + JSX sandbox with hot preview</div></a>
+      </div>
+    </div>
+
+    <div class="skills-group">
+      <div class="skills-group-label">Freelance Tools</div>
+      <div class="tools-grid js-stagger">
+        <a href="/freelance-dashboard/" class="tool-card"><div class="tool-card-name">Freelance Dashboard</div><div class="tool-card-desc">Daily focus log + kanban in one tab</div></a>
+        <a href="/time-tracker/" class="tool-card"><div class="tool-card-name">Time Tracker</div><div class="tool-card-desc">Track billable hours per project</div></a>
+        <a href="/daily-diary/" class="tool-card"><div class="tool-card-name">Daily Diary</div><div class="tool-card-desc">Log daily work, notes and progress</div></a>
+        <a href="/bookmark-keeper/" class="tool-card"><div class="tool-card-name">Bookmark Keeper</div><div class="tool-card-desc">Save and organise your work links</div></a>
+      </div>
+    </div>
+
+    <div class="skills-group">
+      <div class="skills-group-label">Other Developer Tools</div>
+      <div class="tools-grid js-stagger">
+        <a href="/json-formatter/" class="tool-card"><div class="tool-card-name">JSON Formatter</div><div class="tool-card-desc">Beautify, validate, repair & minify JSON</div></a>
+        <a href="/diff-checker/" class="tool-card"><div class="tool-card-name">Diff Checker</div><div class="tool-card-desc">Compare two files or text blocks side by side</div></a>
+        <a href="/gradient-generator/" class="tool-card"><div class="tool-card-name">Gradient Generator</div><div class="tool-card-desc">CSS gradient builder with live preview</div></a>
+        <a href="/svg-animation-generator/" class="tool-card"><div class="tool-card-name">SVG Animation Generator</div><div class="tool-card-desc">Animate SVG paths, shapes and icons</div></a>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:36px">
+      <a href="/" target="_blank" class="btn-secondary">Browse all tools →</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-inner">
+    <div class="section-label reveal reveal-label">What clients say</div>
+    <h2 class="section-title reveal reveal-title">Testimonials</h2>
+    <p class="section-sub reveal reveal-sub">From real clients on Upwork and direct engagements.</p>
+    <div class="testimonials-grid js-stagger">
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <p class="tcard-text">Puneet is a high-quality front-end developer. A real asset. Great guy to work with.</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar" style="background:linear-gradient(135deg,#f472b6,#fb923c)">A</div>
+          <div>
+            <div class="tcard-name">Alfred Opare Saforo</div>
+            <div class="tcard-role">CEO, TeamAlfy.com · United Kingdom</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <p class="tcard-text">Puneet helps us to create creative websites and we like his work. He has great knowledge in HTML, CSS, and JS, and he has also created a few SVG animations for our websites to improve user experience. We are giving him 5 stars for his work.</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar" style="background:linear-gradient(135deg,#34d399,#3b82f6)">D</div>
+          <div>
+            <div class="tcard-name">Dilshad Khan</div>
+            <div class="tcard-role">Product Manager, SimplicityLabs</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <p class="tcard-text">Puneet did HTML coding for my React project. I was very happy with the whole process. From the initial enquiry we got the required output within days. He is professional and efficient.</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar" style="background:linear-gradient(135deg,#a78bfa,#ec4899)">J</div>
+          <div>
+            <div class="tcard-name">Jan Mikeska</div>
+            <div class="tcard-role">5-star review · Upwork</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-quote">"</div>
+        <p class="tcard-text">Puneet has been amazing so far. He's smart, has extreme attention to detail, is timely, and is VERY on top of the game. We will be working with him for a long time to come.</p>
+        <div class="tcard-author">
+          <div class="tcard-avatar" style="background:linear-gradient(135deg,#fb923c,#f43f5e)">D</div>
+          <div>
+            <div class="tcard-name">Dan E</div>
+            <div class="tcard-role">Employify, Ventura · 5-star · Upwork</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contact">
+  <div class="cta-inner">
+    <div class="section-label" style="justify-content:center;display:flex">Let's work together</div>
+    <h2 class="cta-title">Got a design that needs <span>to go live?</span></h2>
+    <p class="cta-sub">Send me your Figma file and I'll have a pixel-perfect, production-ready build back to you within days. Available for one-off projects and ongoing engagements.</p>
+    <div class="cta-actions">
+      <a href="https://www.upwork.com/freelancers/~017de423dd2d0e2767" target="_blank" class="btn-upwork">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H8.344v7.134c-.002 1.406-1.141 2.546-2.547 2.546-1.405 0-2.544-1.14-2.546-2.546V3.492H1.031v7.134c0 2.533 2.057 4.605 4.59 4.605 2.533 0 4.59-2.072 4.59-4.605V9.31c.527 1.099 1.168 2.207 1.919 3.202L10.64 18.41h2.272l.93-3.808c1.064.736 2.298 1.18 3.72 1.18 3.046 0 5.521-2.479 5.521-5.521-.003-3.045-2.478-5.523-5.522-5.523z"/></svg>
+        Hire me on Upwork
+      </a>
+      <a href="mailto:puneet438@gmail.com" class="btn-secondary email-tooltip">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2"/><polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2"/></svg>
+        Send an email
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    © 2025 Puneet Sharma
+  </div>
+  <div class="footer-links">
+    <a href="https://linkedin.com/in/webdevpuneet" target="_blank">LinkedIn</a>
+    <a href="https://twitter.com/webdevpuneet" target="_blank">Twitter / X</a>
+    <a href="https://www.upwork.com/freelancers/~017de423dd2d0e2767" target="_blank">Upwork</a>
+    <a href="/" target="_blank">FWD Tools</a>
+  </div>
+</footer>
+
+<script>
+  /* ── Cursor glow ── */
+  const glow = document.getElementById('cursor-glow');
+  let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+  let cx = mx, cy = my;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  (function loop() {
+    cx += (mx - cx) * 0.07;
+    cy += (my - cy) * 0.07;
+    glow.style.left = cx + 'px';
+    glow.style.top  = cy + 'px';
+    requestAnimationFrame(loop);
+  })();
+
+  /* ── Scroll reveal ── */
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ── Stagger children of .js-stagger ── */
+  document.querySelectorAll('.js-stagger').forEach(container => {
+    Array.from(container.children).forEach((child, i) => {
+      child.classList.add('reveal');
+      child.style.transitionDelay = (i * 0.09) + 's';
+      revealObs.observe(child);
+    });
+  });
+
+  /* ── Stats counter ── */
+  const countObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      if (el.dataset.static) return; // skip static values like "2–5d"
+      const target = parseFloat(el.dataset.count);
+      const suffix = el.dataset.suffix || '';
+      const dur = 1600;
+      const start = performance.now();
+      const tick = (now) => {
+        const p = Math.min((now - start) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 4);
+        el.textContent = Math.round(eased * target) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+      countObs.unobserve(el);
+    });
+  }, { threshold: 0.7 });
+
+  document.querySelectorAll('[data-count]').forEach(el => countObs.observe(el));
+
+  /* ── Nav active link highlight on scroll ── */
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.nav-links a');
+  const navObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(a => a.style.color = '');
+        const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+        if (active) active.style.color = 'var(--accent)';
+      }
+    });
+  }, { threshold: 0.4 });
+  sections.forEach(s => navObs.observe(s));
+
+  /* ── Skill pill entrance stagger ── */
+  document.querySelectorAll('.skill-pills').forEach(group => {
+    Array.from(group.children).forEach((pill, i) => {
+      pill.classList.add('reveal');
+      pill.style.transitionDelay = (i * 0.05) + 's';
+      revealObs.observe(pill);
+    });
+  });
+
+  /* ── Experience blocks stagger ── */
+  document.querySelectorAll('.exp-block').forEach((el, i) => {
+    el.classList.add('reveal');
+    el.style.transitionDelay = (i * 0.12) + 's';
+    revealObs.observe(el);
+  });
+</script>
+</body>
+</html>

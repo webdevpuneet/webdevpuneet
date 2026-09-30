@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="useMemo Only Remembers Last Render, Not History">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>useMemo only remembers last render, not history</h1>
+    <p class="hint">Click 3, then 7, then 3 again. Watch the recompute count -- one side recomputes for the repeat, the other doesn't.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 16px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 18px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 8px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .stat { font: 800 24px ui-monospace, monospace; margin-bottom: 4px; }
+  .val { font: 600 12px ui-monospace, monospace; color: var(--sub); margin-bottom: 8px; }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; }
+  .row { display: flex; gap: 8px; justify-content: center; }
+  .btn { padding: 8px 16px; border-radius: 8px; border: none; background: var(--accent); color: #fff; font: 700 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { background: #4f52d6; }
+  code { background: #eceef3; padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useMemo = React.useMemo;
+  var useRef = React.useRef;
+
+  function slowSquare(n) {
+    return n * n;
+  }
+
+  function Demo() {
+    var nState = useState(3);
+    var n = nState[0];
+    var setN = nState[1];
+
+    var memoRunsRef = useRef(0);
+    var cacheRunsRef = useRef(0);
+    var cacheRef = useRef({}); // a real cache: remembers EVERY key it has ever seen
+
+    // useMemo only compares against the dependency from the IMMEDIATELY
+    // PREVIOUS render. It is not a lookup table keyed by value -- it holds
+    // exactly one cached result at a time. Revisiting a value used two
+    // renders ago still counts as "different from last render" and forces a
+    // fresh recomputation.
+    var memoResult = useMemo(function () {
+      memoRunsRef.current += 1;
+      return slowSquare(n);
+    }, [n]);
+
+    // A genuine cache, built with a plain object on a ref. It remembers
+    // every input it has ever computed, for the lifetime of the component --
+    // so revisiting an earlier value is a hit, not a recompute.
+    var cacheResult;
+    if (Object.prototype.hasOwnProperty.call(cacheRef.current, n)) {
+      cacheResult = cacheRef.current[n];
+    } else {
+      cacheRunsRef.current += 1;
+      cacheResult = slowSquare(n);
+      cacheRef.current[n] = cacheResult;
+    }
+
+    return e(React.Fragment, null,
+      e('div', { className: 'cols' },
+        e('div', { className: 'col' },
+          e('h2', { className: 'colTitle bad' }, 'useMemo'),
+          e('div', { className: 'stat' }, memoRunsRef.current),
+          e('div', { className: 'val' }, n + ' squared = ' + memoResult),
+          e('p', { className: 'note' }, 'Recomputes every time n differs from the last render -- even a repeat.')
+        ),
+        e('div', { className: 'col' },
+          e('h2', { className: 'colTitle good' }, 'Ref-based cache'),
+          e('div', { className: 'stat' }, cacheRunsRef.current),
+          e('div', { className: 'val' }, n + ' squared = ' + cacheResult),
+          e('p', { className: 'note' }, 'Remembers every value it has ever seen -- a repeat is a free hit.')
+        )
+      ),
+      e('div', { className: 'row' },
+        e('button', { className: 'btn', onClick: function () { setN(3); } }, 'n = 3'),
+        e('button', { className: 'btn', onClick: function () { setN(7); } }, 'n = 7'),
+        e('button', { className: 'btn', onClick: function () { setN(12); } }, 'n = 12')
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

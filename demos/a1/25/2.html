@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="All Caught Up Inbox">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>All caught up inbox</h1>
+    <p class="hint">Click "Mark all as read" to clear the notifications and see a warm, positive empty state instead of a sad one.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="panelHead">
+      <span class="panelTitle">Notifications</span>
+      <button type="button" class="markBtn" id="markBtn">Mark all as read</button>
+    </div>
+    <div class="list" id="list"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 0; padding: 20px 16px 28px; }
+
+  .panelHead {
+    width: 100%; max-width: 360px; display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid var(--line);
+  }
+  .panelTitle { font-size: 13.5px; font-weight: 700; }
+  .markBtn {
+    padding: 6px 12px; border-radius: 7px; border: 1.5px solid var(--line);
+    background: #fff; color: var(--accent); font: 700 11.5px system-ui, sans-serif; cursor: pointer;
+  }
+  .markBtn:hover { border-color: var(--accent); background: #eef0ff; }
+  .markBtn:disabled { opacity: 0.4; cursor: default; }
+
+  .list { width: 100%; max-width: 360px; }
+
+  .notifRow {
+    display: flex; gap: 10px; align-items: flex-start; padding: 10px 4px;
+    border-bottom: 1px solid var(--line);
+  }
+  .notifDot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-top: 5px; flex-shrink: 0; }
+  .notifText { font-size: 12.5px; line-height: 1.4; }
+  .notifText strong { display: block; font-size: 13px; }
+
+  .emptyState { text-align: center; padding: 30px 14px 10px; }
+  .emptyIcon {
+    width: 50px; height: 50px; margin: 0 auto 12px; border-radius: 50%;
+    background: #ecfdf3; color: var(--green); display: flex; align-items: center; justify-content: center;
+    font-size: 24px; font-weight: 800;
+  }
+  .emptyTitle { margin: 0 0 4px; font-size: 14.5px; font-weight: 700; }
+  .emptyDesc { margin: 0; font-size: 12.5px; color: var(--sub); line-height: 1.5; }
+</script>
+
+<script type="text/plain" id="js">
+  var markBtn = document.getElementById('markBtn');
+  var list = document.getElementById('list');
+
+  var NOTIFS = [
+    { title: 'Maya commented on your post', body: '"This is exactly what I needed, thanks!"' },
+    { title: 'New follower', body: 'Devon Ruiz started following you.' },
+    { title: 'Weekly summary ready', body: 'Your activity report for this week is ready to view.' }
+  ];
+
+  function renderList() {
+    list.innerHTML = NOTIFS.map(function (n) {
+      return '<div class="notifRow"><span class="notifDot"></span>' +
+        '<span class="notifText"><strong>' + n.title + '</strong>' + n.body + '</span></div>';
+    }).join('');
+  }
+
+  function renderEmpty() {
+    list.innerHTML =
+      '<div class="emptyState">' +
+        '<div class="emptyIcon">&#10003;</div>' +
+        '<p class="emptyTitle">You&rsquo;re all caught up</p>' +
+        '<p class="emptyDesc">Nothing new right now — we&rsquo;ll let you know the moment something happens.</p>' +
+      '</div>';
+    markBtn.disabled = true;
+  }
+
+  renderList();
+
+  markBtn.addEventListener('click', renderEmpty);
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

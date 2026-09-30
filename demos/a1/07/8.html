@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title=":required and :optional">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Labeling with :required / :optional</h1>
+    <p class="hint">Nothing in the markup below spells out "required" or "optional" in text &mdash; the red asterisk and the "(optional)" tag are both generated purely from each field's <code>required</code> attribute, via CSS.</p>
+  </header>
+  <main class="stageWrap">
+    <form class="reqForm" action="#" method="get" onsubmit="return false">
+      <label class="field">
+        <span class="fieldLabel">Email address</span>
+        <input type="email" name="email" required placeholder=" ">
+      </label>
+      <label class="field">
+        <span class="fieldLabel">Phone number</span>
+        <input type="tel" name="phone" placeholder=" ">
+      </label>
+      <label class="field">
+        <span class="fieldLabel">Company</span>
+        <input type="text" name="company" placeholder=" ">
+      </label>
+    </form>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --err: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .hint code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
+  .stageWrap { display: flex; justify-content: center; padding: 20px 16px 36px; }
+
+  .reqForm {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .fieldLabel { font: 700 12px system-ui, sans-serif; }
+
+  /* Every required field's label gets a red asterisk appended automatically. */
+  .field:has(input:required) .fieldLabel::after {
+    content: " *";
+    color: var(--err);
+    font-weight: 800;
+  }
+  /* Every non-required field gets an "(optional)" tag appended instead —
+     no field needs to be marked up as either; the presence or absence of
+     the required attribute alone drives both labels. */
+  .field:has(input:optional) .fieldLabel::after {
+    content: " (optional)";
+    color: var(--sub);
+    font-weight: 500;
+  }
+
+  .reqForm input {
+    padding: 10px 12px;
+    font: 500 14px system-ui, sans-serif;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    outline: none;
+  }
+  .reqForm input:focus { border-color: var(--accent); }
+</script>
+
+<script type="text/plain" id="js">
+  /* No JavaScript — :required and :optional are native pseudo-classes;
+     :has() lets a plain CSS rule react to the input from its label. */
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

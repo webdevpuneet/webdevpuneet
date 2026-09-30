@@ -1,0 +1,149 @@
+<h1>10 Copy-Paste Coding Game Snippets That Teach CSS, Regex &amp; the Terminal</h1>
+
+<p>Most "learn to code" widgets are quizzes wearing a costume. You read a question, you pick an answer, a green tick appears, and nothing about the way you think has changed — because the thing you were tested on was recall, and the thing that's actually hard is prediction. Does <code>[1, 2, 10].sort()</code> give you what you expect? Does that selector match three elements or five? Does <code>cp src backup</code> work without a flag? You don't find out by being told. You find out by typing something, being wrong, and seeing precisely <em>how</em> wrong.</p>
+
+<p>Below are ten free browser games that do exactly that: a CSS selector challenge that highlights your matches live, a flexbox alignment puzzle graded on pixels rather than properties, a regex trainer with a pass column and a fail column, a simulated terminal that accepts any correct spelling of a command, a bug hunt through seven real JavaScript defects, a timed "predict the output" quiz, a binary bit-flip game, a logic gate circuit puzzle with a full truth table, a sorting puzzle that computes the provable minimum number of swaps, and a robot loop programmer with repeat counts and par scores. Every one is a <strong>live, interactive preview</strong> — play them right here in the article — and each exports to React, Vue, Angular, or Tailwind in one click from the snippet page.</p>
+
+<h2>What makes these teach instead of test</h2>
+
+<ul>
+<li><strong>They grade the result, not the recipe.</strong> The selector game compares the <em>set of elements</em> you matched against the set the answer matches, so any correct spelling passes. The flexbox game measures where the balls physically landed, within 6px, so it can't be gamed and can't be failed on a technicality. Neither one asks you to guess which string the author had in mind.</li>
+<li><strong>Being wrong is where the content lives.</strong> A miss in the selector game tells you whether you were too broad or too narrow, with counts, and outlines the intended targets in dashed amber. The regex game distinguishes "too strict" from "too loose". The bug hunt explains <em>why</em> the line is wrong after you click, not just that it was. Wrong answers are the lesson, so they get the most words.</li>
+<li><strong>The hard cases are the ones that actually bite.</strong> The bug hunt includes <code>return</code> inside a <code>forEach</code>, a debounce missing its <code>clearTimeout</code>, and a stray semicolon after an <code>if</code>. The output quiz covers microtask ordering, <code>var</code> capture in a loop, and lexicographic <code>sort()</code>. These are shipped-to-production bugs, not textbook trivia.</li>
+</ul>
+
+<h2>1. CSS Selector Challenge Game</h2>
+
+<p>Seven levels of live CSS targeting: read the goal, type a selector, and watch the matching elements glow as you type — from a bare <code>li</code> up through attribute selectors, <code>:nth-child()</code> and <code>:not()</code>.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/css-selector-challenge-game/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="CSS Selector Challenge Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the whole game is <code>stage.querySelectorAll(value)</code> wrapped in a <code>try/catch</code> — scoped to the stage element, never the document, so a stray <code>*</code> can't select the page around it. That <code>catch</code> is doing more work than it looks: while you're mid-way through typing <code>li:nth-child(</code> the selector is genuinely invalid syntax, so <code>match()</code> returns <code>null</code> and the input border goes red instead of the game throwing. Grading is set equality, not string equality — <code>sameSet()</code> compares your matched elements against the elements the reference answer matches, so <code>.sold.seasonal</code> and <code>li.sold.seasonal</code> both pass, and there's no official answer to guess. The diagnosis on a miss is the part worth stealing: comparing <code>found.length</code> to <code>wanted.length</code> yields "too broad" versus "too narrow" with real counts, and the intended targets get a dashed <code>want</code> outline alongside your own glowing matches.</p>
+
+<p><strong>Best for:</strong> onboarding juniors, CSS workshop material, and documentation pages where a selector reference could be a playground instead. <strong>Tip:</strong> the levels are a <code>LEVELS</code> array of <code>{ goal, answer, hint, markup }</code> — swap in your own design system's markup and you have a training tool for your actual class names in about ten minutes.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/css-selector-challenge-game/">CSS Selector Challenge Game</a></p>
+
+<h2>2. Flexbox Alignment Game</h2>
+
+<p>Six levels of getting balls into ghost slots using nothing but <code>flex-direction</code>, <code>justify-content</code> and <code>align-items</code> — with the generated CSS shown live as you click.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/flexbox-align-game/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Flexbox Alignment Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> two stacked flex containers occupy the same space — a ghost layer styled with the level's solution, and a live layer styled by your chips. The win check never compares property values. <code>isSolved()</code> reads <code>getBoundingClientRect()</code> for every ball and every slot and asks whether each ball centre sits within a 6px <code>TOLERANCE</code> of some slot centre. That single decision is what makes the game honest: any combination of properties that physically lands the balls counts as a solve, including the ones the author didn't think of, and a level can't be failed because you found a different route. The check runs inside <code>requestAnimationFrame</code> so the browser has finished laying out the new styles before anything is measured — measure synchronously after setting a style and you're reading the previous frame. A <code>resize</code> listener re-evaluates, because every one of those coordinates is invalidated by a width change.</p>
+
+<p><strong>Best for:</strong> teaching flexbox to people who have read the docs three times and still guess. <strong>Tip:</strong> the live <code>.container { ... }</code> code panel updates on every chip click, which is what closes the loop — you see the property change and the movement at the same instant, and that pairing is the entire pedagogical value.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/flexbox-align-game/">Flexbox Alignment Game</a></p>
+
+<h2>3. Regex Match Game</h2>
+
+<p>Two columns — strings that must match, strings that must not — and one input. Seven levels from literal characters up to anchored email validation, with results repainting on every keystroke.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/regex-match-game/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Regex Match Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>compile()</code> runs <code>new RegExp(pattern)</code> inside a <code>try/catch</code> and returns <code>null</code> for anything not yet valid — the same defensive shape as the selector game, and necessary for the same reason, since half of every regex you type is a syntax error on the way to being correct. <code>paint()</code> then runs <code>re.test(s)</code> against each string and marks the row by whether the result <em>equals what that column wants</em>: a match in the "no" column is a failure, which is the distinction most regex tutorials skip entirely. That two-column design is the whole idea — writing a pattern that matches your examples is easy, and writing one that also rejects the near-misses is the actual skill. The feedback names which failure you have: all the "no" strings correct but "yes" strings unmatched reads as "too strict", the reverse reads as "too loose", and a mix reports a raw score.</p>
+
+<p><strong>Best for:</strong> regex training, validation-rule workshops, and any team that has shipped an email pattern nobody could review. <strong>Tip:</strong> results repaint on <code>input</code> but only announce a verdict on Enter or Check — you get continuous feedback without the game declaring you finished mid-keystroke on a pattern you were still extending.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/regex-match-game/">Regex Match Game</a></p>
+
+<h2>4. Terminal Command Game</h2>
+
+<p>Eight shell tasks in a simulated terminal — list hidden files, recurse a grep, tail a log, chmod a script — with fake output and a one-line explanation printed on every correct command.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/terminal-command-game/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Terminal Command Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> nothing is executed — each task carries an <code>accept</code> array of regex patterns, and your input is normalised (<code>trim()</code> plus <code>replace(/\s+/g, ' ')</code>, so <code>ls   -a</code> equals <code>ls -a</code>) before being tested against them. Those patterns are written to accept the real variety of correct answers rather than one blessed string: the hidden-files task accepts <code>-a</code>, <code>-la</code> and <code>-al</code> alike, and <code>chmod</code> takes both <code>+x</code> and the numeric <code>755</code> form. That tolerance is what separates a command trainer from a spelling test — a learner who types a genuinely correct variant and gets marked wrong learns the wrong lesson. Success prints plausible output followed by the <code>why</code> line, which is where the teaching actually happens: that quoting <code>"*.log"</code> stops the shell expanding the glob before <code>find</code> ever sees it, that <code>cp</code> refuses directories without <code>-r</code>.</p>
+
+<p><strong>Best for:</strong> bootcamps, internal onboarding for a CLI-heavy toolchain, and docs pages where "run this command" could be "try this command". <strong>Tip:</strong> Skip prints the explanation before advancing rather than silently moving on — a stuck learner still gets the content, which is the difference between a skip button and a give-up button.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/terminal-command-game/">Terminal Command Game</a></p>
+
+<h2>5. Bug Hunt Game</h2>
+
+<p>Seven short JavaScript functions, each with exactly one real defect. Read the brief, click the offending line, and get the fix plus the reason it fails.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bug-hunt-game/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bug Hunt Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> mechanically it's small — a <code>BUGS</code> array of <code>{ file, brief, lines, bug, fix, why }</code>, lines rendered as clickable <code>&lt;li&gt;</code> elements with a <code>data-index</code>, a click compared against <code>bug</code>, and a Fisher–Yates shuffle so the order differs every round. The value is entirely in the bug selection. Seeding <code>let max = 0</code> makes the function return a number that was never in the input when every element is negative. <code>return true</code> inside a <code>forEach</code> callback exits the callback and nothing else, so the function always returns <code>false</code>. A <code>debounce</code> missing its <code>clearTimeout</code> still fires once per keystroke, just late — it looks like it works until you watch the network tab. And <code>if (order.total &gt; 100);</code> with a trailing semicolon gives every order the discount, passes review, and passes a linter without the right rule enabled. Guessing locks the round so both the real bug and your miss stay highlighted side by side.</p>
+
+<p><strong>Best for:</strong> interview practice, code-review training, and the "why does this pass tests and still break" conversation. <strong>Tip:</strong> the <code>why</code> field is where each entry earns its place — if you fork this with your own team's recurring bugs, write that paragraph first and the rest of the level falls out of it.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bug-hunt-game/">Bug Hunt Game</a></p>
+
+<h2>6. Predict the Output Quiz</h2>
+
+<p>Eight JavaScript snippets, four options each, fifteen seconds on the clock — <code>typeof null</code>, <code>0.1 + 0.2</code>, microtask ordering, and the rest of the language's greatest hits.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/code-output-quiz-game/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Predict the Output Quiz Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a one-second <code>setInterval</code> drains a fifteen-second timer bar via <code>timerFill.style.width</code>, flags itself <code>low</code> under five seconds, and calls <code>reveal(-1)</code> on expiry — timing out is a distinct outcome ("Out of time") rather than a wrong answer. Every path clears the interval and sets an <code>answered</code> guard first, so a click landing in the same tick as the timeout can't score twice. The explanations are the product: <code>typeof null</code> returns <code>'object'</code> because of low-bit type tagging in the original implementation and was never fixed; <code>[1, 2, 10].sort()</code> gives <code>[1, 10, 2]</code> because the default comparator stringifies; the <code>var</code>-in-a-loop question logs <code>3 3 3</code> because all three callbacks close over one binding; and the ordering question shows the microtask queue draining before the next macrotask even when that macrotask's delay is <code>0</code>. Questions reshuffle each run, so a second pass isn't muscle memory.</p>
+
+<p><strong>Best for:</strong> team quiz sessions, interview prep, and JavaScript courses that need a checkpoint between chapters. <strong>Tip:</strong> keep the timer if you fork this. The pressure is doing real work — it forces prediction rather than the slow reasoning-backwards-from-options that makes multiple choice meaningless.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/code-output-quiz-game/">Predict the Output Quiz</a></p>
+
+<h2>7. Binary Bit Flip Game</h2>
+
+<p>Eight bits, one target number. Click or press 1–8 to flip bits and hit the target, with binary, decimal, hex and the place-value sum updating live.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/binary-bit-flip-game/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Binary Bit Flip Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the entire state is one integer. Bit <em>i</em> is worth <code>Math.pow(2, BITS - 1 - i)</code>, and flipping it is <code>value ^= placeValue(i)</code> — XOR toggles exactly that bit and leaves the rest alone, which is both the correct implementation and the concept the game is teaching. Everything else is derived: <code>value.toString(2).padStart(BITS, '0')</code> for binary, <code>toString(16)</code> for hex, and a running <code>128 + 32 + 4 = 164</code> breakdown assembled from whichever place values are on. There's no separate array of bit states to fall out of sync, which is why the display can never lie. The streak record is stored in <code>localStorage</code> with both the read and the write wrapped in <code>try/catch</code> — storage access throws outright in sandboxed and opaque-origin iframes, so an unguarded <code>getItem</code> is a blank component in exactly the embedded context this snippet is designed for.</p>
+
+<p><strong>Best for:</strong> CS fundamentals, bitmask and permission-flag explainers, and anywhere you need someone to internalise place value rather than memorise a table. <strong>Tip:</strong> that <code>localStorage</code> guard is worth copying into any snippet you plan to embed. It's a few lines and it's the difference between degrading gracefully and not rendering at all.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/binary-bit-flip-game/">Binary Bit Flip Game</a></p>
+
+<h2>8. Logic Gate Puzzle Game</h2>
+
+<p>Two gate slots, three input switches, and a live eight-row truth table. Pick AND, OR, XOR, NAND or NOR for each slot until every row matches the target.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/logic-gate-puzzle-game/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Logic Gate Puzzle Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the circuit shape is fixed at <code>gate1(gate0(A, B), C)</code>, and each gate is a one-line function over JavaScript's bitwise operators — <code>a &amp; b</code>, <code>a | b</code>, <code>a ^ b</code>, with NAND and NOR as inverted forms. The eight input rows are generated by bit-shifting the loop counter (<code>(i &gt;&gt; 2) &amp; 1</code>, <code>(i &gt;&gt; 1) &amp; 1</code>, <code>i &amp; 1</code>), which is the same idea the game is about. The design decision that makes it work is that <strong>the win condition is the truth table, not the switches</strong>: every row is evaluated on every render, and you win when all eight match — so flipping switches is a way to <em>understand</em> your circuit, never a way to grind out a solve. The starting pair is <code>['OR', 'OR']</code> specifically because it solves none of the five levels, so no puzzle opens already complete.</p>
+
+<p><strong>Best for:</strong> digital logic courses, bitwise-operator explainers, and interview prep for anyone who has to reason about combined boolean conditions. <strong>Tip:</strong> the parity level — output on an odd number of inputs — is the one that teaches XOR properly. It's the level where guessing stops working and you have to read the table.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/logic-gate-puzzle-game/">Logic Gate Puzzle Game</a></p>
+
+<h2>9. Sorting Swap Puzzle Game</h2>
+
+<p>Eight scrambled bars, any two swappable. Sort them — and find out whether you matched the provable minimum number of swaps, with a live inversion count as you go.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/sorting-swap-puzzle-game/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sorting Swap Puzzle Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the par score is computed, not guessed. <code>minSwaps()</code> decomposes the permutation into cycles — walking each unvisited position to where its value belongs until it returns to the start — and sums <code>size - 1</code> per cycle, because a cycle of length <em>k</em> takes exactly <em>k</em> − 1 swaps. That's a genuine result, so "you took 9, the minimum was 6" is a fact rather than an author's estimate. Alongside it, an inversion count (pairs in the wrong relative order) updates after every move, and it's shown because it's the other half of the lesson: one <em>adjacent</em> swap removes exactly one inversion, which is precisely why bubble sort costs what it costs, while an arbitrary swap can remove many. The auto-solver demonstrates the optimal strategy directly — repeatedly send the first misplaced value straight to its destination, which permanently places at least one bar per swap and therefore hits the minimum.</p>
+
+<p><strong>Best for:</strong> algorithms teaching, DSA interview prep, and making "minimum number of swaps" concrete instead of a whiteboard claim. <strong>Tip:</strong> play a round, note your count, then hit Solve on the same arrangement. Watching the optimal path next to the one you just took is where the cycle-decomposition idea lands.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/sorting-swap-puzzle-game/">Sorting Swap Puzzle Game</a></p>
+
+<h2>10. Robot Loop Programmer Game</h2>
+
+<p>Build a program from Forward, Left and Right blocks, give each a repeat count, and run it. Five maze levels, each with a par block count that only loops will hit.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/robot-loop-programmer-game/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Robot Loop Programmer Game — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a program is an array of <code>{ cmd, times }</code> blocks — click a block to cycle its repeat count 1→9, right-click to delete it. Running the program calls <code>expand()</code>, which flattens those blocks into single steps, each tagged with the block it came from, which is what lets the UI highlight the currently executing block while the robot moves. Direction is an index into a four-entry <code>DIRS</code> array, so turning is modular arithmetic — <code>(dir + 1) % 4</code> right, <code>(dir + 3) % 4</code> left — rather than a switch over compass names. Each step returns <code>{ ok, why }</code>, so hitting a wall or driving off the edge stops the run, marks the guilty block red, and says which one failed. A <code>MAX_STEPS</code> ceiling of 60 rejects a program before it runs, which is the honest way to handle an unbounded loop in a UI: refuse it up front rather than letting a <code>setInterval</code> spin. Par is set so the spiral and zig-zag levels are only reachable under budget with repeat counts — the game teaches loops by making the naive solution too expensive.</p>
+
+<p><strong>Best for:</strong> teaching loops and sequencing to beginners or kids, CS-outreach pages, and anyone who has tried to explain "iteration" with a <code>for</code> loop and lost the room. <strong>Tip:</strong> the par comparison is the entire pedagogy. Solving under par requires noticing repetition and collapsing it, which is the actual mental move behind every loop anyone ever writes.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/robot-loop-programmer-game/">Robot Loop Programmer Game</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open any snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS, and JS in separate tabs — every one of these is pure vanilla JavaScript with zero dependencies and no CDN scripts required.</li>
+<li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag, or use the one-click <strong>export to React, Vue, Angular, or Tailwind</strong> right from the snippet page.</li>
+<li>Every game keeps its content in a <code>LEVELS</code>, <code>BUGS</code>, <code>QUESTIONS</code> or <code>TASKS</code> array at the top of the file, deliberately separated from the engine below it. Replacing that array with your own material — your class names, your team's recurring bugs, your CLI's commands — is the intended way to adapt these, and it needs no changes to the logic.</li>
+<li>Several of these run timers: the quiz's countdown, the robot's step interval, the sorting auto-solver. If you wrap one in a React or Vue component, clear those in a cleanup function on unmount — each of those three already calls <code>clearInterval</code> on every path that ends a run, so you're extending an existing pattern rather than inventing one.</li>
+<li>Copy the defensive bits, not just the fun ones: the <code>try/catch</code> around <code>new RegExp()</code> and <code>querySelectorAll()</code> for user-typed input, the guarded <code>localStorage</code> access for anything that might render in a sandboxed iframe, and the step ceiling that refuses a runaway program before it starts.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>The thing these ten share isn't the game format — it's that each one grades an outcome and then explains the gap. Set equality instead of string matching, pixel positions instead of property names, a computed minimum instead of an asserted one, an accept-list of regexes instead of one correct command. That design costs a little more to build and it's the reason a learner can be wrong in an interesting way instead of just wrong, which is the only kind of wrong anybody learns from.</p>
+
+<p>Play any of them right here, tweak the levels, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

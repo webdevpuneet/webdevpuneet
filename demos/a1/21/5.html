@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="The Nesting Specificity Gotcha">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>The nesting specificity gotcha</h1>
+    <p class="hint">Both rules below target this paragraph. The nested one looks like a lightweight "p { }" but the browser expands it to ".card p" &mdash; which quietly out-specifies the later ".override" rule. The readout shows the computed color and why.</p>
+  </header>
+  <main class="stageWrap">
+    <article class="card">
+      <p class="override" id="target">Which rule wins?</p>
+    </article>
+    <p class="note" id="note">Computing...</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 50em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 30px 18px 34px; }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 30px;
+
+    /* This nested rule compiles to ".card p" -- specificity (0,2,0) */
+    p {
+      color: tomato;
+      font: 700 16px system-ui, sans-serif;
+      margin: 0;
+    }
+  }
+
+  /* Written LATER in the file, looks like an "override" -- but ".override" alone
+     is only specificity (0,1,0), so it loses to the nested ".card p" above */
+  .override {
+    color: #1d4ed8;
+  }
+
+  .note { margin: 0; max-width: 50em; font-size: 12.5px; color: var(--sub); text-align: center; }
+  .note strong { color: var(--ink); }
+</script>
+
+<script type="text/plain" id="js">
+  var target = document.getElementById('target');
+  var note = document.getElementById('note');
+  var color = getComputedStyle(target).color;
+  var isTomato = color === 'rgb(255, 99, 71)';
+
+  note.innerHTML = isTomato
+    ? 'Computed color: <strong>tomato</strong>. The nested "p { }" inside .card compiled to <strong>.card p</strong> (specificity 0-2-0), which beats <strong>.override</strong> (0-1-0) even though .override comes later in the stylesheet.'
+    : 'Computed color: <strong>blue</strong>. (Unexpected in a spec-compliant browser -- the nested rule should have won.)';
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<h1>Building a Three.js Product Viewer: Why Lighting, Not Geometry, Makes 3D Look Real</h1>
+
+<p>The first 3D object almost everyone renders on the web looks wrong, and it's never obvious why. The geometry is right, the code runs, the thing spins — and it still reads as a flat colored shape floating in a black void rather than an object you could pick up. The instinct is to blame the model: more polygons, a better mesh, maybe a texture.</p>
+
+<p>It's almost never the model. It's the lighting, the material, and the fact that nothing is grounding the object in a space. The <strong>Three.js Product Viewer</strong> snippet is about seventy lines of JavaScript that render a metallic object you can drag to inspect, recolor with a swatch, and leave slowly turning — and roughly a quarter of those lines are doing nothing but arranging four lights and a disc on the floor.</p>
+
+<p>Here it is live — drag to orbit it, scroll to zoom, tap a swatch:</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/three-product-viewer/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Product Viewer — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p>Grab the code, or open the full editor with live HTML/CSS/JS panels: <a href="https://fwdtools.com/ui-snippets/three-product-viewer/">Three.js Product Viewer on FWD Tools</a>. The snippet is plain HTML, CSS, and JavaScript with Three.js from a CDN, and the same editor has one-click export buttons for <strong>React</strong>, <strong>Vue</strong>, <strong>Angular</strong>, and <strong>React + Tailwind</strong> if you'd rather drop it into a component-based project.</p>
+
+<p>In this post I'll build the whole thing <strong>A to Z</strong>: renderer and camera setup, the orbit controls and the one line people forget, the three-point lighting rig that does most of the visual work, why a disc on the floor changes everything, the material properties that make metal look like metal, and the resize function that is the most common bug in browser 3D. By the end you'll be able to make any object you load look like it was photographed rather than computed.</p>
+
+<h2>What the component actually is</h2>
+
+<p>Four things, in this order of importance:</p>
+
+<ol>
+<li><strong>A lighting rig</strong> — four lights arranged the way a product photographer arranges them.</li>
+<li><strong>A material</strong> with sensible metalness and roughness, so light behaves believably on the surface.</li>
+<li><strong>A camera and controls</strong> tuned so the object reads as a product, not a scene.</li>
+<li><strong>A mesh</strong> — the actual shape, which is genuinely the least interesting part and is a single line of code.</li>
+</ol>
+
+<p>That ordering is the lesson. Swapping the demo's torus knot for a real product model changes one line; getting the other three right is what makes either of them look good.</p>
+
+<h2>Where you'd actually use this</h2>
+
+<ul>
+<li><strong>E-commerce product configurators.</strong> Furniture, trainers, watches, phone cases — anywhere color and material choices matter and a photograph per variant is impractical. It pairs directly with a <a href="https://fwdtools.com/ui-snippets/variant-selector/">variant selector</a>, where the swatch that recolors the mesh is the same swatch that sets the SKU.</li>
+<li><strong>Hardware and SaaS landing pages.</strong> A slowly rotating device above the fold reads as far more considered than a stock render, and it's a fraction of the file size of a video loop.</li>
+<li><strong>Documentation and training.</strong> Letting someone rotate the thing you're describing removes an entire paragraph of explanation.</li>
+<li><strong>Portfolio and case-study pages</strong>, where "you can pick it up" is the whole impression you're trying to make.</li>
+<li><strong>Any 3D asset you already own.</strong> If a GLTF file is sitting in a folder because nobody knew how to put it on the site, this is the seventy lines that puts it there.</li>
+</ul>
+
+<h2>The tech stack: Three.js and OrbitControls, both from a CDN</h2>
+
+<p>Two script tags, no build step:</p>
+
+<ul>
+<li><strong>Three.js core</strong> — the renderer, scene graph, cameras, lights, geometry and materials.</li>
+<li><strong>OrbitControls</strong>, an official addon — the drag-to-rotate, scroll-to-zoom behavior, which is not in the core library and is the single most common thing people reimplement badly by hand.</li>
+</ul>
+
+<p>The markup is one canvas and a control panel:</p>
+
+<pre><code class="language-html">&lt;canvas id="productCanvas"&gt;&lt;/canvas&gt;
+&lt;div class="pv-panel"&gt;
+  &lt;button id="pvAutoBtn" class="pv-btn active"&gt;Auto-rotate: On&lt;/button&gt;
+  &lt;div class="pv-swatches"&gt;
+    &lt;button class="pv-swatch" style="--c:#f43f5e" data-color="#f43f5e"&gt;&lt;/button&gt;
+    &lt;button class="pv-swatch" style="--c:#3b82f6" data-color="#3b82f6"&gt;&lt;/button&gt;
+    &lt;!-- …two more --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+<p>One CSS detail is load-bearing before we reach any JavaScript:</p>
+
+<pre><code class="language-css">html, body { width: 100%; height: 100%; overflow: hidden;
+  background: radial-gradient(60% 60% at 50% 40%, #1c1f2b, #08090d); }
+#productCanvas { display: block; width: 100%; height: 100%; cursor: grab; }
+#productCanvas:active { cursor: grabbing; }</code></pre>
+
+<p>The canvas is sized by CSS, not by width and height attributes — which is what makes it responsive, and which the resize function in Step 8 has to cooperate with. The <code>display: block</code> removes the stray few pixels of inline-element descender space under a canvas. And the page background is a subtle radial gradient instead of flat black, so the object sits in something that reads as a studio backdrop instead of nothing at all. The grab/grabbing cursor is two lines and it's the only affordance telling people the object is draggable.</p>
+
+<h2>Building it, step by step</h2>
+
+<h3>Step 1 — Renderer, and the pixel-ratio clamp that saves your frame rate</h3>
+
+<pre><code class="language-javascript">const canvas = document.getElementById('productCanvas');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));</code></pre>
+
+<p><code>antialias: true</code> smooths the jagged edges you'd otherwise get on every silhouette — on a product shot, where the outline is most of what the eye judges, it's worth the cost.</p>
+
+<p>The second line is the one worth memorising. WebGL renders at whatever pixel ratio you give it, and a modern phone may report a <code>devicePixelRatio</code> of 3 or 4 — meaning nine to sixteen times as many pixels to shade as at ratio 1. Clamping to 2 keeps the render crisp on high-DPI screens while refusing to quadruple the work for a difference nobody can see. It is the single highest-value line of performance code in browser 3D, and it's one line.</p>
+
+<h3>Step 2 — Scene and camera, and why the field of view is 42</h3>
+
+<pre><code class="language-javascript">const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 50);
+camera.position.set(0, 0.6, 6.2);</code></pre>
+
+<p>Those four arguments are field of view, aspect ratio, and the near and far clipping planes. Three of them are quietly deliberate:</p>
+
+<ul>
+<li><strong>FOV 42</strong>, where most examples use 75. A wide field of view exaggerates perspective — the near edge of an object looms and the far edge shrinks away, which is great for immersive scenes and terrible for products, because it distorts proportions. A narrower FOV flattens perspective the way a portrait lens does, which is exactly the look of catalogue photography. If your object seems oddly stretched, this is usually why.</li>
+<li><strong>Aspect 1</strong> is a placeholder — the real value is set in <code>resize()</code> before the first frame, so there's no point computing it twice.</li>
+<li><strong>Near 0.1, far 50</strong> bracket the scene tightly. The ratio between them determines depth-buffer precision; setting near to 0.001 and far to 100000 "just in case" is what causes the flickering surfaces (z-fighting) that people mistake for a driver bug.</li>
+</ul>
+
+<p>The camera sits slightly above center (<code>y: 0.6</code>) and back 6.2 units — a gentle downward angle, because looking at a product very slightly from above is how people actually hold objects, and it lets the floor disc from Step 5 read as a floor.</p>
+
+<h3>Step 3 — OrbitControls, damping, and the line everyone forgets</h3>
+
+<pre><code class="language-javascript">const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.07;
+controls.minDistance = 4;
+controls.maxDistance = 10;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 2.2;</code></pre>
+
+<p><strong>Damping is what makes the drag feel physical.</strong> With it off, the object stops dead the instant you release the mouse — mechanically correct and immediately cheap-feeling. With it on, motion carries and settles, the way something on a turntable would. The factor of 0.07 is a light touch: lower drifts longer, higher stops sooner.</p>
+
+<p>Damping has a catch, and it's the classic Three.js gotcha: <strong>it only works if you call <code>controls.update()</code> every frame.</strong> Enable damping without adding that call to the render loop and the object simply won't move at all, which sends a lot of people hunting through their event handlers for a bug that's in Step 9.</p>
+
+<p><code>minDistance</code> and <code>maxDistance</code> are the guardrails that separate a product viewer from a tech demo. Without them, one scroll gesture puts the camera inside the object's geometry or leaves it as a speck on the horizon, and there's no obvious way back. Bounding zoom to a sensible range means every state your viewer can reach is one you designed.</p>
+
+<h3>Step 4 — The lighting rig: the part that actually matters</h3>
+
+<p>This is the heart of the snippet. It's a photographer's three-point setup, translated into WebGL:</p>
+
+<pre><code class="language-javascript">scene.add(new THREE.AmbientLight(0x334155, 0.5));
+
+const key = new THREE.DirectionalLight(0xffffff, 1.4);
+key.position.set(4, 5, 5);
+scene.add(key);
+
+const fill = new THREE.DirectionalLight(0x93c5fd, 0.5);
+fill.position.set(-5, 1, 3);
+scene.add(fill);
+
+const rim = new THREE.PointLight(0xffffff, 1.2, 20);
+rim.position.set(-2, 2, -5);
+scene.add(rim);</code></pre>
+
+<p>Four lights, four distinct jobs:</p>
+
+<ol>
+<li><strong>Ambient</strong> — a dim, cool, directionless wash at intensity 0.5. Its only job is to stop unlit areas going pure black. Push it higher and you flatten everything, because light with no direction carries no shape information.</li>
+<li><strong>Key</strong> — a bright white directional light, up and to the right at intensity 1.4. This is the sun: it establishes where the highlight sits and which way the shadows fall. If you only ever add one light, add this one.</li>
+<li><strong>Fill</strong> — a dimmer light (0.5) on the <em>opposite</em> side, tinted cool blue. It lifts the shadow side so it reads as shadow instead of a hole. The color is doing real work: the key stays neutral white while the fill is tinted blue, and that temperature difference between the two sides is what photographers use to create depth — a fill in the same white as the key looks noticeably flatter side by side.</li>
+<li><strong>Rim</strong> — a point light <em>behind</em> the object at (−2, 2, −5). You never see it directly; what you see is a bright edge along the silhouette. That edge is what separates the object from the dark background and is the difference between "3D object" and "shape on a screen."</li>
+</ol>
+
+<p>The reason to learn this rig rather than tweak lights until something looks acceptable is that it's diagnostic. Object looks flat? The key and fill are too close in intensity. Shadows look like black holes? Fill or ambient too low. Object seems pasted onto the background? No rim light. Everything looks washed out? Ambient too high. Four named lights, four named failure modes.</p>
+
+<h3>Step 5 — A disc on the floor</h3>
+
+<pre><code class="language-javascript">const ground = new THREE.Mesh(
+  new THREE.CircleGeometry(4, 48),
+  new THREE.MeshStandardMaterial({ color: 0x14161f, roughness: 1 })
+);
+ground.rotation.x = -Math.PI / 2;
+ground.position.y = -1.6;
+scene.add(ground);</code></pre>
+
+<p>A dark circle, rotated flat and placed below the object. It has no texture, casts nothing, and is barely visible — and removing it makes the whole scene worse.</p>
+
+<p>What it provides is a horizon. It catches a little light, giving the eye a surface for the object to sit above, and it turns "floating in a void" into "on a surface, in a space." <code>roughness: 1</code> makes it completely matte so it never competes with the product for attention, and the <code>-Math.PI / 2</code> rotation is the standard trick for making a circle (which is created standing up in the XY plane) lie flat on the ground.</p>
+
+<p>It's the cheapest realism in the file: seven lines, no assets, and the object stops levitating.</p>
+
+<h3>Step 6 — The product, and what metalness and roughness actually mean</h3>
+
+<pre><code class="language-javascript">const geometry = new THREE.TorusKnotGeometry(1, 0.34, 180, 24);
+const material = new THREE.MeshStandardMaterial({ color: 0x3b82f6, metalness: 0.55, roughness: 0.28 });
+const product = new THREE.Mesh(geometry, material);
+scene.add(product);</code></pre>
+
+<p>A mesh is geometry plus material. The geometry here is a torus knot because it's a shape with continuously curving surfaces, which is what shows off a lighting rig. In your project, this line becomes a loaded model and nothing else changes.</p>
+
+<p><code>MeshStandardMaterial</code> is the physically-based material, and its two key properties are worth understanding rather than nudging:</p>
+
+<ul>
+<li><strong>metalness (0.55)</strong> — how metallic the surface is. At 0 it's a dielectric (plastic, wood, fabric) and the highlight is white; at 1 it's a pure metal, which takes its color from what it reflects, not from a base color. Physically, real materials are almost always 0 or 1 — but a mid value like 0.55 is a common practical cheat for a viewer with no environment map, giving a rich, slightly metallic finish that still shows its base color clearly.</li>
+<li><strong>roughness (0.28)</strong> — how scattered the reflections are. Low is glossy and mirror-like, high is matte. This single number does more for perceived material than the color does: 0.1 reads as polished chrome, 0.9 as chalk, and the same geometry can be either.</li>
+</ul>
+
+<p>If you take one adjustment away from this section: change roughness before you change anything else. It's the fastest way to make a render look like a different object entirely.</p>
+
+<h3>Step 7 — Swatches, in one line each</h3>
+
+<pre><code class="language-javascript">document.querySelectorAll('.pv-swatch').forEach(btn =&gt; {
+  btn.addEventListener('click', () =&gt; material.color.set(btn.dataset.color));
+});</code></pre>
+
+<p>Every button carries its color on <code>data-color</code>, and clicking one calls <code>material.color.set()</code>. There's no re-render call, no scene rebuild, no reload — the render loop is already running, so the next frame simply picks up the new color.</p>
+
+<p>This works because <strong>the material is a shared, live object</strong>. Every mesh using it updates at once, which is exactly what you want for a color configurator and exactly what will surprise you the first time you accidentally share a material between two objects you meant to style differently. If a real configurator needs per-variant finishes — matte black versus polished chrome — set <code>roughness</code> and <code>metalness</code> alongside the color in the same handler, since a color swap alone can't express a material change.</p>
+
+<p>The auto-rotate toggle is the same shape — flip a boolean the controls already read every frame:</p>
+
+<pre><code class="language-javascript">autoBtn.addEventListener('click', () =&gt; {
+  controls.autoRotate = !controls.autoRotate;
+  autoBtn.classList.toggle('active', controls.autoRotate);
+  autoBtn.textContent = 'Auto-rotate: ' + (controls.autoRotate ? 'On' : 'Off');
+});</code></pre>
+
+<h3>Step 8 — Resize: the most common bug in browser 3D</h3>
+
+<pre><code class="language-javascript">function resize() {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+
+resize();
+window.addEventListener('resize', resize);</code></pre>
+
+<p>Three lines, and each one fixes a specific symptom.</p>
+
+<p><strong><code>setSize(w, h, false)</code>.</strong> That third argument is <code>updateStyle</code>, and passing <code>false</code> tells Three.js to resize the drawing buffer <em>without</em> writing inline width and height styles onto the canvas. Because our canvas is sized by CSS at 100% of its container, letting Three.js write its own inline styles would override that and break the responsive layout — usually appearing as a canvas that grows on every resize and never shrinks back. This is the most reliably confusing bug in beginner Three.js, and the fix is one boolean.</p>
+
+<p><strong><code>camera.aspect = w / h</code>.</strong> Skip it and everything stretches or squashes the moment the viewport isn't square — the aspect passed to the constructor was only ever a placeholder.</p>
+
+<p><strong><code>camera.updateProjectionMatrix()</code>.</strong> Camera properties don't take effect on their own; the projection matrix is computed once and cached. Change <code>aspect</code>, <code>fov</code> or the clipping planes without this call and nothing happens, which looks exactly like your resize handler never fired.</p>
+
+<p>Calling <code>resize()</code> once immediately is what sets the real aspect ratio before the first frame renders, so the placeholder value from Step 2 never actually reaches the screen.</p>
+
+<h3>Step 9 — The render loop</h3>
+
+<pre><code class="language-javascript">function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();</code></pre>
+
+<p>Three lines, and the whole scene comes alive. <code>requestAnimationFrame</code> schedules the next frame at the display's refresh rate and — importantly — pauses entirely when the tab is in the background, so an idle viewer costs a user nothing.</p>
+
+<p><code>controls.update()</code> is the line promised back in Step 3. It advances the damping and the auto-rotation, which is why both of those features live in the loop rather than in an event handler. It's also the reason a "broken" OrbitControls is nearly always a missing line here rather than a configuration problem.</p>
+
+<p>Then a single <code>render()</code> call draws the scene from the camera. Everything else in this file — the lights, the material, the disc — is setup that this one line makes visible.</p>
+
+<h2>Customizing it for your own project</h2>
+
+<ul>
+<li><strong>Load a real model.</strong> Add <code>GLTFLoader</code>, load a <code>.glb</code>, and add the returned scene instead of the torus knot. Center it and scale it to roughly the same size the knot occupied, so the camera, lights and floor disc still frame it correctly — that framing is the work you've already done.</li>
+<li><strong>Add an environment map.</strong> A single HDR image assigned to <code>scene.environment</code> gives every reflective surface something real to reflect, and is the biggest single jump in realism after the lighting rig. It also lets you push <code>metalness</code> to a physically honest 1.</li>
+<li><strong>Turn on shadows.</strong> Enable <code>renderer.shadowMap</code>, set the key light to cast and the disc to receive. It grounds the object further, at a real performance cost — measure before shipping it to mobile.</li>
+<li><strong>Constrain the orbit.</strong> <code>minPolarAngle</code> and <code>maxPolarAngle</code> stop shoppers looking at your product from directly underneath, which is rarely its best angle.</li>
+<li><strong>Match your brand.</strong> The background gradient, the swatch colors and the light tints are all one edit each. Keep a temperature difference between the key and the fill even when both come from brand colors — that contrast is what creates depth.</li>
+<li><strong>Respect reduced motion.</strong> Start with <code>controls.autoRotate = false</code> when <code>prefers-reduced-motion</code> is set. The viewer still works; it just waits to be driven.</li>
+</ul>
+
+<h2>The three things deliberately left out</h2>
+
+<p><strong>Model loading.</strong> The snippet is self-contained on purpose, and a GLTF file would make it depend on an asset that could 404. Everything else here is exactly what a real model needs around it.</p>
+
+<p><strong>Shadow maps and an environment map.</strong> Both are genuine upgrades and both add cost and setup — shadows need light frustum tuning, environments need an HDR file. Leaving them out keeps the lighting lesson legible: everything you see in the demo is coming from four lights and one material.</p>
+
+<p><strong>Cleanup.</strong> There's no <code>dispose()</code> path, because the page lives as long as the scene does. In an app that mounts and unmounts the viewer, that changes — see the next section, because leaked WebGL contexts are one of the few ways to genuinely break a browser tab.</p>
+
+<h2>Using it in React, Vue, or Angular</h2>
+
+<p>The editor exports all four, and the shape of the port is the same everywhere: creation goes in a mount effect, and — the part that matters — teardown goes in its cleanup.</p>
+
+<p>In React, build the scene inside a <code>useEffect</code> with an empty dependency array and a ref to the canvas. The cleanup function must cancel the <code>requestAnimationFrame</code> handle, remove the resize listener, call <code>controls.dispose()</code>, dispose the geometries and materials you created, and call <code>renderer.dispose()</code>. Skipping this in a single-page app leaks a WebGL context per mount, and browsers cap the number of live contexts — after a dozen navigations the canvas simply goes blank, which is a memorably confusing bug to debug. Keep the Three.js objects in refs, not state: they change every frame and none of those changes should trigger a render.</p>
+
+<p>Vue's <code>onMounted</code> and <code>onBeforeUnmount</code> map one-to-one, and Angular's <code>ngOnInit</code>/<code>ngOnDestroy</code> do the same — with the added note that the render loop should run outside Angular's zone, or change detection will fire sixty times a second for no reason. If you're building anything substantial in React specifically, react-three-fiber is worth the dependency: it expresses this scene as components and handles the teardown for you. The concepts in this post transfer directly — the same lights, the same material, the same camera.</p>
+
+<h2>Build, understand, optimize, and extend it with AI</h2>
+
+<p>This snippet rewards experiment more than most, because every parameter is visible in the result. Paste the HTML, CSS and JS into an AI assistant like Claude and start by having it explain the lighting rig back to you — key, fill, rim, ambient — then ask it to predict what happens if you delete the rim light, and separately if you raise the ambient to 3. Try both in a copy: without the rim light the object loses its edge and sinks into the background, and with the ambient at 3 it goes flat and chalky as directionless light drowns the shading. Seeing those two failures is worth more than any amount of reading about lighting. Then ask what <code>metalness: 0.55</code> means physically and why real materials are usually 0 or 1, and have it sweep <code>roughness</code> from 0.05 to 0.95 so you can see the material change identity while the geometry stays fixed. For the machinery, ask it to explain why <code>setSize</code>'s third argument is <code>false</code> here and what breaks if it's <code>true</code>, and why <code>camera.updateProjectionMatrix()</code> is required after changing <code>aspect</code>. Then extend, in order of value: swap the torus knot for a GLTF model with <code>GLTFLoader</code>, add an HDR environment map and push metalness to 1, enable shadow maps on the key light and the ground disc, constrain the polar angle so the product can't be viewed from below, and add a full <code>dispose()</code> teardown for a single-page app. Treat the code less like a finished artifact and more like a starting point for a conversation.</p>
+
+<h3>Prompt to recreate it</h3>
+
+<p>Copy this into your AI assistant of choice to build the component from scratch, or as a jumping-off point for your own variant:</p>
+
+<pre><code class="language-text">Build a Three.js product viewer in plain HTML, CSS, and JavaScript, loading Three.js and OrbitControls from a CDN. It should look like studio product photography, not a spinning demo cube.
+
+Requirements:
+- A full-viewport canvas sized entirely by CSS (100% width and height, display: block), on a page with a subtle radial-gradient dark background, plus grab/grabbing cursors so the object reads as draggable.
+- A WebGLRenderer with antialiasing and a pixel ratio clamped to Math.min(devicePixelRatio, 2), and a PerspectiveCamera with a NARROW field of view (around 42, not 75) so the product isn't distorted by exaggerated perspective, positioned slightly above center and pulled back.
+- OrbitControls with damping enabled (factor around 0.07) and minDistance/maxDistance limits so the camera can never end up inside the object or lost in the distance. Enable autoRotate, and add a button that toggles it and updates its own label.
+- Classic three-point studio lighting, commented so the roles are clear: a dim cool AmbientLight so shadows never go pure black, a bright white DirectionalLight key light up and to one side, a dimmer cool-tinted DirectionalLight fill on the opposite side, and a PointLight rim light BEHIND the object to catch its silhouette edge and separate it from the background.
+- A large, matte, dark CircleGeometry disc rotated flat and placed below the object, purely to give it a surface to sit on rather than floating in a void.
+- The product itself: a torus knot with a MeshStandardMaterial using mid metalness (~0.55) and low roughness (~0.28), so it reads as a rich metallic finish.
+- Color swatch buttons carrying their color in a data attribute; clicking one calls material.color.set() and nothing else, since the render loop is already running.
+- A resize() function that reads canvas.clientWidth/clientHeight, calls renderer.setSize(w, h, false) — with a comment explaining that the false prevents Three.js writing inline styles that would override the CSS sizing — sets camera.aspect and calls camera.updateProjectionMatrix(). Call it once before the first frame and bind it to the window resize event.
+- A requestAnimationFrame loop that calls controls.update() (required for damping and autoRotate to work at all) and then renderer.render(scene, camera).</code></pre>
+
+<h2>Final thought</h2>
+
+<p>The thing worth taking from this snippet is the ratio. One line creates the object. Around two dozen arrange the light around it, give it a floor, and tell the camera how to look at it — and those two dozen are what decide whether the result looks like a product or like homework.</p>
+
+<p>That ratio holds well beyond this file. When a 3D scene on the web looks cheap, the fix is almost never a better model; it's a key light with a real direction, a fill that keeps the shadows alive, a rim that cuts the silhouette out of the background, and something for the object to stand on. Learn those four moves once and every object you ever load will arrive looking photographed.</p>
+
+<p>Grab the full HTML, CSS, and JS — or export it straight to React, Vue, Angular, or Tailwind — at <a href="https://fwdtools.com/ui-snippets/three-product-viewer/">Three.js Product Viewer on FWD Tools</a>. It's free, runs entirely in your browser, and needs no sign-up. Browse more components like this one at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a>.</p>

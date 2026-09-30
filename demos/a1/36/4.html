@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="animation-range on a view() timeline">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>animation-range: entry 0% cover 30%</h1>
+    <p class="hint">Both boxes use the same @keyframes and the same view() timeline &mdash; scroll slowly and watch the amber box finish appearing much sooner than the indigo one.</p>
+  </header>
+  <div class="spacer">Scroll ↓</div>
+  <div class="pair">
+    <div class="box boxDefault"><span>default range</span></div>
+    <div class="box boxRange"><span>entry 0% cover 30%</span></div>
+  </div>
+  <div class="spacer end">Keep scrolling</div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 17px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .spacer { height: 220px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 280px; }
+
+  .pair { display: flex; flex-direction: column; gap: 70px; max-width: 320px; margin: 0 auto; }
+
+  .box {
+    padding: 28px;
+    border-radius: 12px;
+    text-align: center;
+    font: 700 13px system-ui, sans-serif;
+    animation: reveal linear both;
+    animation-timeline: view();
+  }
+
+  .boxDefault {
+    background: #eef0ff;
+    border: 2px solid #c7ccfa;
+    color: #4f46e5;
+  }
+
+  .boxRange {
+    background: #fef3e2;
+    border: 2px solid #fbd9a5;
+    color: #b45309;
+    animation-range: entry 0% cover 30%;
+  }
+
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(50px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</script>
+
+<script type="text/plain" id="js">
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

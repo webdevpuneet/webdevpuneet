@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Field-Specific Error Messages">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Field-specific error messages</h1>
+    <p class="hint">Leave a field empty or type a short password, then click "Create account" — each error appears next to the field that caused it, not in one banner.</p>
+  </header>
+  <main class="stageWrap">
+    <form id="form" novalidate>
+      <div class="fieldGroup">
+        <label class="fieldLabel" for="uname">Username</label>
+        <input class="field" type="text" id="uname">
+        <p class="fieldError" id="unameError">&nbsp;</p>
+      </div>
+      <div class="fieldGroup">
+        <label class="fieldLabel" for="pw2">Password</label>
+        <input class="field" type="password" id="pw2">
+        <p class="fieldError" id="pw2Error">&nbsp;</p>
+      </div>
+      <button type="submit" class="submitBtn">Create account</button>
+    </form>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; padding: 26px 16px 28px; }
+
+  form { width: 100%; max-width: 300px; }
+  .fieldGroup { margin-bottom: 14px; }
+  .fieldLabel { display: block; font: 700 12px system-ui, sans-serif; margin-bottom: 6px; }
+  .field {
+    width: 100%; padding: 10px 12px; border-radius: 8px;
+    border: 1.5px solid var(--line); font: 14px system-ui, sans-serif; outline: none;
+    box-sizing: border-box; transition: border-color 0.15s ease;
+  }
+  .field:focus { border-color: var(--accent); }
+  .field.error { border-color: var(--red); background: #fef2f2; }
+
+  .fieldError { margin: 6px 0 0; font-size: 11.5px; font-weight: 700; color: var(--red); min-height: 14px; }
+
+  .submitBtn {
+    margin-top: 4px; width: 100%; padding: 11px; border-radius: 9px; border: none;
+    background: var(--accent); color: #fff; font: 700 13.5px system-ui, sans-serif; cursor: pointer;
+  }
+  .submitBtn:hover { background: #4f52d6; }
+</script>
+
+<script type="text/plain" id="js">
+  var form = document.getElementById('form');
+  var uname = document.getElementById('uname');
+  var pw2 = document.getElementById('pw2');
+  var unameError = document.getElementById('unameError');
+  var pw2Error = document.getElementById('pw2Error');
+
+  function setError(field, errEl, message) {
+    field.className = 'field' + (message ? ' error' : '');
+    errEl.textContent = message || ' ';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var ok = true;
+
+    if (!uname.value.trim()) {
+      setError(uname, unameError, 'Username is required');
+      ok = false;
+    } else {
+      setError(uname, unameError, '');
+    }
+
+    if (pw2.value.length < 8) {
+      setError(pw2, pw2Error, 'Password needs at least 8 characters');
+      ok = false;
+    } else {
+      setError(pw2, pw2Error, '');
+    }
+
+    if (!ok) {
+      // Focus the FIRST field with an error, not just report and stop.
+      (uname.classList.contains('error') ? uname : pw2).focus();
+      return;
+    }
+
+    unameError.textContent = '✓ Account created';
+    unameError.style.color = '#16a34a';
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

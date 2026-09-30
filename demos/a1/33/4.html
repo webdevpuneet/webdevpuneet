@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Starting a Transition From a Measured Position">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Slide smoothly, or snap-back-then-slide</h1>
+    <p class="hint">Click "Move chip" on each side repeatedly. This is the classic FLIP animation pattern: read the old position, then animate from it.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 16px 20px 6px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 17px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 12px 16px 28px; }
+  .cols { width: 100%; max-width: 540px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 12px; }
+  .colHead { font: 700 12px ui-monospace, monospace; margin-bottom: 8px; text-align: center; }
+  .colHead.eff { color: var(--red); }
+  .colHead.layout { color: var(--green); }
+  .track { position: relative; height: 56px; border: 1px dashed var(--line); border-radius: 8px; margin-bottom: 8px; background: #fafafa; }
+  .chip { position: absolute; top: 8px; width: 56px; height: 40px; border-radius: 8px; background: var(--accent); color: #fff; font: 800 10px ui-monospace, monospace; display: flex; align-items: center; justify-content: center; }
+  .btn { width: 100%; padding: 7px 8px; border-radius: 8px; border: none; background: var(--ink); color: #fff; font: 700 11px system-ui, sans-serif; cursor: pointer; }
+  .note { margin: 8px 0 0; max-width: 540px; font-size: 11px; color: var(--sub); line-height: 1.5; text-align: center; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useRef = React.useRef;
+  var useEffect = React.useEffect;
+  var useLayoutEffect = React.useLayoutEffect;
+
+  function Panel(props) {
+    var sideState = useState('left');
+    var side = sideState[0];
+    var setSide = sideState[1];
+
+    var chipRef = useRef(null);
+    var prevLeftRef = useRef(null);
+
+    var hook = props.mode === 'layout' ? useLayoutEffect : useEffect;
+
+    hook(function () {
+      var chip = chipRef.current;
+      if (!chip) return;
+
+      var last = chip.offsetLeft; // real DOM read of where it just landed
+      var first = prevLeftRef.current;
+
+      if (first !== null && first !== last) {
+        var delta = first - last;
+        chip.style.transition = 'none';
+        chip.style.transform = 'translateX(' + delta + 'px)';
+        // eslint-disable-next-line no-unused-expressions
+        chip.offsetHeight; // force a reflow so the invert above actually applies before we play it
+        requestAnimationFrame(function () {
+          chip.style.transition = 'transform 0.45s ease';
+          chip.style.transform = 'translateX(0px)';
+        });
+      }
+
+      prevLeftRef.current = last;
+    }, [side]);
+
+    function move() {
+      setSide(function (s) { return s === 'left' ? 'right' : 'left'; });
+    }
+
+    return e('div', { className: 'col' },
+      e('div', { className: 'colHead ' + (props.mode === 'layout' ? 'layout' : 'eff') }, props.mode === 'layout' ? 'useLayoutEffect' : 'useEffect'),
+      e('div', { className: 'track' },
+        e('div', { className: 'chip', ref: chipRef, style: { left: side === 'left' ? '6px' : '240px' } }, side)
+      ),
+      e('button', { className: 'btn', onClick: move }, 'Move chip')
+    );
+  }
+
+  function Demo() {
+    return e('div', { className: 'cols' },
+      e(Panel, { mode: 'effect' }),
+      e(Panel, { mode: 'layout' })
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    e('div', null,
+      e(Demo),
+      e('p', { className: 'note' }, 'Both panels use the identical FLIP invert-then-play logic -- read the old offsetLeft, transform to fake still being there, then release the transform with a transition. On the useEffect side, the browser already painted the chip at its real final spot before the effect runs, so you see it arrive, snap backward to the old spot, then slide forward again. On the useLayoutEffect side, the invert happens before that first paint, so the only thing ever painted is the smooth slide.')
+    )
+  );
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

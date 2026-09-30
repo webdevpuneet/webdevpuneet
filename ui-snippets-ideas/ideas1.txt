@@ -1,0 +1,593 @@
+FWD TOOLS — UI SNIPPETS: IDEAS GUIDE
+====================================
+Rewritten from an audit of the actual library (1,922 snippets), not from a
+generic list of popular libraries. Everything below is measured, not guessed.
+
+UPDATE (2026-09-19): CLUSTER A (ECharts, 10 of 12) is now built and live —
+see PART 4. "Zero chart-library coverage" in PART 2 opportunity #1 below
+refers to the state before this cluster.
+
+UPDATE (2026-09-20): CLUSTERS B (Leaflet/Maps), C (Date/Time), and D
+(Overlays) — 30 snippets — are now built and live. The library total is
+1,962. Next up in PART 4's priority order: CLUSTER E (Form Control Libraries).
+
+
+UPDATE (2026-09-24): CLUSTERS E (Form Control Libraries, 12 of 12), I (Swiper, 10 of 10)
+and most of F (Image/Media, 8 of 10), G (Editors, 5 of 10), H (Tables, 6 of 10) and J
+(Sortable/DnD, 9 of 10) are now built - 50 snippets. The library total is 2,012.
+STILL OPEN in those clusters: FilePond chunked upload, Uppy; CodeMirror diff/merge, Monaco,
+Tiptap x2, Editor.js; AG Grid x2, DataTables, Handsontable; native HTML5 file-tree DnD.
+Next up in PART 4's priority order: CLUSTER K (Mobile), then L (Footers), M (Games), N (AI UI).
+
+==========================================================
+PART 1 — WHERE THE LIBRARY ACTUALLY STANDS
+==========================================================
+
+TOTAL: 1,922 snippets
+
+BY CATEGORY
+  forms .......... 212      modals ......... 69
+  scroll ......... 209      loaders ........ 68
+  cards .......... 179      heroes ......... 66
+  animations ..... 175      misc ........... 65
+  dashboards ..... 140      games .......... 62
+  layouts ........  99      pricing ........ 55
+  navigation .....  90      mobile ......... 55
+  tables .........  78      footers ........ 30
+  buttons ........  77      dev ............ 20 (noindex)
+  charts .........  72
+
+TECH SPLIT
+  1,506 snippets (78%)  pure CSS / vanilla JS, no CDN at all
+    416 snippets (22%)  load at least one CDN library
+
+LIBRARY CONCENTRATION — this is the headline finding
+  gsap .............. 169 snippets
+  bootstrap ......... 130
+  three ............. 90
+  lottie ............ 12
+  ---- everything else is a long tail ----
+  3 snippets each:  anime, animate.css, babylon, chartist, countup, fabric,
+                    glide, interactjs, konva, muuri, popmotion, rough,
+                    scroll-out, scrollreveal, snap.svg, Sortable, velocity, wow
+  1-2 snippets each: aos, atropos, barba, canvas-confetti, chart.js, d3, howler,
+                    jquery, kute, lenis, locomotive, matter, motion, odometer,
+                    p5, paper, pixi, qrcode, rellax, rive, scrollama, splide,
+                    splitting, swiper, swup, tone, tsparticles, typed,
+                    vanilla-tilt, vivus, zdog, auto-animate
+
+  => 389 of the 416 library snippets are GSAP + Bootstrap + Three.js.
+     ~45 libraries were added as 1-3 snippet "samplers" and never developed.
+
+TAG TAXONOMY IN USE (42 tags)
+  svg 593 · css-animation 412 · css-grid 369 · form-validation 295 ·
+  accessibility 285 · js-libraries 276 · keyboard-navigation 254 ·
+  scroll-animation 244 · micro-interactions 239 · dashboard-ui 181 ·
+  landing-page 175 · canvas 173 · gsap 169 · 3d-effects 146 ·
+  touch-gestures 133 · bootstrap 130 · glassmorphism 120 · media-player 108 ·
+  loading-states 106 · ecommerce 102 · data-visualization 99 · data-tables 96 ·
+  developer-tools 93 · three-js 90 · text-effects 85 · games 82 ·
+  social-ui 76 · clipboard-api 72 · css-only 71 · mobile-ui 70 ·
+  intersection-observer 54 · authentication 52 · drag-and-drop 49 ·
+  local-storage 46 · timers 44 · ai-ui 39 · dark-mode 38 · onboarding 37 ·
+  parallax 21 · web-audio 14 · lottie 12 · web-crypto 10
+
+
+==========================================================
+PART 2 — THE FIVE BIGGEST OPPORTUNITIES (RANKED)
+==========================================================
+
+#1  CHARTS IS THE LARGEST UNCLAIMED AREA
+    72 chart snippets exist, but essentially ZERO chart-library coverage:
+    chart.js 1, chartist 3, d3 1. Verified absent: ECharts, ApexCharts,
+    Plotly, Highcharts, Lightweight Charts, uPlot, Frappe, Billboard, Vega,
+    Cytoscape, Sigma, vis-network, AG Grid, Tabulator, Grid.js, DataTables.
+    "javascript chart examples" is high-intent search traffic and the site
+    already has a data-visualization tag with 99 snippets waiting to link to.
+    ECharts is already a project dependency (package.json) — zero new risk.
+
+#2  DEEPEN THE 3-SNIPPET LIBRARIES INSTEAD OF ADDING NEW ONES
+    ~45 libraries sit at 1-3 snippets. A library with 3 snippets ranks for
+    nothing; a library with 10-12 owns "<library> examples" outright and
+    becomes a landing cluster. Pick the 12 best and take each to 10+.
+    Best candidates (visual payoff + search demand + already proven to work
+    in the sandbox): Swiper, SortableJS, Anime.js, Splide, Muuri, Matter.js,
+    p5.js, PixiJS, Konva, Fabric.js, Interact.js, CountUp/Odometer.
+
+#3  ~95 WELL-KNOWN LIBRARIES HAVE ZERO SNIPPETS
+    Full verified list in PART 5. Each is a fresh 8-12 snippet cluster with
+    no internal competition. Highest value first: Leaflet, FullCalendar,
+    Flatpickr, Tippy.js, SweetAlert2, CodeMirror, Cropper.js, PhotoSwipe,
+    FilePond, Choices.js, noUiSlider, Quill, Fuse.js, Tabulator.
+
+#4  CATEGORY IMBALANCE
+    forms (212) and scroll (209) are 10x footers (30) and dev (20).
+    Under-built relative to real demand:
+      charts 72 · games 62 · mobile 55 · pricing 55 · footers 30 · dev 20
+    Mobile especially: 55 snippets against a 133-snippet touch-gestures tag
+    means mobile patterns are scattered rather than owned.
+
+#5  78% OF SNIPPETS USE NO LIBRARY AT ALL
+    That's a genuine strength (fast, dependency-free, evergreen) — but it
+    means the "Built with" filter has little to filter. Raising library
+    snippets from 22% to ~35% makes library-based browsing worth shipping.
+
+
+==========================================================
+PART 3 — AUTHORING CONSTRAINTS THAT WILL BITE YOU
+==========================================================
+Every one of these caused a real bug in the existing library. Check them
+before writing a new snippet.
+
+SANDBOX
+  Preview runs in <iframe sandbox="allow-scripts allow-forms"> — deliberately
+  NO allow-same-origin. Consequences:
+    * localStorage / sessionStorage THROW a SecurityError on access. They do
+      not fail quietly. Always wrap in try/catch and degrade gracefully.
+      (This broke simon-sequence-game: best score permanently stuck at 0.)
+    * Any uncaught error from a CDN script reports only as "Script error."
+      with no line number. Debug by popping the demo out to its own tab.
+    * The iframe has an opaque origin — cookies, IndexedDB and the
+      permissions-gated APIs behave differently than on a normal page.
+
+CDN URLS — VERIFY BEFORE SHIPPING
+  Four separate snippets shipped broken CDN URLs. Always curl the URL and
+  confirm the global name before writing code against it.
+    * Case matters on cdnjs: swup/4.4.1/Swup.umd.js works,
+      swup.umd.js is a 404.
+    * cdnjs does not host everything. barba.js on cdnjs tops out at the old
+      v1; the modern rewrite is @barba/core on jsDelivr. locomotive-scroll
+      isn't on cdnjs at all.
+    * Version determines the API. popmotion@8 has no animate() export at
+      all — the unified animate({keyframes,type}) API only exists from v10.
+    * Confirm the UMD global (window.popmotion, window.LocomotiveScroll,
+      window.Swup) matches exactly what the snippet code calls.
+
+ANIMATION GOTCHAS ALREADY HIT
+  * GSAP: give filter/opacity an explicit CSS starting value. Without one,
+    gsap.to(el,{filter:'brightness(0.6)'}) interpolates from brightness(0),
+    i.e. through full black. (scroll-sticky-stack)
+  * GSAP ScrollTrigger: a position:sticky element used AS the trigger can
+    never reach 'top top' — it freezes at its sticky offset, so the scrub
+    overshoots past 1 and extrapolates past your end values.
+  * ScrollTrigger position strings accept %, px and keywords — NOT vh.
+    'top 14vh' is silently parsed as 14 pixels.
+  * Extending a ScrollTrigger's `end` does NOT add a hold at the end; it
+    just slows everything down proportionally. To hold, add a no-op tween
+    to the timeline itself.
+  * Matter.js: use Body.setVelocity for a one-shot launch, not applyForce —
+    applyForce divides by mass, so small randomized bodies fly off screen.
+  * Clearing only `style.transition` while leaving inline opacity/transform
+    set means a later class can never take effect — inline always wins.
+
+LAYOUT GOTCHAS ALREADY HIT
+  * A position:relative wrapper inside a flex body stretches to full height
+    by default, so an absolutely positioned dropdown using top:100% lands at
+    the bottom of the viewport. Add align-self:flex-start.
+  * Don't mix a CSS :hover reveal (opacity) with a JS visibility toggle on
+    the same element — inline visibility:hidden silently wins forever.
+  * If a container is overflow:auto, hide the scrollbar deliberately
+    (scrollbar-width:none + ::-webkit-scrollbar{display:none}) — a raw
+    scrollbar inside a phone mockup or code panel looks broken.
+  * Horizontal-only scroll containers ignore the vertical mouse wheel.
+    Translate deltaY to scrollLeft or desktop users think it's frozen.
+
+GOTCHAS FROM THE 2026-09-24 BATCH (50 snippets)
+  * A literal closing script tag ANYWHERE in a snippet's JS - even inside a string or a
+    comment - ends the inline <script> in the preview early ("Invalid or unexpected token").
+    Split it: '</scr' + 'ipt>'. Backticks and dollar-brace in snippet JS also break the
+    template literal the snippet files are stored in - spell a backtick as String.fromCharCode(96).
+  * Modern V8 no longer puts a character position in JSON.parse errors (it quotes a snippet
+    of the text). Firefox and Safari differ again. Never scrape the message for a location -
+    write a small validator that returns the offset (see codemirror-json-editor-validation-gutter).
+  * Tabulator: the table builds asynchronously - use the tableBuilt event before any API call,
+    and take match counts from the rows passed to dataFiltered (getDataCount('active') can be stale
+    inside that event).
+  * noUiSlider vertical handles are positioned with `bottom`, not `top` - an override that sets
+    `top` displaces the handle by the full track height. A vertical slider needs an explicit CSS height.
+  * Interact.js: interact.snappers.grid is anchored to the PAGE, not the container, and
+    offset:'parent' did not fix it in 1.10.27. Round a running raw position by hand instead.
+    Do not re-append a node in a 'down' handler - it can cancel the interaction; bump z-index.
+  * Prism line-numbers/line-highlight: do not add offsets to .line-numbers-rows or .line-highlight;
+    the plugins already measure the <code> element. The theme's own line-height on <code> must
+    match the <pre> or the gutter drifts.
+  * Medium-zoom: getZoomedImage() is the original thumbnail; the hi-res swap is a SECOND
+    .medium-zoom-image--opened <img> in <body>. Read the largest natural width among them.
+  * Swiper thumbs: create the thumbnails swiper first. Swiper fade: crossFade:true or slides overlap.
+    Swiper cards effect: dragging moves through the deck like a normal slider - it is not a
+    left/right decision gesture.
+  * Sortable: filter alone does not stop other rows displacing a locked one - add onMove. filter also
+    swallows clicks unless preventOnFilter:false. An empty drop target needs a real height.
+  * Fuse.js multiplies per-key scores, so an exact hit in a low-weight key can outrank a near-exact
+    hit in a high-weight one. Test weights against real queries.
+  * The preview iframe has an opaque origin: localStorage throws, alert() is blocked (no allow-modals).
+
+GOTCHAS FROM THE 2026-09-25 BATCH (50 snippets)
+  * html2canvas FAILS inside the sandboxed preview (opaque origin). Use html-to-image
+    (window.htmlToImage) instead, and inject Google Fonts with a <link crossOrigin="anonymous">
+    from JS so the fonts can be embedded in the export.
+  * Downloads (a[download]) do nothing in the sandbox - always show the result inline too
+    (an <img>, an <iframe> of a blob PDF, or a textarea) so the preview proves it worked.
+  * PDF.js 3.11 classic build works in the sandbox (fake worker). getDocument DETACHES the
+    ArrayBuffer you pass - give it bytes.slice(0) if you still need the bytes (e.g. for pdf-lib).
+  * Embla v8: there is no clickAllowed() - suppress clicks after a drag with a capture-phase
+    click listener. autoplay:timerset fires before your listeners attach, so start any progress
+    bar manually after init. Plugins are UMD globals: EmblaCarouselAutoplay, ...AutoScroll, ...Fade.
+  * ApexCharts sparklines: create ALL card DOM first, then the charts, or early charts measure
+    a wider container and overflow.
+  * SheetJS: read with cellNF:true to keep number formats; use cdn.sheetjs.com (xlsx-0.20.3),
+    the npm package is stale.
+  * Turndown: addRule() unshifts, so a LATER rule wins over an earlier one for the same node.
+  * Matter.js: MouseConstraint swallows the wheel - remove its listeners
+    (['mousewheel','DOMMouseScroll','wheel'] with mouse.mousewheel) so the page scrolls.
+    Set Render pixelRatio to devicePixelRatio and ctx.scale(pr,pr) in afterRender drawing.
+    Parts of one rig (car, jelly) need a shared Body.nextGroup(true). For a scrolling camera
+    use hasBounds + render.bounds and setTransform(pr,0,0,pr,-minX*pr,-minY*pr) for custom
+    drawing. Don't spawn bodies above a ceiling wall. Carrying a swinging block's sideways
+    velocity into a long fall makes it drift ~150px - feels unfair in a stacking game.
+  * Plinko fairness: pegs alone skew the distribution; add guard walls parallel to the peg
+    edge and a random left/right kick on peg collisions to get a true binomial curve.
+
+SNIPPET OBJECT SCHEMA
+  id, title, lastmod, category, cdnUrls[], html, css, js,
+  seo: { title, description,
+         about: { title, description },
+         howToUse: { type:'steps', items:[{title,text}] },
+         features: [], useCases: [], faqs: [{q,a}],
+         aiPrompt: { paragraph, prompt } }
+  Also required: a preview PNG at /images/ui-snippets/previews/{id}.png
+  Register tags in src/lib/snippet-tag-map.js.
+  Category must be one of the 19 in PART 1 — 'dev' is noindex.
+
+
+==========================================================
+PART 4 — PRIORITY BUILD QUEUE (CONCRETE SNIPPETS)
+==========================================================
+
+---- CLUSTER A: ECHARTS (12) — already a project dependency ----
+[x] ECharts Animated Revenue Line with Zoom Brush -> echarts-revenue-line-zoom-brush
+[x] ECharts Stacked Area Traffic Breakdown -> echarts-stacked-area-traffic
+[x] ECharts Gauge Cluster (KPI Speedometers) -> echarts-kpi-gauge-cluster
+[x] ECharts Sankey User Flow Diagram -> echarts-sankey-user-flow
+[x] ECharts Treemap Storage Breakdown -> echarts-treemap-storage-breakdown
+[x] ECharts Calendar Heatmap (Contribution Graph) -> echarts-calendar-heatmap
+[x] ECharts Radar Skill Comparison -> echarts-radar-skill-comparison
+[x] ECharts Funnel Conversion Chart -> echarts-funnel-conversion
+[x] ECharts Candlestick with Volume Panel -> echarts-candlestick-volume-panel
+[x] ECharts Live-Updating Realtime Chart -> echarts-live-realtime-chart
+[ ] ECharts Geo Map with Scatter Overlay
+[ ] ECharts Dark/Light Theme Switcher Dashboard
+
+---- CLUSTER B: LEAFLET / MAPS (10) — zero coverage today ----
+[x] Leaflet Store Locator with Search -> leaflet-store-locator-search
+[x] Leaflet Marker Clustering at Scale -> leaflet-marker-clustering
+[x] Leaflet Custom HTML Markers and Popups -> leaflet-custom-html-markers
+[x] Leaflet Draw-a-Radius Area Selector -> leaflet-draw-radius-selector
+[x] Leaflet Route Line with Animated Vehicle -> leaflet-animated-route-vehicle
+[x] Leaflet GeoJSON Region Choropleth -> leaflet-geojson-choropleth
+[x] Leaflet Location Picker (Click to Set Coordinates) -> leaflet-location-picker
+[x] Leaflet Heatmap Density Layer -> leaflet-heatmap-density-layer
+[x] Leaflet Side-by-Side Layer Comparison -> leaflet-layer-comparison-slider
+[x] MapLibre GL 3D Building Extrusion -> maplibre-3d-building-extrusion
+
+---- CLUSTER C: DATE / TIME INPUTS (10) — Flatpickr etc. absent ----
+[x] Flatpickr Inline Date Picker -> flatpickr-inline-date-picker
+[x] Flatpickr Date Range with Presets (Last 7/30/90 days) -> flatpickr-date-range-presets
+[x] Flatpickr Time Picker with Step Intervals -> flatpickr-time-picker-intervals
+[x] Flatpickr Booking Calendar with Disabled Dates -> flatpickr-booking-calendar
+[x] Flatpickr Multi-Date Selection -> flatpickr-multi-date-selection
+[x] FullCalendar Month View with Event Modal -> fullcalendar-month-event-modal
+[x] FullCalendar Drag-to-Reschedule Week View -> fullcalendar-drag-reschedule-week
+[x] FullCalendar Resource Timeline (Rooms/Staff) -> fullcalendar-resource-timeline
+[x] FullCalendar Agenda List with Filters -> fullcalendar-agenda-list-filters
+[x] Day.js Relative Time Feed ("3 minutes ago", live-updating) -> dayjs-relative-time-feed
+
+---- CLUSTER D: OVERLAYS DONE PROPERLY (10) ----
+[x] Tippy.js Tooltip Variants Showcase -> tippy-tooltip-variants-showcase
+[x] Tippy.js Interactive Popover with Form -> tippy-interactive-popover-form
+[x] Tippy.js Dropdown Menu with Submenus -> tippy-dropdown-menu-submenus
+[x] Floating UI Auto-Flipping Tooltip (Collision Detection) -> floating-ui-auto-flip-tooltip
+[x] Floating UI Anchored Popover in a Scroll Container -> floating-ui-anchored-popover-scroll
+[x] SweetAlert2 Confirmation Dialog Set -> sweetalert2-confirmation-dialog-set
+[x] SweetAlert2 Multi-Step Input Flow -> sweetalert2-multistep-input-flow
+[x] Toastify Notification Stack with Undo -> toastify-notification-stack-undo
+[x] Notyf Minimal Toast Variants -> notyf-minimal-toast-variants
+[x] Micromodal Accessible Modal (Focus Trap Verified) -> micromodal-accessible-focus-trap
+
+---- CLUSTER E: FORM CONTROL LIBRARIES (12) ----
+[x] Choices.js Searchable Multi-Select with Tags -> choices-searchable-multiselect-tags
+[x] Choices.js Remote-Loaded Options -> choices-remote-loaded-options
+[x] Tom Select Tag Input with Create-on-Type -> tom-select-tag-input-create
+[x] noUiSlider Dual-Handle Price Range Filter -> nouislider-price-range-filter
+[x] noUiSlider Vertical Volume/EQ Sliders -> nouislider-vertical-eq-sliders
+[x] IMask Currency Input with Live Formatting -> imask-currency-input-live-formatting
+[x] IMask Credit Card Input with Brand Detection -> imask-credit-card-brand-detection
+[x] Cleave.js Phone Number Input by Country -> cleave-phone-number-by-country
+[x] intl-tel-input International Phone Field -> intl-tel-input-phone-field
+[x] Pickr Inline Color Picker with Swatches -> pickr-inline-color-picker-swatches
+[x] Fuse.js Fuzzy Command Search -> fuse-fuzzy-command-search
+[x] Fuse.js Typo-Tolerant Product Search -> fuse-typo-tolerant-product-search
+
+---- CLUSTER F: IMAGE / MEDIA (10) ----
+[x] Cropper.js Avatar Crop with Live Preview -> cropperjs-avatar-crop-live-preview
+[x] Cropper.js Aspect-Ratio Presets for Social Posts -> cropperjs-social-aspect-ratio-presets
+[x] PhotoSwipe Full-Screen Gallery with Captions -> photoswipe-fullscreen-gallery-captions
+[x] GLightbox Mixed Media Lightbox (Image + Video) -> glightbox-mixed-media-lightbox
+[x] Panzoom Zoomable Floor Plan / Schematic -> panzoom-zoomable-floor-plan
+[x] medium-zoom Article Image Zoom -> medium-zoom-article-image-zoom
+[x] Viewer.js Product Image Viewer with Toolbar -> viewerjs-product-image-viewer-toolbar
+[x] FilePond Image Upload with Preview and Reorder -> filepond-image-upload-preview-reorder
+[ ] FilePond Chunked Upload with Progress
+[ ] Uppy Dashboard Upload with Remote Sources
+
+---- CLUSTER G: CODE / TEXT EDITORS (10) ----
+[x] CodeMirror 6 Editor with Line Numbers and Themes -> codemirror-editor-line-numbers-themes (built on CodeMirror 5 - classic, no build step; a CM6 version is still open)
+[x] CodeMirror JSON Editor with Validation Gutter -> codemirror-json-editor-validation-gutter
+[ ] CodeMirror Diff / Merge View
+[ ] Monaco Mini IDE with IntelliSense
+[x] Prism.js Code Block with Copy Button and Line Highlight -> prismjs-code-block-copy-line-highlight
+[x] Quill Rich Text Editor with Custom Toolbar -> quill-rich-text-custom-toolbar
+[ ] Tiptap Block Editor with Slash Commands
+[ ] Tiptap Mentions and Emoji Picker
+[ ] Editor.js Notion-Style Block Editor
+[x] Marked + DOMPurify Live Markdown Preview -> marked-dompurify-live-markdown-preview
+
+---- CLUSTER H: TABLES / GRIDS (10) ----
+[x] Tabulator Sortable Filterable Data Grid -> tabulator-sortable-filterable-grid
+[x] Tabulator Editable Cells with Validation -> tabulator-editable-cells-validation
+[x] Tabulator Grouped Rows with Aggregates -> tabulator-grouped-rows-aggregates
+[x] Grid.js Lightweight Searchable Table -> gridjs-lightweight-searchable-table
+[ ] AG Grid Column Pinning and Resizing
+[ ] AG Grid Row Selection with Bulk Actions
+[ ] DataTables Server-Side Pagination Pattern
+[ ] Handsontable Spreadsheet with Formulas
+[x] Virtualized 100k-Row Table (vanilla, no library) -> virtualized-100k-row-table
+[x] Tree Table with Expandable Nested Rows -> tree-table-expandable-nested-rows
+
+---- CLUSTER I: DEEPEN SWIPER (10) — currently 1 snippet ----
+[x] Swiper Coverflow 3D Product Carousel -> swiper-coverflow-3d-product-carousel
+[x] Swiper Thumbnail-Synced Gallery -> swiper-thumbnail-synced-gallery
+[x] Swiper Vertical Full-Page Slider -> swiper-vertical-fullpage-slider
+[x] Swiper Autoplay with Progress Ring -> swiper-autoplay-progress-ring
+[x] Swiper Parallax Hero Slides -> swiper-parallax-hero-slides
+[x] Swiper Infinite Logo Marquee -> swiper-infinite-logo-marquee
+[x] Swiper Card Stack with Effect-Cards -> swiper-effect-cards-stack
+[x] Swiper Multi-Row Grid Carousel -> swiper-multirow-grid-carousel
+[x] Swiper Testimonial Slider with Fade -> swiper-testimonial-fade-slider
+[x] Swiper Nested Horizontal + Vertical Sliders -> swiper-nested-horizontal-vertical
+
+---- CLUSTER J: DEEPEN SORTABLE / DND (10) — currently 3 ----
+[x] SortableJS Multi-List Kanban with Persistence -> sortablejs-multilist-kanban-persistence
+[x] SortableJS Nested Sortable Tree -> sortablejs-nested-sortable-tree
+[x] SortableJS Drag Handle + Filtered Locked Rows -> sortablejs-handle-filtered-locked-rows
+[x] SortableJS Shared Group Drag Between Lists -> sortablejs-shared-group-drag-lists (built as a palette-to-canvas page builder with a trash zone)
+[x] SortableJS Sortable Table Rows -> sortablejs-sortable-table-rows
+[x] Dragula Copy-vs-Move Lists -> dragula-copy-vs-move-lists
+[x] Interact.js Resizable Dashboard Panels -> interactjs-resizable-dashboard-panels
+[x] Interact.js Pinch-Zoom and Rotate Surface -> interactjs-pinch-zoom-rotate-surface
+[x] Muuri Filterable Draggable Grid -> muuri-filterable-draggable-grid
+[ ] Native HTML5 Drag and Drop File Tree
+
+---- CLUSTER K: MOBILE (12) — thinnest high-demand category ----
+[ ] iOS-Style Action Sheet with Backdrop Blur
+[ ] Android Material Bottom Sheet with Snap Points
+[ ] Pull-to-Refresh with Rubber-Band Physics
+[ ] Swipe-to-Delete List Row with Undo Bar
+[ ] Mobile Tab Bar with Animated Indicator
+[ ] Bottom Navigation with Center FAB
+[ ] Mobile Date Wheel Picker (Native Feel)
+[ ] Mobile OTP Input with Auto-Advance and Paste
+[ ] Long-Press Context Menu with Haptic Cue
+[ ] Mobile Story Viewer with Tap Zones and Progress
+[ ] Safe-Area-Aware Sticky Footer (notch handling)
+[ ] Mobile Drawer with Edge-Swipe Gesture
+
+---- CLUSTER L: FOOTERS (10) — only 30 exist ----
+[ ] Mega Footer with Multi-Column Sitemap
+[ ] Footer with Newsletter Form and Validation
+[ ] Sticky App-Download Footer Bar
+[ ] Footer with Live Status Indicator
+[ ] Minimal Footer with Theme Toggle
+[ ] Footer with Language and Currency Switchers
+[ ] Footer with Animated Wave Divider
+[ ] SaaS Footer with Trust Badges and Certifications
+[ ] Footer with Recent Blog Posts Grid
+[ ] Accessible Footer Sitemap with Collapsible Sections
+
+---- CLUSTER M: GAMES (10) — 62 exist, high engagement ----
+[ ] Wordle-Style Word Guessing Grid
+[ ] 2048 Sliding Tile Puzzle
+[ ] Minesweeper with Flag Mode
+[ ] Snake with Touch Controls
+[ ] Memory Match with Flip Animation
+[ ] Typing Speed Race Against a Ghost
+[ ] Connect Four with Win Detection
+[ ] Sudoku with Pencil Marks and Validation
+[ ] Breakout / Brick Breaker on Canvas
+[ ] Idle Clicker with Upgrade Tree
+
+---- CLUSTER N: AI UI (10) — ai-ui tag has 39, growing area ----
+[ ] Streaming Token Response with Stop Button
+[ ] Model Picker with Cost and Context Comparison
+[ ] Prompt Library with Variable Fill-Ins
+[ ] Tool-Call Inspector Timeline
+[ ] RAG Source Citation Cards with Confidence
+[ ] Diff View of AI-Suggested Edit (Accept/Reject)
+[ ] Token Usage Meter with Budget Warning
+[ ] Chat Branch/Regenerate Tree Navigation
+[ ] Agent Task Queue with Live Status
+[ ] Voice Input Waveform with Transcription Preview
+
+---- CLUSTER O: APEXCHARTS (10) — built 2026-09-25 ----
+[x] ApexCharts Mixed Bar + Line, Dual Axis -> apexcharts-mixed-bar-line-dual-axis
+[x] ApexCharts Brush Range Navigator -> apexcharts-brush-range-navigator
+[x] ApexCharts RadialBar Goal Rings -> apexcharts-radialbar-goal-rings
+[x] ApexCharts Weekly Activity Heatmap -> apexcharts-weekly-activity-heatmap
+[x] ApexCharts Gantt Range-Bar Timeline -> apexcharts-gantt-range-bar-timeline
+[x] ApexCharts Sparkline KPI Cards -> apexcharts-sparkline-kpi-cards
+[x] ApexCharts Donut with Live Centre Total -> apexcharts-donut-live-center-total
+[x] ApexCharts Annotations and Target Lines -> apexcharts-annotations-target-lines
+[x] ApexCharts Likert Stacked Bar -> apexcharts-likert-stacked-bar
+[x] ApexCharts Theme Toggle and Export -> apexcharts-theme-toggle-export
+
+---- CLUSTER P: EMBLA CAROUSEL (10) — built 2026-09-25 (category: carousels) ----
+[x] Embla Arrows, Dots and Keyboard -> embla-carousel-arrows-dots-keyboard
+[x] Embla Thumbnails Gallery -> embla-carousel-thumbnails-gallery
+[x] Embla Autoplay with Progress Bar -> embla-carousel-autoplay-progress
+[x] Embla Parallax Slides -> embla-carousel-parallax-slides
+[x] Embla Scale Centre Focus -> embla-carousel-scale-center-focus
+[x] Embla Fade Hero -> embla-carousel-fade-hero
+[x] Embla Auto-Scroll Logo Strip -> embla-carousel-auto-scroll-logos
+[x] Embla Variable Width, Drag-Free Chips -> embla-carousel-variable-width-drag-free
+[x] Embla Vertical News Ticker -> embla-carousel-vertical-news-ticker
+[x] Embla Lazy-Load Images -> embla-carousel-lazy-load-images
+
+---- CLUSTER Q: ALGORITHM / CONCEPT VISUALIZERS (10) — built 2026-09-25 ----
+[x] Dijkstra Shortest Path -> dijkstra-shortest-path-visualizer
+[x] Binary Heap Priority Queue -> binary-heap-priority-queue-visualizer
+[x] BFS vs DFS Graph Traversal -> bfs-dfs-graph-traversal-visualizer
+[x] Levenshtein Edit Distance DP Table -> levenshtein-edit-distance-dp-visualizer
+[x] Huffman Coding Tree -> huffman-coding-tree-visualizer
+[x] Promise Combinators Timeline -> promise-combinators-visualizer
+[x] Flex Grow / Shrink Distribution -> flex-grow-shrink-distribution-visualizer
+[x] Sliding Window / Two Pointers -> sliding-window-two-pointer-visualizer
+[x] Quadtree Spatial Partition -> quadtree-spatial-partition-visualizer
+[x] Big-O Complexity Growth -> big-o-complexity-growth-visualizer
+[ ] Next ideas: A* pathfinding grid, union-find, trie autocomplete, LRU cache,
+    red-black tree rotations, CSS grid auto-placement, event loop queues
+
+---- CLUSTER R: DOCUMENT TOOLS — PDF / CSV / EXCEL / MARKDOWN (10) — built 2026-09-25 ----
+[x] jsPDF Invoice Generator (+ autotable) -> jspdf-invoice-generator
+[x] jsPDF Certificate Generator (custom TTF font) -> jspdf-certificate-generator
+[x] pdf-lib Merge and Reorder PDFs -> pdf-lib-merge-reorder-pdfs
+[x] pdf-lib Watermark and Page Numbers -> pdf-lib-watermark-page-numbers
+[x] PDF.js Viewer with Thumbnails and Zoom -> pdfjs-viewer-thumbnails-zoom
+[x] PDF.js Text Search with Highlights -> pdfjs-text-search-highlight
+[x] Papa Parse CSV Import Validator -> papaparse-csv-import-validator
+[x] SheetJS Table Excel Export / Import -> sheetjs-table-excel-export-import
+[x] Turndown HTML to Markdown Converter -> turndown-html-to-markdown-converter
+[x] html-to-image Quote Card Export -> html-to-image-quote-card-export (html2canvas does NOT work in the sandboxed preview)
+[ ] Still open: pdfmake declarative report, Marked/markdown-it plugins, Showdown
+
+---- CLUSTER S: DEEPEN MATTER.JS (10) — was 2, now 12 ----
+[x] Newton's Cradle -> matter-js-newtons-cradle
+[x] Plinko Board with Distribution Histogram -> matter-js-plinko-board
+[x] Physics Playground (spawn/drag/gravity) -> matter-js-physics-playground
+[x] Slingshot Tower Knockdown -> matter-js-slingshot-tower-knockdown
+[x] Soft-Body Jelly Blobs -> matter-js-soft-body-jelly
+[x] Hill Climb Car Game -> matter-js-hill-climb-car
+[x] Rope Bridge You Can Cut -> matter-js-rope-bridge-cut
+[x] Stacking Tower Game -> matter-js-stacking-tower-game
+[x] Ball Pit Hero Section -> matter-js-ball-pit-hero
+[x] Collision Filter Categories Visualizer -> matter-js-collision-filter-categories
+
+---- ONE-OFF: USER-REQUESTED ----
+[x] Google AI Mode glow button (rebuilt from google.com's real technique:
+    rotating conic colour disc behind two intersected conic masks, scaled
+    4x1.5; 180deg intro sweep; hover glow faces the cursor) -> ai-mode-glow-button
+[ ] Follow-ups worth doing: AI "thinking" state (glow circling while a
+    response streams), glow-border input that uses the same mask stack
+
+
+==========================================================
+PART 5 — VERIFIED-ABSENT LIBRARIES (ZERO SNIPPETS TODAY)
+==========================================================
+Each of these returns zero results across all 1,922 snippets. Grouped by
+how much they'd add. Take a library to 8-12 snippets or don't start it.
+
+HIGH VALUE — build these first
+  Charts/Data ... ECharts, ApexCharts, Plotly, Highcharts,
+                  Lightweight Charts, uPlot, Frappe Charts, Billboard.js
+  Maps .......... Leaflet, MapLibre GL, OpenLayers, Turf.js
+  Tables ........ Tabulator, Grid.js, AG Grid, DataTables, Handsontable
+  Calendar ...... FullCalendar
+  Forms ......... Flatpickr, Choices.js, noUiSlider, IMask, Cleave.js,
+                  intl-tel-input, Tom Select, Litepicker, Pikaday
+  Overlays ...... Tippy.js, Floating UI, SweetAlert2, Toastify, Notyf,
+                  Micromodal, Notiflix, iziToast
+  Images ........ Cropper.js, PhotoSwipe, GLightbox, Fancybox, LightGallery,
+                  Viewer.js, Panzoom, medium-zoom
+  Upload ........ FilePond, Uppy, Dropzone.js
+  Editors ....... CodeMirror, Monaco, Ace, Prism.js, highlight.js, Shiki,
+                  Quill, Tiptap, Editor.js, Lexical, CKEditor, TinyMCE
+  Search/Util ... Fuse.js, Day.js, date-fns, Luxon, Numeral.js, Dinero.js
+
+MEDIUM VALUE
+  Graphs ........ Cytoscape.js, Sigma.js, vis-network, Vega / Vega-Lite
+  Layout ........ Isotope, Packery, MixItUp, Masonry
+  Sliders ....... Embla, Keen Slider, Flickity, Slick
+  DnD ........... Dragula
+  Markdown ...... Marked, markdown-it, Showdown, Turndown
+  PDF ........... PDF.js, jsPDF, pdf-lib, pdfmake, html2canvas
+  Storage ....... Dexie.js, LocalForage, idb-keyval
+  State ......... XState, RxJS
+  Text .......... TypeIt, Fitty, Letterize
+  Icons ......... Lucide, Iconify, Phosphor, Tabler
+  Components .... Shoelace, Lit
+  Physics ....... Cannon-es
+
+NOTE: several of these were previously listed as "present" but only appear
+in prose inside a snippet's description — they are not actually loaded.
+Confirmed non-loaded: ECharts, Masonry, Marked, pdf-lib, html2canvas,
+Tom Select, Day.js, date-fns, Sigma, vis-network, AG Grid, Shiki,
+highlight.js, Slick, Cannon, Phosphor.
+
+
+==========================================================
+PART 6 — LIBRARIES TO DEEPEN (1-3 SNIPPETS TODAY)
+==========================================================
+Higher leverage than starting a new library. Target 10+ each.
+
+  Swiper (1) ......... sliders are evergreen search traffic — see CLUSTER I
+  SortableJS (3) ..... drag-and-drop tag has 49 snippets to link into
+  Anime.js (3) ....... closest thing to a GSAP alternative for SVG/timeline
+  Splide (1) ......... accessible slider angle GSAP/Swiper don't cover
+  Muuri (3) .......... filterable + draggable grid is a unique combination
+  Matter.js (12) ..... DONE - cluster S (2026-09-25)
+  p5.js (1) .......... generative/creative backgrounds
+  PixiJS (1) ......... 2D WebGL effects without Three.js weight
+  Konva (3) .......... canvas editing / annotation UIs
+  Fabric.js (3) ...... image editor and canvas design tool patterns
+  Interact.js (3) .... resize/pinch/gesture surfaces
+  CountUp + Odometer . number animation is a small, repeatable win
+  Lottie (12) ........ closest to a real cluster already — push to 20
+  Rive (1) ........... interactive state-machine icons, nothing else like it
+  Tone.js (1) ........ web-audio tag only has 14 — whole area is open
+
+LEAVE ALONE
+  GSAP (169), Bootstrap (130), Three.js (90) are saturated. Add to these
+  only when a snippet genuinely needs them, not to grow the count.
+
+
+==========================================================
+PART 7 — WORKING RULES
+==========================================================
+
+1. BUILD IN CLUSTERS OF 8-12, NOT ONES AND TWOS.
+   The library's main structural weakness is 45 orphaned libraries. A
+   cluster ranks, cross-links and justifies a "Built with X" filter page.
+   A single snippet does none of that.
+
+2. NAME FOR THE SEARCH, NOT THE LIBRARY.
+   "Store Locator Map with Search" beats "Leaflet Demo 3". Put the library
+   in the cdnUrls and the about/description, where the Built-with filter
+   picks it up.
+
+3. VERIFY THE CDN URL AND GLOBAL BEFORE WRITING CODE.
+   curl the URL, confirm the global name, confirm the version's API. Four
+   shipped snippets were broken by skipping this.
+
+4. ASSUME NO SAME-ORIGIN.
+   try/catch every storage access. Never rely on cookies or IndexedDB.
+
+5. NO SNIPPET SHOULD SCROLL INTERNALLY UNLESS SCROLLING IS THE POINT.
+   Demos are embedded in blog iframes at a fixed height — content hidden
+   below an inner scrollbar is content nobody sees.
+
+6. EVERY SNIPPET NEEDS ITS PREVIEW PNG AND TAG-MAP ENTRY.
+   Missing either one makes it invisible in the gallery and the sidebar.
+
+7. PREFER PATTERNS WITH A REAL FAILURE MODE TO EXPLAIN.
+   The strongest existing snippets document a gotcha (focus traps, stale
+   closures, sticky-trigger math). That is what makes them worth linking
+   to from a blog post.

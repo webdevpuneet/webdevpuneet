@@ -1,0 +1,143 @@
+<h1>Ditch the Charting Library: 8 Live CSS/SVG Charts You Can Copy Today</h1>
+
+<p>Most dashboards don't need a 200KB charting library — they need one clean bar chart, a gauge, and maybe a sparkline. Below are 8 free chart snippets you can preview live and copy in seconds: a bar chart, a donut chart, a gauge, a sparkline, a candlestick chart, a radar chart, a funnel, and an activity heatmap — all built in plain HTML, CSS and SVG.</p>
+
+<p>Each one comes with <strong>how the effect actually works</strong>, <strong>when to reach for it</strong>, and a quick tip for customising or keeping it readable. Charting libraries solve real problems — pan, zoom, huge datasets — but for a single dashboard widget or a landing-page stat, they're often overkill. These snippets get you 90% of the visual polish for 0% of the bundle size.</p>
+
+<p>Every snippet below is a <strong>live, interactive preview</strong> — hover it, resize it, try it right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+
+<h2>Do you actually need a charting library?</h2>
+
+<p>Reach for D3, Chart.js or Recharts when you need real interactivity at scale — zooming into ten thousand data points, live-streaming updates, or a dozen chart types driven by one config. Reach for a hand-built snippet instead when any of these are true:</p>
+
+<ul>
+<li><strong>The dataset is small and mostly static</strong> — a handful of bars, one gauge value, a week of activity. No library overhead is justified for that.</li>
+<li><strong>Bundle size matters</strong> — a marketing page or landing hero shouldn't ship a charting dependency just to show one stat visually.</li>
+<li><strong>You want full styling control</strong> — matching a chart's exact colours, radii and fonts to a design system is often faster in raw SVG/CSS than fighting a library's theming API.</li>
+<li><strong>Accessibility is a priority</strong> — a hand-built chart can expose real text values in the DOM (for screen readers and copy-paste) in a way canvas-based libraries often can't.</li>
+</ul>
+
+<p>Keep that trade-off in mind as you scroll — every snippet below is production-ready for exactly these cases.</p>
+
+<h2>1. Bar Chart</h2>
+
+<p>A clean, animated bar chart with hover tooltips and value labels — the single most common chart on the web, built without a single dependency.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bar-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bar Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the bars are SVG rects drawn inside a <code>viewBox="0 0 540 240"</code> with <code>preserveAspectRatio</code> set, so widths and gaps are expressed as percentages of that coordinate space rather than pixels — the chart stays sharp at 300px or 900px wide with no <code>ResizeObserver</code> needed. Each bar's height and y-position are computed from the data value against the dataset's max, then grown in with a <code>requestAnimationFrame</code> loop using an ease-out cubic curve rather than a plain CSS transition.</p>
+
+<p><strong>Best for:</strong> dashboards, monthly reports, and any "compare N categories" widget. <strong>Tip:</strong> keep the bar count under 10–12 on mobile — past that, labels start colliding and a horizontal bar chart reads better.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bar-chart/">Bar Chart</a></p>
+
+<h2>2. Donut Chart</h2>
+
+<p>A segmented donut chart with a centred total, animated segment reveal, and a matching legend — the classic "share of total" visual for revenue, storage, or traffic breakdowns.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/donut-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Donut Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each segment is an SVG <code>&lt;circle&gt;</code> with a <code>stroke-dasharray</code> equal to its share of the circle's circumference and a <code>stroke-dashoffset</code> that positions it after the previous segments — the same trick behind every SVG progress ring, just stacked. Animating <code>stroke-dashoffset</code> on load produces the "sweeping in" reveal.</p>
+
+<p><strong>Best for:</strong> "storage used", budget breakdowns, traffic-by-source widgets — anywhere a whole splits into a few named parts. <strong>Tip:</strong> cap it at five or six segments; beyond that, thin slivers become unreadable and a bar chart communicates the same data more clearly.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/donut-chart/">Donut Chart</a></p>
+
+<h2>3. Gauge Chart</h2>
+
+<p>A semi-circular gauge with a needle that sweeps to the current value on load, colour-banded zones, and a large centred number — the dial you'd expect on a speedometer or a health-score widget.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/gauge-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Gauge Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the arc uses the same SVG <code>stroke-dasharray</code>/<code>stroke-dashoffset</code> technique as the donut chart, but constrained to a 180° sweep instead of a full circle. The needle is an SVG line inside a group with <code>transform-origin</code> pinned at the arc's centre; JavaScript just sets its rotation angle as a percentage of the gauge's range via <code>transform: rotate()</code>, and a CSS <code>transition</code> on that property handles the smooth sweep — no animation loop involved.</p>
+
+<p><strong>Best for:</strong> credit scores, performance scores, speed or capacity indicators — any single value that's more meaningful against a labelled range than as a bare number. <strong>Tip:</strong> label the colour zones (e.g. "poor / fair / good") directly on the arc so the gauge is legible without a legend.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/gauge-chart/">Gauge Chart</a></p>
+
+<h2>4. Sparkline Chart</h2>
+
+<p>A tiny inline trend line with no axes or labels — the chart that fits inside a table cell or a stat card to answer "is this going up or down" in a glance.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/sparkline-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sparkline Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each sparkline is drawn on a small <code>&lt;canvas&gt;</code> rather than SVG — the data points are normalised against the series' min/max range into pixel coordinates, then joined with <code>bezierCurveTo</code> for a smoothed line instead of straight segments, with a soft gradient fill traced underneath down to the baseline. No axes, ticks or gridlines are drawn at all, which is what keeps it small enough to sit inline with text.</p>
+
+<p><strong>Best for:</strong> stat cards, table rows, and anywhere you need "trend at a glance" without spending real layout space on a full chart. <strong>Tip:</strong> pair it with a single end-point dot and a +/- percentage label — the sparkline shows shape, the label gives the number people actually scan for.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/sparkline-chart/">Sparkline Chart</a></p>
+
+<h2>5. Candlestick Chart</h2>
+
+<p>An open/high/low/close candlestick chart with green and red candles and a hoverable price tooltip — the exact chart type every trading and finance dashboard needs.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/candlestick-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Candlestick Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each candle is two stacked elements — a thin "wick" line spanning the high-to-low range and a wider "body" spanning the open-to-close range — both positioned and sized as percentages of the chart's overall price range. The body's colour flips between up and down states depending on whether close is above or below open.</p>
+
+<p><strong>Best for:</strong> stock, crypto and forex dashboards where OHLC data matters more than a simple trend line. <strong>Tip:</strong> don't try to cram more than 30–40 candles into a narrow widget — candlesticks need horizontal breathing room to stay readable, unlike a line chart.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/candlestick-chart/">Candlestick Chart</a></p>
+
+<h2>6. Radar Chart</h2>
+
+<p>A multi-axis radar (spider) chart comparing several metrics at once inside a polygon shape — perfect for skill breakdowns, product comparisons, or review scorecards.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/radar-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Radar Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each metric gets its own axis radiating from a shared centre point, spaced evenly around 360° using basic trigonometry (<code>sin</code>/<code>cos</code> of each axis's angle). Every data value is plotted along its axis as a distance from centre, and the points are joined into a single SVG <code>&lt;polygon&gt;</code> that fills with a translucent colour.</p>
+
+<p><strong>Best for:</strong> comparing 4–8 weighted metrics at once — skill trees, product feature comparisons, review breakdowns. <strong>Tip:</strong> overlaying two polygons (e.g. "you" vs. "average") on the same axes is where a radar chart earns its keep — a single polygon alone is often less clear than a bar chart.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/radar-chart/">Radar Chart</a></p>
+
+<h2>7. Funnel Chart</h2>
+
+<p>A tapering funnel chart showing drop-off between stages, with each segment's conversion percentage labelled — the standard way to visualise a signup or checkout flow.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/funnel-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Funnel Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each stage is a plain centred bar, not an SVG shape — its width is set via a <code>--w</code> CSS custom property calculated as a percentage of the top stage's value, then centred with <code>margin: 0 auto</code>. Because every bar is narrower than the one before it and all are centre-aligned, the stack naturally forms the symmetric tapering funnel silhouette with no <code>clip-path</code> or polygon math required.</p>
+
+<p><strong>Best for:</strong> signup flows, checkout funnels, sales pipelines — anywhere a fixed sequence of steps loses users along the way. <strong>Tip:</strong> label both the raw count and the percentage of the previous stage on each segment; percentage-of-total alone hides which specific step is actually leaking users.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/funnel-chart/">Funnel Chart</a></p>
+
+<h2>8. Activity Heatmap</h2>
+
+<p>A GitHub-style contribution heatmap — a grid of coloured squares where intensity maps to activity level, with a hover tooltip showing the exact date and count.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/activity-heatmap/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Activity Heatmap — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the grid is a CSS Grid of small squares, one per day, generated in JS from a date range. Each square's background colour is picked from a fixed intensity scale by bucketing that day's value (e.g. none / low / medium / high), so the whole grid renders as flat divs with zero canvas or SVG involved — just colour lookups.</p>
+
+<p><strong>Best for:</strong> contribution graphs, habit trackers, login-activity or usage-frequency widgets. <strong>Tip:</strong> always pair colour intensity with a tooltip showing the real number — colour alone can't communicate exact values, and colour-blind users need the fallback.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/activity-heatmap/">Activity Heatmap</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<p>Every snippet is framework-agnostic, so the workflow is the same wherever you're building:</p>
+
+<ol>
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs.</li>
+<li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS (if any) before your closing <code>&lt;/body&gt;</code> tag.</li>
+<li>Prefer a component? Use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> and wire it up to your own data.</li>
+<li>Swap the sample values for your real dataset and adjust the colour scale variables at the top of each snippet to match your brand.</li>
+</ol>
+
+<h2>Keep your charts honest and accessible</h2>
+
+<p>A chart that looks good but misleads or excludes users isn't doing its job. Three rules cover almost every case:</p>
+
+<ul>
+<li>Never truncate a bar or gauge axis to exaggerate a difference — start value axes at zero unless you have a specific, clearly labelled reason not to.</li>
+<li>Expose the underlying numbers in the DOM (a <code>title</code> attribute, a visually-hidden table, or a tooltip) so screen readers and copy-paste both work, not just the visual shape.</li>
+<li>Don't rely on colour alone to separate categories — pair colour with labels, patterns, or position so colour-blind users aren't reading a different chart than everyone else.</li>
+</ul>
+
+<h2>Final Thought</h2>
+
+<p>These are just 8 of dozens of chart types you can copy for free — no login, no sign-up, no dependency to install. The underlying techniques — proportional SVG stroke offsets, canvas curve drawing, CSS custom-property scaling, grid-based colour buckets, and simple trigonometry for radial layouts — are what every charting library is doing under the hood anyway. Once you've built a few of these by hand, reaching for a full library becomes a deliberate choice instead of a default.</p>
+
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/charts/">FWD Tools UI Snippets — Charts</a> — it's free and runs entirely in your browser.</p>

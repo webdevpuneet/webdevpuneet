@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Stable id Key Fixes It, Side by Side">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Same insert, side by side: index key vs id key</h1>
+    <p class="hint">Type into both left and right inputs, then click "Insert at top (both)" once. Compare where your typed text ends up.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px 28px; }
+  .frame { width: 100%; max-width: 480px; background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 16px; text-align: center; }
+  .cols { display: flex; gap: 10px; }
+  .col { flex: 1; min-width: 0; }
+  .colTitle { font: 800 11px ui-monospace, monospace; margin-bottom: 6px; }
+  .colTitle.bad { color: var(--red); }
+  .colTitle.good { color: var(--green); }
+  .item { display: flex; flex-direction: column; gap: 4px; padding: 6px; border: 1.5px solid var(--line); border-radius: 8px; margin-bottom: 6px; background: #f9f9fb; }
+  .item .label { font: 700 11px ui-monospace, monospace; text-align: left; color: var(--accent); }
+  .item input { font: 600 11px ui-monospace, monospace; padding: 5px 6px; border-radius: 6px; border: 1.5px solid var(--line); width: 100%; box-sizing: border-box; }
+  .row { margin-bottom: 10px; }
+  .btn { padding: 8px 12px; border-radius: 8px; border: none; background: var(--accent); color: #fff; font: 700 12.5px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { background: #4f52d6; }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; text-align: left; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+
+  var nextId = 100;
+
+  function Row(props) {
+    return e('div', { className: 'item' },
+      e('span', { className: 'label' }, props.item.label),
+      e('input', { defaultValue: '', placeholder: 'type…' })
+    );
+  }
+
+  function Demo() {
+    var initial = [
+      { id: 1, label: 'Item A' },
+      { id: 2, label: 'Item B' },
+      { id: 3, label: 'Item C' }
+    ];
+    var badState = useState(initial);
+    var badItems = badState[0];
+    var setBadItems = badState[1];
+
+    var goodState = useState(initial.slice());
+    var goodItems = goodState[0];
+    var setGoodItems = goodState[1];
+
+    function insertBoth() {
+      var fresh = { id: nextId++, label: 'NEW' };
+      setBadItems([fresh].concat(badItems));
+      setGoodItems([Object.assign({}, fresh)].concat(goodItems));
+    }
+
+    return e('div', { className: 'frame' },
+      e('div', { className: 'row' },
+        e('button', { className: 'btn', onClick: insertBoth }, 'Insert at top (both)')
+      ),
+      e('div', { className: 'cols' },
+        e('div', { className: 'col' },
+          e('div', { className: 'colTitle bad' }, 'key={index}'),
+          badItems.map(function (item, i) { return e(Row, { key: i, item: item }); })
+        ),
+        e('div', { className: 'col' },
+          e('div', { className: 'colTitle good' }, 'key={item.id}'),
+          goodItems.map(function (item) { return e(Row, { key: item.id, item: item }); })
+        )
+      ),
+      e('p', { className: 'note' }, 'Same data, same insert, same moment — the only difference is what each list passes as key. On the left, index 0 still means "the top row" after the insert, so your typed text stays attached to the position and now sits next to the wrong label. On the right, each row\'s key travels with its id, so React moves the DOM nodes for A/B/C down as a unit and mounts one genuinely new input for NEW — your typed text stays exactly where you typed it.')
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

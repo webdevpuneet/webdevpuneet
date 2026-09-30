@@ -1,0 +1,208 @@
+<h1>useMemo vs useCallback: What They Actually Do (8 Re-Render Demos)</h1>
+
+<p>Most explanations of <code>useMemo</code> and <code>useCallback</code> stop at "one caches a value, the other caches a function," which is true and also not nearly enough to use them correctly. The interesting part is <em>why</em> that distinction matters — how React actually compares dependencies, what "referential equality" means for an object literal versus a number, and why wrapping something in either hook can make performance worse instead of better if you reach for it out of habit. Both hooks are thin wrappers around the same idea, and most of the bugs people blame on them are really just React.memo's shallow comparison, or <code>Object.is</code>, doing exactly what they were always going to do.</p>
+
+<p>The 8 demos below are all live and interactive, and every one that has a "before/after" split keeps both sides running next to each other so you can watch the actual difference in render counts, not just read about it. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> — FWD Tools' free in-browser editor. If you'd rather build one of these from a blank slate, the <a href="https://fwdtools.com/react-playground/">React Playground</a> is FWD Tools' full in-browser React sandbox, no install or build step required for either.</p>
+
+<h2>The one-sentence rule</h2>
+
+<pre><code class="language-js">var total = useMemo(function () {
+  return expensiveCalc(a, b);   // only re-runs when a or b actually changed
+}, [a, b]);
+
+var handleClick = useCallback(function () {
+  doSomething(a);               // same function REFERENCE across renders
+}, [a]);                        // as long as `a` hasn't changed</code></pre>
+
+<p><code>useMemo(fn, deps)</code> calls <code>fn</code> during render and caches its return value; on the next render, if every entry in <code>deps</code> is still <code>Object.is</code>-equal to last time, React hands back the cached value instead of calling <code>fn</code> again. <code>useCallback(fn, deps)</code> is the exact same mechanism applied to the function itself — it's <code>useMemo(function () { return fn; }, deps)</code>, nothing more. Neither hook makes anything happen that wouldn't happen anyway; both are pure "skip the work if nothing relevant changed" checks, and that check has its own small cost. The 8 demos below cover the ways that check pays off, the ways it silently does nothing, and the ways getting the dependency array wrong quietly breaks correctness rather than just performance.</p>
+
+<h2>1. useMemo Skips a Recalculation vs Redoing It Every Render</h2>
+
+<p>Click "Unrelated tick" a few times first, then click "Add 500 items." Watch the calculation counter on each side.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/18/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="useMemo Skips a Recalculation vs Redoing It Every Render Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// BROKEN: recalculates on every render, tick included
+var sum = expensiveSum(items);
+
+// FIXED: only recalculates when `items` itself changes
+var sum = useMemo(function () {
+  return expensiveSum(items);
+}, [items]);</code></pre>
+
+<p>Without <code>useMemo</code>, the calculation is just a line of code in the render body, and React re-runs the entire component function on every render regardless of what triggered it — an unrelated state update, a parent re-rendering, anything. That means an expensive calculation pays its full cost every single time, even when its actual inputs are unchanged. <code>useMemo</code> intercepts that: React keeps the last computed value and the dependency array it was computed from, and on each subsequent render it compares the new dependency array to the old one entry-by-entry with <code>Object.is</code>. If nothing differs, the cached value is returned and the function passed to <code>useMemo</code> never runs at all — not even to recompute the same answer. In the demo, clicking the unrelated tick button re-renders the component, but the item list hasn't changed, so the memoized side's calculation counter simply doesn't move; the unmemoized side's counter climbs on every click regardless.</p>
+
+<p><strong>Best for:</strong> calculations that are measurably expensive (sorting or filtering large arrays, heavy math, building derived data structures) and that don't need to change on every render. <strong>Tip:</strong> "expensive" is relative to your actual frame budget — profile before reaching for this, because the dependency-array check itself isn't free, as demo #4 below shows directly.</p>
+
+<h2>2. A Plain Function Prop Breaks React.memo</h2>
+
+<p>Click "Unrelated tick" a few times. Neither child's actual content changes — watch which one re-renders anyway.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/18/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A Plain Function Prop Breaks React.memo Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// BROKEN: a new function reference every render
+var Child = React.memo(ChildImpl);
+function handleClick() { doThing(); }
+e(Child, { onAction: handleClick });
+
+// FIXED: same function reference across renders
+var handleClick = useCallback(function () { doThing(); }, []);
+e(Child, { onAction: handleClick });</code></pre>
+
+<p><code>React.memo</code> wraps a component so React can skip re-rendering it when its props are shallowly equal to last time — each prop compared individually with <code>Object.is</code>, the same comparison the dependency array uses. A function declared inside a component body is a brand-new object on every render, even if its code is byte-for-byte identical to the previous one; two functions are never <code>===</code> to each other just because they do the same thing. Pass that fresh function as a prop, and <code>React.memo</code>'s shallow compare sees a prop that "changed," so it renders the child anyway — the memoization is defeated by a single unstable prop, regardless of how many other props are perfectly stable. <code>useCallback</code> fixes this the same way <code>useMemo</code> fixes an unstable object: it hands back the identical function reference across renders where the dependency array hasn't changed, so the shallow compare actually finds equality and <code>React.memo</code> gets to do its job.</p>
+
+<p><strong>Best for:</strong> any function passed as a prop to a component wrapped in <code>React.memo</code> — event handlers, callbacks, render props. <strong>Tip:</strong> <code>useCallback</code> alone accomplishes nothing if the receiving component isn't wrapped in <code>React.memo</code> (or doesn't otherwise rely on reference equality) — it stabilizes a reference, but nothing is checking that reference unless something downstream cares.</p>
+
+<h2>3. A Missing Dependency Serves a Stale Memoized Value</h2>
+
+<p>Click "+1 qty" a few times without touching price. Watch the total on each side — one of them stops updating.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/18/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A Missing Dependency Serves a Stale Memoized Value Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// BROKEN: reads qty, but qty isn't in the dependency array
+var total = useMemo(function () {
+  return price * qty;
+}, [price]);
+
+// FIXED: every value the calculation reads is listed
+var total = useMemo(function () {
+  return price * qty;
+}, [price, qty]);</code></pre>
+
+<p><code>useMemo</code> has no way to inspect what a function actually reads — it only knows to compare the dependency array you hand it. If the function body reads <code>qty</code> but <code>qty</code> isn't in that array, React has no idea that value matters, and it keeps returning the cached result from the last time an array entry it does know about (<code>price</code>) changed. This is functionally identical to <code>useEffect</code>'s missing-dependency bug — a stale closure — except instead of an effect doing the wrong thing at the wrong time, it's a value silently drifting out of sync with the UI that's showing it, without any error, warning, or crash. In the demo, incrementing quantity does nothing to the broken total until price is also touched, at which point the memo recalculates and briefly looks "caught up" using whatever quantity happens to be current at that moment — which is correct by coincidence, not by correctness.</p>
+
+<p><strong>Best for:</strong> catching a calculation that silently reads more state than its dependency array admits to — this is exactly what the ESLint <code>exhaustive-deps</code> rule checks for, and it applies to <code>useMemo</code> and <code>useCallback</code> identically to <code>useEffect</code>. <strong>Tip:</strong> if you find yourself wanting to leave a value out of the array on purpose "because it doesn't need to trigger a recompute," that's usually a sign the value belongs in a ref instead, not that the array should lie about it.</p>
+
+<h2>4. Memoizing a Cheap Calculation Buys You Nothing</h2>
+
+<p>Type in the box. The dependency changes on every keystroke, so both sides recalculate the same number of times.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/18/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Memoizing a Cheap Calculation Buys You Nothing Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// No useMemo -- just call it
+var shouted = shout(text);
+
+// useMemo'd -- but `text` changes on every keystroke,
+// so the dependency check never has anything to skip
+var shouted = useMemo(function () { return shout(text); }, [text]);</code></pre>
+
+<p><code>useMemo</code> only saves work when the dependency array is actually stable across some renders — when its comparison genuinely finds a match some of the time. If the calculation's only dependency changes on essentially every render (a text input bound to every keystroke is the clearest case), the comparison never succeeds, the cached branch never gets taken, and the calculation runs exactly as often as it would have without <code>useMemo</code> at all. Worse, it's not actually free: React still has to allocate space to store the previous dependency array and result, compare each array entry with <code>Object.is</code> on every render, and hold onto that memory for the component's lifetime. For a calculation as cheap as an uppercase transform, that bookkeeping is very likely more expensive than the calculation it's guarding — the memoization overhead exceeds the cost it was meant to avoid, which is the textbook shape of a premature optimization.</p>
+
+<p><strong>Best for:</strong> nothing, deliberately — this demo exists to show the failure mode of wrapping everything in <code>useMemo</code> reflexively. <strong>Tip:</strong> ask two questions before adding it: is the calculation itself actually expensive, and does its dependency array stay the same across a meaningful number of renders? If either answer is no, skip it.</p>
+
+<h2>5. useCallback Stabilizes a Function Inside useEffect's Deps</h2>
+
+<p>Click Start on each side and watch the effect-run count. One climbs on its own; the other runs once and stops.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/18/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="useCallback Stabilizes a Function Inside useEffect's Deps Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// BROKEN: fetchData is new every render, so this dep is always "different"
+function fetchData() { return getSomething(); }
+useEffect(function () { fetchData(); }, [fetchData]);
+
+// FIXED: same reference, so the effect only re-runs when it should
+var fetchData = useCallback(function () { return getSomething(); }, []);
+useEffect(function () { fetchData(); }, [fetchData]);</code></pre>
+
+<p>This is the useEffect classic — an infinite update loop — arriving from the function side instead of the object side. A function declared fresh inside a component is a new reference every render, exactly like an inline object literal; putting it directly into an effect's dependency array means the effect sees a "changed" dependency on every render it causes, and if that effect also updates state (directly, or via whatever <code>fetchData</code> does), the loop is complete: render creates a new function, effect sees it as different and re-runs, re-running updates state, updating state triggers a render, which creates another new function. <code>useCallback</code> breaks the cycle the same way <code>useMemo</code> breaks it for an object dependency — by returning the identical function reference across renders where its own dependencies haven't changed, so the effect's comparison finally finds a match and stops re-running. This demo caps the broken side at 40 runs so Forking it and removing <code>useCallback</code> can't freeze your tab.</p>
+
+<p><strong>Best for:</strong> any function defined inside a component that also appears in another hook's dependency array — <code>useEffect</code>, another <code>useMemo</code>, or a custom hook. <strong>Tip:</strong> this is the functional twin of demo #6 below — same underlying cause, same fix shape, different hook holding the reference.</p>
+
+<h2>6. An Unmemoized Object Wrecks a Downstream useMemo</h2>
+
+<p>Click "Unrelated tick" a few times, then try "Raise min price." Watch the filter-run count on each side.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/18/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="An Unmemoized Object Wrecks a Downstream useMemo Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// Parent hands the child a new object every render
+var options = { min: minPrice };
+
+// Child does its own memoized work, keyed on that object
+var filtered = useMemo(function () {
+  return items.filter(function (n) { return n >= options.min; });
+}, [options]);   // never stable unless the PARENT memoized `options`</code></pre>
+
+<p>Memoization composes across component boundaries, which means an unmemoized value at the top can defeat a correctly-written <code>useMemo</code> several components downstream. The child in this demo does everything right — it memoizes its own filtering work, keyed on the <code>options</code> object it receives as a prop. But if the parent builds that object as a fresh literal on every render, the child's dependency array is comparing a new object to a new object every time, and the comparison can never succeed, no matter how carefully the child itself is written. The fix has to happen at the source: the parent memoizing <code>options</code> with its own <code>useMemo</code>, keyed on the actual primitive value (<code>minPrice</code>) that determines its contents, is what gives the child something stable to compare against. This is also exactly why passing raw object or array literals as props to a memoized child is worth a second look, even when the child looks correctly optimized on its own.</p>
+
+<p><strong>Best for:</strong> any object, array, or function that's built in a parent and handed to a child that memoizes work based on it — the stability has to be established where the value is created, not where it's consumed. <strong>Tip:</strong> if you're debugging a memo that "should" be skipping work but isn't, check one level up the component tree before assuming the memo itself is wrong.</p>
+
+<h2>7. useMemo Caches a Value, useCallback Only Caches a Function</h2>
+
+<p>Click "Unrelated tick" a few times. Both sides display the same greeting — watch the compute counter on each.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/18/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="useMemo Caches a Value, useCallback Only Caches a Function Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// useMemo -- caches the RESULT of calling the function
+var greeting = useMemo(function () { return buildGreeting(name); }, [name]);
+
+// useCallback -- caches the FUNCTION, not its result
+var getGreeting = useCallback(function () { return buildGreeting(name); }, [name]);
+var greeting = getGreeting();   // still recomputes on every render this runs</code></pre>
+
+<p>Because <code>useCallback(fn, deps)</code> is really just <code>useMemo(function () { return fn; }, deps)</code>, what it caches is the function object itself, not whatever that function would return if you called it. Calling <code>getGreeting()</code> executes the function body immediately, every time you call it — the stable reference has nothing to do with how many times the body has run, only with whether the reference handed to whoever's holding it changed. <code>useMemo</code>, by contrast, calls the function itself internally and caches the return value, so the caller never re-executes anything on a render where the dependency array matched. Reaching for <code>useCallback</code> to "cache a value" is a common mix-up specifically because both hooks look nearly identical at the call site — the difference only becomes visible once you notice one of them requires an extra pair of parentheses to actually use, and that those parentheses re-run the whole calculation.</p>
+
+<p><strong>Best for:</strong> making the useMemo/useCallback distinction concrete rather than definitional — reach for <code>useMemo</code> when you want a cached value, <code>useCallback</code> when you want a cached function reference to hand to something else (an event handler, a dependency array, a memoized child). <strong>Tip:</strong> if you're about to call the thing <code>useCallback</code> gave you and use its return value directly, you almost certainly wanted <code>useMemo</code>.</p>
+
+<h2>8. useMemo Only Remembers Last Render, Not History</h2>
+
+<p>Click 3, then 7, then 3 again. Watch the recompute count — one side recomputes for the repeat, the other doesn't.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/18/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="useMemo Only Remembers Last Render, Not History Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// useMemo only compares against the PREVIOUS render's deps -- one slot
+var result = useMemo(function () { return slowSquare(n); }, [n]);
+
+// A real cache remembers every key it has ever seen
+if (!(n in cacheRef.current)) cacheRef.current[n] = slowSquare(n);
+var result = cacheRef.current[n];</code></pre>
+
+<p><code>useMemo</code> is often described loosely as "caching," which invites the assumption that once a value has been computed for a given input, it stays cached for that input forever. It doesn't — React holds exactly one cached result at a time, tied to exactly one previous dependency array, and the comparison is only ever against the immediately preceding render. Set <code>n</code> to 3, then 7, then back to 3: the third render's dependency array (<code>[3]</code>) is compared only against the second render's (<code>[7]</code>), which differs, so the function runs again — even though 3 was computed just one step earlier. A genuine cache, keyed by every value it has ever seen (the ref-based object on the right), remembers that earlier result and returns it without recomputation. This is the clearest possible proof that <code>useMemo</code> is a last-render optimization, not a memoization table — the word "memo" describes the mechanism, not a promise about how long anything is remembered.</p>
+
+<p><strong>Best for:</strong> correcting the mental model before it causes a real bug — code that assumes a memoized value is safe to treat as permanently cached (for cache invalidation, deduplication, or "compute once" logic) will be wrong the moment inputs oscillate. <strong>Tip:</strong> if you actually need a value cached across many distinct inputs over a component's lifetime, that's a ref holding a real lookup structure (as in the fixed side here), not <code>useMemo</code>.</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Assuming either hook prevents a calculation from running instead of just sometimes skipping it.</strong> Demos #1 and #4 are the same mechanism with opposite outcomes — it only pays off when the dependency array is actually stable across renders.</li>
+<li><strong>Wrapping a callback in useCallback without wrapping the component that receives it in React.memo.</strong> Demo #2's fix does nothing if nothing downstream is checking reference equality in the first place.</li>
+<li><strong>Leaving a value out of the dependency array because "it doesn't need to trigger a recompute."</strong> Demo #3 shows the actual result — not a missed update, but a wrong one that looks correct by coincidence.</li>
+<li><strong>Memoizing a value one level too late in the component tree.</strong> Demo #6 shows a correctly-written child memo defeated entirely by an unmemoized object one level up.</li>
+<li><strong>Treating useMemo's cached value as a permanent, key-based cache.</strong> Demo #8 is the direct proof — it only ever remembers the immediately previous render, nothing further back.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>Should I wrap every function I pass as a prop in useCallback?</h3>
+<p>No — only when the function is passed to something that actually checks reference equality, most commonly a child wrapped in <code>React.memo</code> or another hook's dependency array (as in demos #2 and #5). If the receiving component isn't memoized and nothing downstream compares the reference, <code>useCallback</code> adds its own small overhead for zero benefit, the same overengineering demo #4 shows for <code>useMemo</code>.</p>
+
+<h3>Does useMemo guarantee the calculation won't run twice?</h3>
+<p>No. The React docs are explicit that <code>useMemo</code> is a performance optimization, not a semantic guarantee — React may discard a cached value and recalculate in some circumstances (for example, to free memory for offscreen components), so code should never depend on <code>useMemo</code> for correctness the way you'd depend on a ref or actual state. Every demo above that relies on stability for correctness (like #2, #5, and #6) is really relying on the hook's typical behavior, and would still need to be correct even if a recompute happened more often than expected.</p>
+
+<h3>What does React.memo's "shallow comparison" actually mean?</h3>
+<p><code>React.memo</code> compares each prop individually to its previous value using <code>Object.is</code> — the same check used for dependency arrays. Primitives (numbers, strings, booleans) compare by value, so <code>5 === 5</code> is true regardless of how the 5 was produced. Objects, arrays, and functions compare by reference, so two objects with identical contents are never equal unless they're the literal same object in memory — which is exactly the gap demo #2 and demo #6 both exploit and then close.</p>
+
+<h3>Is useMemo the same thing as React Compiler's automatic memoization?</h3>
+<p>Conceptually related, mechanically different. React Compiler (still rolling out as of this writing) analyzes your component code at build time and inserts memoization automatically, aiming to make manual <code>useMemo</code>/<code>useCallback</code> calls unnecessary in the components it covers. Every demo in this post uses the hooks manually and explicitly, which is still the only option outside a React Compiler-enabled build, and understanding what the hooks actually do is exactly what makes it possible to tell whether an automated tool got it right.</p>
+
+<h3>Why does the demo cap the broken effect at 40 runs instead of letting it run free?</h3>
+<p>Demo #5's broken side is a genuine infinite loop — without a cap, it would re-render as fast as the browser can manage, which would pin a tab at high CPU and make the rest of the page unresponsive. The cap exists purely so you can Fork the demo, intentionally remove the fix, and see the failure mode safely; the underlying bug is exactly as unbounded in real code as it looks here.</p>
+
+<p>The fastest way to internalize the difference between these two hooks is to Fork &amp; Edit demo #7 — the side-by-side one — and add a third column that wraps the calculation in neither hook at all. Watch its compute counter behave identically to the <code>useCallback</code> column, not the <code>useMemo</code> one, and the distinction stops being something you have to remember. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop into a real project.</p>
+
+<p><strong>Recommended next step:</strong> open the <a href="https://fwdtools.com/react-playground/">React Playground</a> — FWD Tools' full in-browser React sandbox — and rebuild demo #6's parent-to-child memoization chain from scratch with your own data. Typing it out yourself, not just reading it, is what makes the pattern stick. For more tutorials like this one, browse the <a href="https://www.webdevpuneet.com/search/label/React">React</a> label on the blog.</p>

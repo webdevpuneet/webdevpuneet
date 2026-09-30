@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Feature-detecting scroll-driven animation">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Feature-detecting scroll-driven animation</h1>
+    <p class="hint">This page checks @supports (animation-timeline: scroll()) in CSS and mirrors the same check live in JS below it.</p>
+  </header>
+  <div class="spacer">Scroll ↓</div>
+  <div class="box" id="box">
+    <p>Progressive enhancement</p>
+  </div>
+  <p class="note" id="note">Checking...</p>
+  <div class="spacer end"></div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 17px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .spacer { height: 220px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 260px; }
+
+  .box {
+    max-width: 320px;
+    margin: 0 auto;
+    padding: 26px;
+    text-align: center;
+    border-radius: 12px;
+    background: #fdf2f2;
+    border: 2px solid #f3c9c9;
+    color: #9f1239;
+    font: 700 13px system-ui, sans-serif;
+  }
+
+  .box p { margin: 0; }
+
+  /* This is the demo: the CSS itself asks "do I understand scroll-driven
+     timelines?" before relying on one. */
+  @supports (animation-timeline: scroll()) {
+    .box {
+      background: #eef0ff;
+      border-color: #6366f1;
+      color: #6366f1;
+      animation: reveal linear both;
+      animation-timeline: scroll();
+      animation-range: cover 20% cover 60%;
+    }
+  }
+
+  @keyframes reveal {
+    from { opacity: 0.15; transform: scale(0.9); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .note { margin: 16px auto 0; max-width: 46em; font-size: 12.5px; text-align: center; line-height: 1.6; }
+  .note.yes { color: #16a34a; font-weight: 700; }
+  .note.no { color: #dc2626; font-weight: 700; }
+</script>
+
+<script type="text/plain" id="js">
+  var note = document.getElementById('note');
+  var supported = CSS.supports('animation-timeline', 'scroll()');
+
+  note.textContent = supported
+    ? 'animation-timeline: scroll() -> true. This browser runs the scroll-driven @supports block above (indigo box).'
+    : 'animation-timeline: scroll() -> false. The @supports block was skipped, so the box stays in its static fallback state (pink box) -- always fully visible, never stuck mid-animation.';
+  note.classList.add(supported ? 'yes' : 'no');
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

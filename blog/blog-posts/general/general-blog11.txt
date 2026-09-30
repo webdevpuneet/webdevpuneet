@@ -1,0 +1,220 @@
+<h1>How to Center Anything in CSS: 10 Modern Techniques</h1>
+
+<p>"How do I center a div?" is one of the most-searched CSS questions there is, and it's a running joke in web development for a reason: CSS never had one single "center this" command. Instead it grew several different tools over the years &mdash; some for centering text, some for centering a whole block, some for centering something whose size you don't even know yet &mdash; and picking the wrong one is exactly why centering has a reputation for being harder than it should be. The good news: once you know which tool matches which situation, centering anything becomes automatic. This post walks through ten real techniques, from the one-liner you'll use constantly to the legacy trick you'll only need once in a while, so you always reach for the right one.</p>
+
+<p>Every demo below is <strong>live and editable</strong> right here in the article &mdash; nothing to install. Each one also has a <strong>Fork &amp; Edit</strong> button that opens the exact code, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/" target="_blank" rel="noopener">My Code</a> &mdash; FWD Tools' free in-browser editor. Change a value, hit save, and watch what breaks (or doesn't) &mdash; that's the fastest way to actually understand centering, faster than reading about it.</p>
+
+<p>New to CSS in general? The <a href="https://fwdtools.com/css-playground/" target="_blank" rel="noopener">CSS Playground</a> is a free, click-based, in-browser course that runs beginner to pro across 53 lessons in 18 chapters &mdash; including a dedicated Flexbox chapter and a Grid chapter that cover everything this post uses, one guided step at a time.</p>
+
+<h2>Why "just center it" was never that simple</h2>
+
+<p>The core confusion is that CSS treats three different things as three different problems: centering <em>text or inline content</em> inside a box, centering a <em>block-level box</em> itself inside its parent, and centering <em>a group of items</em> along one or two axes at once. A property that solves one of those does nothing for the other two &mdash; <code>text-align: center</code>, for instance, is a complete no-op on the block-level div itself, which is the single most common centering mistake beginners make. The ten techniques below are grouped roughly in the order you'll actually reach for them, starting with the simplest case and building up to full two-axis centering and the trickier "I don't know this element's size" scenarios.</p>
+
+<h2>1. text-align: center</h2>
+
+<p>The simplest one, and the one people misuse most: this centers <em>inline content</em> &mdash; text, inline images, inline-block elements &mdash; horizontally inside its containing block. It does nothing to the block itself.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/10/1.html" style="width:100%;height:340px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="text-align center Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.box { text-align: center; }</code></pre>
+
+<p><code>text-align</code> is inherited and only ever affects how inline-level content lines up inside whatever box it's set on &mdash; text, an <code>&lt;img&gt;</code>, a <code>&lt;button&gt;</code> or any element with <code>display: inline</code>/<code>inline-block</code>. It has zero effect on the block box carrying the property itself; that box still sits exactly where normal block layout puts it. This is the single most common beginner mix-up: setting <code>text-align: center</code> on a div and expecting the div to move.</p>
+
+<p><strong>Best for:</strong> centering text, an inline image, or an inline-block button inside a card, paragraph, or heading. <strong>Tip:</strong> if you set this expecting a whole block-level div to move and nothing happens, that's not a bug &mdash; you want technique #2 or #3 below instead.</p>
+
+<h2>2. margin: 0 auto</h2>
+
+<p>The classic way to horizontally center a block-level box that already has an explicit width. Still completely valid CSS, and still everywhere in real codebases.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/10/2.html" style="width:100%;height:220px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="margin 0 auto Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.box { width: 260px; margin: 0 auto; }</code></pre>
+
+<p>This only works because the box has a <code>width</code> narrower than its parent &mdash; that's what leaves leftover horizontal space for <code>auto</code> margins to split evenly between the left and right sides. Without an explicit (or constrained) width, a block-level element already stretches to fill its parent's full width, leaving no leftover space to distribute, so <code>margin: 0 auto</code> would visibly do nothing. It's also horizontal-only: the same trick does not vertically center a block, because normal block layout doesn't give <code>auto</code> top/bottom margins the same "split remaining space" behavior.</p>
+
+<p><strong>Best for:</strong> centering a fixed-width or max-width content column, card, or modal horizontally on the page &mdash; the classic "centered container" layout. <strong>Tip:</strong> pair it with <code>max-width</code> instead of a fixed <code>width</code> for a column that centers itself and also shrinks gracefully on narrow screens.</p>
+
+<h2>3. Flexbox centering</h2>
+
+<p>The modern default for centering on <em>both</em> axes at once, and the technique worth reaching for first in most new code.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/10/3.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Flexbox Centering Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.parent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}</code></pre>
+
+<p>Both properties live on the <em>parent</em>, not the centered child &mdash; a mix-up that trips up almost everyone the first time. <code>justify-content</code> aligns children along flexbox's main axis (horizontal by default), and <code>align-items</code> aligns them along the cross axis (vertical by default) &mdash; together they land any number of children dead-center on both axes, regardless of whether their size is known ahead of time. Add <code>height: 100vh</code> (or any explicit height) to the parent and this centers content in the full viewport, which is exactly how most "centered loading spinner" or "centered hero" layouts are built today.</p>
+
+<p><strong>Best for:</strong> centering one element (or a row of several) inside a container of any size, especially when you don't know the content's dimensions ahead of time. <strong>Tip:</strong> if you only need to center on one axis, you only need one of the two properties &mdash; don't add both out of habit if you only want horizontal or only vertical centering.</p>
+
+<h2>4. CSS Grid place-items: center</h2>
+
+<p>Grid's one-line equivalent of flexbox's two properties &mdash; genuinely just this one declaration.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/10/4.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Grid place-items center Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.parent {
+  display: grid;
+  place-items: center;
+}</code></pre>
+
+<p><code>place-items</code> is shorthand for <code>align-items</code> (vertical) plus <code>justify-items</code> (horizontal) in one property &mdash; Grid's version of the same two axes flexbox needs two separate properties for. For the single-child centering case that demo #3 shows, this is the shortest correct answer in all of CSS. Grid and flexbox overlap heavily for this one job; picking between them mostly comes down to whether the rest of that layout is already a grid or already a flex container.</p>
+
+<p><strong>Best for:</strong> centering a single child (or every item in a multi-item grid, each within its own cell) with the least code possible. <strong>Tip:</strong> <code>place-items: center</code> centers content <em>within</em> each grid track/cell &mdash; if the grid's own tracks are smaller than the container and you want the whole grid centered as a block, that's <code>place-content</code>, demo #5 next.</p>
+
+<h2>5. CSS Grid place-content: center</h2>
+
+<p>Easy to confuse with #4, and genuinely solving a different problem: this centers the grid's own tracks as a block, not just content within them.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/10/5.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Grid place-content center Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 70px);
+  place-content: center;
+}</code></pre>
+
+<p>When a grid's tracks (its rows and columns) add up to less width and height than the grid container actually has &mdash; because the columns have a fixed size, as in this demo's <code>repeat(2, 70px)</code> &mdash; there's leftover space around the whole grid, not inside each cell. <code>place-items</code> has no effect on that leftover space; <code>place-content</code> is what centers the tracks themselves within it. The distinction only matters when the grid's total size is smaller than its container; if the grid stretches to fill the container completely, the two properties look identical because there's no leftover space left for either one to act on.</p>
+
+<p><strong>Best for:</strong> centering a fixed-size grid of items (a small photo grid, an icon grid, a calendar) inside a larger, differently-sized container. <strong>Tip:</strong> if changing <code>place-items</code> to <code>place-content</code> (or back) doesn't visibly change anything in your own layout, your grid's tracks are already exactly filling the container &mdash; there's no leftover space for either property to distribute.</p>
+
+<h2>6. Absolute positioning + transform</h2>
+
+<p>The reach-for-it technique when an element needs to sit centered over something else &mdash; a modal, a tooltip, an overlay badge &mdash; independent of normal document flow.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/10/6.html" style="width:100%;height:340px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Absolute Transform Centering Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.parent { position: relative; }
+.box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}</code></pre>
+
+<p><code>top: 50%; left: 50%;</code> alone only moves the box's top-left <em>corner</em> to the parent's center &mdash; the box itself still hangs off to the bottom-right, not centered at all. <code>transform: translate(-50%, -50%)</code> is the fix: it shifts the box back by exactly half of <em>its own</em> width and height, which is what actually lands its center on that point. This is the one technique on this list that doesn't need to know the box's size in advance, since the percentage in <code>translate()</code> is relative to the element itself, not its parent. The parent needs <code>position: relative</code> (or any non-static position) so the absolutely positioned child measures its percentages against that parent, not the whole page.</p>
+
+<p><strong>Best for:</strong> centering an overlay, modal, or badge on top of other content, especially when the centered element's exact size isn't fixed. <strong>Tip:</strong> forgetting <code>position: relative</code> on the parent is the most common bug with this technique &mdash; the box will still center itself, just against the nearest positioned ancestor further up the page (often <code>&lt;body&gt;</code>), which usually isn't what you meant.</p>
+
+<h2>7. Absolute positioning + inset + margin: auto</h2>
+
+<p>The same "centered overlay" goal as #6, but for when you already know the exact size &mdash; no <code>transform</code> required.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/10/7.html" style="width:100%;height:340px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Absolute Inset Margin Auto Centering Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.parent { position: relative; }
+.box {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 160px;
+  height: 70px;
+}</code></pre>
+
+<p><code>inset: 0</code> is shorthand for pinning all four sides (<code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>) to <code>0</code> &mdash; which, combined with an explicit smaller <code>width</code> and <code>height</code>, leaves equal leftover space on every side. <code>margin: auto</code> then splits that leftover space evenly in all four directions, the same "auto absorbs remaining space" behavior technique #2 uses, just applied on all four sides at once instead of only left/right. Because this relies on a fixed size rather than a transform, it's arguably more predictable when you already know the box's dimensions &mdash; but it can't center something whose size isn't set, which is exactly where #6's transform approach wins instead.</p>
+
+<p><strong>Best for:</strong> centering a fixed-size overlay, dialog, or panel when you already know its exact width and height. <strong>Tip:</strong> if you omit either <code>width</code> or <code>height</code>, the box stretches to fill the full <code>inset: 0</code> box instead of centering at a smaller size &mdash; both dimensions need to be explicitly constrained for this one to work.</p>
+
+<h2>8. width: fit-content + margin-inline: auto</h2>
+
+<p>A modern one-two combo for a block that should shrink-wrap tightly to its own content, then center that shrunk box.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/10/8.html" style="width:100%;height:220px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="fit-content margin-inline auto Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.box {
+  width: fit-content;
+  margin-inline: auto;
+}</code></pre>
+
+<p>Recall technique #2 needed a fixed pixel <code>width</code> to leave room for <code>auto</code> margins to work with. <code>width: fit-content</code> solves that without hardcoding a number: the box shrinks to exactly as wide as its content needs, whatever that turns out to be, and <code>margin-inline: auto</code> (the modern logical-property spelling of "left and right margins") then centers that shrunk box the same way #2 does. <code>margin-inline</code> also has a real advantage over plain <code>margin: 0 auto</code> in a right-to-left layout: it centers along the correct reading-direction axis automatically, where a plain left/right margin would need manual swapping.</p>
+
+<p><strong>Best for:</strong> a badge, pill, tag, or callout box whose width should hug its own text rather than stretch full-width, while still sitting centered on the page. <strong>Tip:</strong> pair with <code>max-width</code> too if the content could occasionally be long enough to need wrapping &mdash; <code>fit-content</code> alone will happily grow as wide as a single unbroken line demands.</p>
+
+<h2>9. Centering a stack of items</h2>
+
+<p>The real-world version of flexbox centering: not just one element, but an entire vertical stack &mdash; icon, heading, paragraph, button &mdash; centered together as a unit on both axes.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/10/9.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Centering a Stack of Items Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}</code></pre>
+
+<p><code>flex-direction: column</code> is the detail that makes this different from technique #3: it flips flexbox's main axis to vertical, which swaps what <code>justify-content</code> and <code>align-items</code> each control &mdash; <code>justify-content</code> now centers along the vertical stack direction, and <code>align-items</code> now centers each item horizontally instead. <code>gap</code> replaces the old trick of adding margin to every child except the last one, spacing the stacked items evenly without any per-child overrides. This exact pattern &mdash; a centered icon-heading-text-button column &mdash; is one of the most common real UI blocks on the web: empty states, pricing cards, onboarding screens, and feature callouts almost all boil down to this.</p>
+
+<p><strong>Best for:</strong> empty states, pricing cards, onboarding panels, and any "centered content block" made of several stacked pieces rather than one element. <strong>Tip:</strong> switching <code>flex-direction</code> between <code>row</code> and <code>column</code> is a fast way to remember which flex property does what &mdash; <code>justify-content</code> always follows the direction you just set, <code>align-items</code> always runs perpendicular to it.</p>
+
+<h2>10. display: table-cell centering</h2>
+
+<p>The pre-flexbox way to vertically center content, from back when that alone was a genuinely hard problem in CSS. Rarely the best choice today, but still worth recognizing.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/10/10.html" style="width:100%;height:340px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="display table-cell Centering Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>.stage { display: table; }
+.cell {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}</code></pre>
+
+<p>Before flexbox existed (and it only became reliably usable across browsers in the mid-2010s), <code>vertical-align: middle</code> was the one property that could vertically center content &mdash; but only inside something behaving like a table cell, since <code>vertical-align</code> has no effect on ordinary block boxes at all. Setting <code>display: table-cell</code> on a plain div was the workaround: it makes that div participate in table-style layout without writing a single actual <code>&lt;table&gt;</code> tag. It's genuinely obsolete for new layout code now that flexbox and grid exist and are simpler, but it still surfaces in two real places: legacy codebases that predate 2015, and HTML email templates, where flexbox and grid support across email clients remains unreliable enough that <code>table-cell</code> centering is still the safe, boring choice professionals actually reach for.</p>
+
+<p><strong>Best for:</strong> maintaining older CSS that already uses this pattern, and HTML email design, where flexbox/grid support is still inconsistent across mail clients. <strong>Tip:</strong> if you're writing brand-new layout CSS for a website in 2026, reach for flexbox or grid instead &mdash; this technique's only real home left is legacy code and email.</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Using <code>text-align: center</code> and expecting a block-level div to move.</strong> It only affects inline content inside the box, never the block box itself &mdash; that's what technique #1 above explains, and it's the single most common centering confusion.</li>
+<li><strong>Putting flexbox's centering properties on the wrong element.</strong> <code>justify-content</code> and <code>align-items</code> belong on the <em>parent</em> (the flex container), not the child being centered &mdash; a mistake that produces exactly zero visible effect and no error to point you at the problem.</li>
+<li><strong>Forgetting <code>position: relative</code> on the parent before absolutely positioning a child.</strong> The child will still center itself against <em>some</em> ancestor &mdash; just whichever positioned one it finds first walking up the DOM, which is very often not the parent you meant.</li>
+<li><strong><code>margin: 0 auto</code> doing nothing because the box has no width constraint.</strong> A block element with no explicit width already fills its parent, leaving no leftover space for <code>auto</code> margins to distribute &mdash; add a <code>width</code> or <code>max-width</code> first.</li>
+<li><strong>Reaching for <code>display: table-cell</code> in new code out of habit.</strong> It solved real problems before flexbox existed, but flexbox and grid do the same job with less code and fewer surprises in every context except HTML email.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>What's the single best way to center something in CSS in 2026?</h3>
+<p>For most everyday cases &mdash; one element, or a small stack of them, on one or both axes &mdash; flexbox (<code>display: flex</code> with <code>justify-content</code> and <code>align-items</code>) is the most broadly useful default, exactly what demos #3 and #9 show. Grid's <code>place-items: center</code> is an equally valid, even shorter alternative when the surrounding layout is already grid-based.</p>
+
+<h3>Why doesn't margin: auto center something vertically the way it centers horizontally?</h3>
+<p>In normal block flow, a block element already stretches to its parent's full width by default, so a narrower fixed width leaves real leftover horizontal space for <code>margin: 0 auto</code> to split. Height doesn't work the same way &mdash; a block's height is determined by its content, not stretched to fill its parent by default &mdash; so there's usually no leftover vertical space for an auto margin to distribute unless the parent has an explicit height and something else (like absolute positioning, as in technique #7) sets up that relationship deliberately.</p>
+
+<h3>Do I need to know an element's exact size to center it?</h3>
+<p>No &mdash; flexbox (#3), grid's <code>place-items</code> (#4), and the transform-based absolute positioning technique (#6) all center content correctly whether or not its size is known ahead of time. Only the <code>margin: auto</code>-based techniques (#2, #7, #8) rely on the element having some size constraint (a fixed width, or an <code>inset</code> box) to create the leftover space those margins distribute.</p>
+
+<h3>Is CSS Grid or Flexbox better for centering?</h3>
+<p>For centering specifically, they're close to interchangeable &mdash; <code>place-items: center</code> on a grid container is genuinely shorter than the two flexbox properties it replaces. The real decision usually isn't about centering at all: pick whichever one the rest of that layout already needs (grid for two-dimensional row-and-column layouts, flexbox for one-dimensional rows or columns), and use its centering shorthand for free.</p>
+
+<h3>Why is display: table-cell still worth knowing if it's outdated?</h3>
+<p>Because it hasn't fully disappeared: HTML email design still leans on it, since flexbox and grid support across email clients (particularly older versions of Outlook) remains unreliable enough that professional email templates still often use table-based layout, <code>vertical-align: middle</code> included, as the dependable choice.</p>
+
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to actually lock this in is to click <strong>Fork &amp; Edit</strong> on demo #3, delete <code>align-items: center</code>, and watch the box stretch to fill the full height instead of staying its own size &mdash; flexbox's default cross-axis alignment is <code>stretch</code>, not "leave it alone." Add the property back and it returns to dead-center at its natural size. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/" target="_blank" rel="noopener">My Code</a> and it's yours to keep, tweak further, or drop straight into a real project.</p>
+
+<p><strong>Recommended next step:</strong> open the <a href="https://fwdtools.com/css-playground/" target="_blank" rel="noopener">CSS Playground</a> and work through its Flexbox and Grid chapters &mdash; free, click-based lessons that cover exactly the layout systems this post's best techniques are built on. For more tutorials like this one, browse the <a href="https://www.webdevpuneet.com/search/label/CSS" target="_blank" rel="noopener">CSS</a> label on the blog.</p>

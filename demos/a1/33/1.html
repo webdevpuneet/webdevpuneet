@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="The Core Proof: One-Frame Tooltip Flicker">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Same overflow fix, two different timings</h1>
+    <p class="hint">Click "Open tooltip" on each side. Both start at the wrong (overflowing) position, then correct. Watch the frame log, not just the tooltip.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 16px 20px 6px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 17px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 12px 16px 24px; }
+  .cols { width: 100%; max-width: 520px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 12px; }
+  .colHead { font: 700 12px ui-monospace, monospace; margin-bottom: 8px; text-align: center; }
+  .colHead.eff { color: var(--red); }
+  .colHead.layout { color: var(--green); }
+  .anchorRow { position: relative; height: 74px; border: 1px dashed var(--line); border-radius: 8px; margin-bottom: 8px; overflow: hidden; }
+  .anchorBtn { position: absolute; right: 6px; top: 8px; padding: 6px 8px; border-radius: 6px; border: none; background: #e5e7eb; color: var(--ink); font: 700 10px ui-monospace, monospace; }
+  .tip { position: absolute; top: 40px; background: var(--ink); color: #fff; font: 700 10px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; white-space: nowrap; }
+  .tip.right { right: -60px; }
+  .tip.left { right: 6px; }
+  .btn { width: 100%; padding: 7px 10px; border-radius: 8px; border: none; background: var(--accent); color: #fff; font: 700 11px system-ui, sans-serif; cursor: pointer; margin-bottom: 6px; }
+  .log { background: #14161c; color: #a7f3d0; font: 10px ui-monospace, monospace; border-radius: 6px; padding: 6px 7px; height: 108px; overflow-y: auto; line-height: 1.55; }
+  .log .painted { color: #fca5a5; }
+  .note { margin: 8px 0 0; max-width: 520px; font-size: 11px; color: var(--sub); line-height: 1.5; text-align: center; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useRef = React.useRef;
+  var useEffect = React.useEffect;
+  var useLayoutEffect = React.useLayoutEffect;
+
+  function Panel(props) {
+    var openState = useState(0);
+    var openCount = openState[0];
+    var setOpenCount = openState[1];
+
+    var posState = useState('right'); // always starts overflowing -- the "guess"
+    var pos = posState[0];
+    var setPos = posState[1];
+
+    var logRef = useRef([]);
+    var forceState = useState(0);
+    var forceTick = forceState[1];
+
+    function log(msg, painted) {
+      logRef.current = logRef.current.concat([{ msg: msg, painted: !!painted }]).slice(-8);
+      forceTick(function (n) { return n + 1; });
+    }
+
+    var hook = props.mode === 'layout' ? useLayoutEffect : useEffect;
+
+    hook(function () {
+      log('commit: pos=' + pos + (pos === 'right' ? ' (overflowing)' : ' (corrected)'));
+      // requestAnimationFrame runs AFTER the browser has painted this frame --
+      // this is how we prove what actually got shown to the user, not just what React committed.
+      requestAnimationFrame(function () {
+        log('PAINTED with pos=' + pos, true);
+      });
+      if (pos === 'right') {
+        setPos('left'); // the real overflow check -- always corrects, on purpose, for this demo
+      }
+    }, [pos, openCount]);
+
+    function open() {
+      setPos('right');
+      setOpenCount(function (n) { return n + 1; });
+      logRef.current = [];
+    }
+
+    return e('div', { className: 'col' },
+      e('div', { className: 'colHead ' + (props.mode === 'layout' ? 'layout' : 'eff') }, props.mode === 'layout' ? 'useLayoutEffect' : 'useEffect'),
+      e('div', { className: 'anchorRow' },
+        e('button', { className: 'anchorBtn' }, 'menu'),
+        e('div', { className: 'tip ' + pos }, 'flipped to fit')
+      ),
+      e('button', { className: 'btn', onClick: open }, 'Open tooltip (' + openCount + ')'),
+      e('div', { className: 'log' }, logRef.current.map(function (item, i) {
+        return e('div', { key: i, className: item.painted ? 'painted' : '' }, item.msg);
+      }))
+    );
+  }
+
+  function Demo() {
+    return e('div', { className: 'cols' },
+      e(Panel, { mode: 'effect' }),
+      e(Panel, { mode: 'layout' })
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    e('div', null,
+      e(Demo),
+      e('p', { className: 'note' }, 'Red "PAINTED" lines are captured with requestAnimationFrame, which only fires after the browser has actually drawn a frame. The useEffect side paints pos=right at least once before correcting -- a real, browser-confirmed wrong frame. The useLayoutEffect side never does, because its correction runs before the browser is allowed to paint at all.')
+    )
+  );
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

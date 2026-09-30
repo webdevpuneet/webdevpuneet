@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="type=&quot;time&quot;">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>type="time"</h1>
+    <p class="hint">A dedicated hour/minute picker &mdash; no date attached. The underlying value is a 24-hour <code>HH:MM</code> string regardless of whether the picker displays 12-hour or 24-hour, which depends on the visitor's OS locale.</p>
+  </header>
+  <main class="stageWrap">
+    <form class="timeForm">
+      <label class="field">
+        <span class="fieldLabel">Reminder time</span>
+        <input type="time" name="time" id="timeInput">
+      </label>
+      <p class="readout" id="timeReadout">No time selected yet</p>
+    </form>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .bar h1 code { font: 700 15px ui-monospace, monospace; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .hint code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
+  .stageWrap { display: flex; justify-content: center; padding: 20px 16px 36px; }
+
+  .timeForm {
+    width: 100%;
+    max-width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 20px;
+  }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .fieldLabel { font: 700 12px system-ui, sans-serif; }
+
+  .timeForm input {
+    padding: 10px 12px;
+    font: 500 14px system-ui, sans-serif;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    outline: none;
+  }
+  .timeForm input:focus { border-color: var(--accent); }
+
+  .readout { margin: 0; font-size: 13px; color: var(--accent); font-weight: 700; text-align: center; }
+</script>
+
+<script type="text/plain" id="js">
+  var input = document.getElementById('timeInput');
+  var readout = document.getElementById('timeReadout');
+  input.addEventListener('input', function () {
+    if (!input.value) { readout.textContent = 'No time selected yet'; return; }
+    var parts = input.value.split(':');
+    var d = new Date();
+    d.setHours(parseInt(parts[0], 10), parseInt(parts[1], 10));
+    readout.textContent = 'You picked: ' + d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

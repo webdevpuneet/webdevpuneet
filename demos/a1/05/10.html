@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Which One Should You Use?">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Which One Should You Use?</h1>
+    <p class="hint">Answer four honest questions about the state you're actually building, and this small reducer-driven quiz tallies a recommendation — fittingly, the quiz itself is built with useReducer.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px 26px; }
+
+  .card { display: flex; flex-direction: column; align-items: center; gap: 16px; width: 100%; max-width: 420px; padding: 22px; border: 1.5px dashed var(--line); border-radius: 12px; background: #fff; box-sizing: border-box; text-align: center; }
+  .progress { font: 700 11px system-ui, sans-serif; color: var(--sub); text-transform: uppercase; letter-spacing: 0.04em; }
+  .question { font: 600 15px system-ui, sans-serif; line-height: 1.4; min-height: 44px; }
+  .choices { display: flex; gap: 10px; }
+  .choiceBtn { padding: 9px 20px; font: 700 12.5px system-ui, sans-serif; border-radius: 8px; border: 1px solid var(--line); background: #fff; cursor: pointer; color: var(--ink); }
+  .choiceBtn:hover { background: #f2f3f7; }
+
+  .result { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .resultBadge { font: 800 20px system-ui, sans-serif; color: var(--accent); }
+  .resultWhy { font: 12.5px system-ui, sans-serif; color: var(--sub); max-width: 32em; }
+  .actBtn { padding: 8px 16px; font: 700 12px system-ui, sans-serif; color: var(--ink); background: #eceef3; border: none; border-radius: 8px; cursor: pointer; }
+  .actBtn:hover { background: #e1e3ea; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useReducer = React.useReducer;
+
+  var QUESTIONS = [
+    'Is this more than two or three related values that always change together?',
+    'Does figuring out the next state need more than a one-line calculation?',
+    'Do several different event handlers update this same state?',
+    'Would you like to unit-test the state transitions on their own, outside a component?'
+  ];
+
+  var initial = { step: 0, yesCount: 0, done: false };
+
+  function reducer(state, action) {
+    switch (action.type) {
+      case 'answer': {
+        var yesCount = state.yesCount + (action.yes ? 1 : 0);
+        var step = state.step + 1;
+        return { step: step, yesCount: yesCount, done: step >= QUESTIONS.length };
+      }
+      case 'restart':
+        return initial;
+      default:
+        return state;
+    }
+  }
+
+  function Quiz() {
+    var r = useReducer(reducer, initial), state = r[0], dispatch = r[1];
+
+    if (state.done) {
+      var useReducerWins = state.yesCount >= 2;
+      return e('div', { className: 'card' },
+        e('div', { className: 'result' },
+          e('div', { className: 'resultBadge' }, useReducerWins ? 'Reach for useReducer' : 'Plain useState is enough'),
+          e('div', { className: 'resultWhy' },
+            useReducerWins
+              ? 'You answered "yes" to ' + state.yesCount + ' of ' + QUESTIONS.length + ' — centralizing the transitions in one reducer function will make this state easier to follow and to test.'
+              : 'You answered "yes" to only ' + state.yesCount + ' of ' + QUESTIONS.length + ' — a reducer would just add ceremony here. A few independent useState calls are the simpler, more direct fit.'
+          ),
+          e('button', { className: 'actBtn', onClick: function () { dispatch({ type: 'restart' }); } }, 'Start over')
+        )
+      );
+    }
+
+    return e('div', { className: 'card' },
+      e('div', { className: 'progress' }, 'Question ' + (state.step + 1) + ' of ' + QUESTIONS.length),
+      e('div', { className: 'question' }, QUESTIONS[state.step]),
+      e('div', { className: 'choices' },
+        e('button', { className: 'choiceBtn', onClick: function () { dispatch({ type: 'answer', yes: true }); } }, 'Yes'),
+        e('button', { className: 'choiceBtn', onClick: function () { dispatch({ type: 'answer', yes: false }); } }, 'No')
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Quiz));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

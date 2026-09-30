@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="type=&quot;datetime-local&quot;">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>type="datetime-local"</h1>
+    <p class="hint">Date and time in one picker, one field, one value &mdash; instead of stitching together two separate inputs and a hidden field to combine them yourself.</p>
+  </header>
+  <main class="stageWrap">
+    <form class="dtForm">
+      <label class="field">
+        <span class="fieldLabel">Event start</span>
+        <input type="datetime-local" name="start" id="dtInput">
+      </label>
+      <p class="readout" id="dtReadout">No date/time selected yet</p>
+    </form>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; padding: 20px 16px 36px; }
+
+  .dtForm {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 20px;
+  }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .fieldLabel { font: 700 12px system-ui, sans-serif; }
+
+  .dtForm input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    font: 500 14px system-ui, sans-serif;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    outline: none;
+  }
+  .dtForm input:focus { border-color: var(--accent); }
+
+  .readout { margin: 0; font-size: 13px; color: var(--accent); font-weight: 700; text-align: center; }
+</script>
+
+<script type="text/plain" id="js">
+  var input = document.getElementById('dtInput');
+  var readout = document.getElementById('dtReadout');
+  input.addEventListener('input', function () {
+    if (!input.value) { readout.textContent = 'No date/time selected yet'; return; }
+    var d = new Date(input.value);
+    readout.textContent = 'You picked: ' + d.toLocaleString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

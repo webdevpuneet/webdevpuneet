@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Character Counter with Color Warning">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Character counter with color warning</h1>
+    <p class="hint">Type into the box — the counter turns amber near the limit and red once you're over it, well before you try to submit.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="panel">
+      <label class="fieldLabel" for="bio">Bio</label>
+      <textarea class="field" id="bio" rows="4" maxlength="500" placeholder="Tell us about yourself..."></textarea>
+      <div class="counterRow"><span></span><span class="counter" id="counter">0 / 140</span></div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --amber: #d97706; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; padding: 30px 16px 28px; }
+
+  .panel { width: 100%; max-width: 340px; }
+  .fieldLabel { display: block; font: 700 12px system-ui, sans-serif; margin-bottom: 6px; }
+  .field {
+    width: 100%; padding: 10px 12px; border-radius: 8px; resize: none;
+    border: 1.5px solid var(--line); font: 14px system-ui, sans-serif; outline: none;
+    box-sizing: border-box;
+  }
+  .field:focus { border-color: var(--accent); }
+
+  .counterRow { display: flex; justify-content: flex-end; margin-top: 6px; }
+  .counter { font: 700 12px ui-monospace, monospace; color: var(--sub); transition: color 0.15s ease; }
+  .counter.warn { color: var(--amber); }
+  .counter.over { color: var(--red); }
+</script>
+
+<script type="text/plain" id="js">
+  var bio = document.getElementById('bio');
+  var counter = document.getElementById('counter');
+  var LIMIT = 140; // soft target shown to the user; maxlength=500 is the hard cap
+
+  function update() {
+    var len = bio.value.length;
+    counter.textContent = len + ' / ' + LIMIT;
+    var cls = 'counter';
+    if (len > LIMIT) cls += ' over';
+    else if (len >= LIMIT * 0.85) cls += ' warn';
+    counter.className = cls;
+  }
+
+  bio.addEventListener('input', update);
+  update();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Multi-Step Progress Indicator">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Multi-step progress indicator</h1>
+    <p class="hint">Click "Next" to move through the steps — the indicator marks exactly which step you're on and which are already done.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="steps" id="steps">
+      <div class="step" data-i="0"><span class="dot">1</span><span class="stepLabel">Account</span></div>
+      <div class="line"></div>
+      <div class="step" data-i="1"><span class="dot">2</span><span class="stepLabel">Profile</span></div>
+      <div class="line"></div>
+      <div class="step" data-i="2"><span class="dot">3</span><span class="stepLabel">Confirm</span></div>
+    </div>
+    <p class="panelText" id="panelText">Step 1 of 3 — Account details</p>
+    <div class="btnRow">
+      <button type="button" class="ghostBtn" id="backBtn" disabled>Back</button>
+      <button type="button" class="submitBtn" id="nextBtn">Next</button>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 40px 16px 28px; }
+
+  .steps { display: flex; align-items: center; }
+  .step { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .dot {
+    width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    background: #e7e9ee; color: var(--sub); font: 700 13px system-ui, sans-serif;
+    border: 2px solid #e7e9ee; transition: all 0.2s ease;
+  }
+  .step.active .dot { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .step.done .dot { background: var(--green); border-color: var(--green); color: #fff; }
+  .stepLabel { font: 600 11px system-ui, sans-serif; color: var(--sub); }
+  .step.active .stepLabel { color: var(--ink); }
+  .line { width: 44px; height: 2px; background: #e7e9ee; margin: 0 4px 20px; }
+
+  .panelText { margin: 0; font: 600 13.5px system-ui, sans-serif; color: var(--ink); }
+
+  .btnRow { display: flex; gap: 10px; }
+  .submitBtn, .ghostBtn {
+    padding: 10px 20px; border-radius: 9px; font: 700 13px system-ui, sans-serif; cursor: pointer;
+  }
+  .submitBtn { border: none; background: var(--accent); color: #fff; }
+  .submitBtn:hover { background: #4f52d6; }
+  .ghostBtn { border: 1.5px solid var(--line); background: #fff; color: var(--ink); }
+  .ghostBtn:disabled { opacity: 0.5; cursor: default; }
+</script>
+
+<script type="text/plain" id="js">
+  var stepEls = Array.prototype.slice.call(document.querySelectorAll('.step'));
+  var panelText = document.getElementById('panelText');
+  var backBtn = document.getElementById('backBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var LABELS = ['Account details', 'Profile setup', 'Confirm and finish'];
+  var current = 0;
+
+  function render() {
+    stepEls.forEach(function (el, i) {
+      el.className = 'step' + (i < current ? ' done' : i === current ? ' active' : '');
+      el.querySelector('.dot').textContent = i < current ? '✓' : (i + 1);
+    });
+    panelText.textContent = 'Step ' + (current + 1) + ' of ' + stepEls.length + ' — ' + LABELS[current];
+    backBtn.disabled = current === 0;
+    nextBtn.textContent = current === stepEls.length - 1 ? 'Finish' : 'Next';
+  }
+
+  nextBtn.addEventListener('click', function () {
+    if (current < stepEls.length - 1) { current++; render(); }
+    else { panelText.textContent = 'All steps complete — form submitted'; }
+  });
+
+  backBtn.addEventListener('click', function () {
+    if (current > 0) { current--; render(); }
+  });
+
+  render();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

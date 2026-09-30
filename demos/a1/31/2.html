@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Registered Color Custom Property">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Animating a registered &lt;color&gt; custom property</h1>
+    <p class="hint">Hover either card. The left border color is driven by a plain --edge; the right one by a --edge registered as a &lt;color&gt;. The readout samples the actual computed border color mid-hover-transition.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="row">
+      <article class="card plain" id="plainCard">
+        <p class="label">Plain <code>--edge</code></p>
+      </article>
+      <article class="card registered" id="regCard">
+        <p class="label">Registered <code>--edge</code> (&lt;color&gt;)</p>
+      </article>
+    </div>
+    <p class="note" id="note">Hover a card to sample its border color 400ms into the 900ms transition.</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 54em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 26px 18px 30px; }
+  .row { display: flex; gap: 28px; flex-wrap: wrap; justify-content: center; }
+
+  @property --edge {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #6366f1;
+  }
+
+  .card {
+    width: 190px;
+    height: 120px;
+    border-radius: 12px;
+    background: #fff;
+    border: 6px solid var(--edge);
+    display: flex;
+    align-items: flex-end;
+    padding: 12px;
+    box-shadow: 0 1px 3px rgba(20,22,28,.1);
+  }
+
+  .plain {
+    --edge: #6366f1;
+    transition: --edge .9s ease;
+  }
+  .plain:hover { --edge: #ef4444; }
+
+  .registered {
+    --edge: #6366f1;
+    transition: --edge .9s ease;
+  }
+  .registered:hover { --edge: #ef4444; }
+
+  .label { margin: 0; font-size: 12px; color: var(--sub); }
+  .label code { color: var(--ink); }
+  .note { margin: 0; max-width: 54em; font-size: 12.5px; color: var(--sub); text-align: center; }
+  .note strong { color: var(--ink); }
+</script>
+
+<script type="text/plain" id="js">
+  var plainCard = document.getElementById('plainCard');
+  var regCard = document.getElementById('regCard');
+  var note = document.getElementById('note');
+
+  function sample(el, name) {
+    setTimeout(function () {
+      var edge = getComputedStyle(el).getPropertyValue('--edge').trim();
+      var border = getComputedStyle(el).borderTopColor;
+      note.innerHTML = name + ' 400ms into hover: <strong>--edge</strong> computes to <strong>' + edge + '</strong>, rendered border color <strong>' + border + '</strong>. ' + (name === 'Plain' ? 'An unregistered custom property cannot be interpolated through color space, so this either still reads the start token or has already flipped straight to the end token.' : 'A &lt;color&gt; registration gives the browser an actual color value space, so this reads a genuine in-between color, not a start or end token.');
+    }, 400);
+  }
+
+  plainCard.addEventListener('mouseenter', function () { sample(plainCard, 'Plain'); });
+  regCard.addEventListener('mouseenter', function () { sample(regCard, 'Registered'); });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

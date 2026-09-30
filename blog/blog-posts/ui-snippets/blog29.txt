@@ -1,0 +1,152 @@
+<h1>10 Copy-Paste Animation Snippets for the Scroll, Canvas & GSAP Trends Everyone's Chasing</h1>
+
+<p>Every animation trend on the web right now points in one of three directions: browsers doing more of the work natively so JavaScript can step back, GSAP's plugin ecosystem making genuinely hard motion problems (pinning, layout morphing, draggable inertia) into a few configured options, or raw Canvas/WebGL for the effects no CSS property will ever reach — particle text, cellular automata, hand-written GPU shaders. Most tutorials pick one of those three lanes and stay there. Real products end up needing all three, often on the same page.</p>
+
+<p>Below are ten free, self-contained snippets pulled from that exact spread: a reading-progress bar powered entirely by the brand-new native CSS <code>animation-timeline: scroll()</code> API with zero scroll listeners, a GSAP ScrollTrigger gallery that pins the page and snaps a horizontal track to each panel, particles that assemble themselves into readable text using nothing but the Canvas 2D API, a hand-written WebGL1 fragment shader gradient with no Three.js involved, GSAP's Flip plugin morphing a card grid into a list with one diffed animation, a whole grid of 3D-tilting cards wired up by a single <code>VanillaTilt.init()</code> call, a fully playable Conway's Game of Life on canvas, a card grid animated entirely with spring physics via the lightweight Motion One library, a real microphone-reactive frequency visualizer built on the actual Web Audio API, and dashboard stat tiles that roll like a mechanical odometer. Every one is a <strong>live, interactive preview</strong> — try them right here in the article — and each exports to React, Vue, Angular or Tailwind in one click from its snippet page.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>Every fallback is shape-matched, not a placeholder message.</strong> The audio-bars visualizer's simulated frequency data is packed into the exact same <code>Uint8Array</code> shape real microphone data would produce, and the WebGL shader swaps to a plain CSS gradient if <code>getContext('webgl')</code> returns null — so the drawing code never has to know or care which source it's reading from, and nothing ever looks broken.</li>
+<li><strong>Capture, mutate, animate — never animate blind.</strong> GSAP's Flip plugin records real DOM measurements before a layout change and diffs against real measurements after, rather than hand-coding target positions. The particle-text snippet does the equivalent for arbitrary text: it renders the word to an offscreen canvas and samples actual pixel coordinates instead of guessing where letters should be.</li>
+<li><strong>State updates go into a fresh buffer, not in place.</strong> Conway's Game of Life computes every cell's next generation into a brand new typed array from an untouched snapshot of the current one — mutating cells one at a time in the same array they're being read from would let later cells see already-updated neighbors and corrupt the simulation.</li>
+<li><strong>The compositor and the GPU do the expensive part.</strong> The scroll-driven progress bar's fill runs as a native CSS keyframe evaluated off the main thread; the WebGL gradient computes color per pixel on the graphics card via a fragment shader. Neither approach touches JavaScript on every frame the way a hand-rolled scroll listener or a 2D-canvas gradient loop would.</li>
+<li><strong>A library is worth it exactly when it replaces code you'd otherwise repeat.</strong> VanillaTilt's one <code>init()</code> call scales a hand-rolled tilt effect across an entire grid with glare and gyroscope support included; Motion One's <code>spring()</code> helper replaces bezier-curve guesswork with two physical parameters. Neither snippet reaches for a library to do something three lines of vanilla JS already does well.</li>
+</ul>
+
+<h2>1. CSS Scroll-Driven Progress Bar</h2>
+
+<p>A reading-progress bar whose fill is driven entirely by the native CSS <code>animation-timeline: scroll()</code> API — no scroll event listener, no <code>requestAnimationFrame</code> loop, for the core effect at all.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/css-scroll-driven-progress/embed/" style="width:100%;height:620px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="CSS Scroll-Driven Progress Bar — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the bar has <code>animation: sdp-grow auto linear</code> and, critically, <code>animation-timeline: scroll(root)</code> — a declaration that swaps the animation's normal clock for the document's own scroll position, so 0% scrolled maps directly to the keyframe's 0% and 100% scrolled maps to 100%, with the browser handling the mapping natively in the compositor. The keyframes themselves just scale the bar from <code>scaleX(0)</code> to <code>scaleX(1)</code>. A hand-rolled version needs a <code>scroll</code> handler firing potentially hundreds of times a second, computing <code>scrollY / (scrollHeight - innerHeight)</code> and writing a style on the main thread every time — this version does none of that. An <code>@supports not (animation-timeline: scroll())</code> block swaps in a striped placeholder for browsers that don't yet support it, and the JS layer only calls <code>CSS.supports('animation-timeline: scroll()')</code> to flip a status badge, attaching a minimal scroll-listener fallback solely when the native feature is missing.</p>
+
+<p><strong>Best for:</strong> long-form articles, documentation pages, and case studies where "how much is left" is a real, recurring question — currently strongest in Chromium browsers, with Firefox and Safari still rolling out support. <strong>Tip:</strong> swap <code>scroll(root)</code> for <code>scroll(nearest)</code> to track a scrollable panel instead of the whole page, which is the same technique behind a <a href="https://fwdtools.com/ui-snippets/css-view-timeline-image-reveal/">view-timeline image reveal</a> for individual elements rather than the document.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/css-scroll-driven-progress/">CSS Scroll-Driven Progress Bar</a></p>
+
+<h2>2. GSAP ScrollTrigger Pinned Gallery Snap</h2>
+
+<p>Scroll down and the section locks in place while your scroll input drives a horizontal track of panels sideways, settling on the nearest whole panel the moment you stop.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/gsap-scroll-pin-gallery-snap/embed/" style="width:100%;height:620px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GSAP ScrollTrigger Pinned Gallery Snap — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the core tween is <code>gsap.to(track, { x: () => -(track.scrollWidth - window.innerWidth), scrollTrigger: { pin: true, scrub: 1, ... } })</code> — <code>pin: true</code> fixes the section in the viewport for the whole scroll range, and <code>scrub: 1</code> ties the horizontal tween's progress directly to scroll position with a one-second catch-up smoothing, so scrolling down moves the track left in lockstep and scrolling up reverses it. Both the <code>x</code> target and the ScrollTrigger's <code>end</code> value are passed as functions rather than fixed numbers, computed from the track's actual <code>scrollWidth</code>, so <code>invalidateOnRefresh: true</code> can recalculate the whole distance correctly after a resize instead of reusing stale measurements. The <code>snap: { snapTo: 1 / (panels - 1) }</code> config divides scroll progress into one increment per panel and animates to the nearest one once scrolling settles, so the gallery never comes to rest mid-panel.</p>
+
+<p><strong>Best for:</strong> portfolio and product galleries, case-study sections, and onboarding tours that benefit from a paced, page-like feel rather than a loose scrub. <strong>Tip:</strong> drop the <code>snap</code> config entirely for a free-scrubbing gallery, or pair the technique with a <a href="https://fwdtools.com/ui-snippets/scroll-reveal-grid/">scroll reveal grid</a> intro before the pinned section begins.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/gsap-scroll-pin-gallery-snap/">GSAP ScrollTrigger Pinned Gallery Snap</a></p>
+
+<h2>3. Canvas Particle Text Formation</h2>
+
+<p>Hundreds of scattered dots animate into forming a readable word — built entirely on the Canvas 2D API by rendering invisible text and sampling exactly where its pixels land.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/canvas-particle-text-formation/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Particle Text Formation — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>sampleTextPoints(word)</code> draws the target word onto a hidden offscreen canvas at a large bold font size, then reads its pixel data with <code>getImageData</code> — any pixel with alpha above a threshold is "inside" a letter, and its coordinates, sampled on a spaced grid rather than every single pixel for performance, become one particle's target. Each particle stores a current position and a target, and every frame nudges its velocity toward the delta (<code>p.vx = (p.vx + dx * 0.02) * 0.85</code>) before applying it — a simple spring approximation that produces an organic ease rather than a straight-line snap. Switching words doesn't destroy and recreate the particle set: <code>formWord()</code> grows or trims the existing array to match the new point count and just reassigns targets, which is why the same swarm visibly reorganizes from one shape into the next instead of popping in and out.</p>
+
+<p><strong>Best for:</strong> hero intros, brand reveals, and loading screens where a logo word or headline assembling from chaos reads as more deliberate than a plain fade-in. <strong>Tip:</strong> a smaller sampling <code>gap</code> produces denser, more detailed text at the cost of per-frame work — pair it with <a href="https://fwdtools.com/ui-snippets/starfield/">starfield</a> for a layered space-themed hero.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/canvas-particle-text-formation/">Canvas Particle Text Formation</a></p>
+
+<h2>4. WebGL Gradient Shader Background</h2>
+
+<p>A full-bleed animated gradient rendered by a hand-written GLSL fragment shader on a single full-screen triangle — no Three.js, no shader library, just raw WebGL1.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/webgl-gradient-shader-bg/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="WebGL Gradient Shader Background — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> most full-screen shader tutorials draw two triangles forming a quad; this one uses a single triangle with vertices at <code>(-1,-1)</code>, <code>(3,-1)</code>, and <code>(-1,3)</code> — coordinates that extend well past the <code>[-1, 1]</code> clip-space boundary, so the GPU clips the oversized triangle down to exactly the viewport, visually identical to a quad but as one draw call with no shared diagonal edge to rasterize twice. The vertex shader does almost nothing; every pixel of color comes from the fragment shader, which combines a handful of offset <code>sin</code>/<code>cos</code> terms driven by a <code>u_time</code> uniform and blends three colors with <code>mix()</code> — deliberately modest, no full noise implementation required. <code>compileShader()</code> explicitly checks <code>gl.getShaderParameter(shader, gl.COMPILE_STATUS)</code> and logs the real compiler error on failure, because WebGL never throws a JS exception when a shader fails — it just silently renders nothing. If <code>getContext('webgl')</code> returns null, the canvas hides and a static CSS radial-gradient takes over instead of leaving the section blank.</p>
+
+<p><strong>Best for:</strong> GPU-accelerated hero backgrounds where a full Three.js scene would be overkill, and as a compact, complete reference for what a library like Three.js is actually doing underneath. <strong>Tip:</strong> compare it against a 2D-canvas approach to the same aesthetic in <a href="https://fwdtools.com/ui-snippets/gradient-mesh-hero/">gradient mesh hero</a> — same visual family, very different cost profile.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/webgl-gradient-shader-bg/">WebGL Gradient Shader Background</a></p>
+
+<h2>5. GSAP Flip Layout Transition</h2>
+
+<p>A card board that morphs smoothly between a grid and a stacked list, and reflows just as smoothly on shuffle — powered by GSAP's Flip plugin diffing real before/after DOM measurements.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/gsap-flip-layout-transition/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GSAP Flip Layout Transition — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the whole snippet is one <code>runFlip(mutate)</code> helper used by both triggers. First, <code>Flip.getState('#flBoard .fl-card')</code> records the current position and size of every card. Then <code>mutate()</code> runs — toggling the <code>is-list</code> class, or re-sorting the cards into DOM order — which jumps the layout to its new state instantly with zero animation. Finally <code>Flip.from(state, { duration: 0.55, stagger: 0.03, absolute: true })</code> compares the recorded state to the new layout and animates every card from where it used to be to where it now is — that's the "First, Last, Invert, Play" the plugin's name stands for. <code>absolute: true</code> temporarily takes cards out of flow so they can cross paths during a shuffle without fighting the CSS grid's own live reflow, and <code>stagger: 0.03</code> keeps a full-board reflow from moving as one rigid block.</p>
+
+<p><strong>Best for:</strong> view switchers, sortable boards, and any UI where a layout genuinely changes shape — filterable galleries, kanban columns, comparison-list toggles. <strong>Tip:</strong> the same <code>getState → mutate → Flip.from</code> pattern extends to inserting or removing cards via <code>onEnter</code>/<code>onLeave</code> callbacks, not just reordering — pair it with a <a href="https://fwdtools.com/ui-snippets/bento-grid/">bento grid</a> or <a href="https://fwdtools.com/ui-snippets/drag-sort-list/">drag sort list</a> for a fuller layout toolkit.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/gsap-flip-layout-transition/">GSAP Flip Layout Transition</a></p>
+
+<h2>6. Vanilla-Tilt 3D Card Grid</h2>
+
+<p>A grid of cards that tilt toward the cursor in 3D with a moving glare highlight and gyroscope support on mobile — the entire interaction wired up by a single <code>VanillaTilt.init()</code> call.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/vanilla-tilt-3d-grid/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Vanilla-Tilt 3D Card Grid — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>VanillaTilt.init(document.querySelectorAll('.vtg-card'), { max: 14, speed: 400, perspective: 900, scale: 1.04, glare: true, 'max-glare': 0.25, gyroscope: true })</code> attaches the tilt behavior to every matched card in one call — there's no per-card <code>mousemove</code> handler anywhere in this file. Internally the library does the same <code>getBoundingClientRect()</code>-based offset math a hand-rolled tilt effect would, but manages the shared render loop, easing back to flat on mouse-leave, and cleanup for every card at once, so the same options object scales from six cards to sixty with zero additional code. <code>glare: true</code> layers a highlight that tracks the cursor as if light were reflecting off the surface; <code>gyroscope: true</code> drives the identical rotation from device orientation on supported mobile browsers, so the effect degrades gracefully instead of just not working on touch. Inside each card, the heading and paragraph use <code>translateZ</code> on top of <code>transform-style: preserve-3d</code>, so they visibly float above the card's surface as it tilts rather than reading as a flat rotated rectangle.</p>
+
+<p><strong>Best for:</strong> skill or service grids, product catalogs, and portfolio thumbnails where the same tactile hover needs to apply consistently across many cards. <strong>Tip:</strong> if you only need one distinctive tilt with full control over the glow's behavior, hand-writing it (like <a href="https://fwdtools.com/ui-snippets/3d-card-tilt/">3D Card Tilt</a>) keeps things dependency-free — reach for VanillaTilt when the same effect needs to apply consistently across a whole grid.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/vanilla-tilt-3d-grid/">Vanilla-Tilt 3D Card Grid</a></p>
+
+<h2>7. Canvas Conway's Game of Life</h2>
+
+<p>A fully playable cellular automaton on canvas — play, pause, step one generation at a time, click cells to edit the board, and drag a speed slider, all built on a flat typed-array grid.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/canvas-game-of-life/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Conway's Game of Life — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the grid is a single flat <code>Uint8Array(COLS * ROWS)</code> rather than a nested array of arrays — faster to allocate and iterate, and a clean fit since a Life cell only ever has two states. <code>countNeighbors</code> checks all eight surrounding cells but wraps out-of-bounds coordinates with <code>(x + dx + COLS) % COLS</code>, so the grid behaves like a torus where the right edge is a neighbor of the left, avoiding the boundary bias a flat-stopping edge would introduce. The heart of the simulation, <code>step()</code>, builds a brand new array and computes every cell's next state purely from the <em>current</em> grid, applying Conway's four rules — this matters because mutating the same array in place would let cells computed earlier in the loop see already-updated neighbors, corrupting later cells' counts in the same generation. A <code>requestAnimationFrame</code> loop only calls <code>step()</code> once enough real time has passed based on the speed slider, decoupling simulation speed from display refresh rate so the slider takes effect immediately with no restart.</p>
+
+<p><strong>Best for:</strong> CS and education demos of emergent behavior, portfolio technical pieces, and screensaver-style ambient backgrounds. <strong>Tip:</strong> seed a specific classic pattern (a glider, a blinker) programmatically instead of randomizing to demonstrate stable versus oscillating structures — pair it with <a href="https://fwdtools.com/ui-snippets/tic-tac-toe-game/">tic tac toe game</a> for more canvas-and-grid casual builds.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/canvas-game-of-life/">Canvas Conway's Game of Life</a></p>
+
+<h2>8. Motion One Spring Cards</h2>
+
+<p>A team card grid whose entrance, hover pop, and drag-release all move with real spring physics — stiffness and damping instead of bezier easing curves — using the sub-5KB Motion One library.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/motion-one-spring-cards/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Motion One Spring Cards — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a <code>cubic-bezier</code> curve is four fixed control points that always take the same shape regardless of travel distance; a spring is defined by physical parameters instead, and its motion emerges from simulating those forces frame by frame — which is why UI built on real springs tends to feel more responsive than one built purely on timed curves. The entrance calls <code>animate(cards, {...}, { delay: stagger(0.08), easing: spring({ stiffness: 220, damping: 18 }) })</code>, staggering each card's start by 0.08 seconds more than the last. Hovering triggers a snappier spring (<code>stiffness: 300, damping: 14</code>) — higher stiffness with lower damping produces a small overshoot, giving the hover a lively "pop" rather than a flat linear lift. Dragging a card via pointer events and releasing it animates it back to center with another spring, so letting go bounces the way a card on a real desk would rather than snapping instantly. The whole library loads as a UMD global from a CDN script tag — no bundler, no import statement.</p>
+
+<p><strong>Best for:</strong> team and about pages, product catalog entrances, and any card grid where a plain fade-in feels flatter than the content deserves. <strong>Tip:</strong> for complex timelines, scroll-triggered sequencing, or SVG morphing, GSAP (as in <a href="https://fwdtools.com/ui-snippets/scroll-reveal-grid/">Scroll Reveal Grid</a>) is still the more capable tool — reach for Motion One when spring easing and simple entrance/hover/drag motion is all you need.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/motion-one-spring-cards/">Motion One Spring Cards</a></p>
+
+<h2>9. Canvas Audio Frequency Bars</h2>
+
+<p>A real microphone-reactive visualizer built on the actual Web Audio API — with a sine-driven fallback so convincing the drawing code can't tell the difference between it and genuine frequency data.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/canvas-audio-bars/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Audio Frequency Bars — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> clicking "Use microphone" requests <code>getUserMedia({ audio: true })</code>, pipes the resulting stream through <code>audioCtx.createMediaStreamSource</code> into an <code>AnalyserNode</code> with <code>fftSize: 256</code>, and on every frame calls <code>analyser.getByteFrequencyData(freqData)</code> to fill a <code>Uint8Array</code> with each frequency bin's real 0-255 magnitude — that array is what actually drives every bar's height. Microphone access can fail in ways entirely outside the page's control: a denied prompt, no device, or — especially common when this exact snippet renders inside a sandboxed preview iframe — a Permissions-Policy that never grants <code>microphone</code> to that frame at all, so <code>getUserMedia</code> rejects with no prompt shown. <code>simulatedFrame()</code> handles that by blending two sine waves per bar under a slowly breathing envelope and packing the result into the <em>identical</em> <code>Uint8Array</code> shape real data would take — the rendering code has no branch for "is this real," it just draws whatever shape it's handed. A <code>try/catch</code> around the entire microphone request routes every kind of failure into that same simulated state, named with the actual <code>DOMException</code>, so the visualizer is never blank.</p>
+
+<p><strong>Best for:</strong> podcast and music app UI, voice-recording tools, and any embed context (including sandboxed previews) where microphone access can't be guaranteed. <strong>Tip:</strong> pair it with an <a href="https://fwdtools.com/ui-snippets/audio-waveform-visualizer/">audio waveform visualizer</a> for a complete player, and note that the fallback pattern here — matching a simulation's data shape exactly to the real API's output — is reusable anywhere a browser permission might silently fail.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/canvas-audio-bars/">Canvas Audio Frequency Bars</a></p>
+
+<h2>10. Odometer Rolling Stat Counters</h2>
+
+<p>Dashboard stat tiles whose digits roll like a mechanical odometer — each digit spinning independently on its own reel — the moment the tile grid scrolls into view.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/odometer-stat-counter/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Odometer Rolling Stat Counters — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> odometer.js's API is unusual — there's no <code>.play()</code> call. Once an element is wrapped with <code>new Odometer({ el, value: 0 })</code>, the library replaces its content with a structure of individually-positioned digit reels, and calling <code>.update(newValue)</code> is what triggers the roll: each reel animates independently to its new resting digit, so a number like 15,230 looks visually distinct from a linear count-up, since the ones digit might cycle through several values while the ten-thousands digit only moves once. Rather than rolling immediately on page load — where a visitor below the fold could miss the animation entirely — a single <code>IntersectionObserver</code> watches the whole <code>.ost-grid</code> container and fires <code>rollIn()</code> for all four tiles at once, roughly 40% into view, then disconnects so it only ever fires once. The CDN's theme stylesheet supplies the actual sliding-digit visuals; this snippet's own CSS only sets color, size, and weight so the reels match the surrounding dashboard palette.</p>
+
+<p><strong>Best for:</strong> admin dashboards, SaaS metrics pages, and investor or annual-report pages where key figures benefit from a memorable, physical-feeling reveal. <strong>Tip:</strong> odometer.js ships six built-in themes (minimal, car, digital, plaza, slot machine, train station) — swap the theme CDN link and every digit's rendering changes with no JS or HTML edits, or pair the tiles with a <a href="https://fwdtools.com/ui-snippets/dashboard-widget-grid/">dashboard widget grid</a> for a fuller panel.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/odometer-stat-counter/">Odometer Rolling Stat Counters</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open any snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs, then paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — or use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page. Where a CDN script is required (GSAP, VanillaTilt, Motion One, odometer.js), the snippet page lists the exact tags to include; the rest need nothing installed at all.</li>
+<li><strong>Reach for native CSS first, a library second, and hand-rolled canvas last.</strong> If <code>animation-timeline: scroll()</code> or a <code>view()</code> timeline can do the job — a simple linear or eased progress indicator — it removes a dependency entirely and hands the work to the compositor. Save GSAP's ScrollTrigger and Flip for sequencing, pinning, and layout diffing that CSS genuinely can't express, and canvas/WebGL for effects — particle text, cellular automata, per-pixel shaders — no DOM element can produce.</li>
+<li><strong>Every permission-gated or asset-dependent effect needs a real fallback, not a blank state.</strong> The audio visualizer's simulated data matches its real data's exact shape; the WebGL background swaps to CSS if the context fails to create. Model your own fallbacks the same way — shape-matched, not just an apologetic message.</li>
+<li><strong>Capture before you mutate.</strong> GSAP's Flip pattern — <code>getState()</code>, mutate the DOM, then diff and animate — and the particle-text snippet's pixel-sampling both avoid hardcoding target positions by measuring the real thing first. Apply the same discipline anywhere you're tempted to guess coordinates instead of reading them.</li>
+<li><strong>In React, Vue, or Angular, all of this moves into mount effects with real cleanup.</strong> ScrollTrigger instances, WebGL contexts, MediaStream tracks, and <code>requestAnimationFrame</code> loops all need to be created once (scoped to refs, not <code>querySelectorAll</code>) and explicitly torn down on unmount — each snippet's FAQ section spells out exactly what that cleanup should look like for its specific APIs.</li>
+<li><strong>Check the CDN version pin before shipping.</strong> These snippets pin specific library versions (GSAP 3, odometer.js 0.4.8, VanillaTilt 1.8.1) deliberately, so behavior doesn't drift out from under you — bump them intentionally, and re-test the specific option or plugin API you're relying on when you do.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>The interesting split in web animation right now isn't "CSS vs. JavaScript" or "library vs. vanilla" — it's about picking the cheapest tool that's actually capable of the effect you need, and being honest about what happens when that tool's assumptions don't hold: no WebGL context, no microphone permission, an older browser without scroll timelines yet. These ten span that whole range, from a progress bar that needs no JavaScript at all to a raw GPU shader that needs to check its own compile status — and every one of them is small enough to read end to end in a few minutes.</p>
+
+<p>Try them, retune the timings, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

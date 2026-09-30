@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Subgrid Inherits the Parent's Gap">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Gap is inherited — until you override it</h1>
+    <p class="hint">A subgrid uses its parent's gap by default. Drag the slider to change the parent gap, then override the child's own gap and watch the two come apart.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="controls">
+      <label class="ctl">Parent gap
+        <input type="range" id="parentGap" min="0" max="40" value="14">
+        <output id="parentOut">14px</output>
+      </label>
+      <label class="ctl">
+        <input type="checkbox" id="override"> Override child gap to 0
+      </label>
+    </div>
+    <div class="wrap" id="wrap">
+      <div class="child">
+        <span class="cell">A1</span><span class="cell">A2</span><span class="cell">A3</span>
+      </div>
+      <div class="child">
+        <span class="cell">B1</span><span class="cell">B2</span><span class="cell">B3</span>
+      </div>
+    </div>
+    <p class="note" id="note">The child rows are subgrids — they inherit the parent's 14px gap without declaring any gap of their own.</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink:#14161c; --sub:#6b7080; --line:#e3e5ea; --accent:#6366f1; }
+  body { background:#f6f7f9; color:var(--ink); }
+  .bar { padding:18px 20px 8px; text-align:center; }
+  .bar h1 { margin:0 0 4px; font-size:19px; letter-spacing:-0.01em; }
+  .hint { margin:0 auto; max-width:48em; font-size:12.5px; color:var(--sub); }
+  .stageWrap { display:flex; flex-direction:column; align-items:center; gap:16px; padding:16px 18px 28px; }
+
+  .controls { display:flex; gap:20px; flex-wrap:wrap; justify-content:center; align-items:center; }
+  .ctl { display:flex; align-items:center; gap:8px; font:600 12px system-ui, sans-serif; color:var(--ink); }
+  .ctl input[type=range] { width:130px; accent-color:var(--accent); }
+  .ctl output { font:700 12px ui-monospace, monospace; color:var(--accent); min-width:38px; }
+
+  .wrap {
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    width:100%; max-width:480px;
+    background:#eef0ff; border:1px dashed #c7cbff; border-radius:10px; padding:12px;
+  }
+
+  /* Each child spans all three columns and re-uses them. With no gap of its
+     own declared, it simply inherits the parent's. */
+  .child {
+    grid-column:span 3;
+    display:grid;
+    grid-template-columns:subgrid;
+  }
+  .child.noGap { gap:0; }
+
+  .cell {
+    background:#fff; border:1px solid var(--line); border-radius:7px;
+    padding:14px 0; text-align:center;
+    font:700 12px ui-monospace, SFMono-Regular, Menlo, monospace; color:var(--accent);
+  }
+  .note { margin:0; font-size:12px; color:var(--sub); text-align:center; max-width:44em; }
+</script>
+
+<script type="text/plain" id="js">
+  var wrap = document.getElementById('wrap');
+  var range = document.getElementById('parentGap');
+  var out = document.getElementById('parentOut');
+  var override = document.getElementById('override');
+  var note = document.getElementById('note');
+  var children = document.querySelectorAll('.child');
+
+  function render() {
+    wrap.style.gap = range.value + 'px';
+    out.textContent = range.value + 'px';
+    for (var i = 0; i < children.length; i++) {
+      children[i].classList.toggle('noGap', override.checked);
+    }
+    note.textContent = override.checked
+      ? 'Child gap overridden to 0 — the columns still line up with the parent’s tracks, but the cells inside each row now sit flush against each other.'
+      : 'The child rows are subgrids — they inherit the parent’s ' + range.value + 'px gap without declaring any gap of their own.';
+  }
+
+  range.addEventListener('input', render);
+  override.addEventListener('change', render);
+  render();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

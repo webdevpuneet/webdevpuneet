@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="event.target vs event.composedPath() Across Shadow DOM">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>event.target gets retargeted across a Shadow DOM boundary -- composedPath() doesn't</h1>
+    <p class="hint">Each trigger button is rendered inside a Shadow DOM web component. Click each trigger once. Watch whether the menu actually manages to stay open.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken</h2>
+        <div class="menuWrap">
+          <shadow-trigger id="badHost"></shadow-trigger>
+          <div class="menu" id="badMenu"><p class="menuItem">Menu content</p></div>
+        </div>
+        <p class="stat" id="badStat">State: closed</p>
+        <p class="note" id="badNote">Compares e.target directly to the real inner &lt;button&gt; -- click the trigger and watch it never stay open.</p>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed</h2>
+        <div class="menuWrap">
+          <shadow-trigger id="goodHost"></shadow-trigger>
+          <div class="menu" id="goodMenu"><p class="menuItem">Menu content</p></div>
+        </div>
+        <p class="stat" id="goodStat">State: closed</p>
+        <p class="note" id="goodNote">Uses e.composedPath() to find the real inner &lt;button&gt;.</p>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 58em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .menuWrap { position: relative; display: inline-block; margin-bottom: 8px; }
+  shadow-trigger { display: inline-block; }
+  .menu { position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); display: none; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; box-shadow: 0 6px 20px rgba(0,0,0,.08); min-width: 140px; z-index: 5; }
+  .menu.open { display: block; }
+  .menuItem { margin: 0; font-size: 12.5px; }
+  .stat { margin: 4px 0 0; font: 800 13px ui-monospace, monospace; }
+  .note { margin: 6px 0 0; font-size: 11.5px; color: var(--sub); line-height: 1.5; min-height: 2.6em; }
+</script>
+
+<script type="text/plain" id="js">
+  // A tiny web component: a real <button> lives inside its Shadow DOM.
+  // For a listener attached OUTSIDE this shadow tree (like our document
+  // click handler), a click on that inner button reports e.target as the
+  // <shadow-trigger> HOST element itself -- the inner <button> is hidden
+  // from outside code by design. This is called event retargeting.
+  function ShadowTrigger() {
+    return Reflect.construct(HTMLElement, [], ShadowTrigger);
+  }
+  ShadowTrigger.prototype = Object.create(HTMLElement.prototype);
+  ShadowTrigger.prototype.constructor = ShadowTrigger;
+  Object.setPrototypeOf(ShadowTrigger, HTMLElement);
+  ShadowTrigger.prototype.connectedCallback = function () {
+    var root = this.attachShadow({ mode: 'open' });
+    root.innerHTML =
+      '<style>button{padding:9px 16px;border-radius:8px;border:1px solid #e3e5ea;background:#fff;color:#14161c;font:700 12.5px system-ui,sans-serif;cursor:pointer;}button:hover{border-color:#6366f1;}</style>' +
+      '<button type="button">Menu &#9662;</button>';
+    this._innerButton = root.querySelector('button');
+  };
+  customElements.define('shadow-trigger', ShadowTrigger);
+
+  function setupBad() {
+    var host = document.getElementById('badHost');
+    var menu = document.getElementById('badMenu');
+    var stat = document.getElementById('badStat');
+    var note = document.getElementById('badNote');
+    var realButton = null;
+
+    requestAnimationFrame(function grab() {
+      realButton = host._innerButton;
+      if (!realButton) { requestAnimationFrame(grab); return; }
+      realButton.addEventListener('click', function () {
+        menu.classList.toggle('open');
+        stat.textContent = menu.classList.contains('open') ? 'State: open' : 'State: closed';
+      });
+    });
+
+    // BROKEN: compares e.target directly to the real inner <button>
+    // reference. From this listener's position (outside the shadow
+    // tree), a click on that button is retargeted -- e.target reports
+    // the <shadow-trigger> HOST, never the inner button -- so this
+    // check can never match, and the trigger is always treated as
+    // "outside," fighting its own open click.
+    document.addEventListener('click', function (e) {
+      if (e.target === realButton) return;
+      if (menu.contains(e.target)) return;
+      if (menu.classList.contains('open')) {
+        menu.classList.remove('open');
+        stat.textContent = 'State: closed';
+        note.textContent = 'e.target was the <shadow-trigger> host, not the button -- treated as an outside click and closed immediately.';
+      }
+    });
+  }
+
+  function setupGood() {
+    var host = document.getElementById('goodHost');
+    var menu = document.getElementById('goodMenu');
+    var stat = document.getElementById('goodStat');
+    var note = document.getElementById('goodNote');
+    var realButton = null;
+
+    requestAnimationFrame(function grab() {
+      realButton = host._innerButton;
+      if (!realButton) { requestAnimationFrame(grab); return; }
+      realButton.addEventListener('click', function () {
+        menu.classList.toggle('open');
+        stat.textContent = menu.classList.contains('open') ? 'State: open' : 'State: closed';
+        note.textContent = 'Open -- click outside to close it.';
+      });
+    });
+
+    // FIXED: e.composedPath() returns the full, un-retargeted path the
+    // event actually traveled, including elements inside shadow trees.
+    // Checking whether the real button appears anywhere in that path
+    // correctly identifies the click as having originated on the trigger.
+    document.addEventListener('click', function (e) {
+      var path = e.composedPath();
+      if (realButton && path.indexOf(realButton) !== -1) return;
+      if (menu.contains(e.target)) return;
+      if (menu.classList.contains('open')) {
+        menu.classList.remove('open');
+        stat.textContent = 'State: closed';
+        note.textContent = 'Closed by a genuine outside click -- composedPath() correctly recognized clicks on the real button.';
+      }
+    });
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

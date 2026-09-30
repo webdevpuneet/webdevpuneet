@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="A Re-Render Doesn't Always Mean a DOM Write">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>A re-render doesn't always mean a DOM write</h1>
+    <p class="hint">Click "Re-render with identical output." The render count climbs, but the DOM-write count and the flash below don't move.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px 28px; }
+  .frame { width: 100%; max-width: 480px; background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 16px; text-align: center; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .stat { font: 800 22px ui-monospace, monospace; }
+  .lbl { font: 600 11px ui-monospace, monospace; color: var(--sub); margin-bottom: 2px; }
+  .textNode { padding: 10px; border-radius: 7px; background: #f4f4ff; font: 700 14px ui-monospace, monospace; margin-bottom: 10px; transition: background 0.15s; }
+  .textNode.flash { background: #fde68a; }
+  .btn { padding: 9px 16px; border-radius: 9px; border: none; background: var(--accent); color: #fff; font: 700 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { background: #4f52d6; }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; }
+  code { background: #eceef3; padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useRef = React.useRef;
+  var useLayoutEffect = React.useLayoutEffect;
+
+  function Demo() {
+    var tickState = useState(0);
+    var tick = tickState[0];
+    var setTick = tickState[1];
+
+    var renderCountRef = useRef(0);
+    renderCountRef.current += 1;
+
+    var domWriteCountRef = useRef(0);
+    var flashRef = useRef(null);
+
+    // The rendered text is always "STATUS: OK" no matter how many times we
+    // render -- the output never actually differs. useLayoutEffect runs
+    // after React commits, so this only fires on renders where React
+    // decided the real DOM node's text actually needed to change.
+    var prevTextRef = useRef(null);
+    var text = 'STATUS: OK';
+    useLayoutEffect(function () {
+      if (prevTextRef.current !== text) {
+        domWriteCountRef.current += 1;
+        if (flashRef.current) {
+          flashRef.current.classList.add('flash');
+          setTimeout(function () {
+            if (flashRef.current) flashRef.current.classList.remove('flash');
+          }, 200);
+        }
+      }
+      prevTextRef.current = text;
+    });
+
+    return e('div', { className: 'frame' },
+      e('div', { className: 'cols' },
+        e('div', null,
+          e('div', { className: 'lbl' }, 'Function calls'),
+          e('div', { className: 'stat' }, renderCountRef.current)
+        ),
+        e('div', null,
+          e('div', { className: 'lbl' }, 'Real DOM text writes'),
+          e('div', { className: 'stat' }, domWriteCountRef.current)
+        )
+      ),
+      e('div', { className: 'textNode', ref: flashRef }, text),
+      e('button', { className: 'btn', onClick: function () { setTick(tick + 1); } }, 'Re-render with identical output (' + tick + ')'),
+      e('p', { className: 'note' }, 'Every click re-runs the component function — the render-phase counter always climbs. But React’s reconciler diffs the new element tree against the last one, and "STATUS: OK" is the same string every time, so it skips the commit-phase DOM write entirely. Re-rendering is React deciding what the UI should look like; committing is actually touching the browser’s DOM, and React only does the second part when the diff says something is different.')
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

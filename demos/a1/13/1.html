@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Focusing a Real DOM Node">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Focus an input imperatively</h1>
+    <p class="hint">Click the button — it calls a real DOM method, <code>.focus()</code>, on the actual input element. No state, no re-render.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 20px 16px 30px; }
+  .field { display: flex; gap: 8px; }
+  .textInput {
+    padding: 10px 12px;
+    font: 500 14px system-ui, sans-serif;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    outline-offset: 2px;
+    width: 220px;
+  }
+  .focusBtn {
+    padding: 10px 16px;
+    font: 700 13px system-ui, sans-serif;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .focusBtn:hover { filter: brightness(1.08); }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useRef = React.useRef;
+
+  function FocusDemo() {
+    var inputRef = useRef(null);
+
+    function handleClick() {
+      inputRef.current.focus();
+    }
+
+    return e('div', { className: 'field' },
+      e('input', { ref: inputRef, className: 'textInput', placeholder: 'Click the button to focus me' }),
+      e('button', { className: 'focusBtn', onClick: handleClick }, 'Focus the input')
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(FocusDemo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Race Condition from a Missing Ignore Flag">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>The slow request that started first can still finish last</h1>
+    <p class="hint">Click "Ada" then immediately click "Bo" &mdash; Ada's search is deliberately slower. Watch which name ends up on screen.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 17px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 18px 16px 28px; }
+  .btnRow { display: flex; gap: 8px; }
+  .nameBtn { padding: 8px 16px; border-radius: 9px; border: 1.5px solid var(--line); background: #fff; font: 700 12.5px system-ui, sans-serif; cursor: pointer; }
+  .nameBtn:hover { border-color: var(--accent); }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; min-height: 110px; }
+  .colTitle { margin: 0 0 8px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; text-align: center; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .result { font: 700 14px system-ui, sans-serif; text-align: center; margin-top: 8px; }
+  .result.wrong { color: var(--red); }
+  .result.right { color: var(--green); }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; text-align: center; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useEffect = React.useEffect;
+
+  // Simulated API -- Ada is deliberately slower than Bo, so clicking Ada
+  // then quickly clicking Bo means Bo's response actually arrives FIRST.
+  function fakeSearch(name) {
+    var delay = name === 'Ada' ? 900 : 150;
+    return new Promise(function (resolve) {
+      setTimeout(function () { resolve(name + ' — 3 results'); }, delay);
+    });
+  }
+
+  function BadPanel(props) {
+    var name = props.name;
+    var resultState = useState('(nothing searched yet)');
+    var result = resultState[0];
+    var setResult = resultState[1];
+
+    // BROKEN: no way to tell an in-flight request "never mind." Whichever
+    // response arrives LAST wins and overwrites the box, regardless of
+    // which search was actually requested most recently.
+    useEffect(function () {
+      if (!name) return;
+      fakeSearch(name).then(function (data) {
+        setResult(data);
+      });
+    }, [name]);
+
+    var isWrong = name === 'Bo' && result.indexOf('Ada') === 0;
+    return e('div', null, e('div', { className: 'result' + (isWrong ? ' wrong' : '') }, result));
+  }
+
+  function GoodPanel(props) {
+    var name = props.name;
+    var resultState = useState('(nothing searched yet)');
+    var result = resultState[0];
+    var setResult = resultState[1];
+
+    // FIXED: an `ignore` flag closes over each individual effect run. The
+    // cleanup function flips it to true the moment a NEWER effect run
+    // starts (because name changed again) -- so an old, still-pending
+    // response checks the flag before applying itself and quietly no-ops.
+    useEffect(function () {
+      if (!name) return;
+      var ignore = false;
+      fakeSearch(name).then(function (data) {
+        if (!ignore) setResult(data);
+      });
+      return function () { ignore = true; };
+    }, [name]);
+
+    return e('div', null, e('div', { className: 'result right' }, result));
+  }
+
+  function Demo() {
+    var badNameState = useState(null);
+    var badName = badNameState[0];
+    var setBadName = badNameState[1];
+    var goodNameState = useState(null);
+    var goodName = goodNameState[0];
+    var setGoodName = goodNameState[1];
+
+    function pick(n) { setBadName(n); setGoodName(n); }
+
+    return e('div', null,
+      e('div', { className: 'btnRow' },
+        e('button', { className: 'nameBtn', onClick: function () { pick('Ada'); } }, 'Search "Ada" (slow)'),
+        e('button', { className: 'nameBtn', onClick: function () { pick('Bo'); } }, 'Search "Bo" (fast)')
+      ),
+      e('div', { className: 'cols', style: { marginTop: '14px' } },
+        e('div', { className: 'col' },
+          e('h2', { className: 'colTitle bad' }, 'No ignore flag'),
+          e(BadPanel, { name: badName }),
+          e('p', { className: 'note' }, 'Can show Ada’s results even after you searched Bo.')
+        ),
+        e('div', { className: 'col' },
+          e('h2', { className: 'colTitle good' }, 'ignore flag + cleanup'),
+          e(GoodPanel, { name: goodName }),
+          e('p', { className: 'note' }, 'Always shows the result for the most recent search.')
+        )
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

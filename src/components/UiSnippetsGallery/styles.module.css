@@ -1,0 +1,292 @@
+.wrap {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 20px;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Controls bar ── */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.searchRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gallerySortBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 8px;
+  color: var(--text2, #64748b);
+  cursor: pointer;
+  transition: border-color 0.12s, color 0.12s;
+}
+.gallerySortBtn:hover { border-color: var(--accent, #6366f1); color: var(--accent, #6366f1); }
+
+.searchWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 11px;
+  color: var(--text3, #888);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 8px 32px 8px 32px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: var(--font-ui);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.searchInput::placeholder { color: var(--text3, #888); }
+.searchInput:focus { border-color: var(--accent); }
+
+.clearBtn {
+  position: absolute;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text3, #888);
+  border-radius: 4px;
+  padding: 0;
+  transition: color 0.15s;
+}
+.clearBtn:hover { color: var(--text); }
+
+/* ── Browse panel: categories (left) / tags (right) ──
+   Real <a href> links to every category/tag page — not a JS filter. Collapsed
+   to two lines by default; hovering reveals the full lists in both columns as
+   an overlay, matching the sidebar library's hover-popover filter panel. */
+.browseWrap {
+  position: relative;
+  height: 54px;
+  flex-shrink: 0;
+}
+
+.browseCols {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  height: 54px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.browseCols:hover {
+  height: auto;
+  max-height: 320px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: 0 14px 32px rgba(0,0,0,0.16);
+}
+
+.browseCol {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+}
+.browseCol + .browseCol {
+  border-left: 1px dashed var(--border);
+}
+
+.browseColLabel {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text2);
+  margin-bottom: 5px;
+}
+
+.browseChips {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 5px;
+}
+
+.browseChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-ui);
+  color: var(--text2);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.browseChip:hover { border-color: var(--accent); color: var(--accent); }
+.browseChip[aria-current="true"] {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.browseChipCount {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text2);
+  opacity: 0.65;
+}
+.browseChip[aria-current="true"] .browseChipCount { color: var(--accent); opacity: 0.8; }
+
+/* ── Empty state ── */
+.empty {
+  padding: 48px 0;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text3, #888);
+}
+
+/* ── Grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+
+.card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.15s, border-color 0.15s, transform 0.15s;
+}
+.card:hover { border-color: var(--accent); box-shadow: 0 6px 24px rgba(0,0,0,0.1); transform: translateY(-2px); }
+
+/* Stretched-link: the title is the real anchor, but its ::after overlay makes
+   the whole card a single clickable/crawlable target without nesting the
+   preview <iframe> inside an <a> (which would be invalid HTML). */
+.cardLink {
+  color: inherit;
+  text-decoration: none;
+  outline-offset: 3px;
+}
+.cardLink::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.previewWrap { position: relative; height: 200px; overflow: hidden; background: #fff; }
+
+.preview {
+  width: 100%; height: 100%;
+  object-fit: scale-down;
+  display: block;
+}
+
+.cardBody {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; padding: 10px 12px;
+  border-top: 1px solid var(--border);
+}
+
+.catBadge {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
+  color: var(--accent); background: var(--accent-dim);
+  padding: 2px 7px; border-radius: 4px; flex-shrink: 0;
+}
+
+.cardTitle {
+  font-size: 12px; font-weight: 600; color: var(--text);
+  text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.loadMoreWrap { display: flex; justify-content: center; padding-bottom: 8px; }
+
+.loadMore {
+  display: flex; align-items: center; gap: 6px;
+  padding: 9px 24px; background: none;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  font-size: 13px; font-weight: 600; color: var(--text2);
+  cursor: pointer; font-family: var(--font-ui);
+  transition: border-color 0.15s, color 0.15s;
+}
+.loadMore:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── Numbered pager ── */
+.pager {
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 6px; padding: 4px 0 8px;
+}
+
+.pageNums { display: flex; align-items: center; gap: 4px; }
+
+.pageNum,
+.pageNav {
+  display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+  min-width: 34px; height: 34px; padding: 0 8px;
+  background: none; border: 1.5px solid var(--border); border-radius: 8px;
+  font-size: 13px; font-weight: 600; color: var(--text2);
+  cursor: pointer; font-family: var(--font-ui);
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.pageNav { padding: 0 12px; }
+.pageNum:hover:not(.pageActive),
+.pageNav:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+
+.pageActive {
+  background: var(--accent); border-color: var(--accent); color: #fff; cursor: default;
+}
+
+.pageNav:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.pageGap {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 20px; height: 34px; color: var(--text3, #888); font-size: 13px;
+}
+
+@media (max-width: 560px) {
+  .pageNum, .pageNav { min-width: 30px; height: 30px; font-size: 12px; }
+}

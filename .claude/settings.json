@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(xargs wc -w)",
+      "Bash(awk '{print $1, $2}')",
+      "Bash(node --input-type=module)",
+      "Bash(node --check src/components/UiSnippetsTool/snippets/hamburger-nav.js)",
+      "Bash(node -e \"const s = require\\('./src/components/UiSnippetsTool/snippets/star-rating.js'\\).default; console.log\\('OK title:', s.seo.title\\); console.log\\('useCases:', s.seo.useCases.length, 'faqs:', s.seo.faqs.length\\);\")"
+    ]
+  }
+}

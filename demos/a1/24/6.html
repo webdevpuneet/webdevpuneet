@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Transform layer vs background-position">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Transform layer vs background-position</h1>
+    <p class="hint">Scroll down. Both panels parallax by the same amount &mdash; one animates <code>y</code> (transform), the other animates <code>background-position</code>. Watch the FPS readout.</p>
+  </header>
+  <div class="spacer">Scroll ↓</div>
+  <div class="scene">
+    <div class="panel">
+      <p class="label">transform: y &mdash; GPU layer</p>
+      <div class="layerWrap"><div class="tLayer" id="tLayer"></div></div>
+    </div>
+    <div class="panel">
+      <p class="label">background-position &mdash; repaints</p>
+      <div class="bpLayer" id="bpLayer"></div>
+    </div>
+  </div>
+  <div class="readout" id="readout">fps: --</div>
+  <div class="spacer end"></div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #7c3aed; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .hint code { background: #eceef2; padding: 1px 5px; border-radius: 4px; }
+  .spacer { height: 220px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 320px; }
+  .scene { display: flex; gap: 14px; margin: 0 20px; }
+  .panel { flex: 1; }
+  .label { margin: 0 0 6px; font: 700 10.5px system-ui, sans-serif; color: var(--sub); text-transform: uppercase; letter-spacing: 0.04em; text-align: center; }
+  .layerWrap { position: relative; height: 220px; overflow: hidden; border-radius: 10px; background: #ede9fe; }
+  .tLayer { position: absolute; inset: -40px 0; background: repeating-linear-gradient(135deg, #a78bfa 0 16px, #7c3aed 16px 32px); }
+  .bpLayer { height: 220px; border-radius: 10px; background-image: repeating-linear-gradient(135deg, #fbbf24 0 16px, #d97706 16px 32px); background-size: 200% 400px; background-position: 0 0; }
+  .readout { text-align: center; margin-top: 12px; font: 700 12px ui-monospace, monospace; color: var(--accent); }
+</script>
+
+<script type="text/plain" id="js">
+  gsap.registerPlugin(ScrollTrigger);
+
+  var readout = document.getElementById('readout');
+  var frames = 0;
+  var lastTime = performance.now();
+
+  function tick() {
+    frames++;
+    var now = performance.now();
+    if (now - lastTime >= 500) {
+      var fps = Math.round((frames * 1000) / (now - lastTime));
+      readout.textContent = 'fps: ' + fps;
+      frames = 0;
+      lastTime = now;
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  var tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.scene',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: true
+    }
+  });
+
+  // Transform-based: cheap, composited on its own layer.
+  tl.fromTo('#tLayer', { y: -30 }, { y: 30, ease: 'none' }, 0);
+
+  // background-position-based: forces a repaint every tick.
+  tl.fromTo('#bpLayer', { backgroundPositionY: '-60px' }, { backgroundPositionY: '60px', ease: 'none' }, 0);
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

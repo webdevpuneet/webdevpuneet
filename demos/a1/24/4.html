@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Direction reversal">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Direction reversal</h1>
+    <p class="hint">Scroll down. The orange layer moves the same direction as the page but slower &mdash; the pink layer moves upward, opposite to scroll. Both read as parallax.</p>
+  </header>
+  <div class="spacer">Scroll ↓</div>
+  <div class="scene">
+    <div class="layer same" id="same">Same dir, slower</div>
+    <div class="layer opp" id="opp">Opposite dir</div>
+  </div>
+  <div class="spacer end"></div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #db2777; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .spacer { height: 220px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 320px; }
+  .scene { position: relative; height: 320px; margin: 0 20px; overflow: hidden; border-radius: 12px; background: #f8fafc; }
+  .layer { position: absolute; left: 50%; width: 190px; height: 90px; margin-left: -95px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font: 800 12px system-ui, sans-serif; color: #fff; text-align: center; }
+  .same { top: 30%; background: #d97706; box-shadow: 0 12px 24px rgba(217,119,6,0.35); }
+  .opp { top: 62%; background: var(--accent); box-shadow: 0 12px 24px rgba(219,39,119,0.35); }
+</script>
+
+<script type="text/plain" id="js">
+  gsap.registerPlugin(ScrollTrigger);
+
+  var tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.scene',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: true
+    }
+  });
+
+  // Same direction as scroll, but a fraction of the distance.
+  tl.fromTo('#same', { yPercent: -20 }, { yPercent: 20, ease: 'none' }, 0);
+
+  // Opposite direction: moves UP while the page scrolls down.
+  tl.fromTo('#opp', { yPercent: 20 }, { yPercent: -20, ease: 'none' }, 0);
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

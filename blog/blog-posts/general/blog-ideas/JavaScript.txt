@@ -1,0 +1,97 @@
+JAVASCRIPT — BLOG QUEUE
+=======================
+Publish top-down. Mark done: [ ] -> [x] and append "-> general-blogNN.txt"
+[~] = partially covered by a published post; only write as a deeper dive.
+React versions of these builds live in React.txt — don't write both.
+
+ALREADY PUBLISHED — DO NOT REPEAT
+---------------------------------
+[x] JavaScript Debounce vs Throttle: When Should You Use Each?          -> general-blog7.txt
+[x] How to Detect When an Element Enters the Viewport Without a Library -> general-blog10.txt
+
+
+TIER 1 — UI BUILDS (vanilla, copy-paste ready)
+-----------------------------------------------
+[x] JavaScript Event Delegation Explained with Real UI Examples -> general-blog16.txt
+[x] How to Detect Clicks Outside an Element in JavaScript -> general-blog18.txt (published as "9 Common Mistakes" — 9 demos earned the topic)
+[x] How to Copy Text to the Clipboard (and Handle It Failing) -> general-blog23.txt (published as "9 Common Mistakes")
+[x] How to Build Accessible Tabs with Vanilla JavaScript -> general-blog28.txt
+[x] How to Build an Accordion Without a JavaScript Library -> general-blog33.txt
+[ ] How to Build a Modal with a Real Focus Trap in Vanilla JavaScript
+[ ] How to Build a Toast Notification System with Vanilla JavaScript
+[ ] How to Build a Tooltip with JavaScript and CSS
+[ ] How to Build a Custom Dropdown with Vanilla JavaScript
+[ ] How to Build a Search Filter with Vanilla JavaScript
+[ ] How to Build a Multi-Step Form with Vanilla JavaScript
+[ ] How to Build a Password Strength Meter with JavaScript
+[ ] How to Build a Character Counter with JavaScript
+[ ] How to Build Drag and Drop with Vanilla JavaScript
+[ ] How to Build a Keyboard Shortcut (Hotkey) System in JavaScript
+[ ] How to Build an Undo/Redo System in Vanilla JavaScript
+
+TIER 2 — FORMS AND DATA SAFETY
+-------------------------------
+[ ] How to Build an Auto-Save Form with JavaScript
+[ ] How to Detect Unsaved Changes Before Leaving a Page
+[ ] How to Prevent Double-Click Form Submissions
+[ ] FormData Explained: Reading, Validating and Submitting Forms
+[ ] How to Handle Loading, Error and Empty States in JavaScript
+[ ] How to Write JavaScript That Survives a Slow Network
+
+TIER 3 — MODERN SYNTAX, COMPARED
+---------------------------------
+[ ] JavaScript Optional Chaining (?.) Explained with Real Examples
+[ ] Nullish Coalescing (??) vs OR (||): What's Actually Different?
+[ ] JavaScript Destructuring: 15 Practical Examples
+[ ] Spread vs Rest Operator in JavaScript Explained
+[ ] map(), filter() and reduce(): When Should You Use Each?
+[ ] find() vs filter() vs some() vs every(): Which One Do You Need?
+[ ] for...of vs forEach(): Which Should You Use?
+[ ] Sets vs Arrays: When Is a Set Actually Better?
+[ ] Maps vs Objects: Which Should You Use?
+[ ] structuredClone() vs JSON Clone: What's the Difference?
+[ ] Shallow Copy vs Deep Copy in JavaScript: A Practical Guide
+[ ] JavaScript Modules Explained: import, export and dynamic import()
+
+TIER 4 — ASYNC JAVASCRIPT
+--------------------------
+[ ] Promises vs Async/Await: What's Actually Different?
+[ ] Promise.all vs allSettled vs race vs any: A Practical Comparison
+[ ] How to Cancel a Fetch Request with AbortController
+[ ] How to Add a Timeout to a Fetch Request
+[ ] How to Retry Failed API Requests (with Backoff)
+[ ] fetch() Complete Guide: Headers, Bodies, Errors and Streaming
+[ ] The JavaScript Event Loop Explained with Live Visual Demos
+[ ] Microtasks vs Macrotasks: Why Your Code Runs in That Order
+[ ] Server-Sent Events vs WebSockets: Live Data in the Browser
+[ ] Error Handling in JavaScript: try/catch, finally and Custom Errors
+
+TIER 5 — BROWSER APIS WORTH KNOWING
+------------------------------------
+[~] IntersectionObserver Recipes: 10 Uses Beyond Lazy Loading (basics in blog10)
+[ ] ResizeObserver Explained with Practical Examples
+[ ] MutationObserver: Watching the DOM for Changes
+[ ] localStorage vs sessionStorage vs IndexedDB vs Cookies
+[ ] URL and URLSearchParams: Putting UI State in the Address Bar
+[ ] The History API: Build a Router in 50 Lines
+[ ] Custom Events: Decoupled Communication Between UI Components
+[ ] Pointer Events vs Mouse and Touch Events
+[ ] The Intl API: Formatting Dates, Numbers and Currency Properly
+[ ] Date Handling in JavaScript Without a Library
+
+TIER 6 — PERFORMANCE AND FUNDAMENTALS
+--------------------------------------
+[ ] JavaScript Closures Explained with Practical UI Examples
+[ ] JavaScript `this` Explained Without the Confusion
+[ ] requestAnimationFrame Explained: Smooth UI Animation in JavaScript
+[ ] JavaScript Memory Leaks: 7 Common Causes and How to Avoid Them
+[ ] How to Render Large Lists Efficiently in Vanilla JavaScript
+[ ] JavaScript Lazy Loading: Images, Components and Data
+[ ] Web Workers Explained with a Real Example
+[ ] How to Measure Real Performance with the Performance API
+[ ] Event Delegation vs Individual Listeners: The Performance Truth
+[ ] 10 JavaScript DOM Tricks Every Front-End Developer Should Know
+[ ] JavaScript classList: 15 Practical UI Examples
+[ ] Regex for Front-End Developers: 12 Patterns You'll Actually Use
+[ ] How to Sort, Group and Search Data in JavaScript
+[ ] How to Test Vanilla JavaScript UI Without a Framework

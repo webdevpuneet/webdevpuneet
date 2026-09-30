@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="A Form Where Every Input Lines Up">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>One column width, every row</h1>
+    <p class="hint">Each row is its own component with its own label. Subgrid makes them share the form's two columns, so the inputs align without hardcoding a label width.</p>
+  </header>
+  <main class="stageWrap">
+    <button type="button" class="toggleBtn" id="toggleBtn">Turn subgrid OFF</button>
+    <form class="form on" id="form">
+      <div class="row">
+        <label for="f1">Name</label>
+        <input id="f1" type="text" value="Priya Raman">
+      </div>
+      <div class="row">
+        <label for="f2">Email address</label>
+        <input id="f2" type="email" value="priya@example.com">
+      </div>
+      <div class="row">
+        <label for="f3">Billing country</label>
+        <input id="f3" type="text" value="India">
+      </div>
+      <div class="row">
+        <label for="f4">VAT / GST registration number</label>
+        <input id="f4" type="text" value="29ABCDE1234F1Z5">
+      </div>
+    </form>
+    <p class="note" id="note">Subgrid ON — the widest label sets one shared column, and every input starts at the same x position.</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink:#14161c; --sub:#6b7080; --line:#e3e5ea; --accent:#6366f1; }
+  body { background:#f6f7f9; color:var(--ink); }
+  .bar { padding:18px 20px 8px; text-align:center; }
+  .bar h1 { margin:0 0 4px; font-size:19px; letter-spacing:-0.01em; }
+  .hint { margin:0 auto; max-width:48em; font-size:12.5px; color:var(--sub); }
+  .stageWrap { display:flex; flex-direction:column; align-items:center; gap:14px; padding:16px 18px 28px; }
+
+  .toggleBtn {
+    font:700 12.5px system-ui, sans-serif; padding:8px 16px;
+    border:1px solid var(--line); border-radius:7px;
+    background:#fff; color:var(--accent); cursor:pointer;
+  }
+  .toggleBtn:hover { background:#eef0ff; }
+
+  /* The form owns the columns: labels get max-content, inputs take the rest. */
+  .form {
+    display:grid;
+    grid-template-columns:max-content 1fr;
+    gap:12px 16px;
+    width:100%; max-width:520px;
+    background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px;
+  }
+
+  /* Subgrid ON: each .row spans both columns and re-uses them, so the label
+     column is measured once across the whole form. */
+  .form.on .row {
+    grid-column:span 2;
+    display:grid;
+    grid-template-columns:subgrid;
+    align-items:center;
+  }
+
+  /* Subgrid OFF: each row measures its own label independently. */
+  .form.off .row {
+    grid-column:span 2;
+    display:grid;
+    grid-template-columns:max-content 1fr;
+    gap:16px;
+    align-items:center;
+  }
+
+  label { font:600 12.5px system-ui, sans-serif; color:var(--ink); }
+  input {
+    padding:8px 10px; font:500 13px system-ui, sans-serif;
+    border:1.5px solid var(--line); border-radius:7px; min-width:0;
+  }
+  input:focus { outline:2px solid var(--accent); outline-offset:1px; }
+  .note { margin:0; font-size:12px; color:var(--sub); text-align:center; max-width:42em; }
+</script>
+
+<script type="text/plain" id="js">
+  var form = document.getElementById('form');
+  var btn = document.getElementById('toggleBtn');
+  var note = document.getElementById('note');
+  var on = true;
+
+  btn.addEventListener('click', function () {
+    on = !on;
+    form.classList.toggle('on', on);
+    form.classList.toggle('off', !on);
+    btn.textContent = on ? 'Turn subgrid OFF' : 'Turn subgrid ON';
+    note.textContent = on
+      ? 'Subgrid ON — the widest label sets one shared column, and every input starts at the same x position.'
+      : 'Subgrid OFF — each row measures its own label, so every input starts at a different x position.';
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<h1>10 Copy-Paste Button Snippets That Do More Than Change Colour on Hover</h1>
+
+<p>Almost every button in a design system is finished the moment it has a hover state and a focus ring. That's fine for a link. It falls apart the second the button does something that takes time, something irreversible, or something the user needs confirmation of — because at that point the interesting design work isn't the resting style, it's the two seconds after the click. Did it copy? Is it downloading, or did nothing happen? Am I about to delete this permanently? A button that goes quiet during those two seconds reads as broken, and users click it again.</p>
+
+<p>Below are ten free, self-contained button snippets built around exactly that problem: a copy button that confirms in place, a download button with a real progress ring, a hold-to-confirm gesture that replaces an "are you sure?" dialog, a like button that bursts, a press that behaves like a physical object, a segmented toggle with a glider that measures itself, a three-way theme switch that actually follows the OS, a split button, an expanding FAB, and an add-to-calendar menu that generates a valid <code>.ics</code> file in the browser. Every one is a <strong>live, interactive preview</strong> — click them right here in the article — and each exports to React, Vue, Angular or Tailwind in one click from its snippet page. All ten are plain HTML, CSS and vanilla JavaScript with <strong>no dependencies and no CDN scripts</strong>.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>Every state the button can be in is a named state.</strong> Idle, loading, done. Held, released too soon, confirmed. The transitions between them are explicit functions, not a pile of booleans — which is why the awkward cases (clicking twice, releasing early, closing mid-animation) behave instead of stacking up.</li>
+<li><strong>Feedback lands where the user is already looking.</strong> The confirmation happens <em>in the button</em> — an icon swap, a filling ring, a colour shift — rather than in a toast in the corner of the screen that half of users never see.</li>
+<li><strong>Pointer Events, not mouse events.</strong> One set of handlers covers mouse, touch and pen. The hold-to-confirm button goes further and uses pointer capture, so a thumb that drifts a few pixels off the button doesn't strand it mid-gesture.</li>
+<li><strong>The accessibility is in the markup, not bolted on.</strong> The segmented control is a real <code>role="tablist"</code> with <code>aria-selected</code> and arrow-key navigation; the FAB toggles <code>aria-expanded</code> and closes on Escape; the split button closes on an outside click. These are the details that separate a component from a demo.</li>
+<li><strong>Nothing leaks.</strong> Particles remove themselves when their animation finishes, object URLs are revoked after the download fires, timers reset the button to idle. You can hammer any of these for a minute and the DOM looks exactly as it did at the start.</li>
+</ul>
+
+<h2>1. Copy Button</h2>
+
+<p>The one every developer-facing product needs: an icon button on a code block that swaps to a green checkmark for two seconds when the text lands on the clipboard, plus inline copy buttons on a row of credentials.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/copy-button/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Copy Button — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>navigator.clipboard.writeText(text)</code> is asynchronous and returns a promise, which matters more than it looks — clipboard access is denied outside a secure context (HTTPS or localhost), in some privacy modes, and when the user has refused the permission, so the <code>.catch()</code> is doing real work rather than satisfying a linter. The feedback is a pure CSS icon swap: the button contains both a copy icon and a checkmark, the checkmark is <code>display: none</code> at rest, and a single <code>.copied</code> class flips which one shows while tinting the button green. No DOM manipulation, no icon library, no re-render. A <code>setTimeout</code> removes the class after two seconds — long enough to register, short enough that the button is ready again before you want it.</p>
+
+<p><strong>Best for:</strong> code blocks, API keys, webhook URLs, share links, invite codes — anywhere you currently expect people to select text by hand. <strong>Tip:</strong> if you need to support non-HTTPS contexts, put the old <code>document.execCommand('copy')</code> path inside the <code>catch</code>: create a temporary textarea, set its value, select it, copy, remove it. It's deprecated, but it's the only thing that works when the Clipboard API is unavailable, and the fallback costs six lines.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/copy-button/">Copy Button</a></p>
+
+<h2>2. Download Button</h2>
+
+<p>Click and the label gives way to a progress ring with a live percentage, which fills, then resolves into a checkmark and "Saved" before returning to idle on its own.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/download-button/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Download Button — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> three layers — idle, loading, done — are stacked absolutely inside a fixed-size button and cross-faded with opacity and a small vertical slide, so the button never changes width and there's no layout jank to animate around. The ring is the standard stroke-dash technique: two SVG circles, with <code>stroke-dasharray</code> set to the circumference and <code>stroke-dashoffset</code> driven toward zero to draw the arc, and the whole SVG rotated <code>-90deg</code> so it fills from the top. The interesting choice is that the offset is updated inside a <code>requestAnimationFrame</code> loop rather than by a CSS transition — partly because utility frameworks don't reliably transition <code>stroke-dashoffset</code>, and partly because it lets the fill be eased deliberately: an ease-out curve of <code>1 - (1 - p)²</code> makes the ring race ahead early and slow near the end, which is what a real transfer feels like. A linear fill reads as fake. The percentage text is derived from the same <code>p</code>, so the number and the arc can never disagree, and a re-entrancy guard ignores clicks while the button is already loading or done, so spamming it can't stack animations.</p>
+
+<p><strong>Best for:</strong> exports, report generation, file saves, anything where the wait is long enough to notice. <strong>Tip:</strong> wire the loop to real progress where you can — <code>XMLHttpRequest</code>'s <code>progress</code> event or a streamed <code>fetch</code> reader both give you loaded/total. Where you genuinely can't know, keep the eased fake fill but cap it short of 100% until the actual response lands, so the ring never sits full while the user waits.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/download-button/">Download Button</a></p>
+
+<h2>3. Hold to Confirm Button</h2>
+
+<p>Press and hold, a bar fills, and the destructive action only fires when it completes. Let go early and it retracts with a "released too soon" note.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/hold-to-confirm-button/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Hold to Confirm Button — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> this replaces a modal with a gesture, and the implementation is a good lesson in why time-based beats transition-based. The fill runs in a <code>requestAnimationFrame</code> loop measured against <code>performance.now()</code>, computing <code>progress = elapsed / HOLD_MS</code> every frame, so the bar always reflects exactly how long the button has actually been held — release halfway and it's genuinely halfway, which a fixed CSS animation can't guarantee. Hitting <code>progress >= 1</code> fires <code>confirm()</code> once and stops the loop, so the action can't double-fire. The touch handling is the part worth stealing: on <code>pointerdown</code> the button calls <code>setPointerCapture</code>, which means it still receives <code>pointerup</code> even if your finger slides off the button — without it, a small drift on a phone drops the release event and leaves the hold stuck running. <code>touch-action: none</code> stops the page scrolling under the gesture, and <code>pointerup</code>, <code>pointercancel</code> and a guarded <code>pointerleave</code> all route to the same <code>cancel()</code>. On success the button locks into a done state, so the next press resets rather than deleting something twice.</p>
+
+<p><strong>Best for:</strong> delete, wipe, sign out everywhere, disconnect, transfer ownership — destructive actions where a modal is heavier than the decision deserves. <strong>Tip:</strong> <code>HOLD_MS</code> is the entire safety dial — the snippet ships at 1200ms. That's already a reasonable default; push much past two seconds and people assume the button is broken and let go, while much under 800ms stops feeling deliberate. Put your real call inside <code>confirm()</code> — it's the single choke point, so integration is one line.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/hold-to-confirm-button/">Hold to Confirm Button</a></p>
+
+<h2>4. Like Burst Button</h2>
+
+<p>Tap the heart and it pops into red past its own size while a dozen coloured particles spray outward and the count ticks up.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/like-burst-button/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Like Burst Button — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> two mechanisms, both small. The heart is an inline SVG that gains a <code>.liked</code> class, which fills it red and runs a keyframe scaling it from 0 up past 1 to 1.25 and back down on an overshooting <code>cubic-bezier</code> — that brief overshoot is the entire difference between "the heart sprang to life" and "the heart changed colour". The burst is twelve particles created on each like and sent to evenly spaced angles of <code>(i / n) × 2π</code> with a little random jitter and a random distance, positioned with <code>cos</code> and <code>sin</code>. The even angular spacing is what makes it read as a deliberate firework rather than random scatter; the jitter stops it looking mechanical. Each particle animates via the Web Animations API — <code>element.animate()</code> returns a handle whose <code>onfinish</code> removes the particle from the DOM — which is a genuinely nice pattern for short-lived elements: no <code>animationend</code> listeners to attach and detach across a dozen nodes, no cleanup pass, and nothing accumulates however many times you click. Unliking removes the state without a burst, because celebrations belong to the positive action only.</p>
+
+<p><strong>Best for:</strong> social feeds, comment threads, reactions, "was this helpful?" widgets. <strong>Tip:</strong> the count updates optimistically — immediately, before any server round trip — which is right for perceived speed, but it means you own the failure path. If the request fails, roll the count and the class back and say so; an optimistic UI that silently diverges from the database is worse than a slow one.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/like-burst-button/">Like Burst Button</a></p>
+
+<h2>5. Brutalist Press Button</h2>
+
+<p>A thick black border, flat saturated fill and a hard offset shadow — and on press the button travels down into the space the shadow was occupying.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/brutalist-press-button/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Brutalist Press Button — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the resting look is one detail — <code>box-shadow: 5px 5px 0 #111</code> with <strong>no blur radius</strong>, which is what makes it read as a literal offset silhouette sitting behind the button rather than a soft drop shadow. The press is where it earns its place: on <code>:active</code> the button translates by exactly the shadow's offset, <code>translate(5px, 5px)</code>, while the shadow itself collapses to <code>0 0 0</code>. The two numbers must match precisely — translate further than the shadow and the button appears to sink through the page; translate less and it looks like it's stuck partway. That one constraint is the whole illusion, and it's why this reads as a physical object being pushed flush against the surface when a generic <code>transform: scale(0.98)</code> reads as nothing at all. The high-contrast styling is also an accessibility argument, not just an aesthetic one: a 3px solid border and a flat fill make "this is clickable" unambiguous in a way that low-contrast neumorphic surfaces never managed.</p>
+
+<p><strong>Best for:</strong> landing pages, indie products, developer tools, anywhere the design has personality — and anywhere a soft, blurred button has been failing to look pressable. <strong>Tip:</strong> keep the offset and the translate as a single custom property so they can't drift apart when someone tweaks the shadow later, and check the pressed state on touch — <code>:active</code> fires on tap, so the mechanic works on mobile without extra code.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/brutalist-press-button/">Brutalist Press Button</a></p>
+
+<h2>6. Segmented Toggle</h2>
+
+<p>The iOS-style pill of mutually exclusive options, with a white glider that slides <em>and</em> resizes to fit segments of different widths.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/segmented-toggle/embed/" style="width:100%;height:540px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Segmented Toggle — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the glider is a single element behind the segments, and selecting a segment reads that segment's live <code>offsetWidth</code> and <code>offsetLeft</code> and writes them to the glider's <code>width</code> and <code>transform: translateX()</code>. Measuring from the DOM rather than hard-coding sizes is what lets "Grid", "List" and "Compact" — or "Monthly" and "Annual −20%" — all work in the same control without anyone maintaining a table of pixel offsets. It slides with <code>translateX</code> rather than animating <code>left</code>, which keeps the movement on the compositor instead of forcing a layout recalculation every frame; only the width transition relayouts, and only for one tiny element. The whole thing is wired by a reusable <code>setupGroup()</code> called once per control — twice in the demo, proving the pattern scales — and each group is a real <code>role="tablist"</code> of <code>role="tab"</code> buttons with <code>aria-selected</code> and keyboard navigation, so it's operable without a mouse.</p>
+
+<p><strong>Best for:</strong> two to four mutually exclusive choices — view modes, billing periods, time ranges, filters. Below five options it beats a dropdown outright, because every choice is visible without a click. <strong>Tip:</strong> call <code>moveGlider()</code> on resize and after web fonts load. A glider positioned before the font swaps will sit a few pixels off, and it's the kind of bug that only ever reproduces on someone else's connection.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/segmented-toggle/">Segmented Toggle</a></p>
+
+<h2>7. Colour Mode Toggle</h2>
+
+<p>A three-way Light / Dark / System switch — and System is a live binding, not a one-time snapshot.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/color-mode-toggle/embed/" style="width:100%;height:540px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Colour Mode Toggle — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the third option is the whole point. A two-state dark-mode switch ignores that the user's device already has a preference that changes with the time of day, so the modern pattern is Light, Dark and System — where System defers to <code>prefers-color-scheme</code> and keeps deferring. The snippet listens to the <code>matchMedia('(prefers-color-scheme: dark)')</code> change event and re-applies the theme whenever the OS flips, <em>but only while the user is in System mode</em>: pick Light or Dark explicitly and you've overridden the OS; pick System and you hand control back. That live-follow behaviour is what separates a real three-way toggle from one that merely has a third button. The theming itself is CSS custom properties — tokens for background, text, border and accent defined on the container, overridden under a <code>[data-theme="dark"]</code> selector — so switching themes is one attribute change on one element rather than a class toggle per component, with a transition on the colour properties to make it a crossfade instead of a flash. The thumb slides with <code>translateX()</code> of the active index.</p>
+
+<p><strong>Best for:</strong> any site with a dark theme, which by now is most of them. <strong>Tip:</strong> the ugliest bug in this pattern is the flash of the wrong theme on first paint, and no toggle can fix it from inside the page body. Set <code>data-theme</code> from a tiny blocking inline script in the <code>&lt;head&gt;</code> that reads the stored choice before the stylesheet renders — then let this component handle everything after that.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/color-mode-toggle/">Colour Mode Toggle</a></p>
+
+<h2>8. Split Button</h2>
+
+<p>A primary action on the left, a chevron on the right that opens a menu of alternatives — the deploy-button pattern from every dashboard you've used.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/split-button/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Split Button — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the layout is <code>inline-flex</code> on a <code>position: relative</code> container, with the main button rounded on its left corners only and the arrow button rounded on its right, so they read as one control with a seam. Notably there's <em>no</em> wrapper with <code>overflow: hidden</code> — that would clip the dropdown panel, which is the most common way this component gets broken. The seam itself is a <code>border-left: 1px solid rgba(255,255,255,0.25)</code> on the arrow half: because both halves share a background colour, a fully opaque divider looks harsh, and dropping the alpha to 25% reads as an inset separator rather than a line drawn on top. The menu animates in with a 150ms keyframe from <code>opacity: 0</code> and <code>translateY(-6px)</code>, so it emerges from the button rather than appearing from nowhere. Two behaviours make it usable: opening any dropdown first sweeps all others closed, so multiple split buttons on a page can't stack open panels, and a document-level click handler uses <code>e.target.closest('.split-btn')</code> to close on any click outside.</p>
+
+<p><strong>Best for:</strong> a clear default action with occasional variants — Deploy / Deploy to staging, Save / Save as, Send / Schedule. <strong>Tip:</strong> the outside-click handler is the reusable part. <code>closest()</code> is the cleanest test for "did this click land inside my component?", and it's the same three lines behind every dropdown, popover and menu you'll write after this one.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/split-button/">Split Button</a></p>
+
+<h2>9. Expanding FAB</h2>
+
+<p>A floating action button whose <code>+</code> rotates into a <code>×</code> while three labelled sub-actions stagger upward over a blurred backdrop.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/expanding-fab/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Expanding FAB — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> three small tricks, none of which need JavaScript to run the animation. The stagger is a CSS custom property: each sub-action carries <code>--i</code> (1, 2, 3) and its <code>transition-delay</code> is <code>calc((var(--i) - 1) × 0.05s)</code>, so they enter 50ms apart — and because <code>transition-delay</code> applies to the exit too, the close animation reverses naturally, topmost item first, with no separate close sequence to write. The icon needs no swap at all: the <code>+</code> character rotated 45° <em>is</em> a <code>×</code>, so <code>transform: rotate(45deg)</code> on a spring curve does the whole thing. The tooltips have no hover logic either — their opacity is driven by the parent item's open state, so they simply exist when the actions do. The backdrop is a fixed layer that fades to <code>rgba(0,0,0,0.2)</code> with <code>backdrop-filter: blur(2px)</code> and toggles <code>pointer-events</code> so it can't swallow clicks while closed. <code>aria-expanded</code> tracks the state and Escape closes it.</p>
+
+<p><strong>Best for:</strong> mobile-first interfaces where the primary action needs to follow the user down a long scroll, and two or three related actions belong with it. <strong>Tip:</strong> keep it to three or four sub-actions. Past that the stagger becomes a queue people wait through, and what you actually want is a sheet or a menu.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/expanding-fab/">Expanding FAB</a></p>
+
+<h2>10. Add to Calendar Button</h2>
+
+<p>A dropdown that hands the same event to Google, Outlook, Office 365 and Yahoo as pre-filled links — and to Apple Calendar and everything else as a downloadable <code>.ics</code> file generated in the browser.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/add-to-calendar-button/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Add to Calendar Button — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> all the event details live in one <code>EVENT</code> object — title, description, location, start, end — and every menu item builds its own output from it, so changing the event is a one-place edit. The fiddly part, done for you, is that each provider wants a different URL shape: Google and Yahoo take compact UTC timestamps in their own parameter names, while Outlook and Office 365 take ISO datetimes in <code>startdt</code>/<code>enddt</code>. Apple has no add-event URL scheme at all, which is why the <code>.ics</code> path matters: <code>downloadIcs()</code> assembles a minimal valid VCALENDAR/VEVENT block, wraps it in a <code>Blob</code>, and triggers a download through a temporary object URL that's revoked immediately afterwards so it doesn't leak. Time zones are the other classic failure, and they're handled in one helper — <code>toUTC()</code> converts your local ISO start and end into the <code>YYYYMMDDTHHMMSSZ</code> format calendars require, so you author the event in plain local time and never think about it again.</p>
+
+<p><strong>Best for:</strong> webinars, event pages, booking confirmations, course schedules, anything where "they forgot" is the main failure mode. <strong>Tip:</strong> this is the snippet on the list most worth reading rather than just pasting — the <code>.ics</code> generation and the UTC helper are useful wherever you need to hand a user a file your server never touched. The same Blob-plus-object-URL pattern exports CSVs, JSON backups and generated text files entirely client-side.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/add-to-calendar-button/">Add to Calendar Button</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open any snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs, then paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — or use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page. All ten are dependency-free, so there's nothing else to install.</li>
+<li><strong>Keep the state machine, restyle everything else.</strong> The reusable parts here are the idle → loading → done layering, the <code>confirm()</code>/<code>cancel()</code>/<code>reset()</code> split, the re-entrancy guard, and the timeout that returns a button to idle. Those survive any redesign; the colours don't.</li>
+<li><strong>Use a real <code>&lt;button&gt;</code>.</strong> These all do, and it's why they're keyboard-operable and announced correctly for free. If you swap in a <code>div</code> to dodge some inherited CSS you inherit the whole accessibility bill instead: focusability, Enter and Space handling, and a role.</li>
+<li><strong>Decide the failure path before you ship the happy one.</strong> Clipboard writes reject outside a secure context, downloads fail, likes hit a 500. Each of these buttons has an obvious place to put that handling — the <code>.catch()</code>, the completion callback — and a confirmation state that lies is worse than no confirmation at all.</li>
+<li><strong>Respect <code>prefers-reduced-motion</code>.</strong> The particle burst, the spring rotations and the staggered FAB entrance are exactly what the setting exists for. A single <code>@media (prefers-reduced-motion: reduce)</code> block that drops the transforms to near-zero duration keeps every state change legible while removing the motion — the feedback survives, the animation doesn't.</li>
+<li><strong>In React, mind the timers.</strong> The copy button's two-second reset, the download button's auto-return to idle and the hold button's animation frame all need clearing on unmount, or a state update fires against a component that's already gone. Store the handle in a ref and clear it in the effect's cleanup.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>The gap between a button that works and a button that feels finished is almost never the resting style — it's whether the interface keeps talking after the click. A checkmark for two seconds, a ring that fills honestly, a bar that only completes if you really meant it, a heart that pops. None of these are more than a few dozen lines, and all of them replace the same thing: a user clicking again because nothing appeared to happen.</p>
+
+<p>Click them, hold them, retune the timings, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

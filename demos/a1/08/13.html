@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="type=&quot;file&quot;">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>type="file"</h1>
+    <p class="hint">Pick one or more images &mdash; the file picker itself is filtered to image files only by <code>accept</code>, and <code>multiple</code> is what allows more than one at a time. Nothing uploads anywhere; the names just get listed below.</p>
+  </header>
+  <main class="stageWrap">
+    <form class="fileForm">
+      <label class="field">
+        <span class="fieldLabel">Upload photos</span>
+        <input type="file" name="photos" accept="image/*" multiple id="fileInput">
+      </label>
+      <ul class="fileList" id="fileList"></ul>
+    </form>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .bar h1 code { font: 700 15px ui-monospace, monospace; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .hint code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
+  .stageWrap { display: flex; justify-content: center; padding: 20px 16px 36px; }
+
+  .fileForm {
+    width: 100%;
+    max-width: 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .fieldLabel { font: 700 12px system-ui, sans-serif; }
+
+  .fileForm input[type="file"] { font: 500 12.5px system-ui, sans-serif; }
+
+  .fileList { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .fileList li {
+    font: 600 11.5px ui-monospace, monospace;
+    background: #eceef3;
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: var(--ink);
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .fileList li span:last-child { color: var(--sub); font-weight: 500; }
+</script>
+
+<script type="text/plain" id="js">
+  var input = document.getElementById('fileInput');
+  var list = document.getElementById('fileList');
+  input.addEventListener('change', function () {
+    list.innerHTML = '';
+    Array.prototype.forEach.call(input.files, function (file) {
+      var li = document.createElement('li');
+      var nameSpan = document.createElement('span');
+      var sizeSpan = document.createElement('span');
+      nameSpan.textContent = file.name;
+      sizeSpan.textContent = Math.round(file.size / 1024) + ' KB';
+      li.appendChild(nameSpan);
+      li.appendChild(sizeSpan);
+      list.appendChild(li);
+    });
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

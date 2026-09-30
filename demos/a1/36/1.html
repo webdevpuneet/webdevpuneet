@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="animation-timeline: scroll()">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>animation-timeline: scroll()</h1>
+    <p class="hint">Scroll down through this frame. The bar's fill width is tied directly to how far you've scrolled through the whole frame &mdash; zero JavaScript animation logic.</p>
+  </header>
+  <div class="spacer">Scroll ↓</div>
+  <div class="track"><div class="fill"></div></div>
+  <p class="readout" id="readout">scroll: 0%</p>
+  <div class="spacer end">Keep scrolling</div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .spacer { height: 220px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 260px; }
+  .track { max-width: 320px; margin: 0 auto; height: 14px; background: var(--line); border-radius: 8px; overflow: hidden; }
+
+  .fill {
+    height: 100%;
+    width: 100%;
+    transform-origin: left center;
+    background: linear-gradient(90deg, #6366f1, #a855f7);
+    animation: grow linear;
+    animation-timeline: scroll();
+  }
+
+  @keyframes grow {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+
+  .readout { text-align: center; margin-top: 14px; font: 700 12px ui-monospace, monospace; color: var(--accent); }
+</script>
+
+<script type="text/plain" id="js">
+  var readout = document.getElementById('readout');
+
+  function onScroll() {
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+    readout.textContent = 'scroll: ' + pct.toFixed(0) + '%';
+  }
+
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

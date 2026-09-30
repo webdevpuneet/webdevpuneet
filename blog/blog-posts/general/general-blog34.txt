@@ -1,0 +1,180 @@
+<h1>useLayoutEffect vs useEffect: When the Difference Actually Matters</h1>
+
+<p>The official answer to "what's the difference between useEffect and useLayoutEffect" is one sentence long, and most React developers can recite it without ever having watched it happen: <code>useLayoutEffect</code> runs synchronously before the browser paints, <code>useEffect</code> runs asynchronously after. That sentence is easy to nod along to and hard to actually reason about, because "before paint" and "after paint" describe a gap that's usually a handful of milliseconds — invisible in normal use, until the one specific situation where it isn't: an effect that measures the DOM and then changes something based on what it measured.</p>
+
+<p>The 6 demos below are all live and interactive, and every one either logs the real, browser-confirmed sequence of events with <code>requestAnimationFrame</code> (which only fires after an actual paint has happened) or slows down an operation just enough to make the difference visible without changing what's actually happening. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> — FWD Tools' free in-browser editor. This post assumes you already know the basics of <code>useEffect</code> — dependency arrays, cleanup functions — from <a href="https://www.webdevpuneet.com/search/label/React">an earlier post</a>; the only new territory here is timing.</p>
+
+<h2>Ground rules: where "paint" fits between commit and effects</h2>
+
+<p>A previous post on this blog drew a hard line between React's <strong>render phase</strong> (calling your component function to figure out what the output should be) and its <strong>commit phase</strong> (writing the actual differences to the real DOM). That distinction was enough for reasoning about re-renders, but timing effects correctly requires one more step wedged in between commit and "done": the browser's own <strong>paint</strong>, the moment pixels the user can actually see get drawn to the screen. React committing a DOM mutation and the browser painting that mutation are two separate events, and the entire reason two effect hooks exist is that they fire on opposite sides of that boundary.</p>
+
+<p><code>useLayoutEffect</code> fires synchronously, immediately after React commits DOM mutations, and — critically — the browser is not permitted to paint until that effect function finishes running. If it sets state, causing another render and commit, the browser still waits; the user's eyes only ever see whatever the DOM looks like once the layout effect is completely done. <code>useEffect</code> fires later, scheduled asynchronously after the browser has already been given the chance to paint, which means any DOM change it triggers is a second, separate, later paint — one the user can, in principle, see arrive after the first one. Every demo below is a different concrete consequence of that one ordering fact.</p>
+
+<h2>1. The Core Proof: One-Frame Tooltip Flicker</h2>
+
+<p>Click "Open tooltip" on each side. Both start at the wrong (overflowing) position, then correct — watch the frame log underneath, not just the tooltip.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/33/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="The Core Proof: One-Frame Tooltip Flicker Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">useLayoutEffect(function () {
+  var overflowing = checkOverflow(tooltipRef.current);
+  if (overflowing) setPosition('left'); // corrects BEFORE the browser paints
+}, [open]);
+
+useEffect(function () {
+  var overflowing = checkOverflow(tooltipRef.current);
+  if (overflowing) setPosition('left'); // corrects AFTER the browser already painted 'right'
+}, [open]);</code></pre>
+
+<p>This demo doesn't need an artificial delay to prove its point, which is what makes it the clearest starting example: both panels run the identical overflow-check-then-correct logic, and the only difference in the source is which hook wraps it. The proof isn't "look at the tooltip and squint" — it's the red log lines, which are captured with <code>requestAnimationFrame</code>, a browser API that only ever fires after a real paint has completed. On the <code>useEffect</code> side, that log genuinely shows a frame painted at the wrong, overflowing position before the correction lands — a fact confirmed by the browser itself, not simulated. On the <code>useLayoutEffect</code> side, the correction happens before the browser is ever allowed to paint the first frame, so that wrong position is never rendered to pixels at all; the log only ever shows the corrected position. At normal speed the visual flicker itself can be subtle — that's exactly why the frame log exists, so the difference is provable even when your eyes are too slow to catch it.</p>
+
+<p><strong>Best for:</strong> the canonical "flip a tooltip, dropdown, or popover so it doesn't overflow the viewport" pattern — any time an effect measures an element's own rendered size or position and then repositions it based on that measurement. <strong>Tip:</strong> if an effect's entire job is "read a rect, then immediately write a style based on it," that's close to a textbook signal to reach for <code>useLayoutEffect</code> before you've even seen a flicker in production.</p>
+
+<h2>2. Proving the Actual Firing Order</h2>
+
+<p>Click "Trigger update" and read the log top to bottom — it's the real, timestamped sequence, not a diagram.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/33/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Proving the Actual Firing Order Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">function Demo() {
+  // 1. render phase -- runs first, every time
+  useLayoutEffect(function () {
+    // 3. fires right after commit, BEFORE the browser paints
+  }, [tick]);
+  useEffect(function () {
+    // 5. fires AFTER the browser paints -- scheduled asynchronously
+  }, [tick]);
+  return output; // 2. React commits this to the real DOM
+}
+// 4. the browser paints, in between steps 3 and 5</code></pre>
+
+<p>One component, both hooks, one shared log — this demo exists purely to make the ordering claim from the ground-rules section checkable rather than trusted. Every click appends to the log in real time: first the render-phase line (the component function body running), then a commit marker, then the <code>useLayoutEffect</code> line, then a <code>requestAnimationFrame</code> callback scheduled from inside that layout effect — which, because <code>requestAnimationFrame</code> only runs after a paint, proves the browser actually drew a frame at that point — and finally the <code>useEffect</code> line. That last step is worth being honest about: both the paint-confirmation callback and <code>useEffect</code> are scheduled asynchronously through separate browser and React mechanisms, so while they land in the order shown here on essentially every run, nothing in the spec guarantees perfect ordering between two independently-scheduled async callbacks the way it guarantees <code>useLayoutEffect</code> strictly precedes paint. The five-step sequence — render, commit, layout effect, paint, effect — is the one invariant worth memorizing.</p>
+
+<p><strong>Best for:</strong> building a mental model of the full lifecycle of a single update, end to end, instead of memorizing "layout effect is early, effect is late" as two disconnected facts. <strong>Tip:</strong> open this demo's Fork &amp; Edit and add a second <code>useEffect</code> call — you'll see React runs multiple effects of the same type in the order they're declared, all of them still after the one paint.</p>
+
+<h2>3. Restoring Scroll Position Without the Jump</h2>
+
+<p>Click "Reopen list (restore to item 40)" on each side. Watch the frame log to see whether item 0 ever got painted first.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/33/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Restoring Scroll Position Without the Jump Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">useLayoutEffect(function () {
+  listRef.current.scrollTop = 0;
+  scrollSavedItemIntoView(listRef.current); // done before paint -- no jump visible
+}, [openId]);
+
+useEffect(function () {
+  listRef.current.scrollTop = 0;
+  scrollSavedItemIntoView(listRef.current); // browser already painted scrollTop=0 first
+}, [openId]);</code></pre>
+
+<p>Every list in this demo genuinely mounts at <code>scrollTop: 0</code> and is then scrolled to item 40, on both sides, with identical code — this mirrors a real "restore scroll position" feature, where a list re-mounts at the top by default and a saved position has to be reapplied. The frame log again uses <code>requestAnimationFrame</code> to report the actual painted <code>scrollTop</code> value, not the value React thinks it set. On the <code>useLayoutEffect</code> side, the restore happens before that first paint, so the very first frame the browser ever draws already shows the list scrolled to item 40 — the log never reports a near-zero value. On the <code>useEffect</code> side, the log's red line proves the browser painted the list at the top first, and only jumped to item 40 on a second, later paint — a real, momentary flash of the wrong content that a user scrolling back to a saved article or comment thread would genuinely see.</p>
+
+<p><strong>Best for:</strong> any "return to where you were" feature — restoring scroll position after navigating back, reopening a collapsed panel to its last-known state, or re-mounting a virtualized list at a remembered index. <strong>Tip:</strong> this is a narrower, more specific case of the tooltip demo above — both are "measure or set layout, and the user must never see the default state first," which is the single unifying reason <code>useLayoutEffect</code> exists at all.</p>
+
+<h2>4. Starting a Transition From a Measured Position</h2>
+
+<p>Click "Move chip" on each side repeatedly. This is the classic FLIP animation pattern: read the old position, then animate from it.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/33/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Starting a Transition From a Measured Position Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">useLayoutEffect(function () {
+  var last = chipRef.current.offsetLeft;      // where it just landed
+  var delta = prevLeftRef.current - last;      // how far it moved
+  chipRef.current.style.transform = 'translateX(' + delta + 'px)'; // invert, instantly
+  requestAnimationFrame(function () {
+    chipRef.current.style.transition = 'transform 0.45s ease';
+    chipRef.current.style.transform = 'translateX(0px)';           // play, smoothly
+  });
+  prevLeftRef.current = last;
+}, [side]);</code></pre>
+
+<p>This is the FLIP technique (First, Last, Invert, Play) that most animation libraries use internally, implemented directly with a real DOM read (<code>offsetLeft</code>, which reflects layout and ignores any CSS transform already applied) and a real CSS transition. Both panels run byte-for-byte identical invert-then-play logic — measure the old position, jump the element there instantly with no transition, force a reflow, then release the transform with a transition enabled, which the browser renders as a smooth slide from old to new. On the <code>useEffect</code> panel, the browser has already painted the chip at its real final position — with no transform — before the effect gets a chance to run, so what you actually see is the chip arrive, snap backward to the old spot the instant the effect fires, then slide forward again: two visible motions where one was intended. On the <code>useLayoutEffect</code> panel, the invert happens before that first paint is allowed, so the snap-back is never rendered — the only motion the browser ever draws is the intended smooth slide.</p>
+
+<p><strong>Best for:</strong> any animation that needs to read a starting position from the DOM before it can animate toward an ending one — shared-element transitions, reordering list items, drag-and-drop settle animations. <strong>Tip:</strong> this exact pattern is why real animation libraries like Framer Motion and react-spring do their measurement work in a layout effect internally — you rarely have to write FLIP by hand, but it's worth knowing why the libraries that do it for you need the synchronous hook to do it correctly.</p>
+
+<h2>5. useLayoutEffect Blocks Paint: The Performance Cost</h2>
+
+<p>Click "Run expensive work" on each side and watch the spinner and whether "Loading..." ever actually appears on screen before the freeze.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/33/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="useLayoutEffect Blocks Paint: The Performance Cost Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">useLayoutEffect(function () {
+  // this runs BEFORE the browser is allowed to paint "Loading..." at all --
+  // the user may never see it, just a dead freeze until this returns
+  expensiveSynchronousWork();
+  setStatus('done');
+}, [status]);
+
+useEffect(function () {
+  // the browser already painted "Loading..." before this runs --
+  // the freeze happens, but at least it happened AFTER visible feedback
+  expensiveSynchronousWork();
+  setStatus('done');
+}, [status]);</code></pre>
+
+<p>Every previous demo framed synchronous timing as a benefit; this one is the honest cost side of that same coin. <code>useLayoutEffect</code> blocking paint is exactly what fixed the flicker in demos #1, #3, and #4 — but "blocks paint" is a blunt instrument, and it blocks paint for <em>any</em> work inside it, not just fast measurement code. Both panels here run an identical 350-millisecond synchronous busy-loop, and the purely CSS-driven spinner (no JavaScript involved in animating it) stutters or freezes on both sides during that work, because a busy-loop blocks the browser's main thread regardless of which hook triggered it. The real difference is in the log: on the <code>useEffect</code> panel, the browser gets to paint "Loading..." before the expensive work starts, so the freeze at least follows some visible feedback. On the <code>useLayoutEffect</code> panel, the 350ms of work runs before that "Loading..." text is ever allowed to reach the screen — the entire interaction can be a dead, unresponsive freeze with zero feedback, then a sudden jump straight to "Done."</p>
+
+<p><strong>Best for:</strong> understanding why "just use useLayoutEffect everywhere to avoid flicker" is bad advice — it trades a possible visual flicker for a guaranteed, synchronous delay of the entire page's paint. <strong>Tip:</strong> if a layout effect's job is measurement and a small style correction, it's typically fast enough that this cost is unnoticeable; if it also happens to contain a slow computation or a big synchronous loop, that heavy work belongs in <code>useEffect</code>, a Web Worker, or broken into smaller chunks — never left inside a layout effect by accident.</p>
+
+<h2>6. Escalating From useEffect to useLayoutEffect</h2>
+
+<p>Pick a longer button label, then click "Show popover." Both panels run the exact same measuring code — only the hook name differs.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/33/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Escalating From useEffect to useLayoutEffect Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">function measureAndCenter() {
+  var bw = btnRef.current.offsetWidth;
+  var pw = popRef.current.offsetWidth;
+  setOffset(Math.round((bw - pw) / 2));
+}
+
+useEffect(measureAndCenter, [showId]);        // ships first -- simple default
+useLayoutEffect(measureAndCenter, [showId]);   // swap ONE word once flicker shows up</code></pre>
+
+<p>This last demo is the decision heuristic from every demo above, made literal: start with <code>useEffect</code> for everything, including DOM-measuring code, because it's the safer default and doesn't risk blocking paint the way demo #5 showed. Only escalate to <code>useLayoutEffect</code> once you can actually point to a wrong frame — a flicker you've seen, or a frame log like the ones throughout this post that proves one. Here, a popover has to center itself above a button whose label (and therefore width) isn't known in advance; picking "Confirm and continue" from the dropdown makes the centering math matter more, since the wrong-then-corrected offset is larger and easier to notice. The measuring function — read both widths, compute the centered offset, correct it — is identical in both panels' source, down to the byte. The entire fix, when this exact popover started visibly snapping into place in a real app, would be renaming one hook call. No restructuring, no new dependency array, no different measurement logic — because the timing problem was never about what the code does, only about when React lets the browser see it.</p>
+
+<p><strong>Best for:</strong> the actual day-to-day decision every time you write an effect that touches layout — default to <code>useEffect</code>, watch for a flicker, escalate only when one shows up. <strong>Tip:</strong> keep the measuring logic in a plain named function (like <code>measureAndCenter</code> above) rather than inlined directly in the hook call — it makes the eventual one-word swap between hooks a genuinely mechanical, low-risk edit instead of a rewrite.</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Reaching for useLayoutEffect by default "to be safe."</strong> Demo #5 shows the real cost — it blocks the browser from painting anything, including loading states, until it finishes, which can turn a fast effect's invisible timing edge case into a slow effect's very visible dead freeze.</li>
+<li><strong>Assuming a flicker that's too fast to see by eye isn't real.</strong> Demo #1's frame log confirms, with the browser's own <code>requestAnimationFrame</code>, that a wrong frame genuinely painted — even when it's too quick to catch without instrumentation.</li>
+<li><strong>Putting expensive, unrelated computation inside a layout effect that also does DOM measurement.</strong> Demo #5's busy-loop and demo #1's overflow check are both "effects," but only one of them needs to block paint — bundling slow work into a layout effect blocks paint for no reason.</li>
+<li><strong>Forgetting that useLayoutEffect firing doesn't mean the browser has painted yet.</strong> Demo #2's log shows the paint checkpoint arriving strictly after the layout effect, not during it — code inside a layout effect runs before anything is visible, every time.</li>
+<li><strong>Treating "the DOM read" and "the DOM write" as two separate problems instead of one measure-then-correct unit.</strong> Demos #3, #4, and #6 all follow the same shape — read a real layout value, then immediately act on it — which is the actual signature of a layout-effect candidate.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>Should I default to useLayoutEffect "to be safe" since it can't miss a frame?</h3>
+<p>No — default to <code>useEffect</code> for almost everything, including most DOM measurement, and only switch when you've actually observed or proven a flicker. Demo #5 is the direct cost of the opposite habit: a layout effect blocks the browser from painting anything at all, including loading indicators, until it finishes, so routinely reaching for it "just in case" trades a rare, possibly-invisible flicker for a guaranteed synchronous delay on every single update.</p>
+
+<h3>What happens if I use useLayoutEffect in server-side rendering?</h3>
+<p>React warns in development ("useLayoutEffect does nothing on the server") because there's no DOM or paint on the server to run it against — neither <code>useLayoutEffect</code> nor <code>useEffect</code> actually executes during server rendering, but <code>useLayoutEffect</code> specifically warns since code written for it typically assumes a real, measurable DOM exists. The common fix is a small custom hook that resolves to <code>useEffect</code> during server rendering and <code>useLayoutEffect</code> once mounted in the browser, or simply moving code that doesn't strictly need pre-paint timing into <code>useEffect</code>, which is silent and safe in both environments.</p>
+
+<h3>Does useLayoutEffect block painting for the whole page, or just this one component?</h3>
+<p>The whole page. Paint is a single browser-level operation for the entire document, not something scoped per component — React can't tell the browser "paint everything except this one part." Demo #5's spinner is unrelated to the component running the expensive layout effect, and it still stutters, because the main thread is genuinely blocked for the browser as a whole while that effect runs.</p>
+
+<h3>Is the flicker from useEffect actually visible at normal speed, or only in slow-motion recordings?</h3>
+<p>It depends entirely on how much work happens between the wrong paint and the correction — demo #1's simple position flip can be genuinely subtle at 60fps, which is exactly why its frame log exists as browser-confirmed proof rather than relying on your eyes. Demos #3 and #4 make it much easier to actually see, because a scroll jump or a snap-back animation spans more pixels and more time than a single flipped tooltip, so the "is this really visible" question has a different answer for every specific case — measure it rather than guessing.</p>
+
+<h3>If both hooks have the same signature, is there any code difference besides the import name?</h3>
+<p>None — as demo #6 shows directly, <code>useEffect</code> and <code>useLayoutEffect</code> take the identical arguments (a function, an optional dependency array) and support the identical cleanup-function return convention. The entire API surface is the same; only the scheduling behavior around paint differs, which is what makes swapping between them, when it's the right fix, a genuinely one-word change.</p>
+
+<p>The fastest way to make this stick is to Fork &amp; Edit demo #1 — the simplest one — and change its <code>requestAnimationFrame</code> call to <code>setTimeout(fn, 0)</code> instead. Watch the log's timing shift, and notice that the ordering guarantee between "layout effect" and "paint" doesn't move at all, because that guarantee comes from React and the browser's rendering pipeline, not from any particular way of observing it. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop into a real project.</p>
+
+<p><strong>Recommended next step:</strong> open the <a href="https://fwdtools.com/react-playground/">React Playground</a> — FWD Tools' full in-browser React sandbox — and rebuild demo #6's measure-and-center popover from scratch, starting with only <code>useEffect</code> and deliberately watching for the flicker before you ever add <code>useLayoutEffect</code>. Feeling the actual decision point, not just reading about it, is what makes the heuristic stick. For more tutorials like this one, browse the <a href="https://www.webdevpuneet.com/search/label/React">React</a> label on the blog.</p>

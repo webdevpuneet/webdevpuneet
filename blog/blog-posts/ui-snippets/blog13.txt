@@ -1,0 +1,164 @@
+<h1>10 Copy-Paste Dashboard Snippets That Turn Data Into a Real Admin Panel</h1>
+
+<p>Almost every product eventually grows a dashboard — an admin panel, an analytics overview, a billing page, a team board. And most teams build it the same expensive way: pull in a component library, wire up a grid plugin, add a charting dependency, and end up shipping a few hundred kilobytes of JavaScript to render six numbers and a list. Below are 10 free dashboard snippets you can preview live and copy in seconds: a full admin shell, KPI cards that count up on scroll, a drag-to-rearrange widget grid that remembers its layout, an activity timeline, a grouped transaction history, a drag-and-drop kanban board, a week-view scheduler, a notification bell, a plan-usage quota meter, and a service status widget.</p>
+
+<p>Each one comes with <strong>how it actually works</strong>, <strong>when to reach for it</strong>, and a quick tip for adapting it. They're all plain HTML, CSS, and vanilla JavaScript — no framework, no grid library, no drag-and-drop package.</p>
+
+<p>Every snippet below is a <strong>live, interactive preview</strong> — drag it, filter it, click it right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+
+<h2>What separates a dashboard people use from one they ignore</h2>
+
+<p>Dashboards fail for predictable reasons, and every snippet below is built around at least one of the fixes:</p>
+
+<ul>
+<li><strong>The most important number should be readable in under a second.</strong> A dashboard is scanned, not read. Big values, a colour-coded delta, and an icon per metric let someone answer "is anything wrong?" before they've focused on a single word.</li>
+<li><strong>Data should live in data, not in markup.</strong> The good snippets here keep events, transactions, services and quotas in a plain JavaScript array and render from it. Swapping the demo content for your API response becomes a one-line change instead of a rewrite of the HTML.</li>
+<li><strong>State the user sets should survive a reload.</strong> Widget order, filter tabs, read/unread — if the dashboard forgets what the user did the moment they refresh, it feels like a mockup rather than a tool.</li>
+</ul>
+
+<p>Keep those three in mind as you scroll.</p>
+
+<h2>1. Dashboard Layout</h2>
+
+<p>The frame everything else sits inside: a fixed dark sidebar with navigation and a user profile, a scrollable main area, a stats row across the top, and a data table underneath.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/dashboard-layout/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Dashboard Layout — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the app shell is a single flex container at <code>height: 100vh</code>. The sidebar gets a fixed width and <code>flex-shrink: 0</code> so it never collapses; the main area gets <code>flex: 1</code> plus <code>overflow-y: auto</code>, which is what makes the content scroll independently while the navigation stays put. There's no JavaScript in the whole layout — the stats row is a four-column CSS grid and the table is a real semantic <code>&lt;table&gt;</code> with a status column of coloured badge chips.</p>
+
+<p><strong>Best for:</strong> the starting skeleton for any admin panel, analytics tool, or SaaS app — build it once, then drop the other nine snippets into the main area. <strong>Tip:</strong> on mobile, don't shrink the sidebar — take it out of flow entirely with <code>position: fixed</code> and slide it in from off-screen behind a hamburger toggle, so the content gets the full viewport width.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/dashboard-layout/">Dashboard Layout</a></p>
+
+<h2>2. Stats Card</h2>
+
+<p>The KPI row every dashboard opens with — revenue, users, conversion rate — except the numbers count up from zero the moment they scroll into view, each with a coloured icon and a change indicator.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/stats-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Stats Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each value element carries its final number in a <code>data-target</code> attribute, and an <code>IntersectionObserver</code> fires the animation when the card enters the viewport — then disconnects, so the count-up runs exactly once instead of replaying every time you scroll past. The animation itself is a <code>requestAnimationFrame</code> loop over roughly 1200&nbsp;ms with a cubic ease-out, so the number sprints early and decelerates into its final value rather than ticking up linearly.</p>
+
+<p><strong>Best for:</strong> the metric row at the top of an analytics page, or a "by the numbers" block on a marketing site. <strong>Tip:</strong> the change indicator does more work than the value itself — "12,480" means nothing without "+18% vs last month" beside it, so always render the delta and colour it green or red.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/stats-card/">Stats Card</a></p>
+
+<h2>3. Dashboard Widget Grid</h2>
+
+<p>A customisable dashboard where users drag widgets to reorder them, toggle each one between single and double width, and find their layout exactly as they left it after a reload.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/dashboard-widget-grid/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Dashboard Widget Grid — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> reordering uses the native HTML5 drag-and-drop API with all five events handled by delegation on the grid container, so widgets added later work without registering new listeners. The drag preview is honest — instead of faking a placeholder, the real CSS Grid reflows live as you move — and the two classic API gotchas are handled explicitly: the dimming class is applied inside <code>requestAnimationFrame</code> so the browser doesn't snapshot the faded widget as the drag image, and <code>setData()</code> is called because Firefox refuses to start a drag without it. The final order is persisted to <code>localStorage</code> as a simple ordered list of widget IDs.</p>
+
+<p><strong>Best for:</strong> product dashboards where different roles care about different metrics, and "let me arrange my own view" is a real feature request rather than a nice-to-have. <strong>Tip:</strong> persist the order as IDs, never as HTML — that way you can add, remove or redesign widgets later and old saved layouts still resolve correctly.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/dashboard-widget-grid/">Dashboard Widget Grid</a></p>
+
+<h2>4. Activity Feed</h2>
+
+<p>A vertical timeline of what's been happening — deploys, comments, alerts — with a connecting spine, coloured event icons, avatars, quoted comment previews, timestamps, and filter tabs by event type.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/activity-feed/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Activity Feed — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the timeline spine is a 1px div with a pseudo-element circle for each node, and the last item gets a class that hides the line while preserving the spacing — so the timeline ends cleanly instead of trailing into nothing. Each event type has its own tinted icon background and inline SVG (no icon library), which is what lets you scan the feed by colour without reading a word. Filtering is pure client-side class toggling based on a <code>data-type</code> attribute, so switching tabs is instant on a static feed.</p>
+
+<p><strong>Best for:</strong> audit logs, project-management activity streams, CI/CD histories, and the "recent activity" panel on a team dashboard. <strong>Tip:</strong> the colour coding only works if you keep the palette small — three or four event types maximum. Once every event has its own colour, nothing stands out and you're back to reading line by line.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/activity-feed/">Activity Feed</a></p>
+
+<h2>5. Transaction List</h2>
+
+<p>The screen at the heart of every banking and fintech app: transactions grouped under sticky date headers, each day showing its own net total, with category icons and income/spending filter tabs.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/transaction-list/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Transaction List — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the data is one flat array, and the render pass folds it into day buckets in a single walk, accumulating each day's running total as it goes. Because grouping happens at render time rather than in the data, re-filtering regroups instantly — switching to "Spending" recomputes each header's total to show that day's outflow rather than a stale mixed net. Amounts go through <code>Intl.NumberFormat</code> for correct currency formatting, and each day header uses <code>position: sticky</code> so the date pins to the top of the scroll container as you move through it.</p>
+
+<p><strong>Best for:</strong> fintech apps, billing histories, expense trackers, and any admin screen that lists dated money movements. <strong>Tip:</strong> let <code>Intl.NumberFormat</code> handle the currency rather than string-concatenating a symbol — it gets separators, decimal places, and symbol placement right for every locale you'll ever ship to.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/transaction-list/">Transaction List</a></p>
+
+<h2>6. Kanban Board</h2>
+
+<p>Three columns, draggable cards, live count badges in each column header — the full To&nbsp;Do / In&nbsp;Progress / Done board with no library behind it.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/kanban-board/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Kanban Board — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every card is <code>draggable="true"</code>, <code>dragstart</code> stores the node being dragged, and each column body listens for <code>dragover</code> — where <code>preventDefault()</code> is mandatory, because without it the browser never fires a <code>drop</code> event at all. The drop handler simply appends the dragged element into the new column and recounts, so column badges are always derived from the DOM rather than tracked in a separate variable that can drift out of sync. The semi-transparent dragging state is applied via a <code>setTimeout(0)</code> so the drag ghost captures the card at full opacity.</p>
+
+<p><strong>Best for:</strong> task boards, hiring pipelines, CRM deal stages, editorial calendars — anywhere work moves through fixed stages. <strong>Tip:</strong> the DOM move is the easy half; the real work is persisting it. Fire your API call from the <code>drop</code> handler and update optimistically, so the card lands where the user dropped it instead of snapping back while a request is in flight.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/kanban-board/">Kanban Board</a></p>
+
+<h2>7. Week View Scheduler</h2>
+
+<p>A Google-Calendar-style week grid: five day columns over a time gutter, events positioned by their start time and duration, drag-to-reschedule across days with 30-minute snapping, and a red line marking the current time.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/week-view-scheduler/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Week View Scheduler — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the whole component is one coordinate transform applied in both directions. Two CSS custom properties — the pixel height of an hour and the day's start hour — define the coordinate system, mirrored by matching JavaScript constants, so events stored as plain <code>{ day, start, dur }</code> objects, with times as fractional hours, convert to pixel offsets by pure function, and a drag converts pixels back into a snapped time. Even the horizontal hour lines cost zero elements: a <code>repeating-linear-gradient</code> paints a 1px line every hour-height, which means the grid can never drift out of alignment with the events sitting on top of it.</p>
+
+<p><strong>Best for:</strong> booking systems, shift schedulers, meeting planners, and internal tools where a month grid doesn't give enough time resolution. <strong>Tip:</strong> keep the hour height and start hour as CSS variables when you adapt it — changing the visible day range or zoom level then becomes a two-value edit rather than a hunt through hard-coded pixel maths.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/week-view-scheduler/">Week View Scheduler</a></p>
+
+<h2>8. Notification Bell</h2>
+
+<p>The header bell with an unread count badge, a dropdown panel listing recent notifications, per-item read state, mark-all-read, and click-outside-to-close.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/notification-bell/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Notification Bell — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the panel is always in the DOM and toggled with a class that transitions opacity and a small <code>translateY</code> — and critically, it sets <code>pointer-events: none</code> while closed, so the invisible panel can't swallow clicks meant for the page behind it. Unread items are driven entirely by a single class that controls both the dot indicator and the tinted row background, so marking one read is a class removal plus a badge recount rather than a re-render.</p>
+
+<p><strong>Best for:</strong> the top-right corner of any app header, paired with a full notification centre page for the complete history. <strong>Tip:</strong> cap the badge at "9+" and the panel at the most recent handful of items — a bell showing 247 unread is a number people learn to ignore, which defeats the entire point of the component.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/notification-bell/">Notification Bell</a></p>
+
+<h2>9. Quota Usage Meter</h2>
+
+<p>The plan-usage panel every usage-based product needs: a meter per resource — API calls, storage, seats — with tiered warning colours as each one approaches its cap, and an upgrade nudge that only appears when it's actually relevant.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/quota-usage-meter/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Quota Usage Meter — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every tracked resource is an object with a used value, a limit, a unit and an icon key, and the render pass turns that array into labelled meters — so adding a new tracked resource is a data edit, not new markup. The warning tier is <em>computed</em> from the percentage rather than stored: under 80% stays indigo, 80–99% turns amber and reads "running low", and 100% or over goes red with "Limit reached". The overall status badge then reflects whichever resource is in the worst state. Numbers format themselves intelligently, so "86,500 / 100,000" and "41.5 GB / 50 GB" both read naturally from the same code path.</p>
+
+<p><strong>Best for:</strong> billing and settings pages on API platforms, storage products, and any per-seat or metered SaaS. <strong>Tip:</strong> the amber tier is the whole feature — a meter that only turns red once the customer is already blocked has told them nothing they didn't discover from the error message.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/quota-usage-meter/">Quota Usage Meter</a></p>
+
+<h2>10. System Status Dashboard Widget</h2>
+
+<p>A service-health widget with a row per service, a 30-bar histogram summarising the last 90 days of uptime, operational/degraded/outage badges, and an active incident callout with a pulsing live dot.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/status-dashboard/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="System Status Dashboard Widget — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the uptime bars aren't hand-written markup — they're generated from a data object mapping each service to an array of 30 values between 0 and 1, where 1 is fully operational, 0 is an outage, and anything between represents degraded performance. That single number drives both the bar's height and its colour, which is why swapping in real uptime data from your monitoring API means replacing one array and nothing else. The incident box only renders when there's an active incident, so a healthy system shows a clean board.</p>
+
+<p><strong>Best for:</strong> public status pages, internal ops dashboards, and the service-health panel of an infrastructure product. <strong>Tip:</strong> show degraded as a distinct colour rather than folding it into "down" — most real incidents are partial, and a board that only knows green and red will either under-report a slowdown or panic everyone over one.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/status-dashboard/">System Status Dashboard Widget</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<p>Every snippet is framework-agnostic, so the workflow is the same wherever you're building:</p>
+
+<ol>
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs.</li>
+<li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — none of these ten need a CDN script or a build step.</li>
+<li>Prefer a component? Use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page.</li>
+<li>Find the demo data array near the top of the JS and replace it with your API response — most of these are built so that's the only change needed to go from mockup to working panel.</li>
+</ol>
+
+<h2>A few dashboard principles worth keeping</h2>
+
+<ul>
+<li><strong>Render from data, always.</strong> The snippets here that scale — the transaction list, the quota meter, the status widget — all share one shape: an array at the top, a render function underneath. Hand-written rows are fine for a demo and painful the day real data arrives.</li>
+<li><strong>Derive state instead of tracking it.</strong> The kanban board counts cards by querying the DOM and the quota meter computes its warning tier from a percentage. Neither can go stale, because neither stores a second copy of something it can calculate.</li>
+<li><strong>Don't reach for a library until the vanilla version actually breaks.</strong> Drag-and-drop reordering, a week calendar, and a working uptime chart are all here in a few dozen lines each. Add the dependency when you hit a real limitation, not on the assumption you will.</li>
+</ul>
+
+<h2>Final Thought</h2>
+
+<p>These ten cover a complete admin panel end to end — the shell to hold it, KPI cards up top, a rearrangeable widget grid, an activity timeline, a grouped money list, a task board, a scheduler, notifications, plan usage, and system health. Start with the <a href="https://fwdtools.com/ui-snippets/dashboard-layout/">Dashboard Layout</a> as your frame and fill the main area with whichever of the rest match your product; for developer-facing tools, the <a href="https://fwdtools.com/ui-snippets/api-key-manager/">API Key Manager</a> and <a href="https://fwdtools.com/ui-snippets/todo-widget/">Todo Widget</a> slot into the same grid, and a <a href="https://fwdtools.com/ui-snippets/bar-chart/">Bar Chart</a> or <a href="https://fwdtools.com/ui-snippets/donut-chart/">Donut Chart</a> covers the visualisations that go beside them — also dependency-free.</p>
+
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

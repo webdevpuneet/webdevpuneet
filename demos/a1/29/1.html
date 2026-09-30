@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="A Plain Timeline — No ScrollTrigger At All">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Plain gsap.timeline()</h1>
+    <p class="hint">Click Play. Three tweens run in order, once &mdash; driven purely by GSAP's own clock, no scroll involved anywhere.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="track"><div class="box" id="box"></div></div>
+  </main>
+  <div class="btnRow">
+    <button class="runBtn" id="playBtn">Play Sequence</button>
+  </div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; align-items: center; height: 200px; padding: 0 24px; }
+  .track { position: relative; width: 100%; max-width: 300px; height: 90px; }
+  .box {
+    position: absolute;
+    top: 0; left: 0;
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    background: var(--accent);
+    box-shadow: 0 10px 20px rgba(99,102,241,0.35);
+  }
+  .btnRow { display: flex; justify-content: center; padding: 0 20px 32px; }
+  .runBtn {
+    padding: 10px 20px;
+    font: 700 13px system-ui, sans-serif;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .runBtn:hover { background: #4f52d9; }
+</script>
+
+<script type="text/plain" id="js">
+  var box = document.getElementById('box');
+
+  var tl = gsap.timeline({ paused: true });
+
+  tl.to(box, { x: 160, duration: 0.6 })
+    .to(box, { y: 70, duration: 0.5 })
+    .to(box, { rotation: 180, backgroundColor: '#16a34a', duration: 0.5 });
+
+  document.getElementById('playBtn').addEventListener('click', function () {
+    tl.restart();
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

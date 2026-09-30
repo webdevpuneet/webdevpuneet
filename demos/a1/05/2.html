@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="useState — One Value, One Setter">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>useState — One Value, One Setter</h1>
+    <p class="hint">Click the switch. A single independent boolean is the case useState was built for — there's no second piece of state it needs to stay in sync with.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+    --on: #22c55e;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 20px 16px 30px; }
+
+  .card { display: flex; flex-direction: column; align-items: center; gap: 18px; width: 260px; padding: 26px 20px; border: 1.5px dashed var(--line); border-radius: 12px; background: #fff; }
+
+  .bulb { width: 70px; height: 70px; border-radius: 50%; background: #e3e5ea; transition: background 0.15s, box-shadow 0.15s; }
+  .bulb--on { background: var(--on); box-shadow: 0 0 28px 6px rgba(34,197,94,0.45); }
+
+  .switch { width: 56px; height: 30px; border-radius: 999px; background: #d7dae1; border: none; position: relative; cursor: pointer; transition: background 0.15s; }
+  .switch--on { background: var(--accent); }
+  .knob { position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.3); transition: left 0.15s; }
+  .switch--on .knob { left: 29px; }
+
+  .meta { font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--sub); text-align: center; }
+  .meta strong { color: var(--accent); }
+
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 10px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+
+  function LightSwitch() {
+    var s1 = useState(false), on = s1[0], setOn = s1[1];
+    var s2 = useState(0), clicks = s2[0], setClicks = s2[1];
+
+    function toggle() {
+      setOn(function (prev) { return !prev; });
+      setClicks(function (c) { return c + 1; });
+    }
+
+    return e('div', { className: 'card' },
+      e('div', { className: 'bulb' + (on ? ' bulb--on' : '') }),
+      e('button', { className: 'switch' + (on ? ' switch--on' : ''), onClick: toggle, 'aria-label': 'Toggle light' },
+        e('div', { className: 'knob' })
+      ),
+      e('div', { className: 'meta' }, 'on: ', e('strong', null, String(on)), '  ·  clicks: ', e('strong', null, clicks)),
+      e('pre', { className: 'ruleTag' }, "const [on, setOn] = useState(false);\nconst [clicks, setClicks] = useState(0);\n\nsetOn(prev => !prev);\nsetClicks(c => c + 1);")
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(LightSwitch));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

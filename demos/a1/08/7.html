@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="type=&quot;date&quot;">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>type="date"</h1>
+    <p class="hint">Click the field to open the browser's own native date picker &mdash; no calendar library, no CSS to build one. The value it produces is always a clean <code>YYYY-MM-DD</code> string underneath.</p>
+  </header>
+  <main class="stageWrap">
+    <form class="dateForm">
+      <label class="field">
+        <span class="fieldLabel">Booking date</span>
+        <input type="date" name="date" min="2024-01-01" max="2030-12-31" id="dateInput">
+      </label>
+      <p class="readout" id="dateReadout">No date selected yet</p>
+    </form>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .bar h1 code { font: 700 15px ui-monospace, monospace; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .hint code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
+  .stageWrap { display: flex; justify-content: center; padding: 20px 16px 36px; }
+
+  .dateForm {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 20px;
+  }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .fieldLabel { font: 700 12px system-ui, sans-serif; }
+
+  .dateForm input {
+    padding: 10px 12px;
+    font: 500 14px system-ui, sans-serif;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    outline: none;
+  }
+  .dateForm input:focus { border-color: var(--accent); }
+
+  .readout { margin: 0; font-size: 13px; color: var(--accent); font-weight: 700; text-align: center; }
+</script>
+
+<script type="text/plain" id="js">
+  var input = document.getElementById('dateInput');
+  var readout = document.getElementById('dateReadout');
+  input.addEventListener('input', function () {
+    if (!input.value) { readout.textContent = 'No date selected yet'; return; }
+    var d = new Date(input.value + 'T00:00:00');
+    readout.textContent = 'You picked: ' + d.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

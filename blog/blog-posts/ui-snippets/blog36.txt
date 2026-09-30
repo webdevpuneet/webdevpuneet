@@ -1,0 +1,151 @@
+<h1>10 New Copy-Paste Dev Snippets: Real Formatters, a Semver Checker & Two Dashboards That Fake Traffic Convincingly</h1>
+
+<p>Most "developer tool" demos either wrap a heavyweight npm package behind a UI or fake the hard part entirely — a JSON formatter that doesn't actually validate, a hash generator that isn't cryptographically real. The ten snippets below take the opposite approach: the JSON, SQL, and <code>.env</code> tools run real parsing logic (not a full grammar, but the same pragmatic clause-detection and line-by-line techniques a real formatter uses), the hash generator calls the browser's actual <code>SubtleCrypto</code> API, and the semver checker implements the same caret/tilde expansion rules npm itself uses. Two of the ten are dashboard-style widgets built around simulated data — a DNS propagation checker and a CDN cache-hit-ratio tile — included because the way they fake realistic, staggered telemetry is itself a pattern worth stealing for any "live status" UI.</p>
+
+<p>Every one is a <strong>live, interactive preview</strong> you can try right here in the article, and each exports to React, Vue, Angular or Tailwind in one click from its snippet page.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>Real browser primitives beat reimplementations.</strong> The SHA generator hashes through <code>crypto.subtle.digest</code> instead of a bundled JS hashing library, and the JSON tool validates through the browser's own <code>JSON.parse</code>/<code>JSON.stringify</code> rather than a hand-rolled parser — so the output matches what your actual runtime does with the same input, byte for byte.</li>
+<li><strong>Pragmatic parsing beats a full grammar.</strong> The SQL formatter detects clause boundaries with one sorted, longest-match-first regex alternation instead of a real SQL parser; the <code>.env</code> tool splits each line on only the <em>first</em> <code>=</code> so a database URL's query-string <code>=</code> doesn't truncate the value. Neither is a complete implementation of its language — both are exactly complete enough for every real-world input they're likely to see.</li>
+<li><strong>Errors point somewhere specific, not just "invalid."</strong> The JSON formatter translates a raw <code>JSON.parse</code> error into a line and column number; the <code>.env</code> parser reports the exact line where a key is malformed; the anagram checker shows precisely which letter's count is off and by how much. A red badge that doesn't say where to look wastes the two seconds it just saved.</li>
+<li><strong>The two dashboard widgets fake data at the request level, not the summary level.</strong> The CDN tile doesn't pick one random hit-rate percentage per tick — it simulates a random batch of individual requests, routes each to a random edge location, and rolls a 90%-probability hit/miss outcome per request before aggregating. The DNS checker staggers each of eight resolvers by its own fixed delay so nearby, well-connected resolvers visibly resolve before distant ones. Both read as real telemetry instead of a progress bar animating for its own sake.</li>
+<li><strong>Everything runs client-side, which is the actual point for half of these.</strong> Hashing a file, validating a <code>.env</code> file full of live secrets, or checking a private config never sends a byte over the network — the entire value of a hash or dotenv tool evaporates the moment you have to trust a server with the input.</li>
+</ul>
+
+<h2>1. JSON Formatter &amp; Validator</h2>
+
+<p>Paste any JSON, get pretty-printed or minified output, syntax highlighting, and — for invalid input — the exact line and column where parsing broke, not just a vague error.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/json-formatter-validator/embed/" style="width:100%;height:580px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="JSON Formatter & Validator — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> validation and formatting both run through the browser's real <code>JSON.parse</code> and <code>JSON.stringify</code> — no custom parser, so behavior matches your actual runtime exactly. When parsing fails, <code>locateError()</code> pulls the character position V8 embeds in its error message ("position 214"), counts newlines before that offset to get the line, and measures the gap from the last newline to get the column — the same technique a real IDE's linter uses. Once the input is confirmed valid, a single regex distinguishes keys, strings, numbers, booleans and null for syntax highlighting, and a recursive walk computes key count and max nesting depth for the stats row underneath.</p>
+
+<p><strong>Best for:</strong> debugging a malformed API response or config file pulled straight from a network tab — jump directly to the offending line instead of scanning a wall of text by eye. <strong>Tip:</strong> switch the indent dropdown to a tab character if your team's style guide uses tabs over spaces; Minify and Format share the same validation path either way.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/json-formatter-validator/">JSON Formatter &amp; Validator</a></p>
+
+<h2>2. SQL Query Formatter</h2>
+
+<p>Turns a dense, single-line query into clause-broken, readable SQL — with a toggle for leading vs. trailing commas and a separate keyword-uppercasing pass, because different teams disagree about both.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/sql-query-formatter/embed/" style="width:100%;height:540px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="SQL Query Formatter — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> rather than a full SQL grammar, <code>splitOnMajorClauses()</code> builds one regex alternation from a list of clause keywords — sorted longest-first so <code>GROUP BY</code> matches before a bare <code>BY</code> could confuse it — and slices the query at each boundary. The genuinely tricky part is splitting a <code>SELECT</code> or <code>GROUP BY</code> list on commas without breaking inside a function call like <code>COUNT(o.id, o.status)</code>: <code>splitTopLevelCommas()</code> walks the text character by character tracking parenthesis depth, and only treats a comma as a separator at depth zero. Keyword uppercasing is a deliberately separate, reversible pass, so you can format without forcing a case change you don't want.</p>
+
+<p><strong>Best for:</strong> cleaning up a query copied out of an ORM debug log or slow-query log before pasting it into a PR comment or index-planning discussion. <strong>Tip:</strong> toggle "Leading commas" to see the alternative comma-placement style before committing your team to one convention in a style guide.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/sql-query-formatter/">SQL Query Formatter</a></p>
+
+<h2>3. SHA Hash Generator</h2>
+
+<p>Real SHA-1, SHA-256, SHA-384 and SHA-512 digests of text or a local file, computed with the browser's native Web Crypto API — no library, no upload.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/sha-hash-generator/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="SHA Hash Generator — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> all four digests come from <code>crypto.subtle.digest()</code>, the same SubtleCrypto interface every modern browser ships — notably, MD5 isn't an option because the Web Crypto spec deliberately excludes it as cryptographically broken. Text input goes through <code>TextEncoder().encode()</code> to become UTF-8 bytes first, matching exactly what <code>shasum</code> or Node's <code>crypto.createHash</code> would produce for the same string; a selected file is hashed directly from <code>file.arrayBuffer()</code>, no re-encoding needed. Because typing fires a new async digest on every keystroke, a small incrementing <code>requestId</code> discards any digest that resolves after a newer one was already requested, so fast typing never flashes a stale, out-of-order hash.</p>
+
+<p><strong>Best for:</strong> verifying a downloaded file's checksum against a vendor's published SHA-256 without installing a CLI tool. <strong>Tip:</strong> change one character in the input and watch all four digests change completely — a fast, visual way to demonstrate the avalanche effect to anyone learning what a cryptographic hash actually guarantees.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/sha-hash-generator/">SHA Hash Generator</a></p>
+
+<h2>4. Semver Range Checker</h2>
+
+<p>Checks whether a version satisfies an npm-style range — caret, tilde, AND sets, OR sets — plus a standalone comparator for the classic "is 1.9.0 really less than 1.10.0" trap.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/semver-range-checker/embed/" style="width:100%;height:700px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Semver Range Checker — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>expandCaretTilde()</code> converts <code>^</code> and <code>~</code> into explicit <code>&gt;=lower &lt;upper</code> bounds up front rather than special-casing them everywhere. Tilde allows patch-level bumps only; caret allows anything that doesn't touch the leftmost nonzero digit — which means <code>^2.1.0</code> expands to <code>&gt;=2.1.0 &lt;3.0.0</code>, but <code>^0.2.3</code> correctly narrows to <code>&gt;=0.2.3 &lt;0.3.0</code>, matching npm's "0.x isn't stable yet" convention that trips up most hand-rolled semver logic. Prerelease comparison follows the spec exactly too: numeric identifiers compare numerically, everything else compares as a string, and a prerelease version always sorts below its plain release. Space-separated comparators AND together; <code>||</code>-separated segments OR together.</p>
+
+<p><strong>Best for:</strong> figuring out exactly why npm did or didn't resolve to a particular version against a <code>package.json</code> range, before digging through resolution logs. <strong>Tip:</strong> try the built-in <code>^0.2.3</code> vs. <code>^2.1.0</code> example chips side by side to see the zero-major special case in action.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/semver-range-checker/">Semver Range Checker</a></p>
+
+<h2>5. .env File Parser &amp; Validator</h2>
+
+<p>Validates real <code>KEY=VALUE</code> syntax, flags every occurrence of a duplicate key (not just the second one), and generates a redacted <code>.env.example</code> so real secrets never leak into a template.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/dotenv-file-parser/embed/" style="width:100%;height:680px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title=".env File Parser & Validator — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each line splits on only the <em>first</em> <code>=</code> via <code>indexOf</code>, not a plain <code>split('=')</code> — necessary because a value like <code>DATABASE_URL=postgres://user:pass@host/db?ssl=true</code> legitimately contains a second <code>=</code> that a naive split would truncate. Keys are checked against real identifier rules (<code>/^[A-Za-z_][A-Za-z0-9_]*$/</code>), and any failure is reported with its exact line number. The duplicate-key detection is the most useful part: most dotenv loaders silently let the last matching assignment win, so the parser counts every occurrence of each key and highlights <em>every</em> row sharing a repeated key, making the shadowed value and the value that actually wins equally visible. Copying "as .env.example" swaps every real value for a type-appropriate placeholder — <code>true</code> for booleans, <code>0</code> for numbers — so nothing sensitive ends up in a committed template.</p>
+
+<p><strong>Best for:</strong> auditing a <code>.env</code> file before a commit, or figuring out why an environment variable mysteriously isn't the value you thought you set. <strong>Tip:</strong> paste in a file with an intentional duplicate key to see how the tool highlights both the shadowed line and the line that actually wins.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/dotenv-file-parser/">.env File Parser &amp; Validator</a></p>
+
+<h2>6. Meta &amp; Open Graph Tag Generator</h2>
+
+<p>One form drives the <code>&lt;title&gt;</code>/description pair, the full Open Graph set, and Twitter Card tags at once — with a live Google search-result preview and a social share-card preview, each truncated to its own real-world limit.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/meta-og-tag-generator/embed/" style="width:100%;height:760px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Meta & Open Graph Tag Generator — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> six shared fields generate three tag families at once, which mirrors reality — Open Graph and Twitter Card both fall back to the same title and description in practice, so editing them separately would just invite drift. The two previews use genuinely different truncation lengths: the SERP preview clips to roughly 60/160 characters to match Google's approximate title/description cutoffs, while the social card preview clips to 70/120 to match how Slack and Facebook unfurl a link. The domain shown in both previews comes from <code>new URL(url).hostname</code> wrapped in a <code>try/catch</code>, falling back to a plain string strip while the URL field is still mid-edit and not yet valid. Every value is HTML-attribute-escaped before being interpolated into a <code>content="..."</code> attribute, so a stray quote in your copy can't break the generated markup.</p>
+
+<p><strong>Best for:</strong> catching a title that'll get cut off mid-word in an actual search result, before you publish rather than after. <strong>Tip:</strong> switch the Twitter Card type to compare <code>summary</code>'s small square thumbnail against <code>summary_large_image</code>'s full-width card in the same preview.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/meta-og-tag-generator/">Meta &amp; Open Graph Tag Generator</a></p>
+
+<h2>7. DNS Propagation Checker Widget</h2>
+
+<p>A dashboard tile that checks a DNS record across eight named global resolvers, each resolving at its own realistic, staggered delay, with a progress bar that tracks how much of the world has caught up.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/dns-propagation-checker-widget/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="DNS Propagation Checker Widget — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each resolver in the demo data carries its own delay — 600ms for Google's well-connected Iowa infrastructure, up to 4100ms for a resolver on the other side of the world — instead of all eight resolving simultaneously, so the list visibly fills in nearest-first, the same pattern real propagation actually shows. A pulsing dot signals "still checking" rather than looking stalled; once a timer fires, the row switches to a solid green dot and the pulse stops. The one detail worth stealing for any similar widget: clicking Recheck calls <code>clearTimeout</code> on every in-flight timer before scheduling a fresh batch — without that, a mid-check click would leave the old run's timers still pending and able to fire stale updates against rows the new run already replaced.</p>
+
+<p><strong>Best for:</strong> a registrar or DNS management tool replacing a static "changes may take up to 48 hours" disclaimer with something that actually shows progress. <strong>Tip:</strong> swap the <code>setTimeout</code> simulation for real DNS-over-HTTPS calls to Cloudflare's or Google's DoH endpoints — the row-update and progress-bar logic don't need to change at all.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/dns-propagation-checker-widget/">DNS Propagation Checker Widget</a></p>
+
+<h2>8. CDN Cache Hit Ratio Widget</h2>
+
+<p>A live-feeling ops tile: an animated SVG progress ring for overall cache hit rate, running hit/miss counters, and a per-edge-location breakdown that can reveal a regional problem the global average hides.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/cdn-cache-hit-ratio-widget/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="CDN Cache Hit Ratio Widget — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the ring is two overlapping SVG circles — a static gray track and a colored arc whose <code>stroke-dasharray</code> equals its full circumference and whose <code>stroke-dashoffset</code> is animated down as the percentage rises, rotated -90 degrees so it fills from the top. Its color itself carries meaning: green at 85%+, amber from 60-85%, red below, recalculated every tick, so a viewer doesn't need to know from memory whether 72% is good. The simulation is the genuinely interesting part — instead of picking one random percentage per second, every tick generates a random <em>count</em> of individual requests, routes each to a random edge location, and rolls a 90%-probability hit/miss outcome per request before aggregating. That's what makes the per-edge bars occasionally diverge from the global ring, exactly the way a real regional cache misconfiguration would show up.</p>
+
+<p><strong>Best for:</strong> an infrastructure or ops status page where a falling hit rate is an early signal of rising origin load and CDN cost, well before it becomes an incident. <strong>Tip:</strong> watch the four edge bars over a few ticks — because each is computed independently, a bar can lag the global ring's color band even though both draw from the same underlying probability.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/cdn-cache-hit-ratio-widget/">CDN Cache Hit Ratio Widget</a></p>
+
+<h2>9. Text Statistics Analyzer</h2>
+
+<p>Goes past a bare word count: sentence and paragraph counts, average sentence length, estimated reading and speaking time, and a stop-word-filtered list of the most frequent words in the text.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/text-statistics-analyzer/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Text Statistics Analyzer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> word counting matches runs of letters, digits and apostrophes (<code>/[A-Za-z0-9']+/g</code>) rather than splitting on whitespace, so <code>don't</code> correctly counts as one word instead of two. Sentence detection matches text up to a terminating <code>.</code>, <code>!</code> or <code>?</code>, with a fallback branch in the same regex that still counts trailing text with no closing punctuation — small but important for text that's still being drafted, which is exactly when a live counter gets used. Paragraphs split on blank-line breaks rather than every line wrap, so a soft-wrapped line inside one paragraph doesn't inflate the count. Reading time assumes ~200 words/minute (silent reading), speaking time ~130 wpm (conversational pace); the frequency list lowercases every word, drops a built-in stop-word set plus single-character tokens, and ranks what's left.</p>
+
+<p><strong>Best for:</strong> timing a video script or presentation draft against its allotted slot before rehearsing it out loud. <strong>Tip:</strong> the frequency list is a fast way to catch an overused word in an essay or blog draft — anything showing up more than the topic itself warrants is worth a second look.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/text-statistics-analyzer/">Text Statistics Analyzer</a></p>
+
+<h2>10. Palindrome &amp; Anagram Checker</h2>
+
+<p>Two tabbed tools sharing one normalization rule: a palindrome checker with a per-letter mirror visualization, and an anagram checker that shows exactly which letter's count is off when two words don't match.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/palindrome-anagram-checker/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Palindrome & Anagram Checker — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> both tools lowercase and strip everything but letters and digits before comparing anything — the single reason "A man, a plan, a canal: Panama" registers as a genuine palindrome instead of failing on its spaces, commas and capitalization. The palindrome tool doesn't just report true or false: it renders every normalized character as its own tile and checks each one against its mirror position independently, so a near-miss visibly shows exactly which letters break the symmetry. The anagram tool builds a letter-frequency <code>Map</code> for each input instead of sorting both strings — a deliberate choice, because a frequency map makes it trivial to also report which specific letter is over- or under-represented (rendered as a chip like <code>s: 2 vs 1</code>) when two inputs are close but not quite anagrams.</p>
+
+<p><strong>Best for:</strong> a word-puzzle or trivia site that needs an instant, no-backend way to verify a player's answer. <strong>Tip:</strong> try a near-miss pair like "listen" vs. "silrnt" in the anagram tab to see the letter-diff chips pinpoint the exact typo instead of a flat pass/fail.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/palindrome-anagram-checker/">Palindrome &amp; Anagram Checker</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open any snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs, then paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — or use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page. All ten are dependency-free vanilla JavaScript; none of them need anything installed.</li>
+<li><strong>Keep pragmatic parsing pragmatic.</strong> The SQL formatter and <code>.env</code> parser both deliberately stop short of a full grammar — if you extend either one, resist the urge to bolt on a real parser unless you've actually hit an input the regex-based approach gets wrong.</li>
+<li><strong>Wire the two dashboard widgets to real data the same way they fake it.</strong> The DNS checker's staggered <code>setTimeout</code> calls map cleanly onto real DNS-over-HTTPS requests per resolver; the CDN tile's per-request simulation loop maps onto a periodic <code>fetch()</code> against your CDN provider's analytics API. Keep the same per-item aggregation pattern and the UI logic barely changes.</li>
+<li><strong>Always clean up in-flight async work before restarting it.</strong> The DNS widget's <code>clearTimeout</code> call before a recheck, and the SHA generator's <code>requestId</code> guard against out-of-order digests, are both the same lesson: any UI that fires a new async operation on every keystroke or click needs a way to discard a result that arrives after a newer request has already superseded it.</li>
+<li><strong>Never send what doesn't need to be sent.</strong> The SHA generator, the <code>.env</code> parser and the JSON formatter are all genuinely safe to use with real secrets specifically because nothing leaves the browser — if you wire any of them to a backend for a "save" feature, keep the actual hashing, parsing and validation client-side and only persist the result the user explicitly asks to save.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>The common thread across this batch isn't a shared visual style — a JSON formatter and a CDN dashboard tile don't look anything alike. It's that each one picked the smallest technique that's actually correct for its problem: real browser crypto instead of a bundled library, a depth-tracking comma splitter instead of a naive string split, per-request simulation instead of a single random number standing in for a whole tick of traffic. None of these are hard tricks individually, but they're the difference between a demo that looks right and one that's actually right when you paste in the edge case.</p>
+
+<p>Try them, retune them to your own data, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

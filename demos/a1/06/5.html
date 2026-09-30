@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Which One Should You Use?">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Which One Should You Use?</h1>
+    <p class="hint">Click a real scenario below to see whether debounce or throttle actually fits it, and why.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="scenarioGrid" id="scenarioGrid">
+      <button type="button" class="scenarioBtn" data-key="search">Search-as-you-type</button>
+      <button type="button" class="scenarioBtn" data-key="scroll">Scroll-spy nav highlight</button>
+      <button type="button" class="scenarioBtn" data-key="resize">Window resize → recalc layout</button>
+      <button type="button" class="scenarioBtn" data-key="submit">Prevent double form submit</button>
+      <button type="button" class="scenarioBtn" data-key="drag">Live drag position updates</button>
+      <button type="button" class="scenarioBtn" data-key="autosave">Autosave a draft</button>
+    </div>
+    <div class="answerCard" id="answerCard" hidden>
+      <span class="answerBadge" id="answerBadge"></span>
+      <p class="answerText" id="answerText"></p>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+    --teal: #0ea5a4;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+
+  .scenarioGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; max-width: 420px; }
+  .scenarioBtn {
+    padding: 10px 12px;
+    font: 600 12px system-ui, sans-serif;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+    text-align: left;
+  }
+  .scenarioBtn:hover { border-color: var(--accent); }
+  .scenarioBtn.active { border-color: var(--accent); background: #eef0ff; }
+
+  .answerCard {
+    width: 100%;
+    max-width: 420px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: #eceef3;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .answerBadge {
+    align-self: flex-start;
+    font: 700 11px system-ui, sans-serif;
+    padding: 3px 10px;
+    border-radius: 20px;
+    color: #fff;
+  }
+  .answerBadge.debounce { background: var(--accent); }
+  .answerBadge.throttle { background: var(--teal); }
+  .answerText { margin: 0; font-size: 12.5px; color: var(--ink); line-height: 1.6; }
+</script>
+
+<script type="text/plain" id="js">
+  var DATA = {
+    search:   { type: 'debounce', text: 'Wait until the user pauses typing, then fire one request for the final query — debounce avoids a network call on every keystroke.' },
+    scroll:   { type: 'throttle', text: 'The user is scrolling continuously and you want the highlighted nav item to keep up throughout — throttle updates it at a steady, cheap rate instead of running the calculation on every single scroll event.' },
+    resize:   { type: 'throttle', text: 'A window resize fires continuously while the user drags the edge — throttle recalculates layout at a steady interval instead of on every pixel of movement.' },
+    submit:   { type: 'debounce', text: 'You want exactly one submission after a burst of rapid clicks — debounce collapses repeated clicks into a single trailing action instead of sending several.' },
+    drag:     { type: 'throttle', text: 'A drag needs to feel continuous while it is happening — throttle updates the position at a steady rate so the UI stays responsive without recalculating on literally every pixel of pointer movement.' },
+    autosave: { type: 'debounce', text: 'You only want to save once the user actually stops typing for a moment — debounce delays the save until activity pauses, instead of saving on every keystroke.' }
+  };
+
+  var grid = document.getElementById('scenarioGrid');
+  var card = document.getElementById('answerCard');
+  var badge = document.getElementById('answerBadge');
+  var text = document.getElementById('answerText');
+
+  grid.addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('.scenarioBtn') : null;
+    if (!btn) return;
+    Array.prototype.forEach.call(grid.children, function (b) { b.classList.toggle('active', b === btn); });
+    var d = DATA[btn.getAttribute('data-key')];
+    badge.textContent = d.type === 'debounce' ? 'Debounce' : 'Throttle';
+    badge.className = 'answerBadge ' + d.type;
+    text.textContent = d.text;
+    card.hidden = false;
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

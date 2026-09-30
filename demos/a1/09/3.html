@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Infinite scroll list">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Infinite scroll list</h1>
+    <p class="hint">Scroll to the bottom of the list &mdash; a one-pixel-tall sentinel below the last row is what triggers loading the next batch, no scroll or resize listener anywhere.</p>
+  </header>
+  <main class="stage">
+    <ul class="list" id="list"></ul>
+    <div class="sentinel" id="sentinel">
+      <span class="spinner"></span> Loading more&hellip;
+    </div>
+    <div class="done" id="done" hidden>That's every row &mdash; 60 of 60 loaded.</div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stage { max-width: 420px; margin: 0 auto; padding: 8px 20px 40px; }
+
+  .list { list-style: none; margin: 0; padding: 0; }
+  .list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    margin-bottom: 8px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 9px;
+    font: 600 13px system-ui, sans-serif;
+    animation: rowIn 0.3s ease both;
+  }
+  .list li b { color: var(--accent); font: 800 12px ui-monospace, monospace; width: 28px; flex-shrink: 0; }
+  @keyframes rowIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .sentinel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 18px 0 40px;
+    color: var(--sub);
+    font: 600 12px system-ui, sans-serif;
+  }
+  .spinner {
+    width: 13px; height: 13px;
+    border: 2px solid var(--line);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .done { padding: 18px 0 40px; text-align: center; color: var(--sub); font: 700 12px system-ui, sans-serif; }
+</script>
+
+<script type="text/plain" id="js">
+  var PAGE = 10, TOTAL = 60, loaded = 0;
+  var list = document.getElementById('list');
+  var sentinel = document.getElementById('sentinel');
+  var done = document.getElementById('done');
+
+  function loadMore() {
+    var next = Math.min(loaded + PAGE, TOTAL);
+    for (var i = loaded; i < next; i++) {
+      var li = document.createElement('li');
+      li.innerHTML = '<b>#' + (i + 1) + '</b> Row loaded on demand';
+      list.appendChild(li);
+    }
+    loaded = next;
+    if (loaded >= TOTAL) {
+      io.unobserve(sentinel);
+      sentinel.hidden = true;
+      done.hidden = false;
+    }
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) {
+      // A real app would await a fetch() here; this fakes the same shape
+      // of latency so the spinner has something to actually show.
+      setTimeout(loadMore, 400);
+    }
+  }, { rootMargin: '150px' }); // start the fetch before the sentinel is fully on-screen
+
+  loadMore();
+  io.observe(sentinel);
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Custom Error Messages via title">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Custom Error Text with <code>title</code></h1>
+    <p class="hint">Type an invalid postal code (not two letters + four digits) and click submit &mdash; the browser's own validation bubble shows the exact wording from the <code>title</code> attribute, not a generic message.</p>
+  </header>
+  <main class="stageWrap">
+    <form class="titleForm" action="#" method="get" onsubmit="return false">
+      <label class="field">
+        <span class="fieldLabel">Postal code</span>
+        <input
+          type="text"
+          name="postal"
+          required
+          pattern="[A-Z]{2}[0-9]{4}"
+          title="Enter a postal code as 2 letters followed by 4 digits, e.g. AB1234"
+          placeholder="AB1234">
+      </label>
+      <button type="submit" class="submitBtn">Check address</button>
+    </form>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --ok: #16a34a; --err: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .bar h1 code { font: 700 16px ui-monospace, monospace; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .hint code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
+  .stageWrap { display: flex; justify-content: center; padding: 20px 16px 36px; }
+
+  .titleForm {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .fieldLabel { font: 700 12px system-ui, sans-serif; }
+
+  .titleForm input {
+    padding: 10px 12px;
+    font: 600 15px ui-monospace, monospace;
+    letter-spacing: .04em;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    outline: none;
+    text-transform: uppercase;
+  }
+  .titleForm input:focus { border-color: var(--accent); }
+  .titleForm input:not(:placeholder-shown):invalid { border-color: var(--err); background: #fef2f2; }
+  .titleForm input:not(:placeholder-shown):valid { border-color: var(--ok); background: #f0fdf4; }
+
+  .submitBtn {
+    padding: 11px 16px;
+    font: 700 13px system-ui, sans-serif;
+    border: none;
+    border-radius: 9px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+  }
+  .submitBtn:hover { background: #4f52d9; }
+</script>
+
+<script type="text/plain" id="js">
+  /* No JavaScript — the title attribute's text is what the browser shows
+     inside its own native validation bubble when pattern matching fails. */
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

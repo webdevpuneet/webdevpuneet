@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Animated Disclosure Triangle">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Animated Disclosure Triangle</h1>
+    <p class="hint">Click the summary line &mdash; it's a native <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code> element with a custom triangle that rotates open using the <code>[open]</code> attribute selector.</p>
+  </header>
+  <main class="stageWrap">
+    <details class="disc">
+      <summary>What's included in the Pro plan? <span class="chev">&#9656;</span></summary>
+      <p>Unlimited projects, priority support, and early access to new tools &mdash; billed monthly or annually.</p>
+    </details>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; align-items: flex-start; padding: 30px 18px; min-height: 260px; }
+
+  .disc {
+    width: 320px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+    background: #fff;
+  }
+  .disc summary {
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer;
+    font: 600 14px system-ui, -apple-system, sans-serif;
+    list-style: none;
+  }
+  .disc summary::-webkit-details-marker { display: none; }
+  .chev {
+    color: var(--sub);
+    transition: transform 0.25s ease;
+    display: inline-block;
+  }
+  .disc[open] .chev { transform: rotate(90deg); }
+  .disc p { margin: 12px 0 0; font-size: 12.5px; line-height: 1.6; color: var(--sub); }
+</script>
+
+<script type="text/plain" id="js">
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

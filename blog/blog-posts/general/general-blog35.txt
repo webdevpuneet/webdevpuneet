@@ -1,0 +1,194 @@
+<h1>ScrollTrigger snap: Section-by-Section Scrolling (7 Live Demos)</h1>
+
+<p>A plain pinned-and-scrubbed section stops wherever the visitor stops scrolling &mdash; 40% through a transition, mid-color, mid-panel. The <code>snap</code> option fixes that one specific problem: once the scroll position lands inside a pinned/scrubbed trigger, releasing the scroll animates the rest of the way to a defined stop point instead of freezing wherever the input happened to end. This post assumes you already know <code>start</code>/<code>end</code>/<code>scrub</code>/<code>pin</code> &mdash; if any of those feel shaky, the <a href="https://www.webdevpuneet.com/search/label/GSAP">GSAP ScrollTrigger Tutorial</a> covers them first. Everything below is <code>snap</code> specifically: even fractions, uneven arrays, timing, direction-aware commits, horizontal panels, and the one mistake that makes snap feel like it's arguing with the user's own scroll.</p>
+
+<p>The 7 demos below are all <strong>live and interactive</strong> right here in the article &mdash; scroll inside each preview and feel the behavior happen in real time. Each embed has a <strong>Fork &amp; Edit</strong> button that opens the exact code, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> &mdash; FWD Tools' free in-browser editor. Change a <code>snap</code> value, swap the <code>ease</code>, delete the <code>delay</code> &mdash; that's the fastest way to feel exactly what each option controls. For a slower, lesson-by-lesson path through GSAP and ScrollTrigger from the start, the <a href="https://fwdtools.com/gsap-playground/">GSAP Playground</a> is FWD Tools' free in-browser course.</p>
+
+<h2>1. snap: 1 / (sections - 1) Locks Onto the Nearest Section</h2>
+
+<p>Scroll down, then let go partway between two colors. Don't scroll to a clean stop &mdash; release mid-drag and watch it finish the trip on its own.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/34/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="snap 1 / (sections - 1) Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">var SECTIONS = 4;
+
+ScrollTrigger.create({
+  trigger: '.pinSection',
+  start: 'top top',
+  end: '+=1200',
+  pin: true,
+  scrub: 1,
+  snap: 1 / (SECTIONS - 1) // 4 stops: 0, 1/3, 2/3, 1
+});</code></pre>
+
+<p><code>snap</code> is a number, an array, or a config object &mdash; a single number is the increment between evenly-spaced stops on the trigger's 0-to-1 progress scale. With four sections there are three gaps between them, so <code>1 / (SECTIONS - 1)</code> produces exactly four legal resting values: 0, 0.333&hellip;, 0.667&hellip;, and 1. The moment the scroll input stops (a wheel event ends, a trackpad flick decays, a finger lifts), ScrollTrigger looks at <code>self.progress</code>, rounds it to the nearest one of those values, and tweens the scrubbed progress the rest of the way there on its own timeline &mdash; completely independent of any further scroll input. That tween is what you feel finish "on its own" in the demo above: it isn't reading your scroll position anymore once it starts, it's just playing to a target. This is the entire mechanism behind every other demo on this page; everything past this point is either a different way of choosing the stop values or a different way of animating the trip to them.</p>
+
+<p><strong>Best for:</strong> any pinned sequence of discrete states &mdash; a stat reveal, a step-by-step explainer, a product feature carousel &mdash; where "half-shown" is never an acceptable resting state. <strong>Tip:</strong> the denominator is always <code>sections - 1</code>, not <code>sections</code>, because you're counting the gaps between stop points, not the points themselves; get this wrong and the last section becomes unreachable.</p>
+
+<h2>2. snap as an Explicit Array for Uneven Sections</h2>
+
+<p>Scroll slowly and release anywhere. The stop points are deliberately uneven &mdash; a short intro, a long deep-dive, a short outro &mdash; and release always lands on one of the three, never an evenly-spaced fraction.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/34/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="snap Explicit Array for Uneven Sections Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// Uneven weights: Intro is 15% of the scroll, Deep-dive is 55%, Outro is 30%.
+var STOPS = [0, 0.15, 0.7, 1];
+
+ScrollTrigger.create({
+  trigger: '.pinSection',
+  start: 'top top',
+  end: '+=1200',
+  pin: true,
+  scrub: 1,
+  snap: STOPS // explicit array — only ever lands on one of these four values
+});</code></pre>
+
+<p>A fixed fraction like demo #1's assumes every section deserves the same slice of scroll distance, which is rarely true on a real page &mdash; a dense feature comparison needs far more scroll room than a one-line intro card. Passing an array to <code>snap</code> replaces the computed increment with an explicit whitelist of legal stop values; ScrollTrigger still picks whichever one is closest to wherever the scroll input ended, it just no longer assumes they're evenly spaced. The array here reads directly as content weight: <code>0</code> to <code>0.15</code> is the intro's territory, <code>0.15</code> to <code>0.7</code> belongs to the deep-dive (more than half the total scroll distance), and <code>0.7</code> to <code>1</code> is the outro. Nothing about the snapping mechanism changes &mdash; it's still "round to nearest, then tween there" &mdash; only the set of values it's allowed to round to. This is the version to reach for the moment your sections stop being visually or informationally equal in size.</p>
+
+<p><strong>Best for:</strong> pinned sequences where one section genuinely needs more scroll runway than the others &mdash; a long-form product deep-dive between two short bookend sections is the classic case. <strong>Tip:</strong> the array doesn't need to start at 0 or end at 1, and values don't need to be sorted by convention either &mdash; ScrollTrigger just picks whichever entry is numerically closest.</p>
+
+<h2>3. snap.duration and snap.ease Control the Settle Itself</h2>
+
+<p>Release mid-drag in each zone. Zone A snaps into place almost instantly; Zone B eases into place slowly with an overshoot &mdash; same snap mechanism, different <code>duration</code>/<code>ease</code>.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/34/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="snap.duration and snap.ease Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">snap: {
+  snapTo: [0, 1],
+  duration: 0.15,     // Zone A — snaps into place almost instantly
+  ease: 'power4.out'
+}
+
+snap: {
+  snapTo: [0, 1],
+  duration: 1.1,       // Zone B — slow, visibly eased settle
+  ease: 'elastic.out(1, 0.4)'
+}</code></pre>
+
+<p>A bare number or array is shorthand for a config object with sensible defaults filled in &mdash; the object form is where those defaults get overridden. <code>duration</code> is how long the settle tween itself takes, in seconds, completely separate from how long the visitor's scroll gesture took to get there; it can be a fixed number or a <code>{min, max}</code> range that scales with distance, so a snap from 5% away doesn't take as long as one from 45% away. <code>ease</code> is the settle tween's easing curve, and because it's a real GSAP tween it accepts every normal ease string, including parameterized ones like <code>elastic.out(1, 0.4)</code> &mdash; which is exactly why Zone B visibly overshoots past its target and springs back rather than just arriving. Neither option changes which value gets snapped to; both only change how the trip there feels, which is entirely a design decision about the personality of the interaction.</p>
+
+<p><strong>Best for:</strong> matching the snap's feel to the rest of the site &mdash; a sharp <code>power4.out</code> settle reads as crisp and app-like, while a slower elastic settle reads as playful. <strong>Tip:</strong> keep <code>duration</code> short (under ~0.3s) on any section a visitor is likely to scroll through repeatedly &mdash; a long, elaborate settle animation gets tedious fast once the novelty wears off.</p>
+
+<h2>4. Directional Snap With a Function Instead of a Fraction</h2>
+
+<p>Scroll down a little past a section's start, then let go. It commits <em>forward</em> to the next section &mdash; even at 15% in &mdash; because you were still scrolling down, not because it's the nearest stop.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/34/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Directional Snap With a Function Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">snap: {
+  snapTo: function (value, self) {
+    // ...find the stop values surrounding `value`...
+    if (value === lower || value === upper) return value;
+    return self.direction > 0 ? upper : lower; // ignore "nearest" entirely
+  },
+  duration: 0.35,
+  ease: 'power2.out'
+}</code></pre>
+
+<p>Every earlier demo picks whichever stop value is numerically closest, which is intuitive but not always what feels right &mdash; a visitor who deliberately flicked down 20% into the next section usually wants to keep going, not get pulled back to where they started. <code>snapTo</code> also accepts a function, called with the current progress value and the ScrollTrigger instance itself, and whatever number that function returns becomes the snap target &mdash; nothing forces it to be the nearest one. This demo's function finds the two stop values surrounding the current progress, then ignores distance entirely and returns the upper one if <code>self.direction</code> is <code>1</code> (scrolling down) or the lower one if it's <code>-1</code> (scrolling up). <code>self.direction</code> reflects the scroll direction at the moment snapping evaluates, which is why a small nudge downward is enough to commit forward even from 15% in &mdash; geometry never enters the decision at all.</p>
+
+<p><strong>Best for:</strong> full-page or full-section scroll experiences (think slide-deck-style sites) where a visitor's intent to keep moving forward should be honored even from a small scroll distance. <strong>Tip:</strong> <code>self.getVelocity()</code> is available inside the same function for an even finer version of this &mdash; use it to require a minimum flick speed before committing forward, so a slow, uncertain scroll still falls back to nearest.</p>
+
+<h2>5. snap on a Pinned Horizontal Scroll Section</h2>
+
+<p>Scroll down, then let go while a panel is half off-screen. Instead of stopping mid-panel, it slides the rest of the way to whichever panel edge is closest.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/34/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="snap on a Pinned Horizontal Scroll Section Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">gsap.to(hRow, {
+  x: function () { return -scrollDistance(); },
+  ease: 'none',
+  scrollTrigger: {
+    trigger: hSection,
+    start: 'top top',
+    end: function () { return '+=' + scrollDistance(); },
+    scrub: true,
+    pin: true,
+    snap: 1 / (panelCount - 1) // one snap point per panel boundary
+  }
+});</code></pre>
+
+<p><code>snap</code> doesn't care what property the scrubbed tween is animating &mdash; it operates purely on the ScrollTrigger's own 0-to-1 progress, the same value that drives ordinary vertical pin-and-scrub demos. That means adding it to a horizontal-scroll section (built exactly like the horizontal demo in the ScrollTrigger fundamentals tutorial) takes nothing extra beyond the one line: <code>1 / (panelCount - 1)</code> produces one legal stop per panel, same math as demo #1's vertical sections. Vertical scroll input still drives the whole section, and the horizontal <code>x</code> tween is still a pure function of <code>self.progress</code> &mdash; snap simply constrains which progress values that <code>x</code> tween is ever allowed to rest at once the scroll input stops. This is the fix for the single most common complaint about horizontal-scroll sections in the wild: a visitor stopping mid-scroll and being left staring at two half-panels instead of one whole one.</p>
+
+<p><strong>Best for:</strong> portfolio strips, image galleries, and horizontal feature tours &mdash; anywhere a horizontal-scroll section exists specifically so each panel gets full, undivided attention. <strong>Tip:</strong> this composes with an uneven array exactly like demo #2 does &mdash; if your panels have different widths, replace the fraction with an explicit array of each panel's actual progress boundary instead of assuming they're equal.</p>
+
+<h2>6. The Mistake: snap Fighting a Slow scrub Value</h2>
+
+<p>Both zones use the same heavy <code>scrub: 2</code> catch-up delay. In Zone A, flick-scroll and release fast &mdash; the snap fires before the scrub even catches up, so it visibly jumps. Zone B adds a <code>delay</code> and settles cleanly.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/34/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="snap Fighting a Slow scrub Value Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">scrollTrigger: {
+  scrub: 2, // heavy catch-up — the tween lags well behind real scroll position
+  snap: {
+    snapTo: [0, 1],
+    duration: 0.3,
+    delay: 0.3 // wait long enough for the scrub tween to finish catching up first
+  }
+}</code></pre>
+
+<p>A numeric <code>scrub</code> value (rather than <code>true</code>) adds a catch-up delay of its own &mdash; the scrubbed tween eases toward the real scroll position over that many seconds instead of matching it instantly, which is exactly what makes a heavy scrub feel smooth. The bug shows up when that catch-up delay and the snap's own <code>delay</code> option aren't coordinated: <code>snap</code> watches for scrolling to stop and, after its <code>delay</code> elapses, reads the current progress and starts settling toward a target &mdash; but with <code>delay: 0</code> and a slow <code>scrub</code>, that read happens while the scrub tween is still mid-catch-up, nowhere near where the visitor actually stopped scrolling. The result is a visible correction: the scrubbed value keeps drifting from the catch-up while the snap tween is simultaneously pulling it toward a stale target, and the two fight for a frame or two before one wins. Giving <code>snap.delay</code> enough time to outlast the scrub's own catch-up (roughly matching or exceeding the <code>scrub</code> number) lets the position settle first, so snap reads a value that's actually where the scroll stopped.</p>
+
+<p><strong>Best for:</strong> diagnosing a snap that feels like it "jumps" or "stutters" right as it starts &mdash; which is very often this exact race, not a broken <code>snapTo</code> value. <strong>Tip:</strong> as a rule of thumb, set <code>snap.delay</code> to at least the same number as a numeric <code>scrub</code>; if the stutter persists, reducing <code>scrub</code> itself is usually the simpler fix.</p>
+
+<h2>7. A Nav-Dot Indicator Driven by the Current Snap</h2>
+
+<p>Scroll through the five sections, or click a dot to jump straight to one. The dot rail always reflects the section snap actually settled on &mdash; the same pattern real one-page sites use for their side nav.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/34/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Nav-Dot Indicator Driven by the Current Snap Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">onUpdate: function (self) {
+  var idx = Math.round(self.progress * (STOPS - 1));
+  dots.forEach(function (d, i) {
+    d.classList.toggle('active', i === idx);
+  });
+}</code></pre>
+
+<p>This demo doesn't add any new <code>snap</code> option &mdash; it's demo #1's exact <code>snap: 1 / (STOPS - 1)</code> setup, with the same <code>onUpdate</code> callback every scrubbed ScrollTrigger already gets, put to a specific, extremely common use. Because the section only ever comes to rest on one of the defined stop fractions, <code>Math.round(self.progress * (STOPS - 1))</code> reliably recovers a clean integer section index, not a fuzzy fraction &mdash; which is precisely what snap guarantees and what makes this trick reliable in the first place. Clicking a dot runs the exact same math backward: turn a target index into a progress fraction, then a progress fraction into a real pixel position between the trigger's cached <code>start</code> and <code>end</code>, and scroll there directly. This is the actual mechanism behind the dot-rail or numbered-tab navigation you see next to pinned, full-page scroll sections on marketing sites &mdash; the dots aren't a separate system tracking state in parallel, they're just a read-out of the same <code>self.progress</code> value snap already keeps clean.</p>
+
+<p><strong>Best for:</strong> any pinned multi-section scene that also needs a persistent "where am I" indicator or click-to-jump navigation &mdash; step trackers, onboarding flows, single-page product sites. <strong>Tip:</strong> build the index read-out off snap's own progress value rather than a separate counter you increment manually &mdash; a hand-rolled counter can drift out of sync with what the section actually settled on; <code>self.progress</code> never can.</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Using <code>snap</code> without <code>scrub</code>.</strong> Snap operates on a ScrollTrigger's <code>progress</code>, which only changes continuously while <code>scrub</code> is set &mdash; without it there's nothing for snap to settle from, and the option is effectively a no-op.</li>
+<li><strong>Computing the fraction as <code>1 / sections</code> instead of <code>1 / (sections - 1)</code>.</strong> Demo #1's rule explains why &mdash; you're spacing out the gaps between stop points, not the points themselves, and off-by-one here quietly makes the last section unreachable.</li>
+<li><strong>Assuming every section deserves an equal share of scroll distance.</strong> Demo #2's array form exists specifically because real content sections are rarely equal in size &mdash; force equal fractions on unequal content and the short sections feel like they drag.</li>
+<li><strong>Leaving <code>snap.delay</code> at its default alongside a heavy numeric <code>scrub</code>.</strong> Demo #6 is the direct proof &mdash; a slow scrub catch-up and an eager snap read stale progress and visibly fight for a frame before one wins.</li>
+<li><strong>Building a separate index counter instead of deriving it from <code>self.progress</code>.</strong> Demo #7's nav-dot trick only stays perfectly in sync because it reads the same value snap already normalizes &mdash; a hand-maintained counter is one edge case away from drifting off.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>Does snap work without pin: true?</h3>
+<p>Yes &mdash; <code>snap</code> only needs a scrubbed ScrollTrigger with a defined <code>progress</code> range; <code>pin</code> is not a requirement. It's just overwhelmingly common alongside <code>pin</code> because pinned, scrubbed sections are exactly the pattern where "stopped halfway" is most visually obvious and most worth preventing, as every demo above shows.</p>
+
+<h3>Does snap work without scrub?</h3>
+<p>No, not meaningfully. Without <code>scrub</code>, a ScrollTrigger's tween plays once on its own timeline when <code>start</code> is crossed and scrolling further has no effect on its playhead &mdash; there's no continuous progress value for snap to read or correct, so the option has nothing to act on.</p>
+
+<h3>snap vs CSS scroll-snap — when should I use which?</h3>
+<p>CSS <code>scroll-snap-type</code>/<code>scroll-snap-align</code> is the right default for plain content sections that don't need any JavaScript-driven animation &mdash; it's free, works with zero script, and handles keyboard/accessibility scrolling correctly out of the box. Reach for GSAP's <code>snap</code> specifically when the section is already pinned and scrubbed for some other reason (a horizontal panel, a synced illustration, a progress-driven reveal) and you additionally want the scroll position itself to lock to discrete points &mdash; CSS scroll-snap has no concept of a pinned element or a scrubbed animation progress to hook into.</p>
+
+<h3>Does snap fight fast flick-scrolling on trackpads?</h3>
+<p>It can, and demo #6 above is exactly that failure mode &mdash; a fast flick combined with a slow <code>scrub</code> catch-up and an eager <code>snap.delay</code> is the single most common way snap ends up feeling stuttery on trackpads specifically, since trackpad momentum keeps feeding scroll events for a while after the finger lifts. Giving <code>snap.delay</code> enough room to outlast the scrub's catch-up (or simply lowering <code>scrub</code>) is the fix in almost every case.</p>
+
+<h3>Can snapTo be a function, or does it always have to be a number or array?</h3>
+<p>It can be a function, and demo #4 above builds exactly that &mdash; called with the current progress and the ScrollTrigger instance, its return value becomes the snap target with no requirement that it be the geometrically nearest stop. That's the escape hatch for anything "nearest value" logic can't express, like direction-aware or velocity-aware commits.</p>
+
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to actually lock this in is to click <strong>Fork &amp; Edit</strong> on demo #6, delete the <code>delay: 0.3</code> line entirely, and flick-scroll fast through the zone &mdash; then put it back and feel the difference. That single comparison explains snap timing better than any diagram. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop into a real project.</p>
+
+<p><strong>Recommended next step:</strong> open the <a href="https://fwdtools.com/gsap-playground/">GSAP Playground</a> and rebuild demo #1's evenly-spaced snap against a pinned section of your own, then switch it to demo #2's explicit array once it clicks &mdash; typing both versions out yourself is what makes the difference between "evenly spaced" and "weighted" snap actually stick. For more tutorials like this one, browse the <a href="https://www.webdevpuneet.com/search/label/GSAP">GSAP</a> label on the blog.</p>

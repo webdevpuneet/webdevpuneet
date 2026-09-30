@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Nesting Too Deep">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Nesting too deep</h1>
+    <p class="hint">Click "Add a level" to nest one rule deeper each time, the way a real stylesheet grows over months. Watch the equivalent flat selector string below grow &mdash; and the warning fire once it stops being something you'd want to debug at 2am.</p>
+  </header>
+  <main class="stageWrap">
+    <button type="button" class="addBtn" id="addBtn">Add a level</button>
+    <button type="button" class="resetBtn" id="resetBtn">Reset</button>
+    <div class="readout">
+      <p class="label">Equivalent flat selector:</p>
+      <code id="selectorOut">.nav</code>
+    </div>
+    <p class="note" id="note">Depth: 1 &mdash; still perfectly readable.</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --bad: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 52em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 24px 18px 30px; }
+
+  .addBtn, .resetBtn {
+    padding: 9px 18px;
+    font: 700 12.5px system-ui, sans-serif;
+    border-radius: 7px;
+    cursor: pointer;
+    border: 1px solid var(--line);
+
+    &.addBtn {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    background: #fff;
+    color: var(--ink);
+  }
+
+  .readout {
+    width: 100%;
+    max-width: 480px;
+    background: #14161c;
+    border-radius: 10px;
+    padding: 14px 16px;
+    overflow-x: auto;
+  }
+  .readout .label {
+    margin: 0 0 6px;
+    font-size: 11px;
+    color: #8b8f9c;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  .readout code {
+    color: #d4d6dd;
+    font-size: 12.5px;
+    white-space: nowrap;
+  }
+
+  .note { margin: 0; font-size: 12.5px; text-align: center; color: var(--sub); }
+  .note.warn { color: var(--bad); font-weight: 700; }
+</script>
+
+<script type="text/plain" id="js">
+  var levels = ['.nav', 'ul', 'li', 'a', '&:hover', '.dropdown', 'ul', 'li'];
+  var depth = 1;
+  var addBtn = document.getElementById('addBtn');
+  var resetBtn = document.getElementById('resetBtn');
+  var out = document.getElementById('selectorOut');
+  var note = document.getElementById('note');
+
+  function render() {
+    var chain = levels.slice(0, depth).map(function (s) {
+      return s.indexOf('&') === 0 ? s.slice(1) : s;
+    });
+    var flat = chain.reduce(function (acc, part, i) {
+      if (i === 0) return part;
+      return acc + (levels[i].indexOf('&') === 0 ? part : ' ' + part);
+    }, '');
+    out.textContent = flat;
+
+    if (depth <= 2) {
+      note.textContent = 'Depth: ' + depth + ' -- still perfectly readable.';
+      note.className = 'note';
+    } else if (depth <= 4) {
+      note.textContent = 'Depth: ' + depth + ' -- getting harder to scan at a glance, but manageable.';
+      note.className = 'note';
+    } else {
+      note.textContent = 'Depth: ' + depth + ' -- this is the point a flat, separately authored rule (or a preprocessor with a lint rule capping depth) reads far easier than the nested version.';
+      note.className = 'note warn';
+    }
+
+    addBtn.disabled = depth >= levels.length;
+  }
+
+  addBtn.addEventListener('click', function () {
+    if (depth < levels.length) depth++;
+    render();
+  });
+
+  resetBtn.addEventListener('click', function () {
+    depth = 1;
+    render();
+  });
+
+  render();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

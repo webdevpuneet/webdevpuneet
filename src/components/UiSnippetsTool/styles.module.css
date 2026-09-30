@@ -1,0 +1,1482 @@
+@keyframes spinCCW { to { transform: rotate(-360deg); } }
+
+/* ── Layout ────────────────────────────────────────────────────────────────── */
+.wrap {
+  display: flex;
+  flex-direction: column;
+  /* --pnav-h is set by the ui-snippets layout to the top nav's measured height */
+  height: calc(100dvh - var(--pnav-h, 25px));
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+}
+
+/* Gallery routes (bare /ui-snippets/, a category, a tag) — no editor pane,
+   just the grid. Let it flow to its natural height so the browser's own
+   scrollbar carries it into the SEO content below, instead of clipping it
+   into its own fixed-viewport inner scroll box (a second, unnecessary
+   scrollbar) the way the interactive editor view needs to. */
+.wrapGallery {
+  height: auto;
+  min-height: calc(100dvh - var(--pnav-h, 25px));
+  overflow: visible;
+}
+
+/* ── Header ────────────────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  height: 44px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  gap: 12px;
+}
+
+/* Category strip in the header's free middle space (CategoryStrip from RelatedCarousel) */
+.headerCats {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 640px;   /* a compact centred band, not the full gap between the button groups */
+  margin: 0 auto;
+  align-self: center;
+}
+/* No room between the two button groups on narrower screens */
+@media (max-width: 1100px) { .headerCats { display: none; } }
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 0 1 auto;
+}
+
+.headerBrand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 4px 10px;
+  transition: background 0.15s, border-color 0.15s;
+}
+.headerBrand:hover {
+  background: var(--border);
+  border-color: var(--accent);
+}
+.headerBrandActive,
+.headerBrandActive:hover {
+  border-color: var(--accent);
+}
+button.headerBrand {
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+}
+
+.headerTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.headerCount {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  border-radius: 20px;
+  padding: 1px 7px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.headerDivider {
+  width: 1px;
+  height: 16px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.headerTagline {
+  font-size: 11px;
+  color: var(--text3);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.headerBreadcrumb {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Delete button on a My Code card — revealed by the card's hover handler,
+   which sets opacity inline. Hidden also means non-interactive: an invisible
+   button in the corner of every card would still swallow clicks meant to open
+   the snippet. Keyboard focus reveals it, and so does a touch screen, where
+   there is no hover to reveal it with. */
+.cardDelete {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cardDelete:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (hover: none) {
+  .cardDelete {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.headerRight {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.headerCreditWrap {
+  position: relative;
+  font-size: 11px;
+  color: var(--text3);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.headerCredit {
+  font-weight: 700;
+  color: #16a34a;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.headerCredit:hover {
+  color: #15803d;
+  text-decoration: underline;
+}
+
+/* ── Author credit popover — zooms out of the byline, auto-dismisses ──────────── */
+.creditPopover {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
+  max-width: 280px;
+  padding: 10px 30px 10px 10px;
+  background: var(--surface, #fff);
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+  /* Emerge from the "webdevpuneet" link at the top-left corner */
+  transform-origin: top left;
+  transform: scale(0.2);
+  opacity: 0;
+  pointer-events: none;               /* not clickable while collapsed/hidden */
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.34s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.22s ease;
+}
+.creditPopoverOpen {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;               /* clickable once fully shown → webdevpuneet.com */
+  cursor: pointer;
+}
+.creditPopoverOpen:hover {
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.24);
+  border-color: #16a34a;
+}
+.creditPopover::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 16px;
+  width: 10px;
+  height: 10px;
+  background: var(--surface, #fff);
+  border-left: 1px solid var(--border, #e2e8f0);
+  border-top: 1px solid var(--border, #e2e8f0);
+  transform: rotate(45deg);
+}
+.creditAvatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #16a34a;
+  background: #e2e8f0;
+}
+.creditText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  line-height: 1.3;
+}
+.creditName {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text, #0f172a);
+}
+.creditRole {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text3, #64748b);
+}
+.creditClose {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text3, #94a3b8);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.creditClose:hover {
+  background: var(--bg2, #f1f5f9);
+  color: var(--text, #0f172a);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .creditPopover { transition: opacity 0.22s ease; transform: scale(1); }
+}
+
+/* ── Body ──────────────────────────────────────────────────────────────────── */
+.body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+  position: relative;
+}
+.bodyGallery {
+  overflow: visible;
+  min-height: 0;
+}
+/* Library snippets: preview on the left, code editor docked on the right */
+.bodyCodeRight { flex-direction: row-reverse; }
+.bodyCodeRight .editorTab { border-right: none; border-left: 1px solid var(--border); }
+
+/* ── Popover anchor ────────────────────────────────────────────────────────── */
+.popoverAnchor {
+  position: relative;
+}
+
+/* ── Export dropdown menu ──────────────────────────────────────────────────── */
+.exportMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 272px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 7px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.exportMenuHead {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text3);
+  padding: 5px 9px 7px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-ui);
+}
+
+.exportMenuDivider {
+  height: 1px;
+  margin: 5px 6px;
+  background: var(--border);
+}
+
+.exportMenuItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 9px;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: background 0.12s;
+}
+.exportMenuItem:hover {
+  background: var(--surface2);
+}
+.exportMenuItem:hover .exportMenuItemArrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.exportMenuItemIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+}
+
+.exportMenuItemText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  flex: 1;
+}
+
+.exportMenuItemArrow {
+  flex-shrink: 0;
+  color: var(--text3);
+  opacity: 0;
+  transform: translateX(-3px);
+  transition: opacity 0.12s, transform 0.12s;
+}
+
+.exportMenuItemLabel {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text);
+  font-family: var(--font-ui);
+}
+
+.exportMenuItemSub {
+  font-size: 11px;
+  color: var(--text3);
+  font-family: var(--font-ui);
+  line-height: 1.3;
+}
+
+/* ── Save popover ──────────────────────────────────────────────────────────── */
+.savePopover {
+  position: absolute;
+  top: calc(85%);
+  right: 0;
+  width: 260px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.savePopTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.saveInput {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-family: var(--font-ui);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  outline: none;
+  color: var(--text);
+  transition: border-color 0.15s;
+}
+.saveInput:focus { border-color: var(--accent); }
+
+.saveActions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.saveCancelBtn {
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--text2);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  transition: border-color 0.12s, color 0.12s;
+}
+.saveCancelBtn:hover { border-color: var(--border2); color: var(--text); }
+
+.saveConfirmBtn {
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--accent);
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  transition: opacity 0.12s;
+}
+.saveConfirmBtn:hover { opacity: 0.88; }
+.saveConfirmBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Tag input (save dialog) ───────────────────────────────────────────────── */
+.tagLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: -4px;
+}
+.tagHint { font-weight: 400; opacity: 0.7; }
+
+.tagInputWrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  min-height: 32px;
+  padding: 4px 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: text;
+  transition: border-color 0.15s;
+}
+.tagInputWrap:focus-within { border-color: var(--accent); }
+
+.tagChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 6px 2px 7px;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent);
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.tagChipX {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 13px;
+  height: 13px;
+  border: none;
+  background: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+  padding: 0;
+  opacity: 0.7;
+  transition: opacity 0.1s;
+}
+.tagChipX:hover { opacity: 1; }
+
+.tagTextInput {
+  flex: 1;
+  min-width: 60px;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 11px;
+  font-family: var(--font-ui);
+  color: var(--text);
+  padding: 1px 2px;
+}
+.tagTextInput::placeholder { color: var(--text3, #aaa); }
+
+/* ── CDN popover ───────────────────────────────────────────────────────────── */
+.cdnPopover {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 300px;
+  max-height: 260px;
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cdnDesc { font-size: 11px; color: var(--text2); line-height: 1.5; margin: -4px 0; }
+.cdnInputRow { display: flex; gap: 6px; }
+.cdnCount {
+  color: var(--text3, #94a3b8);
+  font-size: 10px;
+  font-weight: 600;
+  margin-left: 2px;
+}
+.cdnList { display: flex; flex-direction: column; gap: 4px; max-height: 120px; overflow-y: auto; }
+.cdnItem {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 8px;
+  background: var(--surface2); border-radius: 5px;
+  border: 1px solid var(--border);
+}
+.cdnUrl {
+  flex: 1; font-size: 10px; color: var(--text2);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-family: var(--font-mono);
+}
+.cdnRemoveBtn {
+  flex-shrink: 0; background: none; border: none;
+  color: var(--text3); cursor: pointer; font-size: 15px; line-height: 1;
+  padding: 0 2px; transition: color 0.1s;
+}
+.cdnRemoveBtn:hover { color: var(--text); }
+.cdnCopyBtn {
+  flex-shrink: 0; background: none; border: none;
+  color: var(--text3); cursor: pointer; font-size: 12px; line-height: 1;
+  padding: 0 2px; transition: color 0.1s;
+}
+.cdnCopyBtn:hover { color: var(--accent); }
+.cdnSuggestions { display: flex; flex-wrap: wrap; gap: 4px; }
+.cdnSuggestBtn {
+  font-size: 10px; font-weight: 600; font-family: var(--font-ui);
+  padding: 2px 8px; border-radius: 20px;
+  border: 1px solid var(--border); background: none; color: var(--text2);
+  cursor: pointer; transition: border-color 0.12s, color 0.12s, background 0.12s;
+}
+.cdnSuggestBtn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+
+/* ── Gist popover ──────────────────────────────────────────────────────────── */
+.gistPopover {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 300px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 10px 32px rgba(0,0,0,0.18);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gistHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.gistTitle { font-size: 12px; font-weight: 700; color: var(--text); }
+.gistOptional { font-size: 10px; color: var(--text3); background: var(--surface2); border-radius: 4px; padding: 1px 6px; }
+
+.gistDesc { font-size: 11px; color: var(--text2); line-height: 1.55; }
+
+.gistSteps { display: flex; flex-direction: column; gap: 3px; }
+.gistStep { font-size: 11px; color: var(--text2); }
+.gistLink { color: var(--accent); text-decoration: none; font-weight: 600; }
+.gistLink:hover { text-decoration: underline; }
+
+.gistFields { display: flex; flex-direction: column; gap: 6px; }
+.gistLabel { font-size: 10px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: 0.4px; }
+.gistLabelSub { font-size: 10px; font-weight: 400; color: var(--text3); text-transform: none; letter-spacing: 0; }
+
+.gistInput {
+  width: 100%;
+  padding: 7px 10px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  outline: none;
+  color: var(--text);
+  transition: border-color 0.15s;
+}
+.gistInput:focus { border-color: var(--accent); }
+
+.gistViewLink { font-size: 11px; color: var(--accent); text-decoration: none; font-weight: 600; }
+.gistViewLink:hover { text-decoration: underline; }
+
+.gistActions { display: flex; gap: 6px; }
+
+.gistSaveBtn {
+  flex: 1;
+  padding: 7px;
+  font-size: 11px; font-weight: 600;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text2);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  transition: border-color 0.12s, color 0.12s;
+}
+.gistSaveBtn:hover { border-color: var(--border2); color: var(--text); }
+
+.gistSyncBtn {
+  flex: 1;
+  padding: 7px;
+  font-size: 11px; font-weight: 600;
+  background: var(--accent);
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  transition: opacity 0.12s;
+}
+.gistSyncBtn:hover { opacity: 0.88; }
+.gistSyncBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.syncMsg { font-size: 11px; color: var(--text2); }
+.syncMsgOk  { color: var(--accent); }
+.syncMsgErr { color: var(--err); }
+.lastSynced { font-size: 10px; color: var(--text3); }
+
+/* ── Gist dot indicator ─────────────────────────────────────────────────────── */
+.gistDot {
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Confirm dialog ────────────────────────────────────────────────────────── */
+.confirmOverlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 500;
+}
+.confirmBox {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 22px 20px;
+  width: 280px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+}
+.confirmMsg { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 16px; }
+.confirmBtns { display: flex; gap: 8px; justify-content: flex-end; }
+.confirmCancel {
+  padding: 6px 14px; font-size: 12px; font-weight: 600;
+  background: none; border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text2); cursor: pointer; font-family: var(--font-ui);
+}
+.confirmCancel:hover { border-color: var(--border2); color: var(--text); }
+.confirmDelete {
+  padding: 6px 14px; font-size: 12px; font-weight: 600;
+  background: var(--err); border: none; border-radius: 6px;
+  color: #fff; cursor: pointer; font-family: var(--font-ui);
+}
+.confirmDelete:hover { opacity: 0.88; }
+
+.savedCount {
+  font-size: 9px;
+  font-weight: 700;
+  background: var(--accent-dim);
+  color: var(--accent);
+  border-radius: 20px;
+  padding: 1px 5px;
+  min-width: 16px;
+  text-align: center;
+}
+
+/* ── Editor reopen tab ─────────────────────────────────────────────────────── */
+.editorTab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 28px;
+  padding: 14px 0;
+  flex-shrink: 0;
+  border: none;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text3);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.editorTab:hover { background: var(--surface2); color: var(--accent); }
+
+.editorTabLabel {
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--font-ui);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── Drag handles ──────────────────────────────────────────────────────────── */
+.dragHandle {
+  width: 4px;
+  flex-shrink: 0;
+  background: var(--border);
+  cursor: col-resize;
+  transition: background 0.15s;
+}
+.dragHandle:hover { background: var(--accent); }
+
+.vDragHandle {
+  height: 4px;
+  flex-shrink: 0;
+  background: var(--border);
+  cursor: row-resize;
+  transition: background 0.15s;
+}
+.vDragHandle:hover { background: var(--accent); }
+
+/* ── Editor pane ───────────────────────────────────────────────────────────── */
+.editorPane {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+  flex-basis: 0;
+  min-width: 80px;
+  background: var(--surface);
+}
+
+/* ── Ad slot (placeholder) ─────────────────────────────────────────────────── */
+.adSlot {
+  flex: none;
+  width: 300px;
+  height: 250px;
+  max-width: 100%;
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  background: var(--surface-2, rgba(127,127,127,.06));
+  color: var(--text-muted, #8a8f98);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* ── Panel ─────────────────────────────────────────────────────────────────── */
+.panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.panelFlex {
+  flex: 1;
+  min-height: 80px;
+}
+
+.panelTopBorder {
+  border-top: 1px solid var(--border);
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 3px 6px 3px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--text3);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface2);
+  flex-shrink: 0;
+  cursor: pointer;
+  user-select: none;
+}
+.panelHeader:hover { background: var(--surface3, var(--surface2)); }
+
+.panelLang {
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+}
+
+.panelBtns {
+  display: flex;
+  gap: 3px;
+}
+
+.panelBtn {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text2);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  cursor: pointer;
+  text-transform: none;
+  letter-spacing: 0;
+  transition: color 0.12s, border-color 0.12s, background 0.12s;
+  white-space: nowrap;
+  font-family: var(--font-ui);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.panelBtn:hover { color: var(--text); border-color: var(--border2); }
+.panelBtnActive { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
+.panelBtnOk { background: rgba(74, 222, 158, 0.14); color: #16a34a; border-color: #4ade9e; }
+
+
+/* ── Code area ─────────────────────────────────────────────────────────────── */
+.codeArea {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.highlight {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 8px 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre;
+  overflow: auto;
+  pointer-events: none;
+  background: transparent;
+  color: var(--text);
+  tab-size: 2;
+}
+
+.editor {
+  position: absolute;
+  inset: 0;
+  padding: 8px 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  background: transparent;
+  color: transparent;
+  caret-color: var(--text);
+  border: none;
+  outline: none;
+  resize: none;
+  white-space: pre;
+  overflow: auto;
+  tab-size: 2;
+  width: 100%;
+  height: 100%;
+}
+
+
+/* ── Token colors live in globals.css (hl-*, cp-*, js-*) ── */
+
+/* ── Preview pane ──────────────────────────────────────────────────────────── */
+.previewPane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.previewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 10px;
+  height: 34px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface2);
+  gap: 8px;
+}
+
+.previewLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--text3);
+  flex-shrink: 0;
+}
+
+/* ── Device preview buttons ────────────────────────────────────────────────── */
+.previewDeviceBtns {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  background: var(--surface3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2px;
+  flex-shrink: 0;
+}
+
+.deviceBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 22px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  color: var(--text3);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.deviceBtn:hover { background: var(--surface2); color: var(--text); }
+.deviceBtnActive { background: var(--surface) !important; color: var(--text) !important; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+
+.previewBtns {
+  display: none;
+  gap: 4px;
+}
+
+/* ── Preview prev / next nav ──────────────────────────────────────────────── */
+.previewNav {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.navBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid var(--border, #e2e8f0);
+  background: var(--surface, #fff);
+  color: var(--text2, #64748b);
+  cursor: pointer;
+  flex-shrink: 0;
+  text-decoration: none;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  position: relative;
+}
+.navBtn:hover:not(:disabled) { background: var(--border, #e2e8f0); border-color: #cbd5e1; color: var(--text, #1e293b); }
+.navBtn:active:not(:disabled) { background: #d1d5db; }
+.navBtn:disabled { opacity: 0.35; cursor: default; }
+
+.navBtnLabeled {
+  width: auto;
+  padding: 0 9px 0 7px;
+  gap: 4px;
+}
+.navBtnLabeled svg { flex-shrink: 0; }
+.navBtnText {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+
+.navBtn[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  max-width: 220px;
+  width: max-content;
+  padding: 4px 8px;
+  border-radius: 5px;
+  background: #1e293b;
+  color: #f8fafc;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 400;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.22);
+  transition: opacity 0.12s ease, transform 0.12s ease;
+  transition-delay: 0.25s;
+}
+.navBtn[data-tip]:hover::after,
+.navBtn[data-tip]:focus-visible::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.navLabel {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text, #1e293b);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  flex-shrink: 1;
+  min-width: 0;
+  vertical-align: middle;
+}
+.navLabel em {
+  font-style: normal;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text3, #94a3b8);
+  flex-shrink: 0;
+}
+
+/* ── iframe wrapper (handles device sizing) ─────────────────────────────────── */
+
+/* ── Console panel ─────────────────────────────────────────────────────────── */
+.consolePanel {
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+  background: var(--surface2, #f1f5f9);
+  display: flex;
+  flex-direction: column;
+  height: 28px;
+  overflow: hidden;
+  transition: height 0.18s ease;
+}
+.consolePanelOpen { height: 180px; }
+
+.consoleBar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+  user-select: none;
+  background: var(--surface2, #f1f5f9);
+  color: var(--text2, #64748b);
+  flex-shrink: 0;
+  height: 28px;
+}
+.consoleBar:hover { background: var(--border, #e2e8f0); }
+
+.consoleBarLabel {
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-ui);
+  color: var(--text2, #64748b);
+  letter-spacing: 0.3px;
+}
+
+/* Snippet title, centred in the bar independent of the badges on either side */
+.consoleBarTitle {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: calc(100% - 260px);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 11.5px;
+  font-weight: 700;
+  font-family: var(--font-ui);
+  color: var(--text, #1e293b);
+  pointer-events: none;
+}
+
+.consoleBarChevron {
+  display: flex;
+  align-items: center;
+  color: var(--text3, #94a3b8);
+  transition: transform 0.15s;
+  margin-left: auto;
+}
+
+.consoleBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: var(--font-ui);
+}
+.consoleBadge[data-level="error"] { background: rgba(239,68,68,0.12); color: #dc2626; }
+.consoleBadge[data-level="warn"]  { background: rgba(245,158,11,0.12); color: #d97706; }
+.consoleBadge[data-level="log"]   { background: rgba(34,197,94,0.14); color: #16a34a; }
+
+.consoleClearBtn {
+  font-size: 10px;
+  font-weight: 600;
+  font-family: var(--font-ui);
+  color: var(--text3, #94a3b8);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 3px;
+  transition: color 0.12s, background 0.12s;
+}
+.consoleClearBtn:hover { color: var(--text2, #64748b); background: var(--border, #e2e8f0); }
+
+.consoleOutput {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+  background: var(--surface, #fff);
+  font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.consoleEmpty {
+  padding: 6px 12px;
+  color: var(--text3, #94a3b8);
+  font-size: 11px;
+  font-style: italic;
+}
+
+.consoleLine {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 2px 12px;
+  border-bottom: 1px solid var(--border, #e2e8f0);
+  word-break: break-all;
+}
+.consoleLine:last-child { border-bottom: none; }
+
+.consolePrefix { flex-shrink: 0; width: 12px; font-size: 10px; padding-top: 1px; }
+.consoleText { white-space: pre-wrap; }
+.consoleLevel_log   { color: var(--text, #1e293b); }
+.consoleLevel_info  { color: #2563eb; background: rgba(37,99,235,0.04); }
+.consoleLevel_warn  { color: #b45309; background: rgba(180,83,9,0.05); border-left: 2px solid #d97706; }
+.consoleLevel_error { color: #dc2626; background: rgba(220,38,38,0.05); border-left: 2px solid #ef4444; }
+
+/* ── iframe wrap ─────────────────────────────────────────────────────────────── */
+.iframeWrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  background: var(--surface3);
+  display: flex;
+  justify-content: center;
+}
+
+.iframe {
+  border: none;
+  background: #fff;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  flex-shrink: 0;
+}
+
+.previewLoading {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--surface3);
+  color: var(--text3);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-ui);
+}
+
+/* ── Toolbar buttons ───────────────────────────────────────────────────────── */
+.iconBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 26px;
+  box-sizing: border-box;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text2);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0 8px;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s;
+  white-space: nowrap;
+  font-family: var(--font-ui);
+}
+.iconBtn:hover { color: var(--text); border-color: var(--border2); }
+
+/* Refresh sits directly beside the PREVIEW label — without this the header's
+   space-between pushes it to the far right whenever the prev/next nav is
+   absent (blank My Code snippets). */
+.refreshBtn { margin-right: auto; }
+.iconBtnActive { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
+.iconBtnAccent { color: var(--accent); border-color: var(--accent); }
+.iconBtnAccent:hover { background: var(--accent-dim); color: var(--accent); }
+.iconBtnGist { display: flex; align-items: center; gap: 4px; }
+
+/* ── Toast ─────────────────────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--surface);
+  border: 1.5px solid var(--accent);
+  border-radius: 8px;
+  padding: 7px 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: toastIn 0.18s ease;
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ── Mobile ────────────────────────────────────────────────────────────────── */
+/* ── Preview toolbar: below 1300px it no longer fits on one line — wrap
+   the prev/next nav onto its own row so the label, refresh, device and
+   action buttons on row 1 stay fully visible instead of getting squeezed. ── */
+@media (min-width: 768px) and (max-width: 1300px) {
+  .previewHeader {
+    flex-wrap: wrap;
+    height: auto;
+    row-gap: 6px;
+    padding: 6px 10px;
+  }
+
+  .previewNav {
+    order: 3;
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .previewDeviceBtns {
+    order: 2;
+  }
+}
+
+@media (max-width: 767px) {
+  .body {
+    overflow-y: auto;
+  }
+
+  /* .header never wraps by default (headerRight is flex-shrink:0), so on a
+     narrow phone the brand buttons' own content overflows their shrunk box
+     and visually lands on top of Save as / the GitHub sync icon instead of
+     scrolling or wrapping. Let it wrap into two clean rows instead, and drop
+     text labels on the brand buttons so row 1 doesn't need the width of
+     three full labels just to show three icons. */
+  .header {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 44px;
+    row-gap: 4px;
+    padding: 6px 8px;
+  }
+  .headerLeft, .headerRight {
+    flex-wrap: wrap;
+    row-gap: 4px;
+  }
+  .headerBrand .headerTitle {
+    display: none;
+  }
+  .previewPane {
+    flex: 1;
+    width: 100% !important;
+    flex-direction: column;
+    overflow-y: visible;
+    height: auto;
+  }
+
+  /* Preview first, code editors after — on a small screen seeing the result
+     before wading through HTML/CSS/JS tabs is the more useful default. */
+  .previewHeader { order: 1; }
+  .iframeWrap    { order: 2; }
+  .consolePanel  { order: 3; }
+  .mobileEditors {
+    order: 4;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mobileEditors .panel {
+    border-bottom: 1px solid var(--border);
+    overflow: visible;
+  }
+
+  .mobileEditors .codeArea {
+    flex: none;
+    height: 50vh;
+  }
+
+  .previewBtns { display: flex; }
+
+  /* ── Preview toolbar on mobile: three wrapped rows ── */
+  /* A fixed 64px here was shorter than what label+nav+export-buttons actually
+     need once wrapped, so the rows overflowed the box and visually collided
+     with whatever rendered next. auto lets it size to its real content. */
+  .previewHeader {
+    flex-wrap: wrap;
+    row-gap: 0;
+    padding: 0;
+    height: auto;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Row 1: PREVIEW label + all icon controls */
+  .previewLabel {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+
+  .previewHeader > .iconBtn {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+
+  .previewDeviceBtns {
+    display: none;
+  }
+
+  .previewNav {
+    display: flex;
+    width: 100%;
+    border-top: 1px solid var(--border);
+    justify-content: center;
+    padding: 4px 0;
+  }
+
+  /* Row 3: Copy all + Download — full-width */
+  .previewBtns {
+    width: 100%;
+    border-top: 1px solid var(--border);
+  }
+  .previewBtns .iconBtn {
+    flex: 1;
+    justify-content: center;
+    padding: 7px 0;
+    border: none;
+    border-radius: 0;
+    border-right: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .previewBtns .iconBtn:last-child {
+    border-right: none;
+  }
+
+  .iframeWrap {
+    flex: none;
+    min-height: 100vh;
+  }
+
+  .iframe {
+    min-height: 100vh;
+    flex: 1;
+  }
+}
+
+/* — My Code tag filter pills — */
+.tagFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.tagFilterBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.tagFilterBtn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.tagFilterBtn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.tagFilterCount {
+  font-size: 10px;
+  font-weight: 500;
+  opacity: .55;
+}
+.tagFilterActive,
+.tagFilterActive:hover {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+}

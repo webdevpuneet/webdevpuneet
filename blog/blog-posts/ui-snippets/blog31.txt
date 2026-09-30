@@ -1,0 +1,151 @@
+<h1>10 New Copy-Paste Snippets: The Everyday Patterns Every Site Still Needs</h1>
+
+<p>Not every useful component is exotic. In between the canvas simulations and the GLB viewers, there's a much shorter list of patterns that show up on almost every site ever built: a menu that opens, a navbar that behaves on scroll, a list you can reorder, a loan number you need to compute correctly. These are the snippets developers actually paste into ChatGPT or Claude at 11pm and ask "just build me this" — and getting the small mechanical details right (a midpoint comparison, a shared transition duration, an EMI formula that doesn't divide by zero) is the difference between a demo and something you can actually ship.</p>
+
+<p>Below are ten free, self-contained snippets pulled from that everyday list — navigation, forms, product UI, and layout basics — each one built without a single external library. Every one is a <strong>live, interactive preview</strong> you can try right here in the article, and each exports to React, Vue, Angular or Tailwind in one click from its snippet page.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>Two elements animating off one shared value never drift apart.</strong> The off-canvas menu's page-wrap and sidebar both animate by the same 240px and the same 0.3s transition; the magnify lens's zoomed panel and lens square both derive their position from the same <code>x</code>/<code>y</code> multiplied by the same <code>ZOOM_FACTOR</code>. Whenever two things need to move together, they read from one number, not two numbers that happen to agree today.</li>
+<li><strong>Ask the browser what's real instead of hardcoding a guess.</strong> The drag-and-drop list asks <code>getBoundingClientRect()</code> for the hovered row's actual midpoint before deciding where to insert — it never assumes a fixed row height.</li>
+<li><strong>Native browser features do the hard part for free.</strong> The price range slider is two real <code>&lt;input type="range"&gt;</code> elements layered on top of each other, not a custom-built slider — which means keyboard support, touch dragging, and screen-reader announcements all come from the browser instead of being reimplemented by hand.</li>
+<li><strong>The URL is state too.</strong> The synced tab bar treats <code>location.hash</code> as the single source of truth — clicking a tab and typing a hash into the address bar run through the exact same function, so refresh, bookmark, and back/forward all just work with zero router.</li>
+<li><strong>Numeric edge cases get handled, not ignored.</strong> The EMI calculator's amortization formula divides by <code>factor - 1</code>, which would divide by zero at a 0% interest rate — so it branches to simple division first instead of producing <code>NaN</code> on a perfectly reasonable input.</li>
+</ul>
+
+<h2>1. Off-Canvas Push Menu</h2>
+
+<p>A hamburger click doesn't slide a drawer over the page here — it pushes the entire page sideways to reveal a full-height sidebar underneath it, the pattern older Facebook and many native-feeling mobile web apps use instead of an overlay drawer.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/off-canvas-menu/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Off-Canvas Push Menu — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the sidebar starts at <code>transform: translateX(-100%)</code>, fully hidden off the left edge, while the page-wrap sits at <code>translateX(0)</code> on top of it. Opening the menu animates both at once — the sidebar to <code>translateX(0)</code>, the page-wrap to <code>translateX(240px)</code> — using the exact same 0.3s transition duration, so the page reads as physically pushed aside by the sidebar sliding in beneath it rather than a panel sliding on top of a static page. The hamburger-to-X animation is driven off the button's own <code>aria-expanded</code> attribute rather than a separate class, so the visual state and the accessibility state can never fall out of sync, and three independent triggers — the close button, the scrim, and the hamburger itself — all call one shared <code>closeMenu()</code> function.</p>
+
+<p><strong>Best for:</strong> mobile-first app shells where a floating overlay drawer would feel disconnected from the content underneath it. <strong>Tip:</strong> the sidebar width is controlled by exactly two values that must match — <code>.off-canvas</code>'s <code>width</code> and <code>.page-wrap.shifted</code>'s <code>translateX</code> distance — change both together or the page will overshoot the edge or leave a gap.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/off-canvas-menu/">Off-Canvas Push Menu</a></p>
+
+<h2>2. Hide on Scroll Navbar</h2>
+
+<p>Scroll down and the navbar slides up out of view to give the content more room; scroll back up even slightly and it slides back in immediately — the pattern most modern mobile browsers and news sites use for their own chrome.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/hide-on-scroll-navbar/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Hide on Scroll Navbar — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a scroll listener compares the current <code>window.scrollY</code> against the value recorded on the previous scroll event to get a <code>delta</code>. A positive delta (scrolling down) adds a <code>.hidden</code> class that slides the navbar up by its own height with <code>transform: translateY(-100%)</code>; a negative delta (scrolling up) removes it immediately. Two safeguards keep this from feeling twitchy: deltas smaller than an 8px <code>MIN_SCROLL_DELTA</code> are ignored entirely, so trackpad momentum-scroll jitter can't flicker the navbar in and out, and scroll positions below an 80px <code>REVEAL_THRESHOLD</code> always force the navbar visible regardless of direction, so it never disappears while the user is still near the very top of the page.</p>
+
+<p><strong>Best for:</strong> content-heavy pages — blogs, docs, long product pages — where reclaiming vertical space while reading matters more than a permanently pinned nav. <strong>Tip:</strong> only <code>transform</code> ever changes on the navbar, never <code>top</code> or <code>height</code>, which keeps the animation on the compositor thread and smooth even on longer pages.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/hide-on-scroll-navbar/">Hide on Scroll Navbar</a></p>
+
+<h2>3. Drag & Drop Reorder List</h2>
+
+<p>A vertical task list you can physically drag into a new order, with a live insertion line that shows exactly where the item will land — built entirely on the browser's native HTML5 Drag and Drop API, no sortable-list library involved.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/drag-drop-reorder-list/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Drag & Drop Reorder List — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every list item has <code>draggable="true"</code>, and a single set of <code>dragstart</code>/<code>dragover</code>/<code>drop</code>/<code>dragend</code> listeners on the list container — not one per item — resolves the actual row with <code>e.target.closest('.item')</code>. The interesting part happens on <code>dragover</code>: <code>target.getBoundingClientRect()</code> gives the hovered row's real position, and comparing the cursor's <code>e.clientY</code> against that row's vertical midpoint decides whether to draw the insertion line above or below it, updating continuously as the cursor moves. On drop, the same midpoint check runs once more, then <code>insertAdjacentElement('beforebegin' | 'afterend', draggedItem)</code> physically relocates the real dragged node — not a clone — so nothing attached to that element is ever lost.</p>
+
+<p><strong>Best for:</strong> task lists, playlists, and priority queues where users need to manually resequence items and you'd rather not ship a sortable-list dependency for it. <strong>Tip:</strong> native HTML5 drag-and-drop has inconsistent touch support — for a mobile-friendly version, swap to Pointer Events and track the drag position manually instead.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/drag-drop-reorder-list/">Drag & Drop Reorder List</a></p>
+
+<h2>4. Swipeable Cards Stack</h2>
+
+<p>A Tinder-style stack where the top card drags left or right under your cursor, rotates as it goes, and flies off-screen past a threshold to reveal the next card underneath — pure Pointer Events, no gesture library.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/swipeable-cards-stack/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Swipeable Cards Stack — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>pointerdown</code> checks that the card being pressed is actually the current top card via <code>getTopCard()</code> before capturing the pointer, so cards buried in the stack never intercept a drag meant for the one on top. As the pointer moves, <code>currentX</code> and <code>currentY</code> track the offset from the start position, and a rotation of <code>currentX / 12</code> degrees is applied alongside the translation — the further sideways the drag, the more the card tilts, mimicking the way a real card would pivot under a finger. On release, if <code>|currentX|</code> cleared a 100px <code>SWIPE_THRESHOLD</code>, <code>finishSwipe()</code> adds a <code>.fly-left</code> or <code>.fly-right</code> class that flings the card off-screen with a CSS transition and removes it from the DOM on <code>transitionend</code>; otherwise the card's inline transform is simply cleared, springing it back to center.</p>
+
+<p><strong>Best for:</strong> matching/dating-app UIs, quick approve-or-reject review queues, and onboarding flows that want a tactile, gesture-driven decision moment instead of a plain button pair. <strong>Tip:</strong> the accept/reject buttons call the exact same <code>finishSwipe()</code> function as a real drag — useful for keyboard or screen-reader users who can't perform the gesture themselves.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/swipeable-cards-stack/">Swipeable Cards Stack</a></p>
+
+<h2>5. Product Image Magnify Lens</h2>
+
+<p>An Amazon-style zoom: hover the product photo and a small lens square follows your cursor while an adjacent panel shows a magnified view of exactly the region under it — pure CSS background-position math, no canvas.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/product-image-magnify-lens/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Product Image Magnify Lens — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a <code>mousemove</code> listener computes the cursor's position relative to the image container from <code>getBoundingClientRect()</code>, then clamps it with <code>Math.max(0, Math.min(...))</code> so the lens can never slide past the image's own edges. The zoom panel is a completely separate element carrying the same background image, scaled up via <code>background-size</code> set to the container's dimensions multiplied by a single <code>ZOOM_FACTOR</code> constant, then shifted into place with <code>background-position</code> set to the negative of the lens coordinates — also multiplied by that same <code>ZOOM_FACTOR</code>. Because the lens position and the zoomed background-position both derive from the same <code>x</code>/<code>y</code> and the same scaling constant, the magnified view always shows precisely what's under the lens instead of drifting out of alignment as the cursor moves.</p>
+
+<p><strong>Best for:</strong> e-commerce product pages where fine detail — fabric texture, stitching, screen resolution — genuinely needs a closer look than a normal-sized photo provides. <strong>Tip:</strong> swap the CSS gradient placeholder for a real high-resolution product photo — the technique needs the source image to actually contain more detail than the base display size shows, or the zoom will just look blurry.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/product-image-magnify-lens/">Product Image Magnify Lens</a></p>
+
+<h2>6. Price Range Slider</h2>
+
+<p>A dual-handle slider for filtering by min and max price — built from two real, overlapping native range inputs rather than a custom-built widget, so keyboard support and touch dragging come free from the browser.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/price-range-slider/embed/" style="width:100%;height:360px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Price Range Slider — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> two <code>&lt;input type="range"&gt;</code> elements sit stacked exactly on top of each other, each with a transparent, non-interactive track (<code>pointer-events: none</code>) but a fully interactive thumb (<code>pointer-events: auto</code> on the <code>::-webkit-slider-thumb</code> pseudo-element) — so clicking the invisible track does nothing, but dragging either visible circular handle works normally, and the two inputs never fight over the same click. A separate <code>.range-fill</code> div, not part of either input, is positioned between the two thumbs by converting both values to percentages of the max and setting <code>left</code>/<code>width</code> accordingly on every <code>input</code> event. Since nothing stops one native range input from crossing past its sibling on its own, <code>updateSlider()</code> checks whether the gap between values has dropped below a minimum threshold and, if so, pushes the <em>other</em> slider's value back to maintain it — using <code>this</code> to know which slider just fired and which one to leave alone.</p>
+
+<p><strong>Best for:</strong> e-commerce filter sidebars, marketplace search filters, and any "between X and Y" numeric filter where a plugin feels like overkill for two inputs and a fill bar. <strong>Tip:</strong> because both inputs are real <code>&lt;input type="range"&gt;</code> elements, arrow keys, Page Up/Down, and screen-reader value announcements all work without any extra code.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/price-range-slider/">Price Range Slider</a></p>
+
+<h2>7. Tabs with URL Sync</h2>
+
+<p>A tab bar whose active tab lives in <code>location.hash</code>, so refreshing the page, sharing a direct link, and clicking browser back/forward all land on the correct panel — no router needed.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/tabs-url-sync/embed/" style="width:100%;height:360px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Tabs with URL Sync — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> clicking a tab doesn't toggle classes directly — it calls <code>goToTab(tabName)</code>, which does nothing more than set <code>location.hash = tabName</code>. Setting the hash triggers the browser's native <code>hashchange</code> event, which runs <code>readHashAndActivate()</code> to read the hash back out and update the visible tab and panel. That means clicking a tab in the UI and typing a hash straight into the address bar go through the exact same code path — the hash is the only source of truth, never a separate JS variable that could fall out of sync with the URL. Because every hash assignment pushes a new browser history entry automatically, back and forward buttons walk through tab history for free, with zero manual <code>history.pushState</code> bookkeeping.</p>
+
+<p><strong>Best for:</strong> documentation pages, settings screens, and any tabbed content worth deep-linking or bookmarking directly to a specific section. <strong>Tip:</strong> <code>readHashAndActivate()</code> falls back to a default tab name whenever the hash doesn't match a known value, so a mistyped or stale link never leaves the UI in a blank state.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/tabs-url-sync/">Tabs with URL Sync</a></p>
+
+<h2>8. Loan EMI Calculator</h2>
+
+<p>Type a loan amount, interest rate, and tenure and get an instant monthly installment, total interest, and total payment — using the real amortization formula lenders use, not a rough approximation.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/loan-emi-calculator/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Loan EMI Calculator — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the monthly installment is computed with the standard EMI formula, <code>P × r × (1+r)^n / ((1+r)^n − 1)</code>, where <code>P</code> is principal, <code>r</code> is the monthly interest rate, and <code>n</code> is the number of months — the same formula banks use for amortized loans. That formula divides by <code>(1+r)^n − 1</code>, which collapses to zero at a 0% interest rate and would produce <code>NaN</code>; the calculator checks for that case first and falls back to simple division (<code>principal / months</code>) instead, so a perfectly reasonable interest-free loan doesn't break the display. Total interest is derived as <code>totalPayment − principal</code>, clamped to zero with <code>Math.max</code> so floating-point rounding can never show a tiny negative number, and a two-segment bar visualizes the principal-to-interest ratio by converting both to percentages of the total payment.</p>
+
+<p><strong>Best for:</strong> mortgage and auto-loan estimator pages, fintech onboarding flows, and personal-finance tools where users need to see the real cost of interest before committing. <strong>Tip:</strong> every input fires <code>calculateEmi()</code> on <code>oninput</code>, so the results and the principal/interest bar update live as the user types — there's no separate "Calculate" button to wire up.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/loan-emi-calculator/">Loan EMI Calculator</a></p>
+
+<h2>9. Feature Comparison Matrix Table</h2>
+
+<p>A pricing table shaped like a real feature matrix — plan columns, feature rows, checkmark and cross icons, and one visually highlighted "recommended" column running the full height of the table.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/feature-comparison-matrix-table/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Feature Comparison Matrix Table — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every cell in the recommended plan's column — header and body alike — shares a single <code>.recommended</code> class that applies a tinted background plus matching left and right borders. Because every cell in that column carries the same class, the tinted background and borders line up perfectly row after row, reading as one continuous highlighted band running down the table rather than a set of separately-styled cells that happen to match. The included/excluded state per feature uses real inline SVG checkmark and X icons rather than styled bullet characters, colored through a shared <code>.cell-icon.yes</code>/<code>.cell-icon.no</code> class rather than being hardcoded per icon — so changing the "included" color in one place recolors every checkmark in the table.</p>
+
+<p><strong>Best for:</strong> SaaS pricing pages, plan-comparison landing sections, and any "which tier do I need" decision point where a simple three-card pricing layout doesn't have room for feature-level detail. <strong>Tip:</strong> the table is fully static HTML by design — if your plans and features come from a CMS or config file, generate the exact same markup structure server-side or in a small render function rather than hand-writing each row.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/feature-comparison-matrix-table/">Feature Comparison Matrix Table</a></p>
+
+<h2>10. Recent Purchase Notification Popup</h2>
+
+<p>A "social proof" toast that periodically slides in from the bottom corner showing a recent purchase, auto-dismisses after a few seconds, then cycles to the next one — the classic FOMO widget pattern, built from one array and two timers.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/recent-purchase-notification-popup/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Recent Purchase Notification Popup — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a small array of notification objects (name, location, product, timestamp) is the entire data source — <code>renderNotification()</code> just writes the current entry's fields into the toast's DOM nodes before it's revealed. <code>showToast()</code> adds a <code>.visible</code> class that slides the toast in with a <code>cubic-bezier</code> transition and starts a <code>VISIBLE_DURATION</code> timer that calls <code>hideToast(false)</code> automatically; <code>hideToast()</code> advances <code>index</code> to the next notification with <code>(index + 1) % NOTIFICATIONS.length</code> — wrapping back to the start once the array is exhausted — and schedules the next <code>showToast()</code> after a gap. Dismissing the toast manually versus letting it auto-hide both funnel through the same <code>hideToast(userDismissed)</code> function, which only differs by using a longer gap before the next notification when the user closed it themselves, so an annoyed visitor gets a bit more breathing room before the next one appears.</p>
+
+<p><strong>Best for:</strong> e-commerce storefronts and landing pages that want a subtle, non-blocking sense of live activity. <strong>Tip:</strong> the entire cycle is driven by two <code>setTimeout</code> calls and one array — swapping the hardcoded array for a small polling <code>fetch()</code> against a real "recent orders" endpoint requires no changes to the show/hide/cycle logic at all.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/recent-purchase-notification-popup/">Recent Purchase Notification Popup</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open any snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs, then paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — or use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page. Every snippet in this batch needs nothing installed at all — no CDN scripts, no npm packages.</li>
+<li><strong>When two elements must move together, drive both from one shared value.</strong> The off-canvas menu's page-wrap and sidebar, and the magnify lens's zoom panel and lens square, are the pattern to copy: pick one number (a distance, a scroll fraction, a cursor coordinate), derive every visual consequence from that same number, and the pieces can never drift out of sync with each other.</li>
+<li><strong>Reach for the browser's native input before building a custom widget.</strong> The price range slider gets keyboard support, touch dragging, and screen-reader announcements for free by using two real <code>&lt;input type="range"&gt;</code> elements instead of a fully custom-built slider — that's usually the right default until a native element genuinely can't do what you need.</li>
+<li><strong>Handle the numeric edge case, don't just hope it never happens.</strong> The EMI calculator's zero-interest branch and the drag list's midpoint clamp both exist because someone will eventually hit that exact input — test your own calculations and coordinate math against the boundary values (zero, the exact edge, the exact midpoint) before shipping.</li>
+<li><strong>In React, Vue, or Angular, event listeners move into mount effects with real cleanup.</strong> The scroll listener behind the hiding navbar, the pointer listeners behind the swipeable cards, and the hashchange listener behind the URL-synced tabs all need to be attached once on mount and explicitly removed on unmount — each snippet's FAQ section spells out exactly what that cleanup should look like.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>None of these ten needed a library. A menu that pushes instead of overlays, a navbar that reads scroll direction, a slider built from two native inputs, a calculator that handles its own zero case — the pattern across all of them is reaching for what the platform already gives you (transforms, native range inputs, <code>location.hash</code>, <code>getBoundingClientRect</code>) and adding just enough JavaScript to coordinate it. That's usually less code than the library would have shipped, and it's code you actually understand well enough to debug at 11pm when something's slightly off.</p>
+
+<p>Try them, retune the constants, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

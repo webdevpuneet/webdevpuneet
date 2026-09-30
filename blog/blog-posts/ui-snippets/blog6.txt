@@ -1,0 +1,117 @@
+<h1>8 Copy-Paste Form Input Snippets That Make Native Controls Feel Custom-Built</h1>
+
+<p>Forms are where products win or lose users — sign-ups, checkouts, settings pages — and yet the default browser controls still look like they shipped with Windows XP. The fix isn't a component library; almost every polished input you've admired is a native control restyled with a few CSS tricks. Below are 8 free form snippets — an iOS-style toggle, floating labels, an animated checkbox, a six-box OTP input, a live password strength meter — you can preview live and copy in seconds. Pure HTML, CSS and a few lines of JS, no framework required.</p>
+
+<p>As with every roundup in this series, this isn't just a copy-paste dump. For each snippet you'll find <strong>how it actually works</strong> under the hood, <strong>when to reach for it</strong>, and a quick tip for customising or keeping it accessible. By the end you'll know the small toolkit — the hidden-checkbox pattern, <code>:placeholder-shown</code>, <code>:focus-within</code>, SVG <code>stroke-dashoffset</code>, focus-management JS — behind nearly every custom form control on the modern web.</p>
+
+<p>Every snippet below is a <strong>live, interactive preview</strong> — click, type and tab through it right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+
+<h2>The golden rule: style the control, keep the input</h2>
+
+<p>Custom form controls have a famous failure mode: developers replace the native <code>&lt;input&gt;</code> with styled divs and throw away everything the browser gave them for free — keyboard support, focus management, form submission, screen reader semantics. The snippets below all follow the same golden rule instead:</p>
+
+<ul>
+<li><strong>The native input stays in the DOM</strong> — hidden with <code>opacity: 0</code> and zero size, never <code>display: none</code>, so it keeps receiving focus, keyboard events and form data.</li>
+<li><strong>CSS state selectors do the styling</strong> — <code>:checked</code>, <code>:focus-visible</code>, <code>:placeholder-shown</code> and sibling combinators restyle the visible element based on the real input's state.</li>
+<li><strong>Labels do the clicking</strong> — wrap the control in a <code>&lt;label&gt;</code> and the browser wires up the hit area for you, no click handlers needed.</li>
+</ul>
+
+<p>Get this pattern once and you can build almost any custom control. Now the snippets.</p>
+
+<h2>1. Toggle Switch — the iOS switch in pure CSS</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/toggle-switch/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Toggle Switch — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the golden rule in its purest form — zero JavaScript. A real <code>&lt;input type="checkbox"&gt;</code> hides inside a <code>&lt;label&gt;</code> with <code>opacity: 0</code> and no size. The visible pill is a sibling <code>span</code>; its knob is an <code>::after</code> pseudo-element. Two selectors do everything: <code>input:checked ~ .track</code> turns the pill indigo, and <code>input:checked ~ .track::after</code> slides the knob across with <code>transform: translateX(20px)</code>. Clicking the label toggles the real checkbox, keyboard users can Space it, and a form submit picks up the value — the browser does all the work.</p>
+
+<p><strong>When to use it:</strong> single on/off settings — dark mode, notifications, auto-save. Toggles read as "takes effect immediately"; checkboxes read as "part of a form I'll submit" — pick accordingly. <strong>Tip:</strong> the snippet includes a small size variant done entirely by overriding track and knob dimensions, so one component covers dense settings lists too.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/toggle-switch/">Toggle Switch</a></p>
+
+<h2>2. Floating Label Input — the Material trick in 3 selectors</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/floating-label/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Floating Label Input — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the label starts as fake placeholder text, vertically centred over the input, then shrinks and floats to the top border the moment you focus or type. The whole effect is one CSS trick: the input gets <code>placeholder=" "</code> — a single space — which makes <code>:placeholder-shown</code> a reliable "is this field empty?" test. The selector <code>input:not(:placeholder-shown) ~ label, input:focus ~ label</code> then moves the label up, shrinks it to 11px and colours it indigo. A white background on the label lets it sit cleanly on top of the border line. No JavaScript, no wrapper classes to manage.</p>
+
+<p><strong>When to use it:</strong> sign-up and login forms where vertical space is tight — the label and placeholder occupy the same pixels instead of stacking. <strong>Tip:</strong> keep the label short. A floating label truncates awkwardly at small size, and it can't hold hint text — put format hints ("DD/MM/YYYY") below the field instead.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/floating-label/">Floating Label Input</a></p>
+
+<h2>3. Custom Checkbox — a checkmark that draws itself</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/custom-checkbox/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Custom Checkbox — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> same hidden-input pattern as the toggle, but the payoff is the tick. The checkmark is an SVG <code>polyline</code> whose <code>stroke-dasharray</code> and <code>stroke-dashoffset</code> are both set to the path's length (24), which renders it invisible. On <code>input:checked</code>, the offset transitions to 0 and the tick <em>draws itself</em> stroke-first, like a pen — the same dashoffset maths as a progress ring, applied to a 3-line icon. The box also gets press feedback (<code>:active</code> scales it to 0.9) and a proper keyboard focus ring via <code>:focus-visible</code>, plus a styled disabled state.</p>
+
+<p><strong>When to use it:</strong> everywhere you currently have a native checkbox — consent boxes, preference lists, filters. It submits and validates exactly like the native control because it <em>is</em> the native control. <strong>Tip:</strong> the 0.05s transition delay on the tick matters — it lets the box's background fill first, so the draw reads as a two-beat animation instead of a blur.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/custom-checkbox/">Custom Checkbox</a></p>
+
+<h2>4. OTP / PIN Input — six boxes that behave like one field</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/otp-input/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="OTP / PIN Input — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> six single-character inputs with <code>inputmode="numeric"</code> (mobile keyboards open the number pad), glued together by three small event handlers. On <code>input</code>: strip non-digits with a regex and auto-focus the next box. On <code>keydown</code>: if Backspace is pressed in an <em>empty</em> box, jump focus back to the previous one — the detail that makes deleting feel natural. And on <code>paste</code>: intercept the clipboard, strip non-digits, distribute one character per box, and land focus after the last filled digit — so pasting a code from an SMS or email just works.</p>
+
+<p><strong>When to use it:</strong> verification codes, 2FA, payment PINs. Separate boxes communicate "exactly 6 digits" better than any helper text. <strong>Tip:</strong> the paste handler is the difference between a delightful OTP field and a rage-inducing one — test it first when evaluating any OTP component, because most implementations get it wrong.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/otp-input/">OTP / PIN Input</a></p>
+
+<h2>5. Password Strength Meter — live feedback as they type</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/password-strength/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Password Strength Meter — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> on every keystroke, four regex tests run against the value — length ≥ 8, an uppercase letter, a digit, a symbol — and the count of passes becomes a 0–4 score. That one number drives everything: how many of the four segment bars fill, which colour they take (red → amber → indigo → green), the "Weak / Fair / Good / Strong" label, and which items in the requirements checklist flip from a hollow circle to a filled green dot. A show/hide eye button toggles the input between <code>type="password"</code> and <code>type="text"</code>.</p>
+
+<p><strong>When to use it:</strong> any "create password" field. Live requirement feedback kills the most frustrating form experience on the web — submitting, failing, and only then learning the rules. <strong>Tip:</strong> segmented bars beat a single continuous bar because they map one-to-one to the rules; users can see exactly which requirement is missing rather than guessing why the bar is stuck at 60%.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/password-strength/">Password Strength Meter</a></p>
+
+<h2>6. Star Rating — hover preview, click to commit</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/star-rating/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Star Rating — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> five stars, each carrying a <code>data-v</code> value from 1 to 5, and one comparison doing all the visual work: on hover, <code>classList.toggle('active', starValue &lt;= hoveredValue)</code> lights every star up to the cursor. Click stores the value in a <code>selected</code> variable; <code>mouseleave</code> on the container restores the display to the committed rating (or grey if none). A label swaps between "Poor / Fair / Good / Great / Excellent!" as you move, so the rating has words, not just symbols.</p>
+
+<p><strong>When to use it:</strong> reviews, feedback prompts, NPS-style surveys. The hover-preview / click-commit / leave-restore trio is the pattern users expect from every rating widget they've used. <strong>Tip:</strong> to submit the value with a form, mirror <code>selected</code> into a hidden input on click — one line, and your backend sees a normal form field.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/star-rating/">Star Rating</a></p>
+
+<h2>7. Tag / Chip Input — the multi-value field done properly</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/tag-input/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Tag / Chip Input — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the "field" is actually a flex-wrap container holding chip elements plus a borderless text input that flexes to fill the remaining space — clicking anywhere in the container focuses the input, and <code>:focus-within</code> draws the focus ring on the container so the whole thing behaves like one field. Enter or comma commits the current text as a chip (after trimming and rejecting duplicates), each chip carries its own × button, and new chips pop in with a quick scale animation. A row of suggestion buttons demonstrates programmatic adds.</p>
+
+<p><strong>When to use it:</strong> skills, categories, email recipients, filters — any input that's really a list. Chips make each value individually removable, which beats asking users to edit a comma-separated string. <strong>Tip:</strong> <code>:focus-within</code> is the unsung hero here — without it the inner input focuses invisibly and the field looks dead while the user is typing in it.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/tag-input/">Tag / Chip Input</a></p>
+
+<h2>8. Multi-step Form — one form, three screens, zero page loads</h2>
+
+<iframe src="https://fwdtools.com/ui-snippets/multi-step-form/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Multi-step Form — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> all three steps live in the DOM at once; a single <code>cur</code> variable decides which panel has the <code>.active</code> class (shown, with a slide-in animation) while the rest stay <code>display: none</code>. The progress header — numbered dots joined by connector lines — is driven by the same variable: dots behind you get a filled "done" state, the current dot gets the outlined active state, and the connector lines fill as you pass them. The Back button hides itself on step one and the Next button becomes the finish action on the last step.</p>
+
+<p><strong>When to use it:</strong> onboarding, checkout, anything longer than five fields. Splitting a long form into steps raises completion rates for one simple reason: a form that shows three fields feels finishable, one that shows fifteen doesn't. <strong>Tip:</strong> validate each step at the Next click, not at the end — sending a user back two screens to fix an email typo undoes all the goodwill the wizard earned.</p>
+
+<p>Try it: <a href="https://fwdtools.com/ui-snippets/multi-step-form/">Multi-step Form</a></p>
+
+<h2>The techniques you just collected</h2>
+
+<p>Eight controls, five reusable ideas — learn these and you can restyle nearly any form element without a library:</p>
+
+<ul>
+<li><strong>The hidden-input pattern</strong> — keep the native control invisible but alive, style a sibling with <code>:checked</code>. Powers the toggle and the checkbox, and it's why both work with keyboards and form submits for free.</li>
+<li><strong><code>:placeholder-shown</code> as an "is empty" test</strong> — the one-space placeholder trick behind every floating label.</li>
+<li><strong><code>:focus-within</code> on containers</strong> — makes composite fields (chips, OTP groups) light up as one control while a child input holds real focus.</li>
+<li><strong>SVG <code>stroke-dashoffset</code> reveals</strong> — set the dash to the path length, transition the offset to zero, and any icon draws itself. Powers the checkbox tick.</li>
+<li><strong>Focus choreography in JS</strong> — moving focus for the user (OTP auto-advance, backspace-to-previous, click-to-focus containers) is what makes multi-part inputs feel like single fields.</li>
+</ul>
+
+<h2>Final Thought</h2>
+
+<p>Here's a challenge for your next project: before you <code>npm install</code> a form library, try building the controls from these eight patterns instead. You'll ship less JavaScript, you'll actually understand your own form when it breaks, and — the part nobody expects — the native-input-plus-CSS version is usually <em>more</em> accessible than the library, not less, because the browser is doing the hard parts.</p>
+
+<p>Every snippet here is part of the free <a href="https://fwdtools.com/ui-snippets/forms/">form snippets collection</a> at FWD Tools, alongside range sliders, credit card inputs, file dropzones and colour pickers that didn't make this list — all editable in the browser and exportable to React, Vue, Angular or Tailwind. Earlier roundups in this series cover <a href="https://fwdtools.com/ui-snippets/buttons/">buttons</a>, <a href="https://fwdtools.com/ui-snippets/cards/">hover cards</a>, <a href="https://fwdtools.com/ui-snippets/animations/">text effects</a> and <a href="https://fwdtools.com/ui-snippets/loaders/">loading states</a>.</p>

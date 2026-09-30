@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Keying a Form by Selected Item id to Force a Reset">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Keying a form by the selected item's id</h1>
+    <p class="hint">Pick a person, edit their notes field, then switch to another person. Watch the notes field reset instead of leaking their old text.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px 28px; }
+  .frame { width: 100%; max-width: 480px; background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 16px; text-align: center; }
+  .row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px; }
+  .btn { padding: 8px 12px; border-radius: 8px; border: none; background: #fff; color: var(--ink); border: 1.5px solid var(--line); font: 700 12.5px system-ui, sans-serif; cursor: pointer; }
+  .btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .box { border: 1.5px dashed var(--accent); border-radius: 8px; padding: 12px; background: #f4f4ff; text-align: left; }
+  .box label { display: block; font: 700 11px ui-monospace, monospace; color: var(--sub); margin-bottom: 4px; }
+  .box input, .box textarea { font: 600 12.5px ui-monospace, monospace; padding: 7px 8px; border-radius: 6px; border: 1.5px solid var(--line); width: 100%; box-sizing: border-box; margin-bottom: 8px; }
+  .box textarea { resize: vertical; min-height: 50px; }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; text-align: left; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+
+  function EditForm(props) {
+    // uncontrolled fields -- their DOM value lives on the input/textarea
+    // node itself, not in React state, so it only resets on a real remount
+    return e('div', { className: 'box' },
+      e('label', null, 'Editing: ' + props.person.name),
+      e('label', null, 'Notes (try typing something, then switch people)'),
+      e('textarea', { defaultValue: '' })
+    );
+  }
+
+  function Demo() {
+    var people = [
+      { id: 1, name: 'Ade' },
+      { id: 2, name: 'Bao' },
+      { id: 3, name: 'Cleo' }
+    ];
+    var selectedState = useState(1);
+    var selectedId = selectedState[0];
+    var setSelectedId = selectedState[1];
+
+    var person = people.filter(function (p) { return p.id === selectedId; })[0];
+
+    return e('div', { className: 'frame' },
+      e('div', { className: 'row' },
+        people.map(function (p) {
+          return e('button', {
+            key: p.id,
+            className: 'btn' + (p.id === selectedId ? ' active' : ''),
+            onClick: function () { setSelectedId(p.id); }
+          }, p.name);
+        })
+      ),
+      // key={selectedId} is the whole trick: switching people gives EditForm
+      // a brand new key, so React discards the old form instance (and its
+      // stale, half-typed notes) and mounts a fresh one from scratch.
+      e(EditForm, { key: selectedId, person: person }),
+      e('p', { className: 'note' }, 'This isn’t a bug to fix — it’s the point. key={selectedId} on EditForm means every person gets a distinct key, so switching the selection is, to React, "throw away this component instance and build a different one," the same key/remount mechanic used elsewhere for resetting a single component’s state. Applied here as a deliberate list pattern, it’s a one-line way to guarantee a form (or any component with internal, uncontrolled state) never leaks one row’s edits into another’s — no manual reset-the-fields effect required.')
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

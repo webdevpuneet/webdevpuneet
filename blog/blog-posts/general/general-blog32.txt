@@ -1,0 +1,259 @@
+<h1>CSS @property Explained: Animatable Custom Properties with Live Demos</h1>
+
+<p>Custom properties (<code>--x</code>) have always been strings, not values. That distinction sounds academic until you try to transition or animate one &mdash; a plain <code>--angle</code> going from <code>0deg</code> to <code>360deg</code> either does nothing or snaps instantly at the halfway point, because the browser never parsed it as an angle in the first place, only as an opaque sequence of tokens it substitutes verbatim wherever <code>var(--angle)</code> appears. <code>@property</code> changes that. It's a CSS at-rule, standardized as part of the CSS Properties and Values API, that registers a custom property with an actual type (<code>syntax</code>), a guaranteed fallback (<code>initial-value</code>), and an explicit inheritance behavior (<code>inherits</code>) &mdash; and that registration is the single thing that turns a custom property from an inert string into something the browser can genuinely interpolate.</p>
+
+<p>The nine demos below are all live and interactive, most with an on-page readout so you can actually <em>see</em> the effect &mdash; a mid-transition computed value, a syntax-mismatch fallback, an inheritance boundary &mdash; rather than take the explanation's word for it. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> &mdash; FWD Tools' free in-browser editor. Change a <code>syntax</code> descriptor, delete the <code>@property</code> block entirely, watch what stops animating &mdash; that's a faster way to build real intuition than any explanation.</p>
+
+<p>New to CSS in general, or want a guided path through the fundamentals these demos build on? The <a href="https://fwdtools.com/css-playground/">CSS Playground</a> is FWD Tools' free, click-based, in-browser sandbox for exactly this kind of experimentation.</p>
+
+<h2>Why a plain custom property can't be animated</h2>
+
+<p>A CSS custom property without registration is, by spec, "untyped" &mdash; its declared value is stored as a raw token stream and substituted textually anywhere <code>var()</code> references it, with no parsing into a number, color, length, or anything else until the property that actually consumes it (like <code>background</code> or <code>width</code>) does its own parsing. Interpolation &mdash; the math a transition or animation performs to compute in-between frames &mdash; requires a value space to interpolate <em>within</em>: you can't average "halfway between the token stream <code>0deg</code> and the token stream <code>360deg</code>" the way you can average two actual angle values, because the browser has no type information telling it these tokens represent angles at all. So the CSS Transitions spec falls back to the only thing available for anything it can't interpolate: discrete animation, which flips the value from start to end at the 50% mark of the duration and nothing else. <code>@property</code>'s <code>syntax</code> descriptor is what closes that gap &mdash; it tells the browser "this custom property's values live in the &lt;angle&gt; (or &lt;color&gt;, &lt;length&gt;, &lt;number&gt;, &lt;percentage&gt;...) value space," which is exactly the information the interpolation algorithm needs to compute real intermediate values, frame by frame, the same way it already does for built-in properties like <code>opacity</code> or <code>transform</code>.</p>
+
+<h2>1. The core contrast: plain vs registered angle</h2>
+
+<p>Click "Animate." Both rings transition their conic-gradient rotation from 0deg to 360deg over the same 1.2 seconds. The readout samples both custom properties 300ms into the transition.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/31/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Plain vs Registered Angle Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">@property --angle {
+  syntax: '&lt;angle&gt;';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.registered { --angle: 0deg; transition: --angle 1.2s ease; }
+.registered.spin { --angle: 360deg; }
+
+/* .plain uses the identical --angle, transition and spin rule, but no @property block registers it */</code></pre>
+
+<p>This is the whole feature in one comparison. Both rings run the exact same <code>transition: --angle 1.2s ease</code> declaration on the exact same custom property name and the exact same start and end values &mdash; the only difference in the entire demo is whether an <code>@property</code> block registers <code>--angle</code> as an <code>&lt;angle&gt;</code> beforehand. Sampled 300ms into the transition (25% elapsed), the registered ring's computed <code>--angle</code> reads something close to 90deg, because the browser has been genuinely interpolating an angle value every frame. The plain ring's computed <code>--angle</code> reads either the untouched start value or the final value with nothing in between, because an unregistered custom property can only flip discretely at the 50% mark &mdash; there is no partial state for it to be in. Nothing about the transition syntax differs; only the registration does, and that alone decides whether the gradient sweeps or jumps.</p>
+
+<p><strong>Best for:</strong> proving to yourself (or a skeptical teammate) that "custom properties can't be animated" was never really true &mdash; it was always missing a type. <strong>Tip:</strong> this same discrete-vs-continuous split applies to CSS animations too, not just transitions &mdash; a <code>@keyframes</code> block animating an unregistered custom property has the identical problem.</p>
+
+<h2>2. Registering a &lt;color&gt; custom property</h2>
+
+<p>Hover either card. The border color on both is driven by <code>--edge</code>, but only the right card's <code>--edge</code> is registered as a <code>&lt;color&gt;</code>. The readout samples the actual rendered border color mid-hover.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/31/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Registered Color Custom Property Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">@property --edge {
+  syntax: '&lt;color&gt;';
+  inherits: false;
+  initial-value: #6366f1;
+}
+
+.registered { --edge: #6366f1; transition: --edge .9s ease; }
+.registered:hover { --edge: #ef4444; }</code></pre>
+
+<p>Color interpolation is where the difference between "opaque token stream" and "typed value" is easiest to see, because a color has multiple numeric channels that all need to move together in a coherent color space &mdash; there's no ambiguity about whether an in-between frame looks like a color or not. Registering <code>--edge</code> as <code>&lt;color&gt;</code> gives the browser license to decompose both the indigo and red hex values into their channel representations and interpolate each channel independently across the transition's duration, producing the same kind of smooth hue sweep you'd get animating a built-in property like <code>background-color</code> directly. Without the registration, the border still visually changes color on hover &mdash; but only because the discrete flip happens at 50% of the transition duration, not because any intermediate purple-to-red blend ever actually renders. The readout's mid-transition sample is what makes that distinction unambiguous instead of a guess based on how fast your eye thinks it saw something change.</p>
+
+<p><strong>Best for:</strong> any UI accent, badge, or status indicator whose color needs to genuinely fade between states rather than snap &mdash; theme toggles, validation states, hover accents. <strong>Tip:</strong> registered color custom properties also animate correctly through <code>@keyframes</code>, which makes them a clean way to drive a looping color pulse without duplicating the color logic in JavaScript.</p>
+
+<h2>3. Registering a &lt;percentage&gt; to animate a conic-gradient stop</h2>
+
+<p>Click "Fill to 80%." The dial's fill stop and its numeric label are both driven by one registered <code>--fill</code> percentage &mdash; JavaScript only toggles a class and reads the value back for the readout, it never sets the gradient stop directly.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/31/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Registered Percentage Driving a Conic Gradient Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">@property --fill {
+  syntax: '&lt;percentage&gt;';
+  inherits: false;
+  initial-value: 0%;
+}
+
+.dial {
+  --fill: 0%;
+  background: conic-gradient(var(--accent) var(--fill), var(--line) var(--fill));
+  transition: --fill 1.4s cubic-bezier(.22,.8,.28,1);
+}
+.dial.filled { --fill: 80%; }</code></pre>
+
+<p><code>&lt;percentage&gt;</code> is its own distinct syntax component in the Properties and Values spec, separate from <code>&lt;number&gt;</code>, and registering a custom property with it means every intermediate frame the browser produces during the transition is itself a valid, in-range percentage &mdash; not a raw number you'd have to append a <code>%</code> to yourself. That matters here because the same <code>--fill</code> value is consumed twice in the gradient declaration, once as each conic-gradient argument's stop position, and both consumption points automatically move in lockstep because they're reading the same interpolating custom property rather than two separately animated declarations. This is also a useful contrast with demo #6's <code>&lt;number&gt;</code>-in-<code>calc()</code> pattern: when the raw value is naturally a percentage of something, registering it as <code>&lt;percentage&gt;</code> directly is simpler than registering a unitless number and multiplying it out yourself.</p>
+
+<p><strong>Best for:</strong> progress dials, radial meters, or any conic-gradient-based indicator that needs to animate smoothly toward a target percentage. <strong>Tip:</strong> pair this with <code>@property</code>'s <code>inherits: false</code> (the safer default for most component-scoped custom properties) so a dial's fill percentage never accidentally leaks into unrelated descendants.</p>
+
+<h2>4. inherits: true vs inherits: false</h2>
+
+<p>Both trees below set their custom property only on the top-level wrapper. Compare the computed value read out at each nesting depth in the two trees.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/31/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Inherits True vs False Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">@property --level {
+  syntax: '&lt;number&gt;';
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --level2 {
+  syntax: '&lt;number&gt;';
+  inherits: false;
+  initial-value: 0;
+}
+
+.lvl0 { --level: 7; }   /* descendants inherit 7 */
+.lvl0b { --level2: 7; } /* descendants fall back to initial-value: 0 */</code></pre>
+
+<p><code>inherits</code> is the one <code>@property</code> descriptor that has nothing to do with animation and everything to do with the cascade &mdash; it decides whether a value set on an element is passed down to its descendants the way properties like <code>color</code> and <code>font-family</code> naturally are, or stays scoped strictly to the element it was declared on, the way <code>margin</code> or <code>border</code> do. Plain custom properties always inherit by default, which is often not what you want for a component-scoped value like an animation's current frame index or a gauge's fill amount &mdash; without <code>@property</code>, there was no way to opt a custom property out of inheritance at all. With registration, setting <code>inherits: true</code> reproduces the familiar cascading behavior explicitly, while <code>inherits: false</code> means every descendant that doesn't set its own value falls straight back to the registered <code>initial-value</code>, regardless of what an ancestor set. The readout's three-level comparison makes the boundary concrete: level 0's <code>7</code> shows up unchanged at level 2 in the inheriting tree, and resets to <code>0</code> immediately at level 1 in the non-inheriting one.</p>
+
+<p><strong>Best for:</strong> deciding inheritance deliberately instead of getting it for free (or not) as a side effect &mdash; theme tokens usually want <code>inherits: true</code>, per-component animation state usually wants <code>inherits: false</code>. <strong>Tip:</strong> <code>inherits: false</code> is the safer default when you're not sure, since an unintentionally inheriting animation-state property is a common source of "why did the child also start animating" bugs.</p>
+
+<h2>5. initial-value as a genuine fallback</h2>
+
+<p>Neither box below ever sets its custom property anywhere in the stylesheet. The readout shows what each one actually computes to when read directly.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/31/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Initial-Value as a Genuine Fallback Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">@property --gap {
+  syntax: '&lt;length&gt;';
+  inherits: false;
+  initial-value: 16px;   /* used automatically -- --gap is never set */
+}
+
+.regBox { padding: var(--gap); }
+.plainBox { padding: var(--gap2, 16px); }   /* fallback is per-use, not guaranteed */</code></pre>
+
+<p><code>initial-value</code> is not merely a suggested default the way the second argument to <code>var(--x, 16px)</code> is &mdash; it's a hard requirement of the registration itself for any syntax other than the universal <code>*</code>, and the browser guarantees the registered property resolves to it whenever no cascaded value exists, no matter how many places the property is consumed. A plain custom property has no such guarantee: read directly (not through a <code>var()</code> fallback), an unset plain custom property computes to the empty string, which is invalid wherever a real value like a length is expected. The convenience most people rely on &mdash; <code>var(--gap2, 16px)</code> rendering fine even when <code>--gap2</code> was never set &mdash; only works because that specific <code>var()</code> call happened to include a fallback argument; a different consumer of the same unset <code>--gap2</code> without its own fallback gets nothing. Registration moves that guarantee from "per call site, if you remembered" to "per property, always."</p>
+
+<p><strong>Best for:</strong> design-system tokens and component defaults where you want one authoritative fallback defined once, not re-typed as a <code>var()</code> fallback argument at every consumption site. <strong>Tip:</strong> <code>initial-value</code> is mandatory for every concrete syntax component (<code>&lt;length&gt;</code>, <code>&lt;color&gt;</code>, etc.) &mdash; omit it and the entire <code>@property</code> rule is invalid and ignored, silently leaving the property unregistered.</p>
+
+<h2>6. Registered numbers driving calc()-based layout</h2>
+
+<p>Click "Widen sidebar." A single registered <code>--frac</code> number feeds a <code>calc()</code> expression inside <code>grid-template-columns</code>, and the whole layout animates on a plain CSS transition.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/31/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Registered Number Driving calc() Layout Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">@property --frac {
+  syntax: '&lt;number&gt;';
+  inherits: false;
+  initial-value: 0.25;
+}
+
+.grid {
+  --frac: 0.25;
+  grid-template-columns: calc(var(--frac) * 100%) 1fr;
+  transition: --frac .8s ease;
+}
+.grid.wide { --frac: 0.65; }</code></pre>
+
+<p><code>grid-template-columns</code> itself isn't a property the browser knows how to interpolate smoothly between two arbitrary track-size lists &mdash; but it doesn't need to be, because the animation is happening one layer down, on the registered <code>&lt;number&gt;</code> feeding into it, and <code>calc()</code> re-evaluates against whatever the current interpolated value is on every single computed-style pass. This is the pattern that makes registered custom properties genuinely useful for layout, not just decorative gradients and colors: instead of trying to animate a compound property directly, you animate one typed number and let <code>calc()</code> project it into whatever property actually needs it, whether that's a grid track, a width, a translation distance, or several of these simultaneously from the same source value. The readout samples the sidebar's live pixel width every frame during the transition, which is the concrete proof that the grid track itself &mdash; not just the abstract <code>--frac</code> variable &mdash; is being recomputed continuously rather than jumping straight from 25% to 65%.</p>
+
+<p><strong>Best for:</strong> layout transitions (sidebars, split panes, resizable regions) that need to animate smoothly without switching to JavaScript-driven inline styles or a library. <strong>Tip:</strong> keep the registered number unitless and do the unit conversion inside <code>calc()</code>, exactly like this demo's <code>* 100%</code> &mdash; it keeps the same <code>--frac</code> reusable anywhere a fraction is meaningful, not just this one grid.</p>
+
+<h2>7. Syntax mismatch falls back to initial-value</h2>
+
+<p>This box is authored with <code>--pad: banana</code>, even though <code>--pad</code> is registered as a <code>&lt;length&gt;</code>. The readout shows the computed value the box actually renders with.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/31/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Syntax Mismatch Falls Back to Initial-Value Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">@property --pad {
+  syntax: '&lt;length&gt;';
+  inherits: false;
+  initial-value: 12px;
+}
+
+.box {
+  --pad: banana;   /* does not match <length> */
+  padding: var(--pad);   /* renders with 12px, not "banana" */
+}</code></pre>
+
+<p>This is <code>@property</code>'s quiet safety net, and it's a direct consequence of registration turning a custom property from "opaque string" into "value with a real syntax to validate against." A plain custom property accepts literally any token sequence as its value &mdash; <code>--pad: banana</code> is perfectly legal CSS for an unregistered property, and whatever consumes it just gets invalid input to deal with on its own. A registered property, by contrast, is checked against its <code>syntax</code> descriptor at computed-value time: a value that fails to parse as the declared type is treated as "guaranteed-invalid," and per the Properties and Values spec, guaranteed-invalid substitutes the property's own <code>initial-value</code> rather than letting the malformed token propagate into layout. The readout confirms exactly that &mdash; <code>--pad</code> computes to <code>12px</code>, the registered initial-value, not <code>banana</code>, and the box renders with real padding instead of silently collapsing to zero or breaking layout.</p>
+
+<p><strong>Best for:</strong> catching authoring mistakes (a typo'd value, a value from user input, a value from a CMS field) before they reach layout, without writing any validation logic yourself. <strong>Tip:</strong> this fallback applies per-declaration, not per-stylesheet &mdash; a later, valid declaration of the same property on a more specific selector still overrides it normally; only the specific invalid declaration gets replaced.</p>
+
+<h2>8. CSS.registerProperty() vs @property</h2>
+
+<p>Click "Animate both." The left bar is registered declaratively with <code>@property</code>; the right bar is registered at runtime with <code>CSS.registerProperty()</code> in JavaScript, using an identical syntax descriptor.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/31/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="CSS.registerProperty() vs @property Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">/* Declarative, in the stylesheet */
+@property --w1 {
+  syntax: '&lt;percentage&gt;';
+  inherits: false;
+  initial-value: 10%;
+}</code></pre>
+
+<pre><code class="language-js">// Imperative, at runtime -- registers the exact same descriptor
+CSS.registerProperty({
+  name: '--w2',
+  syntax: '&lt;percentage&gt;',
+  inherits: false,
+  initialValue: '10%'
+});</code></pre>
+
+<p><code>@property</code> and the JavaScript <code>CSS.registerProperty()</code> method are two entry points into the exact same underlying registration mechanism defined by the CSS Properties and Values API &mdash; neither one is a newer or more capable version of the other, and both accept identical <code>syntax</code>, <code>inherits</code>, and initial-value information, just spelled differently (an at-rule's descriptors versus a JS object's properties). <code>CSS.registerProperty()</code> predates <code>@property</code> reaching interoperable browser support and remains useful specifically when the syntax, inheritance, or initial value needs to be computed dynamically at runtime rather than known in advance at author time &mdash; registering a set of custom properties generated from a design token API response, for instance. For anything that can be known upfront, <code>@property</code> is generally preferable: it's declared alongside the rest of the stylesheet, doesn't depend on JavaScript executing (or executing before the styles that use the property), and is what DevTools and most tooling expect to find. The readout confirms both bars interpolate identically mid-transition, because past the registration step there is no behavioral difference left between them.</p>
+
+<p><strong>Best for:</strong> choosing <code>@property</code> as the default and reaching for <code>CSS.registerProperty()</code> only when the registration genuinely needs to be computed or conditional at runtime. <strong>Tip:</strong> attempting to register the same custom property name twice with <code>CSS.registerProperty()</code> throws; wrap it in a <code>try</code>/<code>catch</code> if the same script might run more than once, as this demo does.</p>
+
+<h2>9. A loading ring with zero per-frame JavaScript</h2>
+
+<p>This ring's fill loops continuously. Watch it run, then check the readout &mdash; it only polls and displays the current value; nothing in this page ever sets the gradient or runs a frame loop that drives it.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/31/9.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="No-JS Animated Loading Ring Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">@property --pct {
+  syntax: '&lt;number&gt;';
+  inherits: false;
+  initial-value: 0;
+}
+
+@keyframes fillRing { from { --pct: 0; } to { --pct: 100; } }
+
+.ring {
+  background: conic-gradient(var(--accent) calc(var(--pct) * 1%), var(--line) 0);
+  animation: fillRing 2.4s ease-in-out infinite alternate;
+}</code></pre>
+
+<p>This is the practical payoff of everything the previous eight demos established. Before <code>@property</code>, an animated conic-gradient progress ring genuinely required JavaScript &mdash; typically a <code>requestAnimationFrame</code> loop recalculating a gradient stop and writing it to an inline style dozens of times per second, because there was no way to get the browser's own animation engine to interpolate a value the gradient depended on. With <code>--pct</code> registered as a real <code>&lt;number&gt;</code>, a standard <code>@keyframes</code> animation drives it exactly the way it would drive <code>opacity</code> or <code>transform</code>, complete with the browser's own compositor-friendly timing, easing, and (where supported) off-main-thread execution &mdash; all properties JavaScript-driven rAF loops have to reimplement by hand and typically don't get for free. The <code>setInterval</code> in this demo's script exists purely to prove the point to a reader: it reads <code>--pct</code> back out and displays it, but deleting that polling code entirely would not change how the ring itself animates in the slightest, because the animation was never dependent on it.</p>
+
+<p><strong>Best for:</strong> loading indicators, progress rings, gauges, and any conic-gradient-based meter that previously needed a JS animation loop purely to keep one number in sync with a visual. <strong>Tip:</strong> swap the <code>infinite alternate</code> keyframe animation for a one-shot <code>transition</code> on <code>--pct</code> (like demo #3) when the ring represents real, externally-driven progress rather than a decorative loading loop.</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Forgetting that plain custom properties still can't be interpolated, even inside a modern-looking transition.</strong> Demo #1 is the direct proof &mdash; the same <code>transition</code> declaration on the same property name produces a smooth sweep or an instant discrete flip depending entirely on whether <code>@property</code> registered it.</li>
+<li><strong>Omitting <code>initial-value</code> and assuming the rule still registers.</strong> It's mandatory for every concrete syntax type; leaving it out makes the entire <code>@property</code> block invalid and silently ignored, which quietly puts you back to unregistered, unanimatable behavior with no error.</li>
+<li><strong>Not deciding <code>inherits</code> deliberately.</strong> Demo #4's side-by-side shows how differently the same value on a parent behaves depending on this one flag &mdash; guessing wrong produces either unwanted cascading state or values that mysteriously reset at every level.</li>
+<li><strong>Assuming an invalid value crashes or leaves the property blank.</strong> Demo #7 shows the actual behavior: a syntax mismatch falls back to the registered <code>initial-value</code>, which is safer than it might sound but still worth knowing rather than discovering mid-debug.</li>
+<li><strong>Reaching for a JS rAF loop out of habit.</strong> Demo #9's ring is the case for checking whether a registered custom property plus a native <code>@keyframes</code> or <code>transition</code> can already do what a hand-rolled animation loop was built to do.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>What's the actual browser support for @property?</h3>
+<p>Unprefixed <code>@property</code> has shipped in Chrome and Edge since version 85, Safari since 16.4, and Firefox since 128 &mdash; all evergreen browsers support it as of this post. For any project with a support matrix reaching further back, wrap animation-dependent styling in <code>@supports (background: paint(x)) or (--x: 1)</code>-style feature detection, or accept that unregistered browsers simply see the discrete-flip fallback rather than a broken page &mdash; an unregistered custom property never errors, it just doesn't animate smoothly.</p>
+
+<h3>Does @property require any JavaScript to work?</h3>
+<p>No &mdash; every demo above is pure CSS with an <code>@property</code> at-rule; the JavaScript in each one only reads values back out for the on-page readouts or toggles a class to trigger a transition, exactly the same as a real hover or click handler would. Demo #9's ring is the clearest proof: its animation runs entirely from <code>@keyframes</code> and would keep running identically with every line of JavaScript on the page deleted.</p>
+
+<h3>What's the actual difference between @property and CSS.registerProperty()?</h3>
+<p>Nothing behavioral &mdash; they're two syntaxes for registering the same underlying descriptor set (<code>syntax</code>, <code>inherits</code>, <code>initial-value</code>) through the same Properties and Values API, as demo #8 shows side by side. <code>@property</code> is declarative and belongs in the stylesheet for anything known at author time; <code>CSS.registerProperty()</code> is imperative and earns its place when the registration itself needs to be computed or conditional at runtime.</p>
+
+<h3>Can you redefine an already-registered custom property?</h3>
+<p>Not from the same source at runtime &mdash; calling <code>CSS.registerProperty()</code> twice with the same name throws an error, and this demo's script guards against that with a <code>try</code>/<code>catch</code>. A later <code>@property</code> rule for the same name in a stylesheet, however, does override an earlier one the normal cascading way; the registration itself just isn't something you can incrementally patch, only fully redeclare.</p>
+
+<h3>Why does my registered property still not animate?</h3>
+<p>The two most common causes: the <code>syntax</code> descriptor doesn't actually match the value space you're animating between (check demo #7's fallback behavior &mdash; a mismatch doesn't error, it just silently substitutes <code>initial-value</code>), or the property name in your <code>transition</code>/<code>animation</code> declaration doesn't exactly match the registered name, including the leading double dash. Registration is per exact custom property name; there's no pattern matching or inheritance between similarly named properties.</p>
+
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to actually feel the core mechanism is to click <strong>Fork &amp; Edit</strong> on demo #1, delete the <code>@property --angle</code> block entirely, and watch the "registered" ring start behaving exactly like the "plain" one &mdash; same transition, same values, suddenly a discrete jump instead of a sweep. That's the whole feature in one deletion. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop into a real project.</p>
+
+<p><strong>Recommended next step:</strong> open the <a href="https://fwdtools.com/css-playground/">CSS Playground</a> and register one custom property already driving something in your own stylesheet &mdash; a theme accent color, a progress value, a layout fraction &mdash; with the matching <code>syntax</code> type. Doing it against a real value you already animate or transition, not just these demos, is what makes the syntax-mismatch and inheritance rules actually stick. For more tutorials like this one, browse the <a href="https://www.webdevpuneet.com/search/label/CSS">CSS</a> label on the blog.</p>

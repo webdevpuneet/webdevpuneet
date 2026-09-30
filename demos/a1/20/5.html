@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Indeterminate Progress Bar">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Indeterminate progress bar</h1>
+    <p class="hint">Click "Simulate load" — a band slides back and forth with no percentage at all, because the actual duration isn't known ahead of time.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="panel">
+      <div class="track">
+        <div class="band" id="band" hidden></div>
+      </div>
+      <p class="statusLabel" id="statusLabel">Ready</p>
+    </div>
+    <button type="button" class="triggerBtn" id="triggerBtn">Simulate load</button>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 34px 16px 28px; }
+
+  .panel { width: 100%; max-width: 340px; }
+  .track {
+    width: 100%; height: 10px; border-radius: 999px;
+    background: #e7e9ee; overflow: hidden; position: relative;
+  }
+  .band {
+    position: absolute; top: 0; left: 0; height: 100%;
+    width: 35%; border-radius: 999px; background: var(--accent);
+    animation: slide 1.1s ease-in-out infinite;
+  }
+  @keyframes slide {
+    0% { left: -35%; }
+    100% { left: 100%; }
+  }
+  .statusLabel {
+    margin: 8px 0 0; text-align: center;
+    font: 700 12px ui-monospace, monospace; color: var(--sub);
+  }
+  .statusLabel.done { color: var(--green); }
+
+  .triggerBtn {
+    padding: 11px 22px; border-radius: 9px; border: none;
+    background: var(--accent); color: #fff; font: 700 13.5px system-ui, sans-serif; cursor: pointer;
+  }
+  .triggerBtn:hover { background: #4f52d6; }
+  .triggerBtn:disabled { opacity: 0.6; cursor: default; }
+</script>
+
+<script type="text/plain" id="js">
+  var band = document.getElementById('band');
+  var statusLabel = document.getElementById('statusLabel');
+  var triggerBtn = document.getElementById('triggerBtn');
+
+  triggerBtn.addEventListener('click', function () {
+    triggerBtn.disabled = true;
+    triggerBtn.textContent = 'Working…';
+    statusLabel.textContent = 'Connecting to server…';
+    statusLabel.classList.remove('done');
+    band.hidden = false;
+
+    // A real indeterminate bar has no known end time either -- this timeout
+    // just stands in for "the response eventually arrived."
+    setTimeout(function () {
+      band.hidden = true;
+      statusLabel.textContent = 'Done';
+      statusLabel.classList.add('done');
+      triggerBtn.textContent = 'Run again';
+      triggerBtn.disabled = false;
+    }, 2200);
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

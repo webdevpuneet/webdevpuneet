@@ -1,0 +1,167 @@
+<h1>CSS clamp() Explained, with 10 Live Fluid-Sizing Demos You Can Drag</h1>
+
+<p>Most people meet <code>clamp()</code> through one copy-pasted line of fluid typography and never go further. That is a shame, because <code>clamp()</code> is not a typography trick &mdash; it is a general-purpose way to say <em>"pick a value between these two limits, and let it scale in between."</em> It works on padding, gaps, border-radius, letter-spacing, custom properties, anything that takes a length. Learn the one function and you delete a stack of media queries.</p>
+
+<p>This post explains the syntax, then gives you <strong>10 interactive demos</strong> &mdash; each one a small box with a drag handle on the right edge. Drag it and watch the value in the readout change live, both flattening out at its floor and its ceiling and gliding smoothly in between. That flattening is the whole point of <code>clamp()</code>: it is not linear scaling, it is <em>bounded</em> linear scaling.</p>
+
+<p>Dragging the handle is the fast way to see the concept, but it isn't the whole demo. Every embed below has its own <strong>HTML / CSS / JS</strong> tabs with the full working source, plus a <strong>Fork &amp; Edit</strong> button that opens that exact snippet &mdash; already loaded, already running &mdash; in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a>, FWD Tools' free in-browser editor. Change a floor, change a ceiling, swap <code>cqw</code> for <code>vw</code>, break it, fix it. That loop &mdash; predict what a number change will do, then actually watch it happen &mdash; teaches <code>clamp()</code> faster than reading ten more paragraphs about it ever will. Nothing you edit there touches this page or leaves your browser until you decide to save it.</p>
+
+<h2>The syntax, in one breath</h2>
+
+<pre><code>property: clamp(MINIMUM, PREFERRED, MAXIMUM);</code></pre>
+
+<p><code>clamp()</code> takes three comma-separated values and returns whichever one applies:</p>
+
+<ul>
+<li>If the <strong>preferred</strong> value would compute below the minimum, the browser uses the <strong>minimum</strong> instead &mdash; the value is floored.</li>
+<li>If the preferred value would compute above the maximum, the browser uses the <strong>maximum</strong> instead &mdash; the value is capped.</li>
+<li>Otherwise, the preferred value is used exactly as computed.</li>
+</ul>
+
+<p>The trick that makes it "fluid" is that the <strong>preferred</strong> argument is usually a relative unit &mdash; <code>vw</code> (a percentage of the viewport width), <code>%</code>, or as in every demo below, <code>cqw</code> (a percentage of a container's width). Because that middle value is relative, it recomputes continuously as the viewport or container resizes, and the min/max simply stop it from ever going too far in either direction. You are looking at three fixed points doing the job of an entire <code>@media</code> block.</p>
+
+<h2>Why these demos use cqw, not vw</h2>
+
+<p>The classic fluid-typography formula you'll see everywhere is <code>font-size: clamp(1.25rem, 1rem + 2vw, 3rem)</code> &mdash; <code>vw</code> ties the preferred value to the real browser viewport. That is exactly right for a real page, but it makes for a broken demo: embedded in an iframe on this page, the "viewport" is the iframe's own width, and you cannot usefully resize an iframe by dragging inside it.</p>
+
+<p>So every demo below uses <strong><code>cqw</code></strong> instead of <code>vw</code>. It is CSS Container Query Units &mdash; 1<code>cqw</code> is 1% of the width of the nearest ancestor with <code>container-type: inline-size</code> set on it. Each demo wraps its element in exactly that kind of container, so when you drag the handle and resize <em>that specific box</em>, the clamped value responds to it directly &mdash; no need to touch your actual browser window. Everything else about <code>clamp()</code> &mdash; the syntax, the floor/ceiling behaviour, the reasoning for using it &mdash; is identical whether the preferred value is driven by <code>vw</code>, <code>%</code>, or <code>cqw</code>. Swap <code>cqw</code> for <code>vw</code> in your own project and you get the classic viewport-fluid version; the mechanics you're seeing here don't change.</p>
+
+<p><strong>One caveat worth knowing:</strong> <code>-webkit-line-clamp</code> is a different, unrelated CSS property &mdash; it truncates multi-line text to a fixed number of lines with an ellipsis. It shares a name with <code>clamp()</code> and nothing else. If you searched for "CSS clamp" hoping to truncate a paragraph, that's the property you want instead.</p>
+
+<h2>1. Fluid Heading Typography</h2>
+
+<p>The canonical clamp() formula: a <code>rem</code> floor, a <code>rem</code>-plus-relative-unit preferred value, and a <code>rem</code> ceiling. Drag the handle and the headline scales continuously between 20px and 48px.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/01/1.html" style="width:100%;height:340px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Fluid Heading Typography — CSS clamp() Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong> <code>font-size: clamp(20px, 6px + 5.2cqw, 48px)</code>. The "base + coefficient" shape of the middle argument is what lets you tune two things independently: the flat <code>6px</code> sets a baseline the relative term always adds to, and <code>5.2cqw</code> sets how aggressively it grows as the container widens. Drag all the way left and the heading locks at exactly 20px; drag all the way right and it locks at exactly 48px &mdash; those flat regions at both ends are <code>clamp()</code> actually clamping, not the demo running out of room.</p>
+
+<p><strong>Best for:</strong> hero headlines and page titles, anywhere you'd otherwise write three or four <code>font-size</code> breakpoints. <strong>Tip:</strong> in production, use <code>vw</code> in place of <code>cqw</code> to tie this to the real viewport instead of a container.</p>
+
+<h2>2. Fluid Body Copy</h2>
+
+<p>Fluid sizing isn't only for headlines. This paragraph's font-size scales gently between 15px and 19px, which keeps long-form copy comfortable to read whether it's sitting in a narrow sidebar or a wide article column.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/01/2.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Fluid Body Copy — CSS clamp() Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong> <code>font-size: clamp(15px, 13px + 0.74cqw, 19px)</code>. Notice the coefficient here (<code>0.74cqw</code>) is much smaller than the heading's (<code>5.2cqw</code>) &mdash; body copy should barely move, while a headline can afford a dramatic range. That's a deliberate design decision every fluid clamp() encodes: how much you want each element to actually respond to available space.</p>
+
+<p><strong>Best for:</strong> any paragraph, card description, or long-form text block where you want it to breathe a little more on desktop without ballooning past a comfortable reading size. <strong>Tip:</strong> keep body-copy ranges tight (a few pixels, like this one) &mdash; large swings in paragraph text size read as a bug, not a feature.</p>
+
+<h2>3. Fluid Card Padding</h2>
+
+<p>clamp() isn't limited to font-size. Here it drives the padding on all four sides of a card at once &mdash; cramped padding never happens at the narrow end, and the card never looks like it's swimming in empty space at the wide end.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/01/3.html" style="width:100%;height:360px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Fluid Card Padding — CSS clamp() Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong> <code>padding: clamp(12px, 5cqw, 40px)</code>. This is the simplest possible clamp() shape &mdash; no additive base term, just a bare relative unit for the preferred value. That's the right call whenever you don't need independent control over the starting point; the floor and ceiling alone are enough to keep the coefficient sensible.</p>
+
+<p><strong>Best for:</strong> card components, modal bodies, and any container whose internal spacing should track the container's own size rather than the whole page. <strong>Tip:</strong> a single clamp() applied to the shorthand <code>padding</code> property sets all four sides identically &mdash; if you need different floors per side, write four separate clamp() declarations instead.</p>
+
+<h2>4. Fluid Grid Gap</h2>
+
+<p>The gap between grid tiles is itself a clamp()-driven value. Drag the handle and watch the tiles pull apart or draw together while staying perfectly aligned &mdash; the grid never looks cramped, and it never looks sparse either.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/01/4.html" style="width:100%;height:660px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Fluid Grid Gap — CSS clamp() Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong> <code>gap: clamp(6px, 3cqw, 24px)</code>. This is often the most-overlooked place to use clamp() &mdash; teams will fluidly size their fonts and then leave every gap and margin as a single fixed value, which is exactly what breaks the visual rhythm as the layout scales. One clamp() on <code>gap</code> keeps grid spacing proportional to everything else that's fluidly sized around it.</p>
+
+<p><strong>Best for:</strong> any CSS Grid or Flexbox layout where the number of columns is fixed but the available width isn't &mdash; product grids, image galleries, dashboard tiles. <strong>Tip:</strong> pair a fluid gap with <code>grid-template-columns: repeat(auto-fill, minmax(...))</code> for a grid that adds columns responsively <em>and</em> keeps its spacing proportional.</p>
+
+<h2>5. Fluid Border Radius</h2>
+
+<p>Small, crisp corner rounding at the narrow end; a soft "squircle" look at the wide end. One clamp() line, no separate rounded/extra-rounded utility classes.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/01/5.html" style="width:100%;height:380px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Fluid Border Radius — CSS clamp() Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong> <code>border-radius: clamp(8px, 3.4cqw, 28px)</code>. Border-radius is a property most teams hardcode to one value for the whole design system, but it scales the same way font-size does &mdash; a corner that reads as "subtly rounded" on a small card can look almost sharp-edged if that exact pixel value is reused on a much larger hero panel.</p>
+
+<p><strong>Best for:</strong> any component that appears at more than one size across your product &mdash; buttons, cards, image thumbnails, avatars. <strong>Tip:</strong> keep the ceiling below half the element's smallest expected dimension, or the corners will visually merge into a pill/circle shape you didn't intend.</p>
+
+<h2>6. Fluid Avatar Size</h2>
+
+<p>An avatar circle sized entirely with clamp() &mdash; both its width/height and its initials' font-size shrink together in a tight sidebar and stay legible in a wide layout.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/01/6.html" style="width:100%;height:340px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Fluid Avatar Size — CSS clamp() Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong> <code>width: clamp(32px, 12cqw, 96px)</code> (and the same expression on <code>height</code>, plus a smaller-range clamp() on the initials' <code>font-size</code>). This demo is a good example of <strong>coordinated</strong> clamp() usage &mdash; three separate declarations, each with its own floor and ceiling, all driven by the same container so they move in sync rather than three independent values drifting apart at different rates.</p>
+
+<p><strong>Best for:</strong> user avatars, team member photos, or any circular badge that needs to work identically in a cramped comment thread and a spacious profile header. <strong>Tip:</strong> when width and height share an expression like this, they'll always stay a perfect circle &mdash; if you only clamp one of them, you'll get an oval at every size except the exact midpoint.</p>
+
+<h2>7. Fluid Hero Vertical Spacing</h2>
+
+<p>Vertical padding on a hero block: tight on a small screen so the call-to-action isn't pushed below the fold, generous on a large one so the section doesn't feel squeezed.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/01/7.html" style="width:100%;height:390px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Fluid Hero Vertical Spacing — CSS clamp() Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong> <code>padding-block: clamp(24px, 10cqw, 80px)</code>. <code>padding-block</code> is the logical-property version of "top and bottom padding" &mdash; using it instead of separately writing <code>padding-top</code>/<code>padding-bottom</code> means this also respects vertical writing modes automatically, at no extra cost.</p>
+
+<p><strong>Best for:</strong> hero sections, page headers, and any full-bleed block where vertical rhythm needs to scale with viewport height as much as width. <strong>Tip:</strong> vertical spacing is the one place teams most often forget clamp() exists &mdash; it's usually reserved for font-size, but a fixed 80px of hero padding on a phone is exactly the kind of thing that pushes your headline off-screen.</p>
+
+<h2>8. Fluid Letter Spacing</h2>
+
+<p>An uppercase eyebrow label, tightly tracked in a narrow space and opened up once there's room to breathe &mdash; the kind of detail that separates a label that looks "designed" from one that was just left at its default.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/01/8.html" style="width:100%;height:340px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Fluid Letter Spacing — CSS clamp() Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong> <code>letter-spacing: clamp(0px, 0.6cqw, 4px)</code>. Drag this one and you'll notice the floor never quite goes flat the way the others do &mdash; that's not a bug. With a <code>0px</code> floor and a purely positive coefficient, the preferred value can only equal the floor in the limit as the container shrinks toward zero width, which never happens within a normal drag range. The ceiling, on the other hand, engages exactly as expected. It's a useful reminder to actually check where your own clamp() floors are reachable, not just assume they are.</p>
+
+<p><strong>Best for:</strong> eyebrow labels, section kickers, and all-caps microcopy where tracking needs to scale down gracefully rather than staying fixed and looking cramped on mobile. <strong>Tip:</strong> keep letter-spacing ranges small &mdash; a few pixels at most. Large swings read as a font substitution bug before they read as a design choice.</p>
+
+<h2>9. Fluid Button Sizing</h2>
+
+<p>Horizontal padding on a call-to-action button: comfortable to tap on a small screen, roomy without looking oversized on a large one &mdash; and the font-size scales right alongside it.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/01/9.html" style="width:100%;height:340px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Fluid Button Sizing — CSS clamp() Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong> <code>padding-inline: clamp(14px, 5cqw, 32px)</code>, paired with <code>font: 700 clamp(13px, 3cqw, 16px) system-ui, sans-serif</code>. Two clamp() expressions, one on padding and one on font-size, moving together so the button always looks proportionally sized rather than having its text outgrow its padding (or vice versa) at some in-between width.</p>
+
+<p><strong>Best for:</strong> primary CTAs, especially ones that appear in both a compact mobile nav and a spacious desktop hero. <strong>Tip:</strong> when you clamp two related properties on the same element, make sure their floor-to-ceiling <em>ratios</em> are similar &mdash; if one grows 3x and the other only 1.2x, the button's proportions will visibly warp as it scales.</p>
+
+<h2>10. Fluid Spacing Scale (Design Tokens)</h2>
+
+<p>Every demo so far applied clamp() to one property on one element. This last one shows the pattern that actually scales to a whole design system: three custom properties &mdash; <code>--space-sm</code>, <code>--space-md</code>, <code>--space-lg</code> &mdash; each its own clamp(), used together to drive an entire spacing scale from three lines of CSS.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/01/10.html" style="width:100%;height:380px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Fluid Spacing Scale Design Tokens — CSS clamp() Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>--space-sm: clamp(6px, 1.8cqw, 14px);
+--space-md: clamp(10px, 3.5cqw, 28px);
+--space-lg: clamp(16px, 6cqw, 48px);</code></pre>
+
+<p>defined once on a shared ancestor and then referenced everywhere &mdash; <code>gap: var(--space-md)</code>, <code>padding: var(--space-lg)</code>, and so on. This is the version of clamp() worth adopting project-wide: instead of writing a bespoke clamp() expression on every element that needs spacing, you define a small fluid scale once and every component just references a token. Change the scale in one place and the whole product adjusts. One implementation note if you build this yourself: reading a custom property's <em>resolved pixel value</em> in JavaScript requires measuring an element that actually uses it (e.g. <code>getBoundingClientRect().width</code>) &mdash; <code>getComputedStyle().getPropertyValue('--space-md')</code> alone returns the literal, unresolved <code>"clamp(...)"</code> text, not the computed number.</p>
+
+<p><strong>Best for:</strong> design systems and any codebase with more than a handful of components, where consistent, fluid spacing matters more than any single element's exact padding value. <strong>Tip:</strong> start with 3-4 tokens (sm/md/lg is often enough) rather than trying to clamp every possible spacing value individually &mdash; a scale you can hold in your head is more valuable than one that's technically more precise.</p>
+
+<h2>Common clamp() pitfalls</h2>
+
+<ul>
+<li><strong>Argument order matters, and CSS won't warn you.</strong> <code>clamp()</code> expects minimum, preferred, maximum &mdash; in that order. Get the order wrong and the property doesn't become invalid or fall back to anything &mdash; spec-wise, <code>clamp(MIN, VAL, MAX)</code> is defined as <code>max(MIN, min(VAL, MAX))</code>, so if your minimum is accidentally larger than your maximum, that formula just returns the minimum every time, no matter what the preferred value or the container width is. The property keeps applying; it just silently stops being fluid. There's no console error to catch this for you &mdash; if a clamp()'d value looks frozen, check that the first argument is actually smaller than the third.</li>
+<li><strong>vw-only clamps ignore the user's font-size zoom.</strong> A visitor who bumps their browser's default font size to make text more readable expects <em>all</em> text to scale, including yours. If your floor and ceiling are in <code>px</code> or your preferred value is pure <code>vw</code> with no <code>rem</code> component, zooming does nothing. Mixing in <code>rem</code> for the floor/ceiling (as in demo #1) keeps clamp()-driven type responsive to accessibility zoom, not just viewport width.</li>
+<li><strong><code>-webkit-line-clamp</code> is a different property.</strong> It truncates text to N lines with an ellipsis and has nothing to do with the <code>clamp()</code> function covered here &mdash; they just happen to share a name.</li>
+<li><strong>Container query units need a container.</strong> <code>cqw</code>/<code>cqh</code> only resolve against an ancestor that has <code>container-type: inline-size</code> (or <code>size</code>) set. Forget that declaration and the browser has nothing to measure against.</li>
+<li><strong>clamp() replaces <em>some</em> media queries, not all of them.</strong> It's excellent for continuous scaling of a length value. It can't reorder elements, hide something at a breakpoint, or switch a layout from a grid to a stack &mdash; that's still a job for <code>@media</code>.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>What is CSS clamp()?</h3>
+<p><code>clamp()</code> is a CSS function that takes a minimum, a preferred, and a maximum value, and returns whichever one actually applies at the current size &mdash; it never computes below the minimum or above the maximum, and scales smoothly between them the rest of the time. It works on any property that accepts a length, not just <code>font-size</code>.</p>
+
+<h3>What is the syntax of clamp()?</h3>
+<p><code>property: clamp(MINIMUM, PREFERRED, MAXIMUM);</code> &mdash; three comma-separated values in that exact order. The preferred value is usually written with a relative unit like <code>vw</code>, <code>%</code>, or <code>cqw</code> so it recomputes continuously as the viewport or container resizes, while the minimum and maximum stay fixed.</p>
+
+<h3>Can clamp() replace media queries?</h3>
+<p>For continuously scaling a single length value &mdash; a font-size, a padding, a gap &mdash; yes, one <code>clamp()</code> line can replace several breakpoints' worth of <code>@media</code> rules. It can't do everything a media query can, though: it won't reorder elements, hide something at a specific width, or switch a grid layout to a stacked one, so it complements <code>@media</code> rather than replacing it outright.</p>
+
+<h3>What is the difference between vw and cqw in clamp()?</h3>
+<p><code>vw</code> ties the preferred value to the width of the browser viewport; <code>cqw</code> ties it to the width of the nearest ancestor with <code>container-type: inline-size</code> set on it. Use <code>vw</code> for page-level fluid values like a hero headline, and <code>cqw</code> when you want a component to respond to its own container's width rather than the whole page &mdash; the same card sitting in a narrow sidebar versus a wide layout, for example.</p>
+
+<h3>Can clamp() be used for padding and spacing?</h3>
+<p>Yes &mdash; <code>clamp()</code> works on any length-accepting property, including <code>padding</code>, <code>margin</code>, <code>gap</code>, and <code>border-radius</code>. <code>clamp(12px, 5cqw, 40px)</code> on padding, for instance, keeps a card comfortably spaced at both a narrow and a wide container width, without a single fixed value looking cramped at one extreme or oversized at the other.</p>
+
+<h3>Does clamp() work with CSS custom properties?</h3>
+<p>Yes, and it's one of the more useful patterns: define a custom property like <code>--space-md: clamp(10px, 3.5cqw, 28px)</code> once, then reference it with <code>var(--space-md)</code> across as many components as you like. Change the <code>clamp()</code> expression in one place and every element using that token updates together &mdash; the basis of a fluid spacing scale. One caveat: <code>getComputedStyle().getPropertyValue()</code> returns a custom property's literal, unresolved text rather than its computed pixel value, so reading the resolved number back in JavaScript means measuring an element that actually uses it.</p>
+
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar &mdash; open any of them, copy the clamp() line you need, and it drops straight into your own project. But the better way to actually learn this is to click <strong>Fork &amp; Edit</strong> instead of just copying: it hands you the same snippet in a live editor where you can change the numbers and watch the preview update in real time. Retype demo #1's coefficient from <code>5.2cqw</code> to <code>1cqw</code> and watch the heading freeze at exactly 20px across the whole drag range &mdash; the preferred value can no longer climb high enough to escape the floor. Push demo #3's floor above its ceiling and watch the padding stop scaling entirely, frozen at that floor value no matter how you resize the box. Nudge demo #10's <code>--space-md</code> ceiling and watch both the row spacing and the "md" swatch's width move together, since both are wired to that one token. None of that sinks in from reading &mdash; it sinks in from breaking a value and seeing exactly what breaks. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or reuse in a real project.</p>

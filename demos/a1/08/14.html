@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="text + inputmode=&quot;numeric&quot;">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>type="text" + inputmode="numeric"</h1>
+    <p class="hint">On a phone this still opens a numeric keypad &mdash; the same one <code>type="number"</code> gives you &mdash; but without a spinner, without scientific notation, and while still storing the value as a plain string. That's the right combination for things like a 6-digit code that is never actually used as a number.</p>
+  </header>
+  <main class="stageWrap">
+    <form class="otpForm" action="#" method="get" onsubmit="return false">
+      <label class="field">
+        <span class="fieldLabel">Verification code</span>
+        <input
+          type="text"
+          name="code"
+          inputmode="numeric"
+          pattern="[0-9]{6}"
+          maxlength="6"
+          autocomplete="one-time-code"
+          placeholder="000000">
+        <span class="fieldHelp"><code>type="number"</code> would let a leading zero silently vanish (<code>007612</code> becomes <code>7612</code>) &mdash; the wrong behavior for a code. This field never treats the value as a number at all.</span>
+      </label>
+      <button type="submit" class="submitBtn">Verify</button>
+    </form>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --ok: #16a34a; --err: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .bar h1 code { font: 700 13px ui-monospace, monospace; }
+  .hint { margin: 0 auto; max-width: 50em; font-size: 12.5px; color: var(--sub); }
+  .hint code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
+  .stageWrap { display: flex; justify-content: center; padding: 16px 16px 32px; }
+
+  .otpForm {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .fieldLabel { font: 700 12px system-ui, sans-serif; }
+  .fieldHelp { font-size: 11px; color: var(--sub); line-height: 1.5; }
+  .fieldHelp code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
+
+  .otpForm input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    font: 700 20px ui-monospace, monospace;
+    letter-spacing: 0.3em;
+    text-align: center;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    outline: none;
+  }
+  .otpForm input:focus { border-color: var(--accent); }
+  .otpForm input:not(:placeholder-shown):invalid { border-color: var(--err); background: #fef2f2; }
+  .otpForm input:not(:placeholder-shown):valid { border-color: var(--ok); background: #f0fdf4; }
+
+  .submitBtn {
+    padding: 11px 16px;
+    font: 700 13px system-ui, sans-serif;
+    border: none;
+    border-radius: 9px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+  }
+  .submitBtn:hover { background: #4f52d9; }
+</script>
+
+<script type="text/plain" id="js">
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Subgrid vs display: contents">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Subgrid vs <code>display: contents</code></h1>
+    <p class="hint">Both make a wrapper's children line up on the outer grid. Only one of them keeps the wrapper itself — its border, background and padding.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="split">
+      <div class="side">
+        <h2 class="sideTitle good">grid-template-columns: subgrid</h2>
+        <div class="grid">
+          <div class="rowSub">
+            <span class="cell">Name</span><span class="cell">Role</span><span class="cell">Seat</span>
+          </div>
+          <div class="rowSub">
+            <span class="cell">Ada</span><span class="cell">Engineering</span><span class="cell">A-12</span>
+          </div>
+        </div>
+        <p class="verdict good">Wrapper survives — you can still give the row a border, a background or a hover state.</p>
+      </div>
+
+      <div class="side">
+        <h2 class="sideTitle bad">display: contents</h2>
+        <div class="grid">
+          <div class="rowContents">
+            <span class="cell">Name</span><span class="cell">Role</span><span class="cell">Seat</span>
+          </div>
+          <div class="rowContents">
+            <span class="cell">Ada</span><span class="cell">Engineering</span><span class="cell">A-12</span>
+          </div>
+        </div>
+        <p class="verdict bad">Wrapper box is gone — its border and background are not rendered at all, so there is nothing left to style per row.</p>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink:#14161c; --sub:#6b7080; --line:#e3e5ea; --accent:#6366f1; --green:#16a34a; --red:#dc2626; }
+  body { background:#f6f7f9; color:var(--ink); }
+  .bar { padding:18px 20px 8px; text-align:center; }
+  .bar h1 { margin:0 0 4px; font-size:19px; letter-spacing:-0.01em; }
+  .bar h1 code { font-size:16px; background:#eceef3; padding:1px 6px; border-radius:5px; }
+  .hint { margin:0 auto; max-width:48em; font-size:12.5px; color:var(--sub); }
+  .stageWrap { display:flex; justify-content:center; padding:16px 18px 28px; }
+
+  .split { display:grid; grid-template-columns:1fr 1fr; gap:18px; width:100%; max-width:640px; }
+  .side { display:flex; flex-direction:column; gap:10px; }
+  .sideTitle {
+    margin:0; font:700 11.5px ui-monospace, SFMono-Regular, Menlo, monospace;
+    padding:6px 8px; border-radius:6px; text-align:center;
+  }
+  .sideTitle.good { color:var(--green); background:#e8f7ee; }
+  .sideTitle.bad { color:var(--red); background:#fdeaea; }
+
+  .grid { display:grid; grid-template-columns:1fr 1.4fr max-content; gap:8px 12px; }
+
+  /* Both rows span the full grid. The only difference is how they do it. */
+  .rowSub, .rowContents { grid-column:1 / -1; }
+
+  /* Subgrid: the row keeps its own box — border, background, padding all work. */
+  .rowSub {
+    display:grid;
+    grid-template-columns:subgrid;
+    background:#fff;
+    border:1.5px solid var(--accent);
+    border-radius:8px;
+    padding:8px 10px;
+  }
+
+  /* display:contents: the row's box is removed from rendering entirely, so
+     the border / background / padding below are simply never painted. */
+  .rowContents {
+    display:contents;
+    background:#fff;
+    border:1.5px solid var(--red);
+    border-radius:8px;
+    padding:8px 10px;
+  }
+
+  .cell { font:600 12px system-ui, sans-serif; color:var(--ink); }
+  .verdict { margin:0; font-size:11.5px; line-height:1.5; }
+  .verdict.good { color:var(--green); }
+  .verdict.bad { color:var(--red); }
+</script>
+
+<script type="text/plain" id="js">
+  // No JavaScript. The entire comparison is two CSS rules:
+  //   .rowSub      { display:grid; grid-template-columns: subgrid; }
+  //   .rowContents { display: contents; }
+  // Both rows carry identical border / background / padding declarations --
+  // only the subgrid one actually renders them.
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

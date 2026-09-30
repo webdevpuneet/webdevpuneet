@@ -1,0 +1,166 @@
+<h1>10 Copy-Paste AI UI Snippets That Make Your App Feel Like ChatGPT</h1>
+
+<p>Every product is growing an AI surface — a chat panel, an assistant sidebar, a "summarise this" button that streams an answer back. The model is the easy part now: an API key and a fetch call gets you a completion. What actually takes the week is the interface around it, and it's a genuinely unusual interface, because almost nothing else in front-end work involves rendering text that arrives a few characters at a time, showing a machine's reasoning while it happens, or making a wait of eight seconds feel acceptable. Below are 10 free AI interface snippets you can preview live and copy in seconds: a full chat shell, a prompt composer, a streaming response, a thinking loader, a model picker, source citations, an agent trace, a docked copilot sidebar, an image-generator front end, and browser-native speech to text.</p>
+
+<p>Each one comes with <strong>how it actually works</strong>, <strong>when to reach for it</strong>, and a tip for adapting it. They're all plain HTML, CSS, and vanilla JavaScript — no framework, no SDK, no component library — and every one is built so you can swap the simulated model for a real API call without restructuring anything.</p>
+
+<p>Every snippet below is a <strong>live, interactive preview</strong> — type in it, watch it stream, open the dropdowns, right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+
+<h2>Why AI interfaces are their own design problem</h2>
+
+<p>Three constraints shape every snippet below, and none of them apply to ordinary UI:</p>
+
+<ul>
+<li><strong>The response arrives over seconds, not at once.</strong> A full answer can take five to twenty seconds to generate, but the first token lands in a few hundred milliseconds. Showing that first token immediately is the single biggest perceived-speed win available, and it forces you to render partial content — which is harder than it sounds the moment that content contains markup.</li>
+<li><strong>The model can be wrong, so the UI has to be checkable.</strong> Citations, quoted source passages, and visible tool calls exist because users need to verify an answer without leaving the page. An AI UI that shows only conclusions asks for trust it hasn't earned.</li>
+<li><strong>Blank inputs get blank stares.</strong> Users don't know what a model can do until you show them. Suggestion chips, example prompts, and visible capabilities convert far better than an empty box with a cursor in it.</li>
+</ul>
+
+<p>Keep those three in mind as you scroll.</p>
+
+<h2>1. AI Chat Interface</h2>
+
+<p>The full ChatGPT-shaped shell: dark conversation sidebar on the left, message thread on the right, user messages in bubbles, assistant replies as cards with an avatar, a typing indicator, suggested prompt chips on an empty thread, and an auto-growing input.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/ai-chat-interface/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="AI Chat Interface — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the layout is the two-column pattern every major assistant converged on within about six months of ChatGPT's launch — a narrow dark rail for history, a wide light area for the active conversation. Each message group is a flex row of avatar plus content, so alignment is a single property rather than a pile of margins. The input is a textarea whose height is reset to <code>auto</code> and then set to its own <code>scrollHeight</code> on every keystroke, capped at a maximum where it starts scrolling internally. Enter sends, Shift+Enter inserts a newline — the convention users bring with them from every other chat app they've used.</p>
+
+<p><strong>Best for:</strong> the main surface of any assistant, support bot, or internal knowledge tool — the screen you build first and then attach everything else to. <strong>Tip:</strong> the empty-state chips aren't decoration. A new user faced with a blank input either types something trivially easy or closes the tab; four concrete example prompts are the cheapest onboarding you will ever ship.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/ai-chat-interface/">AI Chat Interface</a></p>
+
+<h2>2. AI Prompt Composer</h2>
+
+<p>The input box on its own, with everything real composers carry: auto-growing textarea, attachment chips, a model pill, a live character and token counter, and a Send button that knows when there's nothing to send.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/ai-prompt-composer/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="AI Prompt Composer — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the auto-grow trick has one detail that everyone gets wrong the first time — you must reset the height to <code>auto</code> <em>before</em> reading <code>scrollHeight</code>, otherwise the textarea can only ever grow and never shrink when you delete a line. The counter tracks characters against a maximum and estimates tokens with the standard rough heuristic of one token per four characters, turning red and disabling Send past the limit. Send also enables when there's an attachment but no text, so you can send a file with no message, and the whole box lights up as one control via <code>:focus-within</code> rather than a JavaScript focus handler.</p>
+
+<p><strong>Best for:</strong> anywhere users type a prompt — a chat, an inline "ask about this" box, a command bar. <strong>Tip:</strong> the token estimate is deliberately approximate, and that's the right call for a UI. It exists to warn people before they paste a 40,000-word document, not to bill them — do the exact count server-side where your real tokeniser lives.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/ai-prompt-composer/">AI Prompt Composer</a></p>
+
+<h2>3. AI Streaming Response</h2>
+
+<p>The defining AI interaction: a rich answer — paragraphs, a heading, a bulleted list, a syntax-highlighted code block — revealed chunk by chunk with a blinking cursor riding the leading edge, a live token counter, a Stop generating button, and copy/regenerate actions that appear when it finishes.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/ai-streaming-response/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="AI Streaming Response — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> streaming plain text is one line — slice the buffer and assign it. Streaming <em>rich</em> text is the real problem: cut <code>&lt;strong&gt;token&lt;/strong&gt;</code> at the fourth character and you inject the fragment <code>&lt;str</code> into the DOM. This snippet solves it with a <code>safeSlice()</code> that walks the string tracking whether the pointer sits inside a tag, counts only characters outside tags toward the visible budget, and never cuts mid-tag — so bold text, inline code, and links materialise correctly mid-stream. The response is modelled as an ordered array of typed blocks (paragraph, heading, list, code), mirroring how a markdown parser tokenises a completion: text blocks reveal character by character, list items one at a time, code blocks line by line.</p>
+
+<p><strong>Best for:</strong> every assistant reply you render, and any place a long generated answer would otherwise sit behind a spinner. <strong>Tip:</strong> the simulated interval is a stand-in for one specific thing — the body of a <code>reader.read()</code> loop over <code>res.body.getReader()</code>. Swapping in a real Server-Sent Events stream means replacing that one function and keeping everything else, which is exactly why the snippet is structured this way.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/ai-streaming-response/">AI Streaming Response</a></p>
+
+<h2>4. AI Thinking Loader</h2>
+
+<p>The wait, made bearable: a spinning gradient orb, a shimmering status label that cycles through "Reading context…", "Drafting a response…", "Checking facts…", and three skeleton bars hinting at the shape of the answer forming.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/ai-thinking-loader/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="AI Thinking Loader — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> three independent CSS animations run together and JavaScript does almost nothing. The orb is a circle filled with a four-colour <code>conic-gradient</code> that rotates, with a pseudo-element inset by 4px filled with the bubble background — turning a solid disc into a glowing ring for the cost of one element. The label uses the clipped-gradient shimmer technique (<code>background-clip: text</code> with a bright band sweeping across muted grey), and the skeleton bars each carry a moving gradient with staggered delays so the shimmer ripples down the lines. The only JavaScript is an interval swapping the phrase, fading it out and back in so the words don't snap.</p>
+
+<p><strong>Best for:</strong> the assistant message placeholder between "send" and the first streamed token. <strong>Tip:</strong> narrate real steps, not invented ones. "Searching your documents…" followed by "Reading 4 results…" is honest, useful, and makes the wait feel shorter — but only while those phrases correspond to something actually happening. Fake progress is the fastest way to teach users to distrust your status text.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/ai-thinking-loader/">AI Thinking Loader</a></p>
+
+<h2>5. AI Model Selector</h2>
+
+<p>The model dropdown every multi-model product needs: a compact trigger showing the current model, opening into rich option cards with a description, context window, a speed meter, price, and a badge — with real ARIA roles and keyboard navigation.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/ai-model-selector/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="AI Model Selector — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a native <code>&lt;select&gt;</code> can't render a description, a price and a meter per option, so this rebuilds the control as a listbox — and unlike most custom dropdowns, it keeps the accessibility. The trigger is a real <code>&lt;button&gt;</code> with <code>aria-haspopup="listbox"</code> and a live <code>aria-expanded</code>; the selected state lives in <code>aria-selected</code>, and the CSS reads it back with an <code>[aria-selected="true"]</code> attribute selector, so the styling and the accessibility tree can never drift apart. Everything renders from a <code>MODELS</code> array, so adding a model or changing a price is a data edit — the same shape a real <code>/models</code> endpoint returns. Speed is a five-dot meter instead of a millisecond figure, which is the honest choice, since real latency varies per request.</p>
+
+<p><strong>Best for:</strong> any product exposing more than one model, plus the same pattern for choosing a voice, an embedding model, or a persona. <strong>Tip:</strong> show context window and price on the card. Users pick a model by asking "will my document fit and what will this cost?", and forcing them to your docs to answer that is how they end up leaving the cheap model selected forever.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/ai-model-selector/">AI Model Selector</a></p>
+
+<h2>6. AI Source Citations</h2>
+
+<p>The Perplexity-style trust layer: source chips above the answer, superscript numbered markers inline in the text, and a hover card showing each source's domain, title, and the exact supporting quote.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/ai-source-citations/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="AI Source Citations — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each inline marker is a <code>&lt;button&gt;</code> carrying a <code>data-src</code> index, styled to look like a superscript chip. Using a button instead of a styled span is what makes every citation focusable and announced by a screen reader, and the markers handle <code>focus</code> and <code>blur</code> identically to <code>mouseenter</code> and <code>mouseleave</code> — so the preview is reachable by keyboard, which is the detail most citation UIs skip. That index is the whole wiring contract: it links marker, chip, and preview content through one array. The preview positions itself with <code>getBoundingClientRect()</code> math, clamped inside the wrapper and flipped below the marker when there's no room above, and hiding is delayed by 150&nbsp;ms with the card itself cancelling that timer on hover — the classic hover-intent bridge that lets you move the pointer across the gap without the card vanishing.</p>
+
+<p><strong>Best for:</strong> any RAG product, documentation assistant, or research tool where the answer is only as good as its evidence. <strong>Tip:</strong> show the quote, not just the link. In a real retrieval system that quote is the exact chunk fed to the model for that claim, so the citation doubles as a debugging view of your retrieval pipeline — when the quote doesn't support the sentence, your retriever is the problem, not the model.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/ai-source-citations/">AI Source Citations</a></p>
+
+<h2>7. AI Agent Steps Timeline</h2>
+
+<p>The agent trace: a vertical timeline of steps that go from running to done in real time, each with a tool badge, a duration, and an expandable panel showing the input it was called with and the result that came back.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/ai-agent-steps/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="AI Agent Steps Timeline — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the connector line between steps isn't an element — it's a <code>::before</code> pseudo-element on each step, positioned at the horizontal centre of the icon tile and running down into the next step's padding, with the last step suppressing it. Because the line belongs to the step, appending steps dynamically grows the rail automatically, with no total-height calculation and no SVG. Each step flips from a <code>.running</code> class (indigo border, spinning arc) to <code>.done</code> (green check, duration stamp) — the two moments that map exactly onto the <code>tool_use</code> and <code>tool_result</code> events a real agent loop emits. The expanding payload panel uses the modern <code>grid-template-rows: 0fr → 1fr</code> technique, which animates to the true content height whether the JSON is three lines or thirty.</p>
+
+<p><strong>Best for:</strong> coding assistants, research agents, and workflow copilots — anything that works for thirty seconds and needs to prove it isn't stuck. <strong>Tip:</strong> show the payloads collapsed by default but make them expandable. Users don't read tool arguments until something goes wrong, at which point being able to see exactly what the agent sent is the difference between a bug report and a shrug.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/ai-agent-steps/">AI Agent Steps Timeline</a></p>
+
+<h2>8. AI Assistant Sidebar</h2>
+
+<p>The copilot panel that docks beside your app rather than covering it: a right-docked column with suggestion chips, a streamed reply thread, a composer, and a floating orb launcher when collapsed.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/ai-sidebar/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="AI Assistant Sidebar — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the open/close mechanic is a negative margin — <code>margin-right: -320px</code> when closed, transitioned — rather than a <code>transform</code>. That's a deliberate choice: a margin transition <em>reflows the neighbouring content</em>, so the document area smoothly reclaims the space as the panel leaves, which is how a docked panel should behave and is exactly what a transform can't do. On narrow screens a media query switches it to <code>position: fixed</code>, because reflowing a 320px panel out of a 375px viewport makes no sense. Inside, the panel is a flex column: fixed header, a thread with <code>flex: 1; overflow-y: auto</code>, and a pinned composer — the three-slot skeleton beginners usually get wrong by scrolling the whole panel instead of just the thread.</p>
+
+<p><strong>Best for:</strong> assistants inside an existing product — the Notion AI, Copilot Chat, "ask about this page" pattern where context is what the user is currently looking at. <strong>Tip:</strong> pass the current selection or document into the prompt automatically and say so in the empty state. An assistant that already knows what you're looking at is a different product from one you have to explain your screen to.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/ai-sidebar/">AI Assistant Sidebar</a></p>
+
+<h2>9. AI Image Generator UI</h2>
+
+<p>The whole text-to-image front end: a prompt bar with a generate button, aspect-ratio and style pills, and a grid of four variations that shimmer, blur up, and resolve — with no API behind it.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/ai-image-generator-ui/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="AI Image Generator UI — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a self-contained demo can't call a diffusion model, so each tile paints a procedural landscape on a <code>&lt;canvas&gt;</code> — gradient sky, sun disc, cloud blobs, three layers of mountain silhouette — seeded from a hash of your prompt text combined with the tile index. Same prompt, same four images; change one word and all four change, which is precisely what a real <code>seed</code> parameter does. The ratio pills write straight to each tile's <code>aspect-ratio</code> property, and the loading treatment stacks three effects: a shimmer sweep, a canvas that starts at <code>blur(14px)</code> and sharpens, and staggered per-tile timing so the four don't resolve in lockstep.</p>
+
+<p><strong>Best for:</strong> image-generation products, and any UI where results take seconds and arrive in batches. <strong>Tip:</strong> keep the blur-up when you wire in a real model. Generation genuinely produces progressively refined output, so a tile that sharpens into place is an honest representation of the process — and it beats four grey rectangles that pop in fully formed.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/ai-image-generator-ui/">AI Image Generator UI</a></p>
+
+<h2>10. Speech to Text</h2>
+
+<p>Voice input with no cloud service at all: press the mic, talk, and words appear live — tentative words in grey as the engine guesses, confirmed text committed as it settles — with a language selector and a graceful fallback where the API isn't available.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/speech-to-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Speech to Text — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> this one is genuinely doing the thing, using the browser's built-in Web Speech API rather than simulating it. The constructor is resolved with a fallback (<code>window.SpeechRecognition || window.webkitSpeechRecognition</code>) and, if neither exists, the UI shows an unsupported message and disables the controls instead of throwing. Three flags do the configuration: <code>continuous</code> keeps it listening through pauses, <code>interimResults</code> emits provisional guesses as you speak, and <code>lang</code> matches the engine to the language. The <code>onresult</code> handler then splits the results into two buckets by their <code>isFinal</code> flag — confirmed text appended permanently, interim text rendered separately and replaced on the next event.</p>
+
+<p><strong>Best for:</strong> voice input on a prompt composer, dictation in a note or message field, and hands-free capture on mobile. <strong>Tip:</strong> browser support is uneven, so treat voice as an enhancement rather than the only path — feature-detect first and keep the keyboard input visible. The interim/final split is also what makes it feel responsive: users forgive a word being corrected mid-sentence, but not a two-second gap where nothing appears.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/speech-to-text/">Speech to Text</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<p>Every snippet is framework-agnostic, so the workflow is the same wherever you're building:</p>
+
+<ol>
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs.</li>
+<li>Paste the HTML into your markup, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — none of these ten need a CDN script or a build step.</li>
+<li>Prefer a component? Use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page.</li>
+<li>Where a snippet stands in for a model — a <code>setTimeout</code>, a reveal interval, or a canned response array near the top of the JS — swap that one function for your <code>fetch</code>. The rest of the component doesn't change. (The model selector, citations and speech to text need no swap at all: two are pure UI over your own data, and the third is really listening.)</li>
+<li>Keep your API key on your server. These are front ends; the key belongs behind an endpoint of your own that proxies the model, or anyone who opens devtools is spending your credits.</li>
+</ol>
+
+<h2>A few AI-interface principles worth keeping</h2>
+
+<ul>
+<li><strong>Show the first token as fast as possible.</strong> Perceived latency is set by when something appears, not when everything appears. Streaming turns an eight-second wait into a 300&nbsp;ms one, psychologically, and it's the highest-leverage change you can make to an AI feature.</li>
+<li><strong>Make the answer checkable.</strong> Citations with quotes, visible tool calls, expandable payloads. The interface can't make a model correct, but it can make a wrong answer obvious in two seconds instead of two weeks.</li>
+<li><strong>Always offer a way out.</strong> Stop generating, regenerate, copy. Generation is slow and occasionally wrong, so the controls around it matter more than in any other UI you'll build.</li>
+<li><strong>Don't fake progress.</strong> Cycling status phrases and step traces work because they correspond to real work. The moment they're decorative, users learn to ignore your status text entirely — including when it's telling them something true.</li>
+</ul>
+
+<h2>Final Thought</h2>
+
+<p>These ten cover an AI product end to end — the shell to hold the conversation, the composer to start it, the stream that delivers the answer, the loader that covers the gap, the model picker, the citations that make it trustworthy, the agent trace for long-running work, the docked sidebar for assistants inside an existing app, an image-generation front end, and voice input. Start with the <a href="https://fwdtools.com/ui-snippets/ai-chat-interface/">AI Chat Interface</a> and the <a href="https://fwdtools.com/ui-snippets/ai-streaming-response/">AI Streaming Response</a> — between them they're most of what people mean by "an AI app." From there, a <a href="https://fwdtools.com/ui-snippets/typing-indicator/">typing indicator</a>, a <a href="https://fwdtools.com/ui-snippets/command-palette/">command palette</a> for ⌘K-triggered actions, <a href="https://fwdtools.com/ui-snippets/mention-autocomplete/">mention autocomplete</a> for pulling files and people into a prompt, and a <a href="https://fwdtools.com/ui-snippets/chat-conversation-list/">conversation list</a> for history round out the surface — all dependency-free too.</p>
+
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

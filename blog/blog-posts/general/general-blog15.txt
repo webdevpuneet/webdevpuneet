@@ -1,0 +1,216 @@
+<h1>CSS Subgrid Explained: 8 Real Layout Problems It Solves</h1>
+
+<p>Subgrid is the smallest CSS Grid feature with the biggest "oh, <em>that's</em> what was wrong" moment attached to it. Every developer who has built a row of cards has hit the problem it solves: three cards, three different title lengths, and three buttons that refuse to line up. For years the answers were fixed heights, JavaScript measuring loops, or quietly accepting the mess. Subgrid fixes it with one declaration — <code>grid-template-rows: subgrid</code> — and the idea behind it is simpler than the name suggests: <strong>a nested grid can borrow its parent's tracks instead of inventing its own</strong>.</p>
+
+<p>The 8 demos below are all live and interactive, and most of them have a toggle that switches subgrid off so you can see the exact layout bug it was preventing. That contrast is the whole point — subgrid is hard to appreciate in isolation and obvious the moment you turn it off.</p>
+
+<p>Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> &mdash; FWD Tools' free in-browser editor. Change a track, delete a line, break it on purpose — that's a faster way to build real intuition than any explanation.</p>
+
+<h2>The one-sentence rule</h2>
+
+<pre><code class="language-css">.parent {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto 1fr auto;
+}
+
+.child {
+  grid-row: span 3;            /* claim the rows you want to share */
+  display: grid;
+  grid-template-rows: subgrid; /* then adopt them instead of making new ones */
+}</code></pre>
+
+<p>Normally, a nested grid is a sealed box: it divides its <em>own</em> width and height into fresh tracks, and its children have no idea the outer grid exists. <code>subgrid</code> removes that wall for one axis. The child still has to claim a range of the parent's tracks with <code>grid-row</code> or <code>grid-column</code> — subgrid doesn't guess — but from then on, its children are laid out on the parent's lines. That is the entire feature. Every demo below is one consequence of it.</p>
+
+<h2>1. Card Footers That Actually Line Up</h2>
+
+<p>Three cards, three different title and body lengths. Toggle subgrid off and watch the buttons scatter.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/14/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Card Footer Alignment Subgrid Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">.cards { grid-template-rows: auto 1fr auto; }
+
+.card {
+  grid-row: span 3;
+  display: grid;
+  grid-template-rows: subgrid;
+}</code></pre>
+
+<p>This is the canonical case, and worth being precise about why it works. The parent declares three row bands — title, body, footer — and every card spans all three. Because each card's rows <em>are</em> the parent's rows, the title band is sized once by the tallest title across all cards, and every card's title occupies that same band. The <code>1fr</code> middle row absorbs the leftover height, which pushes every footer to the same line. With subgrid off, each card sizes its own three rows from its own content, so the buttons land wherever that card's text happens to end.</p>
+
+<p><strong>Best for:</strong> pricing tables, feature card rows, product grids — anywhere repeated cards need internal alignment, not just equal outer heights. <strong>Tip:</strong> equal card <em>heights</em> were never the hard part — <code>align-items: stretch</code> has done that since Flexbox. Subgrid solves the harder problem: equal positions for the content <em>inside</em> those cards.</p>
+
+<h2>2. A Form Where Every Input Lines Up</h2>
+
+<p>Each row is its own component with its own label. Subgrid makes them share the form's two columns.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/14/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Form Label Alignment Subgrid Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">.form { grid-template-columns: max-content 1fr; }
+
+.row {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: subgrid;
+}</code></pre>
+
+<p>The label column is <code>max-content</code>, which means "as wide as the widest label" — but the crucial detail is <em>which</em> labels get measured. With subgrid, all four rows share one column, so the widest label in the entire form sets the width and every input starts at the same x position. Turn it off and each row re-declares the same <code>max-content 1fr</code> template, which looks identical in the CSS but measures only that one row's label — so every input starts somewhere different. This is the classic case where you'd otherwise hardcode <code>width: 140px</code> on labels and hope nobody translates the page.</p>
+
+<p><strong>Best for:</strong> settings panels, checkout forms, any form where each field is a reusable row component rather than one flat list of elements. <strong>Tip:</strong> this pattern is what finally makes label-beside-input layouts safe for localisation — German or Finnish labels simply widen the shared column instead of breaking a hardcoded width.</p>
+
+<h2>3. A Nested Component on the Page Grid</h2>
+
+<p>The purple panel is a child of the layout, not a sibling of the columns. Subgrid lets its own children snap to the page's 12 columns anyway.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/14/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Nested Component 12 Column Subgrid Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">.page  { grid-template-columns: repeat(12, 1fr); }
+
+.panel {
+  grid-column: 1 / 13;
+  display: grid;
+  grid-template-columns: subgrid;
+}
+.panelA { grid-column: 1 / 9; }    /* real page columns, not panel columns */
+.panelB { grid-column: 9 / 13; }</code></pre>
+
+<p>Design systems talk about "the 12-column grid" as if it applies to the whole page, but before subgrid it only ever applied to direct children of the grid container. Any component you nested — a section, a card, a wrapper div — started a brand-new coordinate system, and <code>grid-column: 9 / 13</code> inside it meant something completely different from the same declaration outside it. Subgrid makes the column lines genuinely global: the ruler at the top of this demo is a sibling of the panel, yet the panel's children align to it exactly.</p>
+
+<p><strong>Best for:</strong> design-system layouts where components at any depth must respect one shared column grid. <strong>Tip:</strong> name your lines on the parent (<code>[content-start]</code>, <code>[full-end]</code>) — named lines pass through subgrid too, which makes nested components far more readable than counting numbers.</p>
+
+<h2>4. Stat Tiles With Aligned Bands</h2>
+
+<p>Four KPI tiles: label, number, delta note. One label wraps to two lines and one delta is missing entirely — exactly the cases that break a flexbox row.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/14/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Stat Tile Band Alignment Subgrid Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">.tiles { grid-template-rows: auto auto auto; }
+
+.tile {
+  grid-row: span 3;
+  display: grid;
+  grid-template-rows: subgrid;
+}</code></pre>
+
+<p>The two awkward tiles here are deliberate. One label wraps to two lines, which in a flexbox row pushes that tile's big number down out of alignment with the other three. One tile has no delta note at all, which in flexbox simply ends short. Subgrid handles both without special-casing: the label band is as tall as the tallest label, so the wrapped one doesn't push anything; and the missing delta leaves an empty cell in a band that still exists, so the tile keeps its shape.</p>
+
+<p><strong>Best for:</strong> dashboards and KPI rows, where the numbers scanning cleanly across a line is most of the value of the layout. <strong>Tip:</strong> reach for <code>align-self</code> inside the bands — <code>align-self: end</code> on the delta pins it to the bottom of its band regardless of how tall that band grows.</p>
+
+<h2>5. Full-Bleed From Inside a Nested Section</h2>
+
+<p>The figure is nested inside a <code>&lt;section&gt;</code>, two levels below the article grid. Subgrid is what lets it still reach the outer full-bleed column lines.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/14/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Full Bleed Nested Section Subgrid Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">.article {
+  grid-template-columns:
+    [full-start] 1fr [content-start] minmax(0, 24em) [content-end] 1fr [full-end];
+}
+
+.chapter {
+  grid-column: full-start / full-end;
+  display: grid;
+  grid-template-columns: subgrid;   /* the named lines come with it */
+}
+.chapter &gt; .bleed { grid-column: full-start / full-end; }</code></pre>
+
+<p>The "full-bleed inside a readable column" layout is well known, and it works fine for <em>direct</em> children of the article grid. The moment real content gets wrapped — in a <code>&lt;section&gt;</code>, a CMS block, a React component — the outer column lines become unreachable, and the usual workaround is the negative-margin hack (<code>margin-inline: calc(50% - 50vw)</code>) with all its scrollbar-width bugs. Subgrid passes the named lines down intact, so a figure three levels deep can still say <code>grid-column: full-start / full-end</code> and mean it.</p>
+
+<p><strong>Best for:</strong> article and documentation layouts where content is authored in nested blocks rather than one flat list. <strong>Tip:</strong> subgrid inherits the parent's <em>line names</em> as well as its track sizes, which is what makes this readable — without names you'd be counting anonymous line numbers through every level of nesting.</p>
+
+<h2>6. Table Alignment Without a Table</h2>
+
+<p>Each row is an independent component — its own card, its own border, its own hover state. Subgrid keeps their columns aligned as if they were one table.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/14/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Table Column Alignment Subgrid Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">.list { grid-template-columns: 2fr 1fr max-content max-content; }
+
+.row {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+}</code></pre>
+
+<p>This is the layout that genuinely had no good answer before. A real <code>&lt;table&gt;</code> aligns columns automatically but makes styling individual rows as cards painful. A grid of flat cells aligns perfectly but leaves no element to put a border or hover state on. Subgrid gives you both: each row is a real box you can style however you like, and its cells still sit on the list's shared columns. Toggle it off and you can see the difference clearly — every row re-declares the exact same <code>2fr 1fr max-content max-content</code> template, but each one now measures its own content, so nothing agrees with the header.</p>
+
+<p><strong>Best for:</strong> data lists that need per-row interactivity — selectable rows, expandable rows, drag handles, per-row hover and focus states. <strong>Tip:</strong> if the data is genuinely tabular, still use a real <code>&lt;table&gt;</code> for the semantics and apply <code>display: grid</code> plus subgrid to the rows — you keep screen-reader table navigation and gain the styling freedom.</p>
+
+<h2>7. Subgrid Inherits the Parent's Gap</h2>
+
+<p>Drag the slider to change the parent's gap, then override the child's own gap and watch the two come apart.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/14/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Subgrid Gap Inheritance Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">.parent { gap: 14px; }
+
+.child {
+  grid-template-columns: subgrid;
+  /* no gap declared — inherits the parent's 14px */
+}
+
+.child.noGap { gap: 0; }   /* override: tracks still align, spacing changes */</code></pre>
+
+<p>This one catches people out, so it's worth seeing directly. A subgrid uses its parent's <code>gap</code> by default — it has to, or the tracks would stop lining up. But you <em>can</em> override it, and the result is subtler than it first looks: the column positions still match the parent exactly, because those are fixed by the parent's tracks. What changes is only the space the child leaves between its own items. Dragging the slider with the override on makes this obvious — the outer spacing responds, the inner spacing doesn't.</p>
+
+<p><strong>Best for:</strong> understanding why your subgrid "nearly" lines up — a stray <code>gap</code> on the child is one of the two most common causes. <strong>Tip:</strong> the other common cause is padding. A subgrid's own <code>padding</code> shifts its contents <em>inside</em> the tracks without moving the tracks, so a padded subgrid row looks misaligned even though its grid is correct.</p>
+
+<h2>8. Subgrid vs display: contents</h2>
+
+<p>Both make a wrapper's children line up on the outer grid. Only one of them keeps the wrapper itself.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/14/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Subgrid vs display contents Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-css">.rowSub      { display: grid; grid-template-columns: subgrid; }  /* box survives */
+.rowContents { display: contents; }                              /* box disappears */</code></pre>
+
+<p><code>display: contents</code> was the pre-subgrid workaround, and for pure alignment it does work: the wrapper is removed from the box tree, so its children become direct grid items of the outer grid. The cost is the wrapper itself. In this demo both rows carry <em>identical</em> border, background and padding declarations — the subgrid row renders them, the <code>display: contents</code> row silently drops every one, because there is no longer a box to paint them on. It also historically removed the element from the accessibility tree in several browsers, which made it risky on semantic elements.</p>
+
+<p><strong>Best for:</strong> knowing which to reach for — <code>display: contents</code> when the wrapper is purely structural and you never need to style it; subgrid whenever the wrapper is a real visual component. <strong>Tip:</strong> if you're migrating old code, a <code>display: contents</code> row that you keep wanting to add a hover state or border to is exactly the signal to convert it to a subgrid.</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Forgetting to span the tracks first.</strong> <code>grid-template-rows: subgrid</code> does nothing useful on its own — the element must also claim a range with <code>grid-row: span 3</code> (or explicit line numbers). Subgrid adopts the tracks you claimed, and claiming none means adopting none.</li>
+<li><strong>Expecting both axes at once.</strong> <code>subgrid</code> is set per axis. A child can be a subgrid for columns while defining its own rows normally — and often should be. Demo #2 subgrids only columns; demo #1 only rows.</li>
+<li><strong>A stray gap or padding on the child.</strong> Demo #7 shows both. The tracks still align, but the contents sit at the wrong offset inside them, which reads as "subgrid isn't working" when the grid is actually fine.</li>
+<li><strong>Assuming it fixes unequal card heights.</strong> That was never the problem — <code>align-items: stretch</code> already did that. Subgrid aligns the content <em>inside</em> the cards, which is the part flexbox genuinely cannot do.</li>
+<li><strong>Reaching for <code>display: contents</code> out of habit.</strong> Demo #8 shows the cost: identical border and background declarations render on the subgrid row and vanish on the <code>contents</code> one.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>Can I use subgrid in production yet?</h3>
+<p>Yes — subgrid is supported in all current major browsers (Firefox since 71, Safari since 16, Chrome and Edge since 117). It also degrades unusually gracefully: a browser that doesn't understand <code>grid-template-rows: subgrid</code> ignores that one declaration and the nested element stays a normal grid, so you get the unaligned-but-functional version rather than a broken page. That makes it a reasonable progressive enhancement even where you can't guarantee support.</p>
+
+<h3>What's the difference between subgrid and just using one big flat grid?</h3>
+<p>A flat grid aligns everything perfectly but leaves you with no wrapper elements — no per-card border, no per-row hover state, no component boundaries that match your markup. Subgrid keeps the wrappers (and therefore the components, the semantics and the styling hooks) while still sharing one set of tracks. Demo #6 is the clearest illustration of that trade-off.</p>
+
+<h3>Does subgrid work on both rows and columns at the same time?</h3>
+<p>Yes, but you declare each axis separately: <code>grid-template-columns: subgrid; grid-template-rows: subgrid;</code>. You can also mix — subgrid one axis and define your own tracks on the other, which is often what you actually want. A card row usually subgrids rows only; a form row usually subgrids columns only.</p>
+
+<h3>Why do my subgrid items still look misaligned?</h3>
+<p>Almost always one of three things: the child didn't span any parent tracks (so there was nothing to adopt), the child declares its own <code>gap</code>, or the child has <code>padding</code> that offsets its contents inside otherwise-correct tracks. Demo #7 isolates the gap and padding cases specifically — they're the ones that look most like a broken grid when the grid is fine.</p>
+
+<h3>Can subgrid be nested more than one level deep?</h3>
+<p>Yes. A subgrid can itself contain another subgrid, and the tracks pass all the way down as long as each level spans a range and declares <code>subgrid</code> for that axis. Named lines pass down through every level too, which is what keeps deeply nested layouts (demo #5) readable instead of turning into line-number arithmetic.</p>
+
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to internalise this is to click <strong>Fork &amp; Edit</strong> on demo #1, delete the <code>grid-row: span 3</code> line but leave <code>grid-template-rows: subgrid</code> in place, and watch the alignment collapse — a subgrid that spans no parent tracks has nothing to adopt. That single experiment explains more than any diagram. Once you've got a version you like, save it to <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop into a real project.</p>
+
+<p>Want to go deeper than a single embed? The <a href="https://fwdtools.com/css-playground/">CSS Playground</a> is FWD Tools' full in-browser CSS sandbox — a real editor with instant preview, built for exactly this kind of edit-and-see learning, without the eight-tab constraint of a blog post.</p>

@@ -1,0 +1,206 @@
+<h1>How to Animate CSS Properties with GSAP (With Live Examples)</h1>
+
+<p>Most GSAP tutorials start with <code>x</code> and <code>y</code> and stop there, which leaves out a real question: which CSS properties can GSAP actually animate, and does it treat them all the same way? The honest answer is no &mdash; GSAP handles a plain numeric property like <code>opacity</code> very differently under the hood from a compound value like <code>box-shadow</code>, a shape like <code>clip-path</code>, or a browser-registered custom property like <code>--pct</code>. This post walks through eight real CSS properties one at a time &mdash; transforms, color, border-radius, box-shadow, filter, clip-path, a CSS variable, and an SVG stroke &mdash; showing exactly what GSAP does with each one and why it works.</p>
+
+<p>Every demo below is <strong>live and interactive</strong> right here in the article &mdash; click the buttons and watch the property change. Each embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact code, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/" target="_blank" rel="noopener">My Code</a> &mdash; FWD Tools' free in-browser editor. Swap a value, hit run again, and watch what changes &mdash; that's the fastest way to build real intuition for how GSAP touches CSS.</p>
+
+<p>New to GSAP itself, before its relationship with specific CSS properties? "GSAP Tutorial for Beginners" on this blog covers <code>gsap.to()</code>, timelines, stagger, and ScrollTrigger from the ground up, and the free, click-based <a href="https://fwdtools.com/gsap-playground/" target="_blank" rel="noopener">GSAP Playground</a> builds on exactly that foundation across 55 lessons.</p>
+
+<h2>Why GSAP instead of a CSS transition for these?</h2>
+
+<p>A plain CSS <code>transition</code> genuinely animates most of what's below too &mdash; this isn't an argument that GSAP is required. What GSAP adds is control: starting, pausing, reversing, or replaying any of these tweens from JavaScript on demand, sequencing several of them precisely with a timeline, and &mdash; for a handful of properties below &mdash; interpolation a plain transition can't do at all, like tweening a shape's individual polygon points or drawing an SVG path in stroke by stroke. Every demo here is deliberately small, but each one demonstrates a real category of CSS value GSAP has to actually understand to animate correctly.</p>
+
+<h2>1. Transform properties &mdash; x, y, scale, rotation, skew</h2>
+
+<p>The most common case first, because it's the one every other property gets compared against: several transform values combined into one tween.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/12/1.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GSAP Transform Properties Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>gsap.to('.box', {
+  x: 140,
+  y: -20,
+  scale: 1.3,
+  rotation: 25,
+  skewX: 8,
+  duration: 1,
+  ease: 'power2.out'
+});</code></pre>
+
+<p>In plain CSS, <code>x</code>, <code>y</code>, <code>scale</code>, <code>rotation</code>, and <code>skewX</code>/<code>skewY</code> would all have to be packed into one <code>transform</code> string by hand, and animating them at different speeds relative to each other would mean juggling that string yourself. GSAP treats each one as its own independent numeric property, combines them into the correct <code>matrix()</code> behind the scenes every frame, and lets each one carry its own value without any string concatenation from you.</p>
+
+<p><strong>Best for:</strong> anything involving movement, sizing, or rotation &mdash; far and away the most common category of UI animation. <strong>Tip:</strong> always prefer these transform shorthands over animating <code>top</code>/<code>left</code>/<code>width</code>/<code>height</code> directly &mdash; transforms run on the compositor thread and don't trigger layout recalculation the way box-model properties do.</p>
+
+<h2>2. Color properties &mdash; backgroundColor, color, borderColor</h2>
+
+<p>GSAP's core understands color values well enough to interpolate between two completely different-looking colors smoothly, not just fade one out and the other in.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/12/2.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GSAP Color Properties Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>gsap.to('.card', {
+  backgroundColor: '#e8f9ee',
+  color: '#15803d',
+  borderColor: '#16a34a',
+  duration: 0.6,
+  ease: 'power1.out'
+});</code></pre>
+
+<p>GSAP parses hex, <code>rgb()</code>/<code>rgba()</code>, <code>hsl()</code>, and named CSS colors, converts both ends to the same color space, and tweens each channel independently &mdash; which is exactly what makes a status card's background, text, and border all shift together read as one coherent color change instead of three separate ones landing slightly out of sync.</p>
+
+<p><strong>Best for:</strong> status changes, confirmations, and any UI feedback that reads as "this state changed" through color. <strong>Tip:</strong> keep the color pairs reasonably close in lightness when tweening several color properties together (as this demo does) &mdash; wildly different luminance values between start and end can make the mid-tween color look muddy for a frame or two.</p>
+
+<h2>3. border-radius &mdash; morphing a shape</h2>
+
+<p>Each of the four corners is its own value, which means each one can be tweened to a different target &mdash; enough to morph a clean square into an organic blob shape.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/12/3.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GSAP border-radius Morph Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>gsap.to('.blob', {
+  borderTopLeftRadius: '60% 40%',
+  borderTopRightRadius: '40% 60%',
+  borderBottomLeftRadius: '40% 60%',
+  borderBottomRightRadius: '60% 40%',
+  rotation: 8,
+  duration: 1.1,
+  ease: 'power2.inOut'
+});</code></pre>
+
+<p>The shorthand <code>border-radius</code> property itself can't be tweened as one value when the four corners are heading toward different targets, so this splits it into its four longhand properties &mdash; <code>borderTopLeftRadius</code> and so on &mdash; each animated independently. Each one also accepts the two-value elliptical syntax (<code>'60% 40%'</code> for horizontal/vertical radius), which is what turns a simple rounded square into something that reads as organic rather than mechanically rounded.</p>
+
+<p><strong>Best for:</strong> decorative blob shapes, playful loading states, or a card that subtly softens on hover. <strong>Tip:</strong> combine a small <code>rotation</code> alongside the corner tweens, as this demo does &mdash; a pure corner morph with zero rotation can read as strangely static even while it's actively animating.</p>
+
+<h2>4. box-shadow &mdash; a compound value</h2>
+
+<p>Unlike the transform shorthands above, <code>box-shadow</code> genuinely is one single value in CSS &mdash; offset, blur, spread, and color all in one string. GSAP still animates it correctly.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/12/4.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GSAP box-shadow Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>gsap.to('.card', {
+  y: -10,
+  boxShadow: '0 22px 34px rgba(99,102,241,0.28)',
+  duration: 0.5,
+  ease: 'power2.out'
+});</code></pre>
+
+<p>GSAP's CSSPlugin parses the whole <code>box-shadow</code> string on both ends of the tween, matches up the corresponding numeric pieces (offset-x, offset-y, blur radius, spread radius, and each color channel), and interpolates each one in place &mdash; something a naive string-splice couldn't do reliably, and that a plain CSS transition on <code>box-shadow</code> genuinely does too, just without the pause/reverse/sequence control GSAP adds.</p>
+
+<p><strong>Best for:</strong> a card or button "lifting" on hover or focus &mdash; pairing a small upward <code>y</code> move with a larger, softer shadow is what sells the depth. <strong>Tip:</strong> keep the resting-state shadow present (as this demo's idle <code>0 1px 2px</code> shadow is) rather than starting from <code>none</code> &mdash; animating from zero blur/spread to a large one can look like the shadow is "growing into existence" rather than lifting.</p>
+
+<h2>5. filter &mdash; blur, brightness, grayscale together</h2>
+
+<p>Like <code>box-shadow</code>, <code>filter</code> is a compound value &mdash; potentially several filter functions chained in one string &mdash; and GSAP tweens the whole thing as one property.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/12/5.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GSAP filter Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>gsap.to('.tile', {
+  filter: 'blur(0px) brightness(1) grayscale(0)',
+  duration: 0.9,
+  ease: 'power1.out'
+});</code></pre>
+
+<p>Both the starting and ending <code>filter</code> strings need the same functions listed, in the same order, for GSAP to match each one up and interpolate its number &mdash; <code>blur(6px)</code> pairs with <code>blur(0px)</code>, <code>brightness(0.75)</code> with <code>brightness(1)</code>, and so on. That's exactly the "focus in" effect used for lazy-loaded images and content reveals across the web: start blurred, desaturated, and dim; land sharp, colored, and at full brightness.</p>
+
+<p><strong>Best for:</strong> image reveals, "focus in" content loading effects, and disabling/enabling states (grayscale + reduced brightness reads clearly as "inactive"). <strong>Tip:</strong> <code>filter</code> is genuinely expensive to render compared to transforms &mdash; fine for a handful of elements animating at once, but worth avoiding on large lists or during a scroll-linked animation with dozens of elements.</p>
+
+<h2>6. clip-path &mdash; a shape-based wipe</h2>
+
+<p>Where <code>filter</code> and <code>box-shadow</code> are still fundamentally numbers under the hood, <code>clip-path</code> pushes further &mdash; GSAP tweens the individual coordinate points of a polygon.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/12/6.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GSAP clip-path Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>gsap.to('.panel', {
+  clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+  duration: 0.9,
+  ease: 'power2.inOut'
+});</code></pre>
+
+<p>This only works because both the starting polygon (<code>0 0, 0 0, 0 100%, 0 100%</code> &mdash; a collapsed sliver on the left edge) and the ending one list exactly four points each. GSAP walks the two point lists in order and tweens each matching x/y pair independently, which is what produces the wipe &mdash; the whole rectangle appears to slide open from left to right, entirely through clipping, with no change to the element's actual size or position.</p>
+
+<p><strong>Best for:</strong> reveal wipes, image transitions, and any effect where content should appear to be "uncovered" rather than faded or scaled in. <strong>Tip:</strong> keep the point count identical between the start and end <code>clip-path</code> values &mdash; a mismatched number of points is the single most common reason a clip-path tween snaps instead of animating smoothly.</p>
+
+<h2>7. A CSS custom property &mdash; driving a progress meter</h2>
+
+<p>GSAP can tween a CSS custom property directly, as long as the browser has been told, via <code>@property</code>, that the variable holds a number rather than an opaque string.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/12/7.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GSAP CSS Custom Property Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>@property --pct {
+  syntax: '&lt;number&gt;';
+  inherits: false;
+  initial-value: 0;
+}
+
+gsap.to('.meterFill', {
+  '--pct': 82,
+  duration: 1.2,
+  ease: 'power1.out'
+});</code></pre>
+
+<p>Without the <code>@property</code> registration, a browser treats every custom property as an untyped string and can only ever snap between two values, never interpolate them. Registering <code>--pct</code> as a <code>&lt;number&gt;</code> tells the browser (and GSAP) that it's safe to animate numerically, and once that's declared, the meter's <code>width: calc(var(--pct) * 1%)</code> and the percentage label &mdash; read back each frame with <code>gsap.getProperty(el, '--pct')</code> in this demo's <code>onUpdate</code> &mdash; both stay perfectly in sync with a single source of truth.</p>
+
+<p><strong>Best for:</strong> progress meters, gradients driven by a single number, or any case where one animated value needs to feed multiple CSS declarations at once without duplicating the tween. <strong>Tip:</strong> the <code>@property</code> rule is what makes this animate smoothly at all &mdash; skip it and the exact same GSAP code still runs, but the value jumps straight to 82 with no interpolation in between.</p>
+
+<h2>8. SVG stroke-dashoffset &mdash; drawing a path</h2>
+
+<p>Not a CSS box-model property, but a close relative worth knowing: an SVG presentation attribute GSAP animates through the exact same tween syntax as everything above.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/12/8.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="GSAP SVG stroke-dashoffset Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code>const length = path.getTotalLength();
+gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+
+gsap.to(path, {
+  strokeDashoffset: 0,
+  duration: 0.9,
+  ease: 'power1.inOut'
+});</code></pre>
+
+<p><code>stroke-dasharray</code> set to the path's exact length (from the native <code>getTotalLength()</code> method, not a guess) turns the entire stroke into one long dash with no visible gap. <code>stroke-dashoffset</code>, also set to that same length, then shifts that single dash completely out of view. Tweening <code>stroke-dashoffset</code> down to <code>0</code> slides the dash back into place, which reads as the line drawing itself in &mdash; a checkmark, an underline, a signature, or an icon outline.</p>
+
+<p><strong>Best for:</strong> checkmarks, signature or underline reveals, and icon outlines that should feel hand-drawn rather than faded in. <strong>Tip:</strong> <code>gsap.set()</code> (used here to establish the starting dash state instantly, with no animation) is the same engine as <code>gsap.to()</code> but jumps straight to the given values &mdash; reach for it whenever a starting state needs to be set in code rather than baked into the CSS.</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Animating <code>top</code>/<code>left</code>/<code>width</code>/<code>height</code> instead of transforms.</strong> Those trigger layout recalculation on every frame; <code>x</code>/<code>y</code>/<code>scale</code> (demo #1) run on the compositor and stay smooth even on weaker devices.</li>
+<li><strong>Mismatched point counts in a <code>clip-path</code> tween.</strong> Demo #6 only animates smoothly because both ends list exactly four polygon points &mdash; a different count on either side makes the shape snap instead of morph.</li>
+<li><strong>Tweening a CSS custom property without <code>@property</code>.</strong> Demo #7's meter only interpolates smoothly because <code>--pct</code> is registered as a <code>&lt;number&gt;</code> &mdash; skip that and the same GSAP code jumps straight to the end value with no animation in between.</li>
+<li><strong>Guessing an SVG path's length instead of measuring it.</strong> Demo #8's draw-in depends on <code>getTotalLength()</code> being exact &mdash; a hand-typed dasharray that's too short or long leaves a visible gap or overlap at the "finished" state.</li>
+<li><strong>Reaching for <code>filter</code> on a large list of elements.</strong> It's the most render-expensive property in this whole list; fine for a handful of elements (demo #5), worth reconsidering for dozens animating at once.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>Can GSAP animate any CSS property?</h3>
+<p>Almost any property with a numeric or interpolatable value, yes &mdash; including ones a plain CSS transition also handles, like <code>opacity</code>, colors, and transforms. Where GSAP goes further is compound values it parses itself (<code>box-shadow</code>, <code>filter</code>), shape data (<code>clip-path</code>), and values that need explicit browser registration to animate at all (custom properties via <code>@property</code>). A handful of properties, like <code>display</code>, are inherently non-numeric and can only be toggled, not tweened.</p>
+
+<h3>Do I need a GSAP plugin to animate CSS properties?</h3>
+<p>No &mdash; everything in this post uses only core GSAP (CSSPlugin, which ships built in). No plugin registration is needed for any of the eight properties covered here, including the CSS custom property in demo #7.</p>
+
+<h3>Why does my CSS custom property jump instead of animating smoothly?</h3>
+<p>Almost always a missing <code>@property</code> registration. Without telling the browser a custom property holds a <code>&lt;number&gt;</code> (or another interpolatable type), it's treated as an opaque string and can only snap between values &mdash; see demo #7 for the exact registration needed.</p>
+
+<h3>Is it better to animate box-shadow/filter or use a transform-based alternative?</h3>
+<p>Transforms are cheaper to render, but not every effect has a transform-based equivalent &mdash; a genuine blur or a growing shadow needs <code>filter</code> or <code>box-shadow</code> respectively. Use transforms whenever the effect allows it, and reach for these heavier properties deliberately, on a reasonable number of elements at once.</p>
+
+<h3>What's the difference between clip-path and a plain width/height reveal?</h3>
+<p>A width or height tween changes the element's actual box size, which reflows surrounding layout as it grows. <code>clip-path</code> (demo #6) keeps the element's real size fixed the entire time and only changes what's visible &mdash; no layout shift, and it runs on the compositor rather than triggering layout on every frame.</p>
+
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. A fast way to make this stick: click <strong>Fork &amp; Edit</strong> on demo #6 and change the four-point polygon to a diagonal wipe instead of a left-to-right one, or fork demo #7 and swap <code>--pct</code>'s target from 82 to something driven by a real value in your own project. Save whichever version you like to <a href="https://fwdtools.com/ui-snippets/mycode/" target="_blank" rel="noopener">My Code</a> and it's yours to keep, tweak further, or drop straight into a real project.</p>
+
+<p><strong>Recommended next step:</strong> the <a href="https://fwdtools.com/gsap-playground/" target="_blank" rel="noopener">GSAP Playground</a> covers tweens, timelines, stagger, and ScrollTrigger in the same live-editor format as these demos, free and click-based across 55 lessons. For more tutorials like this one, browse the <a href="https://www.webdevpuneet.com/search/label/JavaScript" target="_blank" rel="noopener">JavaScript</a> label on the blog.</p>

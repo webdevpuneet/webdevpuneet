@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="A Real button Element Gives You Keyboard Support Free">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>A real &lt;button&gt; gets Enter and Space for free; a &lt;div&gt; gets nothing</h1>
+    <p class="hint">Click the gray focus target first, then press Tab once to reach the trigger below it, then press Enter or Space (don't click). The div trigger won't even take focus; the button trigger opens normally.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken (clickable div)</h2>
+        <div class="focusTarget" tabindex="0" id="badFocusTarget">1. Click here, then press Tab</div>
+        <div class="acc-item">
+          <div class="acc-trigger" id="badTrigger">
+            Account settings <span class="chev">&#9662;</span>
+          </div>
+          <div class="acc-panel" id="badPanel">
+            <div class="acc-panel-inner"><p>Manage your email, password, and notification preferences.</p></div>
+          </div>
+        </div>
+        <p class="note" id="badNote">2. Press Tab, then Enter or Space.</p>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed (real button)</h2>
+        <div class="focusTarget" tabindex="0" id="goodFocusTarget">1. Click here, then press Tab</div>
+        <div class="acc-item">
+          <button type="button" class="acc-trigger" id="goodTrigger" aria-expanded="false" aria-controls="goodPanel">
+            Account settings <span class="chev">&#9662;</span>
+          </button>
+          <div class="acc-panel" id="goodPanel">
+            <div class="acc-panel-inner"><p>Manage your email, password, and notification preferences.</p></div>
+          </div>
+        </div>
+        <p class="note" id="goodNote">2. Press Tab, then Enter or Space.</p>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 15.5px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 58em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 580px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; }
+  .colTitle { margin: 0 0 10px; font: 700 11px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; text-align: center; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .focusTarget { padding: 9px 12px; border-radius: 7px; border: 1.5px dashed var(--line); font: 700 11.5px system-ui, sans-serif; color: var(--sub); text-align: center; margin-bottom: 10px; cursor: pointer; }
+  .focusTarget:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .acc-item { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .acc-trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border: none; background: #fafafc; color: var(--ink); font: 700 12px system-ui, sans-serif; cursor: pointer; text-align: left; box-sizing: border-box; }
+  .acc-trigger:hover { background: #f0f1f5; }
+  .acc-trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .chev { transition: transform .25s ease; color: var(--sub); }
+  .acc-trigger.open .chev, .acc-trigger[aria-expanded="true"] .chev { transform: rotate(180deg); }
+  .acc-panel-inner { padding: 10px 12px; font-size: 12px; line-height: 1.55; color: var(--sub); }
+  .acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+  .acc-panel.open { grid-template-rows: 1fr; }
+  .acc-panel .acc-panel-inner { overflow: hidden; min-height: 0; }
+  .note { margin: 8px 2px 0; font-size: 11.5px; color: var(--sub); line-height: 1.5; min-height: 2.6em; }
+</script>
+
+<script type="text/plain" id="js">
+  function setupBad() {
+    var trigger = document.getElementById('badTrigger');
+    var panel = document.getElementById('badPanel');
+    var note = document.getElementById('badNote');
+
+    // BROKEN: a <div> is not a focusable, interactive element by default.
+    // With no tabindex, Tab skips over it entirely, and even if it DID
+    // have tabindex="0", a div has no built-in keydown behavior for
+    // Enter or Space -- clicking it works only because of the mouse
+    // 'click' listener below, which a keyboard alone can never fire.
+    trigger.addEventListener('click', function () {
+      trigger.classList.toggle('open');
+      panel.classList.toggle('open');
+      note.textContent = 'Opened by a mouse click. Tab can\'t even reach this trigger.';
+    });
+  }
+
+  function setupGood() {
+    var trigger = document.getElementById('goodTrigger');
+    var panel = document.getElementById('goodPanel');
+    var note = document.getElementById('goodNote');
+
+    // FIXED: <button> is natively focusable (part of the tab order with
+    // no tabindex needed) and the browser fires its 'click' event for
+    // both Enter and Space automatically, on top of real mouse clicks.
+    // No extra keydown handler is needed to support the keyboard.
+    trigger.addEventListener('click', function () {
+      var isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      trigger.setAttribute('aria-expanded', String(!isOpen));
+      panel.classList.toggle('open', !isOpen);
+      note.textContent = 'Opened -- works identically whether triggered by click, Enter, or Space.';
+    });
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

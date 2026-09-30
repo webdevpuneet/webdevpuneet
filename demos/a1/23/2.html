@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="setState With the Same Value: Primitive vs Object">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>setState with the same value: primitive vs object</h1>
+    <p class="hint">Click "Set to 5" repeatedly on the left, and "Set to {n:5}" repeatedly on the right. Watch each render counter.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 18px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 8px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .stat { font: 800 24px ui-monospace, monospace; margin-bottom: 4px; }
+  .val { font: 600 11px ui-monospace, monospace; color: var(--sub); margin-bottom: 8px; }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; }
+  .btn { padding: 8px 12px; border-radius: 8px; border: none; background: var(--accent); color: #fff; font: 700 12px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { background: #4f52d6; }
+  code { background: #eceef3; padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useRef = React.useRef;
+
+  function Demo() {
+    var numState = useState(5);
+    var num = numState[0];
+    var setNum = numState[1];
+
+    var objState = useState({ n: 5 });
+    var obj = objState[0];
+    var setObj = objState[1];
+
+    var numRenderRef = useRef(0);
+    var objRenderRef = useRef(0);
+    numRenderRef.current += 1;
+    objRenderRef.current += 1;
+
+    return e('div', { className: 'cols' },
+      e('div', { className: 'col' },
+        e('h2', { className: 'colTitle good' }, 'Primitive state'),
+        e('div', { className: 'stat' }, numRenderRef.current),
+        e('div', { className: 'val' }, 'value: ' + num),
+        e('button', { className: 'btn', onClick: function () { setNum(5); } }, 'Set to 5'),
+        e('p', { className: 'note' }, e('code', null, 'Object.is(5, 5)'), ' is true, so React bails out — no re-render.')
+      ),
+      e('div', { className: 'col' },
+        e('h2', { className: 'colTitle bad' }, 'Object state'),
+        e('div', { className: 'stat' }, objRenderRef.current),
+        e('div', { className: 'val' }, 'value: {n:' + obj.n + '}'),
+        e('button', { className: 'btn', onClick: function () { setObj({ n: 5 }); } }, 'Set to {n:5}'),
+        e('p', { className: 'note' }, 'A new object is never ', e('code', null, 'Object.is'), '-equal to the old one, so this always re-renders.')
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

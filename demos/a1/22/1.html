@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Assuming writeText() Always Succeeds Fails Silently">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Assuming writeText() always succeeds fails silently</h1>
+    <p class="hint">Click "Copy" in each column. The broken button calls the modern API with no .catch() at all; watch the status line to see whether it ever reports what actually happened.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken</h2>
+        <input class="txt" id="badInput" type="text" value="promo-code-4821" readonly>
+        <button type="button" class="btn" id="badBtn">Copy</button>
+        <p class="status" id="badStatus">No .catch() -- if the promise rejects, nothing tells you.</p>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed</h2>
+        <input class="txt" id="goodInput" type="text" value="promo-code-4821" readonly>
+        <button type="button" class="btn" id="goodBtn">Copy</button>
+        <p class="status" id="goodStatus">Waits for the real outcome before saying anything.</p>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 52em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .txt { width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); font: 600 12.5px ui-monospace, monospace; color: var(--ink); background: #f9fafb; margin-bottom: 8px; }
+  .btn { padding: 9px 18px; border-radius: 8px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: 700 12.5px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { border-color: var(--accent); }
+  .status { margin: 8px 0 0; font-size: 11.5px; color: var(--sub); line-height: 1.5; min-height: 3em; }
+  .status.ok { color: var(--green); font-weight: 700; }
+  .status.err { color: var(--red); font-weight: 700; }
+</script>
+
+<script type="text/plain" id="js">
+  function legacyCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.top = '0';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  function setupBad() {
+    var input = document.getElementById('badInput');
+    var btn = document.getElementById('badBtn');
+    var status = document.getElementById('badStatus');
+
+    btn.addEventListener('click', function () {
+      status.className = 'status';
+      status.textContent = 'Called writeText() -- no .then(), no .catch(). Whatever happens, happens silently.';
+
+      // BROKEN: fires the promise and never reads its outcome. If it
+      // rejects (blocked iframe, insecure context, whatever), this code
+      // never finds out and never tells the user.
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(input.value);
+      }
+      // No fallback either -- if the API doesn't exist, nothing runs at all.
+    });
+  }
+
+  function setupGood() {
+    var input = document.getElementById('goodInput');
+    var btn = document.getElementById('goodBtn');
+    var status = document.getElementById('goodStatus');
+
+    btn.addEventListener('click', function () {
+      status.className = 'status';
+      status.textContent = 'Copying...';
+
+      function done(ok, via) {
+        if (ok) {
+          status.className = 'status ok';
+          status.textContent = 'Copied via ' + via + '.';
+        } else {
+          status.className = 'status err';
+          status.textContent = 'Copy failed via ' + via + '.';
+        }
+      }
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(input.value).then(
+          function () { done(true, 'navigator.clipboard'); },
+          function () { done(legacyCopy(input.value), 'execCommand fallback'); }
+        );
+      } else {
+        done(legacyCopy(input.value), 'execCommand (no modern API here)');
+      }
+    });
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

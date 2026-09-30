@@ -1,0 +1,137 @@
+<h1>10 Free Bootstrap 5 Snippets for the Forms and Tables That Actually Ship: Autosave Status, Hold-to-Confirm Delete &amp; a Table That Handles Its Own Failures</h1>
+
+<p>Most component libraries stop at "here's a form" and "here's a table." This batch covers the states those two things spend most of their real life in: a form the user is mid-edit on and might walk away from, a delete button that needs real friction before it fires, and a data table that has to render a loading state, an empty state, and a genuine failure state — not just the one where the API call happens to succeed. Every one still loads the genuine <code>bootstrap.min.css</code> and <code>bootstrap.bundle.min.js</code> from a CDN and builds on Bootstrap's real component classes.</p>
+
+<p>Every one is a <strong>live, interactive preview</strong> you can try right here in the article, and each exports to React, Vue, Angular or Tailwind in one click from its snippet page.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>Timing that respects real typing.</strong> The autosave status indicator debounces every keystroke into a single save 1.2 seconds after the user actually pauses, and guards the save itself with an <code>isSaving</code> flag so a keystroke landing mid-save queues exactly one follow-up save instead of firing a second overlapping request.</li>
+<li><strong>Time as the confirmation, not a second dialog.</strong> The hold-to-confirm delete button times its CSS fill transition to match its <code>setTimeout</code> exactly, so the visual progress and the actual deletion complete at the same instant — releasing early cancels with a fast reset instead of reusing the slow fill-in duration.</li>
+<li><strong>Browser-level protection, not just a click handler.</strong> The unsaved-changes alert pairs an interceptable in-app navigation click with a genuine <code>window.beforeunload</code> listener, since a modal can only ever catch one of those two ways a user actually tries to leave a page.</li>
+<li><strong>Every table state gets its own honest render.</strong> The loading skeleton's bars are shaped per column instead of uniform rectangles, and the error state replaces only the table body — never the column headers — so a failed fetch never costs the user their sense of what the table was supposed to show.</li>
+<li><strong>A guaranteed-reachable failure path.</strong> The data table error state and the bulk toolbar's delete both make sure their less-common outcome — a failed request, a destructive confirmation — is something you can actually click through in this preview, not something buried behind a lucky random roll.</li>
+</ul>
+
+<h2>1. Bootstrap Unsaved Changes Alert</h2>
+
+<p>A profile form that tracks its own dirty state and warns with a real modal — Keep editing, Discard &amp; leave, or Save &amp; leave — before an in-app navigation, plus a genuine <code>beforeunload</code> guard for a real page exit.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-unsaved-changes-alert/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Unsaved Changes Alert — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a single <code>isDirty</code> flag is flipped by an <code>input</code> listener on every field, and clicking "Back to dashboard" while it's true opens a modal instead of leaving immediately. "Discard &amp; leave" restores the fields to their last saved snapshot rather than just closing the dialog, and "Save &amp; leave" runs the exact same <code>save()</code> function the visible Save button uses. A separate <code>window.beforeunload</code> listener, gated behind the same <code>isDirty</code> check, is the real protection against a tab close or address-bar navigation — a click handler alone could never catch that.</p>
+
+<p><strong>Best for:</strong> settings and profile pages, and any multi-field form where an accidental navigation shouldn't silently discard real work. <strong>Tip:</strong> the <code>beforeunload</code> dialog won't visibly fire inside a sandboxed preview iframe, but the listener itself is the exact line a real page needs.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-unsaved-changes-alert/">Bootstrap Unsaved Changes Alert</a></p>
+
+<h2>2. Bootstrap Form Autosave Status</h2>
+
+<p>A note editor that autosaves 1.2 seconds after you stop typing — Saving, Saved with a real timestamp, or Failed with a working Retry — instead of a plain "Save" button.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-form-autosave-status/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Form Autosave Status — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every keystroke clears a previous <code>setTimeout</code> and restarts a 1200ms one, so <code>performSave()</code> only actually runs once typing genuinely pauses. An <code>isSaving</code> flag guards against two overlapping requests — a keystroke landing mid-save sets a <code>pendingResave</code> flag instead of firing a second request, and exactly one more save runs the instant the current one resolves. A simulated 15% failure rate keeps the Failed state and its Retry link — which calls the identical <code>performSave()</code> function — genuinely reachable in this preview.</p>
+
+<p><strong>Best for:</strong> notes, long-form docs, and any editor where an explicit Save button interrupts the writing flow. <strong>Tip:</strong> the same debounce-plus-in-flight-guard pattern applies directly to a search-as-you-type input hitting a real API.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-form-autosave-status/">Bootstrap Form Autosave Status</a></p>
+
+<h2>3. Bootstrap Two-Factor Backup Codes Display</h2>
+
+<p>Ten single-use backup codes in a grid — click one to mark it redeemed, copy or download the full set, and regenerate through a confirmation modal that invalidates the old codes.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-two-factor-backup-codes/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Two-Factor Backup Codes Display — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each code is an object carrying its own <code>used</code> boolean, so clicking an already-used code is a real no-op rather than a style with nothing behind it. Codes are generated from a character set that deliberately excludes <code>0</code>/<code>O</code> and <code>1</code>/<code>I</code>, since backup codes are the kind of thing someone reads off a screen and types by hand. Regenerating is destructive — it invalidates every code, used or not — so it's gated behind a real Bootstrap modal instead of firing on one click.</p>
+
+<p><strong>Best for:</strong> two-factor authentication setup flows and account security settings pages. <strong>Tip:</strong> the download button triggers a real file via <code>Blob</code>/<code>URL.createObjectURL</code>, which can be silently blocked inside a sandboxed preview iframe without <code>allow-downloads</code> — it works normally on a real page.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-two-factor-backup-codes/">Bootstrap Two-Factor Backup Codes Display</a></p>
+
+<h2>4. Bootstrap Password Requirements Checklist</h2>
+
+<p>Five password rules that tick off individually as you type, with a submit button that only enables once every single one passes.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-password-requirements-checklist/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Password Requirements Checklist — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a <code>RULES</code> object maps each requirement's name to a small test function, and every <code>&lt;li&gt;</code> carries a <code>data-rule</code> attribute matching one of those keys — the update loop never hardcodes which item is which, it just reads the rule name straight off the element. Every rule re-evaluates from scratch on each keystroke, and the submit button's disabled state is derived from the same passing-rule count driving the visible checklist, so the two can never disagree.</p>
+
+<p><strong>Best for:</strong> signup forms and password-reset flows, especially paired with a strength meter for a combined percentage-plus-checklist view. <strong>Tip:</strong> adding a sixth requirement is a one-line addition to <code>RULES</code> plus one new list item — nothing else needs to change.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-password-requirements-checklist/">Bootstrap Password Requirements Checklist</a></p>
+
+<h2>5. Bootstrap Hold-to-Confirm Delete Button</h2>
+
+<p>Press and hold for 1.5 seconds to delete — a visible fill sweeps across the button in real time, and releasing early cancels instantly instead of completing the action.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-hold-to-confirm-delete-button/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Hold-to-Confirm Delete Button — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a single <code>HOLD_MS</code> constant drives both the CSS transition duration on the fill element and a matching <code>setTimeout</code>, so the visual progress and the actual delete complete at the exact same instant. Releasing early swaps in a much shorter 180ms transition before resetting the fill to zero — reusing the slow fill-in duration for the reset would make cancelling feel as slow as completing. Keyboard users get the identical behavior via Space/Enter, guarded against the OS's own key-repeat re-firing the hold on every repeated <code>keydown</code>.</p>
+
+<p><strong>Best for:</strong> destructive actions in settings or admin panels where a full confirmation modal feels heavier than the action warrants — especially on touch devices, where a long, deliberate hold is far less likely to be accidental than a tap. <strong>Tip:</strong> change the single <code>HOLD_MS</code> constant to retune the duration; both the timer and the animation read from it, so they can never drift apart.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-hold-to-confirm-delete-button/">Bootstrap Hold-to-Confirm Delete Button</a></p>
+
+<h2>6. Bootstrap Bulk Action Toolbar</h2>
+
+<p>Select one or more table rows and the header swaps for a bulk-action toolbar — Archive, Delete behind a real confirmation modal, and Clear — disappearing the instant nothing is selected.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-bulk-action-toolbar/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Bulk Action Toolbar — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a single <code>refresh()</code> function reads how many row checkboxes are checked and toggles the toolbar and default header from that one number, so they can never both show (or both hide) at once. The header checkbox's three real states — checked, unchecked, or a genuine <code>indeterminate</code> — are recomputed the same way every time, derived from the same count. Archive applies instantly as a soft, reversible action; Delete actually removes rows, so it's gated behind a confirmation modal whose message is generated from the live selection count.</p>
+
+<p><strong>Best for:</strong> admin dashboards managing users, orders, or content where selecting several rows should surface a set of relevant actions. <strong>Tip:</strong> the DOM <code>indeterminate</code> property has to be set in JavaScript — it has no effect as a plain HTML attribute, a common mistake when building this pattern from scratch.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-bulk-action-toolbar/">Bootstrap Bulk Action Toolbar</a></p>
+
+<h2>7. Bootstrap Sticky Table Header on Scroll</h2>
+
+<p>A 24-row table inside a fixed-height scroll box whose header stays pinned via genuine <code>position: sticky</code>, with a JavaScript-driven shadow that only appears once real content has scrolled underneath it.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-sticky-table-header-scroll/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Sticky Table Header on Scroll — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>position: sticky</code> on the header cells is scoped to their own scrolling container (a fixed <code>max-height</code> plus <code>overflow-y: auto</code>), not the page — without that scoped scroll context, the header has nothing to stick within. The header needs an explicit opaque background too, or rows scrolling underneath would show through it. The one line of JavaScript toggles a shadow class based on <code>scrollTop > 0</code>, so the header only looks "elevated" once there's actually something scrolled beneath it.</p>
+
+<p><strong>Best for:</strong> any table with more rows than fit on screen at once — dashboards, order history, activity logs. <strong>Tip:</strong> the same <code>position: sticky</code> mechanism extends to a frozen first column with <code>left: 0</code> instead of <code>top: 0</code>.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-sticky-table-header-scroll/">Bootstrap Sticky Table Header on Scroll</a></p>
+
+<h2>8. Bootstrap No Search Results State</h2>
+
+<p>A filtered list whose empty state echoes back the user's exact search text — "No results for 'xyz'" — with a one-click Clear search that immediately restores the full list and refocuses the input.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-no-search-results-state/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap No Search Results State — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> one <code>render()</code> function is the single source of truth for whether the list or the empty state shows, filtering by a case-insensitive substring match and echoing the literal, unmodified query back into the message. An empty search box is deliberately treated as "no filter applied," correctly returning every item rather than zero — the difference between a search that found nothing and a search that hasn't started yet.</p>
+
+<p><strong>Best for:</strong> any filterable list, dropdown, or product search where a vague "nothing found" leaves a user wondering if their search even registered. <strong>Tip:</strong> distinguish this from a true first-time empty state — this one means the data exists but the current search didn't find it.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-no-search-results-state/">Bootstrap No Search Results State</a></p>
+
+<h2>9. Bootstrap Data Table Loading Skeleton</h2>
+
+<p>Shimmering skeleton rows shaped like the real table's columns while data "loads," swapped for actual rows once it resolves — with a Reload button to trigger the cycle again on demand.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-data-table-loading-skeleton/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Data Table Loading Skeleton — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each skeleton bar's width is set per column — narrower for a name, wider for an email — so the loading state resembles this specific table rather than reading as a generic placeholder. The shimmer itself is a pure CSS animation sweeping an oversized background gradient's position, with zero JavaScript driving the visual effect frame by frame. The Reload button disables itself for the duration of the simulated fetch so a second click can't start an overlapping load.</p>
+
+<p><strong>Best for:</strong> any table that loads asynchronously after the initial page render, avoiding a jarring jump between "nothing" and "a full table." <strong>Tip:</strong> pair with the error state below for the complete set of outcomes a real fetch actually has.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-data-table-loading-skeleton/">Bootstrap Data Table Loading Skeleton</a></p>
+
+<h2>10. Bootstrap Data Table Error State</h2>
+
+<p>A table whose very first load is scripted to fail — a centered inline message with a working Retry button replaces the rows, while the column headers never move.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-data-table-error-state/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Data Table Error State — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> only the <code>&lt;tbody&gt;</code> is ever replaced between loading, error, and loaded states — the column headers stay put the whole time, so a user never loses context for what the table is supposed to show. The error message is a real table row with <code>colspan</code>, not an absolutely positioned overlay that would need its own sizing logic. The first attempt is deliberately scripted to fail so the error state is guaranteed to be visible in this preview; every retry after that has a genuine 60% chance of succeeding, and Retry always calls the exact same <code>load()</code> function a fresh page load uses.</p>
+
+<p><strong>Best for:</strong> any dashboard table backed by a real, occasionally-unreliable API — billing, order history, anything where a silently empty table on failure would be actively misleading. <strong>Tip:</strong> remove the guaranteed-first-failure special case in production and let the real fetch outcome decide every time.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-data-table-error-state/">Bootstrap Data Table Error State</a></p>
+
+<p>Same as every batch before it, each of these ten lives in the category that actually fits its shape, so they surface alongside every other snippet of that kind rather than sitting in a library of their own. Find these ten and every other Bootstrap snippet in the collection in one place via the <a href="https://fwdtools.com/ui-snippets/tag/bootstrap/">Bootstrap tag</a>. Open any of them above and you land straight in the live editor, HTML/CSS/JS tabs and all; click <strong>Save as</strong> to copy it into <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and start changing it.</p>

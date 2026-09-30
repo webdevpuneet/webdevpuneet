@@ -1,0 +1,241 @@
+<h1>Scrubbing a Real Skeletal Animation With Scroll: The mixer.setTime() Trick</h1>
+
+<p>Most "3D on scroll" demos rotate a shape. A cube spins, a card tilts, a sphere orbits — all of it is one transform property tied to a scroll-progress number. That's a fine trick, but it's a different problem from what a real animated character needs: a fox with an actual, artist-authored walk cycle baked into its <code>.glb</code> file, where scrolling down should make it walk forward one bone-pose at a time, and scrolling back up should play the exact same walk in reverse — frame-accurate, in both directions, with a visitor free to grab the camera and look around from any angle at any moment. That's the <strong>Scroll-Scrubbed GLB Walk Cycle</strong> snippet, and it's built on one specific Three.js method almost nobody reaches for by default: <code>AnimationMixer.setTime()</code>. Here it is, working:</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/scroll-glb-fox-walk-cycle-scrub/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll-Scrubbed GLB Walk Cycle — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p>Grab the code, or open the full editor with live HTML/CSS/JS panels: <a href="https://fwdtools.com/ui-snippets/scroll-glb-fox-walk-cycle-scrub/">Scroll-Scrubbed GLB Walk Cycle on FWD Tools</a>. It's Three.js (core, <code>GLTFLoader</code>, and <code>OrbitControls</code>, all loaded from a CDN with no bundler) plus GSAP's ScrollTrigger plugin, and it loads a real, freely-licensed <code>.glb</code> — Khronos' own "Fox" sample asset — rather than faking the animation with code.</p>
+
+<p>In this post I'll build it piece by piece: why a normal <code>mixer.update(delta)</code> render loop can't be scrubbed but <code>mixer.setTime()</code> can, why the walk-cycle clip is picked by name with a safe fallback instead of assumed to be <code>gltf.animations[0]</code>, a subtle Three.js trap where pausing an <code>AnimationAction</code> silently breaks <code>setTime()</code> too — not just real-time playback — and why the zoom controls added on top had to deliberately turn <em>off</em> a feature OrbitControls gives you for free.</p>
+
+<h2>What the component actually is</h2>
+
+<p>Five moving parts, two of which never have to know the other exists:</p>
+
+<ol>
+<li><strong>A GSAP ScrollTrigger with <code>pin: true</code> and <code>scrub</code></strong>, which pins the 3D canvas for a fixed scroll distance and hands back a <code>progress</code> value from 0 to 1 on every scroll update.</li>
+<li><strong>A real glTF model with a baked <code>AnimationClip</code></strong>, loaded via <code>GLTFLoader</code>, whose walk-cycle clip is scrubbed directly by that progress value instead of being played back on a timer.</li>
+<li><strong>An <code>OrbitControls</code> instance</strong> that only ever moves the camera, completely independently of the animation — no coordination code between the two exists because none is needed.</li>
+<li><strong>An opt-in zoom system</strong> — a slider plus Ctrl/Cmd + scroll — that deliberately disables OrbitControls' own wheel-zoom so a plain scroll never gets hijacked.</li>
+<li><strong>An honest fallback</strong> that swaps in a placeholder cone and logs the real error if the CDN model fails to load, so the scene is never a silent void.</li>
+</ol>
+
+<p>The structural idea worth carrying into other projects is the third one, and it's worth stating plainly before diving into the code: <strong>when two interactive systems need to run at the same time, look for a way to make them touch different properties instead of writing conflict-resolution code for the same one.</strong> Here, scroll only ever writes to the animation mixer's internal clip time. OrbitControls only ever writes to the camera's position. Neither system reads or writes anything the other owns, so dragging the canvas mid-scroll just works — the walk cycle keeps scrubbing exactly as scroll dictates, from whatever new angle the visitor chose, with zero special-casing.</p>
+
+<h2>Where you'd actually use this</h2>
+
+<ul>
+<li><strong>Character and creature showcase pages.</strong> Let visitors scrub a real animated character's motion at their own pace instead of watching a fixed autoplay loop.</li>
+<li><strong>Game asset and animation portfolios.</strong> Demonstrate a baked skeletal clip rendering correctly outside a game engine, using nothing but the browser and two CDN scripts.</li>
+<li><strong>Scroll-driven product or mascot storytelling.</strong> Tie a brand character's walk, wave, or gesture to a scroll narrative on a landing page.</li>
+<li><strong>A reference for <code>AnimationMixer</code> and clip-time control generally.</strong> <code>clipAction()</code>, <code>setTime()</code>, and the difference between an action's <code>enabled</code> and <code>paused</code> flags are genuinely under-documented outside Three.js's own source, and they're much easier to learn from a working, scrubbable example than from the docs alone.</li>
+</ul>
+
+<h2>Step 1 — Loading a real animated glTF, not a primitive standing in for one</h2>
+
+<pre><code class="language-javascript">let mixer = null;
+let walkAction = null;
+let clipDuration = 1;
+
+const MODEL_URL = 'https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Assets@main/Models/Fox/glTF-Binary/Fox.glb';
+
+const loader = new THREE.GLTFLoader();
+loader.load(
+  MODEL_URL,
+  (gltf) => {
+    const fox = gltf.scene;
+    fox.scale.setScalar(0.018);
+    scene.add(fox);
+
+    if (gltf.animations && gltf.animations.length) {
+      mixer = new THREE.AnimationMixer(fox);
+      const clip = gltf.animations.find((c) => /walk/i.test(c.name)) || gltf.animations[0];
+      clipDuration = clip.duration || 1;
+      walkAction = mixer.clipAction(clip);
+      walkAction.play();
+    }
+  },
+  undefined,
+  (err) => {
+    console.error('GLB failed to load, showing a placeholder instead:', err);
+    const placeholder = new THREE.Mesh(
+      new THREE.ConeGeometry(0.5, 1, 4),
+      new THREE.MeshStandardMaterial({ color: 0xf97316, roughness: 0.5 })
+    );
+    placeholder.position.y = 0.5;
+    scene.add(placeholder);
+  }
+);</code></pre>
+
+<p><code>MODEL_URL</code> points at Khronos' own official sample-asset repository, served through jsdelivr's GitHub proxy — a real, freely-licensed <code>.glb</code> binary with genuine mesh geometry, a baked texture, and — the reason this exact model was chosen over the library's other GLTFLoader demos — an embedded skeletal <code>AnimationClip</code> with enough motion to actually read as a walk once it's scrubbed frame by frame. The Fox sample ships three separate clips: Survey, Walk, and Run. Rather than hardcoding <code>gltf.animations[1]</code> and hoping that index stays the "Walk" clip forever, <code>gltf.animations.find((c) => /walk/i.test(c.name))</code> matches by name, case-insensitively, and falls back to <code>gltf.animations[0]</code> if nothing matches — a small defensive habit that means the demo keeps working even if the asset is ever re-exported with clips in a different order or the name capitalized differently.</p>
+
+<p><code>mixer.clipAction(clip)</code> wraps the raw clip data in an <code>AnimationAction</code> — the object you actually control playback through — and <code>clipDuration</code> is read straight off <code>clip.duration</code>, since that's the exact number range the scroll progress will need to map onto in a moment. Notice, too, what's <em>not</em> here: no hardcoded scale-guessing dance. Some glTF exports decode at wildly different raw sizes depending on the loader version and any compression extensions the asset uses (the companion turntable snippet in this same family actually hit that problem with a different model and had to switch to measuring the loaded geometry's bounding box and auto-fitting it to a known size). The Fox asset happens to decode cleanly at a predictable scale with this loader, so a fixed <code>fox.scale.setScalar(0.018)</code> is enough here — but it's worth knowing that's a simplification this particular model affords, not a universal guarantee.</p>
+
+<h2>Step 2 — Why a normal animation loop can't be scrubbed, and setTime() can</h2>
+
+<p>This is the one idea the entire snippet is built around, so it's worth being precise about it. A typical Three.js animation loop looks like this:</p>
+
+<pre><code class="language-javascript">const clock = new THREE.Clock();
+function animate() {
+  requestAnimationFrame(animate);
+  mixer.update(clock.getDelta());
+  renderer.render(scene, camera);
+}</code></pre>
+
+<p><code>mixer.update(delta)</code> advances the mixer's internal clock by <code>delta</code> seconds every single frame, at whatever pace real time is actually passing. That's exactly right for a looping idle animation or a one-shot effect that should just play — but it has no relationship to scroll position whatsoever. You could pause and resume it, sure, but you cannot ask it "show me the pose at exactly 34% through the clip" and get an instant, precise answer; you can only ever let it keep ticking forward from wherever it currently is.</p>
+
+<p><code>mixer.setTime(t)</code> is a completely different operation. Instead of advancing by an elapsed delta, it jumps the mixer directly to an absolute point in time and evaluates every bone's pose for that exact instant, synchronously, right then. Call it with <code>0.1</code>, then <code>0.5</code>, then <code>0.1</code> again, in any order, and you get the identical pose each time <code>0.1</code> is requested — there's no momentum, no "current playback direction," nothing but a pure function from a time value to a skeletal pose. That purity is exactly what scroll needs, because scroll position itself has no momentum either — it's just a number that can go up or down at any moment, including snapping instantly if the user drags the scrollbar.</p>
+
+<pre><code class="language-javascript">ScrollTrigger.create({
+  trigger: '#gfwPin',
+  start: 'top top',
+  end: '+=2600',
+  pin: true,
+  scrub: 0.35,
+  onUpdate(self) {
+    barFill.style.width = (self.progress * 100).toFixed(0) + '%';
+    label.textContent = 'Frame ' + Math.round(self.progress * 100) + '%';
+
+    if (!mixer || !walkAction) return;
+    mixer.setTime(self.progress * clipDuration);
+  },
+});</code></pre>
+
+<p><code>self.progress</code> is ScrollTrigger's own 0-to-1 value representing exactly how far through the pinned scroll range the user currently is. Multiplying it by <code>clipDuration</code> maps it linearly onto the clip's own timeline, and that's the entire scrubbing mechanism — one line, <code>mixer.setTime(self.progress * clipDuration)</code>, run on every scroll update. Scroll down and progress climbs from 0 toward 1, walking the fox forward through its stride; scroll back up and progress falls, and the exact same pose sequence plays in reverse, because <code>setTime</code> genuinely doesn't know or care which direction it was last called from. The <code>if (!mixer || !walkAction) return;</code> guard exists because the GLTFLoader's fetch is asynchronous — a visitor can start scrolling before the model (a modest ~160KB <code>.glb</code>, but still a network round-trip) has finished downloading and parsing, and this one-line check is what keeps that from throwing.</p>
+
+<h2>Step 3 — The trap: why the action is left deliberately unpaused</h2>
+
+<p>This is the part of the build that cost the most time to get right, and it's worth walking through the actual failure, because the fix is one line and the reasoning behind it is genuinely non-obvious. The first version of this snippet did the seemingly-sensible thing:</p>
+
+<pre><code class="language-javascript">walkAction = mixer.clipAction(clip);
+walkAction.play();
+walkAction.paused = true; // scroll drives time directly, not real-time playback</code></pre>
+
+<p>The intent reads perfectly reasonably: <code>.play()</code> starts the action, and <code>.paused = true</code> should stop it from advancing on its own, leaving scroll's explicit <code>setTime()</code> calls as the only thing that moves it. Except that's not what happened. <code>mixer.time</code> updated correctly on every scroll event — the number was right — but the fox's legs never moved. Every bone stayed frozen in its very first evaluated pose no matter how far the scroll position advanced.</p>
+
+<p>The cause is a genuinely obscure piece of Three.js internals, and the real mechanism is stranger than a simple "pausing skips evaluation" — it's worth tracing precisely. <code>mixer.setTime(t)</code> doesn't just tell the mixer "the time is now <code>t</code>." It resets <em>every</em> action's own <code>.time</code> to <code>0</code> first, then calls the ordinary <code>mixer.update(t)</code> — treating <code>t</code> as a one-shot <code>deltaTime</code> applied from a zeroed baseline. Inside that update, each action's internal <code>_updateTimeScale()</code> method runs before the clip's time actually advances, and by Three.js's own design (the source even comments this exact behavior: <code>paused = true</code> yields "zero effective time scale") a paused action's time scale evaluates to <code>0</code> — so the incoming delta gets multiplied by zero before it's ever applied. With an effective delta of zero, the action's time-advance step just reports back whatever <code>.time</code> the action already has — which <code>setTime()</code> had just reset to <code>0</code> a moment earlier. Every single scroll update, regardless of how far scroll had progressed, evaluated the walk cycle's pose at exactly frame zero. The fox wasn't broken — it was being told, correctly, every time, that zero seconds had elapsed since the clip was reset to its start.</p>
+
+<p>The actual fix is to just... not pause it:</p>
+
+<pre><code class="language-javascript">walkAction = mixer.clipAction(clip);
+walkAction.play();
+// Left unpaused deliberately: pausing an action also blocks Three.js's
+// internal pose evaluation on setTime(), not just its own per-frame
+// time advance. Since the render loop below never calls
+// mixer.update(delta), nothing advances the clip on its own anyway —
+// scroll's mixer.setTime() calls remain the only thing driving it.</code></pre>
+
+<p>The reasoning that makes this safe, not just a workaround: <code>paused</code> exists to stop an action from being advanced automatically by <code>mixer.update(delta)</code> inside a real-time render loop. This snippet's <code>animate()</code> function never calls <code>mixer.update(delta)</code> at all — only <code>controls.update()</code> and <code>renderer.render()</code> run every frame. With no delta-based advance ever happening in the first place, there is nothing for <code>paused</code> to usefully guard against, and leaving the action enabled costs nothing: <code>mixer.setTime()</code> remains the only thing that ever moves the clip, exactly as intended, just without accidentally telling Three.js to also block the very calls meant to drive it.</p>
+
+<h2>Step 4 — Camera-space orbiting that needs zero coordination with the animation</h2>
+
+<pre><code class="language-javascript">const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.08;
+controls.target.set(0, 0.5, 0);
+controls.minDistance = 1.5;
+controls.maxDistance = 9;</code></pre>
+
+<p>This is deliberately the least interesting code in the whole snippet, and that's the point worth calling out. <code>OrbitControls</code> is set up once, with damping for a smooth, slightly weighted feel, and then never touched again by any scroll-related code. Compare this to the companion "camera flythrough" snippet in this same family, where scroll drives the camera's <em>position</em> through named checkpoints — there, OrbitControls and the scroll path both want to write to <code>camera.position</code>, and reconciling that genuinely requires a small state machine (a flag toggled by OrbitControls' own <code>'start'</code>/<code>'end'</code> events, plus a short resume delay so control doesn't snap back to the scroll path the instant a drag ends). None of that exists here, because it doesn't need to: scroll writes to the mixer's clip time, OrbitControls writes to the camera's position, and two systems that never touch the same property have nothing to arbitrate.</p>
+
+<h2>Step 5 — Zoom: adding a feature by first turning one off</h2>
+
+<p>OrbitControls ships with wheel-zoom built in, enabled by default. Leaving it on sounds like a free feature, but it's actually a trap for exactly this kind of scroll-pinned demo: OrbitControls' zoom handler calls <code>event.preventDefault()</code> on <em>every</em> wheel event over the canvas, including a completely ordinary two-finger scroll with no modifier key held. Inside a pinned ScrollTrigger section, that default-prevented scroll never reaches the page — the visitor's scroll gesture gets silently swallowed by a camera dolly they never asked for, and the animation this whole snippet is built around simply stops responding to scroll while their cursor happens to be over the 3D canvas.</p>
+
+<pre><code class="language-javascript">controls.enableZoom = false;
+
+const zoomSlider = document.getElementById('gfwZoom');
+
+function setZoomDistance(distance) {
+  const clamped = THREE.MathUtils.clamp(distance, controls.minDistance, controls.maxDistance);
+  const offset = camera.position.clone().sub(controls.target);
+  offset.setLength(clamped || 0.001);
+  camera.position.copy(controls.target).add(offset);
+  const t = (clamped - controls.minDistance) / (controls.maxDistance - controls.minDistance);
+  zoomSlider.value = String(Math.round((1 - t) * 100));
+}
+
+zoomSlider.addEventListener('input', () => {
+  const t = 1 - Number(zoomSlider.value) / 100;
+  setZoomDistance(controls.minDistance + t * (controls.maxDistance - controls.minDistance));
+});
+
+canvas.addEventListener('wheel', (e) => {
+  if (!e.ctrlKey && !e.metaKey) return; // plain scroll always passes through to the page
+  e.preventDefault();
+  const current = camera.position.distanceTo(controls.target);
+  setZoomDistance(current + e.deltaY * 0.01);
+}, { passive: false });</code></pre>
+
+<p>The fix is <code>controls.enableZoom = false</code>, then rebuilding zoom as two explicit, opt-in gestures instead of an implicit one. <code>setZoomDistance()</code> takes a target distance, clamps it to <code>controls.minDistance</code>/<code>maxDistance</code>, and moves the camera along its existing offset vector from <code>controls.target</code> to sit at exactly that distance — then updates the slider's position to match, so the visible control stays truthful regardless of which input triggered the change. The slider calls it directly on <code>input</code>. The wheel listener calls it too, but only when <code>e.ctrlKey</code> or <code>e.metaKey</code> is true — the same Ctrl/Cmd + scroll convention embedded Google Maps and most map widgets use — and a plain scroll with neither key held returns immediately, doing nothing at all to the camera and leaving the event free to reach the page exactly as if the canvas weren't intercepting anything. The scroll wheel goes from "secretly owned by the 3D scene" to "does nothing unless you explicitly ask it to."</p>
+
+<h2>Customizing it for your own project</h2>
+
+<ul>
+<li><strong>Swap in any animated <code>.glb</code>.</strong> The <code>/walk/i</code> matcher and the <code>mixer.setTime()</code> scrubbing logic work unchanged for any skeletal or morph-target animation — point <code>MODEL_URL</code> at your own asset and adjust the name regex (or the fallback index) to match its actual clip names.</li>
+<li><strong>Blend between two clips based on scroll velocity.</strong> Build a second <code>AnimationMixer</code> action for a "Run" clip, and cross-fade the two actions' weights as <code>self.getVelocity()</code> crosses a threshold, so fast scrolling reads as running and slow scrolling reads as walking.</li>
+<li><strong>Drive a second scroll-linked property.</strong> Nothing stops the same <code>onUpdate</code> from also adjusting a light's intensity, a material's color, or a camera FOV alongside the animation scrub — they'd all read from the same <code>self.progress</code> value with no extra coordination.</li>
+<li><strong>Add footstep-triggered effects.</strong> Since <code>setTime()</code> gives you an exact, addressable point in the clip's timeline, you can compare the current time against known footfall timestamps and trigger a particle burst or a sound cue the instant scroll crosses one, in either direction.</li>
+</ul>
+
+<h2>The things deliberately left out</h2>
+
+<p><strong>Clip blending and transitions.</strong> This snippet scrubs exactly one clip. A production character viewer that needs to blend Walk into Run, or crossfade into an idle pose at the very start and end of the scroll range, would need to manage multiple <code>AnimationAction</code> weights simultaneously — <code>setTime()</code> alone doesn't handle blending for you.</p>
+
+<p><strong>Root motion.</strong> The Fox's walk cycle animates in place; the model itself doesn't translate forward as it walks. A character that should visibly travel across the scene while walking needs either root-motion baked into the clip and extracted per frame, or a separate scroll-driven position tween layered on top of the animation scrub.</p>
+
+<p><strong>Mobile touch-drag tuning.</strong> OrbitControls handles touch out of the box, but a single-finger drag on a pinned scroll section can read ambiguously as "orbit the camera" versus "scroll the page" on some devices. A production build would likely want to test that interaction specifically and possibly require a two-finger gesture for orbit on touch, mirroring how the zoom gesture already requires a modifier on desktop.</p>
+
+<h2>Using it in React, Vue, or Angular</h2>
+
+<p>Set up the renderer, scene, GLTFLoader call, AnimationMixer, and ScrollTrigger inside a mount effect (<code>useEffect</code> in React, <code>onMounted</code> in Vue, <code>ngOnInit</code>/<code>ngAfterViewInit</code> in Angular), targeting a canvas reached through a ref rather than letting the framework manage its contents. Keep <code>mixer</code>, <code>walkAction</code>, and <code>clipDuration</code> in refs (or component instance fields) so the ScrollTrigger's <code>onUpdate</code> callback — which fires outside your framework's normal render cycle — can always reach their current values without stale closures. On unmount, call <code>controls.dispose()</code>, <code>renderer.dispose()</code>, and the ScrollTrigger instance's own <code>.kill()</code> to release the WebGL context and remove the pin/scroll listeners; the mixer itself needs no explicit disposal beyond letting it be garbage-collected along with the scene graph it's attached to.</p>
+
+<h2>Build, understand, optimize, and extend it with AI</h2>
+
+<p>Paste this snippet's HTML, CSS, and JS into an assistant like Claude and start with the trap from Step 3: ask it to explain, from Three.js's own source if it can reason about it, exactly why setting <code>walkAction.paused = true</code> would freeze the pose even while <code>mixer.setTime()</code> keeps being called — and why removing that one line is a complete fix rather than a workaround, given that the render loop never calls <code>mixer.update(delta)</code> in the first place. That's a sharper test of whether you actually understand the mixer/action relationship than skimming the comment and moving on. From there, ask it to trace what <code>mixer.setTime(self.progress * clipDuration)</code> evaluates to at <code>progress = 0</code>, <code>0.5</code>, and <code>1</code>, and to explain in its own words why calling it with a smaller value than the previous call correctly plays the clip backward. The same assistant can help you optimize it, too — ask it whether re-evaluating every bone in the skeleton on each <code>mixer.setTime()</code> call is worth guarding with an <code>IntersectionObserver</code> so the mixer only runs while the pinned section is actually near the viewport, or whether <code>renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))</code> is the right cap for a lower-end mobile GPU rendering a pinned WebGL canvas for the whole scroll-through duration. For extension, in roughly increasing order of effort: swap in a different animated <code>.glb</code> and adjust the clip-name matcher; add a second clip and cross-fade based on scroll velocity; layer a scroll-driven light or material change on top of the existing scrub; and add footstep-timestamp detection using the clip's own duration and known footfall points. Treat the code less like a finished artifact and more like a starting point for a conversation.</p>
+
+<h3>Prompt to recreate it</h3>
+
+<p>Copy this into your AI assistant of choice to build the component from scratch, or as a jumping-off point for your own variant:</p>
+
+<pre><code class="language-text">Build a "scroll-scrubbed skeletal animation" demo in plain HTML, CSS, and JavaScript using Three.js (core, GLTFLoader, OrbitControls, and AnimationMixer, all loaded from a CDN with no bundler) plus GSAP with its ScrollTrigger plugin.
+
+Requirements:
+- A pinned full-viewport Three.js scene (GSAP ScrollTrigger pin: true) with an intro section before it and an outro section after, lit with a warm key light and a cooler fill light, plus a simple ground plane for grounding.
+- Load a real .glb model using THREE.GLTFLoader from a genuine, freely-licensed, CDN-hosted glTF binary that ships an embedded skeletal AnimationClip with real, readable motion (e.g. a walk cycle) — do not fabricate the animation in code, and do not substitute a primitive geometry for the model.
+- Build a THREE.AnimationMixer around the loaded model, select an appropriate animation clip from gltf.animations (matching by name if multiple clips exist, with a safe fallback to the first clip if no name match is found), and start the action with .play() — leave it unpaused, since the render loop will never call mixer.update(delta) and playback will be driven entirely by explicit setTime() calls instead. Do not set the action's paused flag to true even though scroll (not real time) will drive playback — mixer.setTime() resets each action's own internal time to zero before applying the requested time as a one-shot delta, and a paused action always evaluates that delta as zero effective time scale, so it would end up frozen at the clip's very first frame on every single call regardless of the time value passed in.
+- Using ScrollTrigger's scrub option, map the 0-1 scroll progress directly onto the animation clip's own duration and call the mixer's setTime() method every scroll update so the animation scrubs frame-by-frame with scroll position — scrolling down plays the clip forward, scrolling back up plays the exact same clip in reverse, entirely driven by setTime rather than by delta-based playback.
+- Set up OrbitControls on the camera with damping enabled so a visitor can click-and-drag the canvas to freely orbit the camera at any time, completely independently of the scroll-driven animation scrubbing — do not add any pause-while-dragging or conflict-resolution logic between the two, since the animation only ever touches the mixer's clip time and OrbitControls only ever touches the camera, so no coordination is actually needed.
+- Turn off OrbitControls' own wheel-zoom (it calls preventDefault on every wheel event including a plain scroll, which would silently block the page scroll this whole demo depends on). Reimplement zoom as two explicit opt-in gestures instead: a vertical range-input slider next to the canvas, and Ctrl/Cmd + scroll wheel — a plain scroll with neither modifier held must do nothing to the camera and must be allowed to reach the page normally. Both the slider and the modified wheel gesture should move the camera along its existing offset from the OrbitControls target, clamped to minDistance/maxDistance, and keep the slider's displayed position in sync with the camera's actual current distance regardless of which input last changed it.
+- Display a small progress bar or percentage label showing how far through the clip the current scroll position has scrubbed, driven from the same scroll progress value used for the animation.
+- Handle the GLTFLoader's error callback by logging the real error and substituting a simple placeholder mesh so the scene is never blank if the model fails to load, and handle the case where the loaded model has no animations at all without throwing.</code></pre>
+
+<h2>Final thought</h2>
+
+<p>The habit worth keeping from this build is the one from Step 4: before writing coordination code for two interactive systems, check whether they actually need to touch the same thing at all. Scroll driving the model's animation and a visitor's drag orbiting the camera never had to fight, because from the very first line of code they were pointed at two entirely different properties — clip time versus camera position. That's not luck; it's a design choice made before any code was written, and it's the reason this snippet needed zero flags, zero timers, and zero "who wins right now" logic for its core interaction.</p>
+
+<p>The second thing worth keeping is specific to Three.js but generalizes to any API with more than one way to "stop" something: read what a flag actually does, not just what its name implies. <code>paused</code> sounds like it should only block automatic, per-frame advancement — and for the common case, that's exactly right. But combined with how <code>setTime()</code> itself is implemented, it produced an effect neither name suggests on its own: every explicit, scroll-driven update silently evaluating the clip's very first frame, forever, instead of the frame that was actually requested. When a one-line fix produces a result that surprises you, that's usually the moment to go find out exactly what the flag you removed was actually doing, rather than just being relieved it works now.</p>
+
+<h2>More scroll-driven glTF snippets using the same techniques</h2>
+
+<p>The walk-cycle scrubber above is one of a small family of snippets in this library that all combine GSAP ScrollTrigger with a real Three.js <code>GLTFLoader</code> model and live <code>OrbitControls</code> — each one solving a different version of "let scroll drive the 3D scene while a visitor can still take manual control." Here are the other three:</p>
+
+<h2>Scroll-Scrubbed GLB Turntable</h2>
+
+<p>The simplest member of the family, and the clearest place to see the "two independent transforms" idea in its purest form: scroll sets the loaded duck model's own <code>rotation.y</code> directly — object-space — while <code>OrbitControls</code> independently orbits the camera around it — camera-space. Same conflict-free philosophy as the walk-cycle scrubber, just with a single rotation number instead of a full skeletal pose, and the same opt-in slider-plus-Ctrl/Cmd-scroll zoom system layered on top.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/scroll-glb-duck-turntable-scrub/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll-Scrubbed GLB Turntable — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<h2>Scroll GLB Camera Flythrough</h2>
+
+<p>The one member of the family where scroll and manual control genuinely do need to coordinate, because here scroll drives the <em>camera's position itself</em> — through four named checkpoints around a highly detailed helmet model — which is the exact same property <code>OrbitControls</code> writes to when a visitor drags. It resolves that real conflict with a small <code>isInteracting</code> flag toggled by OrbitControls' own <code>'start'</code>/<code>'end'</code> events and a deliberate 900ms delay before the scroll path resumes, so control never snaps back the instant a drag ends. Zoom here is a relative multiplier rather than an absolute distance, since the four checkpoints sit at very different distances from the model.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/scroll-glb-helmet-camera-flythrough/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll GLB Camera Flythrough — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<h2>Three.js Product Viewer</h2>
+
+<p>The non-scroll-driven baseline this whole family builds on: a draggable <code>OrbitControls</code> showcase with studio lighting and live color swatches, useful as a reference for the camera and lighting setup shared across all four snippets before any of them add scroll-scrubbing on top. Compare it against the turntable snippet above to see exactly what scroll-driven rotation adds to a plain, manually-orbited viewer.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/three-product-viewer/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Product Viewer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p>All four share the same underlying stack — Three.js loaded from a CDN with no bundler, <code>OrbitControls</code> for manual camera control, and (in the three scroll-driven ones) GSAP ScrollTrigger for the scroll mechanics — but each answers a genuinely different question about what "scroll drives the model" should actually mean: a single rotation, a full skeletal pose, or the camera's own position through a curated path. Reading all three scroll-driven variants side by side is a fast way to build real intuition for when two interactive systems can stay blissfully independent, and when they genuinely need a handoff.</p>

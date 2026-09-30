@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Bootstrap Pricing Cards + Signup Modal">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css
+https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <div class="container py-5">
+
+    <div class="text-center mb-5">
+      <span class="badge rounded-pill text-bg-primary mb-2">Bootstrap 5.3</span>
+      <h1 class="fw-bold">Pick a plan</h1>
+      <p class="text-body-secondary mb-0">Grid, cards, a modal and a toast &mdash; all straight from the CDN bundle.</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Starter</h5>
+            <p class="display-6 fw-bold mb-3">$0<small class="fs-6 fw-normal text-body-secondary">/mo</small></p>
+            <ul class="list-unstyled text-body-secondary small flex-grow-1">
+              <li class="mb-2">&check; 1 project</li>
+              <li class="mb-2">&check; Community support</li>
+              <li class="mb-2">&check; 1 GB storage</li>
+            </ul>
+            <button class="btn btn-outline-primary w-100" data-bs-toggle="modal"
+                    data-bs-target="#signup" data-plan="Starter">Choose Starter</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 shadow border-primary position-relative">
+          <span class="badge text-bg-primary position-absolute top-0 start-50 translate-middle">Most popular</span>
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Pro</h5>
+            <p class="display-6 fw-bold mb-3">$24<small class="fs-6 fw-normal text-body-secondary">/mo</small></p>
+            <ul class="list-unstyled text-body-secondary small flex-grow-1">
+              <li class="mb-2">&check; Unlimited projects</li>
+              <li class="mb-2">&check; Priority support</li>
+              <li class="mb-2">&check; 100 GB storage</li>
+            </ul>
+            <button class="btn btn-primary w-100" data-bs-toggle="modal"
+                    data-bs-target="#signup" data-plan="Pro">Choose Pro</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">Team</h5>
+            <p class="display-6 fw-bold mb-3">$79<small class="fs-6 fw-normal text-body-secondary">/mo</small></p>
+            <ul class="list-unstyled text-body-secondary small flex-grow-1">
+              <li class="mb-2">&check; Everything in Pro</li>
+              <li class="mb-2">&check; SSO &amp; audit log</li>
+              <li class="mb-2">&check; 1 TB storage</li>
+            </ul>
+            <button class="btn btn-outline-primary w-100" data-bs-toggle="modal"
+                    data-bs-target="#signup" data-plan="Team">Choose Team</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- One modal serves all three cards; the plan is read off the button that opened it. -->
+  <div class="modal fade" id="signup" tabindex="-1" aria-labelledby="signupLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="signupLabel">Start your plan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form class="needs-validation" id="signupForm" novalidate>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="planField" class="form-label">Plan</label>
+              <input type="text" class="form-control" id="planField" readonly>
+            </div>
+            <div class="mb-3">
+              <label for="nameField" class="form-label">Full name</label>
+              <input type="text" class="form-control" id="nameField" required>
+              <div class="invalid-feedback">Tell us who you are.</div>
+            </div>
+            <div class="mb-1">
+              <label for="emailField" class="form-label">Work email</label>
+              <input type="email" class="form-control" id="emailField" required>
+              <div class="invalid-feedback">That email does not look right.</div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Create account</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="doneToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body" id="toastBody">Account created.</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script type="text/plain" id="css">
+  /* Bootstrap does the heavy lifting; this is only the polish on top. */
+  body {
+    background: #f7f8fa;
+  }
+
+  .card {
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0.75rem 1.5rem rgba(20, 22, 30, 0.12) !important;
+  }
+
+  .display-6 {
+    letter-spacing: -0.02em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card, .card:hover { transition: none; transform: none; }
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var signup = document.getElementById('signup');
+  var form = document.getElementById('signupForm');
+  var planField = document.getElementById('planField');
+  var toastEl = document.getElementById('doneToast');
+  var toastBody = document.getElementById('toastBody');
+
+  /* Bootstrap hands the triggering element to the show event as
+     relatedTarget, so one dialog can serve every card. */
+  signup.addEventListener('show.bs.modal', function (event) {
+    var plan = event.relatedTarget ? event.relatedTarget.getAttribute('data-plan') : 'Starter';
+    planField.value = plan;
+    document.getElementById('signupLabel').textContent = 'Start the ' + plan + ' plan';
+  });
+
+  // Focus the first real field once the dialog has finished animating in.
+  signup.addEventListener('shown.bs.modal', function () {
+    document.getElementById('nameField').focus();
+  });
+
+  // Clear validation state so a reopened dialog starts clean.
+  signup.addEventListener('hidden.bs.modal', function () {
+    form.reset();
+    form.classList.remove('was-validated');
+  });
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    if (!form.checkValidity()) {
+      form.classList.add('was-validated');
+      return;
+    }
+    var plan = planField.value;
+    bootstrap.Modal.getInstance(signup).hide();
+    toastBody.textContent = 'Welcome aboard — ' + plan + ' plan activated.';
+    bootstrap.Toast.getOrCreateInstance(toastEl, { delay: 3000 }).show();
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

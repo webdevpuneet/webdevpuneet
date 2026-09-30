@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Build a Why-Did-This-Render Diff Readout">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Build a "why did this render" diff readout</h1>
+    <p class="hint">Change name, change age, or click "same age" (sets age to its current value). Watch the diff line explain each render.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px 28px; }
+  .frame { width: 100%; max-width: 480px; background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 16px; text-align: center; }
+  .stat { font: 800 22px ui-monospace, monospace; margin-bottom: 8px; }
+  .diff { min-height: 20px; font: 600 12px ui-monospace, monospace; padding: 8px 10px; border-radius: 7px; margin-bottom: 12px; background: #f4f4ff; color: var(--accent); }
+  .diff.none { background: #f2f2f5; color: var(--sub); }
+  .row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px; }
+  .btn { padding: 8px 12px; border-radius: 8px; border: none; background: var(--accent); color: #fff; font: 700 12px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { background: #4f52d6; }
+  .btn.ghost { background: #fff; color: var(--ink); border: 1.5px solid var(--line); }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; }
+  code { background: #eceef3; padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useRef = React.useRef;
+
+  var NAMES = ['Ada', 'Grace', 'Lin', 'Priya'];
+
+  function Demo() {
+    var nameState = useState('Ada');
+    var name = nameState[0];
+    var setName = nameState[1];
+
+    var ageState = useState(30);
+    var age = ageState[0];
+    var setAge = ageState[1];
+
+    var renderCountRef = useRef(0);
+    renderCountRef.current += 1;
+
+    var prevRef = useRef({ name: name, age: age });
+    var reasons = [];
+    if (prevRef.current.name !== name) {
+      reasons.push('name: "' + prevRef.current.name + '" -> "' + name + '"');
+    }
+    if (prevRef.current.age !== age) {
+      reasons.push('age: ' + prevRef.current.age + ' -> ' + age);
+    }
+    var diffText = reasons.length ? reasons.join(', ') : '(no props/state changed — this render came from somewhere else, or bailed out already)';
+    prevRef.current = { name: name, age: age };
+
+    function nextName() {
+      var idx = NAMES.indexOf(name);
+      setName(NAMES[(idx + 1) % NAMES.length]);
+    }
+
+    return e('div', { className: 'frame' },
+      e('div', { className: 'stat' }, 'Renders: ' + renderCountRef.current),
+      e('div', { className: 'diff' + (reasons.length ? '' : ' none') }, diffText),
+      e('div', { className: 'row' },
+        e('button', { className: 'btn', onClick: nextName }, 'Change name (' + name + ')'),
+        e('button', { className: 'btn', onClick: function () { setAge(age + 1); } }, 'Birthday (age ' + age + ')'),
+        e('button', { className: 'btn ghost', onClick: function () { setAge(age); } }, 'Set age to itself')
+      ),
+      e('p', { className: 'note' }, 'A ref holds the previous render’s values; each render compares them field-by-field and reports exactly what changed — a hand-rolled substitute for React DevTools’ "why did this render" panel, which can’t attach inside this iframe.')
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

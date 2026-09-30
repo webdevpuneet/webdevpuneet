@@ -1,0 +1,194 @@
+<h1>Building a Particle Text Effect With Canvas and Spring Physics</h1>
+
+<p>Most "particle text" effects you see in showreels are either a pre-baked video loop or a heavyweight WebGL library pulled in just to move some dots around. The <strong>Text Particles</strong> snippet does the whole thing in plain Canvas 2D — no Three.js, no physics engine, no shaders. Type a word, and a cloud of scattered dots springs together into readable letters. Click, and the word blows apart into a firework of colored particles before quietly reassembling itself.</p>
+
+<p>Here's the effect live — type your own word and try clicking the canvas:</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/text-particles/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Text Particles — Free Canvas Snippet by FWD Tools"></iframe>
+
+<p>Grab the code, or open the full editor with live HTML/CSS/JS panels: <a href="https://fwdtools.com/ui-snippets/text-particles/">Text Particles on FWD Tools</a>. It's plain HTML, CSS, and JavaScript, but the same editor has one-click export buttons for <strong>React</strong>, <strong>Vue</strong>, <strong>Angular</strong>, and <strong>React + Tailwind</strong> if you'd rather drop it into a component-based project than copy raw markup.</p>
+
+<p>In this post I'll walk through the whole thing <strong>A to Z</strong> — what the effect actually is, where it's genuinely useful, and then the full build: how a word becomes a list of target points, the tiny bit of physics that pulls thousands of particles toward those points, the explode-and-reform state machine, and the rendering choices that keep it smooth. By the end you'll understand it well enough to rebuild it from scratch or bend it into something of your own.</p>
+
+<h2>What the effect actually is</h2>
+
+<p>Strip away the visual polish and the mechanism is simple to state: a word is drawn once, invisibly, purely to find out which pixels belong to its letters. Every one of those pixels becomes a target point for a particle. Thousands of particles then start at random positions and get nudged toward their assigned target every frame, a little more each time, until they settle into the shape of the word. Click the canvas and every particle instead gets a random outward push plus gravity, so the word disintegrates into a cloud that arcs and falls like a firework — then, a moment later, the same springs pull everything back home.</p>
+
+<p>Nothing about this requires knowing where letters "are" in any geometric sense — no font-outline parsing, no bezier math. The browser's own text renderer draws the glyphs; the code just asks the canvas which pixels ended up lit.</p>
+
+<h2>Where you'd actually use this</h2>
+
+<p>A particle text effect is a strong first impression, but it earns its keep in a specific set of spots:</p>
+
+<ul>
+<li><strong>Animated hero titles.</strong> A brand name or headline that visibly assembles itself is a much stronger opener than a headline that's just already there when the page loads.</li>
+<li><strong>Landing page intros.</strong> Let the word form once on load, then let visitors click it to watch it scatter and reform — a small interaction most visitors will try at least once.</li>
+<li><strong>Event countdowns and launch reveals.</strong> Explode a date or a product name apart and let it reassemble to build anticipation before a reveal.</li>
+<li><strong>Game title and score screens.</strong> A title screen or "YOU WIN" banner that particles into place reads as far more crafted than a static PNG.</li>
+<li><strong>Interactive brand demos.</strong> Let visitors type their own word — a name, a company, a message — and watch it form in your brand's colors.</li>
+</ul>
+
+<p>In every one of these, the appeal is the same: it's a piece of typography that behaves like a physical object, which nothing about plain text or CSS animation naturally gives you.</p>
+
+<h2>The tech stack: just the Canvas 2D API</h2>
+
+<p>This snippet uses nothing but the browser's built-in <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API" target="_blank" rel="noopener">Canvas 2D API</a> and <code>requestAnimationFrame</code> — no CDN script tags, no npm install, no build step. The whole trick rests on two Canvas methods most people only use for basic drawing: <code>fillText</code>, to render the word, and <code>getImageData</code>, to read the pixels back out as raw numbers. Everything else — the physics, the state machine, the rendering — is arithmetic run inside a plain animation loop.</p>
+
+<p>If Canvas 2D is new territory for you, the core idea to hold onto is that a canvas is really just a grid of pixel bytes you can both write to (<code>fillRect</code>, <code>fillText</code>, <code>arc</code>, and so on) and read back from (<code>getImageData</code>). Almost every "sample an image and do something with it" effect on the web — this one included — is built on that read-back capability.</p>
+
+<h2>Building it, step by step</h2>
+
+<h3>Step 1 — The HTML and CSS: a canvas, a text input, and two buttons</h3>
+
+<p>The markup is deliberately thin — a full-bleed <code>&lt;canvas&gt;</code> plus a small control bar underneath it:</p>
+
+<pre><code class="language-html">&lt;div class="app"&gt;
+  &lt;canvas id="canvas"&gt;&lt;/canvas&gt;
+  &lt;div class="controls"&gt;
+    &lt;input type="text" id="textInput" value="HELLO" maxlength="10" placeholder="Enter text..." spellcheck="false"&gt;
+    &lt;button id="applyBtn"&gt;Apply&lt;/button&gt;
+    &lt;button id="toggleBtn"&gt;Explode&lt;/button&gt;
+    &lt;span class="hint"&gt;Click canvas to toggle&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+<p>The canvas is set to <code>flex: 1</code> inside a column flex container so it fills all the space above the control bar, and its actual pixel dimensions are set in JavaScript from <code>offsetWidth</code>/<code>offsetHeight</code> rather than CSS alone — a canvas element's drawing buffer and its displayed size are two separate things, and only setting the <code>width</code>/<code>height</code> attributes (not just CSS) gives you a crisp, correctly-scaled drawing surface.</p>
+
+<h3>Step 2 — Sampling the word into target points</h3>
+
+<p>This is the idea the whole effect is built on, and it's worth sitting with. The particles need to know <em>where</em> the letters are, in pixel coordinates. To find out, the code draws the word onto a hidden, off-screen canvas — one that's never appended to the page — with a large bold font, then calls <code>getImageData</code> to read the entire pixel buffer back as numbers:</p>
+
+<pre><code class="language-javascript">const off = document.createElement('canvas');
+const FONT_SIZE = Math.min(120, W * 0.25);
+off.width = W; off.height = H;
+const oc = off.getContext('2d');
+oc.fillStyle = '#fff';
+oc.font = `bold ${FONT_SIZE}px Arial, sans-serif`;
+oc.textAlign = 'center';
+oc.textBaseline = 'middle';
+oc.fillText(text.toUpperCase(), W/2, H/2);
+
+const imageData = oc.getImageData(0, 0, W, H);
+const data = imageData.data;</code></pre>
+
+<p><code>getImageData</code> returns a flat <code>Uint8ClampedArray</code> with four bytes per pixel — red, green, blue, alpha, in that order, row by row. For a canvas that's never been shown to a user, that's fine; it exists purely as scratch space for this one calculation.</p>
+
+<p>The code then walks that array on a <strong>stride</strong> — stepping several pixels at a time in both x and y, rather than checking literally every pixel — and for each sampled coordinate checks the alpha byte:</p>
+
+<pre><code class="language-javascript">for (let y = 0; y < H; y += stride) {
+  for (let x = 0; x < W; x += stride) {
+    const idx = (y * W + x) * 4;
+    if (data[idx + 3] > 128) {
+      particles.push({ tx: x, ty: y, x: Math.random() * W, y: Math.random() * H, vx: 0, vy: 0, hue: (x / W) * 360, alpha: 1 });
+    }
+  }
+}</code></pre>
+
+<p>An alpha value above 128 means that pixel is solidly part of a letter, not background or an anti-aliased edge — so it becomes a particle's <strong>target</strong> position <code>(tx, ty)</code>. The particle itself starts somewhere random on screen, with zero velocity, ready to be pulled toward that target once the animation loop starts. The stride is the effect's main density-vs-performance dial: a smaller stride samples more pixels, giving denser, crisper letters at a higher particle count and cost; a larger stride is sparser and cheaper. A stride of a few pixels comfortably produces a few thousand particles for a clean, readable word.</p>
+
+<h3>Step 3 — The spring: making particles ease into place</h3>
+
+<p>Every particle carries a current position <code>(x, y)</code>, a velocity <code>(vx, vy)</code>, and its target <code>(tx, ty)</code>. Each frame, in the <code>FORM</code> state, it runs the same four lines:</p>
+
+<pre><code class="language-javascript">p.vx += (p.tx - p.x) * 0.08;
+p.vy += (p.ty - p.y) * 0.08;
+p.vx *= 0.85;
+p.vy *= 0.85;
+p.x += p.vx;
+p.y += p.vy;</code></pre>
+
+<p>This is a damped spring, and it's one of the most useful four-liners in animation programming — worth understanding well past this one effect. The first two lines are the "spring" half: velocity gains a push proportional to how far the particle still is from its target, so a particle that's far away accelerates hard, like a stretched rubber band, while a particle that's nearly there barely gets nudged. Left alone, that would make every particle overshoot and oscillate forever, like a mass on an ideal spring with no friction.</p>
+
+<p>The next two lines are the "damping" half: velocity is multiplied by a factor just under 1 every frame, bleeding off a little energy each time. That's the friction. Tune the spring constant (<code>0.08</code> here) and the damping factor (<code>0.85</code>) together and you control the whole feel of the motion — a stiffer spring with less damping snaps into place with a visible overshoot and wobble; a softer spring with more damping eases in smoothly with no bounce at all. Because every particle runs this same tiny simulation completely independently of every other one, a cloud of thousands of them organically resolves into readable text with no coordination logic required anywhere.</p>
+
+<h3>Step 4 — The state machine: FORM and EXPLODE</h3>
+
+<p>The whole effect is driven by one variable, <code>state</code>, that's either <code>'FORM'</code> or <code>'EXPLODE'</code>. Clicking the canvas (or the toggle button) flips it:</p>
+
+<pre><code class="language-javascript">function explode() {
+  state = 'EXPLODE';
+  particles.forEach(p => {
+    p.vx = (Math.random() - 0.5) * 16;
+    p.vy = -5 - Math.random() * 10;
+    p.alpha = 1;
+  });
+}</code></pre>
+
+<p>Every particle is handed a random horizontal velocity and an upward-biased vertical velocity — enough to make the whole word visibly burst outward and up rather than just drifting apart. From there, the update loop for the <code>EXPLODE</code> state applies simple projectile motion:</p>
+
+<pre><code class="language-javascript">particles.forEach(p => {
+  p.vy += 0.15;       // gravity
+  p.x += p.vx;
+  p.y += p.vy;
+  p.alpha -= 0.008;   // fade out
+});
+particles = particles.filter(p => p.alpha > 0 && p.y < H + 50);</code></pre>
+
+<p>A constant downward acceleration added to <code>vy</code> every frame is gravity — no different from the physics you'd write for a simple platformer. Particles fade as they fall and get pruned once they're transparent or have dropped off the bottom of the canvas, so the array doesn't grow unbounded. When <code>reform()</code> is called, every particle is simply thrown back to a random position with zero velocity and the state flips back to <code>FORM</code> — at which point the exact same spring code from Step 3 takes back over and pulls everything home. The explosion and the reassembly are two completely different pieces of motion logic, but they operate on the exact same particle array, which is what makes toggling between them instant and seamless.</p>
+
+<h3>Step 5 — Rendering thousands of particles without dropping frames</h3>
+
+<p>The draw step runs once per frame, after the physics update:</p>
+
+<pre><code class="language-javascript">ctx.fillStyle = 'rgba(13,13,26,0.25)';
+ctx.fillRect(0, 0, W, H);
+
+particles.forEach(p => {
+  ctx.globalAlpha = Math.max(0, p.alpha);
+  ctx.fillStyle = `hsl(${p.hue}, 80%, 65%)`;
+  ctx.fillRect(p.x, p.y, 2, 2);
+});
+ctx.globalAlpha = 1;</code></pre>
+
+<p>Two choices here matter for performance. First, instead of clearing the canvas outright each frame, it paints a semi-transparent rectangle over the whole thing. Because that rectangle doesn't fully erase what's underneath, every particle leaves a very short motion trail behind it before it fades to background — a cheap way to make fast-moving particles read as smoother streaks rather than flickering dots, for the cost of one <code>fillRect</code> call.</p>
+
+<p>Second, each particle is drawn with <code>fillRect(x, y, 2, 2)</code> — a tiny filled square — rather than the more "correct-looking" <code>arc()</code> circle. Building a circular path and filling it is meaningfully more expensive than filling a rectangle, and at a small enough size the visual difference between a 2px square and a 2px circle is imperceptible. With a few thousand particles updating and drawing every frame, that one substitution is often the difference between a smooth 60fps and a stutter.</p>
+
+<p>Color comes from each particle's horizontal position at the moment it was sampled — <code>hue: (x / W) * 360</code> — mapped straight into an HSL color string. Because that hue is assigned once per particle and never changes, the assembled word displays a smooth left-to-right rainbow gradient that rides along with the particles even while they're mid-flight during an explosion.</p>
+
+<h3>Step 6 — Changing the word without a hard cut</h3>
+
+<p>Typing a new word into the input and pressing Apply doesn't restart the effect from scratch — it re-samples the offscreen canvas with the new text and rebuilds the particle array, but each particle still just gets a fresh <code>(tx, ty)</code> target and resumes the same spring behavior from Step 3. Because the particles' actual on-screen positions aren't reset, the transition from one word to the next plays out as a smooth animated morph — the old shape's cloud of dots simply gets reassigned new destinations and drifts into the new word — rather than a jarring cut from one static word to another.</p>
+
+<h2>Customizing it for your own project</h2>
+
+<p>A few knobs worth knowing about if you're adapting this:</p>
+
+<ul>
+<li><strong>Density vs. performance</strong> — lower the sampling stride for denser, crisper text at a higher particle count and CPU cost, or raise it for a sparser, faster effect. The particle count always follows the letters' pixel area automatically.</li>
+<li><strong>Motion feel</strong> — raise the spring constant or lower the damping factor for a snappier assembly with visible overshoot; do the opposite for a slower, floatier ease-in with no bounce at all.</li>
+<li><strong>Explosion strength</strong> — the random velocity ranges in <code>explode()</code> and the gravity constant in the update loop control how violently the word bursts apart and how quickly it falls; scale them together to keep the arc looking natural.</li>
+<li><strong>Color scheme</strong> — the hue is derived from horizontal position, but it could just as easily be a fixed brand color, mapped from vertical position instead, or randomized per particle for a more chaotic palette.</li>
+</ul>
+
+<h2>Using it in React, Vue, or Angular</h2>
+
+<p>The one rule that matters when porting a canvas animation loop into a component framework is: set up the canvas, sample the text, and start <code>requestAnimationFrame</code> inside a mount lifecycle hook — <code>useEffect</code> in React, <code>onMounted</code> in Vue, <code>ngAfterViewInit</code> in Angular — never at module or render time, since the canvas element and its dimensions need to exist first. Store the particle array and animation frame ID in a ref (React) or a component field (Vue/Angular) rather than component state, since re-rendering per particle, per frame, would fight the animation loop and tank performance. On unmount, call <code>cancelAnimationFrame</code> with the stored ID so the loop doesn't keep running against a canvas that's no longer in the DOM. When the displayed word is passed in as a prop, re-run the sampling step whenever it changes, exactly like the Apply button does in the vanilla version.</p>
+
+<p>The FWD Tools snippet editor has one-click exports for all of this already built if you'd rather skip writing the conversion by hand — grab the React, Vue, Angular, or Tailwind version directly from the snippet page.</p>
+
+<h2>Build, understand, optimize, and extend it with AI</h2>
+
+<p>You don't need to trace the spring math or the state machine line by line on your own. Paste the snippet's HTML, CSS, and JS into an AI coding assistant like Claude and ask it to explain exactly how the spring constant and damping factor interact, or why the stride value trades particle density for frame rate. The same assistant is useful for optimizing it — asking whether the particle array could be pooled instead of rebuilt on every word change, or whether the fixed 2px squares could be batched into fewer draw calls for even bigger particle counts. And it's a fast way to extend the effect: ask it to make particles snap toward a logo's silhouette instead of text, add a second explosion mode with a different force shape, or wire the word input up to a live data source so the display updates itself. Treat the code less like a finished artifact and more like a starting point for a conversation.</p>
+
+<h3>Prompt to recreate it</h3>
+
+<p>Copy this into your AI assistant of choice to build the effect from scratch, or as a jumping-off point for your own variant:</p>
+
+<pre><code class="language-text">Build a "particle text" effect in plain HTML, CSS, and JavaScript using only the Canvas 2D API and requestAnimationFrame — no libraries, no WebGL, no build step.
+
+Requirements:
+- A full-bleed <canvas> element, sized in JS from its offsetWidth/offsetHeight (not CSS alone), plus a text input and an Apply button.
+- To find where the letters are: draw the word onto a hidden, never-appended offscreen canvas with a large bold font, then read the pixels back with getImageData. Walk that pixel buffer on a stride (skip several pixels at a time, not every pixel) and treat any sampled pixel with an alpha above ~128 as part of a letter.
+- For every sampled letter-pixel, create one particle whose target (tx, ty) is that pixel's coordinate, starting at a random position on the canvas with zero velocity.
+- Each frame, move every particle toward its target with a damped spring: add `(target - position) * springConstant` to velocity, then multiply velocity by a damping factor just under 1, then add velocity to position. Expose the spring constant and damping factor as easily tunable numbers.
+- Clicking the canvas (or a toggle button) should explode the particles: give each one a random horizontal velocity and an upward-biased vertical velocity, then apply constant downward gravity to vy every frame, fade each particle's alpha out over time, and remove particles once they're transparent or fall off the bottom.
+- Clicking again (or calling reform) should throw every particle back to a random position with zero velocity and hand control back to the spring-toward-target logic, so it reassembles into the word.
+- Draw particles as small filled rectangles (not circles/arcs) for performance, and paint a semi-transparent rectangle over the whole canvas each frame instead of clearing it outright, so fast-moving particles leave a short motion trail.
+- Typing a new word and pressing Apply should re-sample the offscreen canvas and reassign every particle a new target without resetting their current on-screen positions, so the transition plays as a morph rather than a hard cut.</code></pre>
+
+<h2>Final thought</h2>
+
+<p>What makes this snippet worth studying isn't the particle text effect itself — it's the underlying pattern: <strong>decouple the "where" from the "how."</strong> An offscreen canvas plus <code>getImageData</code> answers where the text is, producing nothing more than a flat list of target points. A damped spring answers how anything gets from A to B, and it has no idea it's moving toward letters — it would just as happily pull particles toward a logo, a photo's silhouette, or a mouse cursor. Once that split clicks, the same two ingredients — pixel sampling for targets, spring-and-damping for motion — turn into image reveals, morphing shapes, and cursor-following swarms, all built from the same handful of lines.</p>
+
+<p>Grab the full HTML, CSS, and JS — or export it straight to React, Vue, Angular, or Tailwind — at <a href="https://fwdtools.com/ui-snippets/text-particles/">Text Particles on FWD Tools</a>. It's free, runs entirely in your browser, and needs no sign-up. Browse more canvas and animation effects like this one at <a href="https://fwdtools.com/ui-snippets/animations/">FWD Tools UI Snippets — Animations</a>.</p>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Index-as-Key Plus a Remove From the Middle">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Index-as-key + remove from the middle</h1>
+    <p class="hint">Type into each input so you can tell them apart, then remove "Item B." Watch which typed value survives, and next to which label.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px 28px; }
+  .frame { width: 100%; max-width: 480px; background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 16px; text-align: center; }
+  .item { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border: 1.5px solid var(--line); border-radius: 8px; margin-bottom: 6px; background: #f9f9fb; }
+  .item .label { font: 700 12px ui-monospace, monospace; width: 90px; text-align: left; color: var(--accent); }
+  .item input { font: 600 12px ui-monospace, monospace; padding: 6px 8px; border-radius: 6px; border: 1.5px solid var(--line); flex: 1; }
+  .item button { border: none; background: var(--red); color: #fff; font: 700 11px system-ui, sans-serif; border-radius: 6px; padding: 6px 8px; cursor: pointer; }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; text-align: left; }
+  code { background: #eceef3; padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+
+  function Row(props) {
+    return e('div', { className: 'item' },
+      e('span', { className: 'label' }, props.item.label),
+      e('input', { defaultValue: '', placeholder: 'type here → ' + props.item.label }),
+      e('button', { onClick: function () { props.onRemove(props.item.id); } }, 'Remove')
+    );
+  }
+
+  function Demo() {
+    var itemsState = useState([
+      { id: 1, label: 'Item A' },
+      { id: 2, label: 'Item B' },
+      { id: 3, label: 'Item C' },
+      { id: 4, label: 'Item D' }
+    ]);
+    var items = itemsState[0];
+    var setItems = itemsState[1];
+
+    function removeMiddle() {
+      setItems(items.filter(function (it) { return it.label !== 'Item B'; }));
+    }
+
+    return e('div', { className: 'frame' },
+      items.map(function (item, i) {
+        // BROKEN: index-based key. Removing index 1 (Item B) shifts every
+        // item after it down one slot, but the KEYS at those slots don't move.
+        return e(Row, { key: i, item: item, onRemove: removeMiddle });
+      }),
+      e('p', { className: 'note' }, 'Before removal, keys 0/1/2/3 map to A/B/C/D. Remove B and the array becomes [A, C, D] — but React still sees keys 0/1/2, so it reuses the DOM instance that used to be key 1 (holding whatever you typed for B) and just re-labels it "Item C." The instance that used to be key 2 (C\'s input) becomes "Item D." Nothing was actually removed from the DOM; every input below the deleted row shifted up one slot while keeping its old text.')
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

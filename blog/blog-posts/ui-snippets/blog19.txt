@@ -1,0 +1,139 @@
+<h1>9 Copy-Paste Testimonial & Social Proof Snippets That Actually Build Trust</h1>
+
+<p>Nobody believes a landing page that just says "our customers love us." They believe a named person, a real-sounding job title, a star rating with a distribution behind it, and — strangely — an occasional three-star review sitting next to the five-star ones. Social proof only works when it reads as specific and slightly imperfect. A wall of identical five-star quotes with no faces and no companies reads as decoration, and visitors have gotten very good at scrolling past decoration.</p>
+
+<p>Below are 9 free social-proof snippets you can preview live and copy in seconds: a single testimonial card, an autoplaying carousel, a touch-swipeable slider, a three-column masonry wall, an infinitely auto-scrolling column wall, a full review card grid with helpful votes, a rating breakdown with an animated bar chart, a rotating "someone just bought this" popup, and a complete NPS survey widget. They're plain HTML, CSS and vanilla JavaScript with no dependencies, and every one exports to React, Vue, Angular or Tailwind in one click.</p>
+
+<p>Every snippet below is a <strong>live, interactive preview</strong> — hover it, click through it, scroll it, right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to your framework of choice.</p>
+
+<h2>What actually makes social proof credible</h2>
+
+<ul>
+<li><strong>Specificity beats polish.</strong> A named city, a named company, a partial rating, a three-star review among the five-star ones — all of these read as evidence. A uniform block of glowing anonymous quotes reads as marketing copy, because it is.</li>
+<li><strong>One function owns the state.</strong> The carousel's <code>goTo()</code>, the slider's <code>slideTo()</code>, the NPS widget's <code>getType()</code> — every one of these snippets routes every interaction through a single function, so the visible index, the dots, and the highlighted state can never drift out of sync.</li>
+<li><strong>Respect the dismiss.</strong> The social proof popup is the clearest example: closing it doesn't just hide the current message, it permanently stops the rotation for the session. A pattern that's supposed to build trust loses all of it the moment it ignores an explicit "no."</li>
+</ul>
+
+<h2>1. Testimonial Card</h2>
+
+<p>The single-quote building block everything else on this list is made from: stars, a decorative quote mark, and an author row.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/testimonial-card/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Testimonial Card — Free HTML/CSS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the giant quotation mark in the corner isn't a character in the markup — it's a <code>::before</code> pseudo-element on the card, positioned absolutely, sized at 80px, and colored a near-invisible light grey so it reads as background texture rather than competing with the actual quote. It's set in Georgia rather than the page's sans-serif font on purpose: a serif quotation mark has the curly visual weight the effect needs, and a sans-serif one just looks like an oversized straight character. The stars are plain Unicode ★ characters in an amber span with <code>letter-spacing</code> for breathing room — no SVG, no icon font — which means showing a 4-star review instead of 5 is just deleting one character. The whole thing is pure HTML and CSS with zero JavaScript.</p>
+
+<p><strong>Best for:</strong> a single highlighted quote near a CTA, a pricing page, or as the base unit you duplicate into a grid. <strong>Tip:</strong> swap the initials <code>&lt;div&gt;</code> for an <code>&lt;img&gt;</code> with <code>object-fit: cover</code> the moment you have a real photo — nothing else in the layout needs to change.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/testimonial-card/">Testimonial Card</a></p>
+
+<h2>2. Testimonial Carousel</h2>
+
+<p>One quote at a time, full and readable, advancing on its own and pausing the moment someone actually starts reading.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/testimonial-carousel/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Testimonial Carousel — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every slide sits in a flex track at <code>flex: 0 0 100%</code>, and moving between them is a single <code>transform: translateX(-N%)</code> on the track — animating only <code>transform</code> keeps it on the GPU compositor, which is why it stays smooth at 60fps with no layout cost. Slides and star counts are generated from a <code>DATA</code> array of <code>{ text, name, role, rating, color }</code> objects: the author's initials are derived by splitting the name, and the star row renders exactly <code>rating</code> filled stars out of five, so a four-star testimonial needs no special markup. Autoplay runs on a 5-second <code>setInterval</code>, but the detail worth stealing is that <code>mouseenter</code> and <code>focusin</code> clear the timer and <code>mouseleave</code>/<code>focusout</code> restart it — the carousel stops the instant someone starts reading or tabs into it, and every manual click (arrow or dot) calls the same <code>restart()</code> so the slide you just chose gets the full five seconds, not whatever was left on the previous tick.</p>
+
+<p><strong>Best for:</strong> landing-page hero sections and anywhere you want several testimonials in the visual footprint of one. <strong>Tip:</strong> pair it with a <a href="https://fwdtools.com/ui-snippets/logo-marquee/">logo marquee</a> of the same customers' company logos directly underneath for a compact two-layer proof block.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/testimonial-carousel/">Testimonial Carousel</a></p>
+
+<h2>3. Testimonial Slider</h2>
+
+<p>The same idea with a section header, keyboard arrow-key navigation, and real touch-swipe support for mobile.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/testimonial-slider/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Testimonial Slider — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the sliding mechanism is the same flex-track-plus-transform trick as the carousel above, but two things make this one worth a second look. First, the infinite wrap uses a double-modulo expression — <code>((idx % total) + total) % total</code> — which is the one-line fix for the classic bug where JavaScript's <code>%</code> operator returns a negative number for negative input instead of wrapping around, so going back from slide 0 correctly lands on the last slide instead of breaking. Second, touch handling records the X position on <code>touchstart</code>, measures the distance moved by <code>touchend</code>, and only triggers a slide change once that distance clears a 50px threshold — enough to ignore an accidental brush or a vertical scroll gesture, but responsive enough to feel intentional on a real swipe.</p>
+
+<p><strong>Best for:</strong> mobile-heavy landing pages and pricing pages where touch is the primary input. <strong>Tip:</strong> the dot count is built from <code>slides.length</code> read out of the DOM, not hardcoded — duplicate or delete a <code>.slide</code> div and the dots and loop bounds update with zero JavaScript changes.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/testimonial-slider/">Testimonial Slider</a></p>
+
+<h2>4. Testimonial Masonry Wall</h2>
+
+<p>Seven quotes in a three-column grid where card heights vary naturally — the dense, all-at-once wall that Stripe, Linear and Vercel put above their pricing tables.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/testimonial-masonry/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Testimonial Masonry Wall — Free HTML/CSS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> true CSS masonry (<code>grid-template-rows: masonry</code>) still has limited browser support, so this uses the reliable workaround: three explicit column <code>&lt;div&gt;</code>s, each a flex column, sitting inside a grid with <code>align-items: start</code>. Cards stack to their natural height inside their own column, and because different quotes are different lengths, the columns end up staggered — the masonry look, with zero JavaScript. Each avatar's background comes from one CSS custom property, <code>--av</code>, set inline per card, which is why it can hold a solid color, a gradient, or — on the dark card variant — a translucent <code>rgba()</code> value without any extra classes. That dark card is the one worth studying: it breaks up an all-white grid, and it stays self-contained by using modifier classes like <code>.tcard-body-light</code> on every text element inside it rather than relying on a parent selector, so it can be dropped into any column without side effects.</p>
+
+<p><strong>Best for:</strong> pricing pages and homepages that want to say "many people use this," not just "this one person likes it." <strong>Tip:</strong> put your two strongest quotes in the <code>.featured</code> variant — an indigo border and soft shadow, no structural change — and place them first in their columns for above-the-fold visibility.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/testimonial-masonry/">Testimonial Masonry Wall</a></p>
+
+<h2>5. Testimonial Wall</h2>
+
+<p>Three columns of review cards scrolling vertically and endlessly, each at a different speed, with the middle column running the opposite direction.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/testimonial-wall/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Testimonial Wall — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the seamless loop is a duplication trick — each column renders its full card set twice back to back (<code>col.innerHTML = html + html</code>), then animates <code>translateY</code> upward. The moment the offset reaches exactly one set's height (measured as <code>scrollHeight / 2</code>), the position wraps by adding that height back — invisibly, because the second set is a pixel-identical copy of the first. The motion itself runs on <code>requestAnimationFrame</code> with real delta timing rather than a fixed CSS keyframe, so the scroll speed stays constant in real-world seconds whether the display refreshes at 60Hz or 120Hz. A CSS <code>mask-image</code> gradient fades the top and bottom 12% of the wall to transparent, so cards melt in and out instead of popping at a hard edge — no extra overlay elements, pure compositing. Hovering any single column pauses just that column's position updates without touching the other two or stopping the underlying animation loop.</p>
+
+<p><strong>Best for:</strong> a denser, more alive alternative to the static masonry wall — good on dark-themed marketing sites. <strong>Tip:</strong> the whole illusion depends on the duplicated set being tall enough that a viewer never scrolls past both copies before the wrap resets; nine or more cards spread across three columns is a safe minimum.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/testimonial-wall/">Testimonial Wall</a></p>
+
+<h2>6. Customer Review Card</h2>
+
+<p>The e-commerce-style review grid: rating summary header, verified badges, tag chips, and a working helpful-vote button.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/review-card/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Customer Review Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> partial star ratings — 4 out of 5, 3 out of 5 — are done with a technique worth stealing on its own: the filled stars are plain text in amber, followed immediately by a separate <code>&lt;span class="star-empty"&gt;</code> wrapping the remaining stars in light grey. No SVG masking, no percentage-based clip path, just splitting a run of Unicode characters at the rating boundary. The "Helpful" button implements optimistic UI: clicking it toggles a <code>voted</code> class and increments the visible count immediately, with no server round-trip required for the visual state to update — a second click reverses it. And notice the card variants: <code>.featured</code> for the strongest review and <code>.negative</code> for a lower-rated one are both pure class additions with no structural HTML difference, and including that one critical three-star review next to the five-star ones is deliberate — a wall of nothing but perfect scores is what makes visitors suspicious in the first place.</p>
+
+<p><strong>Best for:</strong> product pages, app store listings, and any page where reviews need to feel individually real rather than curated into uniformity. <strong>Tip:</strong> the vote count reads its own <code>textContent</code> back as an integer on each click — fine for a demo, but wire it to real state (a data attribute or a framework's component state) before it goes into production.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/review-card/">Customer Review Card</a></p>
+
+<h2>7. Star Rating Breakdown Card</h2>
+
+<p>The Amazon-style summary: a big average score, a half-star rendered in pure CSS, and a five-row distribution bar chart that animates in only once it's actually on screen.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/rating-breakdown/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Star Rating Breakdown Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the half-star is the neat part — a base star character sits in grey, and a <code>::before</code> pseudo-element renders the same character in amber, absolutely positioned on top and clipped to 55% width with <code>overflow: hidden</code>. Two layered characters, no SVG, no JavaScript math, and it generalizes to any fraction by changing one width value. The bar chart doesn't animate on page load — each <code>.bar-fill</code> starts at zero width with its real target stashed in a <code>data-pct</code> attribute, and an <code>IntersectionObserver</code> with <code>threshold: 0.3</code> only sets the actual width once 30% of the card has scrolled into view, at which point the CSS <code>transition: width 0.8s</code> already defined on the element does the animating. <code>observer.unobserve()</code> right after firing means it never re-triggers on repeated scrolling past the same card. This is the correct default for any below-the-fold animated stat — it costs nothing while the user hasn't seen it yet.</p>
+
+<p><strong>Best for:</strong> product and course pages where the distribution tells a more honest story than the average alone — a 4.2 average sitting on top of a cluster of one-star reviews is a very different signal than a tight cluster around 4. <strong>Tip:</strong> color-code the five bars by star level (green through red) instead of one flat amber if you want the distribution to read at a glance without checking the percentage labels.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/rating-breakdown/">Star Rating Breakdown Card</a></p>
+
+<h2>8. Social Proof Popup</h2>
+
+<p>The rotating "Sarah from Austin just purchased the Pro plan" toast — and the one snippet on this list that's as much about restraint as it is about motion.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/social-proof-popup/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Social Proof Popup — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a queue of named events cycles on a repeating timer rather than showing one static claim forever — a fixed "someone just bought this" banner loses credibility the moment a visitor notices it never changes. Each event's avatar is generated on the fly as a tiny inline SVG rectangle, base64-encoded into a <code>data:</code> URI, so there's no placeholder-image service to fail and no network request to wait on. The timestamp is a fixed, plausible "X minutes ago" per event rather than a live-ticking counter — deliberately, since a counter that increments while one toast is on screen is more engineering for barely any added believability. The one detail worth copying into every notification pattern you build: clicking dismiss doesn't just hide the current toast, it sets a flag that the rotation function checks before showing anything else, and clears the interval outright — an explicit "stop showing me this" is honored for the rest of the session, not overridden eight seconds later by the next queued event.</p>
+
+<p><strong>Best for:</strong> checkout and pricing pages where recent, specific activity nudges a hesitant visitor. <strong>Tip:</strong> in production, back this with a real, actually-updating feed of recent orders — the same specificity that makes it convincing also makes a stale demo list obvious to a returning visitor within a few page loads.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/social-proof-popup/">Social Proof Popup</a></p>
+
+<h2>9. NPS Survey Widget</h2>
+
+<p>Not a display of social proof but the instrument that generates it — a full three-screen Net Promoter Score survey with a follow-up question tailored to how someone actually answered.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/nps-survey/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="NPS Survey Widget — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the classic 0–10 "how likely are you to recommend us" scale classifies any score into one of three groups with a single reusable function — 0–6 is a detractor, 7–8 is passive, 9–10 is a promoter — and that one classification then drives three different things at once: the highlight color on the button (red, amber, green), a recap badge, and which follow-up question appears next, pulled from a lookup object rather than a chain of if/else. The follow-up question is the detail that separates this from a generic feedback box: asking a detractor "what would improve your experience?" and asking a promoter "what do you love most?" surfaces genuinely different, more useful qualitative data than one fixed question ever could. A Skip button on the comment screen matters more than it looks — forcing a comment measurably lowers completion rates, so the widget still captures the numeric score from anyone unwilling to type.</p>
+
+<p><strong>Best for:</strong> post-purchase and post-onboarding feedback moments, or an always-available "share feedback" panel. <strong>Tip:</strong> the three screens are sibling containers toggled with <code>display</code>, never destroyed and rebuilt — that's the simplest possible state machine for a short linear flow, and it's the pattern worth reaching for before a routing library.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/nps-survey/">NPS Survey Widget</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<ol>
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs.</li>
+<li>Paste the HTML into your template, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — none of these nine need a CDN script or a build step.</li>
+<li>Prefer a component? Use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page.</li>
+<li>Replace the demo quotes with real ones before you touch any CSS — most of what looks like styling work is already done, and real testimonials need fewer changes than you'd expect.</li>
+<li>Keep at least one imperfect data point in the mix — a four-star review, a passive NPS response — wherever the pattern allows it. Uniform perfection is the fastest way to make social proof stop working.</li>
+</ol>
+
+<h2>Final thought</h2>
+
+<p>These nine cover the two halves of social proof: showing it — a <a href="https://fwdtools.com/ui-snippets/testimonial-card/">single quote</a>, a <a href="https://fwdtools.com/ui-snippets/testimonial-carousel/">carousel</a> or <a href="https://fwdtools.com/ui-snippets/testimonial-slider/">slider</a> for a few, a <a href="https://fwdtools.com/ui-snippets/testimonial-masonry/">masonry wall</a> or <a href="https://fwdtools.com/ui-snippets/testimonial-wall/">scrolling wall</a> for many, a <a href="https://fwdtools.com/ui-snippets/review-card/">review grid</a> or <a href="https://fwdtools.com/ui-snippets/rating-breakdown/">rating breakdown</a> for the aggregate, a <a href="https://fwdtools.com/ui-snippets/social-proof-popup/">popup</a> for real-time activity — and generating more of it with the <a href="https://fwdtools.com/ui-snippets/nps-survey/">NPS widget</a>. Start with the Testimonial Card if you just need one strong quote near a CTA, or the Rating Breakdown if a distribution will say more than an average ever could.</p>
+
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

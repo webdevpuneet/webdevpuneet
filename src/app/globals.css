@@ -1,0 +1,273 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #dde0e8;
+  --surface: #e8eaf1;
+  --surface2: #e0e3ec;
+  --surface3: #d4d7e2;
+  --border: rgba(0, 0, 0, 0.10);
+  --border2: rgba(0, 0, 0, 0.16);
+  --text: #111827;
+  --text2: #4b5563;
+  --text3: #5e6578;
+  --accent: #059669;
+  --accent-dim: rgba(5, 150, 105, 0.12);
+  --accent-glow: rgba(5, 150, 105, 0.22);
+  --err: #dc2626;
+  --err-dim: rgba(220, 38, 38, 0.08);
+  --warn: #d97706;
+
+  --radius: 8px;
+  --radius-lg: 12px;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-ui: 'Syne', sans-serif;
+
+  /* Theme-aware accent text colors — WCAG AA on light bg */
+  --clr-indigo: #4f46e5;
+  --clr-violet: #7c3aed;
+  --clr-purple: #7c3aed;
+  --clr-violet-dk: #6d28d9;
+}
+
+[data-theme="dark"] {
+  --bg: #0e0f11;
+  --surface: #16181d;
+  --surface2: #1d2028;
+  --surface3: #252830;
+  --border: rgba(255, 255, 255, 0.07);
+  --border2: rgba(255, 255, 255, 0.12);
+  --text: #e8eaf0;
+  --text2: #8b90a0;
+  --text3: #50556a;
+  --accent: #4ade9e;
+  --accent-dim: rgba(74, 222, 158, 0.12);
+  --accent-glow: rgba(74, 222, 158, 0.25);
+  --err: #ff6b6b;
+  --err-dim: rgba(255, 107, 107, 0.1);
+  --warn: #fbbf24;
+
+  /* Theme-aware accent text colors — vivid on dark bg */
+  --clr-indigo: #818cf8;
+  --clr-violet: #a78bfa;
+  --clr-purple: #a855f7;
+  --clr-violet-dk: #8b5cf6;
+}
+
+/* Sidebar collapse — adjust main content left margin */
+body.sidebar-left-collapsed [class*="mainWrap"] { margin-left: 32px !important; transition: margin-left 0.25s cubic-bezier(0.4,0,0.2,1); }
+
+
+
+html,
+body {
+  min-height: 100%;
+  overflow-x: clip;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 13px;
+}
+
+/* Deliberately NOT scroll-behavior:smooth on <html> site-wide — it also
+   hijacks Next.js's post-navigation scroll-to-top, turning every route change
+   into a visible "page opens already scrolled down, then animates up to top"
+   glitch. Nothing currently links to #tools/#learn-to-code/#freelancer-tools
+   with a plain hash anchor (checked), so there's no in-page smooth-scroll
+   depending on this. Opt individual elements into smooth scrolling instead. */
+#tools, #learn-to-code, #freelancer-tools { scroll-margin-top: 24px; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+
+html::-webkit-scrollbar-thumb { background: var(--text3); }
+
+/* Range sliders — theme-aware track color, properly centered */
+input[type="range"] {
+  color-scheme: light dark;
+  vertical-align: middle;
+}
+
+
+/* JSON Formatter syntax colors (used via dangerouslySetInnerHTML) */
+.j-key   { color: #0550ae; }
+.j-str   { color: #b45309; }
+.j-num   { color: #1d4ed8; }
+.j-bool  { color: #7c3aed; }
+.j-null  { color: #6b7280; }
+.j-punct { color: #374151; }
+.j-search         { background: rgba(59,130,246,0.2); border-radius: 2px; color: #1d4ed8; }
+.j-search-current { background: rgba(251, 146, 60, 0.6);  border-radius: 2px; color: inherit; }
+
+[data-theme="dark"] .j-key   { color: #7dd3fc; }
+[data-theme="dark"] .j-str   { color: #86efac; }
+[data-theme="dark"] .j-num   { color: #fda4af; }
+[data-theme="dark"] .j-bool  { color: #c4b5fd; }
+[data-theme="dark"] .j-null  { color: #94a3b8; }
+[data-theme="dark"] .j-punct { color: #64748b; }
+[data-theme="dark"] .j-search { background: rgba(253, 224, 71, 0.28); color: inherit; }
+
+/* SQL Formatter syntax colors (used via dangerouslySetInnerHTML) */
+.sql-cl  { color: #0550ae; font-weight: 600; }   /* clause keywords: SELECT FROM WHERE */
+.sql-kw  { color: #1d4ed8; }                      /* other keywords: AND OR CASE */
+.sql-st  { color: #b45309; }                      /* strings */
+.sql-nm  { color: #1d4ed8; }                      /* numbers */
+.sql-cm  { color: #6b7280; font-style: italic; }  /* comments */
+.sql-id  { color: #7c3aed; }                      /* quoted identifiers */
+.sql-op  { color: #374151; }                      /* operators */
+.sql-br  { color: #374151; }                      /* parentheses */
+.sql-pu  { color: #374151; }                      /* commas, semicolons */
+
+[data-theme="dark"] .sql-cl  { color: #60a5fa; }
+[data-theme="dark"] .sql-kw  { color: #93c5fd; }
+[data-theme="dark"] .sql-st  { color: #86efac; }
+[data-theme="dark"] .sql-nm  { color: #fda4af; }
+[data-theme="dark"] .sql-cm  { color: #4a5568; }
+[data-theme="dark"] .sql-id  { color: #c4b5fd; }
+[data-theme="dark"] .sql-op  { color: #94a3b8; }
+[data-theme="dark"] .sql-br  { color: #64748b; }
+[data-theme="dark"] .sql-pu  { color: #64748b; }
+
+/* Flexbox Builder code syntax colors (used via dangerouslySetInnerHTML) */
+.c-kw      { color: #7c3aed; }
+.c-prop    { color: #0550ae; }
+.c-val     { color: #0f766e; }
+.c-comment { color: #6b7280; }
+
+[data-theme="dark"] .c-kw      { color: #c792ea; }
+[data-theme="dark"] .c-prop    { color: #82aaff; }
+[data-theme="dark"] .c-val     { color: #d4f064; }
+[data-theme="dark"] .c-comment { color: #50556a; }
+
+/* HTML Playground syntax highlight */
+.hl-tag   { color: #f97316; font-weight: 600; }
+.hl-attr  { color: #2563eb; }
+.hl-val   { color: #16a34a; }
+.hl-eq    { color: var(--text3, #888); }
+.hl-punct { color: var(--text3, #888); }
+.hl-slash { color: var(--text3, #888); }
+.hl-text  { color: var(--text2, #444); }
+[data-theme="dark"] .hl-tag  { color: #fb923c; }
+[data-theme="dark"] .hl-attr { color: #60a5fa; }
+[data-theme="dark"] .hl-val  { color: #4ade80; }
+
+/* React Playground JSX syntax highlight */
+.rjx-kw    { color: #9333ea; }
+.rjx-hook  { color: #2563eb; }
+.rjx-str   { color: #16a34a; }
+.rjx-val   { color: #16a34a; }
+.rjx-num   { color: #dc2626; }
+.rjx-cm    { color: #6b7280; font-style: italic; }
+.rjx-tag   { color: #ea580c; font-weight: 600; }
+.rjx-comp  { color: #0891b2; font-weight: 600; }
+.rjx-attr  { color: #2563eb; }
+.rjx-brace { color: #374151; }
+.rjx-punct { color: #6b7280; }
+[data-theme="dark"] .rjx-kw   { color: #c084fc; }
+[data-theme="dark"] .rjx-hook { color: #60a5fa; }
+[data-theme="dark"] .rjx-str  { color: #4ade80; }
+[data-theme="dark"] .rjx-val  { color: #4ade80; }
+[data-theme="dark"] .rjx-num  { color: #fda4af; }
+[data-theme="dark"] .rjx-cm   { color: #4b5563; }
+[data-theme="dark"] .rjx-tag  { color: #fb923c; }
+[data-theme="dark"] .rjx-comp { color: #67e8f9; }
+[data-theme="dark"] .rjx-attr { color: #93c5fd; }
+[data-theme="dark"] .rjx-brace { color: #9ca3af; }
+[data-theme="dark"] .rjx-punct { color: #6b7280; }
+
+/* CSS Playground syntax highlight */
+.cp-cm    { color: #6b7280; font-style: italic; }
+.cp-at    { color: #7c3aed; font-weight: 600; }
+.cp-cls   { color: #2563eb; }
+.cp-id    { color: #dc2626; }
+.cp-ps    { color: #0891b2; }
+.cp-prop  { color: #0550ae; }
+.cp-num   { color: #dc2626; }
+.cp-str   { color: #b45309; }
+.cp-color { color: #059669; }
+.cp-var   { color: #0891b2; }
+.cp-br    { color: #374151; }
+.cp-pu    { color: #6b7280; }
+
+[data-theme="dark"] .cp-cm    { color: #4b5563; }
+[data-theme="dark"] .cp-at    { color: #c084fc; }
+[data-theme="dark"] .cp-cls   { color: #60a5fa; }
+[data-theme="dark"] .cp-id    { color: #fda4af; }
+[data-theme="dark"] .cp-ps    { color: #67e8f9; }
+[data-theme="dark"] .cp-prop  { color: #7dd3fc; }
+[data-theme="dark"] .cp-num   { color: #fda4af; }
+[data-theme="dark"] .cp-str   { color: #fcd34d; }
+[data-theme="dark"] .cp-color { color: #4ade80; }
+[data-theme="dark"] .cp-var   { color: #67e8f9; }
+[data-theme="dark"] .cp-br    { color: #64748b; }
+[data-theme="dark"] .cp-pu    { color: #4b5563; }
+
+/* UI Snippets — extra CSS tokens (cp-sel, cp-semi used in snippet CSS highlighter) */
+.cp-sel  { color: #2563eb; }
+.cp-semi { color: #374151; }
+[data-theme="dark"] .cp-sel  { color: #60a5fa; }
+[data-theme="dark"] .cp-semi { color: #64748b; }
+
+/* UI Snippets — JS syntax highlight */
+.js-kw  { color: #7c3aed; font-weight: 600; }
+.js-str { color: #16a34a; }
+.js-num { color: #dc2626; }
+.js-cm  { color: #6b7280; font-style: italic; }
+[data-theme="dark"] .js-kw  { color: #a78bfa; font-weight: 600; }
+[data-theme="dark"] .js-str { color: #4ade80; }
+[data-theme="dark"] .js-num { color: #fb923c; }
+[data-theme="dark"] .js-cm  { color: #4b5563; font-style: italic; }
+
+/* CSS Minifier / Beautifier syntax highlight */
+.cm-comment { color: #166534; }
+.cm-at      { color: #7c3aed; }
+.cm-sel     { color: #0891b2; }
+.cm-prop    { color: #1d4ed8; }
+.cm-val     { color: #b45309; }
+.cm-num     { color: #15803d; }
+.cm-punct   { color: #374151; }
+.cm-imp     { color: #dc2626; }
+.cm-colon   { color: var(--text2); }
+
+[data-theme="dark"] .cm-comment { color: #6a9955; }
+[data-theme="dark"] .cm-at      { color: #c586c0; }
+[data-theme="dark"] .cm-sel     { color: #4ec9b0; }
+[data-theme="dark"] .cm-prop    { color: #9cdcfe; }
+[data-theme="dark"] .cm-val     { color: #ce9178; }
+[data-theme="dark"] .cm-num     { color: #b5cea8; }
+[data-theme="dark"] .cm-punct   { color: #6b7280; }
+[data-theme="dark"] .cm-imp     { color: #f87171; }
+[data-theme="dark"] .cm-colon   { color: #d4d4d4; }
+
+/* HTML → JSX converter syntax highlight */
+.hj-tag   { color: #0369a1; }          /* HTML/JSX tags */
+.hj-attrN { color: #7c3aed; }          /* attribute names */
+.hj-attrV { color: #b45309; }          /* attribute string values */
+.hj-expr  { color: #dc2626; }          /* JSX expressions { } */
+.hj-cmt   { color: #6b7280; font-style: italic; }
+.hj-punct { color: #374151; }
+.hj-text  { color: #1f2937; }
+
+[data-theme="dark"] .hj-tag   { color: #4ec9b0; }
+[data-theme="dark"] .hj-attrN { color: #9cdcfe; }
+[data-theme="dark"] .hj-attrV { color: #ce9178; }
+[data-theme="dark"] .hj-expr  { color: #c586c0; }
+[data-theme="dark"] .hj-cmt   { color: #6a9955; }
+[data-theme="dark"] .hj-punct { color: #6b7280; }
+[data-theme="dark"] .hj-text  { color: #d4d4d4; }
+
+/* Shared spin animation (sync button, nav pill) */
+@keyframes spinCCW { to { transform: rotate(-360deg); } }
+
+/* Confetti animation (React + HTML Playgrounds) */
+@keyframes confettiFall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}

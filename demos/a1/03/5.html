@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Dashboard KPI Tile">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Dashboard KPI Tile</h1>
+    <p class="hint">Drag the handle wider — once the tile crosses 260px it reveals a trend line and description it was hiding, not just resizing a number. This is the pattern behind a dashboard whose tiles look right whether a widget occupies one grid column or three.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="resizeBox" id="rzBox" style="width:170px">
+      <div class="kpiTile">
+        <span class="kpiLabel">Monthly revenue</span>
+        <strong class="kpiValue">$48.2k</strong>
+        <div class="kpiDetail">
+          <span class="kpiTrend">&#9650; 12.4% vs. last month</span>
+          <p class="kpiDesc">Includes new subscriptions, renewals, and one-time invoices.</p>
+        </div>
+      </div>
+      <div class="resizeHandle" id="rzHandle" aria-hidden="true"></div>
+    </div>
+    <div class="readout">
+      <span>Tile width: <strong id="readoutValue">170px</strong></span>
+      <span>Detail shown: <strong id="readoutState">no</strong></span>
+    </div>
+    <pre class="ruleTag">.kpiDetail { display: none; }
+@container (min-width: 260px) {
+  .kpiDetail { display: block; }
+}</pre>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+    --good: #16a34a;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 52em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+  .readout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 16px;
+    font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--sub);
+  }
+  .readout strong { color: var(--accent); font-weight: 700; }
+  .ruleTag {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #eceef3;
+    padding: 8px 14px;
+    border-radius: 10px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .resizeBox {
+    position: relative;
+    max-width: 100%;
+    min-width: 140px;
+    box-sizing: border-box;
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    padding: 16px 22px 16px 16px;
+    background: #fff;
+  }
+  .resizeHandle {
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 16px;
+    cursor: ew-resize;
+    background: repeating-linear-gradient(90deg, var(--line) 0 2px, transparent 2px 6px);
+    border-left: 1px solid var(--line);
+    touch-action: none;
+  }
+  .resizeHandle:hover { background-color: #eef0ff; }
+
+  .kpiTile {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    /* The tile reports its own width; the reveal below is keyed off that,
+       not off how wide the dashboard's viewport happens to be. */
+    container-type: inline-size;
+  }
+  .kpiLabel { font-size: 11.5px; color: var(--sub); font-weight: 600; }
+  .kpiValue { font-size: 26px; font-weight: 800; letter-spacing: -0.01em; }
+  .kpiTrend { display: block; margin-top: 6px; font-size: 12px; font-weight: 700; color: var(--good); }
+  .kpiDesc { margin: 4px 0 0; font-size: 12px; color: var(--sub); }
+
+  /* The rule this demo is about — hidden until there's genuinely room. */
+  .kpiDetail { display: none; }
+  @container (min-width: 260px) {
+    .kpiDetail { display: block; }
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var box = document.getElementById('rzBox');
+  var handle = document.getElementById('rzHandle');
+  var outWidth = document.getElementById('readoutValue');
+  var outState = document.getElementById('readoutState');
+  var startX = 0, startWidth = 0, dragging = false;
+
+  function report() {
+    var w = Math.round(box.getBoundingClientRect().width);
+    outWidth.textContent = w + 'px';
+    outState.textContent = w >= 260 ? 'yes' : 'no';
+  }
+
+  function onMove(e) {
+    if (!dragging) return;
+    var x = e.touches ? e.touches[0].clientX : e.clientX;
+    var next = Math.max(140, Math.min(440, startWidth + (x - startX)));
+    box.style.width = next + 'px';
+    report();
+  }
+  function onUp() {
+    dragging = false;
+    document.removeEventListener('pointermove', onMove);
+    document.removeEventListener('pointerup', onUp);
+  }
+  handle.addEventListener('pointerdown', function (e) {
+    dragging = true;
+    startX = e.clientX;
+    startWidth = box.getBoundingClientRect().width;
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp);
+    e.preventDefault();
+  });
+
+  report();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

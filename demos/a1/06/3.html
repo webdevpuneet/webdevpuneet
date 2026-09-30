@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Debounce vs Throttle, Side by Side">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Debounce vs Throttle, Side by Side</h1>
+    <p class="hint">Move your mouse (or finger) around inside the box below and keep it moving. Watch how each track fills — that's the entire difference between the two techniques, made visible.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="moveZone" id="moveZone">Move here, and keep moving</div>
+    <div class="tracks">
+      <div class="trackRow"><span class="trackLabel">Raw events</span><div class="track" id="trackRaw"></div></div>
+      <div class="trackRow"><span class="trackLabel">Throttled (150ms)</span><div class="track" id="trackThrottle"></div></div>
+      <div class="trackRow"><span class="trackLabel">Debounced (300ms)</span><div class="track" id="trackDebounce"></div></div>
+    </div>
+    <button type="button" id="resetBtn" class="toggleBtn">Reset tracks</button>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 14px 16px 26px; }
+
+  .moveZone {
+    width: 100%;
+    max-width: 420px;
+    height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px dashed var(--line);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--sub);
+    font: 600 12.5px system-ui, sans-serif;
+    cursor: crosshair;
+    user-select: none;
+    touch-action: none;
+  }
+
+  .tracks { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 420px; }
+  .trackRow { display: flex; align-items: center; gap: 10px; }
+  .trackLabel { width: 118px; flex-shrink: 0; text-align: right; font: 700 10.5px system-ui, sans-serif; color: var(--sub); text-transform: uppercase; letter-spacing: .03em; }
+  .track {
+    flex: 1;
+    height: 24px;
+    background: #eceef3;
+    border-radius: 6px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .tick { display: inline-block; width: 3px; height: 100%; margin-right: 2px; }
+  .tickRaw { background: #c7cad4; }
+  .tickThrottle { background: #0ea5a4; }
+  .tickDebounce { background: var(--accent); }
+
+  .toggleBtn {
+    font: 700 12.5px system-ui, sans-serif;
+    padding: 8px 16px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: #fff;
+    color: var(--accent);
+    cursor: pointer;
+  }
+  .toggleBtn:hover { background: #eef0ff; }
+</script>
+
+<script type="text/plain" id="js">
+  function throttle(fn, limit) {
+    var inThrottle = false;
+    return function () {
+      var args = arguments;
+      if (!inThrottle) {
+        fn.apply(null, args);
+        inThrottle = true;
+        setTimeout(function () { inThrottle = false; }, limit);
+      }
+    };
+  }
+
+  function debounce(fn, delay) {
+    var timer;
+    return function () {
+      var args = arguments;
+      clearTimeout(timer);
+      timer = setTimeout(function () { fn.apply(null, args); }, delay);
+    };
+  }
+
+  var zone = document.getElementById('moveZone');
+  var trackRaw = document.getElementById('trackRaw');
+  var trackThrottle = document.getElementById('trackThrottle');
+  var trackDebounce = document.getElementById('trackDebounce');
+
+  function addTick(trackEl, cls) {
+    var t = document.createElement('span');
+    t.className = 'tick ' + cls;
+    trackEl.appendChild(t);
+    while (trackEl.children.length > 140) trackEl.removeChild(trackEl.firstChild);
+    trackEl.scrollLeft = trackEl.scrollWidth;
+  }
+
+  var throttled = throttle(function () { addTick(trackThrottle, 'tickThrottle'); }, 150);
+  var debounced = debounce(function () { addTick(trackDebounce, 'tickDebounce'); }, 300);
+
+  function onMove() {
+    addTick(trackRaw, 'tickRaw');
+    throttled();
+    debounced();
+  }
+
+  zone.addEventListener('mousemove', onMove);
+  zone.addEventListener('touchmove', onMove);
+
+  document.getElementById('resetBtn').addEventListener('click', function () {
+    [trackRaw, trackThrottle, trackDebounce].forEach(function (t) { t.innerHTML = ''; });
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Nesting Rules Inside a Layer">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Nesting rules inside a layer</h1>
+    <p class="hint">Hover the card. Its hover state and inner title are written with native CSS nesting (<code>&amp;</code> and a bare nested selector), all inside a single <code>@layer components { }</code> block &mdash; the two features compose without any special syntax.</p>
+  </header>
+  <main class="stageWrap">
+    <article class="card" id="card">
+      <h3>Nested &amp; layered</h3>
+      <p>Hover this card.</p>
+    </article>
+    <p class="note" id="note">Computing...</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 54em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 34px 18px 40px; }
+
+  @layer components {
+    .card {
+      width: 240px;
+      padding: 20px;
+      background: #fff;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      text-align: center;
+      transition: border-color .2s, transform .2s;
+
+      /* Nested compound selector: compiles to ".card:hover" */
+      &:hover {
+        border-color: var(--accent);
+        transform: translateY(-3px);
+      }
+
+      /* Bare nested selector: compiles to ".card h3" (descendant) */
+      h3 {
+        margin: 0 0 6px;
+        font-size: 15px;
+      }
+
+      p {
+        margin: 0;
+        font-size: 12.5px;
+        color: var(--sub);
+      }
+    }
+  }
+
+  .note { margin: 0; max-width: 54em; font-size: 12.5px; color: var(--sub); text-align: center; }
+  .note strong { color: var(--ink); }
+</script>
+
+<script type="text/plain" id="js">
+  var card = document.getElementById('card');
+  var note = document.getElementById('note');
+
+  function report() {
+    var border = getComputedStyle(card).borderTopColor;
+    var hovered = border === 'rgb(99, 102, 241)';
+    note.innerHTML = hovered
+      ? 'Border color: <strong>indigo</strong> &mdash; the nested <strong>&amp;:hover</strong> rule inside @layer components resolved to <strong>.card:hover</strong> exactly as it would outside a layer. Layers change WHERE a rule ranks in the cascade; they don\'t change how nesting expands selectors.'
+      : 'Border color: default grey. Hover the card to trigger the nested <strong>&amp;:hover</strong> rule.';
+  }
+
+  card.addEventListener('mouseenter', report);
+  card.addEventListener('mouseleave', report);
+  report();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

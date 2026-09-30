@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="snap fighting a slow scrub">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>snap fighting a slow scrub</h1>
+    <p class="hint">Both zones use the same heavy <code>scrub: 2</code> catch-up delay. In Zone A, flick-scroll and release fast &mdash; the snap fires before the scrub even catches up, so it visibly jumps. Zone B adds a <code>delay</code> and settles cleanly.</p>
+  </header>
+  <div class="spacer">Scroll &darr;</div>
+  <div class="pinSection zoneA">
+    <div class="zoneLabel">Zone A &mdash; delay: 0 (fights the catch-up)</div>
+    <div class="card" id="cardA">
+      <div class="num" id="numA">0.00</div>
+    </div>
+  </div>
+  <div class="mid">Zone A released &mdash; scroll on to Zone B</div>
+  <div class="pinSection zoneB">
+    <div class="zoneLabel">Zone B &mdash; delay: 0.3 (waits for the catch-up)</div>
+    <div class="card cardB" id="cardB">
+      <div class="num" id="numB">0.00</div>
+    </div>
+  </div>
+  <div class="spacer end">Released &mdash; keep scrolling</div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .hint code { background: #eceef2; padding: 1px 5px; border-radius: 4px; font-size: 11.5px; }
+  .spacer { height: 200px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 260px; }
+  .mid { height: 120px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 11px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .pinSection { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; height: 220px; }
+  .zoneLabel { font: 700 11px ui-monospace, monospace; color: var(--sub); text-align: center; padding: 0 20px; }
+  .card {
+    width: 200px;
+    padding: 22px;
+    text-align: center;
+    background: #b91c1c;
+    color: #fff;
+    border-radius: 14px;
+    box-shadow: 0 14px 34px rgba(185,28,28,0.3);
+  }
+  .cardB { background: #15803d; box-shadow: 0 14px 34px rgba(21,128,61,0.3); }
+  .num { font: 800 24px ui-monospace, monospace; }
+</script>
+
+<script type="text/plain" id="js">
+  gsap.registerPlugin(ScrollTrigger);
+
+  var numA = document.getElementById('numA');
+  var numB = document.getElementById('numB');
+
+  ScrollTrigger.create({
+    trigger: '.zoneA',
+    start: 'top top',
+    end: '+=700',
+    pin: true,
+    scrub: 2, // heavy catch-up — the tween lags well behind real scroll position
+    snap: {
+      snapTo: [0, 1],
+      duration: 0.3,
+      delay: 0 // fires the instant scroll stops, even mid catch-up — causes a visible jump
+    },
+    onUpdate: function (self) { numA.textContent = self.progress.toFixed(2); }
+  });
+
+  ScrollTrigger.create({
+    trigger: '.zoneB',
+    start: 'top top',
+    end: '+=700',
+    pin: true,
+    scrub: 2, // same heavy catch-up as Zone A
+    snap: {
+      snapTo: [0, 1],
+      duration: 0.3,
+      delay: 0.3 // waits long enough for the scrub tween to finish catching up first
+    },
+    onUpdate: function (self) { numB.textContent = self.progress.toFixed(2); }
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

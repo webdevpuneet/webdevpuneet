@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Guessing at Permission State Instead of Asking">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Guessing at permission state instead of asking</h1>
+    <p class="hint">Load this demo and watch the fixed column check clipboard-write permission state up front, before any click happens, versus the broken column's blind guess.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken</h2>
+        <p class="note">No idea what will happen until you click.</p>
+        <button type="button" class="btn" id="badBtn">Copy</button>
+        <p class="status" id="badStatus">Click to find out -- the only way this column knows anything.</p>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed</h2>
+        <p class="note">Checked permission state on load:</p>
+        <p class="permState" id="permState">checking...</p>
+        <button type="button" class="btn" id="goodBtn">Copy</button>
+        <p class="status" id="goodStatus"></p>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 56em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .note { font-size: 11.5px; color: var(--sub); margin: 0 0 8px; }
+  .permState { font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; background: #f0f1f5; margin: 0 0 10px; }
+  .btn { padding: 9px 18px; border-radius: 8px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: 700 12.5px system-ui, sans-serif; cursor: pointer; margin-top: 4px; }
+  .btn:hover { border-color: var(--accent); }
+  .status { margin: 8px 0 0; font-size: 11.5px; color: var(--sub); line-height: 1.5; min-height: 2.8em; }
+  .status.ok { color: var(--green); font-weight: 700; }
+  .status.err { color: var(--red); font-weight: 700; }
+</script>
+
+<script type="text/plain" id="js">
+  function legacyCopyValue(value) {
+    var ta = document.createElement('textarea');
+    ta.value = value;
+    ta.style.position = 'fixed';
+    ta.style.top = '0';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  function setupBad() {
+    var btn = document.getElementById('badBtn');
+    var status = document.getElementById('badStatus');
+
+    btn.addEventListener('click', function () {
+      // BROKEN: never checked anything ahead of time. Finds out live,
+      // every single time, with no chance to give the user a heads-up.
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText('demo-text').then(
+          function () { status.className = 'status ok'; status.textContent = 'It worked, this time.'; },
+          function () { status.className = 'status err'; status.textContent = '...failed. No idea why, until now.'; }
+        );
+      } else {
+        status.className = 'status err';
+        status.textContent = 'Modern API unavailable. Also no idea until now.';
+      }
+    });
+  }
+
+  function setupGood() {
+    var permState = document.getElementById('permState');
+    var btn = document.getElementById('goodBtn');
+    var status = document.getElementById('goodStatus');
+
+    function checkPermission() {
+      if (!(navigator.permissions && navigator.permissions.query)) {
+        permState.textContent = 'Permissions API unavailable';
+        return;
+      }
+      navigator.permissions.query({ name: 'clipboard-write' }).then(
+        function (result) {
+          permState.textContent = 'state: ' + result.state;
+        },
+        function () {
+          permState.textContent = 'query() rejected this descriptor -- browser does not support it';
+        }
+      );
+    }
+
+    btn.addEventListener('click', function () {
+      status.className = 'status';
+      status.textContent = 'Attempting the actual write now (the permission check above is informative, not a guarantee)...';
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText('demo-text').then(
+          function () { status.className = 'status ok'; status.textContent = 'Copied.'; },
+          function (err) {
+            var ok = legacyCopyValue('demo-text');
+            status.className = ok ? 'status ok' : 'status err';
+            status.textContent = (ok ? 'Copied via execCommand fallback' : 'Both paths failed') +
+              ' -- modern API said ' + (err && err.name ? err.name : 'rejected') + '.';
+          }
+        );
+      } else {
+        var ok = legacyCopyValue('demo-text');
+        status.className = ok ? 'status ok' : 'status err';
+        status.textContent = ok ? 'Copied via execCommand.' : 'Copy failed.';
+      }
+    });
+
+    try {
+      checkPermission();
+    } catch (e) {
+      permState.textContent = 'Permissions check threw -- fall back to try/catch on click';
+    }
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

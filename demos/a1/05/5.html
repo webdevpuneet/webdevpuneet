@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="A Reducer as a State Machine">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>A Reducer as a State Machine</h1>
+    <p class="hint">Click "Next" to advance the light through its only three legal transitions. The reducer itself is the rulebook — there's no path to an invalid color.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 20px 16px 30px; }
+
+  .card { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 22px; border: 1.5px dashed var(--line); border-radius: 12px; background: #fff; }
+  .housing { display: flex; flex-direction: column; gap: 10px; padding: 14px; background: #1e1f26; border-radius: 14px; }
+  .lamp { width: 46px; height: 46px; border-radius: 50%; background: #33343d; }
+  .lamp--red.lamp--on { background: #ef4444; box-shadow: 0 0 22px 6px rgba(239,68,68,0.55); }
+  .lamp--yellow.lamp--on { background: #eab308; box-shadow: 0 0 22px 6px rgba(234,179,8,0.5); }
+  .lamp--green.lamp--on { background: #22c55e; box-shadow: 0 0 22px 6px rgba(34,197,94,0.55); }
+
+  .meta { font: 700 13px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.04em; color: var(--sub); }
+  .actBtn { padding: 9px 18px; font: 700 12.5px system-ui, sans-serif; color: #fff; background: var(--accent); border: none; border-radius: 8px; cursor: pointer; }
+  .actBtn:hover { filter: brightness(1.08); }
+
+  .ruleTag { font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #3f4252; background: #eceef3; padding: 10px 14px; border-radius: 10px; max-width: 100%; overflow-x: auto; white-space: pre; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useReducer = React.useReducer;
+
+  var TRANSITIONS = { red: 'green', green: 'yellow', yellow: 'red' };
+
+  function reducer(state, action) {
+    switch (action.type) {
+      case 'next': return TRANSITIONS[state];
+      default: return state;
+    }
+  }
+
+  function TrafficLight() {
+    var r = useReducer(reducer, 'red'), color = r[0], dispatch = r[1];
+    return e('div', { className: 'card' },
+      e('div', { className: 'housing' },
+        e('div', { className: 'lamp lamp--red' + (color === 'red' ? ' lamp--on' : '') }),
+        e('div', { className: 'lamp lamp--yellow' + (color === 'yellow' ? ' lamp--on' : '') }),
+        e('div', { className: 'lamp lamp--green' + (color === 'green' ? ' lamp--on' : '') })
+      ),
+      e('div', { className: 'meta' }, color, ' → next is ', TRANSITIONS[color]),
+      e('button', { className: 'actBtn', onClick: function () { dispatch({ type: 'next' }); } }, 'Next'),
+      e('pre', { className: 'ruleTag' }, "const TRANSITIONS = { red: 'green', green: 'yellow', yellow: 'red' };\n\nfunction reducer(state, action) {\n  switch (action.type) {\n    case 'next': return TRANSITIONS[state];\n    default: return state;\n  }\n}")
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(TrafficLight));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

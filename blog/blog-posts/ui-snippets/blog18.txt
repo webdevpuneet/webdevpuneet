@@ -1,0 +1,168 @@
+<h1>10 Copy-Paste Layout Snippets That Replace a CSS Grid Framework</h1>
+
+<p>Layout is the part of front-end work that feels like it should be solved by now. It mostly is — CSS Grid, flexbox, <code>position: sticky</code> and scroll snap cover almost everything a page needs — and yet the reflex when a design lands is still to install something. A grid framework for a card list that <code>auto-fill</code> already handles. A masonry library for a gallery that four lines of CSS can do. A resizable-panel package for a divider you can drag with about forty lines of JavaScript. The framework isn't wrong, exactly. It's just usually answering a question the browser stopped asking a few years ago.</p>
+
+<p>Below are 10 free layout snippets you can preview live and copy in seconds: an app shell, a responsive card grid, a bento grid, masonry, a filterable portfolio, a split-screen landing page, a sticky sidebar with a live table of contents, full-page snap scrolling, drag-to-resize panels, and a virtual scroll list that handles ten thousand rows. Two of them are pure CSS with not a line of JavaScript, and two more use it only for a menu toggle or a touch fallback. The rest use it for behavior — filtering, position tracking, dragging, windowing — and none of them use it for positioning.</p>
+
+<p>Each one comes with <strong>how it actually works</strong>, <strong>when to reach for it</strong>, and a tip for adapting it. They're plain HTML, CSS and vanilla JavaScript with no build step and no dependencies.</p>
+
+<p>Every snippet below is a <strong>live, interactive preview</strong> — resize it, scroll it, drag it, right in the article. When you find one you like, hit <strong>View / Edit Code</strong> to grab the HTML/CSS/JS or export it to React, Vue, Angular or Tailwind.</p>
+
+<h2>What makes a layout hold up</h2>
+
+<p>Three ideas run through all ten, and they're worth naming up front because they're what separates a layout that survives real content from one that only works in the mockup:</p>
+
+<ul>
+<li><strong>Let the container decide, not the breakpoint.</strong> <code>repeat(auto-fill, minmax(220px, 1fr))</code>, <code>columns: 3</code>, <code>flex: 1</code> — each of these describes an intention ("cards at least 220px wide, fill the row"), not a pixel width at a screen size. Intentions survive a redesign; hard-coded breakpoints don't.</li>
+<li><strong>One function owns each piece of derived state.</strong> The resizable panels' <code>setSplit()</code>, the virtual list's <code>render()</code>, the filter grid's <code>filterItems()</code> — every interaction routes through a single function, so the layout can never end up in a state where two parts of the UI disagree about what's on screen.</li>
+<li><strong>The browser is better at layout math than you are.</strong> Masonry with CSS columns, snap points with <code>scroll-snap-type</code>, equal-height columns with grid, position tracking with <code>IntersectionObserver</code> — every one of these replaces a scroll handler doing arithmetic on <code>getBoundingClientRect()</code> with something the browser computes natively, off the main thread where it can.</li>
+</ul>
+
+<h2>1. Holy Grail Layout</h2>
+
+<p>The classic app shell: full-width header and footer, with a fixed nav, a fluid main column and a fixed aside between them — all three the same height, however much content each holds.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/holy-grail-layout/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Holy Grail Layout — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> two nested grids, and that's the whole layout. The outer shell is <code>grid-template-rows: auto 1fr auto</code> on a <code>min-height: 100vh</code> container, which is what pins the footer to the bottom of short pages without any <code>calc()</code> or sticky-footer hack — the middle row simply absorbs whatever height is left. Inside it, <code>grid-template-columns: 200px 1fr 220px</code> gives the three-column row: fixed rails, fluid center. The equal-height columns that made this layout famously hard in the float era are now free, because grid items stretch to their row by default. The responsive behavior is two ordered retreats: at 860px the aside moves to <code>grid-column: 1 / -1</code> and becomes a horizontal flex row under the content, and at 560px the nav leaves the flow entirely — <code>position: fixed</code>, <code>transform: translateX(-100%)</code>, slid back in by an <code>.open</code> class. The JavaScript is two event listeners: one toggles that class and mirrors it into <code>aria-expanded</code>, and one closes the drawer when a link inside it is clicked — since leaving a nav open over the page you just navigated to is the most common mobile-menu bug there is.</p>
+
+<p><strong>Best for:</strong> dashboards, docs sites, admin panels — anything with persistent navigation on one side and contextual links on the other. <strong>Tip:</strong> the card area inside main uses <code>repeat(auto-fill, minmax(140px, 1fr))</code>, which means it reflows correctly on its own as the fluid column changes width — nest a container-driven grid inside a fixed-rail layout and you rarely need a second breakpoint.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/holy-grail-layout/">Holy Grail Layout</a></p>
+
+<h2>2. Responsive Card Grid</h2>
+
+<p>The single most reusable layout on this list: cards that reflow from three columns to two to one without a media query anywhere.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/css-grid-cards/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Responsive Card Grid — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the entire responsive behavior is <code>grid-template-columns: repeat(auto-fill, minmax(220px, 1fr))</code>. Read it as a rule rather than a layout: every column is at least 220px, columns share leftover space equally, and the browser fits as many as it can. Narrow the container and a column drops out; widen it and one appears. No breakpoints, no JavaScript, no resize listener — and crucially, it responds to the <em>container's</em> width, not the viewport's, so the same grid works in a full-width page and inside a narrow sidebar with no changes. The cards themselves are ordinary: <code>overflow: hidden</code> with a border radius so the colored thumbnail clips to the rounded corner, and a hover state that lifts the card 2px while raising a soft shadow.</p>
+
+<p><strong>Best for:</strong> blog indexes, product listings, team pages, docs landing pages — the default answer whenever the design says "a grid of cards". <strong>Tip:</strong> swap <code>auto-fill</code> for <code>auto-fit</code> if you'd rather a small number of cards stretch to fill the row instead of leaving empty column tracks. That one word is the entire difference between the two, and it's the thing people most often get wrong.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/css-grid-cards/">Responsive Card Grid</a></p>
+
+<h2>3. Bento Grid</h2>
+
+<p>The asymmetric feature grid that Apple and Linear made the default look for product pages — cells of different widths, arranged so the important ones get more room.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bento-grid/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bento Grid — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a plain three-column grid — <code>repeat(3, 1fr)</code> with a 10px gap — where exactly two cells carry <code>grid-column: span 2</code>. That's the whole trick. The first cell spans two columns so its neighbor takes the remaining one, giving a 2+1 row. The next cell is a single, which pushes the following span-2 cell into columns two and three — so the second row reads 1+2 without a single line of code saying so. No <code>grid-template-areas</code>, no explicit row or column start values, no manual placement of any kind — the browser's auto-placement algorithm derives the whole asymmetric arrangement from two span declarations. Two cells get gradient backgrounds instead of the flat card surface, which is what stops the grid reading as a uniform card list; the rest inherit one shared <code>.cell</code> style. Every cell lifts 2px on hover and brightens its border, both on a short transition, and the whole thing is zero JavaScript.</p>
+
+<p><strong>Best for:</strong> feature sections, landing pages that need to preview a product without a screenshot, portfolio grids, and stat-heavy "why us" blocks. <strong>Tip:</strong> keep it to one span-2 cell per row and let auto-placement do the rest — the moment you start writing explicit <code>grid-row</code> values you've signed up for maintaining them at every breakpoint. For a uniform-cell version of the same idea, the <a href="https://fwdtools.com/ui-snippets/css-grid-cards/">Responsive Card Grid</a> above is the simpler starting point.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bento-grid/">Bento Grid</a></p>
+
+<h2>4. Masonry Grid</h2>
+
+<p>The Pinterest layout: cards of different heights packing into columns with no gaps — and no masonry library.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/masonry-grid/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Masonry Grid — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>columns: 3</code> and <code>column-gap: 12px</code> on the container, plus <code>break-inside: avoid</code> on every card. That's the layout. CSS multi-column fills top-to-bottom within a column before moving to the next, which is exactly the masonry fill order, and it handles variable heights natively — no measuring, no absolute positioning, no reflow pass after images load, and no library recalculating anything on resize. <code>break-inside: avoid</code> is the one line people forget, and without it a tall card will happily split its top half into one column and its bottom half into the next. The cards are rendered from a JavaScript array so you can filter and sort them as data, and a media query drops to two columns on narrow screens.</p>
+
+<p>The honest trade-off: multi-column is column-major, so with three columns the DOM order 1-2-3-4 reads down the left column, not across the top row. If the visual order has to match the source order — a ranked list, a feed where recency matters — this is the wrong tool and a JavaScript masonry library is the right one.</p>
+
+<p><strong>Best for:</strong> image galleries, moodboards, design showcases, testimonial walls — anywhere the arrangement is decorative rather than ranked. Pairs naturally with a <a href="https://fwdtools.com/ui-snippets/photo-gallery/">photo gallery lightbox</a> on click. <strong>Tip:</strong> the demo builds its cards with <code>grid.innerHTML +=</code> inside a loop, which is fine for nine items but reparses the entire grid on every iteration. For a real gallery, build one HTML string and assign it once.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/masonry-grid/">Masonry Grid</a></p>
+
+<h2>5. Portfolio Filter Grid</h2>
+
+<p>A category-filtered work grid: tabs with per-category counts, items that animate in as a staggered wave, and an empty state for categories with nothing in them.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/portfolio-filter-grid/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Portfolio Filter Grid — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each item carries a <code>data-cat</code> attribute and each tab a <code>data-filter</code>, and filtering is one pass that toggles a <code>.hide</code> class (<code>display: none</code>) based on whether they match. The interesting part is the entrance animation. Items animate in with a keyframe, but a CSS animation only runs once per element — re-showing a hidden card would normally just pop it back with no motion. The fix is the standard restart trick: remove the animation class, force a synchronous reflow by reading <code>offsetWidth</code>, then re-add it. Because the delay is computed from a counter that only increments for <em>visible</em> items (<code>shown * 0.045s</code>), the stagger is always a clean cascade across whatever's actually on screen, rather than inheriting gaps from the hidden ones. Items use <code>aspect-ratio: 1</code>, so the grid stays a perfect square lattice regardless of what's inside them, and a gradient overlay via <code>::after</code> keeps the white caption legible over any thumbnail color.</p>
+
+<p><strong>Best for:</strong> portfolios, case study indexes, project galleries, and any "browse by category" listing. <strong>Tip:</strong> the tab counts are hardcoded in the markup here. When you wire it to real data, derive them from the items themselves — a count that says "Design 3" next to two visible cards is worse than no count at all. Consider pairing it with a proper <a href="https://fwdtools.com/ui-snippets/empty-state/">empty state</a> if a filter can genuinely return nothing.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/portfolio-filter-grid/">Portfolio Filter Grid</a></p>
+
+<h2>6. Split Screen Layout</h2>
+
+<p>Two full-height halves for two audiences — and hovering either one lets it push the other aside.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/split-screen-layout/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Split Screen Layout — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> both halves are flex children at <code>flex: 1</code>, so they split the viewport evenly at rest. The expand effect is two selectors working together: <code>.sps:hover .sps-half { flex: 0.7 }</code> shrinks <em>both</em> halves the moment the pointer enters the container, then <code>.sps:hover .sps-half:hover { flex: 1.6 }</code> re-expands only the one actually under the cursor. Putting the shrink on the parent's hover is what makes the effect symmetrical. A sibling selector can only reach forward — <code>.sps-half:hover + .sps-half</code> styles the half that comes after, never the one before it — so hovering the left half would shrink the right, and hovering the right half would do nothing at all. A <code>transition: flex .5s</code> with a sharp cubic-bezier does the animating, and the whole effect is scoped inside <code>@media (min-width: 721px)</code> so it never fires where it can't work. Below that, the halves stack vertically at <code>min-height: 50vh</code> each. The only JavaScript is a touch fallback: under <code>matchMedia('(hover: none)')</code>, tapping a half expands it — and taps that land on a button are ignored, so the calls to action keep working instead of being swallowed by the expand handler.</p>
+
+<p><strong>Best for:</strong> pricing or audience forks (personal vs. teams, buy vs. sell, students vs. professionals), and landing pages with exactly two equally-weighted paths. <strong>Tip:</strong> two halves is the limit for this pattern — with three, the hovered-vs-others ratio stops reading as a deliberate choice and starts reading as a bug. For more than two paths, use a <a href="https://fwdtools.com/ui-snippets/split-hero/">split hero</a> with a card row underneath instead.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/split-screen-layout/">Split Screen Layout</a></p>
+
+<h2>7. Sticky Sidebar</h2>
+
+<p>Long-form content with a sidebar that follows you down the page and highlights whichever section you're currently reading.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/sticky-sidebar/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sticky Sidebar — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the layout is a two-column grid, and the sidebar is <code>position: sticky; top: 20px</code>. The line that makes it actually work is <code>align-items: start</code> on the grid (mirrored by <code>align-self: start</code> on the item) — without it, grid stretches the sidebar to the full height of the row, and a sticky element that already fills its container has nowhere to travel, which is the single most common reason "my sticky sidebar isn't sticking". The active-section tracking is an <code>IntersectionObserver</code> with <code>rootMargin: '-20% 0px -70% 0px'</code>, which trims 20% off the top of the viewport and 70% off the bottom, leaving a band about a tenth of the screen tall in the upper third: a section counts as "current" only while it's passing through that band, which is a far better proxy for what someone is reading than "is any part of it visible". No scroll handler, no <code>getBoundingClientRect()</code> loop, no throttling to write. Sections carry <code>scroll-margin-top</code> so smooth-scrolled anchors don't land jammed against the top edge, and on narrow screens the sidebar drops to <code>position: static</code> below the content.</p>
+
+<p><strong>Best for:</strong> documentation, long articles, guides, changelogs — anything with headings a reader might want to jump between. <strong>Tip:</strong> the observer fires per intersecting section, so with very short sections two can qualify in quick succession and the highlight can flicker. If your sections are short, narrow the band instead — something like <code>-30% 0px -69%</code> leaves a strip barely 1% tall, which only one section can occupy at a time.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/sticky-sidebar/">Sticky Sidebar</a></p>
+
+<h2>8. Full Page Scroll</h2>
+
+<p>Full-viewport sections that snap into place as you scroll, with a dot navigator that tracks your position and keyboard controls.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/full-page-scroll/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Full Page Scroll — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the snapping is entirely CSS — <code>scroll-snap-type: y mandatory</code> on the scroll container and <code>scroll-snap-align: start</code> on each 100vh section. That means the wheel, a trackpad swipe, a touch drag and a keyboard scroll all snap identically, because the browser owns the behavior rather than a hijacked scroll handler. This is the whole reason to prefer scroll snap over a fullpage library: hijacking scroll breaks momentum, breaks find-in-page, breaks the scrollbar, and breaks on every browser that updates its scrolling physics. The dot navigator is generated from the section list instead of hand-written markup, so adding a fifth section adds a fifth dot for free, and the active dot is driven by an <code>IntersectionObserver</code> scoped to the scroller with <code>threshold: 0.6</code> — meaning a section only claims the dot once it's more than 60% visible. Because the observer watches the result rather than the input, the dot stays correct no matter how you got there: wheel, swipe, arrow keys, or a click on another dot. Each section's background is a <code>--bg</code> custom property set inline, so a new section needs one attribute instead of a new CSS rule.</p>
+
+<p><strong>Best for:</strong> product tours, launch pages, portfolios, and pitch-deck-style storytelling sites. <strong>Tip:</strong> <code>mandatory</code> snapping forces every scroll to land on a section boundary, which is wrong for any section taller than the viewport — if your content might overflow, switch to <code>proximity</code>, which only snaps when you're already close.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/full-page-scroll/">Full Page Scroll</a></p>
+
+<h2>9. Drag-to-Resize Split Panels</h2>
+
+<p>The editor-and-preview split every code playground has: a divider you can drag, double-click to reset, and move with the arrow keys.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/drag-resize-panels/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Drag-to-Resize Split Panels — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the left pane has an explicit percentage width and the right pane is <code>flex: 1</code>, so only one number ever needs to change — set the left pane's width and the right one absorbs the remainder automatically. A single <code>setSplit(pct)</code> function is the only thing allowed to write that number: it clamps the value between an 18% minimum and its mirror at 82%, sets the width, and updates both percentage readouts in the same pass, so the two labels can never disagree. Every input calls it — the drag, the double-click reset, and the arrow keys, which nudge by 4% at a time and work at all because <code>tabindex="0"</code> makes the divider focusable, with <code>role="separator"</code> telling assistive tech what it is. The detail that makes the drag feel right is that <code>mousemove</code> and <code>touchmove</code> are bound to <code>window</code>, not to the divider: drag fast and your pointer will outrun a 14px-wide element constantly, and a listener attached to the divider itself would drop the gesture the moment that happened. <code>user-select: none</code> on the container stops the panes' text being selected mid-drag, and <code>touch-action: none</code> on the divider stops a touch drag being interpreted as a page scroll.</p>
+
+<p><strong>Best for:</strong> code playgrounds, editor-preview UIs, file browsers, diff views, and any tool where the ideal split depends on the task. <strong>Tip:</strong> the minimum is a percentage, which means on a very narrow screen 18% can still be too small to hold anything. If your panes have real content, clamp against a pixel floor as well and stack them vertically below a breakpoint.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/drag-resize-panels/">Drag-to-Resize Split Panels</a></p>
+
+<h2>10. Virtual Scroll List</h2>
+
+<p>Ten thousand rows, scrolling smoothly, with only the rows you can actually see existing in the DOM — plus live search and sort.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/virtual-scroll/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Virtual Scroll List — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> three structural pieces. A scroll container with <code>overflow-y: auto</code>; an empty spacer div inside it whose height is set to <code>items.length × ITEM_HEIGHT</code>, which is what gives the scrollbar a correct range and thumb size as though all ten thousand rows existed; and a small pool of real row elements, absolutely positioned over that spacer at <code>top = index × ITEM_HEIGHT</code>. On scroll, the start index is <code>Math.floor(scrollTop / ITEM_HEIGHT)</code> and the count is the container height divided by the row height, plus a four-row buffer above and below so a fast fling never reveals a blank gap. The pool grows or shrinks to match — <code>while (children.length &lt; needed) append</code>, <code>while (&gt; needed) remove</code> — and existing rows are then rewritten in place, so scrolling mutates text content instead of rebuilding markup. Scroll events fire far more often than the screen refreshes, so renders are coalesced to one per frame with a <code>requestAnimationFrame</code> flag. Search filters the underlying array and resets the spacer to the new length, which shrinks the scrollbar to match the result count; sort reorders the array and repaints the same visible window. Both stay instant for the same reason: they operate on plain data, and the DOM cost is bounded by your viewport, not your dataset.</p>
+
+<p><strong>Best for:</strong> data grids, log viewers, contact and file lists, chat histories, and any table that could plausibly return thousands of rows. <strong>Tip:</strong> the entire technique depends on <code>ITEM_HEIGHT</code> being a real constant. If a row can wrap to two lines, the index math silently drifts and rows start landing in the wrong place — either enforce the height with <code>overflow: hidden</code> and ellipsis, or move to a measured, variable-height implementation. For a gentler version of the same problem, <a href="https://fwdtools.com/ui-snippets/infinite-scroll/">infinite scroll</a> appends pages instead of windowing them.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/virtual-scroll/">Virtual Scroll List</a></p>
+
+<h2>How to drop these into your project</h2>
+
+<p>Every snippet is framework-agnostic, so the workflow is the same wherever you're building:</p>
+
+<ol>
+<li>Open the snippet and hit <strong>View / Edit Code</strong> to see the HTML, CSS and JS in separate tabs.</li>
+<li>Paste the HTML into your template, the CSS into your stylesheet, and the JS before your closing <code>&lt;/body&gt;</code> tag — none of these ten need a CDN script or a build step.</li>
+<li>Prefer a component? Use the one-click <strong>export to React, Vue, Angular or Tailwind</strong> right from the snippet page.</li>
+<li>Replace the demo content first, before you touch the CSS. Most of what looks like layout code in these files is just the sample cards and their styling — the layout itself is usually a handful of declarations, and real content needs fewer changes than you'd expect.</li>
+<li>Check the two states people forget: what the layout does with one item, and what it does with fifty. Grids and masonry both look best in the demo's happy middle and worst at the extremes.</li>
+</ol>
+
+<h2>A few layout principles worth keeping</h2>
+
+<ul>
+<li><strong>Prefer intrinsic rules to breakpoints.</strong> <code>minmax()</code>, <code>auto-fill</code>, <code>flex: 1</code> and <code>columns</code> describe what you want; media queries describe where you gave up. Every breakpoint you don't write is one you don't maintain.</li>
+<li><strong>Give the browser the behavior, keep the decisions.</strong> Scroll snap, sticky positioning and <code>IntersectionObserver</code> all replace scroll-handler math with something native, smoother and shorter. Your JavaScript should be deciding <em>what</em> is active, not calculating <em>where</em> things are.</li>
+<li><strong>One writer per number.</strong> The panels' <code>setSplit()</code> and the virtual list's <code>render()</code> are each the only function that writes their layout values. That's why neither can end up half-updated after a fast interaction.</li>
+<li><strong>Know each pattern's failure mode before you ship it.</strong> Masonry scrambles source order. Mandatory snap breaks on overflowing sections. Virtual scroll breaks on variable row heights. None of those are reasons to avoid the pattern — they're the questions to ask about your content first.</li>
+</ul>
+
+<h2>Final thought</h2>
+
+<p>These ten cover most of what a page needs structurally: a <a href="https://fwdtools.com/ui-snippets/holy-grail-layout/">shell</a> to hold it, a <a href="https://fwdtools.com/ui-snippets/css-grid-cards/">grid</a> to list things in, a <a href="https://fwdtools.com/ui-snippets/bento-grid/">bento</a> or <a href="https://fwdtools.com/ui-snippets/masonry-grid/">masonry</a> arrangement when uniform cards are too flat, <a href="https://fwdtools.com/ui-snippets/portfolio-filter-grid/">filtering</a> when there's too much to show at once, a <a href="https://fwdtools.com/ui-snippets/sticky-sidebar/">sticky sidebar</a> for long reads, and <a href="https://fwdtools.com/ui-snippets/virtual-scroll/">windowing</a> when the list stops being a list and starts being a dataset. Start with whichever one matches the page you're actually building — the <a href="https://fwdtools.com/ui-snippets/css-grid-cards/">Responsive Card Grid</a> is the one almost every project eventually needs, and it's three declarations.</p>
+
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>

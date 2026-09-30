@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Home and End Jump to First and Last Tab">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Home and End jump to first and last tab</h1>
+    <p class="hint">Click "Tuesday" (the middle tab) to focus it, then press End, then Home. A real tablist can have many tabs; Home/End should always reach the first and last one in a single press.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken (no Home/End handling)</h2>
+        <div class="tablist" id="badTablist" role="tablist" aria-label="Weekday">
+          <button type="button" class="tab" id="badTab0" role="tab" aria-selected="false" tabindex="-1" data-idx="0">Mon</button>
+          <button type="button" class="tab active" id="badTab1" role="tab" aria-selected="true" tabindex="0" data-idx="1">Tue</button>
+          <button type="button" class="tab" id="badTab2" role="tab" aria-selected="false" tabindex="-1" data-idx="2">Wed</button>
+          <button type="button" class="tab" id="badTab3" role="tab" aria-selected="false" tabindex="-1" data-idx="3">Thu</button>
+          <button type="button" class="tab" id="badTab4" role="tab" aria-selected="false" tabindex="-1" data-idx="4">Fri</button>
+        </div>
+        <p class="stat">Focused tab: <span id="badFocused">Tue</span></p>
+        <div class="log" id="badLog"></div>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed (Home / End)</h2>
+        <div class="tablist" id="goodTablist" role="tablist" aria-label="Weekday">
+          <button type="button" class="tab" id="goodTab0" role="tab" aria-selected="false" tabindex="-1" data-idx="0">Mon</button>
+          <button type="button" class="tab active" id="goodTab1" role="tab" aria-selected="true" tabindex="0" data-idx="1">Tue</button>
+          <button type="button" class="tab" id="goodTab2" role="tab" aria-selected="false" tabindex="-1" data-idx="2">Wed</button>
+          <button type="button" class="tab" id="goodTab3" role="tab" aria-selected="false" tabindex="-1" data-idx="3">Thu</button>
+          <button type="button" class="tab" id="goodTab4" role="tab" aria-selected="false" tabindex="-1" data-idx="4">Fri</button>
+        </div>
+        <p class="stat">Focused tab: <span id="goodFocused">Tue</span></p>
+        <div class="log" id="goodLog"></div>
+      </div>
+    </div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 52em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 640px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .tablist { display: flex; gap: 3px; border-bottom: 2px solid var(--line); flex-wrap: wrap; }
+  .tab { padding: 7px 9px; border: none; background: transparent; font: 700 11.5px system-ui, sans-serif; color: var(--sub); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; border-radius: 6px 6px 0 0; }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab:focus { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .stat { margin: 8px 0 0; font: 800 13px ui-monospace, monospace; }
+  .log { margin-top: 6px; background: #0f1117; color: #c9d1d9; border-radius: 8px; padding: 8px 10px; font: 11px ui-monospace, monospace; max-height: 100px; overflow-y: auto; }
+  .log div { padding: 1px 0; }
+  .log .ok { color: #4ade80; }
+  .log .warn { color: #fbbf24; }
+</script>
+
+<script type="text/plain" id="js">
+  function logLine(logEl, text, cls) {
+    var line = document.createElement('div');
+    if (cls) line.className = cls;
+    line.textContent = text;
+    logEl.appendChild(line);
+    logEl.scrollTop = logEl.scrollHeight;
+    while (logEl.children.length > 7) logEl.removeChild(logEl.firstChild);
+  }
+
+  function setupBad() {
+    var tablist = document.getElementById('badTablist');
+    var tabs = [];
+    for (var i = 0; i < 5; i++) tabs.push(document.getElementById('badTab' + i));
+    var focusedEl = document.getElementById('badFocused');
+    var log = document.getElementById('badLog');
+
+    for (var i2 = 0; i2 < tabs.length; i2++) {
+      tabs[i2].addEventListener('click', function (e) { focusedEl.textContent = e.target.textContent; });
+    }
+
+    // BROKEN: Home/End are never intercepted, so they do nothing inside the tablist.
+    tablist.addEventListener('keydown', function (e) {
+      if (e.key === 'Home' || e.key === 'End') {
+        logLine(log, e.key + ' pressed -- no handler, focus did not move.', 'warn');
+      }
+    });
+  }
+
+  function setupGood() {
+    var tablist = document.getElementById('goodTablist');
+    var tabs = [];
+    for (var i = 0; i < 5; i++) tabs.push(document.getElementById('goodTab' + i));
+    var focusedEl = document.getElementById('goodFocused');
+    var log = document.getElementById('goodLog');
+
+    function activate(idx) {
+      for (var j = 0; j < tabs.length; j++) {
+        tabs[j].classList.remove('active');
+        tabs[j].setAttribute('aria-selected', 'false');
+        tabs[j].tabIndex = -1;
+      }
+      tabs[idx].classList.add('active');
+      tabs[idx].setAttribute('aria-selected', 'true');
+      tabs[idx].tabIndex = 0;
+      tabs[idx].focus();
+      focusedEl.textContent = tabs[idx].textContent;
+    }
+
+    for (var i2 = 0; i2 < tabs.length; i2++) {
+      (function (idx) { tabs[idx].addEventListener('click', function () { activate(idx); }); })(i2);
+    }
+
+    // FIXED: Home jumps to the first tab, End jumps to the last one, in one press.
+    tablist.addEventListener('keydown', function (e) {
+      if (e.key === 'Home') {
+        e.preventDefault();
+        activate(0);
+        logLine(log, 'Home -- jumped straight to "' + tabs[0].textContent + '"', 'ok');
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        activate(tabs.length - 1);
+        logLine(log, 'End -- jumped straight to "' + tabs[tabs.length - 1].textContent + '"', 'ok');
+      }
+    });
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

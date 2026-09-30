@@ -1,0 +1,313 @@
+<h1>How to Copy Text to the Clipboard in JavaScript (and Handle It Failing): 9 Common Mistakes</h1>
+
+<p>"Just call <code>navigator.clipboard.writeText()</code>" is the advice everyone gives, and it's also where most copy-to-clipboard bugs start. The modern Clipboard API is a promise-based, permission-gated, secure-context-only interface, and every one of those three words is a place a naive implementation quietly breaks: a rejected promise nobody caught, a permission the current page was never granted, a call that fired outside a real click. None of these failures throw a loud error in the console for a user to report. The button just does nothing, and the person clicking it has no idea whether their copy worked, half-worked, or never ran at all.</p>
+
+<p>The 9 demos below are all live and interactive, and most put a broken version and a fixed version side by side so you can watch the actual difference in behavior, not just read about it. A few of them are honest about a constraint worth knowing up front: these demos run inside an <code>&lt;iframe&gt;</code> embedded in this blog post, and that iframe was never granted the <code>clipboard-write</code> permission its parent page would need to explicitly delegate. So where a demo's "fixed" column still fails here, that's not a bug in the demo — it's the exact real-world failure this post is teaching you to catch and handle gracefully, and it's a great preview of what happens the first time you embed your own copy button somewhere you don't control. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> — FWD Tools' free in-browser editor — and if you'd rather start from a blank file and build your own version alongside these, the <a href="https://fwdtools.com/js-playground/">JavaScript Playground</a> is FWD Tools' in-browser JS sandbox for exactly that.</p>
+
+<h2>Ground rules</h2>
+
+<pre><code class="language-js">function copyText(text) {
+  // Always feature-detect and always handle rejection -- never assume
+  // the modern API exists, is allowed here, or will resolve.
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(text).then(
+      function () { return true; },
+      function () { return legacyCopy(text); } // permission denied, blocked iframe, etc.
+    );
+  }
+  return Promise.resolve(legacyCopy(text));
+}
+
+function legacyCopy(text) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.left = '-9999px';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  var ok = false;
+  try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+  document.body.removeChild(ta);
+  return ok;
+}</code></pre>
+
+<p>Every copy-to-clipboard implementation is really three decisions, made well or made badly: which API to call, what to do the instant that call fails, and how the user finds out either way. <code>navigator.clipboard.writeText()</code> is asynchronous and permission-gated by design — it returns a promise specifically because the browser may need to ask the user, consult a Permissions Policy, or simply refuse, and a promise is how it tells you which of those happened. The older <code>document.execCommand('copy')</code> path is synchronous and works by copying whatever text is currently selected on the page, which is why the fallback above has to build a temporary, off-screen textarea just to have something selectable to copy from. Neither approach is "the" answer on its own; the resilient pattern is trying the modern API first, catching its rejection instead of letting it vanish as an unhandled promise, and falling back to the older mechanical approach when the first one is unavailable or refused. Keep this three-part shape in mind — API choice, failure handling, user feedback — as you go through the 9 demos below; each one breaks exactly one of those three pieces.</p>
+
+<h2>1. Assuming writeText() Always Succeeds Fails Silently</h2>
+
+<p>Click "Copy" in each column. The broken button calls the modern API with no <code>.catch()</code> at all; watch the status line to see whether it ever reports what actually happened.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/22/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Assuming writeText() Always Succeeds Fails Silently Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// BROKEN: no rejection handler -- if this promise rejects, nothing happens.
+// The user clicked a button and gets zero feedback, success or failure.
+function copyBroken(text) {
+  navigator.clipboard.writeText(text);
+  showToast('Copied!'); // a lie -- this ran before we know if it worked
+}
+
+// FIXED: waits for the real outcome, and falls back if the promise rejects
+function copyFixed(text) {
+  navigator.clipboard.writeText(text).then(
+    function () { showToast('Copied!'); },
+    function () { legacyCopy(text) ? showToast('Copied!') : showToast('Copy failed'); }
+  );
+}</code></pre>
+
+<p><code>navigator.clipboard.writeText()</code> returns a promise, and calling it without ever reading that promise's outcome is functionally the same mistake as calling a callback-based API and never providing a callback — the operation runs, but your code has no idea what happened to it. The broken version above compounds this by showing "Copied!" immediately, on the assumption that starting the operation is the same as finishing it successfully; in an embedded iframe without clipboard-write permission, or on a page over plain HTTP, that promise rejects a moment later and the toast has already told the user something false. This is the single most common shape of clipboard bug, because the happy path — a top-level HTTPS page, run by a developer testing their own feature — almost never rejects, so the missing <code>.catch()</code> goes unnoticed until a real user hits a context the developer never tested in.</p>
+
+<p><strong>Best for:</strong> the very first version of any copy button — this is the baseline every other demo in this post builds on. <strong>Tip:</strong> treat an unhandled clipboard promise rejection the same as any other unhandled rejection in production code: it's silent to the user but it's still there, and browser DevTools will show it in the console even when nothing on screen does.</p>
+
+<h2>2. Insecure Context or a Sandboxed Iframe Blocks the Write Silently</h2>
+
+<p>Click "Copy" in the fixed column below. This demo is running inside an embedded iframe on this very blog post, and it has honestly not been granted clipboard-write permission — watch it report that fact instead of pretending to succeed.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/22/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Insecure Context or a Sandboxed Iframe Blocks the Write Silently Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// BROKEN: never checks isSecureContext, never inspects the rejection reason
+navigator.clipboard.writeText(text).catch(function () {});
+
+// FIXED: distinguishes *why* it failed and says so
+navigator.clipboard.writeText(text).then(
+  function () { report('Copied.'); },
+  function (err) {
+    if (!window.isSecureContext) {
+      report('Blocked: this page is not a secure context (needs HTTPS or localhost).');
+    } else {
+      report('Blocked: ' + err.name + ' -- likely no clipboard-write permission delegated to this iframe.');
+    }
+  }
+);</code></pre>
+
+<p>The Clipboard API's write methods are gated behind two independent checks, and either one failing produces the same symptom: nothing gets copied. The first is <code>isSecureContext</code> — the API requires HTTPS (or <code>localhost</code> during development), because it hands a website write access to something shared across the whole OS, and browsers refuse that over plain, tamperable HTTP. The second is the Permissions Policy for <code>clipboard-write</code>, whose default allowlist is <code>self</code> — meaning a cross-origin iframe only gets clipboard-write access if its parent page explicitly opts in with an <code>allow="clipboard-write"</code> attribute on the <code>&lt;iframe&gt;</code> tag. This blog's own embeds don't set that attribute, so a real, secure, HTTPS-hosted page still has its clipboard writes rejected purely because of where it's embedded — the exact case this demo is showing you live, with a promise rejection instead of a fake success.</p>
+
+<p><strong>Best for:</strong> any copy button you expect to be embedded somewhere you don't fully control — widgets, share buttons, anything that might end up in someone else's iframe. <strong>Tip:</strong> if you own the embedding page too, add <code>allow="clipboard-write"</code> to the iframe tag; if you don't, always ship a working fallback, because you can't assume that permission will ever be granted.</p>
+
+<h2>3. Selecting a Disabled Input Copies Nothing</h2>
+
+<p>Each column has a disabled input pre-filled with an API key. Click "Copy" and watch whether anything actually lands on the clipboard.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/22/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Selecting a Disabled Input Copies Nothing Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// BROKEN: a disabled element can't receive focus or a text selection at all
+input.disabled = true;
+input.select(); // does nothing -- selection requires focus, focus requires it not be disabled
+
+// FIXED: read the VALUE, copy it through a temporary element instead
+function copyFromDisabled(input) {
+  var ta = document.createElement('textarea');
+  ta.value = input.value;
+  ta.style.position = 'fixed';
+  ta.style.left = '-9999px';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  var ok = document.execCommand('copy');
+  document.body.removeChild(ta);
+  return ok;
+}</code></pre>
+
+<p>A <code>disabled</code> form control is deliberately removed from the page's interaction surface: it can't receive focus, it can't be tabbed to, and calling <code>.select()</code> on it is a silent no-op because text selection is built on top of focus. This is exactly the input state a "reveal an API key, but don't let the user edit it" field commonly uses, which makes it a common trap — the field looks copyable, and the copy button appears to do something, but the underlying <code>select()</code> call never had anything to work with. <code>readonly</code> inputs don't have this problem, since a readonly field can still be focused and selected; the fix for a genuinely disabled one is to stop trying to select the field itself and instead read its <code>.value</code> into a separate, temporary textarea that isn't disabled, select that, and copy from it. This works through <code>document.execCommand('copy')</code> regardless of secure-context or iframe permission restrictions, since it never touches the modern Clipboard API at all.</p>
+
+<p><strong>Best for:</strong> "reveal-only" fields — API keys, generated IDs, read-only tokens — that are marked <code>disabled</code> rather than <code>readonly</code>. <strong>Tip:</strong> if a field only needs to block typing, not focus, prefer <code>readonly</code> over <code>disabled</code> in the first place; it sidesteps this whole workaround and keeps native selection working.</p>
+
+<h2>4. Silent Success Leaves the User Guessing</h2>
+
+<p>Click "Copy" once in each column. Both actually copy the text successfully — watch how differently that success is communicated.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/22/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Silent Success Leaves the User Guessing Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// BROKEN: works perfectly -- and tells the user absolutely nothing
+button.addEventListener('click', function () {
+  legacyCopy(text); // succeeds, but the button's label and appearance never change
+});
+
+// FIXED: the same successful copy, with visible, timed confirmation
+button.addEventListener('click', function () {
+  if (legacyCopy(text)) {
+    button.textContent = 'Copied!';
+    setTimeout(function () { button.textContent = 'Copy'; }, 1500);
+  }
+});</code></pre>
+
+<p>A copy operation that succeeds with zero visible acknowledgment is functionally indistinguishable, from the user's perspective, from one that silently failed — they clicked something, nothing changed on screen, and the only way to find out whether it worked is to go paste it somewhere and check. This isn't a browser limitation at all; both columns in this demo use the exact same reliable copy mechanism and both genuinely succeed every time. The entire difference is a few lines of UI code: swapping the button's label to "Copied!" for a second and a half before reverting it, which costs nothing functionally but closes the single biggest gap between "the operation succeeded" and "the user believes the operation succeeded." Clipboard operations are a rare case where the correct UI response to success needs to be more, not less, obvious than usual — there's no persistent visual state to look at afterward, unlike a field that visibly changed value, so the confirmation has to be transient but unmissable.</p>
+
+<p><strong>Best for:</strong> every copy button without exception — this should be treated as a non-negotiable minimum, not a nice-to-have. <strong>Tip:</strong> keep the confirmation state brief (1-2 seconds) and revert it automatically; a button permanently stuck on "Copied!" is its own kind of confusing.</p>
+
+<h2>5. Copying From a setTimeout Fails With No User Gesture</h2>
+
+<p>The broken column tries to copy automatically 2 seconds after the page loads, with no click involved. The fixed column only copies from a real button press. Watch the log in both.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/22/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Copying From a setTimeout Fails With No User Gesture Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// BROKEN: fires from a timer, with no user gesture behind it at all
+setTimeout(function () {
+  navigator.clipboard.writeText(text).catch(function (e) {
+    log('Rejected: ' + e.name); // NotAllowedError, every time
+  });
+}, 2000);
+
+// FIXED: only ever called from inside a real click handler
+button.addEventListener('click', function () {
+  navigator.clipboard.writeText(text).catch(function () { legacyCopy(text); });
+});</code></pre>
+
+<p>Clipboard writes are one of a small set of browser APIs gated behind "transient user activation" — a short window immediately after a genuine user interaction like a click or a keypress, during which the page is considered to be acting on the user's explicit intent rather than its own. A <code>setTimeout</code> callback, no matter how directly it was scheduled from a click handler earlier on the page, does not run inside that window by the time it fires — from the browser's perspective, it's the page acting unprompted, and <code>navigator.clipboard.writeText()</code> rejects with <code>NotAllowedError</code> every time, regardless of secure context or iframe permissions. This exists specifically to prevent pages from silently overwriting whatever a user currently has on their clipboard without them doing anything at all. The fix isn't a workaround — it's structural: the call to <code>writeText()</code> has to happen synchronously inside the event handler for the gesture itself, not after any <code>await</code>, <code>setTimeout</code>, or unrelated promise chain has let that activation window close.</p>
+
+<p><strong>Best for:</strong> recognizing that user-activation requirements apply to more than just this one API — the same restriction affects fullscreen requests, autoplay with sound, and several other browser features. <strong>Tip:</strong> if you need to do async work before copying (like fetching the text to copy), start that work on the click but keep the actual <code>writeText()</code> call as close to the top of the handler as the data allows — a long await chain before it can burn through the activation window.</p>
+
+<h2>6. Plain Text Loses Formatting That ClipboardItem Preserves</h2>
+
+<p>Each column copies the same bold, colored snippet. Paste each into a rich-text field afterward (or just compare the raw payload logged below) to see what actually made it across.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/22/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Plain Text Loses Formatting That ClipboardItem Preserves Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// BROKEN: pastes the literal markup as visible text, not as formatting
+navigator.clipboard.writeText('<b style="color:#dc2626">Important</b>');
+
+// FIXED: offers both a plain-text and an HTML representation together
+function copyRich(html, plain) {
+  var item = new ClipboardItem({
+    'text/html': new Blob([html], { type: 'text/html' }),
+    'text/plain': new Blob([plain], { type: 'text/plain' })
+  });
+  return navigator.clipboard.write([item]);
+}</code></pre>
+
+<p><code>writeText()</code> only ever writes a single MIME type, <code>text/plain</code> — there's no version of it that understands markup, so handing it an HTML string just copies that string as literal, visible text, tags and all. <code>ClipboardItem</code>, used with <code>navigator.clipboard.write()</code>, is the API built for exactly this gap: it lets you place multiple representations of the same content on the clipboard at once, tagged by MIME type, so that whatever the paste target asks for, it's there. A rich-text editor pasting from that clipboard will request <code>text/html</code> and render the formatting; a plain code editor will fall back to the <code>text/plain</code> entry instead of choking on markup it can't display. Like <code>writeText()</code>, <code>write()</code> is still gated by secure context and the same clipboard-write Permissions Policy, and <code>ClipboardItem</code> itself isn't supported in every browser — so a feature check for <code>window.ClipboardItem</code> before attempting this path is worth doing alongside the usual promise-rejection handling.</p>
+
+<p><strong>Best for:</strong> "copy formatted snippet" features — rich-text editors, code blocks with syntax coloring, anything meant to paste cleanly into email or a document. <strong>Tip:</strong> always include a <code>text/plain</code> entry alongside <code>text/html</code>, even for a rich-text feature — it's the fallback every plain-text paste target needs, and skipping it breaks copying into places like URL bars or code editors entirely.</p>
+
+<h2>7. Guessing at Permission State Instead of Asking</h2>
+
+<p>Load this demo and watch the fixed column check clipboard-write permission state up front, before any click happens, versus the broken column's blind guess.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/22/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Guessing at Permission State Instead of Asking Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// BROKEN: no idea what's going to happen until the click fails
+button.addEventListener('click', function () {
+  navigator.clipboard.writeText(text).catch(function () { log('...failed, no idea why'); });
+});
+
+// FIXED: asks the Permissions API first, and reacts to browsers that don't support the query at all
+if (navigator.permissions && navigator.permissions.query) {
+  navigator.permissions.query({ name: 'clipboard-write' }).then(
+    function (status) { log('Permission state: ' + status.state); },
+    function () { log('This browser rejects that permission descriptor -- fall back to try/catch.'); }
+  );
+} else {
+  log('Permissions API not available here -- fall back to try/catch.');
+}</code></pre>
+
+<p><code>navigator.permissions.query()</code> lets a page ask the browser about a permission's current state — <code>"granted"</code>, <code>"denied"</code>, or <code>"prompt"</code> — before ever attempting the action that permission gates, which means a page can show a helpful, specific message ("clipboard access is blocked for this site") instead of a generic failure after the fact. Support for this is genuinely inconsistent: Chromium-based browsers generally support querying <code>clipboard-write</code>, but the call itself can throw or reject with a <code>TypeError</code> on browsers that don't recognize that permission name as a valid descriptor at all — which is why the fixed version above wraps the whole check in its own fallback, rather than assuming the Permissions API query itself is safe to call. This makes it a genuine enhancement, not a replacement, for catching the actual write call's rejection: even a browser that reports <code>"granted"</code> can still have a write fail for an unrelated reason moments later, so the try/catch from earlier demos stays necessary regardless of what this check reports.</p>
+
+<p><strong>Best for:</strong> surfacing a clearer, more specific message before the user even clicks — useful in settings pages or onboarding flows where clipboard access matters. <strong>Tip:</strong> never skip the try/catch around the actual write call just because a permission query reported "granted" — treat the query as informative, not authoritative.</p>
+
+<h2>8. Assuming navigator.clipboard Exists Crashes Old Browsers</h2>
+
+<p>The broken column reaches straight for <code>navigator.clipboard.writeText</code> with no check. The fixed column feature-detects first. Click "Copy" in each and watch the log.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/22/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Assuming navigator.clipboard Exists Crashes Old Browsers Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// BROKEN: throws a TypeError if navigator.clipboard is undefined --
+// true on older Safari/iOS versions, some WebViews, and any insecure context
+navigator.clipboard.writeText(text);
+
+// FIXED: checks for the object before ever touching it
+if (navigator.clipboard && navigator.clipboard.writeText) {
+  navigator.clipboard.writeText(text).catch(function () { legacyCopy(text); });
+} else {
+  legacyCopy(text); // e.g. document.execCommand path, or a visible "select manually" message
+}</code></pre>
+
+<p><code>navigator.clipboard</code> isn't guaranteed to exist at all — it's undefined on an insecure (HTTP) origin in most browsers, it arrived later than the rest of the Clipboard API in several older mobile browser versions, and some in-app WebViews (a link opened inside a social app, for instance) still ship reduced or missing implementations of it. Calling <code>.writeText()</code> straight off <code>navigator.clipboard</code> without checking that the object exists first doesn't reject gracefully in that situation — it throws a synchronous <code>TypeError</code> ("Cannot read properties of undefined"), which is a harder failure than a rejected promise and, if it happens inside a handler with no surrounding try/catch, can break other code queued to run after it on the same call stack. Feature-detecting the object itself, not just wrapping the call in a try/catch, is the more defensive habit: it degrades cleanly to the legacy path (or a plain "please copy manually" message) on exactly the browsers where the modern API was never there to fail in the first place.</p>
+
+<p><strong>Best for:</strong> any product with meaningful iOS Safari, older Android WebView, or in-app browser traffic — check your analytics before assuming this doesn't matter for your audience. <strong>Tip:</strong> feature-detect the object (<code>navigator.clipboard</code>), not the secure context alone — a page can be served over HTTPS and still not have the API in an older or restricted browser.</p>
+
+<h2>9. Overlapping Copy Calls Race Each Other</h2>
+
+<p>Click "Copy A" then immediately "Copy B" in quick succession (within a second) in each column. Watch the log to see which value actually ends up recorded as copied.</p>
+
+<iframe src="https://fwdtools.com/demos/a1/22/9.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Overlapping Copy Calls Race Each Other Demo by FWD Tools"></iframe>
+
+<p><strong>The rule:</strong></p>
+
+<pre><code class="language-js">// BROKEN: a shared, reused textarea -- a second call can select/copy
+// from it before the first call has finished cleaning up
+var sharedTa = document.createElement('textarea');
+function copyBroken(text) {
+  sharedTa.value = text;
+  document.body.appendChild(sharedTa);
+  sharedTa.select();
+  setTimeout(function () { // simulates any async gap between select and copy
+    document.execCommand('copy');
+    document.body.removeChild(sharedTa);
+  }, 300);
+}
+
+// FIXED: a fresh element per call, and a simple in-flight lock on the button
+var busy = false;
+function copyFixed(text, done) {
+  if (busy) return;
+  busy = true;
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  busy = false;
+  done();
+}</code></pre>
+
+<p>Anything that copies text through a temporary DOM element and a brief async gap has a window where a second call can start before the first one has finished — select the shared element, overwrite its value, or remove it out from under the call still in progress. This is rarely visible in casual testing because a single click-and-check cycle never overlaps with itself, but a double-click, a fast typist mashing a shortcut, or two copy buttons wired to the same handler by accident can trigger it reliably, and the symptom is subtle: the wrong value gets copied, or an error appears from trying to remove a DOM node that a competing call already removed. The fix doesn't need anything elaborate — either give each call its own throwaway element instead of sharing one, or add a simple busy flag that ignores new copy requests while one is still in flight, which is usually the better user-facing choice since it also prevents a rapid double-click from flashing the "Copied!" confirmation twice.</p>
+
+<p><strong>Best for:</strong> copy buttons on lists or tables, where several "Copy" buttons share the same underlying function and a user might click more than one quickly. <strong>Tip:</strong> a per-button disabled state during the copy operation solves this and doubles as its own visible feedback — the button briefly can't be clicked again, which is exactly the behavior you want anyway.</p>
+
+<h2>Common pitfalls</h2>
+
+<ul>
+<li><strong>Not chaining a rejection handler onto writeText().</strong> Demo #1's bug is the root cause behind most of the others — a promise nobody read tells you nothing about what actually happened.</li>
+<li><strong>Forgetting that iframe embedding changes the rules.</strong> Demo #2 shows this happening on this very page — a secure, HTTPS-hosted page can still have its clipboard writes blocked purely by where it's embedded.</li>
+<li><strong>Confusing disabled with readonly.</strong> Demo #3's field looks copyable but can't be focused or selected at all, which silently breaks any approach built on <code>.select()</code>.</li>
+<li><strong>Treating a successful copy as self-evident.</strong> Demo #4 is a UI problem, not an API one — success with no visible confirmation reads exactly like failure to the person who clicked.</li>
+<li><strong>Calling the clipboard API from anywhere except a direct event handler.</strong> Demo #5's timer and demo #9's overlapping calls are both versions of this — the safest clipboard code runs as close to the user's actual gesture as possible.</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+
+<h3>Why does copy-to-clipboard fail on my page when it's embedded in someone else's iframe?</h3>
+<p>By default, the <code>clipboard-write</code> Permissions Policy only allows the top-level page itself (<code>self</code>) — a cross-origin iframe doesn't inherit that permission unless the parent page explicitly adds <code>allow="clipboard-write"</code> to the <code>&lt;iframe&gt;</code> tag, as shown in demo #2. If you don't control the embedding page, the only reliable answer is a working <code>document.execCommand('copy')</code> fallback, since that legacy path isn't gated by the same policy.</p>
+
+<h3>What's the difference between the clipboard-read and clipboard-write permissions?</h3>
+<p><code>clipboard-write</code> covers putting content onto the clipboard and is comparatively low-risk, since a page can only affect what a user willingly copies from that page — several browsers grant it automatically from a genuine user gesture, without a visible prompt. <code>clipboard-read</code> covers reading whatever is currently on the clipboard, which could include sensitive content the user copied from somewhere else entirely, so browsers treat it far more cautiously and typically require an explicit permission prompt the first time a page requests it.</p>
+
+<h3>Does navigator.clipboard.writeText() work on a local HTTP dev server?</h3>
+<p><code>isSecureContext</code> treats <code>http://localhost</code> (and <code>http://127.0.0.1</code>) as secure specifically so local development isn't blocked, so the modern API does work there. It's plain HTTP on a real network address — <code>http://192.168.x.x</code> while testing on a phone, for instance — that fails <code>isSecureContext</code> and needs the legacy fallback, which is an easy case to miss until you test on an actual device instead of the same machine running the server.</p>
+
+<h3>Which browsers support ClipboardItem and navigator.clipboard.write()?</h3>
+<p>All current major desktop and mobile browsers support both, but support arrived later and more unevenly than for the simpler <code>writeText()</code>/<code>readText()</code> methods, and older versions still in use — particularly older iOS Safari releases and some WebViews — may have <code>navigator.clipboard</code> without <code>ClipboardItem</code> being defined at all. Feature-detecting <code>window.ClipboardItem</code> specifically, as shown in demo #6, catches that gap; don't assume that because <code>navigator.clipboard</code> exists, the rest of the API surface does too.</p>
+
+<h3>Is document.execCommand('copy') actually deprecated, and should I stop using it?</h3>
+<p>It's marked deprecated in the spec and MDN both flag it as legacy, but no browser has removed it, and it remains the only copy mechanism that works reliably outside a secure context and inside an iframe without delegated permission — exactly the two situations several demos above hit. The practical answer isn't "stop using it," it's "stop relying on it alone": treat it as the fallback beneath the modern Clipboard API, not a replacement for it, the way the ground-rules pattern at the top of this post does.</p>
+
+<p>The fastest way to internalize all of this is to open demo #5 — the user-gesture one — with <strong>Fork &amp; Edit</strong>, and move the <code>setTimeout</code> call so it fires from inside the click handler instead of two seconds after page load. Watch the exact same <code>writeText()</code> call go from a guaranteed <code>NotAllowedError</code> to a real, resolved success, with nothing else about the code changed. Once you've got a version you're happy with, save it to <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop into a real project.</p>
+
+<p><strong>Recommended next step:</strong> open the <a href="https://fwdtools.com/js-playground/">JavaScript Playground</a> — FWD Tools' full in-browser JavaScript sandbox — and rebuild demo #1's full pattern from scratch: a modern <code>writeText()</code> attempt, a caught rejection, a <code>document.execCommand</code> fallback, and a visible "Copied!" confirmation on both paths. Typing it out yourself, not just reading it, is what makes it stick. For more tutorials like this one, browse the <a href="https://www.webdevpuneet.com/search/label/JavaScript">JavaScript</a> label on the blog.</p>

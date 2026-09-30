@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Card Footers That Actually Line Up">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Card footers that actually line up</h1>
+    <p class="hint">Three cards, three different title and body lengths. Toggle subgrid off and watch the buttons scatter — that misalignment is the problem subgrid exists to fix.</p>
+  </header>
+  <main class="stageWrap">
+    <button type="button" class="toggleBtn" id="toggleBtn">Turn subgrid OFF</button>
+    <div class="cards on" id="cards">
+      <article class="card">
+        <h3>Starter</h3>
+        <p>Everything you need to publish your first project.</p>
+        <button class="cardBtn">Choose plan</button>
+      </article>
+      <article class="card">
+        <h3>Team collaboration for growing companies</h3>
+        <p>Shared workspaces, role-based permissions, audit logging and priority support for teams that ship every day.</p>
+        <button class="cardBtn">Choose plan</button>
+      </article>
+      <article class="card">
+        <h3>Enterprise</h3>
+        <p>SSO, custom contracts and a dedicated success manager.</p>
+        <button class="cardBtn">Choose plan</button>
+      </article>
+    </div>
+    <p class="note" id="note">Subgrid ON — every card shares the grid's three rows, so titles, bodies and buttons align across all three.</p>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink:#14161c; --sub:#6b7080; --line:#e3e5ea; --accent:#6366f1; }
+  body { background:#f6f7f9; color:var(--ink); }
+  .bar { padding:18px 20px 8px; text-align:center; }
+  .bar h1 { margin:0 0 4px; font-size:19px; letter-spacing:-0.01em; }
+  .hint { margin:0 auto; max-width:48em; font-size:12.5px; color:var(--sub); }
+  .stageWrap { display:flex; flex-direction:column; align-items:center; gap:14px; padding:16px 18px 28px; }
+
+  .toggleBtn {
+    font:700 12.5px system-ui, sans-serif; padding:8px 16px;
+    border:1px solid var(--line); border-radius:7px;
+    background:#fff; color:var(--accent); cursor:pointer;
+  }
+  .toggleBtn:hover { background:#eef0ff; }
+
+  /* The parent defines three named row bands: title, body, footer. */
+  .cards {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:auto 1fr auto;
+    gap:14px;
+    width:100%; max-width:640px;
+  }
+
+  .card {
+    background:#fff; border:1px solid var(--line); border-radius:12px;
+    padding:16px;
+  }
+
+  /* Subgrid ON: each card spans all three parent rows and adopts them,
+     so row 1 of every card is the same height, row 2 likewise, row 3 likewise. */
+  .cards.on .card {
+    grid-row:span 3;
+    display:grid;
+    grid-template-rows:subgrid;
+    gap:10px;
+  }
+
+  /* Subgrid OFF: each card lays its own children out independently. */
+  .cards.off .card { display:flex; flex-direction:column; gap:10px; }
+
+  .card h3 { margin:0; font-size:14.5px; line-height:1.3; }
+  .card p { margin:0; font-size:12.5px; color:var(--sub); line-height:1.5; }
+  .cardBtn {
+    align-self:start; justify-self:stretch; width:100%;
+    padding:8px 10px; font:700 12px system-ui, sans-serif;
+    color:#fff; background:var(--accent); border:none; border-radius:7px; cursor:pointer;
+  }
+  .note { margin:0; font-size:12px; color:var(--sub); text-align:center; max-width:42em; }
+</script>
+
+<script type="text/plain" id="js">
+  var cards = document.getElementById('cards');
+  var btn = document.getElementById('toggleBtn');
+  var note = document.getElementById('note');
+  var on = true;
+
+  btn.addEventListener('click', function () {
+    on = !on;
+    cards.classList.toggle('on', on);
+    cards.classList.toggle('off', !on);
+    btn.textContent = on ? 'Turn subgrid OFF' : 'Turn subgrid ON';
+    note.textContent = on
+      ? 'Subgrid ON — every card shares the grid’s three rows, so titles, bodies and buttons align across all three.'
+      : 'Subgrid OFF — each card sizes its own rows, so the buttons land wherever that card’s text happens to end.';
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

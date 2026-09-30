@@ -1,0 +1,24 @@
+# Project Memory Index
+
+- [Next.js Project Setup](project_nextjs_setup.md) — Next.js 15 + React 19 app unifying all tools under a shared layout
+- [Always update DEVLOG.md](feedback_devlog.md) — append a dated summary to DEVLOG.md after every significant task
+- [New Tool Checklist](project_new_tool_checklist.md) — files to create/update every time a new tool is added (component, page, sidebar, sitemap, icons)
+- [Update SEO text when adding features](feedback_seo_updates.md) — always update page.js SEO (features, howToUse, FAQs, schema) when features are added to any tool
+- [SEO content volume requirement](feedback_seo_content_volume.md) — every tool page must have 800–1200+ words across about, howToUse, features, useCases, and FAQs
+- [SEO paragraph structure](feedback_seo_paragraph_structure.md) — use \n\n between paragraphs; SeoSection splits on it; also supports **bold** and `code` inline
+- [Don't verify build after changes](feedback_no_build_verify.md) — never run next build to verify; user tests themselves
+- [SEO focus on content not meta keywords](feedback_seo_keywords.md) — ignore meta keywords tag; focus on body content, headings, FAQs, and schema markup
+- [SEO must match search intent](feedback_seo_search_intent.md) — write from the user's problem/search query perspective, not as a feature list; satisfy intent behind keywords
+- [SEO interlinking pattern](feedback_seo_interlinking.md) — add 3–6 `[text](/slug)` inline links naturally within feature/step/card text; no standalone "complementary tools" paragraph
+- [Use SVG icons for SEO use-case cards](feedback_svg_usecase_icons.md) — avoid visible text abbreviation icons like SORT/PDF/ZIP; add SVG mappings instead
+- [Tool count auto-derives](feedback_tool_count.md) — home-page counts interpolate LIVE_TOOLS.length + SNIPPET_COUNT; no manual count edits needed when adding/removing tools
+- [UI Snippet SEO standard](feedback_snippet_seo_standard.md) — 1200+ words, technical walkthrough, ≤60 char keyword-first title, 140-160 char description with framework-export hook, framework FAQ required, verify with scripts/audit-snippet-seo.mjs, use `seo:` key not `about:`
+- [About content must be deep dive](feedback_about_deep_dive.md) — about.description must explain HOW the component is built (DOM structure, CSS technique, JS algorithm, math) — not a feature list
+- [Test snippet SEO task](project_seo_test_snippets.md) — 10 noindex snippets need full seo: blocks matching gdpr-consent-manager quality (gauge-chart through swipe-cards)
+- [Bulk file edits must use Python](feedback_file_editing_encoding.md) — never use PowerShell Set-Content for source files; use Python with encoding='utf-8' to avoid UTF-16 corruption
+- [Snippets are UI, not tools](feedback_snippets_not_tools.md) — no calculators/generators/converters in the snippet gallery; build reusable UI (mobile/tablet screens, mockups, cards, controls)
+- [Content audit initiative](project_content_audit.md) — multi-session push to comprehensively expand SEO content on all 182 tools then all UI snippets; tracked in content-audit.md, newest-first order
+- [Per-tool content structure](feedback_seo_per_tool_structure.md) — don't reuse the identical table/callout/cards template on every page; pick section types that fit each tool
+- [AdSense text-to-code ratio](feedback_seo_adsense_text_ratio.md) — structured prose/tables/FAQs matter for ad relevance, not just organic SEO
+- [Tool blog posts: what/who not how](feedback_tool_blog_posts.md) — skip algorithm internals; lead with what tool does, who it's for; plain copy-paste HTML for Blogger
+- [Tutorial posts need an AI section](feedback_tutorial_ai_section.md) — add "Build, understand, optimize, and extend it with AI" h2 before Final thought, tailored to the snippet

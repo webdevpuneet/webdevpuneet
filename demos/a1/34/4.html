@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Directional snap with a function">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>directional snap with a function</h1>
+    <p class="hint">Scroll down a little past a section's start, then let go. It commits <em>forward</em> to the next section &mdash; even at 15% in &mdash; because you were still scrolling down, not because it's the nearest stop.</p>
+  </header>
+  <div class="spacer">Scroll &darr;</div>
+  <div class="pinSection">
+    <div class="card" id="card">
+      <div class="num" id="num">1 / 5</div>
+      <div class="dir" id="dir">direction: &mdash;</div>
+    </div>
+  </div>
+  <div class="spacer end">Released &mdash; keep scrolling</div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .spacer { height: 220px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 320px; }
+  .pinSection { display: flex; align-items: center; justify-content: center; height: 220px; }
+  .card {
+    width: 240px;
+    padding: 26px 22px;
+    text-align: center;
+    background: #4338ca;
+    color: #fff;
+    border-radius: 14px;
+    box-shadow: 0 14px 34px rgba(67,56,202,0.35);
+    transition: background 0.15s;
+  }
+  .num { font: 800 30px system-ui, sans-serif; }
+  .dir { margin-top: 8px; font: 700 11px ui-monospace, monospace; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.04em; }
+</script>
+
+<script type="text/plain" id="js">
+  gsap.registerPlugin(ScrollTrigger);
+
+  var SECTIONS = 5;
+  var STOPS = [0, 0.25, 0.5, 0.75, 1];
+  var num = document.getElementById('num');
+  var dir = document.getElementById('dir');
+
+  ScrollTrigger.create({
+    trigger: '.pinSection',
+    start: 'top top',
+    end: '+=1400',
+    pin: true,
+    scrub: 1,
+    snap: {
+      // Function form: ignores "nearest" entirely and always commits to the
+      // NEXT stop when scrolling down, or the PREVIOUS stop when scrolling up.
+      snapTo: function (value, self) {
+        var i = 0;
+        for (i = 0; i < STOPS.length - 1; i++) {
+          if (value <= STOPS[i + 1] || i === STOPS.length - 2) break;
+        }
+        var lower = STOPS[i], upper = STOPS[i + 1];
+        if (value === lower || value === upper) return value;
+        return self.direction > 0 ? upper : lower;
+      },
+      duration: 0.35,
+      ease: 'power2.out'
+    },
+    onUpdate: function (self) {
+      var idx = STOPS.reduce(function (best, s, i) {
+        return Math.abs(s - self.progress) < Math.abs(STOPS[best] - self.progress) ? i : best;
+      }, 0);
+      num.textContent = (idx + 1) + ' / ' + SECTIONS;
+      dir.textContent = 'direction: ' + (self.direction > 0 ? 'down ↓' : 'up ↑');
+    }
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

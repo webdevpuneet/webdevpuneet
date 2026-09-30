@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Debounced Search Box">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Debounced Search Box</h1>
+    <p class="hint">Type in the box below — with debounce on, a fake "API call" fires only once you pause typing for 500ms. Turn debounce off and watch a call fire on every single keystroke instead.</p>
+  </header>
+  <main class="stageWrap">
+    <button type="button" id="toggleBtn" class="toggleBtn">Turn debounce OFF</button>
+    <input type="text" id="searchInput" class="searchInput" placeholder="Type to search…" autocomplete="off">
+    <div class="statsRow">
+      <div class="statBox"><span class="statLabel">Keystrokes</span><span class="statValue" id="keyCount">0</span></div>
+      <div class="statBox"><span class="statLabel">API calls fired</span><span class="statValue" id="callCount">0</span></div>
+    </div>
+    <div class="logBox" id="log"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root {
+    --ink: #14161c;
+    --sub: #6b7080;
+    --line: #e3e5ea;
+    --accent: #6366f1;
+  }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 14px 16px 26px; }
+
+  .toggleBtn {
+    font: 700 12.5px system-ui, sans-serif;
+    padding: 8px 16px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: #fff;
+    color: var(--accent);
+    cursor: pointer;
+  }
+  .toggleBtn:hover { background: #eef0ff; }
+
+  .searchInput {
+    width: 100%;
+    max-width: 360px;
+    padding: 10px 14px;
+    font: 500 14px system-ui, sans-serif;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    outline: none;
+  }
+  .searchInput:focus { border-color: var(--accent); }
+
+  .statsRow { display: flex; gap: 10px; }
+  .statBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 110px;
+    padding: 10px 14px;
+    border: 1.5px dashed var(--line);
+    border-radius: 10px;
+    background: #fff;
+  }
+  .statLabel { font-size: 10.5px; color: var(--sub); text-transform: uppercase; letter-spacing: .04em; }
+  .statValue { font: 800 22px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--accent); }
+
+  .logBox {
+    width: 100%;
+    max-width: 360px;
+    min-height: 108px;
+    max-height: 108px;
+    overflow-y: auto;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: #eceef3;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .logEntry {
+    font: 600 11.5px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #3f4252;
+    background: #fff;
+    padding: 5px 8px;
+    border-radius: 6px;
+  }
+</script>
+
+<script type="text/plain" id="js">
+  var input = document.getElementById('searchInput');
+  var keyCountEl = document.getElementById('keyCount');
+  var callCountEl = document.getElementById('callCount');
+  var logEl = document.getElementById('log');
+  var toggleBtn = document.getElementById('toggleBtn');
+
+  var DELAY = 500;
+  var keyCount = 0;
+  var callCount = 0;
+  var debounceOn = true;
+
+  function debounce(fn, delay) {
+    var timer;
+    return function () {
+      var args = arguments;
+      clearTimeout(timer);
+      timer = setTimeout(function () { fn.apply(null, args); }, delay);
+    };
+  }
+
+  function fireCall(query) {
+    callCount++;
+    callCountEl.textContent = callCount;
+    var entry = document.createElement('div');
+    entry.className = 'logEntry';
+    entry.textContent = query ? 'Searched for: "' + query + '"' : '(empty query)';
+    logEl.insertBefore(entry, logEl.firstChild);
+    while (logEl.children.length > 6) logEl.removeChild(logEl.lastChild);
+  }
+
+  var debouncedFire = debounce(fireCall, DELAY);
+
+  input.addEventListener('input', function () {
+    keyCount++;
+    keyCountEl.textContent = keyCount;
+    if (debounceOn) {
+      debouncedFire(input.value);
+    } else {
+      fireCall(input.value);
+    }
+  });
+
+  toggleBtn.addEventListener('click', function () {
+    debounceOn = !debounceOn;
+    toggleBtn.textContent = debounceOn ? 'Turn debounce OFF' : 'Turn debounce ON';
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

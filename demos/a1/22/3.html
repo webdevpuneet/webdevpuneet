@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Selecting a Disabled Input Copies Nothing">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Selecting a disabled input copies nothing</h1>
+    <p class="hint">Each column has a disabled input pre-filled with an API key. Click "Copy" and watch whether anything actually lands on the clipboard.</p>
+  </header>
+  <main class="stageWrap">
+    <div class="cols">
+      <div class="col">
+        <h2 class="colTitle bad">Broken</h2>
+        <input class="txt" id="badInput" type="text" value="sk_live_9f8a2c1b7e" disabled>
+        <button type="button" class="btn" id="badBtn">Copy</button>
+        <p class="status" id="badStatus">Tries input.select() on a disabled field.</p>
+      </div>
+      <div class="col">
+        <h2 class="colTitle good">Fixed</h2>
+        <input class="txt" id="goodInput" type="text" value="sk_live_9f8a2c1b7e" disabled>
+        <button type="button" class="btn" id="goodBtn">Copy</button>
+        <p class="status" id="goodStatus">Reads .value into a separate textarea instead.</p>
+      </div>
+    </div>
+    <p class="paste">Paste target (click here after copying, then Ctrl+V / Cmd+V):</p>
+    <input class="txt pasteTarget" id="pasteTarget" type="text" placeholder="Paste result shows up here">
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 54em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 16px 16px 24px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 10px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; display: inline-block; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .txt { width: 100%; box-sizing: border-box; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); font: 600 12px ui-monospace, monospace; color: var(--ink); background: #f9fafb; margin-bottom: 8px; }
+  .txt:disabled { color: #9aa0ad; background: #f0f1f4; cursor: not-allowed; }
+  .btn { padding: 9px 18px; border-radius: 8px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: 700 12.5px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { border-color: var(--accent); }
+  .status { margin: 8px 0 0; font-size: 11.5px; color: var(--sub); line-height: 1.5; min-height: 2.8em; }
+  .status.ok { color: var(--green); font-weight: 700; }
+  .status.err { color: var(--red); font-weight: 700; }
+  .paste { font-size: 11.5px; color: var(--sub); margin: 4px 0 0; }
+  .pasteTarget { max-width: 300px; margin-bottom: 0; }
+</script>
+
+<script type="text/plain" id="js">
+  function setupBad() {
+    var input = document.getElementById('badInput');
+    var btn = document.getElementById('badBtn');
+    var status = document.getElementById('badStatus');
+
+    btn.addEventListener('click', function () {
+      // BROKEN: a disabled element cannot receive focus, so it cannot
+      // receive a text selection either. select() silently no-ops.
+      input.select();
+      var sel = window.getSelection ? window.getSelection().toString() : '';
+      status.className = 'status err';
+      status.textContent = 'input.select() ran, but selected text length = ' + sel.length +
+        '. Disabled inputs cannot be focused, so nothing was selected -- copy has nothing to copy.';
+    });
+  }
+
+  function legacyCopyValue(value) {
+    var ta = document.createElement('textarea');
+    ta.value = value;
+    ta.style.position = 'fixed';
+    ta.style.top = '0';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  function setupGood() {
+    var input = document.getElementById('goodInput');
+    var btn = document.getElementById('goodBtn');
+    var status = document.getElementById('goodStatus');
+
+    btn.addEventListener('click', function () {
+      // FIXED: never tries to select the disabled field itself. Reads its
+      // .value (which is readable regardless of disabled state) into a
+      // separate, non-disabled textarea, and copies from that instead.
+      var ok = legacyCopyValue(input.value);
+      if (ok) {
+        status.className = 'status ok';
+        status.textContent = 'Copied "' + input.value + '" via a temporary textarea, bypassing the disabled field entirely.';
+      } else {
+        status.className = 'status err';
+        status.textContent = 'execCommand copy was refused by the browser.';
+      }
+    });
+  }
+
+  setupBad();
+  setupGood();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

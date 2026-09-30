@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Constraining parallax range">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Constraining parallax range</h1>
+    <p class="hint">Scroll down through both panels. The top layer is oversized to cover its swing; the bottom one isn't &mdash; watch a gap tear open at its edge.</p>
+  </header>
+  <div class="spacer">Scroll ↓</div>
+  <div class="scene">
+    <div class="panel">
+      <p class="label">Oversized layer &mdash; no gap</p>
+      <div class="frame"><div class="layer good" id="good"></div></div>
+    </div>
+    <div class="panel">
+      <p class="label">Layer sized to frame &mdash; gap appears</p>
+      <div class="frame"><div class="layer bad" id="bad"></div></div>
+    </div>
+  </div>
+  <div class="spacer end"></div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .spacer { height: 220px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 320px; }
+  .scene { display: flex; gap: 14px; margin: 0 20px; }
+  .panel { flex: 1; }
+  .label { margin: 0 0 6px; font: 700 10.5px system-ui, sans-serif; color: var(--sub); text-transform: uppercase; letter-spacing: 0.04em; text-align: center; }
+  .frame { position: relative; height: 220px; overflow: hidden; border-radius: 10px; background: repeating-conic-gradient(#f43f5e 0% 25%, #fb7185 0% 50%) 0 0 / 24px 24px; }
+  .layer { position: absolute; left: 0; right: 0; background: #16a34a; }
+  .good { top: -60px; bottom: -60px; }
+  .bad { top: 0; bottom: 0; }
+</script>
+
+<script type="text/plain" id="js">
+  gsap.registerPlugin(ScrollTrigger);
+
+  var tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.scene',
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: true
+    }
+  });
+
+  // Both layers move the SAME distance. The oversized one has enough
+  // extra height (60px each side) to cover the swing. The exact-fit
+  // one doesn't, so its edge separates from the frame it sits in.
+  tl.fromTo('#good', { y: -50 }, { y: 50, ease: 'none' }, 0);
+  tl.fromTo('#bad', { y: -50 }, { y: 50, ease: 'none' }, 0);
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="snap on a horizontal scroll section">
+
+<script type="text/plain" id="cdn">
+https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js
+https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>snap on a horizontal scroll section</h1>
+    <p class="hint">Scroll down, then let go while a panel is half off-screen. Instead of stopping mid-panel, it slides the rest of the way to whichever panel edge is closest.</p>
+  </header>
+  <div class="spacer">Scroll &darr;</div>
+  <div class="hSection" id="hSection">
+    <div class="hRow" id="hRow">
+      <div class="panel p1">1</div>
+      <div class="panel p2">2</div>
+      <div class="panel p3">3</div>
+      <div class="panel p4">4</div>
+    </div>
+  </div>
+  <div class="spacer end">Back to normal scrolling</div>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .spacer { height: 200px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spacer.end { height: 260px; }
+  .hSection { height: 220px; overflow: hidden; }
+  .hRow { display: flex; height: 100%; width: max-content; }
+  .panel {
+    width: 240px;
+    height: 100%;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 800 40px system-ui, sans-serif;
+    color: #fff;
+  }
+  .p1 { background: #7c3aed; }
+  .p2 { background: #6366f1; }
+  .p3 { background: #0ea5e9; }
+  .p4 { background: #16a34a; }
+</script>
+
+<script type="text/plain" id="js">
+  gsap.registerPlugin(ScrollTrigger);
+
+  var hSection = document.getElementById('hSection');
+  var hRow = document.getElementById('hRow');
+  var panelCount = hRow.children.length;
+
+  function scrollDistance() {
+    return hRow.scrollWidth - hSection.clientWidth;
+  }
+
+  gsap.to(hRow, {
+    x: function () { return -scrollDistance(); },
+    ease: 'none',
+    scrollTrigger: {
+      trigger: hSection,
+      start: 'top top',
+      end: function () { return '+=' + scrollDistance(); },
+      scrub: true,
+      pin: true,
+      // One snap point per panel boundary — the horizontal drag always
+      // finishes on a full panel, never stops halfway between two.
+      snap: 1 / (panelCount - 1)
+    }
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

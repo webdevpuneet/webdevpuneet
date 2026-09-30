@@ -1,0 +1,137 @@
+<h1>10 Free Bootstrap 5 Snippets: A Real Cart That Recalculates, a Signup Modal That Actually Validates & a Sidebar That Collapses Two Different Ways</h1>
+
+<p>Most "Bootstrap snippet" collections are CSS made to resemble Bootstrap — close enough to screenshot, not close enough to actually drop into a real Bootstrap project. The ten below are different: every one loads the genuine <code>bootstrap.min.css</code> and <code>bootstrap.bundle.min.js</code> from a CDN and uses Bootstrap's real component classes and JavaScript — <code>.navbar-collapse</code>, <code>.modal</code>, <code>.offcanvas</code>, <code>.accordion</code>, <code>.form-switch</code> — the same markup you'd write by hand from Bootstrap's own docs. On top of that real foundation, each one adds a small, genuinely working interaction: a live search that dims non-matching nav links, a cart whose subtotal recalculates from real quantity changes, a pricing toggle whose two rates come from data attributes instead of a runtime percentage calculation.</p>
+
+<p>Every one is a <strong>live, interactive preview</strong> you can try right here in the article, and each exports to React, Vue, Angular or Tailwind in one click from its snippet page.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>Real Bootstrap, not a lookalike.</strong> Every snippet's CDN panel shows the actual <code>bootstrap@5.3.3</code> CSS and JS URLs. That means the HTML you copy uses Bootstrap's real classes and drops into an existing Bootstrap project with zero class-renaming or CSS specificity fights — because it's the same framework, not a separate imitation of it.</li>
+<li><strong>Bootstrap's own JavaScript does what it's built for.</strong> The multi-step signup modal closes itself with <code>bootstrap.Modal.getInstance(el).hide()</code> — the documented API — rather than manually toggling classes and hoping the backdrop and focus trap clean up correctly. The vertical tabs settings panel listens for Bootstrap's own <code>shown.bs.tab</code> event to clear a notification badge, instead of duplicating what Bootstrap's Tab component already tracks.</li>
+<li><strong>One shared recalculation function, not scattered totals.</strong> The offcanvas cart's subtotal, header badge count, and empty-state message all come from a single <code>recalc()</code> that re-reads every remaining row's price and quantity from the DOM on every change. There's no running total variable anywhere that could quietly drift from what's actually on screen.</li>
+<li><strong>Delegated clicks, so new elements just work.</strong> The product grid's six "Add to cart" buttons, the admin dashboard's nav links, and the cart's quantity steppers are all driven by one click listener on a parent container using <code>e.target.closest()</code> — add a seventh product card or an extra nav link and it works immediately, with zero JavaScript changes.</li>
+<li><strong>Validation that actually blocks, not just decorates.</strong> The login form and the hero's email capture both call the input's native <code>checkValidity()</code> before accepting anything, applying Bootstrap's real <code>is-invalid</code> state on failure. The signup modal won't advance past step one without a name and a valid email. None of these forms silently accept garbage.</li>
+</ul>
+
+<h2>1. Bootstrap Responsive Navbar with Live Search</h2>
+
+<p>A real Bootstrap navbar — genuine hamburger collapse below 992px via Bootstrap's own Collapse component — with a search box that dims every non-matching nav link as you type, instead of hiding them and shifting the whole layout.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-responsive-navbar-search/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Responsive Navbar with Live Search — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every nav link's <code>data-label</code> attribute is checked against the lowercased search input on every keystroke with a plain <code>includes()</code> — no fuzzy matching library. A non-match gets a <code>.bsnav-dim</code> class that drops its opacity to 0.3 rather than being removed from the DOM, which is the detail that keeps the navbar's width completely stable while typing instead of jumping as links disappear. The hamburger collapse itself is entirely Bootstrap's own <code>navbar-toggler</code>/<code>navbar-collapse</code> wiring — nothing here reimplements it.</p>
+
+<p><strong>Best for:</strong> product or SaaS site headers with enough nav links that scanning them all gets tedious. <strong>Tip:</strong> the search box lives inside the same collapsible region as the links, so it's reachable in both the expanded and the mobile hamburger state with no extra markup.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-responsive-navbar-search/">Bootstrap Responsive Navbar with Live Search</a></p>
+
+<h2>2. Bootstrap Hero Section with Gradient Background</h2>
+
+<p>A two-column Bootstrap hero — gradient background, a genuinely validated email-capture form on the left, and a live stat card with an animating bar chart on the right that grows with every real signup.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-hero-gradient-cta/embed/" style="width:100%;height:660px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Hero Section with Gradient Background — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the submit handler calls the email input's native <code>checkValidity()</code> before accepting anything — an invalid or empty address gets Bootstrap's real <code>is-invalid</code> styling and the form refuses to submit. A valid address is added to a running list rendered as Bootstrap badges, the counter bumps with a brief scale animation, and the highlighted bar in the five-bar chart on the right grows slightly, capped at 100% — all from one real submit event, not a scripted demo.</p>
+
+<p><strong>Best for:</strong> SaaS pre-launch and waitlist pages where the email form needs to actually work, not just look collectable. <strong>Tip:</strong> the bar chart is five plain divs sized by a CSS custom property — no charting library needed for a chart this simple.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-hero-gradient-cta/">Bootstrap Hero Section with Gradient Background</a></p>
+
+<h2>3. Bootstrap Product Card Grid with Quick Add to Cart</h2>
+
+<p>A six-card Bootstrap product grid where every "Add to cart" button actually updates a live cart count and running dollar total in the header — not a static mockup of a shop page.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-product-card-grid/embed/" style="width:100%;height:720px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Product Card Grid with Quick Add to Cart — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> one delegated click listener sits on the grid's parent container, using <code>e.target.closest('.bscard-add')</code> to work out whether an Add-to-cart button was actually clicked. Each button carries its own <code>data-price</code>, so the handler reads the price straight off the clicked element — there's no separate lookup table that could drift from what's visibly displayed. A successful click also swaps the button's text to "Added ✓" and briefly disables it, real confirmation that the click registered.</p>
+
+<p><strong>Best for:</strong> e-commerce category pages, or any product grid demo that needs to show a genuinely working cart interaction rather than an inert button. <strong>Tip:</strong> add a seventh product by copying one card block — the delegated listener picks up its button with zero JavaScript changes.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-product-card-grid/">Bootstrap Product Card Grid with Quick Add to Cart</a></p>
+
+<h2>4. Bootstrap Pricing Table with Monthly/Annual Toggle</h2>
+
+<p>A three-tier Bootstrap pricing table with a real billing-cycle switch — flip it and every price fades out, swaps to its annual rate, and fades back in, rather than snapping instantly.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-pricing-table-toggle/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Pricing Table with Monthly/Annual Toggle — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each plan's price element carries both a <code>data-monthly</code> and a <code>data-annual</code> value — the annual rate is a fixed number you set, never a runtime percentage calculation that could round unexpectedly. Flipping Bootstrap's real <code>form-switch</code> toggle fades every price to opacity 0, swaps in the correct data-attribute value while invisible, then fades back in — a ~240ms fade-out/fade-in sequence that turns an instant, jarring number change into something that reads as smooth.</p>
+
+<p><strong>Best for:</strong> any SaaS pricing page — this is the single most expected interaction on that kind of page, built correctly instead of as a static two-column comparison. <strong>Tip:</strong> add a fourth pricing tier by copying a card column; the toggle logic queries every <code>.bsprice-num</code> on the page, so it scales automatically.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-pricing-table-toggle/">Bootstrap Pricing Table with Monthly/Annual Toggle</a></p>
+
+<h2>5. Bootstrap Login Form with Live Validation</h2>
+
+<p>A centered Bootstrap login card where each field validates the moment you leave it, a password field with a working show/hide toggle, and a submit button with a genuine (simulated) loading state.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-login-form-validation/embed/" style="width:100%;height:680px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Login Form with Live Validation — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each field calls native <code>checkValidity()</code> on <code>blur</code>, toggling Bootstrap's <code>is-invalid</code>/<code>is-valid</code> classes the moment you leave it — no waiting for a full submit to see any error. Once a field is marked invalid, it re-checks on every keystroke, so the error clears the instant you type a fix rather than lingering until the next blur. The password toggle button also updates its own <code>aria-label</code> between "Show password" and "Hide password" at every state, so screen reader users get the correct description of what it will do next.</p>
+
+<p><strong>Best for:</strong> any real authentication page — the validate-on-blur, clear-on-input pattern is what makes a login form feel responsive instead of naggy. <strong>Tip:</strong> swap the submit handler's <code>setTimeout</code> for a real <code>fetch()</code> call to your auth endpoint; the loading/success state machine around it is already correctly wired.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-login-form-validation/">Bootstrap Login Form with Live Validation</a></p>
+
+<h2>6. Bootstrap Multi-Step Signup Modal</h2>
+
+<p>A real Bootstrap modal walking through a 3-step signup — details, plan selection, confirmation — with an animated progress bar and validation that blocks advancing until step one is actually filled in.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-multistep-signup-modal/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Multi-Step Signup Modal — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the modal is Bootstrap's real component, opened via <code>data-bs-toggle="modal"</code> and closed on "Finish" with <code>bootstrap.Modal.getInstance(el).hide()</code> — the documented API, not manual class toggling. The three steps are three <code>div</code>s toggled with Bootstrap's own <code>.d-none</code> utility class rather than being re-rendered, and the modal resets itself back to step one and clears both fields on Bootstrap's own <code>hidden.bs.modal</code> event, so reopening it never shows a stale, half-finished signup from last time.</p>
+
+<p><strong>Best for:</strong> SaaS signup and onboarding flows that benefit from staying inside one dialog instead of navigating across pages. <strong>Tip:</strong> the plan-selection cards highlight themselves purely with CSS <code>:has()</code> — <code>.bssignup-plan:has(input:checked)</code> — no JavaScript needed for that part of the visual.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-multistep-signup-modal/">Bootstrap Multi-Step Signup Modal</a></p>
+
+<h2>7. Bootstrap Offcanvas Shopping Cart</h2>
+
+<p>A real Bootstrap offcanvas panel that slides in as a cart — working quantity steppers, item removal, and a subtotal that recalculates correctly from whatever's actually left in the list.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-offcanvas-cart/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Offcanvas Shopping Cart — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every change — a quantity bump, a decrement, a removal — funnels through one shared <code>recalc()</code> function that re-reads every remaining row's price and quantity straight from the DOM and recomputes the subtotal, the header badge count, and whether to show the empty-cart message. That centralization is what guarantees those three things can never drift out of sync with each other. The quantity stepper is clamped to a floor of 1 with <code>Math.max(1, ...)</code> — reaching zero is handled by the separate, explicit remove button instead, a deliberate distinction between "reduce" and "remove."</p>
+
+<p><strong>Best for:</strong> e-commerce sites that want a persistent cart panel a shopper can review without navigating away from the page they're on. <strong>Tip:</strong> pair this with the Product Card Grid snippet above — wire its "Add to cart" clicks to append new rows into this panel's item list for a complete flow.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-offcanvas-cart/">Bootstrap Offcanvas Shopping Cart</a></p>
+
+<h2>8. Bootstrap Vertical Tabs Settings Panel</h2>
+
+<p>A four-section settings page — Profile, Notifications, Security, Billing — built on Bootstrap's real vertical <code>nav-pills</code>, with a notification badge that clears itself the first time you actually open that tab.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-vertical-tabs-settings/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Vertical Tabs Settings Panel — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the tab switching itself is entirely Bootstrap's own Tab component, wired through <code>data-bs-toggle="pill"</code> — no custom click handler duplicates it. The only custom logic listens for Bootstrap's own <code>shown.bs.tab</code> lifecycle event, checks which tab was just shown via <code>e.target</code>, and hides the Notifications badge the first time that specific pane becomes visible. Below Bootstrap's <code>md</code> breakpoint, the same vertical pills collapse into a horizontal, scrollable row via one small CSS override — no separate mobile component.</p>
+
+<p><strong>Best for:</strong> account settings and admin configuration pages — the standard fixed-sidebar, swappable-content layout, built correctly on Bootstrap's real component from the start. <strong>Tip:</strong> add a fifth section by adding one more nav button and matching tab-pane; Bootstrap's Tab component picks it up automatically.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-vertical-tabs-settings/">Bootstrap Vertical Tabs Settings Panel</a></p>
+
+<h2>9. Bootstrap Accordion FAQ with Live Search</h2>
+
+<p>A real Bootstrap accordion FAQ where a search box filters questions live — including matching a question by a related keyword that never appears in its visible heading.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-accordion-faq-search/embed/" style="width:100%;height:660px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Accordion FAQ with Live Search — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> each accordion item carries a hidden <code>data-q</code> string of relevant search keywords — not just its visible question text. Typing "billing" surfaces the "Can I cancel anytime?" question, since "billing" is part of that item's keyword data even though the word never appears in its heading. Filtering only ever toggles a <code>.bsfaq-hidden</code> class on whole items; it never touches Bootstrap's own open/closed collapse state, so an already-expanded answer that still matches stays exactly as it was through a search.</p>
+
+<p><strong>Best for:</strong> any FAQ section past five or six questions, where scrolling through everything to find one relevant answer stops being reasonable. <strong>Tip:</strong> a search matching nothing shows a dedicated "No questions match" message rather than an ambiguous empty accordion — copy that pattern into your own search UIs.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-accordion-faq-search/">Bootstrap Accordion FAQ with Live Search</a></p>
+
+<h2>10. Bootstrap Admin Dashboard with Sidebar Navigation</h2>
+
+<p>A complete admin shell — dark sidebar, stat cards, an orders table with real Bootstrap status badges — with two genuinely different collapse behaviors for desktop and mobile.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-admin-dashboard-sidebar/embed/" style="width:100%;height:700px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Admin Dashboard with Sidebar Navigation — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> on desktop, one class toggle shrinks the sidebar from 220px to a 66px icon-only rail via a CSS width transition. Below Bootstrap's <code>lg</code> breakpoint, a completely different mechanism takes over — the sidebar becomes <code>position: fixed</code> and slides in from off-screen only when a hamburger button is tapped, since a permanent 220px column doesn't fit a phone screen at all. One delegated click listener on the nav drives both the active-link highlight and the page title in the top bar, and on mobile the same click also closes the drawer — navigate and dismiss in one action.</p>
+
+<p><strong>Best for:</strong> internal tools and back-office dashboards that need the standard nav-plus-stats-plus-table scaffold without building it from scratch. <strong>Tip:</strong> combine with the Vertical Tabs Settings panel above — drop it in as the content for this dashboard's "Settings" nav destination.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-admin-dashboard-sidebar/">Bootstrap Admin Dashboard with Sidebar Navigation</a></p>
+
+<p>Each of these ten lives in the category that actually fits its shape — the navbar under Navigation, the pricing table under Pricing, the admin shell under Dashboards, and so on — so they surface alongside every other snippet of that kind, not off in a library of their own. Find all ten in one place any time via the <a href="https://fwdtools.com/ui-snippets/tag/bootstrap/">Bootstrap tag</a>. Open any of them above and you land straight in the live editor, HTML/CSS/JS tabs and all; click <strong>Save as</strong> to copy it into <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and start changing it.</p>

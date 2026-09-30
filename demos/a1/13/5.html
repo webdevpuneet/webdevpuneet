@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Uncontrolled Input — Read Once, Not on Every Keystroke">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Controlled vs. uncontrolled</h1>
+    <p class="hint">Type in either field. The left one re-renders on every keystroke (watch the counter); the right one only reads its value when you click Submit.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 19px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 48em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; padding: 20px 16px 30px; }
+  .cols { display: flex; gap: 16px; }
+  .col { width: 210px; padding: 16px; background: #fff; border: 1.5px dashed var(--line); border-radius: 12px; display: flex; flex-direction: column; gap: 10px; }
+  .col h3 { margin: 0; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--sub); }
+  .textInput { padding: 9px 10px; font: 500 13.5px system-ui, sans-serif; border: 1.5px solid var(--line); border-radius: 7px; }
+  .renderCount { font-size: 11.5px; color: var(--accent); font-weight: 700; }
+  .submitBtn { padding: 8px 12px; font: 700 12.5px system-ui, sans-serif; color: #fff; background: var(--accent); border: none; border-radius: 7px; cursor: pointer; }
+  .result { font-size: 11.5px; color: var(--ink); min-height: 16px; word-break: break-word; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useRef = React.useRef;
+
+  function ControlledField() {
+    var s = useState(''), text = s[0], setText = s[1];
+    var renders = useRef(0);
+    renders.current = renders.current + 1;
+
+    return e('div', { className: 'col' },
+      e('h3', null, 'Controlled (useState)'),
+      e('input', { className: 'textInput', value: text, onChange: function (ev) { setText(ev.target.value); }, placeholder: 'Type here...' }),
+      e('div', { className: 'renderCount' }, 'Renders so far: ' + renders.current),
+      e('div', { className: 'result' }, 'Live value: ' + (text || '(empty)'))
+    );
+  }
+
+  function UncontrolledField() {
+    var inputRef = useRef(null);
+    var resultState = useState(''), result = resultState[0], setResult = resultState[1];
+    var renders = useRef(0);
+    renders.current = renders.current + 1;
+
+    function handleSubmit() {
+      setResult(inputRef.current.value);
+    }
+
+    return e('div', { className: 'col' },
+      e('h3', null, 'Uncontrolled (useRef)'),
+      e('input', { className: 'textInput', ref: inputRef, defaultValue: '', placeholder: 'Type here...' }),
+      e('button', { className: 'submitBtn', onClick: handleSubmit }, 'Submit'),
+      e('div', { className: 'renderCount' }, 'Renders so far: ' + renders.current),
+      e('div', { className: 'result' }, 'Read on submit: ' + (result || '(nothing yet)'))
+    );
+  }
+
+  function ControlledVsUncontrolled() {
+    return e('div', { className: 'cols' },
+      e(ControlledField),
+      e(UncontrolledField)
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(ControlledVsUncontrolled));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

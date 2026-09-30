@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="A New Object Every Render Breaks the Dependency Array">
+
+<script type="text/plain" id="cdn">
+https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js
+https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>{ } !== { } &mdash; even with identical contents</h1>
+    <p class="hint">Both effects depend on a filter object built the same way. Click Start on each and watch what happens to the run count.</p>
+  </header>
+  <main class="stageWrap">
+    <div id="root"></div>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 17px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 18px 16px 28px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; max-width: 480px; }
+  .col { background: #fff; border: 1.5px solid var(--line); border-radius: 10px; padding: 14px; text-align: center; }
+  .colTitle { margin: 0 0 8px; font: 700 12px ui-monospace, monospace; padding: 5px 8px; border-radius: 6px; }
+  .colTitle.bad { color: var(--red); background: #fdeaea; }
+  .colTitle.good { color: var(--green); background: #e8f7ee; }
+  .stat { font: 800 24px ui-monospace, monospace; margin-bottom: 8px; }
+  .runBtn { padding: 8px 14px; border-radius: 8px; border: none; background: var(--accent); color: #fff; font: 700 12.5px system-ui, sans-serif; cursor: pointer; }
+  .runBtn:disabled { opacity: .5; cursor: default; }
+  .note { margin: 8px 0 0; font-size: 11px; color: var(--sub); line-height: 1.5; }
+  code { background: #eceef3; padding: 1px 5px; border-radius: 4px; font-size: 11px; }
+</script>
+
+<script type="text/plain" id="js">
+  var e = React.createElement;
+  var useState = React.useState;
+  var useEffect = React.useEffect;
+  var useMemo = React.useMemo;
+
+  var MAX_RUNS = 40; // safety cap so a genuine infinite loop can't freeze the tab
+
+  function Demo() {
+    var minPriceState = useState(10);
+    var minPrice = minPriceState[0];
+
+    var badRunsState = useState(0);
+    var badRuns = badRunsState[0];
+    var setBadRuns = badRunsState[1];
+    var badOnState = useState(false);
+    var badOn = badOnState[0];
+    var setBadOn = badOnState[1];
+
+    var goodRunsState = useState(0);
+    var goodRuns = goodRunsState[0];
+    var setGoodRuns = goodRunsState[1];
+    var goodOnState = useState(false);
+    var goodOn = goodOnState[0];
+    var setGoodOn = goodOnState[1];
+
+    // BROKEN: this object literal is recreated on every render. Even though
+    // its CONTENTS never change, React's dependency comparison is by
+    // reference (Object.is), and a fresh object is never === the last one --
+    // so the effect thinks its dependency changed on every single render,
+    // re-running, which (because it also updates state) re-renders, which
+    // creates another new object, forever.
+    var badFilters = { min: minPrice };
+    useEffect(function () {
+      if (!badOn) return;
+      setBadRuns(function (n) {
+        var next = n + 1;
+        if (next >= MAX_RUNS) setBadOn(false); // safety valve for the demo
+        return next;
+      });
+    }, [badOn, badFilters]);
+
+    // FIXED: useMemo caches the object and only creates a new one when
+    // minPrice itself actually changes -- so the reference stays stable
+    // across renders that don't change the real underlying value.
+    var goodFilters = useMemo(function () { return { min: minPrice }; }, [minPrice]);
+    useEffect(function () {
+      if (!goodOn) return;
+      // Same MAX_RUNS safety valve as the broken side -- deliberately, so
+      // that Forking this demo and removing useMemo (to see the bug for
+      // yourself) still can't actually freeze the tab.
+      setGoodRuns(function (n) {
+        var next = n + 1;
+        if (next >= MAX_RUNS) setGoodOn(false);
+        return next;
+      });
+    }, [goodOn, goodFilters]);
+
+    return e('div', { className: 'cols' },
+      e('div', { className: 'col' },
+        e('h2', { className: 'colTitle bad' }, 'Object literal dep'),
+        e('div', { className: 'stat' }, badRuns + (badRuns >= MAX_RUNS ? ' (capped)' : '')),
+        e('button', { className: 'runBtn', disabled: badOn, onClick: function () { setBadRuns(0); setBadOn(true); } }, badOn ? 'Looping...' : 'Start'),
+        e('p', { className: 'note' }, e('code', null, '{ min: minPrice }'), ' is a new object every render, so the effect never stops re-running.')
+      ),
+      e('div', { className: 'col' },
+        e('h2', { className: 'colTitle good' }, 'useMemo\'d dep'),
+        e('div', { className: 'stat' }, goodRuns + (goodRuns >= MAX_RUNS ? ' (capped)' : '')),
+        e('button', { className: 'runBtn', disabled: goodOn, onClick: function () { setGoodRuns(0); setGoodOn(true); } }, goodOn ? 'Running...' : 'Start'),
+        e('p', { className: 'note' }, e('code', null, 'useMemo'), ' keeps the same object reference until minPrice really changes, so this runs once and stops.')
+      )
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(e(Demo));
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

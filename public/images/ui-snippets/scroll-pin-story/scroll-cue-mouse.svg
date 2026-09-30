@@ -1,0 +1,16 @@
+<svg width="26" height="42" viewBox="0 0 26 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .scroll-cue-dot {
+      animation: scroll-cue-dot-move 1.8s ease-in-out infinite;
+      transform-origin: 13px 12px;
+    }
+    @keyframes scroll-cue-dot-move {
+      0%   { transform: translateY(0);   opacity: 1; }
+      60%  { transform: translateY(11px); opacity: 0.2; }
+      61%  { transform: translateY(0);   opacity: 0; }
+      100% { transform: translateY(0);   opacity: 1; }
+    }
+  </style>
+  <rect x="1.5" y="1.5" width="23" height="39" rx="11.5" stroke="#cfe8ff" stroke-opacity="0.65" stroke-width="2"/>
+  <circle class="scroll-cue-dot" cx="13" cy="12" r="3" fill="#cfe8ff" fill-opacity="0.85"/>
+</svg>

@@ -1,0 +1,137 @@
+<h1>10 More Free Bootstrap 5 Snippets: A Star Rating You Can Arrow-Key Through, an OTP Form With a Real Countdown &amp; a Price Slider Whose Thumbs Never Get Stuck</h1>
+
+<p>Two batches in, the Bootstrap collection had already covered the pages every site needs and the dashboard-grade details that separate a working component from a decorative one. This third batch turns to the inputs a site collects data through — a star rating, a two-step OTP login, social sign-in buttons, password recovery and reset, file and image uploads, a searchable multi-select, a tag field, and a dual-thumb price slider. Every one still loads the genuine <code>bootstrap.min.css</code> and <code>bootstrap.bundle.min.js</code> from a CDN and builds on Bootstrap's real component classes, not custom CSS made to resemble them.</p>
+
+<p>Every one is a <strong>live, interactive preview</strong> you can try right here in the article, and each exports to React, Vue, Angular or Tailwind in one click from its snippet page.</p>
+
+<h2>What these ten get right</h2>
+
+<ul>
+<li><strong>Keyboard support that isn't an afterthought.</strong> The star rating's five stars sit inside one focusable <code>tabindex="0"</code> group acting as a radiogroup — arrow keys move the committed rating up or down by one star without tabbing through five separate elements, and a shared <code>commit()</code> function keeps the hidden form value, the visible label, and the painted stars from ever disagreeing.</li>
+<li><strong>Timers that actually clean up after themselves.</strong> Both the OTP login's resend link and the forgot-password form's resend link disable themselves for a fixed window using <code>setInterval</code>, and every restart calls <code>clearInterval</code> on the previous timer first — so clicking "Resend" twice in a row can never leave two competing countdowns fighting over the same label.</li>
+<li><strong>State recomputed from what's actually selected, not tracked separately.</strong> The multi-select dropdown's "3 selected" summary and the image upload grid's running count both recompute directly from the current DOM state — <code>checkboxes.filter(cb =&gt; cb.checked)</code>, <code>entries.length</code> — after every change, instead of incrementing or decrementing a counter variable that could quietly drift from reality.</li>
+<li><strong>Object URLs revoked, not just images removed.</strong> The image upload preview creates a <code>URL.createObjectURL</code> per selected file and pairs it with that file in an <code>entries</code> array specifically so the matching URL can be revoked individually the moment its thumbnail is removed — skipping that step is a real, if small, memory leak most upload-preview demos never mention.</li>
+<li><strong>Clamped inputs instead of validation after the fact.</strong> The price slider's two overlapping <code>&lt;input type="range"&gt;</code> elements clamp each other's value on every <code>input</code> event, minus a fixed <code>MIN_GAP</code>, so the two thumbs physically cannot cross or fully overlap — there's no separate "is min greater than max" check running after the fact, because the invalid state is never allowed to exist in the first place.</li>
+</ul>
+
+<h2>1. Bootstrap Star Rating Input</h2>
+
+<p>A real, clickable five-star rating widget — hover previews the rating, clicking commits it, and a hidden input carries the numeric value for form submission.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-star-rating-input/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Star Rating Input — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> a single <code>commit(value)</code> function is the only place a rating is ever finalized — it updates the hidden <code>#bsstarValue</code> input, repaints the stars up to that value, sets the "N out of 5" label, and enables the submit button, so every path that can change the rating (a click, or an arrow key) runs through the exact same function instead of duplicating the update logic. Hovering any star calls <code>paint()</code> to preview up to that star without touching the committed value, and <code>mouseleave</code> repaints back to whatever was last actually committed. The star row itself carries <code>tabindex="0"</code> and listens for arrow keys, moving the committed rating by one star at a time — a genuine keyboard path, not a mouse-only widget with a keyboard afterthought bolted on.</p>
+
+<p><strong>Best for:</strong> product reviews, post-purchase feedback, and any form collecting a 1–5 satisfaction score. <strong>Tip:</strong> the hidden <code>#bsstarValue</code> input is already form-submittable as-is — wire its <code>name</code> attribute and it posts with the rest of the form with zero extra JavaScript.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-star-rating-input/">Bootstrap Star Rating Input</a></p>
+
+<h2>2. Bootstrap OTP Login Form</h2>
+
+<p>A real two-step login card: step one collects an email or phone number, step two reveals a six-digit code entry with a genuine 30-second resend countdown.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-otp-login-form/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap OTP Login Form — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>isValidContact()</code> checks the entered value against an email pattern <em>or</em> a phone pattern before step one is allowed to advance, so the form doesn't need separate "email" and "phone" tabs — either format just works. Once step two appears, <code>startCountdown()</code> disables the resend link, starts a <code>setInterval</code> ticking a visible "(30s)" label down to zero, and calls <code>clearInterval</code> on any previous timer first, so tapping resend mid-countdown can't spawn a second competing timer. The six code boxes reuse the same auto-advance-on-type, backspace-to-previous pattern that makes a segmented code input feel like typing one number instead of managing six fields.</p>
+
+<p><strong>Best for:</strong> passwordless or 2FA-backed login flows where a phone number and an email should both be accepted as the contact method. <strong>Tip:</strong> pair this with the <a href="https://fwdtools.com/ui-snippets/bootstrap-2fa-verification-form/">Bootstrap Two-Factor Verification Code Form</a> from the second batch — same code-box pattern, two different entry points into it.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-otp-login-form/">Bootstrap OTP Login Form</a></p>
+
+<h2>3. Bootstrap Social Login Buttons</h2>
+
+<p>A stack of full-width social login buttons — Google, GitHub, Facebook, Apple — each showing a real loading spinner inside the button while a sign-in is simulated.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-social-login-buttons/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Social Login Buttons — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> clicking any provider button disables every button in the group at once, not just the one clicked — a real auth redirect only ever goes to one provider, so this snippet's <code>buttons.forEach(b =&gt; (b.disabled = true))</code> stops a user firing off two competing sign-in flows by clicking a second provider while the first is still "connecting." The clicked button's own label swaps to "Connecting to Google…" and its Bootstrap <code>spinner-border</code> becomes visible via a <code>d-none</code> class toggle, then a <code>setTimeout</code> stands in for the real redirect, restoring every button and reporting which provider "signed in" once it resolves.</p>
+
+<p><strong>Best for:</strong> any signup or login screen offering social auth alongside — or instead of — a traditional email/password form. <strong>Tip:</strong> replace the <code>setTimeout</code> with your real OAuth redirect call inside the same click handler — the disable-all/restore-all logic around it doesn't need to change.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-social-login-buttons/">Bootstrap Social Login Buttons</a></p>
+
+<h2>4. Bootstrap Forgot Password Form</h2>
+
+<p>A centered Bootstrap card that validates an email, then swaps to a success state showing the masked address it was "sent" to, with a real resend countdown.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-forgot-password-form/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Forgot Password Form — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>maskEmail()</code> keeps only the first character of the address's local part — <code>sarah@gmail.com</code> becomes <code>s•••••@gmail.com</code> — so the success screen confirms where the reset link went without fully exposing an address someone glancing at the screen shouldn't see in full. The same <code>startCountdown()</code>/<code>clearInterval</code> pattern from the OTP form's resend link reappears here, disabling the resend action for 30 real seconds rather than leaving it clickable the instant the success screen appears.</p>
+
+<p><strong>Best for:</strong> the password-recovery step of any login flow, standing on its own or linked from a login form's "Forgot password?" text. <strong>Tip:</strong> pair directly with the <a href="https://fwdtools.com/ui-snippets/bootstrap-login-form-validation/">Bootstrap Login Form with Live Validation</a> from the first batch for a complete forgot-password journey starting from the login screen itself.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-forgot-password-form/">Bootstrap Forgot Password Form</a></p>
+
+<h2>5. Bootstrap Reset Password Form</h2>
+
+<p>A new-password and confirm-password pair with a live strength meter and a live "passwords match" indicator, both updating on every keystroke.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-reset-password-form/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Reset Password Form — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>scorePassword()</code> checks four independent character-class rules — length past 8, length past 12, mixed case, digits, symbols — plus a length bonus, and the resulting 0–4 score indexes straight into a <code>LEVELS</code> array that pairs a percentage, a Bootstrap color class, and a label ("Weak," "Good," "Strong") for the progress bar. That table-driven approach is what keeps the five strength tiers consistent — there's one place to adjust the thresholds, not five scattered <code>if</code> branches each setting their own color and width.</p>
+
+<p><strong>Best for:</strong> the final step of any password-reset email link, or a signup form's password field. <strong>Tip:</strong> this pairs naturally with the <a href="https://fwdtools.com/ui-snippets/bootstrap-signup-password-strength/">Bootstrap Signup Form with Password Strength Meter</a> from earlier in the collection — same scoring idea, two different moments in the account lifecycle.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-reset-password-form/">Bootstrap Reset Password Form</a></p>
+
+<h2>6. Bootstrap File Upload Drag and Drop</h2>
+
+<p>A dashed-border dropzone that highlights on drag-over, accepts a drop or a click-to-browse, and lists every selected file with its size and a remove button.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-file-upload-drag-drop/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap File Upload Drag and Drop — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>addFiles()</code> is called from both the drop event and the hidden file input's change event, so dragging a file in and clicking to browse for one go through identical validation instead of two separate code paths that could drift apart. Every file is checked against a <code>MAX_SIZE</code> constant and oversized ones are collected into a <code>rejected</code> list and reported together in one visible error, rather than rejecting silently or stopping at the first bad file and ignoring the valid ones after it in the same batch.</p>
+
+<p><strong>Best for:</strong> document upload forms, support-ticket attachments, and any form accepting a handful of files rather than a single one. <strong>Tip:</strong> swap <code>MAX_SIZE</code>'s 2&nbsp;MB for whatever your backend actually accepts — the error message is generated from the same constant, so the two can never disagree.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-file-upload-drag-drop/">Bootstrap File Upload Drag and Drop</a></p>
+
+<h2>7. Bootstrap Image Upload with Preview</h2>
+
+<p>A multiple-image file input that renders live thumbnail previews in a Bootstrap grid, each with its own remove button and a running selected-count badge.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-image-upload-preview/embed/" style="width:100%;height:500px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Image Upload with Preview — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> every selected image is paired with the <code>URL.createObjectURL</code> generated for it inside one <code>entries</code> array — <code>{ id, file, url }</code> — specifically so that when a single thumbnail's remove button is clicked, its matching object URL can be revoked on its own rather than only being able to revoke all of them at once. A delegated click listener on the whole <code>#bsimgGrid</code> container handles every remove button through one <code>e.target.closest('.bsimg-remove')</code> check, so newly added thumbnails are removable immediately with no per-thumbnail listener ever attached.</p>
+
+<p><strong>Best for:</strong> product-listing forms, profile-photo uploads, and any flow accepting several images at once with an immediate visual check before submitting. <strong>Tip:</strong> the non-image files a user might still pick are already filtered out via <code>file.type.startsWith('image/')</code> — no separate validation step needed before rendering.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-image-upload-preview/">Bootstrap Image Upload with Preview</a></p>
+
+<h2>8. Bootstrap Multi-Select Dropdown</h2>
+
+<p>A Bootstrap dropdown holding a checkbox list instead of the native multi-select element, with a live "N selected" summary and a search filter built in.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-multi-select-dropdown/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Multi-Select Dropdown — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> Bootstrap's Dropdown closes itself on any click by default, including a click on one of the checkboxes inside it — this snippet's trigger carries <code>data-bs-auto-close="outside"</code>, the same documented mode used to keep the notification center dropdown open in the second batch, so selecting several skills in a row doesn't close and reopen the panel each time. The search box hides non-matching rows in place — toggling a <code>d-none</code> class per row rather than re-rendering the list — by checking each row's own <code>data-name</code> attribute against the typed query, and a dedicated "no results" row appears only once every row has been filtered out.</p>
+
+<p><strong>Best for:</strong> skill pickers, tag filters, and any form field where several options can genuinely apply at once and a native multi-select's cramped, hard-to-scan list isn't good enough. <strong>Tip:</strong> the summary logic already special-cases one and two selections by name before switching to a count — tune that threshold to match how much horizontal space the trigger button actually has.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-multi-select-dropdown/">Bootstrap Multi-Select Dropdown</a></p>
+
+<h2>9. Bootstrap Tag Input Field</h2>
+
+<p>An input where typing a value and pressing Enter turns it into a removable pill inside the same container — with duplicate tags silently rejected.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-tag-input-field/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Tag Input Field — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> <code>addTag()</code> checks a case-insensitive match against every tag already in the <code>tags</code> array before adding a new one, and a duplicate briefly flashes an error message via a self-clearing <code>setTimeout</code> rather than silently doing nothing — so a repeated entry gets an explanation, not just a non-response. Pressing Enter or typing a comma commits the current input as a tag; pressing Backspace on an <em>already-empty</em> input removes the most recently added tag instead, mirroring how a real tag field on sites like Gmail's "To" field behaves, and <code>CSS.escape()</code> is used when looking up a tag's pill element so a tag containing quote or bracket characters can't break the DOM query that finds it.</p>
+
+<p><strong>Best for:</strong> skills fields, email "To"/"Cc" inputs, and keyword or label entry on any content form. <strong>Tip:</strong> swap the free-text <code>addTag()</code> call for one validated against a fixed vocabulary if tags need to come from a known list rather than anything a user types.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-tag-input-field/">Bootstrap Tag Input Field</a></p>
+
+<h2>10. Bootstrap Price Range Slider</h2>
+
+<p>A dual-thumb price filter built from two overlapping native range inputs kept perfectly in sync, with a live "$X – $Y" label and a visually filled track between them.</p>
+
+<iframe src="https://fwdtools.com/ui-snippets/bootstrap-range-slider-price/embed/" style="width:100%;height:380px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Price Range Slider — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+
+<p><strong>How it works:</strong> the two <code>&lt;input type="range"&gt;</code> elements sit stacked on top of each other and clamp one another's value on every <code>input</code> event, minus a fixed <code>MIN_GAP</code> — dragging the min thumb past <code>max - MIN_GAP</code> simply stops it there, and the same happens in reverse for the max thumb, so the two thumbs can never cross or fully overlap into an unreachable stack. The visually filled bar between them isn't a third slider; it's a plain <code>div</code> whose <code>left</code> and <code>width</code> are recalculated from both values on every input event, converting each raw value into a percentage of the fixed <code>RANGE_MIN</code>–<code>RANGE_MAX</code> span.</p>
+
+<p><strong>Best for:</strong> ecommerce filter sidebars, real-estate search, and any listing page letting visitors narrow results to a price band. <strong>Tip:</strong> pair this with the <a href="https://fwdtools.com/ui-snippets/bootstrap-filter-sidebar-offcanvas/">Bootstrap Filter Sidebar Offcanvas</a> elsewhere in the collection for a complete, mobile-friendly product filter panel.</p>
+
+<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/bootstrap-range-slider-price/">Bootstrap Price Range Slider</a></p>
+
+<p>Same as the first two batches, each of these ten lives in the category that actually fits its shape, so they surface alongside every other snippet of that kind rather than sitting in a library of their own. Find these ten and every other Bootstrap snippet in the collection in one place via the <a href="https://fwdtools.com/ui-snippets/tag/bootstrap/">Bootstrap tag</a>. Open any of them above and you land straight in the live editor, HTML/CSS/JS tabs and all; click <strong>Save as</strong> to copy it into <a href="https://fwdtools.com/ui-snippets/mycode/">My Code</a> and start changing it.</p>

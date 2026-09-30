@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Real-Time Inline Validation">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <header class="bar">
+    <h1>Real-time inline validation</h1>
+    <p class="hint">Type an email address below — you'll see it validate as you type, not just after you hit submit. Try "a" then "a@b" then "a@b.com".</p>
+  </header>
+  <main class="stageWrap">
+    <form id="form" novalidate>
+      <label class="fieldLabel" for="email">Email address</label>
+      <input class="field" type="text" id="email" placeholder="you@example.com" autocomplete="off">
+      <p class="msg" id="msg">&nbsp;</p>
+      <button type="submit" class="submitBtn">Continue</button>
+    </form>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  :root { --ink: #14161c; --sub: #6b7080; --line: #e3e5ea; --accent: #6366f1; --green: #16a34a; --red: #dc2626; }
+  body { background: #f6f7f9; color: var(--ink); }
+  .bar { padding: 18px 20px 8px; text-align: center; }
+  .bar h1 { margin: 0 0 4px; font-size: 18px; letter-spacing: -0.01em; }
+  .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
+  .stageWrap { display: flex; justify-content: center; padding: 30px 16px 28px; }
+
+  form { width: 100%; max-width: 320px; }
+  .fieldLabel { display: block; font: 700 12px system-ui, sans-serif; margin-bottom: 6px; }
+  .field {
+    width: 100%; padding: 10px 12px; border-radius: 8px;
+    border: 1.5px solid var(--line); font: 14px system-ui, sans-serif;
+    outline: none; transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .field:focus { border-color: var(--accent); }
+  .field.valid { border-color: var(--green); background: #f0fdf4; }
+  .field.invalid { border-color: var(--red); background: #fef2f2; }
+
+  .msg { margin: 7px 0 0; font-size: 12px; font-weight: 700; min-height: 16px; }
+  .msg.valid { color: var(--green); }
+  .msg.invalid { color: var(--red); }
+
+  .submitBtn {
+    margin-top: 16px; width: 100%; padding: 11px; border-radius: 9px; border: none;
+    background: var(--accent); color: #fff; font: 700 13.5px system-ui, sans-serif; cursor: pointer;
+  }
+  .submitBtn:hover { background: #4f52d6; }
+</script>
+
+<script type="text/plain" id="js">
+  var form = document.getElementById('form');
+  var email = document.getElementById('email');
+  var msg = document.getElementById('msg');
+
+  function checkEmail(val) {
+    var trimmed = val.trim();
+    if (!trimmed) return { state: '', text: ' ' };
+    // Simple, forgiving pattern: something@something.something
+    var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed);
+    if (ok) return { state: 'valid', text: '✓ Looks good' };
+    if (trimmed.indexOf('@') === -1) return { state: 'invalid', text: 'Missing the @ symbol' };
+    return { state: 'invalid', text: 'Enter a complete email address' };
+  }
+
+  email.addEventListener('input', function () {
+    var result = checkEmail(email.value);
+    email.className = 'field' + (result.state ? ' ' + result.state : '');
+    msg.className = 'msg' + (result.state ? ' ' + result.state : '');
+    msg.textContent = result.text;
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var result = checkEmail(email.value);
+    if (result.state !== 'valid') {
+      email.className = 'field invalid';
+      msg.className = 'msg invalid';
+      msg.textContent = result.text === ' ' ? 'Email address is required' : result.text;
+      email.focus();
+      return;
+    }
+    msg.className = 'msg valid';
+    msg.textContent = '✓ Submitted successfully';
+  });
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>
