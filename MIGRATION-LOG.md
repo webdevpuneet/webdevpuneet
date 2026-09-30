@@ -203,3 +203,10 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 
 - All 14 `*-playground/page.js` now render `<AdSlot showBlog={false} />`, so the blog carousel no longer shows
   there. The related strip and ad slot stay. The home page and CategoryPage are unchanged.
+
+## 2026-09-30 — GitHub
+
+- Remote `origin` = https://github.com/webdevpuneet/webdevpuneet.git (public). `master` pushed and tracking
+  `origin/master`. GitHub `main` still holds only the README, so change the default branch to `master` or merge.
+- Push protection flagged the fake Stripe demo keys in `api-key-manager.js` / `bootstrap-environment-variable-viewer.js`,
+  and they were allowed as false positives.
