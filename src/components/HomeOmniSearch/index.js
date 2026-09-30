@@ -107,7 +107,7 @@ export default function HomeOmniSearch() {
           ref={inputRef}
           type="search"
           className={styles.searchInput}
-          placeholder="Search tools, snippets, tutorials…"
+          placeholder="Search UI snippets and coding playgrounds…"
           value={query}
           onChange={handleChange}
           onFocus={() => setOpen(true)}
@@ -116,7 +116,7 @@ export default function HomeOmniSearch() {
           aria-expanded={showDropdown}
           aria-controls="home-omni-results"
           aria-autocomplete="list"
-          aria-label="Search tools, snippets, and tutorials"
+          aria-label="Search UI snippets and coding playgrounds"
         />
         {query && (
           <button

@@ -1,3 +1,5 @@
+import { useSyncExternalStore } from 'react';
+
 let isNotFound = false;
 const listeners = new Set();
 
@@ -18,4 +20,9 @@ export function getNotFound() {
 
 export function getNotFoundServerSnapshot() {
   return false;
+}
+
+// Hook form for client components that must hide ads on the 404 page.
+export function useIsNotFound() {
+  return useSyncExternalStore(subscribeNotFound, getNotFound, getNotFoundServerSnapshot);
 }

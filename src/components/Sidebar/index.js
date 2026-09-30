@@ -4,6 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { isEmbedRoute } from '@/lib/is-embed-route';
 import { ADS_ENABLED, SIDEBAR_AD_ENABLED } from '@/lib/ads-config';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
+import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import styles from './styles.module.css';
 import { CATEGORY_META, LIVE_TOOLS, SEARCHABLE_TOOLS } from '@/lib/tools-registry';
@@ -1329,6 +1330,7 @@ function defaultSidebarViewFor(pathname) {
 function SidebarTopAd() {
   useEffect(() => {
     const id = setTimeout(() => {
+      if (getNotFound()) return;
       try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
     }, 800);
     return () => clearTimeout(id);
@@ -1348,6 +1350,7 @@ function SidebarTopAd() {
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const isNotFoundPage = useIsNotFound();
   const router = useRouter();
   const activeSlug = pathname.replace(/^\//, '').split('/')[0] || '';
 
@@ -1592,8 +1595,9 @@ export default function Sidebar() {
 
         {/* Sidebar top ad. Keyed by pathname so every page mounts a fresh slot.
             On My Code it follows the IndexOnly standard: shown on the bare
-            /ui-snippets/mycode/ page, hidden on a saved snippet (?id=…). */}
-        {ADS_ENABLED && SIDEBAR_AD_ENABLED && !isEmbedRoute(pathname) && (
+            /ui-snippets/mycode/ page, hidden on a saved snippet (?id=…).
+            Never shown on the 404 page. */}
+        {ADS_ENABLED && SIDEBAR_AD_ENABLED && !isNotFoundPage && !isEmbedRoute(pathname) && (
           pathname.startsWith('/ui-snippets/mycode')
             ? <IndexOnly><SidebarTopAd key={pathname} /></IndexOnly>
             : <SidebarTopAd key={pathname} />

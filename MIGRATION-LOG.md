@@ -171,3 +171,14 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 7. Repo leftovers copied as-is from fwdtools (not used by the build): `blog/`, `blog-templates/`,
    `demos/`, `puneet/`, `common/`, `content-audit.md`, `DEVLOG.md` (fwdtools history), one-off
    audit/fix scripts in `scripts/`. Can be pruned later.
+
+## 2026-09-30 — No ads on 404, GA ID fix, home search placeholder
+
+- **No AdSense on the 404 page.** `useIsNotFound()` hook added to `src/lib/not-found-state.js`. The sidebar
+  300×250 ad (`Sidebar/index.js`) and both `AdSlot` components skip rendering and pushing on 404.
+  `AdSenseScript` waits one tick after mount so a hard 404 load never injects the loader before
+  `not-found.js` sets the flag. CSS guard in `globals.css` (`body:has([data-not-found-page])`) hides any
+  `ins.adsbygoogle` before hydration.
+- **Google Analytics ID was fwdtools' (`G-YZX1VC4PFC`).** It's now the webdevpuneet stream `G-SJKRD65SBJ`
+  in `src/components/GoogleAnalytics/index.js` and `public/puneet/index.html`.
+- Home search placeholder is now "Search UI snippets and coding playgrounds…" (`HomeOmniSearch`).

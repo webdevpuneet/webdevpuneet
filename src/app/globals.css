@@ -271,3 +271,9 @@ input[type="range"] {
   0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
   100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
 }
+
+/* No AdSense on the 404 page — hides any ad container even before hydration. */
+body:has([data-not-found-page]) ins.adsbygoogle,
+body:has([data-not-found-page]) :has(> ins.adsbygoogle) {
+  display: none !important;
+}

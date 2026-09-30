@@ -15,14 +15,14 @@ export default function GoogleAnalytics() {
   return (
     <>
       <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-YZX1VC4PFC"
+        src="https://www.googletagmanager.com/gtag/js?id=G-SJKRD65SBJ"
         strategy="afterInteractive"
       />
       <Script id="ga4-init" strategy="afterInteractive">{`
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-YZX1VC4PFC');
+        gtag('config', 'G-SJKRD65SBJ');
       `}</Script>
     </>
   );

@@ -1,17 +1,28 @@
 'use client';
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { ADS_ENABLED } from '@/lib/ads-config';
+import { ADS_ENABLED as ADS_CONFIG_ENABLED } from '@/lib/ads-config';
+import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import RelatedStrip from '@/components/RelatedStrip';
 import LatestBlogPostsCarousel from '@/components/LatestBlogPostsCarousel';
 import styles from './styles.module.css';
 
+// Ads are never shown on the 404 page.
+function useAdsEnabled() {
+  return ADS_CONFIG_ENABLED && !useIsNotFound();
+}
+
+function pushAd() {
+  if (getNotFound()) return;
+  try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
+}
+
 // 300×600 half-page ad — used inside SEO content after the features section
 export function AdSlot300x600() {
+  const ADS_ENABLED = useAdsEnabled();
   useEffect(() => {
-    if (!ADS_ENABLED) return;
-    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
-  }, []);
+    if (ADS_ENABLED) pushAd();
+  }, [ADS_ENABLED]);
 
   if (!ADS_ENABLED) return null;
 
@@ -30,13 +41,11 @@ export function AdSlot300x600() {
 export default function AdSlot({ contained = false, related = null, showBlog = true }) {
   const pathname = usePathname();
   const slug = pathname?.split('/').filter(Boolean)[0];
+  const ADS_ENABLED = useAdsEnabled();
 
   useEffect(() => {
-    if (!ADS_ENABLED) return;
-    try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (_) {}
-  }, []);
+    if (ADS_ENABLED) pushAd();
+  }, [ADS_ENABLED]);
 
   const relatedContent = related || (slug ? <RelatedStrip slug={slug} /> : null);
 

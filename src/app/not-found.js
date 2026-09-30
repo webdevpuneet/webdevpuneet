@@ -37,7 +37,7 @@ export default function NotFound() {
     : null;
 
   return (
-    <div className={styles.page}>
+    <div className={styles.page} data-not-found-page>
       <div className={styles.inner}>
         <div className={styles.code}>404</div>
         <h1 className={styles.title}>Page not found</h1>
