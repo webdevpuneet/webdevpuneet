@@ -241,3 +241,12 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   stays) and the tracked part of `fwdtools/blog/` removed with `git rm`.
 - Kept for now: 14 drafts in `fwdtools/blog/blog-posts/tools/tool-post*.txt`. They're not in git (the `tools/`
   build-output rule in .gitignore matches them) and have no copy in webdevpuneet.
+
+## 2026-09-30 — Latest UI Snippets on My Code
+
+- `ui-snippets/mycode/page.js` renders `HomeSnippetsCarousel` (the home page "Latest UI Snippets" strip) above the
+  "Learn Coding Visually" strip. It sits outside `IndexOnly`, so it also shows on saved snippets (`?id=…`), where the
+  strip, ad and SEO section stay hidden.
+- Follow-up: "Learn Coding Visually" (`FrontendPlaygroundsStrip`) moved out of `AdSlot`/`IndexOnly` on My Code, so saved
+  snippets show it too. `AdSlot` now accepts `related={false}`, meaning no related strip. The ad and SEO section
+  are still index-only.

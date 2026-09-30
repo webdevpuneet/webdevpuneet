@@ -47,7 +47,8 @@ export default function AdSlot({ contained = false, related = null, showBlog = t
     if (ADS_ENABLED) pushAd();
   }, [ADS_ENABLED]);
 
-  const relatedContent = related || (slug ? <RelatedStrip slug={slug} /> : null);
+  // related={false}: the page renders its own related strip, so show none here.
+  const relatedContent = related === false ? null : (related || (slug ? <RelatedStrip slug={slug} /> : null));
 
   if (!ADS_ENABLED) {
     return (

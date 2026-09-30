@@ -2,6 +2,9 @@ import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import FrontendPlaygroundsStrip from '@/components/FrontendPlaygroundsStrip';
+import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
+import adStyles from '@/components/AdSlot/styles.module.css';
+import { getLatestSnippets } from '@/lib/snippet-related';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 
 const OG_IMAGE = 'https://webdevpuneet.com/images/ui-snippets/mycode.png';
@@ -154,14 +157,25 @@ const breadcrumbSchema = {
 };
 
 export default function SavedSnippetsPage() {
+  const latestSnippets = getLatestSnippets(60);
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      {/* Latest UI Snippets — on the My Code gallery and on every saved snippet (?id=…),
+          above the "Learn Coding Visually" strip. Outside IndexOnly on purpose. Its section
+          carries its own 20px (16px mobile) side inset, matching AdSlot's relatedFull. */}
+      <div className={adStyles.adShell}>
+        <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} />
+        {/* "Learn Coding Visually" also shows on saved snippets, so it lives here rather than in AdSlot. */}
+        <div className={adStyles.relatedFull}>
+          <FrontendPlaygroundsStrip />
+        </div>
+      </div>
       <IndexOnly>
-        <AdSlot related={<FrontendPlaygroundsStrip />} showBlog={false} />
+        <AdSlot related={false} showBlog={false} />
         <SeoSection {...SEO} slug="ui-snippets" title="My Code — Personal HTML CSS JS Code Space" />
       </IndexOnly>
     </>
