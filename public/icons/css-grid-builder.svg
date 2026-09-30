@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <!-- Outer frame -->
+  <rect x="2" y="2" width="20" height="20" rx="2.5" stroke="#818cf8" stroke-width="1.5"/>
+  <!-- Column lines -->
+  <line x1="9" y1="2" x2="9" y2="22" stroke="#818cf8" stroke-width="1" opacity="0.5"/>
+  <line x1="16" y1="2" x2="16" y2="22" stroke="#818cf8" stroke-width="1" opacity="0.5"/>
+  <!-- Row lines -->
+  <line x1="2" y1="7" x2="22" y2="7" stroke="#818cf8" stroke-width="1" opacity="0.5"/>
+  <line x1="2" y1="17" x2="22" y2="17" stroke="#818cf8" stroke-width="1" opacity="0.5"/>
+  <!-- Header area fill (top row, full width) -->
+  <rect x="2" y="2" width="20" height="5" rx="2.5" fill="#818cf8" opacity="0.25"/>
+  <!-- Sidebar area fill (left col, middle row) -->
+  <rect x="2" y="7" width="7" height="10" fill="#34d399" opacity="0.2"/>
+  <!-- Main area fill (middle+right col, middle row) -->
+  <rect x="9" y="7" width="13" height="10" fill="#818cf8" opacity="0.12"/>
+  <!-- Footer area fill (bottom row, full width) -->
+  <rect x="2" y="17" width="20" height="5" fill="#818cf8" opacity="0.15" rx="0 0 2.5 2.5"/>
+</svg>

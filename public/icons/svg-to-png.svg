@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#1a0d00"/>
+  <text x="3" y="14" font-family="monospace" font-size="8" font-weight="900" fill="#f97316">SVG</text>
+  <text x="13" y="21" font-family="monospace" font-size="9" font-weight="700" fill="#64748b">→</text>
+  <text x="3" y="29" font-family="monospace" font-size="8" font-weight="900" fill="#fb923c">PNG</text>
+</svg>

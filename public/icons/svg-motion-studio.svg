@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="SVG Motion Studio">
+  <rect width="64" height="64" rx="14" fill="#7c3aed"/>
+  <!-- bezier S-curve — the tool's signature element -->
+  <path d="M13 50 C 13 30, 51 34, 51 14" fill="none" stroke="#22d3ee" stroke-width="4" stroke-linecap="round"/>
+  <!-- keyframe diamond at curve start -->
+  <polygon points="13,43 19,50 13,57 7,50" fill="white"/>
+  <!-- keyframe diamond at curve end -->
+  <polygon points="51,7 57,14 51,21 45,14" fill="white"/>
+  <!-- animated element travelling along the curve (mid-point) -->
+  <circle cx="33" cy="33" r="5" fill="#fbbf24"/>
+  <circle cx="33" cy="33" r="2.5" fill="#7c3aed"/>
+</svg>

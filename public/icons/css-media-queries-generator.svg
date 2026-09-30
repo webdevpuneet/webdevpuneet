@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- @media text representation: outer bracket -->
+  <rect x="4" y="8" width="40" height="32" rx="4" stroke="#06b6d4" stroke-width="2.5" fill="none"/>
+  <!-- Breakpoint lines (vertical dashes inside) -->
+  <line x1="16" y1="12" x2="16" y2="36" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.7"/>
+  <line x1="28" y1="12" x2="28" y2="36" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="2 2" opacity="0.7"/>
+  <!-- Horizontal content bars in each zone -->
+  <rect x="6"  y="18" width="8"  height="3" rx="1.5" fill="#06b6d4" opacity="0.5"/>
+  <rect x="18" y="18" width="8"  height="3" rx="1.5" fill="#06b6d4" opacity="0.75"/>
+  <rect x="30" y="18" width="12" height="3" rx="1.5" fill="#06b6d4"/>
+  <rect x="6"  y="25" width="6"  height="2" rx="1" fill="#06b6d4" opacity="0.3"/>
+  <rect x="18" y="25" width="6"  height="2" rx="1" fill="#06b6d4" opacity="0.5"/>
+  <rect x="30" y="25" width="10" height="2" rx="1" fill="#06b6d4" opacity="0.7"/>
+</svg>

@@ -1776,7 +1776,11 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             </>
           )}
 
-          <GistSyncButton ref={syncRef} toolKey="us" fileName="fwd-ui-snippets.json" description="webdevpuneet.com — UI Snippets" getLocalData={getLocalData} onPullData={onPullData} />
+          {/* GitHub sync is shown in My Code only. Kept mounted (just hidden) elsewhere so a save
+              started from the library (Fork & Edit etc.) still reaches syncRef.forcePush(). */}
+          <span style={{ display: inMyCode ? 'contents' : 'none' }}>
+            <GistSyncButton ref={syncRef} toolKey="us" fileName="fwd-ui-snippets.json" description="webdevpuneet.com — UI Snippets" getLocalData={getLocalData} onPullData={onPullData} />
+          </span>
 
           {toast && <span className={s.toast}>{toast}</span>}
         </div>

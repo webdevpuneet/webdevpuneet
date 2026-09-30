@@ -7,7 +7,7 @@ import IndexOnly from '@/components/SeoSection/IndexOnly';
 import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import styles from './styles.module.css';
-import { CATEGORY_META, LIVE_TOOLS, SEARCHABLE_TOOLS } from '@/lib/tools-registry';
+import { LIVE_TOOLS, SEARCHABLE_TOOLS } from '@/lib/tools-registry';
 import { fetchLatestBlogPosts } from '@/lib/blog-feed';
 import ThemeToggle from '@/components/ThemeToggle';
 import CookieSettingsButton from '@/components/CookieSettingsButton';
@@ -16,19 +16,23 @@ import { CATEGORIES as SNIPPET_CATEGORIES } from '@/components/UiSnippetsTool/ca
 import { SNIPPET_INDEX as SNIPPETS, VISIBLE_SNIPPET_INDEX as VISIBLE_SNIPPETS } from '@/lib/snippet-index';
 import { dbGetAll as dbGetAllCustomSnippets, dbDelete as dbDeleteCustomSnippet } from '@/lib/uiSnippetsDb';
 import { publishedTags, tagsForSnippetId } from '@/lib/snippet-tags';
+// Snapshot of fwdtools' sidebar groups — regenerate with scripts/sync-fwdtools-sidebar.mjs
+import FWD_SIDEBAR from '@/data/fwdtools-sidebar.json';
 
 /* ─────────────────────────────────────────────────────────────
    Derived data — do not edit; edit tools-registry.js instead
 ───────────────────────────────────────────────────────────── */
-const CORE_TOOLS    = LIVE_TOOLS.filter(t => !t.extended);
 const EXTENDED_TOOLS = LIVE_TOOLS.filter(t => t.extended);
 
-const CATEGORIES = CATEGORY_META.map(cat => ({
-  ...cat,
-  tools: CORE_TOOLS.filter(t => t.category === cat.id),
-})).filter(cat => cat.tools.length > 0);
-
 const TOOL_MAP = Object.fromEntries(LIVE_TOOLS.map(t => [t.slug, t]));
+
+// Category accordions mirror fwdtools (see FWD_SIDEBAR above).
+const CATEGORIES = FWD_SIDEBAR.categories;
+
+// Tools that live on webdevpuneet link locally; everything else goes to fwdtools.
+function toolHref(slug) {
+  return TOOL_MAP[slug] ? `/${slug}/` : `https://fwdtools.com/${slug}/`;
+}
 
 const PAGE_SIZE = 9;
 
@@ -147,7 +151,7 @@ function FavouritesGroup({ slugs, onRemove, onReorder, activeSlug, open, onToggl
               onDrop={onDrop}
               onDragEnd={resetDrag}
             >
-              <a href={`/${t.slug}`}>
+              <a href={toolHref(t.slug)}>
                 <span className={styles.itemInner}>
                   <span className={styles.icon}>
                     <img src={`/icons/${t.slug}.svg`} alt="" width={14} height={14} />
@@ -209,7 +213,7 @@ function ToolLink({ slug, name, sub, active, query, soon }) {
 
   return (
     <li className={`${styles.item} ${active ? styles.active : ''} ${soon ? styles.soon : ''}`}>
-      {soon ? <span>{inner}</span> : <a href={`/${slug}`}>{inner}</a>}
+      {soon ? <span>{inner}</span> : <a href={toolHref(slug)}>{inner}</a>}
     </li>
   );
 }
@@ -257,22 +261,12 @@ function ToolOfDay({ activeSlug, favourites }) {
 /* ─────────────────────────────────────────────────────────────
    PlaygroundsGroup — pinned learn-to-code section
 ───────────────────────────────────────────────────────────── */
-const PLAYGROUND_SLUGS = [
-  'ui-snippets',
-  'html-playground', 'css-playground', 'js-playground', 'typescript-playground', 'scss-playground',
-  'tailwind-playground', 'bootstrap5-playground', 'jquery-playground', 'react-playground', 'angular-playground',
-  'vue-playground', 'nextjs-playground', 'gsap-playground', 'svg-playground',
-];
-const PLAYGROUND_TOOLS = PLAYGROUND_SLUGS.map(s => TOOL_MAP[s]).filter(Boolean);
+// Local entry wins (webdevpuneet's own name); fwdtools-only ones come from the snapshot.
+const PLAYGROUND_TOOLS = FWD_SIDEBAR.playgrounds
+  .map(p => TOOL_MAP[p.slug] || (p.name ? p : null))
+  .filter(Boolean);
 
-const FREELANCER_SLUGS_SIDEBAR = [
-  'freelance-dashboard', 'freelance-invoice-generator', 'client-crm', 'proposal-builder',
-  'contract-template-manager', 'freelance-expense-tracker', 'time-tracker',
-  'freelance-rate-calculator', 'follow-up-reminder-board', 'local-invoice-tracker',
-  'retainer-tracker', 'milestone-payment-tracker', 'scope-creep-tracker',
-  'client-intake-form-builder', 'freelance-availability-planner',
-];
-const FREELANCER_TOOLS_SIDEBAR = FREELANCER_SLUGS_SIDEBAR.map(s => TOOL_MAP[s]).filter(Boolean);
+const FREELANCER_TOOLS_SIDEBAR = FWD_SIDEBAR.freelancer;
 
 const PLAYGROUND_INITIAL = 5;
 
@@ -388,7 +382,7 @@ function PlaygroundsGroup({ activeSlug, open, onToggle }) {
           <ul className={`${styles.list} ${styles.compactList}`}>
             {PLAYGROUND_TOOLS.map(t => (
               <li key={t.slug} className={`${styles.item} ${activeSlug === t.slug ? styles.active : ''}`}>
-                <a href={`/${t.slug}/`}>
+                <a href={toolHref(t.slug)}>
                   <span className={styles.itemInner}>
                     <span className={styles.icon}>
                       <img src={`/icons/${t.slug}.svg`} alt="" width={14} height={14} />
@@ -450,7 +444,7 @@ function FreelancerGroup({ activeSlug, open, onToggle }) {
         <ul className={`${styles.list} ${styles.compactList}`}>
           {FREELANCER_TOOLS_SIDEBAR.map(t => (
             <li key={t.slug} className={`${styles.item} ${activeSlug === t.slug ? styles.active : ''}`}>
-              <a href={`/${t.slug}/`}>
+              <a href={toolHref(t.slug)}>
                 <span className={styles.itemInner}>
                   <span className={styles.icon}>
                     {t.icon?.startsWith('/')
@@ -1714,6 +1708,18 @@ export default function Sidebar() {
                       onToggle={() => setFreelancerOpen(v => !v)}
                     />
                   )}
+                  <div className={styles.categories}>
+                    {CATEGORIES.map(cat => (
+                      <CategoryGroup
+                        key={cat.id}
+                        category={cat}
+                        open={openIds.has(cat.id)}
+                        onToggle={() => toggleCategory(cat.id)}
+                        activeSlug={activeSlug}
+                        query=""
+                      />
+                    ))}
+                  </div>
 
                 </>
               )}

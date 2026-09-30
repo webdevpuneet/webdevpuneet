@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Node.js Playground</title>
+  <rect width="64" height="64" rx="14" fill="#111827"/>
+  <path d="M32 8 52 19.5v23L32 54 12 42.5v-23L32 8Z" fill="#68a063"/>
+  <path d="M32 14.5 46.4 22.8v16.4L32 47.5l-14.4-8.3V22.8L32 14.5Z" fill="#1f2937"/>
+  <path d="M25.2 40V24.2h3.5l7.1 9.5v-9.5h3.7V40H36l-7.1-9.5V40h-3.7Z" fill="#f9fafb"/>
+  <path d="M18 21.5 32 13l14 8.5M18 42.5 32 51l14-8.5" fill="none" stroke="#9be28f" stroke-width="2" stroke-linecap="round"/>
+</svg>

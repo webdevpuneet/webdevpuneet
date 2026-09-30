@@ -1,0 +1,1107 @@
+{
+  "playgrounds": [
+    {
+      "slug": "ui-snippets",
+      "name": "UI Snippets Library",
+      "icon": "/icons/ui-snippets.svg"
+    },
+    {
+      "slug": "html-playground",
+      "name": "HTML Playground",
+      "icon": "/icons/html-playground.svg"
+    },
+    {
+      "slug": "css-playground",
+      "name": "CSS Playground",
+      "icon": "/icons/css-playground.svg"
+    },
+    {
+      "slug": "js-playground",
+      "name": "JavaScript Playground",
+      "icon": "/icons/js-playground.svg"
+    },
+    {
+      "slug": "typescript-playground",
+      "name": "TypeScript Playground",
+      "icon": "/icons/typescript-playground.svg"
+    },
+    {
+      "slug": "scss-playground",
+      "name": "SCSS Playground",
+      "icon": "/icons/scss-playground.svg"
+    },
+    {
+      "slug": "tailwind-playground",
+      "name": "Tailwind Playground",
+      "icon": "/icons/tailwind-playground.svg"
+    },
+    {
+      "slug": "bootstrap5-playground",
+      "name": "Bootstrap 5 Playground",
+      "icon": "/icons/bootstrap5-playground.svg"
+    },
+    {
+      "slug": "jquery-playground",
+      "name": "jQuery Playground",
+      "icon": "/icons/jquery-playground.svg"
+    },
+    {
+      "slug": "react-playground",
+      "name": "React Playground",
+      "icon": "/icons/react-playground.svg"
+    },
+    {
+      "slug": "angular-playground",
+      "name": "Angular Playground",
+      "icon": "/icons/angular-playground.svg"
+    },
+    {
+      "slug": "vue-playground",
+      "name": "Vue.js Playground",
+      "icon": "/icons/vue-playground.svg"
+    },
+    {
+      "slug": "nextjs-playground",
+      "name": "Next.js Playground",
+      "icon": "/icons/nextjs-playground.svg"
+    },
+    {
+      "slug": "gsap-playground",
+      "name": "GSAP Playground",
+      "icon": "/icons/gsap-playground.svg"
+    },
+    {
+      "slug": "svg-playground",
+      "name": "SVG Playground",
+      "icon": "/icons/svg-playground.svg"
+    },
+    {
+      "slug": "sql-playground",
+      "name": "SQL Playground",
+      "icon": "/icons/sql-playground.svg"
+    },
+    {
+      "slug": "mongo-playground",
+      "name": "MongoDB Playground",
+      "icon": "/icons/mongo-playground.svg"
+    },
+    {
+      "slug": "express-playground",
+      "name": "Express.js Playground",
+      "icon": "/icons/express-playground.svg"
+    },
+    {
+      "slug": "firebase-playground",
+      "name": "Firebase Playground",
+      "icon": "/icons/firebase-playground.svg"
+    },
+    {
+      "slug": "graphql-playground",
+      "name": "GraphQL Playground",
+      "icon": "/icons/graphql-playground.svg"
+    },
+    {
+      "slug": "nodejs-playground",
+      "name": "Node.js Playground",
+      "icon": "/icons/nodejs-playground.svg"
+    },
+    {
+      "slug": "rest-api-builder-playground",
+      "name": "REST API Builder Playground",
+      "icon": "/icons/rest-api-builder-playground.svg"
+    },
+    {
+      "slug": "mind-map",
+      "name": "Mind Map Studio",
+      "icon": "/icons/mind-map.svg"
+    }
+  ],
+  "freelancer": [
+    {
+      "slug": "freelance-dashboard",
+      "name": "Freelance Dashboard",
+      "icon": "/icons/freelance-dashboard.svg"
+    },
+    {
+      "slug": "freelance-invoice-generator",
+      "name": "Freelance Invoice Generator",
+      "icon": "/icons/freelance-invoice-generator.svg"
+    },
+    {
+      "slug": "client-crm",
+      "name": "Client CRM",
+      "icon": "/icons/client-crm.svg"
+    },
+    {
+      "slug": "proposal-builder",
+      "name": "Proposal Builder",
+      "icon": "/icons/proposal-builder.svg"
+    },
+    {
+      "slug": "contract-template-manager",
+      "name": "Contract Template Manager",
+      "icon": "CT"
+    },
+    {
+      "slug": "freelance-expense-tracker",
+      "name": "Freelance Expense Tracker",
+      "icon": "/icons/freelance-expense-tracker.svg"
+    },
+    {
+      "slug": "time-tracker",
+      "name": "Time Tracker",
+      "icon": "/icons/time-tracker.svg"
+    },
+    {
+      "slug": "freelance-rate-calculator",
+      "name": "Freelance Rate Calculator",
+      "icon": "/icons/freelance-rate-calculator.svg"
+    },
+    {
+      "slug": "follow-up-reminder-board",
+      "name": "Follow-Up Reminder Board",
+      "icon": "/icons/follow-up-reminder-board.svg"
+    },
+    {
+      "slug": "local-invoice-tracker",
+      "name": "Local Invoice Tracker",
+      "icon": "/icons/local-invoice-tracker.svg"
+    },
+    {
+      "slug": "retainer-tracker",
+      "name": "Retainer Tracker",
+      "icon": "/icons/retainer-tracker.svg"
+    },
+    {
+      "slug": "milestone-payment-tracker",
+      "name": "Milestone Payment Tracker",
+      "icon": "/icons/milestone-payment-tracker.svg"
+    },
+    {
+      "slug": "scope-creep-tracker",
+      "name": "Scope Creep Tracker",
+      "icon": "/icons/scope-creep-tracker.svg"
+    },
+    {
+      "slug": "client-intake-form-builder",
+      "name": "Client Intake Form Builder",
+      "icon": "/icons/client-intake-form-builder.svg"
+    },
+    {
+      "slug": "freelance-availability-planner",
+      "name": "Freelance Availability Planner",
+      "icon": "/icons/freelance-availability-planner.svg"
+    }
+  ],
+  "categories": [
+    {
+      "id": "pdf",
+      "label": "PDF Tools",
+      "tools": [
+        {
+          "slug": "pdf-to-word",
+          "name": "PDF to Word",
+          "icon": "/icons/pdf-to-word.svg"
+        },
+        {
+          "slug": "pdf-ocr",
+          "name": "PDF OCR",
+          "icon": "/icons/pdf-ocr.svg"
+        },
+        {
+          "slug": "pdf-watermark",
+          "name": "PDF Watermark",
+          "icon": "/icons/pdf-watermark.svg"
+        },
+        {
+          "slug": "pdf-password-protector",
+          "name": "PDF Password Protector",
+          "icon": "/icons/pdf-password-protector.svg"
+        },
+        {
+          "slug": "pdf-page-organizer",
+          "name": "PDF Page Organizer",
+          "icon": "/icons/pdf-page-organizer.svg"
+        },
+        {
+          "slug": "pdf-compressor",
+          "name": "PDF Compressor",
+          "icon": "/icons/pdf-compressor.svg"
+        },
+        {
+          "slug": "images-to-pdf",
+          "name": "Images to PDF",
+          "icon": "/icons/images-to-pdf.svg"
+        },
+        {
+          "slug": "pdf-to-images",
+          "name": "PDF to Images",
+          "icon": "/icons/pdf-to-images.svg"
+        },
+        {
+          "slug": "html-to-pdf",
+          "name": "HTML / Markdown to PDF",
+          "icon": "/icons/html-to-pdf.svg"
+        },
+        {
+          "slug": "pdf-metadata",
+          "name": "PDF Metadata Editor",
+          "icon": "/icons/pdf-metadata.svg"
+        },
+        {
+          "slug": "pdf-unlock",
+          "name": "PDF Unlock",
+          "icon": "/icons/pdf-unlock.svg"
+        },
+        {
+          "slug": "pdf-splitter",
+          "name": "PDF Splitter",
+          "icon": "/icons/pdf-splitter.svg"
+        },
+        {
+          "slug": "pdf-merger",
+          "name": "PDF Merger",
+          "icon": "/icons/pdf-merger.svg"
+        }
+      ]
+    },
+    {
+      "id": "css",
+      "label": "CSS Tools",
+      "tools": [
+        {
+          "slug": "color-contrast-checker",
+          "name": "Color Contrast Checker",
+          "icon": "Aa"
+        },
+        {
+          "slug": "css-media-queries-generator",
+          "name": "Media Queries Generator",
+          "icon": "/icons/css-media-queries-generator.svg"
+        },
+        {
+          "slug": "css-shape-generator",
+          "name": "CSS Shape Generator",
+          "icon": "/icons/css-shape-generator.svg"
+        },
+        {
+          "slug": "css-easing-generator",
+          "name": "CSS Easing Generator",
+          "icon": "/icons/css-easing-generator.svg"
+        },
+        {
+          "slug": "css-animation-generator",
+          "name": "CSS Animation Generator",
+          "icon": "/icons/css-animation-generator.svg"
+        },
+        {
+          "slug": "css-loader-generator",
+          "name": "CSS Loader Generator",
+          "icon": "/icons/css-loader-generator.svg"
+        },
+        {
+          "slug": "css-transform-generator",
+          "name": "CSS Transform Generator",
+          "icon": "/icons/css-transform-generator.svg"
+        },
+        {
+          "slug": "css-filter-generator",
+          "name": "CSS Filter Generator",
+          "icon": "/icons/css-filter-generator.svg"
+        },
+        {
+          "slug": "box-shadow-generator",
+          "name": "Box Shadow Generator",
+          "icon": "/icons/box-shadow-generator.svg"
+        },
+        {
+          "slug": "gradient-generator",
+          "name": "Gradient Generator",
+          "icon": "/icons/gradient-generator.svg"
+        },
+        {
+          "slug": "flexbox-builder",
+          "name": "Flexbox Builder",
+          "icon": "/icons/flexbox-builder.svg"
+        },
+        {
+          "slug": "css-grid-builder",
+          "name": "CSS Grid Builder",
+          "icon": "/icons/css-grid-builder.svg"
+        },
+        {
+          "slug": "color-palette-generator",
+          "name": "Color Palette Generator",
+          "icon": "/icons/color-palette-generator.svg"
+        },
+        {
+          "slug": "css-clamp-generator",
+          "name": "CSS Clamp() Generator",
+          "icon": "/icons/css-clamp-generator.svg"
+        },
+        {
+          "slug": "glassmorphism-generator",
+          "name": "Glassmorphism Generator",
+          "icon": "/icons/glassmorphism-generator.svg"
+        },
+        {
+          "slug": "mesh-gradient-generator",
+          "name": "Mesh Gradient Generator",
+          "icon": "/icons/mesh-gradient-generator.svg"
+        },
+        {
+          "slug": "css-minifier-beautifier",
+          "name": "CSS Minifier / Beautifier",
+          "icon": "/icons/css-minifier-beautifier.svg"
+        },
+        {
+          "slug": "css-autoprefixer",
+          "name": "CSS Autoprefixer",
+          "icon": "/icons/css-autoprefixer.svg"
+        },
+        {
+          "slug": "css-clip-path-generator",
+          "name": "CSS Clip-path Generator",
+          "icon": "/icons/css-clip-path-generator.svg"
+        },
+        {
+          "slug": "svg-wave-generator",
+          "name": "SVG Wave Generator",
+          "icon": "/icons/svg-wave-generator.svg"
+        },
+        {
+          "slug": "css-button-generator",
+          "name": "CSS Button Generator",
+          "icon": "/icons/css-button-generator.svg"
+        },
+        {
+          "slug": "toggle-switch-generator",
+          "name": "Toggle Switch Generator",
+          "icon": "/icons/toggle-switch-generator.svg"
+        }
+      ]
+    },
+    {
+      "id": "dev",
+      "label": "Dev Tools",
+      "tools": [
+        {
+          "slug": "binary-hex-ascii",
+          "name": "Binary / Hex / ASCII Converter",
+          "icon": "/icons/binary-hex-ascii.svg"
+        },
+        {
+          "slug": "number-base-converter",
+          "name": "Number Base Converter",
+          "icon": "/icons/number-base-converter.svg"
+        },
+        {
+          "slug": "html-entity-encoder",
+          "name": "HTML Entity Encoder",
+          "icon": "/icons/html-entity-encoder.svg"
+        },
+        {
+          "slug": "uuid-generator",
+          "name": "UUID / ULID / NanoID",
+          "icon": "#"
+        },
+        {
+          "slug": "password-generator",
+          "name": "Password Generator",
+          "icon": "/icons/password-generator.svg"
+        },
+        {
+          "slug": "json-formatter",
+          "name": "JSON Formatter",
+          "icon": "{}"
+        },
+        {
+          "slug": "html-formatter",
+          "name": "HTML Formatter",
+          "icon": "</>"
+        },
+        {
+          "slug": "javascript-minifier",
+          "name": "JavaScript Minifier",
+          "icon": "/icons/javascript-minifier.svg"
+        },
+        {
+          "slug": "tailwind-formatter",
+          "name": "Tailwind Formatter",
+          "icon": "/icons/tailwind-formatter.svg"
+        },
+        {
+          "slug": "json-table-viewer",
+          "name": "JSON Table Viewer",
+          "icon": "/icons/json-table-viewer.svg"
+        },
+        {
+          "slug": "diff-checker",
+          "name": "Diff Checker",
+          "icon": "/icons/diff-checker.svg"
+        },
+        {
+          "slug": "responsive-preview-tool",
+          "name": "Responsive Preview",
+          "icon": "/icons/responsive-preview-tool.svg"
+        },
+        {
+          "slug": "sql-playground",
+          "name": "SQL Playground",
+          "icon": "/icons/sql-playground.svg"
+        },
+        {
+          "slug": "mongo-playground",
+          "name": "MongoDB Playground",
+          "icon": "/icons/mongo-playground.svg"
+        },
+        {
+          "slug": "express-playground",
+          "name": "Express.js Playground",
+          "icon": "/icons/express-playground.svg"
+        },
+        {
+          "slug": "graphql-playground",
+          "name": "GraphQL Playground",
+          "icon": "/icons/graphql-playground.svg"
+        },
+        {
+          "slug": "firebase-playground",
+          "name": "Firebase Playground",
+          "icon": "/icons/firebase-playground.svg"
+        },
+        {
+          "slug": "rest-api-builder-playground",
+          "name": "REST API Builder Playground",
+          "icon": "/icons/rest-api-builder-playground.svg"
+        },
+        {
+          "slug": "redis-playground",
+          "name": "Redis Playground",
+          "icon": "/icons/redis-playground.svg"
+        },
+        {
+          "slug": "sql-formatter",
+          "name": "SQL Formatter",
+          "icon": "/icons/sql-formatter.svg"
+        },
+        {
+          "slug": "api-mock-generator",
+          "name": "API Mock Generator",
+          "icon": "{}"
+        },
+        {
+          "slug": "api-request-generator-tester",
+          "name": "API Request Generator & Tester",
+          "icon": "/icons/api-request-generator-tester.svg"
+        },
+        {
+          "slug": "htaccess-redirect-generator",
+          "name": ".htaccess Redirect Generator",
+          "icon": "/icons/htaccess-redirect-generator.svg"
+        },
+        {
+          "slug": "security-headers-generator",
+          "name": "Security Headers Generator",
+          "icon": "/icons/security-headers-generator.svg"
+        },
+        {
+          "slug": "llms-txt-generator",
+          "name": "LLMs.txt Generator",
+          "icon": "/icons/llms-txt-generator.svg"
+        },
+        {
+          "slug": "jquery-playground",
+          "name": "jQuery Playground",
+          "icon": "/icons/jquery-playground.svg"
+        },
+        {
+          "slug": "bootstrap5-playground",
+          "name": "Bootstrap 5 Playground",
+          "icon": "/icons/bootstrap5-playground.svg"
+        },
+        {
+          "slug": "json-dashboard-generator",
+          "name": "JSON Dashboard Generator",
+          "icon": "/icons/json-dashboard-generator.svg"
+        },
+        {
+          "slug": "vue-playground",
+          "name": "Vue.js Playground",
+          "icon": "/icons/vue-playground.svg"
+        },
+        {
+          "slug": "html-playground",
+          "name": "HTML Playground",
+          "icon": "/icons/html-playground.svg"
+        },
+        {
+          "slug": "js-playground",
+          "name": "JavaScript Playground",
+          "icon": "/icons/js-playground.svg"
+        },
+        {
+          "slug": "svg-playground",
+          "name": "SVG Playground",
+          "icon": "/icons/svg-playground.svg"
+        },
+        {
+          "slug": "git-playground",
+          "name": "Git Playground",
+          "icon": "/icons/git-playground.svg"
+        },
+        {
+          "slug": "typescript-playground",
+          "name": "TypeScript Playground",
+          "icon": "/icons/typescript-playground.svg"
+        },
+        {
+          "slug": "tailwind-playground",
+          "name": "Tailwind Playground",
+          "icon": "/icons/tailwind-playground.svg"
+        },
+        {
+          "slug": "css-playground",
+          "name": "CSS Playground",
+          "icon": "/icons/css-playground.svg"
+        },
+        {
+          "slug": "scss-playground",
+          "name": "SCSS Playground",
+          "icon": "/icons/scss-playground.svg"
+        },
+        {
+          "slug": "react-playground",
+          "name": "React Playground",
+          "icon": "/icons/react-playground.svg"
+        },
+        {
+          "slug": "angular-playground",
+          "name": "Angular Playground",
+          "icon": "/icons/angular-playground.svg"
+        },
+        {
+          "slug": "nextjs-playground",
+          "name": "Next.js Playground",
+          "icon": "/icons/nextjs-playground.svg"
+        },
+        {
+          "slug": "nodejs-playground",
+          "name": "Node.js Playground",
+          "icon": "/icons/nodejs-playground.svg"
+        },
+        {
+          "slug": "php-playground",
+          "name": "PHP Playground",
+          "icon": "/icons/php-playground.svg"
+        },
+        {
+          "slug": "python-playground",
+          "name": "Python Playground",
+          "icon": "/icons/python-playground.svg"
+        },
+        {
+          "slug": "gsap-playground",
+          "name": "GSAP Playground",
+          "icon": "/icons/gsap-playground.svg"
+        },
+        {
+          "slug": "html-table-generator",
+          "name": "HTML Table Generator",
+          "icon": "/icons/html-table-generator.svg"
+        },
+        {
+          "slug": "json-schema-generator",
+          "name": "JSON Schema Generator",
+          "icon": "/icons/json-schema-generator.svg"
+        },
+        {
+          "slug": "markdown-table-generator",
+          "name": "Markdown Table Generator",
+          "icon": "/icons/markdown-table-generator.svg"
+        },
+        {
+          "slug": "xml-formatter",
+          "name": "XML Formatter / Validator",
+          "icon": "/icons/xml-formatter.svg"
+        }
+      ]
+    },
+    {
+      "id": "seo",
+      "label": "SEO Tools",
+      "tools": [
+        {
+          "slug": "og-image-generator",
+          "name": "OG Image Generator",
+          "icon": "/icons/og-image-generator.svg"
+        },
+        {
+          "slug": "meta-tag-generator",
+          "name": "Meta Tag Generator",
+          "icon": "/icons/meta-tag-generator.svg"
+        },
+        {
+          "slug": "seo-checker",
+          "name": "SEO Checker",
+          "icon": "/icons/seo-checker.svg"
+        },
+        {
+          "slug": "robots-txt-generator",
+          "name": "Robots.txt Generator",
+          "icon": "/icons/robots-txt-generator.svg"
+        },
+        {
+          "slug": "sitemap-generator",
+          "name": "Sitemap.xml Generator",
+          "icon": "/icons/sitemap-generator.svg"
+        },
+        {
+          "slug": "schema-markup-generator",
+          "name": "Schema Markup Generator",
+          "icon": "/icons/schema-markup-generator.svg"
+        },
+        {
+          "slug": "hreflang-tag-generator",
+          "name": "Hreflang Tag Generator",
+          "icon": "/icons/hreflang-tag-generator.svg"
+        }
+      ]
+    },
+    {
+      "id": "converters",
+      "label": "Converters",
+      "tools": [
+        {
+          "slug": "qr-code-generator",
+          "name": "QR Code Generator",
+          "icon": "/icons/qr-code-generator.svg"
+        },
+        {
+          "slug": "svg-to-png",
+          "name": "SVG to PNG Converter",
+          "icon": "/icons/svg-to-png.svg"
+        },
+        {
+          "slug": "html-to-markdown",
+          "name": "HTML to Markdown",
+          "icon": "</>"
+        },
+        {
+          "slug": "markdown-to-html",
+          "name": "Markdown to HTML",
+          "icon": "MD"
+        },
+        {
+          "slug": "json-to-typescript",
+          "name": "JSON → TypeScript",
+          "icon": "TS"
+        },
+        {
+          "slug": "css-to-tailwind",
+          "name": "CSS → Tailwind",
+          "icon": "/icons/css-to-tailwind.svg"
+        },
+        {
+          "slug": "tailwind-to-css",
+          "name": "Tailwind → CSS",
+          "icon": "/icons/tailwind-to-css.svg"
+        },
+        {
+          "slug": "html-to-jsx-converter",
+          "name": "HTML → JSX Converter",
+          "icon": "/icons/html-to-jsx-converter.svg"
+        },
+        {
+          "slug": "rem-px-converter",
+          "name": "REM ↔ PX Converter",
+          "icon": "Rp"
+        },
+        {
+          "slug": "image-editor",
+          "name": "Image Editor",
+          "icon": "/icons/image-editor.svg"
+        },
+        {
+          "slug": "relight-photo",
+          "name": "Relight Photo",
+          "icon": "/icons/relight-photo.svg"
+        },
+        {
+          "slug": "image-background-remover",
+          "name": "Image Background Remover",
+          "icon": "/icons/image-background-remover.svg"
+        },
+        {
+          "slug": "image-compressor",
+          "name": "Image Compressor",
+          "icon": "/icons/image-compressor.svg"
+        },
+        {
+          "slug": "image-to-svg",
+          "name": "Image to SVG",
+          "icon": "/icons/image-to-svg.svg"
+        },
+        {
+          "slug": "image-to-base64",
+          "name": "Image to Base64",
+          "icon": "/icons/image-to-base64.svg"
+        },
+        {
+          "slug": "image-to-text-converter",
+          "name": "Image to Text",
+          "icon": "/icons/image-to-text-converter.svg"
+        }
+      ]
+    },
+    {
+      "id": "design",
+      "label": "Design & SVG",
+      "tools": [
+        {
+          "slug": "aspect-ratio-calculator",
+          "name": "Aspect Ratio Calculator",
+          "icon": "/icons/aspect-ratio-calculator.svg"
+        },
+        {
+          "slug": "font-pairing-tool",
+          "name": "Font Pairing Tool",
+          "icon": "Ff"
+        },
+        {
+          "slug": "svg-animation-generator",
+          "name": "SVG Animation Generator",
+          "icon": "/icons/svg-animation-generator.svg"
+        },
+        {
+          "slug": "svg-motion-studio",
+          "name": "SVG Motion Studio",
+          "icon": "/icons/svg-motion-studio.svg"
+        },
+        {
+          "slug": "animated-svg-icons",
+          "name": "Animated SVG Icons",
+          "icon": "/icons/animated-svg-icons.svg"
+        },
+        {
+          "slug": "code-screenshot-generator",
+          "name": "Code Screenshot",
+          "icon": "/icons/code-screenshot-generator.svg"
+        },
+        {
+          "slug": "image-color-palette",
+          "name": "Image Color Palette Extractor",
+          "icon": "/icons/image-color-palette.svg"
+        }
+      ]
+    },
+    {
+      "id": "text",
+      "label": "Text & AI",
+      "tools": [
+        {
+          "slug": "line-utilities",
+          "name": "Line Utilities",
+          "icon": "/icons/line-utilities.svg"
+        },
+        {
+          "slug": "word-counter",
+          "name": "Word Counter",
+          "icon": "¶"
+        },
+        {
+          "slug": "lorem-ipsum-generator",
+          "name": "Lorem Ipsum Generator",
+          "icon": "Aa"
+        },
+        {
+          "slug": "text-case-converter",
+          "name": "Text Case Converter",
+          "icon": "Aa"
+        },
+        {
+          "slug": "ai-prompt-studio",
+          "name": "AI Prompt Studio",
+          "icon": "/icons/ai-prompt-studio.svg"
+        },
+        {
+          "slug": "markdown-editor",
+          "name": "Markdown Editor",
+          "icon": "/icons/markdown-editor.svg"
+        },
+        {
+          "slug": "reading-time-calculator",
+          "name": "Reading Time Calculator",
+          "icon": "/icons/reading-time-calculator.svg"
+        }
+      ]
+    },
+    {
+      "id": "productivity",
+      "label": "Productivity",
+      "tools": [
+        {
+          "slug": "freelance-invoice-generator",
+          "name": "Freelance Invoice Generator",
+          "icon": "/icons/freelance-invoice-generator.svg"
+        },
+        {
+          "slug": "emi-calculator",
+          "name": "EMI Calculator",
+          "icon": "/icons/emi-calculator.svg"
+        },
+        {
+          "slug": "mortgage-calculator",
+          "name": "Mortgage Calculator",
+          "icon": "$"
+        },
+        {
+          "slug": "monthly-investment-calculator",
+          "name": "Monthly Investment Calculator",
+          "icon": "/icons/monthly-investment-calculator.svg"
+        },
+        {
+          "slug": "compound-interest-calculator",
+          "name": "Compound Interest Calculator",
+          "icon": "/icons/compound-interest-calculator.svg"
+        },
+        {
+          "slug": "retirement-calculator",
+          "name": "Retirement Calculator",
+          "icon": "/icons/retirement-calculator.svg"
+        },
+        {
+          "slug": "fd-calculator",
+          "name": "FD Calculator",
+          "icon": "/icons/fd-calculator.svg"
+        },
+        {
+          "slug": "sip-calculator",
+          "name": "SIP Calculator",
+          "icon": "/icons/sip-calculator.svg"
+        },
+        {
+          "slug": "budget-planner",
+          "name": "Budget Planner",
+          "icon": "/icons/budget-planner.svg"
+        },
+        {
+          "slug": "net-worth-calculator",
+          "name": "Net Worth Calculator",
+          "icon": "/icons/net-worth-calculator.svg"
+        },
+        {
+          "slug": "salary-to-hourly-calculator",
+          "name": "Salary to Hourly",
+          "icon": "/icons/salary-to-hourly-calculator.svg"
+        },
+        {
+          "slug": "tip-calculator",
+          "name": "Tip Calculator",
+          "icon": "/icons/tip-calculator.svg"
+        },
+        {
+          "slug": "loan-payoff-calculator",
+          "name": "Loan Payoff Calculator",
+          "icon": "/icons/loan-payoff-calculator.svg"
+        },
+        {
+          "slug": "inflation-calculator",
+          "name": "Inflation Calculator",
+          "icon": "/icons/inflation-calculator.svg"
+        },
+        {
+          "slug": "credit-card-payoff-calculator",
+          "name": "Credit Card Payoff",
+          "icon": "/icons/credit-card-payoff-calculator.svg"
+        },
+        {
+          "slug": "vat-calculator-uk",
+          "name": "VAT Calculator UK",
+          "icon": "/icons/vat-calculator-uk.svg"
+        },
+        {
+          "slug": "australia-take-home-calculator",
+          "name": "Australia Take-Home Pay",
+          "icon": "/icons/australia-take-home-calculator.svg"
+        },
+        {
+          "slug": "date-calculator",
+          "name": "Date Calculator",
+          "icon": "/icons/date-calculator.svg"
+        },
+        {
+          "slug": "unit-converter",
+          "name": "Unit Converter",
+          "icon": "/icons/unit-converter.svg"
+        },
+        {
+          "slug": "gst-calculator",
+          "name": "GST Calculator",
+          "icon": "/icons/gst-calculator.svg"
+        },
+        {
+          "slug": "uk-take-home-calculator",
+          "name": "UK Take-Home Pay",
+          "icon": "/icons/uk-take-home-calculator.svg"
+        },
+        {
+          "slug": "canada-take-home-calculator",
+          "name": "Canada Take-Home Pay",
+          "icon": "/icons/canada-take-home-calculator.svg"
+        },
+        {
+          "slug": "paycheck-calculator",
+          "name": "Paycheck Calculator",
+          "icon": "/icons/paycheck-calculator.svg"
+        },
+        {
+          "slug": "rent-vs-buy-calculator",
+          "name": "Rent vs Buy Calculator",
+          "icon": "R/B"
+        },
+        {
+          "slug": "youtube-thumbnail-downloader",
+          "name": "YouTube Thumbnail Downloader",
+          "icon": "/icons/youtube-thumbnail-downloader.svg"
+        },
+        {
+          "slug": "pomodoro-timer",
+          "name": "Pomodoro Timer",
+          "icon": "/icons/pomodoro-timer.svg"
+        },
+        {
+          "slug": "bookmark-keeper",
+          "name": "Bookmark Keeper",
+          "icon": "/icons/bookmark-keeper.svg"
+        },
+        {
+          "slug": "notepad",
+          "name": "Browser Notepad",
+          "icon": "/icons/notepad.svg"
+        },
+        {
+          "slug": "daily-diary",
+          "name": "Daily Diary",
+          "icon": "/icons/daily-diary.svg"
+        },
+        {
+          "slug": "daily-focus-log",
+          "name": "Daily Focus Log",
+          "icon": "/icons/daily-focus-log.svg"
+        },
+        {
+          "slug": "time-tracker",
+          "name": "Time Tracker",
+          "icon": "/icons/time-tracker.svg"
+        },
+        {
+          "slug": "mini-kanban",
+          "name": "Mini Kanban",
+          "icon": "/icons/mini-kanban.svg"
+        },
+        {
+          "slug": "freelance-dashboard",
+          "name": "Freelance Dashboard",
+          "icon": "/icons/freelance-dashboard.svg"
+        },
+        {
+          "slug": "proposal-builder",
+          "name": "Proposal Builder",
+          "icon": "/icons/proposal-builder.svg"
+        },
+        {
+          "slug": "contract-template-manager",
+          "name": "Contract Template Manager",
+          "icon": "CT"
+        },
+        {
+          "slug": "scope-creep-tracker",
+          "name": "Scope Creep Tracker",
+          "icon": "/icons/scope-creep-tracker.svg"
+        },
+        {
+          "slug": "follow-up-reminder-board",
+          "name": "Follow-Up Reminder Board",
+          "icon": "/icons/follow-up-reminder-board.svg"
+        },
+        {
+          "slug": "local-invoice-tracker",
+          "name": "Local Invoice Tracker",
+          "icon": "/icons/local-invoice-tracker.svg"
+        },
+        {
+          "slug": "freelance-expense-tracker",
+          "name": "Freelance Expense Tracker",
+          "icon": "/icons/freelance-expense-tracker.svg"
+        },
+        {
+          "slug": "retainer-tracker",
+          "name": "Retainer Tracker",
+          "icon": "/icons/retainer-tracker.svg"
+        },
+        {
+          "slug": "freelance-availability-planner",
+          "name": "Freelance Availability Planner",
+          "icon": "/icons/freelance-availability-planner.svg"
+        },
+        {
+          "slug": "milestone-payment-tracker",
+          "name": "Milestone Payment Tracker",
+          "icon": "/icons/milestone-payment-tracker.svg"
+        },
+        {
+          "slug": "resume-builder",
+          "name": "Resume Builder",
+          "icon": "/icons/resume-builder.svg"
+        },
+        {
+          "slug": "freelance-rate-calculator",
+          "name": "Freelance Rate Calculator",
+          "icon": "/icons/freelance-rate-calculator.svg"
+        },
+        {
+          "slug": "working-days-calculator",
+          "name": "Working Days Calculator",
+          "icon": "/icons/working-days-calculator.svg"
+        },
+        {
+          "slug": "client-crm",
+          "name": "Client CRM",
+          "icon": "/icons/client-crm.svg"
+        },
+        {
+          "slug": "client-intake-form-builder",
+          "name": "Client Intake Form Builder",
+          "icon": "/icons/client-intake-form-builder.svg"
+        },
+        {
+          "slug": "client-portal-lite",
+          "name": "Client Portal Lite",
+          "icon": "/icons/client-portal-lite.svg"
+        }
+      ]
+    },
+    {
+      "id": "learn",
+      "label": "Learn & Think",
+      "tools": [
+        {
+          "slug": "mind-map",
+          "name": "Mind Map Studio",
+          "icon": "/icons/mind-map.svg"
+        },
+        {
+          "slug": "database-schema-designer",
+          "name": "Database Schema Designer",
+          "icon": "/icons/database-schema-designer.svg"
+        },
+        {
+          "slug": "ui-snippets",
+          "name": "UI Snippets Library",
+          "icon": "/icons/ui-snippets.svg"
+        }
+      ]
+    }
+  ]
+}
