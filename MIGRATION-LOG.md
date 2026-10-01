@@ -371,3 +371,17 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   rows open" behaviour.
 - It stacks into one column under 720px and is hidden on touch screens (`hover: none`), which keep the scrollable row.
   Styles: `.catPanel*` / `.catCol*` in RelatedCarousel.module.css.
+
+## 2026-10-01 — Navbar Builder copied in as a CSS tool (301 from fwdtools)
+
+- fwdtools keeps the `navbar-builder` page and component but never registered it (no registry entry, no OG image).
+- **webdevpuneet:**
+  - Copied `src/app/navbar-builder/` and `NavbarBuilderTool` (canonical and branding adapted) plus its icon.
+  - New registry entry with `category: 'css'`, placed after CSS Button Generator, so webdevpuneet has 25 CSS tools.
+  - The page's OG/Twitter image is `/images/css-tools.png`, since there's no navbar image.
+  - Added to CssToolsTopNav ("Navbar", after Buttons), and the tool now renders that nav itself. Added to the
+    `/css-tools/` hub `toolSlugs` (hub copy now says 25), the home Tools card (automatic) and the sidebar CSS group.
+    `sync-fwdtools-sidebar.mjs` now appends webdevpuneet-only tools to their category.
+  - The `/ui-snippets/` features line mentions the navbar builder again, linking locally.
+- **fwdtools:** `navbar-builder` is in `moved-to-webdevpuneet.js` (55 slugs) and the `.htaccess` 301 rule. A check
+  confirmed every moved slug has a 301 and an existing target.

@@ -161,7 +161,7 @@ Watching a tutorial is passive. Writing code is active. These playgrounds keep y
       // utilities
       'css-autoprefixer', 'css-minifier-beautifier', 'css-clamp-generator', 'css-media-queries-generator', 'rem-px-converter',
       // components
-      'css-button-generator', 'carousel-builder',
+      'css-button-generator', 'navbar-builder', 'carousel-builder',
       // less common generators
       'mesh-gradient-generator', 'css-clip-path-generator', 'css-loader-generator',
       'css-transform-generator', 'css-filter-generator',

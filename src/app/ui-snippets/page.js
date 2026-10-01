@@ -78,7 +78,7 @@ All code runs locally in your browser. Nothing is uploaded to any server. The pr
     ],
   },
   features: [
-    `${SNIPPET_COUNT}+ production-ready UI snippets across 15 categories including Navigation, Cards, Buttons, Forms, Layouts, Animations, Scroll Effects, and Mobile Screens; build full sliders in the [carousel builder](/carousel-builder/)`,
+    `${SNIPPET_COUNT}+ production-ready UI snippets across 15 categories including Navigation, Cards, Buttons, Forms, Layouts, Animations, Scroll Effects, and Mobile Screens; build full navbars in the [navbar builder](/navbar-builder/) and sliders in the [carousel builder](/carousel-builder/)`,
     'Command palette with Cmd+K shortcut, arrow-key navigation, fuzzy search, and grouped results',
     'Kanban board with HTML5 drag-and-drop between To Do, In Progress, and Done columns',
     'Music player card with progress bar, play/pause, vinyl spin, track switching, and volume slider',

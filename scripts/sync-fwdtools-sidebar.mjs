@@ -56,6 +56,15 @@ const data = {
   })).filter(c => c.tools.length > 0),
 };
 
+// Tools that exist only on webdevpuneet (e.g. navbar-builder, unregistered on fwdtools)
+// join their category group too.
+const { LIVE_TOOLS: WDP_TOOLS } = await import(pathToFileURL(path.resolve('src/lib/tools-registry.js')).href);
+for (const t of WDP_TOOLS) {
+  if (bySlug[t.slug] || t.extended) continue;
+  const cat = data.categories.find(c => c.id === t.category);
+  if (cat && !cat.tools.some(x => x.slug === t.slug)) cat.tools.push(slim(t));
+}
+
 fs.mkdirSync('src/data', { recursive: true });
 fs.writeFileSync('src/data/fwdtools-sidebar.json', JSON.stringify(data, null, 2) + '\n', 'utf8');
 

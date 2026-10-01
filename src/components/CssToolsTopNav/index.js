@@ -21,6 +21,7 @@ const NAV_ITEMS = [
   { slug: 'color-picker',               short: 'Color Picker',   icon: '/icons/color-picker.svg' },
   { slug: 'color-contrast-checker',     short: 'Contrast',       icon: '/icons/color-contrast-checker.svg' },
   { slug: 'css-button-generator',       short: 'Buttons',        icon: '/icons/css-button-generator.svg' },
+  { slug: 'navbar-builder',             short: 'Navbar',         icon: '/icons/navbar-builder.svg' },
   { slug: 'toggle-switch-generator',    short: 'Toggles',        icon: '/icons/toggle-switch-generator.svg' },
   { slug: 'carousel-builder',           short: 'Carousel',       icon: '/icons/carousel-builder.svg' },
   { slug: 'css-clip-path-generator',    short: 'Clip Path',      icon: '/icons/css-clip-path-generator.svg' },
