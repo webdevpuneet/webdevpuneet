@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
+import adStyles from '@/components/AdSlot/styles.module.css';
 import FrontendPlaygroundsStrip from '@/components/FrontendPlaygroundsStrip';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import { SNIPPETS, VISIBLE_SNIPPETS, CATEGORIES } from '@/components/UiSnippetsTool/snippets';
@@ -743,7 +744,7 @@ export default async function UiSnippetSlugPage({ params }) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }} />
         {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
         <IndexOnly>
-          <AdSlot related={<FrontendPlaygroundsStrip />} showBlog={false} />
+          <AdSlot adFirst related={<FrontendPlaygroundsStrip />} showBlog={false} />
           <SeoSection
             slug={`ui-snippets/${slug}`}
             title={content.title}
@@ -914,8 +915,14 @@ Requirements:
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }} />
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
+      {/* Ad first (full width), then Related Snippets, then "Learn Coding Visually". */}
+      <AdSlot adFirst related={false} showBlog={false} />
       <RelatedCarousel items={related.items} total={related.total} activeId={sn.id} category={CATEGORIES.find(c => c.id === sn.category)?.label || categoryLabel} />
-      <AdSlot related={<FrontendPlaygroundsStrip />} showBlog={false} />
+      <div className={adStyles.adShell}>
+        <div className={adStyles.relatedFull}>
+          <FrontendPlaygroundsStrip />
+        </div>
+      </div>
       <SeoSection
         {...SEO}
         titleExtra={(

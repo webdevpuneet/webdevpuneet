@@ -55,14 +55,18 @@ export function LoadMore({ shown, total, onLoadMore, href }) {
     e.preventDefault();
     onLoadMore();
   }
+  const pct = Math.min(100, Math.round((shown / total) * 100));
   return (
-    <div className={s.loadMore}>
+    <div className={s.more}>
       {href
-        ? <a className={s.loadMoreBtn} href={href} onClick={onClick}>{label}</a>
-        : <button type="button" className={s.loadMoreBtn} onClick={onClick}>{label}</button>}
-      <span className={s.loadMoreCount}>
-        Showing {shown.toLocaleString('en-US')} of {total.toLocaleString('en-US')}
-      </span>
+        ? <a className={s.moreBtn} href={href} onClick={onClick}>{label}</a>
+        : <button type="button" className={s.moreBtn} onClick={onClick}>{label}</button>}
+      <div className={s.moreMeta}>
+        <div className={s.moreBar} aria-hidden="true">
+          <div className={s.moreBarFill} style={{ width: `${pct}%` }} />
+        </div>
+        <span>Showing {shown.toLocaleString('en-US')} of {total.toLocaleString('en-US')}</span>
+      </div>
     </div>
   );
 }

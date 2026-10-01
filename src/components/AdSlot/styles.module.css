@@ -18,6 +18,19 @@
   background: var(--bg);
 }
 
+/* adFirst (UI snippet pages): full content width, same 20px side inset as the
+   related strips below it, centered so a narrower creative sits in the middle. */
+.adWrapFull {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 16px 20px 8px;
+  text-align: center;
+  background: var(--bg);
+}
+.adWrapFull > ins { width: 100%; margin: 0 auto; }
+
 .adWrapContained {
   display: block;
   width: 100%;
@@ -41,7 +54,8 @@
     padding: 14px 16px 14px;
   }
 
-  .adWrap {
+  .adWrap,
+  .adWrapFull {
     padding: 8px 16px;
   }
 }

@@ -164,6 +164,10 @@ export default function SavedSnippetsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      {/* Ad above everything below (gallery only, hidden on saved snippets). */}
+      <IndexOnly>
+        <AdSlot adFirst related={false} showBlog={false} />
+      </IndexOnly>
       {/* Latest UI Snippets — on the My Code gallery and on every saved snippet (?id=…),
           above the "Learn Coding Visually" strip. Outside IndexOnly on purpose. Its section
           carries its own 20px (16px mobile) side inset, matching AdSlot's relatedFull. */}
@@ -175,7 +179,6 @@ export default function SavedSnippetsPage() {
         </div>
       </div>
       <IndexOnly>
-        <AdSlot related={false} showBlog={false} />
         <SeoSection {...SEO} slug="ui-snippets" title="My Code — Personal HTML CSS JS Code Space" />
       </IndexOnly>
     </>

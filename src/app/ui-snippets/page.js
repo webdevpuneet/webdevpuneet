@@ -185,7 +185,7 @@ export default function UiSnippetsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <IndexOnly>
-        <AdSlot related={<FrontendPlaygroundsStrip />} showBlog={false} />
+        <AdSlot adFirst related={<FrontendPlaygroundsStrip />} showBlog={false} />
         <SeoSection {...SEO} />
       </IndexOnly>
     </>

@@ -259,3 +259,14 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   crawlers can follow it; a normal click loads in place and leaves the URL unchanged, so the IndexOnly ad/SEO content
   doesn't unmount. An old `?page=N` link opens with pages 1..N loaded.
 - Removed `getPageList` and the numbered pager markup (the `.pager`/`.pageNum` CSS is now unused).
+- Follow-up: restyled Load more as a compact centered pill with a progress bar (`.more*` classes). It had been inside a
+  full-width box because an old unused `.loadMore` rule collided with the new one; that rule and the dead pager CSS
+  are removed.
+
+## 2026-10-01 — Ads first, full width, on UI snippet pages
+
+- `AdSlot` has a new `adFirst` prop: the ad renders first, full width and centered (`.adWrapFull`, 20px inset like the
+  strips), above the related strip. Used on `/ui-snippets/`, the tag index, tag pages, category pages, snippet pages and
+  My Code. Playgrounds and home are unchanged (ad below, max-width 1296).
+- Snippet pages: ad, then Related Snippets, then "Learn Coding Visually" (the strip is rendered by the page; AdSlot gets
+  `related={false}`). My Code: the gallery-only ad now sits above Latest UI Snippets and the strip.

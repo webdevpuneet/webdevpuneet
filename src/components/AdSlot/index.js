@@ -38,7 +38,7 @@ export function AdSlot300x600() {
   );
 }
 
-export default function AdSlot({ contained = false, related = null, showBlog = true }) {
+export default function AdSlot({ contained = false, related = null, showBlog = true, adFirst = false }) {
   const pathname = usePathname();
   const slug = pathname?.split('/').filter(Boolean)[0];
   const ADS_ENABLED = useAdsEnabled();
@@ -63,24 +63,31 @@ export default function AdSlot({ contained = false, related = null, showBlog = t
     );
   }
 
+  const ad = (
+    <div className={contained ? styles.adWrapContained : adFirst ? styles.adWrapFull : styles.adWrap}>
+      <ins
+        className="adsbygoogle"
+        style={{ display: 'block' }}
+        data-ad-client="ca-pub-2762737943861458"
+        data-ad-slot="5223917455"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
+    </div>
+  );
+
+  // adFirst (UI snippet pages): the ad leads, full width and centered, above the
+  // related strip. Elsewhere it keeps its place below the related strip/blog.
   return (
     <div className={styles.adShell}>
+      {adFirst && ad}
       {relatedContent && (
         <div className={styles.relatedFull}>
           {relatedContent}
         </div>
       )}
       {showBlog && <LatestBlogPostsCarousel />}
-      <div className={contained ? styles.adWrapContained : styles.adWrap}>
-        <ins
-          className="adsbygoogle"
-          style={{ display: 'block' }}
-          data-ad-client="ca-pub-2762737943861458"
-          data-ad-slot="5223917455"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        />
-      </div>
+      {!adFirst && ad}
     </div>
   );
 }
