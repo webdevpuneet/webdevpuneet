@@ -21,7 +21,18 @@ const NAV_ITEMS = [
   { slug: 'tailwind-playground',         short: 'Tailwind',     icon: '/icons/tailwind-playground.svg' },
   { slug: 'bootstrap5-playground',       short: 'Bootstrap',    icon: '/icons/bootstrap5-playground.svg' },
   { slug: 'nextjs-playground',           short: 'Next.js',      icon: '/icons/nextjs-playground.svg' },
+  { slug: 'git-playground',              short: 'Git',          icon: '/icons/git-playground.svg' },
+  { slug: 'python-playground',           short: 'Python',       icon: '/icons/python-playground.svg' },
+  { slug: 'nodejs-playground',           short: 'Node.js',      icon: '/icons/nodejs-playground.svg' },
+  { slug: 'php-playground',              short: 'PHP',          icon: '/icons/php-playground.svg' },
+  { slug: 'sql-playground',              short: 'SQL',          icon: '/icons/sql-playground.svg' },
+  { slug: 'mongo-playground',            short: 'MongoDB',      icon: '/icons/mongo-playground.svg' },
+  { slug: 'express-playground',          short: 'Express',      icon: '/icons/express-playground.svg' },
+  { slug: 'graphql-playground',          short: 'GraphQL',      icon: '/icons/graphql-playground.svg' },
+  { slug: 'firebase-playground',         short: 'Firebase',     icon: '/icons/firebase-playground.svg' },
+  { slug: 'rest-api-builder-playground', short: 'REST API',     icon: '/icons/rest-api-builder-playground.svg' },
   { slug: 'redis-playground',            short: 'Redis',        icon: '/icons/redis-playground.svg' },
+  { slug: 'database-schema-designer',    short: 'DB Schema',    icon: '/icons/database-schema-designer.svg' },
 ];
 
 export default function PlaygroundTopNav({ active }) {

@@ -14,7 +14,7 @@ export const CATEGORIES = [
     slug:        'learn-to-code',
     name:        'Learn to Code',
     headline:    'Learn to Code Free — Interactive Playgrounds for HTML, CSS, JavaScript, React & More',
-    tagline:     '14 browser-based frontend coding playgrounds with live preview and structured lessons. No install, no signup — open any playground and start immediately.',
+    tagline:     '25 browser-based coding playgrounds — frontend, backend and databases — with live preview and structured lessons. No install, no signup — open any playground and start immediately.',
     accent:      '#6366f1',
     icon:        '🎓',
     toolSlugs: [
@@ -32,8 +32,7 @@ export const CATEGORIES = [
       'vue-playground',
       'nextjs-playground',
       'gsap-playground',
-      'svg-playground',
-    ],
+      'svg-playground', 'git-playground', 'python-playground', 'nodejs-playground', 'php-playground', 'sql-playground', 'mongo-playground', 'express-playground', 'graphql-playground', 'firebase-playground', 'rest-api-builder-playground', 'redis-playground', 'database-schema-designer'],
     related: ['css-tools', 'developer-tools', 'design-tools'],
     about: `Learning to code is easier when you can see the result of every change instantly. These interactive playgrounds cover the frontend stack — HTML, CSS, SCSS/Sass, JavaScript, TypeScript, jQuery, Bootstrap 5, Tailwind CSS, React, Vue.js, Angular, Next.js, GSAP, and SVG — each with a structured curriculum of lessons, a live editor, or an instant preview. No Node.js, no terminal, no build step. Open the browser and start writing.
 
@@ -103,7 +102,7 @@ Watching a tutorial is passive. Writing code is active. These playgrounds keep y
     faqs: [
       {
         q: 'Do I need to install anything to use these playgrounds?',
-        a: 'No. All 14 playgrounds run in the browser with zero setup. HTML, JavaScript, SVG, TypeScript, CSS, SCSS, and Tailwind use the browser\'s native rendering engine, a local sandbox, or a browser-safe learning compiler. The SVG Playground renders your markup live in a sandboxed frame so CSS and SMIL animations run natively. The SCSS Playground uses a browser-safe Sass learning compiler for lesson patterns. The Tailwind Playground loads the official Tailwind Play CDN. The React Playground uses Babel standalone to transpile JSX. The Vue.js Playground loads Vue 3 from CDN. The GSAP Playground loads GSAP and plugin files from the installed package. No Node.js, no npm, no terminal — just open the URL and start writing.',
+        a: 'No. All 25 playgrounds run in the browser with zero setup. HTML, JavaScript, SVG, TypeScript, CSS, SCSS, and Tailwind use the browser\'s native rendering engine, a local sandbox, or a browser-safe learning compiler. The SVG Playground renders your markup live in a sandboxed frame so CSS and SMIL animations run natively. The SCSS Playground uses a browser-safe Sass learning compiler for lesson patterns. The Tailwind Playground loads the official Tailwind Play CDN. The React Playground uses Babel standalone to transpile JSX. The Vue.js Playground loads Vue 3 from CDN. The GSAP Playground loads GSAP and plugin files from the installed package. No Node.js, no npm, no terminal — just open the URL and start writing.',
       },
       {
         q: 'Is my progress saved between sessions?',

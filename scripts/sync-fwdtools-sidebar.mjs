@@ -20,16 +20,17 @@ const { CATEGORY_META, LIVE_TOOLS } = await import(
   pathToFileURL(path.join(FWD_ROOT, 'src/lib/tools-registry.js')).href
 );
 
-// Mirrors PLAYGROUND_SLUGS / FREELANCER_SLUGS_SIDEBAR in fwdtools' Sidebar,
-// plus the frontend playgrounds that only exist on webdevpuneet.
+// Learn to Code: every playground now on webdevpuneet (Mind Map stays on fwdtools).
+// Freelance mirrors FREELANCER_SLUGS_SIDEBAR in fwdtools' Sidebar.
 const PLAYGROUND_SLUGS = [
-  'ui-snippets',
+  'ui-snippets', 'ai-prompt-studio',
   'html-playground', 'css-playground', 'js-playground', 'typescript-playground', 'scss-playground',
   'tailwind-playground', 'bootstrap5-playground', 'jquery-playground', 'react-playground', 'angular-playground',
   'vue-playground', 'nextjs-playground', 'gsap-playground', 'svg-playground',
-  'sql-playground', 'mongo-playground', 'express-playground', 'firebase-playground',
-  'graphql-playground', 'nodejs-playground', 'rest-api-builder-playground',
-  'mind-map',
+  'git-playground', 'python-playground', 'nodejs-playground', 'php-playground',
+  'sql-playground', 'mongo-playground', 'express-playground', 'graphql-playground',
+  'firebase-playground', 'rest-api-builder-playground', 'redis-playground',
+  'database-schema-designer',
 ];
 
 const FREELANCER_SLUGS = [

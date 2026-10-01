@@ -6,6 +6,11 @@
       "icon": "/icons/ui-snippets.svg"
     },
     {
+      "slug": "ai-prompt-studio",
+      "name": "AI Prompt Studio",
+      "icon": "/icons/ai-prompt-studio.svg"
+    },
+    {
       "slug": "html-playground",
       "name": "HTML Playground",
       "icon": "/icons/html-playground.svg"
@@ -76,6 +81,26 @@
       "icon": "/icons/svg-playground.svg"
     },
     {
+      "slug": "git-playground",
+      "name": "Git Playground",
+      "icon": "/icons/git-playground.svg"
+    },
+    {
+      "slug": "python-playground",
+      "name": "Python Playground",
+      "icon": "/icons/python-playground.svg"
+    },
+    {
+      "slug": "nodejs-playground",
+      "name": "Node.js Playground",
+      "icon": "/icons/nodejs-playground.svg"
+    },
+    {
+      "slug": "php-playground",
+      "name": "PHP Playground",
+      "icon": "/icons/php-playground.svg"
+    },
+    {
       "slug": "sql-playground",
       "name": "SQL Playground",
       "icon": "/icons/sql-playground.svg"
@@ -91,19 +116,14 @@
       "icon": "/icons/express-playground.svg"
     },
     {
-      "slug": "firebase-playground",
-      "name": "Firebase Playground",
-      "icon": "/icons/firebase-playground.svg"
-    },
-    {
       "slug": "graphql-playground",
       "name": "GraphQL Playground",
       "icon": "/icons/graphql-playground.svg"
     },
     {
-      "slug": "nodejs-playground",
-      "name": "Node.js Playground",
-      "icon": "/icons/nodejs-playground.svg"
+      "slug": "firebase-playground",
+      "name": "Firebase Playground",
+      "icon": "/icons/firebase-playground.svg"
     },
     {
       "slug": "rest-api-builder-playground",
@@ -111,9 +131,14 @@
       "icon": "/icons/rest-api-builder-playground.svg"
     },
     {
-      "slug": "mind-map",
-      "name": "Mind Map Studio",
-      "icon": "/icons/mind-map.svg"
+      "slug": "redis-playground",
+      "name": "Redis Playground",
+      "icon": "/icons/redis-playground.svg"
+    },
+    {
+      "slug": "database-schema-designer",
+      "name": "Database Schema Designer",
+      "icon": "/icons/database-schema-designer.svg"
     }
   ],
   "freelancer": [

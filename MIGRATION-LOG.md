@@ -321,3 +321,22 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   - `scripts/postbuild.js` imports that list (the local copy is removed) and also filters moved category hubs out of
     the sitemaps.
   - `.htaccess` 301s `css-tools` and `ai-prompt-studio`. A check confirmed every slug in the list has a 301.
+
+## 2026-10-01 — Remaining Learn to Code playgrounds moved (301s); Mind Map stays on fwdtools
+
+- **Moved (12):** git, python, nodejs, php, sql, mongo, express, graphql, firebase, rest-api-builder and redis
+  playgrounds, plus database-schema-designer. Copied 45 files (routes, `*Tool` components and lessons) and 13 OG
+  images, and added registry entries. Canonicals and branding are adapted. No component code changed.
+  Mind Map was copied, then removed again at the user's request; it stays fwdtools-only.
+- **webdevpuneet:**
+  - `PlaygroundTopNav` lists Git, Python, Node.js, PHP, SQL, MongoDB, Express, GraphQL, Firebase, REST API, Redis
+    and DB Schema after Next.js (Redis was listed before but hidden until now because it wasn't in the registry).
+  - The sidebar's Learn to Code group (`scripts/sync-fwdtools-sidebar.mjs`) now has 28 entries (UI Snippets,
+    AI Prompt Studio, all 25 playgrounds, DB Schema) and all of them link locally.
+  - The `/learn-to-code/` hub `toolSlugs` gained the 12 new entries. Title, tagline and FAQ now say 25 playgrounds.
+- **fwdtools:**
+  - `moved-to-webdevpuneet.js` gained the 12 slugs plus `learn-to-code` (54 slugs in total).
+  - `.htaccess` 301s all 12 and the `/learn-to-code/` hub.
+  - Hardcoded `/learn-to-code/` links (home, about, 404, RightPanel, SeoSection, ToolNudge, CategoryGrid,
+    HomeGrid, FrontendPlaygroundsStrip) are absolute webdevpuneet URLs.
+  - A check confirmed every moved slug has a 301 and that every target route exists on webdevpuneet.
