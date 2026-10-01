@@ -37,21 +37,34 @@ function syncSearchToSidebar(value) {
 // /ui-snippets/tag/ routes are generated from, so a chip never links to a 404.
 const TAG_LINKS = publishedTags(SNIPPETS);
 
-// Build a windowed list of page numbers with ellipsis gaps, e.g. [0,'…',4,5,6,'…',11]
-// Exported so My Code's saved-snippets gallery (UiSnippetsTool) can reuse the
-// exact same pagination widget instead of duplicating this logic.
-export function getPageList(current, total) {
-  if (total <= 7) return Array.from({ length: total }, (_, i) => i);
-  const pages = new Set([0, total - 1, current, current - 1, current + 1]);
-  const sorted = [...pages].filter(p => p >= 0 && p < total).sort((a, b) => a - b);
-  const out = [];
-  let prev = null;
-  for (const p of sorted) {
-    if (prev !== null && p - prev > 1) out.push('…');
-    out.push(p);
-    prev = p;
+// "Load more" under a snippet grid: each click appends the next page below the
+// cards already shown (nothing is replaced). With `href` it renders a real link
+// to that page (?page=N, which loads pages 1..N) so crawlers can still reach
+// older snippets; a plain click is intercepted and loads in place instead.
+export function LoadMore({ shown, total, onLoadMore, href }) {
+  if (shown >= total) return null;
+  const label = (
+    <>
+      Load more
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </>
+  );
+  function onClick(e) {
+    // Let the browser handle new-tab / new-window clicks on the link.
+    if (href && (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1)) return;
+    e.preventDefault();
+    onLoadMore();
   }
-  return out;
+  return (
+    <div className={s.loadMore}>
+      {href
+        ? <a className={s.loadMoreBtn} href={href} onClick={onClick}>{label}</a>
+        : <button type="button" className={s.loadMoreBtn} onClick={onClick}>{label}</button>}
+      <span className={s.loadMoreCount}>
+        Showing {shown.toLocaleString('en-US')} of {total.toLocaleString('en-US')}
+      </span>
+    </div>
+  );
 }
 
 export default function UiSnippetsGallery({ initialCategory = 'all', initialTag = null }) {
@@ -69,7 +82,9 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
     try { return localStorage.getItem(LIB_QUERY_KEY) || ''; } catch { return ''; }
   });
   const [category, setCategory] = useState(initialCategory);
-  // Read the initial page from the URL (?page=N is 1-based; clamp to >= 0)
+  // How many pages are loaded, minus one: "Load more" appends the next page
+  // below the current cards. Seeded from ?page=N (1-based) so an old paged link
+  // or the crawlable Load-more href opens with pages 1..N already loaded.
   const [page, setPage] = useState(() => Math.max(0, (parseInt(searchParams.get('page'), 10) || 1) - 1));
   const [sortOrder, setSortOrder] = useState('newest');
   const gridRef = useRef(null);
@@ -162,24 +177,17 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
   const activeTag = initialTag ? TAG_BY_ID.get(initialTag) : null;
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
-  const shown = filtered.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
-  const hasPrev = page > 0;
-  const hasNext = page < totalPages - 1;
+  const shown = filtered.slice(0, (page + 1) * PER_PAGE);
 
-  // Keep the active page in range if the filtered set shrinks (e.g. sort/search change)
+  // Keep the loaded count in range if the filtered set shrinks (e.g. sort/search change)
   useEffect(() => {
-    if (page > totalPages - 1) {
-      setPage(totalPages - 1);
-      syncToUrl({ page: totalPages - 1 });
-    }
+    if (page > totalPages - 1) setPage(totalPages - 1);
   }, [totalPages, page]);
 
-  function goToPage(next) {
-    setPage(next);
-    syncToUrl({ page: next });
-    if (gridRef.current) {
-      gridRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  // Appends the next page. The URL is left alone: a query string would unmount
+  // the IndexOnly ad/SEO content below the grid mid-scroll.
+  function loadMore() {
+    setPage(p => Math.min(p + 1, totalPages - 1));
   }
 
   function handleSearch(e) {
@@ -312,61 +320,12 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
             ))}
           </div>
 
-          {totalPages > 1 && (
-            <nav className={s.pager} aria-label="Snippet pagination">
-              {hasPrev ? (
-                <a
-                  className={s.pageNav}
-                  href={pageHref(page - 1)}
-                  aria-label="Previous page"
-                  rel="prev"
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-                  Prev
-                </a>
-              ) : (
-                <button className={s.pageNav} disabled aria-label="Previous page">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-                  Prev
-                </button>
-              )}
-
-              <div className={s.pageNums}>
-                {getPageList(page, totalPages).map((p, i) =>
-                  p === '…' ? (
-                    <span key={`gap-${i}`} className={s.pageGap}>…</span>
-                  ) : (
-                    <a
-                      key={p}
-                      className={`${s.pageNum} ${p === page ? s.pageActive : ''}`}
-                      href={pageHref(p)}
-                      aria-label={`Page ${p + 1}`}
-                      aria-current={p === page ? 'page' : undefined}
-                    >
-                      {p + 1}
-                    </a>
-                  )
-                )}
-              </div>
-
-              {hasNext ? (
-                <a
-                  className={s.pageNav}
-                  href={pageHref(page + 1)}
-                  aria-label="Next page"
-                  rel="next"
-                >
-                  Next
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-                </a>
-              ) : (
-                <button className={s.pageNav} disabled aria-label="Next page">
-                  Next
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-                </button>
-              )}
-            </nav>
-          )}
+          <LoadMore
+            shown={shown.length}
+            total={filtered.length}
+            onLoadMore={loadMore}
+            href={pageHref(page + 1)}
+          />
         </>
       )}
     </div>

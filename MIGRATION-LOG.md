@@ -250,3 +250,12 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 - Follow-up: "Learn Coding Visually" (`FrontendPlaygroundsStrip`) moved out of `AdSlot`/`IndexOnly` on My Code, so saved
   snippets show it too. `AdSlot` now accepts `related={false}`, meaning no related strip. The ad and SEO section
   are still index-only.
+
+## 2026-10-01 — Load more instead of paging (snippet galleries)
+
+- `UiSnippetsGallery` (`/ui-snippets/`, categories, tags) and My Code's `SavedGallery` show a "Load more" button and a
+  "Showing X of Y" count. Each click appends the next 9 cards and keeps the earlier ones.
+- Shared `LoadMore` component is exported from `UiSnippetsGallery`. On library pages it's a real `<a href="?page=N+1">` so
+  crawlers can follow it; a normal click loads in place and leaves the URL unchanged, so the IndexOnly ad/SEO content
+  doesn't unmount. An old `?page=N` link opens with pages 1..N loaded.
+- Removed `getPageList` and the numbered pager markup (the `.pager`/`.pageNum` CSS is now unused).

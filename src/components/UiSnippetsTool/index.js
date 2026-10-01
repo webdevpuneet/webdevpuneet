@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import UiSnippetsGallery, { getPageList } from '@/components/UiSnippetsGallery';
+import UiSnippetsGallery, { LoadMore } from '@/components/UiSnippetsGallery';
 import gs from '@/components/UiSnippetsGallery/styles.module.css';
 import s from './styles.module.css';
 // Never import ./snippets here: it bundles every snippet's source (~33 MB).
@@ -504,11 +504,9 @@ function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, on
   const [q, setQ] = useState('');
   const [tagFilter, setTagFilter] = useState(null);
   const [sortOrder, setSortOrder] = useState('newest');
-  // Numbered pages, same widget as the public library gallery. My Code's
-  // saved snippets live in the browser's own IndexedDB (nothing here is
-  // indexed or shareable across browsers), but the page number is still
-  // reflected in ?page=N so a refresh, or the browser's back/forward, lands
-  // back on the same page within this browser.
+  // How many pages are loaded, minus one — "Load more" appends the next page
+  // below the cards already shown, same as the public library gallery. Seeded
+  // from an old ?page=N link (pages 1..N load); clicks don't touch the URL.
   const [page, setPage] = useState(() => Math.max(0, (parseInt(searchParams.get('page'), 10) || 1) - 1));
   // Which card the pointer is over — the delete button is only shown on that
   // one, so a full grid is not a grid of trash icons.
@@ -528,35 +526,32 @@ function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, on
     return true;
   });
   const totalPages = Math.max(1, Math.ceil(filtered.length / SAVED_PER_PAGE));
-  const shown = filtered.slice(page * SAVED_PER_PAGE, page * SAVED_PER_PAGE + SAVED_PER_PAGE);
-  const hasPrev = page > 0;
-  const hasNext = page < totalPages - 1;
+  const shown = filtered.slice(0, (page + 1) * SAVED_PER_PAGE);
 
-  // Reflect the active page in the URL (?page=N, omitted on page 1) — a
-  // plain query-param sync rather than real <a href> links, since My Code's
-  // grid isn't crawlable content, just a bookmarkable/back-forward-able view.
-  function setPageAndUrl(next) {
-    setPage(next);
-    const params = new URLSearchParams(Array.from(searchParams.entries()));
-    if (next <= 0) params.delete('page');
-    else params.set('page', String(next + 1));
-    const qs = params.toString();
-    router.replace(`${window.location.pathname}${qs ? `?${qs}` : ''}`, { scroll: false });
+  // A new search / tag / sort starts over at the first page. A stale ?page=N
+  // from an old link is dropped then too; otherwise the URL is left alone, as
+  // a query string would unmount the IndexOnly ad/SEO content below the grid.
+  function resetPages() {
+    setPage(0);
+    if (searchParams.has('page')) {
+      const params = new URLSearchParams(Array.from(searchParams.entries()));
+      params.delete('page');
+      const qs = params.toString();
+      router.replace(`${window.location.pathname}${qs ? `?${qs}` : ''}`, { scroll: false });
+    }
   }
 
-  // Keep the active page in range if the filtered set shrinks (a search
-  // narrows the results, or the last item on the last page gets deleted).
-  // Gated on `loaded`: snippets start out as [] before IndexedDB resolves,
-  // which would otherwise look like "page out of range" and strip a
-  // deep-linked ?page=N before the real count ever loads.
+  // Keep the loaded count in range if the filtered set shrinks (a search
+  // narrows the results, or snippets get deleted). Gated on `loaded`:
+  // snippets start out as [] before IndexedDB resolves, which would otherwise
+  // look like "out of range" and collapse a deep-linked ?page=N too early.
   useEffect(() => {
     if (!loaded) return;
-    if (page > totalPages - 1) setPageAndUrl(totalPages - 1);
+    if (page > totalPages - 1) setPage(totalPages - 1);
   }, [loaded, totalPages, page]);
 
-  function goToPage(next) {
-    setPageAndUrl(next);
-    if (gridRef.current) gridRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  function loadMore() {
+    setPage(p => Math.min(p + 1, totalPages - 1));
   }
 
   if (snippets.length === 0) {
@@ -611,18 +606,18 @@ function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, on
             <input
               className={gs.searchInput}
               value={q}
-              onChange={e => { setQ(e.target.value); setPageAndUrl(0); }}
+              onChange={e => { setQ(e.target.value); resetPages(); }}
               placeholder="Search saved snippets..."
             />
             {q && (
-              <button className={gs.clearBtn} onClick={() => { setQ(''); setPageAndUrl(0); }} aria-label="Clear search">
+              <button className={gs.clearBtn} onClick={() => { setQ(''); resetPages(); }} aria-label="Clear search">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
             )}
           </div>
           <button
             className={gs.gallerySortBtn}
-            onClick={() => { setSortOrder(o => o === 'newest' ? 'oldest' : 'newest'); setPageAndUrl(0); }}
+            onClick={() => { setSortOrder(o => o === 'newest' ? 'oldest' : 'newest'); resetPages(); }}
             title={sortOrder === 'newest' ? 'Newest first — click for oldest first' : 'Oldest first — click for newest first'}
             aria-label={sortOrder === 'newest' ? 'Sort: newest first' : 'Sort: oldest first'}
           >
@@ -636,13 +631,13 @@ function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, on
           <div className={s.tagFilters}>
             <button
               className={`${s.tagFilterBtn} ${!tagFilter ? s.tagFilterActive : ''}`}
-              onClick={() => { setTagFilter(null); setPageAndUrl(0); }}
+              onClick={() => { setTagFilter(null); resetPages(); }}
             >All tags</button>
             {allTags.map(tag => (
               <button
                 key={tag}
                 className={`${s.tagFilterBtn} ${tagFilter === tag ? s.tagFilterActive : ''}`}
-                onClick={() => { setTagFilter(t => t === tag ? null : tag); setPageAndUrl(0); }}
+                onClick={() => { setTagFilter(t => t === tag ? null : tag); resetPages(); }}
               >{tag}<span className={s.tagFilterCount}>{tagCounts[tag]}</span></button>
             ))}
           </div>
@@ -695,7 +690,7 @@ function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, on
             </div>
             <div className={gs.cardBody}>
               {(sn.tags?.length > 0)
-                ? <span className={gs.catBadge} onClick={e => { e.stopPropagation(); setTagFilter(t => t === sn.tags[0] ? null : sn.tags[0]); setPageAndUrl(0); }}>{sn.tags[0]}</span>
+                ? <span className={gs.catBadge} onClick={e => { e.stopPropagation(); setTagFilter(t => t === sn.tags[0] ? null : sn.tags[0]); resetPages(); }}>{sn.tags[0]}</span>
                 : <span className={gs.catBadge} style={{ opacity: 0.45 }}>saved</span>
               }
               <h3 className={gs.cardTitle}>{sn.name}</h3>
@@ -703,47 +698,7 @@ function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, on
           </div>
         ))}
       </div>
-      {totalPages > 1 && (
-        <nav className={gs.pager} aria-label="Saved snippet pagination">
-          <button
-            className={gs.pageNav}
-            onClick={() => hasPrev && goToPage(page - 1)}
-            disabled={!hasPrev}
-            aria-label="Previous page"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-            Prev
-          </button>
-
-          <div className={gs.pageNums}>
-            {getPageList(page, totalPages).map((p, i) =>
-              p === '…' ? (
-                <span key={`gap-${i}`} className={gs.pageGap}>…</span>
-              ) : (
-                <button
-                  key={p}
-                  className={`${gs.pageNum} ${p === page ? gs.pageActive : ''}`}
-                  onClick={() => goToPage(p)}
-                  aria-label={`Page ${p + 1}`}
-                  aria-current={p === page ? 'page' : undefined}
-                >
-                  {p + 1}
-                </button>
-              )
-            )}
-          </div>
-
-          <button
-            className={gs.pageNav}
-            onClick={() => hasNext && goToPage(page + 1)}
-            disabled={!hasNext}
-            aria-label="Next page"
-          >
-            Next
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
-        </nav>
-      )}
+      <LoadMore shown={shown.length} total={filtered.length} onLoadMore={loadMore} />
     </div>
   );
 }
