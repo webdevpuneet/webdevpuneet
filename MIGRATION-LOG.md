@@ -408,3 +408,4 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 - Reverted the neutral-row change: the header row again leads with and highlights the active category.
 - Header strip: on a tag page the active tag leads the collapsed row as a highlighted chip (it was already highlighted in the hover panel).
 - Header category strip is hidden on the library gallery, category and tag pages (whenever `UiSnippetsGallery` renders), which have their own Categories | Tags panel. It still shows on snippet pages and My Code; the empty `.headerCats` slot keeps the header layout.
+- Follow-up: home hero columns are now 50/50 (`flex: 1 1 0` on both). The stacked layouts at 1300px and below are unchanged.

@@ -84,14 +84,13 @@
   padding: 36px 20px 28px;   /* side padding matches the carousel and feature grid below so the left edges line up */
 }
 
-/* Text column sizes to its content; the author card takes the remaining width,
-   so no dead gap opens between them on wide screens. */
-.heroTextCol { flex: 0 1 600px; min-width: 0; }
+/* Text column and author card split the row 50/50. */
+.heroTextCol { flex: 1 1 0; min-width: 0; }
 
 /* Search sits under the tagline in the text column; the author card takes the right column. */
 .heroSearch { max-width: 560px; margin-top: 18px; }
 
-.heroProfileCol { flex: 1 1 620px; min-width: 0; }
+.heroProfileCol { flex: 1 1 0; min-width: 0; }
 
 
 /* Staggered entrance for hero content */
