@@ -79,14 +79,15 @@
 /* In the snippet page header: no section spacing, and the "More" fade matches the header surface */
 .catBarHeader { margin-bottom: 0; height: 24px; }
 .catBarHeader .catList { top: -4px; gap: 4px; padding: 4px 60px 4px 5px; max-height: 32px; }
-/* In the header the row itself stays one line; the two-column panel below takes over. */
-.catBarHeader:hover .catList,
-.catBarHeader:focus-within .catList {
+/* In the header the row itself stays one line; the two-column panel below takes over.
+   `.catBar.catBarHeader` outranks the generic `.catBar:hover` rules defined further down. */
+.catBar.catBarHeader:hover .catList,
+.catBar.catBarHeader:focus-within .catList {
   max-height: 32px; padding-right: 60px;
   background: none; border-color: transparent; box-shadow: none;
 }
-.catBarHeader:hover .catMore,
-.catBarHeader:focus-within .catMore { opacity: 1; color: var(--accent, #6366f1); }
+.catBar.catBarHeader:hover .catMore,
+.catBar.catBarHeader:focus-within .catMore { opacity: 1; color: var(--accent, #6366f1); }
 
 /* Header drop-down: Categories | Tags in two columns. The transparent top padding
    bridges the gap so the pointer can travel from the strip into the panel. */

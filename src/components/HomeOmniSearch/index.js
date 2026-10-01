@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { SEARCHABLE_TOOLS } from '@/lib/tools-registry';
 import styles from './styles.module.css';
 
-const POPULAR = ['CSS', 'JavaScript', 'React', 'Next.js', 'SVG'];
+const POPULAR = ['CSS', 'JavaScript', 'React'];
 const MAX_TOOL_RESULTS = 5;
 const MAX_SNIPPET_RESULTS = 5;
 
@@ -107,7 +107,7 @@ export default function HomeOmniSearch() {
           ref={inputRef}
           type="search"
           className={styles.searchInput}
-          placeholder="Search UI snippets and coding playgrounds…"
+          placeholder="Search UI snippets, coding playgrounds and tools…"
           value={query}
           onChange={handleChange}
           onFocus={() => setOpen(true)}
@@ -116,7 +116,7 @@ export default function HomeOmniSearch() {
           aria-expanded={showDropdown}
           aria-controls="home-omni-results"
           aria-autocomplete="list"
-          aria-label="Search UI snippets and coding playgrounds"
+          aria-label="Search UI snippets, coding playgrounds and tools"
         />
         {query && (
           <button

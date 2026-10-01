@@ -1651,9 +1651,13 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             <span className={s.headerTitle}>Create</span>
           </button>
         </div>
-        {/* One row of categories; hover opens a two-column Categories | Tags panel. */}
+        {/* One row of categories; hover opens a two-column Categories | Tags panel.
+            Hidden on the library gallery / category / tag pages, which show their own
+            Categories | Tags panel. An empty slot keeps the header layout unchanged. */}
         <div className={s.headerCats}>
-          <CategoryStrip categories={HEADER_CATEGORIES} tags={HEADER_TAGS} activeTag={initialTag} activeCategory={activeIsCustom ? null : (activeSn?.category || (initialCategory !== 'all' ? initialCategory : null))} inHeader />
+          {(showEditor || sidebarTab !== 'library') && (
+            <CategoryStrip categories={HEADER_CATEGORIES} tags={HEADER_TAGS} activeTag={initialTag} activeCategory={activeIsCustom ? null : (activeSn?.category || (initialCategory !== 'all' ? initialCategory : null))} inHeader />
+          )}
         </div>
         <div className={s.headerRight}>
           {/* Save — update existing or open dialog for new blank */}

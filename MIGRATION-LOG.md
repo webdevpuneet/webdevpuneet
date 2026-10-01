@@ -385,3 +385,26 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   - The `/ui-snippets/` features line mentions the navbar builder again, linking locally.
 - **fwdtools:** `navbar-builder` is in `moved-to-webdevpuneet.js` (55 slugs) and the `.htaccess` 301 rule. A check
   confirmed every moved slug has a 301 and an existing target.
+
+## 2026-10-01 — Home grid fix: item styles restored, blog card back as 4th column
+
+- Fix: removing the blog-card CSS earlier also deleted rules whose selector lists were shared with the blog classes
+  (`.featureItem, .featureBlogItem {…}`, hover, title), which left every card item unstyled on the live home page. The
+  original block was restored from git (22d6d8e).
+- The "Latest From the Blog" card (and its `fetchLatestBlogPosts(5)`) is back as the 4th column after Tools. The grid uses
+  the base 4-column `.featureGrid` (2x2 on mid widths, stacked on mobile), and the unused `.featureGridThree` CSS is removed.
+
+## 2026-10-01 — Home: "All Playgrounds" section removed
+
+- Removed the home page "All Playgrounds" block: heading, HomeGrid tabs (incl. the CSS Tools tab), search and tool
+  cards. Also removed its ordering helpers (FRONTEND_PLAYGROUND_SLUGS, getToolWeight, homeOrderedTools) and unused
+  imports. The `HomeGrid` component file is kept but no longer used on the home page.
+- Follow-up: the Tools card footer is plain text like the other cards ("CSS Tools" · "Developer Tools"), with no links.
+- Follow-up: home search placeholder is now "Search UI snippets, coding playgrounds and tools…" (aria-label too).
+- Follow-up: home hero gap reduced. `.heroTextCol` is `flex: 0 1 600px` (content-sized) and `.heroProfileCol` is `flex: 1 1 620px`, so the author card fills the rest of the row. Stacked layouts at 1300px and below are unchanged.
+- Follow-up: home search "Popular" chips are trimmed to CSS, JavaScript and React (Next.js and SVG removed).
+- Fix: the header strip was opening both the old expanding row and the new panel. The header override had the same specificity as the later `.catBar:hover` rules; it now uses `.catBar.catBarHeader:hover`, so only the two-column panel opens.
+- Follow-up: in the header, the collapsed category row is neutral (natural order, no active chip). The hover panel still highlights the active category or tag.
+- Reverted the neutral-row change: the header row again leads with and highlights the active category.
+- Header strip: on a tag page the active tag leads the collapsed row as a highlighted chip (it was already highlighted in the hover panel).
+- Header category strip is hidden on the library gallery, category and tag pages (whenever `UiSnippetsGallery` renders), which have their own Categories | Tags panel. It still shows on snippet pages and My Code; the empty `.headerCats` slot keeps the header layout.

@@ -61,9 +61,21 @@ export function CategoryStrip({ categories, tags = [], activeCategory, activeTag
   const ordered = activeCategory
     ? [...categories.filter(c => c.id === activeCategory), ...categories.filter(c => c.id !== activeCategory)]
     : categories;
+  // On a tag page the active tag leads the row, highlighted, ahead of the categories.
+  const leadTag = activeTag ? tags.find(t => t.id === activeTag) : null;
   return (
     <nav className={`${rs.catBar} ${inHeader ? rs.catBarHeader : ''}`} aria-label="Snippet categories">
       <div className={rs.catList}>
+        {leadTag && (
+          <a
+            href={`/ui-snippets/tag/${leadTag.id}/`}
+            className={`${rs.catChip} ${rs.catChipActive}`}
+            aria-current="page"
+            onClick={() => navStart()}
+          >
+            {leadTag.label}
+          </a>
+        )}
         {ordered.map(c => (
           <a
             key={c.id}

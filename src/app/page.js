@@ -1,12 +1,12 @@
-import HomeGrid from '@/components/HomeGrid';
 import HomeOmniSearch from '@/components/HomeOmniSearch';
 import ProfileHeroCard from '@/components/ProfileHeroCard';
 import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
 import { getLatestSnippets } from '@/lib/snippet-related';
+import { fetchLatestBlogPosts } from '@/lib/blog-feed';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
-import { TOOLS, LIVE_TOOLS, SEARCHABLE_TOOLS } from '@/lib/tools-registry';
+import { LIVE_TOOLS } from '@/lib/tools-registry';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import styles from './page.module.css';
 
@@ -207,30 +207,6 @@ Everything is built with React 19 and runs 100% client-side. No signup, no accou
   ],
 };
 
-/* ── Home page tool order ──────────────────────────────────────────────────
-   Frontend playgrounds first, then the remaining tools.
-   The UI Snippets library has its own card + carousel, so it is left out.
-─────────────────────────────────────────────────────────────────────────── */
-const FRONTEND_PLAYGROUND_SLUGS = [
-  'html-playground', 'css-playground', 'js-playground', 'typescript-playground', 'scss-playground',
-  'tailwind-playground', 'react-playground', 'vue-playground', 'angular-playground', 'nextjs-playground',
-  'gsap-playground', 'svg-playground', 'jquery-playground', 'bootstrap5-playground',
-];
-
-function getToolWeight(t) {
-  const i = FRONTEND_PLAYGROUND_SLUGS.indexOf(t.slug);
-  if (i !== -1) return i;
-  return t.slug.endsWith('-playground') ? 50 : 99;
-}
-
-const homeOrderedTools = [...LIVE_TOOLS]
-  .filter(t => t.slug !== 'ui-snippets')
-  .sort((a, b) => {
-    const wa = getToolWeight(a), wb = getToolWeight(b);
-    if (wa !== wb) return wa - wb;
-    return TOOLS.indexOf(a) - TOOLS.indexOf(b);
-  });
-
 /* ── Above-the-fold feature grid content ───────────────────────────────── */
 const SNIPPET_CARD_ITEMS = [
   { title: 'Animated Buttons',  sub: 'Modern & interactive button designs', href: '/ui-snippets/buttons/',    accent: '#6366f1', icon: 'M4 10a3 3 0 0 1 3-3h10a3 3 0 0 1 0 6H7a3 3 0 0 1-3-3Z' },
@@ -261,6 +237,7 @@ function ItemIcon({ d, accent }) {
 
 export default async function Home() {
   const playgroundCardTools = PLAYGROUND_CARD_SLUGS.map(slug => LIVE_TOOLS.find(t => t.slug === slug)).filter(Boolean);
+  const latestPosts = await fetchLatestBlogPosts(5);
   const latestSnippets = getLatestSnippets(60);
 
   return (
@@ -300,7 +277,7 @@ export default async function Home() {
       <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} />
 
       {/* ── Above-the-fold feature grid ──────────────────────────────────── */}
-      <div className={`${styles.featureGrid} ${styles.featureGridThree}`}>
+      <div className={`${styles.featureGrid}`}>
         <div className={styles.featureCard} style={{ '--fc-accent': '#7c3aed' }}>
           <div className={styles.featureCardTop}>
             <span className={styles.featureIcon}>
@@ -394,24 +371,47 @@ export default async function Home() {
           </div>
           <a href="/css-tools/" className={styles.featureCtaBtn}>Explore All CSS Tools →</a>
           <div className={styles.featureFootRow}>
-            <a href="/css-tools/" className={styles.featureFootLink}>CSS Tools</a>
-            <a href="/ai-prompt-studio/" className={styles.featureFootLink}>AI Prompt Studio</a>
+            <span className={styles.featureFootLink}>CSS Tools</span>
+            <span className={styles.featureFootLink}>Developer Tools</span>
+          </div>
+        </div>
+
+        <div className={styles.featureCard} style={{ '--fc-accent': '#e11d48' }}>
+          <div className={styles.featureCardTop}>
+            <span className={styles.featureIcon}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+            </span>
+            <h2 className={styles.featureTitle}>Latest From the Blog</h2>
+            <a href="https://webdevpuneet.com/blog/" target="_blank" rel="noopener noreferrer" className={styles.featureArrowLink} aria-label="Visit the blog">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+          <p className={styles.featureDesc}>Practical tutorials, examples and guides for modern web development.</p>
+          <div className={styles.featureList}>
+            {latestPosts.length === 0 && (
+              <p className={styles.featureEmptyNote}>Couldn&apos;t load the latest posts right now — <a href="https://webdevpuneet.com/blog/" target="_blank" rel="noopener noreferrer">browse the blog directly</a>.</p>
+            )}
+            {latestPosts.map(post => (
+              <a key={post.href} href={post.href} target="_blank" rel="noopener noreferrer" className={styles.featureBlogItem}>
+                {post.thumb
+                  ? <img className={styles.featureBlogThumb} src={post.thumb} alt="" loading="lazy" />
+                  : <span className={styles.featureBlogThumbFallback} aria-hidden="true">{'</>'}</span>}
+                <span className={styles.featureItemBody}>
+                  <span className={styles.featureBlogTitle}>{post.title}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+          <a href="https://webdevpuneet.com/blog/" target="_blank" rel="noopener noreferrer" className={styles.featureCtaBtn}>Read More Blogs →</a>
+          <div className={styles.featureFootRow}>
+            <span className={styles.featureFootLink}>View All Posts</span>
+            <span className={styles.featureFootLink}>Development Tips</span>
           </div>
         </div>
       </div>
       </div>
 
       <IndexOnly><AdSlot /></IndexOnly>
-
-      <div className={styles.searchToolsWrap}>
-        <div id="tools" className={styles.searchToolsHeader}>
-          <div className={styles.playgroundHeaderLeft}>
-            <span className={styles.playgroundLabel}>All Playgrounds</span>
-            <span className={styles.playgroundSub}>{PLAYGROUND_COUNT} free coding playgrounds · No install, no signup</span>
-          </div>
-        </div>
-        <HomeGrid tools={homeOrderedTools} searchTools={SEARCHABLE_TOOLS} />
-      </div>
 
       <div className={styles.seoWrap}>
         <IndexOnly><SeoSection {...SEO} /></IndexOnly>
