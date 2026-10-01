@@ -102,7 +102,7 @@ No curve graphs: graphs describe eases the way sheet music describes a song. Mot
 
 **Customizing it**
 
-Add lanes to the \`EASES\` array (name, ease string, color), race y-axis drops instead, or wire lane clicks to copy the ease string. Related: bounce physics in [custom bounce ball](/ui-snippets/custom-bounce-ball/), oscillation in [custom wiggle icons](/ui-snippets/custom-wiggle-icons/), curve editing in [bezier curve editor](/ui-snippets/bezier-curve-editor/), and CSS-side timing in [css animation generator](https://fwdtools.com/css-animation-generator/).`,
+Add lanes to the \`EASES\` array (name, ease string, color), race y-axis drops instead, or wire lane clicks to copy the ease string. Related: bounce physics in [custom bounce ball](/ui-snippets/custom-bounce-ball/), oscillation in [custom wiggle icons](/ui-snippets/custom-wiggle-icons/), curve editing in [bezier curve editor](/ui-snippets/bezier-curve-editor/), and CSS-side timing in [css animation generator](/css-animation-generator/).`,
     },
     howToUse: { type: 'steps', items: [
       { title: 'Add the GSAP CDNs', text: `Include gsap and EasePack from the CDN panel.` },

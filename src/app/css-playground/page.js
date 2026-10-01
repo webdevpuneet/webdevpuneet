@@ -149,7 +149,7 @@ const seoData = {
   ],
   useCases: [
     { title: 'Beginners Learning CSS for the First Time', desc: 'If you have never written CSS before, this playground removes every barrier. Each lesson explains one concept in plain English, gives you working code to edit immediately, and shows the result in a live preview. No setup, no terminal, no memorising property names — just open a lesson and start changing things.' },
-    { title: 'Developers Who Struggle with Flexbox and Grid', desc: 'Flexbox and CSS Grid are the most commonly misunderstood parts of CSS. The playground dedicates seven lessons to layout — flex container, direction, wrapping, justify-content, align-items, grid columns, grid areas, and auto-placement. Edit the values and watch the layout shift in real time until the mental model clicks. Then build real layouts visually with the [Flexbox builder](https://fwdtools.com/flexbox-builder) and [CSS Grid builder](https://fwdtools.com/css-grid-builder).' },
+    { title: 'Developers Who Struggle with Flexbox and Grid', desc: 'Flexbox and CSS Grid are the most commonly misunderstood parts of CSS. The playground dedicates seven lessons to layout — flex container, direction, wrapping, justify-content, align-items, grid columns, grid areas, and auto-placement. Edit the values and watch the layout shift in real time until the mental model clicks. Then build real layouts visually with the [Flexbox builder](/flexbox-builder/) and [CSS Grid builder](/css-grid-builder/).' },
     { title: 'Students Following a Web Dev Curriculum', desc: 'If you are working through a bootcamp or university course, the CSS Playground gives you a hands-on environment to experiment with exactly what you are studying. Load the lesson that matches your module, edit the CSS, break it, fix it, and build the intuition that reading slides alone cannot give you.' },
     { title: 'Self-Taught Developers Filling CSS Gaps', desc: 'Many self-taught developers know enough CSS to get by but have gaps — they skip pseudo-elements, avoid CSS variables, or hardcode breakpoints instead of using clamp(). The modern chapters target exactly these gaps with focused, editable lessons covering variables, pseudo-elements, responsive design, modern selectors, layout, cascade layers, visual effects, and modern color.' },
     { title: 'Anyone Prototyping CSS Effects', desc: 'Need to quickly test a keyframe animation, a box-shadow stack, or a gradient before applying it to a real project? Load the relevant lesson, modify the values, and use the Copy CSS or Download buttons to take the working code straight into your project. Faster than a blank CodePen.' },
@@ -167,7 +167,7 @@ export default function CssPlaygroundPage() {
       <div className={styles.toolSection}>
         <CssPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot showBlog={false} />
+      <IndexOnly><AdSlot />
       <SeoSection {...seoData} /></IndexOnly>
     </div>
   );

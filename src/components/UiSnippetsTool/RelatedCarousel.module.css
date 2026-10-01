@@ -79,8 +79,58 @@
 /* In the snippet page header: no section spacing, and the "More" fade matches the header surface */
 .catBarHeader { margin-bottom: 0; height: 24px; }
 .catBarHeader .catList { top: -4px; gap: 4px; padding: 4px 60px 4px 5px; max-height: 32px; }
+/* In the header the row itself stays one line; the two-column panel below takes over. */
 .catBarHeader:hover .catList,
-.catBarHeader:focus-within .catList { max-height: 320px; padding-right: 5px; }
+.catBarHeader:focus-within .catList {
+  max-height: 32px; padding-right: 60px;
+  background: none; border-color: transparent; box-shadow: none;
+}
+.catBarHeader:hover .catMore,
+.catBarHeader:focus-within .catMore { opacity: 1; color: var(--accent, #6366f1); }
+
+/* Header drop-down: Categories | Tags in two columns. The transparent top padding
+   bridges the gap so the pointer can travel from the strip into the panel. */
+.catPanel {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(980px, calc(100vw - 48px));
+  padding-top: 10px;
+  z-index: 30;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .15s ease, visibility .15s;
+}
+.catBarHeader:hover .catPanel,
+.catBarHeader:focus-within .catPanel { opacity: 1; visibility: visible; pointer-events: auto; }
+.catPanelInner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-height: min(420px, 70vh);
+  overflow-y: auto;
+  background: var(--surface, #fff);
+  border: 1px solid var(--border, #e3e5ea);
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, .18);
+}
+.catCol { padding: 14px 16px 16px; min-width: 0; }
+.catCol + .catCol { border-left: 1px solid var(--border, #e3e5ea); }
+.catColLabel {
+  margin-bottom: 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text3, #64748b);
+}
+.catColChips { display: flex; flex-wrap: wrap; gap: 6px; }
+@media (max-width: 720px) {
+  .catPanelInner { grid-template-columns: 1fr; }
+  .catCol + .catCol { border-left: 0; border-top: 1px solid var(--border, #e3e5ea); }
+}
+@media (hover: none) { .catPanel { display: none; } }
 /* Compact chips so they sit quietly beside the header buttons */
 .catBarHeader .catChip {
   height: 22px;

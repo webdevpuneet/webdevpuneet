@@ -150,7 +150,7 @@ Learning here gives you a fast feedback loop: write the code, hit Replay, adjust
       columns: 3,
       items: [
         { icon: '🎬', title: 'JavaScript developers new to GSAP', desc: 'If you know basic JavaScript but have never written a GSAP animation, the Getting Started chapter gets you moving elements in minutes.' },
-        { icon: '🎨', title: 'Designers who write code', desc: 'Experiment with ease types, stagger timing, and timeline sequencing to build intuition for motion design before putting it into a project. For pure-CSS motion without JavaScript, browse the [CSS animation generator](https://fwdtools.com/css-animation-generator).' },
+        { icon: '🎨', title: 'Designers who write code', desc: 'Experiment with ease types, stagger timing, and timeline sequencing to build intuition for motion design before putting it into a project. For pure-CSS motion without JavaScript, browse the [CSS animation generator](/css-animation-generator/).' },
         { icon: '⚛️', title: 'React developers adding animation', desc: 'Learn GSAP fundamentals here, then apply them in React using useRef and useEffect — the same core API works in any framework.' },
         { icon: '📜', title: 'Scroll animation learners', desc: 'The ScrollTrigger chapter teaches trigger, scrub, and pin — the three most useful scroll animation tools for portfolio and marketing sites.' },
         { icon: '🚀', title: 'Developers polishing UIs', desc: 'Pick up card reveal, stagger, and timeline patterns quickly and drop them into production-ready components.' },
@@ -196,7 +196,7 @@ export default function GsapPlaygroundPage() {
       <div className={styles.toolSection}>
         <GsapPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot showBlog={false} />
+      <IndexOnly><AdSlot />
       <SeoSection {...SEO} /></IndexOnly>
     </div>
   );

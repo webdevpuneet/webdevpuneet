@@ -8,7 +8,6 @@ import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import { TOOLS, LIVE_TOOLS, SEARCHABLE_TOOLS } from '@/lib/tools-registry';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
-import { fetchLatestBlogPosts } from '@/lib/blog-feed';
 import styles from './page.module.css';
 
 // Playgrounds = every live tool except the UI Snippets library itself
@@ -246,6 +245,11 @@ const SNIPPET_CARD_ITEMS = [
 
 const PLAYGROUND_CARD_SLUGS = ['html-playground', 'css-playground', 'js-playground', 'react-playground', 'vue-playground', 'gsap-playground', 'svg-playground', 'tailwind-playground'];
 
+// "Tools" card: every live tool that isn't a playground (CSS tools first, then the rest).
+const TOOL_CARD_TOOLS = LIVE_TOOLS
+  .filter(t => t.slug !== 'ui-snippets' && !t.slug.endsWith('-playground'))
+  .sort((a, b) => (a.category === 'css' ? 0 : 1) - (b.category === 'css' ? 0 : 1));
+
 
 function ItemIcon({ d, accent }) {
   return (
@@ -257,7 +261,6 @@ function ItemIcon({ d, accent }) {
 
 export default async function Home() {
   const playgroundCardTools = PLAYGROUND_CARD_SLUGS.map(slug => LIVE_TOOLS.find(t => t.slug === slug)).filter(Boolean);
-  const latestPosts = await fetchLatestBlogPosts(5);
   const latestSnippets = getLatestSnippets(60);
 
   return (
@@ -362,42 +365,43 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className={styles.featureCard} style={{ '--fc-accent': '#e11d48' }}>
+        <div className={styles.featureCard} style={{ '--fc-accent': '#0d9488' }}>
           <div className={styles.featureCardTop}>
             <span className={styles.featureIcon}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
             </span>
-            <h2 className={styles.featureTitle}>Latest From the Blog</h2>
-            <a href="https://webdevpuneet.com/blog/" target="_blank" rel="noopener noreferrer" className={styles.featureArrowLink} aria-label="Visit the blog">
+            <h2 className={styles.featureTitle}>Tools</h2>
+            <a href="/css-tools/" className={styles.featureArrowLink} aria-label="View CSS tools">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
           </div>
-          <p className={styles.featureDesc}>Practical tutorials, examples and guides for modern web development.</p>
-          <div className={styles.featureList}>
-            {latestPosts.length === 0 && (
-              <p className={styles.featureEmptyNote}>Couldn&apos;t load the latest posts right now — <a href="https://webdevpuneet.com/blog/" target="_blank" rel="noopener noreferrer">browse the blog directly</a>.</p>
-            )}
-            {latestPosts.map(post => (
-              <a key={post.href} href={post.href} target="_blank" rel="noopener noreferrer" className={styles.featureBlogItem}>
-                {post.thumb
-                  ? <img className={styles.featureBlogThumb} src={post.thumb} alt="" loading="lazy" />
-                  : <span className={styles.featureBlogThumbFallback} aria-hidden="true">{'</>'}</span>}
-                <span className={styles.featureItemBody}>
-                  <span className={styles.featureBlogTitle}>{post.title}</span>
+          <p className={styles.featureDesc}>{TOOL_CARD_TOOLS.length} free CSS generators and developer tools with live preview — gradients, shadows, layouts, prompts and more.</p>
+          <div className={`${styles.featureList} ${styles.featureListScroll}`}>
+            {TOOL_CARD_TOOLS.map(tool => (
+              <a key={tool.slug} href={`/${tool.slug}/`} className={styles.featureItem}>
+                <span className={styles.featureItemIcon} style={{ background: tool.accent + '18', borderColor: tool.accent + '38' }}>
+                  {tool.icon?.startsWith('/')
+                    ? <img src={tool.icon} alt="" width={15} height={15} />
+                    : <span style={{ color: tool.accent }}>{tool.icon}</span>}
                 </span>
+                <span className={styles.featureItemBody}>
+                  <span className={styles.featureItemTitle}>{tool.name}</span>
+                  <span className={styles.featureItemSub}>{tool.sub}</span>
+                </span>
+                <svg className={styles.featureItemChevron} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6"/></svg>
               </a>
             ))}
           </div>
-          <a href="https://webdevpuneet.com/blog/" target="_blank" rel="noopener noreferrer" className={styles.featureCtaBtn}>Read More Blogs →</a>
+          <a href="/css-tools/" className={styles.featureCtaBtn}>Explore All CSS Tools →</a>
           <div className={styles.featureFootRow}>
-            <span className={styles.featureFootLink}>View All Posts</span>
-            <span className={styles.featureFootLink}>Development Tips</span>
+            <a href="/css-tools/" className={styles.featureFootLink}>CSS Tools</a>
+            <a href="/ai-prompt-studio/" className={styles.featureFootLink}>AI Prompt Studio</a>
           </div>
         </div>
       </div>
       </div>
 
-      <IndexOnly><AdSlot showBlog={false} /></IndexOnly>
+      <IndexOnly><AdSlot /></IndexOnly>
 
       <div className={styles.searchToolsWrap}>
         <div id="tools" className={styles.searchToolsHeader}>

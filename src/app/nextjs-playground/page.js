@@ -215,13 +215,13 @@ New to the layers underneath Next.js? Pair this course with the [React Playgroun
       { title: 'Style the result with globals.css', text: 'In the Styling chapter, switch to `app/globals.css` to test typography, layout, buttons, and cards. The preview applies CSS immediately — a smooth move from basic CSS practice in the [CSS Playground](/css-playground/) into a Next.js file structure.' },
       { title: 'Test a route handler', text: 'In the Route Handlers chapter, edit the JSON returned from `GET()` in `app/api/hello/route.js`, then click GET /api/hello. A lesson page also fetches `/api/hello` with useEffect so you can practice the page-to-route workflow.' },
       { title: 'Take the Quick Check and mark the lesson done', text: 'Answer the multiple-choice Quick Check to confirm the concept, then use Mark Done to advance. The progress bar tracks how far through the 26 lessons you are, saved in your browser.' },
-      { title: 'Export when a prototype is worth keeping', text: 'Use Export ZIP to get a small Next.js project with `package.json` and `next.config.mjs`, then run `npm install` and `npm run dev` to continue locally. Move route handler ideas into real API testing with the [REST API Builder](https://fwdtools.com/rest-api-builder-playground/).' },
+      { title: 'Export when a prototype is worth keeping', text: 'Use Export ZIP to get a small Next.js project with `package.json` and `next.config.mjs`, then run `npm install` and `npm run dev` to continue locally. Move route handler ideas into real API testing with the [REST API Builder](/rest-api-builder-playground/).' },
     ],
   },
   useCases: [
     { icon: 'LEARN', title: 'Learn Next.js from scratch, no setup', desc: 'Follow 26 lessons across 10 chapters, beginner to pro, that run real code in the browser. Perfect for beginners who want to understand the App Router — through dynamic routes, caching, and deployment — without installing Node.js, configuring a project, or starting a dev server.' },
     { icon: 'CODE', title: 'Move from React to Next.js', desc: 'If hooks and JSX already make sense, this course shows the project conventions around them — routes, layouts, route handlers, and data patterns. Use it after the [React Playground](/react-playground/) to bridge components into full Next.js screens.' },
-    { icon: 'API', title: 'Practice route handlers and data fetching', desc: 'Edit the GET route in `app/api/hello/route.js`, run it from the API panel, and fetch it from a component with useEffect. A focused way to learn how App Router pages talk to their own API before moving to the [REST API Builder](https://fwdtools.com/rest-api-builder-playground/).' },
+    { icon: 'API', title: 'Practice route handlers and data fetching', desc: 'Edit the GET route in `app/api/hello/route.js`, run it from the API panel, and fetch it from a component with useEffect. A focused way to learn how App Router pages talk to their own API before moving to the [REST API Builder](/rest-api-builder-playground/).' },
     { icon: 'NAV', title: 'Understand App Router file structure', desc: 'Separate tabs for page, layout, CSS, and route make the relationships easy to see. Great for teaching how `page.jsx`, `layout.jsx`, `globals.css`, and `route.js` work together while the preview updates on the same screen.' },
     { icon: 'PRO', title: 'See the real benefits of Next.js in action', desc: 'Lessons demonstrate file-based routing, shared layouts, client interactivity, route handlers, and styling — the production features that make Next.js the leading React framework — so the "why" is obvious, not abstract.' },
     { icon: 'EXPORT', title: 'Export a Next.js project from a lesson', desc: 'When an experiment is worth keeping, Export ZIP turns it into a clean local Next.js project with `package.json` and `next.config.mjs`, ready for `npm install` and `npm run dev` instead of loose copied snippets.' },
@@ -242,7 +242,7 @@ export default function NextjsPlaygroundPage() {
       <div className={styles.toolSection}>
         <NextjsPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot showBlog={false} />
+      <IndexOnly><AdSlot />
       <SeoSection {...seoData} noShare /></IndexOnly>
     </div>
   );

@@ -48,7 +48,7 @@ const SEO = {
 
 **Everything stays in your browser.** My Code uses your browser's IndexedDB — a local database built into every modern browser. No account required, no sign-up, no data uploaded to any server. Your snippets are as private as a file on your desktop. Close the tab, restart your computer, come back three months later — your code is still there.
 
-**Add any external library via CDN.** Practising GSAP animations? Learning Three.js? Testing Alpine.js? Every snippet in My Code has a CDN panel where you paste any JS or CSS CDN URL — the library loads instantly in the preview. If you want to go deeper on CSS specifically, the [CSS Animation Generator](https://fwdtools.com/css-animation-generator) can help you generate keyframe code to paste in. Common libraries like Bootstrap, Tailwind, jQuery, GSAP, D3, and Chart.js are available as one-click suggestions. Your CDN links are saved with each snippet so they reload automatically every time you open it.
+**Add any external library via CDN.** Practising GSAP animations? Learning Three.js? Testing Alpine.js? Every snippet in My Code has a CDN panel where you paste any JS or CSS CDN URL — the library loads instantly in the preview. If you want to go deeper on CSS specifically, the [CSS Animation Generator](/css-animation-generator/) can help you generate keyframe code to paste in. Common libraries like Bootstrap, Tailwind, jQuery, GSAP, D3, and Chart.js are available as one-click suggestions. Your CDN links are saved with each snippet so they reload automatically every time you open it.
 
 **Take your code anywhere with GitHub Gist sync.** Connect a GitHub personal access token (gist scope only) and your entire collection backs up to a private GitHub Gist. The sync runs automatically every 3 minutes while the tab is open. On a new device, enter your token and Gist ID and your full library restores instantly. Your code follows you without any webdevpuneet.com account, subscription, or cloud service involved.`,
   },
@@ -166,7 +166,7 @@ export default function SavedSnippetsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {/* Ad above everything below (gallery only, hidden on saved snippets). */}
       <IndexOnly>
-        <AdSlot adFirst related={false} showBlog={false} />
+        <AdSlot adFirst related={false} />
       </IndexOnly>
       {/* Latest UI Snippets — on the My Code gallery and on every saved snippet (?id=…),
           above the "Learn Coding Visually" strip. Outside IndexOnly on purpose. Its section

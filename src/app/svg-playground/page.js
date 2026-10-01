@@ -143,7 +143,7 @@ The second animation chapter uses SVG's built-in SMIL — no CSS, no JavaScript.
 
 The final chapter combines everything into portfolio-grade effects: the self-drawing line built from \`stroke-dasharray\` and an animated \`stroke-dashoffset\`; a dependency-free spinner; animated check and heart icons; path morphing by animating the \`d\` attribute between shapes with matching structure; a living animated gradient; and production-ready responsive, accessible markup with \`preserveAspectRatio\`, \`<title>\`, and \`role="img"\`.
 
-Every lesson has a Quick Check multiple-choice question, and progress is saved to localStorage so you can close the tab and resume where you left off. The Replay button restarts any animation, the background toggle switches between a transparency grid, white, and dark, and everything renders locally — no code is uploaded to any server. When you are ready to go further with motion, continue in the [GSAP playground](/gsap-playground) or the [CSS animation generator](https://fwdtools.com/css-animation-generator).`,
+Every lesson has a Quick Check multiple-choice question, and progress is saved to localStorage so you can close the tab and resume where you left off. The Replay button restarts any animation, the background toggle switches between a transparency grid, white, and dark, and everything renders locally — no code is uploaded to any server. When you are ready to go further with motion, continue in the [GSAP playground](/gsap-playground) or the [CSS animation generator](/css-animation-generator/).`,
   },
 
   features: [
@@ -253,7 +253,7 @@ Every lesson has a Quick Check multiple-choice question, and progress is saved t
 
   links: [
     { label: 'GSAP Playground', href: '/gsap-playground/', desc: 'Take SVG and DOM animation further with the GreenSock timeline and tween engine.' },
-    { label: 'CSS Animation Generator', href: 'https://fwdtools.com/css-animation-generator/', desc: 'Generate CSS @keyframes visually — pairs perfectly with SVG CSS animation.' },
+    { label: 'CSS Animation Generator', href: '/css-animation-generator/', desc: 'Generate CSS @keyframes visually — pairs perfectly with SVG CSS animation.' },
     { label: 'SVG Animation Generator', href: 'https://fwdtools.com/svg-animation-generator/', desc: 'Point-and-click SVG animations you can export, no hand-coding required.' },
     { label: 'HTML Playground', href: '/html-playground/', desc: 'Learn HTML structure — the document SVG graphics live inside.' },
     { label: 'CSS Playground', href: '/css-playground/', desc: 'Learn the styling layer that animates and positions your SVG.' },
@@ -269,7 +269,7 @@ export default function SvgPlaygroundPage() {
       <div className={styles.toolSection}>
         <SvgPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot showBlog={false} />
+      <IndexOnly><AdSlot />
       <SeoSection {...seoData} /></IndexOnly>
     </div>
   );

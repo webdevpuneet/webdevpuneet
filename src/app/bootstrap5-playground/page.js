@@ -171,7 +171,7 @@ Progress is saved to localStorage automatically. Your completed lessons persist 
   ],
   useCases: [
     { icon: '⚡', title: 'Learn Bootstrap 5 from scratch', desc: 'Work through all 50 lessons in order — from containers and the 12-column grid to forms with floating labels and validation, modals, toasts, carousels, and position utilities. Every concept builds on the previous one. Prefer utility-first CSS? Compare with the [Tailwind playground](/tailwind-playground).' },
-    { icon: '⬚', title: 'Master the responsive grid', desc: 'The 3-lesson Grid chapter teaches col classes, breakpoint infixes, row-cols for card grids, offsets, and visual reordering — compare with hand-written layouts in the [CSS Grid builder](https://fwdtools.com/css-grid-builder) or [Flexbox builder](https://fwdtools.com/flexbox-builder).' },
+    { icon: '⬚', title: 'Master the responsive grid', desc: 'The 3-lesson Grid chapter teaches col classes, breakpoint infixes, row-cols for card grids, offsets, and visual reordering — compare with hand-written layouts in the [CSS Grid builder](/css-grid-builder/) or [Flexbox builder](/flexbox-builder/).' },
     { icon: '⇄', title: 'Build forms with validation and floating labels', desc: 'The 6-lesson Forms chapter covers every Bootstrap form control including the floating label pattern and the was-validated client-side validation system — no JavaScript required for the validation styles.' },
     { icon: '▹', title: 'Prototype UI components before coding', desc: 'Test modals, dropdowns, accordions, toasts, offcanvas panels, and carousels directly in the preview. All Bootstrap JS components work via data-bs-* attributes — no initialization code needed for most of them.' },
     { icon: '◈', title: 'Teach Bootstrap in workshops or courses', desc: 'Share lesson URLs with students. Each lesson is self-contained — students can modify the HTML, see results instantly, download the file, or share their version via URL. Progress is stored locally per browser.' },
@@ -194,7 +194,7 @@ export default function Bootstrap5PlaygroundPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><Bootstrap5PlaygroundTool /></div>
-      <IndexOnly><AdSlot showBlog={false} />
+      <IndexOnly><AdSlot />
       <SeoSection {...SEO} /></IndexOnly>
     </div>
   );

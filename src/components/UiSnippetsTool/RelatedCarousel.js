@@ -38,11 +38,24 @@ function RelatedCard({ sn, active }) {
 // always starting at page 1. It is a plain in-page section: no floating
 // slide-up dock and no edge button.
 
-// One-line strip of every category (links to the category pages). Extra rows stay
-// hidden until the strip is hovered or focused, then it drops open over the content
-// below. Rendered in the snippet page header (UiSnippetsTool); `inHeader` drops
-// the section spacing it had when it sat above the related cards.
-export function CategoryStrip({ categories, activeCategory, inHeader = false }) {
+// One-line strip of every category (links to the category pages). Hovering or
+// focusing it opens a panel below with two columns — every category and every tag —
+// over the content. Rendered in the snippet page header (UiSnippetsTool); `inHeader`
+// drops the section spacing it had when it sat above the related cards.
+function PanelChip({ href, label, active }) {
+  return (
+    <a
+      href={href}
+      className={`${rs.catChip} ${active ? rs.catChipActive : ''}`}
+      aria-current={active ? 'page' : undefined}
+      onClick={() => navStart()}
+    >
+      {label}
+    </a>
+  );
+}
+
+export function CategoryStrip({ categories, tags = [], activeCategory, activeTag = null, inHeader = false }) {
   if (!categories?.length) return null;
   // The active category leads the row, so it is always visible without opening the strip.
   const ordered = activeCategory
@@ -67,6 +80,31 @@ export function CategoryStrip({ categories, activeCategory, inHeader = false }) 
         More
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </span>
+      {inHeader && (
+        <div className={rs.catPanel}>
+          <div className={rs.catPanelInner}>
+            <div className={rs.catCol}>
+              <div className={rs.catColLabel}>Categories</div>
+              <div className={rs.catColChips}>
+                <PanelChip href="/ui-snippets/" label="All categories" active={!activeCategory && !activeTag} />
+                {categories.map(c => (
+                  <PanelChip key={c.id} href={`/ui-snippets/${c.id}/`} label={c.label} active={c.id === activeCategory} />
+                ))}
+              </div>
+            </div>
+            {tags.length > 0 && (
+              <div className={rs.catCol}>
+                <div className={rs.catColLabel}>Tags</div>
+                <div className={rs.catColChips}>
+                  {tags.map(t => (
+                    <PanelChip key={t.id} href={`/ui-snippets/tag/${t.id}/`} label={t.label} active={t.id === activeTag} />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

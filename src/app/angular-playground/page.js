@@ -280,7 +280,7 @@ export default function AngularPlaygroundPage() {
       <div className={styles.toolSection}>
         <AngularPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot showBlog={false} />
+      <IndexOnly><AdSlot />
       <SeoSection {...seoData} /></IndexOnly>
     </div>
   );

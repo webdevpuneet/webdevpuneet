@@ -136,7 +136,7 @@ Every lesson has a Quick Check multiple-choice question. Progress and your curre
   },
 
   features: [
-    '60 guided lessons across 25 chapters from Hello JavaScript to Proxy & Reflect — then go deeper with the [TypeScript playground](/typescript-playground) or [Node.js playground](https://fwdtools.com/nodejs-playground/)',
+    '60 guided lessons across 25 chapters from Hello JavaScript to Proxy & Reflect — then go deeper with the [TypeScript playground](/typescript-playground) or [Node.js playground](/nodejs-playground/)',
     'Live code editor — preview updates automatically, Ctrl+Enter to run immediately',
     'Clickable DOM preview — event and form lessons render real interactive UI, with patterns you can reuse from the [UI snippets library](/ui-snippets)',
     'Console panel — captures console.log, warn, and error output next to the preview',
@@ -257,7 +257,7 @@ export default function JsPlaygroundPage() {
       <div className={styles.toolSection}>
         <JsPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot showBlog={false} />
+      <IndexOnly><AdSlot />
       <SeoSection {...seoData} /></IndexOnly>
     </div>
   );

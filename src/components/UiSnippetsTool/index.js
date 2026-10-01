@@ -9,6 +9,7 @@ import s from './styles.module.css';
 // Titles/categories come from the lightweight index; a snippet's own code is
 // fetched on demand by loadSnippet (one small chunk per snippet).
 import { SNIPPET_INDEX as SNIPPETS, VISIBLE_SNIPPET_INDEX as VISIBLE_SNIPPETS } from '@/lib/snippet-index';
+import { publishedTags } from '@/lib/snippet-tags';
 import { CATEGORIES } from './categories';
 import { loadSnippet as fetchSnippet, getLoadedSnippet } from './loadSnippet';
 
@@ -790,6 +791,8 @@ const HEADER_CATEGORIES = CATEGORIES
   .filter(c => c.id !== 'all' && !c.devOnly)
   .map(c => ({ id: c.id, label: c.label, count: VISIBLE_SNIPPETS.filter(sn => sn.category === c.id).length }))
   .filter(c => c.count > 0);
+// Header tag list for the strip's drop-down (same set the gallery's Tags column shows).
+const HEADER_TAGS = publishedTags(SNIPPETS).map(t => ({ id: t.id, label: t.label }));
 
 export default function UiSnippetsTool({ initialSnippetId, isHome = false, initialCategory = 'all', initialTag = null, initialView = null } = {}) {
   const router       = useRouter();
@@ -1648,9 +1651,9 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             <span className={s.headerTitle}>Create</span>
           </button>
         </div>
-        {/* Every public category with its live count; hover drops the extra rows open. */}
+        {/* One row of categories; hover opens a two-column Categories | Tags panel. */}
         <div className={s.headerCats}>
-          <CategoryStrip categories={HEADER_CATEGORIES} activeCategory={activeIsCustom ? null : (activeSn?.category || (initialCategory !== 'all' ? initialCategory : null))} inHeader />
+          <CategoryStrip categories={HEADER_CATEGORIES} tags={HEADER_TAGS} activeTag={initialTag} activeCategory={activeIsCustom ? null : (activeSn?.category || (initialCategory !== 'all' ? initialCategory : null))} inHeader />
         </div>
         <div className={s.headerRight}>
           {/* Save — update existing or open dialog for new blank */}

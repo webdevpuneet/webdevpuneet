@@ -262,7 +262,7 @@ export default function HtmlPlaygroundPage() {
       <div className={styles.toolSection}>
         <HtmlPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot showBlog={false} />
+      <IndexOnly><AdSlot />
       <SeoSection {...seoData} /></IndexOnly>
     </div>
   );

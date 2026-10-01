@@ -340,3 +340,34 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   - Hardcoded `/learn-to-code/` links (home, about, 404, RightPanel, SeoSection, ToolNudge, CategoryGrid,
     HomeGrid, FrontendPlaygroundsStrip) are absolute webdevpuneet URLs.
   - A check confirmed every moved slug has a 301 and that every target route exists on webdevpuneet.
+
+## 2026-10-01 — "Latest From the Blog" removed everywhere
+
+- `AdSlot` no longer renders `LatestBlogPostsCarousel`. The `showBlog` prop is gone, and it was stripped from every
+  page that passed it.
+- Home page: removed the "Latest From the Blog" feature card and its `fetchLatestBlogPosts` call. The grid is now
+  two cards (`.featureGridTwo`), and the blog-card CSS is removed.
+- Deleted `src/components/LatestBlogPostsCarousel` (tracked in git, so it can be restored). `src/lib/blog-feed.js`
+  stays because the sidebar Blog tab uses it.
+- Follow-up: the home grid is three cards again. The new **Tools** card (third, teal) lists every live non-playground tool
+  (24 CSS tools, then AI Prompt Studio and DB Schema Designer, 26 in all) in a list that scrolls inside the sibling
+  cards' height (`.featureListScroll`, 400px). The CTA goes to `/css-tools/`; footer links go to CSS Tools and AI Prompt Studio.
+  `TOOL_CARD_TOOLS` derives from LIVE_TOOLS, so new tools appear automatically.
+- Follow-up: home "All Playgrounds" tab row (`HomeGrid` CATEGORIES) has a new **CSS Tools** tab after Snippets, linking to `/css-tools/`.
+
+## 2026-10-01 — webdevpuneet links: local where possible, no fwdtools-only plugs on /ui-snippets/
+
+- `/ui-snippets/` features: removed the navbar-builder mention (stays on fwdtools) and the "or use the full mini kanban
+  app for real task tracking" clause. The carousel-builder link is now local (`/carousel-builder/`).
+- Site-wide: 15 `https://fwdtools.com/<slug>` links whose slug now exists on webdevpuneet were rewritten to `/<slug>/`
+  (playground SEO text, My Code page, Header nav, one snippet's SEO text). A rescan found none left.
+  Links to tools that only exist on fwdtools are unchanged.
+
+## 2026-10-01 — Header strip: two-column Categories | Tags drop-down
+
+- `CategoryStrip` (UiSnippetsTool header): the collapsed one-row category strip is unchanged. Hover or focus now opens a
+  panel below it with two columns: **Categories** ("All categories" plus each category page) and **Tags** (the same
+  `publishedTags` set as the gallery). The active category or tag is highlighted. It replaces the old "drop the extra
+  rows open" behaviour.
+- It stacks into one column under 720px and is hidden on touch screens (`hover: none`), which keep the scrollable row.
+  Styles: `.catPanel*` / `.catCol*` in RelatedCarousel.module.css.

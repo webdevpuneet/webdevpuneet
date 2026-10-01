@@ -12,7 +12,7 @@ export default function Header() {
         </a>
         <nav className={styles.nav}>
           <a href="https://fwdtools.com/json-formatter" className={styles.navLink}>JSON Formatter</a>
-          <a href="https://fwdtools.com/flexbox-builder" className={styles.navLink}>Flexbox Builder</a>
+          <a href="/flexbox-builder/" className={styles.navLink}>Flexbox Builder</a>
         </nav>
       </header>
     </>

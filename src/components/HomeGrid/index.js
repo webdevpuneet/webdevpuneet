@@ -11,6 +11,7 @@ const CATEGORIES = [
   { label: null,          href: '/',                 home: true },
   { label: 'Learn',       href: '/learn-to-code',    icon: '🎓' },
   { label: 'Snippets',    href: '/ui-snippets',      icon: '🧩' },
+  { label: 'CSS Tools',   href: '/css-tools/',       icon: '🎨' },
 ];
 
 export default function HomeGrid({ tools, searchTools = tools }) {

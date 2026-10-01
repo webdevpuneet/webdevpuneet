@@ -4,7 +4,6 @@ import { usePathname } from 'next/navigation';
 import { ADS_ENABLED as ADS_CONFIG_ENABLED } from '@/lib/ads-config';
 import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import RelatedStrip from '@/components/RelatedStrip';
-import LatestBlogPostsCarousel from '@/components/LatestBlogPostsCarousel';
 import styles from './styles.module.css';
 
 // Ads are never shown on the 404 page.
@@ -38,7 +37,7 @@ export function AdSlot300x600() {
   );
 }
 
-export default function AdSlot({ contained = false, related = null, showBlog = true, adFirst = false }) {
+export default function AdSlot({ contained = false, related = null, adFirst = false }) {
   const pathname = usePathname();
   const slug = pathname?.split('/').filter(Boolean)[0];
   const ADS_ENABLED = useAdsEnabled();
@@ -58,7 +57,6 @@ export default function AdSlot({ contained = false, related = null, showBlog = t
             {relatedContent}
           </div>
         )}
-        {showBlog && <LatestBlogPostsCarousel />}
       </div>
     );
   }
@@ -77,7 +75,7 @@ export default function AdSlot({ contained = false, related = null, showBlog = t
   );
 
   // adFirst (UI snippet pages): the ad leads, full width and centered, above the
-  // related strip. Elsewhere it keeps its place below the related strip/blog.
+  // related strip. Elsewhere it keeps its place below the related strip.
   return (
     <div className={styles.adShell}>
       {adFirst && ad}
@@ -86,7 +84,6 @@ export default function AdSlot({ contained = false, related = null, showBlog = t
           {relatedContent}
         </div>
       )}
-      {showBlog && <LatestBlogPostsCarousel />}
       {!adFirst && ad}
     </div>
   );

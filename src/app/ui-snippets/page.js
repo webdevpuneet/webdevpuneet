@@ -78,9 +78,9 @@ All code runs locally in your browser. Nothing is uploaded to any server. The pr
     ],
   },
   features: [
-    `${SNIPPET_COUNT}+ production-ready UI snippets across 15 categories including Navigation, Cards, Buttons, Forms, Layouts, Animations, Scroll Effects, and Mobile Screens; build full navbars in the [navbar builder](https://fwdtools.com/navbar-builder) and sliders in the [carousel builder](https://fwdtools.com/carousel-builder)`,
+    `${SNIPPET_COUNT}+ production-ready UI snippets across 15 categories including Navigation, Cards, Buttons, Forms, Layouts, Animations, Scroll Effects, and Mobile Screens; build full sliders in the [carousel builder](/carousel-builder/)`,
     'Command palette with Cmd+K shortcut, arrow-key navigation, fuzzy search, and grouped results',
-    'Kanban board with HTML5 drag-and-drop between To Do, In Progress, and Done columns — or use the full [mini kanban app](https://fwdtools.com/mini-kanban) for real task tracking',
+    'Kanban board with HTML5 drag-and-drop between To Do, In Progress, and Done columns',
     'Music player card with progress bar, play/pause, vinyl spin, track switching, and volume slider',
     'Magnetic button — mouse physically pulls the button toward the cursor using real-time position math',
     'Neon glow buttons in four cyberpunk colors — built entirely with CSS box-shadow and text-shadow',
@@ -185,7 +185,7 @@ export default function UiSnippetsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <IndexOnly>
-        <AdSlot adFirst related={<FrontendPlaygroundsStrip />} showBlog={false} />
+        <AdSlot adFirst related={<FrontendPlaygroundsStrip />} />
         <SeoSection {...SEO} />
       </IndexOnly>
     </>

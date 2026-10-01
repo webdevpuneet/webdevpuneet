@@ -175,7 +175,7 @@ The **Tailwind v4** chapter covers the major changes in Tailwind CSS v4: the new
   ],
   useCases: [
     { icon: '⚡', title: 'Learn Tailwind from scratch', desc: 'Work through all 48 lessons in order — from the utility-first mental model and color system to flexbox layouts, responsive breakpoints, dark mode, group/peer modifiers, accessibility utilities, and Tailwind v4. Every concept has a working HTML example to edit.' },
-    { icon: '⬚', title: 'Master responsive layouts fast', desc: 'The Responsive Design chapter teaches sm:/md:/lg:/xl:/ breakpoint prefixes with live editable examples. Use the 375px and 768px preview buttons to see your layout respond as you type class names — no browser resizing needed. Generate matching media queries with the [CSS media queries generator](https://fwdtools.com/css-media-queries-generator).' },
+    { icon: '⬚', title: 'Master responsive layouts fast', desc: 'The Responsive Design chapter teaches sm:/md:/lg:/xl:/ breakpoint prefixes with live editable examples. Use the 375px and 768px preview buttons to see your layout respond as you type class names — no browser resizing needed. Generate matching media queries with the [CSS media queries generator](/css-media-queries-generator/).' },
     { icon: '⇄', title: 'Build interactive components with group and peer', desc: 'The Group & Peer chapter teaches group-hover: cascades (entire card responds to one hover), named groups for nested regions, and peer-invalid:/peer-focus: for CSS-only form validation UI — powerful patterns that eliminate JavaScript for most interaction states.' },
     { icon: '▹', title: 'Prototype UI components quickly', desc: 'The Component Patterns chapter has working examples of cards, navigation bars, forms with validation, and badge patterns. Load the closest example, edit the classes to match your design, and copy the HTML into your project — faster than starting from a blank file.' },
     { icon: '◈', title: 'Prepare for frontend interviews', desc: 'Tailwind knowledge is now listed in most frontend job descriptions. The 15 chapters cover every topic that appears in technical screens: flexbox alignment, responsive breakpoints, dark mode implementation, hover state transitions, accessibility modifiers, and Tailwind v4 changes.' },
@@ -200,7 +200,7 @@ export default function TailwindPlaygroundPage() {
       <div className={styles.toolSection}>
         <TailwindPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot showBlog={false} />
+      <IndexOnly><AdSlot />
       <SeoSection {...SEO} /></IndexOnly>
     </div>
   );
