@@ -261,7 +261,7 @@ export default async function Home() {
               Build UIs &amp; <span className={styles.titleGrad}>Learn to Code</span>
             </h1>
             <p className={styles.heroTagline}>
-              Copy-paste UI snippets and interactive coding playgrounds — all in your browser, instantly.
+              Copy-paste UI snippets, interactive coding playgrounds and free CSS &amp; developer tools — all in your browser, instantly.
             </p>
             <div className={styles.heroSearch}>
               <HomeOmniSearch />
