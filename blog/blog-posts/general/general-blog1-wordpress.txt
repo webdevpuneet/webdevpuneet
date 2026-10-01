@@ -8,15 +8,6 @@
 
   SEO DESCRIPTION (154 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
   Learn front-end the way that still works with AI: practice HTML, CSS, JavaScript and React in 25 free browser playgrounds and 2,000+ editable UI snippets.
-
-  HOW TO PASTE (body = everything BELOW this comment)
-  1. EASIEST: open general-blog1-wordpress-paste.txt (same body, no header), Ctrl+A, Ctrl+C.
-     Or copy the body here as PLAIN text: open this file in Notepad and copy from there,
-     or turn off VS Code setting "editor.copyWithSyntaxHighlighting" and copy here.
-     (VS Code's default copy adds colour formatting that WordPress can't read.)
-  2. In WordPress, click "Type / to choose a block" under the title, press Ctrl+V.
-     The post appears as normal blocks (headings, lists, live demos).
-  If it lands as one big code block instead: menu (3 dots) > Code editor > paste there.
 ================================================================
 -->
 
