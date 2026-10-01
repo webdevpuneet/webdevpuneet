@@ -1227,7 +1227,7 @@ function AiPromptSection({ heading, headingSize = 'h2', label, paragraph, prompt
             <PromptCodeBox text={prompt} />
             <p className={styles.seoP} style={{ marginTop: 10 }}>
               Want to tighten it up first? Run this prompt through the{' '}
-              <a href="https://fwdtools.com/ai-prompt-studio/" className={styles.inlineLink}>AI Prompt Studio</a>{' '}
+              <a href="/ai-prompt-studio/" className={styles.inlineLink}>AI Prompt Studio</a>{' '}
               to score it across 8 quality dimensions, catch anti-patterns, and tune the wording for Claude, ChatGPT, or Gemini before you paste it in.
             </p>
           </>

@@ -6,6 +6,7 @@ import { LIVE_TOOLS } from '@/lib/tools-registry';
 
 const NAV_ITEMS = [
   { slug: 'ui-snippets',                 short: 'UI Snippets',  icon: '/icons/ui-snippets.svg' },
+  { slug: 'ai-prompt-studio',            short: 'AI Prompts',   icon: '/icons/ai-prompt-studio.svg' },
   { slug: 'html-playground',             short: 'HTML',         icon: '/icons/html-playground.svg' },
   { slug: 'css-playground',              short: 'CSS',          icon: '/icons/css-playground.svg' },
   { slug: 'js-playground',               short: 'JavaScript',   icon: '/icons/js-playground.svg' },

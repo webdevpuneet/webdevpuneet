@@ -140,6 +140,104 @@ Watching a tutorial is passive. Writing code is active. These playgrounds keep y
       keywords: ['learn html online', 'javascript playground', 'typescript playground', 'learn typescript online', 'angular playground online', 'learn angular online', 'css playground', 'scss playground', 'sass playground', 'learn sass online', 'tailwind css playground', 'react playground online', 'gsap playground', 'interactive coding lessons', 'learn css visually', 'html tutorial browser', 'javascript tutorial browser', 'typescript tutorial browser', 'angular tutorial browser', 'tailwind tutorial', 'react tutorial browser', 'learn to code free', 'coding playground no install', 'live html editor'],
     },
   },
+  // ── CSS tools hub (moved from fwdtools 2026-10-01) ──
+  {
+    slug:        'css-tools',
+    name:        'CSS Tools',
+    headline:    'Free Online CSS Tools & Generators',
+    tagline:     'Build layouts, generate animations, create effects, and convert CSS — all with live preview, instant copy, and zero sign-up.',
+    accent:      '#818cf8',
+    icon:        '🎨',
+    toolSlugs: [
+      // layout builders — most commonly needed
+      'flexbox-builder', 'css-grid-builder',
+      // visual effects — high search volume
+      'gradient-generator', 'box-shadow-generator', 'glassmorphism-generator',
+      // animation
+      'css-animation-generator',
+      // color
+      'color-palette-generator', 'color-picker', 'color-contrast-checker',
+      // tailwind converters — popular workflow
+      'css-to-tailwind', 'tailwind-to-css',
+      // utilities
+      'css-autoprefixer', 'css-minifier-beautifier', 'css-clamp-generator', 'css-media-queries-generator', 'rem-px-converter',
+      // components
+      'css-button-generator', 'carousel-builder',
+      // less common generators
+      'mesh-gradient-generator', 'css-clip-path-generator', 'css-loader-generator',
+      'css-transform-generator', 'css-filter-generator',
+      'css-easing-generator', 'css-shape-generator', 'toggle-switch-generator',
+    ],
+    related: ['design-tools', 'developer-tools'],
+    about: `Writing CSS by hand is slow — especially when iterating on shadow layers, gradient stops, animation timing functions, or grid template areas. These free CSS generators let you adjust visual controls, see a live preview, and copy production-ready CSS — or export to Tailwind, SCSS, or React inline styles — in seconds.
+
+### Layout Builders
+
+The **Flexbox Builder** is the most complete free Flexbox tool available. Control every flex property on the container — flex-direction, justify-content, align-items, align-content, flex-wrap, and gap — and configure flex-grow, flex-shrink, flex-basis, align-self, and order on individual child elements. The live preview responds to every control change. Export as plain CSS, SCSS, Tailwind utility classes, or React inline styles.
+
+The **CSS Grid Builder** lets you drag to create named grid template areas, set column and row sizes (fr units, px, %, auto, minmax), and generate the full CSS Grid layout. Export as CSS, Tailwind config, React component, or an HTML template with named areas pre-filled.
+
+### Visual Effect Generators
+
+The **Box Shadow Generator** is a multi-layer shadow studio — stack multiple shadows with independent offset, blur, spread, color, opacity, and inset controls. Includes neumorphism presets. The **Gradient Generator** supports linear, radial, and conic gradients with a colour-stop editor — export as CSS, Tailwind, or SVG. The **Mesh Gradient Generator** creates organic fluid gradients with draggable blob anchors, exportable as SVG, CSS, or PNG.
+
+The **Glassmorphism Generator** builds frosted-glass card effects. Upload a custom background image to preview the effect against your actual content, then adjust blur, transparency, saturation, border, and shadow. The **CSS Animation Generator** produces @keyframes CSS with 79 presets and full timing controls. The **CSS Easing Generator** provides a Bézier curve editor with a live motion preview.
+
+### Utility and Conversion Tools
+
+The **CSS Clamp() Generator** creates a complete fluid typography scale using the CSS clamp() function — font sizes that scale smoothly between viewport breakpoints without JavaScript. The **CSS Autoprefixer** adds vendor prefixes with PostCSS Autoprefixer, Browserslist presets, rejected browsers, CSS Grid modes, and Flexbox prefix controls. The **CSS Minifier / Beautifier** compresses or prettifies CSS and shows before/after file size. **CSS to Tailwind** and **Tailwind to CSS** converters handle arbitrary-value syntax. The **Color Contrast Checker** verifies WCAG 2.1 AA and AAA compliance for any foreground/background pair and suggests the nearest passing color when a pair fails. The **Media Queries Generator** supports Bootstrap, Tailwind, and MUI breakpoints with dark mode, reduced motion, and retina query options.
+
+### Why Use Browser-Based CSS Tools
+
+Every tool in this collection runs entirely in your browser — no sign-up, no server, no data sent anywhere. The live preview updates as you drag sliders or change values, making it fast to iterate without writing code manually. The generated CSS is production-ready and works in all modern browsers. Whether you are a beginner experimenting with box shadows or a professional building a design system, these tools remove the friction between an idea and working CSS code. Export formats include plain CSS, Tailwind utility classes, SCSS variables, and React inline style objects — so the output fits directly into whatever stack you use.`,
+    useCases: [
+      { icon: '📐', title: 'Build Flexbox and Grid layouts', desc: 'Use the visual Flexbox Builder and CSS Grid Builder to configure complex layouts without writing syntax from memory. Export as plain CSS, Tailwind classes, SCSS, or a React component.' },
+      { icon: '✨', title: 'Add glassmorphism card effects', desc: 'Configure blur radius, transparency, border, and shadow for a frosted-glass card UI against your actual background image. The output is a single CSS block ready to apply to any element.' },
+      { icon: '🌈', title: 'Generate gradients for backgrounds', desc: 'Create linear, radial, conic, and mesh gradients with a colour-stop editor and live preview. Export as a CSS background property, SVG, or Tailwind gradient class for direct use in your project.' },
+      { icon: '🎞️', title: 'Prototype CSS animations', desc: 'Build keyframe animations and loader spinners with 79 presets, full timing controls, and a live preview. Export as a complete @keyframes CSS block with configurable duration, delay, and iteration count.' },
+      { icon: '🔄', title: 'Convert between CSS and Tailwind', desc: 'Paste existing CSS to get equivalent Tailwind utility classes, or paste Tailwind to see the underlying CSS. Handles arbitrary-value syntax and is useful when migrating between styling systems.' },
+      { icon: '📱', title: 'Generate fluid responsive typography', desc: 'Use the CSS Clamp Generator to produce font sizes that scale smoothly between viewport breakpoints using the clamp() function — no breakpoint media queries or JavaScript required.' },
+    ],
+    faqs: [
+      {
+        q: 'Can I export the generated CSS directly to Tailwind?',
+        a: 'Yes. Most visual generators include a Tailwind export tab alongside plain CSS and SCSS. The Flexbox Builder, CSS Grid Builder, Box Shadow Generator, Gradient Generator, CSS Animation Generator, CSS Transform Generator, and Glassmorphism Generator all output Tailwind utility classes. The dedicated CSS → Tailwind converter handles arbitrary-value classes for values outside Tailwind\'s default scale.',
+      },
+      {
+        q: 'How does the Flexbox Builder help me learn CSS Flexbox?',
+        a: 'Every control in the Flexbox Builder maps to a real CSS property. As you click options the live code panel updates instantly, so you see the exact CSS declaration that produces each layout change. You can experiment with align-items vs align-content, or flex-grow vs flex-basis, and see the visual difference and the corresponding CSS at the same time — making it both a generator and a learning tool.',
+      },
+      {
+        q: 'What is the CSS Clamp() Generator used for?',
+        a: 'The CSS clamp() function creates responsive values — most commonly font sizes — that scale fluidly between a minimum and maximum without JavaScript or breakpoint media queries. The generator builds a complete type scale (xs through 4xl) using clamp(), with configurable min and max viewport widths and a scale ratio. You get a set of CSS custom property declarations ready to drop into any project.',
+      },
+      {
+        q: 'Does the Glassmorphism Generator support custom backgrounds?',
+        a: 'Yes. Upload any image as the background so you can preview the frosted-glass effect against your actual content — not a generic placeholder. Adjust blur, transparency, saturation, border opacity, and shadow with live feedback. Export as CSS, Tailwind classes, or React inline styles. The generated CSS uses backdrop-filter, supported in all modern browsers.',
+      },
+      {
+        q: 'Is there a tool for generating CSS media queries?',
+        a: 'Yes — the Media Queries Generator supports Bootstrap 5, Tailwind CSS, and MUI breakpoints out of the box. Add dark mode (@media prefers-color-scheme: dark), reduced motion, print, and HiDPI / Retina queries. Export as CSS, SCSS mixins, Tailwind configuration, or JavaScript breakpoint constant strings.',
+      },
+      {
+        q: 'What does the CSS Minifier do to my stylesheet?',
+        a: 'The CSS Minifier removes whitespace, comments, and redundant semicolons to reduce file size for production — showing before and after byte count and percentage saved. The Beautifier (same tool, other direction) takes minified or poorly-formatted CSS and reformats it with consistent indentation and line breaks for readability.',
+      },
+      {
+        q: 'Can the Color Contrast Checker help me meet WCAG accessibility standards?',
+        a: 'Yes. It tests any foreground and background color pair against WCAG 2.1 contrast ratio requirements: AA requires 4.5:1 for normal text and 3:1 for large text; AAA requires 7:1 and 4.5:1 respectively. If the pair fails, the tool suggests the nearest passing color variant so you can adjust your palette while keeping your design intent.',
+      },
+      {
+        q: 'How does the CSS Grid Builder handle named template areas?',
+        a: 'The CSS Grid Builder lets you draw a grid by clicking and dragging cells, then assign a name to each region. Named regions map directly to the CSS grid-template-areas property. The output includes both grid-template-areas for the container and grid-area for each named child — ready to paste into your stylesheet or use as a React component.',
+      },
+    ],
+    metadata: {
+      title: 'Online CSS Tools & Generators — Free Flexbox, Grid, Animations & More | webdevpuneet.com',
+      description: 'Free CSS generators with live preview: Flexbox Builder, CSS Grid Builder, CSS Autoprefixer, Box Shadow, Gradient, Animation, Glassmorphism, CSS to Tailwind, and more.',
+      keywords: ['css tools online free', 'css generator', 'css autoprefixer online', 'postcss autoprefixer', 'browserslist css prefixes', 'flexbox builder online', 'css grid builder', 'box shadow generator', 'gradient generator css', 'css animation generator', 'glassmorphism generator', 'mesh gradient generator', 'css to tailwind converter', 'tailwind to css', 'css clamp generator', 'css minifier online', 'css clip path generator', 'color contrast checker wcag'],
+    },
+  },
 ];
 
 export const CATEGORY_MAP = Object.fromEntries(CATEGORIES.map(c => [c.slug, c]));

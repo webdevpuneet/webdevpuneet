@@ -1,0 +1,467 @@
+.outerWrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.app {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Control Sidebar ── */
+.sidebar {
+  width: 290px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.brand {
+  padding: 18px 20px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.brandIcon {
+  width: 30px;
+  height: 30px;
+  background: #d4f064;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.brandText {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.brandSub {
+  font-size: 11px;
+  color: var(--text2);
+  margin-top: 1px;
+}
+
+.sidebarScroll {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.sidebarScroll::-webkit-scrollbar { width: 4px; }
+.sidebarScroll::-webkit-scrollbar-track { background: transparent; }
+.sidebarScroll::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+/* ── Sections ── */
+.section {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sectionLabel {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 14px;
+}
+
+/* ── Prop rows ── */
+.prop {
+  margin-bottom: 14px;
+}
+
+.prop:last-child {
+  margin-bottom: 0;
+}
+
+.propHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 7px;
+}
+
+.propName {
+  color: var(--text2);
+  font-size: 12px;
+  font-family: var(--font-mono);
+}
+
+.propVal {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: #4d5f00;
+  background: rgba(212, 240, 100, 0.22);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+[data-theme="dark"] .propVal {
+  color: #e6fb82;
+  background: rgba(212, 240, 100, 0.14);
+}
+
+/* ── Chips ── */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.chip {
+  padding: 4px 9px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  border: 1px solid var(--border2);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1.4;
+}
+
+.chip:hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.chipActive {
+  background: #d4f064;
+  border-color: #d4f064;
+  color: #0e0e0f;
+  font-weight: 500;
+}
+
+/* ── Sliders ── */
+.sliderWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sliderWrap input[type='range'] {
+  flex: 1;
+  -webkit-appearance: none;
+  height: 3px;
+  background: var(--surface3);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.sliderWrap input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #d4f064;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px #d4f064;
+  transition: transform 0.1s;
+}
+
+.sliderWrap input[type='range']::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* ── Item Panel ── */
+.itemPanel {
+  background: var(--surface2);
+  border-top: 1px solid var(--border);
+  padding: 16px 20px;
+}
+
+.itemPanelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.itemPanelTitle {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+.itemBadge {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* ── Main Area ── */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Toolbar ── */
+.toolbar {
+  height: 50px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toolbarLabel {
+  font-size: 12px;
+  color: var(--text2);
+}
+
+.toolBtn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  font-family: var(--font-ui);
+}
+
+.toolBtn:hover {
+  background: var(--surface2);
+}
+
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.resetBtn {
+  padding: 5px 12px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text2);
+  font-size: 12px;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.resetBtn:hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+/* ── Canvas ── */
+.canvasWrap {
+  flex: 1;
+  overflow: auto;
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #d1d5db;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(212, 240, 100, 0.08) 0%, transparent 52%),
+    linear-gradient(rgba(71, 85, 105, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(71, 85, 105, 0.12) 1px, transparent 1px);
+  background-size: 100% 100%, 28px 28px, 28px 28px;
+}
+
+[data-theme="dark"] .canvasWrap {
+  background: #111827;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(212, 240, 100, 0.06) 0%, transparent 52%),
+    linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+}
+
+.containerLabel {
+  position: absolute;
+  top: -22px;
+  left: 0;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+  letter-spacing: 0.05em;
+}
+
+.flexContainer {
+  display: flex;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 780px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+/* ── Flex Items ── */
+.flexItem {
+  min-width: 56px;
+  min-height: 56px;
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  position: relative;
+  border: 1.5px solid transparent;
+  gap: 3px;
+  padding: 10px 14px;
+}
+
+.flexItem:hover {
+  transform: translateY(-2px);
+}
+
+.flexItemSelected {
+  outline: 2px solid #d4f064;
+  outline-offset: 3px;
+}
+
+.itemNum {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+.itemSub {
+  font-size: 9px;
+  font-family: var(--font-mono);
+  opacity: 0.6;
+  white-space: nowrap;
+}
+
+/* ── Resize Handle ── */
+.resizeHandle {
+  height: 5px;
+  cursor: ns-resize;
+  background: var(--border);
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.resizeHandle:hover {
+  background: #d4f064;
+}
+
+/* ── Code Panel ── */
+.codePanel {
+  height: 35vh;
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+}
+
+.codeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.codeTabs {
+  display: flex;
+  gap: 2px;
+}
+
+.codeTab {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  border-radius: 5px;
+  cursor: pointer;
+  color: var(--text2);
+  transition: all 0.15s;
+  border: none;
+  background: transparent;
+}
+
+.codeTabActive {
+  background: var(--surface3);
+  color: var(--text);
+}
+
+.copyBtn {
+  padding: 4px 12px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  border: 1px solid var(--border2);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.copyBtn:hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.copyBtnDone {
+  color: #d4f064;
+  border-color: #d4f064;
+}
+
+.codeBody {
+  flex: 1;
+  overflow: auto;
+  padding: 12px 16px;
+}
+
+.codeBody::-webkit-scrollbar { height: 4px; width: 4px; }
+.codeBody::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+.codeBody pre {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  line-height: 1.7;
+  color: var(--text2);
+  white-space: pre;
+}
+
+/* Code syntax colors are defined globally in globals.css (.c-kw, .c-prop, etc.) */

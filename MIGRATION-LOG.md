@@ -270,3 +270,54 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   My Code. Playgrounds and home are unchanged (ad below, max-width 1296).
 - Snippet pages: ad, then Related Snippets, then "Learn Coding Visually" (the strip is rendered by the page; AdSlot gets
   `related={false}`). My Code: the gallery-only ad now sits above Latest UI Snippets and the strip.
+
+## 2026-10-01 — CSS tools moved from fwdtools (24 tools, 301s)
+
+- Moved every fwdtools tool in category `css`: box-shadow-generator, carousel-builder, color-contrast-checker,
+  color-palette-generator, color-picker, css-animation-generator, css-autoprefixer, css-button-generator,
+  css-clamp-generator, css-clip-path-generator, css-easing-generator, css-filter-generator, css-grid-builder,
+  css-loader-generator, css-media-queries-generator, css-minifier-beautifier, css-shape-generator,
+  css-transform-generator, flexbox-builder, glassmorphism-generator, gradient-generator, mesh-gradient-generator,
+  svg-wave-generator, toggle-switch-generator.
+- **webdevpuneet:**
+  - Copied 74 files (the 24 `src/app/<slug>/` routes, their `*Tool` components, ColorContrastChecker,
+    CssClipPathGenerator, CssToolsTopNav) and 26 OG images/icons.
+  - The 24 registry entries are appended to `src/lib/tools-registry.js`, so they show in the sitemap, llms.txt,
+    sidebar search and home grid.
+  - In the copied pages, canonical, og:url and image URLs point to webdevpuneet.com, and "FWD Tools" is now
+    "webdevpuneet.com". Links to tools that stay on fwdtools are absolute fwdtools.com URLs.
+  - `CssToolsTopNav` links locally when webdevpuneet has the tool, otherwise to fwdtools.
+  - The sidebar links them locally via `toolHref()`.
+  - Shared modules (AdSlot, SeoSection, related-tools) keep webdevpuneet's versions. No Disqus was copied
+    (the pages only had an unused import).
+- **fwdtools:**
+  - `public/.htaccess` 301s `^(24 slugs)/?$` to `https://webdevpuneet.com/$1/`.
+  - The slugs are added to `MOVED_TO_WEBDEVPUNEET` in `scripts/postbuild.js` (out of sitemaps and llms.txt).
+  - The `/css-tools/` hub stays on fwdtools. Its links, the sidebar and other internal links still use `/slug/`
+    and go through the 301.
+  - The source copies remain in fwdtools but are unreachable behind the 301.
+
+## 2026-10-01 — fwdtools: Disqus removed
+
+- `RightPanel`: removed the Comment button, the comments modal (state, Escape/scroll-lock effect, page URL/identifier)
+  and their CSS.
+- Removed the unused `DisqusComments` import from every tool page, and deleted `src/components/DisqusComments` (`git rm`).
+- webdevpuneet never had Disqus.
+
+## 2026-10-01 — /css-tools/ hub + AI Prompt Studio moved; fwdtools links skip the 301
+
+- **/css-tools/ hub → webdevpuneet.** The `css-tools` entry is copied into `src/lib/categories.js` (branding adapted)
+  and `src/app/css-tools/page.js` is adapted (canonical/og to webdevpuneet, "24 free CSS tools"), plus
+  `/images/css-tools.png`. CategoryPage lists the 24 local CSS tools (css-to-tailwind, tailwind-to-css and
+  rem-px-converter stay on fwdtools and drop off the hub). The webdevpuneet sitemap picks it up from CATEGORIES.
+- **AI Prompt Studio → webdevpuneet.** Copied the route, `AiPromptStudioTool` and its OG image, and added the registry
+  entry. It's in `PlaygroundTopNav` right after UI Snippets ("AI Prompts"). SeoSection's link to it is now local.
+- **fwdtools:**
+  - New `src/lib/moved-to-webdevpuneet.js` is the single list of moved slugs (41: ui-snippets, 14 playgrounds,
+    24 CSS tools, ai-prompt-studio, css-tools) and exports `toolHref()`.
+  - 24 components (Sidebar, every *TopNav, SeoSection, RelatedStrip, HomeGrid, HomeOmniSearch, CategoryGrid,
+    not-found, home page, and others) use `toolHref()`, so links to moved pages go straight to webdevpuneet with no
+    301 hop. The `/css-tools` hub links are absolute too.
+  - `scripts/postbuild.js` imports that list (the local copy is removed) and also filters moved category hubs out of
+    the sitemaps.
+  - `.htaccess` 301s `css-tools` and `ai-prompt-studio`. A check confirmed every slug in the list has a 301.

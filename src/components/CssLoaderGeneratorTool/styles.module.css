@@ -1,0 +1,276 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+}
+
+/* ── Full-width header ── */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  height: 52px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+.headerTitle {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--text);
+}
+
+.logoAccent { color: #7c6aff; }
+
+.logoIcon {
+  width: 30px; height: 30px;
+  background: #7c6aff;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; flex-shrink: 0;
+}
+
+/* ── Body (sidebar + content) ── */
+.body {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Left Sidebar ── */
+.sidebar {
+  width: 180px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  padding: 16px 12px;
+  overflow-y: auto;
+  gap: 12px;
+}
+
+.sidebarLabel {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin: 0;
+}
+
+.chipGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.chip {
+  padding: 8px 4px 6px;
+  border-radius: 7px;
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text3);
+  font-family: var(--font-ui);
+  cursor: pointer;
+  transition: border-color 0.14s, background 0.14s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-height: 64px;
+}
+.chip:hover { border-color: #7c6aff; }
+.chipActive { background: #7c6aff18 !important; border-color: #7c6aff !important; }
+
+.chipPreview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 36px;
+  pointer-events: none;
+}
+
+.chipName {
+  font-size: 9px;
+  letter-spacing: 0.3px;
+  color: var(--text3);
+  text-align: center;
+  line-height: 1;
+}
+.chipActive .chipName { color: #7c6aff; }
+
+/* ── Right content ── */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ── Controls bar ── */
+.controlsBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.sep {
+  width: 1px; height: 20px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.colorControl {
+  display: flex; align-items: center; gap: 6px;
+  flex-shrink: 0;
+}
+
+.ctrlLabel {
+  font-size: 11px;
+  color: var(--text3);
+  white-space: nowrap;
+}
+
+.bgPreset {
+  padding: 3px 9px;
+  border-radius: 5px;
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text3);
+  font-family: var(--font-ui);
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.14s;
+  white-space: nowrap;
+}
+.bgPreset:hover { border-color: #7c6aff; color: #7c6aff; }
+.bgPresetActive { border-color: #7c6aff !important; color: #7c6aff !important; background: #7c6aff18 !important; }
+
+.colorPicker {
+  width: 26px; height: 26px;
+  border-radius: 5px;
+  border: 1px solid var(--border2);
+  background: none;
+  cursor: pointer; padding: 1px;
+  flex-shrink: 0;
+}
+
+.hexInput {
+  width: 72px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 5px;
+  color: var(--text);
+  font-family: var(--font-mono); font-size: 11px;
+  padding: 4px 6px; outline: none;
+}
+.hexInput:focus { border-color: #7c6aff; }
+
+.sliderControl {
+  display: flex; align-items: center; gap: 7px;
+  flex-shrink: 0;
+}
+
+.rangeInput {
+  width: 90px;
+  accent-color: #7c6aff;
+  cursor: pointer;
+}
+
+.ctrlVal {
+  font-size: 11px;
+  color: #7c6aff;
+  font-family: var(--font-mono);
+  width: 30px;
+}
+
+/* ── Preview ── */
+.previewArea {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface2);
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+
+
+.previewBox {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  min-width: 80px; min-height: 80px;
+}
+
+/* ── Code area ── */
+.codeArea {
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+.codeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  padding-right: 12px;
+}
+
+.codeTabs { display: flex; }
+
+.codeTab {
+  padding: 9px 16px;
+  font-size: 11px; font-family: var(--font-ui); letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text3);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.14s;
+  background: none;
+  border-top: none; border-left: none; border-right: none;
+}
+.codeTab:hover { color: var(--text2); }
+.codeTabActive { color: #7c6aff; border-bottom-color: #7c6aff; }
+
+.copyBtn {
+  padding: 4px 12px;
+  border-radius: 5px;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--text3);
+  font-family: var(--font-ui); font-size: 10px;
+  cursor: pointer; transition: all 0.14s;
+}
+.copyBtn:hover { border-color: #6affd4; color: #6affd4; }
+.copyBtnCopied { border-color: #6affd4 !important; color: #6affd4 !important; }
+
+.codeBlock {
+  background: var(--bg);
+  padding: 14px 16px;
+  font-family: var(--font-mono); font-size: 12px;
+  color: #1f2937; line-height: 1.7;
+  white-space: pre-wrap; word-break: break-all;
+  margin: 0; max-height: 200px; overflow-y: auto;
+}
+
+[data-theme="dark"] .codeBlock {
+  color: #d1d5db;
+}
