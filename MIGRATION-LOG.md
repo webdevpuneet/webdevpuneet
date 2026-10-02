@@ -485,3 +485,13 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 - Left sidebar top ad (slot 6939815965) is 200x200 on mobile (≤768px; the sidebar is a 240px drawer there) and stays 300x250 on desktop. Size comes from matchMedia; a size change remounts the `<ins>` for a fresh ad.
 - Follow-up: the top snippet ad is back above the Preview toolbar (desktop and mobile). Order: ad, Preview toolbar, preview, Console.
 - Follow-up: the top snippet ad has an outline (`1px solid var(--border2)`, 4px offset) to frame it apart from the toolbar; the strip padding is 9px to fit it. The unit size is unchanged.
+
+## 2026-10-02 — Ads collapse when AdSense has no fill
+
+- AdSense sets `data-ad-status="unfilled"` on an `<ins>` it cannot fill. globals.css hides such `<ins>` (Google's documented
+  rule), and each wrapper collapses with `:has(ins[data-ad-status="unfilled"])`, so no empty band, padding or outline is
+  left. Wrappers: the top snippet strip (`.adBar`), the sticky gallery column (`.adSticky`), the sidebar top ad
+  (`.sidebarTopAd`), and AdSlot `.adWrap` / `.adWrapFull` / `.adWrapContained` / `.adSlot300Wrap` (SEO 300x600).
+- The top ad outline now has square corners (border-radius removed).
+- Not covered: ad blockers. AdSense never runs there, so the `<ins>` gets no status and the reserved space stays.
+- Follow-up: removed the top ad outline; the strip padding is back to 4px.

@@ -277,3 +277,7 @@ body:has([data-not-found-page]) ins.adsbygoogle,
 body:has([data-not-found-page]) :has(> ins.adsbygoogle) {
   display: none !important;
 }
+
+/* Google's documented way to hide AdSense slots that got no ad. Wrappers collapse
+   via :has() rules in their own CSS modules. */
+ins.adsbygoogle[data-ad-status="unfilled"] { display: none !important; }

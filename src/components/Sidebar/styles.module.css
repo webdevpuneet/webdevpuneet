@@ -146,6 +146,9 @@
 }
 
 /* ── Sidebar top ad — fixed 300x250, centered in the 320px-wide sidebar ── */
+/* AdSense found no ad: collapse the slot and its padding. */
+.sidebarTopAd:has(ins[data-ad-status="unfilled"]) { display: none; }
+
 .sidebarTopAd {
   flex-shrink: 0;
   display: flex;

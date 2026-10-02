@@ -46,6 +46,8 @@
 .adStickyLabel { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .adStickySize { font-size: 12px; font-family: var(--font-mono); }
 /* No breakpoint hide: GalleryStickyAd picks 300 / 160 / 120 wide, or none on phones. */
+/* AdSense found no ad: drop the column so the grid takes the full width. */
+.adSticky:has(ins[data-ad-status="unfilled"]) { display: none !important; }
 
 /* ── Controls bar ── */
 .controls {

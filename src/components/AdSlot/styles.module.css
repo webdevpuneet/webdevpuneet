@@ -38,6 +38,12 @@
   background: var(--bg);
 }
 
+/* AdSense found no ad: collapse the wrapper (and its padding) instead of leaving a gap. */
+.adWrap:has(ins[data-ad-status="unfilled"]),
+.adWrapFull:has(ins[data-ad-status="unfilled"]),
+.adWrapContained:has(ins[data-ad-status="unfilled"]),
+.adSlot300Wrap:has(ins[data-ad-status="unfilled"]) { display: none; }
+
 /* 300x600 half-page ad — sticky so it pins as the left column scrolls */
 .adSlot300Wrap {
   display: flex;
