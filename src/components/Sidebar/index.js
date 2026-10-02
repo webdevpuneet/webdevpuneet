@@ -1316,12 +1316,14 @@ function defaultSidebarViewFor(pathname) {
   return 'tools';
 }
 
-/* Sidebar top ad — fixed 300x250 AdSense medium rectangle (fixed, not "auto",
-   so the sidebar never shifts while a creative loads). The adsbygoogle.js
-   loader lives once site-wide in AdSenseScript; each mount requests an ad for
-   its own fresh <ins> (AdSense won't fill an <ins> that already has one).
-   Delayed so the <ins> is in the DOM and laid out first. */
-function SidebarTopAd() {
+/* Sidebar top ad — AdSense (slot 6939815965) at a fixed size, never "auto", so the
+   sidebar doesn't shift while a creative loads: 300x250 medium rectangle on desktop,
+   200x200 small square on mobile (≤768px, where the sidebar is a 240px drawer that a
+   300px unit would overflow). Changing size remounts the <ins> (key) for a fresh ad.
+   The adsbygoogle.js loader lives once site-wide in AdSenseScript; each mount requests
+   an ad for its own fresh <ins>. Delayed so the <ins> is laid out first. */
+const SIDEBAR_AD_MOBILE = '(max-width: 768px)';
+function SidebarTopAdIns({ w, h }) {
   useEffect(() => {
     const id = setTimeout(() => {
       if (getNotFound()) return;
@@ -1329,15 +1331,28 @@ function SidebarTopAd() {
     }, 800);
     return () => clearTimeout(id);
   }, []);
-
+  return (
+    <ins
+      className="adsbygoogle"
+      style={{ display: 'inline-block', width: `${w}px`, height: `${h}px` }}
+      data-ad-client="ca-pub-2762737943861458"
+      data-ad-slot="6939815965"
+    />
+  );
+}
+function SidebarTopAd() {
+  const [mobile, setMobile] = useState(null); // null until measured on the client
+  useEffect(() => {
+    const mq = window.matchMedia(SIDEBAR_AD_MOBILE);
+    const sync = () => setMobile(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+  const size = mobile ? { w: 200, h: 200 } : { w: 300, h: 250 };
   return (
     <div className={styles.sidebarTopAd}>
-      <ins
-        className="adsbygoogle"
-        style={{ display: 'inline-block', width: '300px', height: '250px' }}
-        data-ad-client="ca-pub-2762737943861458"
-        data-ad-slot="6939815965"
-      />
+      {mobile !== null && <SidebarTopAdIns key={size.w} w={size.w} h={size.h} />}
     </div>
   );
 }
