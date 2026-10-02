@@ -194,12 +194,11 @@ Change \`TOTAL_MS\` per priority tier (P1 vs P3 have very different SLA windows)
       { title: 'Simulation controls', text: `Buttons jump straight to amber or overdue for demoing states.` },
     ],
     useCases: [
-      { title: 'Support ticket queues', text: `Show response-time urgency at a glance per ticket.` },
-      { title: 'Incident management tools', text: `Pair with an [on-call schedule rotation](/ui-snippets/on-call-schedule-rotation/).` },
-      { title: 'SLA compliance dashboards', text: `Combine with a [status dashboard](/ui-snippets/status-dashboard/) for a fleet view.` },
-      { title: 'Customer success platforms', text: `Track first-response deadlines across accounts.` },
-      { title: 'DevOps alerting UIs', text: `Show time-to-acknowledge for a triggered alert.` },
-      { title: 'Internal helpdesk tools', text: `Give agents a live sense of which tickets need attention now.` },
+      { title: 'Helpdesk ticket queues', text: 'Show response-time urgency beside every ticket so agents can sort their day by the badge colour alone, with green, amber and red bands at 50% and 80% of the SLA window.' },
+      { title: 'Incident acknowledgement timers', text: 'Pair with an [on-call schedule rotation](/ui-snippets/on-call-schedule-rotation/) so the responder on duty sees exactly how long remains before an alert breaches its acknowledgement target.' },
+      { title: 'Compliance reporting panels', text: 'Combine with a [status dashboard](/ui-snippets/status-dashboard/) to surface breached and at-risk tickets, since the overdue state keeps counting into negative time instead of freezing at zero.' },
+      { title: 'Customer success first-response goals', text: 'Track the first-reply deadline on new enterprise accounts, with a single deadline timestamp driving every state so no duplicated timers can drift out of sync.' },
+      { title: 'Deployment and approval deadlines', text: 'Reuse the percentage-based banding for any time-boxed task, such as change approvals or review requests, because `classify()` scales to whatever window length you pass in.' },
     ],
     faqs: [
       { q: "How does the badge decide which color band to show?", a: `classify() computes what percentage of the total SLA window has elapsed (1 minus the fraction of time remaining) and compares it against two thresholds: 50% elapsed moves it to amber, 80% elapsed moves it to red, and crossing the deadline entirely (zero or negative time remaining) moves it to a distinct overdue state. Because this is percentage-based rather than fixed time thresholds, the same logic works correctly for any SLA window length.` },

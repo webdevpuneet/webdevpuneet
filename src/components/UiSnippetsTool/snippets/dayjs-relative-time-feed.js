@@ -147,12 +147,11 @@ Point the "new event arriving" \`setInterval\` at a real WebSocket message handl
       { title: 'Deterministic seed data', text: `Backdated sample items spread realistically, not all "just now".` },
     ],
     useCases: [
-      { title: 'Social and notification feeds', text: `The standard "X commented 3 minutes ago" pattern.` },
-      { title: 'Admin and ops activity logs', text: `Recent-events views that stay accurate without reloading.` },
-      { title: 'Live chat and messaging timestamps', text: `Genuinely live relative time on every message.` },
-      { title: 'Dashboard "recent activity" widgets', text: `Pair with the [live-updating realtime chart](/ui-snippets/echarts-live-realtime-chart/) elsewhere in this collection for a fuller live dashboard.` },
-      { title: 'Support ticket and comment threads', text: `Accurate posted-time labels throughout a long session.` },
-      { title: 'Learning Day.js plugins', text: `A clear reference for relativeTime and the plugin system.` },
+      { title: 'Social and notification feeds', text: 'Show the familiar X commented 3 minutes ago style labels, recomputed with `fromNow()` every 30 seconds so they never freeze at the moment of creation.' },
+      { title: 'Admin audit and activity logs', text: 'Keep recent-events views accurate for hours, with items re-sorted by real time on every render, not merely appended in arrival order.' },
+      { title: 'Live chat message timestamps', text: 'Pair with the [live realtime chart](/ui-snippets/echarts-live-realtime-chart/) on an operations screen, so both numbers and activity labels stay fresh without a page reload.' },
+      { title: 'Support ticket threads', text: 'Display accurate posted-time labels on comments and replies, with new items inserted the same way a WebSocket push would deliver them.' },
+      { title: 'Day.js plugin reference', text: 'Use it as a clear example of the `relativeTime` plugin, including how to extend Day.js once and then call `fromNow()` anywhere.' },
     ],
     faqs: [
       { q: 'Why does .fromNow() not work until I load a separate plugin file?', a: `Day.js deliberately ships a minimal core library and moves less universally-needed features like relative time formatting into optional plugins, which keeps the base library small. Calling dayjs.extend(dayjs_plugin_relativeTime) registers that plugin's functionality (including the fromNow() method) onto every dayjs object — without that line, .fromNow() is simply not a method that exists yet.` },

@@ -129,12 +129,11 @@ Swap the emoji icons for SVGs, change the blur and tint, point the polylines at 
       { title: 'Responsive grid', text: `Wraps at any number of cards.` },
     ],
     useCases: [
-      { title: 'Dashboards', text: `Headline KPIs in a [dashboard layout](/ui-snippets/dashboard-layout/).` },
-      { title: 'Metric rows', text: `A glassy [metric card grid](/ui-snippets/metric-card-grid/).` },
-      { title: 'Rings + cards', text: `Pair with a [gradient stat ring](/ui-snippets/gradient-stat-ring/).` },
-      { title: 'Trends', text: `Expand a [sparkline chart](/ui-snippets/sparkline-chart/) into context.` },
-      { title: 'Reports', text: `Summary tiles above a [line chart widget](/ui-snippets/line-chart-widget/).` },
-      { title: 'Status', text: `Live figures on a [status dashboard](/ui-snippets/status-dashboard/).` },
+      { title: 'Dashboard headline KPIs', text: 'Float frosted KPI tiles over a colourful background in a [dashboard layout](/ui-snippets/dashboard-layout/), each with a trend pill and a count-up figure.' },
+      { title: 'Glassy metric rows', text: 'Build a row of translucent tiles as a stylish alternative to a [metric card grid](/ui-snippets/metric-card-grid/), with real `backdrop-filter` blur and an edge sheen.' },
+      { title: 'Rings and cards together', text: 'Pair with a [gradient stat ring](/ui-snippets/gradient-stat-ring/), so a headline number and a progress ring share the same glass styling.' },
+      { title: 'Trend context on every tile', text: 'Expand a tiny self-drawing sparkline into a [sparkline chart](/ui-snippets/sparkline-chart/), with `data-trend` colouring the delta and the line together.' },
+      { title: 'Report summaries and live status', text: 'Place summary tiles above a [line chart widget](/ui-snippets/line-chart-widget/) in a report, or show live figures on a [status dashboard](/ui-snippets/status-dashboard/).' },
       { icon: 'CODE', title: 'Related: Trip Itinerary Day Timeline', desc: 'See the [Trip Itinerary Day Timeline](/ui-snippets/itinerary-day-timeline/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

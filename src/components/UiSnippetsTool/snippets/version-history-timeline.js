@@ -193,12 +193,11 @@ Swap the \`VERSIONS\` array for your document API's revision list, keeping the s
       { title: 'Colored author avatars', text: `Consistent per-author initials and color make history scannable at a glance.` },
     ],
     useCases: [
-      { title: 'Document editors', text: `Show save history in a docs or wiki tool, alongside [comment thread](/ui-snippets/comment-thread/) discussions.` },
-      { title: 'Design file history', text: `Let designers restore or compare canvas versions in a Figma-like tool.` },
-      { title: 'CMS content revisions', text: `Track edits to a page or post with author attribution and restore points.` },
-      { title: 'Code review context', text: `Summarize commit-like history for a non-technical audience reviewing changes.` },
-      { title: 'Collaborative presence', text: `Pair with a [shared document presence bar](/ui-snippets/shared-doc-presence-bar/) to show who's active now versus who edited before.` },
-      { title: 'Approval workflows', text: `Combine with a [task approval flow card](/ui-snippets/task-approval-flow-card/) to review a version before approving it.` },
+      { title: 'Document editor history panels', text: 'Show every save as a point in time with author avatars and relative timestamps, with restore actions fading in on hover to keep the list clean.' },
+      { title: 'Design file restoration', text: 'Let designers jump back to an earlier canvas state or compare two versions, with a clear Restored confirmation once the button is clicked.' },
+      { title: 'CMS content revisions', text: 'Track edits to a page or post, adding a real version by simply appending an entry to the `VERSIONS` array that renders every row.' },
+      { title: 'Review and approval context', text: 'Combine with a [task approval flow card](/ui-snippets/task-approval-flow-card/) so reviewers see the history behind the change they are signing off.' },
+      { title: 'Collaborative editing screens', text: 'Pair with a [shared document presence bar](/ui-snippets/shared-doc-presence-bar/) and a [comment thread](/ui-snippets/comment-thread/) for a complete collaboration sidebar.' },
     ],
     faqs: [
       { q: 'How does comparing exactly two versions work?', a: `Each checkbox click adds or removes that version's id from a selected array. When selected has two entries, updateCompare() sorts them newest-first and pulls their diff stats and changes from the VERSIONS array to render the panel. Anything other than exactly two selections hides the panel and updates the hint text to tell you how many more to pick.` },

@@ -137,12 +137,11 @@ Add more transit hubs by inserting nodes with their own \`data-pct\`, wire the J
       { title: 'Responsive layout', text: `Flexbox nodes reflow on narrow screens.` },
     ],
     useCases: [
-      { title: 'Order confirmation pages', text: `Show a shipment's route after checkout.` },
-      { title: 'Logistics dashboards', text: `Pair with a [status dashboard](/ui-snippets/status-dashboard/).` },
-      { title: 'Courier apps', text: `Combine with a [delivery ETA card](/ui-snippets/delivery-eta-card/).` },
-      { title: 'Support tools', text: `Let agents see a shipment's stage at a glance.` },
-      { title: 'Email/notification pages', text: `A link target for "track my package."` },
-      { title: 'Marketplace order history', text: `Sit alongside [order tracking timeline](/ui-snippets/order-tracking-timeline/).` },
+      { title: 'Order confirmation pages', text: 'Show a shipment\'s route right after checkout, with origin, transit hubs and destination on one line and the package marked by a `data-pct` position.' },
+      { title: 'Logistics dashboards', text: 'Pair with a [status dashboard](/ui-snippets/status-dashboard/) so operations teams see each shipment\'s stage beside overall system health.' },
+      { title: 'Courier apps', text: 'Combine with a [delivery ETA card](/ui-snippets/delivery-eta-card/) so the route and the arrival estimate sit together, with a pulsing marker on the current stop.' },
+      { title: 'Customer support tools', text: 'Let agents see a shipment\'s stage at a glance while helping a customer, using the status timeline with timestamps for the exact history.' },
+      { title: 'Marketplace order history', text: 'Sit alongside an [order tracking timeline](/ui-snippets/order-tracking-timeline/) in order history pages, with the progress line filling up to the current stop.' },
       { icon: 'CODE', title: 'Related: Unit Converter', desc: 'See the [Unit Converter](/ui-snippets/unit-converter/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

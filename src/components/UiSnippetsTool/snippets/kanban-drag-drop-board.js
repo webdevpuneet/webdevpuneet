@@ -153,10 +153,11 @@ Each column header shows a badge with its current card count. \`updateCounts()\`
       'Fully self-contained vanilla JS with no external dependencies',
     ],
     useCases: [
-      { icon: 'APP', title: 'Project management dashboards', desc: 'The core interaction pattern behind tools like Trello, Jira boards, and Linear.' },
-      { icon: 'CODE', title: 'Reference for HTML5 drag-and-drop', desc: 'A clean example of dataTransfer, dragover preventDefault, and drop handling.' },
-      { icon: 'FLOW', title: 'Internal task trackers', desc: 'Drop into an admin panel or internal tool that needs simple status-based task movement.' },
-      { icon: 'LEARN', title: 'Teaching state-driven UI updates', desc: 'Shows re-rendering from a data model instead of manually mutating the DOM on drop.' },
+      { icon: '📋', title: 'Project management boards', desc: 'Build the core To Do, In Progress and Done interaction with native HTML5 drag and drop, using no library at all.' },
+      { icon: '🗂️', title: 'Internal task trackers', desc: 'Drop a lightweight board into an admin panel, with a single `TASKS` array re-rendering the whole board after each move.' },
+      { icon: '⚖️', title: 'Library-based alternatives', desc: 'Compare with the [SortableJS draggable task board](/ui-snippets/sortablejs-draggable-task-board/) when touch support and animated reflow matter more than zero dependencies.' },
+      { icon: '🎓', title: 'HTML5 drag events reference', desc: 'See `dragstart`, `dragover`, `drop` and `dragend` working together, with a visual highlight on the column currently being hovered.' },
+      { icon: '🧠', title: 'State-driven UI teaching', desc: 'Show why re-rendering from data beats moving DOM nodes by hand, with live per-column count badges updating immediately after every drop.' },
     ],
     faqs: [
       { q: 'How does the card know which column it was dropped into?', a: 'Each column body element carries a data-status attribute. The drop handler reads that attribute off the column the event fired on and assigns it to the matching task object before re-rendering.' },

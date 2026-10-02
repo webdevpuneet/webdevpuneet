@@ -189,12 +189,11 @@ Swap the resource (storage GB, compute minutes, seats-with-overage), change the 
       { title: 'Formatted numbers', text: `Thousands separators and two-decimal currency throughout.` },
     ],
     useCases: [
-      { title: 'API platforms', text: `Show request usage against an included quota with per-call overage pricing.` },
-      { title: 'Storage and infra products', text: `Meter GB or compute-hours consumed with overage billed per unit.` },
-      { title: 'Billing dashboards', text: `Pair with an [invoice preview](/ui-snippets/invoice-preview/) so estimated and final charges line up.` },
-      { title: 'Pricing pages', text: `Combine with a [usage calculator](/ui-snippets/usage-calculator/) so prospects estimate their own overage cost.` },
-      { title: 'Account overview pages', text: `Sit alongside a [quota usage meter](/ui-snippets/quota-usage-meter/) for hard-capped resources.` },
-      { title: 'Finance-conscious SaaS', text: `Reduce billing support tickets by showing the math instead of an opaque percentage.` },
+      { title: 'API platform usage pages', text: 'Show requests consumed against an included allowance, with the bar capping visually at 100% before an overage breakdown appears.' },
+      { title: 'Storage and compute billing', text: 'Meter gigabytes or compute hours, showing exact units multiplied by rate so customers understand how overage cost is calculated.' },
+      { title: 'Estimated invoice previews', text: 'Pair with an [invoice preview](/ui-snippets/invoice-preview/) so the estimated total on the meter matches what will appear on the bill.' },
+      { title: 'Pricing pages with calculators', text: 'Combine with a [usage calculator](/ui-snippets/usage-calculator/) on a pricing page so prospects can model their expected costs before they sign up.' },
+      { title: 'Fewer billing support tickets', text: 'Reduce surprise charges by revealing overage only when it applies, and recompute base plus overage live as usage changes.' },
     ],
     faqs: [
       { q: 'How is the overage cost calculated?', a: `Overage quantity is usage minus the included allowance (only when usage exceeds it), and overage cost is that quantity multiplied by a fixed per-unit rate. The estimated total is the base plan price plus overage cost. All three values are computed inside render() from the same used number, so the bar, the badge, and the cost math can never disagree.` },

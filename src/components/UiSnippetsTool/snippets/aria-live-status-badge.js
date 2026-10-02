@@ -185,12 +185,11 @@ Any UI with an autosave indicator, a sync status, a form-validation summary, or 
       { title: 'Two trigger buttons', text: `Directly compare polite vs assertive behavior side by side.` },
     ],
     useCases: [
-      { title: 'Autosave indicators', text: `Docs, notes, and form editors announcing save status without interrupting.` },
-      { title: 'Sync/connection status chips', text: `Announce reconnect/disconnect events at the right urgency.` },
-      { title: 'Form validation summaries', text: `Route field errors through assertive, success through polite.` },
-      { title: 'Toast pairing', text: `Back a visual [toast notification](/ui-snippets/toast-notification/) with the correct politeness level.` },
-      { title: 'Dashboards and monitors', text: `Announce metric or alert changes proportional to their urgency.` },
-      { title: 'Notification history', text: `Feed both politeness levels into [a notification center](/ui-snippets/notification-center/) log.` },
+      { title: 'Document autosave indicators', text: 'Announce Saving and Saved politely to screen reader users without interrupting what they are typing, using a fixed `aria-live="polite"` region that never toggles.' },
+      { title: 'Error and failure announcements', text: 'Route urgent errors through the separate assertive region so they interrupt immediately, as a failed save or lost connection should.' },
+      { title: 'Sync and connection chips', text: 'Announce reconnect and disconnect events in a way that matches their urgency, with a sequence counter preventing an old Saved from overwriting a newer message.' },
+      { title: 'Visual toast pairing', text: 'Back a sighted [toast notification](/ui-snippets/toast-notification/) with the equivalent spoken announcement, so both audiences receive the same message at the same moment.' },
+      { title: 'Accessibility teaching demos', text: 'Demonstrate the real difference between polite and assertive to your team, using the trigger buttons and a [notification center](/ui-snippets/notification-center/) history of both kinds.' },
       { icon: 'CODE', title: 'Related: Fundraising Campaign Leaderboard', desc: 'See the [Fundraising Campaign Leaderboard](/ui-snippets/campaign-leaderboard/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

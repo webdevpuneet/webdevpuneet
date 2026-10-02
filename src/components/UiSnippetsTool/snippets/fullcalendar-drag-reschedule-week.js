@@ -124,12 +124,11 @@ Both handlers receive real \`Date\` objects on \`info.event\`, which is exactly 
       { title: 'Live "now" indicator', text: `A red line marks the current time on today's column.` },
     ],
     useCases: [
-      { title: 'Personal and team scheduling tools', text: `Real drag-to-reschedule for weekly planning.` },
-      { title: 'Meeting room and resource booking', text: `Adjust bookings directly on the grid.` },
-      { title: 'Shift and staff scheduling', text: `Drag shifts to new times or extend their length.` },
-      { title: 'Appointment management dashboards', text: `Pair with the [month view modal](/ui-snippets/fullcalendar-month-event-modal/) elsewhere in this collection for a fuller admin view.` },
-      { title: 'Project task timeline adjustments', text: `Move and resize blocks of work interactively.` },
-      { title: 'Learning FullCalendar interactivity', text: `A clear reference for editable, eventDrop, and eventResize.` },
+      { title: 'Team week planners', text: 'Let people move meetings by dragging them to a new slot, with a confirmation toast reporting the change so nobody is unsure whether the drop actually saved.' },
+      { title: 'Meeting room booking edits', text: 'Adjust a reservation\'s start time or length directly on the grid, using the separate resize gesture on the event edge to change only its duration.' },
+      { title: 'Shift and rota scheduling', text: 'Drag shifts to new times or stretch them to cover longer periods, with `eventDrop` and `eventResize` reporting contextually correct messages for each gesture.' },
+      { title: 'Appointment management screens', text: 'Reschedule bookings visually, and pair with the [month view with event modal](/ui-snippets/fullcalendar-month-event-modal/) to open full appointment details on click.' },
+      { title: 'Project task time blocks', text: 'Move and resize work blocks across the week, relying on FullCalendar to apply the new times before either hook fires so you never write manual date arithmetic.' },
     ],
     faqs: [
       { q: 'What is the difference between editable and eventDurationEditable?', a: `editable: true is the option that allows an event to be dragged to a different day or time slot at all. eventDurationEditable: true is a separate, independent option that additionally allows a user to grab an event's edge and drag it to change how long the event lasts. A calendar could enable one without the other — for example, allowing rescheduling but not letting events be lengthened or shortened.` },

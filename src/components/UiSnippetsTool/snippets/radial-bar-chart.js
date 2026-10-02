@@ -114,12 +114,11 @@ A legend lists each category with its colour and percentage. Everything renders 
       { title: 'Data-driven & no library', text: `Renders from a DATA array in plain HTML/CSS/SVG/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Fitness and habit goals', text: `Show daily goal completion as rings — pair with [activity rings](/ui-snippets/activity-rings/) for the Apple-style trio.` },
-      { title: 'KPI attainment dashboards', text: `Display percent-to-target per metric alongside a [gauge chart](/ui-snippets/gauge-chart/) for a single dial.` },
-      { title: 'Capacity and usage', text: `Visualise quota or resource usage as filled rings, next to a [quota usage meter](/ui-snippets/quota-usage-meter/).` },
-      { title: 'Survey and score breakdowns', text: `Compare several percentages in one compact graphic.` },
-      { title: 'Profile and onboarding completion', text: `Show multiple completion metrics together.` },
-      { title: 'Learning circular progress', text: `A reference for per-ring dash-offset arcs — compare with an [SVG progress ring](/ui-snippets/svg-progress-ring/).` },
+      { title: 'Daily fitness and habit goals', text: 'Show goal completion as concentric rings, with each arc length set by `stroke-dasharray` and a computed `dashoffset`. See [activity rings](/ui-snippets/activity-rings/) for a themed take on the same idea.' },
+      { title: 'KPI attainment dashboards', text: 'Display percent-to-target per metric, with each ring using its own 2πr circumference so arcs stay correct at every radius.' },
+      { title: 'Capacity and usage views', text: 'Visualise quota or resource usage as rings on faint tracks, beside a [quota usage meter](/ui-snippets/quota-usage-meter/) for the exact figures.' },
+      { title: 'Survey and score breakdowns', text: 'Compare several percentages in a compact visual. Arcs start at twelve o\'clock because the rings are rotated −90°, as people expect from progress rings.' },
+      { title: 'Onboarding completion widgets', text: 'Show several completion measures at once, such as profile, billing and team setup, in one small widget instead of three separate progress bars.' },
       { icon: 'CODE', title: 'Related: Step Line Chart', desc: 'See the [Step Line Chart](/ui-snippets/step-line-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

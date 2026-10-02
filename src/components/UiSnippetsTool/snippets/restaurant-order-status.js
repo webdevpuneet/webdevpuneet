@@ -157,12 +157,11 @@ Add a fifth step for multi-stage delivery (Preparing → Out for delivery → De
       { title: 'Zero dependencies', text: `Plain HTML, CSS, and JS, no CDN.` },
     ],
     useCases: [
-      { title: 'Food delivery apps', text: `Follow an [order summary](/ui-snippets/order-summary/).` },
-      { title: 'Restaurant pickup screens', text: `Show status on an in-store display.` },
-      { title: 'Order tracking pages', text: `A sibling of [order tracking timeline](/ui-snippets/order-tracking-timeline/).` },
-      { title: 'Kitchen display systems', text: `Reuse the pulse for an active-ticket indicator.` },
-      { title: 'Coffee shop apps', text: `Track a drink from order to pickup.` },
-      { title: 'Catering order pages', text: `Show multi-step prep status to a customer.` },
+      { title: 'Delivery app order screens', text: 'Follow an [order summary](/ui-snippets/order-summary/) with a live step tracker, where one current index derives every step\'s class.' },
+      { title: 'Restaurant pickup screens', text: 'Show order status on an in-store display, with the active step pulsing through a layered inner dot and an outward ring.' },
+      { title: 'Order tracking pages', text: 'Use it as a compact sibling of the [order tracking timeline](/ui-snippets/order-tracking-timeline/), with a connecting line that fills as each step completes.' },
+      { title: 'Kitchen display systems', text: 'Reuse the pulse for an active ticket, which starts and stops automatically with the active class alone.' },
+      { title: 'Coffee shops and catering', text: 'Track a drink from order to pickup, or show multi-step prep status to a catering customer, with an estimated-time note.' },
     ],
     faqs: [
       { q: 'How does one variable drive the whole tracker?', a: `render() reads a single current index and derives every step's visual state from a comparison against it — indexes below current get the ros-done class, the index equal to current gets ros-active, and everything else is untouched. The connecting lines and dot fills both read the same ros-done class, so nothing can fall out of sync.` },

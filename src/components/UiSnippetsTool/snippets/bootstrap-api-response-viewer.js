@@ -116,9 +116,11 @@ document.getElementById('bsapiCopy').addEventListener('click', () => {
       'A status badge and endpoint label give the response real request context, not just a bare JSON dump',
     ],
     useCases: [
-      { icon: 'DEV', title: 'Internal admin tools and API debugging dashboards', desc: 'Pairs with [bootstrap-http-status-badge](/ui-snippets/bootstrap-http-status-badge/) for a fuller request/response inspection panel.' },
-      { icon: 'API', title: 'Webhook and integration testing tools', desc: 'Inspect a payload\'s exact shape without leaving the app, alongside [bootstrap-webhook-event-viewer](/ui-snippets/bootstrap-webhook-event-viewer/)-style tooling.' },
-      { icon: 'LEARN', title: 'Learning recursive rendering techniques', desc: 'A compact, complete example of rendering arbitrarily nested data with one function instead of hardcoding levels of depth.' },
+      { icon: '🧰', title: 'API debugging dashboards', desc: 'Inspect a JSON response of any depth, with each object and array collapsing independently through its own generated id.' },
+      { icon: '🪝', title: 'Webhook payload inspection', desc: 'Pair with the [Bootstrap webhook event viewer](/ui-snippets/bootstrap-webhook-event-viewer/) to read an incoming payload and its delivery details side by side.' },
+      { icon: '🏷️', title: 'Response status context', desc: 'Show the body next to a [Bootstrap HTTP status badge](/ui-snippets/bootstrap-http-status-badge/) so developers read the result code and the data together.' },
+      { icon: '📋', title: 'Copy-ready JSON output', desc: 'Re-serialise the original data object on Copy JSON, so what lands on the clipboard is always valid regardless of which nodes are collapsed.' },
+      { icon: '🎓', title: 'Recursive rendering reference', desc: 'Study `renderNode()`, which calls itself for every nested object or array it meets, so no fixed-depth special case is ever needed.' },
     ],
     faqs: [
       { q: 'Does this handle deeply nested JSON, not just this one example?', a: 'Yes — renderNode() calls itself for every nested object or array regardless of depth, so a response with objects nested five levels deep would render (and collapse) exactly the same way this two-level example does.' },

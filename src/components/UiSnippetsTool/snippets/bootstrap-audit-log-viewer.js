@@ -100,9 +100,10 @@ render();`,
       'A live "X of Y events" count reflects exactly what both active filters currently allow through',
     ],
     useCases: [
-      { icon: 'DEV', title: 'Admin panels and internal security dashboards', desc: 'Pairs with [bootstrap-user-permission-matrix](/ui-snippets/bootstrap-user-permission-matrix/) for a fuller access-and-activity review panel.' },
-      { icon: 'APP', title: 'Compliance and SOC2-style activity reporting', desc: 'A searchable, filterable event log is a common requirement for enterprise security reviews.' },
-      { icon: 'DASH', title: 'Support tooling investigating a specific user\'s account history', desc: 'Search by actor name to quickly review everything a specific team member has done.' },
+      { icon: '🛡️', title: 'Admin security dashboards', desc: 'Let administrators search by actor or action text while narrowing by event type, with both filters combining through real AND logic in a single render call.' },
+      { icon: '📑', title: 'Compliance and SOC2 reporting', desc: 'Provide a searchable, filterable activity history for auditors, with matching text highlighted safely after the source is HTML-escaped.' },
+      { icon: '🔎', title: 'Customer support investigations', desc: 'Look up everything one user did before a complaint, typing their name to see matches across both the actor and action columns.' },
+      { icon: '🔐', title: 'Permission change reviews', desc: 'Pair with the [Bootstrap permission matrix](/ui-snippets/bootstrap-user-permission-matrix/) so administrators can see who changed access and what each role can currently do.' },
     ],
     faqs: [
       { q: 'Do the search and type filter combine, or does selecting a type override the search?', a: 'They combine with AND logic — an entry must satisfy both the current search text and the current type selection (when either is set) to appear, which is why searching one actor while filtering to an unrelated type can correctly return zero results.' },

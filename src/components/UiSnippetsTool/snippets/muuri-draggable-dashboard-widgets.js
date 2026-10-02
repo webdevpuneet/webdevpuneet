@@ -123,11 +123,11 @@ Swap the fixed \`.w1\`/\`.w2\` width classes for a size picker so users can resi
       { title: 'No build step', text: 'Runs from a single CDN script tag with plain HTML/CSS/JS.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'Analytics dashboards', text: 'Let users rearrange KPI widgets to match their own priorities, next to a [filterable grid](/ui-snippets/muuri-filterable-masonry-grid/).' },
-      { icon: 'FLOW', title: 'Admin control panels', text: 'Draggable panels for logs, metrics, and alerts that users can personalize.' },
-      { icon: 'DESIGN', title: 'Customizable home screens', text: 'A widget-based landing dashboard, similar to mobile OS home screen editing.' },
-      { icon: 'CODE', title: 'Internal tools', text: 'Give teams control over which metrics are most visible without redeploying code.' },
-      { icon: 'LEARN', title: 'Teaching live-reflow drag', text: 'A concrete reference for drag-sort heuristics versus simple drop-only reordering.' },
+      { title: 'Rearrangeable analytics dashboards', text: 'Let users reorder KPI widgets of mixed sizes, with other tiles repositioning live while a drag is in progress.' },
+      { title: 'Admin control panels', text: 'Offer draggable panels for logs, metrics and alerts, with quarter-width and half-width tiles packing correctly and no manual coordinates.' },
+      { title: 'Customisable home screens', text: 'Give a widget-based landing page that remembers each person\'s preferred order, using `dragStartPredicate` distance so plain clicks never start a drag.' },
+      { title: 'Filterable layouts', text: 'Pair with the [Muuri filterable masonry grid](/ui-snippets/muuri-filterable-masonry-grid/) when the same tiles also need category filtering as well as dragging.' },
+      { title: 'Live-reflow drag reference', text: 'Study how `dragSortHeuristics` and `sortInterval` tune responsiveness, so you can balance smooth movement against unnecessary re-sorting.' },
     ],
     faqs: [
       { q: 'What makes the other widgets move while I\'m still dragging, instead of only after I drop?', a: 'Enabling dragEnabled activates Muuri\'s drag-sort heuristics: a background process that repeatedly checks, at the interval set by dragSortHeuristics.sortInterval, which grid slot the dragged item is currently nearest to, and triggers a live layout pass with the other widgets shifted to preview that arrangement — all before the pointer is released.' },

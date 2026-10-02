@@ -183,12 +183,11 @@ Each switch's \`change\` handler is where you'd \`PATCH\` your flag service with
       { title: 'Comment-documented API hook', text: `The exact PATCH shape for real persistence is noted inline in the JS.` },
     ],
     useCases: [
-      { title: 'Internal admin dashboards', text: `Manage flags across environments alongside a [permission matrix](/ui-snippets/permission-matrix/).` },
-      { title: 'Gradual feature rollouts', text: `Ramp a risky change from 0% to 100% of production traffic with live feedback.` },
-      { title: 'Engineering settings panels', text: `Pair with a [settings panel](/ui-snippets/settings-panel/) for a full ops configuration screen.` },
-      { title: 'QA and staging control', text: `Let QA enable in-progress features in staging without touching production.` },
-      { title: 'Incident response tooling', text: `Quickly disable a flag in production during an incident.` },
-      { title: 'Developer self-service portals', text: `Let engineers toggle their own team's flags in dev without filing a ticket.` },
+      { title: 'Environment-by-environment control', text: 'Manage each flag independently in dev, staging and production, with every input addressed by `data-flag` and `data-env` so state never leaks between cells.' },
+      { title: 'Gradual production rollouts', text: 'Ramp a risky change from 0% upwards with the slider, where percentage label, bar fill and note all derive from one value.' },
+      { title: 'Permission-gated releases', text: 'Pair with a [permission matrix](/ui-snippets/permission-matrix/) so that only authorised roles can change flags in production, while everyone else sees them read-only.' },
+      { title: 'QA enablement in staging', text: 'Let testers switch on unfinished features in staging without touching production, using real checkboxes styled as accessible switches.' },
+      { title: 'Incident kill switches', text: 'Disable a misbehaving feature in seconds, while a wider [settings panel](/ui-snippets/settings-panel/) holds the less urgent configuration around it.' },
       { icon: 'CODE', title: 'Related: Idle Detection Badge', desc: 'See the [Idle Detection Badge](/ui-snippets/idle-detection-badge/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -158,12 +158,11 @@ Swap in real module counts, add a locked-state icon for modules gated behind pre
       { title: 'Dark LMS styling', text: `Indigo-to-violet gradient accents on a dark panel background.` },
     ],
     useCases: [
-      { title: 'Online course dashboards', text: `Show learners overall and per-module progress at a glance.` },
-      { title: 'Corporate training LMS', text: `Track compliance-course completion across required modules.` },
-      { title: 'Cohort-based programs', text: `Pair with a [lesson sidebar nav](/ui-snippets/lesson-sidebar-nav/) for in-lesson navigation.` },
-      { title: 'Certification prep apps', text: `Surface which modules remain before a [quiz result breakdown](/ui-snippets/quiz-result-breakdown/).` },
-      { title: 'Onboarding curricula', text: `Adapt the same ring pattern as [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/).` },
-      { title: 'Skill-tracking apps', text: `Combine with [circular progress](/ui-snippets/circular-progress/) rings for other metrics.` },
+      { title: 'Online learning dashboards', text: 'Show learners their overall completion in a header ring, averaged from every module\'s `data-progress`, plus slim per-module rings for the detail.' },
+      { title: 'Corporate compliance training', text: 'Track mandatory course completion across modules, with the continue-where-you-left-off card sending people straight to the next lesson they owe.' },
+      { title: 'Cohort-based programmes', text: 'Pair with a [lesson sidebar nav](/ui-snippets/lesson-sidebar-nav/) so progress and navigation sit together, and the resume click scrolls to and flashes the active module.' },
+      { title: 'Certification prep apps', text: 'Reveal which modules remain before an exam, using the [quiz result breakdown](/ui-snippets/quiz-result-breakdown/) to show which topics still need revision.' },
+      { title: 'Onboarding curricula', text: 'Adapt the ring pattern for new-hire programmes alongside an [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/), with one `--pct` property driving each ring\'s offset.' },
       { icon: 'CODE', title: 'Related: Environment Switcher with Color-Coded Persistent Banner', desc: 'See the [Environment Switcher with Color-Coded Persistent Banner](/ui-snippets/environment-switcher-banner/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

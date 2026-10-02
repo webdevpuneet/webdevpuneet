@@ -199,10 +199,10 @@ Object.entries(DATA).forEach(([id, vals]) => {
       'Zero dependencies — pure HTML, CSS, JavaScript'
     ],
     useCases: [
-      { icon: 'APP', title: 'SaaS Status Pages', desc: 'Public-facing status page showing API, web, and infrastructure health' },
-      { icon: 'CODE', title: 'DevOps Dashboards', desc: 'Internal engineering dashboard for monitoring service uptime at a glance' },
-      { icon: 'FLOW', title: 'Customer Support', desc: 'Support team sidebar widget showing current system status' },
-      { icon: 'DOC', title: 'Admin Panels', desc: 'Platform admin area showing health of all connected services' }
+      { icon: '📊', title: 'Public SaaS status pages', desc: 'Publish API, web app and database health to customers, with operational, degraded and outage badges and a 90-day uptime histogram that builds trust through transparency.' },
+      { icon: '🛠️', title: 'Internal engineering dashboards', desc: 'Give DevOps teams a single glanceable panel of service health, where the pulsing dot on an outage row draws the eye before anyone reads a label.' },
+      { icon: '🎧', title: 'Support team sidebar widget', desc: 'Let support agents see current incidents while answering tickets, so they can tell customers about a known outage instead of debugging a problem that is not theirs.' },
+      { icon: '🧭', title: 'Admin panel health overview', desc: 'Show platform administrators the state of every connected service in one list, with each uptime bar generated from a plain data array you can swap for real figures.' },
     ],
     faqs: [
       { q: 'How do I use this status dashboard in React?', a: 'Define a SERVICES array with name, status, latency, uptime, and bars props. Map over it to render ServiceRow components. Render bars as JSX map instead of imperative DOM creation.' },

@@ -110,12 +110,11 @@ Swap rooms and trainers for any other resource type — vehicles, equipment, sup
       { title: 'Configurable visible hours', text: `slotMinTime/slotMaxTime focus on the relevant business hours.` },
     ],
     useCases: [
-      { title: 'Meeting room booking systems', text: `See every room's availability across a full day at once.` },
-      { title: 'Staff and trainer scheduling', text: `Compare multiple people's schedules side by side.` },
-      { title: 'Equipment and vehicle reservation', text: `Any bookable resource benefits from the same row model.` },
-      { title: 'Salon, clinic, or studio booking', text: `Pair with the [drag-to-reschedule week view](/ui-snippets/fullcalendar-drag-reschedule-week/) elsewhere in this collection for full interactivity.` },
-      { title: 'Facility and space management', text: `Operational dashboards for shared spaces.` },
-      { title: 'Learning FullCalendar scheduler', text: `A clear reference for the resource-timeline plugin combination.` },
+      { title: 'Meeting room availability boards', text: 'Show every room\'s bookings on one timeline, with time across the top and rooms down the side, so a free slot is visible at a glance.' },
+      { title: 'Staff and trainer scheduling', text: 'Compare several people\'s days side by side, where each event carries a `resourceId` that pins it precisely to the correct person\'s row.' },
+      { title: 'Equipment and vehicle reservations', text: 'Manage anything bookable, such as vans, cameras or lab equipment, with rows that exist even when empty so unused resources remain visible.' },
+      { title: 'Salon and clinic bookings', text: 'Pair with the [drag to reschedule week view](/ui-snippets/fullcalendar-drag-reschedule-week/) for staff to move appointments, with the same event model working in either layout.' },
+      { title: 'Facility operations dashboards', text: 'Give operations teams a two-axis view of space usage, using the single combined Scheduler script that bundles the core calendar and every resource plugin.' },
     ],
     faqs: [
       { q: 'Why do I need a resourceId on each event instead of just a start and end time?', a: `A resource timeline has two independent axes — time and resource row — and a plain start/end time only positions an event horizontally along the time axis. resourceId is the field that tells FullCalendar which row (which specific room or staff member) the event belongs to vertically; without it, a resource-timeline view has no way to know where on the resource axis to place the event at all.` },

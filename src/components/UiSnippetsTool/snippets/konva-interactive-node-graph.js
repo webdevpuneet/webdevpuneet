@@ -175,11 +175,11 @@ Written against a bare \`<canvas>\`, this same interaction requires you to maint
       { title: 'batchDraw for efficient repaints', text: 'Redraws are scheduled and coalesced rather than forced per event.' },
     ],
     useCases: [
-      { icon: 'FLOW', title: 'Service / infra topology maps', text: 'Visualize how backend services depend on each other.' },
-      { icon: 'FLOW', title: 'Workflow / pipeline editors', text: 'Node-based flow builders where steps connect visually.' },
-      { icon: 'LEARN', title: 'Teaching retained-mode canvas', text: 'A concrete contrast against manual redraw-everything canvas code.' },
-      { icon: 'APP', title: 'Mind maps / concept graphs', text: 'Freeform idea graphs with draggable, connected nodes.' },
-      { icon: 'CODE', title: 'Dependency graph viewers', text: 'Package or module dependency visualizations.' },
+      { title: 'Service and infrastructure topology maps', text: 'Visualise how backend services connect, where each edge recomputes its endpoints live while a node is dragged.' },
+      { title: 'Workflow and pipeline editors', text: 'Build node-based flow builders in which lines follow the nodes, since edges hold direct references to their node groups instead of fixed coordinates.' },
+      { title: 'Teaching retained-mode canvas', text: 'Use it as a concrete contrast with raw canvas drawing, where there is no persistent node or edge, only pixels.' },
+      { title: 'Mind maps and concept graphs', text: 'Create freeform idea graphs with draggable nodes, where a circle and a label are combined into one group with one authoritative position.' },
+      { title: 'Dependency graph viewers', text: 'Show package or module dependencies, where only the edges touching the dragged node are recomputed on each drag frame.' },
     ],
     faqs: [
       { q: 'How do the lines know where to redraw when a node moves?', a: 'Each edge object stores direct references to its two Konva.Group node objects (from and to), not a copy of their coordinates. Reading e.from.x()/e.from.y() at draw time always returns wherever that node currently is, so the line endpoint is always live.' },

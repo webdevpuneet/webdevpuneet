@@ -159,12 +159,11 @@ The diagram is defined by a \`NODES\` map (each with a column and colour) and a 
       { title: 'Data-driven & no library', text: `Defined by NODES + LINKS in plain HTML/CSS/SVG/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Conversion and funnel flow', text: `Show how channels split into outcomes — pair with a [funnel chart](/ui-snippets/funnel-chart/) for stage drop-off.` },
-      { title: 'Budget and spend allocation', text: `Visualise money flowing from sources to departments, alongside a [treemap](/ui-snippets/treemap/) for composition.` },
-      { title: 'User journey and routing', text: `Map where visitors go from entry points to destinations.` },
-      { title: 'Energy and resource flow', text: `The classic Sankey use — inputs flowing to uses and losses.` },
-      { title: 'Survey path analysis', text: `Show how respondents flow between answer groups.` },
-      { title: 'Learning flow layout', text: `A reference for flow-conservation and bezier ribbons — compare with a [waterfall chart](/ui-snippets/waterfall-chart/).` },
+      { title: 'Conversion and funnel flow', text: 'Show how channels split into outcomes, with ribbon width proportional to value, and compare with a plain [funnel chart](/ui-snippets/funnel-chart/) when stage order matters most.' },
+      { title: 'Budget and spend allocation', text: 'Visualise money flowing from sources through departments to line items, where ribbons stack to exactly fill each node\'s edges.' },
+      { title: 'User journey and routing', text: 'Map where visitors go from entry pages to exits, with node heights set to the total of their links so busy pages stand out.' },
+      { title: 'Energy and resource flow', text: 'Use it for the classic Sankey case of inputs becoming outputs and losses, drawn with smooth S-curve ribbons built from two cubic beziers.' },
+      { title: 'Survey path analysis', text: 'Show how respondents flow between answers across questions, then summarise composition with a [treemap](/ui-snippets/treemap/) or a [waterfall chart](/ui-snippets/waterfall-chart/).' },
       { icon: 'CODE', title: 'Related: UV Index Meter', desc: 'See the [UV Index Meter](/ui-snippets/uv-index-meter/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

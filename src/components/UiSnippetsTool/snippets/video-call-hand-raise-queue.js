@@ -170,12 +170,11 @@ Wire "Let them speak" to your video SDK's unmute/spotlight call, "Lower hand" to
       { title: 'Live waiting count', text: `A badge in the header always reflects the current queue length.` },
     ],
     useCases: [
-      { title: 'Video conferencing platforms', text: `The core moderator panel alongside [video call grid](/ui-snippets/video-call-grid/).` },
-      { title: 'Webinars and town halls', text: `Manage Q&A order fairly for large audiences.` },
-      { title: 'Virtual classrooms', text: `Let a teacher call on students in the order hands went up.` },
-      { title: 'Live-streamed panels and AMAs', text: `Queue audience questions for a host to work through.` },
-      { title: 'Community and town-hall meetings', text: `Fair speaking order for public comment sessions.` },
-      { title: 'Learning ordered-queue patterns', text: `A reference for array-order-as-display-order — compare with [activity feed](/ui-snippets/activity-feed/).` },
+      { title: 'Video conferencing moderation', text: 'Give the host an ordered list of raised hands with per-row let them speak and lower hand actions, placed beside a [video call grid](/ui-snippets/video-call-grid/).' },
+      { title: 'Webinar and town hall Q&A', text: 'Take audience questions in the order they were raised, so the loudest voice does not win and large sessions stay fair and orderly.' },
+      { title: 'Virtual classroom turn-taking', text: 'Let a teacher call on students in sequence, with a rise-and-fade entrance showing exactly who just raised their hand in a busy class.' },
+      { title: 'Live-streamed panel and AMA queues', text: 'Combine with an [activity feed](/ui-snippets/activity-feed/) to log who spoke when, and keep live timestamps accurate through a separate lightweight interval.' },
+      { title: 'Ordered-queue pattern reference', text: 'Study how array push order doubles as display order, so a first-raised, first-shown queue needs no sorting logic or extra state to maintain.' },
     ],
     faqs: [
       { q: 'How does the queue decide who is "next"?', a: `The queue array\\'s own order is the display order — a new hand raise is pushed onto the end of the array, so the person who raised first naturally sits at index 0. The first row also gets a distinct gold order badge to make "who\\'s next" visually unambiguous at a glance, without any separate sorting logic.` },

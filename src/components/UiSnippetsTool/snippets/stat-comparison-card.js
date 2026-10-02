@@ -126,12 +126,11 @@ The cards sit in an auto-fit grid that reflows from four across down to one on n
       { title: 'Tabular-aligned numbers', text: `Values use tabular-nums so digits line up cleanly across cards.` },
     ],
     useCases: [
-      { title: 'Analytics dashboards', text: `The KPI summary row at the top of any analytics or admin dashboard — pair with a [quota usage meter](/ui-snippets/quota-usage-meter/) for limits.` },
-      { title: 'Revenue and sales overviews', text: `Show revenue, orders, and conversion with period comparisons for a business dashboard.` },
-      { title: 'Product and growth metrics', text: `Track signups, active users, and retention with trend context, alongside [activity rings](/ui-snippets/activity-rings/) for goals.` },
-      { title: 'Marketing reports', text: `Display traffic, leads, and cost-per-acquisition with up/down deltas vs the prior period.` },
-      { title: 'Ops and SaaS health', text: `Surface uptime, latency, and ticket volume with directional trends.` },
-      { title: 'Learning data-driven cards', text: `A reference for deltas, conditional coloring, and inline sparklines — compare with a [metric card grid](/ui-snippets/metric-card-grid/) and [sparkline chart](/ui-snippets/sparkline-chart/).` },
+      { title: 'Analytics KPI summary rows', text: 'Top a dashboard with cards showing value, percent change versus the previous period and an inline trend line, answering is this good at a glance.' },
+      { title: 'Revenue and sales overviews', text: 'Show revenue, orders and conversion rate side by side, with near-zero changes classed as flat rather than a misleading tiny arrow.' },
+      { title: 'Marketing performance reports', text: 'Display traffic, leads and cost per acquisition, where colour follows the direction of the change and can be inverted for metrics where down is good.' },
+      { title: 'Wider card grids', text: 'Place several cards inside a [metric card grid](/ui-snippets/metric-card-grid/) and expand any tiny trend into a full [sparkline chart](/ui-snippets/sparkline-chart/).' },
+      { title: 'SaaS health boards', text: 'Surface uptime, latency and ticket volume together, with `fmtValue()` handling currency, counts, percentages and durations in one consistent way.' },
     ],
     faqs: [
       { q: 'How do I connect this to real analytics data?', a: `Populate the STATS array from your analytics API: each entry needs the current value, the previous-period value (prev) for the delta, a fmt flag for formatting, and a short numeric series (spark) for the sparkline. Fetch those on load (and on refresh), assign to STATS, and call render() — every card's value, delta, and trend recompute from the data.` },

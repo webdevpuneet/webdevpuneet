@@ -98,9 +98,10 @@ render();`,
       'Two narrowly-scoped delegated listeners (change and input) handle every row without per-row re-binding',
     ],
     useCases: [
-      { icon: 'DEV', title: 'Internal admin tools for engineering and product teams', desc: 'A realistic feature-flag management panel, the kind of tool sitting behind most gradual-rollout systems.' },
-      { icon: 'DASH', title: 'Internal dashboards controlling gradual feature rollouts', desc: 'Pairs with [bootstrap-deployment-status-panel](/ui-snippets/bootstrap-deployment-status-panel/) for a fuller release-management view.' },
-      { icon: 'APP', title: 'A/B testing and experiment control panels', desc: 'The same toggle-plus-percentage pattern applies directly to controlling experiment traffic allocation.' },
+      { icon: '🚩', title: 'Engineering release controls', desc: 'Give product and engineering one place to switch features on or off, with each flag carrying both an enabled state and a rollout percentage.' },
+      { icon: '📈', title: 'Gradual rollout dashboards', desc: 'Ramp a feature to a growing share of users, with the rollout slider existing in the DOM only while its flag is actually enabled.' },
+      { icon: '🧪', title: 'A/B and experiment panels', desc: 'Reuse the same toggle for experiments, where disabling a flag resets its rollout to zero instead of leaving a stale, misleading percentage.' },
+      { icon: '🚢', title: 'Deployment status pairing', desc: 'Pair with the [Bootstrap deployment status panel](/ui-snippets/bootstrap-deployment-status-panel/) so a flag change and the release it belongs to appear together.' },
     ],
     faqs: [
       { q: 'Why does disabling a flag reset its rollout percentage?', a: 'A disabled flag with a leftover "25%" showing (even if hidden from view) would misrepresent the flag\'s actual state the next time someone re-enables it and expects a fresh decision, not a silently resumed old value.' },

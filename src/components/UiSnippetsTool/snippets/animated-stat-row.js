@@ -151,12 +151,11 @@ Each card shows a coloured delta pill — green for up, red for down, grey for f
       { title: 'Delta badges and theming', text: `Up/down/flat pills give context, and each card themes from one --c colour via color-mix.` },
     ],
     useCases: [
-      { title: 'Dashboard summary rows', text: `Top a dashboard with animated KPIs for revenue, users, and uptime — pair with a [stat comparison card](/ui-snippets/stat-comparison-card/) and a [metric card grid](/ui-snippets/metric-card-grid/).` },
-      { title: 'Landing-page metrics', text: `Show traction numbers (customers, uptime, savings) that count up as visitors scroll to them; complements a [count up](/ui-snippets/count-up/) for single figures.` },
-      { title: 'Annual reports and recaps', text: `Animate year-in-review numbers for a lively, scroll-driven presentation.` },
-      { title: 'Product and pricing pages', text: `Reinforce value with animated proof points near the CTA.` },
-      { title: 'Admin and analytics panels', text: `Give internal dashboards a polished feel with deltas showing period-over-period change.` },
-      { title: 'Learning scroll animation', text: `A reference for IntersectionObserver triggering, rAF easing, staggering, and reduced-motion handling.` },
+      { title: 'Dashboard summary rows', text: 'Top a dashboard with KPI cards that fade up and count from zero when scrolled into view, with `IntersectionObserver` starting each animation.' },
+      { title: 'Landing page traction numbers', text: 'Show customers, uptime and countries served, with an `easeOutExpo` curve racing numbers up before decelerating into the final value.' },
+      { title: 'Annual report recaps', text: 'Animate year-in-review figures with locale-formatted values from `toLocaleString()`, so large numbers read correctly for any audience.' },
+      { title: 'Richer comparison cards', text: 'Upgrade to the [stat comparison card](/ui-snippets/stat-comparison-card/) when each number needs a period-over-period delta and a trend line.' },
+      { title: 'Scroll animation reference', text: 'Use it as a clear example of observer-triggered `requestAnimationFrame` counting, synced to the screen refresh rate for smooth motion.' },
       { icon: 'CODE', title: 'Related: BroadcastChannel Cross-Tab Sync', desc: 'See the [BroadcastChannel Cross-Tab Sync](/ui-snippets/broadcast-channel-sync-demo/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

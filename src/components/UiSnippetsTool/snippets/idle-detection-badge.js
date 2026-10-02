@@ -218,12 +218,11 @@ Tune \`IDLE_THRESHOLD_MS\`, add a "step away" auto-logout timer keyed off the id
       { title: 'Visible active mode label', text: `Always shows whether heuristic or native mode is driving the badge.` },
     ],
     useCases: [
-      { title: 'Chat and collaboration apps', text: `Pair with a [team presence list](/ui-snippets/team-presence-list/).` },
-      { title: 'Support agent dashboards', text: `Show agent availability alongside a [status dashboard](/ui-snippets/status-dashboard/).` },
-      { title: 'Session timeout warnings', text: `Trigger a warning modal after a real idle period.` },
-      { title: 'Collaborative editors', text: `Combine with a [collaborator presence bar](/ui-snippets/collaborator-presence-bar/).` },
-      { title: 'Kiosk and shared-device apps', text: `Detect a walked-away user to reset to a home screen.` },
-      { title: 'Analytics engagement tracking', text: `Measure genuine active time versus idle tab time.` },
+      { title: 'Chat presence indicators', text: 'Show a teammate as Active or Idle using the mousemove and keydown heuristic, with no permission prompt and no reliance on a Chromium-only API for the default behaviour.' },
+      { title: 'Support agent availability', text: 'Place beside a [team presence list](/ui-snippets/team-presence-list/) so supervisors see which agents are genuinely at their desk before routing a new conversation to them.' },
+      { title: 'Session timeout warnings', text: 'Trigger a warning dialog after a configurable quiet period, using real activity events including touchstart and scroll so mobile users are not wrongly marked idle.' },
+      { title: 'Kiosk and shared-device resets', text: 'Detect that a visitor has walked away and clear the screen, then offer the native `IdleDetector` as an opt-in enhancement where the screen lock state is also wanted.' },
+      { title: 'Engagement analytics', text: 'Measure genuinely active time rather than tab-open time, combining this with the [collaborator presence bar](/ui-snippets/collaborator-presence-bar/) for shared editing sessions.' },
       { icon: 'CODE', title: 'Related: JSON Diff Viewer', desc: 'See the [JSON Diff Viewer](/ui-snippets/json-diff-viewer/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -201,12 +201,11 @@ Swap the fixed weekly cadence for a custom-length rotation, pull the roster and 
       { title: 'Initials-based avatars', text: `Generated from each name with no image assets needed.` },
     ],
     useCases: [
-      { title: 'Incident management dashboards', text: `Pair with an [SLA countdown badge](/ui-snippets/sla-countdown-badge/).` },
-      { title: 'DevOps and SRE tooling', text: `Show who owns paging duty this week at a glance.` },
-      { title: 'Support team scheduling', text: `Combine with a [status dashboard](/ui-snippets/status-dashboard/) for coverage overview.` },
-      { title: 'IT helpdesk rotations', text: `Track weekly primary/secondary responder handoffs.` },
-      { title: 'Team presence overviews', text: `Pair with a [team presence list](/ui-snippets/team-presence-list/).` },
-      { title: 'Internal status pages', text: `Show current on-call contact on an [uptime status page](/ui-snippets/uptime-status-page/).` },
+      { title: 'Incident response dashboards', text: 'Put the current responder above the fold next to an [SLA countdown badge](/ui-snippets/sla-countdown-badge/), so anyone triaging an alert knows who owns it and how long remains.' },
+      { title: 'SRE paging overviews', text: 'Show who holds pager duty this week and when the handoff happens, using real formatted day and time ranges instead of vague relative labels like next week.' },
+      { title: 'Weekly helpdesk coverage', text: 'Display primary and secondary support cover on a [status dashboard](/ui-snippets/status-dashboard/), with the strip scrolling horizontally to reveal several future handoffs.' },
+      { title: 'Roster wrap-around planning', text: 'Preview how a small team cycles through shifts, since `personAt()` wraps past the end of the roster array so a three-person rotation fills any number of slots.' },
+      { title: 'Public status pages', text: 'Reveal the on-call contact alongside an [uptime status page](/ui-snippets/uptime-status-page/), and use the hand off now button to demo the rotation advancing in a prototype.' },
       { icon: 'CODE', title: 'Related: Active Sessions / Device List', desc: 'See the [Active Sessions / Device List](/ui-snippets/session-device-list/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

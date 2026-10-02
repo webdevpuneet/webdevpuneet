@@ -116,12 +116,11 @@ Each row comes from \`{ label, low, median, high, color }\`, and the axis auto-s
       { title: 'Data-driven & no library', text: `Draws from a DATA array in plain HTML/CSS/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Salary and compensation bands', text: `Show pay ranges by level — pair with a [bar chart](/ui-snippets/bar-chart/) for headcounts.` },
-      { title: 'Temperature high/low', text: `Daily or monthly temperature ranges, alongside a [line chart](/ui-snippets/line-chart-widget/) for the trend.` },
-      { title: 'Project and date ranges', text: `Start-to-end spans like a lightweight Gantt, next to a [gantt table](/ui-snippets/gantt-table/).` },
-      { title: 'Price and estimate ranges', text: `Min–max quotes or forecasts with a likely value.` },
-      { title: 'Score and benchmark bands', text: `Show acceptable ranges with a target median.` },
-      { title: 'Learning floating-bar positioning', text: `A reference for from-to bar layout and shared-axis scaling — compare with a [bullet chart](/ui-snippets/bullet-chart/).` },
+      { title: 'Salary and compensation bands', text: 'Show pay ranges by role or level as floating bars with a median marker, so candidates see both the span and the typical offer.' },
+      { title: 'Daily temperature highs and lows', text: 'Display each day\'s low-to-high span on one shared axis, beside a [line chart widget](/ui-snippets/line-chart-widget/) of the average temperature.' },
+      { title: 'Project and date ranges', text: 'Show start-to-end spans like a lightweight [gantt table](/ui-snippets/gantt-table/), with low and high captions at each end of every bar.' },
+      { title: 'Price and estimate ranges', text: 'Show min-to-max quotes or forecasts, with a shared auto-scaled axis making the ranges directly comparable across categories.' },
+      { title: 'Score and benchmark bands', text: 'Show acceptable ranges for scores or measurements, and pair with a [bullet chart](/ui-snippets/bullet-chart/) to mark the target within each band.' },
       { icon: 'CODE', title: 'Related: Sunburst Chart', desc: 'See the [Sunburst Chart](/ui-snippets/sunburst-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

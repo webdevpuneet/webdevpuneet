@@ -189,12 +189,11 @@ Replace the simulated burst with real request counts read from your API client's
       { title: 'No dependencies', text: `Pure HTML, CSS, and vanilla JavaScript.` },
     ],
     useCases: [
-      { title: 'API developer dashboards', text: `Show quota status alongside a [webhook event tester](/ui-snippets/webhook-event-tester/).` },
-      { title: 'AI API consoles', text: `Pair with an [AI token usage meter](/ui-snippets/ai-token-usage-meter/) for frequency vs. volume limits.` },
-      { title: 'CLI and SDK companion dashboards', text: `Give developers visibility into throttling risk before it happens.` },
-      { title: 'Multi-tenant platform admin panels', text: `Show per-customer rate limit consumption for support triage.` },
-      { title: 'Integration testing tools', text: `Watch quota consumption while running test suites against a live API.` },
-      { title: 'Billing and plan-tier pages', text: `Show current rate limits next to an [AI model comparison table](/ui-snippets/ai-model-comparison-table/) for upgrade context.` },
+      { title: 'API developer portals', text: 'Show developers where they stand against their limit before they hit a 429, with a ring that turns indigo, amber or red by usage tier.' },
+      { title: 'AI API consoles', text: 'Pair with an [AI token usage meter](/ui-snippets/ai-token-usage-meter/) so developers see both request pacing and token consumption together.' },
+      { title: 'Integration test sessions', text: 'Watch quota drain while running a suite of calls, with a log of recent requests and a live one-second countdown to the next reset.' },
+      { title: 'Webhook and tooling dashboards', text: 'Place beside a [webhook event tester](/ui-snippets/webhook-event-tester/) so test sends and their effect on quota are visible on one page.' },
+      { title: 'Plan comparison and upgrade pages', text: 'Show current limits next to an [AI model comparison table](/ui-snippets/ai-model-comparison-table/), with a genuine window reset that zeroes usage when the countdown hits zero.' },
     ],
     faqs: [
       { q: 'How does the SVG ring fill proportionally without a charting library?', a: `The ring circle has a fixed stroke-dasharray equal to its own circumference, which splits its stroke into one dash covering the whole circle and one gap of zero length. Animating stroke-dashoffset shifts where that dash starts, visually revealing an arc proportional to whatever percentage you set — a well-known CSS/SVG technique that needs no dependencies.` },

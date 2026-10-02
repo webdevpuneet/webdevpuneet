@@ -146,10 +146,11 @@ Chartist generates series classes as \`.ct-series-a\`, \`.ct-series-b\`, etc. â€
       { title: 'Reuses the line chart\'s dash technique', text: 'Same draw-event and stroke-dashoffset mechanism, adapted for closed arcs.' },
     ],
     useCases: [
-      { icon: 'CHART', title: 'Traffic and channel breakdowns', text: 'A source-attribution donut that animates in on a marketing dashboard.' },
-      { icon: 'APP', title: 'Budget and allocation views', text: 'Show spend or resource distribution across categories with a staggered reveal.' },
-      { icon: 'LEARN', title: 'Teaching per-element chart events', text: 'A direct comparison against the line chart\'s draw handler for a different data.type.' },
-      { icon: 'DESIGN', title: 'Summary dashboard cards', text: 'A compact animated visual for a KPI or composition card.' },
+      { title: 'Traffic and channel breakdowns', text: 'Show a source-attribution donut whose slices sweep in one after another, so the largest channels draw the eye first.' },
+      { title: 'Budget and allocation views', text: 'Present how spend or resources are distributed, with each wedge animating independently from its own real arc length.' },
+      { title: 'Teaching per-element chart events', text: 'Compare this slice-based `draw` handler with the line chart version, to see how the element type that arrives decides what you animate.' },
+      { title: 'Summary dashboard cards', text: 'Use a compact animated donut as a KPI visual, where percentage labels fade in only after their own wedge has finished.' },
+      { title: 'Sweep direction details', text: 'Learn why animating from `-length` rather than `+length` makes wedges sweep clockwise, a small detail that decides whether the animation looks right.' },
     ],
     faqs: [
       { q: 'How is a donut slice different from a line in Chartist\'s draw event?', a: 'A line is one continuous SVG path for the whole series; a donut slice is a separate arc-shaped path per data value. That\'s why the draw event fires with data.type === "slice" once per wedge, each carrying its own arc length and data.index, rather than once for the whole series.' },

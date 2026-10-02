@@ -153,12 +153,11 @@ Swap the task list and grouping for your own onboarding flow, persist checked st
       { title: 'Zero dependencies', text: `Plain HTML, CSS, and JS.` },
     ],
     useCases: [
-      { title: 'HR onboarding portals', text: `Pair with an [onboarding tour](/ui-snippets/onboarding-tour/) for the product side.` },
-      { title: 'IT provisioning checklists', text: `Track laptop, email, and access setup.` },
-      { title: 'Remote new-hire kits', text: `Combine before/day-one/week-one shipping tasks.` },
-      { title: 'Manager onboarding plans', text: `Track 1:1s and team introductions.` },
-      { title: 'Compliance tracking', text: `Confirm required training is complete.` },
-      { title: 'General setup wizards', text: `Reuse the grouped-checklist pattern anywhere.` },
+      { title: 'HR onboarding portals', text: 'Give new hires a clear first-day checklist, and pair it with an [onboarding tour](/ui-snippets/onboarding-tour/) for the guided walkthrough.' },
+      { title: 'IT provisioning checklists', text: 'Track laptop, email and access setup in a Before you start group, with real checkboxes styled through `:checked` sibling selectors.' },
+      { title: 'Remote new-hire kits', text: 'Combine before, day-one and week-one shipping and setup tasks in one place, with the progress bar recomputed from the actual checked count.' },
+      { title: 'Manager onboarding plans', text: 'Track one-to-ones, team introductions and early goals, with a strikethrough on each completed item for instant feedback.' },
+      { title: 'General setup wizards', text: 'Reuse the grouped-checklist pattern anywhere a multi-step setup needs a celebratory completed state, not just in HR.' },
       { icon: 'CODE', title: 'Related: Active Sessions / Device List', desc: 'See the [Active Sessions / Device List](/ui-snippets/session-device-list/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

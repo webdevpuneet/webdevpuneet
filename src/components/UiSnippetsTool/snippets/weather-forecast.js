@@ -110,12 +110,11 @@ Notice the markup builds temperature strings as \`d.hi + '°'\` rather than baki
       { title: 'Data-driven & no library', text: `Renders from CURRENT + FORECAST objects in plain HTML/CSS/JS.` },
     ],
     useCases: [
-      { title: 'Weather dashboards & widgets', text: `A current-plus-outlook card for a home dashboard — pair with a [weather widget](/ui-snippets/weather-widget/) for a compact current-only view.` },
-      { title: 'Travel and trip planners', text: `Show destination forecasts alongside a [flight search form](/ui-snippets/flight-search-form/).` },
-      { title: 'Smart-home and IoT panels', text: `A weather tile among other status cards, next to a [metric card grid](/ui-snippets/metric-card-grid/).` },
-      { title: 'Event and outdoor apps', text: `Forecast for an event date or location.` },
-      { title: 'Lock screens and kiosks', text: `A glanceable forecast display.` },
-      { title: 'Learning code-to-UI mapping', text: `A reference for mapping API codes to presentation — compare with a [stats card](/ui-snippets/stats-card/).` },
+      { title: 'Weather dashboard cards', text: 'Show current conditions prominently with a five-day outlook beneath, where one code-to-icon map keeps every condition label in a single place.' },
+      { title: 'Trip planning pages', text: 'Add destination forecasts to a travel product beside a [flight search form](/ui-snippets/flight-search-form/), so people can check the weather while choosing dates.' },
+      { title: 'Smart-home and kiosk panels', text: 'Give a glanceable forecast tile to a wall display, with the high temperature in bold and the low dimmed so the relevant value dominates.' },
+      { title: 'Event and outdoor activity apps', text: 'Show the forecast for an event date alongside a [stats card](/ui-snippets/stats-card/), helping organisers decide on a backup plan.' },
+      { title: 'Compact widget alternatives', text: 'Compare with the smaller [weather widget](/ui-snippets/weather-widget/) and place either inside a [metric card grid](/ui-snippets/metric-card-grid/) with other live figures.' },
     ],
     faqs: [
       { q: 'Why map condition codes to icons instead of hardcoding emoji?', a: `Real weather APIs return condition codes (numbers or strings like "rain", "clear"), not icons. Keeping ICONS and LABELS lookup tables means you translate the API's codes to these keys once, and every icon and label on the card derives from the code. Hardcoding an emoji per day would make integrating a real API a rewrite; the mapping makes it a small translation step.` },

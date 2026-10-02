@@ -169,12 +169,11 @@ Wire the sign-out actions to real API calls (revoke the session token server-sid
       { title: 'Zero dependencies', text: `Pure DOM rendering from a data array.` },
     ],
     useCases: [
-      { title: 'Account security settings', text: `Let users audit and manage active logins.` },
-      { title: 'SaaS admin panels', text: `Give team admins visibility into member sessions.` },
-      { title: 'Post-breach response', text: `Fast bulk sign-out after a suspected compromise.` },
-      { title: 'Banking/fintech apps', text: `Pair with [passkey login](/ui-snippets/passkey-login/) for account trust.` },
-      { title: 'Developer platforms', text: `Show alongside an [API key manager](/ui-snippets/api-key-manager/).` },
-      { title: 'Enterprise SSO tools', text: `Surface device compliance and session hygiene.` },
+      { title: 'Account security settings', text: 'Let users audit and manage their active sessions, with a clear This device badge marking the one they are using right now.' },
+      { title: 'Team admin session audits', text: 'Give team admins visibility into member sign-ins, with a device and browser label that makes each session recognisable.' },
+      { title: 'Post-breach response', text: 'Enable fast bulk sign-out of every session except the current one after a suspected account compromise.' },
+      { title: 'Banking and fintech security', text: 'Pair with [passkey login](/ui-snippets/passkey-login/) for account security, with animated removal giving clear feedback on each revoked session.' },
+      { title: 'Developer platform settings', text: 'Show it alongside an [API key manager](/ui-snippets/api-key-manager/) so one security settings page covers both browser sessions and programmatic credentials.' },
     ],
     faqs: [
       { q: 'Can a user accidentally sign themselves out from this list?', a: `No — the current session (marked current: true in the data) never renders a "Sign out" button, so there's no path to sign out of the session you're currently using from this panel alone.` },

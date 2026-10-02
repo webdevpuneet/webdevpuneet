@@ -138,10 +138,11 @@ The trash is the neatest trick: an empty list in the same group with put: true a
       'Page state read straight from the DOM (data-type in order)',
     ],
     useCases: [
-      { icon: 'WEB', title: 'Page and email builders', desc: `Compose layouts from reusable blocks. For a nested structure see the [nested sortable tree](/ui-snippets/sortablejs-nested-sortable-tree/).` },
-      { icon: 'FORM', title: 'Form builders', desc: `Drag field types onto a form canvas and remove them with a drop zone.` },
-      { icon: 'DASH', title: 'Report and dashboard designers', desc: `Add widgets from a library to a layout.` },
-      { icon: 'LEARN', title: 'Learning group pull and put rules', desc: `Three lists with three different behaviours, all from group configuration.` },
+      { icon: '🧱', title: 'Page and email builders', desc: 'Compose layouts by cloning blocks from a palette onto a canvas, where the palette keeps every item and refuses anything dropped back onto it.' },
+      { icon: '📝', title: 'Form builder canvases', desc: 'Drag field types onto a form and remove them with a trash zone, using `put: false` and `sort: false` to keep the palette read-only.' },
+      { icon: '📊', title: 'Report designer toolkits', desc: 'Add widgets from a library into a report layout, with the canvas accepting, reordering and releasing blocks as the author works.' },
+      { icon: '🌳', title: 'Nested outlines', desc: 'Move on to the [nested sortable tree](/ui-snippets/sortablejs-nested-sortable-tree/) when the blocks themselves need children and depth-aware drops between levels.' },
+      { icon: '🎓', title: 'Pull and put rule reference', desc: 'Study three lists with three different rules, including a trash zone implemented as a Sortable that simply removes whatever it receives.' },
     ],
     faqs: [
       { q: 'How do I copy items instead of moving them?', a: 'Set group: { name: "x", pull: "clone", put: false } on the source list and give the destination the same name.' },

@@ -139,12 +139,11 @@ This demo's Reset button simulates the day rolling over; in production you'd ins
       { title: 'Explicit reset note', text: `Copy and behavior make clear the tracker is meant to reset at midnight daily.` },
     ],
     useCases: [
-      { title: 'Health and fitness dashboards', text: `Track daily hydration alongside other health metrics on a wellness app home screen.` },
-      { title: 'Wearable companion apps', text: `Log manual water intake to complement automatic activity tracking.` },
-      { title: 'Habit-tracking widgets', text: `Reuse the ring-plus-quick-add pattern for any daily-goal habit, not just water.` },
-      { title: 'Workplace wellness tools', text: `Pair with a [workout interval timer](/ui-snippets/workout-interval-timer/) in a broader employee wellness dashboard.` },
-      { title: 'Health calculators suite', text: `Sits alongside a [BMI calculator](/ui-snippets/bmi-calculator/) as part of a personal health toolkit.` },
-      { title: 'Learning SVG progress rings', text: `A clear reference for stroke-dasharray/dashoffset animation and derived-state UI.` },
+      { title: 'Health and fitness dashboards', text: 'Log hydration beside other daily metrics with one tap, using +250 ml and +500 ml buttons that map to a standard glass and bottle.' },
+      { title: 'Wearable companion apps', text: 'Add manual water entries to complement automatic tracking, with one value driving the ring, the filling bottle and the running total.' },
+      { title: 'Workplace wellness programmes', text: 'Pair with a [workout interval timer](/ui-snippets/workout-interval-timer/) in a workplace wellness hub, rewarding small daily habits with visible progress toward a goal.' },
+      { title: 'Health calculator suites', text: 'Place beside a [BMI calculator](/ui-snippets/bmi-calculator/) so people can calculate a goal and then track progress toward it.' },
+      { title: 'SVG ring and fill reference', text: 'See how `stroke-dashoffset` animates the progress ring and a bottom-up bottle fill gives a second, more tactile signal.' },
     ],
     faqs: [
       { q: 'How does the progress ring animate smoothly?', a: `The ring fill is an SVG circle with stroke-dasharray set to its full circumference, so the visible stroke length is controlled entirely by stroke-dashoffset — a lower offset reveals more of the circle. render() sets that offset based on the current percentage, and a CSS transition on stroke-dashoffset animates the change smoothly whenever current updates.` },

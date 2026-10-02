@@ -142,12 +142,11 @@ Feed it any array of \`{ name, value, color }\` and it draws equal-angle, value-
       { title: 'Data-driven & no library', text: `Draws from a DATA array in plain HTML/CSS/SVG/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Cyclical activity data', text: `Show activity by day or hour — pair with a [bar chart](/ui-snippets/bar-chart/) for a linear view.` },
-      { title: 'Seasonal and monthly patterns', text: `Visualise sales or weather by month where the cycle matters, alongside a [radar chart](/ui-snippets/radar-chart/).` },
-      { title: 'Survey category comparison', text: `Compare equal categories with a distinctive circular form.` },
-      { title: 'Wind rose and direction data', text: `The classic use — magnitude by compass direction.` },
-      { title: 'Dashboards wanting variety', text: `An eye-catching alternative to yet another bar chart, next to a [pie chart](/ui-snippets/pie-chart/).` },
-      { title: 'Learning polar geometry', text: `A reference for equal-angle, value-radius construction — compare with a [donut chart](/ui-snippets/donut-chart/).` },
+      { title: 'Cyclical activity data', text: 'Show activity by day of week or hour of day, where equal-angle slices suit data that loops and slice length carries the value.' },
+      { title: 'Seasonal and monthly patterns', text: 'Visualise sales or weather across twelve months as a rose, with reference rings making it easy to judge each month against the others.' },
+      { title: 'Survey category comparison', text: 'Compare equal categories where the angle is constant and only the radius changes, unlike a [pie chart](/ui-snippets/pie-chart/) where angle carries the data.' },
+      { title: 'Wind rose and direction data', text: 'Use the classic application, showing magnitude by compass direction, with each slice drawn as an independently hoverable SVG arc path.' },
+      { title: 'Variety on a crowded dashboard', text: 'Offer an eye-catching option beside a [radar chart](/ui-snippets/radar-chart/) or [donut chart](/ui-snippets/donut-chart/) when a dashboard needs some visual variety.' },
       { icon: 'CODE', title: 'Related: Stacked Area Chart', desc: 'See the [Stacked Area Chart](/ui-snippets/stacked-area-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

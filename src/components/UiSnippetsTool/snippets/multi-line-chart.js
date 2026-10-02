@@ -151,12 +151,11 @@ The chart renders from a \`LABELS\` array and a \`SERIES\` array of \`{ name, co
       { title: 'Data-driven & no library', text: `Renders from LABELS + SERIES arrays in plain HTML/CSS/SVG/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Traffic and engagement trends', text: `Compare device or channel trends over time — pair with a [bar chart](/ui-snippets/bar-chart/) for totals.` },
-      { title: 'Revenue across regions', text: `Track several markets on one scale alongside a [stat comparison card](/ui-snippets/stat-comparison-card/).` },
-      { title: 'Performance and uptime metrics', text: `Plot latency or response times per service next to an [uptime status page](/ui-snippets/uptime-status-page/).` },
-      { title: 'Finance and price history', text: `Compare multiple assets over time, complementing a [candlestick chart](/ui-snippets/candlestick-chart/).` },
-      { title: 'Cohort and funnel comparison', text: `Show several cohorts' weekly retention on a single chart.` },
-      { title: 'Learning line-chart scaling', text: `A reference for multi-series scaling and polyline drawing — compare with a [sparkline chart](/ui-snippets/sparkline-chart/).` },
+      { title: 'Traffic and engagement trends', text: 'Compare device or channel trends on one shared scale, with a legend that hides a line and rescales the others on click.' },
+      { title: 'Revenue across regions', text: 'Track several markets on one chart beside a [stat comparison card](/ui-snippets/stat-comparison-card/), with point tooltips for the exact month and value.' },
+      { title: 'Latency and uptime metrics', text: 'Plot response time per service next to an [uptime status page](/ui-snippets/uptime-status-page/), so a spike can be traced to the service behind it.' },
+      { title: 'Finance and price history', text: 'Compare multiple assets over time on a shared maximum, switching to a [candlestick chart](/ui-snippets/candlestick-chart/) for one asset\'s detail.' },
+      { title: 'Cohort and funnel trends', text: 'Show several cohorts\' weekly values together, and use a [sparkline chart](/ui-snippets/sparkline-chart/) for the compact version inside a table or card.' },
       { icon: 'CODE', title: 'Related: Skills Assessment Radar Chart', desc: 'See the [Skills Assessment Radar Chart](/ui-snippets/skills-assessment-radar/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

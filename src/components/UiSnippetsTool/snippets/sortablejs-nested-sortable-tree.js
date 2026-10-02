@@ -157,10 +157,11 @@ Drag and drop is not enough for accessibility: it cannot be operated with a keyb
       'Titles inserted with textContent to avoid HTML injection',
     ],
     useCases: [
-      { icon: 'DOC', title: 'Course and documentation outlines', desc: `Let authors structure content by dragging. For a flat multi-column workflow see the [kanban board](/ui-snippets/sortablejs-multilist-kanban-persistence/).` },
-      { icon: 'WEB', title: 'Menu and navigation builders', desc: `Compose multi-level menus in a CMS.` },
-      { icon: 'ADMIN', title: 'Category and taxonomy editors', desc: `Reorganise product categories with visible hierarchy.` },
-      { icon: 'LEARN', title: 'Learning nested Sortable setups', desc: `A practical example of the options nested lists need to work reliably.` },
+      { icon: '📚', title: 'Course and documentation outlines', desc: 'Let authors restructure chapters and lessons by dragging, with live JSON output showing the exact nested structure to save.' },
+      { icon: '🧭', title: 'Menu and navigation builders', desc: 'Compose multi-level menus where children can be dragged under any parent, even into an empty child list.' },
+      { icon: '🗂️', title: 'Category and taxonomy editors', desc: 'Reorganise product categories, with button-based move, indent and outdent controls giving keyboard users a full alternative to dragging.' },
+      { icon: '✅', title: 'Task hierarchies with boards', desc: 'Combine with a [multi-list kanban](/ui-snippets/sortablejs-multilist-kanban-persistence/) so a task\'s position in the outline and its status stay separate.' },
+      { icon: '🎓', title: 'Nested Sortable tuning', desc: 'Study `swapThreshold`, `invertSwap` and `fallbackOnBody` together, which prevent jitter and stop parent overflow from clipping the dragged row.' },
     ],
     faqs: [
       { q: 'How do I make nested lists draggable with SortableJS?', a: 'Create a Sortable on every list, including nested and empty ones, with the same group name. Use fallbackOnBody and a swapThreshold around 0.65.' },

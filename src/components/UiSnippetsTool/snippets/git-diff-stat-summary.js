@@ -167,12 +167,11 @@ Replace the hardcoded file list and diff lines with output from your git provide
       { title: 'Zero dependencies', text: `No diff library, no chart library — every visual is plain CSS.` },
     ],
     useCases: [
-      { title: 'Pull request review UIs', text: `Summarize a PR's changed files, paired with a [code diff viewer](/ui-snippets/code-diff-viewer/) for full-file review.` },
-      { title: 'CI/CD change summaries', text: `Show what a deploy or build touched before it ships.` },
-      { title: 'Code review dashboards', text: `Give reviewers a scannable overview alongside a [code comparison](/ui-snippets/code-comparison/) tool.` },
-      { title: 'Commit history browsers', text: `Show diffstat for each commit in a repository timeline.` },
-      { title: 'Internal audit tooling', text: `Track and review infrastructure-as-code changes before applying them.` },
-      { title: 'Learning diffstat visualization', text: `A minimal reference for building GitHub-style change bars without a library.` },
+      { title: 'Pull request file lists', text: 'Summarise a PR\'s changed files with GitHub-style add and delete bar chips, so reviewers gauge each file\'s change size before opening it.' },
+      { title: 'CI and deploy change summaries', text: 'Show what a build touched, with an expandable line-level preview that follows the familiar context, added and removed colouring.' },
+      { title: 'Full diff review', text: 'Link the summary to a [code diff viewer](/ui-snippets/code-diff-viewer/) for side-by-side reading, once the overview has shown which files deserve attention.' },
+      { title: 'Commit history browsers', text: 'Show diffstat for every commit in a log, using a single-open accordion so expanding one file collapses any other.' },
+      { title: 'Infrastructure change audits', text: 'Review config and infrastructure-as-code changes, with `aria-expanded` and the `hidden` attribute kept in sync for accessible disclosure.' },
       { icon: 'CODE', title: 'Related: Trip Itinerary Day Timeline', desc: 'See the [Trip Itinerary Day Timeline](/ui-snippets/itinerary-day-timeline/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

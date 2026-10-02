@@ -218,12 +218,11 @@ Swap in real dates computed from the actual current month (rather than the hardc
       { title: 'Framework-agnostic core', text: `The grid-generation and day-lookup logic port directly to any component model.` },
     ],
     useCases: [
-      { title: 'Marketing content calendars', text: `Plan blog, social, and email cadence together in one month view.` },
-      { title: 'Editorial planning tools', text: `Pair with a [schedule table](/ui-snippets/schedule-table/) list view for the same underlying data.` },
-      { title: 'Social media schedulers', text: `Show a lightweight monthly overview above a per-post editor.` },
-      { title: 'Campaign timeline dashboards', text: `Combine with a [gantt table](/ui-snippets/gantt-table/) for longer campaign arcs alongside daily posts.` },
-      { title: 'Team publishing overviews', text: `Give a whole team visibility into what's going out and when.` },
-      { title: 'Date-selection interfaces', text: `Adapt the day-click pattern from a [calendar widget](/ui-snippets/calendar-widget/) for content-specific detail.` },
+      { title: 'Marketing content planning', text: 'Plan blog, social and email sends on one month grid, with each content type keeping a consistent colour across chips, dots and the detail panel.' },
+      { title: 'Editorial schedule overviews', text: 'Pair with a [schedule table](/ui-snippets/schedule-table/) so editors can see the month visually and then work through the same items in a sortable list.' },
+      { title: 'Campaign timeline dashboards', text: 'Combine with a [gantt table](/ui-snippets/gantt-table/) to show launch dates in context, while busy days display an honest +N more label.' },
+      { title: 'Social media schedulers', text: 'Give a lightweight monthly overview of queued posts, with the click-through panel revealing every post on a day, not only the two that fit.' },
+      { title: 'Day-selection interfaces', text: 'Adapt the day-click pattern from the [calendar widget](/ui-snippets/calendar-widget/), where grid padding and day count derive from just two numbers.' },
       { icon: 'CODE', title: 'Related: Deployment Pipeline Stage Tracker', desc: 'See the [Deployment Pipeline Stage Tracker](/ui-snippets/deployment-pipeline-stage-tracker/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -128,12 +128,11 @@ Swap \`DATA\` for your live campaign totals, add avatar photos in place of the i
       { title: 'Data-driven rendering', text: `Edit one array to reflect any campaign's real fundraisers.` },
     ],
     useCases: [
-      { title: 'Peer-to-peer fundraising campaigns', text: `Show top individual fundraisers in a walkathon or giving-day event.` },
-      { title: 'Team-based fundraising drives', text: `Swap individuals for teams competing toward a shared cause.` },
-      { title: 'Sales and referral contests', text: `Reuse the exact pattern for any ranked, amount-driven competition.` },
-      { title: 'Alumni and school giving pages', text: `Pair with a [donation thermometer](/ui-snippets/donation-thermometer/) showing overall campaign progress.` },
-      { title: 'Community challenge dashboards', text: `Combine with a [live visitor counter](/ui-snippets/live-visitor-counter/) for a live event screen.` },
-      { title: 'Learning ranked-list patterns', text: `A reference for relative (not absolute) progress bars — compare with [leaderboard table](/ui-snippets/leaderboard-table/).` },
+      { title: 'Peer-to-peer fundraising', text: 'Rank top individual fundraisers, with each row\'s bar scaled to the leader so people see how close they are to first place, not just their order.' },
+      { title: 'Team fundraising drives', text: 'Swap individuals for teams in the same ranked layout, with `data-rank` attribute selectors giving the top three gold, silver and bronze treatment.' },
+      { title: 'Sales and referral contests', text: 'Run an internal contest board, with one sort by amount deriving every row\'s rank so no number is ever hand-edited.' },
+      { title: 'School and alumni giving pages', text: 'Pair with a [donation thermometer](/ui-snippets/donation-thermometer/) to show the overall campaign total beside the individual leaders on a school or alumni giving page.' },
+      { title: 'Community challenge dashboards', text: 'Combine with a [live visitor counter](/ui-snippets/live-visitor-counter/) for a lively event page, and see the [leaderboard table](/ui-snippets/leaderboard-table/) for sortable columns.' },
       { icon: 'CODE', title: 'Related: Consistent Hashing Visualizer', desc: 'See the [Consistent Hashing Visualizer](/ui-snippets/consistent-hashing-visualizer/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

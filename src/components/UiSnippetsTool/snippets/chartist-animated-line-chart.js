@@ -148,10 +148,11 @@ The point animation's \`begin: 1200 + data.index * 60\` deliberately starts afte
       { title: 'No canvas, pure SVG', text: 'Everything rendered and animated is real, inspectable SVG markup.' },
     ],
     useCases: [
-      { icon: 'CHART', title: 'Analytics dashboards', text: 'A metric trend line that draws itself in when a dashboard panel first loads.' },
-      { icon: 'APP', title: 'Report and export pages', text: 'Give a printed-feeling report page a moment of motion on first render.' },
-      { icon: 'LEARN', title: 'Teaching SVG animation techniques', text: 'A real-world example of the stroke-dasharray line-draw trick wired through a charting library.' },
-      { icon: 'DESIGN', title: 'Landing page stat sections', text: 'A trend chart that animates in as a scroll-triggered hero stat.' },
+      { title: 'Analytics trend lines', text: 'Draw a metric\'s trend in as the dashboard loads, using Chartist\'s per-element `draw` event and real SVG path animation instead of a plain fade.' },
+      { title: 'Report and summary pages', text: 'Give a report page a polished first impression, with the line drawing itself in like a pen stroke as it appears.' },
+      { title: 'Teaching SVG line animation', text: 'See how dash values are computed from the actual path length with `getTotalLength()` and applied through Chartist\'s `.animate()` method.' },
+      { title: 'Landing page stat sections', text: 'Animate a growth trend into view beside a headline number, where the drawing motion pulls the eye along the climb.' },
+      { title: 'Chartist draw-event reference', text: 'Study how the `draw` event fires for every grid line, label, point and path, and how checking the element type selects the one to animate.' },
     ],
     faqs: [
       { q: 'How does the draw event differ from a normal chart "loaded" callback?', a: 'draw fires once per individual SVG element as Chartist constructs the chart — separately for each grid line, label, point, and the line path — rather than once for the whole finished chart. data.type tells you which kind of element you\'re looking at in each call.' },

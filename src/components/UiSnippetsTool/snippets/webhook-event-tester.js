@@ -183,12 +183,11 @@ Wire the send button to an actual \`fetch\` call against the developer's configu
       { title: 'No dependencies', text: `Pure HTML, CSS, and vanilla JavaScript.` },
     ],
     useCases: [
-      { title: 'API developer dashboards', text: `Let developers test integrations next to a [rate limit status panel](/ui-snippets/rate-limit-status-panel/).` },
-      { title: 'Webhook management consoles', text: `Verify endpoint configuration before going live.` },
-      { title: 'Platform onboarding flows', text: `Help new developers confirm their webhook receiver works.` },
-      { title: 'Internal QA tooling', text: `Trigger representative test events during integration testing.` },
-      { title: 'API key and credentials pages', text: `Pair with an [API key manager](/ui-snippets/api-key-manager/) for a complete developer console.` },
-      { title: 'Support and debugging tools', text: `Reproduce a specific event type to help diagnose a customer's issue.` },
+      { title: 'Developer portal test consoles', text: 'Let developers pick an event type, preview the exact JSON payload that will be sent, then fire a test without waiting for a real event.' },
+      { title: 'Webhook endpoint verification', text: 'Confirm that an endpoint accepts a signed payload, reading the colour-coded 2xx, 4xx and 5xx status pills in a most-recent-first request log.' },
+      { title: 'API platform onboarding', text: 'Help new integrators reach a successful first delivery quickly, alongside a [rate limit status panel](/ui-snippets/rate-limit-status-panel/) showing how many test calls remain.' },
+      { title: 'Credentials and settings pages', text: 'Place beside an [API key manager](/ui-snippets/api-key-manager/) so developers can create a key and verify the webhook on the same settings page.' },
+      { title: 'Support reproduction tools', text: 'Reproduce a specific event type when debugging a customer issue, with `JSON.stringify` indentation keeping each payload easy to read and copy.' },
     ],
     faqs: [
       { q: 'How does the payload preview stay in sync with the selected event?', a: `The select element's change event calls updatePreview(), which looks up the chosen event name in the PAYLOADS object and re-renders it with JSON.stringify(payload, null, 2). There's no separate state to keep synchronized — the preview is always a direct read of the currently selected value.` },

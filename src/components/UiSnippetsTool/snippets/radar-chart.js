@@ -328,12 +328,12 @@ SVG is ideal for a radar chart because each element — polygon, line, circle, l
       'Resolution independent: crisp vector rendering at any size or zoom',
     ],
     useCases: [
-      { icon: 'CHART', title: 'Stats comparison', desc: 'Compare player, product or candidate attributes across several metrics in a dashboard with [tables](/ui-snippets/virtual-scroll/).' },
-      { icon: 'DASH', title: 'Skill and competency maps', desc: 'Visualize team or individual skill profiles for reviews and reporting.' },
-      { icon: 'DATA', title: 'Survey and scoring results', desc: 'Plot multi-criteria survey averages or evaluation rubrics as an at-a-glance shape.' },
-      { icon: 'FORM', title: 'Interactive rating input', desc: 'Use draggable vertices as a multi-axis input control for self-assessment forms.' },
-      { icon: 'LEARN', title: 'Teaching trigonometry', desc: 'Demonstrate polar coordinates and SVG geometry next to a [color wheel picker](/ui-snippets/color-wheel-picker/).' },
-      { icon: 'GAME', title: 'RPG character sheets', desc: 'Show strength, agility, intelligence and more as an editable spider chart.' },
+      { icon: 'CHART', title: 'Player and product stat comparison', desc: 'Compare player, product or candidate attributes on one web, with two translucent dataset overlays on the same grid so strengths and gaps show at a glance.' },
+      { icon: 'PEOPLE', title: 'Skills and competency maps', desc: 'Visualise team or individual skills across a role profile, with a concentric polygon ring grid that mirrors the shape of the data.' },
+      { icon: 'SURVEY', title: 'Survey and scoring results', desc: 'Plot multi-criteria survey averages on evenly spaced axes, with the first axis at the top and N axes at 360/N degrees.' },
+      { icon: 'FORM', title: 'Interactive rating input', desc: 'Use the draggable vertices as a multi-dimensional rating control, where moving a point changes that axis value and the filled area follows.' },
+      { icon: 'LEARN', title: 'Teaching polar trigonometry', desc: 'Demonstrate polar-to-Cartesian conversion with x = cx + r·sin(angle) and y = cy − r·cos(angle), then edit the maths and watch the polygon change.' },
+      { icon: 'GAME', title: 'RPG character sheets', desc: 'Show strength, agility, intelligence and other attributes as a character profile, with the animated fill revealing its shape on load.' },
       { icon: 'CODE', title: 'Related: Step Line Chart', desc: 'See the [Step Line Chart](/ui-snippets/step-line-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

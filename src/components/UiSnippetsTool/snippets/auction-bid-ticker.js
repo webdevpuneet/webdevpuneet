@@ -192,12 +192,11 @@ Every accepted bid — yours or simulated — dispatches a custom \`auction:bid\
       { title: 'Scrollable capped log', text: `Full bid history stays reviewable.` },
     ],
     useCases: [
-      { title: 'Live auction platforms', text: `Pair with [Auction Countdown with Anti-Sniping](/ui-snippets/auction-countdown-timer/).` },
-      { title: 'Charity/fundraiser bidding', text: `Enforce fair-raise rules on donations.` },
-      { title: 'Sneaker/collectible drops', text: `Bid-based allocation instead of first-come-first-served.` },
-      { title: 'Estate sale platforms', text: `Item-by-item competitive bidding UI.` },
-      { title: 'B2B reverse auctions', text: `Adapt the increment rule for descending bids.` },
-      { title: 'Sports memorabilia sites', text: `A prominent current-price ticker for fans.` },
+      { title: 'Live auction platforms', text: 'Pair the bid list with an [auction countdown timer](/ui-snippets/auction-countdown-timer/) to build a complete auction page, with the current highest bid always read live from the sorted list.' },
+      { title: 'Charity and fundraiser bidding', text: 'Enforce fair raises on donated items: bids below the current amount plus the increment are rejected, and the input starts at the exact valid next amount.' },
+      { title: 'Sneaker and collectible drops', text: 'Allocate limited items by bid rather than first-come-first-served, with a disabled submit button guarding against invalid or accidental bids.' },
+      { title: 'Estate sale platforms', text: 'Run item-by-item competitive bidding with a running history, so every participant sees the same prominent highest figure.' },
+      { title: 'B2B reverse auctions', text: 'Adapt the increment rule for descending bids, where suppliers undercut each other, by flipping the comparison in the validation function.' },
       { icon: 'CODE', title: 'Related: Insurance Claim Status Tracker', desc: 'See the [Insurance Claim Status Tracker](/ui-snippets/claim-status-tracker/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

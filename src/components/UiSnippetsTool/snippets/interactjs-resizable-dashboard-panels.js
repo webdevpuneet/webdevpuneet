@@ -150,10 +150,11 @@ There is one trap in resizing that this snippet handles. Pulling the left or top
       'Live readout of position and size',
     ],
     useCases: [
-      { icon: 'DASH', title: 'Customisable dashboards', desc: `Let users arrange widgets freely. For a list-based approach see the [SortableJS locked-row list](/ui-snippets/sortablejs-handle-filtered-locked-rows/).` },
-      { icon: 'DESIGN', title: 'Design and diagram tools', desc: `Place and size elements on a canvas with grid alignment.` },
-      { icon: 'ADMIN', title: 'Floating tool windows', desc: `Build movable, resizable inspector and chat panels.` },
-      { icon: 'LEARN', title: 'Learning modifiers', desc: `See how snap, restrict and size modifiers compose in a defined order.` },
+      { icon: '🧩', title: 'User-arranged dashboards', desc: 'Let people drag panels by their headers and pull any edge or corner to resize, so each person builds the layout that suits their work.' },
+      { icon: '📐', title: 'Diagram and design canvases', desc: 'Place and size elements on a bounded board, with `restrictRect` and `restrictEdges` keeping everything inside and grid snapping lining neighbours up.' },
+      { icon: '🪟', title: 'Floating inspector windows', desc: 'Build movable tool windows that bring the touched panel to the front, using transform-based positioning for smooth movement without layout thrash.' },
+      { icon: '🔒', title: 'Locked and handle-only rows', desc: 'Compare with [handle-filtered sortable rows](/ui-snippets/sortablejs-handle-filtered-locked-rows/) when only a list order, not free positioning, needs to be controlled.' },
+      { icon: '🎓', title: 'Interact.js modifier reference', desc: 'See how snap, restrict and size modifiers cooperate, with raw positions rounded for drags and the `snapSize` modifier handling resizes.' },
     ],
     faqs: [
       { q: 'Why use transform instead of left and top?', a: 'Changing left and top triggers layout on every pointer event. A transform is composited and stays smooth.' },

@@ -146,10 +146,11 @@ If \`loadNotes()\` returns \`null\` (first visit, nothing saved yet), the app se
       'Responsive auto-fill grid that adapts note card count to available width',
     ],
     useCases: [
-      { icon: 'APP', title: 'Personal note-taking widgets', desc: 'A lightweight notes board for dashboards, browser extensions, or personal tools.' },
-      { icon: 'CODE', title: 'Reference for localStorage JSON persistence', desc: 'Shows the getItem/setItem plus JSON.stringify/parse pattern with defensive error handling.' },
-      { icon: 'LEARN', title: 'Teaching client-side persistence', desc: 'A clear example of pre-seeding default data only when storage is empty.' },
-      { icon: 'DESIGN', title: 'Idea boards and brainstorming tools', desc: 'Quick capture of scattered thoughts that persist without any backend.' },
+      { icon: '📝', title: 'Personal note widgets', desc: 'Add a lightweight notes board to a dashboard, where every note is saved to localStorage as JSON and survives a page reload.' },
+      { icon: '💡', title: 'Idea capture boards', desc: 'Collect scattered thoughts quickly using a textarea and an Add note button, with each card keeping a random pastel colour fixed at creation.' },
+      { icon: '🛡️', title: 'Safe localStorage patterns', desc: 'Read stored notes inside `try/catch` so a blocked or corrupted store never breaks the page, falling back to the seeded examples.' },
+      { icon: '🌱', title: 'First-visit seeding', desc: 'Pre-seed example notes on a visitor\'s first load so the grid never looks empty, then replace them as real notes are added.' },
+      { icon: '🎓', title: 'Client persistence teaching', desc: 'Show the complete get, parse, modify and set cycle behind browser persistence, using `saveNotes()` after every change.' },
     ],
     faqs: [
       { q: 'Where are the notes actually stored?', a: 'Entirely in the browser via localStorage.setItem(\'notes\', JSON.stringify(notes)) — there is no server or database. Notes persist across page reloads on the same browser and device but are not synced anywhere else.' },

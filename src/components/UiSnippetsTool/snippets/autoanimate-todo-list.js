@@ -147,12 +147,11 @@ Anything you'd build with plain DOM mutation — a Kanban column, a leaderboard 
       { title: 'Accessible checkbox-driven state', text: 'Completion is a real checkbox input, keeping the list usable without JavaScript-only interaction.' },
     ],
     useCases: [
-      { icon: 'CODE', title: 'Todo/task lists', text: 'The exact pattern this snippet demonstrates — add, complete, delete, all animated for free.' },
-      { icon: 'APP', title: 'Kanban boards', text: 'Cards moving between columns are DOM moves autoAnimate animates the same way.' },
-      { icon: 'FORM', title: 'Filterable/sortable lists', text: 'Any list whose item order changes based on user input benefits without extra code.' },
-      { title: 'Notification trays', text: 'New notifications sliding in and dismissed ones sliding out, from one setup call.' },
-      { title: 'Leaderboards', text: 'Rows animate to their new rank position as scores update.' },
-      { title: 'Learning the FLIP technique', text: 'A concrete, minimal reference implementation of First-Last-Invert-Play in production use.' },
+      { title: 'Task lists with animated changes', text: 'Add, complete and delete items with one `autoAnimate(list)` call, with no explicit animation code around each mutation.' },
+      { title: 'Kanban cards moving columns', text: 'Animate cards when they move between lists, because a DOM move is just another mutation the MutationObserver notices.' },
+      { title: 'Filtered and sorted lists', text: 'Let rows glide to their new positions when the order changes, using measured before and after bounding boxes in the FLIP technique.' },
+      { title: 'Notification trays', text: 'Slide new alerts in and dismissed ones out without wiring individual transitions, so future code changes animate automatically.' },
+      { title: 'Learning FLIP in practice', text: 'Use it as a minimal reference for first-last-invert-play, where the library does the measuring so you only change the DOM.' },
     ],
     faqs: [
       { q: 'What does FLIP stand for and what does each step do?', a: 'First, Last, Invert, Play. First and Last record an element\'s bounding box before and after a DOM mutation. Invert applies a CSS transform that makes the element instantly LOOK like it\'s still in its old position even though it has actually moved. Play removes that transform with a CSS transition, so the element visibly animates from the old apparent position to its real new one.' },

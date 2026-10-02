@@ -141,11 +141,11 @@ Add a fifth column by giving it the same \`group: 'board'\` value and it joins t
       { title: 'Extensible pull/put rules', text: 'group can be an object to restrict specific columns to drop-only or drag-only.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'Kanban project boards', text: 'The canonical sprint/task board pattern, same shape as Trello or Jira boards.' },
-      { icon: 'FLOW', title: 'Pipeline and funnel views', text: 'Move leads or applicants between stages by dragging their card.' },
-      { icon: 'DESIGN', title: 'Content editorial calendars', text: 'Drag posts between Draft, In Review, Scheduled, and Published columns.' },
-      { icon: 'FORM', title: 'Triage and support queues', text: 'Move tickets between New, Assigned, and Resolved without a dropdown.' },
-      { icon: 'LEARN', title: 'Teaching cross-list drag', text: 'A minimal reference for how the group option links independent Sortable instances.' },
+      { title: 'Sprint planning boards', text: 'Run a four-column board where one shared group string links every Sortable, so cards move freely between columns with header counts updating after each drop.' },
+      { title: 'Lead and applicant funnels', text: 'Move leads or candidates between stages, where `onAdd`, `onRemove` and `onEnd` together catch every kind of drop and keep the badges accurate.' },
+      { title: 'Editorial content pipelines', text: 'Drag posts between Draft, In review, Scheduled and Published, with true DOM node movement so data and listeners survive each drop.' },
+      { title: 'Support triage queues', text: 'Move tickets between New, Assigned and Resolved, recomputing per-column counts from the DOM so the numbers can never disagree with what is on screen.' },
+      { title: 'Cross-list drag reference', text: 'Study how separate Sortable instances stay unaware of each other until a shared `group` name connects them, the root of most kanban confusion.' },
     ],
     faqs: [
       { q: 'How does a card know it\'s allowed to move into a different column?', a: 'Every Sortable instance is constructed with group: \'board\'. On drag-over, SortableJS checks whether the instance under the pointer shares that group name with the instance the drag started in — if the strings match, the drop is accepted. No manual list-to-list wiring is needed beyond giving them the same group value.' },

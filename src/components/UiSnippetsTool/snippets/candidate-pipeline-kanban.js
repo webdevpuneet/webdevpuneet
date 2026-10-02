@@ -187,12 +187,11 @@ Wire the drop handler to persist the new stage to your backend, add a confirmati
       { title: 'Zero dependencies', text: `Native browser APIs only.` },
     ],
     useCases: [
-      { title: 'Recruiting dashboards', text: `Pair with a [job listing card](/ui-snippets/job-listing-card/) for postings.` },
-      { title: 'ATS internal tools', text: `Model stages as columns exactly like this.` },
-      { title: 'General task boards', text: `See the broader [kanban board](/ui-snippets/kanban-board/) pattern.` },
-      { title: 'Sales pipelines', text: `Swap candidates for deals across stages.` },
-      { title: 'Onboarding trackers', text: `Combine with [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/).` },
-      { title: 'Event RSVP triage', text: `Sort attendees through review stages.` },
+      { title: 'Recruiting dashboards', text: 'Pair with a [job listing card](/ui-snippets/job-listing-card/) to build a recruiter home screen, with candidates dragged between Applied, Screening, Interview and Offer.' },
+      { title: 'ATS internal tools', text: 'Model hiring stages as columns exactly like a real applicant tracking system, using native HTML5 drag and drop with no library.' },
+      { title: 'General task boards', text: 'See the broader [kanban board](/ui-snippets/kanban-board/) pattern, and reuse this one\'s `getDragAfterElement` for position-aware reordering inside a column.' },
+      { title: 'Sales pipelines', text: 'Swap candidates for deals across stages. The dragged card fades and the target column outlines, giving clear drag feedback.' },
+      { title: 'Onboarding and RSVP triage', text: 'Move new hires or event attendees through review stages, and combine with an [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/) for the next step.' },
       { icon: 'CODE', title: 'Related: Content Calendar Grid', desc: 'See the [Content Calendar Grid](/ui-snippets/content-calendar-grid/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -224,12 +224,11 @@ Wire the correct/incorrect counting to your real quiz-submission data, add per-q
       { title: 'Zero dependencies', text: `Pure HTML, CSS, and JS.` },
     ],
     useCases: [
-      { title: 'Course quizzes', text: `Follow a [quiz card](/ui-snippets/quiz-card/) flow with this results screen.` },
-      { title: 'Certification exams', text: `Show pass/fail against a strict threshold.` },
-      { title: 'Onboarding knowledge checks', text: `Pair with [onboarding tour](/ui-snippets/onboarding-tour/).` },
-      { title: 'Hiring assessments', text: `Summarize a candidate's screening quiz.` },
-      { title: 'Compliance training', text: `Confirm required scores were met.` },
-      { title: 'Trivia and games', text: `Reuse the ring for a session recap screen.` },
+      { title: 'Course quizzes', text: 'Follow a [quiz card](/ui-snippets/quiz-card/) flow with this results screen, whose score is computed from `data-correct` attributes, not hardcoded.' },
+      { title: 'Certification exams', text: 'Show pass or fail against a strict threshold, with the banner and ring colour switching automatically at the pass mark.' },
+      { title: 'Onboarding knowledge checks', text: 'Pair with an [onboarding tour](/ui-snippets/onboarding-tour/) to confirm that new users understood the product before they continue.' },
+      { title: 'Hiring assessments', text: 'Summarise a candidate\'s screening quiz with per-question review, expanding each wrong answer to show what went wrong.' },
+      { title: 'Trivia and game recaps', text: 'Reuse the animated score ring for a session recap screen at the end of a game or challenge.' },
       { icon: 'CODE', title: 'Related: Video Call Hand-Raise Queue', desc: 'See the [Video Call Hand-Raise Queue](/ui-snippets/video-call-hand-raise-queue/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

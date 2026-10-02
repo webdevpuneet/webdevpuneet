@@ -140,12 +140,11 @@ Swap dollar amounts for any unit (steps, subscribers, pages read), change the ri
       { title: 'Zero dependencies', text: `Plain SVG and DOM, no chart library.` },
     ],
     useCases: [
-      { title: 'Fundraising pages', text: `Show live progress toward a campaign target.` },
-      { title: 'Sales dashboards', text: `Track quota attainment toward a revenue goal.` },
-      { title: 'Fitness apps', text: `Pair with [activity rings](/ui-snippets/activity-rings/) for daily targets.` },
-      { title: 'Crowdfunding platforms', text: `Display backer totals against a funding goal.` },
-      { title: 'Learning platforms', text: `Show course-completion progress toward 100%.` },
-      { title: 'Subscription growth', text: `Track subscriber count toward a milestone.` },
+      { title: 'Fundraising pages', text: 'Show live progress toward a campaign target, with editable current and goal amounts that update the ring as you type.' },
+      { title: 'Sales quota dashboards', text: 'Track attainment toward a revenue goal, with the ratio capped at 100% so the ring never over-fills.' },
+      { title: 'Fitness targets', text: 'Pair with [activity rings](/ui-snippets/activity-rings/) for daily targets, using a celebratory colour and badge change when the goal is reached.' },
+      { title: 'Crowdfunding platforms', text: 'Display backer totals against a funding goal, where the ring communicates progress before anyone reads a number.' },
+      { title: 'Subscriber and course milestones', text: 'Track subscriber counts toward a milestone or course completion toward a certificate, using real circle geometry for a smooth `stroke-dashoffset` fill.' },
       { icon: 'CODE', title: 'Related: Job Queue Depth Monitor — Live Backlog Trend with Threshold Alerts', desc: 'See the [Job Queue Depth Monitor — Live Backlog Trend with Threshold Alerts](/ui-snippets/job-queue-depth-monitor/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

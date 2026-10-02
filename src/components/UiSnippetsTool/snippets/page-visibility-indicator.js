@@ -176,12 +176,11 @@ The Page Visibility API has been standard for well over a decade, so unsupported
       { title: 'Zero dependencies', text: `Plain DOM APIs only.` },
     ],
     useCases: [
-      { title: 'Video/audio players', text: `Pause playback when the tab is hidden.` },
-      { title: 'Live dashboards', text: `Pause polling; pair with [uptime status page](/ui-snippets/uptime-status-page/).` },
-      { title: 'Analytics accuracy', text: `Track true time-on-page, excluding background time.` },
-      { title: 'Games', text: `Pause the update loop when backgrounded.` },
-      { title: 'Battery-conscious apps', text: `Reduce timers/animations while hidden.` },
-      { title: 'Presence indicators', text: `Combine with [live visitor counter](/ui-snippets/live-visitor-counter/).` },
+      { title: 'Video and audio players', text: 'Pause playback when the tab is hidden, using the browser\'s real `visibilitychange` event and `document.visibilityState` instead of guessing.' },
+      { title: 'Live dashboards', text: 'Pause polling while nobody is looking, and pair with an [uptime status page](/ui-snippets/uptime-status-page/) that resumes the moment the tab returns.' },
+      { title: 'Accurate time-on-page analytics', text: 'Track true engaged time on article and docs pages by excluding background tabs, using simple `Date.now()` deltas between visibility changes rather than rough polling estimates.' },
+      { title: 'Games and animations', text: 'Pause the update loop when the tab is backgrounded to save battery and avoid a huge time step when the player comes back.' },
+      { title: 'Presence indicators', text: 'Combine with a [live visitor counter](/ui-snippets/live-visitor-counter/) so presence counts reflect who is actually viewing, not who merely has a tab open.' },
       { icon: 'CODE', title: 'Related: Unit Converter', desc: 'See the [Unit Converter](/ui-snippets/unit-converter/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

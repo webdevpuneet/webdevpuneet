@@ -162,10 +162,11 @@ SortableJS fires \`onSort\` on the list the drop landed in whenever its child or
       { title: 'Responsive 3-to-1 column layout', text: 'The board collapses to a single stacked column on narrow viewports.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'Kanban and project boards', text: 'A Trello-style task board for internal tools or a product\'s own project management feature.' },
-      { icon: 'FLOW', title: 'Pipeline and status tracking', text: 'Move leads, tickets, or applications between stages with a drag instead of a dropdown.' },
-      { icon: 'LEARN', title: 'Teaching the group option', text: 'A focused example of the one option that turns isolated lists into a connected drag surface.' },
-      { icon: 'DESIGN', title: 'Admin dashboard widgets', text: 'A reorderable, categorized card layout for an internal admin panel.' },
+      { title: 'Trello-style task boards', text: 'Build a three-column board in which one shared group string lets cards drag within and between columns, with 150 ms animated reflow.' },
+      { title: 'Pipeline and ticket tracking', text: 'Move leads, tickets or applicants through stages, with each column as its own independent `Sortable()` instance.' },
+      { title: 'Styled drag states', text: 'Style the card being held, the placeholder left behind and the clone under the pointer separately using `ghostClass`, `chosenClass` and `dragClass`.' },
+      { title: 'Group option teaching', text: 'Show that a single option is the whole mechanism for cross-list dragging, with the default single-list behaviour needing no configuration at all.' },
+      { title: 'Admin dashboard widget lists', text: 'Offer a reorderable, categorised card list for an internal tool, where neighbouring cards slide smoothly out of the way as a drag lands.' },
     ],
     faqs: [
       { q: 'What does the group option actually do?', a: 'It tells SortableJS which lists are allowed to exchange dragged items with each other. Every list configured with the same group value becomes a valid drop target for cards dragged from any other list sharing that value; lists with a different or missing group refuse those drops.' },

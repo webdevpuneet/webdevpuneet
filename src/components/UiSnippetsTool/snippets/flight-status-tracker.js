@@ -179,12 +179,11 @@ Add a baggage claim field, wire in real flight data from an aviation API, or swa
       { title: 'Accessible toggle buttons', text: `aria-pressed marks the active status button.` },
     ],
     useCases: [
-      { title: 'Trip dashboards', text: `Show live status beside a [boarding pass](/ui-snippets/boarding-pass/).` },
-      { title: 'Airline apps', text: `Pair with a [seat picker](/ui-snippets/seat-picker/) after check-in.` },
-      { title: 'Booking flows', text: `Follow a [flight search form](/ui-snippets/flight-search-form/) result.` },
-      { title: 'Airport kiosks', text: `Display gate and status changes at a glance.` },
-      { title: 'Email confirmations', text: `Embed a status snapshot in trip emails.` },
-      { title: 'Travel agent tools', text: `Monitor multiple client flights in one view.` },
+      { title: 'Trip dashboards', text: 'Show live flight status beside a [boarding pass](/ui-snippets/boarding-pass/) on a trip dashboard, with one `data-status` attribute driving every colour change in the card.' },
+      { title: 'Airline apps', text: 'Pair with a [seat picker](/ui-snippets/seat-picker/) after check-in, so passengers see their seat and the flight\'s health together.' },
+      { title: 'Booking flows', text: 'Follow a [flight search form](/ui-snippets/flight-search-form/) result with a status snapshot once a flight is chosen, so travellers see how reliable it is.' },
+      { title: 'Airport displays', text: 'Show gate and status changes at a glance, with the status pill recolouring for On Time, Delayed, Boarding and Departed.' },
+      { title: 'Travel agent monitoring', text: 'Monitor several client flights in one view, using struck-through scheduled times beside bold actual times to highlight delays.' },
       { icon: 'CODE', title: 'Related: Idle Detection Badge', desc: 'See the [Idle Detection Badge](/ui-snippets/idle-detection-badge/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

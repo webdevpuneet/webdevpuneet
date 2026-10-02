@@ -162,12 +162,11 @@ Replace \`SEGMENTS\` with the stage-change events exported by a wearable's API o
       { title: 'Framework-agnostic markup', text: `Plain SVG/CSS/JS ports cleanly to React, Vue, or Angular chart components.` },
     ],
     useCases: [
-      { title: 'Sleep tracking apps', text: `Summarize a night's stages at the top of a sleep report screen.` },
-      { title: 'Wearable companion dashboards', text: `Visualize HealthKit, Fitbit, or Oura sleep-stage exports without a charting dependency.` },
-      { title: 'Health and wellness dashboards', text: `Pair with a [water intake tracker](/ui-snippets/water-intake-tracker/) and a [workout interval timer](/ui-snippets/workout-interval-timer/) for a full daily health view.` },
-      { title: 'Weekly sleep trend reports', text: `Stack several of these bars, one per night, to show a week's sleep pattern.` },
-      { title: 'Clinical or research sleep review', text: `Present hypnogram-style stage data to patients in an approachable, color-coded format.` },
-      { title: 'Learning proportional SVG charts', text: `A clear reference for building stacked timeline charts without a library.` },
+      { title: 'Sleep tracking apps', text: 'Summarise a night\'s stages as one horizontal bar at the top of the screen, readable at a glance without reading any numbers.' },
+      { title: 'Wearable companion dashboards', text: 'Visualise data from HealthKit, Fitbit-style or Garmin sources using chronological `{ stage, minutes }` segments as the data model.' },
+      { title: 'Health and wellness dashboards', text: 'Pair with a [water intake tracker](/ui-snippets/water-intake-tracker/) to give a daily health overview with sleep and hydration together.' },
+      { title: 'Weekly sleep trend reports', text: 'Stack several nightly bars to compare rhythm across a week, with the per-stage summary stats showing totals for each stage.' },
+      { title: 'Clinical and research review', text: 'Present hypnogram-style summaries to clinicians, using the conventional colours for Awake, REM, Light and Deep so each stage is instantly recognisable.' },
     ],
     faqs: [
       { q: 'Why model sleep as segments instead of one value per hour?', a: `Real sleep doesn't move through stages on a clean hourly schedule — a person cycles between light, deep, and REM sleep every 10 to 50 minutes or so throughout the night, with brief awakenings scattered in between. An ordered array of { stage, minutes } segments captures that irregular rhythm accurately, whereas an hourly bucket would flatten and misrepresent short stage changes.` },

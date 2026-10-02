@@ -123,12 +123,11 @@ Swap the category filter for any other event attribute — priority, assignee, l
       { title: 'Single active-filter chip state', text: `Simple, clear toggle logic for one filter dimension.` },
     ],
     useCases: [
-      { title: 'Personal or team agenda dashboards', text: `A scannable upcoming-events feed with quick category filters.` },
-      { title: 'Event and conference schedules', text: `Filter a program by track or session type.` },
-      { title: 'Deadline and task tracking views', text: `Pair with the [month view modal](/ui-snippets/fullcalendar-month-event-modal/) elsewhere in this collection for a detail-on-click companion.` },
-      { title: 'Notification and reminder feeds', text: `Category-filtered upcoming-item lists.` },
-      { title: 'Community or club event boards', text: `Let visitors filter to just the event types they care about.` },
-      { title: 'Learning FullCalendar list view', text: `A clear reference for filtering a grouped list correctly.` },
+      { title: 'Personal agenda feeds', text: 'Present upcoming events as a scannable list grouped by day automatically, with no manual code writing day headers.' },
+      { title: 'Conference programme filtering', text: 'Let attendees filter a schedule by track using category chips that swap the whole event source, so day grouping always recomputes correctly.' },
+      { title: 'Deadline and task lists', text: 'Pair with the [month view event modal](/ui-snippets/fullcalendar-month-event-modal/) so people can switch between a calendar overview and a focused, filterable list.' },
+      { title: 'Reminder and notification feeds', text: 'Show category-filtered upcoming items, with a clean `noEventsContent` empty state appearing whenever a filter matches nothing at all.' },
+      { title: 'Club and community boards', text: 'Let visitors narrow events to the one category they care about, since filter data lives in `extendedProps` right beside each event.' },
     ],
     faqs: [
       { q: 'Why does filtering replace the whole event source instead of hiding non-matching rows?', a: `The list view automatically groups events under a day-header row for each date that has at least one event. If a filter hid individual event rows with CSS but left the underlying event data in place, a day whose only events got filtered out would still show its now-empty day header. Removing all events and adding back only the filtered set lets FullCalendar recompute the day grouping from scratch, so headers for days with zero matching events correctly disappear too.` },

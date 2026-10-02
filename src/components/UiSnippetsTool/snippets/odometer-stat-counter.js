@@ -125,12 +125,11 @@ Change \`Odometer.options.duration\` for a faster or slower roll, swap the theme
       { title: 'One observer, four odometers', text: `A single scroll trigger drives every tile together.` },
     ],
     useCases: [
-      { title: 'Admin dashboards', text: `Pair with [Dashboard Widget Grid](/ui-snippets/dashboard-widget-grid/) panels.` },
-      { title: 'SaaS metrics pages', text: `Roll in usage stats alongside a [Stats Card](/ui-snippets/stats-card/) layout.` },
-      { title: 'Investor / pitch decks (web)', text: `Give key figures a memorable mechanical roll-in.` },
-      { title: 'Marketing landing pages', text: `An alternative to [Count Up](/ui-snippets/count-up/) with a distinct visual style.` },
-      { title: 'Live event dashboards', text: `Roll updated ticket or attendee counts as data refreshes.` },
-      { title: 'Annual report pages', text: `Reveal yearly figures with a physical, tactile feel.` },
+      { title: 'Admin panel KPI counters', text: 'Pair with [dashboard widget grid](/ui-snippets/dashboard-widget-grid/) panels, rolling each digit on its own reel when the numbers update.' },
+      { title: 'SaaS metrics pages', text: 'Roll in usage stats alongside a [stats card](/ui-snippets/stats-card/), triggered once by an `IntersectionObserver` when the tiles scroll into view.' },
+      { title: 'Investor and pitch pages', text: 'Give key figures a memorable, mechanical entrance on a web pitch deck, and use the replay button to demo them on demand.' },
+      { title: 'Pitch deck headline figures', text: 'Offer a more physical alternative to [count up](/ui-snippets/count-up/), where each digit spins independently on its own vertical strip.' },
+      { title: 'Live event and annual report pages', text: 'Roll updated ticket or attendee counts during an event, or reveal yearly figures with `.update(value)`, which both sets and animates to the new number.' },
       { icon: 'CODE', title: 'Related: Restaurant Order Status Tracker', desc: 'See the [Restaurant Order Status Tracker](/ui-snippets/restaurant-order-status/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

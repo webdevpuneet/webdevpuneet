@@ -169,12 +169,11 @@ Swap \`GOAL\` and \`STEP\` for your campaign's real numbers, wire \`dtAdd\` to y
       { title: 'Simple config', text: `GOAL and STEP are the only numbers you need to change for a real campaign.` },
     ],
     useCases: [
-      { title: 'Nonprofit campaign pages', text: `The classic visual for a capital campaign or seasonal drive homepage.` },
-      { title: 'Crowdfunding trackers', text: `Show progress toward a stretch goal alongside a [donation amount picker](/ui-snippets/donation-amount-picker/).` },
-      { title: 'School and PTA fundraisers', text: `A familiar, low-effort way to communicate progress to parents.` },
-      { title: 'Telethons and giving days', text: `Pair with a [live visitor counter](/ui-snippets/live-visitor-counter/) for a real-time event dashboard.` },
-      { title: 'Internal team goals', text: `Repurpose the same fill mechanic for a sales or signup target.` },
-      { title: 'Learning gauge patterns', text: `A reference for milestone-aware fills — compare with [gradient progress](/ui-snippets/gradient-progress/) for a horizontal variant.` },
+      { title: 'Nonprofit campaign pages', text: 'Use the classic fundraising visual to show how close a capital campaign is to its goal, with milestone ticks highlighting at 25, 50, 75 and 100%.' },
+      { title: 'Crowdfunding trackers', text: 'Show progress toward stretch goals, with the stat row updating raised, goal and percent together from one number through a single `render()` function.' },
+      { title: 'School and PTA fundraisers', text: 'Offer a familiar, low-effort progress display, and place a [donation amount picker](/ui-snippets/donation-amount-picker/) next to it so visitors can give straight away.' },
+      { title: 'Giving days and telethons', text: 'Pair with a [live visitor counter](/ui-snippets/live-visitor-counter/) to show both momentum and audience while the campaign is running.' },
+      { title: 'Team goals and sales targets', text: 'Reuse the mercury-style fill for internal targets, or compare it with a simpler [gradient progress](/ui-snippets/gradient-progress/) bar.' },
       { icon: 'CODE', title: 'Related: Lollipop Chart', desc: 'See the [Lollipop Chart](/ui-snippets/lollipop-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

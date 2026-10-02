@@ -176,12 +176,11 @@ Waiting a real two minutes to see the mechanic fire isn't a great demo, so a "Si
       { title: 'Closes and locks', text: `No further extensions once the clock hits zero.` },
     ],
     useCases: [
-      { title: 'Live auction platforms', text: `Pair with [Live Auction Bid Ticker](/ui-snippets/auction-bid-ticker/).` },
-      { title: 'Charity/fundraiser bidding', text: `Prevent unfair last-second wins on donation items.` },
-      { title: 'Ticket/allocation drops', text: `Extend a claim window under a rush of late activity.` },
-      { title: 'Domain name auctions', text: `Standard anti-sniping expectation in that industry.` },
-      { title: 'Sports memorabilia sites', text: `Fair-close guarantee for high-value lots.` },
-      { title: 'Flash-sale countdowns', text: `Adapt the extension trigger to a "high demand" signal instead.` },
+      { title: 'Online auction platforms', text: 'Pair with the [live bid ticker](/ui-snippets/auction-bid-ticker/) so every new bid can extend the closing time, with the shared `auction:bid` event keeping both widgets in sync.' },
+      { title: 'Charity and fundraiser bidding', text: 'Prevent unfair last-second wins on donated items by extending the deadline whenever a bid lands inside the configured snipe window.' },
+      { title: 'Limited ticket and allocation drops', text: 'Extend a claim window while demand is still arriving, so a late rush is handled fairly instead of cutting off the people already mid-checkout.' },
+      { title: 'Domain name and memorabilia auctions', text: 'Meet the familiar anti-sniping expectation of bidders, where `closesAt` itself is pushed back and multiple late bids each extend the close further.' },
+      { title: 'Flash-sale countdowns', text: 'Adapt the extension trigger to a high-demand sale, changing `SNIPE_WINDOW_MS` and the extension length to suit how long buyers need to finish.' },
       { icon: 'CODE', title: 'Related: Insurance Claim Status Tracker', desc: 'See the [Insurance Claim Status Tracker](/ui-snippets/claim-status-tracker/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

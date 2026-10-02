@@ -229,12 +229,11 @@ This draggable-card-plus-dropzone-column pattern is the backbone of any cross-co
       { title: 'Responsive board', text: 'Three columns collapse to a single stacked column under 640px via one media query.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'Task and project boards', text: 'The canonical kanban interaction for to-do/in-progress/done style workflows.' },
-      { icon: 'FLOW', title: 'Pipeline and CRM stages', text: 'Sales or support pipelines where records move between stage columns by drag.' },
-      { icon: 'FORM', title: 'Content moderation queues', text: 'Drag items between review, approved, and rejected buckets.' },
-      { icon: 'LEARN', title: 'Teaching draggable + dropzone', text: 'A clear reference for how the two interact.js APIs communicate via shared events.' },
-      { icon: 'STAR', title: 'Playlist and collection sorting', text: 'Drag tracks or items between named groups or playlists.' },
-      { icon: 'CODE', title: 'Admin tooling prototypes', text: 'Fast scaffolding for internal tools needing drag-to-recategorize behavior.' },
+      { title: 'Task and project boards', text: 'Build the canonical three-column board where interact.js makes cards draggable and each column a dropzone that highlights while a valid card hovers over it.' },
+      { title: 'Sales and CRM pipelines', text: 'Move deals between stages, using `overlap: 0.4` so the target column is chosen reliably instead of flickering between adjacent columns.' },
+      { title: 'Content moderation queues', text: 'Drag items between review, approved and rejected lanes, with the real dragged element re-parented via `appendChild` so its state and listeners survive the drop.' },
+      { title: 'Draggable and dropzone teaching', text: 'Show how the two interact.js concerns cooperate, where ondragenter and ondragleave toggle a distinct highlight state on the hovered column.' },
+      { title: 'Internal tool prototypes', text: 'Scaffold admin screens quickly, since moving between columns needs no framework state and the board works with plain DOM.' },
     ],
     faqs: [
       { q: 'What is event.target inside a dropzone listener, versus inside a draggable listener?', a: 'Inside dropzone listeners (ondragenter, ondragleave, ondrop), event.target is the DROPZONE element -- here, the column\'s drop area. Inside draggable listeners (start, move, end), event.target is the DRAGGABLE element -- the card. This is the single most common point of confusion switching between the two APIs, and ondrop specifically also gives you event.relatedTarget for the card being dropped.' },

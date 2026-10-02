@@ -144,12 +144,11 @@ Swap \`GOAL\` and the starting \`count\` for your real numbers, replace the demo
       { title: 'Realistic demo seed', text: `Starts mid-campaign at 18,742 rather than zero, matching how petitions actually look.` },
     ],
     useCases: [
-      { title: 'Advocacy and petition platforms', text: `The core widget for any cause collecting public signatures.` },
-      { title: 'Local ballot and community initiatives', text: `Pair with a [donation thermometer](/ui-snippets/donation-thermometer/) for a combined support-and-fund page.` },
-      { title: 'Open letters and public statements', text: `Show growing support for a collective statement or pledge.` },
-      { title: 'Union and workplace organizing', text: `Track signed cards or pledges toward a stated threshold.` },
-      { title: 'Product waitlists reframed as demand signals', text: `Reuse the same count-up mechanic for "X people want this."` },
-      { title: 'Learning count-up animation patterns', text: `A reference for requestAnimationFrame easing — compare with [number ticker](/ui-snippets/number-ticker/).` },
+      { title: 'Advocacy campaign pages', text: 'Make every signature feel like momentum, with an eased count-up that climbs from the old total to the new one the moment a supporter submits the form.' },
+      { title: 'Community ballot initiatives', text: 'Pair with a [donation thermometer](/ui-snippets/donation-thermometer/) so a local campaign can show both signatures gathered and funds raised on the same page.' },
+      { title: 'Open letters and public statements', text: 'Show growing public support for a statement, with tabular-number digits keeping the counter from jittering as the figures change width.' },
+      { title: 'Workplace and union organising', text: 'Track signed cards or pledges toward a stated goal, with a goal-relative progress bar for when the raw count becomes too large to judge.' },
+      { title: 'Counter animation reference', text: 'Study the `requestAnimationFrame` loop and its easing, then compare it with the simpler [number ticker](/ui-snippets/number-ticker/) when no form is involved.' },
       { icon: 'CODE', title: 'Related: Usage-Based Billing Meter', desc: 'See the [Usage-Based Billing Meter](/ui-snippets/usage-based-billing-meter/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

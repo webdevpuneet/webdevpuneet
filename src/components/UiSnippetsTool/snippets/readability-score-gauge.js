@@ -185,12 +185,11 @@ Swap in a different readability formula (Gunning Fog, SMOG, Coleman-Liau) by rep
       { title: 'Zero dependencies', text: `Pure vanilla JS, no external API or library.` },
     ],
     useCases: [
-      { title: 'Blog and CMS editors', text: `A live score alongside an [SEO score meter](/ui-snippets/seo-score-meter/).` },
-      { title: 'Email and newsletter tools', text: `Flag copy that's reading too dense before sending.` },
-      { title: 'Documentation platforms', text: `Encourage simpler phrasing in technical docs.` },
-      { title: 'Marketing copy review', text: `Check landing-page copy against a plain-English target.` },
-      { title: 'Educational writing tools', text: `Give students an objective, explainable score.` },
-      { title: 'Content style guides', text: `Enforce a minimum readability band before publishing.` },
+      { title: 'Blog and CMS editors', text: 'Show a live Flesch score alongside an [SEO score meter](/ui-snippets/seo-score-meter/), recalculated on every keystroke from the real published formula.' },
+      { title: 'Email and newsletter tools', text: 'Flag copy that reads too densely before it is sent, with the word, sentence and syllable counts shown behind the score.' },
+      { title: 'Documentation platforms', text: 'Encourage simpler phrasing in technical docs, using a client-side heuristic syllable counter with no dictionary dependency.' },
+      { title: 'Marketing copy review', text: 'Check landing-page copy against a target reading level before launch, and see exactly which input moved the score.' },
+      { title: 'Educational writing tools', text: 'Give students an objective, explainable measure of their writing, since the formula and every input are visible rather than hidden.' },
     ],
     faqs: [
       { q: 'Is this a real readability formula or just a mock score?', a: `It's the real, published Flesch Reading Ease formula — 206.835 minus 1.015 times the average words per sentence, minus 84.6 times the average syllables per word — the same formula built into Microsoft Word's readability statistics and used by tools like the Hemingway Editor. It is not a hardcoded or randomized number.` },

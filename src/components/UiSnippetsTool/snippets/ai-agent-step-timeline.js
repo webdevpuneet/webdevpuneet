@@ -148,10 +148,10 @@ The run's actual start time is captured once via \`Date.now()\` when the timelin
       'No external API calls — the entire agent run is a client-side simulation',
     ],
     useCases: [
-      { icon: 'APP', title: 'AI agent and copilot product dashboards', desc: 'Show users a believable live trace of an agent working through a multi-step task.' },
-      { icon: 'CODE', title: 'Reference for wiring a real agent event stream to a UI', desc: 'Swap the setTimeout simulation for real step-completion events from your agent backend.' },
-      { icon: 'DESIGN', title: 'Product demos and marketing pages for agentic features', desc: 'Demonstrate an agent workflow visually without needing a live backend during a demo.' },
-      { icon: 'LEARN', title: 'Teaching sequential async UI simulation', desc: 'A clear example of chaining setTimeout calls to simulate a multi-stage async process.' },
+      { icon: '🤖', title: 'Agent and copilot dashboards', desc: 'Show users a believable live trace of searching, reading and calling tools, instead of one opaque loading spinner that explains nothing.' },
+      { icon: '🔌', title: 'Real event stream wiring', desc: 'Use the step list as a reference for connecting a genuine agent event stream, swapping chained `setTimeout` calls for real status updates.' },
+      { icon: '🎬', title: 'Agentic feature demos', desc: 'Demonstrate an upcoming agent feature on a marketing page, ending with a run-time summary that makes the work feel concrete.' },
+      { icon: '🎓', title: 'Sequential async simulation', desc: 'Study pending, running and done states, where the connecting line recolours as earlier steps complete and a pulsing ring marks the current one.' },
     ],
     faqs: [
       { q: 'Does this call a real AI agent?', a: 'No. All four steps and their timing are hardcoded and simulated with setTimeout — no network request or tool execution actually happens.' },

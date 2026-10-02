@@ -130,10 +130,11 @@ Two supporting details make the demo behave. Toggling a lock rebuilds that singl
       'Ghost styling and touch-action: none on the handle',
     ],
     useCases: [
-      { icon: 'DASH', title: 'Customisable dashboards', desc: `Let users arrange widgets while keeping mandatory ones fixed. For multi-column boards see the [kanban snippet](/ui-snippets/sortablejs-multilist-kanban-persistence/).` },
-      { icon: 'ADMIN', title: 'Menu and settings ordering', desc: `Reorder items while keeping required entries in place.` },
-      { icon: 'FORM', title: 'Checklists with mandatory steps', desc: `Pin required items to the top of a user-editable list.` },
-      { icon: 'LEARN', title: 'Learning filter versus onMove', desc: `See why filter alone does not protect a row from being displaced.` },
+      { icon: '🧩', title: 'Customisable dashboard widgets', desc: 'Let users rearrange widgets while a few mandatory ones stay put, using a drag handle so the rest of each row stays interactive.' },
+      { icon: '📌', title: 'Menu and settings ordering', desc: 'Reorder navigation items while keeping Home fixed first, with locked rows that cannot be picked up or displaced by another row.' },
+      { icon: '✅', title: 'Checklists with required steps', desc: 'Pin mandatory items to the top, using `preventOnFilter: false` so the pin toggle button inside a locked row still works.' },
+      { icon: '🧱', title: 'Combined with multi-list boards', desc: 'Pair with the [multi-list kanban](/ui-snippets/sortablejs-multilist-kanban-persistence/) when pinned rows also need to move between columns under rules.' },
+      { icon: '🎓', title: 'Filter versus onMove reference', desc: 'See why `filter` alone does not stop a movable row displacing a locked one, and how an `onMove` guard closes the gap.' },
     ],
     faqs: [
       { q: 'What is the difference between handle and filter?', a: 'handle limits where a drag can start. filter names elements that must not be dragged at all.' },

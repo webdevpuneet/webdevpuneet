@@ -186,12 +186,11 @@ Replace the auto-play random scoring with a real WebSocket or polling feed calli
       { title: 'Sport-agnostic structure', text: `Swap sets for periods, innings, or quarters with minimal changes.` },
     ],
     useCases: [
-      { title: 'Sports league and event sites', text: `A live scoreboard widget for volleyball, tennis, or similar set-based sports.` },
-      { title: 'Esports match overlays', text: `Adapt for round-based competitive games with a match clock.` },
-      { title: 'School and community league scoring', text: `A simple manual-entry scoreboard for local games.` },
-      { title: 'Sports betting and stats dashboards', text: `Pair with a [tournament match bracket](/ui-snippets/match-bracket-tree/) for full-event context.` },
-      { title: 'Live event broadcast graphics', text: `A lower-third-style scoreboard driven by a real scoring feed.` },
-      { title: 'Learning restart-safe CSS animations', text: `A reference for the forced-reflow flash technique — compare with [confetti button](/ui-snippets/confetti-button/) for other feedback animations.` },
+      { title: 'Sports league websites', text: 'Embed a live score widget with two teams, a pulsing LIVE label and set history pills, with tabular numbers so the layout never jitters.' },
+      { title: 'Esports match overlays', text: 'Adapt the layout for round-based competitions, where score changes flash and the match clock runs on its own interval independent of scoring.' },
+      { title: 'School and club scoring', text: 'Run simple manual entry for local fixtures, using buttons to change the score and a [confetti button](/ui-snippets/confetti-button/) for a winning moment.' },
+      { title: 'Tournament pages', text: 'Pair with a [match bracket tree](/ui-snippets/match-bracket-tree/) so a score on one screen maps to progression on the next.' },
+      { title: 'Restart-safe animation reference', text: 'Learn the forced-reflow trick that makes the highlight flash restart even when two scores change in quick succession.' },
       { icon: 'CODE', title: 'Related: Page Visibility API Indicator', desc: 'See the [Page Visibility API Indicator](/ui-snippets/page-visibility-indicator/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

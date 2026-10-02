@@ -139,12 +139,11 @@ The plot renders from a \`DATA\` array of \`[x, y]\` pairs, with the axis maxima
       { title: 'Data-driven & no library', text: `Renders entirely from a DATA array of [x, y] pairs — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Correlation analysis', text: `Show whether two metrics move together — pair with a [bubble chart](/ui-snippets/bubble-chart/) to add a size dimension.` },
-      { title: 'A/B test and experiment data', text: `Plot input vs. outcome to spot relationships, alongside a [line chart](/ui-snippets/line-chart-widget/) for time series.` },
-      { title: 'Scientific and lab results', text: `Visualise measurement pairs with a statistically honest trend line.` },
-      { title: 'Pricing and demand curves', text: `Map price against units sold to see elasticity.` },
-      { title: 'Education and performance data', text: `Relate study time to scores, or effort to results, on a dashboard.` },
-      { title: 'Learning linear regression', text: `A clear reference for least-squares fitting and chart scaling — compare with a [bar chart](/ui-snippets/bar-chart/).` },
+      { title: 'Correlation analysis', text: 'Show whether two metrics move together, with a real least-squares trend line that can be toggled on and off over the points.' },
+      { title: 'A/B tests and experiments', text: 'Plot an input against an outcome to spot a pattern, and use a [bubble chart](/ui-snippets/bubble-chart/) when a third variable needs size.' },
+      { title: 'Scientific and lab results', text: 'Visualise paired measurements with axes and gridlines, and hover any point to read its exact x and y values.' },
+      { title: 'Pricing and demand curves', text: 'Map price against units sold to see the shape of demand, with the trend line revealing the slope.' },
+      { title: 'Education and performance data', text: 'Relate study time to scores or training hours to output, and check the trend before drawing conclusions from a [line chart widget](/ui-snippets/line-chart-widget/) of averages.' },
       { icon: 'CODE', title: 'Related: UV Index Meter', desc: 'See the [UV Index Meter](/ui-snippets/uv-index-meter/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

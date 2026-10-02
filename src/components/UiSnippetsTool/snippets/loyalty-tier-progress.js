@@ -169,12 +169,11 @@ Below the progress bar, every tier renders as its own row — icon, name, real b
       { title: 'Zero dependencies', text: `Pure DOM and CSS, no charting library.` },
     ],
     useCases: [
-      { title: 'E-commerce loyalty programs', text: `Show tier status beside a [quota usage meter](/ui-snippets/quota-usage-meter/).` },
-      { title: 'Subscription/membership apps', text: `Visualize plan-tier progression and perks.` },
-      { title: 'Airline/hotel status pages', text: `A real tier ladder with elite-status benefits.` },
-      { title: 'Gamified onboarding', text: `Motivate usage by showing the next unlock clearly.` },
-      { title: 'Credit card rewards dashboards', text: `Spend-tier progress with concrete benefit text.` },
-      { title: 'Community/creator platforms', text: `Show contributor tiers and what each unlocks.` },
+      { title: 'E-commerce loyalty programmes', text: 'Show tier status beside a [quota usage meter](/ui-snippets/quota-usage-meter/), with the exact points needed to reach the next of five named tiers.' },
+      { title: 'Subscription and membership apps', text: 'Visualise plan-tier progress, listing what each tier unlocks so members know why the next one is worth reaching.' },
+      { title: 'Airline and hotel status pages', text: 'Use a real tier ladder with elite benefits, where the progress bar measures within the current tier and not across the whole scale.' },
+      { title: 'Gamified onboarding unlocks', text: 'Motivate usage by showing the next unlock and the exact numeric gap to it, which is more compelling than a bare percentage.' },
+      { title: 'Creator and community platforms', text: 'Show contributor tiers and what each earns, with the active tier highlighted in the benefits list.' },
       { icon: 'CODE', title: 'Related: Readability Score Gauge', desc: 'See the [Readability Score Gauge](/ui-snippets/readability-score-gauge/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

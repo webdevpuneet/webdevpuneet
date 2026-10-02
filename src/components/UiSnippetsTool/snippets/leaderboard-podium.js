@@ -121,12 +121,11 @@ Everything comes from a \`PLAYERS\` array; the component sorts it, splits the to
       { title: 'Data-driven & no library', text: `Renders from a PLAYERS array in plain HTML/CSS/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Game and app leaderboards', text: `Celebrate top players — pair with a [leaderboard table](/ui-snippets/leaderboard-table/) for full standings.` },
-      { title: 'Sales and contest standings', text: `Show top reps on a team dashboard alongside a [stat comparison card](/ui-snippets/stat-comparison-card/).` },
-      { title: 'Fitness and step challenges', text: `Rank participants by steps or points, next to [activity rings](/ui-snippets/activity-rings/).` },
-      { title: 'Community and reputation', text: `Highlight top contributors by reputation or karma.` },
-      { title: 'Hackathons and competitions', text: `Display winners with a celebratory podium.` },
-      { title: 'Learning podium layout', text: `A reference for rank-vs-position ordering — compare with a [bar chart](/ui-snippets/bar-chart/).` },
+      { title: 'Game and app leaderboards', text: 'Celebrate the top three with a gold, silver and bronze stand, with the winner centred and tallest while the remaining ranks list below.' },
+      { title: 'Sales contest standings', text: 'Show top reps on a team dashboard, with bars rising via a `scaleY` transform so the reveal feels like an awards ceremony.' },
+      { title: 'Step and fitness challenges', text: 'Pair with [activity rings](/ui-snippets/activity-rings/) so each ranked participant also shows how close they are to their own daily goals.' },
+      { title: 'Plain ranked tables', text: 'Use the [leaderboard table](/ui-snippets/leaderboard-table/) instead when many columns of stats matter more than a single podium moment for the top three.' },
+      { title: 'Rank-versus-position layout reference', text: 'Study how placement is encoded four ways, with order, bar height, medal colour and a larger winner avatar all reinforcing the same ranking.' },
       { icon: 'CODE', title: 'Related: New Hire Day-One Checklist', desc: 'See the [New Hire Day-One Checklist](/ui-snippets/onboarding-day-one-checklist/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

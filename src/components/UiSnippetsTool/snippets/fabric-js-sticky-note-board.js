@@ -205,11 +205,11 @@ Each new note picks a color from a small \`PASTELS\` array with \`Math.random()\
       { title: 'One-click board clear', text: 'canvas.clear() with a background reset in one handler.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'Brainstorm boards', text: 'A lightweight canvas-based idea board embedded in an app.' },
-      { icon: 'FLOW', title: 'Kanban-style planning', text: 'Freeform notes that can be dragged into loose columns.' },
-      { icon: 'DESIGN', title: 'Retro / standup boards', text: 'Team retrospective boards with colored, editable cards.' },
-      { icon: 'LEARN', title: 'Teaching canvas grouping', text: 'A concrete reference for fabric.Group and subTargetCheck.' },
-      { icon: 'CODE', title: 'Whiteboard prototypes', text: 'A starting point for a richer collaborative whiteboard feature.' },
+      { title: 'Brainstorm boards', text: 'Build a lightweight canvas idea board where each note is a `Rect` and an `IText` combined into one draggable `fabric.Group`.' },
+      { title: 'Kanban-style planning', text: 'Add freeform notes that can be dragged into columns, resized, and edited in place with a double-click.' },
+      { title: 'Retro and standup boards', text: 'Run team retrospectives with colour-coded notes picked from a small random pastel palette, so the board looks lively.' },
+      { title: 'Teaching canvas grouping', text: 'Use it as a concrete reference for `fabric.Group`, and for the ungroup, edit and regroup pattern behind editable text inside groups.' },
+      { title: 'Whiteboard prototypes', text: 'Start a richer collaborative whiteboard from this base, where `subTargetCheck` lets a double-click identify the text child inside the group.' },
     ],
     faqs: [
       { q: 'Why group the rect and text instead of just drawing text on top?', a: 'Fabric groups objects for interaction purposes, not just visuals — a fabric.Group gives the pair one shared selection box, one set of resize handles, and one drag gesture. Without grouping, dragging the rect would leave the text behind.' },

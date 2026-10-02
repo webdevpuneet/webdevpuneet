@@ -130,10 +130,11 @@ The third is spill behaviour. Dropping an element outside every container is cal
       'Tiny, dependency-free, historical library',
     ],
     useCases: [
-      { icon: 'SHOP', title: 'Cart and order builders', desc: `Copy products into a basket by dragging. For a richer palette-and-canvas example with SortableJS see the [shared-group page builder](/ui-snippets/sortablejs-shared-group-drag-lists/).` },
-      { icon: 'FORM', title: 'Template and field pickers', desc: `Copy reusable items from a library into a document.` },
-      { icon: 'ADMIN', title: 'Assignment tools', desc: `Copy team members or resources into projects without depleting the source list.` },
-      { icon: 'LEARN', title: 'Learning classic drag-and-drop APIs', desc: `A compact tour of Dragula's function-based options and events.` },
+      { icon: '🛒', title: 'Cart and order builders', desc: 'Copy products from a menu into an order by dragging, with `accepts()` blocking drops back onto the menu so it stays a read-only source.' },
+      { icon: '📋', title: 'Template and field pickers', desc: 'Hand out reusable items from a library without ever depleting it, using a `copy()` predicate that clones only drags starting in the menu.' },
+      { icon: '👥', title: 'Assignment and rota tools', desc: 'Drag people or resources into project slots, and remove a mistake by dropping it outside the list using `removeOnSpill`.' },
+      { icon: '💬', title: 'Feedback hooks for drag events', desc: 'Use the drop, remove, cancel and cloned events to drive messages, so users always know what their last drag actually did.' },
+      { icon: '⚖️', title: 'Comparing drag libraries', desc: 'See [SortableJS shared groups](/ui-snippets/sortablejs-shared-group-drag-lists/) for the same menu-to-canvas idea built with the newer pull and put options.' },
     ],
     faqs: [
       { q: 'How do I copy instead of move in Dragula?', a: 'Use the copy option. Pass true to copy every drag, or a function such as (el, source) => source === menu to copy only from certain containers.' },

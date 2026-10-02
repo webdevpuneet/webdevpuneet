@@ -156,10 +156,11 @@ On touch screens, an instant drag would make every scroll gesture pick up a card
       'Add-task form with escaped titles and live column counts',
     ],
     useCases: [
-      { icon: 'DASH', title: 'Project and sprint boards', desc: `Track work through stages with limits. For nested hierarchies see the [nested sortable tree](/ui-snippets/sortablejs-nested-sortable-tree/).` },
-      { icon: 'ADMIN', title: 'Support ticket triage', desc: `Move tickets through New, In progress and Resolved.` },
-      { icon: 'SHOP', title: 'Order and fulfilment pipelines', desc: `Drag orders between packing, shipped and delivered.` },
-      { icon: 'LEARN', title: 'Learning shared groups and put rules', desc: `A compact example of group objects, onMove and DOM-as-model.` },
+      { icon: '📋', title: 'Sprint and project boards', desc: 'Move work through Todo, Doing and Done with a work-in-progress limit on Doing, enforced by a `group.put()` function that refuses an over-limit drop.' },
+      { icon: '🎫', title: 'Support ticket triage', desc: 'Drag tickets through New, In progress and Resolved, with an `onMove` message telling the agent why a particular drop was refused.' },
+      { icon: '📦', title: 'Order fulfilment pipelines', desc: 'Move orders between picking, packing and shipped lanes, saving the board to localStorage with a safe fallback so a refresh never loses the layout.' },
+      { icon: '🌳', title: 'Nested task hierarchies', desc: 'Combine with the [nested sortable tree](/ui-snippets/sortablejs-nested-sortable-tree/) when cards need sub-tasks, since both snippets share the same SortableJS conventions.' },
+      { icon: '🎓', title: 'Learning shared groups and rules', desc: 'Study how one shared group name lets cards cross lists, while the DOM, read back after every drag, remains the single source of truth.' },
     ],
     faqs: [
       { q: 'How do I let cards move between lists?', a: 'Create a Sortable on each list and give them the same group name, for example group: "kanban".' },

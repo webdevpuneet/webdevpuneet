@@ -189,12 +189,11 @@ The grid is deliberately not a map integration — no tile server, no third-part
       { title: 'Clean watch teardown', text: `clearWatch runs on toggle-off and page unload.` },
     ],
     useCases: [
-      { title: 'Store locators', text: `Show a user's accuracy before finding nearby results.` },
-      { title: 'Delivery tracking UIs', text: `Pair with a [status dashboard](/ui-snippets/status-dashboard/).` },
-      { title: 'Weather apps', text: `Localize forecasts to a real or example position.` },
-      { title: 'Check-in features', text: `Verify a user's rough location before an action.` },
-      { title: 'Accessibility/testing tools', text: `Confirm geolocation permission actually works.` },
-      { title: 'Companion dashboards', text: `Combine with [network information badge](/ui-snippets/network-information-badge/).` },
+      { title: 'Store locators with accuracy', text: 'Show users how precise their position is before searching for nearby stores, using the accuracy radius the device itself reports.' },
+      { title: 'Delivery tracking screens', text: 'Pair with a [status dashboard](/ui-snippets/status-dashboard/) so couriers and customers can see both a position and how reliable it is.' },
+      { title: 'Weather and local content apps', text: 'Localise forecasts to a real or example position, with a labelled fallback so the demo still works when permission is denied.' },
+      { title: 'Check-in features', text: 'Verify a user\'s rough location before allowing a check-in, treating the reported accuracy radius as part of the decision.' },
+      { title: 'Permission flow testing', text: 'Confirm that geolocation permission flows work, since denied, unavailable and timeout errors are each explained plainly, and add a [network information badge](/ui-snippets/network-information-badge/) for context.' },
       { icon: 'CODE', title: 'Related: Admin Impersonation Mode Banner — ', desc: 'See the [Admin Impersonation Mode Banner — ](/ui-snippets/impersonation-mode-banner/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

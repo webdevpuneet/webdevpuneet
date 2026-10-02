@@ -165,12 +165,11 @@ Add a "current stop" highlight for today's active item, collapse past stops, or 
       { title: 'Compact, mobile-first width', text: `Max-width column reads well on phones.` },
     ],
     useCases: [
-      { title: 'Trip planners', text: `Lay out a day next to a [property listing card](/ui-snippets/property-listing-card/).` },
-      { title: 'Travel apps', text: `Follow a [flight status tracker](/ui-snippets/flight-status-tracker/) stop.` },
-      { title: 'Booking confirmations', text: `Summarize a day after [checkout](/ui-snippets/checkout-form/).` },
-      { title: 'Event agendas', text: `Reuse the pattern for a conference day schedule.` },
-      { title: 'Tour operators', text: `Show each stop of a guided day tour.` },
-      { title: 'Onboarding docs', text: `Any step-by-step, time-stamped sequence.` },
+      { title: 'Trip planners', text: 'Lay out a day beside a [property listing card](/ui-snippets/property-listing-card/), with time-stamped stops connected by a single pseudo-element line and no JavaScript.' },
+      { title: 'Travel app itineraries', text: 'Follow a [flight status tracker](/ui-snippets/flight-status-tracker/) stop with the rest of the day, with `data-type` colouring flights, hotels, activities and meals.' },
+      { title: 'Booking confirmations', text: 'Summarise a traveller\'s day right after [checkout](/ui-snippets/checkout-form/), with a staggered entrance animation that reveals each stop in sequence as the page loads.' },
+      { title: 'Event and conference agendas', text: 'Reuse the pattern for a conference day schedule, where each card shows the time, title and location.' },
+      { title: 'Tour operators and step-by-step docs', text: 'Show each stop of a guided tour, or any time-stamped sequence such as an onboarding document, in the same card-per-stop layout.' },
       { icon: 'CODE', title: 'Related: Keyboard Focus Order Debugger — Numbered Tab-Order Overlay', desc: 'See the [Keyboard Focus Order Debugger — Numbered Tab-Order Overlay](/ui-snippets/keyboard-focus-order-debugger/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -154,12 +154,11 @@ The chart renders from a \`LABELS\` array and a \`DATA\` array, with the y-scale
       { title: 'Data-driven & no library', text: `Draws from LABELS + DATA arrays in plain HTML/CSS/SVG/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Pricing and plan changes', text: `Show a price that holds then jumps — pair with a [pricing toggle](/ui-snippets/pricing-toggle/) for the plans.` },
-      { title: 'Inventory and stock levels', text: `Visualise counts that change at discrete events, alongside a [bar chart](/ui-snippets/bar-chart/).` },
-      { title: 'Feature flags and config states', text: `Show a setting's value over time as it's toggled.` },
-      { title: 'Rate and threshold history', text: `Interest rates, limits, or setpoints that change in steps.` },
-      { title: 'SLA and tier tracking', text: `Show which tier or level applied over each period next to a [line chart](/ui-snippets/line-chart-widget/).` },
-      { title: 'Learning step interpolation', text: `A reference for building stepped SVG paths — compare with a [multi-line chart](/ui-snippets/multi-line-chart/).` },
+      { title: 'Pricing and plan changes', text: 'Show a price that holds for months and then jumps, without implying gradual change, and pair it with a [pricing toggle](/ui-snippets/pricing-toggle/) page.' },
+      { title: 'Inventory and stock levels', text: 'Visualise counts that change only at events such as deliveries and sales, with a filled area under the staircase to show magnitude.' },
+      { title: 'Feature flags and configuration states', text: 'Show a setting\'s value over time, using the step and line toggle to compare how misleading a smooth line would be.' },
+      { title: 'Rate and threshold history', text: 'Plot interest rates, limits or policy settings that stay constant until someone changes them, with tooltips giving the exact value.' },
+      { title: 'SLA and tier tracking', text: 'Show which tier or level applied over time, and compare with a [multi-line chart](/ui-snippets/multi-line-chart/) when several series are involved.' },
     ],
     faqs: [
       { q: 'When should I use a step chart instead of a line chart?', a: `Use a step chart whenever the value changes discretely and holds constant between changes — prices, inventory, rates, settings, tiers. A straight line between two readings implies the value moved gradually through the in-between numbers, which is false for such data. The staircase truthfully shows the value held flat, then jumped at the moment it actually changed.` },

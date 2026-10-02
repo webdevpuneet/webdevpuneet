@@ -173,10 +173,10 @@ Clicking "Retry pipeline" calls \`runPipeline()\` again from the top, and \`rese
       'Fully self-contained simulation, straightforward to replace with real pipeline status polling',
     ],
     useCases: [
-      { icon: 'DEVOPS', title: 'CI/CD Dashboard Widgets', desc: 'Visualize a deployment pipeline\'s current stage and outcome on an internal engineering dashboard.' },
-      { icon: 'OPS', title: 'Release Management Tools', desc: 'Show release engineers exactly which stage a deployment is on or where it halted.' },
-      { icon: 'ADMIN', title: 'Build System Status Pages', desc: 'A reusable pattern for visualizing any multi-stage automated process with sequential dependencies.' },
-      { icon: 'EDUCATION', title: 'Teaching Sequential Async Execution', desc: 'A clean example of using async/await with a for...of loop to model genuinely ordered, haltable steps.' },
+      { icon: '🚦', title: 'CI/CD dashboard widgets', desc: 'Visualise Build, Test, Staging and Production stages, halting at the stage that fails so later ones never appear to run.' },
+      { icon: '📦', title: 'Release management screens', desc: 'Show release engineers exactly where a deployment stopped, with three unambiguous class-driven states for each stage: running, done and failed.' },
+      { icon: '🧱', title: 'Build status pages', desc: 'Reuse the pipeline strip on a status page, where every stage, including Production, has its own independent chance of failing.' },
+      { icon: '🎓', title: 'Sequential async reference', desc: 'Learn how an `async/await` loop with a real early return guarantees that later stages never begin until the current one succeeds.' },
       { icon: 'CODE', title: 'Related: Habit Tracker Grid', desc: 'See the [Habit Tracker Grid](/ui-snippets/habit-tracker-grid/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

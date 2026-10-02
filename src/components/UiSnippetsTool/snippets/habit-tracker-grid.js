@@ -191,12 +191,11 @@ Swap the seeded generator for real per-day habit data from your backend, change 
       { title: 'Zero dependencies', text: `Pure DOM, no charting library.` },
     ],
     useCases: [
-      { title: 'Personal habit apps', text: `Track reading, exercise, meditation, or journaling.` },
-      { title: 'Team dashboards', text: `Pair with [activity heatmap](/ui-snippets/activity-heatmap/) for engagement.` },
-      { title: 'Gamified onboarding', text: `Show streaks alongside [streak tracker](/ui-snippets/streak-tracker/).` },
-      { title: 'Wellness apps', text: `Visualize daily check-ins over months.` },
-      { title: 'Learning platforms', text: `Show consistent study-day streaks to learners.` },
-      { title: 'Developer tools', text: `Show commit-like daily activity for any tracked event.` },
+      { title: 'Personal habit apps', text: 'Track reading, exercise or meditation as a year-style grid, with click-to-cycle cells moving through four intensity levels using simple modulo arithmetic.' },
+      { title: 'Team engagement dashboards', text: 'Pair with an [activity heatmap](/ui-snippets/activity-heatmap/) to show how consistently a team uses a product, week by week.' },
+      { title: 'Gamified onboarding streaks', text: 'Show streaks next to a [streak tracker](/ui-snippets/streak-tracker/), where `computeStreak()` scans the real grid data instead of displaying a hardcoded number.' },
+      { title: 'Wellness check-ins', text: 'Visualise daily mood or symptom check-ins over months, with weeks as columns and days as rows in the familiar contribution-calendar layout.' },
+      { title: 'Learning platform study streaks', text: 'Show consistent study-day streaks to motivate learners, with a seeded demo dataset giving the grid an organic look before real data exists.' },
       { icon: 'CODE', title: 'Related: Job Queue Depth Monitor — Live Backlog Trend with Threshold Alerts', desc: 'See the [Job Queue Depth Monitor — Live Backlog Trend with Threshold Alerts](/ui-snippets/job-queue-depth-monitor/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

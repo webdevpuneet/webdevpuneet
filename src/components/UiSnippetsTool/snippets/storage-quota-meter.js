@@ -186,12 +186,11 @@ Where the StorageManager API doesn't exist — some older browsers, certain rest
       { title: 'Precision caveat noted', text: `Explains why estimate() is intentionally approximate.` },
     ],
     useCases: [
-      { title: 'PWA storage settings', text: `Show users their app's footprint.` },
-      { title: 'Offline-first apps', text: `Warn before large downloads near quota.` },
-      { title: 'Data-heavy dashboards', text: `Pair with [network information badge](/ui-snippets/network-information-badge/).` },
-      { title: 'Sync/backup tools', text: `Relate to [background sync status](/ui-snippets/background-sync-status/).` },
-      { title: 'Developer debug panels', text: `Inspect real storage usage during testing.` },
-      { title: 'Storage cleanup prompts', text: `Trigger a cleanup UI near quota limits.` },
+      { title: 'PWA storage settings', text: 'Show users their app\'s real footprint using `navigator.storage.estimate()`, instead of a hardcoded or simulated bar that never changes.' },
+      { title: 'Offline-first apps', text: 'Warn users before large downloads when they are near their quota, and offer the `persist()` request so the browser does not evict the data.' },
+      { title: 'Data-heavy dashboards', text: 'Pair with a [network information badge](/ui-snippets/network-information-badge/) to show connection quality and local storage together on one panel.' },
+      { title: 'Sync and backup tools', text: 'Relate local usage to [background sync status](/ui-snippets/background-sync-status/), so users see both what is stored and what is waiting to upload.' },
+      { title: 'Developer debug panels', text: 'Inspect real storage usage while building offline features, with figures auto-scaled to KB, MB or GB and a clear fallback in unsupported browsers.' },
     ],
     faqs: [
       { q: 'Is the usage/quota shown exact, down to the byte?', a: `No, and it's not supposed to be. The spec allows browsers to return a slightly imprecise estimate — often rounded or lightly randomized — specifically to reduce the API's value as a fingerprinting signal. The figures are close and genuinely reflect real usage, but should be treated as an estimate rather than an exact accounting.` },

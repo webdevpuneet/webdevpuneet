@@ -148,10 +148,11 @@ Every element — the shaded control band, the three reference lines, the connec
       'Reusable xFor/yFor scale functions keep all rendered elements consistently positioned',
     ],
     useCases: [
-      { icon: 'OPS', title: 'Response Time / Latency Monitoring', desc: 'Track whether recent latency samples are within normal variation or represent a genuine regression.' },
-      { icon: 'MFG', title: 'Manufacturing Quality Control', desc: 'The classic control-chart use case — tracking a measured dimension or quality metric against process limits.' },
-      { icon: 'DATA', title: 'Data Pipeline Health Monitoring', desc: 'Flag genuinely anomalous batch processing times or error counts against a computed statistical baseline.' },
-      { icon: 'FINANCE', title: 'Metric Anomaly Detection Dashboards', desc: 'A statistically grounded alternative to arbitrary fixed thresholds for flagging unusual metric values.' },
+      { icon: 'MONITORING', title: 'Response-time and latency monitoring', desc: 'Tell whether recent latency is normal variation or a real shift, since the limits are computed from the plotted samples themselves.' },
+      { icon: 'CHART', title: 'Manufacturing quality control', desc: 'Apply the classic control-chart use: flag parts or batches whose measurements fall outside three standard deviations of the process mean.' },
+      { icon: 'DATABASE', title: 'Data pipeline health checks', desc: 'Flag genuinely anomalous runs, such as row counts or durations, without a fixed threshold that goes stale as volume changes.' },
+      { icon: 'ALERT', title: 'Metric anomaly dashboards', desc: 'Give dashboards a statistically grounded alert line, with the y-axis scaled to include the computed limits so they never render off-chart.' },
+      { icon: 'LEARN', title: 'Teaching statistical process control', desc: 'Show students how the mean, standard deviation and 3-sigma bands are calculated live, and how `outOfControl` marks the points beyond them.' },
       { icon: 'CODE', title: 'Related: Funnel Conversion Steps', desc: 'See the [Funnel Conversion Steps](/ui-snippets/funnel-conversion-steps/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

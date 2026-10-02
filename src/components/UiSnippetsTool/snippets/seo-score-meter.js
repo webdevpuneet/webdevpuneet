@@ -159,12 +159,11 @@ Swap in your real SEO checks and point weights, wire each check's \`on\` state t
       { title: 'Framework-agnostic core', text: `The CHECKS array and scoring sum port directly to any component model.` },
     ],
     useCases: [
-      { title: 'SEO audit tools', text: `Show writers exactly which on-page factors are helping or hurting their score.` },
-      { title: 'Content editor sidebars', text: `Embed a live score next to a CMS editor as content is written.` },
-      { title: 'Accessibility or readability scores', text: `Reuse the composed-score pattern for a different weighted checklist entirely.` },
-      { title: 'Onboarding progress', text: `Pair the toggle interaction with an [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/).` },
-      { title: 'Landing page graders', text: `Show marketers a page-quality score before a campaign goes live.` },
-      { title: 'Educational SEO tools', text: `Teach what actually composes a good score instead of hiding the formula.` },
+      { title: 'On-page SEO audit tools', text: 'Show writers exactly which factors earn points, with the total being the plain sum of currently passing checks, not an opaque number.' },
+      { title: 'CMS editor sidebars', text: 'Embed a live score next to the editor, with toggling any check instantly recomputing the arc gauge and its three-tier status.' },
+      { title: 'Landing page graders', text: 'Give marketers a page-quality score they can improve step by step, with every check visible and actionable instead of hidden.' },
+      { title: 'Onboarding progress panels', text: 'Reuse the composed-score idea beside an [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/), where checks unlock points much like setup steps.' },
+      { title: 'Teaching what makes a good score', text: 'Use it in lessons on SEO fundamentals, since a dependency-free SVG gauge driven by `stroke-dashoffset` keeps the maths easy to read.' },
     ],
     faqs: [
       { q: 'How is the score calculated?', a: `Each of the 6 checks has a fixed point value — 20, 20, 20, 15, 15, and 10, totalling exactly 100. The score is the sum of the point values of every check currently marked "on." With the default 4 checks passing (title, meta, H1, links: 20+20+20+15), the starting score is 75.` },

@@ -236,12 +236,11 @@ The queued-action-with-visible-retry pattern is genuinely useful UI regardless o
       { title: 'No dependencies', text: `Pure vanilla JS against native browser events.` },
     ],
     useCases: [
-      { title: 'Offline-first forms', text: `Queue submissions made while disconnected.` },
-      { title: 'Draft-saving apps', text: `Retry saves automatically once back online.` },
-      { title: 'Ops/connectivity dashboards', text: `Pair with a [status dashboard](/ui-snippets/status-dashboard/).` },
-      { title: 'PWA reliability demos', text: `Illustrate the queue-and-retry pattern to stakeholders.` },
-      { title: 'Field-service apps', text: `Show pending actions while working in low-connectivity areas.` },
-      { title: 'Uptime-adjacent tooling', text: `Alongside an [uptime status page](/ui-snippets/uptime-status-page/).` },
+      { title: 'Offline-first forms', text: 'Queue submissions made while disconnected and show their state honestly, driven by real `navigator.onLine` and online and offline events.' },
+      { title: 'Draft-saving apps', text: 'Retry saves automatically once the connection returns, with the queue panel showing what is pending, syncing or done.' },
+      { title: 'Connectivity dashboards', text: 'Pair with a [status dashboard](/ui-snippets/status-dashboard/) so teams see sync health beside the rest of their operational metrics.' },
+      { title: 'PWA reliability demos', text: 'Illustrate the queue-and-retry pattern behind Background Sync, with the real `registration.sync.register()` call shown as a comment and the engine clearly labelled as simulated.' },
+      { title: 'Field-service apps', text: 'Show pending actions while workers are in areas with poor signal, and use the [uptime status page](/ui-snippets/uptime-status-page/) pattern for the service-side view.' },
       { icon: 'CODE', title: 'Related: CompressionStream API Demo', desc: 'See the [CompressionStream API Demo](/ui-snippets/compression-stream-demo/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -181,12 +181,11 @@ Pair this with an [uptime status page](/ui-snippets/uptime-status-page/) or [sta
       { title: 'No dependencies', text: `Pure vanilla JS against native APIs.` },
     ],
     useCases: [
-      { title: 'Adaptive media loading', text: `Skip autoplay video on slow-2g or when saveData is on.` },
-      { title: 'Ops dashboards', text: `Pair with a [status dashboard](/ui-snippets/status-dashboard/).` },
-      { title: 'Data-conscious apps', text: `Warn before large downloads on metered connections.` },
-      { title: 'Debug/diagnostics panels', text: `Show real connection quality during support tickets.` },
-      { title: 'Offline-first PWAs', text: `Surface connectivity alongside an [uptime status page](/ui-snippets/uptime-status-page/).` },
-      { title: 'Performance monitoring', text: `Correlate slow loads with real RTT/downlink readings.` },
+      { title: 'Adaptive media loading', text: 'Skip autoplay video and load smaller images on `slow-2g` or `saveData` connections, using real `navigator.connection` values to decide what to serve.' },
+      { title: 'Ops and status panels', text: 'Pair with a [status dashboard](/ui-snippets/status-dashboard/) so teams see their own connection quality beside system health, updated live when the network changes.' },
+      { title: 'Metered-connection warnings', text: 'Warn people before large downloads or uploads on metered or slow connections, using `effectiveType`, `downlink` and `rtt` to estimate how painful it will be.' },
+      { title: 'Diagnostics and debug panels', text: 'Show real connection quality while debugging field issues, with a timestamped log of every network change the browser reports during the session.' },
+      { title: 'Offline-first PWAs', text: 'Surface connectivity next to an [uptime status page](/ui-snippets/uptime-status-page/) pattern, with a clean fallback for browsers where the API is unsupported.' },
       { icon: 'CODE', title: 'Related: Reconnect Backoff Visualizer', desc: 'See the [Reconnect Backoff Visualizer](/ui-snippets/reconnect-backoff-visualizer/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

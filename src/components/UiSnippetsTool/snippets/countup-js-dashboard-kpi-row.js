@@ -119,12 +119,11 @@ Feed \`kpis\` from a real analytics API response (fetching the current period's 
       { title: 'No external scheduling dependency', text: 'Plain setTimeout handles the one-time stagger with no added library.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'Analytics dashboards', text: 'The header KPI row on any admin or reporting dashboard.' },
-      { icon: 'CODE', title: 'SaaS admin panels', text: 'Give a metrics-heavy internal tool a small entrance moment instead of a static load.' },
-      { icon: 'DESIGN', title: 'Client-facing reports', text: 'A polished counted reveal for numbers presented to stakeholders.' },
-      { title: 'E-commerce seller dashboards', text: 'Revenue, orders, and rate metrics exactly as modeled in this snippet.' },
-      { title: 'Growth/ops status pages', text: 'A public-facing status row that counts up key operational figures.' },
-      { title: 'Learning staggered timer patterns', text: 'A minimal, dependency-free reference for staggering independent animations.' },
+      { title: 'Analytics dashboard headers', text: 'Open a report with revenue, orders, conversion and churn counting up in reading order, using staggered start delays so the priority metric lands first.' },
+      { title: 'SaaS admin overviews', text: 'Give a metrics-heavy internal tool a lively first impression, with currency, integer and percentage formats coexisting cleanly in the same row.' },
+      { title: 'Client-facing report pages', text: 'Offer a polished counted reveal of headline numbers, all sharing one 1.6 second duration so the row feels coordinated rather than chaotic.' },
+      { title: 'E-commerce seller dashboards', text: 'Show revenue, orders and conversion at a glance, with each CountUp instance checking its `.error` flag before starting to guard against bad input.' },
+      { title: 'Staggered timer pattern reference', text: 'Study a minimal, dependency-light example of offset `setTimeout` starts, where independent counters share a duration but begin at different moments.' },
     ],
     faqs: [
       { q: 'Why stagger the start time instead of the animation duration?', a: "Staggering duration would make later tiles animate slower or faster, which has nothing to do with visual priority. Staggering the START time keeps every counter's motion identical (same 1.6s duration) while controlling WHEN each one begins, so the eye is drawn across the row in sequence without the individual animations looking different from each other." },

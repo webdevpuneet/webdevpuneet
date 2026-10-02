@@ -127,12 +127,11 @@ Replace the sample \`EVENTS\` array with real calendar data (from a database or 
       { title: 'Outside-click and X-button dismissal', text: `Standard modal UX conventions, not just one exit path.` },
     ],
     useCases: [
-      { title: 'Team and company event calendars', text: `Click-through detail views for scheduled events.` },
-      { title: 'Internal scheduling dashboards', text: `Meeting and deadline overviews with quick detail access.` },
-      { title: 'Content publishing calendars', text: `Editorial schedules with per-post detail on click.` },
-      { title: 'Course and class schedules', text: `Session details without leaving the month view.` },
-      { title: 'Project milestone tracking', text: `Pair with the [resource timeline](/ui-snippets/fullcalendar-resource-timeline/) elsewhere in this collection for a fuller planning view.` },
-      { title: 'Learning FullCalendar', text: `A clear reference for extendedProps and eventClick.` },
+      { title: 'Company event calendars', text: 'Let visitors click any event pill to read its full description in a modal, with details carried through `extendedProps` rather than looked up again by title.' },
+      { title: 'Editorial publishing schedules', text: 'Show scheduled posts across the month and reveal author, channel and notes on click, with the modal accent bar always matching the clicked pill\'s colour.' },
+      { title: 'Course and class timetables', text: 'Present sessions on a month grid and open instructor and room details without leaving the page, while `dayMaxEvents` stops a busy day breaking the layout.' },
+      { title: 'Project milestone calendars', text: 'Pair with the [resource timeline](/ui-snippets/fullcalendar-resource-timeline/) so managers can move from a month overview into a detailed per-person or per-room schedule.' },
+      { title: 'Learning event click handling', text: 'Use it as a compact reference for `eventClick`, which hands back the fully resolved event object so no manual re-lookup or global event map is needed.' },
     ],
     faqs: [
       { q: 'How does the modal get an event\'s description when FullCalendar events don\'t have that field built in?', a: `Custom fields like a description are placed inside extendedProps when the event objects are first defined for the calendar. FullCalendar preserves extendedProps unchanged and attaches it to the resolved event object passed to every event-related callback, so info.event.extendedProps.description is reliably available inside eventClick even though description isn't one of FullCalendar's own built-in event fields.` },
