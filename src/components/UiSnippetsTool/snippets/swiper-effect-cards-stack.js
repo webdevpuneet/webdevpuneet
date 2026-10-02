@@ -121,10 +121,11 @@ Deciding what a swipe means is the design question worth thinking about. In Swip
       'Gradient and emoji artwork with no image files',
     ],
     useCases: [
-      { icon: 'MOBILE', title: 'Discovery and matching apps', desc: `Let users triage recipes, products or profiles quickly. For a 3D alternative see the [coverflow carousel](/ui-snippets/swiper-coverflow-3d-product-carousel/).` },
-      { icon: 'SHOP', title: 'Product triage and wishlists', desc: `Save or skip items in a fast, engaging flow.` },
-      { icon: 'DOC', title: 'Flashcards and quizzes', desc: `Move through study cards with a swipe.` },
-      { icon: 'LEARN', title: 'Learning gesture alternatives', desc: `Shows pairing a swipe gesture with equivalent buttons and keys.` },
+      { icon: '🃏', title: 'Discovery and matching apps', desc: 'Let users triage recipes, profiles or places by flicking cards away, with Save and Skip buttons recording each decision.' },
+      { icon: '🛍️', title: 'Product triage and wishlists', desc: 'Save or skip items quickly, where a running tally shows how many were kept and how many were passed over.' },
+      { icon: '📚', title: 'Flashcards and quizzes', desc: 'Move through study cards with the same stack, using keyboard control and an end-of-stack state when the deck is empty.' },
+      { icon: '♿', title: 'Gesture alternatives', desc: 'Pair a swipe with visible buttons so people who cannot or prefer not to gesture still complete every decision.' },
+      { icon: '🎠', title: 'Carousel variations', desc: 'Compare with the [3D coverflow product carousel](/ui-snippets/swiper-coverflow-3d-product-carousel/), which uses the same library for a browsing rather than deciding layout.' },
     ],
     faqs: [
       { q: 'How do I create a card stack in Swiper?', a: 'Set effect: "cards", give the container an explicit width and height, and tune cardsEffect (perSlideOffset, perSlideRotate, rotate, slideShadows).' },

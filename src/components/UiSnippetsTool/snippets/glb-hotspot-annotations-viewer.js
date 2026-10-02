@@ -286,12 +286,11 @@ Adjust each hotspot's \`local\` coordinate to point at different features, add m
       { title: 'Slider + Ctrl/Cmd-scroll zoom', text: `Zoom is an explicit, opt-in gesture, never a hijacked plain scroll wheel.` },
     ],
     useCases: [
-      { title: 'Product feature call-outs', text: `Label a real product's specific parts or features directly on its 3D model.` },
-      { title: 'Technical documentation and manuals', text: `Annotate a component with clickable detail cards instead of a static diagram.` },
-      { title: 'Museum/collectible exhibit labels', text: `Point out specific features of an artifact model with real descriptive text.` },
-      { title: 'glTF/screen-space projection teaching demos', text: `A complete, real example of tracking DOM elements to 3D world points.` },
-      { title: 'Real estate and architecture walkthroughs', text: `Annotate specific fixtures or rooms within a loaded 3D scene model.` },
-      { title: 'Alongside other GLB viewers', text: `Pair with [GLB exploded view assembly toggle](/ui-snippets/glb-exploded-view-toggle/) to label exploded parts.` },
+      { title: 'Product feature call-outs', text: 'Label specific parts of a real product, with genuine clickable DOM markers kept glued to their 3D points as the camera orbits.' },
+      { title: 'Technical manuals', text: 'Annotate components of a machine, using `camera.project()` every frame to convert each fixed 3D point into current pixel coordinates.' },
+      { title: 'Museum and collectible labels', text: 'Point out notable features of an object, with local-space coordinates converted to world space so placement survives scaling.' },
+      { title: 'Screen-space projection teaching', text: 'Learn the complete route from a 3D point to a screen position, in a form you can adapt to any Three.js scene.' },
+      { title: 'Exploded annotation workflows', text: 'Combine with the [GLB exploded view toggle](/ui-snippets/glb-exploded-view-toggle/) so labels keep following their parts as an assembly separates.' },
       { icon: 'CODE', title: 'Related: Competitive Rank Tier Badge', desc: 'See the [Competitive Rank Tier Badge](/ui-snippets/rank-tier-badge/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

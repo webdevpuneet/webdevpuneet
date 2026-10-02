@@ -128,12 +128,11 @@ Replace the \`setTimeout\` in \`load()\` with a real \`fetch()\` call, populatin
       { title: 'Zero dependencies', text: `Pure HTML, CSS, and vanilla JavaScript — no animation or loading-state library.` },
     ],
     useCases: [
-      { title: 'Social feed and card lists', text: `Smoothly transition each card from loading to loaded instead of an abrupt content pop-in.` },
-      { title: 'Dashboard widgets', text: `Crossfade charts and stats from skeleton placeholders into real data on refresh.` },
-      { title: 'Profile and detail pages', text: `Avoid layout shift when user or product data finishes loading.` },
-      { title: 'Search result panels', text: `Crossfade from a loading skeleton into real results on every new search.` },
-      { title: 'Single-page app route transitions', text: `Smooth the moment between a route change and its data becoming available.` },
-      { title: 'Learning layered UI state patterns', text: `A clean example of using absolute positioning and one class toggle to manage two overlapping states.` },
+      { title: 'Social feed cards', text: 'Smoothly transition each card from placeholder to content as its data arrives, avoiding the abrupt vanish common to simple swaps.' },
+      { title: 'Dashboard charts and stats', text: 'Crossfade charts and numbers from skeletons, with `aria-busy` telling assistive technology that the region is still loading.' },
+      { title: 'Profile and detail pages', text: 'Avoid layout shift when user details load, since both layers share the same box and one parent class controls both fades.' },
+      { title: 'Search result panels', text: 'Fade from a loading skeleton to results without clicks falling on the hidden layer, thanks to `pointer-events` being switched off on it.' },
+      { title: 'Route transition moments', text: 'Smooth the gap between a navigation and its content, with a continuous shimmer running on the skeleton until the fade begins.' },
     ],
     faqs: [
       { q: `Why stack both layers instead of removing the skeleton from the DOM?`, a: `Stacking with position: absolute means both layers occupy the exact same space at all times, so the container's size doesn't jump when swapping between them, and the opacity transition can crossfade smoothly. Removing and inserting DOM nodes instead would require the container to resize abruptly and couldn't animate the exit and entrance together.` },

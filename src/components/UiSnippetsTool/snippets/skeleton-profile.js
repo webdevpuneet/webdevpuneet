@@ -112,12 +112,11 @@ Match the block sizes to your real card, change the shimmer colour and speed, or
       { title: 'Fetch-ready', text: `Toggle the class when data resolves.` },
     ],
     useCases: [
-      { title: 'Profile pages', text: `Placeholder for a [profile card](/ui-snippets/profile-card/).` },
-      { title: 'Card grids', text: `Pair with a [skeleton card grid](/ui-snippets/skeleton-card-grid/).` },
-      { title: 'Generic blocks', text: `Reuse the shimmer from a [skeleton loader](/ui-snippets/skeleton-loader/).` },
-      { title: 'Dashboards', text: `Match a [skeleton dashboard](/ui-snippets/skeleton-dashboard/) panel.` },
-      { title: 'User lists', text: `Loading state for an [avatar status list](/ui-snippets/avatar-status-list/).` },
-      { title: 'Team pages', text: `Placeholder before a [team card](/ui-snippets/team-card/) loads.` },
+      { title: 'Profile page loading states', text: 'Show a cover, avatar, name, stats and button placeholders in the exact positions the real [profile card](/ui-snippets/profile-card/) will fill.' },
+      { title: 'Card grid placeholders', text: 'Pair with a [skeleton card grid](/ui-snippets/skeleton-card-grid/) so a whole page of cards loads with one consistent shimmer.' },
+      { title: 'Generic shimmer reuse', text: 'Borrow the translateX sweep from a [skeleton loader](/ui-snippets/skeleton-loader/), which animates on the GPU rather than shifting background position.' },
+      { title: 'Dashboard and list loading', text: 'Match a [skeleton dashboard](/ui-snippets/skeleton-dashboard/) panel or an [avatar status list](/ui-snippets/avatar-status-list/) so every region loads in step.' },
+      { title: 'Team page placeholders', text: 'Fill the gap before a [team card](/ui-snippets/team-card/) arrives, using varied line widths that read as real text and respect reduced-motion settings.' },
       { icon: 'CODE', title: 'Related: Optimistic Action Button with Rollback on Failure', desc: 'See the [Optimistic Action Button with Rollback on Failure](/ui-snippets/optimistic-action-rollback-loader/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

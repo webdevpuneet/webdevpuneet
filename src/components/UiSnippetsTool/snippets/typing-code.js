@@ -114,12 +114,11 @@ Replace the \`CODE\` lines with your own snippet (escape backslashes in the stri
       { title: 'HTML-escaped', text: `Safely renders angle brackets and ampersands.` },
     ],
     useCases: [
-      { title: 'Dev-tool heroes', text: `Type code above a [container scroll reveal](/ui-snippets/container-scroll/).` },
-      { title: 'API documentation', text: `Demo a request beside a [code block](/ui-snippets/code-block/).` },
-      { title: 'Landing demos', text: `Pair with a [terminal window](/ui-snippets/terminal-window/).` },
-      { title: 'Onboarding', text: `Show a first snippet in a tour step.` },
-      { title: 'Feature explainers', text: `Animate usage in a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/).` },
-      { title: 'Typing effect demos', text: `A reference for live-highlighted auto-typing.` },
+      { title: 'Developer tool hero demos', text: 'Type out a snippet above a [container scroll](/ui-snippets/container-scroll/) reveal, with syntax highlighting appearing as each character lands.' },
+      { title: 'API documentation openings', text: 'Demonstrate a request beside a [code block](/ui-snippets/code-block/), with traffic lights, a file name and a monospace font making the window look real.' },
+      { title: 'Landing page terminal demos', text: 'Pair with a [terminal window](/ui-snippets/terminal-window/) to show both the code and the command that runs it.' },
+      { title: 'Onboarding first-snippet steps', text: 'Show newcomers their first snippet in a tour step, with randomised delays and pauses at line breaks giving a human cadence.' },
+      { title: 'Feature explainer animations', text: 'Animate usage inside a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/), where a live tokenizer highlights only the text typed so far.' },
     ],
     faqs: [
       { q: 'How does the syntax highlight appear while typing?', a: `The highlight function runs on the text typed so far — CODE.slice(0, i) — on every keystroke, escaping HTML and then wrapping comments, keywords, numbers, and function names in colored spans via regex. Because it re-tokenizes the partial text each tick, tokens get colored the instant they are completed, so the snippet appears to highlight itself in real time rather than after finishing.` },

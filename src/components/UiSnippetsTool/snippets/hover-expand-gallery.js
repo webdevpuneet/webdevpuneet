@@ -94,12 +94,11 @@ Swap the gradient backgrounds for real images via \`background-image\`, change t
       { title: 'Any panel count', text: `Flex math handles however many you add.` },
     ],
     useCases: [
-      { title: 'Travel & portfolio', text: `An expressive [photo gallery](/ui-snippets/photo-gallery/) alternative.` },
-      { title: 'Feature reveals', text: `Pair with an [image accordion](/ui-snippets/image-accordion/).` },
-      { title: 'Category pickers', text: `Visual nav above a [scroll snap gallery](/ui-snippets/scroll-snap-gallery/).` },
-      { title: 'Hero sections', text: `A striking band under a [minimal hero](/ui-snippets/minimal-hero/).` },
-      { title: 'Case studies', text: `Showcase projects beside a [team card](/ui-snippets/team-card/).` },
-      { title: 'Product lines', text: `Expand collections near a [product card](/ui-snippets/product-card/).` },
+      { title: 'Travel and portfolio galleries', text: 'Offer an expressive alternative to a standard [photo gallery](/ui-snippets/photo-gallery/), where hovering a slim panel makes it grow while its neighbours shrink.' },
+      { title: 'Feature reveals', text: 'Pair with an [image accordion](/ui-snippets/image-accordion/) to introduce product features one panel at a time, with captions fading in after a slight delay.' },
+      { title: 'Visual category pickers', text: 'Place above a [scroll snap gallery](/ui-snippets/scroll-snap-gallery/) as a navigation band, where each panel represents a category to explore.' },
+      { title: 'Hero section accents', text: 'Add a striking band under a [minimal hero](/ui-snippets/minimal-hero/), using `flex-grow` transitions so the row always fills the available width.' },
+      { title: 'Case study and product lines', text: 'Showcase projects beside a [team card](/ui-snippets/team-card/) or expand collections near a [product card](/ui-snippets/product-card/), with a gradient keeping captions readable.' },
       { icon: 'CODE', title: 'Related: Paper.js Vector Blob', desc: 'See the [Paper.js Vector Blob](/ui-snippets/paper-js-vector-blob/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -186,12 +186,11 @@ Change \`MAX_LIFE\` for a shorter or longer-lingering stroke, adjust the backgro
       { title: `DPR-aware canvas`, text: `Sized for crisp rendering on high-density displays.` },
     ],
     useCases: [
-      { title: `Playful landing sections`, text: `An interactive hero that rewards moving the cursor.` },
-      { title: `Creative coding demos`, text: `A canvas particle-system reference project.` },
-      { title: `Portfolio interactive backgrounds`, text: `Pair with [hover image trail](/ui-snippets/hover-image-trail/).` },
-      { title: `Loading or empty states`, text: `A satisfying idle interaction while content loads.` },
-      { title: `Kids' or drawing apps`, text: `A lightweight paint-like canvas starting point.` },
-      { title: `Learning canvas fade techniques`, text: `A reference for low-alpha-fill trail persistence.` },
+      { title: 'Playful landing sections', text: 'Reward pointer movement with particles that linger for about 1.5 seconds, like a brush stroke rather than a momentary trail.' },
+      { title: 'Creative coding demos', text: 'Provide a canvas particle-system reference, where each particle carries its own life and fades in both opacity and radius as it ages.' },
+      { title: 'Portfolio backgrounds', text: 'Pair with a [hover image trail](/ui-snippets/hover-image-trail/) for a portfolio that responds to the cursor in two different ways.' },
+      { title: 'Kids\' drawing toys', text: 'Give a lightweight paint-like canvas to young users, with segment interpolation keeping fast swipes continuous instead of dotted.' },
+      { title: 'Low-alpha fade technique', text: 'Learn why a translucent overlay, instead of `clearRect`, lets older strokes age gradually while new ones draw on top.' },
       { icon: 'CODE', title: 'Related: FLIP Technique List Reorder Animation', desc: 'See the [FLIP Technique List Reorder Animation](/ui-snippets/flip-list-reorder-animation/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

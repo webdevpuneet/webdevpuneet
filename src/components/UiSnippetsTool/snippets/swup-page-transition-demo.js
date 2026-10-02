@@ -148,12 +148,11 @@ Add more containers, change \`.is-transitioning\`'s transform for a different ex
       { title: 'Sandbox-safe', text: `Runs standalone without a server or router.` },
     ],
     useCases: [
-      { title: 'Multi-page site transitions', text: `Prototype hook wiring before a real fetch pipeline.` },
-      { title: 'Blogs and journals', text: `Fade between entries like this demo's layout.` },
-      { title: 'Agency sites', text: `Pair with a [parallax hero](/ui-snippets/parallax-hero/) landing page.` },
-      { title: 'Comparing transition libraries', text: `See it beside [Barba.js page transition](/ui-snippets/barba-page-transition-demo/).` },
-      { title: 'Learning Swup', text: `Read real hook and class-toggle code, no build step.` },
-      { title: 'Design reviews', text: `Demo a transition concept before backend wiring.` },
+      { title: 'Multi-page transition prototypes', text: 'Prototype hook wiring before touching a real site, using `visit:start`, `content:replace` and `visit:end` exactly as production does.' },
+      { title: 'Blogs and journals', text: 'Fade between entries as this demo does, with CSS owning the timing through `transition-duration` on a class instead of a JavaScript tween.' },
+      { title: 'Agency site pairings', text: 'Pair with a [parallax hero](/ui-snippets/parallax-hero/) landing page so each navigation also reveals a fresh opening screen.' },
+      { title: 'Library comparison', text: 'Compare with the [Barba.js page transition](/ui-snippets/barba-page-transition-demo/) to see two approaches to lifecycle hooks side by side.' },
+      { title: 'Reflow-safe re-triggering', text: 'Learn why forcing layout before adding the enter class ensures the transition actually animates every time.' },
     ],
     faqs: [
       { q: 'Is Swup actually running here, or is the transition faked?', a: `Swup is genuinely instantiated with new Swup({ containers: [...] }) and its real hooks event emitter is used to subscribe to and fire visit:start, content:replace, and visit:end. What's adapted is only the trigger: since this sandbox has no second URL to fetch, a click handler calls those same hooks and toggles which container is visible, instead of Swup's own fetch-based router doing it — the hook names, timing, and CSS class convention are unchanged from production usage.` },

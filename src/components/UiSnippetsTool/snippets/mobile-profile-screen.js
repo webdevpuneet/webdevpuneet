@@ -150,12 +150,11 @@ Swap the user data, stats, and rows for your own, and wire the navigation rows t
       { title: 'No dependency', text: `Pure HTML/CSS/JS, real focusable controls.` },
     ],
     useCases: [
-      { title: 'App account screens', text: `Present settings inside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Settings UIs', text: `A mobile take on a [settings panel](/ui-snippets/settings-panel/).` },
-      { title: 'Social profiles', text: `Show stats like a [user stats card](/ui-snippets/user-stats-card/).` },
-      { title: 'Theme settings', text: `Pair the switch with a [color mode toggle](/ui-snippets/color-mode-toggle/).` },
-      { title: 'Onboarding flows', text: `Follow a [mobile login screen](/ui-snippets/mobile-login-screen/) into the profile.` },
-      { title: 'Learning CSS toggles', text: `A reference for checkbox switches and theming.` },
+      { title: 'Account hub screens', text: 'Show a cover header with an avatar punching through the seam, follower stats and a settings list, all within a [phone mockup](/ui-snippets/phone-mockup/).' },
+      { title: 'Settings list prototypes', text: 'Use the real checkbox toggles as the basis of a mobile take on a [settings panel](/ui-snippets/settings-panel/), styled with a sibling selector.' },
+      { title: 'Social stat presentation', text: 'Show follower and post counts with a [user stats card](/ui-snippets/user-stats-card/) layout, and keep avatar and dot rings matching the active theme.' },
+      { title: 'Theme switching demos', text: 'Pair the working dark mode with a [colour mode toggle](/ui-snippets/color-mode-toggle/), where one class restyles the entire screen at once.' },
+      { title: 'Onboarding to profile flows', text: 'Follow a [mobile login screen](/ui-snippets/mobile-login-screen/) with this profile to demonstrate a signed-in experience from first screen to settings.' },
       { icon: 'CODE', title: 'Related: Mobile Ride-Hailing Screen', desc: 'See the [Mobile Ride-Hailing Screen](/ui-snippets/mobile-map-ride-screen/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

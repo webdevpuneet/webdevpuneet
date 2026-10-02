@@ -116,12 +116,11 @@ Change \`CELL\` for a denser or sparser field, \`RADIUS\` for a bigger or smalle
       { title: 'Rebuild on resize', text: `Field re-fits the viewport.` },
     ],
     useCases: [
-      { title: 'Interactive heroes', text: `Backdrop for a [text generate](/ui-snippets/text-generate/) headline.` },
-      { title: 'Landing sections', text: `Pair with a [background boxes](/ui-snippets/background-boxes/) grid.` },
-      { title: 'Dev-tool sites', text: `Match an [animated grid background](/ui-snippets/animated-grid-background/).` },
-      { title: 'Playful 404s', text: `Liven up an [empty state](/ui-snippets/empty-state/) page.` },
-      { title: 'Brand microsites', text: `An engaging interactive surface.` },
-      { title: 'Field effect demos', text: `A reference for cursor-attraction falloff.` },
+      { title: 'Interactive hero backdrops', text: 'Place a field of dots behind a [text generate](/ui-snippets/text-generate/) headline, with dots pulled toward the cursor like iron filings toward a magnet.' },
+      { title: 'Pairing with box-grid sections', text: 'Pair with a [background boxes](/ui-snippets/background-boxes/) grid in an adjacent section, using one `requestAnimationFrame` loop for the whole field.' },
+      { title: 'Developer tool sites', text: 'Match an [animated grid background](/ui-snippets/animated-grid-background/) elsewhere on the page, with in-range dots tinting to the accent colour.' },
+      { title: 'Lost-page playgrounds', text: 'Liven up an [empty state](/ui-snippets/empty-state/) page, where the dots respond to the pointer so a dead end becomes something fun to play with.' },
+      { title: 'Distance falloff reference', text: 'Study how force fades smoothly from the cursor to the edge of the radius, so the pull never looks abrupt or binary.' },
       { icon: 'CODE', title: 'Related: Traffic Light FSM Visualizer', desc: 'See the [Traffic Light FSM Visualizer](/ui-snippets/traffic-light-fsm-visualizer/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

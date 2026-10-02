@@ -110,12 +110,11 @@ Twelve particles with independently randomized radius, direction, speed, and pha
       { title: 'No dependencies', text: `Pure DOM elements and vanilla JS — no canvas or physics library.` },
     ],
     useCases: [
-      { title: 'AI / processing loaders', text: `A richer alternative to a [dots loader](/ui-snippets/dots-loader/) for "working" states.` },
-      { title: 'Full-page loading screens', text: `Fill a splash screen with ambient motion while assets load.` },
-      { title: 'Brand / hero loading moments', text: `Pair with a [hero section](/ui-snippets/hero-section/) as an animated centerpiece.` },
-      { title: 'Data-sync indicators', text: `Show background sync activity next to a [gradient progress](/ui-snippets/gradient-progress/) bar.` },
-      { title: 'Empty/loading dashboard states', text: `Fill a card while a widget's data resolves.` },
-      { title: 'Studying orbital motion in CSS/JS', text: `A reference for real per-frame trigonometric animation vs. CSS keyframes.` },
+      { title: 'AI and processing loaders', text: 'Offer a richer alternative to a [dots loader](/ui-snippets/dots-loader/), where twelve particles each have their own radius, speed and phase.' },
+      { title: 'Full-page loading screens', text: 'Fill a splash screen with ambient motion around a glowing core, with about half the particles orbiting in each direction.' },
+      { title: 'Hero loading moments', text: 'Pair with a [hero section](/ui-snippets/hero-section/) as the first thing visitors see, as the randomised eccentricity flattens each path differently.' },
+      { title: 'Background sync indicators', text: 'Show ongoing activity next to a [gradient progress](/ui-snippets/gradient-progress/) bar on a dashboard card while a widget loads.' },
+      { title: 'Orbital motion reference', text: 'Study per-particle randomised parameters that make a swarm feel organic, where identical dots on identical paths would feel mechanical.' },
       { icon: 'CODE', title: 'Related: Progress Bar with Milestone Labels', desc: 'See the [Progress Bar with Milestone Labels](/ui-snippets/loader-milestone-progress-bar/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -287,12 +287,11 @@ Swap \`MODEL_URL\` for any multi-part \`.glb\`, tune \`MAX_OFFSET\` for a bigger
       { title: 'Slider + Ctrl/Cmd-scroll zoom', text: `Zoom is an explicit, opt-in gesture, never a hijacked plain scroll wheel.` },
     ],
     useCases: [
-      { title: 'Product manuals and assembly guides', text: `Show how a real product's parts fit together, generated from the actual model.` },
-      { title: 'Engineering and CAD-adjacent portfolios', text: `Demonstrate exploded-diagram technique on any multi-part glTF export.` },
-      { title: `E-commerce "what's inside" sections`, text: `Let shoppers see a product's internal components pulled apart.` },
-      { title: 'glTF hierarchy teaching demos', text: `A complete example of traversing and flattening a scene graph generically.` },
-      { title: 'Museum/collectible mechanism displays', text: `Show how an antique device's parts separate and reassemble.` },
-      { title: 'Alongside other GLB viewers', text: `Pair with [GLB hotspot annotation viewer](/ui-snippets/glb-hotspot-annotations-viewer/) to label parts once exploded.` },
+      { title: 'Product manuals and assembly guides', text: 'Show how a real product fits together, with each mesh part moving outward along a direction computed from the model\'s own bounding box.' },
+      { title: 'Engineering and CAD portfolios', text: 'Demonstrate exploded diagrams from a real glTF file without authoring an offset for each individual part.' },
+      { title: 'What\'s inside sections', text: 'Let shoppers see a product\'s internals with a single slider, where positions always recompute from a captured baseline rather than accumulating.' },
+      { title: 'glTF hierarchy teaching', text: 'Learn how `model.traverse()` flattens nested nodes of any depth into a simple list of parts to move.' },
+      { title: 'Annotated explode views', text: 'Pair with the [GLB hotspot annotations viewer](/ui-snippets/glb-hotspot-annotations-viewer/) to label each part once the assembly has been pulled apart.' },
       { icon: 'CODE', title: 'Related: Profile Completeness Card — Weighted Progress with Next-Best-Action', desc: 'See the [Profile Completeness Card — Weighted Progress with Next-Best-Action](/ui-snippets/profile-completeness-card/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

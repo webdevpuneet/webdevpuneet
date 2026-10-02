@@ -94,12 +94,11 @@ Because the entire effect is expressed as CSS \`@keyframes\` on \`stroke-dashoff
       { title: 'Reduced-motion safe', text: `Paths render fully drawn and static under prefers-reduced-motion.` },
     ],
     useCases: [
-      { title: 'Branded splash and boot screens', text: `A first-paint loader that reinforces identity instead of a generic spinner.` },
-      { title: 'App and site preloaders', text: `Show while initial assets or auth resolve, alongside a [loading overlay](/ui-snippets/loading-overlay/).` },
-      { title: 'Login and auth transitions', text: `A polished wait during sign-in before redirecting.` },
-      { title: 'Marketing and agency sites', text: `A signature loading moment for portfolio or landing pages.` },
-      { title: 'Print-to-digital brand systems', text: `Reuse a logo's existing vector outline with no new asset needed.` },
-      { title: 'Learning SVG stroke animation', text: `A clean reference for stroke-dasharray/dashoffset draw effects.` },
+      { title: 'Branded splash and boot screens', text: 'Make a first-paint loader out of your own logo, with its outline drawing itself in through `stroke-dashoffset`.' },
+      { title: 'App and site preloaders', text: 'Show while assets or authentication load, with a three-phase loop of draw in, hold fully formed, then draw back out.' },
+      { title: 'Sign-in transitions', text: 'Give a polished wait during login, where the line retracts in the same direction it was drawn instead of replaying in reverse.' },
+      { title: 'Agency and marketing sites', text: 'Create a signature loading moment, with inner and outer paths drawn on a subtle offset so the mark feels hand-built.' },
+      { title: 'Overlay-based loading', text: 'Place inside a [loading overlay](/ui-snippets/loading-overlay/), and reuse an existing vector logo by pasting its path data into the SVG.' },
       { icon: 'CODE', title: 'Related: Multi-File Upload Queue', desc: 'See the [Multi-File Upload Queue](/ui-snippets/loader-file-upload-multi-queue/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

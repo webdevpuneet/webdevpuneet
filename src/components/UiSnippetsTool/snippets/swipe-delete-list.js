@@ -252,10 +252,11 @@ function checkEmpty() {
       'no-transition during drag prevents rubber-band lag'
     ],
     useCases: [
-      { icon: 'APP', title: 'Notification Panels', desc: 'Swipeable notification list in mobile apps and web dashboards' },
-      { icon: 'DOC', title: 'Task and To-do Lists', desc: 'Swipe-to-complete or swipe-to-dismiss gesture for task management UIs' },
-      { icon: 'FLOW', title: 'Email and Inbox UIs', desc: 'Gmail-style swipe to archive or delete email list items' },
-      { icon: 'DESIGN', title: 'Chat Message Lists', desc: 'Swipe to delete messages in a chat UI — common pattern in messaging apps' }
+      { icon: '🔔', title: 'Notification panels', desc: 'Let users dismiss alerts with a natural leftward swipe, with a red reveal behind the row growing in opacity as the finger moves further.' },
+      { icon: '✅', title: 'To-do and task lists', desc: 'Swipe to complete or discard tasks without an edit mode, snapping back below the 80 px threshold so accidental brushes do nothing.' },
+      { icon: '📧', title: 'Email inbox interfaces', desc: 'Recreate the Gmail-style swipe to archive or delete, with a smooth `max-height` collapse closing the gap left by the removed message.' },
+      { icon: '💬', title: 'Chat message lists', desc: 'Delete conversations or messages with one gesture, using unified touch and mouse drag handling so desktop reviewers can try it too.' },
+      { icon: '🔢', title: 'Unread badge handling', desc: 'Keep a running unread badge accurate as rows disappear, showing how list state and counts stay in step after every removal.' },
     ],
     faqs: [
       { q: 'How do I add a swipe-right action (like "archive")?', a: 'Extend the handler to track positive currentX values. Add an archive-bg div on the left side. When swipe right exceeds threshold, trigger archive instead of delete. Use green for archive, red for delete.' },

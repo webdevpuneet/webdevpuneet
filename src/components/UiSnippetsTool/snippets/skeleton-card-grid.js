@@ -119,12 +119,11 @@ Match the skeleton's shapes to your own card (avatar circle, image, lines) and r
       { title: 'Drop-in & no library', text: `Pure HTML/CSS/JS skeleton + content rendering with zero dependencies.` },
     ],
     useCases: [
-      { title: 'Product and catalog grids', text: `Show placeholders while products load — pair with a [product card](/ui-snippets/product-card/) as the real content.` },
-      { title: 'Dashboards and feeds', text: `Skeleton tiles while widgets fetch, alongside a [skeleton dashboard](/ui-snippets/skeleton-dashboard/) for full layouts.` },
-      { title: 'Search and gallery results', text: `Stable placeholders while results stream in.` },
-      { title: 'Profile and content cards', text: `Avatar/line skeletons for people or article grids.` },
-      { title: 'Anywhere with async cards', text: `Any grid that loads from an API benefits from a matching skeleton.` },
-      { title: 'Learning skeleton loading', text: `A reference for layout-stable skeletons and shimmer — compare with a [skeleton loader](/ui-snippets/skeleton-loader/).` },
+      { title: 'Product and catalogue grids', text: 'Show placeholders matching real [product card](/ui-snippets/product-card/) dimensions while the catalogue loads, avoiding layout shift when items appear.' },
+      { title: 'Dashboards and feeds', text: 'Fill tiles while widgets fetch, mirroring the final grid so columns and gaps are identical before and after loading.' },
+      { title: 'Search and gallery results', text: 'Hold stable space while results arrive, rendering exactly as many skeletons as the page expects to show.' },
+      { title: 'Profile and people cards', text: 'Show avatar and line placeholders for member directories, using a single `background-position` rule to shimmer every block.' },
+      { title: 'Skeleton family reuse', text: 'Combine with a [skeleton dashboard](/ui-snippets/skeleton-dashboard/) and a plain [skeleton loader](/ui-snippets/skeleton-loader/) for one consistent loading language across the whole product.' },
       { icon: 'CODE', title: 'Related: Typewriter Status Log Loader', desc: 'See the [Typewriter Status Log Loader](/ui-snippets/loader-typewriter-status-log/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

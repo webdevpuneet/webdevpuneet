@@ -124,10 +124,10 @@ Each press toggles a .sp-pressed class that scales the pad down and brightens it
       'Data-driven pad generation from a single NOTES array',
     ],
     useCases: [
-      { icon: 'APP', title: 'Browser-based mini instruments', desc: 'A playable note grid usable as-is or as a starting point for a small web synth.' },
-      { icon: 'LEARN', title: 'Web Audio envelope teaching demos', desc: 'A clear example of shaping a sustained oscillator into a percussive plucked sound.' },
-      { icon: 'DESIGN', title: 'Music app onboarding or demos', desc: 'An inviting, tactile interactive element for music-related product pages.' },
-      { icon: 'CODE', title: 'Game sound effect prototyping', desc: 'Reusable pattern for quickly auditioning short synthesized notes without audio assets.' },
+      { icon: '🎹', title: 'Browser mini instruments', desc: 'Embed a playable ten-pad note grid mapped to a C major scale, with each pad having a distinct accent colour for quick recognition.' },
+      { icon: '📚', title: 'Web Audio envelope teaching', desc: 'Show how a fast attack and exponential decay turn a sustained oscillator into a plucked note.' },
+      { icon: '👋', title: 'Music app onboarding and demos', desc: 'Offer an inviting, tactile interaction that needs no audio files, since each press creates a fresh `OscillatorNode` and `GainNode`.' },
+      { icon: '🎮', title: 'Game sound effect prototyping', desc: 'Quickly audition short synthesised sounds for a game, with true polyphony so presses can overlap without cutting each other off.' },
     ],
     faqs: [
       { q: 'Can two pads play at the same time?', a: 'Yes. Each press creates an entirely new OscillatorNode and GainNode pair, so pressing multiple pads in quick succession, or even the same pad rapidly, produces overlapping, independent notes rather than cutting each other off.' },

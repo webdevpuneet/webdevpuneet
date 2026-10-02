@@ -213,10 +213,10 @@ The ended event listener automatically loads and plays the next track in the lis
       'No dependencies — pure HTMLMediaElement APIs and vanilla JS',
     ],
     useCases: [
-      { icon: 'APP', title: 'Podcast and music web players', desc: 'A complete, brandable player UI that replaces the default browser audio controls.' },
-      { icon: 'LEARN', title: 'HTMLMediaElement API tutorials', desc: 'A clear reference for timeupdate, loadedmetadata, ended, and property binding.' },
-      { icon: 'DESIGN', title: 'Media-heavy product pages', desc: 'A polished playlist component for course platforms, audiobooks, or sound libraries.' },
-      { icon: 'CODE', title: 'Component library media players', desc: 'A reusable base to extend with shuffle, repeat, or a queue system.' },
+      { icon: '🎵', title: 'Branded podcast and music players', desc: 'Replace the browser\'s default controls with your own styling while a real HTML5 `audio` element still handles the actual playback.' },
+      { icon: '📚', title: 'HTMLMediaElement tutorials', desc: 'Learn how `timeupdate` keeps a seek bar in sync, and how drag-safe seeking avoids fighting with playback updates.' },
+      { icon: '📋', title: 'Media-heavy product pages', desc: 'Offer a polished playlist component where clicking a track swaps `audio.src` and highlights the active entry.' },
+      { icon: '🧩', title: 'Component library audio base', desc: 'Provide a reusable foundation for a design system, with the volume slider bound continuously to `audio.volume`.' },
     ],
     faqs: [
       { q: 'Does this player actually use the browser audio element, or is it faked?', a: 'It uses a real <audio> element for all playback. Every custom control (play button, seek bar, volume slider) reads from or writes to that element\'s actual properties and events — there is no separate simulated playback state.' },

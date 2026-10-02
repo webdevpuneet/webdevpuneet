@@ -112,12 +112,11 @@ Tune the wave amplitude, wavelength, colours, and speeds, or change the clip sha
       { title: 'Reshapeable & no library', text: `Swap the clip shape to refill any outline — plain HTML/CSS/SVG/JS.` },
     ],
     useCases: [
-      { title: 'Upload and download progress', text: `Show transfer progress as rising liquid — pair with an [upload progress](/ui-snippets/upload-progress/) bar.` },
-      { title: 'Capacity and storage meters', text: `Visualise used capacity, alongside a [quota usage meter](/ui-snippets/quota-usage-meter/).` },
-      { title: 'Scores and goal completion', text: `A playful fill for a score or daily goal, next to [activity rings](/ui-snippets/activity-rings/).` },
-      { title: 'Battery and water tracking', text: `Liquid-style level indicators for apps.` },
-      { title: 'Hero and loading accents', text: `An eye-catching loader while content loads.` },
-      { title: 'Learning SVG wave paths', text: `A reference for sine-path generation and clip masking — compare with a [breathing animation](/ui-snippets/breathing-animation/).` },
+      { title: 'Upload and download progress', text: 'Show transfer progress as liquid rising in an orb, with the surface path built from `sin()` so amplitude and wavelength stay adjustable.' },
+      { title: 'Capacity and storage meters', text: 'Visualise used capacity alongside a [quota usage meter](/ui-snippets/quota-usage-meter/), where the fill level reads instantly without a number.' },
+      { title: 'Score and goal completion', text: 'Offer a playful fill for scores or goals, next to [activity rings](/ui-snippets/activity-rings/) in a fitness or learning dashboard.' },
+      { title: 'Water and battery trackers', text: 'Display hydration or charge as a liquid level, with two parallax wave layers moving at different speeds for depth.' },
+      { title: 'Calming hero accents', text: 'Place beside a [breathing animation](/ui-snippets/breathing-animation/) in a wellness page, using a double-width path that loops seamlessly.' },
     ],
     faqs: [
       { q: 'How is the wave shape generated?', a: `wavePath() walks across the width in small steps, computing each point's y as the fill baseline plus sin(x) × amplitude, building an SVG path of the rippled surface, then closes it down to the bottom to form a filled body. Because it is generated from sin() rather than a fixed image, you control the amplitude (wave height), wavelength, and baseline (fill level) as parameters.` },

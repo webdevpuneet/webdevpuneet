@@ -266,12 +266,11 @@ Add a fifth preset by extending the \`PRESETS\` object with a new \`[color, inte
       { title: 'Fully extensible presets', text: `Add a new named lighting recipe by extending one plain JS object.` },
     ],
     useCases: [
-      { title: 'Product photography art direction', text: `Preview how a real 3D asset would look under different studio lighting moods.` },
-      { title: 'Game and character lighting studies', text: `Test how a character or prop model reads under dramatic versus neutral lighting.` },
-      { title: 'glTF/PBR teaching demos', text: `A focused, real example of how ambient/key/fill/rim balance changes a PBR surface.` },
-      { title: 'Portfolio and technical showpieces', text: `Demonstrate real lighting-direction skill translated into WebGL code.` },
-      { title: 'Marketing hero section mood boards', text: `Pick the lighting mood that best matches a campaign before committing to renders.` },
-      { title: 'Alongside other GLB viewers', text: `Compare against [GLB wireframe/solid toggle viewer](/ui-snippets/glb-wireframe-solid-toggle/) for material-focused inspection.` },
+      { title: 'Product photography direction', text: 'Preview how a real PBR asset looks under four moods, Studio, Sunset, Dramatic and Noir, before committing to a render.' },
+      { title: 'Game and character lighting', text: 'Test how a character reads under different light recipes, retuning the same ambient, key, fill and rim lights instead of rebuilding them.' },
+      { title: 'glTF and PBR teaching', text: 'Show how lighting affects physically based materials, with a coordinated backdrop gradient transitioning alongside each preset.' },
+      { title: 'Technical portfolio showpieces', text: 'Demonstrate real lighting control rather than a single fixed setup, since every preset swaps colours and intensities in place.' },
+      { title: 'Mesh structure companion', text: 'Pair with the [GLB wireframe and solid toggle](/ui-snippets/glb-wireframe-solid-toggle/) to study both the lighting and the underlying geometry of one model.' },
       { icon: 'CODE', title: 'Related: Competitive Rank Tier Badge', desc: 'See the [Competitive Rank Tier Badge](/ui-snippets/rank-tier-badge/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

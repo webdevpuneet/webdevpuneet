@@ -155,12 +155,11 @@ Replace each step's timeout with the promise or callback that actually represent
       { title: 'Drop-in async hook', text: `Swap any timeout for a real promise with no CSS changes.` },
     ],
     useCases: [
-      { title: 'App and account setup', text: `Show real onboarding steps completing, alongside an [empty state](/ui-snippets/empty-state/) once ready.` },
-      { title: 'CI/CD and build tooling UIs', text: `Mirror a pipeline log's step-by-step completion in a web dashboard.` },
-      { title: 'Data import and migration', text: `Track "Parsing file", "Validating rows", "Importing" as real stages.` },
-      { title: 'First-run installers', text: `A desktop or web installer showing named setup tasks completing.` },
-      { title: 'Multi-service auth flows', text: `Track connecting, verifying, and provisioning across services.` },
-      { title: 'Long AI or batch jobs', text: `Pair with an [ai thinking loader](/ui-snippets/ai-thinking-loader/) for the final generation step.` },
+      { title: 'Account and app setup', text: 'Show named onboarding steps completing one by one, with an idle ring, a spinning active state and a filled checkmark for each.' },
+      { title: 'CI/CD and build tool screens', text: 'Mirror a pipeline\'s step-by-step progress with literal text such as Connecting to server and Verifying your account.' },
+      { title: 'Data import and migration', text: 'Track Parsing file, Validating rows and Saving records, using irregular step durations so the sequence reads as real work.' },
+      { title: 'Long AI or batch jobs', text: 'Pair with an [AI thinking loader](/ui-snippets/ai-thinking-loader/) to show both that the model is working and which stage it has reached.' },
+      { title: 'Completion hand-off', text: 'End on an [empty state](/ui-snippets/empty-state/) or first-use screen, using two `setTimeout` calls per step for genuine sequential timing.' },
       { icon: 'CODE', title: 'Related: Liquid Fill Progress Indicator', desc: 'See the [Liquid Fill Progress Indicator](/ui-snippets/loader-liquid-fill-progress/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

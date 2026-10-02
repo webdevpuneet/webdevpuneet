@@ -96,12 +96,11 @@ Colours, sizes, orbit count, and speeds are all CSS, so restyling to match a bra
       { title: 'No library', text: `Pure HTML/CSS/JS — no spinner dependency.` },
     ],
     useCases: [
-      { title: 'Page and route loading', text: `A branded spinner over a [loading overlay](/ui-snippets/loading-overlay/).` },
-      { title: 'Button loading states', text: `Pair with a [loading button](/ui-snippets/loading-button/) for async actions.` },
-      { title: 'Splash and boot screens', text: `A lively loader on first paint.` },
-      { title: 'Data-fetch placeholders', text: `Show while a chart or list resolves.` },
-      { title: 'Empty states', text: `Indicate background work near an [empty state](/ui-snippets/empty-state/).` },
-      { title: 'Learning CSS animation', text: `A reference for nested rotations and variable timing.` },
+      { title: 'Page and route loading', text: 'Replace a plain ring with a characterful spinner over a [loading overlay](/ui-snippets/loading-overlay/), using three nested orbits at different speeds.' },
+      { title: 'Async button states', text: 'Pair with a [loading button](/ui-snippets/loading-button/) for longer operations, where a pulsing core draws attention while work continues.' },
+      { title: 'Boot and splash screens', text: 'Give a first paint some personality, with planets riding rotating rings so no per-frame JavaScript is needed.' },
+      { title: 'Empty-state background work', text: 'Show background activity next to an [empty state](/ui-snippets/empty-state/), while a single `--spd` variable retimes every animation proportionally.' },
+      { title: 'Nested rotation reference', text: 'Study how nested rotating wrappers create orbits cheaply, and how reduced-motion support turns the spin off for users who prefer it.' },
       { icon: 'CODE', title: 'Related: Skeleton Chat Message Loader', desc: 'See the [Skeleton Chat Message Loader](/ui-snippets/loader-skeleton-chat-messages/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

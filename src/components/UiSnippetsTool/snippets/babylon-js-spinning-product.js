@@ -166,12 +166,11 @@ Swap the torus for an imported \`.glb\`/\`.gltf\` model via \`BABYLON.SceneLoade
       { title: 'Responsive canvas', text: 'engine.resize() on window resize keeps the render target matched to CSS size.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'E-commerce product pages', text: 'A 3D alternative to static product photography with real orbit interaction.' },
-      { icon: 'DESIGN', title: 'Configurator previews', text: 'The base for a viewer where color/material buttons swap the mesh material live.' },
-      { icon: 'STAR', title: 'Portfolio and case study pieces', text: 'Showcase a 3D asset with minimal setup for a design or 3D portfolio.' },
-      { icon: 'LEARN', title: 'Learning Babylon.js cameras', text: 'A focused reference for ArcRotateCamera configuration without scene complexity.' },
-      { icon: 'FLOW', title: 'Marketing landing sections', text: 'A hero-adjacent interactive 3D element that auto-plays until touched.' },
-      { icon: 'CODE', title: 'Rapid 3D prototyping', text: 'A minimal starting scene to drop a GLTF model into for quick review.' },
+      { title: '3D product pages', text: 'Offer a true orbit view as an alternative to static product photos, using an `ArcRotateCamera` that parameterises the view as alpha, beta and radius.' },
+      { title: 'Configurator foundations', text: 'Start a viewer where colours and materials can later be swapped, with one-line `attachControl` wiring drag and wheel input.' },
+      { title: '3D asset showcase pieces', text: 'Showcase a 3D asset with auto-rotation that pauses for interaction, tied to real frames through `registerBeforeRender`.' },
+      { title: 'Babylon.js camera reference', text: 'Study clamped zoom with `lowerRadiusLimit` and `upperRadiusLimit` that stops the camera from clipping through the model.' },
+      { title: 'Rapid 3D prototyping', text: 'Drop a GLB into a minimal scene with three-point lighting and a ground plane, as a base for a landing-page hero.' },
     ],
     faqs: [
       { q: 'Why use ArcRotateCamera instead of Babylon\'s UniversalCamera or FreeCamera?', a: 'ArcRotateCamera is parameterized around a fixed target point (alpha, beta, radius) rather than free position and rotation, so it is structurally impossible for the user to fly away from or lose the product -- exactly the constraint a product viewer needs. UniversalCamera would require you to hand-write that constraint yourself.' },

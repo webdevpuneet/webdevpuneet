@@ -182,12 +182,11 @@ Anywhere you show a reorderable list — a task queue, a leaderboard, a draft or
       { title: 'Lightweight dependency', text: 'The whole library is a few KB with no other dependencies.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'Kanban and task boards', text: 'Any column-based board where priority or manual reorder buttons change card order.' },
-      { icon: 'FLOW', title: 'Sortable leaderboards', text: 'Rank lists that resort on score updates and want the movement to be visible, not jarring.' },
-      { icon: 'FORM', title: 'Playlist or queue managers', text: 'Move-up/move-down controls in a media queue or draft order.' },
-      { icon: 'APP', title: 'Admin triage tools', text: 'Support-ticket or moderation queues where priority changes should animate re-sorting.' },
-      { icon: 'LEARN', title: 'Teaching FLIP animation', text: 'A minimal, readable reference for what FLIP buys you without hand-coding it.' },
-      { icon: 'CODE', title: 'Prototyping list UIs fast', text: 'Get list-reorder polish without writing any animation code during early iteration.' },
+      { title: 'Priority-sorted task columns', text: 'Reorder cards by High, Medium and Low priority with buttons, and let `autoAnimate` glide every card to its new position with no hand-written transitions.' },
+      { title: 'Move-up and move-down queues', text: 'Build playlist or job queues where small arrow buttons reorder rows, with the list rebuilt from scratch on each click and animation still working.' },
+      { title: 'Support and moderation triage', text: 'Resort tickets as urgency changes, with coloured priority pills making the new order obvious as each card slides to its place.' },
+      { title: 'Rankings that resort on update', text: 'Animate leaderboards or score lists when values change, since the library measures before and after positions around every mutation.' },
+      { title: 'Fast list prototyping', text: 'Get polished reorder motion in a prototype without writing a transform or transition, then study the FLIP technique it uses internally.' },
     ],
     faqs: [
       { q: 'Does autoAnimate need the list items to have stable keys like React does?', a: 'No. It works purely off DOM structure and position at the time the MutationObserver fires, not element identity or keys. That is why this snippet can destroy every node with innerHTML = "" and rebuild fresh ones on each click and still get a smooth animation — autoAnimate is diffing rendered boxes, not a virtual DOM tree.' },

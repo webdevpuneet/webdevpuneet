@@ -179,12 +179,11 @@ Add per-finger trail history to visualize gesture paths, color-code markers by g
       { title: `No dependency`, text: `Pure DOM touch events, no gesture library.` },
     ],
     useCases: [
-      { title: `Gesture debugging`, text: `See exactly what event.touches reports while developing.` },
-      { title: `QA and device testing`, text: `Verify multi-touch hardware reports points correctly.` },
-      { title: `Teaching touch events`, text: `A live reference for touches vs changedTouches.` },
-      { title: `Drawing and canvas apps`, text: `Prototype multi-finger input before wiring real drawing.` },
-      { title: `Game input prototyping`, text: `Visualize multi-touch controls during development.` },
-      { title: `Pairing with gesture snippets`, text: `Debug alongside [pinch & scroll zoom](/ui-snippets/pinch-zoom-image-viewer/).` },
+      { title: 'Touch event debugging', text: 'See exactly what `event.touches` reports as fingers land, move and lift, with each finger tracked by its stable `Touch.identifier`.' },
+      { title: 'Device QA testing', text: 'Verify that a tablet or touchscreen laptop really reports several simultaneous points, before blaming your own gesture code.' },
+      { title: 'Teaching touches versus changedTouches', text: 'Demonstrate why start and move events read one list while end events need the other, with live markers making the difference visible.' },
+      { title: 'Drawing and canvas prototypes', text: 'Prototype multi-finger input before building a canvas app, using the single-point mouse fallback on desktops without touch hardware.' },
+      { title: 'Gesture feature companion', text: 'Debug alongside a [pinch zoom image viewer](/ui-snippets/pinch-zoom-image-viewer/) to see the two touch points that drive a pinch gesture.' },
       { icon: 'CODE', title: 'Related: Mobile Search Screen', desc: 'See the [Mobile Search Screen](/ui-snippets/mobile-search-screen/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

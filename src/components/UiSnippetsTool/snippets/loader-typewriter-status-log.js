@@ -119,12 +119,11 @@ The whole log comes from one \`LOG\` array of \`{ text, tag?, ok? }\` entries, s
       { title: 'Zero dependencies', text: `Pure DOM manipulation and vanilla JS — no terminal library.` },
     ],
     useCases: [
-      { title: 'Build/deploy loading screens', text: `The primary use case — a CI-style log during a deploy or build wait.` },
-      { title: 'Data import/export progress', text: `Narrate parsing, validating, and writing steps as real text.` },
-      { title: 'Onboarding "setting up your account" screens', text: `A more engaging wait than a bare spinner during account provisioning.` },
-      { title: 'AI/agent task logs', text: `Show discrete completed actions distinct from an [ai thinking loader](/ui-snippets/ai-thinking-loader/)'s open-ended narration.` },
-      { title: 'Installer and CLI-style web UIs', text: `Mimic a terminal experience for setup wizards.` },
-      { title: 'Learning typewriter techniques', text: `A reference for real character-by-character reveal vs. CSS-only tricks.` },
+      { title: 'Build and deploy loading screens', text: 'Show a CI-style log typed character by character, in a mock window with title bar dots and a monospace output area.' },
+      { title: 'Import and export narration', text: 'Narrate parsing, validating and writing steps, each line finishing completely before the next begins to type.' },
+      { title: 'Account setup screens', text: 'Make a setting up your account wait feel purposeful, with a blinking block cursor following the line currently being typed.' },
+      { title: 'AI and agent task logs', text: 'Show discrete completed actions, pairing with an [AI thinking loader](/ui-snippets/ai-thinking-loader/) when the wait has both a thinking and a doing phase.' },
+      { title: 'Terminal-style web installers', text: 'Mimic a command-line experience for developer tools, using a genuine `setInterval` that reveals one character per tick.' },
       { icon: 'CODE', title: 'Related: Full-Screen Percentage Counter Loader', desc: 'See the [Full-Screen Percentage Counter Loader](/ui-snippets/loader-percentage-morph-text/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

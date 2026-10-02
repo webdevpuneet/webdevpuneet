@@ -115,12 +115,11 @@ A standard [skeleton loader](/ui-snippets/skeleton-loader/) never demonstrates t
       { title: 'Real-fetch ready', text: `Swap the simulated timeout for a real request's resolution handler.` },
     ],
     useCases: [
-      { title: 'Profile and account cards', text: `Crossfade a [skeleton profile](/ui-snippets/skeleton-profile/) into real user data.` },
-      { title: 'Dashboard widgets', text: `Soften the reveal of a [skeleton dashboard](/ui-snippets/skeleton-dashboard/) card.` },
-      { title: 'Product and article cards', text: `A polished reveal for content cards in a grid or feed.` },
-      { title: 'Detail panels and drawers', text: `Crossfade a side panel from placeholder to loaded detail view.` },
-      { title: 'Search result cards', text: `Soften the transition as each result's real data resolves.` },
-      { title: 'Any single-item async view', text: `Wherever a hard skeleton-to-content swap currently feels abrupt.` },
+      { title: 'Profile card reveals', text: 'Crossfade a [skeleton profile](/ui-snippets/skeleton-profile/) into the finished card, with both layers fading at once so no blank flash appears between states.' },
+      { title: 'Dashboard widget loading', text: 'Soften the reveal of a [skeleton dashboard](/ui-snippets/skeleton-dashboard/) panel as its data arrives, so metrics fade in where placeholders stood.' },
+      { title: 'Article and product cards', text: 'Give each card a polished reveal the moment its content is ready, using one `is-loaded` class to drive both opacity transitions.' },
+      { title: 'Detail panels and drawers', text: 'Crossfade a side panel from placeholder to real content without the layout pop that usually happens when the two states swap.' },
+      { title: 'Search result transitions', text: 'Soften each result\'s arrival, using a `requestAnimationFrame` before the toggle so the reset state paints first and the fade always runs.' },
       { icon: 'CODE', title: 'Related: Infinite Scroll Loading Spinner', desc: 'See the [Infinite Scroll Loading Spinner](/ui-snippets/loader-infinite-scroll-spinner/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

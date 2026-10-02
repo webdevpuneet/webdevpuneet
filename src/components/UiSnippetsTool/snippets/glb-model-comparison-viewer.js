@@ -273,12 +273,11 @@ Swap either \`MODEL_URL\` for any other Khronos sample-asset \`.glb\`, add a thi
       { title: 'Fully responsive layout', text: `Panes stack vertically on narrow viewports instead of squeezing side by side.` },
     ],
     useCases: [
-      { title: 'Product variant comparisons', text: `Show two SKUs, materials, or design revisions side by side at the same angle.` },
-      { title: '3D asset review and QA', text: `Compare a new export against a reference model, including triangle count.` },
-      { title: 'Game asset and portfolio pages', text: `Demonstrate two models under identical lighting and controls for a fair look.` },
-      { title: 'glTF/OrbitControls teaching demos', text: `A complete, real example of running multiple independent Three.js scenes at once.` },
-      { title: 'Museum/collectible side-by-side exhibits', text: `Compare two artifacts or eras of a design from the same viewpoint.` },
-      { title: 'Alongside other GLB viewers', text: `Pair with [GLB product color configurator](/ui-snippets/glb-configurator-color-swatches/) for a compare-then-customize flow.` },
+      { title: 'Product variant comparisons', text: 'Show two SKUs, materials or revisions in separate scenes, each with its own OrbitControls camera so either model can be inspected on its own.' },
+      { title: '3D asset export QA', text: 'Compare a new export against its reference, switching on synced orbit so both models are viewed from exactly the same angle.' },
+      { title: 'Before and after model pages', text: 'Demonstrate an optimisation by showing two versions side by side, with live triangle counts computed from the loaded geometry for each.' },
+      { title: 'Museum and collectible comparisons', text: 'Place two artefacts next to each other, with independent zoom per pane even while the orbit angle is mirrored.' },
+      { title: 'Variant and finish companion', text: 'Pair with the [GLB colour configurator](/ui-snippets/glb-configurator-color-swatches/) to let buyers recolour a model and then compare the result against the original.' },
       { icon: 'CODE', title: 'Related: Rental Car Comparison Cards', desc: 'See the [Rental Car Comparison Cards](/ui-snippets/rental-car-comparison-card/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

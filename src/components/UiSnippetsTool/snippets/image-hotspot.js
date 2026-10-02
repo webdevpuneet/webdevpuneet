@@ -202,10 +202,10 @@ document.addEventListener('click', function() {
       'Zero dependencies — pure HTML, CSS, JavaScript'
     ],
     useCases: [
-      { icon: 'APP', title: 'Shoppable Images', desc: 'E-commerce product photography with clickable item annotations and prices' },
-      { icon: 'DESIGN', title: 'Hardware Explainers', desc: 'Tech product pages with labelled components and spec callouts' },
-      { icon: 'LEARN', title: 'Educational Diagrams', desc: 'Interactive anatomy, geography, or engineering diagrams with labels' },
-      { icon: 'DOC', title: 'Office Floor Plans', desc: 'Interactive workspace maps with room and equipment information' },
+      { icon: '🛍️', title: 'Shoppable images', desc: 'Mark products in a lifestyle photo with pulsing pins, each opening a tooltip card with a name and price when clicked.' },
+      { icon: '🔧', title: 'Hardware explainers', desc: 'Label the components of a device on a product page, with percentage-based positions keeping each pin on its part at any screen size.' },
+      { icon: '🎓', title: 'Educational diagrams', desc: 'Build interactive anatomy, geography or engineering diagrams where learners click a marker to read about that point.' },
+      { icon: '🏢', title: 'Office and floor plans', desc: 'Annotate rooms and facilities on a workspace map, with only one tooltip open at a time so the plan stays readable.' },
       { icon: 'CODE', title: 'Related: Splide Thumbnail Gallery', desc: 'See the [Splide Thumbnail Gallery](/ui-snippets/splide-thumbnail-gallery/) for a related layouts pattern worth pairing with this one.' },
     ],
     faqs: [

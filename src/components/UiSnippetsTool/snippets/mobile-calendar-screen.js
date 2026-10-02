@@ -186,12 +186,11 @@ Feed the week and events from your calendar data, render the dot markers from wh
       { title: 'No dependency', text: `Pure HTML, CSS, and vanilla JavaScript.` },
     ],
     useCases: [
-      { title: 'Calendar apps', text: `The week view beside a [calendar widget](/ui-snippets/calendar-widget/).` },
-      { title: 'Scheduling tools', text: `Pair with a [time slot picker](/ui-snippets/time-slot-picker/).` },
-      { title: 'Agenda lists', text: `Reuse the timeline like a [horizontal timeline](/ui-snippets/horizontal-timeline/).` },
-      { title: 'Booking flows', text: `Feed selected days into an [availability scheduler](/ui-snippets/availability-scheduler/).` },
-      { title: 'App mockups', text: `Present it inside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Learning day filters', text: `A reference for tag-driven agenda filtering.` },
+      { title: 'Calendar app week views', text: 'Pick a day from a seven-pill strip, with event dots flagging busy days, as the phone version of a [calendar widget](/ui-snippets/calendar-widget/).' },
+      { title: 'Appointment scheduling', text: 'Pair with a [time slot picker](/ui-snippets/time-slot-picker/) so a selected day leads directly to choosing a start time.' },
+      { title: 'Agenda and timeline lists', text: 'Reuse the agenda like a [horizontal timeline](/ui-snippets/horizontal-timeline/), where `data-for` tags control which events show for each day.' },
+      { title: 'Booking availability flows', text: 'Feed the chosen day into an [availability scheduler](/ui-snippets/availability-scheduler/), with a friendly empty state when nothing is booked.' },
+      { title: 'Replayed entrance animations', text: 'Study the reflow trick that re-triggers the slide-in each time a different day is selected, so the list never appears to change silently.' },
       { icon: 'CODE', title: 'Related: Mobile Alarm Clock Screen', desc: 'See the [Mobile Alarm Clock Screen](/ui-snippets/mobile-alarm-screen/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

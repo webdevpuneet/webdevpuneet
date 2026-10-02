@@ -172,12 +172,11 @@ Replace the gradient placeholders with real image URLs in \`PHOTOS\`, change the
       { title: 'Modal focus management', text: `Focus moves in and restores on close.` },
     ],
     useCases: [
-      { title: 'Profile photo grids', text: `An Instagram-style alternative to a [photo gallery](/ui-snippets/photo-gallery/).` },
-      { title: 'Portfolio galleries', text: `Open work in a viewer below a [portfolio hero](/ui-snippets/portfolio-hero/).` },
-      { title: 'Product image grids', text: `Pair with a [product card](/ui-snippets/product-card/) detail page.` },
-      { title: 'Event recaps', text: `Browse shots with a [focus cards](/ui-snippets/focus-cards/) section nearby.` },
-      { title: 'Travel blogs', text: `Showcase trips with swipeable full-screen photos.` },
-      { title: 'Lightbox demos', text: `A reference for accessible modal image viewers.` },
+      { title: 'Profile photo grids', text: 'Build an Instagram-style alternative to a plain [photo gallery](/ui-snippets/photo-gallery/), using `aspect-ratio` to keep every cell perfectly square.' },
+      { title: 'Portfolio work viewers', text: 'Open projects in a lightbox below a [portfolio hero](/ui-snippets/portfolio-hero/), with previous and next navigation plus swipe on touch screens.' },
+      { title: 'Product image grids', text: 'Show a catalogue of shots and link each to a [product card](/ui-snippets/product-card/) detail page, with hover like counts adding social proof.' },
+      { title: 'Event recap galleries', text: 'Browse event photos beside a [focus cards](/ui-snippets/focus-cards/) section, with a frosted `backdrop-filter` lightbox dimming the page behind.' },
+      { title: 'Accessible lightbox reference', text: 'Study keyboard arrows, Escape to close and cross-dissolve swaps between photos as a complete model for an image viewer dialog.' },
       { icon: 'CODE', title: 'Related: Recent Purchase Notification Popup', desc: 'See the [Recent Purchase Notification Popup](/ui-snippets/recent-purchase-notification-popup/) for a related modals pattern worth pairing with this one.' },
     ],
     faqs: [

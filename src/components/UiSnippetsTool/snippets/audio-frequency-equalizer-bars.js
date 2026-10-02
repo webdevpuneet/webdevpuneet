@@ -188,10 +188,10 @@ Stop cancels the animation frame, stops and disconnects every oscillator in the 
       'Idle flat-bar state shown before any interaction',
     ],
     useCases: [
-      { icon: 'APP', title: 'Music and podcast players', desc: 'The signature equalizer visualization used across most audio player UIs.' },
-      { icon: 'DESIGN', title: 'Audio product landing pages', desc: 'A lively visual centerpiece to demonstrate sound features without shipping audio assets.' },
-      { icon: 'LEARN', title: 'Web Audio API spectrum tutorials', desc: 'Demonstrates getByteFrequencyData() with a chord of oscillators instead of a single tone.' },
-      { icon: 'CODE', title: 'DJ or synth tool prototypes', desc: 'Reusable as a live spectrum monitor for any generated or mixed audio signal.' },
+      { icon: '🎚️', title: 'Music and podcast players', desc: 'Provide the signature equalizer visual for a player, with 48 bars sampled from `getByteFrequencyData()` and a vertical gradient on each.' },
+      { icon: '🎧', title: 'Audio product landing pages', desc: 'Give a speaker or headphone page a lively centrepiece that needs no audio files, since four synthesised oscillators form the chord.' },
+      { icon: '📚', title: 'Web Audio spectrum tutorials', desc: 'Demonstrate how an `AnalyserNode` turns sound into frequency bins, in a single readable file without any visualisation library.' },
+      { icon: '🎛️', title: 'DJ and synth tool prototypes', desc: 'Reuse the display as a live spectrum meter in a browser-based instrument, mixer or DJ interface prototype of your own.' },
     ],
     faqs: [
       { q: 'Why does the visualizer play four tones instead of one?', a: 'A single sine tone only lights up one narrow frequency bin, which looks static. Playing a small chord of four different frequencies spreads energy across the spectrum so the bar chart shows visible, varied movement like a real equalizer.' },

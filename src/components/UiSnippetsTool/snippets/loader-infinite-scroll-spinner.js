@@ -149,12 +149,11 @@ Replace the \`setTimeout\` inside \`loadNextPage()\` with a real \`fetch('/api/i
       { title: 'Real-API-ready structure', text: `Swap the simulated timeout for fetch with no change to the observer logic.` },
     ],
     useCases: [
-      { title: 'Social and activity feeds', text: `Load more posts as the user scrolls, without a manual "Load more" click.` },
-      { title: 'Search and product results', text: `Continuously append results as a long list scrolls.` },
-      { title: 'Notification and inbox lists', text: `Page in older items only as needed, keeping initial load light.` },
-      { title: 'Comment threads', text: `Load additional comments below the fold on demand.` },
-      { title: 'Admin and data tables', text: `A lighter alternative to full pagination for long records.` },
-      { title: 'Media galleries', text: `Combine with an [image blur-up](/ui-snippets/image-blur-up/) loader for each newly appended item.` },
+      { title: 'Social and activity feeds', text: 'Load more posts as the reader nears the end, using an IntersectionObserver sentinel rather than costly scroll-position maths.' },
+      { title: 'Search and product results', text: 'Append results continuously, with `rootMargin` starting the next load slightly before the sentinel is actually visible.' },
+      { title: 'Notification and inbox lists', text: 'Page in older items only when needed, with a loading flag preventing overlapping fetches from a single scroll.' },
+      { title: 'Image galleries', text: 'Combine with an [image blur-up](/ui-snippets/image-blur-up/) loader so each newly appended picture also fades in gracefully as the list grows.' },
+      { title: 'Admin tables and comment threads', text: 'Offer a lighter alternative to full pagination, with an end-of-list message once no more items remain.' },
       { icon: 'CODE', title: 'Related: Button Loading State Morph', desc: 'See the [Button Loading State Morph](/ui-snippets/loader-inline-button-morph/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -141,12 +141,11 @@ Change \`duration\` for a snappier or slower count, swap \`easeOutCubic\` for a 
       { title: 'Tunable and data-drivable', text: `Swap the fixed duration for real asset-load progress with no structural change.` },
     ],
     useCases: [
-      { title: 'Agency and portfolio homepages', text: `A premium first-impression loader before the hero reveals.` },
-      { title: 'Product launch and teaser pages', text: `Build anticipation before content appears.` },
-      { title: 'Heavy WebGL or 3D scene preloaders', text: `Show real asset-load percentage while textures and models download.` },
-      { title: 'App splash screens', text: `A branded takeover while initial data or auth resolves.` },
-      { title: 'Onboarding first-run screens', text: `Pair with a [loading overlay](/ui-snippets/loading-overlay/) for subsequent in-app waits.` },
-      { title: 'Route transitions', text: `An alternative to a [top loading bar](/ui-snippets/top-loading-bar/) for a bigger visual moment.` },
+      { title: 'Agency and portfolio homepages', text: 'Greet visitors with one huge percentage counting to 100, then fade to reveal the page for a premium first impression.' },
+      { title: 'Product launch teasers', text: 'Build anticipation before a reveal, with `easeOutCubic` racing early and decelerating into 100 so the count feels earned, not mechanical.' },
+      { title: 'Heavy 3D scene preloaders', text: 'Tie the number to real asset-loading progress for a WebGL experience, and pair with a [loading overlay](/ui-snippets/loading-overlay/) for the fade out.' },
+      { title: 'Branded app splash takeovers', text: 'Cover first-load data fetching with a bold number that pulses only when the displayed integer actually changes.' },
+      { title: 'Route transition alternatives', text: 'Offer a full-screen option next to a [top loading bar](/ui-snippets/top-loading-bar/), with `void offsetWidth` forcing a reflow so every pulse replays.' },
       { icon: 'CODE', title: 'Related: Multi-Stage Loading Checklist', desc: 'See the [Multi-Stage Loading Checklist](/ui-snippets/loader-multi-stage-checklist/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

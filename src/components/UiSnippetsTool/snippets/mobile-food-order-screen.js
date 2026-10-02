@@ -188,12 +188,11 @@ Feed the dishes from your menu API, wire the category chips to actually filter t
       { title: 'No dependency', text: `Pure HTML, CSS, and vanilla JavaScript.` },
     ],
     useCases: [
-      { title: 'Food delivery apps', text: `The menu step before a [mobile checkout screen](/ui-snippets/mobile-checkout-screen/).` },
-      { title: 'Restaurant pages', text: `Pair dishes with a [product card](/ui-snippets/product-card/) grid.` },
-      { title: 'Add-to-cart flows', text: `Reuse the button like an [add to cart button](/ui-snippets/add-to-cart-button/).` },
-      { title: 'Cart summaries', text: `Feed the tally into a [mini cart](/ui-snippets/mini-cart/).` },
-      { title: 'App mockups', text: `Present it inside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Learning cart state', text: `A reference for keyed cart objects and derived totals.` },
+      { title: 'Food delivery menus', text: 'Show a restaurant menu before a [mobile checkout screen](/ui-snippets/mobile-checkout-screen/), with category chips and dish add buttons under a hero cover.' },
+      { title: 'Restaurant page layouts', text: 'Pair dishes with a [product card](/ui-snippets/product-card/) grid on a web ordering page, using the same keyed cart model for both.' },
+      { title: 'Add-to-cart interactions', text: 'Reuse the add button like an [add to cart button](/ui-snippets/add-to-cart-button/), where repeated adds increment a quantity instead of duplicating a row.' },
+      { title: 'Sticky cart bars', text: 'Feed the running tally into a [mini cart](/ui-snippets/mini-cart/), with the bar rising only once something has been added.' },
+      { title: 'Blurred floating controls', text: 'Learn how back and favourite buttons use `backdrop-filter` over the cover image, while status bar text stays legible white.' },
       { icon: 'CODE', title: 'Related: Mobile Calendar Screen', desc: 'See the [Mobile Calendar Screen](/ui-snippets/mobile-calendar-screen/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

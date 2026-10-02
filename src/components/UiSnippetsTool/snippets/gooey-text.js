@@ -90,12 +90,11 @@ Edit the \`WORDS\` array, tune the filter's \`stdDeviation\` and alpha matrix fo
       { title: 'Responsive type', text: `clamp scales the words to the viewport.` },
     ],
     useCases: [
-      { title: 'Hero taglines', text: `Cycle verbs above a [text generate](/ui-snippets/text-generate/) line.` },
-      { title: 'Brand statements', text: `Morph value words on a landing page.` },
-      { title: 'Loading screens', text: `Pair with a [liquid button](/ui-snippets/liquid-button/) theme.` },
-      { title: 'Feature rotators', text: `Melt between capability names.` },
-      { title: 'Creative portfolios', text: `A liquid alternative to a [word flip hero](/ui-snippets/word-flip-hero/).` },
-      { title: 'Goo filter demos', text: `A reference for SVG metaball typography.` },
+      { title: 'Hero taglines', text: 'Cycle verbs above a [text generate](/ui-snippets/text-generate/) line, with words melting into each other through an SVG blur and alpha threshold.' },
+      { title: 'Brand value statements', text: 'Morph value words on a landing page, as two cross-fading layers swap over the same space with a scale pull for the melt.' },
+      { title: 'Liquid-themed loading screens', text: 'Pair with a [liquid button](/ui-snippets/liquid-button/) on a loading screen to carry the gooey theme through both waiting and interaction.' },
+      { title: 'Capability rotators', text: 'Melt between feature or product names in a rotator, using any number of words in the list without changing the filter.' },
+      { title: 'Word flip alternatives', text: 'Offer a liquid option beside a [word flip hero](/ui-snippets/word-flip-hero/), and study the goo filter as a reference for metaball typography.' },
       { icon: 'CODE', title: 'Related: Matter.js Falling Tags', desc: 'See the [Matter.js Falling Tags](/ui-snippets/matter-falling-tags/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

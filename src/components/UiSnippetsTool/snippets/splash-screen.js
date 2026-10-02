@@ -121,12 +121,11 @@ Swap the logo, name, and gradient for your brand, and drive the progress from re
       { title: 'No dependency', text: `Pure HTML/CSS/JS for launch screens.` },
     ],
     useCases: [
-      { title: 'App launch screens', text: `Boot an app inside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Web app loading', text: `Use as an initial screen before a [dashboard layout](/ui-snippets/dashboard-layout/).` },
-      { title: 'Onboarding entry', text: `Hand off to a [mobile onboarding](/ui-snippets/mobile-onboarding/) flow.` },
-      { title: 'Branding moments', text: `Pair the draw-on logo with an [animated success checkmark](/ui-snippets/animated-success-checkmark/).` },
-      { title: 'Store assets', text: `Capture a launch frame beside a [product hero](/ui-snippets/product-hero/).` },
-      { title: 'Learning SVG draw-on', text: `A reference for stroke-dasharray logo animation.` },
+      { title: 'App launch screens', text: 'Boot an app with a self-drawing ring and checkmark logo using `stroke-dasharray`, shown inside a [phone mockup](/ui-snippets/phone-mockup/).' },
+      { title: 'Web app boot screens', text: 'Show a branded loader before a [dashboard layout](/ui-snippets/dashboard-layout/) appears, with discrete stages and labels instead of a fake looping bar.' },
+      { title: 'Launch to onboarding hand-off', text: 'Fade out with a scale and dissolve into [mobile onboarding](/ui-snippets/mobile-onboarding/), so the transition feels like one continuous start.' },
+      { title: 'Branding moments', text: 'Pair the draw-on logo with an [animated success checkmark](/ui-snippets/animated-success-checkmark/) to share one visual language across loading and completion.' },
+      { title: 'Store asset captures', text: 'Capture a launch frame for app store graphics next to a [product hero](/ui-snippets/product-hero/), using the replay button to catch the perfect moment.' },
       { icon: 'CODE', title: 'Related: Picture-in-Picture Video Card', desc: 'See the [Picture-in-Picture Video Card](/ui-snippets/picture-in-picture-video-card/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

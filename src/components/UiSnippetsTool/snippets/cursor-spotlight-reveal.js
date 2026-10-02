@@ -121,12 +121,11 @@ Change the spotlight radius (both the \`circle 120px\` in CSS and nothing else n
       { title: `Easily resizable`, text: `One circle radius value controls spotlight size.` },
     ],
     useCases: [
-      { title: `Landing page reveals`, text: `Hide a headline or offer behind a playful spotlight.` },
-      { title: `Interactive storytelling`, text: `Reveal hidden details as visitors explore a panel.` },
-      { title: `Product teaser sections`, text: `Tease a feature list that only appears on hover.` },
-      { title: `Portfolio hero sections`, text: `Pair with a [custom cursor](/ui-snippets/custom-cursor/) theme.` },
-      { title: `Dark-mode dashboards`, text: `Highlight the exact area a user is pointing at.` },
-      { title: `Learning CSS masking`, text: `A reference for mousemove-driven mask-image.` },
+      { title: 'Landing page reveals', text: 'Hide a headline or offer behind a dim layer that only a circular spotlight uncovers, for a sense of discovery.' },
+      { title: 'Interactive storytelling', text: 'Reveal hidden details as visitors explore, using two stacked copies of the same content so nothing flashes as the mask moves.' },
+      { title: 'Product teaser sections', text: 'Tease a feature list that only appears under the cursor, with `--csr-x` and `--csr-y` feeding a positioned radial gradient.' },
+      { title: 'Portfolio hero sections', text: 'Pair with a [custom cursor](/ui-snippets/custom-cursor/) theme for a cohesive pointer-led experience, using feathered edges for a soft torch effect.' },
+      { title: 'CSS masking reference', text: 'Learn how `mask-image` and a mousemove handler combine, which is useful for highlighting the exact area a user is pointing at in a dark dashboard.' },
       { icon: 'CODE', title: 'Related: Flip Countdown', desc: 'See the [Flip Countdown](/ui-snippets/flip-countdown/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

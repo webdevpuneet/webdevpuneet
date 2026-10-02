@@ -143,12 +143,11 @@ Keep the slide structure and replace the copy, glyphs, and gradients. Drop it in
       { title: 'No dependency', text: `Pure HTML/CSS/JS, no carousel library.` },
     ],
     useCases: [
-      { title: 'App first-run intros', text: `Introduce features inside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Feature tours', text: `A lighter alternative to an [onboarding tour](/ui-snippets/onboarding-tour/).` },
-      { title: 'Lead into sign-in', text: `Hand off to a [mobile login screen](/ui-snippets/mobile-login-screen/).` },
-      { title: 'Web onboarding', text: `Lift it out as a [carousel](/ui-snippets/carousel/)-style intro.` },
-      { title: 'Product walkthroughs', text: `Pair with a [progress wizard](/ui-snippets/progress-wizard/) for steps.` },
-      { title: 'Learning sliders', text: `A reference for translateX carousels and swipe.` },
+      { title: 'First-run feature intros', text: 'Introduce an app\'s best features one per screen, with morphing blob art, a headline and a line of copy inside a [phone mockup](/ui-snippets/phone-mockup/).' },
+      { title: 'Feature tour alternatives', text: 'Offer a lighter option than an [onboarding tour](/ui-snippets/onboarding-tour/), where swiping or buttons both call one `go()` function.' },
+      { title: 'Hand-off to sign-in', text: 'End on a get-started button that leads to a [mobile login screen](/ui-snippets/mobile-login-screen/), completing the first-launch story.' },
+      { title: 'Web intro carousels', text: 'Lift the sliding track out as a web [carousel](/ui-snippets/carousel/), keeping the worm-style dots where the active dot stretches into a pill.' },
+      { title: 'Step-based walkthroughs', text: 'Pair with a [progress wizard](/ui-snippets/progress-wizard/) when onboarding includes real input steps, not just slides, and keep a skip option.' },
       { icon: 'CODE', title: 'Related: Mobile Keyboard Guide — Correct inputmode/type/pattern Per Field', desc: 'See the [Mobile Keyboard Guide — Correct inputmode/type/pattern Per Field](/ui-snippets/mobile-inputmode-keyboard-guide/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

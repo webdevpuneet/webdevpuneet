@@ -106,12 +106,11 @@ Change \`RINGS\` and \`MAX\` for more or larger rings, retime the loop, recolor 
       { title: 'Pure-CSS animation', text: `JS only creates and wires elements.` },
     ],
     useCases: [
-      { title: 'Signal and radar heroes', text: `Pair with a [pulse button](/ui-snippets/pulse-button/) CTA.` },
-      { title: 'Live and broadcast pages', text: `Echo a live state from a [status dashboard](/ui-snippets/status-dashboard/).` },
-      { title: 'IoT and network sites', text: `Set the mood near a [particle network](/ui-snippets/particle-network/).` },
-      { title: 'Launch announcements', text: `Frame an [aurora text](/ui-snippets/aurora-text/) headline.` },
-      { title: 'Event microsites', text: `An interactive backdrop that responds to taps.` },
-      { title: 'Ripple effect demos', text: `A reference for staggered concentric pulses.` },
+      { title: 'Signal and radar heroes', text: 'Pair with a [pulse button](/ui-snippets/pulse-button/) call to action, with concentric rings expanding from the centre in a continuous loop.' },
+      { title: 'Live and broadcast pages', text: 'Echo a live state from a [status dashboard](/ui-snippets/status-dashboard/), as the rings evoke a signal broadcasting outward.' },
+      { title: 'IoT and network sites', text: 'Set the mood near a [particle network](/ui-snippets/particle-network/), with negative animation delays making the full loop present on the first frame.' },
+      { title: 'Announcement headlines', text: 'Frame an [aurora text](/ui-snippets/aurora-text/) headline for an announcement, with expanding rings that fade softly as they grow outward.' },
+      { title: 'Click-to-ripple interactions', text: 'Spawn a burst at the tap point on click, with each one removing itself on `animationend` so the DOM stays clean.' },
     ],
     faqs: [
       { q: 'How do the rings pulse continuously without a gap?', a: `Six rings share one expand-and-fade keyframe but each gets a negative animation-delay spaced evenly across the loop. That offsets them so at any moment they sit at six different sizes — one emerging at the center while another fades at the edge — producing a smooth, never-gapping radar pulse instead of all rings firing together.` },

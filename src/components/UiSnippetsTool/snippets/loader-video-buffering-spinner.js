@@ -181,12 +181,11 @@ Replace the simulated \`current\`/\`bufferedAhead\` numbers with a real \`<video
       { title: 'Native-event-ready structure', text: `Maps directly onto a real <video>'s waiting/playing events.` },
     ],
     useCases: [
-      { title: 'Video streaming platforms', text: `The exact buffering convention users expect from any serious video player.` },
-      { title: 'Course and lesson players', text: `Show real stall states during e-learning video playback.` },
-      { title: 'Live stream viewers', text: `Communicate rebuffering distinctly from a paused or ended stream.` },
-      { title: 'Embedded product demo videos', text: `Marketing pages with inline video benefit from honest buffering feedback.` },
-      { title: 'Internal review and dailies tools', text: `Media review players showing large file streaming states.` },
-      { title: 'Any custom <video> element UI', text: `A reference for wiring waiting/playing events to a styled overlay.` },
+      { title: 'Video streaming platforms', text: 'Show the spinner only when playback catches the buffered edge, following the convention viewers already know from major streaming sites.' },
+      { title: 'Course and lesson players', text: 'Reveal true stall states during an e-learning video, with separate played and buffered fills on the scrubber.' },
+      { title: 'Live stream viewers', text: 'Communicate rebuffering distinctly from the initial load, with a scrim covering only the video frame and not the whole page.' },
+      { title: 'Embedded product demos', text: 'Give marketing pages inline demo videos real player chrome, including play and pause, scrubber, timestamp and mute controls.' },
+      { title: 'Custom video element UIs', text: 'Use it as a reference for `bufferedAhead`, where the overlay hides again once enough runway has rebuilt ahead of the playhead.' },
       { icon: 'CODE', title: 'Related: Full-Screen Percentage Counter Loader', desc: 'See the [Full-Screen Percentage Counter Loader](/ui-snippets/loader-percentage-morph-text/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

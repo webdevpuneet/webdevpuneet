@@ -169,11 +169,11 @@ Each call to \`animateTo()\` stops any animation already in progress (\`if (anim
       { title: 'Clean track + arc layering', text: 'A static full-circle track sits beneath the animated progress arc.' },
     ],
     useCases: [
-      { icon: 'FLOW', title: 'File upload / processing progress', text: 'A precise, JS-driven indicator for long-running operations.' },
-      { icon: 'APP', title: 'Dashboard KPI rings', text: 'Goal-completion or utilization rings on a metrics dashboard.' },
-      { icon: 'LEARN', title: 'Teaching canvas animation loops', text: 'A concrete reference for Konva.Animation vs. CSS transitions.' },
-      { icon: 'APP', title: 'Onboarding step trackers', text: 'A ring showing how far through a multi-step flow a user is.' },
-      { icon: 'STAR', title: 'Gamified progress meters', text: 'XP or completion rings that visibly ease toward new values.' },
+      { title: 'Upload and processing progress', text: 'Show precise, JavaScript-driven progress for file operations, drawing the arc directly with canvas `ctx.arc` inside a custom `Konva.Shape`.' },
+      { title: 'Dashboard KPI rings', text: 'Display goal completion or utilisation rings that animate to new targets, with step size scaled by `frame.timeDiff` for consistent speed.' },
+      { title: 'Canvas animation loop teaching', text: 'Use it as a concrete reference for `Konva.Animation`, a `requestAnimationFrame` loop you can start, stop and tune.' },
+      { title: 'Onboarding step progress', text: 'Show how far through a flow a user is, with the step shrinking as the value nears target and snapping at a small threshold.' },
+      { title: 'Gamified XP meters', text: 'Fill experience or completion rings in a game or course that visibly ease toward their targets instead of jumping straight there.' },
     ],
     faqs: [
       { q: 'Why use a custom sceneFunc instead of Konva.Arc?', a: 'Konva.Arc works too, but a custom sceneFunc makes the drawing mechanism explicit and gives full control over exactly how the angle attribute maps to the canvas arc call \\u2014 useful when you want non-standard behavior later, like a gapped or dashed progress arc.' },

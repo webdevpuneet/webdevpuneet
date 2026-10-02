@@ -127,12 +127,11 @@ The tank carries \`role="progressbar"\` with \`aria-valuenow\` kept in sync with
       { title: 'No dependencies', text: `Pure SVG, CSS, and vanilla JS — no canvas library or animation engine.` },
     ],
     useCases: [
-      { title: 'Onboarding and gamified progress', text: `A playful alternative to a [progress bar](/ui-snippets/progress-bar/) for setup or level-up flows.` },
-      { title: 'Battery and resource gauges', text: `Show charge, storage, or quota level, alongside a [quota usage meter](/ui-snippets/quota-usage-meter/).` },
-      { title: 'Hydration or goal trackers', text: `A literal water-themed visual for fitness or wellness goal widgets.` },
-      { title: 'File upload/download level', text: `Pair with an [upload progress](/ui-snippets/upload-progress/) bar for a more expressive companion visual.` },
-      { title: 'Dashboard KPI tanks', text: `Show a metric filling toward a target next to a [circular progress](/ui-snippets/circular-progress/) ring.` },
-      { title: 'Loading-state exploration', text: `A reference for combining a real value with continuous ambient motion.` },
+      { title: 'Gamified onboarding progress', text: 'Offer a playful alternative to a [progress bar](/ui-snippets/progress-bar/), where a tank fills as new users complete setup.' },
+      { title: 'Battery and resource gauges', text: 'Show charge or capacity next to a [quota usage meter](/ui-snippets/quota-usage-meter/), with a wave that keeps rolling even while the level holds.' },
+      { title: 'Hydration and goal trackers', text: 'Provide a literal water-themed visual for hydration goals, with a cubic-bezier transform easing the level smoothly between values.' },
+      { title: 'Upload and download levels', text: 'Pair with an [upload progress](/ui-snippets/upload-progress/) bar for a more characterful take on transfer status, using the tank for the overall level.' },
+      { title: 'Wave versus ring comparisons', text: 'Compare with a [circular progress](/ui-snippets/circular-progress/) ring, noting that here the SVG path is resampled every frame for genuine undulation.' },
       { icon: 'CODE', title: 'Related: Button Loading State Morph', desc: 'See the [Button Loading State Morph](/ui-snippets/loader-inline-button-morph/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

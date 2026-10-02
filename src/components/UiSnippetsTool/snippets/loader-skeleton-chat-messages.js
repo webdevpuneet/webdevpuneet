@@ -99,12 +99,11 @@ Only \`'in'\` rows get a circular avatar placeholder next to the bubble, matchin
       { title: 'Zero dependencies', text: `Pure CSS keyframes plus a small JS loop — no library.` },
     ],
     useCases: [
-      { title: 'Chat and messaging apps', text: `The primary use case — pair with a [chat UI](/ui-snippets/chat-ui/) shell for the full interface.` },
-      { title: 'Support / live chat widgets', text: `Show a loading thread before support history loads.` },
-      { title: 'DM and inbox previews', text: `A loading state for a direct-message conversation view.` },
-      { title: 'AI chat interfaces', text: `Precede a response with this shape before swapping to real bubbles — compare with an [ai chat interface](/ui-snippets/ai-chat-interface/).` },
-      { title: 'Comment/reply threads styled as chat', text: `Any threaded UI that visually resembles a conversation.` },
-      { title: 'Learning data-driven skeleton layout', text: `A reference for shaping a skeleton to match a specific UI's structure.` },
+      { title: 'Messaging app thread loading', text: 'Show the shape of a conversation while it loads, using bubble-shaped placeholders that alternate sides inside a [chat UI](/ui-snippets/chat-ui/).' },
+      { title: 'Support chat widgets', text: 'Show a loading thread before an agent history arrives, with avatar circles only beside received messages as in a real conversation.' },
+      { title: 'Direct message previews', text: 'Give an inbox pane a convincing loading state, with varied bubble widths reading as messages of different lengths.' },
+      { title: 'AI chat response lead-ins', text: 'Precede an answer in an [AI chat interface](/ui-snippets/ai-chat-interface/) with this shape, so the layout does not jump when real messages arrive.' },
+      { title: 'Data-driven skeleton layout', text: 'Study how rows are created from a plain width list, with one flattened corner on each bubble mimicking a real chat tail.' },
       { icon: 'CODE', title: 'Related: Page Transition Progress Bar', desc: 'See the [Page Transition Progress Bar](/ui-snippets/loader-page-transition-bar/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

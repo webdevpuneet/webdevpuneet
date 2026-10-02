@@ -199,12 +199,11 @@ Point the play/pause and seek at a real \`<audio>\` element — bind \`currentTi
       { title: 'No dependency', text: `Pure HTML, CSS, and vanilla JavaScript.` },
     ],
     useCases: [
-      { title: 'Music apps', text: `The now-playing view above a [music player](/ui-snippets/music-player/) bar.` },
-      { title: 'Podcast players', text: `Reuse the seek bar for an [audio waveform visualizer](/ui-snippets/audio-waveform-visualizer/).` },
-      { title: 'Media controls', text: `Pair the transport with a [volume control](/ui-snippets/volume-control/).` },
-      { title: 'App mockups', text: `Present it inside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Lock-screen media', text: `Match it to a [mobile lock screen](/ui-snippets/mobile-lock-screen/) player.` },
-      { title: 'Learning scrub bars', text: `A reference for pointer-driven seek controls.` },
+      { title: 'Music app now-playing views', text: 'Show spinning album art on a CSS vinyl disc whose rotation pauses with `animation-play-state` when playback stops, beside a compact [music player](/ui-snippets/music-player/) bar.' },
+      { title: 'Podcast and audio players', text: 'Replace the seek bar with an [audio waveform visualiser](/ui-snippets/audio-waveform-visualizer/) for spoken audio, keeping the same elapsed-time clock.' },
+      { title: 'Transport and volume controls', text: 'Pair the controls with a [volume control](/ui-snippets/volume-control/), with Pointer Events handling click-to-seek and knob dragging on the progress bar.' },
+      { title: 'Lock-screen media widgets', text: 'Match the player to a [mobile lock screen](/ui-snippets/mobile-lock-screen/), where the same track and elapsed time appear as a compact notification.' },
+      { title: 'Pointer-driven scrubbing reference', text: 'Study how one handler supports both clicking to seek and dragging the knob, using `setInterval` for a live m:ss clock.' },
       { icon: 'CODE', title: 'Related: Mobile Food Order Screen', desc: 'See the [Mobile Food Order Screen](/ui-snippets/mobile-food-order-screen/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

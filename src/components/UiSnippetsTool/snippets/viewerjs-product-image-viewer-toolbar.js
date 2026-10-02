@@ -133,10 +133,11 @@ The page also keeps its own hero image in sync. The viewed callback fires each t
       'Looping navigation and smooth transitions',
     ],
     useCases: [
-      { icon: 'SHOP', title: 'Product detail pages', desc: `Let shoppers inspect detail and texture. For pinch-and-pan on large diagrams see the [Panzoom floor plan](/ui-snippets/panzoom-zoomable-floor-plan/).` },
-      { icon: 'ART', title: 'Photography and design review', desc: `Compare angles and inspect pixels with one-to-one zoom.` },
-      { icon: 'ADMIN', title: 'Image moderation and QA', desc: `Rotate and zoom user-submitted images to check them quickly.` },
-      { icon: 'LEARN', title: 'Learning lazy full-size loading', desc: `A concrete use of data-original to defer heavy assets.` },
+      { icon: '🛍️', title: 'Product detail inspection', desc: 'Let shoppers zoom to 100%, rotate and flip between angles to judge stitching or texture, with a thumbnail navbar for each image.' },
+      { icon: '📷', title: 'Photography and design review', desc: 'Compare angles and inspect fine detail, with keyboard shortcuts covering every toolbar action for fast review.' },
+      { icon: '🛡️', title: 'Image moderation and QA', desc: 'Rotate and zoom user-submitted images to check quality, with toolbar buttons individually shown, hidden or resized for the task.' },
+      { icon: '⚡', title: 'Lazy full-size loading', desc: 'See `data-original` in practice, where full-resolution files load only when the viewer opens and thumbnails stay light.' },
+      { icon: '🗺️', title: 'Plan and map viewing', desc: 'Compare with the [Panzoom floor plan](/ui-snippets/panzoom-zoomable-floor-plan/) when a large drawing needs continuous pan and zoom rather than discrete tools.' },
     ],
     faqs: [
       { q: 'How do I load a larger image than the thumbnail?', a: 'Set the url option to an attribute name such as "data-original" and put the full-size file URL in that attribute on each thumbnail.' },

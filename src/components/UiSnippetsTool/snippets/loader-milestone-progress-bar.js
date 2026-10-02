@@ -152,12 +152,11 @@ The demo simulates progress with a random-increment \`setInterval\`, but \`apply
       { title: 'Zero dependencies', text: `Pure HTML/CSS/JS — no charting or progress library.` },
     ],
     useCases: [
-      { title: 'File upload pipelines', text: `Label real stages like Uploading/Processing/Done — pair with [upload progress](/ui-snippets/upload-progress/).` },
-      { title: 'Video/asset processing', text: `Show transcoding stages (Uploading, Encoding, Optimizing, Ready).` },
-      { title: 'Multi-phase deployments', text: `Label build/test/deploy phases on one bar.` },
-      { title: 'Onboarding with sub-stages', text: `A richer alternative to a [segmented progress](/ui-snippets/segmented-progress/) bar when steps aren't equal-width.` },
-      { title: 'Import/export jobs', text: `Show parsing, validating, and writing stages with real position feedback.` },
-      { title: 'Learning position-driven UI logic', text: `A reference for deriving UI state from a real value comparison instead of timers.` },
+      { title: 'File upload pipelines', text: 'Label real stages such as Uploading, Processing, Optimising and Done, with each milestone activating once real progress crosses its tick.' },
+      { title: 'Media processing stages', text: 'Show transcoding steps beside an [upload progress](/ui-snippets/upload-progress/) bar, so users know what is happening as well as how far along it is.' },
+      { title: 'Multi-phase deployments', text: 'Label build, test and deploy phases on one bar, with milestone state computed from a live comparison against the percentage.' },
+      { title: 'Segmented alternatives', text: 'Compare with a [segmented progress](/ui-snippets/segmented-progress/) bar when stages are equal in size and need no tick labels.' },
+      { title: 'Import and export jobs', text: 'Show parsing, validating and writing steps from one `MILESTONES` array, which stays correct whether progress is fast, slow or uneven.' },
       { icon: 'CODE', title: 'Related: Liquid Fill Progress Indicator', desc: 'See the [Liquid Fill Progress Indicator](/ui-snippets/loader-liquid-fill-progress/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

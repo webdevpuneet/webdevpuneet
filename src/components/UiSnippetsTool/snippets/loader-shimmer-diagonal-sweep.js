@@ -112,12 +112,11 @@ A \`prefers-reduced-motion\` query disables the sweep's animation and lowers its
       { title: 'Drop-in composability', text: `Add any mix of shapes; the sweep automatically covers the whole card.` },
     ],
     useCases: [
-      { title: 'Profile and account cards', text: `A diagonal alternative to the standard [skeleton profile](/ui-snippets/skeleton-profile/) shimmer.` },
-      { title: 'Dashboard summary cards', text: `Pair with a [skeleton dashboard](/ui-snippets/skeleton-dashboard/) for a distinctive loading feel.` },
-      { title: 'Product and media cards', text: `Cover an image block and its text together in one light pass.` },
-      { title: 'Branded loading states', text: `A more distinctive shimmer than the default horizontal sweep for premium UI.` },
-      { title: 'Table and grid placeholders', text: `Adapt over a [skeleton table](/ui-snippets/skeleton-table/) or [skeleton card grid](/ui-snippets/skeleton-card-grid/).` },
-      { title: 'Learning CSS blend modes', text: `A compact reference for mix-blend-mode driving a shared light effect.` },
+      { title: 'Profile card placeholders', text: 'Give a [skeleton profile](/ui-snippets/skeleton-profile/) a distinctive diagonal alternative, where one light band crosses every block together instead of each strip shimmering separately.' },
+      { title: 'Dashboard summary tiles', text: 'Pair with a [skeleton dashboard](/ui-snippets/skeleton-dashboard/) so a whole panel of tiles appears to be lit by a single moving highlight.' },
+      { title: 'Product and media cards', text: 'Cover an image block and its text lines with the same sweep, using flat placeholder blocks that carry no animation of their own.' },
+      { title: 'Table and grid skeletons', text: 'Adapt the band over a [skeleton table](/ui-snippets/skeleton-table/) or [skeleton card grid](/ui-snippets/skeleton-card-grid/), as one overlay element covers any number of blocks.' },
+      { title: 'Blend mode reference', text: 'Study how `mix-blend-mode: overlay` brightens whatever sits beneath the band, giving a believable shine without extra gradients per block.' },
       { icon: 'CODE', title: 'Related: Page Transition Progress Bar', desc: 'See the [Page Transition Progress Bar](/ui-snippets/loader-page-transition-bar/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -174,12 +174,11 @@ Feed each ring a real percentage from your health data, update the stats and wor
       { title: 'No dependency', text: `Pure HTML, CSS, and vanilla JavaScript.` },
     ],
     useCases: [
-      { title: 'Fitness apps', text: `The home screen beside a set of [activity rings](/ui-snippets/activity-rings/).` },
-      { title: 'Health dashboards', text: `Pair the tiles with a [user stats card](/ui-snippets/user-stats-card/).` },
-      { title: 'Goal tracking', text: `Reuse the arcs like a [progress circle steps](/ui-snippets/progress-circle-steps/).` },
-      { title: 'Streak features', text: `Combine with a [streak tracker](/ui-snippets/streak-tracker/).` },
-      { title: 'App mockups', text: `Present it inside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Learning SVG rings', text: `A reference for nested dash-offset progress.` },
+      { title: 'Fitness app home screens', text: 'Lead with three concentric SVG rings for move, exercise and stand, next to a set of [activity rings](/ui-snippets/activity-rings/) for a wider dashboard.' },
+      { title: 'Health stat tiles', text: 'Back the rings with a daily stat grid and pair with a [user stats card](/ui-snippets/user-stats-card/) for a more detailed profile view.' },
+      { title: 'Goal tracking visuals', text: 'Reuse the ring technique like a [progress circle with steps](/ui-snippets/progress-circle-steps/), where each radius gets its own circumference calculation.' },
+      { title: 'Streak and habit features', text: 'Add a [streak tracker](/ui-snippets/streak-tracker/) beneath the rings, using a double requestAnimationFrame so the rings sweep up from empty on load.' },
+      { title: 'Wearable-style prototypes', text: 'Show the dark activity screen in a [phone mockup](/ui-snippets/phone-mockup/) to present a wearable companion app concept to clients or investors.' },
       { icon: 'CODE', title: 'Related: Mobile Biometric Unlock Screen', desc: 'See the [Mobile Biometric Unlock Screen](/ui-snippets/mobile-biometric-unlock-screen/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

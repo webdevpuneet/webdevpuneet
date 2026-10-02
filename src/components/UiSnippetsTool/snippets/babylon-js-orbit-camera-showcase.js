@@ -218,12 +218,11 @@ This preset-tween pattern applies to any showroom, architectural walkthrough, or
       { title: 'Active preset indicator', text: 'The clicked preset button stays highlighted until manual drag or another preset is chosen.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'Virtual showrooms', text: 'Product lineups with named camera angles a customer can jump between.' },
-      { icon: 'DESIGN', title: 'Architectural or interior walkthroughs', text: 'Named preset views (entry, top-down, elevation) for a 3D space.' },
-      { icon: 'FLOW', title: 'Configurator step transitions', text: 'Camera moves that accompany configuration steps in a product customizer.' },
-      { icon: 'LEARN', title: 'Learning Babylon.js Animation', text: 'A clear reference for tweening arbitrary properties, not just meshes.' },
-      { icon: 'STAR', title: 'Portfolio showcase scenes', text: 'A polished way to present a 3D asset collection with guided viewpoints.' },
-      { icon: 'CODE', title: 'Camera choreography prototyping', text: 'A base to extend into scripted multi-shot camera sequences.' },
+      { title: 'Virtual showrooms', text: 'Move between named camera angles on a product lineup, with alpha, beta and radius animating together instead of snapping.' },
+      { title: 'Architectural walkthroughs', text: 'Present preset views of an interior or building, using a shared `CubicEase` so every move feels like a deliberate cinematic cut.' },
+      { title: 'Configurator step transitions', text: 'Move the camera to the relevant part of a product as each configuration step begins, using the live current value as frame zero.' },
+      { title: 'Babylon.js animation reference', text: 'Study `BABYLON.Animation` tweens, and how `scene.stopAnimation` cleanly cancels an in-flight move before the next one starts.' },
+      { title: 'Camera choreography prototypes', text: 'Extend the preset buttons into scripted fly-throughs, with `durationFrames` and `frameRate` controlling how long each transition takes.' },
     ],
     faqs: [
       { q: 'Why does clicking a preset button not just set camera.alpha/beta/radius directly?', a: 'Setting them directly changes the camera position instantly on the next render, with no interpolation -- the camera would teleport to the new angle, which looks like a glitch rather than a deliberate transition. Wrapping each property in a BABYLON.Animation and calling scene.beginAnimation() interpolates smoothly across a chosen number of frames instead.' },

@@ -243,12 +243,11 @@ Pair this with a [screen wake lock toggle](/ui-snippets/screen-wake-lock-toggle/
       { title: 'No dependencies', text: `Pure vanilla JS against the native API.` },
     ],
     useCases: [
-      { title: 'Music/podcast web players', text: `Pair with [canvas audio frequency bars](/ui-snippets/canvas-audio-bars/).` },
-      { title: 'Audiobook apps', text: `Lock-screen chapter title and hardware-key seeking.` },
-      { title: 'Video sites', text: `Same API pattern applies to HTML video playback.` },
-      { title: 'PWA media apps', text: `Keep controls reachable when the app isn't in focus.` },
-      { title: 'Radio/streaming embeds', text: `Show live show metadata on the OS lock screen.` },
-      { title: 'Keep-awake players', text: `Combine with a [screen wake lock toggle](/ui-snippets/screen-wake-lock-toggle/).` },
+      { title: 'Web music and podcast players', text: 'Pair with [canvas audio bars](/ui-snippets/canvas-audio-bars/) so a page player also shows lock-screen title, artist and album from `MediaMetadata`.' },
+      { title: 'Audiobook chapter controls', text: 'Surface chapter titles on the OS lock screen and let hardware media keys skip between them using real action handlers.' },
+      { title: 'Progressive web app media', text: 'Keep playback controls reachable when the app is backgrounded, with `seekto` support letting the lock screen scrub the position.' },
+      { title: 'Radio and streaming embeds', text: 'Show live show metadata in the notification shade of a radio or streaming embed, updated whenever the track or programme changes.' },
+      { title: 'Keep-awake players', text: 'Combine with a [screen wake lock toggle](/ui-snippets/screen-wake-lock-toggle/) so long listening or viewing sessions are not interrupted by the display sleeping.' },
       { icon: 'CODE', title: 'Related: Share Menu with Copy Link and Social Options', desc: 'See the [Share Menu with Copy Link and Social Options](/ui-snippets/share-menu/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

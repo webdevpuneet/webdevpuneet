@@ -121,12 +121,11 @@ Each bar is independent, so copy just the style you need. Recolour the gradients
       { title: 'Independent & no library', text: `Copy any single bar; plain HTML/CSS/JS with zero dependencies.` },
     ],
     useCases: [
-      { title: 'App and page loading', text: `Show activity while data loads — pair with a [top loading bar](/ui-snippets/top-loading-bar/) for route changes.` },
-      { title: 'Form and request submission', text: `An indeterminate bar while a request is in flight, alongside a [loading button](/ui-snippets/loading-button/).` },
-      { title: 'Uploads and downloads', text: `Use the determinate bar with real percentages, next to an [upload progress](/ui-snippets/upload-progress/).` },
-      { title: 'Background tasks', text: `Indicate ongoing work of unknown length.` },
-      { title: 'Skeletons and placeholders', text: `Pair a bar with a [skeleton loader](/ui-snippets/skeleton-loader/) during fetches.` },
-      { title: 'Learning loader animation', text: `A reference for indeterminate techniques and the determinate trade-off — compare with a [progress bar](/ui-snippets/progress-bar/).` },
+      { title: 'App and page loading', text: 'Show that activity is happening when the amount remaining is unknown, pairing with a [top loading bar](/ui-snippets/top-loading-bar/) for route changes.' },
+      { title: 'Form and request submission', text: 'Display an indeterminate bar inside a [loading button](/ui-snippets/loading-button/) or under a form, until the server finally responds.' },
+      { title: 'Upload and download phases', text: 'Use the determinate bar with real percentages, as in an [upload progress](/ui-snippets/upload-progress/) component, when size is actually known.' },
+      { title: 'Background work indicators', text: 'Indicate ongoing tasks of unknown length, with a pause toggle that stops all three CSS-only loops at once.' },
+      { title: 'Loader motion reference', text: 'Study the accelerate-and-stretch sliding fill, the two-dash Material pattern and the barber-pole stripes, all built from `@keyframes` alone.' },
       { icon: 'CODE', title: 'Related: Concentric Rings Progress Loader', desc: 'See the [Concentric Rings Progress Loader](/ui-snippets/loader-concentric-rings-progress/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

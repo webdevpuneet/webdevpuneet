@@ -246,12 +246,11 @@ Swap \`MODEL_URL\` for any other \`.glb\` with clean, readable edges, or pair th
       { title: 'Slider + Ctrl/Cmd-scroll zoom', text: `Zoom is an explicit, opt-in gesture, never a hijacked plain scroll wheel.` },
     ],
     useCases: [
-      { title: '3D modeling and topology review', text: `Inspect a real model's edge flow and geometry density at any blend level.` },
-      { title: 'Engineering and CAD-adjacent portfolios', text: `Demonstrate a technical wireframe/solid inspection tool built from a real asset.` },
-      { title: 'Game asset QA and reviews', text: `Check a character or prop's silhouette and wire density before shipping.` },
-      { title: 'glTF/material teaching demos', text: `A complete, real example of layered dual-material geometry inspection.` },
-      { title: 'Architecture and product design previews', text: `Blend between a technical wireframe view and a rendered look for presentations.` },
-      { title: 'Alongside other GLB viewers', text: `Pair with [GLB lighting studio viewer](/ui-snippets/glb-lighting-studio-viewer/) for a combined inspection tool.` },
+      { title: '3D topology review', text: 'Inspect a model\'s edge flow by blending between solid and wireframe with one slider, rather than a hard on and off snap.' },
+      { title: 'Engineering portfolios', text: 'Demonstrate technical depth with a model that cross-fades opacity across two layered clones sharing the same geometry.' },
+      { title: 'Game asset QA', text: 'Check a character or prop\'s silhouette and mesh density, with each clone\'s transform flattened from the source world matrix.' },
+      { title: 'Architecture and product previews', text: 'Blend between a finished look and the structural skeleton, helping clients understand how an object is built.' },
+      { title: 'Lighting and geometry together', text: 'Pair with the [GLB lighting studio viewer](/ui-snippets/glb-lighting-studio-viewer/) to evaluate both mood and mesh quality on the same real model.' },
       { icon: 'CODE', title: 'Related: ResizeObserver Live Card', desc: 'See the [ResizeObserver Live Card](/ui-snippets/resize-observer-card/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

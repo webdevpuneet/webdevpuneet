@@ -229,12 +229,11 @@ Replace the items with your cart data, wire the address and payment rows to your
       { title: 'No dependency', text: `Pure HTML, CSS, and vanilla JavaScript.` },
     ],
     useCases: [
-      { title: 'Ecommerce apps', text: `The final step after a [mini cart](/ui-snippets/mini-cart/).` },
-      { title: 'Order review', text: `Pair with an [order summary](/ui-snippets/order-summary/) layout.` },
-      { title: 'Payment forms', text: `A mobile take on a [checkout form](/ui-snippets/checkout-form/).` },
-      { title: 'Promo entry', text: `Reuse the field like a [promo code input](/ui-snippets/promo-code-input/).` },
-      { title: 'App mockups', text: `Present it inside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Learning cart math', text: `A reference for centralized totals and discounts.` },
+      { title: 'Mobile commerce checkout', text: 'Complete a purchase after the [mini cart](/ui-snippets/mini-cart/), with quantity steppers that never drop an item below one.' },
+      { title: 'Order review panels', text: 'Pair with an [order summary](/ui-snippets/order-summary/) layout so line items, discounts and totals match on every screen size.' },
+      { title: 'Responsive payment forms', text: 'Compare with a desktop [checkout form](/ui-snippets/checkout-form/), keeping payment radios and the sticky place-order bar within thumb reach.' },
+      { title: 'Promo code behaviour', text: 'Show applied, invalid and empty feedback states for a code like SAVE10, reusing the field alongside a [promo code input](/ui-snippets/promo-code-input/).' },
+      { title: 'Centralised cart maths', text: 'Study how one recalculation function keeps every figure, from line totals to the final price, in sync after any quantity or promo change.' },
       { icon: 'CODE', title: 'Related: Mobile Banking Screen', desc: 'See the [Mobile Banking Screen](/ui-snippets/mobile-banking-screen/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

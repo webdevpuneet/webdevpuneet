@@ -126,12 +126,11 @@ Lower the \`threshold\` for a denser trail or raise it for a sparser one, change
       { title: 'Non-blocking images', text: `pointer-events none keeps tracking smooth.` },
     ],
     useCases: [
-      { title: 'Creative portfolios', text: `A signature hero beside a [portfolio hero](/ui-snippets/portfolio-hero/).` },
-      { title: 'Agency landing pages', text: `Pair with an [agency hero](/ui-snippets/agency-hero/) headline.` },
-      { title: 'Photography sites', text: `Trail real thumbnails toward a [photo gallery](/ui-snippets/photo-gallery/).` },
-      { title: 'Interactive headers', text: `Combine with a [custom cursor](/ui-snippets/custom-cursor/).` },
-      { title: 'Product reveals', text: `Tease shots before a [feature cards](/ui-snippets/feature-cards/) grid.` },
-      { title: 'Pointer effect demos', text: `A reference for distance-spaced trail spawning.` },
+      { title: 'Creative portfolio heroes', text: 'Make a signature opening beside a [portfolio hero](/ui-snippets/portfolio-hero/), where images pop in with rotation along the cursor\'s path.' },
+      { title: 'Agency landing headlines', text: 'Pair with an [agency hero](/ui-snippets/agency-hero/) headline, spawning a new image only after 70 px of travel so spacing stays even.' },
+      { title: 'Photography site teasers', text: 'Trail real thumbnails toward a [photo gallery](/ui-snippets/photo-gallery/), recycling a fixed pool of nodes with a modulo index.' },
+      { title: 'Interactive header combinations', text: 'Combine with a [custom cursor](/ui-snippets/custom-cursor/) so the pointer and the images it drops feel designed together.' },
+      { title: 'Product tease sections', text: 'Tease shots before a [feature cards](/ui-snippets/feature-cards/) grid, using a `--r` custom property to tilt each image differently.' },
       { icon: 'CODE', title: 'Related: Paper.js Vector Blob', desc: 'See the [Paper.js Vector Blob](/ui-snippets/paper-js-vector-blob/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

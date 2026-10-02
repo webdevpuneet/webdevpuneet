@@ -147,12 +147,11 @@ Map a real metric — RSSI in dBm, the Network Information API's \`effectiveType
       { title: 'No dependency', text: `Pure HTML/CSS/JS for any status bar or dashboard.` },
     ],
     useCases: [
-      { title: 'Network and speed tools', text: `Show connection quality next to a [gauge chart](/ui-snippets/gauge-chart/).` },
-      { title: 'Device status rows', text: `Sit beside a [battery indicator](/ui-snippets/battery-indicator/) in a status bar.` },
-      { title: 'IoT dashboards', text: `Stream live RSSI alongside a [sparkline chart](/ui-snippets/sparkline-chart/).` },
-      { title: 'Connection prompts', text: `Pair with a [status pill](/ui-snippets/status-pill/) to show online state.` },
-      { title: 'Quality ratings', text: `Reuse the stepped bars for a [rating breakdown](/ui-snippets/rating-breakdown/).` },
-      { title: 'Learning CSS animation', text: `A reference for staggered keyframe delays.` },
+      { title: 'Network and speed tools', text: 'Show connection quality as five stepped bars, next to a [gauge chart](/ui-snippets/gauge-chart/) of measured speed on a diagnostics page.' },
+      { title: 'Device status rows', text: 'Sit beside a [battery indicator](/ui-snippets/battery-indicator/) in a status area, with one `--sig` property recolouring the whole meter.' },
+      { title: 'IoT signal monitoring', text: 'Stream live signal readings alongside a [sparkline chart](/ui-snippets/sparkline-chart/), where each LEVELS entry sets bars, label and colour together.' },
+      { title: 'Connectivity prompts', text: 'Pair with a [status pill](/ui-snippets/status-pill/) to show online or offline, using the scanning animation while a connection is being searched for.' },
+      { title: 'Stepped rating displays', text: 'Reuse the rising bars for a [rating breakdown](/ui-snippets/rating-breakdown/), as the `:nth-child` heights give a staircase without any images.' },
       { icon: 'CODE', title: 'Related: Typewriter Status Log Loader', desc: 'See the [Typewriter Status Log Loader](/ui-snippets/loader-typewriter-status-log/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

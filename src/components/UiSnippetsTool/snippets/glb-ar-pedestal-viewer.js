@@ -251,12 +251,11 @@ Swap \`MODEL_URL\` for any other product-scaled \`.glb\`, adjust \`PEDESTAL_RADI
       { title: 'Slider + Ctrl/Cmd-scroll zoom', text: `Zoom is an explicit, opt-in gesture, never a hijacked plain scroll wheel.` },
     ],
     useCases: [
-      { title: 'AR-style e-commerce previews', text: `Preview a real product "placed" in a scene without requiring an actual AR session.` },
-      { title: 'Trophy, award, and collectible showcases', text: `Present a real 3D object as if it were physically displayed on a stand.` },
-      { title: 'Product launch landing pages', text: `A polished, self-contained "hero" 3D viewer for a single featured product.` },
-      { title: 'glTF/OrbitControls teaching demos', text: `A complete example of faking AR-placement visual language with plain WebGL.` },
-      { title: 'Museum/exhibit-style displays', text: `Present an artifact model as if resting on a real museum plinth.` },
-      { title: 'Alongside other GLB viewers', text: `Pair with [GLB lighting studio viewer](/ui-snippets/glb-lighting-studio-viewer/) for a fully art-directed showcase.` },
+      { title: 'AR-style product previews', text: 'Show a real product placed on a pedestal with a soft contact shadow and a spinning placement ring, as mobile AR viewers do.' },
+      { title: 'Trophy and collectible showcases', text: 'Present an award or figurine as if it were anchored in the viewer\'s space, with a status badge confirming placement.' },
+      { title: 'Product launch landing pages', text: 'Embed a polished interactive object that needs no AR app, with `maxPolarAngle` keeping every orbit angle looking believable.' },
+      { title: 'Museum-style artefact displays', text: 'Display a scanned object on a plinth with a canvas-drawn radial-gradient shadow giving it weight on the surface.' },
+      { title: 'Lighting companion', text: 'Pair with the [GLB lighting studio viewer](/ui-snippets/glb-lighting-studio-viewer/) to compare how the same model looks on a pedestal and under different light moods.' },
       { icon: 'CODE', title: 'Related: Product Bundle Builder', desc: 'See the [Product Bundle Builder](/ui-snippets/product-bundle-builder/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

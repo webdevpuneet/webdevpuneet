@@ -118,12 +118,11 @@ The steps come from a \`STEPS\` array, so changing the flow is editing one list 
       { title: 'Data-driven & no library', text: `Built from a STEPS array in plain HTML/CSS/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Checkout and signup flows', text: `Show progress through cart → payment — pair with a [multi-step form](/ui-snippets/multi-step-form/) for the fields.` },
-      { title: 'Onboarding wizards', text: `Indicate steps remaining in setup, alongside an [onboarding tour](/ui-snippets/onboarding-tour/).` },
-      { title: 'Multi-part uploads', text: `Show chunk or file progress as discrete segments next to an [upload progress](/ui-snippets/upload-progress/).` },
-      { title: 'Surveys and quizzes', text: `Track progress through a fixed set of questions.` },
-      { title: 'Guided tasks and setup', text: `Any finite, known sequence of steps, complementing a [progress wizard](/ui-snippets/progress-wizard/).` },
-      { title: 'Learning step-state UI', text: `A reference for segmented, state-aware progress — compare with a [step progress](/ui-snippets/step-progress/).` },
+      { title: 'Checkout and signup flows', text: 'Show progress from cart to payment to confirmation, with one fillable segment per step and a [multi-step form](/ui-snippets/multi-step-form/) below.' },
+      { title: 'Onboarding wizards', text: 'Indicate steps remaining in setup alongside an [onboarding tour](/ui-snippets/onboarding-tour/), with cleared, active and upcoming labels in distinct colours.' },
+      { title: 'Multi-part uploads', text: 'Show chunk or file progress as discrete segments next to an [upload progress](/ui-snippets/upload-progress/) bar for the individual transfer.' },
+      { title: 'Surveys and quizzes', text: 'Track progress through a fixed set of questions, with a live percentage derived from the current step position.' },
+      { title: 'Wizard variants', text: 'Compare with a [progress wizard](/ui-snippets/progress-wizard/) or [step progress](/ui-snippets/step-progress/) when steps need numbers or icons, since fills use GPU-friendly `scaleX`.' },
       { icon: 'CODE', title: 'Related: Suspense-Style Data Fetch Fallback', desc: 'See the [Suspense-Style Data Fetch Fallback](/ui-snippets/loader-suspense-fallback-card/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

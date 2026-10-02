@@ -197,12 +197,11 @@ Change \`MIN_SCALE\`/\`MAX_SCALE\`, swap the wheel sensitivity constant, or add 
       { title: 'One-tap reset', text: `Instantly returns to 100% and centered.` },
     ],
     useCases: [
-      { title: 'Product photo viewers', text: `Let shoppers inspect detail beyond an [image magnifier](/ui-snippets/image-magnifier/).` },
-      { title: 'Photo galleries and lightboxes', text: `Add real zoom to a full-screen image view.` },
-      { title: 'Map and diagram viewers', text: `Pinch and pan large diagrams or floor plans.` },
-      { title: 'Document and scan previews', text: `Zoom into scanned pages or receipts on mobile.` },
-      { title: 'Portfolio and design showcases', text: `Pair with an [image zoom card](/ui-snippets/image-zoom-card/) grid.` },
-      { title: 'Learning multi-touch gestures', text: `A reference for real finger-distance pinch math.` },
+      { title: 'Product photo inspection', text: 'Let shoppers examine stitching or texture beyond the thumbnail, with two-finger pinch on touch and the mouse wheel on desktop.' },
+      { title: 'Gallery lightbox zoom', text: 'Add real zoom and pan to a full-screen photo view, with clamped `MIN_SCALE` and `MAX_SCALE` preventing over-zoom or tiny images.' },
+      { title: 'Map and diagram viewers', text: 'Pinch and pan large diagrams or floor plans, with zoom-to-point maths keeping the pinched spot visually fixed.' },
+      { title: 'Scanned document previews', text: 'Zoom into scanned pages or receipts, using a reset button to return quickly to the fit-to-screen view.' },
+      { title: 'Zoom style comparisons', text: 'Compare with an [image magnifier](/ui-snippets/image-magnifier/) or an [image zoom card](/ui-snippets/image-zoom-card/), which show detail in place rather than scaling the whole picture.' },
       { icon: 'CODE', title: 'Related: Unsaved Changes Guard — Confirm Before Closing a Dirty Modal', desc: 'See the [Unsaved Changes Guard — Confirm Before Closing a Dirty Modal](/ui-snippets/unsaved-changes-modal-guard/) for a related modals pattern worth pairing with this one.' },
     ],
     faqs: [

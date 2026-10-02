@@ -149,11 +149,11 @@ Swap the simulated \`throughputFor()\` for real progress events from the Fetch A
       'Zero dependencies — vanilla JS and CSS only',
     ],
     useCases: [
-      { icon: 'APP', title: 'Software update and installer downloads', desc: 'The primary use case — communicate realistic transfer behavior instead of a fake linear bar.' },
-      { icon: 'CODE', title: 'File upload/download progress in web apps', desc: 'Pair with real fetch() or XHR progress events for an honest, natural-feeling transfer bar.' },
-      { icon: 'FORM', title: 'Large asset or model downloads in AI tools', desc: 'Communicate genuine variance while a large model or dataset transfers.' },
-      { icon: 'LEARN', title: 'Teaching non-linear progress simulation', desc: 'A clear reference for phase-based throughput modeling instead of a single eased curve.' },
-      { icon: 'DESIGN', title: 'Onboarding "preparing your workspace" screens', desc: 'A more believable wait than a perfectly smooth progress animation.' },
+      { icon: '⬇️', title: 'Software update downloads', desc: 'Mimic a real installer, with a fast ramp as the connection opens, a jittery middle and a quick finish.' },
+      { icon: '📁', title: 'Web app file transfers', desc: 'Pair with real progress events, where an accumulating byte counter drives the fill width, percentage and meta text together.' },
+      { icon: '🧠', title: 'Large model and asset downloads', desc: 'Communicate genuine uncertainty during big downloads, using occasional simulated stalls that mimic congestion or packet-loss recovery.' },
+      { icon: '🏗️', title: 'Workspace preparation screens', desc: 'Make a preparing your workspace wait feel believable, since a perfectly constant fill is how fake progress usually gives itself away.' },
+      { icon: '🎓', title: 'Non-linear progress teaching', desc: 'Study how randomised throughput jitter creates a natural-looking curve, in contrast to a plain linear CSS width transition.' },
       { icon: 'CODE', title: 'Related: Async Task Completion Ring', desc: 'See the [Async Task Completion Ring](/ui-snippets/async-task-completion-ring/) for a related real-progress pattern using task counts instead of bytes.' },
     ],
     faqs: [

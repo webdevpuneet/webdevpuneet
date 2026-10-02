@@ -242,12 +242,11 @@ Add more stat cards by extending \`STAT_ANGLES\` (evenly spacing them around the
       { title: 'Slider + Ctrl/Cmd-scroll zoom', text: `Zoom is an explicit, opt-in gesture, never a hijacked plain scroll wheel.` },
     ],
     useCases: [
-      { title: 'Product spec and feature reveals', text: `Tie real product specs to the physical side of the product they describe.` },
-      { title: 'E-commerce interactive spec sheets', text: `Replace a static bullet list with specs discovered by spinning the product.` },
-      { title: 'glTF/OrbitControls teaching demos', text: `A complete, real example of reading live orbit state to drive UI reveals.` },
-      { title: 'Trade show and kiosk product displays', text: `An engaging, tactile way to browse a product's specs on a touch display.` },
-      { title: 'Portfolio and technical showpieces', text: `Demonstrate a genuinely angle-aware 3D interaction, not just a static viewer.` },
-      { title: 'Alongside other GLB viewers', text: `Pair with [GLB product color configurator](/ui-snippets/glb-configurator-color-swatches/) for a full spec-and-color product page.` },
+      { title: 'Product spec reveals', text: 'Tie real specifications to the side of a product that faces the camera, using the live `getAzimuthalAngle()` from OrbitControls.' },
+      { title: 'Interactive spec sheets', text: 'Replace a static bullet list with a model that tells you about each side as you spin it, with a wrap-safe angle helper handling the plus and minus 180 degree seam.' },
+      { title: 'Trade show kiosks', text: 'Create a tactile display where visitors drag to discover features, with a forgiving tolerance window so no one needs to hit one exact angle.' },
+      { title: 'Technical portfolio demos', text: 'Show real command of camera maths and DOM overlays, with each stat card assigned a fixed azimuthal angle around the object.' },
+      { title: 'Variant chooser companion', text: 'Pair with the [GLB colour configurator](/ui-snippets/glb-configurator-color-swatches/) so shoppers can both recolour a product and read its specs from each side.' },
       { icon: 'CODE', title: 'Related: Rental Car Comparison Cards', desc: 'See the [Rental Car Comparison Cards](/ui-snippets/rental-car-comparison-card/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

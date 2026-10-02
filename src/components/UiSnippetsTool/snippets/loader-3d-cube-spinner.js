@@ -118,12 +118,11 @@ Under \`prefers-reduced-motion\`, the animation is disabled and the cube is froz
       { title: 'Reduced-motion safe', text: `Freezes at a static 3D angle instead of a flat front view when motion is off.` },
     ],
     useCases: [
-      { title: 'App and dashboard preloaders', text: `A distinctive, genuinely dimensional alternative to a flat spinner.` },
-      { title: '3D and gaming product sites', text: `Matches the visual language of WebGL-heavy or gaming-adjacent products.` },
-      { title: 'Portfolio and agency loaders', text: `A memorable loading moment for creative and 3D-focused portfolios.` },
-      { title: 'Data processing indicators', text: `Represent "working" for compute or rendering-heavy background tasks.` },
-      { title: 'Learning CSS 3D transforms', text: `A complete, correct reference for perspective, preserve-3d, and face math.` },
-      { title: 'Design system loader variants', text: `Pair alongside a [circular progress](/ui-snippets/circular-progress/) or [dots loader](/ui-snippets/dots-loader/) as a distinctive option.` },
+      { title: 'Distinctive app preloaders', text: 'Use a genuinely three-dimensional cube, with six real faces, as the loading mark for a dashboard or tool that wants a technical personality.' },
+      { title: '3D and gaming product sites', text: 'Match the visual language of a game launcher or WebGL showcase, where `transform-style: preserve-3d` keeps all six faces in real depth.' },
+      { title: 'Portfolio and agency loaders', text: 'Create a memorable loading moment for a creative studio site that doubles as a small, visible demonstration of real CSS 3D skill.' },
+      { title: 'Design system loader variants', text: 'Sit alongside a [circular progress](/ui-snippets/circular-progress/) and a [dots loader](/ui-snippets/dots-loader/) as the most dimensional option in a loader family.' },
+      { title: 'CSS 3D transforms reference', text: 'Study the rotate-then-translate order for each face, and how `--half` derived from `--size` keeps the cube closed at any scale.' },
       { icon: 'CODE', title: 'Related: Skeleton-to-Content Crossfade', desc: 'See the [Skeleton-to-Content Crossfade](/ui-snippets/loader-content-fade-swap/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

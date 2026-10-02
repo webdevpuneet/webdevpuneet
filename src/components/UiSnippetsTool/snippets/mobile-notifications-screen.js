@@ -160,12 +160,11 @@ Feed notifications from your API, persist read state, and replace the double-tap
       { title: 'Self-healing groups', text: `Empty headers and list resolve to a caught-up state.` },
     ],
     useCases: [
-      { title: 'Activity inboxes', text: `The screen behind a [notification center](/ui-snippets/notification-center/).` },
-      { title: 'Social apps', text: `Pair with a [mobile feed screen](/ui-snippets/mobile-feed-screen/).` },
-      { title: 'Badge counts', text: `Feed the unread total into a [notification badge](/ui-snippets/notification-badge/).` },
-      { title: 'Dismiss patterns', text: `A tap take on a [swipe delete list](/ui-snippets/swipe-delete-list/).` },
-      { title: 'App mockups', text: `Present it inside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Learning delegation', text: `A reference for delegated list interactions.` },
+      { title: 'Activity inbox screens', text: 'Group alerts into New and Earlier sections, as the mobile counterpart of a [notification center](/ui-snippets/notification-center/) panel.' },
+      { title: 'Social app notifications', text: 'Pair with a [mobile feed screen](/ui-snippets/mobile-feed-screen/) so likes and comments in the feed arrive as unread items here.' },
+      { title: 'Unread badge counts', text: 'Feed the unread total into a [notification badge](/ui-snippets/notification-badge/), with tap-to-read clearing both the tint and the dot per item.' },
+      { title: 'Dismissal patterns', text: 'Compare tap and swipe dismissal with a [swipe delete list](/ui-snippets/swipe-delete-list/), and see how mark all read clears everything at once.' },
+      { title: 'Event delegation reference', text: 'Study one list listener using `closest()` to handle every row, with an empty state appearing when the user is fully caught up.' },
       { icon: 'CODE', title: 'Related: Mobile Keyboard Guide — Correct inputmode/type/pattern Per Field', desc: 'See the [Mobile Keyboard Guide — Correct inputmode/type/pattern Per Field](/ui-snippets/mobile-inputmode-keyboard-guide/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

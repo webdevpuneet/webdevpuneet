@@ -126,12 +126,11 @@ Pass the number, name, expiry, and gradient as data to render any card — a loy
       { title: 'No dependency', text: `Pure HTML/CSS/JS for wallets and fintech UIs.` },
     ],
     useCases: [
-      { title: 'Wallet and banking apps', text: `Show cards beside a [phone mockup](/ui-snippets/phone-mockup/) wallet.` },
-      { title: 'Checkout previews', text: `Mirror a [credit card input](/ui-snippets/credit-card-input/) live as users type.` },
-      { title: 'Loyalty and membership', text: `Display points alongside a [loyalty points widget](/ui-snippets/loyalty-points-widget/).` },
-      { title: 'Gift cards', text: `Reuse the flip for a [gift card](/ui-snippets/gift-card/) design.` },
-      { title: 'Fintech landing pages', text: `Feature a card next to a [product hero](/ui-snippets/product-hero/).` },
-      { title: 'Learning 3D transforms', text: `A reference for preserve-3d card flips and tilt.` },
+      { title: 'Wallet and banking apps', text: 'Show a payment card beside a [phone mockup](/ui-snippets/phone-mockup/), with a gold EMV chip and blend-mode network logo drawn entirely in CSS.' },
+      { title: 'Checkout previews', text: 'Mirror what a customer types in a [credit card input](/ui-snippets/credit-card-input/), flipping to the back to reveal the signature strip and barcode.' },
+      { title: 'Loyalty and membership cards', text: 'Display points beside a [loyalty points widget](/ui-snippets/loyalty-points-widget/), using the same flip to reveal a barcode for scanning in store.' },
+      { title: 'Gift card designs', text: 'Reuse the flip mechanic for a [gift card](/ui-snippets/gift-card/), with preserve-3d and backface visibility making a real two-sided object rather than a crossfade.' },
+      { title: 'Fintech marketing heroes', text: 'Feature the tilting card next to a [product hero](/ui-snippets/product-hero/), with pointer tilt rotating the front toward the cursor for depth.' },
       { icon: 'CODE', title: 'Related: Smart App Banner', desc: 'See the [Smart App Banner](/ui-snippets/smart-app-banner/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

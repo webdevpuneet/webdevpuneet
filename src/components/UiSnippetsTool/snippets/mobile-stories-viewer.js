@@ -200,12 +200,11 @@ Replace the gradient slides with real images or video, feed the segments from a 
       { title: 'No dependency', text: `Pure HTML, CSS, and vanilla JavaScript.` },
     ],
     useCases: [
-      { title: 'Social apps', text: `The story view after a [mobile feed screen](/ui-snippets/mobile-feed-screen/).` },
-      { title: 'Onboarding tours', text: `A story take on a [mobile onboarding](/ui-snippets/mobile-onboarding/) flow.` },
-      { title: 'Product highlights', text: `Reuse the bars like a [story progress bars](/ui-snippets/story-progress-bars/) header.` },
-      { title: 'Camera capture', text: `Follow a [mobile camera screen](/ui-snippets/mobile-camera-screen/) into posting.` },
-      { title: 'App mockups', text: `Present it inside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Learning timed UI', text: `A reference for CSS-timed auto-advancing slides.` },
+      { title: 'Social story views', text: 'Play full-screen stories with segmented bars filling one at a time, following a [mobile feed screen](/ui-snippets/mobile-feed-screen/) in a complete social flow.' },
+      { title: 'Onboarding story tours', text: 'Present a first-run walkthrough as stories, as a swipeable alternative to the [mobile onboarding](/ui-snippets/mobile-onboarding/) screens, with tap zones to move back and forward.' },
+      { title: 'Product highlight reels', text: 'Reuse the bar timing from [story progress bars](/ui-snippets/story-progress-bars/), driven by a CSS keyframe so `animationend` advances exactly when a bar completes.' },
+      { title: 'Post-capture publishing', text: 'Follow a [mobile camera screen](/ui-snippets/mobile-camera-screen/) with this viewer to show how a captured photo appears once it is posted.' },
+      { title: 'Hold-to-pause interactions', text: 'Study the tap zones and hold-to-pause behaviour, where pressing and holding freezes the running bar until the finger lifts.' },
       { icon: 'CODE', title: 'Related: Mobile Search Screen', desc: 'See the [Mobile Search Screen](/ui-snippets/mobile-search-screen/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

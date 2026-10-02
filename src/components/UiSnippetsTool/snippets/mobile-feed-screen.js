@@ -211,12 +211,11 @@ Replace the gradient media blocks with real \`<img>\` elements, feed the posts f
       { title: 'No dependency', text: `Pure HTML, CSS, and vanilla JavaScript.` },
     ],
     useCases: [
-      { title: 'Social apps', text: `The home feed behind a [mobile profile screen](/ui-snippets/mobile-profile-screen/).` },
-      { title: 'Photo galleries', text: `Style posts like an [instagram gallery](/ui-snippets/instagram-gallery/).` },
-      { title: 'Story features', text: `Pair with a [mobile stories viewer](/ui-snippets/mobile-stories-viewer/).` },
-      { title: 'Like interactions', text: `Reuse the burst near a [like burst button](/ui-snippets/like-burst-button/).` },
-      { title: 'App mockups', text: `Present it inside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Learning gestures', text: `A reference for double-tap detection and animation restart.` },
+      { title: 'Social app home feeds', text: 'Show story rings above a stream of image posts, behind a [mobile profile screen](/ui-snippets/mobile-profile-screen/) for a complete social app prototype.' },
+      { title: 'Photo-sharing galleries', text: 'Style posts like an [Instagram gallery](/ui-snippets/instagram-gallery/), with like, comment, share and save actions under every image.' },
+      { title: 'Stories entry points', text: 'Open a [mobile stories viewer](/ui-snippets/mobile-stories-viewer/) from the ring row, where unseen rings fade to grey once a story has been opened.' },
+      { title: 'Double-tap like gestures', text: 'Reuse the 320 ms tap timing and heart burst alongside a [like burst button](/ui-snippets/like-burst-button/), with a reflow trick replaying the animation.' },
+      { title: 'Device-framed demos', text: 'Present the feed in a [phone mockup](/ui-snippets/phone-mockup/), using `toLocaleString` so like counts keep correct comma formatting as they change.' },
       { icon: 'CODE', title: 'Related: Mobile Biometric Unlock Screen', desc: 'See the [Mobile Biometric Unlock Screen](/ui-snippets/mobile-biometric-unlock-screen/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

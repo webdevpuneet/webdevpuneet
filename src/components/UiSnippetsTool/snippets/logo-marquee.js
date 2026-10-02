@@ -105,12 +105,11 @@ Change the \`3.4\` multiplier for a faster or slower crawl, widen the gap betwee
       { title: 'Compositor-friendly', text: `No per-frame JavaScript; smooth on mobile.` },
     ],
     useCases: [
-      { title: 'Trusted-by strips', text: `Above the fold near a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/).` },
-      { title: 'Social proof sections', text: `Pair with a [testimonial wall](/ui-snippets/testimonial-wall/).` },
-      { title: 'Partner pages', text: `An animated take on a [logo cloud](/ui-snippets/logo-cloud/) grid.` },
-      { title: 'Agency sites', text: `Show client brands beneath an [agency hero](/ui-snippets/agency-hero/).` },
-      { title: 'Conference microsites', text: `Scroll sponsor logos continuously.` },
-      { title: 'Marquee learning', text: `A reference for seamless CSS-only infinite scroll.` },
+      { title: 'Trusted-by strips', text: 'Place under a headline and near a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/), scrolling customer logos forever with a duplicated set and a `translateX(-50%)` loop.' },
+      { title: 'Social proof sections', text: 'Pair with a [testimonial wall](/ui-snippets/testimonial-wall/) so logos and quotes together build credibility on a B2B page.' },
+      { title: 'Partner pages', text: 'Offer an animated take on a static [logo cloud](/ui-snippets/logo-cloud/), with logos turning from grayscale to colour on hover.' },
+      { title: 'Agency client strips', text: 'Show client brands beneath an [agency hero](/ui-snippets/agency-hero/), with animation duration scaling to the number of logos.' },
+      { title: 'Seamless loop reference', text: 'Study how pausing on hover through `animation-play-state` lets people read a logo without a JavaScript timer.' },
       { icon: 'CODE', title: 'Related: Tone.js Synth Pad', desc: 'See the [Tone.js Synth Pad](/ui-snippets/tone-js-synth-pad/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -181,12 +181,11 @@ Replace the seeded messages and the canned \`replies\` array with your real data
       { title: 'No dependency', text: `Pure HTML, CSS, and vanilla JavaScript.` },
     ],
     useCases: [
-      { title: 'Messaging apps', text: `The thread view behind a [chat conversation list](/ui-snippets/chat-conversation-list/).` },
-      { title: 'Support widgets', text: `A framed take on a [floating chat widget](/ui-snippets/floating-chat-widget/).` },
-      { title: 'AI assistants', text: `Style responses like an [AI chat interface](/ui-snippets/ai-chat-interface/).` },
-      { title: 'Presence cues', text: `Reuse the dots as a [typing indicator](/ui-snippets/typing-indicator/) elsewhere.` },
-      { title: 'App mockups', text: `Drop it into a [phone mockup](/ui-snippets/phone-mockup/) for a pitch.` },
-      { title: 'Learning chat UIs', text: `A reference for bubble alignment and auto-scroll.` },
+      { title: 'Messaging app threads', text: 'Show a conversation with left and right bubbles from one class, beside a [chat conversation list](/ui-snippets/chat-conversation-list/) that opens it.' },
+      { title: 'Support chat widgets', text: 'Prototype a framed version of a [floating chat widget](/ui-snippets/floating-chat-widget/), with a working composer and a live typing indicator for agent replies.' },
+      { title: 'AI assistant conversations', text: 'Restyle the thread as an [AI chat interface](/ui-snippets/ai-chat-interface/), using staggered keyframe dots to show the assistant is thinking.' },
+      { title: 'Typing and read receipts', text: 'Reuse the animated dots as a [typing indicator](/ui-snippets/typing-indicator/) elsewhere, and the double ticks to confirm delivery of outgoing messages.' },
+      { title: 'Pitch and portfolio mockups', text: 'Drop the chat into a [phone mockup](/ui-snippets/phone-mockup/), where cut corner radii fake the bubble tails with no SVG required.' },
       { icon: 'CODE', title: 'Related: Mobile Banking Screen', desc: 'See the [Mobile Banking Screen](/ui-snippets/mobile-banking-screen/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

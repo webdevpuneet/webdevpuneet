@@ -91,12 +91,11 @@ Change \`ROWS\` to render any list length, or \`STAGGER_MS\` to make the wave tr
       { title: 'Zero dependencies', text: `Pure CSS keyframes plus a small JS loop — no library.` },
     ],
     useCases: [
-      { title: 'Notification lists', text: `The exact shape shown here — pair with a [comment thread](/ui-snippets/comment-thread/) for real content.` },
-      { title: 'Activity feeds', text: `Show a loading wave before an [activity feed](/ui-snippets/activity-feed/) populates.` },
-      { title: 'Chat conversation lists', text: `A loading state for a chat sidebar list of conversations.` },
-      { title: 'Search results', text: `Indicate results loading with a directional wave instead of a flat flash.` },
-      { title: 'Comment sections', text: `Show placeholders while a [comment thread](/ui-snippets/comment-thread/) fetches.` },
-      { title: 'Learning stagger techniques', text: `A reference for computing per-item delay from index rather than hand-writing CSS.` },
+      { title: 'Notification list loading', text: 'Show the exact avatar and two-line row shape of a notification, with a shimmer wave travelling from top to bottom.' },
+      { title: 'Activity feed loading', text: 'Precede an [activity feed](/ui-snippets/activity-feed/) with a directional wave that suggests items are arriving one after another in order.' },
+      { title: 'Chat conversation lists', text: 'Give a messaging sidebar a loading state, where each row\'s `animation-delay` comes from its own loop index.' },
+      { title: 'Comment sections', text: 'Show placeholders while a [comment thread](/ui-snippets/comment-thread/) loads, with any number of rows needing no `nth-child` rules.' },
+      { title: 'Stagger technique reference', text: 'Study computing per-item delays in JavaScript, a pattern that scales to any list length and reuses well for entrance animations.' },
       { icon: 'CODE', title: 'Related: Particle Swarm Loader', desc: 'See the [Particle Swarm Loader](/ui-snippets/loader-particle-swarm-orbit/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

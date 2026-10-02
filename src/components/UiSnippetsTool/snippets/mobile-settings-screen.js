@@ -187,12 +187,11 @@ Swap the groups and rows for your app's real settings, point the value rows and 
       { title: 'No dependency', text: `Pure HTML, CSS, and vanilla JavaScript.` },
     ],
     useCases: [
-      { title: 'App settings pages', text: `A mobile take on a [settings panel](/ui-snippets/settings-panel/).` },
-      { title: 'Account sections', text: `Follow a [mobile profile screen](/ui-snippets/mobile-profile-screen/) into detail.` },
-      { title: 'Preference toggles', text: `Reuse the switches like a [toggle switch](/ui-snippets/toggle-switch/).` },
-      { title: 'Theme controls', text: `Pair the dark switch with a [color mode toggle](/ui-snippets/color-mode-toggle/).` },
-      { title: 'App mockups', text: `Present it inside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Learning list filters', text: `A reference for group-aware search filtering.` },
+      { title: 'iOS-style settings pages', text: 'Group rows into rounded cards with coloured icon tiles, using an adjacent selector so section headers sit flush with the card below.' },
+      { title: 'Account section flows', text: 'Follow a [mobile profile screen](/ui-snippets/mobile-profile-screen/) into this detailed settings list, which supports search across row names and group labels.' },
+      { title: 'Toggle-heavy preference lists', text: 'Reuse the real switches like a [toggle switch](/ui-snippets/toggle-switch/), mixing toggles, values and chevrons in one consistent row layout.' },
+      { title: 'Appearance controls', text: 'Pair the working dark-appearance switch with a [colour mode toggle](/ui-snippets/color-mode-toggle/) to show the theme preference end to end.' },
+      { title: 'Group-aware filtering reference', text: 'Study how the live search hides both rows and empty groups, matching on broader group labels as well as individual row names.' },
       { icon: 'CODE', title: 'Related: Mobile Notifications Screen', desc: 'See the [Mobile Notifications Screen](/ui-snippets/mobile-notifications-screen/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

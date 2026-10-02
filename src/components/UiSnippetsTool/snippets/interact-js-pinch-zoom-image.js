@@ -155,11 +155,11 @@ A lightweight double-tap detector — comparing \`Date.now()\` against the previ
       { title: 'touch-action: none', text: "Prevents the browser's own scroll/zoom from competing with the gesture." },
     ],
     useCases: [
-      { icon: 'APP', title: 'Product image zoom', text: 'E-commerce photo viewers where shoppers inspect detail.' },
-      { icon: 'DESIGN', title: 'Gallery lightboxes', text: 'A pannable, zoomable full-screen image view.' },
-      { icon: 'LEARN', title: 'Map or diagram viewers', text: 'Pan and zoom over large diagrams, floor plans, or maps.' },
-      { icon: 'CODE', title: 'Learning gesture math', text: 'A live reference for delta-based vs. absolute gesture values.' },
-      { icon: 'FLOW', title: 'Before/after comparisons', text: 'Zoom into detail crops without a separate lightbox component.' },
+      { title: 'E-commerce image zoom', text: 'Let shoppers pan and pinch into product photos, chaining `draggable` and `gesturable` on one element without conflicts.' },
+      { title: 'Pannable lightboxes', text: 'Build a full-screen image viewer where `event.ds` adds onto a persistent scale so repeated pinches keep compounding correctly.' },
+      { title: 'Diagram and map inspection', text: 'Pan and zoom over large diagrams, with a clamped range between 0.6x and 4x applied on every update.' },
+      { title: 'Gesture maths teaching', text: 'Use as a live reference for delta-based zoom versus absolute scale, with a desktop wheel fallback for users without touch.' },
+      { title: 'Detail crops in comparisons', text: 'Zoom into detail areas without a heavy image library, and use the double-tap reset to return to the original framing.' },
     ],
     faqs: [
       { q: 'Why use event.ds instead of event.scale?', a: 'event.scale is relative to the start of the current pinch gesture and resets to 1 every time a new pinch begins, so using it directly would discard all zoom accumulated in earlier gestures. event.ds is the incremental change since the previous move event, so adding it onto a persistent state.scale variable lets zoom build up across multiple separate pinches.' },

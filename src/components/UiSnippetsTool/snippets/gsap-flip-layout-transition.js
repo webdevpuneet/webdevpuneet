@@ -121,12 +121,11 @@ Add more layout variants (masonry, single column), animate additions/removals wi
       { title: 'Reusable pattern', text: `Any DOM mutation can be wrapped the same way.` },
     ],
     useCases: [
-      { title: 'View switchers', text: `Grid/list toggles like a [bento grid](/ui-snippets/bento-grid/) layout.` },
-      { title: 'Sortable boards', text: `Animate reorders alongside a [drag sort list](/ui-snippets/drag-sort-list/).` },
-      { title: 'Kanban columns', text: `Morph card positions in a [kanban board](/ui-snippets/kanban-board/).` },
-      { title: 'Filterable galleries', text: `Reflow a filtered grid without a hard jump cut.` },
-      { title: 'Dashboard widgets', text: `Animate widget reflow when a panel is resized.` },
-      { title: 'Product listings', text: `Switch between grid and comparison list views.` },
+      { title: 'Grid and list view switchers', text: 'Toggle layouts like a [bento grid](/ui-snippets/bento-grid/) with a single animated transition, wrapping `getState`, mutate and `Flip.from` in one helper.' },
+      { title: 'Sortable board reorders', text: 'Animate cards to their new sorted position alongside a [drag sort list](/ui-snippets/drag-sort-list/), so a reorder never jumps.' },
+      { title: 'Kanban card movement', text: 'Morph card positions when they change column in a [kanban board](/ui-snippets/kanban-board/), with a stagger so cards do not move as one rigid block.' },
+      { title: 'Filterable gallery reflows', text: 'Reflow a filtered grid without a hard jump, since GSAP Flip measures before and after positions for every element.' },
+      { title: 'Dashboard widget resizing', text: 'Animate widget reflow when a panel is resized or hidden, so neighbouring tiles glide into their new places.' },
       { icon: 'CODE', title: 'Related: Motion Path Plane', desc: 'See the [Motion Path Plane](/ui-snippets/motion-path-plane/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

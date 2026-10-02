@@ -272,12 +272,11 @@ Swap \`MODEL_URL\` for any other Khronos sample-asset \`.glb\`, add more swatch 
       { title: 'Studio-lit scene', text: `Key/fill/rim lighting and a grounding disc for a real product-shot feel.` },
     ],
     useCases: [
-      { title: 'E-commerce product configurators', text: `The exact interaction pattern used by real color/finish product customizers.` },
-      { title: 'Automotive and vehicle showcases', text: `Preview a real vehicle model in multiple paint jobs before committing.` },
-      { title: 'Furniture and product design previews', text: `Swap the toy car for any product .glb to preview colorways and finishes.` },
-      { title: 'glTF material teaching demos', text: `A minimal, complete example of cloning and live-editing PBR materials.` },
-      { title: 'Print-on-demand and merch previews', text: `Preview a physical product in every available colorway.` },
-      { title: 'Alongside other GLB viewers', text: `Compare against [GLB exploded view assembly toggle](/ui-snippets/glb-exploded-view-toggle/)'s part-based interaction.` },
+      { title: 'E-commerce product configurators', text: 'Let shoppers click through six paint colours on a real model, with every mesh material cloned so the shared glTF is never altered.' },
+      { title: 'Automotive and vehicle showcases', text: 'Preview a vehicle in different finishes, with Matte, Metallic and Gloss presets adjusting `metalness` and `roughness` independently of colour.' },
+      { title: 'Furniture and design previews', text: 'Swap the toy car for a chair or lamp, keeping the same swatch and finish controls for upholstery or coating options.' },
+      { title: 'Merchandise previews', text: 'Show print-on-demand products in the buyer\'s chosen colour, and combine with the [GLB exploded view toggle](/ui-snippets/glb-exploded-view-toggle/) to show construction.' },
+      { title: 'glTF material teaching', text: 'Learn per-instance material cloning, which is what prevents one recolour from changing every mesh that shares the original material.' },
       { icon: 'CODE', title: 'Related: Profile Completeness Card — Weighted Progress with Next-Best-Action', desc: 'See the [Profile Completeness Card — Weighted Progress with Next-Best-Action](/ui-snippets/profile-completeness-card/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

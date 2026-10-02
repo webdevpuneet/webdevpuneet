@@ -143,12 +143,11 @@ Swap \`RIVE_SRC\` for your own exported \`.riv\` file's URL, point \`stateMachin
       { title: 'Small dependency footprint', text: `Only the Rive canvas runtime is required.` },
     ],
     useCases: [
-      { title: 'Interactive icons', text: `Icons that react to hover, load, or click state.` },
-      { title: 'Loading indicators', text: `State machines blend between loading phases.` },
-      { title: 'Onboarding illustrations', text: `Lightweight vector animation without video.` },
-      { title: 'Like/react buttons', text: `Pair with [confetti button](/ui-snippets/confetti-button/) for a burst.` },
-      { title: 'Asset-load fallback pattern', text: `Reuse alongside [Lottie hover icon button](/ui-snippets/lottie-hover-icon-button/).` },
-      { title: 'Notification icons', text: `A state-driven alternative to [notification bell](/ui-snippets/notification-bell/).` },
+      { title: 'Reactive interface icons', text: 'Build icons that respond to hover, loading or click using a state machine, loaded through the real `new rive.Rive` runtime.' },
+      { title: 'Loading indicators with phases', text: 'Blend between loading phases with a state machine instead of looping a single animation, so progress feels responsive to real events.' },
+      { title: 'Lightweight onboarding illustrations', text: 'Deliver small vector animations in a compact `.riv` file, with a guaranteed animated SVG shown if the file fails to load.' },
+      { title: 'Like and reaction buttons', text: 'Pair with a [confetti button](/ui-snippets/confetti-button/) so a reaction icon animates first and then bursts when the user clicks it.' },
+      { title: 'Fallback pattern reuse', text: 'Reuse the error-safe loading approach alongside a [Lottie hover icon button](/ui-snippets/lottie-hover-icon-button/), with `try/catch` and `onLoadError` covering both failure paths.' },
     ],
     faqs: [
       { q: "Why does src point at Rive's own example file instead of a custom icon?", a: `A live code sandbox has no server to host a custom exported .riv binary on, so this snippet points at one of Rive's own publicly hosted example files purely to demonstrate the real loading API working end to end. In your own project, replace RIVE_SRC with the URL of a .riv file you've exported from the Rive editor and uploaded to your own hosting or CDN.` },

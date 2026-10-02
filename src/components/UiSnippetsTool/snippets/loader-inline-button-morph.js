@@ -109,12 +109,11 @@ Recolor the loading and success backgrounds, change the idle pill's width or cor
       { title: 'Zero dependencies', text: `Pure HTML, CSS transitions/keyframes, and vanilla JS — no library.` },
     ],
     useCases: [
-      { title: 'Checkout and order submission', text: `The exact context shown here — pair with a [multi-step form](/ui-snippets/multi-step-form/) for the fields.` },
-      { title: 'Form saves and settings updates', text: `A more expressive alternative to a plain [loading button](/ui-snippets/loading-button/).` },
-      { title: 'Newsletter / signup submits', text: `Confirm a subscribe action with a satisfying morph-to-checkmark.` },
-      { title: 'Payment confirmation buttons', text: `Reassure users during a payment request with a clear success state.` },
-      { title: 'Any single-action async button', text: `Delete, approve, or send actions that benefit from visible confirmation.` },
-      { title: 'Learning shape-morph techniques', text: `A reference for animating a component's own dimensions from state.` },
+      { title: 'Checkout and order submission', text: 'Morph the pay button from a pill into a small circle spinner on click, then into a checkmark when the order is confirmed.' },
+      { title: 'Settings and form saves', text: 'Offer a more expressive alternative to a [loading button](/ui-snippets/loading-button/) when saving preferences, with every state tied to a real click handler.' },
+      { title: 'Newsletter and signup confirmations', text: 'Confirm a subscription with a self-drawing check, using `stroke-dashoffset` to reveal the tick as if it were being written.' },
+      { title: 'Payment confirmation buttons', text: 'Reassure users during a payment by shrinking the target area, which also prevents a second accidental click while processing.' },
+      { title: 'Multi-step form actions', text: 'Use as the final submit inside a [multi-step form](/ui-snippets/multi-step-form/), animating width and border radius to change the button\'s own shape.' },
     ],
     faqs: [
       { q: 'How does the button actually change shape?', a: `The button's width and border-radius are set explicitly in the .bm-loading and .bm-success classes (48px and 50% respectively), and both properties have a CSS transition on the base .bm-btn rule. Toggling the class with JavaScript on click triggers a real animated interpolation between the pill and circle dimensions — it is not a swapped background image or icon.` },

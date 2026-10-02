@@ -110,12 +110,11 @@ The markup is just a row you append to your message list, so it drops into any c
       { title: 'Drop-in & no library', text: `A single appendable row in plain HTML/CSS/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Chat and messaging apps', text: `Show when the other person is typing — pair with a [chat UI](/ui-snippets/chat-ui/) for the full thread.` },
-      { title: 'AI assistant interfaces', text: `Indicate the assistant is composing a reply next to an [AI chat interface](/ui-snippets/ai-chat-interface/).` },
-      { title: 'Support and live chat widgets', text: `Reassure users an agent is responding, alongside a [floating chat widget](/ui-snippets/floating-chat-widget/).` },
-      { title: 'Comment and reply threads', text: `Show live composing state in a [comment thread](/ui-snippets/comment-thread/).` },
-      { title: 'Collaborative editors', text: `Signal that a collaborator is typing a message or note.` },
-      { title: 'Learning staggered animation', text: `A reference for delay-staggered loops — compare with a [dots loader](/ui-snippets/dots-loader/).` },
+      { title: 'Messaging app composing state', text: 'Show that the other person is typing, with three dots bouncing from one keyframe and staggered `animation-delay` values inside a [chat UI](/ui-snippets/chat-ui/).' },
+      { title: 'AI assistant interfaces', text: 'Indicate that an assistant is composing a reply in an [AI chat interface](/ui-snippets/ai-chat-interface/), styled like an incoming message bubble.' },
+      { title: 'Support chat widgets', text: 'Reassure users that an agent is responding inside a [floating chat widget](/ui-snippets/floating-chat-widget/), with auto-hide when the typing stops.' },
+      { title: 'Comment and reply threads', text: 'Show a live composing state in a [comment thread](/ui-snippets/comment-thread/), using show and hide helpers that collapse the indicator cleanly.' },
+      { title: 'Dots loader relatives', text: 'Compare with the [dots loader](/ui-snippets/dots-loader/) for generic waiting, where this version adds a bubble shape and a dip to half opacity at rest.' },
     ],
     faqs: [
       { q: 'How do the dots make a wave with only one animation?', a: `All three dots share the same @keyframes (lift up and brighten, then settle), but each starts at a different time via animation-delay — 0s, 0.18s, 0.36s. Because they're offset within the same cycle, at any instant they're at different phases, producing a travelling wave. This one-animation-plus-staggered-delays technique avoids writing three separate animations and is the standard way to build sequential dot loaders.` },

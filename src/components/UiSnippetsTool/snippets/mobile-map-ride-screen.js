@@ -166,12 +166,11 @@ Swap the CSS map for your real map SDK, feed tiers and prices from your pricing 
       { title: 'No dependency', text: `Pure HTML, CSS, and vanilla JavaScript.` },
     ],
     useCases: [
-      { title: 'Ride-hailing apps', text: `The booking screen beside a [mobile map location card](/ui-snippets/location-card/).` },
-      { title: 'Delivery tracking', text: `Reuse the route for an [order tracking timeline](/ui-snippets/order-tracking-timeline/).` },
-      { title: 'Bottom sheets', text: `A ride take on a [bottom sheet](/ui-snippets/bottom-sheet/) pattern.` },
-      { title: 'Tier pickers', text: `Adapt the tiers like a [plan selector](/ui-snippets/plan-selector/).` },
-      { title: 'App mockups', text: `Present it inside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Learning CSS maps', text: `A reference for tile-free maps and SVG routes.` },
+      { title: 'Ride-hailing booking screens', text: 'Split the screen into a tile-free CSS map above and a bottom sheet below, with the selected ride tier rewriting the price on the confirm button.' },
+      { title: 'Delivery tracking views', text: 'Reuse the animated dashed route for an [order tracking timeline](/ui-snippets/order-tracking-timeline/), swapping ride tiers for courier stages.' },
+      { title: 'Bottom sheet patterns', text: 'Study a ride-specific take on the [bottom sheet](/ui-snippets/bottom-sheet/), where the sheet holds tiers and the map keeps the route visible.' },
+      { title: 'Location context cards', text: 'Pair with a [location card](/ui-snippets/location-card/) to show the pickup and drop-off addresses clearly beside the route on the map.' },
+      { title: 'CSS map reference', text: 'Learn how a street grid and park are drawn using gradients alone, with teardrop pins made from a single rotated element and an SVG dashed route.' },
       { icon: 'CODE', title: 'Related: Mobile Food Order Screen', desc: 'See the [Mobile Food Order Screen](/ui-snippets/mobile-food-order-screen/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

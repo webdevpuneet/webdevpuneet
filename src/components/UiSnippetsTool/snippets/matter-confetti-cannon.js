@@ -172,12 +172,11 @@ Change \`engine.gravity.y\` for a floatier or heavier fall, tune \`restitution\`
       { title: 'Repeatable bursts', text: `Every click produces a genuinely different outcome.` },
     ],
     useCases: [
-      { title: 'Purchase confirmations', text: `A heavier celebratory moment than CSS confetti.` },
-      { title: 'Achievement unlocks', text: `Pair with [confetti celebration card](/ui-snippets/confetti-celebration-card/).` },
-      { title: 'Physics playgrounds', text: `Sits alongside [physics balls](/ui-snippets/physics-balls/).` },
-      { title: 'Game-like interactions', text: `Reuse the engine setup for [physics props pucks](/ui-snippets/physics-props-pucks/).` },
-      { title: 'Learning Matter.js', text: `A compact example of forces, bodies, and bounds.` },
-      { title: 'Comparing confetti techniques', text: `Contrast with [canvas confetti burst](/ui-snippets/canvas-confetti-burst/).` },
+      { title: 'Purchase confirmations', text: 'Give a completed order a heavier celebratory moment than a CSS animation, with pieces that really fall, collide and settle at the bottom.' },
+      { title: 'Achievement unlocks', text: 'Pair with a [confetti celebration card](/ui-snippets/confetti-celebration-card/) so an achievement message arrives with matching physical confetti falling behind it.' },
+      { title: 'Physics playground companions', text: 'Sit alongside [physics balls](/ui-snippets/physics-balls/) in a section on physical interaction, reusing the same engine and bounds setup.' },
+      { title: 'Game-like interactions', text: 'Reuse the invisible floor and walls from `makeBounds` for any effect that needs contained, colliding bodies, such as [physics props and pucks](/ui-snippets/physics-props-pucks/).' },
+      { title: 'Confetti technique comparison', text: 'Contrast with a [canvas confetti burst](/ui-snippets/canvas-confetti-burst/), which fakes motion, while this version applies randomised `Body.applyForce` impulses.' },
       { icon: 'CODE', title: 'Related: Wave Text Animation', desc: 'See the [Wave Text Animation](/ui-snippets/wave-text/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -127,12 +127,11 @@ Add or remove entries in \`LAYERS\` to change how many ribbons stack; push \`bas
       { title: 'Zero dependencies', text: `Pure Canvas 2D and vanilla JS.` },
     ],
     useCases: [
-      { title: 'SaaS and product hero sections', text: `A calm animated backdrop behind a headline and CTA.` },
-      { title: 'Ocean/travel/water-brand pages', text: `A literal wave motif for coastal or marine brands.` },
-      { title: 'Alongside other canvas backgrounds', text: `Pair with [aurora background](/ui-snippets/aurora-bg/) for contrast.` },
-      { title: 'Section dividers', text: `A short wave strip between two content sections.` },
-      { title: 'Login/signup screens', text: `A subtle moving background behind a centered form.` },
-      { title: 'Companion to ripple effects', text: `Combine with [ripple background](/ui-snippets/ripple-background/).` },
+      { title: 'SaaS and product hero sections', text: 'Provide a calm animated backdrop with four filled sine ribbons, each with its own baseline, amplitude, wavelength and speed.' },
+      { title: 'Ocean and travel brand pages', text: 'Use a literal wave motif for water-themed brands, with some layers drifting opposite to others for natural swell.' },
+      { title: 'Canvas background families', text: 'Pair with the [aurora background](/ui-snippets/aurora-bg/) elsewhere in a site, with dual-sine ribbons breaking up regular crest spacing.' },
+      { title: 'Section divider strips', text: 'Crop to a short wave strip between two sections for a lively transition that is more interesting than a static curve.' },
+      { title: 'Login and ripple combinations', text: 'Place behind a sign-in card for a subtle moving background, and combine with a [ripple background](/ui-snippets/ripple-background/) for layered water motion.' },
       { icon: 'CODE', title: 'Related: Cursor Spotlight Reveal', desc: 'See the [Cursor Spotlight Reveal](/ui-snippets/cursor-spotlight-reveal/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

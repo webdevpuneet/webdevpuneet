@@ -158,12 +158,11 @@ Replace the \`setTimeout\` and its forced-outcome logic inside \`attempt()\` wit
       { title: 'Drop-in real-fetch structure', text: `Swap the timer for a real request with no change to the state logic.` },
     ],
     useCases: [
-      { title: 'Data fetching panels', text: `Any card or widget whose content depends on an API call that can fail.` },
-      { title: 'Payment and checkout steps', text: `Show a clear retry path when a payment or order call errors out.` },
-      { title: 'Dashboard widgets', text: `Handle a failed metric fetch without breaking the surrounding layout.` },
-      { title: 'Form submission feedback', text: `Pair with an [ai generating loader](/ui-snippets/ai-generating-loader/) pattern for AI calls that can fail.` },
-      { title: 'Offline-prone mobile web apps', text: `Give users a working retry when connectivity drops mid-request.` },
-      { title: 'Any async widget needing an honest error UI', text: `A reusable template for loading/success/error anywhere in a product.` },
+      { title: 'Data-fetching panels', text: 'Give any card or widget a real error branch, with loading, success and error as mutually exclusive states enforced by one state machine.' },
+      { title: 'Payment and checkout steps', text: 'Show a clear retry path when a request fails, so the user is never left staring at a spinner that never resolves.' },
+      { title: 'Dashboard metric widgets', text: 'Handle one failed metric fetch without breaking the page, with Retry calling the identical `attempt()` function the first load used.' },
+      { title: 'Generation task failures', text: 'Pair with an [AI generating loader](/ui-snippets/ai-generating-loader/) so a failed generation offers a retry instead of a dead end.' },
+      { title: 'Testing error branches', text: 'Use the demo controls to force success, error or random, so both paths can be exercised without breaking a real network.' },
       { icon: 'CODE', title: 'Related: Multi-Stage Loading Checklist', desc: 'See the [Multi-Stage Loading Checklist](/ui-snippets/loader-multi-stage-checklist/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

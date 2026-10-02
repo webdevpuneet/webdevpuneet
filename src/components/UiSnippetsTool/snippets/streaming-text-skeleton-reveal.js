@@ -154,11 +154,11 @@ Change the \`data-target\` attributes to your real placeholder sentences, or bet
       'Reusable measureTextWidth() and revealWord() helper functions',
     ],
     useCases: [
-      { icon: 'APP', title: 'AI chat response streaming placeholders', desc: 'Show a believable shrinking-skeleton effect as real generated text streams in.' },
-      { icon: 'CODE', title: 'Search result summaries with AI overviews', desc: 'A more literal loading metaphor than a static shimmer bar for streamed summaries.' },
-      { icon: 'FORM', title: 'Live transcription and captioning UIs', desc: 'Visualize partial text arriving progressively against a known or estimated final length.' },
-      { icon: 'LEARN', title: 'Teaching real-width text measurement', desc: 'A clear example of using a hidden probe element and getComputedStyle to measure text accurately.' },
-      { icon: 'DESIGN', title: 'Article and blog content placeholders', desc: 'A richer loading state for paragraphs than plain gray bars, especially over slow connections.' },
+      { icon: '🤖', title: 'AI chat response placeholders', desc: 'Show a believable streaming reveal, where shimmer bars shrink from the right as real words appear from the left.' },
+      { icon: '🔍', title: 'AI search overviews', desc: 'Present a summary box that fills in word by word, a more literal loading state than a static grey block.' },
+      { icon: '🎙️', title: 'Live transcription and captions', desc: 'Visualise partial text arriving in chunks, with word-level granularity that matches how real streaming delivers content.' },
+      { icon: '📏', title: 'Real-width measurement teaching', desc: 'Learn how each line\'s starting skeleton width is measured from its true rendered text width, so the bar matches the final line exactly.' },
+      { icon: '📰', title: 'Article and blog placeholders', desc: 'Give long-form content a richer loading state, using randomised per-word pauses so the pace feels natural, not mechanical.' },
       { icon: 'CODE', title: 'Related: Typewriter Status Log Loader', desc: 'See the [Typewriter Status Log Loader](/ui-snippets/loader-typewriter-status-log/) for a character-by-character alternative reveal technique.' },
     ],
     faqs: [

@@ -202,12 +202,11 @@ Each timing row pairs a label, a proportionally-widthed bar, and a millisecond v
       { title: 'Zero dependencies', text: `No highlighting library, no tab library — every behavior is plain JS.` },
     ],
     useCases: [
-      { title: 'API explorer tools', text: `Show a request/response pair after a user fires a test call, alongside an [api key manager](/ui-snippets/api-key-manager/).` },
-      { title: 'Webhook debuggers', text: `Display incoming webhook payloads with headers and timing for troubleshooting.` },
-      { title: 'Internal dev dashboards', text: `Pair with a [code diff viewer](/ui-snippets/code-diff-viewer/) for a full request-and-code review panel.` },
-      { title: 'Support and QA tooling', text: `Let support staff inspect exactly what an API returned for a given ticket.` },
-      { title: 'API documentation sites', text: `Show a live example response beneath endpoint documentation.` },
-      { title: 'Learning manual syntax highlighting', text: `A compact reference for regex-based JSON highlighting without a library.` },
+      { title: 'API explorer tools', text: 'Show the request line, status badge and tabbed Headers, Body and Timing panes after a user sends a call, so everything about one exchange sits in a single panel.' },
+      { title: 'Webhook debugging consoles', text: 'Display incoming webhook payloads with highlighted JSON, escaping the response content first so a payload can never break out of the markup.' },
+      { title: 'Credential-aware dev dashboards', text: 'Pair with an [API key manager](/ui-snippets/api-key-manager/) so developers can issue a key and immediately inspect a response made with it.' },
+      { title: 'Support request logs', text: 'Let support staff see exactly what a customer\'s client sent and received, with one click handler serving every tab through `data-tab` routing.' },
+      { title: 'Change comparison tooling', text: 'Link to a [code diff viewer](/ui-snippets/code-diff-viewer/) when comparing two responses, using the one-pass regex highlighter as a compact reference for manual JSON colouring.' },
       { icon: 'CODE', title: 'Related: Fundraising Campaign Leaderboard', desc: 'See the [Fundraising Campaign Leaderboard](/ui-snippets/campaign-leaderboard/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

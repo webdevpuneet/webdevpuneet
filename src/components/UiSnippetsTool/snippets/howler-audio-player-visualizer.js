@@ -172,12 +172,11 @@ Swap the \`src\` array for your own hosted file, and if you need a real spectrum
       { title: 'Compact card layout', text: `Drops into a sidebar or dashboard widget.` },
     ],
     useCases: [
-      { title: 'Podcast episode cards', text: `A compact player beside [podcast player](/ui-snippets/podcast-player/).` },
-      { title: 'Music widgets', text: `A smaller sibling of [music player](/ui-snippets/music-player/).` },
-      { title: 'Voice note playback', text: `Pair with [voice memo recorder](/ui-snippets/voice-memo-recorder/).` },
-      { title: 'Ambient/background loops', text: `Loop:true for site background audio controls.` },
-      { title: 'Real waveform upgrade path', text: `Compare with [audio waveform visualizer](/ui-snippets/audio-waveform-visualizer/).` },
-      { title: 'Dashboard audio widgets', text: `A compact status card for audio-driven tools.` },
+      { title: 'Podcast episode cards', text: 'Embed a compact player next to a [podcast player](/ui-snippets/podcast-player/) episode list, with play, pause and seek all genuinely wired through Howler.' },
+      { title: 'Music widgets', text: 'Use as a smaller sibling of the full [music player](/ui-snippets/music-player/), with 32 canvas bars that animate only while `howl.playing()` is true.' },
+      { title: 'Voice note playback', text: 'Pair with a [voice memo recorder](/ui-snippets/voice-memo-recorder/) so recordings can be replayed in the same card that captured them.' },
+      { title: 'Ambient background loops', text: 'Set `loop: true` for site-wide ambience, with a `loaderror` fallback keeping the controls usable if the audio file fails to load.' },
+      { title: 'Waveform upgrade path', text: 'Compare with the [audio waveform visualiser](/ui-snippets/audio-waveform-visualizer/) when you want actual signal-based drawing, not a state-driven animation.' },
       { icon: 'CODE', title: 'Related: Subscription Tier Card Stack — Recommended Highlight', desc: 'See the [Subscription Tier Card Stack — Recommended Highlight](/ui-snippets/subscription-tier-stack-recommended/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

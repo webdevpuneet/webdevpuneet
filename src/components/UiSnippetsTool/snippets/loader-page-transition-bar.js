@@ -120,12 +120,11 @@ Call \`navigate(path)\` — or split it into a \`start()\`/\`finish()\` pair if 
       { title: 'Framework-portable', text: `A single navigate(path) function is all you need to call from a router hook.` },
     ],
     useCases: [
-      { title: 'SPA route transitions', text: `Fire on router navigation start/complete events in React/Vue/Angular routers.` },
-      { title: 'Client-side page loads', text: `Complements a [skeleton loader](/ui-snippets/skeleton-loader/) for the incoming view.` },
-      { title: 'Tab or view switches', text: `Signal a heavier in-app view change that involves a data fetch.` },
-      { title: 'Deep-link / redirect flows', text: `Show progress while a redirect chain resolves before landing.` },
-      { title: 'Multi-step app navigation', text: `Pair with a [segmented progress](/ui-snippets/segmented-progress/) bar for the step content itself.` },
-      { title: 'Comparing loader curves', text: `A reference alongside a [top loading bar](/ui-snippets/top-loading-bar/) and an [indeterminate bar](/ui-snippets/indeterminate-bar/) for choosing a curve shape.` },
+      { title: 'SPA route transitions', text: 'Fire on router navigation start and finish, climbing to 82% fast, holding while data loads, then completing to 100% and fading.' },
+      { title: 'Client-side page loads', text: 'Pair with a [skeleton loader](/ui-snippets/skeleton-loader/) so the bar signals the navigation while placeholders fill the new view.' },
+      { title: 'View and tab switches', text: 'Signal a heavier in-app view change, using pure CSS width transitions per phase with no per-frame JavaScript loop.' },
+      { title: 'Multi-step navigation', text: 'Pair with a [segmented progress](/ui-snippets/segmented-progress/) indicator for long flows, while the bar handles each page change.' },
+      { title: 'Loading curve comparisons', text: 'Compare the climb, hold and complete phases with a [top loading bar](/ui-snippets/top-loading-bar/) and an [indeterminate bar](/ui-snippets/indeterminate-bar/).' },
       { icon: 'CODE', title: 'Related: Progress Bar with Milestone Labels', desc: 'See the [Progress Bar with Milestone Labels](/ui-snippets/loader-milestone-progress-bar/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

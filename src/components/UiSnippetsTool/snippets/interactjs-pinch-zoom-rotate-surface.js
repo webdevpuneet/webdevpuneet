@@ -129,10 +129,11 @@ Two smaller details matter. The surface has touch-action: none, which tells the 
       'Double-click and Reset for recovery',
     ],
     useCases: [
-      { icon: 'MOBILE', title: 'Photo, map and canvas viewers', desc: `Add natural gestures to any surface. For pan-and-zoom on diagrams see the [Panzoom floor plan](/ui-snippets/panzoom-zoomable-floor-plan/).` },
-      { icon: 'DESIGN', title: 'Sticker and collage editors', desc: `Let users place, scale and rotate stickers with two fingers.` },
-      { icon: 'SHOP', title: 'Product try-on and preview tools', desc: `Position an item over a photo with gestures.` },
-      { icon: 'LEARN', title: 'Learning gesture maths', desc: `See how scale and rotation deltas compose with drag into one transform.` },
+      { icon: '🖼️', title: 'Photo, map and canvas viewers', desc: 'Add natural two-finger zoom and rotation to any surface, with the gesture midpoint also providing a two-finger pan.' },
+      { icon: '🎨', title: 'Sticker and collage editors', desc: 'Let users place, scale and rotate items, driven by a single state object and one `apply()` function shared by every input.' },
+      { icon: '🛋️', title: 'Product preview tools', desc: 'Position an item over a photo, with wheel zoom using exponential scaling and Alt plus wheel for rotation on desktop.' },
+      { icon: '🗺️', title: 'Zoomable plan viewers', desc: 'Compare with the [Panzoom floor plan](/ui-snippets/panzoom-zoomable-floor-plan/) when pan and zoom matter more than rotation for your viewer.' },
+      { icon: '🎓', title: 'Gesture maths reference', desc: 'See how the `ds` scale change and `da` angle change deltas accumulate into position, scale and rotation.' },
     ],
     faqs: [
       { q: 'What do ds and da mean in Interact.js gesture events?', a: 'ds is the change in scale ratio since the last event, and da is the change in angle in degrees.' },

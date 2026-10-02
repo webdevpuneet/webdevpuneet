@@ -159,12 +159,11 @@ Swap the notifications for your own data, change the wallpaper gradient, and kee
       { title: 'No dependency', text: `Pure HTML/CSS/JS inside a CSS phone frame.` },
     ],
     useCases: [
-      { title: 'App concept demos', text: `Present a concept beside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Push notification design', text: `Show alerts like a [notification center](/ui-snippets/notification-center/).` },
-      { title: 'Onboarding entry', text: `Lead into a [mobile login screen](/ui-snippets/mobile-login-screen/).` },
-      { title: 'Marketing screenshots', text: `Frame an app launch in a [product hero](/ui-snippets/product-hero/).` },
-      { title: 'Wallpaper and theme demos', text: `Pair with a [color theme switcher](/ui-snippets/color-theme-switcher/).` },
-      { title: 'Learning swipe gestures', text: `A reference for threshold-based pointer swipes.` },
+      { title: 'App concept demos', text: 'Present a concept on a realistic lock screen with a big thin clock and date, framed by a [phone mockup](/ui-snippets/phone-mockup/).' },
+      { title: 'Push notification design', text: 'Design alerts as frosted `backdrop-filter` cards in a stack, alongside a [notification center](/ui-snippets/notification-center/) for the full list.' },
+      { title: 'Wallpaper and theme previews', text: 'Test how colours look behind glass cards using a [colour theme switcher](/ui-snippets/color-theme-switcher/), with notifications cascading in on staggered delays.' },
+      { title: 'Launch marketing screenshots', text: 'Frame an app launch announcement as a lock-screen notification, next to a [product hero](/ui-snippets/product-hero/) on the landing page.' },
+      { title: 'Swipe-to-unlock reference', text: 'Learn how a threshold-based swipe gesture decides between unlocking and snapping back, then continue to a [mobile login screen](/ui-snippets/mobile-login-screen/).' },
       { icon: 'CODE', title: 'Related: Mobile Fitness Screen', desc: 'See the [Mobile Fitness Screen](/ui-snippets/mobile-fitness-screen/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

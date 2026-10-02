@@ -111,12 +111,11 @@ Change \`SIZE\` and \`GAP\` for a finer or chunkier grid, \`FLICKER\` for a busi
       { title: 'One canvas', text: `Single element for any cell count.` },
     ],
     useCases: [
-      { title: 'AI and data heroes', text: `Texture behind an [aurora text](/ui-snippets/aurora-text/) headline.` },
-      { title: 'Developer sites', text: `Pair with a [dot pattern](/ui-snippets/dot-pattern/) section.` },
-      { title: 'Dashboards', text: `A living backdrop for a [status dashboard](/ui-snippets/status-dashboard/).` },
-      { title: 'Launch pages', text: `Combine with a [particle network](/ui-snippets/particle-network/).` },
-      { title: 'Cyberpunk sites', text: `A calmer cousin of [matrix rain](/ui-snippets/matrix-rain/).` },
-      { title: 'Canvas texture demos', text: `A reference for random flicker grids.` },
+      { title: 'AI and data heroes', text: 'Add a living texture behind an [aurora text](/ui-snippets/aurora-text/) headline, with a fraction of cells re-randomising each frame at capped opacity.' },
+      { title: 'Developer site backdrops', text: 'Pair with a [dot pattern](/ui-snippets/dot-pattern/) section, using a `Float32Array` to keep brightness updates fast across thousands of cells.' },
+      { title: 'Dashboard backgrounds', text: 'Give a [status dashboard](/ui-snippets/status-dashboard/) a quiet, living backdrop, with an edge vignette keeping attention on the content.' },
+      { title: 'Launch page textures', text: 'Combine with a [particle network](/ui-snippets/particle-network/) for a layered tech aesthetic, while cheap solid rectangle fills keep frame cost low.' },
+      { title: 'Cyberpunk and terminal themes', text: 'Offer a calmer cousin of [matrix rain](/ui-snippets/matrix-rain/), where nothing falls but the grid still feels alive.' },
       { icon: 'CODE', title: 'Related: Loot Box Reveal Animation', desc: 'See the [Loot Box Reveal Animation](/ui-snippets/loot-box-reveal/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

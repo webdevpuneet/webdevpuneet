@@ -111,12 +111,11 @@ A "Refetch" button re-invokes \`fetchProfile()\`, re-showing the fallback and di
       { title: 'Zero dependencies', text: `Pure HTML/CSS/JS — no React, no Suspense runtime.` },
     ],
     useCases: [
-      { title: 'Non-React apps wanting the Suspense pattern', text: `The exact case this snippet targets — the visual/logical pattern without the framework.` },
-      { title: 'Server-rendered pages with client hydration', text: `Show a fallback before client-side data enhances a card.` },
-      { title: 'Widget or card-level async sections', text: `Any self-contained card that fetches its own data independently.` },
-      { title: 'Design system reference implementations', text: `A framework-agnostic spec for how a loading boundary should behave.` },
-      { title: 'Teaching the Suspense concept', text: `A concrete, dependency-free way to demonstrate the pattern to non-React developers.` },
-      { title: 'Migrating away from React', text: `Preserve the same fallback/resolve behavior when porting a Suspense-based UI.` },
+      { title: 'Suspense pattern without React', text: 'Bring the fallback-then-resolve idea to a plain JavaScript project, with a boundary function owning exactly when the skeleton shows and hides.' },
+      { title: 'Server-rendered pages with hydration', text: 'Show a fallback for a client-fetched section of an otherwise static page, then swap to the resolved content when data arrives.' },
+      { title: 'Self-contained async cards', text: 'Make any widget with its own data fetch independent, using a real Promise from `fetchProfile()` rather than a bare timeout.' },
+      { title: 'Design system references', text: 'Provide a framework-agnostic implementation of loading boundaries that React, Vue and Svelte teams can all read.' },
+      { title: 'Teaching and migration', text: 'Explain the Suspense concept without a framework, or preserve the same fallback behaviour while moving a project off React.' },
       { icon: 'CODE', title: 'Related: Particle Swarm Loader', desc: 'See the [Particle Swarm Loader](/ui-snippets/loader-particle-swarm-orbit/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

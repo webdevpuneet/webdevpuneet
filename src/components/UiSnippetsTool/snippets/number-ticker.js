@@ -107,12 +107,11 @@ Change the duration for a faster or slower roll, swap the easing (e.g. a gentler
       { title: 'Independent stats', text: `Each animates on its own.` },
     ],
     useCases: [
-      { title: 'Stat sections', text: `Pair with a [metric card grid](/ui-snippets/metric-card-grid/).` },
-      { title: 'Trust and traction', text: `Follow a [logo marquee](/ui-snippets/logo-marquee/) of customers.` },
-      { title: 'Dashboards', text: `Animate KPIs on a [status dashboard](/ui-snippets/status-dashboard/).` },
-      { title: 'Landing metrics', text: `Headline numbers above a [testimonial wall](/ui-snippets/testimonial-wall/).` },
-      { title: 'Pricing pages', text: `Show savings beside a [pricing card](/ui-snippets/pricing-card/).` },
-      { title: 'Counter demos', text: `A reference for eased, formatted count-ups.` },
+      { title: 'Stat sections', text: 'Pair with a [metric card grid](/ui-snippets/metric-card-grid/), where data attributes set each stat\'s target, decimals, prefix and suffix.' },
+      { title: 'Trust and traction strips', text: 'Follow a [logo marquee](/ui-snippets/logo-marquee/) of customers with the numbers that prove their scale, rolling up on scroll.' },
+      { title: 'Dashboard KPI reveals', text: 'Animate figures on a [status dashboard](/ui-snippets/status-dashboard/) with an `easeOutExpo` spin-down that settles satisfyingly on the final value.' },
+      { title: 'Landing page metrics', text: 'Headline key numbers above a [testimonial wall](/ui-snippets/testimonial-wall/), with thousands separators applied on every animation frame as the count rises.' },
+      { title: 'Savings on pricing pages', text: 'Show how much customers save beside a [pricing card](/ui-snippets/pricing-card/), with fixed decimal places preserved throughout the count.' },
     ],
     faqs: [
       { q: 'What gives the ticker its spin-down feel?', a: `The progress is passed through an easeOutExpo curve, 1 minus 2 to the power of -10p, which starts fast and decelerates sharply as it nears the target — the feel of an odometer settling. The displayed value each frame is target times the eased progress. A linear count-up looks mechanical; this easing gives the momentum and clean stop.` },

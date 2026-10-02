@@ -110,12 +110,11 @@ Swap \`Tone.Synth\` for \`Tone.FMSynth\`/\`Tone.MembraneSynth\` for a different 
       { title: 'Single dependency', text: `Only Tone.js is required.` },
     ],
     useCases: [
-      { title: 'Music toy widgets', text: `A playable instrument embedded in a page.` },
-      { title: 'Interactive product demos', text: `Sound feedback tied to grid interaction.` },
-      { title: 'Onboarding easter eggs', text: `A delightful, discoverable audio moment.` },
-      { title: 'Sound design prototyping', text: `Swap synth types to audition timbres quickly.` },
-      { title: 'Accessible feedback pairing', text: `Combine audio with [notification bell](/ui-snippets/notification-bell/) visuals.` },
-      { title: 'Learning Web Audio', text: `A small, readable Tone.js starting point.` },
+      { title: 'Playable music widgets', text: 'Embed a small eight-pad instrument in a page, voiced by a single `PolySynth` so fast repeated presses never cut earlier notes off.' },
+      { title: 'Interactive product demos', text: 'Tie sound feedback to a grid interaction, with a visual flash on each pad confirming exactly which note was triggered.' },
+      { title: 'Onboarding easter eggs', text: 'Add a discoverable audio moment for curious users, with `Tone.start()` correctly called inside the first gesture to satisfy autoplay rules.' },
+      { title: 'Sound design prototyping', text: 'Swap synth types and envelopes to audition timbres, using a fast attack and quick decay for a clean pluck on every pad.' },
+      { title: 'Audio feedback pairing', text: 'Combine sound with a [notification bell](/ui-snippets/notification-bell/) to explore how an audible cue complements a visual alert.' },
     ],
     faqs: [
       { q: "Why doesn't the synth play automatically on page load?", a: `Browsers enforce an autoplay policy that blocks any AudioContext from producing sound until the user has performed a genuine gesture like a click or tap on the page. Calling Tone.start() (which resolves Tone's shared AudioContext) has to happen inside a real event handler — attempting it on page load or in a setTimeout without a preceding gesture silently fails to unlock audio in most browsers.` },

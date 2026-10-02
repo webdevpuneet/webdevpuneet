@@ -129,12 +129,11 @@ The status bar is built to sit flush atop any screen. Drop it above your content
       { title: 'No dependency', text: `Pure HTML/CSS/JS, self-contained.` },
     ],
     useCases: [
-      { title: 'App mockup chrome', text: `Top off a screen inside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Design systems', text: `A shared bar across a [mobile login screen](/ui-snippets/mobile-login-screen/) and more.` },
-      { title: 'Onboarding and lock screens', text: `Reuse atop a [mobile lock screen](/ui-snippets/mobile-lock-screen/).` },
-      { title: 'Theme demos', text: `Show light/dark beside a [color mode toggle](/ui-snippets/color-mode-toggle/).` },
-      { title: 'Device indicators', text: `Pair the battery with a [battery indicator](/ui-snippets/battery-indicator/).` },
-      { title: 'Learning CSS icons', text: `A reference for SVG signal and battery glyphs.` },
+      { title: 'Mockup chrome', text: 'Top off any screen inside a [phone mockup](/ui-snippets/phone-mockup/) with a live 12-hour clock, signal, wifi and battery drawn from CSS and SVG.' },
+      { title: 'Design system components', text: 'Share one reusable bar across a [mobile login screen](/ui-snippets/mobile-login-screen/) and every other app concept, so mockups look consistent.' },
+      { title: 'Lock and onboarding screens', text: 'Place it above a [mobile lock screen](/ui-snippets/mobile-lock-screen/), where `currentColor` makes every icon invert automatically with light and dark themes.' },
+      { title: 'Theme demonstrations', text: 'Show light and dark variants beside a [colour mode toggle](/ui-snippets/color-mode-toggle/), keeping the notch and icons legible in each.' },
+      { title: 'Real battery readout', text: 'Read device charge through the Battery API and pair with a [battery indicator](/ui-snippets/battery-indicator/) for a larger view of the same value.' },
       { icon: 'CODE', title: 'Related: Mobile Notifications Screen', desc: 'See the [Mobile Notifications Screen](/ui-snippets/mobile-notifications-screen/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

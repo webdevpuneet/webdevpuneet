@@ -215,12 +215,11 @@ Each particle carries its own velocity, gets pushed away from the pointer propor
       { title: 'Capped retina resolution', text: 'devicePixelRatio clamped to 2 so phones do not shade 9x pixels.' },
     ],
     useCases: [
-      { title: 'High-density hero backgrounds', text: 'Particle counts canvas 2D cannot sustain.' },
-      { title: 'Music and event visuals', text: 'Drive the repulsion radius from audio amplitude.' },
-      { title: 'Game and product landing pages', text: 'A WebGL first impression without a full 3D scene.' },
-      { title: 'Interactive art installations', text: 'Pointer or camera input steering thousands of sprites.' },
-      { title: 'Loading and transition states', text: 'Burst the field on route change as a wipe.' },
-      { title: 'Learning WebGL batching', text: 'A reference next to [particle network](/ui-snippets/particle-network/) on canvas 2D.' },
+      { title: 'High-density hero backgrounds', text: 'Render 2,400 additive sprites in one batched draw call, far beyond what canvas 2D handles smoothly with separate fills.' },
+      { title: 'Audio-reactive visuals', text: 'Drive the repulsion radius from audio or event intensity, with only position, scale, tint and alpha uploaded per frame.' },
+      { title: 'WebGL landing page openers', text: 'Make a strong first impression with a GPU field, using one generated circle texture tinted per sprite to give five colours.' },
+      { title: 'Interactive installations', text: 'Let pointer or camera input steer the particles, where a `ParticleContainer` whitelist keeps per-frame uploads minimal.' },
+      { title: 'Batching comparisons', text: 'Learn why batching matters by comparing against the canvas-based [particle network](/ui-snippets/particle-network/) at the same particle counts.' },
     ],
     faqs: [
       { q: 'Why is Pixi faster than canvas 2D for this?', a: 'Canvas 2D issues a separate arc and fill call per particle from the CPU. Pixi batches every sprite that shares a texture and blend mode into a single WebGL draw call, and the GPU rasterizes them in parallel. That is why 2,400 particles run comfortably here where the same count in canvas 2D would start costing frames.' },

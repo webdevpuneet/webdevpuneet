@@ -206,12 +206,11 @@ Swap the catalog for your data or an async endpoint (debounce the input for netw
       { title: 'No dependency', text: `Pure HTML, CSS, and vanilla JavaScript.` },
     ],
     useCases: [
-      { title: 'Search UIs', text: `A full-screen take on an [expandable search](/ui-snippets/expandable-search/).` },
-      { title: 'Ecommerce apps', text: `Feed results into a [product card](/ui-snippets/product-card/) grid.` },
-      { title: 'Autocomplete', text: `Pair with an [autocomplete input](/ui-snippets/autocomplete-input/).` },
-      { title: 'Command palettes', text: `A mobile cousin of the [command palette](/ui-snippets/command-palette/).` },
-      { title: 'App mockups', text: `Present it inside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Learning live filter', text: `A reference for safe highlighted search filtering.` },
+      { title: 'Full-screen app search', text: 'Show recent chips and trending queries at rest, and switch to live-filtered results the moment the user types, with an [expandable search](/ui-snippets/expandable-search/) as the web counterpart.' },
+      { title: 'E-commerce app search', text: 'Feed filtered results into a [product card](/ui-snippets/product-card/) grid, with matching text wrapped in a mark tag so shoppers see why each item matched.' },
+      { title: 'Autocomplete behaviour', text: 'Pair with an [autocomplete input](/ui-snippets/autocomplete-input/) to compare suggestion-as-you-type with full results, using a single `run()` function for every entry point.' },
+      { title: 'Command-style navigation', text: 'Offer a mobile cousin of the [command palette](/ui-snippets/command-palette/), where a no-results state tells people when nothing matches their query.' },
+      { title: 'Safe highlight reference', text: 'Study how the query is escaped before it becomes a regular expression, so special characters typed by users never break the highlighting.' },
       { icon: 'CODE', title: 'Related: Mobile Ride-Hailing Screen', desc: 'See the [Mobile Ride-Hailing Screen](/ui-snippets/mobile-map-ride-screen/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

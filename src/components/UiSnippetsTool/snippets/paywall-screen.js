@@ -129,12 +129,11 @@ Replace the plans, prices, and feature copy, and wire the CTA to your billing SD
       { title: 'No dependency', text: `Pure HTML/CSS/JS for paywalls.` },
     ],
     useCases: [
-      { title: 'App subscriptions', text: `Convert users inside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Premium upsells', text: `Gate features behind an [upgrade banner](/ui-snippets/upgrade-banner/) flow.` },
-      { title: 'Web pricing modals', text: `Lift it out beside a [plan selector](/ui-snippets/plan-selector/).` },
-      { title: 'Trial offers', text: `Pair with a [trial countdown](/ui-snippets/trial-countdown/) elsewhere in the app.` },
-      { title: 'Pricing pages', text: `Reuse the plan cards from a [pricing card](/ui-snippets/pricing-card/).` },
-      { title: 'Learning conversion UI', text: `A reference for paywall patterns and copy syncing.` },
+      { title: 'App subscription upsells', text: 'Convert free users inside a [phone mockup](/ui-snippets/phone-mockup/), with a benefit-led hero and a checklist framed as outcomes, not features.' },
+      { title: 'Premium feature gating', text: 'Pair with an [upgrade banner](/ui-snippets/upgrade-banner/) shown earlier in the app, so the paywall appears as the natural next step.' },
+      { title: 'Plan selection screens', text: 'Lift the plans out as a [plan selector](/ui-snippets/plan-selector/) on the web, keeping annual preselected with a savings badge and monthly-equivalent pricing.' },
+      { title: 'Free trial offers', text: 'Add urgency with a [trial countdown](/ui-snippets/trial-countdown/), while the call-to-action and fine print change together from one copy map.' },
+      { title: 'Pricing page reuse', text: 'Reuse the plan cards on a marketing page like a [pricing card](/ui-snippets/pricing-card/), keeping the same savings framing across web and app.' },
       { icon: 'CODE', title: 'Related: Mobile Settings Screen', desc: 'See the [Mobile Settings Screen](/ui-snippets/mobile-settings-screen/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

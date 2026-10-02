@@ -201,12 +201,11 @@ Swap the simulated ticker for a real \`timeupdate\` listener on an \`<audio>\` e
       { title: 'Framework-portable core', text: `The elapsed-time-driven logic ports directly onto a real audio element.` },
     ],
     useCases: [
-      { title: 'Podcast episode pages', text: `Give listeners a scannable outline alongside a real [podcast player](/ui-snippets/podcast-player/).` },
-      { title: 'Long-form video and lecture platforms', text: `Adapt the same chapter-highlight logic for [video player](/ui-snippets/video-player/) timestamps.` },
-      { title: 'Interview and documentary shows', text: `Let listeners jump straight to the segment they care about.` },
-      { title: 'Audiobook and course platforms', text: `Reuse for chapter or lesson navigation within a single audio file.` },
-      { title: 'Meeting and webinar recordings', text: `Chapter agenda items by topic with jump-to-timestamp links.` },
-      { title: 'Learning elapsed-time-driven UI', text: `A reference for deriving active state from a single clock value — compare with [table of contents](/ui-snippets/table-of-contents/) scrollspy patterns.` },
+      { title: 'Podcast episode outlines', text: 'Give listeners a scannable list of what an episode covers, with the currently playing chapter highlighted as the clock advances.' },
+      { title: 'Long-form video and lectures', text: 'Adapt the chapter list for a [video player](/ui-snippets/video-player/), where clicking a row seeks straight to that start time.' },
+      { title: 'Interview and documentary shows', text: 'Let listeners jump directly to the topic they came for, with an overall progress bar showing how much of the episode has passed.' },
+      { title: 'Meeting and webinar recordings', text: 'Break a recording into agenda items by timestamp, with a separate [table of contents](/ui-snippets/table-of-contents/) for the written notes.' },
+      { title: 'Elapsed-time-driven UI reference', text: 'Study how an ordered scan derives the active chapter from elapsed seconds, re-rendering only when the active chapter actually changes.' },
       { icon: 'CODE', title: 'Related: Usage-Based Billing Meter', desc: 'See the [Usage-Based Billing Meter](/ui-snippets/usage-based-billing-meter/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

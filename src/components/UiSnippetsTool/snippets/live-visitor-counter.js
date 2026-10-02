@@ -95,12 +95,11 @@ This widget is built to demonstrate the interaction, not to manufacture demand â
       { title: 'Compact, drop-anywhere pill', text: `A self-contained inline pill component that fits naturally near a product price, CTA, or page header.` },
     ],
     useCases: [
-      { title: 'E-commerce product pages', text: `Show active interest in a product alongside a [stock urgency bar](/ui-snippets/stock-urgency-bar/) for combined scarcity and demand signals.` },
-      { title: 'Event and ticket sales pages', text: `Display live interest in a limited-availability event or show.` },
-      { title: 'Real estate and rental listings', text: `Signal demand for a popular property listing to encourage faster decisions.` },
-      { title: 'Course and webinar sign-up pages', text: `Pair with a [social proof popup](/ui-snippets/social-proof-popup/) for combined live-viewer and recent-signup cues.` },
-      { title: 'Flash-sale and limited-drop pages', text: `Reinforce urgency on a time-limited offer alongside a [countdown timer](/ui-snippets/countdown-timer/).` },
-      { title: 'Learning believable simulated data', text: `A clear example of random-walk plus irregular timing for any "live-looking" demo number, reusable beyond visitor counts.` },
+      { title: 'Product page urgency cues', text: 'Show a pulsing X people are viewing this right now line on a product page, signalling active demand without a discount or deadline.' },
+      { title: 'Ticket and event sales', text: 'Display live interest in a popular show alongside a [stock urgency bar](/ui-snippets/stock-urgency-bar/), with a believable random walk instead of independent noise.' },
+      { title: 'Property and rental listings', text: 'Signal demand for a popular listing, where a 15% chance of a plus or minus two change adds natural variation between mostly small steps.' },
+      { title: 'Course and webinar sign-ups', text: 'Pair with a [social proof popup](/ui-snippets/social-proof-popup/) on a registration page, with updates arriving at irregular gaps between 2.2 and 4.8 seconds.' },
+      { title: 'Flash sale countdown pages', text: 'Reinforce urgency next to a [countdown timer](/ui-snippets/countdown-timer/), with a minimum of four visitors so the number never looks implausibly low.' },
       { icon: 'CODE', title: 'Related: Podcast Episode Chapters', desc: 'See the [Podcast Episode Chapters](/ui-snippets/podcast-episode-chapters/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

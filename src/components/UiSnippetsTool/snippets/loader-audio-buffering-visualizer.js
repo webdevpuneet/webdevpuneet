@@ -115,12 +115,11 @@ Unlike a video buffering overlay (a full-frame spinner over the video canvas), t
       { title: 'Zero dependencies', text: `Pure CSS keyframes plus a tiny JS class toggle.` },
     ],
     useCases: [
-      { title: 'Music player buffering states', text: `The primary use case — pair with a [music player](/ui-snippets/music-player/) shell.` },
-      { title: 'Podcast and audiobook apps', text: `Show buffering before playback of a streamed episode begins.` },
-      { title: 'Voice message players', text: `A compact loading state for chat voice notes.` },
-      { title: 'Live audio streams', text: `Indicate connecting/buffering before a live stream starts.` },
-      { title: 'Now-playing widgets', text: `A persistent mini-player bar's loading-to-playing transition.` },
-      { title: 'Comparing loader motion design', text: `A reference for using distinct animation character (not just color) to signal different states.` },
+      { title: 'Music player buffering', text: 'Replace a generic spinner with equalizer bars in a waiting rhythm, then switch to a confident playing pattern inside a [music player](/ui-snippets/music-player/).' },
+      { title: 'Podcast and audiobook apps', text: 'Show buffering before playback starts, using irregular per-bar durations and delays so the wait reads as genuinely uncertain.' },
+      { title: 'Voice message players', text: 'Give chat voice notes a compact loading state, where the same bars become taller and faster the moment audio is ready.' },
+      { title: 'Live audio stream connecting', text: 'Indicate that a stream is connecting or rebuffering, with JavaScript swapping classes and status text on a real readiness event.' },
+      { title: 'Motion design comparisons', text: 'Study how two distinct sets of keyframes make waiting and playing feel different, using only `animation-delay` and `animation-duration`.' },
       { icon: 'CODE', title: 'Related: Skeleton-to-Content Crossfade', desc: 'See the [Skeleton-to-Content Crossfade](/ui-snippets/loader-content-fade-swap/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

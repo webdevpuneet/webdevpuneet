@@ -172,12 +172,11 @@ Replace the gradient viewfinder with a \`<video>\` element bound to \`getUserMed
       { title: 'No dependency', text: `Pure HTML, CSS, and vanilla JavaScript.` },
     ],
     useCases: [
-      { title: 'Camera apps', text: `The capture screen beside a [camera UI](/ui-snippets/camera-ui/) panel.` },
-      { title: 'Photo tools', text: `Feed shots into a [photo gallery](/ui-snippets/photo-gallery/).` },
-      { title: 'Scanner UIs', text: `Reuse the frame for a [slider captcha](/ui-snippets/slider-captcha/) style scanner.` },
-      { title: 'Story creation', text: `Pair with a [mobile stories viewer](/ui-snippets/mobile-stories-viewer/).` },
-      { title: 'App mockups', text: `Present it inside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Learning overlays', text: `A reference for viewfinder overlays and flash effects.` },
+      { title: 'Camera app capture screens', text: 'Prototype the capture view of a camera app with a viewfinder, mode selector and shutter, alongside the [camera UI](/ui-snippets/camera-ui/) panel.' },
+      { title: 'Photo tool workflows', text: 'Send each captured thumbnail on to a [photo gallery](/ui-snippets/photo-gallery/), so the shutter, preview and review steps are all demonstrable.' },
+      { title: 'Scanner and frame overlays', text: 'Reuse the focus reticle, built from one element\'s corner pseudo-elements, for scanner or verification screens such as a [slider captcha](/ui-snippets/slider-captcha/).' },
+      { title: 'Story creation flows', text: 'Follow the capture with a [mobile stories viewer](/ui-snippets/mobile-stories-viewer/) to show a complete post-a-story journey on one phone frame.' },
+      { title: 'Presenting inside a device frame', text: 'Place the screen in a [phone mockup](/ui-snippets/phone-mockup/) for portfolio or marketing use, with a reflow trick restarting the flash and pop on every press.' },
       { icon: 'CODE', title: 'Related: Mobile Alarm Clock Screen', desc: 'See the [Mobile Alarm Clock Screen](/ui-snippets/mobile-alarm-screen/) for a related mobile pattern worth pairing with this one.' },
     ],
     faqs: [

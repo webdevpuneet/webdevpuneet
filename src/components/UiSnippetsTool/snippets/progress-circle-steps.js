@@ -119,12 +119,11 @@ Add or remove steps freely — the flex layout and index logic adapt — change 
       { title: 'Finish state', text: `Last step turns Next into Finish.` },
     ],
     useCases: [
-      { title: 'Checkout', text: `Track stages of a [checkout form](/ui-snippets/checkout-form/).` },
-      { title: 'Onboarding', text: `Header for a [multi-step form](/ui-snippets/multi-step-form/).` },
-      { title: 'Wizards', text: `A horizontal [progress wizard](/ui-snippets/progress-wizard/).` },
-      { title: 'Compact steppers', text: `A richer [stepper](/ui-snippets/stepper/) variant.` },
-      { title: 'Order status', text: `Adapt for an [order tracking timeline](/ui-snippets/order-tracking-timeline/).` },
-      { title: 'Setup flows', text: `Guide an [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/).` },
+      { title: 'Checkout stage trackers', text: 'Show Cart, Shipping, Payment and Review above a [checkout form](/ui-snippets/checkout-form/), with completed steps becoming green check circles.' },
+      { title: 'Multi-step form headers', text: 'Place above a [multi-step form](/ui-snippets/multi-step-form/) so people know how many steps remain, with clickable back-navigation to completed ones.' },
+      { title: 'Wizard and stepper alternatives', text: 'Compare with a [progress wizard](/ui-snippets/progress-wizard/) or a richer [stepper](/ui-snippets/stepper/) when your step labels need more detail than circles allow.' },
+      { title: 'Order status trails', text: 'Adapt the connector for an [order tracking timeline](/ui-snippets/order-tracking-timeline/), where the filled line stops at the current stage.' },
+      { title: 'Setup flow guides', text: 'Guide new accounts alongside an [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/), with upcoming, current and done states set purely by classes.' },
       { icon: 'CODE', title: 'Related: Staggered Skeleton List Reveal', desc: 'See the [Staggered Skeleton List Reveal](/ui-snippets/loader-skeleton-list-staggered/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

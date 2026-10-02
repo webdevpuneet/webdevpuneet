@@ -129,12 +129,11 @@ Bind \`startLoop\`/\`stopLoop\` to a real async operation — start on request s
       { title: 'Toggle control', text: 'A single button demonstrates starting and cleanly interrupting an infinite animation.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'API request loaders', text: 'Start the loop on fetch, stop it on response for an honest busy indicator.' },
-      { icon: 'FORM', title: 'File upload progress', text: 'An equalizer reads as "working" better than a spinner during long uploads.' },
-      { icon: 'DESIGN', title: 'Voice/audio UI', text: 'The bar shape doubles as a stylized audio level meter for voice interfaces.' },
-      { title: 'Skeleton loading states', text: 'A livelier alternative to a static pulsing skeleton block.' },
-      { title: 'Chat "typing" indicators', text: 'Stagger timing tuned faster reads naturally as a typing animation.' },
-      { title: 'Learning Velocity loop mechanics', text: 'A concrete example of loop: true versus manually re-triggering a tween.' },
+      { title: 'API request indicators', text: 'Start the bounce loop when a fetch begins and stop it on response, using `Velocity(el, \'stop\', true)` to clear the queued infinite loop.' },
+      { title: 'Equalizer-style progress', text: 'Show work in progress with bars that ripple like an audio equalizer, each with a permanent `delay: i * 90` phase offset.' },
+      { title: 'Audio and voice interfaces', text: 'Reuse the bar shape as a stylised level meter for recording or playback states in voice and audio interfaces of any kind.' },
+      { title: 'Chat typing alternatives', text: 'Tune the stagger faster for a lively typing indicator, relying on symmetric `easeInOutSine` so the loop shows no seam.' },
+      { title: 'Velocity loop mechanics', text: 'Study how `loop: true` reverses the tween on each cycle instead of snapping back to the start, which is what removes the visible restart.' },
     ],
     faqs: [
       { q: 'How is loop: true different from just calling the animation repeatedly?', a: 'loop: true makes Velocity reverse the same tween back and forth using its existing easing curve, with no gap or restart between cycles. Re-triggering a fresh animation yourself in a complete callback risks a visible snap back to the start value at each boundary and needs manual bookkeeping to keep running.' },

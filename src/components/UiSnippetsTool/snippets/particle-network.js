@@ -132,12 +132,11 @@ Change \`LINK\` for a denser or sparser web, adjust the node count divisor and v
       { title: 'No dependencies', text: `Pure canvas and vanilla JS.` },
     ],
     useCases: [
-      { title: 'Tech landing heroes', text: `Backdrop for an [aurora text](/ui-snippets/aurora-text/) headline.` },
-      { title: 'Network and data sites', text: `Visualize connectivity behind a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/).` },
-      { title: 'AI and platform pages', text: `Pair with a [dot pattern](/ui-snippets/dot-pattern/) section.` },
-      { title: 'Conference microsites', text: `An interactive backdrop near a [shiny text](/ui-snippets/shiny-text/) badge.` },
-      { title: 'Portfolio intros', text: `A connected alternative to a [minimal hero](/ui-snippets/minimal-hero/).` },
-      { title: 'Canvas demos', text: `A reference for constellation networks.` },
+      { title: 'Tech landing hero backdrops', text: 'Place drifting, connecting nodes behind an [aurora text](/ui-snippets/aurora-text/) headline, with lines brightening as nodes come closer together.' },
+      { title: 'Network and data sites', text: 'Visualise connectivity behind a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/), with node count scaled to the viewport width so density stays balanced.' },
+      { title: 'AI and platform pages', text: 'Pair with a [dot pattern](/ui-snippets/dot-pattern/) section for a consistent technical backdrop across a long landing page.' },
+      { title: 'Conference microsites', text: 'Add an interactive constellation near a [shiny text](/ui-snippets/shiny-text/) title, where nodes link to the pointer when it comes within reach.' },
+      { title: 'Portfolio introductions', text: 'Offer a connected alternative to a [minimal hero](/ui-snippets/minimal-hero/), and study slow velocities with edge bounce as a canvas reference.' },
     ],
     faqs: [
       { q: 'How are the connecting lines drawn?', a: `A double loop checks every pair of nodes each frame, and when two are within the link radius it draws a line whose opacity is 1 minus distance over the radius. So links are brightest when nodes are close and fade out as they drift apart, producing a web that continually forms and dissolves as the nodes move.` },

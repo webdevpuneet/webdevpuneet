@@ -127,12 +127,11 @@ Change \`POINTS\` for a smoother (more points) or more angular (fewer points) bl
       { title: 'Responsive canvas', text: `resize attribute keeps it sized to its container.` },
     ],
     useCases: [
-      { title: 'Hero background shapes', text: `An organic focal point behind hero copy.` },
-      { title: 'Loading/idle states', text: `A living shape instead of a static spinner.` },
-      { title: 'Brand moments', text: `A distinctive mouse-reactive mark on landing pages.` },
-      { title: 'Cursor-reactive comparisons', text: `Pair with [quickto cursor](/ui-snippets/quickto-cursor/).` },
-      { title: 'CSS blob alternative', text: `Compare with [liquid blob](/ui-snippets/liquid-blob/) for a non-canvas option.` },
-      { title: 'Creative coding demos', text: `A compact example of Paper.js vector scripting.` },
+      { title: 'Hero background shapes', text: 'Place an organic focal point behind headline text, with each point wobbling at its own phase and speed so the shape never pulses in sync.' },
+      { title: 'Idle and loading states', text: 'Show a living shape in place of a static spinner, where `path.smooth()` turns the points into a fluid continuous curve.' },
+      { title: 'Mouse-reactive brand marks', text: 'Give a landing page a distinctive mark whose nearby points pull toward the pointer, built with Paper.js `Point` maths.' },
+      { title: 'Cursor interaction pairings', text: 'Pair with a [quickTo cursor](/ui-snippets/quickto-cursor/) so a smooth follower and a reactive blob share the pointer.' },
+      { title: 'CSS blob alternatives', text: 'Compare with the [liquid blob](/ui-snippets/liquid-blob/) to decide between a vector-scripted shape and a pure CSS one.' },
     ],
     faqs: [
       { q: "Why rebuild the path's segments every frame instead of animating a transform?", a: `The blob's shape itself changes — points wobble at independent rates and distort toward the cursor — not just its position or scale, so a single CSS-style transform can't express it. Rebuilding segments from ten freshly calculated points each frame, then re-smoothing, is how Paper.js redraws a genuinely different outline every tick rather than moving a fixed shape around.` },

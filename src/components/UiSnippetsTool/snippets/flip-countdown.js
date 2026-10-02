@@ -127,12 +127,11 @@ Point \`target\` at a real launch date, add a days group, change the tile size o
       { title: 'No images', text: `Pure CSS 3D, no sprites or fonts.` },
     ],
     useCases: [
-      { title: 'Launch pages', text: `Headline a [coming soon hero](/ui-snippets/coming-soon-hero/).` },
-      { title: 'Sales', text: `Urgency above a [pricing card](/ui-snippets/pricing-card/).` },
-      { title: 'Events', text: `A richer [countdown timer](/ui-snippets/countdown-timer/).` },
-      { title: 'Clocks', text: `Pair with a [flip clock](/ui-snippets/flip-clock/) for the time.` },
-      { title: 'Drops', text: `Build hype near a [stock urgency bar](/ui-snippets/stock-urgency-bar/).` },
-      { title: 'Trials', text: `Show time left beside a [trial countdown](/ui-snippets/trial-countdown/).` },
+      { title: 'Coming-soon launch pages', text: 'Headline a [coming soon hero](/ui-snippets/coming-soon-hero/) with split-flap tiles whose digits fold over in 3D to reveal the next value each second.' },
+      { title: 'Sale urgency above pricing', text: 'Put a mechanical timer above a [pricing card](/ui-snippets/pricing-card/) so a deadline feels tangible, with tiles that only animate when a digit actually changes.' },
+      { title: 'Event countdown clocks', text: 'Offer a richer alternative to a plain [countdown timer](/ui-snippets/countdown-timer/), with the bottom leaf starting its fold just as the top one finishes.' },
+      { title: 'Clock pairings', text: 'Pair with a [flip clock](/ui-snippets/flip-clock/) so the current time and the time remaining share one nostalgic departure-board look.' },
+      { title: 'Drop and trial deadlines', text: 'Build hype for a drop near a [stock urgency bar](/ui-snippets/stock-urgency-bar/), or show time remaining beside a [trial countdown](/ui-snippets/trial-countdown/) in an app.' },
       { icon: 'CODE', title: 'Related: Magnetic Grid', desc: 'See the [Magnetic Grid](/ui-snippets/magnetic-grid/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [
