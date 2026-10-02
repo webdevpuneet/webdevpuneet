@@ -55,7 +55,7 @@ function PanelChip({ href, label, active }) {
   );
 }
 
-export function CategoryStrip({ categories, tags = [], activeCategory, activeTag = null, inHeader = false }) {
+export function CategoryStrip({ categories, tags = [], activeCategory, activeTag = null, inHeader = false, panelLeft = false }) {
   if (!categories?.length) return null;
   // The active category leads the row, so it is always visible without opening the strip.
   const ordered = activeCategory
@@ -93,7 +93,7 @@ export function CategoryStrip({ categories, tags = [], activeCategory, activeTag
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </span>
       {inHeader && (
-        <div className={rs.catPanel}>
+        <div className={`${rs.catPanel} ${panelLeft ? rs.catPanelLeft : ''}`}>
           <div className={rs.catPanelInner}>
             <div className={rs.catCol}>
               <div className={rs.catColLabel}>Categories</div>

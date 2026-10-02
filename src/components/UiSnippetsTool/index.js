@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import UiSnippetsGallery, { LoadMore } from '@/components/UiSnippetsGallery';
+import UiSnippetsGallery, { LoadMore, GalleryStickyAd } from '@/components/UiSnippetsGallery';
 import gs from '@/components/UiSnippetsGallery/styles.module.css';
 import s from './styles.module.css';
 // Never import ./snippets here: it bundles every snippet's source (~33 MB).
@@ -26,6 +26,8 @@ import {
 } from '@/lib/snippet-exporters';
 import { navStart } from '@/lib/navStart';
 import GistSyncButton from '@/components/GistSyncButton';
+import PlaygroundTopNav from '@/components/PlaygroundTopNav';
+import { ADS_ENABLED } from '@/lib/ads-config';
 import ExportTester from './ExportTester';
 import EmbedModal from './EmbedModal';
 import { CategoryStrip } from './RelatedCarousel';
@@ -499,6 +501,40 @@ function buildSrcdocSimple(html, css, js, cdnUrls = []) {
 
 const SAVED_PER_PAGE = 9;
 
+/* — Snippet top ad: AdSense 728x90 leaderboard above the preview (library snippets).
+   Fixed size, not "auto", so the preview never shifts while a creative loads. The
+   adsbygoogle.js loader lives once site-wide in AdSenseScript; each mount (keyed by
+   snippet) requests an ad for its own fresh <ins>. The strip is hidden at 1280px and
+   below, so the <ins> only renders when it can actually be seen — AdSense errors on
+   zero-width slots. — */
+const TOP_AD_MEDIA = '(min-width: 1281px)';
+function SnippetTopAd() {
+  const [wide, setWide] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia(TOP_AD_MEDIA);
+    const sync = () => setWide(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+  useEffect(() => {
+    if (!wide) return;
+    const id = setTimeout(() => {
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
+    }, 300);
+    return () => clearTimeout(id);
+  }, [wide]);
+  if (!wide) return <div className={s.adBarUnit} />;
+  return (
+    <ins
+      className={`adsbygoogle ${s.adBarUnit}`}
+      style={{ display: 'inline-block', width: '728px', height: '90px' }}
+      data-ad-client="ca-pub-2762737943861458"
+      data-ad-slot="7360198340"
+    />
+  );
+}
+
 function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, onCreateNew, onExploreLibrary, onDelete }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -598,6 +634,8 @@ function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, on
   }
   return (
     <div className={gs.wrap}>
+      <div className={gs.layout}>
+      <div className={gs.main}>
       <div className={gs.controls}>
         <div className={gs.searchRow}>
           <div className={gs.searchWrap}>
@@ -700,6 +738,10 @@ function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, on
         ))}
       </div>
       <LoadMore shown={shown.length} total={filtered.length} onLoadMore={loadMore} />
+      </div>
+      {/* Same sticky 300x600 AdSense unit as the library gallery. */}
+      <GalleryStickyAd />
+      </div>
     </div>
   );
 }
@@ -1609,56 +1651,22 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   // Gallery routes (bare /ui-snippets/, a category, a tag) show a grid, not
   // the editor — let the page's own scroll carry it instead of boxing it
   // into a fixed-viewport inner scroll pane on top of the main page scroll.
-  const galleryMode = isHome && !showEditor;
+  // Gallery layout (page scrolls, no fixed-height inner pane) for every grid view:
+  // the library gallery / categories / tags AND the My Code saved-snippet grid.
+  const galleryMode = !showEditor;
   // Which header section is current: My Code (its gallery, its snippets, a new blank one) or the library.
   const inMyCode = initialView === 'saved' || activeIsCustom || isNewBlank || wantsNew;
   // Code panel stays on the left everywhere, same as My Code.
   const codeRight = false;
 
-  return (
-    <div className={`${s.wrap} ${galleryMode ? s.wrapGallery : ''}`}>
-
-      {/* — Header — */}
-      <header className={s.header}>
-        <div className={s.headerLeft}>
-          <a href="/ui-snippets/" className={`${s.headerBrand} ${!inMyCode ? s.headerBrandActive : ''}`}>
-            <img src="/icons/ui-snippets.svg" width="20" height="20" alt="" />
-            <span className={s.headerTitle}>UI Snippets</span>
-          </a>
-          <a href="/ui-snippets/mycode/" className={`${s.headerBrand} ${inMyCode ? s.headerBrandActive : ''}`}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
-            <span className={s.headerTitle}>My Code</span>
-            {customSnippets.length > 0 && <span className={s.savedCount}>{customSnippets.length}</span>}
-          </a>
-          <button
-            className={s.headerBrand}
-            onClick={() => {
-              // navStart()'s loading pill only ever hides itself on a pathname
-              // change (see NavPill in layout.js) — already being on
-              // /ui-snippets/mycode/ means router.push below is a same-URL
-              // no-op, so the pill would show and then never get told to hide.
-              // Always land on the blank editor, from a snippet, the gallery or My Code:
-              // ?new=1 replaces any ?id= so a reload does not reopen the old snippet.
-              // navStart()'s pill only hides on a pathname change, so skip it when staying on /mycode/.
-              const onMycode = typeof window !== 'undefined' && window.location.pathname.replace(/\/+$/, '') === '/ui-snippets/mycode';
-              const onNew = onMycode && new URLSearchParams(window.location.search).get('new') === '1';
-              if (!onMycode) navStart();
-              applyBlank();
-              if (!onNew) router.push('/ui-snippets/mycode/?new=1', { scroll: false });
-            }}
-          >
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <span className={s.headerTitle}>Create</span>
-          </button>
-        </div>
-        {/* One row of categories; hover opens a two-column Categories | Tags panel.
-            Hidden on the library gallery / category / tag pages, which show their own
-            Categories | Tags panel. An empty slot keeps the header layout unchanged. */}
-        <div className={s.headerCats}>
-          {(showEditor || sidebarTab !== 'library') && (
-            <CategoryStrip categories={HEADER_CATEGORIES} tags={HEADER_TAGS} activeTag={initialTag} activeCategory={activeIsCustom ? null : (activeSn?.category || (initialCategory !== 'all' ? initialCategory : null))} inHeader />
-          )}
-        </div>
+  // Snippet / My Code editor on desktop: the header moves into the top of the code
+  // column so the preview column (toolbar, ad, preview) starts at the very top.
+  // Also while the code panel is collapsed: the header then hides with the column
+  // instead of reappearing as a full-width bar, so the layout stays the same.
+  const headerInCode = !isMobile && showEditor;
+  // Save / Fork / Export / sync. Rendered in the header normally, or in the preview
+  // toolbar (left of the device buttons) when the header sits in the code column.
+  const headerRightEl = (
         <div className={s.headerRight}>
           {/* Save — update existing or open dialog for new blank */}
           {showEditor && (activeIsCustom || isNewBlank) && (
@@ -1746,7 +1754,62 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
 
           {toast && <span className={s.toast}>{toast}</span>}
         </div>
+  );
+
+  const headerEl = (
+      <header className={`${s.header} ${headerInCode ? s.headerInCode : ''}`}>
+        <div className={s.headerLeft}>
+          <a href="/ui-snippets/" className={`${s.headerBrand} ${!inMyCode ? s.headerBrandActive : ''}`}>
+            <img src="/icons/ui-snippets.svg" width="20" height="20" alt="" />
+            <span className={s.headerTitle}>UI Snippets</span>
+          </a>
+          <a href="/ui-snippets/mycode/" className={`${s.headerBrand} ${inMyCode ? s.headerBrandActive : ''}`}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+            <span className={s.headerTitle}>My Code</span>
+            {customSnippets.length > 0 && <span className={s.savedCount}>{customSnippets.length}</span>}
+          </a>
+          <button
+            className={s.headerBrand}
+            onClick={() => {
+              // navStart()'s loading pill only ever hides itself on a pathname
+              // change (see NavPill in layout.js) — already being on
+              // /ui-snippets/mycode/ means router.push below is a same-URL
+              // no-op, so the pill would show and then never get told to hide.
+              // Always land on the blank editor, from a snippet, the gallery or My Code:
+              // ?new=1 replaces any ?id= so a reload does not reopen the old snippet.
+              // navStart()'s pill only hides on a pathname change, so skip it when staying on /mycode/.
+              const onMycode = typeof window !== 'undefined' && window.location.pathname.replace(/\/+$/, '') === '/ui-snippets/mycode';
+              const onNew = onMycode && new URLSearchParams(window.location.search).get('new') === '1';
+              if (!onMycode) navStart();
+              applyBlank();
+              if (!onNew) router.push('/ui-snippets/mycode/?new=1', { scroll: false });
+            }}
+          >
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span className={s.headerTitle}>{headerInCode ? 'Create snippet' : 'Create'}</span>
+          </button>
+        </div>
+        {/* One row of categories; hover opens a two-column Categories | Tags panel.
+            Hidden on the library gallery / category / tag pages, which show their own
+            Categories | Tags panel, and when the header sits in the narrow code column.
+            An empty slot keeps the header layout unchanged. */}
+        <div className={s.headerCats}>
+          {(showEditor || sidebarTab !== 'library') && !headerInCode && (
+            <CategoryStrip categories={HEADER_CATEGORIES} tags={HEADER_TAGS} activeTag={initialTag} activeCategory={activeIsCustom ? null : (activeSn?.category || (initialCategory !== 'all' ? initialCategory : null))} inHeader panelLeft={headerInCode} />
+          )}
+        </div>
+        {!headerInCode && headerRightEl}
       </header>
+  );
+
+  return (
+    <div className={`${s.wrap} ${galleryMode ? s.wrapGallery : ''}`} data-uis-gallery={galleryMode ? '' : undefined}>
+      {/* The layout adds this nav on the library gallery routes; the My Code grid
+          (same URL as the My Code editor) renders it here so it matches. */}
+      {galleryMode && sidebarTab === 'saved' && <PlaygroundTopNav active="ui-snippets" />}
+
+      {/* — Header — on editor pages (desktop) it sits at the top of the code column instead */}
+      {!headerInCode && headerEl}
 
       {/* — Body — */}
       <div className={`${s.body} ${galleryMode ? s.bodyGallery : ''} ${codeRight ? s.bodyCodeRight : ''}`} ref={bodyRef}>
@@ -1765,6 +1828,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               ref={editorRef}
               style={{ flex: editorVisible ? `0 0 ${editorWidth}px` : undefined, minWidth: editorVisible ? 300 : undefined, display: editorVisible ? 'flex' : 'none' }}
             >
+              {headerInCode && headerEl}
               <EditorPanel lang="html" data-panel="html" code={htmlCode} highlight={highlightHTML} onChange={onHtml} onReset={resetHtml} collapsed={htmlCollapsed} onToggle={toggleHtmlPanel} className={`${sidebarTab === 'saved' ? s.panelTopBorder : ''} ${htmlCollapsed ? '' : s.panelFlex}`} flexVal={htmlCollapsed ? undefined : htmlFlex} />
               {!htmlCollapsed && !cssCollapsed && <div className={s.vDragHandle} onMouseDown={onHtmlCssDragStart} title="Drag to resize" />}
               <EditorPanel lang="css"  data-panel="css"  code={cssCode}  highlight={highlightCSS}  onChange={onCss}  onReset={resetCss} collapsed={cssCollapsed}  onToggle={toggleCssPanel}  className={cssCollapsed  ? '' : s.panelFlex} flexVal={cssCollapsed  ? undefined : cssFlex} headerExtra={cssHeaderExtra} />
@@ -1816,6 +1880,50 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           )}
           {showEditor && <div className={s.previewHeader}>
             <span className={s.previewLabel}>Preview</span>
+            <div className={s.previewDeviceBtns}>
+              <button className={`${s.deviceBtn} ${previewMode === 'mobile'  ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('mobile')}  title="Mobile (375px)">
+                <svg width="11" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
+              </button>
+              <button className={`${s.deviceBtn} ${previewMode === 'tablet'  ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('tablet')}  title="Tablet (768px)">
+                <svg width="13" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="3" y="2" width="18" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
+              </button>
+              <button className={`${s.deviceBtn} ${previewMode === 'desktop' ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('desktop')} title="Desktop (full)">
+                <svg width="16" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              </button>
+              <button
+                className={`${s.deviceBtn} ${isMaximized ? s.deviceBtnActive : ''}`}
+                onClick={toggleMaximize}
+                title={isMaximized ? 'Restore panels' : 'Maximise preview'}
+              >
+                {isMaximized ? (
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/>
+                    <line x1="10" y1="14" x2="3" y2="21"/><line x1="21" y1="3" x2="14" y2="10"/>
+                  </svg>
+                ) : (
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+                    <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+                  </svg>
+                )}
+              </button>
+              <button
+                className={s.deviceBtn}
+                onClick={() => {
+                  const blob = new Blob([srcDoc], { type: 'text/html' });
+                  const url = URL.createObjectURL(blob);
+                  const win = window.open(url, '_blank', 'width=' + screen.width + ',height=' + screen.height);
+                  if (win) { win.addEventListener('load', () => URL.revokeObjectURL(url)); }
+                }}
+                title="Pop out preview in new window"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                  <polyline points="15 3 21 3 21 9"/>
+                  <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+              </button>
+            </div>
             <button
               className={`${s.iconBtn} ${s.refreshBtn}`}
               onClick={() => setPreviewKey(k => k + 1)}
@@ -1934,55 +2042,25 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               </div>
             )}
 
-            <div className={s.previewDeviceBtns}>
-              <button className={`${s.deviceBtn} ${previewMode === 'mobile'  ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('mobile')}  title="Mobile (375px)">
-                <svg width="11" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
-              </button>
-              <button className={`${s.deviceBtn} ${previewMode === 'tablet'  ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('tablet')}  title="Tablet (768px)">
-                <svg width="13" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="3" y="2" width="18" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
-              </button>
-              <button className={`${s.deviceBtn} ${previewMode === 'desktop' ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('desktop')} title="Desktop (full)">
-                <svg width="16" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-              </button>
-              <button
-                className={`${s.deviceBtn} ${isMaximized ? s.deviceBtnActive : ''}`}
-                onClick={toggleMaximize}
-                title={isMaximized ? 'Restore panels' : 'Maximise preview'}
-              >
-                {isMaximized ? (
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                    <polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/>
-                    <line x1="10" y1="14" x2="3" y2="21"/><line x1="21" y1="3" x2="14" y2="10"/>
-                  </svg>
-                ) : (
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                    <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
-                    <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
-                  </svg>
-                )}
-              </button>
-              <button
-                className={s.deviceBtn}
-                onClick={() => {
-                  const blob = new Blob([srcDoc], { type: 'text/html' });
-                  const url = URL.createObjectURL(blob);
-                  const win = window.open(url, '_blank', 'width=' + screen.width + ',height=' + screen.height);
-                  if (win) { win.addEventListener('load', () => URL.revokeObjectURL(url)); }
-                }}
-                title="Pop out preview in new window"
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                  <polyline points="15 3 21 3 21 9"/>
-                  <line x1="10" y1="14" x2="21" y2="3"/>
-                </svg>
-              </button>
-            </div>
+            {headerInCode && <div className={s.previewActions}>{headerRightEl}</div>}
             <div className={s.previewBtns}>
               <ExportMenu options={exportOptions} />
             </div>
           </div>}
-          {showEditor && <div className={s.iframeWrap}>
+          {/* AdSense 728x90 (slot 7360198340) below the Preview toolbar, above the preview —
+              trial slot for a Google AdSense leaderboard. Hidden at 1280px and below. */}
+          {showEditor && !inMyCode && (
+            <div className={s.adBar} aria-label="Advertisement">
+              {ADS_ENABLED ? <SnippetTopAd key={activeId || 'none'} /> : (
+                <div className={s.adBarSlot}>
+                  <span className={s.adBarLabel}>Ad space</span>
+                  <span className={s.adBarSize}>728 × 90</span>
+                </div>
+              )}
+            </div>
+          )}
+          {showEditor && <div className={s.previewStage}>
+          <div className={s.iframeWrap}>
             {!previewVisible && (
               <div className={s.previewLoading}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" style={{ animation: 'spinCCW 0.6s linear infinite' }}>
@@ -2005,6 +2083,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                 visibility: previewVisible ? 'visible' : 'hidden',
               }}
             />
+          </div>
           </div>}
           {showEditor && (
             <div className={`${s.consolePanel} ${consoleOpen ? s.consolePanelOpen : ''}`}>

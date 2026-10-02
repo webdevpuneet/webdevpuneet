@@ -15,6 +15,15 @@
    fixed-viewport editor app — let the browser's own scrollbar carry the grid
    into the SEO content below instead of clipping it into its own inner
    scroll box on top of the page scroll. */
+/* The My Code grid shares its URL with the My Code editor, so the layout can't
+   tell them apart by path. When the tool renders a gallery, release the
+   fixed editor height so the page itself scrolls (overrides the inline height). */
+.toolSection:has([data-uis-gallery]) {
+  height: auto !important;
+  min-height: 0;
+  overflow: visible;
+}
+
 .toolSectionGallery {
   height: auto;
   min-height: 0;

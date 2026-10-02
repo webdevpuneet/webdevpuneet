@@ -410,3 +410,72 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 - Header category strip is hidden on the library gallery, category and tag pages (whenever `UiSnippetsGallery` renders), which have their own Categories | Tags panel. It still shows on snippet pages and My Code; the empty `.headerCats` slot keeps the header layout.
 - Follow-up: home hero columns are now 50/50 (`flex: 1 1 0` on both). The stacked layouts at 1300px and below are unchanged.
 - Follow-up: home hero tagline now mentions tools ("Copy-paste UI snippets, interactive coding playgrounds and free CSS & developer tools — all in your browser, instantly.").
+
+## 2026-10-01 — 160x600 ad placeholder beside the snippet preview
+
+- `UiSnippetsTool`: the preview iframe and a new right-hand `.adRail` sit side by side in `.previewStage`. The rail holds
+  a dashed 160x600 "Ad space" placeholder (`.adRailSlot`) as a trial spot for an AdSense skyscraper. It shows wherever
+  the editor/preview shows (snippet pages, My Code snippets) and is hidden at 1100px and below. Placeholder only; no
+  AdSense code yet.
+- Swapped: the 160x600 right rail is replaced by a 728x90 "Ad space" banner placeholder (`.adBar`/`.adBarSlot`) centered above the preview iframe, below the Preview toolbar. `.previewStage` is now a column. Hidden at 1280px and below (the preview pane needs to be wider than 728px).
+
+## 2026-10-01 — Snippet pages: no top playground bar; header moves into the code column
+
+- `ui-snippets/layout.js`: removed the PlaygroundTopNav bar from every /ui-snippets/ page. The editor height is now the
+  full viewport (`navH = 0`).
+- `UiSnippetsTool`: the header (UI Snippets / My Code / Create, category strip, More, Save, Fork, Export, sync) is a
+  `headerEl` variable. On desktop editor pages with the code panel open (`headerInCode`), it renders at the top of the
+  code column (`.headerInCode` wraps it onto rows), so the preview column starts at the top. Gallery pages, mobile and
+  the hidden-code-panel state keep the full-width header.
+- `CategoryStrip` takes `panelLeft`, so its Categories | Tags panel opens rightwards from the narrow column.
+- Follow-up: the 728x90 placeholder moved above the Preview toolbar (the top of the preview column) instead of between the toolbar and the iframe.
+- Follow-up: the header category strip and its Categories | Tags hover panel are hidden when the header sits in the code column (desktop snippet / My Code editor).
+- Follow-up (UX): in the code column the header is two tidy rows. Row 1 has UI Snippets / My Code / Create as three equal compact buttons (grid, 30px high, 12px labels, ellipsis), so nothing clips. Row 2 has Fork / Export / Save / sync (28px buttons).
+- Follow-up: when the header is in the code column, the right-hand group (Save / Fork / Export / GitHub sync) renders in the preview toolbar, just left of the device buttons (`headerRightEl` in `.previewActions`), so the code-column header is one row. Gallery pages and mobile keep it in the header. Only one instance is ever mounted.
+- Follow-up: PlaygroundTopNav is back on the gallery pages only (`/ui-snippets/`, categories, tags, via `isGalleryRoute`). Snippet and My Code pages still have none.
+
+## 2026-10-02 — Sticky 300x600 ad placeholder on gallery pages
+
+- `UiSnippetsGallery` (`/ui-snippets/`, categories, tags): the content is two columns. `.main` holds the search,
+  Categories | Tags panel, grid and Load more; `.adSticky` is a 300px column with a dashed 300x600 "Ad space"
+  placeholder, `position: sticky; top: 16px`, so it follows the viewport as Load more grows the grid. Hidden at 1400px
+  and below. Placeholder only; no AdSense code yet.
+- `.wrap` is `overflow: visible` (was `overflow-y: auto`). The page scrolls, and the old scroll container stopped the
+  sticky column following the viewport.
+- Follow-up: code-column header has UI Snippets and My Code side by side on row 1 and a full-width "Create snippet" button on row 2. Elsewhere the button still reads "Create".
+- Follow-up: the preview column order on desktop is Console bar (top; opens downward, chevron flipped, `.consolePanelTop`), then Preview toolbar, then the 728x90 ad space, then the preview. Mobile keeps the console under the preview via the existing CSS `order` rules.
+- Follow-up: desktop preview column order is now Preview toolbar, then 728x90 ad space, then Console bar (opens downward), then the preview.
+- Follow-up: the ad strip padding above and below the 728x90 box is 4px (was 10px).
+- My Code gallery (`SavedGallery`) gets the same two-column layout and sticky 300x600 "Ad space" (`gs.layout` / `gs.main` / `gs.adSticky`). It sticks within the scrolling preview pane as the saved-snippet grid grows, is hidden at 1400px and below, and is absent from the empty-state screen.
+- My Code grid now behaves like the gallery pages: `galleryMode = !showEditor` (was `isHome && !showEditor`), so it scrolls as a page with no inner preview-pane scrolling, and the sticky 300x600 sticks to the viewport. The tool renders PlaygroundTopNav for the My Code grid (the layout only adds it on library gallery routes). `tool-page.module.css` releases the fixed editor height with `.toolSection:has([data-uis-gallery])`, since the My Code grid and editor share a URL. Editing a saved snippet (`?id=`) is unchanged.
+- Follow-up: the 728x90 ad placeholder is hidden on My Code snippets (saved and new blank, `inMyCode`). It shows only on library snippet pages.
+- Follow-up: GitHub sync last-synced badge ("✓ 08:47 AM") now shows just below the sync button (`top: calc(100% + 3px)`). Above it, it was clipped in the preview toolbar.
+- Follow-up: removed the last-synced time badge from the GitHub sync button. The time is still in the button tooltip ("Last synced …"); the brief ⟳ badge while syncing stays.
+- Follow-up: preview toolbar device buttons (mobile / tablet / desktop / fullscreen / open in new tab) now come right after the PREVIEW label, before Refresh, on library and My Code snippets. Mobile CSS is unaffected (explicit `order`, or hidden).
+- Follow-up: desktop preview column order is now 728x90 ad space, then Preview toolbar, then Console bar, then the preview. My Code snippets have no ad, so the toolbar is first there.
+- Follow-up: the Console bar is back at the bottom of the preview column (opens upward, original chevron); `.consolePanelTop` is removed. Desktop order: ad space, Preview toolbar, preview, Console.
+- Follow-up: desktop preview column order is Preview toolbar, then 728x90 ad space (library snippets only), then the preview, then Console at the bottom.
+- Reverted: the 728x90 ad space is back above the Preview toolbar. Order: ad space, Preview toolbar, preview, Console.
+- Follow-up: the ad strip background is `var(--bg)` (page background), matching the area to the right of the preview.
+
+## 2026-10-02 — Real AdSense 728x90 above the snippet preview
+
+- `SnippetTopAd` in UiSnippetsTool renders the AdSense unit (client ca-pub-2762737943861458, slot **7360198340**) in the
+  top ad strip on library snippet pages (not My Code). It is a fixed `728x90` inline-block, not the pasted
+  `data-ad-format="auto"`, as the user asked for 728x90.
+- It only renders the `<ins>` and pushes when `(min-width: 1281px)` matches (the strip is hidden below that; AdSense
+  errors on zero-width slots). Keyed by `activeId`, so each snippet gets a fresh request; the push is delayed 300ms.
+  `.adBarUnit` reserves 728x90 so nothing shifts. It respects `ADS_ENABLED` (the dashed placeholder shows when ads are
+  off). The site-wide adsbygoogle.js loader (AdSenseScript) is reused, so the pasted `<script>` is not needed.
+
+## 2026-10-02 — Real AdSense 300x600 in the sticky gallery column
+
+- New `GalleryStickyAd` (exported from UiSnippetsGallery) renders the AdSense half-page unit (slot **8625178551**) in
+  the sticky right column of the library gallery, categories, tags and the My Code grid. It is a fixed `300x600`
+  inline-block, not the pasted `data-ad-format="auto"`.
+- It only renders the `<ins>` and pushes when `(min-width: 1401px)` matches (the column is hidden below that); the push
+  is delayed 300ms. `.adStickyUnit` reserves the box. It respects `ADS_ENABLED` (the dashed placeholder shows when
+  ads are off). The site-wide loader is reused.
+- `AdSlot300x600` (sticky 300x600 beside the SEO content on tool, playground, snippet, category and tag pages) now uses AdSense slot **2059770203** ("content-right-sticky"), fixed 300x600. The generic responsive `AdSlot` keeps 5223917455.
+- Follow-up: the Preview toolbar is back above the 728x90 ad. Order: Preview toolbar, ad (library snippets), preview, Console.
+- Follow-up: `headerInCode = !isMobile && showEditor` (no longer requires `editorVisible`). Collapsing the code panel no longer brings back the full-width header bar; the header hides with the column, and the preview toolbar (with Fork / Export) stays at the top.

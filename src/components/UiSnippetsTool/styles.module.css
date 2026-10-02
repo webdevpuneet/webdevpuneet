@@ -36,6 +36,47 @@
   gap: 12px;
 }
 
+/* Header inside the code column (editor pages, desktop): wraps onto rows —
+   UI Snippets / My Code / Create, then Fork / Export etc. */
+.headerInCode {
+  flex-wrap: wrap;
+  height: auto;
+  padding: 10px;
+  gap: 8px;
+  justify-content: flex-start;
+}
+.headerInCode .headerCats { display: none; }  /* no category strip in the narrow code column */
+/* Row 1: UI Snippets / My Code side by side; row 2: "Create snippet" full width. */
+.headerInCode .headerLeft {
+  flex: 1 1 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+.headerInCode .headerDivider { display: none; }
+.headerInCode .headerLeft > button.headerBrand { grid-column: 1 / -1; }  /* Create */
+.headerInCode .headerBrand {
+  justify-content: center;
+  min-width: 0;
+  height: 30px;
+  padding: 0 6px;
+  gap: 5px;
+}
+.headerInCode .headerTitle {
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.headerInCode .headerBrand svg { flex-shrink: 0; }
+/* Row 2: Fork / Export / Save / sync, aligned with row 1. */
+.headerInCode .headerRight {
+  flex: 1 1 100%;
+  margin-left: 0;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.headerInCode .headerRight .iconBtn { height: 28px; }
+
 /* Category strip in the header's free middle space (CategoryStrip from RelatedCarousel) */
 .headerCats {
   flex: 1 1 0;
@@ -979,6 +1020,10 @@ button.headerBrand {
 .deviceBtn:hover { background: var(--surface2); color: var(--text); }
 .deviceBtnActive { background: var(--surface) !important; color: var(--text) !important; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
 
+/* Save / Fork / Export / sync in the preview toolbar (header in code column). */
+.previewActions { margin-left: auto; margin-right: 8px; display: flex; align-items: center; }
+.previewActions .headerRight { margin-left: 0; gap: 6px; }
+
 .previewBtns {
   display: none;
   gap: 4px;
@@ -1205,8 +1250,47 @@ button.headerBrand {
 .consoleLevel_error { color: #dc2626; background: rgba(220,38,38,0.05); border-left: 2px solid #ef4444; }
 
 /* ── iframe wrap ─────────────────────────────────────────────────────────────── */
+/* Preview stage: optional ad banner on top, the preview below. */
+.previewStage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.adBar {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  padding: 4px 12px;  /* tight: just enough to frame the banner */
+  overflow: hidden;
+  background: var(--bg);  /* match the page background beside the preview */
+  border-bottom: 1px solid var(--border);
+}
+.adBarSlot {
+  width: 728px;
+  max-width: 100%;
+  height: 90px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1.5px dashed var(--border);
+  border-radius: 8px;
+  background: var(--surface2);
+  color: var(--text3);
+  font-family: var(--font-ui);
+}
+/* Real AdSense unit: reserves the exact 728x90 box so nothing shifts on load. */
+.adBarUnit { display: block; width: 728px; height: 90px; flex-shrink: 0; }
+.adBarLabel { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.adBarSize { font-size: 12px; font-family: var(--font-mono); }
+/* A 728px banner needs the preview to be at least that wide. */
+@media (max-width: 1280px) { .adBar { display: none; } }
+
 .iframeWrap {
   position: relative;
+  min-width: 0;
   flex: 1;
   min-height: 0;
   overflow: auto;
@@ -1354,6 +1438,7 @@ button.headerBrand {
   /* Preview first, code editors after — on a small screen seeing the result
      before wading through HTML/CSS/JS tabs is the more useful default. */
   .previewHeader { order: 1; }
+  .previewStage  { order: 2; flex: none; }
   .iframeWrap    { order: 2; }
   .consolePanel  { order: 3; }
   .mobileEditors {

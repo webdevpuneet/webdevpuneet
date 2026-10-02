@@ -104,6 +104,8 @@
   pointer-events: none;
   transition: opacity .15s ease, visibility .15s;
 }
+/* Header in the narrow code column: open the panel rightwards from the strip's left edge. */
+.catPanel.catPanelLeft { left: 0; transform: none; }
 .catBarHeader:hover .catPanel,
 .catBarHeader:focus-within .catPanel { opacity: 1; visibility: visible; pointer-events: auto; }
 .catPanelInner {

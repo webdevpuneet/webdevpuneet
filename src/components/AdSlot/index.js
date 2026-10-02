@@ -16,7 +16,8 @@ function pushAd() {
   try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
 }
 
-// 300×600 half-page ad — used inside SEO content after the features section
+// 300×600 half-page ad — the sticky column beside the SEO content (features, about…).
+// AdSense unit "content-right-sticky" (slot 2059770203); fixed size, not "auto".
 export function AdSlot300x600() {
   const ADS_ENABLED = useAdsEnabled();
   useEffect(() => {
@@ -31,7 +32,7 @@ export function AdSlot300x600() {
         className="adsbygoogle"
         style={{ display: 'inline-block', width: '300px', height: '600px' }}
         data-ad-client="ca-pub-2762737943861458"
-        data-ad-slot="5223917455"
+        data-ad-slot="2059770203"
       />
     </div>
   );

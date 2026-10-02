@@ -31,7 +31,9 @@
 
 .statusMsg {
   position: absolute;
-  bottom: calc(85%);
+  /* Below the button: above it, the badge got clipped by the toolbar edge. */
+  top: calc(100% + 3px);
+  z-index: 5;
   right: 0;
   font-size: 8.5px;
   font-weight: 500;

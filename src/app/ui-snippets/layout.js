@@ -122,21 +122,10 @@ function UiSnippetsToolSection() {
 export default function UiSnippetsLayout({ children }) {
   const pathname = usePathname();
 
-  // The editor fills the screen BELOW the top nav, so it needs the nav's real
-  // height. A hard-coded number is wrong the moment the nav wraps or its font
-  // changes, and the bottom Console bar then slides off-screen.
-  const navRef = useRef(null);
-  const [navH, setNavH] = useState(25);
-  useEffect(() => {
-    const el = navRef.current;
-    if (!el) return;
-    const measure = () => setNavH(el.offsetHeight || 25);
-    measure();
-    if (typeof ResizeObserver === 'undefined') return;
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [pathname]);
+  // The playground top nav shows only on the gallery pages (/ui-snippets/,
+  // categories, tags), which scroll normally. Snippet and My Code pages have no
+  // top nav, so their fixed-height editor fills the full viewport (navH = 0).
+  const navH = 0;
 
   // The embed route (/ui-snippets/[slug]/embed/) is a bare iframe target meant
   // to be dropped into a third-party page — none of the playground nav, the
@@ -148,7 +137,7 @@ export default function UiSnippetsLayout({ children }) {
 
   return (
     <div className={styles.page} style={{ '--pnav-h': `${navH}px` }}>
-      <div ref={navRef}><PlaygroundTopNav active="ui-snippets" /></div>
+      {isGallery && <PlaygroundTopNav active="ui-snippets" />}
       <div
         className={`${styles.toolSection} ${isGallery ? styles.toolSectionGallery : ''}`}
         style={isGallery ? undefined : { height: `calc(100dvh - ${navH}px)` }}

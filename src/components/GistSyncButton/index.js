@@ -384,9 +384,6 @@ const GistSyncButton = forwardRef(function GistSyncButton(
       )}
 
       {isBusy && <span className={styles.statusMsg}>⟳</span>}
-      {!isBusy && lastSynced && !showPopover && (
-        <span className={styles.statusMsg}>✓ {lastSynced.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-      )}
 
       <button
         className={`${styles.iconBtn} ${showPopover ? styles.iconBtnActive : ''} ${isActive ? styles.iconBtnOn : ''} ${pushing ? styles.iconBtnBusy : ''}`}

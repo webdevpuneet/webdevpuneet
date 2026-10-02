@@ -7,6 +7,7 @@ import { VISIBLE_SNIPPET_INDEX as SNIPPETS } from '@/lib/snippet-index';
 import { CATEGORIES } from '@/components/UiSnippetsTool/categories';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import { publishedTags, tagsForSnippetId, TAG_BY_ID } from '@/lib/snippet-tags';
+import { ADS_ENABLED } from '@/lib/ads-config';
 import s from './styles.module.css';
 
 const PER_PAGE = 9;
@@ -36,6 +37,52 @@ function syncSearchToSidebar(value) {
 // Tags big enough to have their own page, largest first — the same set the
 // /ui-snippets/tag/ routes are generated from, so a chip never links to a 404.
 const TAG_LINKS = publishedTags(SNIPPETS);
+
+// Sticky 300x600 AdSense half-page (slot 8625178551) beside the gallery grid — used by
+// the library gallery / categories / tags and the My Code grid. Fixed size, not
+// "auto", so the column never resizes while a creative loads. The column is hidden
+// at 1400px and below, so the <ins> only renders (and pushes) when it can be seen:
+// AdSense errors on zero-width slots. The adsbygoogle.js loader is site-wide.
+const STICKY_AD_MEDIA = '(min-width: 1401px)';
+function StickyAdUnit() {
+  const [wide, setWide] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia(STICKY_AD_MEDIA);
+    const sync = () => setWide(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+  useEffect(() => {
+    if (!wide) return;
+    const id = setTimeout(() => {
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
+    }, 300);
+    return () => clearTimeout(id);
+  }, [wide]);
+  if (!wide) return <div className={s.adStickyUnit} />;
+  return (
+    <ins
+      className={`adsbygoogle ${s.adStickyUnit}`}
+      style={{ display: 'inline-block', width: '300px', height: '600px' }}
+      data-ad-client="ca-pub-2762737943861458"
+      data-ad-slot="8625178551"
+    />
+  );
+}
+
+export function GalleryStickyAd() {
+  return (
+    <aside className={s.adSticky} aria-label="Advertisement">
+      {ADS_ENABLED ? <StickyAdUnit /> : (
+        <div className={s.adStickySlot}>
+          <span className={s.adStickyLabel}>Ad space</span>
+          <span className={s.adStickySize}>300 × 600</span>
+        </div>
+      )}
+    </aside>
+  );
+}
 
 // "Load more" under a snippet grid: each click appends the next page below the
 // cards already shown (nothing is replaced). With `href` it renders a real link
@@ -204,6 +251,8 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
 
   return (
     <div className={s.wrap}>
+      <div className={s.layout}>
+      <div className={s.main}>
       <div className={s.controls}>
         <div className={s.searchRow}>
           <div className={s.searchWrap}>
@@ -332,6 +381,9 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
           />
         </>
       )}
+      </div>
+      <GalleryStickyAd />
+      </div>
     </div>
   );
 }
