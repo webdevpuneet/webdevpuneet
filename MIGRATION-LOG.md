@@ -495,3 +495,12 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 - The top ad outline now has square corners (border-radius removed).
 - Not covered: ad blockers. AdSense never runs there, so the `<ins>` gets no status and the reserved space stays.
 - Follow-up: removed the top ad outline; the strip padding is back to 4px.
+
+## 2026-10-02 — Fix: top ad strip jerking (collapse / re-request loop)
+
+- Bug: when AdSense returned no fill, `.adBar` collapsed (display:none), `SnippetTopAd`'s ResizeObserver read 0 width
+  and dropped the size, which removed the unfilled `<ins>`. The strip un-collapsed, was re-measured and requested a
+  new ad, which collapsed again, so the area kept jerking and AdSense got repeated requests.
+- Fix: `pick()` ignores readings while the strip is hidden (`offsetParent === null` or 0 width) and keeps the current
+  size, so a collapsed unfilled slot stays collapsed with no new request. `GalleryStickyAd` gets the same 0-width guard
+  (it observes the layout, so it was not looping, but it can no longer start).

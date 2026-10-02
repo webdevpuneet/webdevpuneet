@@ -536,6 +536,11 @@ function SnippetTopAd() {
     const strip = boxRef.current?.parentElement;
     if (!strip) return;
     const pick = () => {
+      // A strip collapsed by the unfilled-ad rule (display:none) measures 0 wide.
+      // Ignore that: dropping the size would remove the unfilled <ins>, un-collapse
+      // the strip, request a new ad, collapse again… a visible jerk and an ad-request
+      // loop. Keep the current size until the strip is really laid out again.
+      if (strip.offsetParent === null || strip.clientWidth === 0) return;
       const cs = getComputedStyle(strip);
       const avail = strip.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
       const next = TOP_AD_SIZES.find(z => z.w <= avail) || null;

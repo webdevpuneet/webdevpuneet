@@ -75,6 +75,8 @@ export function GalleryStickyAd() {
     const layout = ref.current?.parentElement;
     if (!layout) return;
     const pick = () => {
+      // Ignore 0-width readings (hidden): never drop/re-request the ad because of one.
+      if (layout.clientWidth === 0) return;
       const width = layout.clientWidth;
       const next = STICKY_AD_SIZES.find(z => width >= z.minLayout)?.w ?? null;
       setW(prev => (prev === next ? prev : next));
