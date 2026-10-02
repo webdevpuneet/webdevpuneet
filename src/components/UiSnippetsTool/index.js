@@ -501,37 +501,56 @@ function buildSrcdocSimple(html, css, js, cdnUrls = []) {
 
 const SAVED_PER_PAGE = 9;
 
-/* — Snippet top ad: AdSense 728x90 leaderboard above the preview (library snippets).
-   Fixed size, not "auto", so the preview never shifts while a creative loads. The
-   adsbygoogle.js loader lives once site-wide in AdSenseScript; each mount (keyed by
-   snippet) requests an ad for its own fresh <ins>. The strip is hidden at 1280px and
-   below, so the <ins> only renders when it can actually be seen — AdSense errors on
-   zero-width slots. — */
-const TOP_AD_MEDIA = '(min-width: 1281px)';
-function SnippetTopAd() {
-  const [wide, setWide] = useState(false);
+/* — Snippet top ad: AdSense unit (slot 7360198340) above the preview, library snippets.
+   The size follows the space actually available above the preview (sidebar and code
+   column eat into the viewport, so screen width alone would be wrong):
+     728x90 leaderboard → 468x60 banner (tablet) → 320x50 mobile banner.
+   Each size is a fixed slot, so nothing shifts while a creative loads. Crossing into a
+   different size remounts the <ins> (key) and requests a fresh ad — AdSense fixes a
+   slot's size once it has been filled. The adsbygoogle.js loader lives once site-wide. — */
+const TOP_AD_SIZES = [
+  { w: 728, h: 90 },
+  { w: 468, h: 60 },
+  { w: 320, h: 50 },
+];
+function TopAdIns({ w, h }) {
   useEffect(() => {
-    const mq = window.matchMedia(TOP_AD_MEDIA);
-    const sync = () => setWide(mq.matches);
-    sync();
-    mq.addEventListener('change', sync);
-    return () => mq.removeEventListener('change', sync);
-  }, []);
-  useEffect(() => {
-    if (!wide) return;
     const id = setTimeout(() => {
       try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
     }, 300);
     return () => clearTimeout(id);
-  }, [wide]);
-  if (!wide) return <div className={s.adBarUnit} />;
+  }, []);
   return (
     <ins
-      className={`adsbygoogle ${s.adBarUnit}`}
-      style={{ display: 'inline-block', width: '728px', height: '90px' }}
+      className="adsbygoogle"
+      style={{ display: 'inline-block', width: `${w}px`, height: `${h}px` }}
       data-ad-client="ca-pub-2762737943861458"
       data-ad-slot="7360198340"
     />
+  );
+}
+function SnippetTopAd() {
+  const boxRef = useRef(null);
+  const [size, setSize] = useState(null);
+  useEffect(() => {
+    const strip = boxRef.current?.parentElement;
+    if (!strip) return;
+    const pick = () => {
+      const cs = getComputedStyle(strip);
+      const avail = strip.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      const next = TOP_AD_SIZES.find(z => z.w <= avail) || null;
+      setSize(prev => (prev?.w === next?.w ? prev : next));
+    };
+    pick();
+    if (typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(pick);
+    ro.observe(strip);
+    return () => ro.disconnect();
+  }, []);
+  return (
+    <div ref={boxRef} className={s.adBarUnit} style={size ? { width: size.w, height: size.h } : undefined}>
+      {size && <TopAdIns key={size.w} w={size.w} h={size.h} />}
+    </div>
   );
 }
 
@@ -1879,6 +1898,9 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             </div>
           )}
           {showEditor && <div className={s.previewHeader}>
+            {/* Everything but the action menus scrolls sideways in one row when space is
+                short; Fork / Export stay pinned outside so their menus aren't clipped. */}
+            <div className={s.previewScroll}>
             <span className={s.previewLabel}>Preview</span>
             <div className={s.previewDeviceBtns}>
               <button className={`${s.deviceBtn} ${previewMode === 'mobile'  ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('mobile')}  title="Mobile (375px)">
@@ -2042,12 +2064,13 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               </div>
             )}
 
+            </div>
             {headerInCode && <div className={s.previewActions}>{headerRightEl}</div>}
             <div className={s.previewBtns}>
               <ExportMenu options={exportOptions} />
             </div>
           </div>}
-          {/* AdSense 728x90 (slot 7360198340) below the Preview toolbar, above the preview —
+          {/* AdSense (slot 7360198340) below the Preview toolbar, above the preview — 728x90 / 468x60 / 320x50 by available width —
               trial slot for a Google AdSense leaderboard. Hidden at 1280px and below. */}
           {showEditor && !inMyCode && (
             <div className={s.adBar} aria-label="Advertisement">

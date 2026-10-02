@@ -1020,8 +1020,26 @@ button.headerBrand {
 .deviceBtn:hover { background: var(--surface2); color: var(--text); }
 .deviceBtnActive { background: var(--surface) !important; color: var(--text) !important; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
 
+/* Preview toolbar: one row that scrolls sideways when narrow (no wrapping). */
+.previewScroll {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.previewScroll::-webkit-scrollbar { display: none; }
+.previewScroll > * { flex-shrink: 0; }
+/* Keep Prev / Next / Random centred between Refresh and the action menus. */
+.previewScroll > .previewNav { margin-right: auto; }
+
 /* Save / Fork / Export / sync in the preview toolbar (header in code column). */
-.previewActions { margin-left: auto; margin-right: 8px; display: flex; align-items: center; }
+.previewActions { margin-left: 8px; margin-right: 8px; display: flex; align-items: center; flex-shrink: 0; }
 .previewActions .headerRight { margin-left: 0; gap: 6px; }
 
 .previewBtns {
@@ -1282,11 +1300,10 @@ button.headerBrand {
   font-family: var(--font-ui);
 }
 /* Real AdSense unit: reserves the exact 728x90 box so nothing shifts on load. */
-.adBarUnit { display: block; width: 728px; height: 90px; flex-shrink: 0; }
+.adBarUnit { display: block; flex-shrink: 0; }  /* width/height set inline from the chosen size */
 .adBarLabel { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .adBarSize { font-size: 12px; font-family: var(--font-mono); }
-/* A 728px banner needs the preview to be at least that wide. */
-@media (max-width: 1280px) { .adBar { display: none; } }
+/* No breakpoint hide: the unit itself drops to 468x60 / 320x50 when space is short. */
 
 .iframeWrap {
   position: relative;
@@ -1438,6 +1455,7 @@ button.headerBrand {
   /* Preview first, code editors after — on a small screen seeing the result
      before wading through HTML/CSS/JS tabs is the more useful default. */
   .previewHeader { order: 1; }
+  .adBar         { order: 1; }  /* right after the toolbar (same order, later in the DOM) */
   .previewStage  { order: 2; flex: none; }
   .iframeWrap    { order: 2; }
   .consolePanel  { order: 3; }
@@ -1459,15 +1477,12 @@ button.headerBrand {
 
   .previewBtns { display: flex; }
 
-  /* ── Preview toolbar on mobile: three wrapped rows ── */
-  /* A fixed 64px here was shorter than what label+nav+export-buttons actually
-     need once wrapped, so the rows overflowed the box and visually collided
-     with whatever rendered next. auto lets it size to its real content. */
+  /* ── Preview toolbar on mobile: one row; .previewScroll scrolls sideways ── */
   .previewHeader {
-    flex-wrap: wrap;
-    row-gap: 0;
-    padding: 0;
+    flex-wrap: nowrap;
+    padding: 0 0 0 4px;
     height: auto;
+    min-height: 38px;
     border-bottom: 1px solid var(--border);
   }
 
@@ -1482,31 +1497,19 @@ button.headerBrand {
     font-size: 11px;
   }
 
-  .previewDeviceBtns {
-    display: none;
-  }
-
   .previewNav {
     display: flex;
-    width: 100%;
-    border-top: 1px solid var(--border);
-    justify-content: center;
     padding: 4px 0;
   }
 
-  /* Row 3: Copy all + Download — full-width */
+  /* Export stays pinned at the row's right end, outside the scroller. */
   .previewBtns {
-    width: 100%;
-    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+    padding: 0 6px;
+    border-left: 1px solid var(--border);
   }
   .previewBtns .iconBtn {
-    flex: 1;
-    justify-content: center;
-    padding: 7px 0;
-    border: none;
-    border-radius: 0;
-    border-right: 1px solid var(--border);
-    font-size: 12px;
+    padding: 5px 8px;
   }
   .previewBtns .iconBtn:last-child {
     border-right: none;
