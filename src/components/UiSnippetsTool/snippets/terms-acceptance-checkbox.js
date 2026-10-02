@@ -150,12 +150,12 @@ Swap the tolerance value for stricter/looser detection, add a scroll-progress in
       { title: 'No dependencies', text: `Pure HTML, CSS, and JavaScript.` },
     ],
     useCases: [
-      { title: 'Signup flows', text: `Gate account creation on reading the terms.` },
-      { title: 'Checkout agreements', text: `Pair with a [checkout form](/ui-snippets/checkout-form/).` },
-      { title: 'Consent management', text: `Sit alongside [gdpr-consent-manager](/ui-snippets/gdpr-consent-manager/).` },
-      { title: 'Contract/e-signature flows', text: `A pre-step before [document e-signature](/ui-snippets/document-signature-flow/).` },
-      { title: 'Policy updates', text: `Require re-acknowledgment of updated terms.` },
-      { title: 'Regulated industries', text: `Compliance-sensitive agreement gates.` },
+      { title: 'Account sign-up consent', text: 'Gate account creation on genuinely reaching the end of the terms. The checkbox stays disabled until the scroll check passes, so agreeing means the box was scrolled, not just clicked.' },
+      { title: 'Checkout agreements', text: 'Require acknowledgement of delivery, returns or subscription terms before payment, and place it above the [checkout form](/ui-snippets/checkout-form/) submit button so the order cannot continue early.' },
+      { title: 'Privacy notice consent flows', text: 'Use the same scroll-to-unlock logic for long privacy notices alongside the [GDPR consent manager](/ui-snippets/gdpr-consent-manager/), where users must see the full policy before accepting.' },
+      { title: 'Contract and e-signature steps', text: 'Add it as the reading step before a [document signature flow](/ui-snippets/document-signature-flow/), so signers confirm they reached the final clause before the signing screen opens.' },
+      { title: 'Policy updates and re-acceptance', text: 'When terms change, show the new version in the box and make existing users scroll and tick again. Scrolling back up never re-locks the checkbox, so the experience stays smooth.' },
+      { title: 'Compliance-sensitive products', text: 'Finance, health and education products often need proof that users reached the end of the terms. Pixel tolerance and the short-content auto-unlock keep it reliable across browsers and tiny policies.' },
     ],
     faqs: [
       { q: 'Why not just use a timer to "make sure they read it"?', a: `A timer only proves time passed, not that the user scrolled or looked at the content — someone could switch tabs and come back once the timer expires. This pattern instead checks the box's real scroll position via scrollTop + clientHeight >= scrollHeight, so the checkbox only unlocks after an actual scroll event reaches the bottom.` },

@@ -101,12 +101,11 @@ Change the ring sizes and icon radii for tighter or wider orbits, add or remove 
       { title: 'Pure-CSS motion', text: `One spin animation per ring.` },
     ],
     useCases: [
-      { title: 'Integration sections', text: `Complement an [animated beam](/ui-snippets/animated-beam/) diagram.` },
-      { title: 'Platform landing pages', text: `Explain connectivity above a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/).` },
-      { title: 'Ecosystem pages', text: `Show partners circling a core product.` },
-      { title: 'Tech-stack displays', text: `Orbit the tools you support.` },
-      { title: 'Hero accents', text: `A dynamic graphic beside a headline.` },
-      { title: 'CSS orbit demos', text: `A reference for transform-based orbiting.` },
+      { title: 'Integration sections', text: 'Show the apps your product connects to as icons circling a central logo, then add an [animated beam](/ui-snippets/animated-beam/) diagram to tell the data-flow story.' },
+      { title: 'Platform landing pages', text: 'Explain that everything connects to your platform above a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/). Rings spin at different speeds and the outer ring reverses for depth.' },
+      { title: 'Partner and ecosystem pages', text: 'Place partner logos on concentric rings around your core product. Icons stay upright while they orbit, so every logo remains readable at any point on its path.' },
+      { title: 'Tech-stack displays', text: 'Orbit the languages and tools you support. Pausing on hover lets visitors read a logo before it moves away.' },
+      { title: 'CSS transform orbit reference', text: 'Study the rotate, translate and counter-rotate chain that places each icon, and how dashed borders draw the orbit tracks without any SVG.' },
     ],
     faqs: [
       { q: 'How is each icon placed on the ring?', a: `Each icon uses a chained transform: rotate(--a) turns its frame to the icon angle, translate(--rad) pushes it out to the ring radius, and a final rotate of the negative angle cancels the tilt so the icon sits flat. Setting just the angle per icon and a shared radius makes even distribution a matter of picking angles like 0, 120, and 240.` },

@@ -122,12 +122,12 @@ Add or remove feature rows and plan columns freely; the structure and hover logi
       { title: 'Index-driven logic', text: `Adapts to any column count.` },
     ],
     useCases: [
-      { title: 'Pricing pages', text: `Detail below a [pricing card](/ui-snippets/pricing-card/) block.` },
-      { title: 'Billing periods', text: `Pair with a [pricing toggle](/ui-snippets/pricing-toggle/).` },
-      { title: 'Objection handling', text: `Sit above a [pricing faq](/ui-snippets/pricing-faq/).` },
-      { title: 'Enterprise tiers', text: `Compare alongside [enterprise pricing](/ui-snippets/enterprise-pricing/).` },
-      { title: 'Product compare', text: `Adapt for a [comparison table](/ui-snippets/comparison-table/).` },
-      { title: 'Upgrade prompts', text: `Show value beside an [upgrade banner](/ui-snippets/upgrade-banner/).` },
+      { title: 'Detail section under pricing cards', text: 'Place the table beneath a [pricing card](/ui-snippets/pricing-card/) block for visitors who scroll down to compare every feature across plans before committing to one.' },
+      { title: 'Billing period switch above the table', text: 'Pair it with a [pricing toggle](/ui-snippets/pricing-toggle/) so the full feature comparison sits right under the monthly and annual switch for visitors weighing their options.' },
+      { title: 'Answering objections before checkout', text: 'Put the table directly above a [pricing FAQ](/ui-snippets/pricing-faq/), so a hesitant buyer can verify a limit and then read the answer without leaving the page.' },
+      { title: 'Enterprise and custom plans', text: 'Add a column for large teams and link it to [enterprise pricing](/ui-snippets/enterprise-pricing/) or a sales contact when the top tier needs a conversation instead of a fixed price.' },
+      { title: 'Accessible plan comparison', text: 'The semantic `thead` and row headers let screen readers announce each plan and feature, while the tinted popular column and column hover guide sighted visitors toward the tier you want to sell.' },
+      { title: 'In-app upgrade comparison', text: 'Reuse the table inside account settings next to an [upgrade banner](/ui-snippets/upgrade-banner/) to show free users exactly what the next plan unlocks.' },
       { icon: 'CODE', title: 'Related: Custom Quote Request Form', desc: 'See the [Custom Quote Request Form](/ui-snippets/pricing-custom-quote-form/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

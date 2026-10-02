@@ -103,12 +103,11 @@ Change the lift direction (curtain down with \`yPercent: 100\`, or sideways), th
       { title: 'Reversible', text: `Scrolling up lowers the curtain.` },
     ],
     useCases: [
-      { title: 'Section transitions', text: `Pair with [scroll split panels](/ui-snippets/scroll-split-panels/).` },
-      { title: 'Big reveals', text: `Uncover a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/).` },
-      { title: 'Editorial', text: `Open onto a [scroll image mask](/ui-snippets/scroll-image-mask/).` },
-      { title: 'Launches', text: `Unveil over a [minimal hero](/ui-snippets/minimal-hero/).` },
-      { title: 'Chapters', text: `Punctuate a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Galleries', text: `Lift into a [scroll gallery pin](/ui-snippets/scroll-gallery-pin/).` },
+      { title: 'Dramatic section transitions', text: 'Cover the end of one section with a full-screen panel that lifts away as the reader scrolls, then continue with [scroll split panels](/ui-snippets/scroll-split-panels/) for a layered, theatrical page.' },
+      { title: 'Product or brand reveal', text: 'Hide a headline behind the curtain and let the scrollbar uncover it like a stage reveal, then hand off to a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/) so the product arrives right after.' },
+      { title: 'Launch page opener', text: 'Open a launch page on a bold curtain and unveil a [minimal hero](/ui-snippets/minimal-hero/) as visitors scroll. Because the lift is scrubbed, it follows their pace instead of running on a timer.' },
+      { title: 'Chapter breaks in a long story', text: 'Use one curtain per chapter to punctuate a [scroll pin story](/ui-snippets/scroll-pin-story/), giving long editorial pages a clear rhythm between sections.' },
+      { title: 'Learning pinned and scrubbed scroll effects', text: 'Study how GSAP `ScrollTrigger` pins the panel and scrubs the lift to scroll progress, then try swapping the curtain for an image or an [image mask](/ui-snippets/scroll-image-mask/).' },
       { icon: 'CODE', title: 'Related: Scroll-Triggered Overshoot Counter', desc: 'See the [Scroll-Triggered Overshoot Counter](/ui-snippets/scroll-counter-overshoot/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [
