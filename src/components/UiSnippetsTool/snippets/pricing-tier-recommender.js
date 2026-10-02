@@ -219,12 +219,11 @@ Add more questions, change the tier thresholds, or have \`recommend()\` return a
       { title: 'Framework-agnostic core', text: `recommend() is pure and ports directly to any state model.` },
     ],
     useCases: [
-      { title: 'Pricing page onboarding', text: `Guide a confused visitor to the right [pricing card](/ui-snippets/pricing-card/) before they bounce.` },
-      { title: 'Sales-assisted deals', text: `Route Enterprise answers straight to [enterprise pricing](/ui-snippets/enterprise-pricing/) contact.` },
-      { title: 'Signup flows', text: `Pre-select a plan in a [plan selector](/ui-snippets/plan-selector/) based on the quiz result.` },
-      { title: 'Feature discovery', text: `Surface which tier unlocks SSO before someone hits the limit.` },
-      { title: 'In-app upgrade prompts', text: `Recommend an upgrade tier based on real usage answers.` },
-      { title: 'Marketing landing pages', text: `Replace a static comparison table with an interactive picker.` },
+      { title: 'Pricing page guidance', text: 'Guide a confused visitor to the right plan with a three-question quiz covering team size, SSO need and project volume.' },
+      { title: 'Sales-assisted routing', text: 'Route Enterprise answers straight to [enterprise pricing](/ui-snippets/enterprise-pricing/), using ordered conditionals over real answers so results are deterministic.' },
+      { title: 'Signup plan pre-selection', text: 'Pre-select a plan in a [plan selector](/ui-snippets/plan-selector/) based on quiz results, with a why text naming the answer that drove the recommendation.' },
+      { title: 'Feature discovery', text: 'Surface which tier unlocks SSO before the visitor commits, revealing one question at a time with a live progress bar and step count.' },
+      { title: 'In-app upgrades and landing pages', text: 'Recommend an upgrade tier based on usage, or replace a static comparison with a quiz leading to a [pricing card](/ui-snippets/pricing-card/).' },
       { icon: 'CODE', title: 'Related: Lifetime Deal Pricing Card', desc: 'See the [Lifetime Deal Pricing Card](/ui-snippets/pricing-lifetime-deal-card/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

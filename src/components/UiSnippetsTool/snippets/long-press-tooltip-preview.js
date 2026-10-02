@@ -177,12 +177,11 @@ Tune \`PRESS_MS\` and \`MOVE_TOLERANCE\`, add a "Pop" step where a second press-
       { title: `No dependency`, text: `Pure HTML/CSS/JS, no tooltip library.` },
     ],
     useCases: [
-      { title: `Article and blog cards`, text: `Peek at a full summary before committing to open it.` },
-      { title: `Product cards`, text: `Preview details without leaving a grid or search results.` },
-      { title: `Contact and profile lists`, text: `Hold a contact to preview info without opening it.` },
-      { title: `Link previews`, text: `A touch equivalent to hovering a link on desktop.` },
-      { title: `Comparison with hover tooltips`, text: `The touch-first counterpart to desktop hover UI.` },
-      { title: `Learning press-timing detection`, text: `A reference for pointerdown + cancellable timers.` },
+      { title: 'Article and blog cards', text: 'Let touch users peek at a full summary before committing to a tap, using a cancellable `setTimeout` for a true hold threshold.' },
+      { title: 'Product cards', text: 'Preview details without leaving a grid, with `Math.hypot` distinguishing a deliberate hold from a drag or scroll gesture.' },
+      { title: 'Contact and profile lists', text: 'Hold a contact to preview information near where the finger pressed, flipping below the press point when there is no room above.' },
+      { title: 'Link previews', text: 'Provide the touch equivalent of hovering a link on desktop, where `:hover` tooltips are simply invisible on phones.' },
+      { title: 'Hover tooltip comparison and timing learning', text: 'Use as the touch-first counterpart to hover tooltips, and as a reference for pointerdown press timing and movement tolerance.' },
       { icon: 'CODE', title: 'Related: Resizable, Draggable Floating Modal Window', desc: 'See the [Resizable, Draggable Floating Modal Window](/ui-snippets/resizable-draggable-modal-window/) for a related modals pattern worth pairing with this one.' },
     ],
     faqs: [

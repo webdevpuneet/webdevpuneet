@@ -122,10 +122,10 @@ The JS file in this snippet does no visual work at all — there is no scroll li
       'Technique portable to any scrollable container, not just full-page scroll',
     ],
     useCases: [
-      { icon: 'DESIGN', title: 'Marketing and storytelling pages', desc: 'Depth-rich section breaks with none of the maintenance burden of scroll-linked JS.' },
-      { icon: 'LEARN', title: 'CSS 3D transform tutorials', desc: 'A canonical example of the perspective plus translateZ plus scale parallax trick.' },
-      { icon: 'CODE', title: 'Performance-sensitive sites', desc: 'A parallax option for teams wanting to avoid any scroll-event JavaScript entirely.' },
-      { icon: 'APP', title: 'Static site generators and CMS templates', desc: 'A parallax section that works even where custom JS is restricted or discouraged.' },
+      { icon: '📣', title: 'Marketing storytelling pages', desc: 'Create depth-rich section breaks with no scroll listeners, using `perspective`, `translateZ` and scale to separate layers.' },
+      { icon: '📚', title: 'CSS 3D transform tutorials', desc: 'Provide a canonical CSS 3D transform example showing how `transform-style: preserve-3d` with a perspective container produces parallax naturally.' },
+      { icon: '⚡', title: 'Performance-sensitive sites', desc: 'Offer a parallax option for teams that cannot afford scroll-jank, since no per-frame JavaScript recalculation takes place.' },
+      { icon: '🧱', title: 'CMS and static site templates', desc: 'Add a parallax section to templates without any script dependencies, with three differently styled background scenes showing the technique.' },
     ],
     faqs: [
       { q: 'How does this create parallax without any scroll event listener?', a: 'The scrollable container has a shallow CSS perspective (1px). Background layers are pushed backward in 3D space with translateZ(-1px) and their scale compensated to fill the viewport again. Because of how CSS 3D perspective projection works, an element positioned further back in Z-space visually displaces less per pixel of scroll than normal-flow content in front of it — the browser computes this automatically as part of rendering, with no JavaScript involved.' },

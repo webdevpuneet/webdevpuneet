@@ -138,10 +138,11 @@ The most important line in the snippet is the note under the field: this is form
       'Honest scope note: formatting only, not validation',
     ],
     useCases: [
-      { icon: 'FORM', title: 'Contact and signup forms', desc: `Give users a phone field that matches their local format. For flags, dial-code search and real validation see the [intl-tel-input field](/ui-snippets/intl-tel-input-phone-field/).` },
-      { icon: 'SHOP', title: 'Checkout delivery details', desc: `Collect a delivery contact number with consistent grouping so couriers can read it.` },
-      { icon: 'ADMIN', title: 'CRM data entry', desc: `Keep a contact database tidy by formatting at the point of entry.` },
-      { icon: 'LEARN', title: 'Learning formatting vs validation', desc: `A clear demonstration of what a mask can and cannot guarantee about user input.` },
+      { icon: '📞', title: 'Contact and signup forms', desc: 'Give users a phone field that matches their country\'s grouping as they type, using the i18n add-on\'s real numbering plan rules.' },
+      { icon: '🛒', title: 'Checkout delivery details', desc: 'Collect a delivery contact number in the right shape, switching region with `setPhoneRegionCode()` when the country changes.' },
+      { icon: '🗂️', title: 'CRM data entry', desc: 'Keep a contact database tidy, storing raw digits from `getRawValue()` while users see a nicely formatted number.' },
+      { icon: '🏳️', title: 'Country-aware input pairing', desc: 'Pair with an [intl-tel-input phone field](/ui-snippets/intl-tel-input-phone-field/) when users also need a flag dropdown and country dial codes.' },
+      { icon: '🎓', title: 'Formatting versus validation learning', desc: 'See a clear demonstration that formatting a number as you type is different from proving it is a real, reachable number.' },
     ],
     faqs: [
       { q: 'Does Cleave validate phone numbers?', a: 'No. It only formats. Use libphonenumber-js or intl-tel-input when you need to know whether a number is possible or valid.' },

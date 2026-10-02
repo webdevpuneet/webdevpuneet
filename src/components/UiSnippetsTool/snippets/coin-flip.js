@@ -111,12 +111,11 @@ The coin is self-contained and easy to theme — swap the H/T glyphs for icons o
       { title: 'No images, no library', text: `Pure HTML/CSS/JS — themeable and dependency-free.` },
     ],
     useCases: [
-      { title: 'Decision makers', text: `Settle a yes/no or A/B choice — pair with a [dice roller](/ui-snippets/dice-roller/) for more options.` },
-      { title: 'Game mechanics', text: `Drive a coin-toss in a game UI alongside a [spin wheel](/ui-snippets/spin-wheel/).` },
-      { title: 'Sports and matchups', text: `Pick who goes first with a visible, fair toss.` },
-      { title: 'Gamified prompts', text: `Add chance to onboarding or quizzes next to a [confetti button](/ui-snippets/confetti-button/).` },
-      { title: 'Party and icebreaker apps', text: `A playful "let fate decide" control.` },
-      { title: 'Learning CSS 3D flips', text: `A reference for backface-visibility and 3D rotation — compare with a [3D flip card](/ui-snippets/3d-flip-card/).` },
+      { title: 'Decision making', text: 'Settle a yes or no question, pairing with a [dice roller](/ui-snippets/dice-roller/) or [spin wheel](/ui-snippets/spin-wheel/) for other kinds of random choice.' },
+      { title: 'Game mechanics', text: 'Drive a coin toss in a game interface, with parity-based landing putting heads at even and tails at odd multiples of 180 degrees.' },
+      { title: 'Sports and matchups', text: 'Pick who goes first with a visible, fair flip, since `Math.random()` chooses the result before the spin so the animation always matches.' },
+      { title: 'Gamified prompts', text: 'Add chance to onboarding or quizzes as a gamified prompt, with a [confetti button](/ui-snippets/confetti-button/) rewarding a lucky result.' },
+      { title: 'Party apps and 3D flip learning', text: 'Let fate decide at icebreakers, and study `backface-visibility`, comparing with a [3D flip card](/ui-snippets/3d-flip-card/) for content cards.' },
       { icon: 'CODE', title: 'Related: Cursor Spotlight Reveal', desc: 'See the [Cursor Spotlight Reveal](/ui-snippets/cursor-spotlight-reveal/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

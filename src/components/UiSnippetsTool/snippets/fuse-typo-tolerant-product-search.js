@@ -170,10 +170,11 @@ Highlighting comes from includeMatches, which returns character ranges for the m
       'Fully client-side and instant for catalogues of a few thousand items',
     ],
     useCases: [
-      { icon: 'SHOP', title: 'Store and catalogue search', desc: `Give shoppers forgiving search without a search backend. Combine with the [price range filter](/ui-snippets/nouislider-price-range-filter/) for a full filter bar.` },
-      { icon: 'DOC', title: 'Help centre article search', desc: `Find articles despite misspelled queries, ranked by title and tag relevance.` },
-      { icon: 'PEOPLE', title: 'Contact and directory lookup', desc: `Find people by approximate name, team or role.` },
-      { icon: 'LEARN', title: 'Learning search relevance', desc: `The strictness slider is a hands-on way to understand how fuzzy thresholds behave.` },
+      { icon: '🛒', title: 'Store and catalogue search', desc: 'Give shoppers forgiving search, so a misspelling like sneekers still finds sneakers instead of returning nothing.' },
+      { icon: '📚', title: 'Help centre article search', desc: 'Find help centre articles despite misspellings, using weighted fields so that title matches count for more than body text.' },
+      { icon: '👥', title: 'Directory and contact lookup', desc: 'Find people in a directory by approximate name, with per-result relevance badges derived from the `includeScore` option.' },
+      { icon: '💰', title: 'Price filtering companion', desc: 'Combine with a [noUiSlider price range filter](/ui-snippets/nouislider-price-range-filter/) so that fuzzy search and numeric filtering work together.' },
+      { icon: '🎓', title: 'Search relevance learning', desc: 'Use the live strictness slider as a hands-on way to see how the `threshold` option changes which results appear.' },
     ],
     faqs: [
       { q: 'What threshold should I use?', a: 'Start around 0.3. Lower is stricter and returns fewer results; higher forgives more typos but adds unrelated matches. Tune it against real queries.' },

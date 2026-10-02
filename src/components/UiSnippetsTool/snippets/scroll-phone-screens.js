@@ -153,12 +153,11 @@ Swap the gradient screens for real app screenshots (\`<img>\` per \`.pss-screen\
       { title: 'Reversible', text: `Scrolling up flicks back through the app.` },
     ],
     useCases: [
-      { title: 'App landing pages', text: `Walk visitors through core screens; open with a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/).` },
-      { title: 'Feature tours', text: `Pair the device with side copy using [sticky scroll features](/ui-snippets/scroll-sticky-features/).` },
-      { title: 'Release announcements', text: `Show what's new screen by screen, then a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) of details.` },
-      { title: 'Onboarding previews', text: `Let users preview the flow before install; add a [mobile onboarding](/ui-snippets/mobile-onboarding/) demo.` },
-      { title: 'Portfolio case studies', text: `Present app work inside a [phone mockup](/ui-snippets/phone-mockup/) context.` },
-      { title: 'Story sections', text: `Chain into a [scroll pin story](/ui-snippets/scroll-pin-story/) for the narrative after.` },
+      { title: 'App landing pages', text: 'Walk visitors through core screens, opening with a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/) before a pinned phone shows each one.' },
+      { title: 'Feature tours', text: 'Pair the device with side copy using [scroll sticky features](/ui-snippets/scroll-sticky-features/), with captions handed off on the same master timeline.' },
+      { title: 'Release announcements', text: 'Show what is new screen by screen, using one `yPercent` tween to move all screens inside a clipped viewport.' },
+      { title: 'Onboarding previews', text: 'Let users preview a flow before installing the app, inspired by [mobile onboarding](/ui-snippets/mobile-onboarding/) screens, with captions handing off per screen.' },
+      { title: 'Case studies and story chains', text: 'Present app work inside a [phone mockup](/ui-snippets/phone-mockup/) style frame, or chain into a [scroll pin story](/ui-snippets/scroll-pin-story/) for the narrative.' },
       { icon: 'CODE', title: 'Related: Scroll Rotate Gallery', desc: 'See the [Scroll Rotate Gallery](/ui-snippets/scroll-rotate-gallery/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -118,12 +118,11 @@ Replace the five comparison points with your product's real differentiators — 
       { title: 'Responsive stacking', text: `Columns collapse to a single stack under 640px.` },
     ],
     useCases: [
-      { title: 'Competitor switch campaigns', text: `Lead a "switch from X" landing page with the comparison as the primary hook.` },
-      { title: 'SaaS category pages', text: `Pair with a fuller [comparison table](/ui-snippets/comparison-table/) further down the page.` },
-      { title: 'Migration-focused landing pages', text: `Pair with a [pricing card](/ui-snippets/pricing-card/) for visitors ready to commit.` },
-      { title: 'Category-defining products', text: `Frame against "the old way" instead of a single named competitor.` },
-      { title: 'Sales enablement pages', text: `Give a rep a shareable page making the comparison case up front.` },
-      { title: 'Learning persuasive comparison layout', text: `A reference for structuring credible, specific us-vs-them claims.` },
+      { title: 'Competitor switch campaigns', text: 'Lead a switch from X landing page with a two-column us versus typical alternative checklist directly under the headline.' },
+      { title: 'SaaS category pages', text: 'Pair with a fuller [comparison table](/ui-snippets/comparison-table/) lower down on a SaaS category page for visitors who want every detail.' },
+      { title: 'Migration-focused pages', text: 'Add a [pricing card](/ui-snippets/pricing-card/) beside the checklist, with a tinted us column signalling preference without shouting.' },
+      { title: 'Category-defining products', text: 'Frame the product against the old way, using specific verifiable claims rather than abstract quality adjectives.' },
+      { title: 'Sales enablement pages', text: 'Give a rep a shareable page making the case persuasively, and study a two-pixel grid gap that reads as a dividing line with no borders.' },
       { icon: 'CODE', title: 'Related: Developer Hero with Typing Code Window', desc: 'See the [Developer Hero with Typing Code Window](/ui-snippets/hero-code-window-showcase/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

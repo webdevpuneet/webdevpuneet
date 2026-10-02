@@ -155,12 +155,11 @@ Swap the two \`<pre>\` code blocks for any other before/after content — a UI s
       { title: 'Single pinned section', text: `No separate scroll distance bookkeeping beyond one ScrollTrigger.` },
     ],
     useCases: [
-      { title: 'Code refactor / rewrite case studies', text: `Show legacy code being visibly replaced by a cleaner rewrite as the reader scrolls.` },
-      { title: 'Design or UI redesign showcases', text: `Wipe from an old interface screenshot to the redesigned one.` },
-      { title: 'Copy editing / content transformation demos', text: `Reveal an edited, tightened version of a paragraph overtaking the original.` },
-      { title: 'Home renovation or product transformation stories', text: `Narrate a physical before/after with the same scroll-driven wipe.` },
-      { title: 'Data cleanup or migration case studies', text: `Show a messy dataset transforming into a cleaned, structured one.` },
-      { title: 'Brand refresh microsites', text: `Wipe from an old logo/identity system to the new one as part of the story.` },
+      { title: 'Code refactor case studies', text: 'Show legacy code becoming clean code as the reader scrolls, with a scrubbed `clip-path` wipe and a glowing divider line.' },
+      { title: 'Redesign showcases', text: 'Wipe from an old interface to the new one, with captions that change at scroll thresholds layered over the continuous motion.' },
+      { title: 'Content editing demos', text: 'Reveal an edited version of text over the original, with a hard literal split rather than an ambiguous blended crossfade.' },
+      { title: 'Renovation and product stories', text: 'Narrate a before and after transformation of a home or product, with one progress value driving the wipe, divider and captions.' },
+      { title: 'Data cleanup and brand refreshes', text: 'Show a messy dataset becoming tidy, or wipe from an old logo to a new identity, without needing the visitor to drag a slider.' },
       { icon: 'CODE', title: 'Related: Three.js Scroll Prism Light Split', desc: 'See the [Three.js Scroll Prism Light Split](/ui-snippets/three-scroll-prism-split/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -159,12 +159,11 @@ The strip scrolls horizontally with a hidden scrollbar when tabs overflow, and l
       { title: 'Delegated events & no library', text: `One click listener routes close vs. activate via closest() — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Editors and IDEs', text: `Open files or buffers as closeable tabs — pair with a [file manager UI](/ui-snippets/file-manager-ui/) for the tree.` },
-      { title: 'Dashboards with saved views', text: `Let users open multiple report tabs, alongside a [data table](/ui-snippets/data-table/) per view.` },
-      { title: 'Multi-document apps', text: `Notes, chats, or tickets each in a reorderable tab.` },
-      { title: 'Browser-like interfaces', text: `Any app that mimics tabbed browsing or workspaces.` },
-      { title: 'Settings with dynamic sections', text: `Add and remove configuration tabs next to a [settings panel](/ui-snippets/settings-panel/).` },
-      { title: 'Learning state-driven UI', text: `A reference for array-as-state rendering and drag reorder — compare with [animated tabs](/ui-snippets/animated-tabs/).` },
+      { title: 'Editors and IDEs', text: 'Open files or buffers as closeable tabs, driven by an array of id, title and content objects that every action mutates.' },
+      { title: 'Dashboards with saved views', text: 'Let users open several reports side by side, with a plus button appending a tab and scrolling the strip to reveal it.' },
+      { title: 'Multi-document apps', text: 'Keep notes, chats or tickets each in their own tab, closing with the times button or a middle-click through `auxclick`.' },
+      { title: 'Browser-like interfaces', text: 'Mimic tabbed browsing, with smart neighbour activation choosing the right tab after the active one closes and drag to reorder.' },
+      { title: 'Settings and file views', text: 'Add and remove configuration sections in a [settings panel](/ui-snippets/settings-panel/), or pair with a [file manager UI](/ui-snippets/file-manager-ui/) and [data table](/ui-snippets/data-table/); compare with [animated tabs](/ui-snippets/animated-tabs/) for a static set.' },
       { icon: 'CODE', title: 'Related: Hide on Scroll Navbar', desc: 'See the [Hide on Scroll Navbar](/ui-snippets/hide-on-scroll-navbar/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

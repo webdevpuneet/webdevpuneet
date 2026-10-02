@@ -166,12 +166,11 @@ Add a fifth \`[data-panel]\` block and the per-panel trigger loop divides the pi
       { title: 'Distance scales with panel count', text: `Adding panels automatically redivides the pinned scroll distance.` },
     ],
     useCases: [
-      { title: 'Brand origin-story or founder narrative pages', text: `Tell a company's founding moment as an illustrated, paced sequence.` },
-      { title: 'Product launch teasers', text: `Reveal a feature story panel by panel before a final CTA.` },
-      { title: 'Digital comics and webtoon-style content', text: `Recreate the panel-turn reading rhythm natively in the browser.` },
-      { title: 'Onboarding or explainer flows', text: `Use comic-style panels instead of a plain step list to explain a process.` },
-      { title: 'Campaign microsites', text: `Give a seasonal or promotional story a distinct illustrated identity.` },
-      { title: 'Portfolio case-study intros', text: `Open a project write-up with a short scroll-driven visual narrative.` },
+      { title: 'Brand origin stories', text: 'Tell a founder narrative panel by panel, pinning the reader and turning each page with scroll rather than a click.' },
+      { title: 'Product launch teasers', text: 'Reveal a feature story one panel at a time, with each panel\'s art and speech bubble animating in fresh on every entry.' },
+      { title: 'Digital comics and webtoons', text: 'Recreate the panel-by-panel reading rhythm of a digital comic or webtoon, using `back.out` easing for a hand-placed overshoot on each panel.' },
+      { title: 'Explainer flows', text: 'Use comic-style panels instead of a plain slide deck, with alternating tilt from opposite angles to avoid repetition.' },
+      { title: 'Campaign microsites and case study intros', text: 'Give a seasonal story a playful structure, or open a project write-up with a short panel sequence.' },
       { icon: 'CODE', title: 'Related: Scroll Chat Story', desc: 'See the [Scroll Chat Story](/ui-snippets/scroll-chat-story/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -136,12 +136,11 @@ Change \`LIFETIME_PRICE\`, \`MONTHLY_PRICE\`, \`TOTAL_LICENSES\`, and \`CLAIMED_
       { title: 'Zero dependencies', text: 'Pure HTML, CSS, and vanilla JS.' },
     ],
     useCases: [
-      { title: 'Indie SaaS launches', text: 'A classic lifetime-deal pattern for early-stage products.' },
-      { title: 'AppSumo-style deal pages', text: 'Model the payback pitch honestly with real math.' },
-      { title: 'Alongside a subscription plan', text: 'Pair with [pricing card](/ui-snippets/pricing-card/) for the ongoing option.' },
-      { title: 'Founder-led product launches', text: 'Justify a one-time price with a transparent comparison.' },
-      { title: 'Limited-run feature unlocks', text: 'Reuse the scarcity-bar pattern for any capped offer.' },
-      { title: 'Teaching honest scarcity UI', text: 'A reference for computed-not-decorative urgency bars.' },
+      { title: 'Indie SaaS launches', text: 'Run the classic lifetime deal with a computed payback period, `Math.ceil(lifetime / monthly)`, so buyers see when paying once becomes cheaper.' },
+      { title: 'Deal site listings', text: 'Model the payback pitch honestly on AppSumo-style pages, showing lifetime and subscription prices side by side rather than in separate boxes.' },
+      { title: 'Subscription alongside lifetime', text: 'Pair with a [pricing card](/ui-snippets/pricing-card/) for the ongoing plan, so the contrast is visible in one view.' },
+      { title: 'Founder-led product launches', text: 'Justify a one-time price with a real licences-remaining bar whose width and count both derive from the same two numbers.' },
+      { title: 'Scarcity bar reuse and teaching', text: 'Reuse the animated fill, driven by `requestAnimationFrame`, for limited-run unlocks, and learn honest scarcity UI where the number is computed and never invented.' },
       { icon: 'CODE', title: 'Related: Limited-Time Discount Banner', desc: 'See the [Limited-Time Discount Banner](/ui-snippets/pricing-discount-countdown-banner/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

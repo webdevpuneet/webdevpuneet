@@ -144,10 +144,11 @@ Two small choices affect feel. padFractionalZeros is off, so typing "12" does no
       'Numeric mobile keyboard via inputmode="decimal"',
     ],
     useCases: [
-      { icon: 'MONEY', title: 'Checkout and donation forms', desc: `Let users enter an amount with confidence. Pair with the [credit card input](/ui-snippets/imask-credit-card-brand-detection/) for a complete payment form.` },
-      { icon: 'DASH', title: 'Invoicing and budgeting tools', desc: `Enter line items and budgets in multiple currencies with correct local formatting.` },
-      { icon: 'ADMIN', title: 'Pricing admin screens', desc: `Edit product prices without a stray comma ever reaching the database.` },
-      { icon: 'LEARN', title: 'Learning money handling', desc: `Demonstrates why money should travel as integer minor units rather than floats.` },
+      { icon: '💳', title: 'Checkout and donation forms', desc: 'Let users type an amount with thousands separators appearing live, without the caret jumping to the end.' },
+      { icon: '🧾', title: 'Invoicing and budgeting', desc: 'Enter line items and budgets, with symbol, decimals, grouping and radix all drawn from one config table per currency.' },
+      { icon: '🏷️', title: 'Pricing admin screens', desc: 'Edit product prices without stray characters, accepting a typed dot or comma as the decimal mark through `mapToRadix`.' },
+      { icon: '💳', title: 'Card form companion', desc: 'Pair with [IMask credit card brand detection](/ui-snippets/imask-credit-card-brand-detection/) for payment screens that need both amount and card formatting.' },
+      { icon: '🎓', title: 'Money handling learning', desc: 'Understand why money should travel as integer minor units, with `typedValue` returning a real number and no string cleaning.' },
     ],
     faqs: [
       { q: 'Why send minor units instead of a decimal?', a: 'Floating-point numbers cannot exactly represent many decimals. Integer cents (or the smallest unit) add and compare exactly, which is why payment APIs use them.' },

@@ -121,10 +121,10 @@ Roving tabindex isn't just a nicety — it's the documented WAI-ARIA authoring p
       'Zero dependencies — vanilla JS event delegation on the toolbar container',
     ],
     useCases: [
-      { icon: 'EDITOR', title: 'Rich Text Editor Toolbars', desc: 'The canonical use case — bold/italic/underline/alignment controls above a text editing area.' },
-      { icon: 'DESIGN', title: 'Design Tool Property Panels', desc: 'Icon-button groups for alignment, distribution, or view-mode switches in a design or diagramming tool.' },
-      { icon: 'MEDIA', title: 'Media Player Control Bars', desc: 'Apply the same roving-tabindex pattern to playback control icon buttons.' },
-      { icon: 'A11Y', title: 'Accessibility Pattern Reference', desc: 'A clean, correct reference implementation for any composite icon-button widget needing WAI-ARIA toolbar semantics.' },
+      { icon: '✏️', title: 'Rich text editor toolbars', desc: 'Build the canonical formatting toolbar, where exactly one button is reachable by Tab and arrow keys move focus within the group.' },
+      { icon: '🎨', title: 'Design tool property panels', desc: 'Use icon button groups for alignment and distribution, with Home and End jumping straight to the first and last button.' },
+      { icon: '▶️', title: 'Media player control bars', desc: 'Apply the same roving tabindex idea to playback controls, wrapping from the last button back to the first.' },
+      { icon: '♿', title: 'Accessibility pattern reference', desc: 'Study a correct `role="toolbar"` with a descriptive `aria-label`, and toggle buttons whose `aria-pressed` state is tracked properly.' },
       { icon: 'CODE', title: 'Related: Print This Page Button', desc: 'See the [Print This Page Button](/ui-snippets/print-button/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

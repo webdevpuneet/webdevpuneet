@@ -125,12 +125,11 @@ Freeze one column instead of two by dropping the \`fct-frozen-2\` class and adju
       { title: 'Configurable freeze count', text: `Freeze one, two, or more leading columns by adding matching fct-frozen-N classes and left offsets.` },
     ],
     useCases: [
-      { title: 'Financial and revenue dashboards', text: `Keep account names visible while scanning many quarters or months of figures.` },
-      { title: 'Spreadsheet-style admin tools', text: `Pair with a [resizable columns table](/ui-snippets/resizable-columns-table/) for an Excel-like internal tool.` },
-      { title: 'Wide product or SKU catalogs', text: `Freeze product name and SKU while scrolling through per-warehouse stock columns.` },
-      { title: 'Comparison matrices', text: `Keep the row label frozen in a wide [comparison table](/ui-snippets/comparison-table/) with many feature columns.` },
-      { title: 'Timesheet and scheduling grids', text: `Pin employee name while scrolling across days or weeks of shift data.` },
-      { title: 'Learning sticky positioning', text: `A clear reference for combining horizontal and vertical position:sticky in one table.` },
+      { title: 'Financial and revenue dashboards', text: 'Keep account names visible while scrolling across a dozen quarters, using real `position: sticky` with a left offset on every frozen cell.' },
+      { title: 'Spreadsheet-style admin tools', text: 'Pair with a [resizable columns table](/ui-snippets/resizable-columns-table/) so identifying columns stay put while others are widened or narrowed.' },
+      { title: 'Wide SKU catalogues', text: 'Freeze product name and SKU while specifications scroll sideways, with a gradient shadow on the last frozen column signalling more content.' },
+      { title: 'Comparison matrices', text: 'Keep the row label frozen in a wide [comparison table](/ui-snippets/comparison-table/), using stacked z-index values so frozen cells sit above scrolling ones.' },
+      { title: 'Timesheet and scheduling grids', text: 'Pin an employee name while the days scroll past, and study how freeze panes combine sticky offsets for two adjacent columns.' },
       { icon: 'CODE', title: 'Related: Shift-Click Range Select in a Table (Gmail/Sheets-Style)', desc: 'See the [Shift-Click Range Select in a Table (Gmail/Sheets-Style)](/ui-snippets/shift-click-range-select-table/) for a related tables pattern worth pairing with this one.' },
     ],
     faqs: [

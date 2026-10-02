@@ -156,12 +156,11 @@ Replace the \`src\` with your real testimonial video and set a real \`poster\` i
       { title: 'Responsive two-column layout', text: `Stacks to a single column with the player first on mobile.` },
     ],
     useCases: [
-      { title: 'Customer story landing pages', text: `Lead a case-study page with the video before the written detail.` },
-      { title: 'SaaS and product marketing heroes', text: `Pair with a [product hero](/ui-snippets/product-hero/) elsewhere on the homepage.` },
-      { title: 'Sales enablement pages', text: `Give reps a shareable page with proof a prospect can watch themselves.` },
-      { title: 'Conference and event recap pages', text: `Frame attendee testimonials the same way for a returning-visitor pitch.` },
-      { title: 'Onboarding for skeptical buyers', text: `Follow with a [video modal](/ui-snippets/video-modal/) gallery of more stories.` },
-      { title: 'Learning real video-state UI patterns', text: `A reference for tracking native video events instead of faking player state.` },
+      { title: 'Customer story landing pages', text: 'Lead a case study with a real HTML5 video, framed by an art-directed poster with a play button and duration badge.' },
+      { title: 'SaaS and product marketing', text: 'Pair with a [product hero](/ui-snippets/product-hero/) so a customer story supports the product pitch, with click to play instead of autoplay.' },
+      { title: 'Sales enablement', text: 'Give reps a shareable page with proof, showing a quote caption and attribution beside the video.' },
+      { title: 'Conference recap pages', text: 'Frame attendee testimonials, with listeners for `pause` and `ended` keeping the poster state in step with real playback.' },
+      { title: 'Sceptical buyer follow-ups', text: 'Follow with a [video modal](/ui-snippets/video-modal/) for longer content, and learn real video-state UI patterns from the playback tracking.' },
       { icon: 'CODE', title: 'Related: Hero with Mouse-Parallax Layers', desc: 'See the [Hero with Mouse-Parallax Layers](/ui-snippets/hero-parallax-mouse-layers/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

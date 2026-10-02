@@ -130,12 +130,11 @@ Tune the \`0.93\` decay for longer or shorter glides, change the velocity cutoff
       { title: 'Keyboard nudge', text: `Arrow keys move by one tile width.` },
     ],
     useCases: [
-      { title: 'Media shelves', text: `Build a streaming-style [recently viewed carousel](/ui-snippets/recently-viewed-carousel/).` },
-      { title: 'Product rails', text: `Browse items beside a [product card](/ui-snippets/product-card/) grid.` },
-      { title: 'Image galleries', text: `Pair with an [Instagram gallery](/ui-snippets/instagram-gallery/).` },
-      { title: 'Category browsing', text: `Flick through a [chip filter](/ui-snippets/chip-filter/) of sections.` },
-      { title: 'Dashboards', text: `Scroll a row of [metric card grid](/ui-snippets/metric-card-grid/) widgets.` },
-      { title: 'Drag-scroll demos', text: `A reference for momentum flick scrolling.` },
+      { title: 'Streaming media shelves', text: 'Build a recently-viewed shelf like the [recently viewed carousel](/ui-snippets/recently-viewed-carousel/), where users grab anywhere on the row and flick it to glide on momentum.' },
+      { title: 'Product rails', text: 'Browse items beside a [product card](/ui-snippets/product-card/) grid, with edge clamping so the row never scrolls past the first or last tile.' },
+      { title: 'Image galleries', text: 'Pair with an [Instagram gallery](/ui-snippets/instagram-gallery/) to give a horizontal browsing option, using pointer capture so tracking continues off the element.' },
+      { title: 'Category browsing', text: 'Flick through sections alongside a [chip filter](/ui-snippets/chip-filter/), with fade masks at the edges hinting that more content is available.' },
+      { title: 'Dashboard widget rows', text: 'Scroll a row of [metric card grid](/ui-snippets/metric-card-grid/) widgets, and study velocity decay as a reference for natural-feeling flick scrolling.' },
       { icon: 'CODE', title: 'Related: Floating Share Dock', desc: 'See the [Floating Share Dock](/ui-snippets/floating-share-dock/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

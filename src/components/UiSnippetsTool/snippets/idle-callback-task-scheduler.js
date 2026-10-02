@@ -207,12 +207,11 @@ Each call passes \`{ timeout: 4000 }\`, which tells the browser to force-run the
       { title: 'Zero dependencies', text: `Pure browser API, no scheduling library.` },
     ],
     useCases: [
-      { title: 'Analytics batching', text: `Send non-critical events without blocking interaction.` },
-      { title: 'Image/asset prefetching', text: `Warm caches only when the browser has spare time.` },
-      { title: 'Autosave/draft persistence', text: `Persist state during idle instead of on every keystroke.` },
-      { title: 'Admin dashboards', text: `Pair with a [feature flag toggle panel](/ui-snippets/feature-flag-toggle-panel/).` },
-      { title: 'Search index warming', text: `Precompute client-side search data lazily.` },
-      { title: 'Performance teaching tools', text: `Show developers how idle scheduling actually behaves.` },
+      { title: 'Analytics batching', text: 'Send non-critical events without blocking the main thread, with tasks waiting for real browser idle time through `requestIdleCallback`.' },
+      { title: 'Asset prefetching', text: 'Warm caches only when the browser has spare time, showing each task\'s actual `deadline.timeRemaining()` as proof.' },
+      { title: 'Autosave and draft persistence', text: 'Persist state during idle moments, with a labelled `setTimeout` fallback for Safari that approximates the deadline.' },
+      { title: 'Admin dashboards', text: 'Pair with a [feature flag toggle panel](/ui-snippets/feature-flag-toggle-panel/) for low-priority background work that must not compete with interaction.' },
+      { title: 'Performance teaching and index warming', text: 'Show developers how idle scheduling works with a busy-thread demo, or precompute search data without hurting responsiveness.' },
       { icon: 'CODE', title: 'Related: Scheduled Job Run History Tile', desc: 'See the [Scheduled Job Run History Tile](/ui-snippets/job-run-history-status-tile/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -189,12 +189,11 @@ Replace the slides with your own content and update nothing else — the counter
       { title: 'Aligned footers', text: 'margin-top auto keeps attributions level across varied text lengths.' },
     ],
     useCases: [
-      { title: 'Testimonial walls', text: 'A finite pile reads better than an endless [testimonial slider](/ui-snippets/testimonial-slider/).' },
-      { title: 'Onboarding steps', text: 'Deal through a first-run sequence one card at a time.' },
-      { title: 'Flashcards and quizzes', text: 'A natural fit next to a [flashcard deck](/ui-snippets/flashcard-deck/).' },
-      { title: 'Product highlights', text: 'Stack feature cards where the count itself is reassuring.' },
-      { title: 'Mobile-first galleries', text: 'Touch drag works identically to pointer with no extra code.' },
-      { title: 'Learning Swiper config', text: 'A reference for effect options, events, and container rules.' },
+      { title: 'Testimonial piles', text: 'Present a finite stack of quotes that reads better than an endless track, using `perSlideOffset` and `perSlideRotate` to build a believable pile.' },
+      { title: 'Onboarding sequences', text: 'Deal through a first-run sequence one card at a time, with drag, arrow keys and buttons all driving the same deck.' },
+      { title: 'Flashcards and quizzes', text: 'Pair with a [flashcard deck](/ui-snippets/flashcard-deck/) for study tools, with `slideShadows` darkening each card further back in the stack.' },
+      { title: 'Product highlights', text: 'Stack feature cards where the total count matters, keeping a counter correct through `slideChange` and `init` events after any input.' },
+      { title: 'Testimonial slider comparison', text: 'Compare with the sideways [testimonial slider](/ui-snippets/testimonial-slider/) when an endless track suits the content better than a pile.' },
     ],
     faqs: [
       { q: 'What do perSlideOffset and perSlideRotate control?', a: 'perSlideOffset is how far, in percent, each card behind the top one is pushed — it is what makes the stack visible at all. perSlideRotate is degrees of rotation added per card down the pile. Three degrees is deliberately small: real stacked paper is almost aligned, and slight imperfection is what stops the deck looking machine-printed.' },

@@ -215,12 +215,11 @@ Pair this with a [status dashboard](/ui-snippets/status-dashboard/) for a broade
       { title: 'Graceful unsupported path', text: `Role card still updates when navigator.locks is absent.` },
     ],
     useCases: [
-      { title: 'Single-writer coordination', text: `Elect one tab to own writes to IndexedDB or a shared cache.` },
-      { title: 'Dedup network requests', text: `Only one tab polls a shared endpoint; others read its cache.` },
-      { title: 'Leader-election dashboards', text: `Pair with a [status dashboard](/ui-snippets/status-dashboard/).` },
-      { title: 'Background sync gating', text: `Ensure only one tab runs a sync job at a time.` },
-      { title: 'Multi-tab session locks', text: `Prevent conflicting edits across tabs of the same document.` },
-      { title: 'Ops monitoring UIs', text: `Alongside an [uptime status page](/ui-snippets/uptime-status-page/).` },
+      { title: 'Single-writer tab election', text: 'Elect exactly one tab to own writes to shared storage, using the real `navigator.locks.request()` primitive so a second tab simply waits its turn.' },
+      { title: 'Deduplicating network requests', text: 'Let only one tab poll a shared endpoint, with other tabs waiting in the queue until the leader releases the lock.' },
+      { title: 'Leader-election dashboards', text: 'Pair with a [status dashboard](/ui-snippets/status-dashboard/) to show which tab currently holds the leader role and who is waiting.' },
+      { title: 'Background sync gating', text: 'Ensure only one tab runs a sync job, with a timestamped log of acquire, queue and release events.' },
+      { title: 'Multi-tab edit locks and ops monitoring', text: 'Prevent conflicting edits across tabs, or sit alongside an [uptime status page](/ui-snippets/uptime-status-page/) so only one tab does monitoring work.' },
     ],
     faqs: [
       { q: 'What does navigator.locks.request() actually coordinate?', a: `It coordinates access to a named resource across every tab, iframe, and dedicated/shared worker that shares the same origin. Only one exclusive holder of a given lock name can run its callback at a time; every other request() call for that same name queues (FIFO by default) until the holder's callback promise resolves. It requires no server, cookie, or localStorage polling — the browser's own lock manager tracks it.` },

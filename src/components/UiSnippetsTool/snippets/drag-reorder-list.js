@@ -151,10 +151,10 @@ The \`drop\` handler simply moves the actual dragged DOM node to where the place
       'Fully self-contained vanilla JS with no external dependencies',
     ],
     useCases: [
-      { icon: 'APP', title: 'Task and priority managers', desc: 'Let users manually rank todos, backlog items, or priorities by dragging.' },
-      { icon: 'CODE', title: 'Reference for placeholder-based drag reordering', desc: 'A clean implementation of the getDragAfterElement pattern used by many reorderable-list libraries.' },
-      { icon: 'FORM', title: 'Settings and preference ordering', desc: 'Reorder notification channels, dashboard widgets, or menu items by drag.' },
-      { icon: 'LEARN', title: 'Teaching HTML5 drag-and-drop internals', desc: 'Demonstrates dataTransfer, midpoint-based insertion, and placeholder-driven UX without a library.' },
+      { icon: '✅', title: 'Task and priority managers', desc: 'Let users rank todos or priorities by dragging, with numeric rank badges that renumber automatically after every reorder.' },
+      { icon: '📚', title: 'Placeholder-based reordering reference', desc: 'Show a dashed placeholder exactly where the dragged item will land, using `getDragAfterElement` midpoint maths against the cursor\'s Y position.' },
+      { icon: '⚙️', title: 'Settings and preference ordering', desc: 'Reorder notification channels or menu items, with native drag events instead of a library such as Sortable.js.' },
+      { icon: '🎓', title: 'Drag lifecycle teaching', desc: 'Demonstrate how `dataTransfer` and the dragged element reference work together across the full drag lifecycle from start to drop.' },
     ],
     faqs: [
       { q: 'How does the placeholder know where to appear?', a: 'The dragover handler measures the bounding rectangle of every non-dragging item, compares the cursor Y position against each item\'s vertical midpoint, and inserts the placeholder immediately before the first item whose midpoint sits below the cursor.' },

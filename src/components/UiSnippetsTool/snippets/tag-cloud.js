@@ -118,12 +118,11 @@ The whole cloud renders from a \`TAGS\` array of \`{ label, count }\`. Swap in y
       { title: 'Data-driven & no library', text: `Renders from a TAGS array in plain HTML/CSS/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Blog and topic navigation', text: `Surface popular topics to filter posts — pair with a [chip filter](/ui-snippets/chip-filter/) for compact equal-weight filters.` },
-      { title: 'Search keyword clouds', text: `Show trending search terms as clickable jumps, alongside an [expandable search](/ui-snippets/expandable-search/).` },
-      { title: 'Skill and tech showcases', text: `Weight skills by experience on a portfolio or [profile card](/ui-snippets/profile-card/).` },
-      { title: 'Product category browsing', text: `Let shoppers jump to popular categories.` },
-      { title: 'Analytics term frequency', text: `Visualise word or tag frequency from data.` },
-      { title: 'Learning weighted typography', text: `A reference for relative size/colour scaling — compare with a [badge chips](/ui-snippets/badge-chips/) set.` },
+      { title: 'Blog topic navigation', text: 'Surface popular topics so readers can filter posts, mapping each count to a font size and colour band relative to the set\'s minimum and maximum.' },
+      { title: 'Search keyword clouds', text: 'Show trending search terms as clickable weighted words, with real buttons so tags are keyboard-focusable and announced as controls.' },
+      { title: 'Skill and tech showcases', text: 'Weight skills by experience on a portfolio next to a [profile card](/ui-snippets/profile-card/), with flex-wrap layout baseline-aligning tags of different sizes.' },
+      { title: 'Product category browsing', text: 'Let shoppers jump to popular categories, pairing with a [chip filter](/ui-snippets/chip-filter/) for a more structured filtering alternative.' },
+      { title: 'Frequency visualisation and weighted type', text: 'Visualise term frequency from analytics, and learn relative font scaling, alongside [badge chips](/ui-snippets/badge-chips/) and an [expandable search](/ui-snippets/expandable-search/).' },
     ],
     faqs: [
       { q: 'How is each tag sized?', a: `Every tag's count is normalised to 0-1 against the smallest and largest counts in the set (band() = (count − min) / (max − min)), then mapped to a font-size between MIN_PX and MAX_PX and to a colour band. So the most frequent tag is the largest and most saturated, the least frequent the smallest and faintest, scaled relative to your data — not to fixed thresholds.` },

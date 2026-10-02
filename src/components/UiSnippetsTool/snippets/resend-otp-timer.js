@@ -161,12 +161,11 @@ Change \`DURATION\` to match your provider's actual rate limit, replace the rese
       { title: 'Zero dependencies', text: `Pure HTML, CSS, and vanilla JavaScript — no countdown or OTP library.` },
     ],
     useCases: [
-      { title: 'SMS and email 2FA flows', text: `Prevent accidental resend spam while giving users a clear path to request a new code.` },
-      { title: 'Account sign-up verification', text: `Rate-limit resend requests during email verification on registration.` },
-      { title: 'Password reset flows', text: `Apply the same cooldown pattern to reset-code delivery.` },
-      { title: 'Payment confirmation PINs', text: `Prevent repeated PIN resend requests during checkout security steps.` },
-      { title: 'API-cost-sensitive verification', text: `Protect SMS provider spend by making resend genuinely rate-limited in the UI, not just the backend.` },
-      { title: 'Learning setInterval state management', text: `A clean example of starting, updating, and clearing a JavaScript interval tied to UI state.` },
+      { title: 'SMS and email two-factor flows', text: 'Prevent accidental resend spam with a visible countdown of exact remaining seconds, rather than only a disabled button.' },
+      { title: 'Account signup verification', text: 'Rate-limit resend requests during signup, with one reusable `startCountdown()` function driving both the first send and every resend.' },
+      { title: 'Password reset flows', text: 'Apply the same cooldown to reset codes, clearing any existing interval before restarting so timers never stack.' },
+      { title: 'Payment confirmation PINs', text: 'Stop repeated PIN requests, with all six input boxes clearing and refocusing the first one when a new code is sent.' },
+      { title: 'API cost protection and state teaching', text: 'Protect SMS provider spending, and learn clean `setInterval` state management from a short and readable example anyone can adapt.' },
     ],
     faqs: [
       { q: `Why show a countdown instead of just disabling the resend button?`, a: `A disabled button with no explanation leaves users guessing why they can't click it or how long to wait. Showing "Resend available in 24s" and ticking it down gives a clear, specific reason and expectation, which reduces frustration and repeated clicking attempts.` },

@@ -114,10 +114,11 @@ The rest is a solid hero. The slider has a 900 millisecond speed, so the paralla
       'CSS-only artwork, no image files',
     ],
     useCases: [
-      { icon: 'WEB', title: 'Homepage hero banners', desc: `Add depth to a brand hero. For a vertical version see the [full-page vertical slider](/ui-snippets/swiper-vertical-fullpage-slider/).` },
-      { icon: 'SHOP', title: 'Seasonal campaign sliders', desc: `Rotate collections with cinematic movement.` },
-      { icon: 'ART', title: 'Portfolio openers', desc: `Introduce work with layered typography and artwork.` },
-      { icon: 'LEARN', title: 'Learning layered motion', desc: `Experiment with values to see how offsets create the sense of distance.` },
+      { icon: '🏠', title: 'Homepage hero banners', desc: 'Add depth to a brand hero where background, artwork, heading, text and button all travel at different speeds through `data-swiper-parallax` attributes.' },
+      { icon: '🎄', title: 'Seasonal campaign sliders', desc: 'Rotate seasonal collections with cinematic layering, setting pixel or percentage offsets per layer for each element of the slide.' },
+      { icon: '🎨', title: 'Portfolio openers', desc: 'Introduce portfolio work with layered typography, using opacity parallax from `data-swiper-parallax-opacity` for softer, fading entrances on each slide.' },
+      { icon: '↕️', title: 'Vertical full-page comparison', desc: 'Compare with the [Swiper vertical full-page slider](/ui-snippets/swiper-vertical-fullpage-slider/) for a vertical take on full-screen storytelling with similar controls.' },
+      { icon: '🎓', title: 'Layered motion learning', desc: 'Experiment with values to see how an over-wide shared background layer outside the wrapper creates convincing depth.' },
     ],
     faqs: [
       { q: 'How do I turn on parallax in Swiper?', a: 'Set parallax: true in the options, then add data-swiper-parallax attributes to the elements you want to move.' },

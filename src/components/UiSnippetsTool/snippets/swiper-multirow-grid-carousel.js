@@ -102,10 +102,11 @@ The controls are separate elements rather than defaults: custom previous and nex
       'Gradient and emoji tiles, no images required',
     ],
     useCases: [
-      { icon: 'SHOP', title: 'Category and department pickers', desc: `Offer many categories in a compact area. For a single-row product showcase see the [coverflow carousel](/ui-snippets/swiper-coverflow-3d-product-carousel/).` },
-      { icon: 'MOBILE', title: 'App-style icon launchers', desc: `Present shortcuts in swipeable pages of tiles.` },
-      { icon: 'DASH', title: 'Widget and template galleries', desc: `Browse a large set of templates without a long scroll.` },
-      { icon: 'LEARN', title: 'Learning grid layout in sliders', desc: `See how container height, slide height and gap have to agree in grid mode.` },
+      { icon: '🗂️', title: 'Category and department pickers', desc: 'Offer many categories at once in a two-row sideways grid, with `slidesPerGroup` moving one full page per swipe.' },
+      { icon: '📱', title: 'App-style launchers', desc: 'Present app-style shortcuts as swipeable pages of icons in a launcher, with responsive column counts defined through Swiper breakpoints.' },
+      { icon: '🧩', title: 'Template galleries', desc: 'Browse a large set of templates or widgets, with custom previous and next buttons and a progress bar showing position.' },
+      { icon: '🔄', title: 'Coverflow comparison', desc: 'Compare with the [Swiper coverflow product carousel](/ui-snippets/swiper-coverflow-3d-product-carousel/) when a single focused item matters more than many options at once.' },
+      { icon: '🎓', title: 'Grid layout in sliders', desc: 'See how container height and slide height maths must account for the gap when using Swiper\'s grid module.' },
     ],
     faqs: [
       { q: 'How do I make a multi-row Swiper?', a: 'Use grid: { rows: 2 }, give the container a fixed height, and set each slide\'s height to its share of that height.' },

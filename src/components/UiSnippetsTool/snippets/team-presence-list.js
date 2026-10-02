@@ -132,12 +132,11 @@ A status dot's real job is answering "will this person actually see my message s
       { title: 'Scrollable, fixed-height list', text: `A capped max-height with internal scrolling keeps the card a consistent size regardless of roster length.` },
     ],
     useCases: [
-      { title: 'Team chat and collaboration apps', text: `The Slack/Teams-style "who's online" sidebar roster for any real-time collaboration product.` },
-      { title: 'Customer support dashboards', text: `Show which support agents are available, busy, or offline before routing a new conversation.` },
-      { title: 'Project management tools', text: `Pair with a [Kanban board](/ui-snippets/kanban-board/) so assignees' availability is visible alongside their tasks.` },
-      { title: 'Internal company directories', text: `A searchable staff directory with live status, useful for distributed or remote-first teams.` },
-      { title: 'Video call and meeting apps', text: `Show participant or contact availability before starting a call.` },
-      { title: 'Learning combined sort-and-filter patterns', text: `A clear example of search and priority-sort composed in a single render function — compare with an [avatar group](/ui-snippets/avatar-group/) for a compact presence summary.` },
+      { title: 'Team chat and collaboration apps', text: 'Build the Slack or Teams style who is around roster, with online, away, do-not-disturb and offline each given a distinct dot.' },
+      { title: 'Customer support dashboards', text: 'Show which agents are free to take a conversation, with the most reachable people automatically sorted to the top.' },
+      { title: 'Project management assignment', text: 'Pair with a [kanban board](/ui-snippets/kanban-board/) so assignees can be chosen by availability, using a search that filters name and role together.' },
+      { title: 'Company directories', text: 'Provide a searchable company staff directory, with initials-based coloured avatars so that no profile images are required for the list.' },
+      { title: 'Meetings and compact summaries', text: 'Show participant availability in video apps, and condense the roster into an [avatar group](/ui-snippets/avatar-group/) where space is limited.' },
     ],
     faqs: [
       { q: 'How do I connect this to real presence data?', a: `Open a WebSocket (or poll a presence API) and, on each status update, find the matching person in PEOPLE by id and update their status field, then call render(currentSearchValue) to re-sort and re-render the list with the new live status.` },

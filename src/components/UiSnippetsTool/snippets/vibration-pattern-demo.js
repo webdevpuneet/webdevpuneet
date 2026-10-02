@@ -190,12 +190,11 @@ Pair this with a [notification permission prompt](/ui-snippets/notification-perm
       { title: 'No dependencies', text: `Pure vanilla JS against the native API.` },
     ],
     useCases: [
-      { title: 'Mobile web games', text: `Haptic feedback on hits, combos, or game-over states.` },
-      { title: 'Form validation', text: `A short buzz on invalid submit alongside visual error states.` },
-      { title: 'Notification alerts', text: `Pair with a [notification permission prompt](/ui-snippets/notification-permission-prompt/).` },
-      { title: 'Accessibility cues', text: `Non-visual feedback for low-vision mobile users.` },
-      { title: 'Timer/alarm apps', text: `A distinct pattern when a countdown finishes.` },
-      { title: 'Capability showcases', text: `Alongside a [badging API demo](/ui-snippets/badging-api-demo/) in a features page.` },
+      { title: 'Mobile web game feedback', text: 'Give haptic feedback on hits, combos or game over, using genuine `navigator.vibrate()` pattern arrays instead of a simulated stand-in.' },
+      { title: 'Form validation cues', text: 'Add a short buzz on an invalid submit alongside the visible error, with the return value telling you whether vibration is unsupported or silently declined.' },
+      { title: 'Notification alerts', text: 'Pair with a [notification permission prompt](/ui-snippets/notification-permission-prompt/) so a distinct vibration pattern accompanies each different kind of alert.' },
+      { title: 'Accessibility cues', text: 'Offer non-visual feedback for low-vision mobile users, with a synced on-screen pulse so the demo stays meaningful on desktop.' },
+      { title: 'Timers and capability showcases', text: 'Signal that a countdown has finished with a distinct pattern, or show alongside a [badging API demo](/ui-snippets/badging-api-demo/) in a browser features showcase.' },
     ],
     faqs: [
       { q: 'Does the Vibration API work on iPhone?', a: `No. As of this writing, iOS Safari (and all browsers on iOS, since they share WebKit) does not implement navigator.vibrate at all — Apple has never shipped it. This snippet detects that absence via typeof navigator.vibrate === 'function' and falls back to the on-screen pulse animation only, with status copy explaining the platform gap rather than pretending it worked.` },

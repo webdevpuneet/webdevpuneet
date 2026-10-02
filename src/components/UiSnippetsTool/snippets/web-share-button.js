@@ -189,12 +189,11 @@ Swap in your real \`title\`/\`text\`/\`url\`, style the copied state to match yo
       { title: 'Copied confirmation state', text: `A checkmark-style label confirms a successful copy.` },
     ],
     useCases: [
-      { title: 'Article and blog share buttons', text: `Pair with a [social share bar](/ui-snippets/social-share-bar/).` },
-      { title: 'Product page sharing', text: `Let shoppers send a link via their phone's share sheet.` },
-      { title: 'Referral and invite flows', text: `Fall back to copy-link when native share is unavailable.` },
-      { title: 'Team dashboards', text: `Share a filtered [status dashboard](/ui-snippets/status-dashboard/) view.` },
-      { title: 'Alongside a share modal', text: `Combine with a [share modal](/ui-snippets/share-modal/) for platform icons.` },
-      { title: 'Simple copy-link utility', text: `A lighter alternative to a standalone [copy button](/ui-snippets/copy-button/).` },
+      { title: 'Article and blog sharing', text: 'Pair with a [social share bar](/ui-snippets/social-share-bar/) so readers can use their device\'s native share sheet or pick a network directly.' },
+      { title: 'Product page sharing', text: 'Let shoppers send a link through their preferred app, with `canShare` validating the payload before the sheet is opened.' },
+      { title: 'Referral and invite flows', text: 'Fall back to copy-link where native sharing is missing, using `writeText()` and treating a cancelled sheet\'s `AbortError` as normal.' },
+      { title: 'Team dashboard sharing', text: 'Share a filtered [status dashboard](/ui-snippets/status-dashboard/) view, with the link, title and text handed to the operating system.' },
+      { title: 'Share modal and copy-link alternatives', text: 'Combine with a [share modal](/ui-snippets/share-modal/) for platforms with no native sheet, or use a lighter [copy button](/ui-snippets/copy-button/) when a simple link is all that is needed.' },
     ],
     faqs: [
       { q: "Why doesn't the Share button open a share sheet for me?", a: `navigator.share() is unsupported on most desktop browsers (it shipped for mobile Safari and Chrome on Android/ChromeOS first) and it's commonly stripped from sandboxed preview iframes like the one rendering this demo, since the "web-share" permissions policy has to be explicitly allowed by the embedding page. When it's missing, the button automatically falls back to copying the link to your clipboard instead — check the status line, which names exactly which path ran.` },

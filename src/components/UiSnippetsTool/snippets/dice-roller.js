@@ -122,12 +122,11 @@ The whole thing is self-contained and themeable with CSS. Use it for a board-gam
       { title: 'No images, no library', text: `Pure HTML/CSS/JS — themeable and dependency-free.` },
     ],
     useCases: [
-      { title: 'Board and tabletop game UIs', text: `Drive turns with a tactile roll — pair with a [spin wheel](/ui-snippets/spin-wheel/) for other randomisers.` },
-      { title: 'Randomisers and "pick for me"', text: `Use the result to choose an option or order, alongside a [confetti button](/ui-snippets/confetti-button/) for wins.` },
-      { title: 'Quizzes and classroom tools', text: `Pick a random student or question with a fun roll.` },
-      { title: 'Gamified onboarding', text: `Add playful chance to a flow next to a [scratch card reveal](/ui-snippets/scratch-card-reveal/).` },
-      { title: 'Decision and party apps', text: `A delightful way to leave a choice to chance.` },
-      { title: 'Learning CSS 3D transforms', text: `A complete reference for preserve-3d cubes — compare with a [3D card tilt](/ui-snippets/3d-card-tilt/).` },
+      { title: 'Board and tabletop game interfaces', text: 'Drive turns with a tactile roll, using a real six-faced cube in a `preserve-3d` scene with correct pip layouts.' },
+      { title: 'Random pick tools', text: 'Use the result to choose an option, pairing with a [spin wheel](/ui-snippets/spin-wheel/) for lists with more than six choices.' },
+      { title: 'Quizzes and classrooms', text: 'Pick a random student or question, rolling with one CSS transition to a known orientation plus extra full turns.' },
+      { title: 'Gamified onboarding', text: 'Add playful chance to a flow, with a [scratch card reveal](/ui-snippets/scratch-card-reveal/) or [confetti button](/ui-snippets/confetti-button/) rewarding the outcome.' },
+      { title: 'Party apps and 3D learning', text: 'Leave a choice to fate, and study named `grid-template-areas` for pip layouts alongside a [3D card tilt](/ui-snippets/3d-card-tilt/) for a different kind of depth.' },
       { icon: 'CODE', title: 'Related: GSAP Draggable Inertia', desc: 'See the [GSAP Draggable Inertia](/ui-snippets/gsap-draggable-inertia/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

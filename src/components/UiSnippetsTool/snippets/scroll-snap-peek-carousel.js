@@ -156,12 +156,11 @@ Adjust the \`72%\` slide width for a wider or narrower peek, change the \`proxim
       { title: 'No dependencies', text: `Pure CSS scroll-snap plus a small vanilla JS layer.` },
     ],
     useCases: [
-      { title: 'Portfolio carousels', text: `Showcase projects with visible neighbors as a cue.` },
-      { title: 'Product galleries', text: `Peek carousels for e-commerce image sets.` },
-      { title: 'Testimonial sliders', text: `Hint at more quotes without hiding them entirely.` },
-      { title: 'Onboarding screens', text: `Pair with [scroll-snap gallery](/ui-snippets/scroll-snap-gallery/) patterns.` },
-      { title: 'Feature highlight rows', text: `Contrast with a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/).` },
-      { title: 'Mobile card decks', text: `A touch-first, drag-native carousel with no JS drag logic.` },
+      { title: 'Portfolio showcases', text: 'Present projects with neighbouring slides always visible at both edges, because each slide is sized to 72 percent of the track width.' },
+      { title: 'E-commerce image sets', text: 'Use a peek carousel for product images, where a slide\'s scale rises continuously as it approaches the centre of the track.' },
+      { title: 'Testimonial sliders', text: 'Hint at more quotes without hiding them, with native `scroll-snap-type` handling drag, wheel and touch for free.' },
+      { title: 'Peeking intro cards', text: 'Pair with a [scroll snap gallery](/ui-snippets/scroll-snap-gallery/) pattern for intro cards, with scale driven by real `getBoundingClientRect` distance rather than the snapped index.' },
+      { title: 'Feature rows and card decks', text: 'Contrast with a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) for feature highlights, or use as a touch-first mobile card deck.' },
       { icon: 'CODE', title: 'Related: Staggered Reveal on Scroll — IntersectionObserver, One Timer', desc: 'See the [Staggered Reveal on Scroll — IntersectionObserver, One Timer](/ui-snippets/stagger-reveal-scroll-list/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

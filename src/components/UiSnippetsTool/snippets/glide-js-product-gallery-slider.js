@@ -109,11 +109,11 @@ Drop \`peek\` to \`{ before: 0, after: 0 }\` for a gallery with hard edges inste
       { title: 'Square aspect-ratio tiles', text: 'Thumbnails stay square at any perView width via aspect-ratio: 1.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'E-commerce product pages', text: 'The standard multi-angle product image gallery pattern for a PDP.' },
-      { icon: 'DESIGN', title: 'Portfolio thumbnail strips', text: 'Browse case study images with the same peek-and-arrow interaction.' },
-      { icon: 'FLOW', title: 'Real estate listing photos', text: 'Preview a property\'s rooms as a scrollable, peeking thumbnail row.' },
-      { icon: 'CODE', title: 'Documentation screenshots', text: 'Step through UI screenshots in a compact multi-visible strip.' },
-      { icon: 'LEARN', title: 'Teaching perView/peek/gap', text: 'A focused reference for how these three Glide options interact.' },
+      { title: 'Multi-angle product galleries', text: 'Show a multi-angle product gallery where `peek` partially reveals adjacent slides at both container edges to signal more content.' },
+      { title: 'Portfolio thumbnail strips', text: 'Browse case study images with three visible at once, with slide width computed as a fraction of the container by `perView`.' },
+      { title: 'Real estate previews', text: 'Preview a property\'s rooms as a strip, with Glide\'s own `gap` option factored into its width calculations.' },
+      { title: 'Documentation screenshots', text: 'Step through interface screenshots in documentation using relative arrow navigation, with `data-glide-dir` set to less-than and greater-than.' },
+      { title: 'perView, peek and gap teaching', text: 'Understand how three interacting numbers combine to determine slide width, which a single-item slider never needs.' },
     ],
     faqs: [
       { q: 'What does peek actually do differently from just showing fewer slides per view?', a: 'peek doesn\'t change how many whole slides are counted by perView — it shrinks the fully-visible track area by a fixed pixel amount on each side and shifts the track so part of the neighboring slide bleeds into that space. The result is a filmstrip feel where you can see a sliver of what\'s next, rather than perView slides with clean, closed edges.' },

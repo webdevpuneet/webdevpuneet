@@ -155,12 +155,11 @@ Swap fixed-height rows for variable heights (requires tracking cumulative offset
       { title: 'Live DOM row count readout', text: `A label reports exactly which indices and how many real rows are rendered, for verifying the technique works.` },
     ],
     useCases: [
-      { title: 'Large admin data grids', text: `Browse tens of thousands of records without the page becoming sluggish to scroll.` },
-      { title: 'Log and event viewers', text: `Scroll through large log datasets smoothly, rendering only what's on screen.` },
-      { title: 'Analytics and reporting tables', text: `Pair with a [multi-column sort table](/ui-snippets/table-multi-sort/) over a large result set.` },
-      { title: 'Financial transaction ledgers', text: `Render thousands of transaction rows without a heavy initial paint.` },
-      { title: 'Search result tables', text: `Show a large unpaginated result set as one continuously scrollable table.` },
-      { title: 'Learning virtualization technique', text: `A clear, dependency-free reference for the windowing math behind libraries like react-window.` },
+      { title: 'Large admin data grids', text: 'Browse tens of thousands of records smoothly, rendering only the visible rows plus a buffer using real `scrollTop` to row index maths.' },
+      { title: 'Log and event viewers', text: 'Scroll through large log datasets without freezing the page, with a full-height spacer keeping the scrollbar proportional to the total.' },
+      { title: 'Analytics and reporting tables', text: 'Pair with a [multi-column sort table](/ui-snippets/table-multi-sort/) so very long reports can be reordered, with the rendered window translated to its true pixel offset.' },
+      { title: 'Financial transaction ledgers', text: 'Render thousands of transactions at once, with only about twenty rows of real DOM at any moment instead of five thousand `tr` elements.' },
+      { title: 'Search results and virtualisation learning', text: 'Show a large unpaginated result set, or study a clear, dependency-free example of windowed rendering with constant row height.' },
     ],
     faqs: [
       { q: 'Why does the spacer element need a fixed height at all?', a: `The browser computes scrollbar size and thumb position from the scrollable content's actual height. Since only a tiny slice of rows is ever rendered, without a spacer sized to the full virtual height (TOTAL_ROWS * ROW_HEIGHT) the scrollbar would reflect only the few rendered rows, making it impossible to scroll to the middle or end of the real dataset.` },

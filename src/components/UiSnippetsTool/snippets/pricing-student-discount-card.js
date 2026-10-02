@@ -161,12 +161,11 @@ Swap in your real full price and discount percentage — the computed fields upd
       { title: 'Zero dependencies', text: 'Pure HTML, CSS, and vanilla JS.' },
     ],
     useCases: [
-      { title: 'Education-focused SaaS', text: 'Offer verified student pricing distinct from a public discount.' },
-      { title: 'Nonprofit tooling', text: 'Route nonprofit eligibility through a dedicated verification step.' },
-      { title: 'Alongside a coupon flow', text: 'Pair with [promo code input](/ui-snippets/promo-code-input/) for general discounts.' },
-      { title: 'Plan comparison pages', text: 'Sit beside a standard [pricing card](/ui-snippets/pricing-card/).' },
-      { title: 'Onboarding for .edu users', text: 'Trigger this card after detecting an academic email domain.' },
-      { title: 'Community/open-source tools', text: 'Offer nonprofit pricing without a manual approval queue.' },
+      { title: 'Education-focused SaaS', text: 'Offer verified student pricing with a computed discounted price and annual saving derived from just two numbers.' },
+      { title: 'Nonprofit tooling', text: 'Route nonprofit eligibility through a separate path, with a verification-required notice shown before the call-to-action rather than after checkout.' },
+      { title: 'Coupon flow pairing', text: 'Pair with a [promo code input](/ui-snippets/promo-code-input/) to show the difference between a self-serve code and a discount that needs eligibility proof.' },
+      { title: 'Plan comparison pages', text: 'Sit beside a standard [pricing card](/ui-snippets/pricing-card/), showing the discounted and regular price so the saving is obvious.' },
+      { title: 'Onboarding for edu users and open source', text: 'Trigger after detecting a .edu address, or offer nonprofit pricing to community tools, using a mocked hand-off that models a redirect to an eligibility provider.' },
       { icon: 'CODE', title: 'Related: Transparent Fees Breakdown', desc: 'See the [Transparent Fees Breakdown](/ui-snippets/pricing-hidden-fees-breakdown/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

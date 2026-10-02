@@ -154,10 +154,11 @@ The two output tabs show what Quill actually gives you. quill.root.innerHTML is 
       'Accessible labels on every toolbar button',
     ],
     useCases: [
-      { icon: 'DOC', title: 'CMS and blog editors', desc: `Give authors a friendly editor that outputs consistent HTML. For markdown-based writing see the [Markdown live preview](/ui-snippets/marked-dompurify-live-markdown-preview/).` },
-      { icon: 'FORM', title: 'Comment and review forms', desc: `Offer basic formatting with a strict limit and predictable output.` },
-      { icon: 'ADMIN', title: 'Email and notification templates', desc: `Let staff compose formatted messages within a safe set of styles.` },
-      { icon: 'LEARN', title: 'Learning document models', desc: `Shows why a Delta-based editor is more reliable than raw contenteditable.` },
+      { icon: '📝', title: 'CMS and blog editors', desc: 'Give authors a friendly editor with a fully custom HTML toolbar wired through Quill\'s `container` option.' },
+      { icon: '💬', title: 'Comment and review forms', desc: 'Offer basic formatting with a hard character limit enforced through a silent `deleteText` that avoids change loops.' },
+      { icon: '✉️', title: 'Email and notification templates', desc: 'Let staff compose formatted messages, using a `formats` whitelist that strips unsupported styling when content is pasted.' },
+      { icon: '⚖️', title: 'Markdown alternative', desc: 'Compare with the [Marked and DOMPurify live Markdown preview](/ui-snippets/marked-dompurify-live-markdown-preview/) when authors prefer typing Markdown to using a toolbar.' },
+      { icon: '🎓', title: 'Document model learning', desc: 'Understand why a Delta-based editor avoids the inconsistent HTML produced by `contenteditable` and `execCommand`, with live HTML and Delta output.' },
     ],
     faqs: [
       { q: 'What is a Delta?', a: 'A Delta is Quill\'s JSON document format: an ordered list of insert operations with optional attributes. It round-trips exactly and is easy to store and diff.' },

@@ -148,12 +148,11 @@ Add an image that scales with the card, swap \`min-height\` for real content siz
       { title: 'Layered correctly', text: `The flight stays above the backdrop.` },
     ],
     useCases: [
-      { title: 'Product quick views', text: `Expand catalog cards to detail sheets, like [product quick view](/ui-snippets/product-quick-view/) without the second layer.` },
-      { title: 'Portfolio case studies', text: `Grow a thumbnail into its story; browse with a [photo gallery](/ui-snippets/photo-gallery/).` },
-      { title: 'App-store style pages', text: `The iOS "card opens into page" feel; compare the CSS-only [expandable card](/ui-snippets/expandable-card/).` },
-      { title: 'Dashboard drill-downs', text: `A KPI tile expanding to its full chart, beside a [metric card grid](/ui-snippets/metric-card-grid/).` },
-      { title: 'Team bios', text: `Headshot cards opening into profiles, styled like [team card](/ui-snippets/team-card/).` },
-      { title: 'Sorted-grid pairing', text: `Combine with [flip grid shuffle](/ui-snippets/flip-grid-shuffle/) for a fully FLIP-animated collection.` },
+      { title: 'Product quick views', text: 'Expand catalogue cards into detail sheets as the same DOM node, with the layout change handled by an `is-open` class swap and GSAP Flip animating the gap.' },
+      { title: 'Portfolio case studies', text: 'Grow a thumbnail into its story, with the card tracked by Flip so even border radius tweens through the `props` option.' },
+      { title: 'App-store style pages', text: 'Recreate the iOS card-opens-into-page feel, with no clones to keep in sync since listeners and state ride along with the element.' },
+      { title: 'Dashboard drill-downs', text: 'Expand a KPI tile into its full chart, perhaps from a [metric card grid](/ui-snippets/metric-card-grid/), and close with a backdrop click or Escape.' },
+      { title: 'Team bios and sorted grids', text: 'Open headshot cards into profiles like a [team card](/ui-snippets/team-card/), or combine with [flip grid shuffle](/ui-snippets/flip-grid-shuffle/) for a grid that reorders and expands.' },
       { icon: 'CODE', title: 'Related: Fullscreen Search Overlay', desc: 'See the [Fullscreen Search Overlay](/ui-snippets/fullscreen-search-overlay/) for a related modals pattern worth pairing with this one.' },
     ],
     faqs: [

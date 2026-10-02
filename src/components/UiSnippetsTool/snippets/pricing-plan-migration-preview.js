@@ -187,12 +187,11 @@ Add more plans or features to the \`PLANS\` object — the diff logic scales aut
       { title: 'Framework-agnostic core', text: `diffPlans() is pure and ports directly to any component model.` },
     ],
     useCases: [
-      { title: 'Self-serve upgrade flows', text: `Show the diff before confirming inside a [plan selector](/ui-snippets/plan-selector/).` },
-      { title: 'Downgrade confirmation', text: `Make feature loss explicit before someone downgrades.` },
-      { title: 'Billing settings pages', text: `Preview a plan change from an account's billing screen.` },
-      { title: 'Upgrade prompts', text: `Pair with an [upgrade banner](/ui-snippets/upgrade-banner/) to justify the upsell.` },
-      { title: 'Sales conversations', text: `Let a rep show a prospect exactly what a tier change adds.` },
-      { title: 'Full comparison pages', text: `Sit beside a [pricing feature table](/ui-snippets/pricing-feature-table/) as the "what changes" view.` },
+      { title: 'Self-serve upgrade flows', text: 'Show a diff of gained features before confirming an upgrade, computed with a set-difference over the two plans\' real feature arrays.' },
+      { title: 'Downgrade confirmation', text: 'Make feature loss explicit before a customer downgrades, listing exactly what they will lose rather than asking a vague are you sure.' },
+      { title: 'Billing settings pages', text: 'Preview a plan change from an account page using a [plan selector](/ui-snippets/plan-selector/), with no hardcoded logic for any particular plan pair.' },
+      { title: 'Upgrade banner justification', text: 'Pair with an [upgrade banner](/ui-snippets/upgrade-banner/) to justify the change, handling lateral or same-plan choices as an empty diff naturally.' },
+      { title: 'Sales conversations and comparisons', text: 'Let a rep show a prospect precisely what changes, and sit beside a [pricing feature table](/ui-snippets/pricing-feature-table/) for the complete comparison.' },
       { icon: 'CODE', title: 'Related: Free Trial Signup Card', desc: 'See the [Free Trial Signup Card](/ui-snippets/pricing-free-trial-signup-card/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

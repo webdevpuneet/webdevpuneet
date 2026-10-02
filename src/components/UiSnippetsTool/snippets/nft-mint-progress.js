@@ -205,12 +205,11 @@ Swap the simulated \`setTimeout\` delay for an actual contract call (e.g. via et
       { title: 'Framework-portable state', text: `mintedCount, qty, and minting are plain variables, easy to lift into component state.` },
     ],
     useCases: [
-      { title: 'NFT drop pages', text: `The primary mint widget for a collection launch, paired with a [wallet connect button](/ui-snippets/wallet-connect-button/).` },
-      { title: 'Gas-aware checkouts', text: `Show total cost including network fees with a [gas fee estimator](/ui-snippets/gas-fee-estimator/).` },
-      { title: 'Waitlist and allowlist mints', text: `Adapt the status badge to show allowlist phase before public mint opens.` },
-      { title: 'Limited product drops', text: `Reuse the same supply-bar pattern for any limited-inventory launch, crypto or not.` },
-      { title: 'Creator dashboards', text: `Display live mint progress to a creator alongside a [donut progress](/ui-snippets/donut-progress/) summary.` },
-      { title: 'Marketplace listings', text: `Show minting-in-progress status on a collection page before secondary trading opens.` },
+      { title: 'NFT drop pages', text: 'Provide the main mint widget for a collection launch, with minted count alone driving the supply bar, percentage text and remaining figure.' },
+      { title: 'Gas-aware checkouts', text: 'Show total cost including network fees beside a [gas fee estimator](/ui-snippets/gas-fee-estimator/), with the plus button disabled at both the per-transaction cap and remaining supply.' },
+      { title: 'Allowlist mints', text: 'Adapt the status badge to show allowlist phases, with a [wallet connect button](/ui-snippets/wallet-connect-button/) gating access to the mint.' },
+      { title: 'Limited product drops', text: 'Reuse the supply bar for limited physical or digital product releases, relabelling the card automatically when it sells out.' },
+      { title: 'Creator dashboards and listings', text: 'Display live mint progress to a creator, comparing with a [donut progress](/ui-snippets/donut-progress/) chart, or show minting status on marketplace listings.' },
     ],
     faqs: [
       { q: 'How does the progress bar stay in sync with the minted count text?', a: `Both are derived from the single mintedCount variable inside renderProgress() — the percentage, the bar's width, and the displayed count text are all computed from it in one function call, so there is no path where the bar shows a different percentage than the text implies.` },

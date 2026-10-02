@@ -175,12 +175,11 @@ Replace the simulated accrual with a periodic read of your staking contract or A
       { title: 'Framework-portable state', text: `All logic runs off plain counters — trivial to move into React/Vue state.` },
     ],
     useCases: [
-      { title: 'Staking dashboards', text: `Show live rewards next to a [wallet card](/ui-snippets/wallet-card/) and holdings breakdown.` },
-      { title: 'DeFi yield products', text: `Display accruing yield for a vault or liquidity position.` },
-      { title: 'Validator/pool selection', text: `Compare APY and accrual across pools alongside a [pricing toggle](/ui-snippets/pricing-toggle/)-style comparison.` },
-      { title: 'Portfolio overviews', text: `Convert accrued rewards to fiat with a [currency converter](/ui-snippets/currency-converter/).` },
-      { title: 'Wallet apps', text: `Pair with a [wallet connect button](/ui-snippets/wallet-connect-button/) to gate the claim action.` },
-      { title: 'Investor-facing reports', text: `Summarize accrued and claimed rewards alongside an [invoice preview](/ui-snippets/invoice-preview/)-style statement.` },
+      { title: 'Staking dashboards', text: 'Show rewards ticking up live beside a [wallet card](/ui-snippets/wallet-card/), with the rate computed from the real staked amount and APY.' },
+      { title: 'DeFi yield products', text: 'Display accruing yield for a vault or pool, with six-decimal precision so tiny per-second increments stay visible instead of rounding away.' },
+      { title: 'Pool and validator comparison', text: 'Compare APY and accrual across options, with one counter driving both the payout progress bar and the countdown to the next payout.' },
+      { title: 'Portfolio overviews', text: 'Convert accrued rewards to a fiat figure with a [currency converter](/ui-snippets/currency-converter/), keeping the crypto and fiat values side by side.' },
+      { title: 'Wallet-gated claiming', text: 'Gate the claim action behind a [wallet connect button](/ui-snippets/wallet-connect-button/), with the button disabled on click so a double click cannot claim twice.' },
     ],
     faqs: [
       { q: 'How is the per-second reward rate calculated?', a: `perSecondRate = (stakedAmount * apy) / secondsPerYear. This derives the actual per-second yield implied by the displayed APY from the staked amount, so the ticking counter represents a real number rather than an arbitrary animated increment. Replace stakedAmount and apy with real position data and the same formula produces a correct rate.` },

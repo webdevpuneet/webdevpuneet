@@ -153,12 +153,11 @@ Swap the regex for a stricter validator, add a debounced "check availability" ca
       { title: 'Framework-agnostic core', text: `Three simple states and one validator port directly to any component model.` },
     ],
     useCases: [
-      { title: 'E-commerce product pages', text: `Capture demand on any out-of-stock SKU instead of losing the visit entirely.` },
-      { title: 'Limited-drop and restock campaigns', text: `Pair with a [product quick view](/ui-snippets/product-quick-view/) modal for a fast capture flow.` },
-      { title: 'Pre-launch waitlists', text: `Adapt the same validated-form-plus-confirmation pattern for a [waitlist signup](/ui-snippets/waitlist-signup/).` },
-      { title: 'Size or variant restocks', text: `Use per size/color variant so shoppers are notified only for the option they wanted.` },
-      { title: 'Newsletter and update signups', text: `Reuse the validate → confirm → edit flow for any single-field capture form.` },
-      { title: 'Marketplace inventory alerts', text: `Apply to third-party seller stock alerts inside a larger [product card](/ui-snippets/product-card/) grid.` },
+      { title: 'Out-of-stock product pages', text: 'Capture demand on any sold-out item, turning a lost sale into a lead with a validated Notify me email form.' },
+      { title: 'Limited drops and restock campaigns', text: 'Pair with a [product quick view](/ui-snippets/product-quick-view/) so shoppers can request a restock alert without leaving the listing.' },
+      { title: 'Pre-launch waitlists', text: 'Adapt the same validate, confirm and edit flow for early access, or compare with a standalone [waitlist signup](/ui-snippets/waitlist-signup/).' },
+      { title: 'Variant-specific restocks', text: 'Use per size or colour variant on a [product card](/ui-snippets/product-card/), so a shopper is told about exactly the option they wanted.' },
+      { title: 'Update signups and seller alerts', text: 'Reuse for newsletter updates or third-party marketplace inventory alerts, where the confirmation echoes the address and offers an edit link.' },
       { icon: 'CODE', title: 'Related: Calculator', desc: 'See the [Calculator](/ui-snippets/calculator/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

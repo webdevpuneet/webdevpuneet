@@ -125,10 +125,10 @@ Using \`setTimeout\` that reschedules itself (rather than a single repeating \`s
       'Two independently-ticking counters demonstrate the pattern generalizes to any number of live stats',
     ],
     useCases: [
-      { icon: 'SAAS', title: 'SaaS Landing Page Social Proof', desc: 'Reinforce an active-user or active-team count with a subtle sense of real, ongoing activity.' },
-      { icon: 'MARKETPLACE', title: 'Marketplace / Platform Homepages', desc: 'Show live-feeling transaction or listing counts on a marketplace\'s landing page.' },
-      { icon: 'LAUNCH', title: 'Product Launch Pages', desc: 'Build momentum around a growing waitlist or early-adopter count during a launch campaign.' },
-      { icon: 'EVENT', title: 'Event / Conference Registration Pages', desc: 'Show a live-feeling registered-attendees counter to create urgency and social proof.' },
+      { icon: '👥', title: 'SaaS social proof', desc: 'Make a 38,000 plus teams claim feel alive, with a counter that visibly increments while the visitor reads the page.' },
+      { icon: '🛒', title: 'Marketplace and platform homepages', desc: 'Show live-feeling transaction totals, with each counter using its own randomised increment amount for organic growth.' },
+      { icon: '🚀', title: 'Product launch pages', desc: 'Build momentum around a growing waitlist, using a self-rescheduling `setTimeout` chain rather than a fixed-step `setInterval`.' },
+      { icon: '🎟️', title: 'Event registration pages', desc: 'Show registrations rising in real time, with thousands separators and abbreviated figures such as 1.2M formatted correctly throughout.' },
       { icon: 'CODE', title: 'Related: Hero with Feature Tabs Preview', desc: 'See the [Hero with Feature Tabs Preview](/ui-snippets/hero-feature-tabs-preview/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

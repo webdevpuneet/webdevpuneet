@@ -161,12 +161,11 @@ Add more rows and tooltip text freely — the DOM-construction loop scales to an
       { title: 'Framework-agnostic core', text: `The show/hide and tooltip-build logic ports to any component model.` },
     ],
     useCases: [
-      { title: 'Technical pricing pages', text: `Explain jargon below a simpler [pricing card](/ui-snippets/pricing-card/) grid.` },
-      { title: 'Compliance-heavy plans', text: `Clarify audit log and data residency rows for regulated buyers.` },
-      { title: 'Enterprise sales', text: `Reduce back-and-forth questions on an [enterprise pricing](/ui-snippets/enterprise-pricing/) page.` },
-      { title: 'Developer-facing pricing', text: `Explain API-specific terms like rate limits and webhook retries.` },
-      { title: 'Self-serve onboarding', text: `Cut down support tickets by answering questions inline.` },
-      { title: 'Full-table comparisons', text: `Add explainers to a plain [pricing feature table](/ui-snippets/pricing-feature-table/).` },
+      { title: 'Technical pricing pages', text: 'Explain jargon such as audit logs or webhook retries below a simple [pricing card](/ui-snippets/pricing-card/), without sending buyers to another page.' },
+      { title: 'Compliance-heavy plans', text: 'Clarify what data residency and audit logs mean, with each info button carrying its own distinct `data-tip` explanation.' },
+      { title: 'Enterprise sales support', text: 'Reduce back-and-forth on an [enterprise pricing](/ui-snippets/enterprise-pricing/) page, using real buttons with focus and blur handlers that work without a mouse.' },
+      { title: 'Developer-facing pricing', text: 'Explain API-specific terms like rate limits and burst capacity, with tap-to-open behaviour on touch and tapping elsewhere closing open tips.' },
+      { title: 'Full table explainers', text: 'Add explainers to a plain [pricing feature table](/ui-snippets/pricing-feature-table/), with tooltip elements created once on load and only toggled afterwards.' },
       { icon: 'CODE', title: 'Related: Plan Comparison with Differences Toggle', desc: 'See the [Plan Comparison with Differences Toggle](/ui-snippets/pricing-diff-comparison-table/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

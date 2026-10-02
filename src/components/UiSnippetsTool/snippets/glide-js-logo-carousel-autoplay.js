@@ -118,11 +118,11 @@ Swap the text wordmarks for real logo images (SVGs work best, sized to a consist
       { title: 'No build step', text: 'Runs from two CDN files with plain HTML/CSS/JS.' },
     ],
     useCases: [
-      { icon: 'STAR', title: 'SaaS marketing pages', text: 'The canonical "Trusted by" social-proof logo strip under a hero section.' },
-      { icon: 'APP', title: 'Investor/partner pages', text: 'Rotate through partner or backer logos in a compact ambient strip.' },
-      { icon: 'DESIGN', title: 'Conference/sponsor pages', text: 'Auto-scroll sponsor wordmarks or logos along an event page footer.' },
-      { icon: 'CODE', title: 'Case study indexes', text: 'A logo strip linking out to individual case studies, paired with hover states.' },
-      { icon: 'LEARN', title: 'Teaching Glide breakpoints', text: 'A clear, minimal example of responsive perView overrides without custom JS.' },
+      { title: 'SaaS trusted-by strips', text: 'Build the canonical row of client wordmarks drifting sideways, using linear easing and a short interval so motion feels continuous.' },
+      { title: 'Investor and partner pages', text: 'Rotate through partner or backer logos, pausing on hover with `hoverpause: true` so someone can actually read one.' },
+      { title: 'Conference sponsor pages', text: 'Auto-scroll sponsor wordmarks on conference pages, with Glide\'s breakpoints option changing `perView` at three screen widths.' },
+      { title: 'Case study indexes', text: 'Show a logo strip that links out to individual case studies, with a CSS gradient mask fading logos at the container edges.' },
+      { title: 'Glide breakpoints teaching', text: 'Learn a clear, minimal example of responsive `perView` changes, built on the same `type: \'carousel\'` and autoplay as a testimonial slider.' },
     ],
     faqs: [
       { q: 'Why use animationTimingFunc: \'linear\' instead of Glide\'s default easing?', a: 'The default eased transition decelerates into each new slide, which reads as a deliberate, discrete "slide change" — appropriate for content like testimonials. A logo strip is meant to look like continuous ambient motion, and linear easing keeps velocity constant through the whole transition, so consecutive autoplay advances blend into one smooth drift instead of a series of distinct snaps.' },

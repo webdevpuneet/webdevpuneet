@@ -108,10 +108,10 @@ btn.addEventListener('click', function () {
       'Reusable pattern for any async button action',
     ],
     useCases: [
-      { icon: 'FORM', title: 'Form save and submit buttons', desc: 'Show real loading feedback while a save request is in flight.' },
-      { icon: 'APP', title: 'Async action buttons', desc: 'Use for like, follow, or subscribe buttons that call an API on click.' },
-      { icon: 'CODE', title: 'Checkout and payment buttons', desc: 'Give users clear loading and completion feedback during payment processing.' },
-      { icon: 'LEARN', title: 'lottie-web integration example', desc: 'Demonstrates loading and destroying a small inline Lottie instance in vanilla JS.' },
+      { icon: '💾', title: 'Form save and submit buttons', desc: 'Show real loading feedback in place of the label, rendered as a small 22 by 22 pixel Lottie animation inside the button.' },
+      { icon: '🔔', title: 'Async action buttons', desc: 'Use for like, follow or subscribe buttons, with the button disabled during loading so a double click cannot submit twice.' },
+      { icon: '💳', title: 'Checkout and payment buttons', desc: 'Give users clear loading and Done states, with label and animation swapping in place without changing the button\'s dimensions.' },
+      { icon: '🎓', title: 'Inline Lottie loader reference', desc: 'Demonstrate loading the library from a CDN and playing inline `animationData` at a small size inside an existing control.' },
     ],
     faqs: [
       { q: 'Does the button call a real API?', a: 'No, this demo simulates the delay with setTimeout; replace the setTimeout body with your actual async request and trigger the completion state in its .then() or await continuation.' },

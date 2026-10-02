@@ -140,10 +140,10 @@ The grid-row-collapse technique needs an inner wrapper with \`overflow: hidden\`
       'Reusable expandActivePath() function can be re-invoked after client-side route changes in an SPA',
     ],
     useCases: [
-      { icon: 'DOCS', title: 'Documentation Site Sidebars', desc: 'The canonical use case — a docs sidebar that opens to show exactly where the current page sits in the site structure.' },
-      { icon: 'ADMIN', title: 'Admin Panel Navigation', desc: 'A nested settings or resource navigation tree that reveals the active section automatically.' },
-      { icon: 'SAAS', title: 'Multi-Level Product Navigation', desc: 'Any product with grouped, nested navigation sections benefits from auto-revealing the active path.' },
-      { icon: 'KNOWLEDGE', title: 'Knowledge Base / Help Center Sidebars', desc: 'Help visitors orient themselves within a nested article structure without manual exploration.' },
+      { icon: '📚', title: 'Documentation site sidebars', desc: 'Open a doc nav to the right place automatically, expanding only the group that contains the current page\'s link on load.' },
+      { icon: '🧭', title: 'Admin panel navigation', desc: 'Provide nested settings or resource menus that land on the active section, with `aria-expanded` kept in step with each group.' },
+      { icon: '🗂️', title: 'Multi-level product navigation', desc: 'Support any product with grouped, collapsible sections, animating height through `grid-template-rows` without guessing a `max-height` value.' },
+      { icon: '❓', title: 'Help centre and knowledge base sidebars', desc: 'Help visitors orient themselves, deriving the active group from the link rather than hardcoding it for each group.' },
       { icon: 'CODE', title: 'Related: Pinned, Draggable Browser-Style Tabs', desc: 'See the [Pinned, Draggable Browser-Style Tabs](/ui-snippets/pinned-draggable-tabs/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

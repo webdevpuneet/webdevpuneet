@@ -183,12 +183,11 @@ Compressing bytes proves nothing about correctness on its own, so this demo imme
       { title: 'Unsupported-browser fallback', text: `States plainly that no compression can run.` },
     ],
     useCases: [
-      { title: 'Client-side upload prep', text: `Shrink text payloads before sending to a server.` },
-      { title: 'IndexedDB storage savings', text: `Pair with [storage quota meter](/ui-snippets/storage-quota-meter/).` },
-      { title: 'Clipboard/export tools', text: `Compress large text exports client-side.` },
-      { title: 'Educational demos', text: `Show gzip's real behavior on different text patterns.` },
-      { title: 'Offline-first apps', text: `Compress cached data before writing to storage.` },
-      { title: 'Log/data viewers', text: `Estimate transfer savings for large text blobs.` },
+      { title: 'Client-side upload preparation', text: 'Shrink text payloads before sending, using the browser\'s native gzip codec through `CompressionStream` rather than a JavaScript library.' },
+      { title: 'IndexedDB storage savings', text: 'Pair with a [storage quota meter](/ui-snippets/storage-quota-meter/) to measure how much space compressed cached data actually saves.' },
+      { title: 'Clipboard and export tools', text: 'Compress large text exports in the browser, with ratios computed from real byte lengths via `TextEncoder` and stream draining.' },
+      { title: 'Educational gzip demos', text: 'Show how gzip behaves on repetitive versus random text, with a round-trip verification step proving nothing was lost.' },
+      { title: 'Offline-first and log viewers', text: 'Compress cached data before writing it, or estimate transfer savings for large logs using the streams-based pipeline.' },
       { icon: 'CODE', title: 'Related: Dependency Graph Viewer', desc: 'See the [Dependency Graph Viewer](/ui-snippets/dependency-graph-viewer/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

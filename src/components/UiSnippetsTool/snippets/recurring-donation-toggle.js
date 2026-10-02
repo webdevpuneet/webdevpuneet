@@ -190,12 +190,11 @@ Tune both preset ladders to your donor base, adjust the annual-impact copy, or a
       { title: 'Single sync() source of truth', text: `One function keeps every visual consistent with three plain state variables.` },
     ],
     useCases: [
-      { title: 'Nonprofit donation pages', text: `Nudge donors toward higher-value recurring gifts with honest annual framing.` },
-      { title: 'Membership and subscriber support', text: `Adapt for creator memberships where monthly is the primary ask.` },
-      { title: 'Advocacy and campaign giving', text: `Pair with a [petition signature counter](/ui-snippets/petition-signature-counter/) on the same page.` },
-      { title: 'Crowdfunding platforms', text: `Offer sustaining backers alongside one-time pledges.` },
-      { title: 'Public radio and media drives', text: `The classic "sustaining member" versus one-time gift decision, framed clearly.` },
-      { title: 'Learning frequency-toggle patterns', text: `A reference for state that reshapes an entire form, not just one value — compare with [donation amount picker](/ui-snippets/donation-amount-picker/).` },
+      { title: 'Nonprofit donation pages', text: 'Nudge donors towards recurring gifts, with a sliding pill toggle that swaps one-time and monthly amount ladders.' },
+      { title: 'Creator memberships', text: 'Adapt for supporter tiers, with headline copy changing to match the chosen frequency instead of an afterthought checkbox.' },
+      { title: 'Advocacy and campaign giving', text: 'Pair with a [petition signature counter](/ui-snippets/petition-signature-counter/) so advocacy supporters can sign a petition and then give monthly.' },
+      { title: 'Crowdfunding platforms', text: 'Offer sustaining backers alongside one-time pledges, showing a live annual impact figure of monthly amount times twelve.' },
+      { title: 'Media drives and amount picking', text: 'Run the classic sustaining member prompt, or combine with a [donation amount picker](/ui-snippets/donation-amount-picker/) and learn state-driven frequency toggles.' },
     ],
     faqs: [
       { q: 'Why use two separate preset arrays instead of one?', a: `A one-time gift and a recurring monthly gift at the same number mean very different commitments, so anchoring donors with the same ladder for both undersells monthly giving or oversells one-time giving. PRESETS_MONTHLY uses smaller, sustainable-feeling numbers ($10–$150) while PRESETS_ONCE uses larger one-off amounts ($25–$1,000), so each ladder anchors appropriately for its context.` },

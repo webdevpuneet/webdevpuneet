@@ -144,12 +144,11 @@ A live "N of M" count and a friendly empty state (echoing back the exact query t
       { title: 'Data-driven & no library', text: `Renders from a ROWS array with generic column logic — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Support ticket queues', text: `Search subjects, requesters, and assignees at once — pair with a [selectable table](/ui-snippets/selectable-table/) for bulk actions.` },
-      { title: 'Admin and log tables', text: `Locate a specific event across many fields, next to a [data table](/ui-snippets/data-table/).` },
-      { title: 'Directories and CRMs', text: `Find contacts by any visible field with instant visual confirmation of the match.` },
-      { title: 'Command-palette-style pickers', text: `Reuse the highlight technique for a searchable list or dropdown.` },
-      { title: 'Documentation and FAQ tables', text: `Help users spot why a row matched their search term.` },
-      { title: 'Learning safe highlight rendering', text: `A reference for escape-then-wrap innerHTML — compare with [filterable table](/ui-snippets/filterable-table/)'s per-column version.` },
+      { title: 'Support ticket queues', text: 'Search subjects, requesters and assignees at once, highlighting every matching substring inline instead of shading the whole cell.' },
+      { title: 'Admin and log tables', text: 'Locate one event across many columns, with all non-overlapping matches per cell found through a loop of `indexOf` calls.' },
+      { title: 'Directories and CRMs', text: 'Find contacts by any visible field, pairing with a [selectable table](/ui-snippets/selectable-table/) for acting on the results afterwards.' },
+      { title: 'Command-palette pickers', text: 'Reuse the highlight technique in pickers and menus, escaping cell text as HTML before wrapping the matched slice in a mark.' },
+      { title: 'Safe highlight rendering', text: 'Learn escape-then-wrap rendering as a reference, and compare with a simpler [filterable table](/ui-snippets/filterable-table/) that filters without highlighting.' },
     ],
     faqs: [
       { q: 'How is this different from just tinting the whole cell?', a: `This snippet computes the exact character offset of the query inside each cell's text using indexOf, then slices the string at that offset so only the matching substring is wrapped in a mark element. A whole-cell background tells you the row matched somewhere; this shows exactly which characters matched, which is far more useful when scanning longer text.` },

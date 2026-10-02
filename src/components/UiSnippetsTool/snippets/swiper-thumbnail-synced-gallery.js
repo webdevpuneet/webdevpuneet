@@ -108,10 +108,11 @@ The data lives in a single array of captions and gradients that generates both s
       'One data array generates both sets of slides',
     ],
     useCases: [
-      { icon: 'SHOP', title: 'Product detail galleries', desc: `Show a hero image with small views underneath. For a 3D carousel of products see the [Swiper coverflow carousel](/ui-snippets/swiper-coverflow-3d-product-carousel/).` },
-      { icon: 'PEOPLE', title: 'Photo albums and travel posts', desc: `Browse a set of photos with a quick jump strip.` },
-      { icon: 'WEB', title: 'Real-estate listings', desc: `Let buyers scan room photos at a glance and open any of them.` },
-      { icon: 'LEARN', title: 'Learning linked components', desc: `A simple example of two components staying in sync via a shared reference.` },
+      { icon: '🛍️', title: 'Product detail galleries', desc: 'Show a hero image with small views beneath, with clicking a thumbnail moving the main slide and swiping the main slide highlighting the thumbnail.' },
+      { icon: '🌍', title: 'Photo albums and travel posts', desc: 'Browse a set of photos in an album or travel post, with a free-mode thumbnail strip that glides when it is flicked.' },
+      { icon: '🏠', title: 'Real estate listings', desc: 'Let buyers scan room photos at a glance, using `watchSlidesProgress` and the `swiper-slide-thumb-active` class to style the current thumbnail.' },
+      { icon: '🎠', title: 'Coverflow alternative', desc: 'Compare with the [Swiper coverflow 3D product carousel](/ui-snippets/swiper-coverflow-3d-product-carousel/) when a more theatrical presentation suits the product.' },
+      { icon: '🎓', title: 'Linked component learning', desc: 'Study a simple example of two components kept in sync, where the thumbnail instance must be created first and passed to the main one.' },
     ],
     faqs: [
       { q: 'Why does my thumbnail strip do nothing?', a: 'The thumbnails Swiper must be created before the main one, because the main instance receives it via thumbs: { swiper }. Also set watchSlidesProgress: true on the thumbnails.' },

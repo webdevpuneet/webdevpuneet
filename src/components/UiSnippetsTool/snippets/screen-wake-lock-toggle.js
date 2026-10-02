@@ -186,12 +186,11 @@ Auto-request the lock on page load for a kiosk-style display, add a countdown sh
       { title: 'Accessible switch semantics', text: `role="switch" and aria-checked stay in sync with real state.` },
     ],
     useCases: [
-      { title: 'Recipe and cooking apps', text: `Keep the screen on through a multi-step recipe.` },
-      { title: 'Workout and timer apps', text: `Prevent sleep mid-set without the user touching the screen.` },
-      { title: 'Presentation and kiosk modes', text: `Pair with a [status pill](/ui-snippets/status-pill/) showing lock state.` },
-      { title: 'Reading apps', text: `Combine with a [dark mode toggle](/ui-snippets/dark-mode-toggle/) for night reading.` },
-      { title: 'Video call waiting rooms', text: `Keep a lobby screen visible before a meeting starts.` },
-      { title: 'Dashboard displays', text: `Keep an always-on [status dashboard](/ui-snippets/status-dashboard/) screen awake.` },
+      { title: 'Recipe and cooking apps', text: 'Keep the screen on through a multi-step recipe, with a real `navigator.wakeLock.request(\'screen\')` call that genuinely prevents sleep.' },
+      { title: 'Workout and timer apps', text: 'Prevent the display sleeping mid-set without the user touching the phone, re-acquiring the lock when the page becomes visible again.' },
+      { title: 'Presentation and kiosk modes', text: 'Pair with a [status pill](/ui-snippets/status-pill/) showing whether the lock is active, detecting unexpected releases through the sentinel\'s release event.' },
+      { title: 'Reading apps', text: 'Combine with a [dark mode toggle](/ui-snippets/dark-mode-toggle/) for night reading, handling the API\'s quirk of auto-releasing when a tab is hidden.' },
+      { title: 'Always-on dashboards', text: 'Keep a [status dashboard](/ui-snippets/status-dashboard/) visible on a wall display, or hold a video call waiting room on screen before a meeting starts.' },
     ],
     faqs: [
       { q: "Why does my screen still sleep after I switched apps and came back?", a: `That shouldn't happen with this snippet — but it's the exact bug that occurs if a wake lock implementation doesn't handle the API's biggest quirk: the lock automatically releases the instant the document is hidden (switching tabs, locking the phone, backgrounding the app). This snippet listens for visibilitychange and re-acquires the lock automatically when the page becomes visible again, as long as the toggle is still meant to be on.` },

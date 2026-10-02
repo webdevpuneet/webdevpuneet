@@ -204,12 +204,11 @@ Swap in your real per-seat price and discount rate, add volume-based price break
       { title: 'Framework-agnostic core', text: `The pricing math is pure and ports directly to any component model.` },
     ],
     useCases: [
-      { title: 'SaaS pricing pages', text: `Let prospects self-serve a quote before ever talking to sales.` },
-      { title: 'Sales-assisted deals', text: `Give an AE a live tool to build a quote on a call with a prospect.` },
-      { title: 'Plan comparison pages', text: `Pair with a [pricing card](/ui-snippets/pricing-card/) or [pricing toggle](/ui-snippets/pricing-toggle/) set.` },
-      { title: 'Checkout pre-fill', text: `Feed the chosen seat count and cycle into a [checkout form](/ui-snippets/checkout-form/).` },
-      { title: 'Mid-cycle seat changes', text: `Combine with a [proration preview card](/ui-snippets/proration-preview-card/) for existing customers adding seats.` },
-      { title: 'Internal budgeting tools', text: `Let a buyer's finance team model total cost before signing.` },
+      { title: 'Self-serve SaaS quotes', text: 'Let prospects work out what a team will cost without a contact form, with a slider, plus and minus buttons all writing to one state value.' },
+      { title: 'Sales-assisted deals', text: 'Give an account executive a live tool for building a quote in a call, showing the annual discount as its own visible line item.' },
+      { title: 'Plan comparison pairing', text: 'Pair with a [pricing card](/ui-snippets/pricing-card/) or [pricing toggle](/ui-snippets/pricing-toggle/), with a footer note stating the true effective per-seat monthly price.' },
+      { title: 'Checkout pre-fill', text: 'Feed the chosen seat count and billing cycle into a [checkout form](/ui-snippets/checkout-form/), with the annualised total correctly multiplying the discounted monthly rate by twelve.' },
+      { title: 'Mid-cycle changes and budgeting', text: 'Combine with a [proration preview card](/ui-snippets/proration-preview-card/) when seats change mid-cycle, or let a buyer\'s finance team model costs at different team sizes.' },
       { icon: 'CODE', title: 'Related: Plan Change Preview (Upgrade/Downgrade)', desc: 'See the [Plan Change Preview (Upgrade/Downgrade)](/ui-snippets/pricing-plan-migration-preview/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

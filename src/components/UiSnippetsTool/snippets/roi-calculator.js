@@ -125,12 +125,11 @@ The model lives in one \`calc()\` function, so adapting it to your value proposi
       { title: 'Drop-in & no library', text: `Plain HTML/CSS/JS inputs and math — zero dependencies.` },
     ],
     useCases: [
-      { title: 'B2B pricing pages', text: `Let buyers justify the spend with their own numbers — pair with a [pricing page](/ui-snippets/pricing-page/) for plans.` },
-      { title: 'Sales and demo tools', text: `Build a live business case in a call, alongside a [pricing slider](/ui-snippets/pricing-slider/) for seat-based cost.` },
-      { title: 'Landing-page lead magnets', text: `An interactive calculator that captures intent.` },
-      { title: 'Cost-savings and efficiency tools', text: `Any product that saves time or money can show it.` },
-      { title: 'Internal business cases', text: `A shareable figure for procurement approval.` },
-      { title: 'Learning live calculators', text: `A reference for sanitised input-to-output math — compare with a [usage calculator](/ui-snippets/usage-calculator/).` },
+      { title: 'B2B pricing pages', text: 'Let buyers justify the spend with their own numbers, using a defensible formula of people times hours times weeks times hourly rate.' },
+      { title: 'Sales demo tools', text: 'Build a live business case during a call, with outputs recalculating on every keystroke and no submit button.' },
+      { title: 'Landing page lead magnets', text: 'Offer an interactive calculator that draws visitors in, pairing with a [pricing page](/ui-snippets/pricing-page/) or [pricing slider](/ui-snippets/pricing-slider/) afterwards.' },
+      { title: 'Cost-saving and efficiency tools', text: 'Support any product that saves time, flooring blank or negative inputs to zero so the maths never produces nonsense.' },
+      { title: 'Internal business cases', text: 'Produce a shareable figure for procurement, with gross value first, then cost, and finally an emphasised net gain, and compare with a [usage calculator](/ui-snippets/usage-calculator/).' },
       { icon: 'CODE', title: 'Related: Plan Change Preview (Upgrade/Downgrade)', desc: 'See the [Plan Change Preview (Upgrade/Downgrade)](/ui-snippets/pricing-plan-migration-preview/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

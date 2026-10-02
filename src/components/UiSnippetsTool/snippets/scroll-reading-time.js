@@ -134,12 +134,11 @@ Tune \`WPM\` (180 for technical content, 260 for light prose), reposition the pi
       { title: 'Ceil rounding', text: `Never under-promises remaining time.` },
     ],
     useCases: [
-      { title: 'Blog posts', text: `Replace static badges with a live count; add a [scroll progress bar](/ui-snippets/scroll-progress/) up top.` },
-      { title: 'Long-form journalism', text: `Respect reader time on 20-minute features; pair with a [table of contents](/ui-snippets/table-of-contents/).` },
-      { title: 'Documentation', text: `Signal page length honestly; a [scroll spy nav](/ui-snippets/scroll-spy-nav/) handles the sections.` },
-      { title: 'Newsletters on web', text: `Keep skimmers oriented; close with [scroll to top](/ui-snippets/scroll-to-top/).` },
-      { title: 'Course lessons', text: `Show remaining effort per lesson beside a [step progress](/ui-snippets/step-progress/) tracker.` },
-      { title: 'Legal and policy pages', text: `Set expectations on dense text, with a [scroll progress circle](/ui-snippets/scroll-progress-circle/) as a minimal variant.` },
+      { title: 'Blog posts', text: 'Replace a static 8 min read badge with a live count that recomputes the remaining minutes from scroll position, with a [scroll progress](/ui-snippets/scroll-progress/) bar nearby.' },
+      { title: 'Long-form journalism', text: 'Respect reader time on twenty-minute features, with a draining SVG ring that mirrors progress through `stroke-dashoffset` as they read.' },
+      { title: 'Documentation pages', text: 'Signal page length honestly beside a [table of contents](/ui-snippets/table-of-contents/), with a [scroll spy nav](/ui-snippets/scroll-spy-nav/) showing the current section.' },
+      { title: 'Web newsletters', text: 'Keep skimmers oriented in web newsletters, closing with a [scroll to top](/ui-snippets/scroll-to-top/) button when the finish state appears.' },
+      { title: 'Course lessons and policy pages', text: 'Show remaining effort beside a [step progress](/ui-snippets/step-progress/) indicator, or set expectations on dense legal text using a one-pass word count.' },
       { icon: 'CODE', title: 'Related: Scroll Transformation Story', desc: 'See the [Scroll Transformation Story](/ui-snippets/scroll-transformation-story/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

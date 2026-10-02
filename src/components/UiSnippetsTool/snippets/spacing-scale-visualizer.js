@@ -109,12 +109,11 @@ Swap in your own scale (linear, modular, or a t-shirt-size system like sm/md/lg)
       { title: 'Zero dependencies', text: `No chart library or build step required.` },
     ],
     useCases: [
-      { title: 'Design system docs', text: `Document a spacing scale for engineers and designers.` },
-      { title: 'Style guides', text: `Pair with a [typography scale preview](/ui-snippets/typography-scale-preview/).` },
-      { title: 'Onboarding new hires', text: `Give new team members a visual token reference.` },
-      { title: 'Storybook/Figma handoff', text: `Show implemented tokens alongside design specs.` },
-      { title: 'Internal tooling', text: `Embed in an admin panel's theme settings page.` },
-      { title: 'Client deliverables', text: `Present a spacing system as part of a brand kit.` },
+      { title: 'Design system documentation', text: 'Document a spacing scale for engineers, with bars sized in proportion to the largest token between 4 and 64 pixels.' },
+      { title: 'Style guide pairing', text: 'Pair with a [typography scale preview](/ui-snippets/typography-scale-preview/) so a style guide shows both text and spacing tokens.' },
+      { title: 'New hire onboarding', text: 'Give new team members a visual token reference, with monospace names that read like the actual CSS variable syntax.' },
+      { title: 'Design and engineering handoff', text: 'Show implemented tokens alongside Figma values for handoff, with right-aligned pixel numbers for quick and precise reference.' },
+      { title: 'Internal tools and client deliverables', text: 'Embed in an admin theme settings page, or present a spacing system as part of a brand package, from a single data source.' },
     ],
     faqs: [
       { q: 'Are the bar widths hardcoded per row?', a: `No — every bar's width is computed as item.px / maxPx * 100, a percentage of the largest value in the scale array. Add a new token with a larger or smaller pixel value and every bar's proportions recompute automatically.` },

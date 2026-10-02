@@ -124,10 +124,11 @@ Two options define how the upload works with forms. instantUpload: false keeps f
       'Plug-ins registered up front: image preview and file-type validation',
     ],
     useCases: [
-      { icon: 'SHOP', title: 'Marketplace and listing photos', desc: `Let sellers arrange product images with a cover. Combine with the [Cropper.js presets](/ui-snippets/cropperjs-social-aspect-ratio-presets/) to frame each photo first.` },
-      { icon: 'PEOPLE', title: 'Profile and portfolio galleries', desc: `Collect a set of images where display order matters.` },
-      { icon: 'ADMIN', title: 'CMS media uploads', desc: `Give editors previews and validation before anything is sent to the server.` },
-      { icon: 'LEARN', title: 'Learning plug-in architectures', desc: `Shows why a library's options depend on registering its plug-ins first.` },
+      { icon: '🛍️', title: 'Marketplace listing photos', desc: 'Let sellers arrange product photos by dragging, with the first image marked as the cover through a numbered upload-order strip.' },
+      { icon: '🖼️', title: 'Profile and portfolio galleries', desc: 'Collect a set of images for a profile or portfolio gallery with live thumbnail previews, rejecting non-images with a friendly message.' },
+      { icon: '📝', title: 'CMS media uploads', desc: 'Give CMS editors previews and validation before anything is saved, capping the number of files that the field will accept.' },
+      { icon: '✂️', title: 'Cropping companion', desc: 'Pair with [Cropper.js social aspect ratio presets](/ui-snippets/cropperjs-social-aspect-ratio-presets/) so uploaded images can be cropped to platform sizes.' },
+      { icon: '🎓', title: 'Plug-in architecture learning', desc: 'See why a library\'s optional plug-ins, such as image preview and file type validation, need registering before use.' },
     ],
     faqs: [
       { q: 'Why are my FilePond options ignored?', a: 'Options like imagePreviewHeight and acceptedFileTypes belong to plug-ins. Call FilePond.registerPlugin with those plug-ins before FilePond.create.' },

@@ -139,12 +139,11 @@ This exact middleware stack (\`offset\`, \`flip\`, \`shift\`, \`arrow\`) plus \`
       { title: 'Fully custom-built UI', text: `Complete control since Floating UI only computes coordinates.` },
     ],
     useCases: [
-      { title: 'Tooltips inside scrollable panels', text: `Sidebars, data tables, and chat windows with real overflow.` },
-      { title: 'Dropdown and select menus', text: `Pair with the [anchored popover in a scroll container](/ui-snippets/floating-ui-anchored-popover-scroll/) elsewhere in this collection.` },
-      { title: 'Design systems needing full UI control', text: `When a pre-styled tooltip library is too opinionated.` },
-      { title: 'Data-dense dashboards', text: `Tooltips near table or chart edges that must never clip.` },
-      { title: 'Custom autocomplete and combobox popovers', text: `Positioning engine for hand-built dropdown UI.` },
-      { title: 'Learning Floating UI middleware', text: `A clear reference for composing flip, shift, and arrow together.` },
+      { title: 'Tooltips in scrollable panels', text: 'Keep tooltips on screen inside sidebars and tables, with `flip()` swapping sides whenever the preferred placement would overflow.' },
+      { title: 'Dropdown and select menus', text: 'Pair with the [anchored popover in a scroll container](/ui-snippets/floating-ui-anchored-popover-scroll/) for menus that need the same collision handling.' },
+      { title: 'Full-control design systems', text: 'Use when a pre-styled library is too opinionated, with the arrow positioned from real middleware data instead of a fixed CSS offset.' },
+      { title: 'Data-dense dashboards', text: 'Place tooltips near table or chart edges where clipping would otherwise hide them, using `shift()` to stay in bounds without changing sides.' },
+      { title: 'Autocomplete and combobox popovers', text: 'Position autocomplete and combobox suggestion lists correctly, and learn composable middleware as `autoUpdate` recomputes position continuously while visible.' },
     ],
     faqs: [
       { q: 'What is the difference between flip() and shift()?', a: `flip() decides which side of the trigger the tooltip appears on — if the preferred side (like "top") would cause the tooltip to overflow the boundary, flip() swaps to the opposite side entirely. shift() operates on the other, perpendicular axis: once a side has been chosen, shift() slides the tooltip along that side to keep it within bounds, without ever changing which side it's actually on. They solve two different, complementary collision problems.` },

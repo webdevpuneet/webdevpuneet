@@ -106,10 +106,10 @@ document.getElementById('lomSkip').addEventListener('click', function () {
       'Distinct status feedback for the get-started and skip actions',
     ],
     useCases: [
-      { icon: 'APP', title: 'New user onboarding flows', desc: 'Greet first-time users before launching a setup wizard or product tour.' },
-      { icon: 'CODE', title: 'Feature announcement modals', desc: 'Reuse the layout with different copy to introduce a major new feature.' },
-      { icon: 'DESIGN', title: 'Mobile app web onboarding', desc: 'Provide a friendly animated welcome screen for a web-based app shell.' },
-      { icon: 'LEARN', title: 'lottie-web integration example', desc: 'Demonstrates loading a decorative Lottie animation inside a modal in vanilla JS.' },
+      { icon: '👋', title: 'New user onboarding flows', desc: 'Greet first-time users with a looping Lottie mascot above the headline, a Get started button and a quiet Skip link.' },
+      { icon: '📣', title: 'Feature announcement modals', desc: 'Reuse the layout with different copy to introduce a new capability, with the animation drawn from inline `animationData`.' },
+      { icon: '📱', title: 'Mobile web onboarding', desc: 'Provide a friendly animated welcome for a web app on phones, rendered through the SVG renderer in `lottie-web`.' },
+      { icon: '🎓', title: 'lottie-web modal integration', desc: 'Demonstrate loading the library from a CDN and playing a decorative animation inside a dialog without hosting a JSON file.' },
     ],
     faqs: [
       { q: 'Does the mascot animation loop forever?', a: 'Yes, loop is set to true, so the animation plays continuously for as long as the modal is visible.' },

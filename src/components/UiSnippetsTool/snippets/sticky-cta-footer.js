@@ -120,12 +120,11 @@ Change the scroll threshold, the bar copy, or the gradient on the primary button
       { title: 'Storage-ready', text: `Dismissal flag is easy to persist.` },
     ],
     useCases: [
-      { title: 'Trial prompts', text: `Convert readers past a [minimal hero](/ui-snippets/minimal-hero/).` },
-      { title: 'Top + bottom combo', text: `Pair with an [announcement bar](/ui-snippets/announcement-bar/).` },
-      { title: 'Exit recovery', text: `Complement an [exit intent popup](/ui-snippets/exit-intent-popup/).` },
-      { title: 'Consent', text: `Layer above a [cookie banner](/ui-snippets/cookie-banner/).` },
-      { title: 'Promotions', text: `Run a limited offer beside a [trial countdown](/ui-snippets/trial-countdown/).` },
-      { title: 'Newsletter', text: `Nudge signups for a [newsletter signup](/ui-snippets/newsletter-signup/).` },
+      { title: 'Trial prompts', text: 'Convert readers who scroll past a [minimal hero](/ui-snippets/minimal-hero/), with a glass bar that slides up only after the hero is out of view.' },
+      { title: 'Top and bottom combinations', text: 'Pair with an [announcement bar](/ui-snippets/announcement-bar/) at the top so a site has both a message and a persistent action.' },
+      { title: 'Exit recovery', text: 'Complement an [exit intent popup](/ui-snippets/exit-intent-popup/), with the bar dismissible so it never nags people who are not interested.' },
+      { title: 'Consent layering', text: 'Layer above a [cookie banner](/ui-snippets/cookie-banner/) without overlap, animating only `transform` and `opacity` on the compositor for smooth motion.' },
+      { title: 'Promotions and newsletter nudges', text: 'Run a limited offer beside a [trial countdown](/ui-snippets/trial-countdown/), or nudge signups for a [newsletter signup](/ui-snippets/newsletter-signup/), with scroll handling throttled to one update per frame.' },
       { icon: 'CODE', title: 'Related: Marquee Footer', desc: 'See the [Marquee Footer](/ui-snippets/marquee-footer/) for a related footers pattern worth pairing with this one.' },
     ],
     faqs: [

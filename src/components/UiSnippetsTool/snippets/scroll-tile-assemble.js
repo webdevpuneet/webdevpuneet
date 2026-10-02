@@ -137,12 +137,11 @@ Change \`COLS\`/\`ROWS\` (slicing and scatter adapt automatically), widen the sc
       { title: 'Reversible shatter', text: `Scrolling up explodes the mosaic.` },
     ],
     useCases: [
-      { title: 'Brand reveals', text: `Assemble a logo or key visual; the inverse dive is [scroll grid zoom](/ui-snippets/scroll-grid-zoom/).` },
-      { title: 'Product screenshots', text: `Piece a dashboard together, then tour it with [sticky scroll features](/ui-snippets/scroll-sticky-features/).` },
-      { title: 'Team or gallery walls', text: `Fly portraits into a wall; browse them in a [photo gallery](/ui-snippets/photo-gallery/).` },
-      { title: '"Coming together" stories', text: `Metaphor sections for mergers or integrations inside a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Portfolio openers', text: `Assemble the hero, then a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) of work.` },
-      { title: 'Puzzle campaigns', text: `Literal jigsaw promos; add a [confetti button](/ui-snippets/confetti-button/) at completion.` },
+      { title: 'Brand reveals', text: 'Assemble a logo or key visual from twelve scattered tiles, using background-position windows onto one shared gradient so the seams vanish.' },
+      { title: 'Product screenshots', text: 'Piece a dashboard together, then tour it with [scroll sticky features](/ui-snippets/scroll-sticky-features/), with deterministic seeded scatter so every load looks identical.' },
+      { title: 'Team and gallery walls', text: 'Fly portraits into a wall, then browse them in a [photo gallery](/ui-snippets/photo-gallery/), with tiles arriving in a shuffled order.' },
+      { title: 'Coming together stories', text: 'Use the metaphor for mergers or partnerships, followed by a [scroll pin story](/ui-snippets/scroll-pin-story/) to explain the journey.' },
+      { title: 'Openers and puzzle campaigns', text: 'Assemble a portfolio hero before a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/), or add a [confetti button](/ui-snippets/confetti-button/) to reward a completed puzzle.' },
       { icon: 'CODE', title: 'Related: Three.js Scroll Möbius Strip Ride', desc: 'See the [Three.js Scroll Möbius Strip Ride](/ui-snippets/three-scroll-mobius-ride/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

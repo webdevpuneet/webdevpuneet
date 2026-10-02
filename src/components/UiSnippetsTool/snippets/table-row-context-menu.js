@@ -189,12 +189,11 @@ The row under the cursor gets an \`rcm-active\` highlight while its menu is open
       { title: 'Data-driven & no library', text: `Renders from a ROWS array of objects with generic id-based lookups.` },
     ],
     useCases: [
-      { title: 'Admin and file managers', text: `Right-click rows for quick actions, similar to a desktop file explorer — pair with a [selectable table](/ui-snippets/selectable-table/) for multi-select.` },
-      { title: 'Project and task boards', text: `Edit, duplicate, or delete tasks without leaving the list view.` },
-      { title: 'CRM and contact tables', text: `Offer quick actions per contact next to a [data table](/ui-snippets/data-table/).` },
-      { title: 'Spreadsheet-like tools', text: `Mirror native spreadsheet right-click behavior for rows.` },
-      { title: 'Content and asset libraries', text: `Duplicate or archive entries via a familiar right-click gesture.` },
-      { title: 'Learning contextmenu handling', text: `A reference for real contextmenu interception — compare with a [bulk actions bar](/ui-snippets/bulk-actions-bar/) for toolbar-driven actions instead.` },
+      { title: 'Admin and file managers', text: 'Offer quick row actions on right-click, with `preventDefault()` suppressing the browser\'s generic menu in favour of your own.' },
+      { title: 'Project and task boards', text: 'Edit, duplicate or delete tasks from a menu opened at the exact cursor position using `clientX` and `clientY`.' },
+      { title: 'CRM contact tables', text: 'Provide quick actions per contact, pairing with a [selectable table](/ui-snippets/selectable-table/) and a [bulk actions bar](/ui-snippets/bulk-actions-bar/) for multi-row operations.' },
+      { title: 'Spreadsheet-like tools', text: 'Mirror native spreadsheet right-click behaviour, clamping menu coordinates so it never renders off-screen near viewport edges.' },
+      { title: 'Content libraries and context menu learning', text: 'Duplicate or archive entries in an asset list with a [data table](/ui-snippets/data-table/), splicing the real `ROWS` array so actions genuinely change the data.' },
     ],
     faqs: [
       { q: `Does this actually suppress the browser's native right-click menu?`, a: `Yes. The table body listens for the real contextmenu event and calls e.preventDefault() as soon as it fires on a row, which is the standard, correct way to stop the browser's own menu from appearing. Without that call, both the native menu and the custom one would try to show simultaneously.` },

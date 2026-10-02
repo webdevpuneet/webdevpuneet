@@ -188,12 +188,11 @@ Change \`MONTHLY_RATE\` and \`ANNUAL_PRICE\` to your real plan pricing — every
       { title: 'Easy to re-theme as bars', text: 'Swap path elements for rects using the same coordinate functions.' },
     ],
     useCases: [
-      { title: 'Pricing page justification', text: 'Show why annual billing actually saves money, visually.' },
-      { title: 'Alongside a billing toggle', text: 'Pair with [pricing toggle](/ui-snippets/pricing-toggle/) for a full comparison.' },
-      { title: 'Sales enablement decks', text: 'A concrete, computed chart beats a vague savings claim.' },
-      { title: 'Upgrade prompts', text: 'Show a free/monthly user their real annual savings.' },
-      { title: 'Finance-facing dashboards', text: 'Reuse the SVG line-chart pattern for other cost comparisons.' },
-      { title: 'Teaching SVG chart basics', text: 'A minimal reference for hand-built line charts.' },
+      { title: 'Pricing page justification', text: 'Show why annual billing actually saves money, plotting cumulative monthly cost against a flat annual price across twelve months.' },
+      { title: 'Billing toggle companions', text: 'Pair with a [pricing toggle](/ui-snippets/pricing-toggle/) so the chart explains the break-even month that the toggle\'s discount implies.' },
+      { title: 'Sales enablement material', text: 'Give a concrete, computed chart instead of a vague saving claim, with a loop finding the true crossover month from the data.' },
+      { title: 'Monthly subscriber nudges', text: 'Show a monthly subscriber their real annual saving, with y-axis maximums rounded up to clean dollar gridlines.' },
+      { title: 'SVG chart teaching and finance views', text: 'Learn how path strings are generated from JavaScript arrays with no libraries, and reuse the pattern in finance-facing dashboards.' },
       { icon: 'CODE', title: 'Related: Bundle Savings Card', desc: 'See the [Bundle Savings Card](/ui-snippets/pricing-bundle-savings-card/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

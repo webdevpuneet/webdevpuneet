@@ -126,12 +126,11 @@ To wire this to real collaboration, replace \`PEOPLE\` with live presence data f
       { title: 'Framework-agnostic markup', text: `Plain HTML/CSS/JS ports cleanly into React, Vue, or Angular components.` },
     ],
     useCases: [
-      { title: 'Collaborative document editors', text: `Show who's viewing or editing a doc, spreadsheet, or wiki page right now.` },
-      { title: 'Design and whiteboard tools', text: `Pair with [live cursor name tags](/ui-snippets/live-cursor-name-tags/) for full multiplayer presence UI.` },
-      { title: 'Project management boards', text: `Show active viewers on a [kanban board](/ui-snippets/kanban-board/) or task detail view.` },
-      { title: 'Code review and IDE tools', text: `Indicate who else has a file open for editing versus just reviewing.` },
-      { title: 'Meeting and scheduling tools', text: `Combine with an [availability scheduler](/ui-snippets/availability-scheduler/) to show who's currently filling in a poll.` },
-      { title: 'Team dashboards', text: `Pair with [team presence list](/ui-snippets/team-presence-list/) for a fuller online/offline roster.` },
+      { title: 'Collaborative document editors', text: 'Answer who else is here at a glance, with overlapping avatar bubbles and a coloured corner dot separating editors from viewers.' },
+      { title: 'Design and whiteboard tools', text: 'Pair with [live cursor name tags](/ui-snippets/live-cursor-name-tags/) so the top bar shows who is present and the canvas shows where they are working.' },
+      { title: 'Project management boards', text: 'Show active viewers on a [kanban board](/ui-snippets/kanban-board/), with an honest +N bubble reporting how many collaborators do not fit.' },
+      { title: 'Code review and IDE tools', text: 'Indicate who else has a file open, using hover tooltips so full names and statuses do not permanently take up space.' },
+      { title: 'Scheduling and team dashboards', text: 'Combine with an [availability scheduler](/ui-snippets/availability-scheduler/) or a [team presence list](/ui-snippets/team-presence-list/) for a fuller picture of who is around.' },
       { icon: 'CODE', title: 'Related: File Explorer Tree View', desc: 'See the [File Explorer Tree View](/ui-snippets/tree-view-file-explorer/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

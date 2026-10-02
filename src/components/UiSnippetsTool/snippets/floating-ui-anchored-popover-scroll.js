@@ -151,12 +151,11 @@ This one-shared-element-with-live-repositioning pattern applies to any list of p
       { title: 'Data-driven content', text: `Popover text comes straight from each row's own attributes.` },
     ],
     useCases: [
-      { title: 'Team and people directory lists', text: `Per-person detail popovers in a scrollable roster.` },
-      { title: 'Data table row details', text: `Compact info icons expanding into a full detail popover.` },
-      { title: 'File and document browser metadata', text: `Pair with the [auto-flipping tooltip](/ui-snippets/floating-ui-auto-flip-tooltip/) elsewhere in this collection.` },
-      { title: 'Notification and activity list details', text: `Expandable context without leaving the list.` },
-      { title: 'Comment thread author info', text: `Quick author details anchored to each comment.` },
-      { title: 'Learning Floating UI at scale', text: `A clear reference for one popover serving many anchors.` },
+      { title: 'People directory details', text: 'Show a per-person popover from each row\'s info button, using one shared popover element refilled with that person\'s details on every click.' },
+      { title: 'Data table row details', text: 'Expand compact info icons into small cards, with `autoUpdate` keeping the popover pinned to its own row as the table scrolls.' },
+      { title: 'File browser metadata', text: 'Pair with the [auto-flipping tooltip](/ui-snippets/floating-ui-auto-flip-tooltip/) so popovers flip sides when a row sits near the edge of the container.' },
+      { title: 'Activity list context', text: 'Reveal expandable context for notifications and events, with a unified close path shared by toggle-off and outside-click.' },
+      { title: 'Floating UI at scale', text: 'Learn how to tear down the previous scroll tracking before starting a fresh `autoUpdate`, which avoids leaks in long lists of anchors.' },
     ],
     faqs: [
       { q: 'Why is there only one popover element instead of one per row?', a: `A single shared popover element that gets repositioned and refilled with different content is simpler to manage than six separate popover elements, and it structurally guarantees only one can ever be visible at a time — there's no way for two popovers to accidentally both be open at once, since there's only one popover element in the entire page to show or hide.` },

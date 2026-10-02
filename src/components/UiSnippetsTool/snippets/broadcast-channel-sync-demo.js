@@ -209,12 +209,11 @@ BroadcastChannel is broadly supported in evergreen browsers but missing from a h
       { title: 'Clear active-mode messaging', text: `States which sync mechanism is in use.` },
     ],
     useCases: [
-      { title: 'Multi-tab auth state', text: `Sync login/logout across all open tabs.` },
-      { title: 'Shopping carts', text: `Keep cart contents consistent everywhere.` },
-      { title: 'Theme/preference sync', text: `Propagate dark mode toggles instantly.` },
-      { title: 'Tab coordination', text: `Pair with [web locks tab coordinator](/ui-snippets/web-locks-tab-coordinator/).` },
-      { title: 'Collaborative-feel demos', text: `Simulate presence like [live visitor counter](/ui-snippets/live-visitor-counter/).` },
-      { title: 'Notification dismissal', text: `Dismiss an alert everywhere it's shown at once.` },
+      { title: 'Multi-tab authentication', text: 'Sync login and logout across every open tab with `BroadcastChannel`, which needs no server involvement at all.' },
+      { title: 'Shopping carts', text: 'Keep shopping cart contents consistent everywhere, remembering that a channel never receives its own messages by design.' },
+      { title: 'Theme and preference sync', text: 'Propagate dark mode toggles instantly to other tabs, with a `storage` event fallback for browsers lacking the API.' },
+      { title: 'Tab coordination', text: 'Pair with a [web locks tab coordinator](/ui-snippets/web-locks-tab-coordinator/) when one tab must lead while all tabs share state.' },
+      { title: 'Presence demos and notification dismissal', text: 'Simulate presence like a [live visitor counter](/ui-snippets/live-visitor-counter/), or dismiss an alert everywhere it appears, using a same-page second channel to demo with one tab.' },
       { icon: 'CODE', title: 'Related: Database Connection Pool Monitor Tile', desc: 'See the [Database Connection Pool Monitor Tile](/ui-snippets/connection-pool-monitor-tile/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

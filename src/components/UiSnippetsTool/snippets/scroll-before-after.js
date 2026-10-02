@@ -134,12 +134,11 @@ Swap in real screenshots or photos, flip the wipe direction by anchoring the aft
       { title: 'Anchored labels', text: `After tag reveals with its own layer.` },
     ],
     useCases: [
-      { title: 'Redesign showcases', text: `Wipe from old UI to new; follow with a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) of improvements.` },
-      { title: 'Photo editing demos', text: `Show raw versus graded shots; offer a drag version with [image comparison](/ui-snippets/image-comparison/).` },
-      { title: 'Renovation reveals', text: `Before/after property shots inside a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Performance case studies', text: `Old versus optimized dashboards, then a [scroll story chart](/ui-snippets/scroll-story-chart/) with the numbers.` },
-      { title: 'Landing transitions', text: `Use the wipe as a section handoff like a [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/).` },
-      { title: 'Product upgrades', text: `Contrast plans or tiers before a [pricing card](/ui-snippets/pricing-card/) block.` },
+      { title: 'Redesign showcases', text: 'Wipe from an old UI to the new one with the scrollbar sweeping the divider, followed by a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) of details.' },
+      { title: 'Photo editing demos', text: 'Show raw versus graded shots, and offer a drag-based [image comparison](/ui-snippets/image-comparison/) slider for visitors who prefer to control it.' },
+      { title: 'Renovation reveals', text: 'Present before and after property shots inside a [scroll pin story](/ui-snippets/scroll-pin-story/), with a fixed-width inner scene so the content never squishes.' },
+      { title: 'Performance case studies', text: 'Contrast old and optimised dashboards in performance case studies, with a [scroll story chart](/ui-snippets/scroll-story-chart/) showing the measured improvement numerically.' },
+      { title: 'Section hand-offs and upgrades', text: 'Use the wipe like a [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/) between sections, or contrast plans before a [pricing card](/ui-snippets/pricing-card/).' },
       { icon: 'CODE', title: 'Related: Scroll Blur Focus', desc: 'See the [Scroll Blur Focus](/ui-snippets/scroll-blur-focus/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

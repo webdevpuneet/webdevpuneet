@@ -135,10 +135,11 @@ The most useful trick is a custom calculation. A calc can be a function that rec
       'Progress-bar formatter for probability values',
     ],
     useCases: [
-      { icon: 'DASH', title: 'Sales and pipeline reports', desc: `Show revenue by region with subtotals. For a flat searchable dataset use the [Tabulator filterable grid](/ui-snippets/tabulator-sortable-filterable-grid/).` },
-      { icon: 'MONEY', title: 'Finance and expense tables', desc: `Group spend by category or cost centre with sums and averages.` },
-      { icon: 'ADMIN', title: 'Support and operations queues', desc: `Group tickets by owner or status and see workloads at a glance.` },
-      { icon: 'LEARN', title: 'Learning custom aggregates', desc: `See how a calculation can depend on a different column's data.` },
+      { icon: '💼', title: 'Sales and pipeline reports', desc: 'Show revenue by region with collapsible groups, each header displaying a live count and computed total.' },
+      { icon: '💰', title: 'Finance and expense tables', desc: 'Group spend by category or cost centre, with `columnCalcs: \'both\'` giving subtotals per group plus a grand total.' },
+      { icon: '🎫', title: 'Support and operations queues', desc: 'Group tickets by owner or status, and re-group on demand so one data set answers several operational questions.' },
+      { icon: '⚖️', title: 'Grid comparison', desc: 'Compare with the [Tabulator sortable filterable grid](/ui-snippets/tabulator-sortable-filterable-grid/) when sorting and filtering matter more than grouped summaries.' },
+      { icon: '🎓', title: 'Custom aggregates learning', desc: 'See how a calculation can depend on other columns, as with a custom win-rate aggregate beside the built-in sum, average and count.' },
     ],
     faqs: [
       { q: 'How do I show subtotals for each group?', a: 'Set columnCalcs: "both" (or "group") and define topCalc or bottomCalc on the columns you want aggregated.' },

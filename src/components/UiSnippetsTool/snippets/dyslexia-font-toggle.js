@@ -156,12 +156,11 @@ Ship this as one option among several rather than as a cure-all badge — the go
       { title: 'Built once, toggled cheaply', text: `The ruler element is created once, not recreated per toggle.` },
     ],
     useCases: [
-      { title: 'Long-form articles and blogs', text: `Let readers opt into wider spacing for dense body copy.` },
-      { title: 'Accessibility settings panels', text: `Pair with [text size adjuster](/ui-snippets/text-size-adjuster/) and [reading mode toggle](/ui-snippets/reading-mode-toggle/).` },
-      { title: 'Educational platforms', text: `Give students control over spacing without a separate extension.` },
-      { title: 'Documentation sites', text: `Improve legibility for dense technical prose on request.` },
-      { title: 'News and publishing', text: `Offer alongside [dark mode](/ui-snippets/dark-mode-toggle/) as a reading preference.` },
-      { title: 'Audio-paired reading', text: `Combine with [a text-to-speech button](/ui-snippets/text-to-speech-button/) for a multi-modal reading toolbar.` },
+      { title: 'Long-form article reading', text: 'Let readers opt into wider letter and word spacing and a taller line height, using a plain web-safe font stack rather than an unproven branded typeface.' },
+      { title: 'Accessibility settings panels', text: 'Pair with a [text size adjuster](/ui-snippets/text-size-adjuster/) and a [reading mode toggle](/ui-snippets/reading-mode-toggle/) so users can tune several reading options together.' },
+      { title: 'Educational platforms', text: 'Give students control over spacing and an optional cursor-following reading ruler, driven by a single `mousemove` listener on a pointer-events-none overlay.' },
+      { title: 'Dense documentation', text: 'Improve legibility of technical pages full of code and tables, by reducing crowding between adjacent characters through spacing alone.' },
+      { title: 'News and publishing', text: 'Offer alongside a [dark mode toggle](/ui-snippets/dark-mode-toggle/) as a reading preference, or combine with a [text to speech button](/ui-snippets/text-to-speech-button/) for audio-paired reading.' },
       { icon: 'CODE', title: 'Related: Icon Toolbar — Roving Tabindex Keyboard Navigation', desc: 'See the [Icon Toolbar — Roving Tabindex Keyboard Navigation](/ui-snippets/icon-toolbar-roving-tabindex/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

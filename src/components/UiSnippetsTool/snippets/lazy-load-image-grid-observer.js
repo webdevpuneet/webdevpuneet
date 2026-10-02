@@ -100,10 +100,10 @@ When an entry's \`isIntersecting\` becomes true, the callback copies \`data-src\
       'data-src attribute keeps the browser from requesting any image until it is actually near the viewport',
     ],
     useCases: [
-      { icon: 'CODE', title: 'Reference for IntersectionObserver-based lazy loading', desc: 'A clean, from-scratch implementation of the pattern browsers now also offer natively via loading="lazy".' },
-      { icon: 'APP', title: 'Photo galleries and media grids', desc: 'Reduce initial page weight on any grid with more images than fit on one screen.' },
-      { icon: 'DESIGN', title: 'Portfolio and product listing pages', desc: 'Defer offscreen product or portfolio images until the user actually scrolls to them.' },
-      { icon: 'LEARN', title: 'Teaching performance-conscious image loading', desc: 'Demonstrates rootMargin tuning and proper observer cleanup with unobserve.' },
+      { icon: '📚', title: 'IntersectionObserver lazy loading reference', desc: 'Study a clear example of a single observer watching every image in a grid, with `rootMargin` of 200 pixels starting loads just before they appear.' },
+      { icon: '🖼️', title: 'Photo and media galleries', desc: 'Reduce initial page weight by loading each tile only as it nears the viewport, with a shimmer skeleton shown until the image arrives.' },
+      { icon: '🛍️', title: 'Portfolio and product listings', desc: 'Defer offscreen product images, using an internally scrollable grid so the effect is easy to demonstrate.' },
+      { icon: '🎓', title: 'Performance teaching', desc: 'Demonstrate performance-conscious image loading, with a fade-in transition so images appear gracefully instead of popping in.' },
     ],
     faqs: [
       { q: 'Why use IntersectionObserver instead of the native loading="lazy" attribute?', a: 'The native attribute works well for simple cases, but IntersectionObserver gives full control over the threshold, root element (useful here since the grid scrolls internally, not the page), rootMargin pre-loading distance, and lets you trigger custom effects like the fade-in and skeleton removal precisely when loading starts and completes.' },

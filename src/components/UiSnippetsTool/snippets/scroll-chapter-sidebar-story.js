@@ -166,12 +166,11 @@ Add a sixth \`.css-chapter\` and matching sidebar link with the same \`data-chap
       { title: 'Serif long-form typography', text: `Readable line length and generous line-height tuned for extended reading.` },
     ],
     useCases: [
-      { title: 'Long-form journalism and feature articles', text: `Give readers a persistent sense of place across a multi-thousand-word piece.` },
-      { title: 'Expedition, travel, and research write-ups', text: `Chapter-style navigation matches the natural structure of a journey narrative.` },
-      { title: 'Book or ebook preview microsites', text: `Present a chapter list alongside readable excerpts.` },
-      { title: 'Technical documentation and long guides', text: `Reuse the same sticky-nav-plus-observer pattern for a docs page's table of contents.` },
-      { title: 'Company history or annual report deep-dives', text: `Pair with a [scroll company timeline](/ui-snippets/scroll-company-timeline/) as a shorter companion section.` },
-      { title: 'Case study or portfolio narratives', text: `Structure a detailed project write-up into readable, navigable chapters.` },
+      { title: 'Long-form journalism features', text: 'Give readers a persistent sense of position in a long article, using a sticky sidebar that highlights the chapter in the centre of the viewport.' },
+      { title: 'Expedition and research write-ups', text: 'Structure travel or research narratives into chapters, with a scroll progress rail and a chapter highlight that track two independent signals.' },
+      { title: 'Book and ebook previews', text: 'Present a chapter list alongside the text, built with native `IntersectionObserver` and no animation library at all.' },
+      { title: 'Technical documentation and long guides', text: 'Reuse the same structure for guides that run to thousands of words, where `position: sticky` keeps the nav pinned only while the article is on screen.' },
+      { title: 'Company history and case studies', text: 'Pair with a [scroll company timeline](/ui-snippets/scroll-company-timeline/) for annual report deep dives, or structure a detailed portfolio narrative by chapter.' },
     ],
     faqs: [
       { q: `How does the sidebar know which chapter is currently active?`, a: `A single IntersectionObserver watches every .css-chapter section with a rootMargin of '-45% 0px -45% 0px', which shrinks its effective detection zone down to a thin horizontal band across the vertical middle of the viewport. Only the chapter section that is genuinely intersecting that middle band is treated as active, so the sidebar highlight always reflects whichever chapter the reader's eyes are actually on, even when chapters vary a lot in length.` },

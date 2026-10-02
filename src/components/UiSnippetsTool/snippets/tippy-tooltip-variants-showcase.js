@@ -100,12 +100,11 @@ Each button's configuration comes from its own \`data-*\` attributes, read once 
       { title: 'Per-button data-driven config', text: `Each tooltip's options come from its own markup attributes.` },
     ],
     useCases: [
-      { title: 'Icon-only button labeling', text: `Accessible tooltips for toolbar and action icons.` },
-      { title: 'Form field help text', text: `Contextual guidance without cluttering the form itself.` },
-      { title: 'Data table cell details', text: `Rich HTML tooltips for truncated or summarized values.` },
-      { title: 'Dashboard metric explanations', text: `Click-triggered tooltips for content worth reading longer.` },
-      { title: 'Onboarding and feature callouts', text: `Pair with the [interactive popover with form](/ui-snippets/tippy-interactive-popover-form/) elsewhere in this collection for richer overlays.` },
-      { title: 'Learning Tippy.js configuration', text: `A clear reference for comparing options side by side.` },
+      { title: 'Icon-only button labels', text: 'Provide accessible tooltips for icon-only toolbar buttons, with the `mouseenter focus` trigger opening them for keyboard users as well as mouse users.' },
+      { title: 'Form field help text', text: 'Offer contextual guidance without cluttering the layout, with HTML content enabled only per tooltip through an explicit `allowHTML` opt-in.' },
+      { title: 'Table cell details', text: 'Show rich HTML tooltips for truncated table cells, comparing eight genuinely different configurations side by side on one page for clarity.' },
+      { title: 'Dashboard metric explanations', text: 'Use click-triggered tooltips for definitions, or cursor-following mode where a distinct positioning strategy suits the content.' },
+      { title: 'Interactive popover pairing', text: 'Pair with the [Tippy interactive popover form](/ui-snippets/tippy-interactive-popover-form/) when a tooltip needs a form or buttons inside it.' },
     ],
     faqs: [
       { q: 'Why is allowHTML off by default, and when should I turn it on?', a: `Tippy defaults to rendering tooltip content as plain text specifically so that any string — including one built from user-controlled data — can never be accidentally interpreted as HTML markup, which would otherwise be a real security consideration if that data ever contained malicious markup. Turn allowHTML on only for tooltips whose content is fully controlled by your own code, like this snippet's "HTML Content" button, not for tooltips displaying arbitrary user input.` },

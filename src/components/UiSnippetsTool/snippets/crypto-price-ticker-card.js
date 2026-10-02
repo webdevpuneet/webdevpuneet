@@ -181,12 +181,11 @@ Replace the \`tick()\` function's random walk with your websocket \`onmessage\` 
       { title: 'Tabular numerals', text: `font-variant-numeric keeps the price from jittering horizontally as digits change.` },
     ],
     useCases: [
-      { title: 'Crypto dashboards', text: `Show live asset prices alongside a [wallet card](/ui-snippets/wallet-card/) or [wallet connect button](/ui-snippets/wallet-connect-button/).` },
-      { title: 'Exchange watchlists', text: `Stack several ticker cards in a grid, one per tracked asset.` },
-      { title: 'Portfolio summaries', text: `Pair with a [currency converter](/ui-snippets/currency-converter/) to show holdings in a preferred currency.` },
-      { title: 'Trading widgets', text: `Embed beside an [area chart](/ui-snippets/area-chart/) for a fuller price view.` },
-      { title: 'Landing page proof points', text: `Show a live-feeling ticker on a product marketing page to signal real-time data.` },
-      { title: 'Learning SVG sparklines', text: `A minimal reference for building trend lines without a charting dependency.` },
+      { title: 'Crypto dashboards', text: 'Show live asset prices alongside a [wallet card](/ui-snippets/wallet-card/), with a coloured 24 hour change badge and an inline SVG sparkline.' },
+      { title: 'Exchange watchlists', text: 'Stack several ticker cards in a grid, each flashing a brief background tint on every simulated tick via a forced reflow restart.' },
+      { title: 'Portfolio summaries', text: 'Pair with a [currency converter](/ui-snippets/currency-converter/) to show holdings in a chosen currency, with one boolean driving badge and line colour.' },
+      { title: 'Trading widgets', text: 'Embed beside an [area chart](/ui-snippets/area-chart/) for a fuller price view, with the sparkline a single polyline rebuilt from a rolling price array.' },
+      { title: 'Landing page proof points', text: 'Add a live-feeling ticker to a marketing page, built from a random-walk feed and learn how to draw sparklines without any charting library.' },
       { icon: 'CODE', title: 'Related: Live Edit Presence', desc: 'See the [Live Edit Presence](/ui-snippets/live-edit-presence/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

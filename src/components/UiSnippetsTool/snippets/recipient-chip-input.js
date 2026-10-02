@@ -153,12 +153,11 @@ Swap \`EMAIL_RE\` for a stricter or more permissive validation pattern, wire an 
       { title: 'Zero dependencies', text: `Pure HTML, CSS, and vanilla JavaScript — no tagging or chip-input library.` },
     ],
     useCases: [
-      { title: 'Email composition forms', text: `Build a To/Cc/Bcc field for a webmail client or transactional email admin tool.` },
-      { title: 'Team invite forms', text: `Let admins invite several teammates by email in one paste instead of one at a time.` },
-      { title: 'Newsletter and campaign tools', text: `Collect a list of recipient addresses for a test send before launching a campaign.` },
-      { title: 'Calendar event invitations', text: `Add multiple attendee emails to a meeting invite with the same chip interaction.` },
-      { title: 'CRM contact import', text: `Quickly paste a batch of addresses and get instant per-address validation feedback.` },
-      { title: 'Support ticket CC fields', text: `Let agents add multiple stakeholders to a support thread by email.` },
+      { title: 'Email composition forms', text: 'Build a To, Cc and Bcc field that turns each committed address into a removable chip, validating every one independently.' },
+      { title: 'Team invitations', text: 'Let admins invite several teammates at once, committing addresses with Enter, comma or Tab through one shared `commitInput()` function.' },
+      { title: 'Newsletter and campaign lists', text: 'Collect a recipient list, with a count that updates as addresses are added and malformed entries flagged in place.' },
+      { title: 'Calendar event invitations', text: 'Add multiple attendee emails to a calendar invitation, supporting pasted comma-separated lists that split into individual chips automatically.' },
+      { title: 'CRM imports and support CC fields', text: 'Quickly paste a batch of addresses into a CRM, or let agents add several stakeholders to a ticket, with Backspace removing the last chip.' },
     ],
     faqs: [
       { q: `How does the input decide when to turn text into a chip?`, a: `Three keydown cases call the shared commitInput() function: pressing Enter, pressing comma, or pressing Tab while there's text in the field. All three funnel through the same function so the chip-creation logic, including validation and clearing the input, only needs to exist in one place.` },

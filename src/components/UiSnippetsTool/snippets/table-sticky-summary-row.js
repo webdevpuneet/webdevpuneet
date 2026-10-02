@@ -128,12 +128,11 @@ Add an average alongside the sum, compute per-column totals generically by itera
       { title: 'Data-driven, not markup-driven', text: `Adding, removing, or editing rows requires no manual update to the totals anywhere.` },
     ],
     useCases: [
-      { title: 'Budget and expense tracking', text: `Keep running totals visible while scrolling through many expense categories.` },
-      { title: 'Financial and accounting tables', text: `Pin sum/average rows in a long ledger or transaction table.` },
-      { title: 'Sales and order line-item tables', text: `Keep an order total visible while scrolling through many line items.` },
-      { title: 'Inventory and stock summary tables', text: `Pin aggregate stock counts while scrolling a long product list.` },
-      { title: 'Reporting dashboards', text: `Pair with a [multi-column sort table](/ui-snippets/table-multi-sort/) so totals stay visible under any sort order.` },
-      { title: 'Learning sticky footer technique', text: `A clear reference for pinning a tfoot with position:sticky, distinct from a [sticky header table](/ui-snippets/sticky-header-table/).` },
+      { title: 'Budget and expense tracking', text: 'Keep running totals visible while scanning a long table, with the summary row pinned to `bottom: 0` of the scroll container.' },
+      { title: 'Financial and accounting tables', text: 'Pin sum and average rows, with a remaining total computed as summed budget minus summed spent from the real data.' },
+      { title: 'Order line-item tables', text: 'Keep an order total in view while editing many lines, using `reduce` over the row array on every render.' },
+      { title: 'Inventory and stock summaries', text: 'Pin aggregate stock counts, applying the same over-budget check to individual rows and to the summary for consistent styling.' },
+      { title: 'Reporting dashboards and sticky learning', text: 'Pair with a [multi-column sort table](/ui-snippets/table-multi-sort/) and a [sticky header table](/ui-snippets/sticky-header-table/) for a fully pinned layout.' },
     ],
     faqs: [
       { q: `Why does the summary row need position: sticky instead of just being the table's last row?`, a: `As an ordinary last row, the summary would scroll out of view along with the rest of the body the moment you scroll down through a long table — exactly when a running total is most useful to have visible. position: sticky with bottom: 0 keeps it pinned to the bottom edge of the scrolling container regardless of how far the body has scrolled, the same mechanism a sticky header uses at top: 0.` },

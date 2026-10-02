@@ -165,12 +165,11 @@ Even with a required fallback in 2026, the CSS-only path is worth adopting incre
       { title: 'Honest 2026 support notes', text: `Chromium-only today; Firefox and Safari not yet shipped.` },
     ],
     useCases: [
-      { title: 'Account and settings dropdowns', text: `Position a menu below a header trigger with no JS math.` },
-      { title: 'Tooltips and popovers', text: `Pair with [the native popover API demo](/ui-snippets/native-popover-api-demo/) for the show/hide half.` },
-      { title: 'Replacing a floating-UI dependency', text: `Drop a positioning library for browsers that support the native API.` },
-      { title: 'Context menus', text: `Anchor a right-click or kebab menu to its trigger element.` },
-      { title: 'Form field helper popovers', text: `Anchor validation or hint text to an input.` },
-      { title: 'Progressive enhancement demos', text: `Show a real fallback pattern alongside [the anchor positioning menu](/ui-snippets/anchor-positioning-menu/).` },
+      { title: 'Account and settings dropdowns', text: 'Position a menu below its header button with `anchor-name` and `anchor()` in pure CSS, with no `getBoundingClientRect` calls.' },
+      { title: 'Tooltips and popovers', text: 'Pair with the [native popover API demo](/ui-snippets/native-popover-api-demo/) so show, hide and light-dismiss are handled by the browser.' },
+      { title: 'Replacing a positioning library', text: 'Drop a floating-element dependency where CSS anchor positioning is supported, keeping a JavaScript fallback gated by `CSS.supports`.' },
+      { title: 'Context and kebab menus', text: 'Anchor a right-click or overflow menu to its trigger, with the fallback recalculating whenever the anchor scrolls or the window resizes.' },
+      { title: 'Progressive enhancement demos', text: 'Show a real fallback pattern, and compare with the [anchor positioning menu](/ui-snippets/anchor-positioning-menu/) for another take on the same API.' },
       { icon: 'CODE', title: 'Related: Dot Pagination Carousel', desc: 'See the [Dot Pagination Carousel](/ui-snippets/dot-pagination-carousel/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

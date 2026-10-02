@@ -142,12 +142,11 @@ Add a fifth confirmation by writing only its unique fields and merging them onto
       { title: 'Inline validation messaging', text: `showValidationMessage explains exactly why confirm was blocked.` },
     ],
     useCases: [
-      { title: 'Account and data deletion flows', text: `Exactly this pattern for genuinely destructive actions.` },
-      { title: 'Subscription and billing changes', text: `Confirm cancellations with clear consequence messaging.` },
-      { title: 'Admin panel bulk actions', text: `Pair with the [multi-step input flow](/ui-snippets/sweetalert2-multistep-input-flow/) elsewhere in this collection.` },
-      { title: 'Workspace and team membership changes', text: `Leave/remove confirmations with clear framing.` },
-      { title: 'High-risk settings changes', text: `Typed-confirmation for the most consequential actions.` },
-      { title: 'Learning SweetAlert2', text: `A clear reference for shared config and preConfirm validation.` },
+      { title: 'Account and data deletion', text: 'Handle the highest-risk actions with a typed-confirmation dialog whose `preConfirm` blocks closing until the input actually matches.' },
+      { title: 'Subscription and billing changes', text: 'Confirm subscription cancellations and billing changes clearly, branching cleanly on `isConfirmed` rather than inspecting several different result flags afterwards.' },
+      { title: 'Admin bulk actions', text: 'Pair with the [SweetAlert2 multi-step input flow](/ui-snippets/sweetalert2-multistep-input-flow/) for operations that need several inputs before a final confirmation.' },
+      { title: 'Team membership changes', text: 'Confirm leave and remove actions, with reversed button order placing Cancel away from the default click position on purpose.' },
+      { title: 'Shared base configuration', text: 'Learn how one `BASE` object keeps four different dialogs visually consistent while each overrides only the text and colour it needs.' },
     ],
     faqs: [
       { q: 'Why merge each dialog\'s config onto a shared BASE object instead of writing four full configs?', a: `The four dialogs share several settings — showing a cancel button, a reversed button order, and default colors — that would otherwise be repeated identically in every single Swal.fire call. Using Object.assign({}, BASE, { ...specifics }) applies those shared defaults once while letting each dialog override only the fields that actually differ (title, text, icon, and sometimes color), which keeps the four dialogs visually consistent and makes adding a fifth trivial.` },

@@ -112,10 +112,11 @@ The panel under the carousel demonstrates the standard pattern for connecting a 
       'Single data array renders both slides and details',
     ],
     useCases: [
-      { icon: 'SHOP', title: 'Product showcases', desc: `Highlight featured items on a landing page. For thumbnail-driven galleries see the [thumbnail-synced Swiper gallery](/ui-snippets/swiper-thumbnail-synced-gallery/).` },
-      { icon: 'WEB', title: 'Portfolio and case-study pickers', desc: `Let visitors flip through work in a visually rich way.` },
-      { icon: 'ANIM', title: 'Music and media browsers', desc: `Recreate the album-cover browsing experience for playlists or video.` },
-      { icon: 'LEARN', title: 'Learning 3D transforms in sliders', desc: `Experiment with rotate, depth and stretch to see how each shapes the effect.` },
+      { icon: '🛍️', title: 'Product showcases', desc: 'Highlight featured items on a landing page with one product facing the viewer and neighbours turned away and receding, using the built-in coverflow effect.' },
+      { icon: '🎨', title: 'Portfolio pickers', desc: 'Let visitors flip through portfolio work, with `slideToClickedSlide` so tapping a neighbouring item focuses it immediately.' },
+      { icon: '🎵', title: 'Music and media browsing', desc: 'Recreate the album-cover browsing style for music and media, with auto-width slides letting neighbours peek in at the sides.' },
+      { icon: '🖼️', title: 'Thumbnail synced galleries', desc: 'Compare with the [Swiper thumbnail synced gallery](/ui-snippets/swiper-thumbnail-synced-gallery/) when a plain image strip suits the product better than 3D.' },
+      { icon: '🎓', title: '3D transforms in sliders', desc: 'Experiment with rotate, depth, stretch and modifier values, with slide shadows reinforcing the sense of depth.' },
     ],
     faqs: [
       { q: 'Why can\'t I see the side slides in coverflow?', a: 'Ensure centeredSlides is true, slidesPerView is "auto" with a fixed slide width in CSS, and the container allows overflow so neighbours are visible.' },

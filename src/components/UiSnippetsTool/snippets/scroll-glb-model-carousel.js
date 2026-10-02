@@ -274,12 +274,11 @@ Add a fourth entry to \`GALLERY\` (the slot math adapts automatically), change \
       { title: 'Slider + Ctrl/Cmd-scroll zoom', text: `Zoom is an explicit, opt-in gesture, never a hijacked plain scroll wheel.` },
     ],
     useCases: [
-      { title: 'Multi-product scroll showcases', text: `Walk a visitor through several real 3D products in one continuous scroll gallery.` },
-      { title: 'Portfolio and case-study reels', text: `Present multiple 3D assets or projects as one scroll-driven turntable gallery.` },
-      { title: 'glTF/ScrollTrigger teaching demos', text: `A complete, real example of scroll-scrubbing which object is currently in view.` },
-      { title: 'Museum/collectible rotating exhibits', text: `Bring several artifact models into view in turn as part of a scroll narrative.` },
-      { title: 'Alongside the single-model turntable', text: `Compare against [scroll-scrubbed GLB turntable](/ui-snippets/scroll-glb-duck-turntable-scrub/)'s single-model version.` },
-      { title: 'Alongside the comparison viewer', text: `Pair with [GLB model comparison viewer](/ui-snippets/glb-model-comparison-viewer/) for a non-scroll side-by-side look.` },
+      { title: 'Multi-product showcases', text: 'Walk a visitor through several products on one rotating turntable, with all three real glTF models staying loaded so nothing reloads when scrolling back.' },
+      { title: 'Portfolio and case study reels', text: 'Present multiple 3D assets in one scene, with the whole group\'s rotation a pure function of scroll progress.' },
+      { title: 'glTF and ScrollTrigger teaching', text: 'Study a complete real example of multi-model loading, with each model having its own placeholder fallback if its file fails.' },
+      { title: 'Rotating museum exhibits', text: 'Bring several artefacts into one rotating museum exhibit, comparing against the single-model [scroll GLB duck turntable](/ui-snippets/scroll-glb-duck-turntable-scrub/) for contrast.' },
+      { title: 'Comparison companions', text: 'Pair with the [GLB model comparison viewer](/ui-snippets/glb-model-comparison-viewer/) so visitors can both browse models by scrolling and compare two side by side.' },
       { icon: 'CODE', title: 'Related: Scroll-Scrubbed GLB Motion Trail', desc: 'See the [Scroll-Scrubbed GLB Motion Trail](/ui-snippets/scroll-glb-motion-trail-scrub/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

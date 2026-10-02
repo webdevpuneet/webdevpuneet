@@ -139,12 +139,11 @@ Swap the five benefits for whatever actually differentiates your list — cadenc
       { title: 'Zero dependencies', text: `Plain HTML, CSS, and vanilla JS — no library required.` },
     ],
     useCases: [
-      { title: 'Independent newsletters', text: `Lead a Substack or Beehiiv landing page with concrete reasons to subscribe.` },
-      { title: 'Content marketing sites', text: `Pair with a [newsletter signup](/ui-snippets/newsletter-signup/) block deeper on the page.` },
-      { title: 'Launch promotions', text: `Sit this hero below an [announcement bar](/ui-snippets/announcement-bar/) for a limited push.` },
-      { title: 'Media and publication homepages', text: `Anchor the homepage around list growth as the primary goal.` },
-      { title: 'Course or community waitlists', text: `Reframe benefits around what a weekly digest of the community includes.` },
-      { title: 'Learning objection-preempting copy', text: `A reference for turning vague value props into a specific checklist.` },
+      { title: 'Independent newsletters', text: 'Lead a Substack or Beehiiv style landing page with a validated email form beside a concrete benefit checklist.' },
+      { title: 'Content marketing sites', text: 'Pair with a [newsletter signup](/ui-snippets/newsletter-signup/) block lower on the page, using native `checkValidity()` instead of a hand-written regex.' },
+      { title: 'Launch promotions', text: 'Sit below an [announcement bar](/ui-snippets/announcement-bar/), with an error that clears the instant the visitor edits the field.' },
+      { title: 'Media and publication homepages', text: 'Anchor a homepage around signup, with a committed success state that disables the button and input to prevent a double submission.' },
+      { title: 'Waitlists and objection-preempting copy', text: 'Reframe benefits for course or community waitlists, answering objections like weekly not daily and unsubscribe anytime before they are raised.' },
       { icon: 'CODE', title: 'Related: Hero with Floating Glassmorphic Cards', desc: 'See the [Hero with Floating Glassmorphic Cards](/ui-snippets/hero-glassmorphic-card-float/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

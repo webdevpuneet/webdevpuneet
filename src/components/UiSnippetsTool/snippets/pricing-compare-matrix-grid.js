@@ -137,12 +137,11 @@ Add rows or columns freely — the sticky rules apply by element type (\`thead t
       { title: 'Row-hover highlight', text: 'Small JS enhancement to track a row while scrolling.' },
     ],
     useCases: [
-      { title: 'SaaS pricing pages', text: 'A dense alternative to [pricing feature table](/ui-snippets/pricing-feature-table/).' },
-      { title: 'Enterprise sales collateral', text: 'Compare against [enterprise pricing](/ui-snippets/enterprise-pricing/) tiers.' },
-      { title: 'Product spec sheets', text: 'Any large row-by-column technical comparison.' },
-      { title: 'Competitor comparison pages', text: 'Extend columns to include competitor products.' },
-      { title: 'Internal admin dashboards', text: 'Reuse the sticky-both-axes pattern for large data tables.' },
-      { title: 'Documentation sites', text: 'Compare plan or API tier limits at a glance.' },
+      { title: 'Dense SaaS plan comparisons', text: 'Offer a dense alternative to a [pricing feature table](/ui-snippets/pricing-feature-table/), with four plans and fourteen rows where header row and first column both stay pinned at once.' },
+      { title: 'Enterprise sales collateral', text: 'Compare against [enterprise pricing](/ui-snippets/enterprise-pricing/) tiers in a document buyers can scroll without losing track of which plan or feature row they are reading.' },
+      { title: 'Product specification sheets', text: 'Present any large row-by-column technical comparison, using `border-collapse: separate` to avoid the sticky rendering bugs that collapsed borders can cause.' },
+      { title: 'Competitor comparison pages', text: 'Extend the plan columns to include competitors, with a correct z-index order of corner above header above first column above body cells.' },
+      { title: 'Admin dashboards and API tier docs', text: 'Reuse the sticky-both-axes pattern for internal data grids, or compare plan and API tier limits at a glance in documentation.' },
       { icon: 'CODE', title: 'Related: Commitment Length Discount Ladder', desc: 'See the [Commitment Length Discount Ladder](/ui-snippets/pricing-commitment-discount-ladder/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

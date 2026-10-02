@@ -131,10 +131,11 @@ Change tracking is a small addition with a big effect. The cellEdited event adds
       'Double-click to edit so casual clicks never change data',
     ],
     useCases: [
-      { icon: 'ADMIN', title: 'Inventory and catalogue editors', desc: `Let staff fix prices and stock inline. For a read-only explorer with filters see the [sortable Tabulator grid](/ui-snippets/tabulator-sortable-filterable-grid/).` },
-      { icon: 'MONEY', title: 'Budgeting and invoice line items', desc: `Edit amounts and quantities with validation before submitting.` },
-      { icon: 'DASH', title: 'Bulk data cleanup tools', desc: `Correct many records quickly with visible change tracking and undo.` },
-      { icon: 'LEARN', title: 'Learning blocking versus highlight validation', desc: `See how the two validationMode choices change the editing experience.` },
+      { icon: '📦', title: 'Inventory and catalogue editors', desc: 'Let staff fix prices and stock levels in place, with typed editors and a labelled dropdown for fixed choices.' },
+      { icon: '🧾', title: 'Budgeting and invoice lines', desc: 'Edit amounts and quantities with rule-based validation, including a regular expression for a correctly formatted SKU.' },
+      { icon: '🧹', title: 'Bulk data cleanup', desc: 'Correct many records quickly in bulk cleanup tools, with dirty-cell tracking showing exactly which cells changed before anything is finally saved.' },
+      { icon: '🎓', title: 'Validation mode comparison', desc: 'See how `validationMode: \'highlight\'` flags invalid cells without trapping the user, unlike blocking validation, and compare with the [Tabulator sortable filterable grid](/ui-snippets/tabulator-sortable-filterable-grid/).' },
+      { icon: '↩️', title: 'Safe editing workflows', desc: 'Add and delete rows with undo and redo available, and gate saving behind `table.validate()` so invalid data never leaves the grid.' },
     ],
     faqs: [
       { q: 'What is the difference between validationMode blocking and highlight?', a: 'Blocking keeps the cell in edit mode until the value is valid. Highlight accepts the value but marks the cell invalid, so you can gate the save instead.' },

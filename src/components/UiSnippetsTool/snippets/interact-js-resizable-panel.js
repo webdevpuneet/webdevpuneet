@@ -174,12 +174,11 @@ This exact data-x/data-y plus edges/deltaRect pattern is the standard interact.j
       { title: 'Touch-ready', text: 'touch-action: none on the panel lets the same interactions work with pointer/touch input.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'Dashboard widget panels', text: 'Movable, resizable inspector or chart panels in an admin or analytics UI.' },
-      { icon: 'DESIGN', title: 'Design tool floating palettes', text: 'Tool palettes and property inspectors that users can reposition and resize.' },
-      { icon: 'FLOW', title: 'Multi-window web apps', text: 'Lightweight in-page "windows" for apps that mimic a desktop environment.' },
-      { icon: 'FORM', title: 'Configurable split views', text: 'A base for resizable content panes without a heavier layout library.' },
-      { icon: 'LEARN', title: 'Teaching interact.js fundamentals', text: 'A clear reference for the data-x/data-y and deltaRect idioms used throughout the library.' },
-      { icon: 'CODE', title: 'Prototyping IDE-style layouts', text: 'Quick scaffolding for panel-based tools before committing to a full layout engine.' },
+      { title: 'Dashboard widget panels', text: 'Build movable, resizable inspector or chat panels, with drag limited to the title bar through `allowFrom`.' },
+      { title: 'Design tool palettes', text: 'Create floating property and tool palettes for design tools that can be resized from any edge or corner by the user.' },
+      { title: 'Multi-window web apps', text: 'Provide lightweight in-page windows, with position stored in `data-x` and `data-y` so no layout is read on every frame.' },
+      { title: 'Configurable split views', text: 'Use as a base for resizable content panes, applying `event.deltaRect.left` and `top` so left and top resizes shift the tracked origin correctly.' },
+      { title: 'Interact.js and IDE layout learning', text: 'Learn how drag and resize avoid corrupting each other\'s idea of position, and prototype IDE-style panel layouts quickly.' },
     ],
     faqs: [
       { q: 'Why store position in data-x/data-y instead of just reading the element\'s current transform or bounding rect?', a: 'Reading getBoundingClientRect() forces a synchronous layout recalculation, which is expensive to do on every pointermove event. Reading back a CSS transform string would require parsing it. Storing the running x/y as plain numbers in data attributes avoids both -- it is pure arithmetic on values your own code already owns, updated by simply adding event.dx/event.dy each move.' },

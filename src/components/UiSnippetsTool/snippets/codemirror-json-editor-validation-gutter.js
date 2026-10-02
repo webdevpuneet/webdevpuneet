@@ -230,10 +230,11 @@ The surrounding UI turns diagnostics into workflow. A status pill shows Valid JS
       'Lint helper registered by name with registerHelper',
     ],
     useCases: [
-      { icon: 'CODE', title: 'Config and settings editors', desc: `Let users edit JSON configuration safely. For a general-purpose editor with folding and themes see the [CodeMirror editor snippet](/ui-snippets/codemirror-editor-line-numbers-themes/).` },
-      { icon: 'ADMIN', title: 'API request and payload builders', desc: `Validate request bodies before sending them, and show exactly what is wrong.` },
-      { icon: 'DASH', title: 'Feature-flag and schema editing', desc: `Edit flag definitions or form schemas with immediate feedback.` },
-      { icon: 'LEARN', title: 'Learning error location', desc: `A worked example of turning a parser's character offset into an editor position.` },
+      { icon: '⚙️', title: 'Configuration editors', desc: 'Let users edit JSON settings with lint markers in the gutter and underlined ranges that point at exactly what is wrong.' },
+      { icon: '🔌', title: 'API request builders', desc: 'Validate request bodies before sending, with a clickable problems list that moves the cursor to the error.' },
+      { icon: '🚩', title: 'Feature flag and schema editing', desc: 'Edit flag definitions or schemas safely, using debounced linting so that validation only runs once the user pauses typing.' },
+      { icon: '🎓', title: 'Error location learning', desc: 'See a worked example of turning a parser\'s error offset into a line and column, which a plain textarea never reports.' },
+      { icon: '💻', title: 'General code editing', desc: 'Compare with [CodeMirror line numbers and themes](/ui-snippets/codemirror-editor-line-numbers-themes/) for editing languages other than JSON in the same editor.' },
     ],
     faqs: [
       { q: 'Why does only one error show at a time?', a: 'The checker stops at the first syntax error, like JSON.parse. To report several at once, use a tolerant parser such as jsonc-parser or a JSON-schema validator.' },

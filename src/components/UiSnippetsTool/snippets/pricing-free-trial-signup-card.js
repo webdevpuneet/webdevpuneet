@@ -179,12 +179,11 @@ Swap the 14-day window and reminder timing for your own trial length, wire the s
       { title: 'Zero dependencies', text: 'Pure HTML, CSS, and vanilla JS — no library or CDN needed.' },
     ],
     useCases: [
-      { title: 'SaaS trial signup', text: 'Reduce anxiety before the primary conversion moment.' },
-      { title: 'Freemium upgrade paths', text: 'Pair with a [pricing card](/ui-snippets/pricing-card/) below the fold.' },
-      { title: 'Landing page hero', text: 'A focused alternative to a full multi-field signup form.' },
-      { title: 'Post-trial reminders', text: 'Reinforce with a [trial countdown](/ui-snippets/trial-countdown/).' },
-      { title: 'Email capture experiments', text: 'A/B test badge placement and copy on conversion.' },
-      { title: 'Onboarding flows', text: 'The first screen before account setup begins.' },
+      { title: 'SaaS trial signups', text: 'Reduce anxiety before the main conversion by putting a no-card badge first, so the reassurance is read before any fine print.' },
+      { title: 'Freemium upgrade paths', text: 'Pair with a [pricing card](/ui-snippets/pricing-card/) below the form, using live regex validation on every keystroke rather than only on blur or submit.' },
+      { title: 'Landing page hero forms', text: 'Offer a focused alternative to a long multi-field form, with a fading checkmark and a height-animated inline error for valid and invalid states.' },
+      { title: 'Post-trial reminders', text: 'Reinforce the message with a [trial countdown](/ui-snippets/trial-countdown/), and make the submitted state spell out the trial length and what happens when it ends.' },
+      { title: 'Email capture experiments', text: 'A/B test badge placement and wording, with submit-time re-validation guaranteeing the success state only appears for a plausible email address.' },
       { icon: 'CODE', title: 'Related: Plan Comparison with Differences Toggle', desc: 'See the [Plan Comparison with Differences Toggle](/ui-snippets/pricing-diff-comparison-table/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

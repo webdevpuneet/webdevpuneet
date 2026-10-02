@@ -129,10 +129,11 @@ document.addEventListener('keydown', function(e) {
       'Zero dependencies — pure HTML, CSS, and JavaScript',
     ],
     useCases: [
-      { icon: 'DOC', title: 'Blog & Article Pages', desc: 'Letting readers share a post directly to their preferred platform' },
-      { icon: 'APP', title: 'Product & Landing Pages', desc: 'Referral or word-of-mouth sharing, paired with a [download button](/ui-snippets/download-button/) for the primary action' },
-      { icon: 'CODE', title: 'Snippet & Content Libraries', desc: 'Sharing a specific item\'s permalink, similar to this share menu\'s own use on a UI snippets page' },
-      { icon: 'PEOPLE', title: 'Event & Invite Pages', desc: 'Sharing event details or invite links across social and messaging platforms' },
+      { icon: '📝', title: 'Blog and article pages', desc: 'Let readers share a post from one compact dropdown, with a read-only URL field that stays selectable even if the clipboard fails.' },
+      { icon: '🛍️', title: 'Product and landing pages', desc: 'Support referral and word-of-mouth sharing, with brand-coloured icons for X, LinkedIn, Email and WhatsApp in a tidy two-by-two grid.' },
+      { icon: '🔗', title: 'Snippet and content libraries', desc: 'Share a specific item\'s permalink in a snippet library, with `navigator.clipboard.writeText()` changing the button label and colour in place.' },
+      { icon: '🎟️', title: 'Event and invite pages', desc: 'Share event details or invite links, auto-selecting the URL text for manual copy when the Clipboard API is unavailable.' },
+      { icon: '📥', title: 'Download and share pairing', desc: 'Pair with a [download button](/ui-snippets/download-button/) on resource pages so people can both save a file and pass it on.' },
     ],
     faqs: [
       { q: 'How do I make the copy button actually copy the URL?', a: 'It already does, via navigator.clipboard.writeText(input.value) — just replace the demo #linkInput value with your page\'s real URL, ideally set dynamically from window.location.href.' },

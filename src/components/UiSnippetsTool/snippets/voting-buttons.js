@@ -144,12 +144,11 @@ Replace the \`DATA\` array with your posts and send a request in \`cast()\` (the
       { title: 'No dependency', text: `Pure HTML/CSS/JS — no framework, no icon library.` },
     ],
     useCases: [
-      { title: 'Feature request boards', text: `Let users vote ideas up the list, paired with a [poll widget](/ui-snippets/poll-widget/).` },
-      { title: 'Comment threads', text: `Score replies the way Reddit does inside a [comment thread](/ui-snippets/comment-thread/).` },
-      { title: 'Q&A and forums', text: `Surface the best answers Stack Overflow-style above a [rating breakdown](/ui-snippets/rating-breakdown/).` },
-      { title: 'Product feedback', text: `Collect signal next to an [NPS survey](/ui-snippets/nps-survey/) or [helpful feedback widget](/ui-snippets/helpful-feedback-widget/).` },
-      { title: 'Changelog reactions', text: `Gauge interest on shipped items in a [changelog feed](/ui-snippets/changelog-feed/).` },
-      { title: 'Learning the pattern', text: `A clean reference for three-state toggle voting logic.` },
+      { title: 'Feature request boards', text: 'Let users vote ideas up the list, with three states of up, neutral and down and click-to-undo on the active arrow.' },
+      { title: 'Comment thread scoring', text: 'Score replies the way Reddit does inside a [comment thread](/ui-snippets/comment-thread/), using base plus vote so rapid toggling never drifts.' },
+      { title: 'Q&A and forums', text: 'Surface the best answers Stack Overflow-style, with green for positive scores, red for negative and neutral at zero.' },
+      { title: 'Product feedback collection', text: 'Collect signals next to an [NPS survey](/ui-snippets/nps-survey/) or [helpful feedback widget](/ui-snippets/helpful-feedback-widget/), with a bump animation on every change.' },
+      { title: 'Polls and changelog reactions', text: 'Gauge interest in shipped items on a [changelog feed](/ui-snippets/changelog-feed/), or pair with a [poll widget](/ui-snippets/poll-widget/) for structured questions.' },
     ],
     faqs: [
       { q: 'How does clicking an arrow twice work?', a: `Voting is three-state. The cast() function uses votes[id] = (votes[id] === dir) ? 0 : dir, so clicking the arrow you already selected sets the vote back to neutral and the score returns to its base. Clicking the opposite arrow switches direction in a single step, moving the displayed score by two.` },

@@ -130,12 +130,11 @@ Because it's the canonical structure behind dashboards, docs sites, and admin pa
       { title: 'Drop-in app shell', text: `The canonical structure for dashboards, docs, and admin panels.` },
     ],
     useCases: [
-      { title: 'Dashboard and admin shells', text: `Use as the frame for an admin app — drop a [dashboard layout](/ui-snippets/dashboard-layout/) into the main column.` },
-      { title: 'Documentation sites', text: `Left nav for sections, right aside for on-page links, alongside a [table of contents](/ui-snippets/table-of-contents/).` },
-      { title: 'Content and article pages', text: `Main article with a sidebar of related links next to a [sidebar nav](/ui-snippets/sidebar-nav/).` },
-      { title: 'Web app starting point', text: `A responsive shell to build any multi-section app on.` },
-      { title: 'Settings and account areas', text: `Nav of sections beside a settings main, complementing a [settings panel](/ui-snippets/settings-panel/).` },
-      { title: 'Learning CSS grid layout', text: `The clearest demo of grid replacing floats — compare with a [bento grid](/ui-snippets/bento-grid/).` },
+      { title: 'Dashboard and admin shells', text: 'Use as the frame for an admin app with a [dashboard layout](/ui-snippets/dashboard-layout/) inside, with a header and footer spanning the full width.' },
+      { title: 'Docs three-column shells', text: 'Place a [sidebar nav](/ui-snippets/sidebar-nav/) for sections on the left and a [table of contents](/ui-snippets/table-of-contents/) in the right aside.' },
+      { title: 'Content and article pages', text: 'Present a main article beside related links, with the columns in natural source order and no float tricks.' },
+      { title: 'Web app starting points', text: 'Begin any multi-section interface from a responsive shell, with the aside dropping below at tablet width and columns collapsing on phones.' },
+      { title: 'Settings areas and grid learning', text: 'Put a nav of sections beside a [settings panel](/ui-snippets/settings-panel/), or compare with a [bento grid](/ui-snippets/bento-grid/) while learning how `auto 1fr auto` rows pin the footer.' },
       { icon: 'CODE', title: 'Related: Resizable Split Pane', desc: 'See the [Resizable Split Pane](/ui-snippets/resizable-split-pane/) for a related layouts pattern worth pairing with this one.' },
     ],
     faqs: [

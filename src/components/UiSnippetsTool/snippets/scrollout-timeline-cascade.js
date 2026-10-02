@@ -129,10 +129,11 @@ Setting \`once: false\` (ScrollOut's default is actually to keep tracking, but i
       { title: 'Default selector convention', text: 'Uses ScrollOut\'s own [data-scroll] default attribute as the semantic marker, not just a side effect.' },
     ],
     useCases: [
-      { icon: 'FLOW', title: 'Company timelines', text: 'A history or roadmap page where entries reveal in sequence as the visitor scrolls.' },
-      { icon: 'LEARN', title: 'Teaching the sensor/engine split', text: 'A clean contrast against anime.js or GSAP-driven scroll snippets in the same library.' },
-      { icon: 'DESIGN', title: 'Changelog pages', text: 'Reveal release notes one at a time down a vertical spine.' },
-      { icon: 'CODE', title: 'Lightweight reveal without a dependency', text: 'A minimal footprint alternative when a full animation library is overkill.' },
+      { title: 'Company timelines', text: 'Build a history or roadmap where entries animate in and out as they enter view, with ScrollOut writing only `data-scroll` and CSS doing all the animating.' },
+      { title: 'Sensor and engine split teaching', text: 'Contrast with a library that owns delay, keyframes and easing, to see how separating detection from animation keeps JavaScript tiny.' },
+      { title: 'Changelog pages', text: 'Reveal release notes one at a time down a page, with `once: false` allowing entries to animate back out and in again.' },
+      { title: 'Lightweight reveals', text: 'Add scroll-triggered motion with a minimal footprint, tuning `threshold: 0.35` so entries do not fire when barely visible.' },
+      { title: 'Designer-owned animation', text: 'Let designers edit transform, opacity and timing in CSS alone, while the script remains a single attribute toggle.' },
     ],
     faqs: [
       { q: 'Does ScrollOut animate the timeline entries?', a: 'No. ScrollOut only writes a data-scroll="in" or data-scroll="out" attribute onto each .stc-entry based on visibility. Every visual change — the fade, the slide, the timing — comes from the CSS transition and the [data-scroll="in"] attribute selector, not from ScrollOut.' },

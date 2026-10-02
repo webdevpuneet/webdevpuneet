@@ -150,12 +150,11 @@ The cards sit in an auto-fill grid that reflows from two or three columns down t
       { title: 'Responsive auto-fill grid', text: `Cards reflow from multiple columns to one on narrow screens for any device.` },
     ],
     useCases: [
-      { title: 'SaaS settings integrations page', text: `The standard "connected apps" directory in product settings — pair with [notification preferences](/ui-snippets/notification-preferences/) nearby in settings.` },
-      { title: 'App marketplaces and directories', text: `Browse and connect available integrations in a marketplace view.` },
-      { title: 'Onboarding connect steps', text: `Prompt new users to connect their key tools during setup, alongside an [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/).` },
-      { title: 'Workspace and team settings', text: `Manage which external services a workspace has connected.` },
-      { title: 'Automation and workflow tools', text: `Show connectable services for building workflows, like a Zapier-style app directory.` },
-      { title: 'Learning state-driven cards', text: `A reference for whole-card state changes and connect/disconnect toggles — compare with a [radio card group](/ui-snippets/radio-card-group/) for single-select cards.` },
+      { title: 'SaaS settings pages', text: 'Provide the standard connected apps page, with connected cards given a green border, tint, checkmark and status label.' },
+      { title: 'App marketplaces and directories', text: 'Browse available integrations with an All or Connected filter, and a deliberate red Disconnect action that signals stopping data flow.' },
+      { title: 'Onboarding connect steps', text: 'Prompt new users to connect their tools, following an [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/) towards completion of setup.' },
+      { title: 'Workspace and team settings', text: 'Manage which external services are linked, alongside [notification preferences](/ui-snippets/notification-preferences/) for how each integration may alert people.' },
+      { title: 'Automation tools and state-driven cards', text: 'Show connectable services in a workflow tool, comparing with a [radio card group](/ui-snippets/radio-card-group/) and studying whole-card state styling.' },
       { icon: 'CODE', title: 'Related: Team Member Card Grid', desc: 'See the [Team Member Card Grid](/ui-snippets/team-member-card-grid/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

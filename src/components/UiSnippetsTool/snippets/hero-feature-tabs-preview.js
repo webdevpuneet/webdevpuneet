@@ -177,12 +177,11 @@ Replace the four feature names, icons, and panel content with your own product's
       { title: 'Responsive tab wrapping', text: `Tabs shrink and wrap gracefully on narrow screens.` },
     ],
     useCases: [
-      { title: 'Multi-feature SaaS product heroes', text: `Show breadth of capability without a single hero graphic doing all the work.` },
-      { title: 'Platform and suite marketing pages', text: `Pair with [feature tabs showcase](/ui-snippets/feature-tabs-showcase/) further down the page for depth.` },
-      { title: 'Developer tool landing pages', text: `Swap panels for code, API, and dashboard previews.` },
-      { title: 'Enterprise software comparison pages', text: `Use the Security tab pattern to surface compliance credentials early.` },
-      { title: 'Onboarding and product-tour pages', text: `Preview each core workflow before a visitor signs up.` },
-      { title: 'Learning accessible tab-panel patterns', text: `A reference for wiring real ARIA state to a click-driven UI.` },
+      { title: 'Multi-feature SaaS heroes', text: 'Show breadth of capability above the fold, with tabs for Analytics, Automation, Integrations and Security each swapping in a distinct mock panel.' },
+      { title: 'Platform and suite pages', text: 'Pair with a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/) lower on the page so the hero introduces and the section explores.' },
+      { title: 'Developer tool landing pages', text: 'Swap panels for code, API and CLI views, using `role="tablist"` and `aria-selected` so assistive technology tracks the active tab.' },
+      { title: 'Enterprise comparison pages', text: 'Use the Security tab to answer buyer concerns early, with a short fade-in keyframe on every switch rather than an abrupt snap.' },
+      { title: 'Onboarding and product tours', text: 'Preview each core workflow in turn, as a reference for accessible tab and panel patterns with genuine click-driven state.' },
       { icon: 'CODE', title: 'Related: Product Launch Countdown Hero', desc: 'See the [Product Launch Countdown Hero](/ui-snippets/hero-countdown-launch/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

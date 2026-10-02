@@ -145,10 +145,11 @@ Each accepted \`File\` object is pushed into a local \`files\` array. \`formatSi
       'Fully self-contained vanilla JS with no external dependencies',
     ],
     useCases: [
-      { icon: 'FORM', title: 'File upload forms', desc: 'A ready-made dropzone for attachments, documents, or media uploads.' },
-      { icon: 'APP', title: 'Admin panels and dashboards', desc: 'Bulk file intake for CMS media libraries or document management tools.' },
-      { icon: 'CODE', title: 'Reference for the File and DataTransfer APIs', desc: 'Shows how to read files identically whether dropped or selected via input.' },
-      { icon: 'DESIGN', title: 'Onboarding and import flows', desc: 'A friendly first step for CSV imports, resume uploads, or asset intake.' },
+      { icon: '📎', title: 'Attachment forms', desc: 'Offer a ready-made dropzone for attachments, accepting files dropped from the desktop or chosen through a hidden multiple file input when the zone is clicked.' },
+      { icon: '🗂️', title: 'Admin media intake', desc: 'Handle bulk file intake for CMS and admin panels, with each file listed alongside a readable size and a colour-coded extension badge.' },
+      { icon: '📚', title: 'File and DataTransfer API reference', desc: 'Study how `dragover`, `dragleave` and `drop` handlers work together with the File API, including a visual drag-active state.' },
+      { icon: '📥', title: 'Import flows', desc: 'Give CSV or document imports a friendly first step, with a remove button on each listed file so mistakes are easy to undo.' },
+      { icon: '📤', title: 'Uploads with progress', desc: 'Extend with a per-file queue like the [upload progress](/ui-snippets/upload-progress/) pattern when transfers take noticeable time and users need feedback.' },
     ],
     faqs: [
       { q: 'Does this actually upload files to a server?', a: 'No, this snippet only handles client-side file selection and lists the chosen files with their metadata. Wire the addFiles function or the files array to an actual upload request (e.g. fetch with FormData) to send them somewhere.' },

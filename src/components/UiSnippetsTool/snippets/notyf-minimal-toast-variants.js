@@ -116,12 +116,11 @@ Register any other type your app needs the same way — a distinct \`type\` stri
       { title: 'Consistent positioning', text: `All toasts share one corner and stacking behavior.` },
     ],
     useCases: [
-      { title: 'Form save and validation feedback', text: `Success/error toasts for the most common app actions.` },
-      { title: 'Session and connectivity warnings', text: `Sticky toasts for messages users must actually notice.` },
-      { title: 'Update and announcement notices', text: `Pair with the [notification stack with undo](/ui-snippets/toastify-notification-stack-undo/) elsewhere in this collection for a reversible-action variant.` },
-      { title: 'System status indicators', text: `Info-level toasts for non-urgent state changes.` },
-      { title: 'Admin dashboard alerts', text: `A consistent four-severity toast vocabulary.` },
-      { title: 'Learning Notyf customization', text: `A clear reference for registering and styling custom types.` },
+      { title: 'Form save and validation feedback', text: 'Use the two built-in success and error types for form save and validation feedback, with no configuration beyond loading the library itself.' },
+      { title: 'Session and connectivity warnings', text: 'Show a sticky toast for messages that must be acknowledged, using `duration: 0` with `dismissible` so it never auto-hides.' },
+      { title: 'Update and announcement notices', text: 'Pair with [Toastify notification stack undo](/ui-snippets/toastify-notification-stack-undo/) in a project that uses both libraries for different kinds of message.' },
+      { title: 'System status indicators', text: 'Add info and warning types through the `types` array at construction, styled by their own generated class names.' },
+      { title: 'Four-severity admin alerts', text: 'Create a consistent severity vocabulary for dashboards, as a reference for registering custom toast types in a deliberately minimal library.' },
     ],
     faqs: [
       { q: 'Why do success and error work immediately but info and warning need extra setup?', a: `Notyf ships with exactly two built-in toast types — success and error — with their own default styling and dedicated shortcut methods (notyf.success(), notyf.error()) that work with zero configuration. Any other type, including info and warning, has to be explicitly declared in the types array passed to the Notyf constructor before notyf.open() will recognize and render it at all.` },

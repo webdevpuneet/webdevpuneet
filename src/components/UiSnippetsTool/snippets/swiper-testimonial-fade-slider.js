@@ -102,10 +102,11 @@ Autoplay is configured for reading. The delay is a generous six seconds, pauseOn
       'Initial avatars generated from data, no images',
     ],
     useCases: [
-      { icon: 'STAR', title: 'Landing-page social proof', desc: `Rotate customer quotes near a call to action. For a moving logo strip see the [Swiper logo marquee](/ui-snippets/swiper-infinite-logo-marquee/).` },
-      { icon: 'SHOP', title: 'Product and review sections', desc: `Highlight standout reviews with faces and names.` },
-      { icon: 'PEOPLE', title: 'Team and client stories', desc: `Let visitors browse stories by the person telling them.` },
-      { icon: 'LEARN', title: 'Learning fade and autoHeight', desc: `See how crossFade and autoHeight solve the two classic fade-slider bugs.` },
+      { icon: '💬', title: 'Calm social proof rotation', desc: 'Rotate customer quotes near a call to action, using a quiet crossfade so readers can finish a quote without motion pulling their eye away.' },
+      { icon: '⭐', title: 'Product review sections', desc: 'Highlight standout reviews with `autoHeight` so the container always fits the current quote and avoids a jumping layout.' },
+      { icon: '👥', title: 'Team and client stories', desc: 'Let visitors browse stories by their avatar, using custom buttons with `role="tab"` and `aria-selected` as pagination.' },
+      { icon: '🏢', title: 'Logo strip pairing', desc: 'Place above a [Swiper infinite logo marquee](/ui-snippets/swiper-infinite-logo-marquee/) so that quotes and customer logos support each other on the same page.' },
+      { icon: '🎓', title: 'Fade and autoHeight learning', desc: 'See how `crossFade` prevents quotes from overlapping mid-transition, with autoplay stopping whenever a user interacts with the slider.' },
     ],
     faqs: [
       { q: 'Why do two slides overlap during the fade?', a: 'Fade effect alone leaves both slides partly visible. Set fadeEffect: { crossFade: true } so the outgoing slide fades as the incoming one appears.' },

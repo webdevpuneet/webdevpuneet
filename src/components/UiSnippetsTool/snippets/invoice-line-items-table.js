@@ -212,12 +212,11 @@ Pair it with a [proration preview card](/ui-snippets/proration-preview-card/) fo
       { title: 'Framework-agnostic core', text: `Plain array + render function ports cleanly to React, Vue, or Angular state.` },
     ],
     useCases: [
-      { title: 'Invoicing tools', text: `Let a freelancer or SMB build an invoice before sending it — pair with an [invoice preview](/ui-snippets/invoice-preview/).` },
-      { title: 'Subscription upgrade flows', text: `Show itemized proration next to a [proration preview card](/ui-snippets/proration-preview-card/).` },
-      { title: 'Quote and estimate builders', text: `Let sales reps assemble a line-itemized quote with live totals.` },
-      { title: 'Checkout review screens', text: `Show an editable cart summary before handing off to a [checkout form](/ui-snippets/checkout-form/).` },
-      { title: 'Expense reports', text: `Adapt the same pattern for itemized expense entry with a running total.` },
-      { title: 'Admin billing tools', text: `Give support staff a way to adjust a customer's invoice before it's finalized.` },
+      { title: 'Invoicing tools', text: 'Let a freelancer or small business build an invoice, with quantity times unit price recomputed per row as the user types.' },
+      { title: 'Subscription upgrade flows', text: 'Show itemised proration next to a [proration preview card](/ui-snippets/proration-preview-card/), with subtotal, tax and total updating instantly.' },
+      { title: 'Quote and estimate builders', text: 'Let sales reps assemble line items, tracking each row by a stable id rather than array index so edits never land on the wrong line.' },
+      { title: 'Checkout review screens', text: 'Show an editable cart summary before payment, perhaps ahead of a [checkout form](/ui-snippets/checkout-form/), with a tax rate that is a live percentage input.' },
+      { title: 'Expense and admin billing tools', text: 'Adapt for itemised expense reports, or give support staff a way to adjust a customer\'s charges, using an [invoice preview](/ui-snippets/invoice-preview/) for the final document.' },
       { icon: 'CODE', title: 'Related: Sticky Table Header', desc: 'See the [Sticky Table Header](/ui-snippets/sticky-table-header/) for a related tables pattern worth pairing with this one.' },
     ],
     faqs: [

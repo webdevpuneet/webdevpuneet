@@ -113,12 +113,11 @@ Tune \`smooth\` (0.8 subtle, 2 dramatic), spread \`data-speed\`/\`data-lag\` acr
       { title: 'A11y preserved', text: `Keyboard, anchors, find-in-page still work.` },
     ],
     useCases: [
-      { title: 'Agency portfolios', text: `The signature glide plus depth; add scrubbed scenes from [scroll parallax layers](/ui-snippets/scroll-parallax-layers/).` },
-      { title: 'Product marketing pages', text: `Float screenshots at different speeds around [sticky scroll features](/ui-snippets/scroll-sticky-features/).` },
-      { title: 'Editorial longform', text: `Weight and lag for photo essays, with a [reading time left](/ui-snippets/scroll-reading-time/) pill outside the wrapper.` },
-      { title: 'Hero depth', text: `Layered hero elements like [hero parallax grid](/ui-snippets/hero-parallax-grid/), driven by attributes.` },
-      { title: 'Interactive resumes', text: `Smooth single-pagers with [scrollto anchor nav](/ui-snippets/scrollto-anchor-nav/) jumps.` },
-      { title: 'Mouse-parallax pairing', text: `Combine with pointer depth from [parallax hero](/ui-snippets/parallax-hero/).` },
+      { title: 'Agency portfolios', text: 'Give a site the signature glide plus depth, combined with [scroll parallax layers](/ui-snippets/scroll-parallax-layers/) in individual sections.' },
+      { title: 'Product marketing pages', text: 'Float screenshots at different speeds using `data-speed`, with the browser still scrolling natively and keeping its real scrollbar.' },
+      { title: 'Editorial long reads', text: 'Add weight and lag to photo essays, with content translating to catch up over 1.2 seconds and a [scroll reading time](/ui-snippets/scroll-reading-time/) pill for orientation.' },
+      { title: 'Layered hero depth', text: 'Build hero depth like a [hero parallax grid](/ui-snippets/hero-parallax-grid/), with elements compensating so they sit naturally when centred in the viewport.' },
+      { title: 'Interactive resumes', text: 'Smooth single-page resumes with a [scroll-to anchor nav](/ui-snippets/scrollto-anchor-nav/), or combine with pointer depth from a [parallax hero](/ui-snippets/parallax-hero/).' },
       { icon: 'CODE', title: 'Related: Shrink on Scroll Header', desc: 'See the [Shrink on Scroll Header](/ui-snippets/shrink-on-scroll-header/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

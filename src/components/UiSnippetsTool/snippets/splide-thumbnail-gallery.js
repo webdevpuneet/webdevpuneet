@@ -169,12 +169,11 @@ Replace the gradient placeholders with real \`<img>\` tags — keep the \`.splid
       { title: 'Scroll-friendly dragging', text: 'dragAngleThreshold 40 distinguishes swipes from page scrolls.' },
     ],
     useCases: [
-      { title: 'Product detail pages', text: 'The standard ecommerce gallery, above a [variant selector](/ui-snippets/variant-selector/).' },
-      { title: 'Real estate listings', text: 'Room-by-room photos where the strip acts as a floor plan index.' },
-      { title: 'Portfolio case studies', text: 'Step through project shots without leaving the page.' },
-      { title: 'Recipe and tutorial steps', text: 'Thumbnails double as a visual progress indicator.' },
-      { title: 'Lightbox source', text: 'Feed the active image into an [image lightbox](/ui-snippets/image-lightbox/).' },
-      { title: 'Learning slider syncing', text: 'A reference for navigation sliders and mount ordering.' },
+      { title: 'Ecommerce gallery with thumbnails', text: 'Build the standard ecommerce gallery with a large image above a row of thumbnails, kept in agreement by `main.sync(thumbs)` in one line.' },
+      { title: 'Real estate listings', text: 'Show room-by-room photos where the thumbnail strip follows the main image, with `isNavigation` giving thumbnails focus, click handling and ARIA roles.' },
+      { title: 'Project shot browsing', text: 'Step through project shots without a separate index tracker, with Splide marking the current thumbnail through an `is-active` class.' },
+      { title: 'Variant and lightbox pairings', text: 'Pair with a [variant selector](/ui-snippets/variant-selector/) so colour choices change the images, or feed the active image into an [image lightbox](/ui-snippets/image-lightbox/).' },
+      { title: 'Slider syncing reference', text: 'Learn why `sync()` must be called before `mount()`, the ordering rule that silently breaks synchronisation when reversed.' },
     ],
     faqs: [
       { q: 'Why must sync() be called before mount()?', a: 'sync() works by subscribing to the sliders internal move events, and mount() is what fires the setup those subscriptions depend on. Calling sync() after mounting produces no error and no warning — you simply get two independent sliders that ignore each other, which is hard to debug because the code looks correct.' },

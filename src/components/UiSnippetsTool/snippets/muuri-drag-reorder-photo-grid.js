@@ -116,11 +116,11 @@ Replace the gradient placeholders with real \`<img>\` tags (respecting \`aspect-
       { title: 'Responsive column count', text: 'Drops from 4 to 3 columns per row at narrow widths via a media query.' },
     ],
     useCases: [
-      { icon: 'DESIGN', title: 'Photo album managers', text: 'Let users manually curate photo order, with a shuffle for browsing inspiration.' },
-      { icon: 'APP', title: 'Product image reordering', text: 'Merchandising tools where admins set which product photo shows first.' },
-      { icon: 'FLOW', title: 'Onboarding/demo shuffles', text: 'A playful randomize action to show off animated repacking to new users.' },
-      { icon: 'STAR', title: 'Portfolio grids', text: 'Pair drag reordering with the [filterable masonry grid](/ui-snippets/muuri-filterable-masonry-grid/) for category filters too.' },
-      { icon: 'LEARN', title: 'Teaching Muuri sort()', text: 'A minimal, isolated reference for the sort/layout API distinct from filter or drag.' },
+      { title: 'Photo album managers', text: 'Let users curate photo order by hand, with other tiles previewing their new positions continuously while one tile is being dragged.' },
+      { title: 'Product image reordering', text: 'Give merchandising admins control over product image order, with a comparator-based `grid.sort()` available for programmatic changes as well.' },
+      { title: 'Shuffle demos', text: 'Add a playful randomise action that animates every tile to a new position in one layout pass through `{ layout: \'positions\' }`.' },
+      { title: 'Portfolio grids', text: 'Pair drag reordering with the filterable [Muuri masonry grid](/ui-snippets/muuri-filterable-masonry-grid/) for a gallery that is both sortable and categorised.' },
+      { title: 'Muuri sort learning', text: 'Study a minimal, isolated reference for how manual drag and randomised sort both call the same underlying layout engine.' },
     ],
     faqs: [
       { q: 'How does grid.sort() with Math.random() - 0.5 actually shuffle the tiles?', a: 'sort() accepts a comparator exactly like Array.prototype.sort. Returning Math.random() - 0.5 gives each pairwise comparison during the sort a roughly 50/50 chance of coming out positive or negative, which reorders the internal item list into an effectively shuffled sequence — the same trick commonly used to shuffle a plain JS array.' },

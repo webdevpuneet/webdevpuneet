@@ -127,12 +127,11 @@ Set \`START\`/\`END\` to your company's span, add cards (the mapping adapts), or
       { title: 'Fully reversible', text: `Scrolling up rewinds the decades.` },
     ],
     useCases: [
-      { title: 'Company history pages', text: `Scrub the founding-to-now story; a [vertical timeline](/ui-snippets/vertical-timeline/) can list the details after.` },
-      { title: 'Anniversary campaigns', text: `Celebrate 25 years interactively, ending in a [confetti celebration card](/ui-snippets/confetti-celebration-card/).` },
-      { title: 'Product evolution', text: `Version history by year; pair each era with [scroll phone screens](/ui-snippets/scroll-phone-screens/).` },
-      { title: 'Data histories', text: `Attach numbers to eras with a [scrollytelling chart](/ui-snippets/scroll-story-chart/).` },
-      { title: 'Museum and editorial', text: `Decade-by-decade exhibitions inside a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Event retrospectives', text: `Rewindable recaps; mark key moments with [scroll timeline dots](/ui-snippets/scroll-timeline-dots/).` },
+      { title: 'Company history pages', text: 'Scrub from the founding to today with a giant year counter, next to a [vertical timeline](/ui-snippets/vertical-timeline/) that lists the detail of each milestone.' },
+      { title: 'Anniversary campaigns', text: 'Celebrate 25 years interactively, ending with a [confetti celebration card](/ui-snippets/confetti-celebration-card/) when the counter reaches the present year.' },
+      { title: 'Product evolution stories', text: 'Walk through version history by year, pairing each era card with a [scroll phone screens](/ui-snippets/scroll-phone-screens/) view of how the interface looked then.' },
+      { title: 'Data histories', text: 'Attach numbers to eras with a [scroll story chart](/ui-snippets/scroll-story-chart/), where a proxy number tweened by scroll becomes the year display.' },
+      { title: 'Museum and event retrospectives', text: 'Run decade-by-decade exhibitions or rewindable recaps inside a [scroll pin story](/ui-snippets/scroll-pin-story/), or compare with [scroll timeline dots](/ui-snippets/scroll-timeline-dots/).' },
     ],
     faqs: [
       { q: 'How does the year number count with the scroll?', a: `GSAP tweens a plain object's y property from START to END on a pinned, scrubbed trigger; onUpdate rounds it into textContent. Tweens interpolate any numeric property, so the counter is pure math surfaced to the DOM. Rounding (not flooring) keeps year boundaries symmetric whether you scrub forward or backward.` },

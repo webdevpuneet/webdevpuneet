@@ -121,12 +121,11 @@ Tune duration/ease per distance (a common trick: scale duration by pixels travel
       { title: 'No double-easing', text: `scroll-behavior stays auto by design.` },
     ],
     useCases: [
-      { title: 'Landing page navs', text: `Section jumping for single-pagers; the highlight-only version is [scroll spy nav](/ui-snippets/scroll-spy-nav/).` },
-      { title: 'Docs sidebars', text: `Heading jumps that clear sticky headers, beside a [table of contents](/ui-snippets/table-of-contents/).` },
-      { title: 'Back-to-top controls', text: `scrollTo: 0 with easing powers a [scroll to top](/ui-snippets/scroll-to-top/) button.` },
-      { title: 'Onboarding walkthroughs', text: `Programmatic scrolls between steps in an [onboarding tour](/ui-snippets/onboarding-tour/).` },
-      { title: 'Smoothed pages', text: `Pair with [scroll smoother parallax](/ui-snippets/scroll-smoother-parallax/) — the plugins compose.` },
-      { title: 'Form error focus', text: `Ease to the first invalid field in an [inline validation form](/ui-snippets/inline-validation-form/).` },
+      { title: 'Single-page landing navs', text: 'Glide between sections on eased GSAP curves rather than the browser\'s fixed smooth scrolling, with a [scroll spy nav](/ui-snippets/scroll-spy-nav/) for highlighting.' },
+      { title: 'Documentation heading jumps', text: 'Clear sticky headers on arrival through `offsetY`, pairing with a [table of contents](/ui-snippets/table-of-contents/) for long guides.' },
+      { title: 'Back-to-top controls', text: 'Power an eased [scroll to top](/ui-snippets/scroll-to-top/) button using `scrollTo: 0`, with `autoKill` cancelling the tween the instant a user scrolls manually.' },
+      { title: 'Onboarding walkthroughs', text: 'Scroll programmatically between steps of an [onboarding tour](/ui-snippets/onboarding-tour/), with `replaceState` writing the hash without a jump.' },
+      { title: 'Smoothed pages and form errors', text: 'Pair with [scroll smoother parallax](/ui-snippets/scroll-smoother-parallax/) for smooth pages, or ease to the first invalid field in an [inline validation form](/ui-snippets/inline-validation-form/).' },
       { icon: 'CODE', title: 'Related: File Explorer Tree View', desc: 'See the [File Explorer Tree View](/ui-snippets/tree-view-file-explorer/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

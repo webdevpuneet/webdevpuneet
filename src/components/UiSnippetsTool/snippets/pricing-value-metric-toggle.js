@@ -191,12 +191,11 @@ Change \`SEAT_RATE\` and \`USAGE_RATE\` to your real pricing, adjust the input b
       { title: 'Zero dependencies', text: 'Pure HTML, CSS, and vanilla JS.' },
     ],
     useCases: [
-      { title: 'API and infrastructure products', text: 'Let prospects compare seat vs. usage pricing directly.' },
-      { title: 'Hybrid pricing SaaS', text: 'Products offering both models side by side.' },
-      { title: 'Sales engineering tools', text: 'Estimate cost live during a pricing conversation.' },
-      { title: 'Alongside a full calculator', text: 'Pair with [usage calculator](/ui-snippets/usage-calculator/) or [ROI calculator](/ui-snippets/roi-calculator/).' },
-      { title: 'Pricing page experiments', text: 'A/B test which model prospects gravitate toward.' },
-      { title: 'Internal cost modeling', text: 'Reuse the isolated dual-formula pattern for other estimators.' },
+      { title: 'API and infrastructure products', text: 'Let prospects compare seat-based and usage-based pricing, where each model has its own formula that never shares a computation with the other.' },
+      { title: 'Hybrid pricing SaaS', text: 'Show both models side by side for products that offer either, with independent inputs, bounds and units for each.' },
+      { title: 'Sales engineering estimates', text: 'Estimate cost live during a pricing call, with the literal formula and not just the total always visible on the card.' },
+      { title: 'Calculator pairings', text: 'Pair with a [usage calculator](/ui-snippets/usage-calculator/) or [ROI calculator](/ui-snippets/roi-calculator/) for a fuller cost story, with fields clamped to realistic minimum and maximum values.' },
+      { title: 'Pricing experiments and cost modelling', text: 'A/B test which model prospects prefer, or reuse the isolated dual-formula pattern for internal cost modelling.' },
       { icon: 'CODE', title: 'Related: Plan Downgrade Warning Card — Feature Loss Preview', desc: 'See the [Plan Downgrade Warning Card — Feature Loss Preview](/ui-snippets/pricing-plan-downgrade-warning-card/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -175,12 +175,11 @@ Replace the toggle handler with an API call to your billing provider (Stripe sub
       { title: 'Status badge color-coding', text: `Active (green) and Paused (amber) are visually distinct at a glance.` },
     ],
     useCases: [
-      { title: 'SaaS billing settings', text: `Let users self-serve pause instead of canceling, alongside a [subscription widget](/ui-snippets/subscription-widget/).` },
-      { title: 'Gym and membership apps', text: `Handle seasonal pauses with a clear resume date and no-charge guarantee.` },
-      { title: 'Meal kit and box subscriptions', text: `Communicate exactly when the next charge would have occurred versus now paused.` },
-      { title: 'Streaming and media plans', text: `Pair with a [pricing toggle](/ui-snippets/pricing-toggle/) for users comparing monthly vs. annual before pausing.` },
-      { title: 'Account retention flows', text: `Offer pause as an alternative to cancellation during an exit survey.` },
-      { title: 'Billing support deflection', text: `Reduce "will I be charged" tickets by answering the question inline, right where the user takes the action.` },
+      { title: 'SaaS billing settings', text: 'Let users pause instead of cancelling, with a true `role="switch"` toggle and a resume date defaulting to thirty days away.' },
+      { title: 'Gym and membership apps', text: 'Handle seasonal pauses in gym and membership apps with plain language about whether billing continues and whether access ends immediately.' },
+      { title: 'Meal kit and box subscriptions', text: 'Communicate exactly when the next box is due, using a three-line checklist covering charges, access and resume date.' },
+      { title: 'Streaming and media plans', text: 'Pair with a [pricing toggle](/ui-snippets/pricing-toggle/) for plan changes, with thumb and track styled straight from `aria-checked`.' },
+      { title: 'Retention and billing support', text: 'Offer pause as an alternative in cancel flows, reducing will I be charged tickets, or add a [subscription widget](/ui-snippets/subscription-widget/) for management.' },
     ],
     faqs: [
       { q: 'Why is the toggle a button with role="switch" instead of a checkbox?', a: `role="switch" is the correct ARIA role for a control representing an on/off state that takes effect immediately, as opposed to a checkbox that typically awaits form submission. Using a real switch role means screen readers announce it correctly as "Pause subscription, switch, off" and toggling it, rather than describing it as a checkbox being checked.` },

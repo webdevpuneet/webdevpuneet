@@ -118,10 +118,10 @@ A small monospace status line below the panel reads either "Saved to localStorag
       'Fully self-contained vanilla JS with no external dependencies',
     ],
     useCases: [
-      { icon: 'APP', title: 'App-wide dark mode toggles', desc: 'The exact persistence pattern used by real dashboards and web apps for remembering theme choice.' },
-      { icon: 'CODE', title: 'Reference for localStorage plus prefers-color-scheme', desc: 'Shows the correct precedence order: explicit user choice first, OS preference as fallback.' },
-      { icon: 'LEARN', title: 'Teaching persistence patterns', desc: 'A clear, minimal example of read-on-load, write-on-change localStorage usage.' },
-      { icon: 'DESIGN', title: 'Settings panels', desc: 'Drop directly into an app settings page as the appearance/theme control.' },
+      { icon: '🌗', title: 'App-wide dark mode toggles', desc: 'Apply the exact persistence pattern behind most theme switches, saving the choice with `localStorage.setItem` on every toggle.' },
+      { icon: '💾', title: 'localStorage plus system preference', desc: 'Show how to check storage first and fall back to `prefers-color-scheme` when nothing has been saved yet.' },
+      { icon: '🎓', title: 'Persistence pattern teaching', desc: 'Use a clear, minimal example with a live status line showing whether the theme came from storage or from the system.' },
+      { icon: '⚙️', title: 'Settings panel drop-in', desc: 'Drop directly into an app settings page as a ready toggle that survives reloads and new tabs.' },
     ],
     faqs: [
       { q: 'What happens on a user\'s very first visit, before they\'ve ever toggled the switch?', a: 'localStorage.getItem("theme") returns null, so the code checks window.matchMedia("(prefers-color-scheme: dark)") and applies dark or light based on the operating system\'s setting, without writing anything to storage yet.' },

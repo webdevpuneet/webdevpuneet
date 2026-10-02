@@ -112,10 +112,10 @@ Only some \`<p>\` elements in the article carry a \`data-note\` attribute — pl
       'Zero dependencies — a single IntersectionObserver instance handles the whole sync',
     ],
     useCases: [
-      { icon: 'DOC', title: 'Annotated Technical Articles', desc: 'Add scroll-synced context, definitions, or citations alongside long-form technical writing.' },
-      { icon: 'DOCS', title: 'API / Spec Documentation', desc: 'Highlight relevant callouts (spec references, gotchas) in sync with the paragraph currently being read.' },
-      { icon: 'LEARN', title: 'Educational Reading Platforms', desc: 'Give students contextual notes that visually track with their reading position through a passage.' },
-      { icon: 'LEGAL', title: 'Legal / Contract Annotation Views', desc: 'Surface clause-specific commentary that highlights automatically as a reader scrolls through a document.' },
+      { icon: '📝', title: 'Annotated technical articles', desc: 'Add scroll-synced context beside the paragraph being read, with margin notes lighting as their matching paragraph passes through view.' },
+      { icon: '📘', title: 'API and specification docs', desc: 'Highlight relevant callouts for the section being read, using a Map lookup that connects each paragraph to its note on every intersection change.' },
+      { icon: '🎓', title: 'Educational reading platforms', desc: 'Give students contextual notes that appear at the right moment, observing only tagged paragraphs as real margin notes do.' },
+      { icon: '⚖️', title: 'Legal and contract review', desc: 'Surface clause-specific commentary alongside the text, with the observer scoped to the article panel so it works inside nested scrolling regions.' },
       { icon: 'CODE', title: 'Related: Scroll Product Launch Story', desc: 'See the [Scroll Product Launch Story](/ui-snippets/scroll-product-launch-story/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

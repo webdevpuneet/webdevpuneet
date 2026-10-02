@@ -107,12 +107,11 @@ Write your own thread (alternate the two classes), add timestamps or avatars per
       { title: 'Library-free', text: `Plain HTML, CSS, and one observer.` },
     ],
     useCases: [
-      { title: 'Testimonial stories', text: `Real customer exchanges convert; follow with a [testimonial card](/ui-snippets/testimonial-card/) wall.` },
-      { title: 'Product pitches', text: `Dramatize the before/after in dialogue, then show it with [scroll before after](/ui-snippets/scroll-before-after/).` },
-      { title: 'Support showcases', text: `Replay a great support thread; link the real [chat UI](/ui-snippets/chat-ui/).` },
-      { title: 'Onboarding narratives', text: `Explain a flow as a conversation before [sticky scroll features](/ui-snippets/scroll-sticky-features/) details it.` },
-      { title: 'Interactive fiction', text: `Chat-format stories, chaptered with a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Event recaps', text: `Tell the launch-day thread; drop in a [confetti celebration card](/ui-snippets/confetti-celebration-card/) at the win.` },
+      { title: 'Testimonial stories', text: 'Tell a customer exchange as a message thread, following it with a [testimonial card](/ui-snippets/testimonial-card/) that sums up the result.' },
+      { title: 'Product pitches', text: 'Dramatise a before and after in dialogue, adding a [scroll before after](/ui-snippets/scroll-before-after/) section to show the outcome visually.' },
+      { title: 'Support showcases', text: 'Replay a great support thread in a [chat UI](/ui-snippets/chat-ui/) style, with typing dots resolving into each message through pseudo-elements.' },
+      { title: 'Onboarding narratives', text: 'Explain a flow as a conversation, with a [scroll sticky features](/ui-snippets/scroll-sticky-features/) layout for the matching screens.' },
+      { title: 'Interactive fiction and recaps', text: 'Write chat-format stories chaptered with a [scroll pin story](/ui-snippets/scroll-pin-story/), or tell a launch-day thread ending with a [confetti celebration card](/ui-snippets/confetti-celebration-card/).' },
       { icon: 'CODE', title: 'Related: Scroll Chapter Sidebar Story', desc: 'See the [Scroll Chapter Sidebar Story](/ui-snippets/scroll-chapter-sidebar-story/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

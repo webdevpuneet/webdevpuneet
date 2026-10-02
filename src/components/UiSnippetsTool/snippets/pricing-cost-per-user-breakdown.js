@@ -198,12 +198,11 @@ Edit the \`TIERS\` array to add, remove, or reprice bands — \`computeTieredCos
       { title: 'Configurable tier table', text: 'Add or reprice bands with no other code changes needed.' },
     ],
     useCases: [
-      { title: 'Team and workspace pricing', text: 'Show volume-discounted per-seat cost transparently.' },
-      { title: 'Alongside a seat calculator', text: 'Pair with [seat-based pricing calculator](/ui-snippets/seat-based-pricing-calculator/).' },
-      { title: 'Enterprise sales conversations', text: 'Justify tiered pricing with real, inspectable math.' },
-      { title: 'Usage and billing dashboards', text: 'Show existing customers their current blended rate.' },
-      { title: 'Procurement and finance review', text: 'Give buyers a verifiable breakdown, not a vague claim.' },
-      { title: 'Teaching marginal-bracket logic', text: 'A clean reference implementation outside of tax software.' },
+      { title: 'Team and workspace pricing', text: 'Show volume-discounted per-seat prices with a genuine marginal-bracket table, where each tier\'s rate applies only to the users inside that bracket.' },
+      { title: 'Seat calculator pairing', text: 'Pair with a [seat-based pricing calculator](/ui-snippets/seat-based-pricing-calculator/) so buyers see both the total and the falling blended cost per user as the team grows.' },
+      { title: 'Enterprise sales conversations', text: 'Justify tiered pricing with a verifiable breakdown, since crossing a boundary never retroactively re-prices earlier users and so creates no cliff edge.' },
+      { title: 'Billing dashboards for customers', text: 'Show existing customers their effective rate today, calculated as the real total divided by the real team size on every change.' },
+      { title: 'Marginal-bracket logic teaching', text: 'Use as a clean reference implementation of progressive tax-style brackets, with a bar whose width is the actual blended rate as a percentage of the base.' },
       { icon: 'CODE', title: 'Related: Commitment Length Discount Ladder', desc: 'See the [Commitment Length Discount Ladder](/ui-snippets/pricing-commitment-discount-ladder/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

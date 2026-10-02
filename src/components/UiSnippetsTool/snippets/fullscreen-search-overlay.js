@@ -184,12 +184,11 @@ Results come from a \`DOCS\` array, so pointing it at your pages — or debounci
       { title: 'Accessible dialog', text: `role="dialog" with aria-modal, plus an advertised ⌘K affordance.` },
     ],
     useCases: [
-      { title: 'Documentation search', text: `The DocSearch-style ⌘K overlay for docs — pair with a [FAQ search accordion](/ui-snippets/faq-search-accordion/) for help content.` },
-      { title: 'App command & navigation', text: `Jump to pages or run actions, alongside a [command palette](/ui-snippets/command-palette/) for command-first UIs.` },
-      { title: 'E-commerce site search', text: `A focused product search overlay from any page header.` },
-      { title: 'Dashboard global search', text: `Find records across an admin app next to an [expandable search](/ui-snippets/expandable-search/) for inline navbar search.` },
-      { title: 'Knowledge bases & wikis', text: `Fast keyboard search over articles.` },
-      { title: 'Learning overlay search UX', text: `A reference for the ⌘K keyboard model and highlighted filtering — compare with an [autocomplete input](/ui-snippets/autocomplete-input/).` },
+      { title: 'Documentation search', text: 'Provide a DocSearch-style overlay opened with Cmd or Ctrl plus K, dimming the page behind a centred panel of live results.' },
+      { title: 'App command and navigation', text: 'Jump to pages or run actions, alongside a [command palette](/ui-snippets/command-palette/), with arrow keys wrapping around at either end of the list.' },
+      { title: 'E-commerce site search', text: 'Offer a focused product search overlay, with match highlighting and hover activating a row so mouse and keyboard stay in sync.' },
+      { title: 'Dashboard global search', text: 'Find records across an admin app, scrolling the highlighted result into view so it never hides below the fold of the list.' },
+      { title: 'Knowledge bases and wikis', text: 'Provide fast keyboard search over articles, with Esc to close, or compare with an [expandable search](/ui-snippets/expandable-search/) and [FAQ search accordion](/ui-snippets/faq-search-accordion/) for inline alternatives.' },
       { icon: 'CODE', title: 'Related: Newsletter Signup Popup Modal', desc: 'See the [Newsletter Signup Popup Modal](/ui-snippets/newsletter-popup-modal/) for a related modals pattern worth pairing with this one.' },
     ],
     faqs: [

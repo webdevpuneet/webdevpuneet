@@ -190,12 +190,11 @@ Swap the 50%-off, 3-month terms for your own retention offer, wire each end stat
       { title: 'Zero dependencies', text: 'Pure HTML, CSS, and vanilla JS state machine.' },
     ],
     useCases: [
-      { title: 'SaaS subscription management', text: 'A responsible cancel flow beside a [plan selector](/ui-snippets/plan-selector/).' },
-      { title: 'Streaming and membership services', text: 'Offer pause as a genuine alternative to canceling.' },
-      { title: 'Churn-reduction experiments', text: 'A/B test offer terms against pause-first framing.' },
-      { title: 'Customer success tooling', text: 'Feed collected cancellation reasons into retention analytics.' },
-      { title: 'Billing settings pages', text: 'Pair with [subscription pause/resume](/ui-snippets/subscription-pause-resume/).' },
-      { title: 'Teaching multi-step state machines', text: 'A clean reference for branching confirmation flows.' },
+      { title: 'SaaS subscription management', text: 'Build a responsible cancel flow where the retention offer always appears first, so cancel never fires in a single click.' },
+      { title: 'Streaming and membership services', text: 'Offer pause as a genuine alternative, separate from a discount, with its own no-charge end state.' },
+      { title: 'Churn-reduction experiments', text: 'A/B test offer terms such as 50 percent off 29 dollars shown correctly as 14.50 per month, and compare accepted, paused and cancelled outcomes.' },
+      { title: 'Customer success tooling', text: 'Feed collected cancellation reasons into support workflows, with distinct copy for each of the three end states.' },
+      { title: 'Billing settings and state machine teaching', text: 'Pair with [subscription pause and resume](/ui-snippets/subscription-pause-resume/) in account settings, and use a [plan selector](/ui-snippets/plan-selector/) when downgrading is a better option than leaving.' },
       { icon: 'CODE', title: 'Related: Bundle Savings Card', desc: 'See the [Bundle Savings Card](/ui-snippets/pricing-bundle-savings-card/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

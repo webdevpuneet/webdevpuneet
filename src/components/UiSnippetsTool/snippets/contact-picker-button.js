@@ -180,12 +180,11 @@ Request additional properties like \`tel\` or \`icon\`, allow \`multiple: true\`
       { title: 'Initial-letter avatar', text: `A generated avatar badge for the selected contact.` },
     ],
     useCases: [
-      { title: 'Team invite flows', text: `Pair with a [team presence list](/ui-snippets/team-presence-list/).` },
-      { title: 'Referral programs', text: `Combine with a [Web Share button](/ui-snippets/web-share-button/) to send the invite.` },
-      { title: 'Emergency contact forms', text: `Let mobile users pick from their address book quickly.` },
-      { title: 'CRM quick-add tools', text: `Speed up manual contact entry with a native shortcut.` },
-      { title: 'Collaboration app onboarding', text: `Combine with a [share modal](/ui-snippets/share-modal/) for the invite step.` },
-      { title: 'Support ticket assignment', text: `Pick or type a teammate to route a ticket to.` },
+      { title: 'Team invite flows', text: 'Pair with a [team presence list](/ui-snippets/team-presence-list/) so invited people can be picked from the device address book on supported phones.' },
+      { title: 'Referral programmes', text: 'Combine with a [web share button](/ui-snippets/web-share-button/) to let users choose a contact and then send an invitation link.' },
+      { title: 'Emergency contact forms', text: 'Let mobile users pick from their own contacts through `navigator.contacts.select()`, with the native picker UI owned by the browser.' },
+      { title: 'CRM quick-add tools', text: 'Speed up manual contact entry, with an equal-status name and email fallback for browsers where the Contact Picker API is unavailable.' },
+      { title: 'Collaboration onboarding', text: 'Combine with a [share modal](/ui-snippets/share-modal/) in onboarding, sharing one render path that shows results from either source identically.' },
       { icon: 'CODE', title: 'Related: File System Access Save Dialog', desc: 'See the [File System Access Save Dialog](/ui-snippets/file-system-save-dialog/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

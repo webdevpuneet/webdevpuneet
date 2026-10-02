@@ -166,10 +166,11 @@ A DOMPurify hook handles a related detail. afterSanitizeAttributes runs on every
       'Responsive split layout that stacks on narrow screens',
     ],
     useCases: [
-      { icon: 'DOC', title: 'Comment boxes and forums', desc: `Let users format posts safely. For a full WYSIWYG alternative see the [Quill editor](/ui-snippets/quill-rich-text-custom-toolbar/).` },
-      { icon: 'CODE', title: 'README and documentation editors', desc: `Write and preview docs side by side with GitHub-style Markdown.` },
-      { icon: 'ADMIN', title: 'CMS and note-taking tools', desc: `Store Markdown, render it safely wherever it is displayed.` },
-      { icon: 'LEARN', title: 'Learning XSS prevention', desc: `A hands-on demonstration of why Markdown output must be sanitised.` },
+      { icon: '💬', title: 'Comment boxes and forums', desc: 'Let users format posts safely, with marked converting Markdown and DOMPurify stripping scripts and unsafe URLs before display.' },
+      { icon: '📖', title: 'README and documentation editors', desc: 'Write and preview README or documentation side by side, with tables supported through GitHub-flavoured Markdown parsing in marked.' },
+      { icon: '🗒️', title: 'CMS and note-taking tools', desc: 'Store Markdown and render it safely, with a status bar listing exactly what DOMPurify removed from the output.' },
+      { icon: '✍️', title: 'Rich text alternative', desc: 'Compare with [Quill rich text editor](/ui-snippets/quill-rich-text-custom-toolbar/) when authors need a visual toolbar rather than writing Markdown syntax.' },
+      { icon: '🎓', title: 'XSS prevention learning', desc: 'See a hands-on demonstration of why Markdown allows raw HTML, and how an `afterSanitizeAttributes` hook adds safe link attributes.' },
     ],
     faqs: [
       { q: 'Does marked sanitise the HTML it produces?', a: 'No. marked passes raw HTML through by design. You must sanitise its output with a library such as DOMPurify before inserting it into the page.' },

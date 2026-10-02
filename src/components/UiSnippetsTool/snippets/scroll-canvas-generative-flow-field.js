@@ -172,11 +172,11 @@ Adjust the three sine/cosine terms' scale and phase-speed constants in \`fieldAn
       'Fully reversible — scrolling up calms the current back to its resting drift',
     ],
     useCases: [
-      { icon: 'ART', title: 'Generative art and creative-coding portfolios', desc: 'Demonstrate a hand-rolled procedural vector field as a standalone technique piece.' },
-      { icon: 'ANIM', title: 'Weather, climate, or fluid-dynamics visualizations', desc: 'A flow field reads naturally as wind, current, or airflow visualization.' },
-      { icon: 'DESIGN', title: 'Ambient section backgrounds', desc: 'A living, low-key backdrop for a features or about section that responds to scroll.' },
-      { icon: 'LEARN', title: 'Teaching procedural motion without noise libraries', desc: 'A compact real example of building field-like motion from layered trigonometric functions.' },
-      { icon: 'FLOW', title: 'Data or analytics platform landing pages', desc: 'Suggest continuous, flowing data movement as a visual metaphor for a streaming product.' },
+      { icon: '🎨', title: 'Generative art portfolios', desc: 'Demonstrate procedural motion with hundreds of particles following a sine and cosine vector field, becoming more turbulent as the reader scrolls.' },
+      { icon: '🌬️', title: 'Weather and fluid visualisations', desc: 'Suggest wind or fluid movement behind a data page, using fading trails produced by a translucent overlay instead of `clearRect`.' },
+      { icon: '🌌', title: 'Ambient section backgrounds', desc: 'Provide a living, low-key backdrop, with a flat `Float32Array` allocated once so no memory is created per frame.' },
+      { icon: '🎓', title: 'Procedural motion teaching', desc: 'Teach field-driven animation without a noise library, with lifespan-based recycling keeping the field replenished indefinitely over a long scroll.' },
+      { icon: '📈', title: 'Data platform landing pages', desc: 'Suggest continuous flow of information, with scroll controlling both turbulence and particle speed through GSAP ScrollTrigger.' },
       { icon: 'CODE', title: 'Related: Scroll Canvas Starfield Warp Speed', desc: 'See [Scroll Canvas Starfield Warp Speed](/ui-snippets/scroll-canvas-starfield-warp-speed/) for a related Canvas2D scroll-driven particle technique.' },
     ],
     faqs: [

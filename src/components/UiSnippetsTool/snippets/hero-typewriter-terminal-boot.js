@@ -159,12 +159,11 @@ Replace the six boot lines and their \`ok\`/\`pause\` values with status message
       { title: 'Responsive terminal', text: `Font size and padding scale down on narrow screens.` },
     ],
     useCases: [
-      { title: 'Developer tool and infrastructure homepages', text: `A boot sequence fits deploy, hosting, and CLI-first products naturally.` },
-      { title: 'DevOps and CI/CD platform heroes', text: `Pair with a [terminal window](/ui-snippets/terminal-window/) demo further down the page.` },
-      { title: 'CLI and SDK launch pages', text: `Reinforce a developer-first brand before the marketing copy even appears.` },
-      { title: 'Technical product Product Hunt pages', text: `Stand out from generic SaaS heroes with a genuinely technical opening.` },
-      { title: 'API and platform status-page adjacent branding', text: `The boot metaphor suits products that emphasize reliability and uptime.` },
-      { title: 'Learning sequenced JS animation timing', text: `A reference for chaining setTimeout-driven reveals with variable pacing.` },
+      { title: 'Developer tool homepages', text: 'Open with a styled terminal playing a character-by-character boot log, revealing the headline and call to action only once it finishes.' },
+      { title: 'DevOps and CI/CD heroes', text: 'Pair with a [terminal window](/ui-snippets/terminal-window/) elsewhere on the page, giving each line its own pause for uneven, realistic pacing.' },
+      { title: 'CLI and SDK launch pages', text: 'Reinforce a developer-first brand with status lines like Connecting to edge servers, driven by a recursive `setTimeout` loop.' },
+      { title: 'Product Hunt launch pages', text: 'Stand out from generic marketing heroes, with an authentic step-end blinking cursor producing a hard terminal-style flicker.' },
+      { title: 'Status page branding and timing learning', text: 'Extend the boot idea to status-adjacent branding, and study sequenced JavaScript animation timing with per-line delays.' },
       { icon: 'CODE', title: 'Related: Newsletter Hero with Benefit Checklist', desc: 'See the [Newsletter Hero with Benefit Checklist](/ui-snippets/hero-newsletter-benefit-list/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

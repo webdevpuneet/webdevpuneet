@@ -123,12 +123,11 @@ Add lanes to the \`EASES\` array (name, ease string, color), race y-axis drops i
       { title: 'Race-all button', text: `Simultaneous launch for direct comparison.` },
     ],
     useCases: [
-      { title: 'Design-system decisions', text: `Audition motion tokens before codifying them; document with a [code block](/ui-snippets/code-block/).` },
-      { title: 'Team reviews', text: `Race candidate eases in front of stakeholders instead of describing them.` },
-      { title: 'Learning GSAP', text: `The fastest intuition-builder for the ease families; go deeper with [custom bounce ball](/ui-snippets/custom-bounce-ball/).` },
-      { title: 'Glitch aesthetics', text: `rough() powers flicker like [glitch text](/ui-snippets/glitch-text/) at the motion level.` },
-      { title: 'Slow-mo highlights', text: `slow() drives dramatic flybys, cousin to [ken burns](/ui-snippets/ken-burns/) pacing.` },
-      { title: 'Stepped mechanics', text: `steps() suits counters like [flip clock](/ui-snippets/flip-clock/) digits.` },
+      { title: 'Design-system motion decisions', text: 'Audition motion tokens before committing, racing nine balls over the same distance on different GSAP eases in one controlled comparison.' },
+      { title: 'Stakeholder reviews', text: 'Race candidate eases in front of stakeholders, with only the ease differing between lanes so the comparison is fair.' },
+      { title: 'Learning GSAP easing', text: 'Build intuition for power, back, elastic, bounce, circ and steps families, with tuning held as plain strings of data.' },
+      { title: 'Glitch and slow-motion effects', text: 'Hear how `rough()` produces flicker like [glitch text](/ui-snippets/glitch-text/), and how `slow()` creates dramatic plateaus for flybys.' },
+      { title: 'Stepped mechanics and bounce siblings', text: 'Use `steps()` for counters like a [flip clock](/ui-snippets/flip-clock/), and compare with the [custom bounce ball](/ui-snippets/custom-bounce-ball/) for squash and stretch.' },
       { icon: 'CODE', title: 'Related: Motion Path Plane', desc: 'See the [Motion Path Plane](/ui-snippets/motion-path-plane/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

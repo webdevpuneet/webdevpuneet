@@ -127,10 +127,10 @@ The variable is defined with a default value at the top of the stylesheet so the
       { title: 'Inheritable custom property', text: 'The variable is set once on the document root and consumed anywhere via normal CSS inheritance.' },
     ],
     useCases: [
-      { icon: 'FLOW', title: 'Blog and article pages', text: 'A classic top progress bar showing how far a reader has gotten through a long post.' },
-      { icon: 'LEARN', title: 'Teaching CSS custom properties', text: 'A concrete example of a JS library exposing state through CSS variables instead of style writes.' },
-      { icon: 'CODE', title: 'Documentation sites', text: 'Pair with a table of contents to show overall reading progress separately from section tracking.' },
-      { icon: 'DESIGN', title: 'Landing pages with long scroll', text: 'A subtle progress cue on a scrollytelling marketing page.' },
+      { title: 'Blog and article pages', text: 'Add a top progress bar to posts without any scroll arithmetic, since ScrollOut supplies `--scroll-percent-y` as a CSS variable.' },
+      { title: 'CSS custom property teaching', text: 'Demonstrate JavaScript as a pure data supplier, with CSS reading the variable through `calc()` to set the bar width.' },
+      { title: 'Docs reading progress', text: 'Pair with a table of contents to show reading position, enabling only the named variable through `cssProps` as an object.' },
+      { title: 'Long landing pages', text: 'Give a subtle progress cue on a page with a lot of scroll, with no manual `scrollY` or `scrollHeight` maths anywhere in the code.' },
     ],
     faqs: [
       { q: 'Is --scroll-percent-y a real ScrollOut option?', a: 'Yes. It comes from ScrollOut\'s cssProps option, which decorates the tracked scrolling element with CSS custom properties describing scroll state. The JS key is camelCase (scrollPercentY) and ScrollOut writes it to the DOM as kebab-case (--scroll-percent-y), following the same conversion used for its other variables.' },

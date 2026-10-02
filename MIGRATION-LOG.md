@@ -527,3 +527,14 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   policy. A new snippet still gets a fresh ad.
 - Removed the stale "trial slot / hidden at 1280px" comment.
 - Follow-up: the top snippet ad has a 970x90 size for large screens. Sizes by available width above the preview: 970x90, 728x90, 468x60 (tablet), 320x50 (mobile). Same slot 7360198340, locked once per snippet view.
+
+## 2026-10-02 — "Common Use Cases" rewrite (THIN/WEAK snippets)
+
+- Audited all 2,063 snippets (`usecases-audit.csv`, untracked): 836 were THIN or WEAK, almost all in the newer `text` format.
+- Rewrote `seo.useCases` for all of them in batches of ~18 (weakest categories first: misc, charts, dashboards, mobile, loaders,
+  media, animations, tools, then scroll, cards, forms, buttons, heroes, tables, navigation, layouts, pricing, carousels,
+  visualizers, modals, games, footers, dev). Each snippet now has 4-6 specific, grounded entries (16-42 words; titles not
+  reused across 3+ snippets; `code` in backticks; internal links only to existing snippets and never repeating the "Related:" cards).
+- `Related:` link cards were preserved; the original file shape (`text` vs `desc`+`icon`) was kept.
+- Re-audit after the rewrite: GOOD 1,678, OK 385, THIN 0, WEAK 0. All 2,063 snippets still load.
+- Changes are uncommitted in `src/components/UiSnippetsTool/snippets/*.js`. Not yet deployed (the earlier deploy included the first 82).

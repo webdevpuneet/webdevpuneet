@@ -138,10 +138,10 @@ The "Clear draft" button empties both fields, cancels any pending debounced save
       'Fully self-contained vanilla JS with no external dependencies',
     ],
     useCases: [
-      { icon: 'FORM', title: 'Comment and message composers', desc: 'Protect users from losing an in-progress comment to an accidental tab close or refresh.' },
-      { icon: 'CODE', title: 'Reference for debounced localStorage writes', desc: 'A clean, reusable debounce pattern applicable to any autosave-on-input feature.' },
-      { icon: 'APP', title: 'Long-form editors and support tickets', desc: 'Applies directly to email drafts, support ticket replies, or blog post editors.' },
-      { icon: 'LEARN', title: 'Teaching debounce and persistence together', desc: 'Shows how debouncing and localStorage combine to build a real autosave feature.' },
+      { icon: '💬', title: 'Comment and message composers', desc: 'Protect users from losing a long reply, saving 500 milliseconds after they stop typing using a debounce.' },
+      { icon: '📚', title: 'Debounced localStorage reference', desc: 'Use as a clean, reusable pattern for writes that should not fire on every keystroke, with restore wrapped in `try/catch`.' },
+      { icon: '🎫', title: 'Long-form editors and support tickets', desc: 'Apply to any form where abandonment is costly, with a Draft saved indicator that fades in and out automatically.' },
+      { icon: '🎓', title: 'Debounce and persistence teaching', desc: 'Show how debouncing and storage work together, with a Clear draft button that empties both fields and removes the stored value.' },
     ],
     faqs: [
       { q: 'Why debounce the autosave instead of saving on every keystroke?', a: 'Saving on every keystroke would mean a localStorage write per character typed, which is wasteful. Debouncing with setTimeout/clearTimeout ensures the save only happens once the user pauses typing for 500ms, batching rapid input into a single write.' },

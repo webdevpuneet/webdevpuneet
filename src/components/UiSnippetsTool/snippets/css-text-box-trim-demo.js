@@ -127,12 +127,11 @@ This is one of the newest properties in this batch of snippets: support is still
       { title: 'Works on any text element', text: `Not limited to headings — apply to any inline or block text box.` },
     ],
     useCases: [
-      { title: 'Tightly bordered cards and badges', text: `Align heading text flush against a card's edge or border.` },
-      { title: 'Icon + label rows', text: `Match text baseline/cap-height precisely to an adjacent icon.` },
-      { title: 'Design-system typography tokens', text: `Standardize flush text alignment instead of per-font pixel hacks.` },
-      { title: 'Pixel-perfect design handoff', text: `Match a Figma "trim" text setting directly in CSS.` },
-      { title: 'Buttons and pills with tight padding', text: `Remove excess vertical space in compact interactive elements.` },
-      { title: 'Modern CSS feature showcases', text: `Pair with [CSS reading-flow](/ui-snippets/css-reading-flow-demo/) or [subgrid](/ui-snippets/css-subgrid-demo/).` },
+      { title: 'Tightly bordered cards and badges', text: 'Align heading text flush against borders by trimming the invisible space fonts reserve above and below their glyphs.' },
+      { title: 'Icon and label rows', text: 'Match text cap-height to an adjacent icon precisely, using `text-box-edge: cap alphabetic` instead of guessing pixel offsets.' },
+      { title: 'Design system typography tokens', text: 'Standardise flush text alignment across design system components, replacing fragile negative-margin hacks that depend on one specific font.' },
+      { title: 'Pixel-perfect design handoff', text: 'Match a Figma trimmed text setting exactly, so developers reproduce the designer\'s spacing without manual adjustments.' },
+      { title: 'Buttons and modern CSS showcases', text: 'Remove excess vertical space from pills with tight padding, or pair with the [CSS reading-flow demo](/ui-snippets/css-reading-flow-demo/) and [CSS subgrid demo](/ui-snippets/css-subgrid-demo/) to present modern CSS.' },
       { icon: 'CODE', title: 'Related: Feature Spotlight Tabs', desc: 'See the [Feature Spotlight Tabs](/ui-snippets/feature-spotlight-tabs/) for a related layouts pattern worth pairing with this one.' },
     ],
     faqs: [

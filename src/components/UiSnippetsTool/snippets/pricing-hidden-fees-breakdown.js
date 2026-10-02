@@ -125,12 +125,11 @@ Add, remove, or change fee lines by editing the \`data-amount\` attributes and t
       { title: 'Zero dependencies', text: 'Pure HTML, CSS, and vanilla JS.' },
     ],
     useCases: [
-      { title: 'Checkout fee transparency', text: 'Show tax and processing fees before final payment.' },
-      { title: 'SaaS pricing pages', text: 'Pair with [pricing card](/ui-snippets/pricing-card/) as a trust detail.' },
-      { title: 'Marketplace and ticketing sites', text: 'Break down service and processing fees clearly.' },
-      { title: 'Subscription billing pages', text: 'Show what a renewal charge is actually composed of.' },
-      { title: 'Invoice previews', text: 'Preview a computed total before committing to a plan.' },
-      { title: 'Comparing against competitors', text: 'Demonstrate transparency versus opaque all-in pricing.' },
+      { title: 'Checkout fee transparency', text: 'Show tax and processing fees before the customer pays, with the displayed total being a real `reduce()` over the visible line items.' },
+      { title: 'SaaS pricing trust details', text: 'Pair with a [pricing card](/ui-snippets/pricing-card/) as a trust detail, spelling out the addition beneath the total so nothing is hidden.' },
+      { title: 'Marketplace and ticketing sites', text: 'Break down service and processing charges in an expandable list, using `aria-expanded` so screen reader users know the state.' },
+      { title: 'Subscription renewal pages', text: 'Show exactly what a renewal charge consists of, with the call-to-action button text written from the identical computed value.' },
+      { title: 'Competitor transparency comparisons', text: 'Demonstrate a no hidden fees claim structurally rather than in a slogan, and preview a computed total before a customer commits.' },
       { icon: 'CODE', title: 'Related: Limited-Time Discount Banner', desc: 'See the [Limited-Time Discount Banner](/ui-snippets/pricing-discount-countdown-banner/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

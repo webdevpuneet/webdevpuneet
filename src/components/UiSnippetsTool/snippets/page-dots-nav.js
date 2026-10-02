@@ -128,12 +128,11 @@ The dots are generated from the sections themselves (reading a \`data-label\` pe
       { title: 'Accessible nav', text: `A labeled <nav> of buttons with aria-current marking the active section for assistive tech.` },
     ],
     useCases: [
-      { title: 'One-page portfolios', text: `Navigate full-screen project sections with the signature dot column — pair with [reveal on scroll](/ui-snippets/reveal-on-scroll/) for section content.` },
-      { title: 'Product landing pages', text: `Let visitors jump between hero, features, pricing, and contact sections.` },
-      { title: 'Scrollytelling and pitch decks', text: `Track progress through a sequence of full-screen story sections.` },
-      { title: 'Onboarding and tours', text: `Step through full-page tour sections with dot progress, alongside an [onboarding tour](/ui-snippets/onboarding-tour/).` },
-      { title: 'Image and case-study showcases', text: `Page through full-bleed visual sections with a minimal indicator.` },
-      { title: 'Learning IntersectionObserver nav', text: `A reference for scroll-synced section tracking — compare with a [scroll spy nav](/ui-snippets/scroll-spy-nav/) for a link-list version and a [scroll progress](/ui-snippets/scroll-progress/) bar.` },
+      { title: 'One-page portfolios', text: 'Navigate full-screen project sections with a fixed column of dots, with the active dot stretching taller and turning solid.' },
+      { title: 'Product landing pages', text: 'Let visitors jump between hero, features and pricing, with an IntersectionObserver tracking the active section off the main thread.' },
+      { title: 'Scrollytelling and pitch decks', text: 'Track progress through a story, pairing with [scroll progress](/ui-snippets/scroll-progress/) and a [scroll spy nav](/ui-snippets/scroll-spy-nav/) for extra orientation.' },
+      { title: 'Onboarding and tours', text: 'Step through full-page tour sections beside an [onboarding tour](/ui-snippets/onboarding-tour/), with labels revealed on hover and for the active dot.' },
+      { title: 'Case study full-bleed paging', text: 'Page through full-bleed case study visuals with [reveal on scroll](/ui-snippets/reveal-on-scroll/), clicking dots to `scrollIntoView` smoothly to each one.' },
       { icon: 'CODE', title: 'Related: Radial Right-Click Menu', desc: 'See the [Radial Right-Click Menu](/ui-snippets/radial-right-click-menu/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

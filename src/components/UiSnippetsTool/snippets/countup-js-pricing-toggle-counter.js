@@ -134,12 +134,11 @@ This exact instance-reuse pattern is the right approach anywhere a displayed num
       { title: 'Clean suffix swap', text: 'The "/mo" vs "/mo, billed yearly" text updates alongside the animated number.' },
     ],
     useCases: [
-      { icon: 'FORM', title: 'SaaS pricing pages', text: 'The canonical monthly/yearly toggle, made to feel alive instead of an instant text swap.' },
-      { icon: 'APP', title: 'Shopping cart totals', text: 'The same update() pattern smoothly animates a total as line items change.' },
-      { icon: 'CODE', title: 'Currency/unit converters', text: 'Reuse one instance per output field and update() on every input change.' },
-      { title: 'Quantity steppers', text: 'A stepper input whose displayed value animates on each increment/decrement.' },
-      { title: 'Plan comparison sliders', text: 'A price that recalculates and animates as a usage slider moves.' },
-      { title: 'Learning CountUp lifecycle', text: 'A focused example of instance reuse versus reconstruction, applicable to any stateful animation.' },
+      { title: 'Monthly and yearly pricing toggles', text: 'Animate between two prices with one reused CountUp instance, so each toggle continues from the current value instead of restarting at zero.' },
+      { title: 'Shopping cart totals', text: 'Use the same `update()` pattern to animate totals smoothly as items are added or removed, in either direction.' },
+      { title: 'Converters and calculators', text: 'Reuse one instance per output field, avoiding the bug where a newly constructed instance flashes back to zero on the second click.' },
+      { title: 'Quantity steppers', text: 'Animate a stepper\'s displayed value as the quantity changes, with `role="switch"` and `aria-checked` tracking the toggle state for assistive technology.' },
+      { title: 'CountUp lifecycle learning', text: 'Study a focused example of instance reuse, where one `.update()` method animates both increases and decreases without reconstruction.' },
     ],
     faqs: [
       { q: 'Why not just create a new CountUp instance every time the toggle is clicked?', a: "A freshly constructed CountUp instance has no memory of what value is currently displayed, so it always animates FROM 0 by default. Every toggle click would show the price flash down to $0 and count back up, rather than transitioning smoothly between the two real price points — which is the exact bug this snippet's approach avoids." },

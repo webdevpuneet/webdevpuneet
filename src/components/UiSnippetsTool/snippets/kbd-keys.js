@@ -114,12 +114,11 @@ Use the \`<kbd>\` styling alone anywhere you mention a shortcut in text, or use 
       { title: 'Data-driven & no library', text: `Generated from a SHORTCUTS array in plain HTML/CSS/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Shortcut help panels', text: `A keyboard cheat-sheet in your app — pair with a [keyboard shortcuts](/ui-snippets/keyboard-shortcuts/) modal.` },
-      { title: 'Command palette hints', text: `Show the ⌘K hint as a real keycap, alongside a [command palette](/ui-snippets/command-palette/).` },
-      { title: 'Docs and tutorials', text: `Render shortcuts as keycaps inline in documentation.` },
-      { title: 'Onboarding and tips', text: `Teach power-user shortcuts with keys that respond when pressed.` },
-      { title: 'Settings and accessibility', text: `Display configurable keybindings clearly.` },
-      { title: 'Learning shortcut detection', text: `A reference for cross-platform key matching and keycap styling — compare with an [expandable search](/ui-snippets/expandable-search/) "/" hint.` },
+      { title: 'Shortcut help panels', text: 'Build a keyboard cheat sheet in an app, with realistic 3D keycaps from a downward box-shadow and inset highlight.' },
+      { title: 'Command palette hints', text: 'Show the Cmd K hint as a real keycap beside a [command palette](/ui-snippets/command-palette/), pressing down when the matching shortcut is used.' },
+      { title: 'Docs and tutorials', text: 'Render shortcuts as keycaps inline, with `meta` matching either Command or Ctrl so one definition works across platforms.' },
+      { title: 'Shortcut onboarding', text: 'Teach power-user shortcuts using live key presses, linking to a [keyboard shortcuts](/ui-snippets/keyboard-shortcuts/) reference for the full list.' },
+      { title: 'Search and settings', text: 'Display configurable keybindings beside an [expandable search](/ui-snippets/expandable-search/), keeping pretty symbols separate from the keys used for event matching.' },
       { icon: 'CODE', title: 'Related: Nav Tabs — Overflow Collapse to ', desc: 'See the [Nav Tabs — Overflow Collapse to ](/ui-snippets/nav-tabs-overflow-more-menu/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

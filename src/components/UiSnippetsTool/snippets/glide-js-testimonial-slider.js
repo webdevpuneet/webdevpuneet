@@ -155,11 +155,11 @@ Swap \`perView: 1\` for \`perView: 3\` with a \`peek\` option to preview adjacen
       { title: 'No external images', text: 'Author avatars use CSS gradient circles with initials instead of photos.' },
     ],
     useCases: [
-      { icon: 'STAR', title: 'Marketing landing pages', text: 'The classic social-proof testimonial section above a pricing table or CTA.' },
-      { icon: 'APP', title: 'SaaS case study rotators', text: 'Rotate through customer quotes tied to logos or case study links.' },
-      { icon: 'DESIGN', title: 'Agency/portfolio sites', text: 'Client feedback carousels styled to match a broader brand system.' },
-      { icon: 'CODE', title: 'Docs and product pages', text: 'Show rotating user feedback near a feature explanation or changelog.' },
-      { icon: 'LEARN', title: 'Teaching Glide\'s skeleton', text: 'A minimal reference for the track/slides/bullets markup Glide expects.' },
+      { title: 'Marketing social proof', text: 'Add the classic testimonial carousel with centred cards, dot navigation and autoplay that hovers to pause.' },
+      { title: 'SaaS case study rotators', text: 'Rotate customer quotes using Glide\'s `type: \'carousel\'`, which wraps seamlessly and is required for endless autoplay.' },
+      { title: 'Agency client feedback', text: 'Present client comments on an agency or portfolio site, with `data-glide-dir` bullets that jump directly to any slide the visitor chooses.' },
+      { title: 'Product page reviews', text: 'Show rotating user feedback near a purchase button, built on real semantic HTML that works progressively before the script runs.' },
+      { title: 'Glide skeleton teaching', text: 'Learn the track and slides skeleton Glide expects, since unlike many libraries it enhances your markup instead of generating it.' },
     ],
     faqs: [
       { q: 'Why does Glide need a specific HTML skeleton instead of just wrapping a container?', a: 'Glide is a progressive-enhancement library: it queries specific data attributes (data-glide-el="track") and classes (glide__slides, glide__slide) to find the elements it needs to animate, rather than generating markup itself. This means the slider degrades to a readable, if static, list if the script fails to load, and you retain full control over the DOM structure.' },

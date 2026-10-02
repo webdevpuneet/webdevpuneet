@@ -123,10 +123,11 @@ The pause button is not decoration. WCAG requires a mechanism to pause, stop or 
       'Meets the WCAG requirement to control moving content',
     ],
     useCases: [
-      { icon: 'WEB', title: 'Hero and news carousels', desc: `Rotate featured stories while keeping users in control. For a fade-style testimonial slider see the [Swiper testimonial slider](/ui-snippets/swiper-testimonial-fade-slider/).` },
-      { icon: 'SHOP', title: 'Promotional banners', desc: `Show offers in sequence with a visible countdown.` },
-      { icon: 'ACCESS', title: 'Accessible auto-advancing content', desc: `A compliant pattern for content that moves on its own.` },
-      { icon: 'LEARN', title: 'Learning Swiper events', desc: `A clear use of autoplayTimeLeft to drive a custom progress indicator.` },
+      { icon: '📰', title: 'Hero and news carousels', desc: 'Rotate featured stories while keeping people informed, with a live circular countdown driven by Swiper\'s `autoplayTimeLeft` event.' },
+      { icon: '🏷️', title: 'Promotional banners', desc: 'Show offers in sequence with a visible timer, using SVG `stroke-dashoffset` mapped to the remaining fraction of the delay.' },
+      { icon: '♿', title: 'Accessible auto-advancing content', desc: 'Provide a compliant pattern with a visible pause button and pausing on both mouse hover and keyboard focus.' },
+      { icon: '💬', title: 'Fade testimonial pairing', desc: 'Pair with the [Swiper testimonial fade slider](/ui-snippets/swiper-testimonial-fade-slider/) for a quieter approach to rotating text content on the same page.' },
+      { icon: '🎓', title: 'Swiper events learning', desc: 'See a clear use of `autoplayTimeLeft` and why `disableOnInteraction: false` keeps autoplay going after a manual swipe.' },
     ],
     faqs: [
       { q: 'What does disableOnInteraction do?', a: 'When true (the default), autoplay stops for good after the user swipes or clicks. Set it to false to keep autoplay running after interaction.' },

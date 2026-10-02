@@ -93,12 +93,11 @@ This is the pattern to reach for on any hero, landing page, or full-bleed intro 
       { title: 'Direct contrast with reset: false', text: "Designed as a companion to this library's feature-grid snippet to show both reset behaviors side by side." },
     ],
     useCases: [
-      { icon: 'STAR', title: 'Landing page heroes', text: 'The primary above-the-fold section that should always feel freshly arrived-at.' },
-      { icon: 'APP', title: 'Product launch pages', text: 'Replaying the entrance rewards visitors who scroll back to re-read the headline.' },
-      { icon: 'DESIGN', title: 'Portfolio intros', text: 'A name/tagline section that re-announces itself if revisited mid-scroll.' },
-      { title: 'Single-page app top sections', text: 'Any hero a user can navigate back to via an in-page anchor link.' },
-      { title: 'Presentation-style scrollytelling', text: 'Sections meant to be re-experienced rather than read once and forgotten.' },
-      { title: 'Learning reset: true vs false', text: 'A direct, hands-on reference for ScrollReveal\'s most consequential option.' },
+      { title: 'Landing page heroes', text: 'Replay the hero entrance every time it re-enters the viewport, using `reset: true` where most ScrollReveal content should reveal only once.' },
+      { title: 'Product launch pages', text: 'Reward returning visitors with the entrance again, with four separate `reveal()` calls and explicit delays producing an announcement sequence.' },
+      { title: 'Self-reintroducing name sections', text: 'Re-announce a name and tagline whenever the section is scrolled back to, snapping instantly to hidden when it leaves the view.' },
+      { title: 'Single-page app top sections', text: 'Use for any hero a user can navigate back to, with a persistent observer per element watching for re-entry.' },
+      { title: 'Presentation-style scrollytelling', text: 'Build sections meant to be rewatched, and use as a hands-on reference for the difference between `reset: true` and `reset: false`.' },
     ],
     faqs: [
       { q: 'What specifically does reset: true change about the IntersectionObserver behavior?', a: "With reset: false, ScrollReveal unobserves an element after its first reveal, so nothing fires when it leaves or re-enters the viewport afterward. With reset: true, the observer stays attached indefinitely: it fires again when the element's intersection ratio returns to zero (instantly reverting it to its hidden state, no transition) and again when it re-enters (replaying the full animated reveal)." },

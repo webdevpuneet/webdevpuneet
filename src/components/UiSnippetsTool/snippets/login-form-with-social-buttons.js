@@ -137,10 +137,10 @@ form.addEventListener('submit', function (e) {
       'Submit button gives immediate feedback ("Logging in...") once validation passes',
     ],
     useCases: [
-      { icon: 'FORM', title: 'Application login screens', desc: 'A complete, ready-to-style login form covering the fields most products need.' },
-      { icon: 'APP', title: 'SaaS authentication pages', desc: 'Pair email/password login with social auth options for lower-friction sign-in.' },
-      { icon: 'DESIGN', title: 'Design system auth components', desc: 'A reference implementation for a login form component within a broader design system.' },
-      { icon: 'LEARN', title: 'Teaching accessible form validation', desc: 'Demonstrates per-field inline error messaging and an accessible password-visibility toggle.' },
+      { icon: '🔐', title: 'Application login screens', desc: 'Provide a complete login with email and password fields, per-field validation errors and a Remember me checkbox in one row.' },
+      { icon: '☁️', title: 'SaaS authentication pages', desc: 'Pair email and password sign-in with Google and GitHub buttons that use accurate brand colours and inline SVG logos.' },
+      { icon: '🧩', title: 'Design system auth components', desc: 'Offer a reference implementation of a login pattern, with a Forgot password link placed beside the checkbox.' },
+      { icon: '🎓', title: 'Accessible validation teaching', desc: 'Learn per-field validation with a show or hide password toggle that swaps the input type and updates its own `aria-label`.' },
     ],
     faqs: [
       { q: 'How does the show/hide password toggle work?', a: 'Clicking the eye icon button swaps the password input\'s type attribute between "password" and "text", toggles an active-state class on the button for its own styling, and updates the button\'s aria-label to describe the next action.' },

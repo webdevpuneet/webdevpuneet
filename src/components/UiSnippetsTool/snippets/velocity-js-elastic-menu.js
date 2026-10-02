@@ -130,12 +130,11 @@ Swap the menu items for a real product catalog or account switcher, or attach th
       { title: 'aria-expanded state', text: 'The trigger toggles aria-expanded so assistive tech tracks the open state.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'Product mega-menus', text: 'A springy reveal draws attention to a category dropdown on a marketing site.' },
-      { icon: 'DESIGN', title: 'Account switchers', text: 'Elastic settle gives a workspace picker a premium, tactile feel.' },
-      { icon: 'FORM', title: 'Mobile nav panels', text: 'Attach the same open/close pair to a hamburger-triggered side panel.' },
-      { title: 'Filter dropdowns', text: 'Any select-like panel benefits from a settle animation instead of a flat show/hide.' },
-      { title: 'Learning Velocity easing', text: 'A live reference for tuning spring tension/friction pairs.' },
-      { title: 'Legacy jQuery migrations', text: 'Velocity.js is a common drop-in when moving off jQuery .animate() without a rewrite.' },
+      { title: 'Product mega-menu reveals', text: 'Draw attention to a flagship dropdown with `easing: \'spring\'`, simulating tension and friction so the panel overshoots and settles.' },
+      { title: 'Account switchers', text: 'Give a workspace picker an elastic settle, using a `[tension, friction]` array to tune exactly how bouncy it is.' },
+      { title: 'Mobile navigation panels', text: 'Attach the same open and close pair to a hamburger button, with opening springing and closing easing out quickly without bounce.' },
+      { title: 'Filter dropdowns', text: 'Give any select-like panel a physical feel, using Velocity\'s built-in stagger option on a NodeList instead of a manual loop.' },
+      { title: 'Easing tuning and jQuery migration', text: 'Use as a live reference for tuning spring easing, and as a drop-in example for legacy jQuery projects that already use Velocity.' },
     ],
     faqs: [
       { q: "What does easing: 'spring' actually compute?", a: "It is not a Bézier curve — Velocity runs a damped harmonic oscillator simulation (tension and friction) and samples its position every frame. That's why the panel visibly overshoots past its target scale before settling, something a CSS cubic-bezier can't express because those curves are monotonic between 0 and 1 by convention." },

@@ -118,10 +118,11 @@ On desktop, each inner swiper accepts the mouse wheel with forceToAxis so horizo
       'Gradient artwork, no images',
     ],
     useCases: [
-      { icon: 'MOBILE', title: 'Streaming and content browsers', desc: `Browse categories sideways and titles vertically. For a card-deck interaction see the [card-stack slider](/ui-snippets/swiper-effect-cards-stack/).` },
-      { icon: 'SHOP', title: 'Store home screens', desc: `Swipe between departments and through the featured items of each.` },
-      { icon: 'DOC', title: 'Stories and onboarding flows', desc: `Combine chapters with steps inside each chapter.` },
-      { icon: 'LEARN', title: 'Learning gesture disambiguation', desc: `A hands-on look at touchAngle and nested swiper behaviour.` },
+      { icon: '🎬', title: 'Streaming content browsers', desc: 'Swipe sideways between genres and vertically through titles, with every inner swiper keeping its own position, dots and wheel handling.' },
+      { icon: '🛍️', title: 'Store home screens', desc: 'Let shoppers swipe between departments and then through products in one, with `touchAngle` tuned so diagonal swipes go to the correct axis.' },
+      { icon: '📖', title: 'Stories and onboarding', desc: 'Combine chapters with steps in one component, relating pagination to each element instead of one global container.' },
+      { icon: '🃏', title: 'Card deck comparison', desc: 'Compare with the [Swiper card stack](/ui-snippets/swiper-effect-cards-stack/) for a single-axis deck where swiping makes a decision rather than browsing a grid.' },
+      { icon: '🎓', title: 'Gesture disambiguation learning', desc: 'Study how touch angle settings resolve a diagonal gesture, which is the hardest part of nesting sliders on different axes.' },
     ],
     faqs: [
       { q: 'When do I need nested: true?', a: 'When the inner and outer swipers run in the same direction. For horizontal-inside-vertical or vertical-inside-horizontal, they do not conflict and the flag is not needed.' },

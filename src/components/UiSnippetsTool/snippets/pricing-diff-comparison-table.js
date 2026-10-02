@@ -153,12 +153,11 @@ Add more plans or rows — the diff logic scales to any column count automatical
       { title: 'Framework-agnostic core', text: `markDifferences/applyFilter port directly to any component model.` },
     ],
     useCases: [
-      { title: 'Long feature comparisons', text: `Pair with a [pricing feature table](/ui-snippets/pricing-feature-table/) for the full view.` },
-      { title: 'Pricing pages', text: `Sit below a [pricing card](/ui-snippets/pricing-card/) grid as a "compare in detail" section.` },
-      { title: 'Plan migration decisions', text: `Help an existing customer see what actually changes on upgrade.` },
-      { title: 'Sales enablement', text: `Let a rep pull up only the differentiating rows on a call.` },
-      { title: 'Competitor comparison pages', text: `Adapt the same diff logic for a [comparison table](/ui-snippets/comparison-table/) against a rival product.` },
-      { title: 'Enterprise proposals', text: `Highlight what changes on an [enterprise pricing](/ui-snippets/enterprise-pricing/) tier.` },
+      { title: 'Long feature comparisons', text: 'Hide rows where every plan has identical values, so buyers see only what differs, pairing with a [pricing feature table](/ui-snippets/pricing-feature-table/) for the full list.' },
+      { title: 'Pricing page companions', text: 'Sit below a [pricing card](/ui-snippets/pricing-card/) grid as a compare plans panel, with diff flags precomputed so filtering reads only a data attribute.' },
+      { title: 'Plan migration decisions', text: 'Help an existing customer see exactly what changes between plans, with the diff derived from real cell text instead of a hand-kept list.' },
+      { title: 'Sales enablement', text: 'Let a rep pull up only the differentiating features during a call, with the filter working the same for two plans or six.' },
+      { title: 'Competitor and enterprise comparisons', text: 'Adapt the diff logic for competitor pages with a [comparison table](/ui-snippets/comparison-table/), or highlight what changes on an [enterprise pricing](/ui-snippets/enterprise-pricing/) proposal.' },
       { icon: 'CODE', title: 'Related: Cost Per User Breakdown', desc: 'See the [Cost Per User Breakdown](/ui-snippets/pricing-cost-per-user-breakdown/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

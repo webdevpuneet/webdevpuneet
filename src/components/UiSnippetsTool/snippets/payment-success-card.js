@@ -181,12 +181,11 @@ Set \`AMOUNT\`, currency locale, and the receipt fields from your payment respon
       { title: 'Tabular amount digits', text: `font-variant-numeric prevents layout jiggle while the amount counts up.` },
     ],
     useCases: [
-      { title: 'Checkout confirmation screens', text: `The final step after a [checkout form](/ui-snippets/checkout-form/) or [multi-step checkout](/ui-snippets/multi-step-checkout/) completes.` },
-      { title: 'In-app purchase receipts', text: `Confirm subscription upgrades next to a [subscription widget](/ui-snippets/subscription-widget/) or paywall.` },
-      { title: 'P2P payment apps', text: `The "money sent" moment in Venmo-style flows, with the count-up amount as the hero.` },
-      { title: 'Invoice payment portals', text: `Confirm B2B payments with the reference code prominent for reconciliation.` },
-      { title: 'Donation platforms', text: `A gratifying confirmation that encourages repeat giving — add a [confetti celebration card](/ui-snippets/confetti-celebration-card/) burst.` },
-      { title: 'Learning SVG line drawing', text: `A working reference for stroke-dashoffset choreography, the animation-restart reflow trick, and rAF count-ups.` },
+      { title: 'Checkout confirmation screens', text: 'Show the final step after a [checkout form](/ui-snippets/checkout-form/), with a stroke-drawn check and an amount counting up over 900 milliseconds.' },
+      { title: 'In-app purchase receipts', text: 'Confirm in-app subscription upgrades next to a [subscription widget](/ui-snippets/subscription-widget/), with receipt rows beneath the confirmation message.' },
+      { title: 'Peer-to-peer payments', text: 'Provide the money sent moment, with a spring entrance from an overshooting cubic-bezier giving the card a satisfying pop.' },
+      { title: 'Invoice payment portals', text: 'Confirm business payments in invoice portals after a [multi-step checkout](/ui-snippets/multi-step-checkout/), with a replayable animation using the reflow trick.' },
+      { title: 'Donations and drawing learning', text: 'Reward donors with a [confetti celebration card](/ui-snippets/confetti-celebration-card/), or learn SVG line drawing through animating `stroke-dashoffset` from its full length.' },
     ],
     faqs: [
       { q: 'How does the checkmark draw itself?', a: `Both shapes use the SVG line-drawing technique: stroke-dasharray is set to the path's total length (the circle's circumference 2π×28 ≈ 176; the tick measured at ~36), and stroke-dashoffset starts equal to it, so the visible dash is pushed entirely off the path. Animating the offset to 0 slides the stroke along the path as if drawn by hand. The circle is also rotated -90° so drawing starts at the top instead of SVG's default three-o'clock position.` },

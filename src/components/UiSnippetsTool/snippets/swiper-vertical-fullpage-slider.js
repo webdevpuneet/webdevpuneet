@@ -97,10 +97,11 @@ The visual polish is CSS. Content inside slides starts translated and transparen
       'Reduced-motion support',
     ],
     useCases: [
-      { icon: 'WEB', title: 'Landing pages and product tours', desc: `Present one idea per screen. For a horizontal counterpart see the [Swiper parallax hero slides](/ui-snippets/swiper-parallax-hero-slides/).` },
-      { icon: 'SHOP', title: 'Campaign microsites', desc: `Walk visitors through a story with snapping sections.` },
-      { icon: 'DOC', title: 'Onboarding and feature tours', desc: `Introduce features one at a time with clear progress.` },
-      { icon: 'LEARN', title: 'Learning scroll-trap avoidance', desc: `A concrete lesson in releaseOnEdges and throttled wheel handling.` },
+      { icon: '🖥️', title: 'Landing pages and product tours', desc: 'Present one idea per screen with 700 millisecond transitions, and `releaseOnEdges` letting the page scroll past at either end.' },
+      { icon: '📣', title: 'Campaign microsites', desc: 'Walk visitors through a story with snapping sections, throttling wheel input so one flick moves exactly one section.' },
+      { icon: '✨', title: 'Feature tours', desc: 'Introduce features one at a time with staggered content animation and side pagination, limiting keyboard control to when the slider is in view.' },
+      { icon: '🌄', title: 'Parallax pairing', desc: 'Compare with [Swiper parallax hero slides](/ui-snippets/swiper-parallax-hero-slides/) for a horizontal approach to full-screen storytelling on landing pages.' },
+      { icon: '🎓', title: 'Scroll-trap avoidance learning', desc: 'Learn why a slider that captures the wheel can trap users, and how releasing on edges avoids that frustration.' },
     ],
     faqs: [
       { q: 'Why does the slider skip several slides on one scroll?', a: 'A trackpad flick fires many wheel events. Set mousewheel.thresholdTime (and thresholdDelta) so only one movement is accepted per interval.' },

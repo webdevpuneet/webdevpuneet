@@ -111,12 +111,11 @@ Swap the sample copy for your own brand voice, change the font family via the ca
       { title: 'Zero dependencies', text: `Plain data and DOM, no build step.` },
     ],
     useCases: [
-      { title: 'Design system docs', text: `Document a type scale alongside spacing tokens.` },
-      { title: 'Brand style guides', text: `Preview a typeface across all defined sizes.` },
-      { title: 'Font pairing tests', text: `Swap font-family to compare typefaces at scale.` },
-      { title: 'Client presentations', text: `Show a proposed type system live, not mocked up.` },
-      { title: 'Storybook/Figma handoff', text: `Give engineers exact values to implement.` },
-      { title: 'Internal theme tools', text: `Preview scale changes before shipping to production.` },
+      { title: 'Design system documentation', text: 'Document a type scale alongside spacing and colour tokens, with each sample rendered at its real size, line height and weight.' },
+      { title: 'Brand style guides', text: 'Preview a typeface across Display, H1, H2, H3, Body and Caption, driven by a single scale array so labels never disagree with samples.' },
+      { title: 'Font pairing tests', text: 'Swap `font-family` to compare typefaces across every step of the type scale at once, in a font pairing test.' },
+      { title: 'Client presentations', text: 'Show a proposed type system live, with exact values printed beside each live sample instead of in a separate screenshot.' },
+      { title: 'Engineering handoff and theme tools', text: 'Give engineers exact values to implement, or preview scale changes in an internal theme editor before shipping them.' },
     ],
     faqs: [
       { q: 'Are the samples real text rendering, or images?', a: `Real rendering. Each sample's font-size, line-height, and font-weight are set as inline styles directly from the scale array's values, so what you see is the browser's actual text layout at those exact numbers — not a screenshot or a pre-rendered image standing in for it.` },

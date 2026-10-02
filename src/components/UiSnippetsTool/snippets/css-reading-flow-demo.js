@@ -137,12 +137,11 @@ Until \`reading-flow\` has broad support, the only reliable way to keep tab orde
       { title: 'Pairs with responsive reflow', text: `Useful anywhere breakpoints change visual order per screen size.` },
     ],
     useCases: [
-      { title: 'Dashboard and card grids', text: `Keep Tab order sane when cards are visually rearranged by CSS Grid.` },
-      { title: 'Responsive layouts that reorder per breakpoint', text: `Different visual order at different widths, one correct reading order.` },
-      { title: 'Masonry-style galleries', text: `Pair with [the native CSS masonry gallery](/ui-snippets/css-masonry-native-gallery/) where visual packing order varies.` },
-      { title: 'Accessibility audits', text: `Demonstrate and test the mismatch this property is meant to fix.` },
-      { title: 'Keyboard navigation toolkits', text: `Combine with [focus-visible](/ui-snippets/focus-visible-demo/) and [skip-to-content](/ui-snippets/skip-to-content-link/).` },
-      { title: 'Modern CSS feature tracking', text: `Pair with [container query units](/ui-snippets/css-container-query-units-demo/) or [the :has() playground](/ui-snippets/css-has-selector-playground/) as part of a "what's new in CSS" showcase.` },
+      { title: 'Dashboard and card grids', text: 'Keep Tab order sensible when cards are visually rearranged, using `reading-flow: grid-order` to follow visual position.' },
+      { title: 'Responsive reordering', text: 'Handle layouts that reorder per breakpoint, where keyboard and screen reader order would otherwise follow the DOM and confuse users.' },
+      { title: 'Masonry-style galleries', text: 'Pair with the [native CSS masonry gallery](/ui-snippets/css-masonry-native-gallery/), since packed columns often scramble the order a keyboard user experiences.' },
+      { title: 'Accessibility audits', text: 'Demonstrate and test the mismatch between visual and source order, without resorting to the discouraged positive `tabindex` hack.' },
+      { title: 'Keyboard navigation toolkits', text: 'Combine with a [focus visible demo](/ui-snippets/focus-visible-demo/) and a [skip to content link](/ui-snippets/skip-to-content-link/) for a more complete keyboard experience.' },
       { icon: 'CODE', title: 'Related: Two-Column FAQ', desc: 'See the [Two-Column FAQ](/ui-snippets/faq-two-column/) for a related layouts pattern worth pairing with this one.' },
     ],
     faqs: [

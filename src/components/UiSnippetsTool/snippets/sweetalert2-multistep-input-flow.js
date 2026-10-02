@@ -143,12 +143,11 @@ Add a fourth step by inserting one more \`StepSwal.fire(...).then(...)\` link in
       { title: 'Accidental-dismissal protection', text: `Outside clicks cannot silently discard a multi-step flow.` },
     ],
     useCases: [
-      { title: 'Project and workspace creation wizards', text: `Exactly this pattern for structured setup flows.` },
-      { title: 'Onboarding and account setup', text: `Step-by-step data collection with validation per step.` },
-      { title: 'Checkout and order configuration', text: `Pair with the [confirmation dialog set](/ui-snippets/sweetalert2-confirmation-dialog-set/) elsewhere in this collection.` },
-      { title: 'Survey and feedback collection', text: `Sequential questions without a full separate page.` },
-      { title: 'Multi-field settings configuration', text: `Break a long settings form into digestible steps.` },
-      { title: 'Learning SweetAlert2', text: `A clear reference for the promise-chain pattern.` },
+      { title: 'Project creation wizards', text: 'Collect project details across three chained dialogs, using `Swal.mixin` so common settings apply to every step at once.' },
+      { title: 'Onboarding and account setup', text: 'Gather onboarding and account setup data step by step, with each step blocked by its own `inputValidator` until the input is valid.' },
+      { title: 'Checkout configuration', text: 'Pair with the [SweetAlert2 confirmation dialog set](/ui-snippets/sweetalert2-confirmation-dialog-set/) so a configured order ends in a clear final confirmation.' },
+      { title: 'Survey and feedback collection', text: 'Ask sequential questions without leaving the page, with `currentProgressStep` highlighting the correct dot at each stage.' },
+      { title: 'Replacing the removed queue API', text: 'Learn the modern promise-chain pattern that replaced the removed `Swal.queue()` helper, as documented for SweetAlert2 version 11 and later.' },
     ],
     faqs: [
       { q: 'Why does this snippet chain Swal.fire calls instead of using Swal.queue()?', a: `Swal.queue() was a built-in helper in older SweetAlert2 versions for running a linear sequence of dialogs, but it was removed in SweetAlert2 v11. The currently documented approach for multi-step flows is chaining plain Swal.fire() calls: each step's .then() callback returns the next step's Swal.fire() call, which is what makes the following .then() wait for it, with a shared object threaded manually through the chain to collect each step's answer.` },

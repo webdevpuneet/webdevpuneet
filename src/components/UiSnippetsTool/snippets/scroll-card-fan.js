@@ -128,12 +128,11 @@ Change the spread angle, card count (the \`mid\` math adapts), or make each card
       { title: 'Count-agnostic', text: `Works with any number of cards unchanged.` },
     ],
     useCases: [
-      { title: 'Feature intros', text: `Fan five value props open, then detail them with [sticky scroll features](/ui-snippets/scroll-sticky-features/).` },
-      { title: 'Plan pickers', text: `Fan pricing tiers before a [pricing card](/ui-snippets/pricing-card/) section.` },
-      { title: 'Portfolio decks', text: `Spread project cards; let a [scroll gallery pin](/ui-snippets/scroll-gallery-pin/) carry the detail view.` },
-      { title: 'Game and NFT sites', text: `Literal card reveals; add a [3d flip card](/ui-snippets/3d-flip-card/) on click.` },
-      { title: 'Onboarding choices', text: `Fan the paths a user can take, echoing [stacked cards](/ui-snippets/stacked-cards/).` },
-      { title: 'Section transitions', text: `Open the fan, then hand off to a [scroll sticky stack](/ui-snippets/scroll-sticky-stack/).` },
+      { title: 'Feature introductions', text: 'Fan five value propositions open from a pile, then detail them with [scroll sticky features](/ui-snippets/scroll-sticky-features/) below.' },
+      { title: 'Plan pickers', text: 'Fan pricing tiers open before a [pricing card](/ui-snippets/pricing-card/) section, with rotation scaled by each card\'s distance from the middle.' },
+      { title: 'Portfolio decks', text: 'Spread project cards as a portfolio deck and let a [scroll gallery pin](/ui-snippets/scroll-gallery-pin/) take over to browse each one in detail.' },
+      { title: 'Game and NFT sites', text: 'Create literal card reveals, adding a [3D flip card](/ui-snippets/3d-flip-card/) to turn each card over once the hand is open.' },
+      { title: 'Onboarding choices and transitions', text: 'Fan the paths a user can take, echoing [stacked cards](/ui-snippets/stacked-cards/), or open the fan and hand off to a [scroll sticky stack](/ui-snippets/scroll-sticky-stack/).' },
       { icon: 'CODE', title: 'Related: Scroll Chapter Sidebar Story', desc: 'See the [Scroll Chapter Sidebar Story](/ui-snippets/scroll-chapter-sidebar-story/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

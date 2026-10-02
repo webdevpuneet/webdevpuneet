@@ -141,12 +141,11 @@ Swap the invite form for any modal content — the \`data-micromodal-trigger\`/\
       { title: 'Animation-synced state', text: `JS open/closed state waits for the CSS transition to finish.` },
     ],
     useCases: [
-      { title: 'Invite and onboarding flows', text: `Accessible forms inside a focused modal context.` },
-      { title: 'Confirmation and settings dialogs', text: `Pair with the [confirmation dialog set](/ui-snippets/sweetalert2-confirmation-dialog-set/) elsewhere in this collection for a library comparison.` },
-      { title: 'Compliance-sensitive applications', text: `Government, healthcare, and enterprise accessibility requirements.` },
-      { title: 'Any form collected via overlay', text: `Genuinely keyboard- and screen-reader-usable by default.` },
-      { title: 'Design systems needing a lightweight modal', text: `No framework dependency, just data attributes and CSS.` },
-      { title: 'Learning accessible modal patterns', text: `A clear reference for what real modal accessibility requires.` },
+      { title: 'Invite and onboarding flows', text: 'Put accessible forms inside a modal with genuine focus trapping, so Tab cycles only within the dialog while it is open.' },
+      { title: 'Confirmation and settings dialogs', text: 'Pair with the [SweetAlert2 confirmation dialog set](/ui-snippets/sweetalert2-confirmation-dialog-set/) for dialogs that need both styling and robust keyboard handling.' },
+      { title: 'Compliance-sensitive applications', text: 'Support government, healthcare and finance products where accessibility is a requirement, with real `role`, `aria-modal` and `aria-labelledby` semantics.' },
+      { title: 'Any form collected in an overlay', text: 'Make overlay forms usable for keyboard and screen reader users, with focus restored to the exact trigger button on every close path.' },
+      { title: 'Lightweight design system modals', text: 'Provide a framework-free modal wired through data attributes, with no manual click listeners for standard open and close behaviour.' },
     ],
     faqs: [
       { q: 'How does Micromodal know which button opens which modal?', a: `The trigger button carries a data-micromodal-trigger attribute whose value matches the target modal's id (data-micromodal-trigger="mm-modal" pointing at id="mm-modal"). MicroModal.init() scans the page for every element with that attribute and automatically wires up a click handler to open the matching modal — no manual addEventListener code is needed for this standard interaction.` },

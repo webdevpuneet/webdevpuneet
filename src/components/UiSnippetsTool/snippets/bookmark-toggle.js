@@ -121,12 +121,11 @@ Each row builds its own \`paint()\` closure over its data, so state stays local 
       { title: 'No dependency', text: `Pure HTML/CSS/JS — no icon library.` },
     ],
     useCases: [
-      { title: 'Save for later', text: `Bookmark articles in a reading list beside an [article card](/ui-snippets/article-card/).` },
-      { title: 'Wishlist and favorites', text: `A flag-style alternative to a heart [favorite button](/ui-snippets/favorite-button/).` },
-      { title: 'Feeds and content lists', text: `Save posts in a [social post card](/ui-snippets/social-post-card/) stream.` },
-      { title: 'Product saves', text: `Let shoppers save items from a [product card](/ui-snippets/product-card/) grid.` },
-      { title: 'Recipe and collection apps', text: `Bookmark entries next to a recipe card in a saved-collections view.` },
-      { title: 'Learning toggle buttons', text: `A reference for optimistic state and pressed semantics.` },
+      { title: 'Save for later reading lists', text: 'Let readers bookmark articles beside an [article card](/ui-snippets/article-card/), with an outline flag that fills through an `.on` class on the same SVG path.' },
+      { title: 'Wishlist alternatives', text: 'Offer a flag-style option instead of a heart like a [favorite button](/ui-snippets/favorite-button/), with an optimistic saved count that updates instantly.' },
+      { title: 'Feeds and content lists', text: 'Save posts in a [social post card](/ui-snippets/social-post-card/), with a spring pop from an overshooting cubic-bezier giving a tactile save snap.' },
+      { title: 'Product saves', text: 'Let shoppers save items from a [product card](/ui-snippets/product-card/), with a reflow trick restarting the animation on every save.' },
+      { title: 'Optimistic state learning', text: 'Study a reference for optimistic toggle buttons, where `aria-pressed` conveys state and the displayed number moves plus or minus one.' },
       { icon: 'CODE', title: 'Related: Contact Picker Button', desc: 'See the [Contact Picker Button](/ui-snippets/contact-picker-button/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

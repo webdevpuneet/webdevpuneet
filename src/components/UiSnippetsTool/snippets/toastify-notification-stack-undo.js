@@ -143,12 +143,11 @@ This staged-delete-plus-undo-window pattern generalizes to any reversible destru
       { title: 'Correctly scoped click handling', text: `The Undo button has its own listener, separate from the toast.` },
     ],
     useCases: [
-      { title: 'Email and messaging clients', text: `The exact Gmail-style delete-with-undo pattern.` },
-      { title: 'List and table row deletion', text: `Any destructive list action worth a safety net.` },
-      { title: 'File and document management', text: `Pair with the [confirmation dialog set](/ui-snippets/sweetalert2-confirmation-dialog-set/) elsewhere in this collection for higher-stakes deletions.` },
-      { title: 'Shopping cart item removal', text: `Let users recover an accidentally removed item.` },
-      { title: 'Draft and note discarding', text: `Reversible removal for low-friction content tools.` },
-      { title: 'Learning Toastify customization', text: `A clear reference for custom node content and callbacks.` },
+      { title: 'Email-style delete with undo', text: 'Stage a deletion behind a timer, so an Undo click cancels it before it ever becomes permanent, as in Gmail.' },
+      { title: 'List and table row deletion', text: 'Support any destructive list action with a recovery window, using a pending map so each item has its own independent undo state.' },
+      { title: 'File and document management', text: 'Pair with the [SweetAlert2 confirmation dialog set](/ui-snippets/sweetalert2-confirmation-dialog-set/) for actions that deserve both a prompt and an undo.' },
+      { title: 'Shopping cart removal', text: 'Let shoppers recover an accidentally removed item, with a clickable Undo built from a custom DOM node inside the toast.' },
+      { title: 'Draft and note discarding', text: 'Make low-friction removal reversible, with Toastify\'s own timer completion callback finalising the delete only once the window expires.' },
     ],
     faqs: [
       { q: 'Does clicking delete actually remove the email from the data right away?', a: `No — clicking delete only adds that email's id to a pendingDeletes tracking object and re-renders the list, which filters out anything in that pending state. The email object itself remains untouched in the real EMAILS array the entire time the undo toast is showing; nothing is actually removed from the underlying data until the undo window expires.` },

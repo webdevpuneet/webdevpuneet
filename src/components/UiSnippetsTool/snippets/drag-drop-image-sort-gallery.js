@@ -127,10 +127,10 @@ On \`drop\`, the handler reads the source tile's id back out of \`dataTransfer\`
       'Uses picsum.photos seeded URLs so every tile shows a distinct real image',
     ],
     useCases: [
-      { icon: 'DESIGN', title: 'Photo and portfolio galleries', desc: 'Let users manually curate image order in a portfolio, album, or media library.' },
-      { icon: 'APP', title: 'CMS media managers', desc: 'Reorder a product\'s image gallery or a blog post\'s attached images by drag.' },
-      { icon: 'CODE', title: 'Reference for grid-based drag reordering', desc: 'Shows how to compute and apply array splice-based reordering from drag events.' },
-      { icon: 'LEARN', title: 'Teaching HTML5 drag-and-drop with grids', desc: 'A clear example of tracking source and target positions across a 2D grid layout.' },
+      { icon: '🖼️', title: 'Photo and portfolio galleries', desc: 'Let users curate image order by dragging tiles onto each other, using the native HTML5 drag-and-drop API without any sorting library.' },
+      { icon: '🗂️', title: 'CMS media managers', desc: 'Reorder a product\'s image gallery, with a numbered position badge on every tile that updates automatically after each reorder.' },
+      { icon: '📚', title: 'Grid drag reordering reference', desc: 'Show how to combine native drag events with a CSS grid, re-rendering the whole grid from one images array after each drop.' },
+      { icon: '🎓', title: 'HTML5 drag teaching', desc: 'Teach `dragstart`, `dragover`, `dragleave` and `drop` together, with a visual highlight border on the tile currently being hovered.' },
     ],
     faqs: [
       { q: 'How does dropping one tile onto another reorder the grid?', a: 'The drop handler reads the dragged tile\'s id via dataTransfer, finds both its current index and the target tile\'s index in the images array, then uses Array.splice to remove it from the old position and reinsert it at the new one before re-rendering the grid.' },

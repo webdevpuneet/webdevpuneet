@@ -148,10 +148,10 @@ getCtx() creates the AudioContext once on first use and reuses it for every subs
       'Overlapping tones handled cleanly via per-tone oscillator/gain nodes',
     ],
     useCases: [
-      { icon: 'APP', title: 'Settings panels', desc: 'A realistic "UI sound effects" toggle row like those found in Slack, Discord, or OS settings.' },
-      { icon: 'FORM', title: 'Form validation feedback', desc: 'Wire the error tone to invalid submissions and success tone to completed forms.' },
-      { icon: 'CODE', title: 'Design systems', desc: 'A reference implementation for adding optional audio feedback to a component library.' },
-      { icon: 'LEARN', title: 'Web Audio API teaching demos', desc: 'Shows envelope shaping with gain ramps without needing any audio files.' },
+      { icon: '⚙️', title: 'Settings panel sound rows', desc: 'Provide a realistic UI sound effects toggle that gates success, error and notification tones across an app.' },
+      { icon: '❌', title: 'Form validation feedback', desc: 'Wire the error tone to invalid submissions, with a fast-attack, short-decay `GainNode` envelope that avoids a harsh click.' },
+      { icon: '🧩', title: 'Design system references', desc: 'Offer a reference implementation of optional sound feedback, creating one shared `AudioContext` lazily and reusing it for every tone.' },
+      { icon: '🎓', title: 'Web Audio teaching', desc: 'Show envelope shaping with oscillators, producing three distinct tones live with no audio files to host or download.' },
     ],
     faqs: [
       { q: 'Do the sounds use any audio files?', a: 'No. Every tone is synthesized live using AudioContext, OscillatorNode, and GainNode — there are no mp3 or wav assets anywhere in this snippet.' },

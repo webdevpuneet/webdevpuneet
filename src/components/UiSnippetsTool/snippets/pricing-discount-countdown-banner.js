@@ -142,12 +142,11 @@ Swap in your real end date, discount percentage, and copy. Persist the end time 
       { title: 'Framework-agnostic core', text: `tick() is pure and ports directly to any component's effects.` },
     ],
     useCases: [
-      { title: 'Flash sales', text: `Drive urgency on a time-boxed pricing promotion.` },
-      { title: 'Trial-to-paid conversion', text: `Pair with a [trial countdown](/ui-snippets/trial-countdown/) near expiry.` },
-      { title: 'Coupon campaigns', text: `Show alongside a [coupon card](/ui-snippets/coupon-card/) or [promo code input](/ui-snippets/promo-code-input/).` },
-      { title: 'Seasonal pricing pages', text: `Anchor a holiday or end-of-quarter discount to a real deadline.` },
-      { title: 'Win-back emails landing page', text: `Give a lapsed customer a real, expiring reason to return.` },
-      { title: 'Launch-week pricing', text: `Discount early adopters with a countdown to the real cutoff.` },
+      { title: 'Flash sales', text: 'Drive urgency on a time-boxed promotion with a struck-through price and a countdown computed live from a real expiry `Date` object.' },
+      { title: 'Trial-to-paid conversion', text: 'Pair with a [trial countdown](/ui-snippets/trial-countdown/) near the upgrade moment, deriving every tick from the real clock so it never drifts.' },
+      { title: 'Coupon campaigns', text: 'Show alongside a [coupon card](/ui-snippets/coupon-card/) or [promo code input](/ui-snippets/promo-code-input/), with an interval that clears and a disabled call-to-action once time truly runs out.' },
+      { title: 'Seasonal pricing pages', text: 'Anchor a holiday or end-of-quarter offer, using integer division and modulo to break time into days, hours, minutes and seconds.' },
+      { title: 'Win-back and launch week offers', text: 'Give a lapsed customer a real deadline on a landing page, or discount early adopters in launch week with a countdown that survives page reloads.' },
       { icon: 'CODE', title: 'Related: Cost Per User Breakdown', desc: 'See the [Cost Per User Breakdown](/ui-snippets/pricing-cost-per-user-breakdown/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

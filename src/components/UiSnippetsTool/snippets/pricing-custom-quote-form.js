@@ -197,12 +197,11 @@ Add fields like phone number or expected seat count, wire the submit handler to 
       { title: 'Framework-agnostic core', text: `Validation and submit-gating logic port to any form state model.` },
     ],
     useCases: [
-      { title: 'Enterprise pricing pages', text: `The endpoint of a "Contact sales" CTA on [enterprise pricing](/ui-snippets/enterprise-pricing/).` },
-      { title: 'Pricing card CTAs', text: `Route an Enterprise tier's button from a [pricing card](/ui-snippets/pricing-card/) here.` },
-      { title: 'Sales-assisted onboarding', text: `Qualify a lead's company size before a sales call.` },
-      { title: 'Demo request forms', text: `Adapt the same validation pattern for a product demo request.` },
-      { title: 'Partnership inquiries', text: `Reuse the field-level validation for a different lead type.` },
-      { title: 'Post-FAQ conversion', text: `Place below a [pricing faq](/ui-snippets/pricing-faq/) once objections are addressed.` },
+      { title: 'Enterprise pricing pages', text: 'Provide the endpoint of a Contact sales route from [enterprise pricing](/ui-snippets/enterprise-pricing/), with per-field validation for email, required text and minimum length.' },
+      { title: 'Pricing card call-to-action routing', text: 'Send an Enterprise tier\'s button from a [pricing card](/ui-snippets/pricing-card/) here, with errors sitting under each field rather than in a summary.' },
+      { title: 'Sales-assisted onboarding', text: 'Qualify a lead by company size before a call, validating on blur first and live afterwards once a field has been touched.' },
+      { title: 'Demo and partnership requests', text: 'Adapt the same validation pattern for demo bookings or partnership inquiries, using `Array.every` to ensure every field passes before submit.' },
+      { title: 'Post-FAQ conversion', text: 'Place below a [pricing FAQ](/ui-snippets/pricing-faq/) once objections are answered, with a confirmation stating exactly what happens next.' },
       { icon: 'CODE', title: 'Related: Dense Feature Comparison Matrix', desc: 'See the [Dense Feature Comparison Matrix](/ui-snippets/pricing-compare-matrix-grid/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

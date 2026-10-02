@@ -245,12 +245,11 @@ Replace \`startFile\`'s simulated interval with a real \`XMLHttpRequest\` (or \`
       { title: 'Backend-ready structure', text: `Swap the simulated interval for real XHR upload.onprogress with no other changes.` },
     ],
     useCases: [
-      { title: 'Media and asset upload managers', text: `Batch uploads of large files where bandwidth limits concurrent transfers.` },
-      { title: 'Backup and sync clients', text: `A web dashboard for a sync tool showing queued vs. active file transfers.` },
-      { title: 'Bulk document ingestion', text: `Compare with [upload progress](/ui-snippets/upload-progress/) for the picker step feeding this queue.` },
-      { title: 'CMS and DAM bulk imports', text: `Import many assets while capping concurrent requests to the media API.` },
-      { title: 'Data pipeline job queues', text: `Adapt the same concurrency-limited pattern for background job processing.` },
-      { title: 'Any rate-limited API upload', text: `Respect a backend's concurrent-request limit while keeping users informed.` },
+      { title: 'Media and asset upload managers', text: 'Handle batch uploads of large files with only two running at once, while the remaining files wait their turn in the queue.' },
+      { title: 'Backup and sync dashboards', text: 'Show a web view of a sync tool\'s activity, with independent per-file progress and an aggregate summary of what has finished.' },
+      { title: 'Bulk document ingestion', text: 'Compare with a single [upload progress](/ui-snippets/upload-progress/) bar when many documents arrive together and need individual retry.' },
+      { title: 'CMS and DAM bulk imports', text: 'Import many assets while capping concurrency, with `fillQueue()` pulling the next waiting file the moment a slot opens.' },
+      { title: 'Rate-limited API uploads', text: 'Respect a backend\'s concurrency limit, adapting the same pattern for data pipeline job queues, with a real failure and a retry button.' },
       { icon: 'CODE', title: 'Related: Infinite Scroll Loading Spinner', desc: 'See the [Infinite Scroll Loading Spinner](/ui-snippets/loader-infinite-scroll-spinner/) for a related loaders pattern worth pairing with this one.' },
     ],
     faqs: [

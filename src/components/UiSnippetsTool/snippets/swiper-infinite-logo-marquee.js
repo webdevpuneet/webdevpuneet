@@ -120,10 +120,11 @@ Continuous motion is one of the things accessibility guidelines specifically cal
       'CSS mask edge fades instead of hard clipping',
     ],
     useCases: [
-      { icon: 'WEB', title: 'Customer and partner logo strips', desc: `Show social proof under a hero. Combine with the [autoplay slider](/ui-snippets/swiper-autoplay-progress-ring/) for a full landing page.` },
-      { icon: 'SHOP', title: 'Brand and press mentions', desc: `Scroll a list of featured-in publications or stockists.` },
-      { icon: 'DOC', title: 'Technology and integration lists', desc: `Show the tools a product works with in a compact, moving band.` },
-      { icon: 'LEARN', title: 'Learning continuous transitions', desc: `See why delay 0, long speed and linear easing together produce a marquee.` },
+      { icon: '🏢', title: 'Customer and partner logo strips', desc: 'Show social proof under a hero with two rows moving in opposite directions, using `reverseDirection` for the second row.' },
+      { icon: '📰', title: 'Press and publication mentions', desc: 'Scroll a list of featured-in outlets at constant speed, using autoplay `delay: 0` with a long speed and linear timing.' },
+      { icon: '🔌', title: 'Technology and integration lists', desc: 'Show the tools a product works with, using `slidesPerView: \'auto\'` so logos of any width flow naturally.' },
+      { icon: '⏱️', title: 'Autoplay progress pairing', desc: 'Compare with the [Swiper autoplay progress ring](/ui-snippets/swiper-autoplay-progress-ring/) for content that should show when it will change rather than flow constantly.' },
+      { icon: '🎓', title: 'Continuous transition learning', desc: 'See why hover pause that freezes instantly needs `getTranslate` and `setTranslate` pinning the wrapper, plus a pause button and reduced-motion support.' },
     ],
     faqs: [
       { q: 'How do I make Swiper scroll continuously?', a: 'Set autoplay.delay to 0, give speed a large value, and set transition-timing-function: linear on the wrapper so the speed is constant.' },

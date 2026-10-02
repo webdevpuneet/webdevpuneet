@@ -123,12 +123,11 @@ It's a complete navigation overlay — wire the links to your routes, restyle th
       { title: 'Drop-in & no library', text: `A complete nav overlay in plain HTML/CSS/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Agency and portfolio sites', text: `A bold full-viewport nav — pair with a [portfolio hero](/ui-snippets/portfolio-hero/) behind it.` },
-      { title: 'Editorial and brand sites', text: `Large-type navigation for a striking first impression, alongside a [mega menu](/ui-snippets/mega-menu/) for content-heavy sites.` },
-      { title: 'Mobile navigation', text: `A full-screen menu is ideal on phones, next to a [hamburger nav](/ui-snippets/hamburger-nav/) for simpler bars.` },
-      { title: 'Landing and campaign pages', text: `Minimal header that expands to full nav on demand.` },
-      { title: 'Product and launch sites', text: `A dramatic menu that matches a bold visual design.` },
-      { title: 'Learning clip-path & stagger', text: `A reference for clip-path reveals and CSS stagger — compare with a [side drawer](/ui-snippets/side-drawer/).` },
+      { title: 'Agency and portfolio navigation', text: 'Open a bold full-viewport menu of large links, pairing with a [portfolio hero](/ui-snippets/portfolio-hero/) for a confident first impression.' },
+      { title: 'Editorial and brand sites', text: 'Provide large-type navigation for editorial and brand sites, wiping open from the button through an animated `clip-path` circle reveal.' },
+      { title: 'Mobile navigation', text: 'Offer a phone-friendly alternative to a [hamburger nav](/ui-snippets/hamburger-nav/), with scroll lock while open and links rising into view.' },
+      { title: 'Mega menu and drawer alternatives', text: 'Compare with a [mega menu](/ui-snippets/mega-menu/) or [side drawer](/ui-snippets/side-drawer/) for sites with deeper navigation structures and more links per section.' },
+      { title: 'Clip-path and stagger learning', text: 'Learn how a `--i` index drives `calc()` transition delays, and how three hamburger bars morph into a close X through a class.' },
       { icon: 'CODE', title: 'Related: Long-Press Preview (iOS-Style Peek)', desc: 'See the [Long-Press Preview (iOS-Style Peek)](/ui-snippets/long-press-tooltip-preview/) for a related modals pattern worth pairing with this one.' },
     ],
     faqs: [

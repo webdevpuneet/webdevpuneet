@@ -222,12 +222,11 @@ Pair a read-aloud button with [a dyslexia-friendly reading mode toggle](/ui-snip
       { title: 'Cleans up on unload', text: `Cancels any in-flight speech before the page is torn down.` },
     ],
     useCases: [
-      { title: 'Article and blog readers', text: `Let visitors listen instead of read, especially on long-form content.` },
-      { title: 'Accessibility toolbars', text: `Pair with [text size adjuster](/ui-snippets/text-size-adjuster/) and [reading mode toggle](/ui-snippets/reading-mode-toggle/).` },
-      { title: 'Language learning tools', text: `Read example sentences aloud with the browser's chosen voice/language.` },
-      { title: 'Low-vision or dyslexia support', text: `Combine with [the dyslexia-friendly reading mode](/ui-snippets/dyslexia-font-toggle/).` },
-      { title: 'Onboarding and help text', text: `Offer an audio alternative to dense instructional copy.` },
-      { title: 'Kiosk and public displays', text: `Read prompts aloud where a screen reader isn't otherwise available.` },
+      { title: 'Article and blog readers', text: 'Let visitors listen instead of read, using the browser\'s built-in `speechSynthesis` with no API key, audio file or server round trip.' },
+      { title: 'Accessibility toolbars', text: 'Pair with a [text size adjuster](/ui-snippets/text-size-adjuster/) and a [reading mode toggle](/ui-snippets/reading-mode-toggle/), with real pause and resume rather than cancel and restart.' },
+      { title: 'Language learning tools', text: 'Read example sentences aloud while `onboundary` events highlight the word being spoken, instead of relying on a fake timer.' },
+      { title: 'Low-vision and dyslexia support', text: 'Combine with the [dyslexia-friendly reading mode](/ui-snippets/dyslexia-font-toggle/) for a fuller set of reading aids on one page.' },
+      { title: 'Help text and public displays', text: 'Offer an audio alternative to dense onboarding copy, or read prompts aloud on kiosks where a screen reader is not present.' },
     ],
     faqs: [
       { q: 'Does this cost anything or need an API key?', a: `No — it uses the browser's built-in Web Speech API (window.speechSynthesis), which is a native browser feature with no network request, no API key, and no per-character cost. The voice quality depends on what the operating system and browser provide, which varies but is generally solid on current Chrome, Edge, Safari, and Firefox.` },

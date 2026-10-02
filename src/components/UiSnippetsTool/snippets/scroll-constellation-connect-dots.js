@@ -166,12 +166,11 @@ Because each connecting segment is a simple straight line between two known star
       'Fully reversible and pinned — scrolling up retracts lines and dims stars in reverse with zero extra code',
     ],
     useCases: [
-      { icon: 'WEB', title: 'Astronomy and planetarium sites', desc: 'Open an observatory, planetarium, or stargazing-app homepage with a literal connect-the-stars hero moment.' },
-      { icon: 'LEARN', title: 'Astronomy and science education', desc: 'Teach constellation shapes interactively, revealing each one as students scroll through a lesson.' },
-      { icon: 'DESIGN', title: 'Storytelling and narrative-driven brand sites', desc: 'Use the "pieces coming together" motif for brand stories about connection, discovery, or milestones.' },
-      { icon: 'ART', title: 'Generative and data-visualization portfolios', desc: 'Showcase SVG draw-on technique with a piece that doubles as a reusable connect-the-dots pattern for network diagrams.' },
-      { icon: 'GAME', title: 'Space or exploration game landing pages', desc: 'Pair with [three-scroll-galaxy-formation](/ui-snippets/three-scroll-galaxy-formation/) for a layered space-themed scroll story.' },
-      { icon: 'FLOW', title: 'Timeline and milestone sections', desc: 'Reuse the star/edge/label pattern as a scroll-revealed roadmap where each "star" is a milestone.' },
+      { icon: '🔭', title: 'Astronomy and planetarium sites', desc: 'Open an observatory page with scattered stars that connect one edge at a time into a recognisable constellation as the reader scrolls.' },
+      { icon: '🎓', title: 'Science education', desc: 'Teach constellation shapes visually, with each edge brightening its start star, drawing its line and then lighting its end star.' },
+      { icon: '📖', title: 'Narrative brand storytelling', desc: 'Use the connect the dots idea for a story of pieces coming together, with scroll progress divided into equal slices per edge.' },
+      { icon: '📊', title: 'Data visualisation portfolios', desc: 'Showcase SVG draw-on techniques, separating background clutter stars from foreground constellation stars so the shape stays readable.' },
+      { icon: '🚀', title: 'Space-themed launches and timelines', desc: 'Pair with [three scroll galaxy formation](/ui-snippets/three-scroll-galaxy-formation/) for a space page, or reuse the star, edge and label structure for milestone timelines.' },
     ],
     faqs: [
       { q: 'How does the stroke-dasharray "draw-on" trick actually work?', a: 'Setting stroke-dasharray to a line\'s exact pixel length creates one dash and one gap of that same length. Starting stroke-dashoffset at that same length shifts the dash entirely out of view, making the line appear invisible. Animating dashoffset down to 0 slides the visible dash back into place from one end, which reads as the line being drawn on.' },

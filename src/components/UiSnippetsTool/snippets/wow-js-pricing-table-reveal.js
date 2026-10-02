@@ -134,10 +134,11 @@ The "Choose Plan" buttons demonstrate that WOW.js's job ends the moment the entr
       { title: 'One shared WOW.js call', text: 'No per-card JS configuration is needed to vary the entrance animation.' },
     ],
     useCases: [
-      { icon: 'CARD', title: 'SaaS pricing pages', text: 'Draw attention to the recommended plan with both a static design cue and a distinct entrance.' },
-      { icon: 'DESIGN', title: 'Comparison tables', text: 'Vary entrance animation per column to hint at relative importance before the visitor reads any copy.' },
-      { icon: 'LEARN', title: 'Teaching class-based libraries', text: 'A clear demonstration that a shared library instance doesn\'t force uniform behavior.' },
-      { icon: 'FLOW', title: 'Plan upgrade prompts', text: 'Reuse the featured-card pattern inside an in-app upsell modal.' },
+      { title: 'Recommended plan flip reveals', text: 'Draw attention to the recommended plan with `animate__flipInY` while the side plans simply fade up, using a single shared WOW.js instance.' },
+      { title: 'Comparison tables', text: 'Vary the entrance animation per column to create visual hierarchy, with `perspective: 1000px` giving the flip real 3D depth.' },
+      { title: 'Class-based library teaching', text: 'Demonstrate that WOW.js does not force one shared animation, because each element can pick its own animate.css class.' },
+      { title: 'Plan upgrade prompts', text: 'Reuse the featured-card pattern inside an upgrade flow, with `data-wow-delay` working identically whichever animation is chosen.' },
+      { title: 'Entrance hierarchy design', text: 'Use motion to signal importance, as a more eventful entrance on the featured card reads as a more important plan.' },
     ],
     faqs: [
       { q: 'Do all cards need to use the same animate.css class?', a: 'No. WOW.js only tracks the .wow class and removes it on scroll-into-view; it never inspects which animate.css animation class is also present. Each element can carry its own animation class independently, as this table demonstrates with flipInY on one card and fadeInUp on the other two.' },

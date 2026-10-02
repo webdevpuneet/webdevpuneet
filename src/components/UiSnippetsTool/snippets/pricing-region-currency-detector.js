@@ -186,12 +186,11 @@ Add more regions to \`REGION_TABLE\`, replace the static rates with a fetched ex
       { title: 'Smooth fade on price change', text: 'Small opacity transition confirms the number updated.' },
     ],
     useCases: [
-      { title: 'International SaaS pricing pages', text: 'Show a locale-correct price without a geolocation service.' },
-      { title: 'E-commerce storefronts', text: 'Pair with a [currency converter](/ui-snippets/currency-converter/) for cart totals.' },
-      { title: 'Marketing landing pages', text: 'Reduce mental friction for global first-time visitors.' },
-      { title: 'A/B testing localization', text: 'Test whether locale-aware pricing improves conversion.' },
-      { title: 'Multi-region checkout flows', text: 'Confirm currency before handing off to [pricing toggle](/ui-snippets/pricing-toggle/).' },
-      { title: 'Teaching Intl.NumberFormat', text: 'A clean reference for locale-correct currency formatting.' },
+      { title: 'International SaaS pricing', text: 'Show a locale-correct price when the page loads, using `navigator.language` and `Intl.NumberFormat` with no geolocation call or server round trip.' },
+      { title: 'E-commerce storefronts', text: 'Pair with a [currency converter](/ui-snippets/currency-converter/) for fuller coverage, deriving every conversion from one USD base price so rates cannot drift.' },
+      { title: 'Global landing pages', text: 'Reduce mental friction for visitors abroad, with correct symbol, grouping and decimal rules for seven regions including Germany, India, Japan and Brazil.' },
+      { title: 'Localisation A/B tests', text: 'Test whether locale-aware pricing lifts conversion, with a manual region override for people whose browser locale does not match their location.' },
+      { title: 'Multi-region checkout and formatting teaching', text: 'Confirm currency before hand-off to payment alongside a [pricing toggle](/ui-snippets/pricing-toggle/), and learn `Intl.NumberFormat` as a reference.' },
       { icon: 'CODE', title: 'Related: Free Trial Signup Card', desc: 'See the [Free Trial Signup Card](/ui-snippets/pricing-free-trial-signup-card/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

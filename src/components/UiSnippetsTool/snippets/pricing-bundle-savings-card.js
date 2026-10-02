@@ -177,12 +177,11 @@ Swap in your real products and prices — keep each item's bundle-share price pr
       { title: 'Framework-agnostic core', text: `render() is pure and ports directly to any component's state.` },
     ],
     useCases: [
-      { title: 'Digital product bundles', text: `Sell design kits, templates, or courses as a discounted set.` },
-      { title: 'SaaS add-on bundles', text: `Pair with a [pricing card](/ui-snippets/pricing-card/) offering bundled add-ons.` },
-      { title: 'E-commerce cross-sells', text: `Bundle complementary physical products with real per-item math.` },
-      { title: 'Course/curriculum bundles', text: `Let a learner opt out of a module and see the price adjust.` },
-      { title: 'Agency service packages', text: `Bundle deliverables with a transparent per-item discount.` },
-      { title: 'Promo stacking', text: `Combine with a [promo code input](/ui-snippets/promo-code-input/) for an extra discount layer.` },
+      { title: 'Digital product bundles', text: 'Sell design kits or template packs with checkboxes to include or exclude items, recomputing savings from scratch on every toggle.' },
+      { title: 'SaaS add-on bundles', text: 'Pair with a [pricing card](/ui-snippets/pricing-card/) that offers bundled extras, with each item carrying both a standalone and a bundle-share price.' },
+      { title: 'E-commerce cross-sells', text: 'Bundle complementary physical products with a proportional discount, so the savings percentage stays constant however many items are chosen.' },
+      { title: 'Course and curriculum bundles', text: 'Let a learner opt out of a module without the price going stale, using the example of 55.00 individually against 38.50 bundled.' },
+      { title: 'Agency packages and promo stacking', text: 'Bundle deliverables transparently, or combine with a [promo code input](/ui-snippets/promo-code-input/) for an extra saving on top of the bundle.' },
     ],
     faqs: [
       { q: 'How is the bundle price different from just applying one discount to the total?', a: `Each item stores its own bundle-share price (its individual price × 0.7) rather than the page applying one discount to whatever total happens to be selected. Design System Kit is $15 individually and $10.50 in the bundle, Icon Pack Pro is $22 and $15.40, and Illustration Set is $18 and $12.60 — those three bundle-share prices sum to exactly $38.50, the full bundle price.` },

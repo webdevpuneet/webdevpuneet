@@ -194,12 +194,11 @@ Change \`RX\`/\`RY\` for a taller or flatner orbit, add more \`STOPS\` for finer
       { title: 'GSAP ScrollTrigger scrub', text: `scrub: 0.6 smooths input while staying tightly tied to scroll position.` },
     ],
     useCases: [
-      { title: 'Product storytelling sections', text: `A cinematic scroll moment for an outdoor, travel, or wellness brand.` },
-      { title: 'Portfolio and agency sites', text: `Demonstrates real scroll-choreography skill beyond a simple fade-in.` },
-      { title: 'Sleep, weather, or astronomy apps', text: `A literal, on-theme hero for a product about day/night cycles.` },
-      { title: 'Landing page section breaks', text: `Use as a full-bleed scroll interlude between two content sections.` },
-      { title: 'Teaching orbital/trigonometric motion', text: `A clean, real-world example of sin/cos-driven circular placement.` },
-      { title: 'Alongside other scroll effects', text: `Pair with [scroll color sections](/ui-snippets/scroll-color-sections/) or [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) in a longer scroll narrative.` },
+      { title: 'Product storytelling moments', text: 'Create a cinematic scroll scene in which the sun and moon share one orbit half a rotation apart, so the moon is highest when the sun is lowest.' },
+      { title: 'Scroll choreography demos', text: 'Demonstrate real scroll choreography, with sky colour blended by a keyframe lookup of real RGB values instead of hard-cutting between states.' },
+      { title: 'Sleep, weather and astronomy apps', text: 'Provide a literal, on-theme hero, with bodies fading below a horizon threshold so a circular path still looks like rising and setting.' },
+      { title: 'Landing page section breaks', text: 'Use as a full-bleed scroll interlude between sections, pairing with [scroll colour sections](/ui-snippets/scroll-color-sections/) so the palette changes continue through the page.' },
+      { title: 'Orbital motion teaching and pairings', text: 'Teach trigonometric orbits with a clear real-world example, and follow with a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) of content.' },
       { icon: 'CODE', title: 'Related: Scroll Data Story Counters', desc: 'See the [Scroll Data Story Counters](/ui-snippets/scroll-data-story-counters/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

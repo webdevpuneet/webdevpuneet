@@ -173,10 +173,10 @@ The Owner role is treated specially: \`isLockedCell()\` returns true only for th
       'Row hover highlighting to help scan a specific permission across all roles',
     ],
     useCases: [
-      { icon: 'APP', title: 'Team and workspace admin panels', desc: 'Let a workspace owner configure exactly what each role can view, edit, or delete.' },
-      { icon: 'FORM', title: 'Role-based access control (RBAC) settings screens', desc: 'A compact way to expose and edit an RBAC configuration without a form per role.' },
-      { icon: 'DESIGN', title: 'SaaS billing and enterprise plan management', desc: 'Show which permissions are bundled or locked at different plan tiers.' },
-      { icon: 'LEARN', title: 'Teaching grid-based state management in vanilla JS', desc: 'A clear example of driving a two-dimensional UI from one nested state object.' },
+      { icon: '👥', title: 'Team and workspace admin panels', desc: 'Let a workspace owner see and edit what each role can do at a glance, with permissions as rows and roles as columns.' },
+      { icon: '🔐', title: 'RBAC settings screens', desc: 'Provide a compact roles by permissions grid, with a select-all checkbox in each column header that re-syncs after individual edits.' },
+      { icon: '💳', title: 'Billing and enterprise plan screens', desc: 'Show which permissions come with which plan, with the Owner column locked fully checked and disabled so it cannot be removed.' },
+      { icon: '🎓', title: 'Grid state management teaching', desc: 'Learn a clear example of grid-based state in vanilla JavaScript, with a `roleKey` identifying each column\'s permission set.' },
     ],
     faqs: [
       { q: 'How does the Owner column stay always fully checked?', a: 'Every checkbox rendered for the owner role — including its column select-all checkbox — gets the disabled attribute, and the change handler explicitly ignores any event coming from a locked role, so its permissions can never be toggled off.' },

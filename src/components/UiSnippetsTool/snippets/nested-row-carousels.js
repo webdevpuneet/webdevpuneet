@@ -93,10 +93,10 @@ document.querySelectorAll('.nrc-row').forEach(function (row) {
       'Scrollbar hidden cross-browser while remaining fully scrollable by drag, wheel, or trackpad',
     ],
     useCases: [
-      { icon: 'APP',    title: 'Streaming and media platforms', desc: 'The exact "Continue Watching" / "Trending" row pattern every video platform uses.' },
-      { icon: 'CODE',   title: 'E-commerce recommendation rails', desc: '"You might also like" and "Recently viewed" rows, stacked and independently scrollable.' },
-      { icon: 'DESIGN', title: 'Content or article hub pages', desc: 'Group articles by topic into their own horizontally-browsable rows on a homepage.' },
-      { icon: 'FLOW',   title: 'Dashboard widget galleries', desc: 'Organize saved views, reports, or templates into labeled, scrollable categories.' },
+      { icon: '🎬', title: 'Streaming platform shelves', desc: 'Stack Continue Watching, Trending and New Releases rows that each scroll independently, using native horizontal scrolling instead of JavaScript translate maths.' },
+      { icon: '🛒', title: 'Recommendation rails', desc: 'Build You might also like and Frequently bought rows, with one wiring function applied to every `.nrc-row` however many exist.' },
+      { icon: '📰', title: 'Content hub pages', desc: 'Group articles by topic into rows, with each row\'s scroll state, tiles and arrows completely isolated from the others.' },
+      { icon: '📊', title: 'Widget galleries', desc: 'Organise saved views or reports into rows, with arrows that fade in on hover and hide automatically at true scroll boundaries.' },
     ],
     faqs: [
       { q: 'Why use native scrolling instead of a transform-based carousel?', a: 'Native scrolling gets free momentum, free boundary clamping, and free touch/trackpad support directly from the browser — a transform-based approach would need to reimplement all three, once per row, for no visual benefit here.' },

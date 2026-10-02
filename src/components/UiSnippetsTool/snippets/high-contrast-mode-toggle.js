@@ -185,12 +185,11 @@ Any dashboard, admin panel, or data-dense interface benefits from an explicit hi
       { title: 'Accessible toggle control', text: `aria-pressed communicates on/off state to assistive tech.` },
     ],
     useCases: [
-      { title: 'Data-dense dashboards', text: `Give low-vision users a real high-contrast mode for dense stat grids.` },
-      { title: 'Admin and internal tools', text: `Pair with [the color contrast checker](/ui-snippets/color-contrast-checker/) during design review.` },
-      { title: 'Accessibility settings panels', text: `Combine with [text size adjuster](/ui-snippets/text-size-adjuster/) and [reading mode toggle](/ui-snippets/reading-mode-toggle/).` },
-      { title: 'Public sector and regulated apps', text: `Meet WCAG contrast requirements beyond the AA minimum by default.` },
-      { title: 'Kiosk and TV-display UIs', text: `Glare and viewing distance both benefit from thicker borders and stronger contrast.` },
-      { title: 'Alongside dark mode', text: `Offer high contrast as a third theme next to [dark mode](/ui-snippets/dark-mode-toggle/) and light.` },
+      { title: 'Data-dense dashboards', text: 'Give low-vision users of data-dense dashboards a genuine high-contrast theme, with solid two-pixel borders replacing thin translucent lines.' },
+      { title: 'Admin and internal tools', text: 'Pair with the [colour contrast checker](/ui-snippets/color-contrast-checker/) to verify the ratios of the colours you choose for the theme.' },
+      { title: 'Accessibility settings panels', text: 'Combine with a [text size adjuster](/ui-snippets/text-size-adjuster/) and [reading mode toggle](/ui-snippets/reading-mode-toggle/), driven by one `data-contrast` attribute on the root.' },
+      { title: 'Public sector and regulated apps', text: 'Help public sector and regulated apps meet WCAG contrast requirements, using near-pure black and white instead of softened dark-theme greys.' },
+      { title: 'Alongside dark mode', text: 'Offer high contrast as a third theme beside a [dark mode toggle](/ui-snippets/dark-mode-toggle/), with text labels backing up every colour-coded status for people who cannot distinguish hues.' },
       { icon: 'CODE', title: 'Related: Payment Request API Button', desc: 'See the [Payment Request API Button](/ui-snippets/payment-request-button/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

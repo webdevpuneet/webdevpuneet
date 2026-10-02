@@ -136,12 +136,11 @@ This function only ever tracks the OS/browser-level \`prefers-color-scheme\` sig
       { title: 'Complements JS toggles', text: `Layer a real dark-mode switch on top by setting color-scheme explicitly.` },
     ],
     useCases: [
-      { title: 'Marketing and content pages', text: `Auto-theme a page with zero runtime cost or flash-of-wrong-theme.` },
-      { title: 'Design system tokens', text: `Define brand colors once per light/dark pair across a whole component library.` },
-      { title: 'Alongside a manual toggle', text: `Pair with [the dark mode toggle](/ui-snippets/dark-mode-toggle/) for an explicit override.` },
-      { title: 'Reducing stylesheet size', text: `Eliminate duplicated prefers-color-scheme media query blocks.` },
-      { title: 'Static/JAMstack sites', text: `Get correct theming even with JavaScript disabled or slow to load.` },
-      { title: 'Modern CSS showcases', text: `Pair with [CSS :has() playground](/ui-snippets/css-has-selector-playground/) or [container query units](/ui-snippets/css-container-query-units-demo/).` },
+      { title: 'Zero-JavaScript theming for content pages', text: 'Theme a marketing or content page automatically from the operating system, with each colour defined once as a light and dark pair.' },
+      { title: 'Design system tokens', text: 'Define brand colours once per token with `light-dark()`, avoiding a duplicate set of variables inside a media query.' },
+      { title: 'Manual toggle pairing', text: 'Pair with a [dark mode toggle](/ui-snippets/dark-mode-toggle/) when users should override the system setting, remembering `color-scheme: light dark` is required.' },
+      { title: 'Smaller stylesheets', text: 'Eliminate duplicated `prefers-color-scheme` blocks to get a smaller stylesheet, with colours updating instantly when the system preference changes.' },
+      { title: 'Static sites and modern CSS showcases', text: 'Get correct theming even when JavaScript is blocked, or present it beside the [CSS has selector playground](/ui-snippets/css-has-selector-playground/).' },
       { icon: 'CODE', title: 'Related: 500 Internal Server Error Page', desc: 'See the [500 Internal Server Error Page](/ui-snippets/error-500-page/) for a related layouts pattern worth pairing with this one.' },
     ],
     faqs: [

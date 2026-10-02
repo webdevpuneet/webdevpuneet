@@ -150,11 +150,11 @@ Swap the five hardcoded \`<li>\` items for a mapped-over data array in React or 
       { title: 'Live order readout', text: 'A debug line shows the current id sequence for quick verification.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'Priority backlogs', text: 'Product and engineering teams rank work items by dragging, same pattern as a [multi-column board](/ui-snippets/sortablejs-multi-column-drag/).' },
-      { icon: 'FORM', title: 'Survey ranking questions', text: 'Ask respondents to rank options by dragging instead of typing numbers into boxes.' },
-      { icon: 'FLOW', title: 'Playlist ordering', text: 'Reorder tracks or steps in a sequence where position has explicit meaning.' },
-      { icon: 'STAR', title: 'Leaderboards and rankings', text: 'Manually adjust computed rankings while keeping the badge numbers authoritative.' },
-      { icon: 'LEARN', title: 'Teaching drag-and-drop', text: 'A minimal, readable reference for how onEnd differs from onUpdate or onSort.' },
+      { title: 'Priority backlogs', text: 'Let product and engineering teams rank work by dragging cards by a grip handle, with every rank badge recalculated on drop.' },
+      { title: 'Survey ranking questions', text: 'Ask respondents to rank options, deriving each number from live DOM position so a badge can never disagree with the order.' },
+      { title: 'Playlist and step ordering', text: 'Reorder tracks or instructions in a sequence, using `chosenClass` and `ghostClass` as pure CSS hooks for drag feedback.' },
+      { title: 'Leaderboard adjustments', text: 'Manually adjust computed rankings, with an `onEnd` callback renumbering from scratch each time rather than patching badges.' },
+      { title: 'Multi-column board comparison', text: 'Compare with [SortableJS multi-column drag](/ui-snippets/sortablejs-multi-column-drag/) when cards must move between lists, and use as a minimal drag and drop teaching reference.' },
     ],
     faqs: [
       { q: 'Why don\'t the rank badges move with the dragged item automatically?', a: 'SortableJS only reorders DOM nodes — it has no idea a <span class="srl-badge"> inside an item is supposed to represent that item\'s position. The badge text is just markup, so it stays wherever it was written unless something explicitly rewrites it, which is what the onEnd-triggered renumber() function does.' },

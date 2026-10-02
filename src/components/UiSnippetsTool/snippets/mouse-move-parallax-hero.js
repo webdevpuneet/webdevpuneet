@@ -120,10 +120,10 @@ When the cursor leaves the hero section, the target offset resets to {0, 0}, and
       'No dependencies — pure DOM events and CSS transforms',
     ],
     useCases: [
-      { icon: 'DESIGN', title: 'Product and SaaS landing pages', desc: 'An eye-catching hero section that feels responsive and premium without heavy assets.' },
-      { icon: 'APP', title: 'Portfolio and agency sites', desc: 'A polished first impression that demonstrates front-end craft immediately.' },
-      { icon: 'LEARN', title: 'Parallax and easing tutorials', desc: 'A clean example of lerp-based smoothing applied to cursor-driven motion.' },
-      { icon: 'CODE', title: 'Design system hero templates', desc: 'A reusable layered-depth hero pattern adaptable to any brand palette.' },
+      { icon: '🏠', title: 'Product and SaaS landing pages', desc: 'Create an eye-catching hero where three background layers shift at different speeds as the cursor moves, giving a sense of depth.' },
+      { icon: '🎨', title: 'Portfolio and agency sites', desc: 'Make a polished first impression with `translate3d` transforms that are GPU accelerated and free from jank.' },
+      { icon: '🎓', title: 'Parallax and easing tutorials', desc: 'Learn a clean example of lerp-based easing instead of raw one-to-one cursor tracking, with each layer given its own `data-depth` value.' },
+      { icon: '🧩', title: 'Design system hero templates', desc: 'Offer a reusable layered-depth hero, with layers smoothly returning to their resting position when the mouse leaves.' },
     ],
     faqs: [
       { q: 'Why use lerp instead of directly setting the transform from mouse position?', a: 'Directly following the raw cursor position produces a jittery, mechanical feel. Lerping the current position toward a target position each animation frame introduces a small, smooth delay that reads as fluid, natural motion instead.' },

@@ -125,12 +125,11 @@ The demo uses gradients so it runs with no assets, but each slide accepts an \`i
       { title: 'Photo-ready & no library', text: `Swap gradients for img URLs; plain HTML/CSS/JS with zero dependencies.` },
     ],
     useCases: [
-      { title: 'Hero and banner slideshows', text: `Cinematic motion behind a headline — pair with a [video bg hero](/ui-snippets/video-bg-hero/) for video backdrops.` },
-      { title: 'Photo galleries and portfolios', text: `Bring still images to life, alongside a [photo gallery](/ui-snippets/photo-gallery/) grid.` },
-      { title: 'Travel and real-estate listings', text: `Showcase places with gentle camera movement.` },
-      { title: 'Product and lookbook showcases', text: `Pan across product photography in a hero.` },
-      { title: 'Landing-page backgrounds', text: `An animated image backdrop with overlaid content.` },
-      { title: 'Learning CSS transform animation', text: `A reference for the Ken Burns effect and animation re-triggering — compare with a [carousel](/ui-snippets/carousel/).` },
+      { title: 'Hero and banner slideshows', text: 'Add cinematic motion behind a headline, with a keyframe animating scale and translate so slow pan and zoom stays smooth.' },
+      { title: 'Photo galleries and portfolios', text: 'Bring still images to life with stacked slides that crossfade, and compare with a standard [photo gallery](/ui-snippets/photo-gallery/) for grid browsing.' },
+      { title: 'Travel and real estate listings', text: 'Showcase places with gentle motion, using `background-size: cover` so the frame stays filled as the image scales.' },
+      { title: 'Product and lookbook showcases', text: 'Pan across product photography, with a reflow trick restarting the animation every time a slide becomes active.' },
+      { title: 'Landing page backgrounds', text: 'Provide an animated image backdrop as a lighter alternative to a [video background hero](/ui-snippets/video-bg-hero/), with caption, dots and hover pause.' },
       { icon: 'CODE', title: 'Related: Pixi.js Particle Field', desc: 'See the [Pixi.js Particle Field](/ui-snippets/pixi-particle-field/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

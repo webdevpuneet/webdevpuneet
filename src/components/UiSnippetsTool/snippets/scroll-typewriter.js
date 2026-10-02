@@ -140,12 +140,11 @@ Edit the \`data-text\` attributes (the split adapts to any length), add more lin
       { title: 'Terminal chrome', text: `Traffic-light window frames the effect.` },
     ],
     useCases: [
-      { title: 'Developer landing pages', text: `Type your value prop in a terminal; pair with [typing code](/ui-snippets/typing-code/) for real code blocks.` },
-      { title: 'Hero statements', text: `Scrub a manifesto line by line, then transition via [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/).` },
-      { title: 'Product storytelling', text: `Type each chapter heading inside a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'CLI tool demos', text: `Show commands appearing as users scroll; add a [terminal window](/ui-snippets/terminal-window/) for output.` },
-      { title: 'Portfolio intros', text: `A typed self-introduction beats a static one; follow with a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/).` },
-      { title: 'Interactive articles', text: `Type pull-quotes as readers reach them, like a [text reveal on scroll](/ui-snippets/text-reveal-scroll/).` },
+      { title: 'Developer landing pages', text: 'Type a value proposition inside a terminal, using [typing code](/ui-snippets/typing-code/) style content scrubbed by the scrollbar.' },
+      { title: 'Hero manifestos', text: 'Scrub a manifesto line by line, then transition with a [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/), with deletion happening when the reader scrolls back up.' },
+      { title: 'Product storytelling headings', text: 'Type each chapter heading inside a [scroll pin story](/ui-snippets/scroll-pin-story/), with `display`-based reveal extending the real line width.' },
+      { title: 'CLI tool demos', text: 'Show commands appearing as users scroll in a [terminal window](/ui-snippets/terminal-window/), with stepped stagger acting like gear teeth.' },
+      { title: 'Portfolio introductions and quotes', text: 'Make a typed self-introduction that beats a static line, or type pull quotes as readers arrive, alongside [text reveal scroll](/ui-snippets/text-reveal-scroll/).' },
       { icon: 'CODE', title: 'Related: Three.js Scroll Shatter & Assemble', desc: 'See the [Three.js Scroll Shatter & Assemble](/ui-snippets/three-scroll-shatter-assemble/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -136,10 +136,11 @@ document.addEventListener('click', function(e) {
       'Zero dependencies — pure HTML, CSS, JavaScript'
     ],
     useCases: [
-      { icon: 'CODE', title: 'Deploy Pipelines', desc: 'Deploy to production as primary, staging and preview as dropdown variants' },
-      { icon: 'DOC', title: 'Content Publishing', desc: 'Publish now as primary, schedule or save draft in dropdown' },
-      { icon: 'FLOW', title: 'Form Actions', desc: 'Save as primary, save-and-exit or save-as-template as secondary options' },
-      { icon: 'APP', title: 'Export Controls', desc: 'Default format export as primary, other formats available in dropdown' }
+      { icon: '🚀', title: 'Deployment pipelines', desc: 'Make Deploy to production the primary action, with staging and rollback tucked behind the dropdown arrow beside it.' },
+      { icon: '📰', title: 'Content publishing', desc: 'Offer Publish now as the default, with schedule and save draft in a menu, separated by a subtle divider.' },
+      { icon: '💾', title: 'Form save actions', desc: 'Provide Save as the main action, with save and exit or save as template as alternatives under the chevron.' },
+      { icon: '📤', title: 'Export controls', desc: 'Set a default export format as the primary button, with other formats available from the menu.' },
+      { icon: '🎓', title: 'Accessible dropdown behaviour', desc: 'Study how `aria-expanded` drives both accessibility and CSS arrow rotation, with only one open menu at a time and outside clicks handled by delegation.' },
     ],
     faqs: [
       { q: 'How do I use a split button in React?', a: 'Create a SplitButton component with props primaryLabel, onPrimary, and actions array. Use useState for open state and useEffect with document click listener for outside-close, returning cleanup.' },

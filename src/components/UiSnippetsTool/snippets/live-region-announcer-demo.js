@@ -171,12 +171,11 @@ Any UI that confirms an action visually — form submissions, cart updates, save
       { title: 'Zero dependencies', text: `Plain HTML, CSS and JS — no ARIA library required.` },
     ],
     useCases: [
-      { title: 'Cart and checkout flows', text: `Announce add/remove/quantity changes without relying on a toast alone.` },
-      { title: 'Form submissions', text: `Confirm a save succeeded even if the visual toast is missed.` },
-      { title: 'Filter and search results', text: `Announce a result count update, similar in spirit to a live status badge; see [ARIA live status badge](/ui-snippets/aria-live-status-badge/).` },
-      { title: 'Settings toggles', text: `Confirm a preference like [the dark mode toggle](/ui-snippets/dark-mode-toggle/) actually applied.` },
-      { title: 'Toast component libraries', text: `Retrofit an existing [toast notification](/ui-snippets/toast-notification/) with a paired live region.` },
-      { title: 'Notification centers', text: `Feed the same announced text into [a notification center](/ui-snippets/notification-center/) log.` },
+      { title: 'Cart and checkout flows', text: 'Announce add, remove and quantity changes to screen reader users, through a visually hidden `aria-live="polite"` region matching the visible toast.' },
+      { title: 'Form submission confirmation', text: 'Confirm that a save succeeded even if the visual message has already faded, with `aria-atomic="true"` announcing the whole message.' },
+      { title: 'Filter and search results', text: 'Announce an updated result count, using clip-based sr-only CSS rather than `display: none`, which would remove the region from assistive technology.' },
+      { title: 'Settings toggles', text: 'Confirm a preference change like a [dark mode toggle](/ui-snippets/dark-mode-toggle/), with polite politeness waiting for current speech to finish.' },
+      { title: 'Toast and notification retrofits', text: 'Retrofit an existing [toast notification](/ui-snippets/toast-notification/) or feed the same text into a [notification center](/ui-snippets/notification-center/), compared with the [ARIA live status badge](/ui-snippets/aria-live-status-badge/).' },
       { icon: 'CODE', title: 'Related: Resume Upload Dropzone', desc: 'See the [Resume Upload Dropzone](/ui-snippets/resume-upload-dropzone/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

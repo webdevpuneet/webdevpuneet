@@ -137,12 +137,11 @@ Add or remove \`<section class="ms-step">\` elements and the dots, navigation, a
       { title: 'Auto-counted & no library', text: `Dots and navigation derive from the step count in plain HTML/CSS/JS.` },
     ],
     useCases: [
-      { title: 'Onboarding and setup', text: `Guide new users through workspace setup — pair with an [onboarding tour](/ui-snippets/onboarding-tour/) for in-app coachmarks.` },
-      { title: 'Guided forms', text: `Break a long form into focused steps inside a dialog, alongside a [multi-step form](/ui-snippets/multi-step-form/) for inline flows.` },
-      { title: 'Account and profile setup', text: `Collect details a step at a time with clear progress.` },
-      { title: 'Feature introductions', text: `Walk through a new feature in a few slides.` },
-      { title: 'Checkout in a modal', text: `A compact stepped checkout, next to a [checkout form](/ui-snippets/checkout-form/).` },
-      { title: 'Learning wizard navigation', text: `A reference for sliding steps and single-index state — compare with a [progress wizard](/ui-snippets/progress-wizard/).` },
+      { title: 'Onboarding and setup', text: 'Guide new users through workspace setup inside a dialog, with steps sliding horizontally on a flex track and progress dots showing position.' },
+      { title: 'Guided forms', text: 'Break a long form into focused steps inside an overlay, with all steps staying in the DOM so typed input survives going back.' },
+      { title: 'Account and profile setup', text: 'Collect details one step at a time, with a single index driving the track, dots and controls so they always agree.' },
+      { title: 'Feature introductions', text: 'Walk through a new feature in a few screens, pairing with an [onboarding tour](/ui-snippets/onboarding-tour/) when highlights should point at the real interface.' },
+      { title: 'Checkout in a modal', text: 'Offer a compact stepped checkout next to a [checkout form](/ui-snippets/checkout-form/), or compare with a [progress wizard](/ui-snippets/progress-wizard/) on a full page.' },
       { icon: 'CODE', title: 'Related: Session Timeout Warning Modal', desc: 'See the [Session Timeout Warning Modal](/ui-snippets/session-timeout-modal/) for a related modals pattern worth pairing with this one.' },
     ],
     faqs: [

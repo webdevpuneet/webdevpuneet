@@ -184,12 +184,11 @@ Add more tiers, change the rates or breakpoints, or add a currency toggle. The t
       { title: 'Framework-agnostic core', text: `The tier-consumption loop is pure and ports to any state model.` },
     ],
     useCases: [
-      { title: 'API and metered billing', text: `Show real cost for API calls, storage, or compute usage.` },
-      { title: 'Usage-based SaaS pricing', text: `Pair with a [usage calculator](/ui-snippets/usage-calculator/) for a simpler estimate mode.` },
-      { title: 'Add-on cost estimation', text: `Sit beside a [pricing card](/ui-snippets/pricing-card/) for a metered feature.` },
-      { title: 'Cost-benefit pages', text: `Feed the total into a [roi calculator](/ui-snippets/roi-calculator/).` },
-      { title: 'Enterprise volume pricing', text: `Show how per-unit cost drops at scale on an [enterprise pricing](/ui-snippets/enterprise-pricing/) page.` },
-      { title: 'Internal finance tools', text: `Let a buyer's team model cost at different usage projections.` },
+      { title: 'API and metered billing', text: 'Show the real cost of API calls or storage, billing only the units that fall inside each tier as a slider moves.' },
+      { title: 'Usage-based SaaS pricing', text: 'Pair with a [usage calculator](/ui-snippets/usage-calculator/) so a free tier and two paid tiers combine into one blended per-unit rate.' },
+      { title: 'Add-on cost estimation', text: 'Sit beside a [pricing card](/ui-snippets/pricing-card/) for a metered extra, with per-tier fill bars showing how full each tier is relative to its size.' },
+      { title: 'Cost-benefit pages', text: 'Feed the computed total into an [ROI calculator](/ui-snippets/roi-calculator/) to weigh the spend against the value gained.' },
+      { title: 'Enterprise volume pricing', text: 'Show how per-unit cost falls at higher volumes, or let a buyer\'s finance team model costs at different usage levels, as in [enterprise pricing](/ui-snippets/enterprise-pricing/).' },
       { icon: 'CODE', title: 'Related: Plan Downgrade Warning Card — Feature Loss Preview', desc: 'See the [Plan Downgrade Warning Card — Feature Loss Preview](/ui-snippets/pricing-plan-downgrade-warning-card/) for a related pricing pattern worth pairing with this one.' },
     ],
     faqs: [

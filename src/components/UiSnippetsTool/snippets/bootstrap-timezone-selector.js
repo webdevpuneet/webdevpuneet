@@ -127,9 +127,11 @@ document.addEventListener('click', e => {
       'An explicit "no matches" state instead of an empty, confusing dropdown',
     ],
     useCases: [
-      { icon: 'FORM', title: 'Scheduling, calendar, and meeting-planning tools', desc: 'Pairs with [bootstrap-calendar-event-widget](/ui-snippets/bootstrap-calendar-event-widget/) for a complete event-creation flow.' },
-      { icon: 'APP', title: 'Account settings and localization preferences', desc: 'Let a user set their timezone directly by search instead of scrolling a long native <select> of every IANA zone.' },
-      { icon: 'DASH', title: 'Dashboards showing data across multiple regions', desc: 'A timezone picker for filtering or displaying timestamps relative to a chosen region.' },
+      { icon: '📅', title: 'Meeting planning tools', desc: 'Pair with the [Bootstrap calendar event widget](/ui-snippets/bootstrap-calendar-event-widget/) so users can pick a zone and then schedule within it.' },
+      { icon: '🌍', title: 'Account localisation settings', desc: 'Let a user choose their timezone by typing a city or an offset, with search matching both the name and the formatted offset string at once.' },
+      { icon: '📊', title: 'Multi-region dashboards', desc: 'Show data in a chosen zone, with half-hour offsets such as UTC+05:30 formatted correctly rather than rounded to whole hours.' },
+      { icon: '⌨️', title: 'Keyboard-first selection', desc: 'Provide full arrow-key navigation and Enter to select, staying in step with the currently filtered list.' },
+      { icon: '🎓', title: 'Dropdown dismissal reference', desc: 'Study a document-level outside-click listener that closes the dropdown without needing a separate backdrop element in the markup.' },
     ],
     faqs: [
       { q: 'Does this handle half-hour offset timezones correctly?', a: 'Yes — formatOffset() computes the whole-hour and remainder-minute parts of any offset separately, so a value like 5.5 correctly renders as UTC+05:30 rather than being truncated or mis-formatted the way a naive whole-hours-only formatter would handle it.' },
