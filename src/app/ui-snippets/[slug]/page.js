@@ -11,9 +11,15 @@ import { tagsForSnippet, publishedTags } from '@/lib/snippet-tags';
 import { highlightCode } from '@/lib/shiki-highlight';
 import SnippetExportButton from '@/components/UiSnippetsTool/SnippetExportButton';
 import SourceCodeTabs from '@/components/UiSnippetsTool/SourceCodeTabs';
-import RelatedCarousel from '@/components/UiSnippetsTool/RelatedCarousel';
+import RelatedCarousel, { CategoryStrip } from '@/components/UiSnippetsTool/RelatedCarousel';
 import { getRelatedSnippets } from '@/lib/snippet-related';
 import styles from './styles.module.css';
+
+// Category strip above Related Snippets: every public category with its live count.
+const STRIP_CATEGORIES = CATEGORIES
+  .filter(c => c.id !== 'all' && !c.devOnly)
+  .map(c => ({ id: c.id, label: c.label, count: VISIBLE_SNIPPETS.filter(sn => sn.category === c.id).length }))
+  .filter(c => c.count > 0);
 
 // PNG-preview sizing and the snippet metadata builder now live in @/lib/snippet-seo
 // so this page and the /embed/ route cannot drift apart on social tags.
@@ -917,6 +923,10 @@ Requirements:
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
       {/* Ad first (full width), then Related Snippets, then "Learn Coding Visually". */}
       <AdSlot adFirst related={false} />
+      {/* One row of categories (this snippet's first); hover / focus drops all of them open. */}
+      <div className={styles.relatedCats}>
+        <CategoryStrip categories={STRIP_CATEGORIES} activeCategory={sn.category} />
+      </div>
       <RelatedCarousel items={related.items} total={related.total} activeId={sn.id} category={CATEGORIES.find(c => c.id === sn.category)?.label || categoryLabel} />
       <div className={adStyles.adShell}>
         <div className={adStyles.relatedFull}>

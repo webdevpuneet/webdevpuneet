@@ -504,3 +504,5 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 - Fix: `pick()` ignores readings while the strip is hidden (`offsetParent === null` or 0 width) and keeps the current
   size, so a collapsed unfilled slot stays collapsed with no new request. `GalleryStickyAd` gets the same 0-width guard
   (it observes the layout, so it was not looping, but it can no longer start).
+- PlaygroundTopNav also shows on library snippet pages (`/ui-snippets/<snippet>/`), not only galleries. Not on My Code (its grid renders the nav itself; the My Code editor has none) or embeds. `ui-snippets/layout.js` measures the nav again (ResizeObserver) and sets `--pnav-h` / `calc(100dvh - navH)`, so the snippet editor fits below it and the Console stays on screen.
+- Follow-up: PlaygroundTopNav now shows on every UI Snippets page, including the My Code editor (`showNav = true` in the layout; embeds still return early). The tool no longer renders its own nav for the My Code grid, so there is no duplicate.

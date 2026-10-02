@@ -26,7 +26,6 @@ import {
 } from '@/lib/snippet-exporters';
 import { navStart } from '@/lib/navStart';
 import GistSyncButton from '@/components/GistSyncButton';
-import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { ADS_ENABLED } from '@/lib/ads-config';
 import ExportTester from './ExportTester';
 import EmbedModal from './EmbedModal';
@@ -1828,9 +1827,6 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
 
   return (
     <div className={`${s.wrap} ${galleryMode ? s.wrapGallery : ''}`} data-uis-gallery={galleryMode ? '' : undefined}>
-      {/* The layout adds this nav on the library gallery routes; the My Code grid
-          (same URL as the My Code editor) renders it here so it matches. */}
-      {galleryMode && sidebarTab === 'saved' && <PlaygroundTopNav active="ui-snippets" />}
 
       {/* — Header — on editor pages (desktop) it sits at the top of the code column instead */}
       {!headerInCode && headerEl}

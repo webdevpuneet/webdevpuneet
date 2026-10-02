@@ -183,3 +183,7 @@
   padding: 2px 8px;
   border-radius: 20px;
 }
+
+/* Category strip above Related Snippets — same 20px inset as the carousel. */
+.relatedCats { padding: 16px 20px 0; }
+@media (max-width: 768px) { .relatedCats { padding: 14px 16px 0; } }
