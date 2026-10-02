@@ -504,9 +504,11 @@ const SAVED_PER_PAGE = 9;
    The size follows the space actually available above the preview (sidebar and code
    column eat into the viewport, so screen width alone would be wrong):
      728x90 leaderboard → 468x60 banner (tablet) → 320x50 mobile banner.
-   Each size is a fixed slot, so nothing shifts while a creative loads. Crossing into a
-   different size remounts the <ins> (key) and requests a fresh ad — AdSense fixes a
-   slot's size once it has been filled. The adsbygoogle.js loader lives once site-wide. — */
+   Each size is a fixed slot, so nothing shifts while a creative loads. The size is
+   picked ONCE per snippet view (the parent keys this by snippet id): later resizes —
+   dragging the code column, rotating a tablet — never re-request an ad, because AdSense
+   policy forbids refreshing ads without new content or a user action. A new snippet is
+   new content, so it gets a fresh request. The adsbygoogle.js loader is site-wide. — */
 const TOP_AD_SIZES = [
   { w: 728, h: 90 },
   { w: 468, h: 60 },
@@ -543,7 +545,8 @@ function SnippetTopAd() {
       const cs = getComputedStyle(strip);
       const avail = strip.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
       const next = TOP_AD_SIZES.find(z => z.w <= avail) || null;
-      setSize(prev => (prev?.w === next?.w ? prev : next));
+      // Lock the first size that fits for this snippet view (see policy note above).
+      setSize(prev => prev ?? next);
     };
     pick();
     if (typeof ResizeObserver === 'undefined') return;
@@ -1898,8 +1901,9 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               <EditorPanel lang="js"   code={jsCode}   highlight={highlightJS}   onChange={onJs}   onReset={resetJs}   collapsed={jsCollapsed}   onToggle={toggleJsPanel} headerExtra={jsHeaderExtra} />
             </div>
           )}
-          {/* AdSense (slot 7360198340) at the top of the preview column, above the Preview toolbar — 728x90 / 468x60 / 320x50 by available width —
-              trial slot for a Google AdSense leaderboard. Hidden at 1280px and below. */}
+          {/* AdSense leaderboard (slot 7360198340) at the top of the preview column, above the
+              Preview toolbar — 728x90 / 468x60 / 320x50 by available width, library snippets only.
+              Collapses when unfilled (.adBar:has(ins[data-ad-status="unfilled"])). */}
           {showEditor && !inMyCode && (
             <div className={s.adBar} aria-label="Advertisement">
               {ADS_ENABLED ? <SnippetTopAd key={activeId || 'none'} /> : (

@@ -516,3 +516,13 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   CSS as `.catBarHeader` for keeping the row single-line and showing the panel). The header is unchanged.
 - Follow-up: above Related Snippets the snippet page now uses the gallery's own Categories | Tags browse box instead of a CategoryStrip. It is extracted as `BrowsePanel` (exported from UiSnippetsGallery), used by the gallery (`activeCategory`, `activeTag`) and the snippet page (`activeCategory={sn.category} highlightAll={false}`, so "All …" isn't marked current). Each column is one row that opens in full on hover. `CategoryStrip`'s `panel` prop stays available but is unused.
 - Follow-up: on snippet pages the browse box highlights nothing and keeps the natural order (`activeCategory={null}`, `highlightAll={false}`).
+
+## 2026-10-02 — Leaderboard ad review
+
+- Verified: ads.txt is live on webdevpuneet.com and www (pub-2762737943861458, DIRECT); there is one site-wide
+  adsbygoogle loader; slot 7360198340 is in the build; the unit is a fixed size (no data-ad-format / full-width
+  responsive); there is one `push()` per mounted `<ins>`; it is library snippets only; unfilled slots collapse with no loop.
+- Fixed: the size is now locked once per snippet view (`setSize(prev => prev ?? next)`). Resizing (dragging the code
+  column, rotating) no longer re-requests ads, since refreshing without new content or user action is against AdSense
+  policy. A new snippet still gets a fresh ad.
+- Removed the stale "trial slot / hidden at 1280px" comment.
