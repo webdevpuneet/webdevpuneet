@@ -215,12 +215,11 @@ Each frame, \`u_time\` (elapsed seconds since start) and \`u_resolution\` (curre
       { title: 'Reduced-motion aware', text: `One static frame renders instead of an animation loop.` },
     ],
     useCases: [
-      { title: 'GPU-accelerated hero backgrounds', text: `A lightweight alternative to a full Three.js scene.` },
-      { title: 'Teaching raw WebGL fundamentals', text: `A compact, complete compile/link/draw reference.` },
-      { title: 'Performance-sensitive pages', text: `Shader gradients cost far less than particle-heavy canvases.` },
-      { title: 'Brand/product marketing sites', text: `Compare against [gradient mesh hero](/ui-snippets/gradient-mesh-hero/).` },
-      { title: 'Loading and splash screens', text: `An animated backdrop while the rest of the app boots.` },
-      { title: 'Alongside Three.js scenes', text: `A cheap background layer behind [three particle wave](/ui-snippets/three-particle-wave/).` },
+      { title: 'GPU-accelerated hero backgrounds', text: 'Render a smooth animated gradient per pixel in a fragment shader, as a lightweight alternative to a large 3D library.' },
+      { title: 'Raw WebGL fundamentals', text: 'Learn the complete compile, link, bind and draw sequence in one file, using a single full-screen triangle that avoids overdraw along a shared edge.' },
+      { title: 'Performance-sensitive pages', text: 'Cost far less than stacking blurred elements, since colours are computed on the GPU with `u_time` and `u_resolution` uniforms each frame.' },
+      { title: 'Marketing site comparisons', text: 'Compare with a [gradient mesh hero](/ui-snippets/gradient-mesh-hero/) built in CSS to choose between GPU shaders and layered blurs for your brand.' },
+      { title: 'Layer behind 3D scenes', text: 'Provide a cheap background beneath a [Three.js particle wave](/ui-snippets/three-particle-wave/), with a plain CSS fallback if WebGL is unavailable.' },
     ],
     faqs: [
       { q: 'Why does the code draw one triangle instead of a quad made of two triangles?', a: `The single triangle uses vertices positioned well outside the -1 to 1 clip-space range (at (-1,-1), (3,-1) and (-1,3)), so the GPU's clipping stage trims it down to exactly the viewport rectangle — visually identical to a quad. It requires only one draw call of three vertices and avoids the extra shared diagonal edge a two-triangle quad has to rasterize, which is a standard, low-cost optimization for full-screen shader passes.` },

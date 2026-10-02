@@ -113,12 +113,11 @@ Add a third, more neutral theme for "scroll velocity near zero" using the deadba
       { title: 'No dependencies', text: `Pure vanilla JS and a passive scroll listener.` },
     ],
     useCases: [
-      { title: 'Editorial long-reads', text: `Subtly signal reading vs. reviewing with color.` },
-      { title: 'Portfolio sites', text: `Pair with [scroll color sections](/ui-snippets/scroll-color-sections/).` },
-      { title: 'Product landing pages', text: `Give scroll a tactile, responsive feel.` },
-      { title: 'Documentation sites', text: `Distinguish forward reading from backtracking.` },
-      { title: 'Interactive art pieces', text: `Use direction as a playful, ambient signal.` },
-      { title: 'Dashboards', text: `Combine with a manual [dark mode toggle](/ui-snippets/dark-mode-toggle/).` },
+      { title: 'Editorial long reads', text: 'Subtly signal reading versus reviewing by shifting the accent palette when the reader scrolls down or back up, rather than based on distance from the top.' },
+      { title: 'Portfolio direction-aware accents', text: 'Pair with [scroll colour sections](/ui-snippets/scroll-color-sections/) so one effect responds to position and the other to direction.' },
+      { title: 'Landing page scroll feel', text: 'Give scrolling a tactile, responsive feel, with a small deadband ignoring tiny deltas so the theme never flickers.' },
+      { title: 'Documentation reading direction', text: 'Distinguish forward reading from going back to check something, using four CSS custom properties to control the whole palette.' },
+      { title: 'Dashboards with manual themes', text: 'Combine with a [dark mode toggle](/ui-snippets/dark-mode-toggle/) so users keep manual control while direction adds a playful ambient layer.' },
       { icon: 'CODE', title: 'Related: Scroll Data Story Counters', desc: 'See the [Scroll Data Story Counters](/ui-snippets/scroll-data-story-counters/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -187,11 +187,11 @@ The delete button and the Delete/Backspace key both call \`canvas.getActiveObjec
       { title: 'Offset placement', text: 'Newly added shapes stagger position so repeats don\\u2019t stack exactly.' },
     ] ,
     useCases: [
-      { icon: 'APP', title: 'Design/QA feedback tools', text: 'Mark up screenshots or mockups with highlight boxes and pointers.' },
-      { icon: 'LEARN', title: 'Educational image markup', text: 'Annotate diagrams or photos for teaching materials.' },
-      { icon: 'DESIGN', title: 'Support/ticket screenshots', text: 'Let users circle or point at the exact issue in an image.' },
-      { icon: 'CODE', title: 'Learning Fabric groups', text: 'A concrete reference for building composite shapes Fabric lacks natively.' },
-      { icon: 'FORM', title: 'Photo review workflows', text: 'Reviewer annotation layers on top of submitted images.' },
+      { title: 'Design and QA feedback', text: 'Mark up screenshots and mockups with draggable rectangles and arrows, over a background image that can never be moved by accident.' },
+      { title: 'Educational image markup', text: 'Annotate diagrams or photographs for teaching, with translucent fills keeping the underlying picture visible through each highlight.' },
+      { title: 'Support ticket screenshots', text: 'Let users circle or point at the problem in a screenshot, using a composite arrow built from a line and a triangle.' },
+      { title: 'Photo review workflows', text: 'Add reviewer annotation layers on top of a locked photo, with contain-fit scaling centring any image without distorting it.' },
+      { title: 'Fabric group learning', text: 'Study a concrete example of grouping objects, since Fabric has no native arrow and the line and triangle behave as one shape.' },
     ],
     faqs: [
       { q: 'Why use setBackgroundImage instead of canvas.add(img)?', a: 'A background image renders on every frame beneath all regular objects but is never part of canvas.getObjects(), so it cannot be selected, dragged, resized, or accidentally deleted by the same controls that manage the annotation shapes.' },

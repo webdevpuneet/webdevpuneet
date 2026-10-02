@@ -182,10 +182,10 @@ function handleSave() {
       'Zero dependencies — pure HTML, CSS, JavaScript'
     ],
     useCases: [
-      { icon: 'APP', title: 'Restaurant Pages', desc: 'Location card on restaurant websites with hours, address, and map pin' },
-      { icon: 'DOC', title: 'Contact Pages', desc: 'Office location card on company contact and about pages' },
-      { icon: 'FLOW', title: 'Event Listings', desc: 'Venue location card on event registration and ticketing pages' },
-      { icon: 'DESIGN', title: 'Store Finders', desc: 'Individual store card in a retail chain store locator' },
+      { icon: '🍽️', title: 'Restaurant location sections', desc: 'Show where a restaurant is on its website, using a CSS-drawn map with roads and building blocks plus an animated pin drop with a shadow bounce.' },
+      { icon: '🏢', title: 'Contact page office cards', desc: 'Present an office address with structured lines and icons, a distance badge in green and action buttons for directions or calling.' },
+      { icon: '🎫', title: 'Event venue listings', desc: 'Show a venue on an event registration page, more engaging than plain text but far lighter than loading a full embedded map.' },
+      { icon: '🏬', title: 'Retail store finder results', desc: 'Use as the individual card in a chain\'s store finder, with the distance pill telling shoppers which branch is nearest.' },
       { icon: 'CODE', title: 'Related: Vanilla-Tilt 3D Card Grid', desc: 'See the [Vanilla-Tilt 3D Card Grid](/ui-snippets/vanilla-tilt-3d-grid/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

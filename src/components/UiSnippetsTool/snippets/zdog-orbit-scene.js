@@ -195,12 +195,11 @@ Build scenes from the primitives: \`Shape\` for points and paths, \`Ellipse\`, \
       { title: 'Crisp on high-DPI', text: 'A 480px backing canvas displayed at 420px stays sharp.' },
     ],
     useCases: [
-      { title: 'Illustrated hero graphics', text: 'A turning object with more character than a flat SVG.' },
-      { title: 'Empty and error states', text: 'Playful 3D art beside an [empty state](/ui-snippets/empty-state/).' },
-      { title: 'Product and feature icons', text: 'Rotating marks that feel handmade rather than rendered.' },
-      { title: 'Loading and splash screens', text: 'A lighter alternative to WebGL on a [splash screen](/ui-snippets/splash-screen/).' },
-      { title: 'Data and space visuals', text: 'Orbit metaphors for dashboards and status pages.' },
-      { title: 'Learning 3D hierarchy', text: 'A reference for scene graphs without engine complexity.' },
+      { title: 'Illustrated hero graphics', text: 'Show a turning planet with a ring and two orbiting moons, drawn with thick strokes in a plain 2D canvas rather than WebGL.' },
+      { title: 'Empty and error states', text: 'Add playful 3D art beside an [empty state](/ui-snippets/empty-state/), where dragging rotates the whole scene through one anchor.' },
+      { title: 'Product and feature icons', text: 'Create rotating marks that feel handmade, with spheres produced from a pathless `Shape` with a thick round cap.' },
+      { title: 'Loading and splash screens', text: 'Offer a lighter alternative to WebGL on a [splash screen](/ui-snippets/splash-screen/), using real 3D geometry without meshes, materials or lights.' },
+      { title: 'Scene graph teaching', text: 'Learn anchors and inherited transforms, since rotating one invisible node sweeps both moons and the planet band follows as a child.' },
     ],
     faqs: [
       { q: 'How does Zdog draw a sphere with no mesh?', a: 'The planet is a Shape with no path, which makes it a single point in 3D space. Zdog renders every shape as a stroked path with round caps, so a 150-unit stroke on a single point paints as a filled circle that behaves like a ball. The same principle turns a line into a capsule and a rectangle into a rounded slab — there is no geometry beyond strokes.' },

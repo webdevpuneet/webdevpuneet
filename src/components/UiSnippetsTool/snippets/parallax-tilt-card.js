@@ -111,12 +111,11 @@ Adjust the tilt multiplier (16) for a stronger or gentler lean, change each laye
       { title: 'Any number of layers', text: `One loop handles them all.` },
     ],
     useCases: [
-      { title: 'Collectible cards', text: `Pair with a [glare card](/ui-snippets/glare-card/) showcase.` },
-      { title: 'Product hero shots', text: `Float product layers over a backdrop.` },
-      { title: 'Featured content', text: `A dimensional [pin card](/ui-snippets/pin-card/) alternative.` },
-      { title: 'Game and app cards', text: `Give a [pricing card](/ui-snippets/pricing-card/) tier depth.` },
-      { title: 'Portfolio tiles', text: `Add parallax to project highlights.` },
-      { title: '3D parallax demos', text: `A reference for depth-driven layer shifts.` },
+      { title: 'Collectible card showcases', text: 'Pair with a [glare card](/ui-snippets/glare-card/) for collectibles, where a badge, artwork and text float at different depths as the card tilts.' },
+      { title: 'Product hero shots', text: 'Float product layers over a backdrop, with near layers moving more than far ones according to each layer\'s `data-depth` value.' },
+      { title: 'Featured content cards', text: 'Offer a dimensional alternative to a [pin card](/ui-snippets/pin-card/), with layers shifting against the tilt direction for true depth.' },
+      { title: 'Game and pricing tier depth', text: 'Give a [pricing card](/ui-snippets/pricing-card/) tier a collectible feel, adding a shine layer that follows the pointer.' },
+      { title: 'Parallax technique reference', text: 'Study how depth-tagged layers shift in proportion to the tilt, a compact model for any depth-driven pointer effect.' },
     ],
     faqs: [
       { q: 'How is this different from a normal 3D tilt card?', a: `A normal tilt rotates a single flat plane. Here the card also has several content layers, each tagged with a data-depth, and on pointer move every layer is translated by an amount proportional to its depth. So foreground elements slide further than background ones, producing genuine parallax between the layers rather than a single skewed surface.` },

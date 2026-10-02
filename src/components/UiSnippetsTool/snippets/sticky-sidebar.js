@@ -135,12 +135,11 @@ On narrow screens the grid collapses to one column, the sidebar becomes static (
       { title: 'No library', text: `Pure HTML/CSS/JS using modern sticky + IntersectionObserver.` },
     ],
     useCases: [
-      { title: 'Documentation sites', text: `Pin a section TOC beside docs content — pair with a [table of contents](/ui-snippets/table-of-contents/) for deeper nesting.` },
-      { title: 'Long-form articles and blogs', text: `Keep a reading progress TOC in view alongside a [reading progress](/ui-snippets/scroll-progress/) bar.` },
-      { title: 'Product and pricing pages', text: `Stick a summary or CTA card next to scrolling feature content.` },
-      { title: 'Checkout and forms', text: `Keep an order summary visible beside a long form, like a [checkout form](/ui-snippets/checkout-form/).` },
-      { title: 'Dashboards and reports', text: `Pin filters or a legend while data scrolls.` },
-      { title: 'Learning position:sticky & scroll-spy', text: `A reference for sticky layout and IntersectionObserver — compare with a [scroll-spy nav](/ui-snippets/scroll-spy-nav/).` },
+      { title: 'Docs outline pinning', text: 'Pin a section TOC beside docs content with a [table of contents](/ui-snippets/table-of-contents/) style list, using one CSS `position: sticky` property and no scroll listener.' },
+      { title: 'Long-form articles', text: 'Keep a reading progress outline in view with [scroll progress](/ui-snippets/scroll-progress/), with `align-items: start` giving the sticky column room to travel.' },
+      { title: 'Product and pricing pages', text: 'Stick a summary or call-to-action card beside the main content, so the purchase option stays visible as the reader scrolls.' },
+      { title: 'Checkout and forms', text: 'Keep an order summary visible beside a [checkout form](/ui-snippets/checkout-form/), staying pinned as a long form moves.' },
+      { title: 'Dashboards and scroll-spy learning', text: 'Pin filters or a legend while data scrolls, and pair with a [scroll spy nav](/ui-snippets/scroll-spy-nav/) to learn how a reading-band observer detects the active section.' },
     ],
     faqs: [
       { q: 'Why use position:sticky instead of position:fixed?', a: `position:sticky keeps the element in normal flow until it reaches a scroll threshold, then pins it — and automatically releases it when its container scrolls away. position:fixed requires a scroll listener to toggle it on/off and manual math to place it, which is jankier and far more code. Sticky is hardware-accelerated, handles the start and end of the sticky range for you, and needs just two CSS lines.` },

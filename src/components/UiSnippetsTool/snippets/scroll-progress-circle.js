@@ -125,12 +125,11 @@ Point the listener at \`window\` and read \`document.documentElement\` metrics t
       { title: 'No dependency', text: `Pure HTML/CSS/JS — no scroll or animation library.` },
     ],
     useCases: [
-      { title: 'Article reading progress', text: `A compact alternative to a [scroll progress](/ui-snippets/scroll-progress/) bar.` },
-      { title: 'Long-form blogs', text: `Reassure readers atop an [article card](/ui-snippets/article-card/) layout.` },
-      { title: 'Docs and guides', text: `Track position beside a [table of contents](/ui-snippets/table-of-contents/).` },
-      { title: 'Back-to-top control', text: `Replace a plain [scroll to top](/ui-snippets/scroll-to-top/) button.` },
-      { title: 'Any ring progress', text: `Reuse the dash math from an [SVG progress ring](/ui-snippets/svg-progress-ring/).` },
-      { title: 'Learning SVG strokes', text: `A reference for stroke-dasharray progress animation.` },
+      { title: 'Article reading progress', text: 'Show how far through an article the reader is, as a compact circular alternative to a thin top bar, with the percentage displayed in the centre.' },
+      { title: 'Long-form blog posts', text: 'Reassure readers on an [article card](/ui-snippets/article-card/) layout, with an SVG ring beginning at twelve o\'clock through a minus 90 degree rotation.' },
+      { title: 'Documentation guides', text: 'Track position beside a [table of contents](/ui-snippets/table-of-contents/), scoped to a container so it also works inside modals or sidebars.' },
+      { title: 'Back-to-top replacement', text: 'Replace a plain [scroll to top](/ui-snippets/scroll-to-top/) button with a ring that becomes the control when the reader reaches the end.' },
+      { title: 'Ring progress maths reference', text: 'Reuse the dash maths from an [SVG progress ring](/ui-snippets/svg-progress-ring/), with a 0 to 1 clamp preventing overscroll from breaking the arc.' },
       { icon: 'CODE', title: 'Related: Scroll Testimonial Sequence', desc: 'See the [Scroll Testimonial Sequence](/ui-snippets/scroll-testimonial-sequence/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

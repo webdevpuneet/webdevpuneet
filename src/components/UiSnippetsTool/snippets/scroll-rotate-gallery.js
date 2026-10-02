@@ -100,12 +100,11 @@ Change the card count (update the \`60deg\` to \`360 ÷ count\` and the rotate d
       { title: 'GPU 3D', text: `Transforms only, no reflow.` },
     ],
     useCases: [
-      { title: 'Showcases', text: `A spinning [coverflow carousel](/ui-snippets/coverflow-carousel/).` },
-      { title: 'Galleries', text: `Pair with a [scroll gallery pin](/ui-snippets/scroll-gallery-pin/).` },
-      { title: 'Feature reels', text: `Rotate through [feature cards](/ui-snippets/feature-cards/).` },
-      { title: 'Tunnels', text: `Combine with [scroll perspective cards](/ui-snippets/scroll-perspective-cards/).` },
-      { title: 'Products', text: `Turn a ring of [product card](/ui-snippets/product-card/) shots.` },
-      { title: 'Brand moments', text: `Open with a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/).` },
+      { title: 'Showcase carousels', text: 'Present a ring of cards that spins as the user scrolls, as a scroll-controlled cousin of a [coverflow carousel](/ui-snippets/coverflow-carousel/).' },
+      { title: 'Pinned image galleries', text: 'Pair with a [scroll gallery pin](/ui-snippets/scroll-gallery-pin/) so one section scrolls sideways and another rotates in depth.' },
+      { title: 'Feature reels', text: 'Rotate through [feature cards](/ui-snippets/feature-cards/) arranged on a CSS cylinder using `rotateY` and `translateZ`, with scrub 1 giving the turn weight.' },
+      { title: 'Tunnel and depth combinations', text: 'Combine with [scroll perspective cards](/ui-snippets/scroll-perspective-cards/) for a page with both a ring and a tunnel of content.' },
+      { title: 'Product and brand moments', text: 'Turn a ring of [product card](/ui-snippets/product-card/) shots, or open with a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/) before the cylinder appears.' },
       { icon: 'CODE', title: 'Related: Scroll Velocity Motion Blur', desc: 'See the [Scroll Velocity Motion Blur](/ui-snippets/scroll-velocity-blur/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

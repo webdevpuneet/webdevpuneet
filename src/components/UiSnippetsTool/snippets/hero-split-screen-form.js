@@ -206,12 +206,11 @@ Swap the field set for your own signup requirements (add a company field, a plan
       { title: 'No dependencies', text: `Vanilla JS validation, no form library required.` },
     ],
     useCases: [
-      { title: 'SaaS signup landing pages', text: `Capture a full account in the hero, no extra page.` },
-      { title: 'Product-led growth funnels', text: `Reduce clicks between ad landing and activated account.` },
-      { title: 'Waitlist-to-account conversion', text: `Pair with [coming soon hero](/ui-snippets/coming-soon-hero/) copy.` },
-      { title: 'B2B trial signup pages', text: `Benefit bullets speak to buyer, form speaks to user.` },
-      { title: 'Course or membership signup', text: `Swap benefits for curriculum highlights.` },
-      { title: 'Internal tool onboarding', text: `Reuse the validated form pattern for account creation.` },
+      { title: 'SaaS signup landing pages', text: 'Capture a full account in the hero, with name, email and password fields validated on submit rather than a single email teaser.' },
+      { title: 'Product-led growth funnels', text: 'Reduce clicks between an ad and an activated account, with a password strength meter recomputed on every keystroke.' },
+      { title: 'Waitlist to account conversion', text: 'Pair with a [coming soon hero](/ui-snippets/coming-soon-hero/) so waitlist members can create an account when the product opens.' },
+      { title: 'B2B trial signups', text: 'Use benefit bullets to speak to the buyer, with a scannable checklist beside the form instead of a long paragraph.' },
+      { title: 'Course and membership signups', text: 'Swap benefits for curriculum highlights on a course or membership page, or reuse the validated form pattern for internal tool onboarding.' },
       { icon: 'CODE', title: 'Related: Hero with Live Ticking User Counter', desc: 'See the [Hero with Live Ticking User Counter](/ui-snippets/hero-live-social-proof-counter/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

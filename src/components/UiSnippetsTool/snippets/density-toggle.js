@@ -143,12 +143,11 @@ Density is a per-user preference, so in production you'd save the chosen class t
       { title: 'No dependency', text: `Pure HTML/CSS/JS — no table or UI library.` },
     ],
     useCases: [
-      { title: 'Admin dashboards', text: `Let users densify a [data table](/ui-snippets/data-table/) of records.` },
-      { title: 'Email and inbox UIs', text: `Offer Gmail-style spacing in an [email inbox](/ui-snippets/email-inbox/) list.` },
-      { title: 'Settings and view options', text: `Pair with a [data table column toggle](/ui-snippets/data-table-column-toggle/).` },
-      { title: 'Sortable data grids', text: `Combine with a [sortable table](/ui-snippets/sortable-table/) for power users.` },
-      { title: 'View-mode switchers', text: `Reuse the slide pattern from a [segmented control](/ui-snippets/segmented-control/).` },
-      { title: 'Learning the pattern', text: `A reference for class-driven density and sliding highlights.` },
+      { title: 'Admin record tables', text: 'Let users densify a [data table](/ui-snippets/data-table/) of records, with compact, cozy and comfortable spacing defined purely in CSS.' },
+      { title: 'Inbox and email lists', text: 'Offer Gmail-style spacing in an [email inbox](/ui-snippets/email-inbox/), where JavaScript only swaps one class and the stylesheet does the rest.' },
+      { title: 'View option menus', text: 'Pair with a [data table column toggle](/ui-snippets/data-table-column-toggle/) so people tune both which columns show and how tightly rows are packed.' },
+      { title: 'Sortable grid controls', text: 'Combine with a [sortable table](/ui-snippets/sortable-table/) for power users who scan many rows, with the active choice shown by `aria-pressed`.' },
+      { title: 'Segmented control reuse', text: 'Reuse the sliding pill from a [segmented control](/ui-snippets/segmented-control/), measuring `offsetLeft` and width so any label length works.' },
       { icon: 'CODE', title: 'Related: Row-Level Diff Table', desc: 'See the [Row-Level Diff Table](/ui-snippets/diff-table/) for a related tables pattern worth pairing with this one.' },
     ],
     faqs: [

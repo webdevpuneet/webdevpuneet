@@ -200,12 +200,11 @@ Pair this with [notification permission prompt](/ui-snippets/notification-permis
       { title: 'No dependencies', text: `Pure vanilla JS against native APIs.` },
     ],
     useCases: [
-      { title: 'Settings pages', text: `A notification-preferences toggle in an account panel.` },
-      { title: 'Onboarding flows', text: `Ask for notification permission at the right moment.` },
-      { title: 'Marketing/education', text: `Explain push vs. permission alongside a [badging API demo](/ui-snippets/badging-api-demo/).` },
-      { title: 'PWA feature checklists', text: `Show what's needed before real push works.` },
-      { title: 'Support/documentation', text: `Illustrate why a user's "notifications on" isn't full push.` },
-      { title: 'Notification test tools', text: `A quick local-fire button for design review.` },
+      { title: 'Notification settings pages', text: 'Add a notification-preferences toggle to an account area, with copy that separates permission granted from actually subscribed to push.' },
+      { title: 'Onboarding permission asks', text: 'Ask for notification permission at the right moment, with a real `Notification.requestPermission()` call and a genuine local test notification.' },
+      { title: 'Push versus permission education', text: 'Explain that permission and a working push subscription are different things, since the latter also needs a service worker and server infrastructure.' },
+      { title: 'PWA feature checklists', text: 'Show what is needed before real push works, using the [app badge demo](/ui-snippets/badging-api-demo/) as a companion capability.' },
+      { title: 'Support and test tools', text: 'Illustrate why a user\'s notifications are not appearing, or use as a quick local-fire button during development, stating plainly that pages cannot revoke permission.' },
       { icon: 'CODE', title: 'Related: WhatsApp Floating Button', desc: 'See the [WhatsApp Floating Button](/ui-snippets/whatsapp-floating-button/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

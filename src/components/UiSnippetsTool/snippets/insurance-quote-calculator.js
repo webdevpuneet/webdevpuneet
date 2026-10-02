@@ -183,12 +183,11 @@ Swap in real actuarial rate factors, add a health-conditions field, or change th
       { title: 'Easy to retune', text: `Constants at the top of the script.` },
     ],
     useCases: [
-      { title: 'Insurance carriers', text: `A quote widget on a life or auto insurance page.` },
-      { title: 'Comparison sites', text: `Estimate before linking to a [comparison table](/ui-snippets/comparison-table/).` },
-      { title: 'Lead generation', text: `Hook the estimate into a [checkout form](/ui-snippets/checkout-form/).` },
-      { title: 'Financial education', text: `Teach how term, age, and coverage affect price.` },
-      { title: 'Internal tools', text: `A quick underwriting sandbox for agents.` },
-      { title: 'Landing pages', text: `An interactive hero widget that builds trust.` },
+      { title: 'Insurance carrier sites', text: 'Put an instant estimate on a life or auto insurance page, recalculating the monthly premium as age, coverage, term and smoker status change.' },
+      { title: 'Comparison site estimates', text: 'Show a transparent estimate before sending visitors to a [comparison table](/ui-snippets/comparison-table/) of providers, so they arrive already informed.' },
+      { title: 'Lead generation', text: 'Hook the estimate into a [checkout form](/ui-snippets/checkout-form/) so interested visitors can continue directly from their quote.' },
+      { title: 'Financial education', text: 'Teach how term, age and coverage affect cost, using a Show the math panel that exposes every multiplier in the formula.' },
+      { title: 'Agent underwriting sandboxes', text: 'Give internal agents a quick pricing sandbox, built from native `select` and `range` controls without any library.' },
       { icon: 'CODE', title: 'Related: Resend OTP Cooldown Timer', desc: 'See the [Resend OTP Cooldown Timer](/ui-snippets/resend-otp-timer/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -111,12 +111,11 @@ Swap each row's \`data-img\` for real thumbnail URLs, change the preview size an
       { title: 'Image-swappable', text: `data-img makes it a real thumbnail index.` },
     ],
     useCases: [
-      { title: 'Portfolio indexes', text: `Pair with a [hero parallax grid](/ui-snippets/hero-parallax-grid/) of work.` },
-      { title: 'Studio project lists', text: `Top with a [flip link](/ui-snippets/flip-link/) navigation.` },
-      { title: 'Case-study menus', text: `Preview each study before opening it.` },
-      { title: 'Blog archives', text: `Float article images on a [table of contents](/ui-snippets/table-of-contents/).` },
-      { title: 'Photography sets', text: `Reveal a shot per collection name.` },
-      { title: 'Cursor-follow demos', text: `A reference for lerp-trailing previews.` },
+      { title: 'Portfolio indexes', text: 'Show a clean list of projects where hovering a row floats a thumbnail that eases along with the cursor, next to a [hero parallax grid](/ui-snippets/hero-parallax-grid/).' },
+      { title: 'Studio project lists', text: 'Top the list with a [flip link](/ui-snippets/flip-link/) navigation, using one shared preview element that cross-fades across rows.' },
+      { title: 'Case study menus', text: 'Preview each study before opening it, with the thumbnail trailing the pointer through lerp smoothing and tilting as it appears.' },
+      { title: 'Blog archives', text: 'Float article images on a [table of contents](/ui-snippets/table-of-contents/) style index, with the animation loop stopping itself when idle and hidden.' },
+      { title: 'Photography collections', text: 'Reveal one shot per collection name, as a reference for lerp-trailing previews and `data-img` driven content.' },
       { icon: 'CODE', title: 'Related: Nav Tabs — Overflow Collapse to ', desc: 'See the [Nav Tabs — Overflow Collapse to ](/ui-snippets/nav-tabs-overflow-more-menu/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

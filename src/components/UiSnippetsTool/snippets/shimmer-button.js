@@ -108,12 +108,11 @@ Recolor the conic stops to change the spark, slow or speed the \`shSpin\` durati
       { title: 'Press feedback', text: `A subtle active scale on click.` },
     ],
     useCases: [
-      { title: 'Primary CTAs', text: `Headline button inside an [animated gradient CTA](/ui-snippets/animated-gradient-cta/).` },
-      { title: 'AI product landing pages', text: `Pair with a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/).` },
-      { title: 'Pricing cards', text: `The action on a [pricing card](/ui-snippets/pricing-card/).` },
-      { title: 'Hero sections', text: `Place under a [lamp header](/ui-snippets/lamp-header/) title.` },
-      { title: 'Sign-up flows', text: `Replace a plain [loading button](/ui-snippets/loading-button/) submit.` },
-      { title: 'Animated border demos', text: `A reference for the conic-gradient border technique.` },
+      { title: 'Primary calls to action', text: 'Headline an [animated gradient CTA](/ui-snippets/animated-gradient-cta/) with a dark pill whose border carries a travelling conic-gradient spark.' },
+      { title: 'AI product landing pages', text: 'Pair with a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/) for the premium look seen across modern AI and developer products.' },
+      { title: 'Pricing card actions', text: 'Use as the action on a [pricing card](/ui-snippets/pricing-card/), with a diagonal sheen sweeping the label on hover and an arrow that nudges forward.' },
+      { title: 'Hero section buttons', text: 'Place under a [lamp header](/ui-snippets/lamp-header/) title, using a single transform on one element so the animation stays cheap on the GPU.' },
+      { title: 'Submit button upgrades', text: 'Replace a plain [loading button](/ui-snippets/loading-button/) on sign-up, and use it as a reference for the conic-gradient animated border technique.' },
     ],
     faqs: [
       { q: 'How is the animated border created?', a: `An outer spark layer has a ::before that is an oversized square filled with a conic-gradient — transparent for most of its sweep and bright for one slice. Rotating that square 360 degrees drags the bright slice around the perimeter. An inner body panel with a 1.5px margin covers everything except a thin rim, so only that glowing edge shows.` },

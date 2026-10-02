@@ -108,12 +108,11 @@ Change the spawn interval for a denser or sparser field, adjust the size and lif
       { title: 'Gradient headline', text: `Three-stop background-clip text underneath.` },
     ],
     useCases: [
-      { title: 'Magical hero headlines', text: `Pair with a [shimmer button](/ui-snippets/shimmer-button/) CTA.` },
-      { title: 'AI product titles', text: `Layer over a [text generate](/ui-snippets/text-generate/) reveal.` },
-      { title: 'Seasonal landing pages', text: `Swap stars for snow above a [hero section](/ui-snippets/hero-section/).` },
-      { title: 'Reward moments', text: `Echo the sparkle near a [confetti button](/ui-snippets/confetti-button/).` },
-      { title: 'Premium upsells', text: `Highlight a feature on a [pricing card](/ui-snippets/pricing-card/).` },
-      { title: 'Particle effect demos', text: `A reference for self-cleaning spawned elements.` },
+      { title: 'Magical hero headlines', text: 'Ring a gradient title with twinkling four-point stars, pairing with a [shimmer button](/ui-snippets/shimmer-button/) for a polished premium call to action.' },
+      { title: 'AI product titles', text: 'Layer over a [text generate](/ui-snippets/text-generate/) reveal, with sparkles spawning only inside the measured box of the headline.' },
+      { title: 'Seasonal landing pages', text: 'Swap stars for snowflakes on a [hero section](/ui-snippets/hero-section/) for holidays, using the same self-cleaning spawn logic.' },
+      { title: 'Reward moments', text: 'Echo the sparkle near a [confetti button](/ui-snippets/confetti-button/) when someone completes a task, with each star popping in, rotating and fading away.' },
+      { title: 'Premium upsell highlights', text: 'Highlight a standout feature on a [pricing card](/ui-snippets/pricing-card/), using inline SVG stars so shapes stay crisp without image files.' },
     ],
     faqs: [
       { q: 'How do sparkles stay positioned on the headline?', a: `Each spawn reads the headline's getBoundingClientRect and the stage's rect, then picks a random point inside the title's area padded outward by 14px. Because the box is measured every time, sparkles stay correctly clustered on and around the letters even if the headline reflows or the viewport resizes — no coordinates are hard-coded.` },

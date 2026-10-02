@@ -143,12 +143,11 @@ Wire each action to a real API call (e-signature for accept, a negotiation form 
       { title: 'Zero dependencies', text: `Pure HTML, CSS, and JS.` },
     ],
     useCases: [
-      { title: 'Recruiting platforms', text: `Pair with a [candidate pipeline kanban](/ui-snippets/candidate-pipeline-kanban/).` },
-      { title: 'HR offer-management tools', text: `Show candidates a clear compensation summary.` },
-      { title: 'Job boards', text: `Extend a [job listing card](/ui-snippets/job-listing-card/) into an offer stage.` },
-      { title: 'Internal mobility offers', text: `Present role-change compensation changes.` },
-      { title: 'Contractor rate proposals', text: `Swap salary rows for hourly/project terms.` },
-      { title: 'Promotion letters', text: `Reuse the comp breakdown for raise summaries.` },
+      { title: 'Recruiting platform offers', text: 'Pair with a [candidate pipeline kanban](/ui-snippets/candidate-pipeline-kanban/) so a candidate reaching the offer stage sees a clear summary.' },
+      { title: 'HR offer management', text: 'Show a compensation breakdown of base, bonus and equity as separate rows, with a highlighted estimated first-year total.' },
+      { title: 'Job board offer stages', text: 'Extend a [job listing card](/ui-snippets/job-listing-card/) into the offer stage, with Accept, Decline and Negotiate each resolving differently.' },
+      { title: 'Internal mobility offers', text: 'Present compensation for a role change, replacing action buttons with a result panel so the response is never a silent no-op.' },
+      { title: 'Contractor and promotion letters', text: 'Swap salary rows for hourly or project rates, or reuse the breakdown to summarise a raise on a promotion letter.' },
     ],
     faqs: [
       { q: 'How does one click handler produce three different outcomes?', a: `Each button carries a data-action attribute ("accept", "decline", or "negotiate"). The shared click handler reads that attribute, looks up the corresponding text in a messages object, and applies a matching modifier class (olp-result--accept, --decline, or --negotiate) to the result panel — so a single function drives three visually and textually distinct end states instead of three near-duplicate handlers.` },

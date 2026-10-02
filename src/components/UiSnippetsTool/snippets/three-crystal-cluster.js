@@ -174,12 +174,11 @@ The clearcoat-plus-mixed-geometry-plus-random-placement pattern generalizes to a
       'Loaded entirely from a CDN: no npm install, bundler, or build step required',
     ],
     useCases: [
-      { icon: 'WEB', title: 'Fantasy, gaming, and NFT-adjacent sites', desc: 'A glowing crystal cluster suits fantasy, loot, achievement, or collectible-themed visual branding.' },
-      { icon: 'ART', title: 'Jewelry and gem product previews', desc: 'A starting point for a glassy, faceted product preview before swapping in real gem or jewelry geometry.' },
-      { icon: 'LEARN', title: 'Teaching clearcoat materials', desc: 'A focused, minimal demonstration of MeshPhysicalMaterial\'s clearcoat as a cheap alternative to true refraction.' },
-      { icon: 'DESIGN', title: 'Portfolio and agency showpieces', desc: 'A visually striking, glassy centerpiece that demonstrates material and lighting craft in one scene.' },
-      { icon: 'GAME', title: 'Reward, loot, and achievement screens', desc: 'A glowing gem cluster is a natural visual metaphor for in-game rewards, currency, or rare-item reveals.' },
-      { icon: 'ANIM', title: 'Meditation and wellness app visuals', desc: 'A slowly drifting, glowing crystal formation suits calm, ambient wellness or mindfulness app backgrounds.' },
+      { icon: '💎', title: 'Fantasy and gaming sites', desc: 'Show a glowing crystal formation as a hero object, with 18 gems of mixed octahedron, cone and icosahedron geometry avoiding repetition.' },
+      { icon: '💍', title: 'Jewellery and gem previews', desc: 'Start a gemstone product preview, with `MeshPhysicalMaterial` clearcoat producing a convincing glassy look without costly refraction.' },
+      { icon: '📚', title: 'Clearcoat material teaching', desc: 'Give learners a focused, minimal demonstration of physically based glass approximation with an orbiting coloured point light.' },
+      { icon: '🎨', title: 'Portfolio showpieces', desc: 'Show a visually striking 3D scene, where unique phase-offset bobbing means no two gems move in sync.' },
+      { icon: '🏆', title: 'Reward and loot screens', desc: 'Use a glowing gem cluster for achievement or loot reveals, and a slowly drifting wellness scene when calm visuals are needed.' },
     ],
     faqs: [
       { q: 'How does the material achieve a glass-like look without real refraction?', a: 'The material uses MeshPhysicalMaterial\'s clearcoat property, which adds a thin, extra-reflective surface layer on top of the base material — similar to a clear lacquer coat over paint. Combined with low roughness, partial transparency, and a touch of emissive glow, this produces a shiny, glassy read that is much cheaper to render than true physically-based refraction.' },

@@ -128,10 +128,10 @@ Passing \`{ offset: 50 }\` to \`new WOW()\` tells it a card only counts as "reve
       { title: 'Break-inside safe cards', text: 'break-inside: avoid keeps a card from being split across two columns.' },
     ],
     useCases: [
-      { icon: 'CARD', title: 'Social proof sections', text: 'A dense, lively testimonial wall for a landing or pricing page.' },
-      { icon: 'DESIGN', title: 'Case study pages', text: 'Reuse the same wall pattern for pull quotes from client case studies.' },
-      { icon: 'LEARN', title: 'Teaching stagger approximation', text: 'A concrete example of computing delay for a layout without a real grid.' },
-      { icon: 'FLOW', title: 'Review aggregator pages', text: 'Surface many short reviews with movement that guides the eye down the page.' },
+      { title: 'Social proof sections', text: 'Show a dense, lively wall of customer quotes in a CSS-columns layout, with each card zooming in with a computed delay.' },
+      { title: 'Case study pull quotes', text: 'Reuse the wall for short quotes from many projects, generated from a JavaScript array so count and content can grow.' },
+      { title: 'Stagger approximation teaching', text: 'Learn how to estimate each card\'s column and row position to derive a `data-wow-delay`, since CSS columns give no explicit grid.' },
+      { title: 'Review aggregator pages', text: 'Surface many short reviews with motion, using `zoomIn` rather than `fadeInUp` to avoid collisions between slide-in entrances.' },
     ],
     faqs: [
       { q: 'Why not use a real CSS grid instead of column-count?', a: 'column-count is what produces the uneven, masonry-style silhouette where shorter cards pack tighter than taller ones. A real grid would give exact row/column tracking but force every card to the same height per row, which is the opposite of the visual effect this wall is going for.' },

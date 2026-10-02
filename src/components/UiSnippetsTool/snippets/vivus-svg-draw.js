@@ -202,12 +202,11 @@ Drop in your own line-art SVG, keep everything \`fill: none\` with strokes, and 
       { title: 'Round caps and joins', text: 'Stroke ends stay soft while the path is mid-reveal.' },
     ],
     useCases: [
-      { title: 'Logo intros', text: 'Draw a brand mark on first load instead of fading it in.' },
-      { title: 'Scroll-triggered illustration', text: 'Feed scroll progress into setFrameProgress for a scrubbed draw.' },
-      { title: 'Onboarding and empty states', text: 'Line art that builds itself beside an [empty state](/ui-snippets/empty-state/).' },
-      { title: 'Success and confirmation', text: 'A larger sibling to the [draw SVG success](/ui-snippets/draw-svg-success/) check.' },
-      { title: 'Infographic reveals', text: 'Build diagrams stroke by stroke as a reader arrives at them.' },
-      { title: 'Learning SVG animation', text: 'A live reference for dasharray, dashoffset, and path length.' },
+      { title: 'Logo intros', text: 'Draw a brand mark on first load rather than fading it in, with Vivus measuring every path using `getTotalLength` automatically.' },
+      { title: 'Scroll-triggered illustrations', text: 'Feed scroll progress into `setFrameProgress`, so a drawing builds as the visitor moves down the page.' },
+      { title: 'Onboarding and empty states', text: 'Show line art that builds itself while a user waits, with `start: manual` letting you trigger it from a button or hover.' },
+      { title: 'Success confirmations', text: 'Offer a larger sibling of the [draw SVG success](/ui-snippets/draw-svg-success/) tick, with delayed, one-by-one and sync timing modes switchable live.' },
+      { title: 'Infographic reveals', text: 'Build diagrams stroke by stroke as a section enters view, and use the [empty state](/ui-snippets/empty-state/) pattern to hold the space before it starts.' },
     ],
     faqs: [
       { q: 'How does a line draw itself with no drawing API?', a: 'stroke-dasharray sets the dash length to the path total length, so there is one dash covering the whole line. stroke-dashoffset then pushes that dash entirely out of view, making the path invisible. Animating the offset back to zero slides the dash into place, which reads as the line being drawn. Vivus measures every path with getTotalLength and applies both properties automatically.' },

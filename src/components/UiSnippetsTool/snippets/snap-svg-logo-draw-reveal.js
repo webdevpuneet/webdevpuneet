@@ -118,11 +118,11 @@ The \`<h1>\` wordmark next to the SVG is a plain CSS \`opacity\`/\`transform\` t
       { title: 'mina easing curves', text: 'easeinout and easeout shape the stroke and fill animations distinctly.' },
     ],
     useCases: [
-      { icon: 'DESIGN', title: 'Brand / product hero sections', text: 'A memorable animated entrance for a logo on a landing page.' },
-      { icon: 'STAR', title: 'Portfolio / agency intros', text: 'A signature moment on a personal or studio site\\u2019s homepage.' },
-      { icon: 'LEARN', title: 'Teaching sequenced SVG animation', text: 'A concrete example of chaining a stroke reveal into a fill reveal.' },
-      { icon: 'APP', title: 'Splash / loading screens', text: 'A drawn logo as a branded loading moment before content appears.' },
-      { icon: 'CODE', title: 'Product launch pages', text: 'An animated wordmark-and-mark pairing for a launch announcement.' },
+      { title: 'Brand and product heroes', text: 'Open with a monogram that draws itself stroke by stroke, then fades in its fill once the outline is complete.' },
+      { title: 'Portfolio and agency intros', text: 'Create a signature moment on a personal site, where straight-line geometry keeps the drawing speed visually even across every edge.' },
+      { title: 'Sequenced SVG teaching', text: 'Learn how to chain a stroke animation into a fill fade, with a Snap.svg callback triggering a plain CSS class toggle.' },
+      { title: 'Splash and loading screens', text: 'Use a drawn logo as a branded loader, with the outline establishing the shape before solid colour gives it substance.' },
+      { title: 'Launch page wordmarks', text: 'Pair an animated mark with a wordmark on a product launch page, with a replay button for demos and design reviews.' },
     ],
     faqs: [
       { q: 'Why build the monogram from only straight lines?', a: 'The dash-offset draw technique works on curves too, but a path made purely of M/L/Z commands has a length that is simple straight-line distance, so the reveal traces at an even, predictable speed across the whole shape rather than seeming to speed up or slow down through curved sections.' },

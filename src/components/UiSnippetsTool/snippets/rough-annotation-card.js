@@ -150,12 +150,11 @@ Wrap any phrase in a span with \`data-annot\` and \`data-color\` and it joins th
       { title: 'Wrap-safe', text: 'multiline: true keeps annotations correct across line breaks.' },
     ],
     useCases: [
-      { title: 'Marketing testimonials', text: 'A more expressive take on a [testimonial card](/ui-snippets/testimonial-card/).' },
-      { title: 'Landing page emphasis', text: 'Circle the number that matters instead of just bolding it.' },
-      { title: 'Editorial pull quotes', text: 'Add hand-marked stress to a [pull quote](/ui-snippets/pull-quote/).' },
-      { title: 'Docs and tutorials', text: 'Point at the exact term a reader needs, the way a teacher would.' },
-      { title: 'Onboarding copy', text: 'Draw attention through a first-run explanation, one phrase at a time.' },
-      { title: 'Pricing highlights', text: 'Box the recommended plan detail so the eye lands there first.' },
+      { title: 'Marketing testimonials', text: 'Give a [testimonial card](/ui-snippets/testimonial-card/) a more expressive treatment, with key phrases highlighted or circled by hand-drawn strokes that draw themselves on scroll.' },
+      { title: 'Landing page emphasis', text: 'Circle the number that matters instead of bolding it, using `data-annot` and `data-color` attributes to configure each phrase from the HTML.' },
+      { title: 'Editorial pull quotes', text: 'Add hand-marked stress to a [pull quote](/ui-snippets/pull-quote/), choosing from highlight, strike-through, circle, underline and box types.' },
+      { title: 'Docs and tutorials', text: 'Point at the exact term a reader needs to notice, with Rough.js re-randomising every stroke so no two drawings look identical.' },
+      { title: 'Onboarding and pricing highlights', text: 'Draw attention to first-run explanations, or box the recommended plan detail on a pricing page, with highlights using a thick marker-style stroke.' },
     ],
     faqs: [
       { q: 'Why does highlight need a different stroke width from the other types?', a: 'A highlight simulates a marker pen, so its stroke has to be wide enough to cover the text x-height — 12 here — and rough-notation places it behind the text so the words stay legible. Every other type is a pen line drawn over the text at width 2. Using 2 for a highlight gives a thin stripe through the middle of the words; using 12 for an underline smears them.' },

@@ -167,12 +167,11 @@ Extend \`ROUNDS\`/\`ROUND_IDS\` to support 16 or 32 players (the connector math 
       { title: 'Framework-friendly structure', text: `The measure-then-draw pattern ports directly to any component framework's ref-based DOM access.` },
     ],
     useCases: [
-      { title: 'Sports tournament sites', text: `Show single-elimination brackets for leagues, playoffs, or local tournaments.` },
-      { title: 'Esports and gaming platforms', text: `Live-update a bracket as best-of-N matches conclude.` },
-      { title: 'Corporate and community contests', text: `Trivia nights, hackathon judging, or office March Madness-style brackets.` },
-      { title: 'Voting and elimination polls', text: `Adapt the same structure for head-to-head elimination voting rounds.` },
-      { title: 'Event dashboards', text: `Pair with a [live match scoreboard](/ui-snippets/live-match-scoreboard/) for the currently active match.` },
-      { title: 'Learning measured-layout techniques', text: `A reference for getBoundingClientRect()-driven drawing — compare with [leaderboard table](/ui-snippets/leaderboard-table/) for a flat ranked alternative.` },
+      { title: 'Sports tournament sites', text: 'Show a single-elimination bracket where SVG connectors are drawn from real `getBoundingClientRect` positions instead of guessed pseudo-element heights.' },
+      { title: 'Esports and gaming platforms', text: 'Update a bracket as matches finish, with semifinal and final slots computed from quarterfinal winners rather than typed in.' },
+      { title: 'Contests and trivia nights', text: 'Run hackathon or community competitions, pairing with a [live match scoreboard](/ui-snippets/live-match-scoreboard/) for the match in progress.' },
+      { title: 'Voting and elimination polls', text: 'Adapt the structure for head-to-head voting, where `floor(i / 2)` feed-index maths generalises to any power-of-two bracket size.' },
+      { title: 'Standings and measured layout', text: 'Pair with a [leaderboard table](/ui-snippets/leaderboard-table/) for final standings, and study connectors that redraw safely on window resize.' },
       { icon: 'CODE', title: 'Related: Swiper Cards Deck', desc: 'See the [Swiper Cards Deck](/ui-snippets/swiper-cards-deck/) for a related layouts pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -121,12 +121,11 @@ Change the blob count and size for a chunkier or finer liquid, tune the \`stdDev
       { title: 'Click confirmation', text: `Label swaps to a success state.` },
     ],
     useCases: [
-      { title: 'Playful CTAs', text: `A lively button inside an [animated gradient CTA](/ui-snippets/animated-gradient-cta/).` },
-      { title: 'Newsletter signups', text: `Pair with a [newsletter signup](/ui-snippets/newsletter-signup/) form.` },
-      { title: 'Landing heroes', text: `Place under a [lamp header](/ui-snippets/lamp-header/) title.` },
-      { title: 'Creative portfolios', text: `Match a [shimmer button](/ui-snippets/shimmer-button/) elsewhere.` },
-      { title: 'Pricing actions', text: `The CTA on a [pricing card](/ui-snippets/pricing-card/).` },
-      { title: 'Goo filter demos', text: `A reference for SVG metaball merging.` },
+      { title: 'Playful calls to action', text: 'Pair with an [animated gradient CTA](/ui-snippets/animated-gradient-cta/) for a lively button whose fill rises as nine blobs merging into one liquid surface.' },
+      { title: 'Newsletter signups', text: 'Use inside a [newsletter signup](/ui-snippets/newsletter-signup/) form, with an overshooting cubic-bezier giving the fill a springy entrance.' },
+      { title: 'Landing heroes', text: 'Place under a [lamp header](/ui-snippets/lamp-header/) title, with blobs receding and dripping away in a staggered drain on exit.' },
+      { title: 'Creative portfolios', text: 'Match a [shimmer button](/ui-snippets/shimmer-button/) elsewhere on a creative site, or use as the action on a [pricing card](/ui-snippets/pricing-card/).' },
+      { title: 'SVG goo filter reference', text: 'Learn how blur followed by an alpha contrast fuses overlapping blobs into a single organic shape through SVG metaball merging.' },
       { icon: 'CODE', title: 'Related: Screen Orientation Lock Toggle', desc: 'See the [Screen Orientation Lock Toggle](/ui-snippets/screen-orientation-lock-toggle/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -155,12 +155,11 @@ Add more layers with their own \`data-depth\` values (the loop reads them generi
       { title: 'CSS-only mockup and shapes', text: `No image assets required to demo the effect.` },
     ],
     useCases: [
-      { title: 'App and product landing pages', text: `Pair with [app hero](/ui-snippets/app-hero/) for a device-focused hero.` },
-      { title: 'Portfolio and agency heroes', text: `Add tactile depth to an otherwise flat hero.` },
-      { title: 'Premium/luxury brand pages', text: `Cursor-reactive motion signals craftsmanship.` },
-      { title: 'Game and interactive product pages', text: `Depth cues match the product's own interactivity.` },
-      { title: 'Design tool and creative software', text: `Complement [3D card tilt](/ui-snippets/3d-card-tilt/) elsewhere on the page.` },
-      { title: 'Event and conference hero pages', text: `Add motion without a full video background.` },
+      { title: 'App and product pages', text: 'Pair with an [app hero](/ui-snippets/app-hero/) for a device surrounded by layers that move by different amounts as the cursor moves.' },
+      { title: 'Agency heroes', text: 'Add tactile depth to an otherwise static opener, with exponential smoothing so layers ease toward their targets instead of snapping.' },
+      { title: 'Luxury brand pages', text: 'Signal craft on a luxury brand page through cursor-reactive motion, with `requestAnimationFrame` decoupling DOM writes from raw `pointermove` frequency.' },
+      { title: 'Interactive product experiences', text: 'Match depth cues to the playful nature of a game or interactive product, using `translate3d` and `will-change` for cheap transforms.' },
+      { title: 'Design software pages', text: 'Complement [3D card tilt](/ui-snippets/3d-card-tilt/) tiles elsewhere on the page, so both hero and cards respond to the pointer.' },
       { icon: 'CODE', title: 'Related: Hero with Floating Glassmorphic Cards', desc: 'See the [Hero with Floating Glassmorphic Cards](/ui-snippets/hero-glassmorphic-card-float/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

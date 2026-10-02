@@ -148,10 +148,11 @@ Every user-facing reorder tool deserves undo, and this one shows how cheap it ca
       'Order modelled as a list of ids, so render and undo are simple',
     ],
     useCases: [
-      { icon: 'DASH', title: 'Roadmaps and prioritisation tables', desc: `Rank initiatives by dragging. For grid features such as filtering see the [Tabulator data grid](/ui-snippets/tabulator-sortable-filterable-grid/).` },
-      { icon: 'ADMIN', title: 'Playlist and queue editors', desc: `Reorder items that play or process in sequence.` },
-      { icon: 'PEOPLE', title: 'Shortlists and rankings', desc: `Rank candidates or options and show the resulting order.` },
-      { icon: 'LEARN', title: 'Learning undo with order snapshots', desc: `A minimal, reliable undo design based on a list of ids.` },
+      { icon: '🗺️', title: 'Roadmap prioritisation', desc: 'Rank initiatives by dragging rows by a grip cell, with the rank column renumbered in place and the moved row flashing briefly.' },
+      { icon: '🎵', title: 'Playlist and queue editors', desc: 'Reorder items that play or process in sequence, with an announcement of the old and new position for screen readers.' },
+      { icon: '🏆', title: 'Shortlists and rankings', desc: 'Rank candidates or options by drag, or sort by score, and use Alt plus Arrow keys to reorder without a mouse.' },
+      { icon: '📊', title: 'Full-featured grids', desc: 'Compare with the [Tabulator sortable filterable grid](/ui-snippets/tabulator-sortable-filterable-grid/) when columns, filtering and large data sets matter more than manual ranking.' },
+      { icon: '↩️', title: 'Undo history reference', desc: 'Learn a minimal and reliable undo feature built from order snapshots, taken in the `onStart` and `onEnd` hooks of the drag.' },
     ],
     faqs: [
       { q: 'Can SortableJS reorder table rows?', a: 'Yes. Call Sortable.create on the tbody. Use a handle cell so text remains selectable.' },

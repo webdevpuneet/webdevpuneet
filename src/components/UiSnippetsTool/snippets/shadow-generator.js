@@ -111,12 +111,11 @@ It's a single \`update()\` function reading the controls and writing the preview
       { title: 'No library', text: `Pure HTML/CSS/JS — no generator dependency.` },
     ],
     useCases: [
-      { title: 'Design-system elevation', text: `Author shadow tokens for cards like a [glass card](/ui-snippets/glass-card/).` },
-      { title: 'Component styling', text: `Dial in shadows for buttons, modals, and menus.` },
-      { title: 'Theme editors', text: `A shadow control beside a [gradient picker](/ui-snippets/gradient-picker/).` },
-      { title: 'Prototyping depth', text: `Compare elevations quickly in a builder.` },
-      { title: 'Neumorphism and insets', text: `Craft inner shadows for a [neumorphism card](/ui-snippets/neumorphism-card/).` },
-      { title: 'Learning box-shadow', text: `A reference for how each parameter behaves.` },
+      { title: 'Design system elevation tokens', text: 'Author shadow tokens for cards, popovers and modals, copying the exact CSS from a live preview.' },
+      { title: 'Component styling', text: 'Dial in shadows for buttons and panels on a [glass card](/ui-snippets/glass-card/) or any surface, with offsets and spread going negative for tight results.' },
+      { title: 'Theme editors', text: 'Place beside a [gradient picker](/ui-snippets/gradient-picker/) in a theming tool, combining hex colour and opacity into valid `rgba()` output.' },
+      { title: 'Neumorphism and inset shadows', text: 'Craft inner shadows for a [neumorphism card](/ui-snippets/neumorphism-card/) using the inset toggle, for pressed and recessed states.' },
+      { title: 'Learning box-shadow', text: 'See how each parameter affects the result, from offset X and Y to blur, spread, colour and opacity, in real time.' },
     ],
     faqs: [
       { q: 'What do offset, blur, and spread each do?', a: `Offset X and Y move the shadow horizontally and vertically (negative values move it left/up). Blur softens the edge — higher is fuzzier. Spread grows or shrinks the shadow before blurring; a negative spread pulls it in, which is the trick behind subtle, tight shadows. The generator lets you feel each of these live rather than guessing values.` },

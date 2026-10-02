@@ -138,12 +138,11 @@ Swap the complications, recolor the rings, or replace the face entirely — the 
       { title: 'No dependency', text: `Pure HTML/CSS/JS for wearable mockups.` },
     ],
     useCases: [
-      { title: 'Fitness app concepts', text: `Show rings beside an [activity rings](/ui-snippets/activity-rings/) widget.` },
-      { title: 'Wearable design', text: `Present a face next to a [phone mockup](/ui-snippets/phone-mockup/) companion app.` },
-      { title: 'Health dashboards', text: `Pair with a [gauge chart](/ui-snippets/gauge-chart/) of vitals.` },
-      { title: 'Complication design', text: `Prototype faces alongside a [metric card grid](/ui-snippets/metric-card-grid/).` },
-      { title: 'Marketing shots', text: `Frame a watch app in a [bento grid](/ui-snippets/bento-grid/).` },
-      { title: 'Learning SVG rings', text: `A reference for stroke-dasharray activity rings.` },
+      { title: 'Fitness app concepts', text: 'Show rings beside an [activity rings](/ui-snippets/activity-rings/) set, with SVG `stroke-dasharray` rings filling like an Apple Watch through a one-second sweep.' },
+      { title: 'Wearable design presentations', text: 'Present a watch face next to a [phone mockup](/ui-snippets/phone-mockup/) to show a companion pair, with bands, crown and button drawn in CSS only.' },
+      { title: 'Health dashboards', text: 'Pair with a [gauge chart](/ui-snippets/gauge-chart/) of vitals, using a live OLED-style green digital time over true black.' },
+      { title: 'Complication design', text: 'Prototype watch faces alongside a [metric card grid](/ui-snippets/metric-card-grid/), updating the clock from real time every second.' },
+      { title: 'Marketing frames', text: 'Frame a watch app inside a [bento grid](/ui-snippets/bento-grid/), and use it to learn how ring progress is drawn through dash arrays.' },
     ],
     faqs: [
       { q: 'How are the activity rings animated?', a: `Each ring is an SVG circle whose stroke-dasharray equals its circumference (2πr) and whose stroke-dashoffset starts at the full circumference, hiding the stroke. Setting the offset to circumference × (1 - percent) reveals that fraction, and a 1-second CSS transition makes it sweep. A -90° rotation starts the fill at the top and round line caps soften the ends.` },

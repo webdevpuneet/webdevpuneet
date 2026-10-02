@@ -146,12 +146,11 @@ Add a fourth tab by copying a button and a panel and the logic adapts automatica
       { title: 'Auto-adapting logic', text: `Tabs and panels are read from the DOM.` },
     ],
     useCases: [
-      { title: 'Product feature pages', text: `Headline capabilities above a [testimonial wall](/ui-snippets/testimonial-wall/).` },
-      { title: 'SaaS landing pages', text: `Pair with a [pricing toggle](/ui-snippets/pricing-toggle/) section.` },
-      { title: 'App marketing', text: `Show screens beside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Docs overviews', text: `Group capability docs like an [animated tabs](/ui-snippets/animated-tabs/) panel.` },
-      { title: 'Comparison sections', text: `Lead into a [comparison table](/ui-snippets/comparison-table/) of plans.` },
-      { title: 'Accessible tabs demo', text: `A reference for the WAI-ARIA tabs keyboard pattern.` },
+      { title: 'Product feature pages', text: 'Headline capabilities above a [testimonial wall](/ui-snippets/testimonial-wall/), with each tab swapping in copy and an illustrative graphic through a double-rAF entrance.' },
+      { title: 'SaaS pricing flows', text: 'Pair with a [pricing toggle](/ui-snippets/pricing-toggle/) section after the feature tour, with a sliding gradient indicator gliding beneath the active tab.' },
+      { title: 'App marketing screens', text: 'Show app screens beside a [phone mockup](/ui-snippets/phone-mockup/), where CSS-only artwork of bars, node wires and chips avoids any image files.' },
+      { title: 'Documentation overviews', text: 'Group capability documentation like [animated tabs](/ui-snippets/animated-tabs/) in an overview, with arrow-key navigation following the WAI-ARIA tabs pattern for accessibility.' },
+      { title: 'Plan comparison lead-ins', text: 'Lead into a [comparison table](/ui-snippets/comparison-table/) of plans after presenting capabilities, with the analytics bar chart animating up from zero.' },
       { icon: 'CODE', title: 'Related: Magazine Asymmetric Grid Layout', desc: 'See the [Magazine Asymmetric Grid Layout](/ui-snippets/magazine-asymmetric-grid-layout/) for a related layouts pattern worth pairing with this one.' },
     ],
     faqs: [

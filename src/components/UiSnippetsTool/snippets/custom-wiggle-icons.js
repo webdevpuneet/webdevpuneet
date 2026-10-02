@@ -126,12 +126,11 @@ Tune \`wiggles\` (3 is a nudge, 15 is a rattle), pair a wiggle with a color puls
       { title: 'CustomEase family', text: `Generated curves, hand-drawable if needed.` },
     ],
     useCases: [
-      { title: 'Notification attention', text: `Ring the bell on new activity in a [notification bell](/ui-snippets/notification-bell/) or [notification center](/ui-snippets/notification-center/).` },
-      { title: 'Add-to-cart feedback', text: `Nudge the cart icon alongside a [fly to cart button](/ui-snippets/fly-to-cart-button/).` },
-      { title: 'Validation shakes', text: `Wiggle rejected inputs in an [inline validation form](/ui-snippets/inline-validation-form/).` },
-      { title: 'Like flutters', text: `A heart scale-wiggle to complement [like burst button](/ui-snippets/like-burst-button/).` },
-      { title: 'CTA nudges', text: `Periodic gentle wiggles on idle CTAs, subtler than a [pulse button](/ui-snippets/pulse-button/).` },
-      { title: 'Impact siblings', text: `Pair with landing squash from [custom bounce ball](/ui-snippets/custom-bounce-ball/).` },
+      { title: 'Notification attention', text: 'Ring a bell on new activity in a [notification centre](/ui-snippets/notification-center/), or nudge the [notification bell](/ui-snippets/notification-bell/) with an easeOut wiggle.' },
+      { title: 'Add-to-cart nudges', text: 'Wiggle the cart icon alongside a [fly to cart button](/ui-snippets/fly-to-cart-button/) so the user sees where the item landed.' },
+      { title: 'Validation shakes', text: 'Wiggle rejected inputs in an [inline validation form](/ui-snippets/inline-validation-form/), using a uniform envelope for mechanical, even shaking.' },
+      { title: 'Like flutters', text: 'Add a heart scale wiggle to complement a [like burst button](/ui-snippets/like-burst-button/), with the same curve reused for rotation, scale and x.' },
+      { title: 'Idle call-to-action nudges', text: 'Give idle buttons a periodic gentle wiggle, subtler than a [pulse button](/ui-snippets/pulse-button/), and pair with [custom bounce ball](/ui-snippets/custom-bounce-ball/) for landing impact.' },
       { icon: 'CODE', title: 'Related: Gooey Text Morph', desc: 'See the [Gooey Text Morph](/ui-snippets/gooey-text/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -143,12 +143,11 @@ The whole thing is one card, a fill function, and a positioner, with no dependen
       { title: 'No library', text: `Pure HTML/CSS/JS — no popover or tooltip dependency.` },
     ],
     useCases: [
-      { title: 'Username mentions', text: `Preview profiles inline in a [comment thread](/ui-snippets/comment-thread/).` },
-      { title: 'Link previews', text: `Show a card for links or articles on hover.` },
-      { title: 'Team and author bylines', text: `Reveal a [team card](/ui-snippets/team-card/)-style preview from a name.` },
-      { title: 'Product or term tooltips', text: `Richer than a plain [tooltip](/ui-snippets/css-tooltip/) for entities.` },
-      { title: 'Avatar hovercards', text: `Pop a profile from an [avatar group](/ui-snippets/avatar-group/).` },
-      { title: 'Learning popover UX', text: `A reference for intent timing and collision-aware placement.` },
+      { title: 'Username mention previews', text: 'Preview a profile when someone hovers a mention in a [comment thread](/ui-snippets/comment-thread/), with open and close delays that prevent flicker as the pointer passes.' },
+      { title: 'Link previews', text: 'Show a card for a link or article on hover, filled from the trigger\'s data attributes using one reusable popover element.' },
+      { title: 'Author and team bylines', text: 'Reveal a [team card](/ui-snippets/team-card/) style preview from a byline, with a hover bridge keeping the card open while the pointer moves onto it.' },
+      { title: 'Rich term tooltips', text: 'Offer something richer than a plain [CSS tooltip](/ui-snippets/css-tooltip/) for glossary terms or product names, with keyboard focus opening the card too.' },
+      { title: 'Avatar hover cards', text: 'Pop a profile from an [avatar group](/ui-snippets/avatar-group/), with edge-aware placement that clamps to the viewport and flips above when there is no room below.' },
       { icon: 'CODE', title: 'Related: Staking Rewards Card', desc: 'See the [Staking Rewards Card](/ui-snippets/staking-rewards-card/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -303,12 +303,11 @@ Adjust \`RIG_COUNT\` and \`GHOST_LAG\` for a longer or tighter trail, swap \`MOD
       { title: 'Slider + Ctrl/Cmd-scroll zoom', text: `Zoom is an explicit, opt-in gesture, never a hijacked plain scroll wheel.` },
     ],
     useCases: [
-      { title: 'Sports and biomechanics visualization', text: `Show a real captured motion's trajectory as a readable trailing pose sequence.` },
-      { title: 'Game animation and rigging portfolios', text: `Demonstrate SkeletonUtils cloning and multi-rig scrubbing on a real character.` },
-      { title: 'Character motion teaching demos', text: `A complete, real example of building a motion trail from baked animation data.` },
-      { title: 'Scroll-driven character storytelling', text: `Tie a character's full-body motion and its trail to a scroll narrative.` },
-      { title: 'Alongside the single-rig walk cycle', text: `Compare against [scroll-scrubbed GLB walk cycle](/ui-snippets/scroll-glb-fox-walk-cycle-scrub/)'s single-pose scrubbing.` },
-      { title: 'Interactive scroll narratives', text: `Use as a centerpiece between other [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) sections.` },
+      { title: 'Sports and biomechanics visuals', text: 'Show a real captured movement with a trailing motion path, using two translucent ghost rigs that sample the same clip slightly earlier.' },
+      { title: 'Game animation portfolios', text: 'Demonstrate skeletal rigging skills in a game animation portfolio, with `SkeletonUtils.clone()` giving each of three rigs its own independent skeleton.' },
+      { title: 'Character motion teaching', text: 'Teach how a pose relates to what came before, since a single scrubbed pose loses all sense of the direction a limb was moving.' },
+      { title: 'Character storytelling', text: 'Tie a character\'s movement to scroll narrative, with every rig\'s `mixer.setTime()` mapped directly from scroll progress.' },
+      { title: 'Single-rig comparison', text: 'Compare against the [scroll GLB walk cycle scrub](/ui-snippets/scroll-glb-fox-walk-cycle-scrub/), then place either as a centrepiece before a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/).' },
     ],
     faqs: [
       { q: `Why is SkeletonUtils.clone() required instead of the model's regular .clone() method?`, a: `A skinned mesh's pose is driven by its skeleton — a hierarchy of bone Object3D instances the mesh's vertices are weighted against. Three.js's built-in Object3D.clone() only performs a shallow copy that does not correctly rebuild an independent skeleton or re-bind the cloned mesh's skin to it, so multiple clones made that way would all end up sharing (and visually fighting over) the exact same bones. SkeletonUtils.clone(), loaded as its own addon script, exists specifically to produce a real, independently-posable rig from one source scene.` },

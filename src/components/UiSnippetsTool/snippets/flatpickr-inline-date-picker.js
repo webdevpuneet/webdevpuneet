@@ -103,12 +103,11 @@ Swap the weekday-based disable rule for any other availability logic — blocked
       { title: 'Readable confirmation text', text: `Full weekday/month/day format via toLocaleDateString.` },
     ],
     useCases: [
-      { title: 'Appointment and call scheduling', text: `Exactly this pattern for booking a meeting slot.` },
-      { title: 'Reservation and booking systems', text: `Restaurant, rental, or service availability pickers.` },
-      { title: 'Event registration deadlines', text: `Pair with the [date range with presets](/ui-snippets/flatpickr-date-range-presets/) snippet elsewhere in this collection.` },
-      { title: 'Delivery date selection', text: `Business-day-only delivery scheduling.` },
-      { title: 'Availability calendars', text: `Any UI where picking a date is the main task, not a side field.` },
-      { title: 'Learning Flatpickr', text: `A clear reference for inline mode, disable rules, and theming.` },
+      { title: 'Appointment and call booking', text: 'Make date selection the primary action on a screen with an always-visible calendar, as for booking a call.' },
+      { title: 'Reservation systems', text: 'Disable weekends and past dates through a real weekday-checking function, with `minDate: \'today\'` resolving correctly on every page load.' },
+      { title: 'Range pairing', text: 'Pair with the [date range presets](/ui-snippets/flatpickr-date-range-presets/) variant for event registration deadlines or any other window with a start and end.' },
+      { title: 'Delivery date selection', text: 'Offer business-day-only delivery scheduling, with `onChange` receiving true `Date` objects rather than only a formatted string to parse.' },
+      { title: 'Availability calendars and theming', text: 'Use for any UI where picking a date is central, and learn how custom CSS can restyle Flatpickr through its stable class names.' },
     ],
     faqs: [
       { q: 'How does disabling weekends work for every future month automatically?', a: `The disable option is given a function rather than a fixed list of dates. Flatpickr calls this function once for every candidate date it renders, including dates in months the user hasn't navigated to yet, and the function returns true whenever date.getDay() is 0 (Sunday) or 6 (Saturday). Because it's a rule evaluated per-date rather than a precomputed list, it correctly disables weekends in any month, indefinitely, with no maintenance.` },

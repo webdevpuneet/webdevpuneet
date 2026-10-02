@@ -136,12 +136,11 @@ To make this real, replace the pre-scripted paths with actual cursor coordinates
       { title: 'Honest demo labeling', text: `A visible note clarifies these are simulated cursors, not a live connection.` },
     ],
     useCases: [
-      { title: 'Collaborative editor demos', text: `Show the multiplayer feel of a docs or whiteboard product in marketing pages.` },
-      { title: 'Design tool marketing', text: `Pair with [multiplayer cursors](/ui-snippets/multiplayer-cursors/) to showcase real-time editing visuals.` },
-      { title: 'Onboarding illustrations', text: `Demonstrate what "live collaboration" looks like before a user invites teammates.` },
-      { title: 'Presence feature previews', text: `Combine with a [team presence list](/ui-snippets/team-presence-list/) to show both cursors and avatars.` },
-      { title: 'Loading/empty states', text: `Animate cursors on an empty document as a playful placeholder while data loads.` },
-      { title: 'Learning animation timing', text: `A reference for path interpolation and requestAnimationFrame-driven motion.` },
+      { title: 'Collaborative editor demos', text: 'Show the multiplayer feel of a document tool without a backend, with coloured pointers and name tags gliding along pre-scripted waypoint paths.' },
+      { title: 'Design tool marketing', text: 'Pair with [multiplayer cursors](/ui-snippets/multiplayer-cursors/) to show how teammates move around a shared canvas, using transform-only movement that never triggers layout.' },
+      { title: 'Onboarding illustrations', text: 'Demonstrate what live collaboration looks like to new users, with `pointAt()` deriving each position purely from elapsed time.' },
+      { title: 'Presence feature previews', text: 'Combine with a [team presence list](/ui-snippets/team-presence-list/) so people see both who is online and where they are working.' },
+      { title: 'Empty states and timing learning', text: 'Animate cursors across an empty document, and study path interpolation inside a `requestAnimationFrame` loop that pauses automatically.' },
       { icon: 'CODE', title: 'Related: User Role Card with Conditional Permission Checkboxes', desc: 'See the [User Role Card with Conditional Permission Checkboxes](/ui-snippets/user-role-permission-card/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

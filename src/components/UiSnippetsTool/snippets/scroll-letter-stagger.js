@@ -118,12 +118,11 @@ Edit the \`data-text\` attributes (the splitter adapts), flip the wave direction
       { title: 'Split-safe gradient', text: `background-clip applied per character.` },
     ],
     useCases: [
-      { title: 'Hero headlines', text: `A statement entrance; exit it later with [scroll hero exit](/ui-snippets/scroll-hero-exit/).` },
-      { title: 'Section titles', text: `Punctuate chapters in a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Portfolio names', text: `Land your name letter by letter, then a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/).` },
-      { title: 'Campaign statements', text: `Pair the type with a [scroll word wheel](/ui-snippets/scroll-word-wheel/) for the variable word.` },
-      { title: 'Word-level variants', text: `For paragraphs, brighten words with [text reveal on scroll](/ui-snippets/text-reveal-scroll/).` },
-      { title: 'Timer-based cousins', text: `Where scroll isn't the driver, use [split text](/ui-snippets/split-text/).` },
+      { title: 'Hero headline entrances', text: 'Land a statement letter by letter as the reader scrolls, and exit it later with a [scroll hero exit](/ui-snippets/scroll-hero-exit/).' },
+      { title: 'Chapter title punctuation', text: 'Introduce chapters in a [scroll pin story](/ui-snippets/scroll-pin-story/), with masked lines hiding waiting letters until they rise.' },
+      { title: 'Portfolio name reveals', text: 'Land your name letter by letter, then follow with a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) of projects as the portfolio opens up.' },
+      { title: 'Campaign statements', text: 'Pair the type with a [scroll word wheel](/ui-snippets/scroll-word-wheel/), or brighten whole paragraphs with [text reveal scroll](/ui-snippets/text-reveal-scroll/).' },
+      { title: 'Plugin-free split learning', text: 'See how a dozen lines of JavaScript replace a split-text plugin here, with `yPercent` scaling to the responsive font size, and compare with the timer-based [split text](/ui-snippets/split-text/).' },
       { icon: 'CODE', title: 'Related: Scroll Milestone Confetti', desc: 'See the [Scroll Milestone Confetti](/ui-snippets/scroll-milestone-confetti/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

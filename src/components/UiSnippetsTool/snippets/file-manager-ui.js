@@ -225,10 +225,10 @@ function handleUpload() {
       'Flex + CSS Grid layout — no absolute positioning'
     ],
     useCases: [
-      { icon: 'APP', title: 'Document Management Apps', desc: 'File explorer UI for internal document management and team file sharing tools' },
-      { icon: 'DOC', title: 'Cloud Storage Dashboards', desc: 'Drive-style file browser for SaaS apps with user-owned file storage' },
-      { icon: 'FLOW', title: 'CMS Media Libraries', desc: 'Media browser component for CMS platforms to browse and select uploaded assets' },
-      { icon: 'DESIGN', title: 'Developer Tool Dashboards', desc: 'File tree panel in IDE-style web tools for browsing project files' },
+      { icon: '📄', title: 'Document management apps', desc: 'Provide an explorer for internal documents, with a sidebar folder tree, colour-coded folder icons and an active state.' },
+      { icon: '☁️', title: 'Cloud storage dashboards', desc: 'Build a drive-style browser for a SaaS product, with a grid and list toggle driven by CSS class switching and a storage bar.' },
+      { icon: '🖼️', title: 'CMS media libraries', desc: 'Offer a media browser component for CMS platforms with inline SVG file-type icons and no icon library dependency to install.' },
+      { icon: '💻', title: 'IDE-style file trees', desc: 'Show a file tree panel in a developer tool dashboard, with click-to-select highlighting for the chosen item.' },
       { icon: 'CODE', title: 'Related: Org Chart', desc: 'See the [Org Chart](/ui-snippets/org-chart/) for a related layouts pattern worth pairing with this one.' },
     ],
     faqs: [

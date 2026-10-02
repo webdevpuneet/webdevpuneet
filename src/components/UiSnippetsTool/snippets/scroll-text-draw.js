@@ -108,12 +108,11 @@ Change the word (bump \`DASH\` if you use a long word in a heavier font), the gr
       { title: 'Reversible', text: `Scrolling up erases the word.` },
     ],
     useCases: [
-      { title: 'Brand moments', text: `Draw the product name at a chapter break inside a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Portfolio intros', text: `Sketch your name as the opener, then a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) of work.` },
-      { title: 'Event sites', text: `Trace the event wordmark; add a [countdown timer](/ui-snippets/countdown-timer/) below.` },
-      { title: 'Diagram narratives', text: `Combine with [scroll SVG path draw](/ui-snippets/scroll-svg-path-draw/) so lines and labels draw together.` },
-      { title: 'Section headers', text: `A drawn heading between a [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/) and body copy.` },
-      { title: 'Static fallbacks', text: `Use [gradient text](/ui-snippets/gradient-text/) where motion isn't wanted.` },
+      { title: 'Brand name moments', text: 'Draw a product name at a chapter break inside a [scroll pin story](/ui-snippets/scroll-pin-story/), with outlines tracing in through `stroke-dashoffset`.' },
+      { title: 'Sketched name openers', text: 'Sketch your name as an opening, then follow with a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) of projects once the strokes have flooded with colour.' },
+      { title: 'Event wordmarks', text: 'Trace an event wordmark as the page opens, adding a [countdown timer](/ui-snippets/countdown-timer/) beneath so the date is clear to visitors.' },
+      { title: 'Diagram narratives', text: 'Combine with [scroll SVG path draw](/ui-snippets/scroll-svg-path-draw/) so lines and lettering draw together, with one linear gradient inking both the stroke and the fill.' },
+      { title: 'Section headers and static fallbacks', text: 'Place a drawn heading between sections such as a [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/), or use [gradient text](/ui-snippets/gradient-text/) where motion is unwanted.' },
       { icon: 'CODE', title: 'Related: Three.js Scroll Hologram Scan Reveal', desc: 'See the [Three.js Scroll Hologram Scan Reveal](/ui-snippets/three-scroll-hologram-scan/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

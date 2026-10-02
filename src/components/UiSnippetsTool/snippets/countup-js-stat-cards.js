@@ -119,12 +119,11 @@ Add a fifth card by appending one object to \`statConfig\` and one matching \`id
       { title: 'Responsive 4-to-2 column grid', text: 'The stat grid collapses gracefully on narrow viewports.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'Marketing landing pages', text: 'Classic "by the numbers" social-proof section just above or below the fold.' },
-      { icon: 'DESIGN', title: 'Investor/about pages', text: 'Revenue, users, or growth metrics that feel alive rather than static text.' },
-      { icon: 'STAR', title: 'App store / review highlights', text: 'A rating stat that counts up reinforces the number is worth noticing.' },
-      { title: 'Case study result sections', text: 'Quantify an outcome ("42% faster") with a counted reveal instead of static text.' },
-      { title: 'Conference/event recap pages', text: 'Attendee counts, sessions, and countries represented, counted in on scroll.' },
-      { title: 'Learning IntersectionObserver patterns', text: 'A clean reference for the fire-once-per-element pattern reusable well beyond counters.' },
+      { title: 'Marketing by-the-numbers', text: 'Show classic social-proof statistics that begin counting only as each card scrolls into view, using one shared `IntersectionObserver` for all four cards.' },
+      { title: 'Investor and about pages', text: 'Present revenue, users or growth metrics that tick up when the reader arrives, with a fire-once guarantee from a `started` map plus `unobserve()`.' },
+      { title: 'App rating highlights', text: 'Show a rating stat that counts up beside review excerpts, with each card passing its own separator, decimal places and prefix options.' },
+      { title: 'Case study results', text: 'Quantify an outcome such as 42 percent faster, with a visibility threshold of 0.4 that avoids firing on a barely visible edge.' },
+      { title: 'Event recaps and observer learning', text: 'Show attendee counts and sessions for a conference recap, and study a clean IntersectionObserver pattern that waits for the reader before starting.' },
     ],
     faqs: [
       { q: 'Why use one shared IntersectionObserver instead of one per card?', a: "IntersectionObserver is designed to batch multiple targets under a single callback efficiently — creating four separate observer instances would work but adds overhead for no benefit, since the callback already receives an entries array you can iterate and branch on by target." },

@@ -91,12 +91,11 @@ Add sections with their own palettes, change the crossfade duration, switch the 
       { title: 'CSS fallback', text: `Body transition backs up the tween.` },
     ],
     useCases: [
-      { title: 'Story scrolls', text: `Set moods in a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Product pages', text: `Section themes around [feature cards](/ui-snippets/feature-cards/).` },
-      { title: 'Portfolios', text: `Recolor between [scroll parallax layers](/ui-snippets/scroll-parallax-layers/) scenes.` },
-      { title: 'Onboarding', text: `Tint steps of an [onboarding tour](/ui-snippets/onboarding-tour/).` },
-      { title: 'Brand reels', text: `Pair with a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/).` },
-      { title: 'Reveals', text: `Theme behind [reveal on scroll](/ui-snippets/reveal-on-scroll/) blocks.` },
+      { title: 'Story mood shifts', text: 'Set a different mood for each chapter of a [scroll pin story](/ui-snippets/scroll-pin-story/), with `data-bg` and `data-fg` attributes defining each palette.' },
+      { title: 'Product page themes', text: 'Give sections around [feature cards](/ui-snippets/feature-cards/) their own colours, switching when a section crosses the centre of the screen.' },
+      { title: 'Portfolio scene changes', text: 'Recolour the page between [scroll parallax layers](/ui-snippets/scroll-parallax-layers/) scenes in a portfolio, with the body colour tweening smoothly between each palette.' },
+      { title: 'Onboarding step tints', text: 'Tint the steps of an [onboarding tour](/ui-snippets/onboarding-tour/), with `overwrite: auto` cancelling stale tweens so fast scrolling never flickers.' },
+      { title: 'Brand reels and reveals', text: 'Pair with a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/) for a brand reel, or set a theme behind [reveal on scroll](/ui-snippets/reveal-on-scroll/) blocks.' },
       { icon: 'CODE', title: 'Related: Scroll Chat Story', desc: 'See the [Scroll Chat Story](/ui-snippets/scroll-chat-story/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

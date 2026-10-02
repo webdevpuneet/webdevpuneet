@@ -127,12 +127,11 @@ Call \`select(id)\` from a websocket or your auth layer to reflect a user's real
       { title: 'No dependency', text: `Pure HTML/CSS/JS for any profile menu.` },
     ],
     useCases: [
-      { title: 'Chat and messaging apps', text: `Set presence above a [chat UI](/ui-snippets/chat-ui/) conversation.` },
-      { title: 'Profile menus', text: `Drop into a [profile dropdown](/ui-snippets/profile-dropdown/) header.` },
-      { title: 'Team rosters', text: `Show who's reachable in a [team presence list](/ui-snippets/team-presence-list/).` },
-      { title: 'Avatars with status', text: `Pair the dot with a [status avatar](/ui-snippets/status-avatar/).` },
-      { title: 'Device health', text: `Reuse the dot beside a [battery indicator](/ui-snippets/battery-indicator/).` },
-      { title: 'Learning dropdowns', text: `A reference for an accessible listbox menu.` },
+      { title: 'Chat presence controls', text: 'Let users set Online, Away, Do not disturb or Offline above a [chat UI](/ui-snippets/chat-ui/) conversation list, as Slack and Discord do.' },
+      { title: 'Profile menu headers', text: 'Drop into a [profile dropdown](/ui-snippets/profile-dropdown/) header, with pill and menu both rendered from one `STATES` array.' },
+      { title: 'Team roster availability', text: 'Show who is reachable in a [team presence list](/ui-snippets/team-presence-list/), with a CSS-only ring pulsing on the active state.' },
+      { title: 'Avatar status dots', text: 'Pair the dot with a [status avatar](/ui-snippets/status-avatar/) in a roster, where a single `--c` custom property colours any presence state.' },
+      { title: 'Accessible dropdown learning', text: 'Study a button and listbox using `aria-expanded` and `aria-selected`, and reuse the dot beside a [battery indicator](/ui-snippets/battery-indicator/) for device health.' },
     ],
     faqs: [
       { q: 'How does the same dot show different colors?', a: `Each dot reads its color from a --c CSS custom property set inline from the STATES data, so a single .sp-dot class renders green, amber, red, or grey. The pulsing halo is a ::after ring that also inherits --c, so the glow always matches whatever color the state defines.` },

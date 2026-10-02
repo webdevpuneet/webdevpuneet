@@ -102,12 +102,11 @@ Edit \`WORDS\`, retune the per-character constants, or use \`text: { value: w, d
       { title: 'Layout-riding caret', text: `CSS blink, positioned by the text itself.` },
     ],
     useCases: [
-      { title: 'SaaS hero lines', text: `The classic benefit rotator; a scrubbed cousin is the [scroll word wheel](/ui-snippets/scroll-word-wheel/).` },
-      { title: 'Portfolio taglines', text: `"I build X" cyclers; add entrance type via [gsap split text](/ui-snippets/gsap-split-text/).` },
-      { title: 'Search placeholders', text: `Type example queries inside a [search box](/ui-snippets/search-box/).` },
-      { title: 'Terminal demos', text: `Command typing loops in a [terminal window](/ui-snippets/terminal-window/).` },
-      { title: 'Feature tickers', text: `Rotate capabilities near a [logo marquee](/ui-snippets/logo-marquee/).` },
-      { title: 'Chat simulations', text: `Type bot replies in an [ai chat interface](/ui-snippets/ai-chat-interface/).` },
+      { title: 'SaaS hero benefit lines', text: 'Cycle Build products that convert, retain and delight through a typed word, with durations scaling to word length for constant cadence.' },
+      { title: 'Portfolio taglines', text: 'Create I build X style cyclers, and add an entrance with [GSAP split text](/ui-snippets/gsap-split-text/) for the static part of the line.' },
+      { title: 'Search placeholder typing', text: 'Type example queries inside a [search box](/ui-snippets/search-box/), with backspacing achieved for free by tweening the string to empty.' },
+      { title: 'Terminal command loops', text: 'Type commands in a [terminal window](/ui-snippets/terminal-window/), with empty tweens inserted as reading pauses without any position maths.' },
+      { title: 'Chat reply simulation', text: 'Type bot replies inside an [AI chat interface](/ui-snippets/ai-chat-interface/) as a simulation, or rotate product capabilities near a [logo marquee](/ui-snippets/logo-marquee/).' },
       { icon: 'CODE', title: 'Related: Page Flip', desc: 'See the [Page Flip](/ui-snippets/page-flip/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

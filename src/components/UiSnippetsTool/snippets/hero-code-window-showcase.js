@@ -189,12 +189,11 @@ Add more snippets to the \`snippets\` array (each just needs a \`filename\` and 
       { title: 'No dependencies', text: `Pure vanilla JS, no highlighter library.` },
     ],
     useCases: [
-      { title: 'Developer tool and API landing pages', text: `The classic dev-tool hero centerpiece.` },
-      { title: 'SDK and library homepages', text: `Show real integration code, not a screenshot.` },
-      { title: 'Open source project pages', text: `Pair with [gradient mesh hero](/ui-snippets/gradient-mesh-hero/).` },
-      { title: 'CLI tool marketing pages', text: `Cycle through terminal-style command examples.` },
-      { title: 'Framework and boilerplate sites', text: `Demonstrate setup code with syntax color.` },
-      { title: 'Technical documentation intros', text: `Give a live preview before the docs deep-dive.` },
+      { title: 'Developer tool landing pages', text: 'Show real code typed into a fake editor one character at a time, instead of a static screenshot that demonstrates nothing.' },
+      { title: 'SDK and library homepages', text: 'Display real integration snippets on an SDK or library homepage, with `htmlUpTo()` guaranteeing that a half-typed tag is never rendered broken mid-keystroke.' },
+      { title: 'Open source project pages', text: 'Pair with a [gradient mesh hero](/ui-snippets/gradient-mesh-hero/) backdrop, cycling through several snippets in a type, pause, erase and next loop.' },
+      { title: 'CLI tool marketing', text: 'Cycle through terminal-style commands for a CLI tool, with keywords, strings, functions and comments all pre-marked up for syntax colour.' },
+      { title: 'Framework and docs intros', text: 'Demonstrate setup code before the reader commits to documentation, driven by a recursive `setTimeout` chain rather than CSS `steps()`.' },
     ],
     faqs: [
       { q: 'How does the typing animation avoid breaking the HTML mid-type?', a: `Each snippet is authored with syntax-highlighting spans already in its HTML string. Rather than typing that raw string character by character (which would render broken half-open tags), htmlUpTo() walks the string and, whenever it hits a '<', copies the entire tag through to its closing '>' in one step without counting it toward the visible character total — only real text characters increment the count. That's why colors appear correctly as each character lands instead of only after typing finishes.` },

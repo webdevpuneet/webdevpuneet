@@ -154,10 +154,10 @@ function resetForm() {
       'Zero dependencies — pure HTML, CSS, JavaScript'
     ],
     useCases: [
-      { icon: 'DOC', title: 'Newsletter Signups', desc: 'Developer blogs, design newsletters, and tech publications' },
-      { icon: 'APP', title: 'SaaS Waitlists', desc: 'Pre-launch email capture for product waitlists and early access' },
-      { icon: 'LEARN', title: 'Course Launches', desc: 'Online course early-bird and launch notification opt-ins' },
-      { icon: 'CODE', title: 'Developer Tools', desc: 'Release notifications for open-source libraries and dev tools' }
+      { icon: '📧', title: 'Newsletter signups', desc: 'Capture subscribers for a developer blog or design newsletter, with live email validation and a shake animation when the address is invalid.' },
+      { icon: '🚀', title: 'SaaS waitlists', desc: 'Collect pre-launch emails for a product waitlist, using a loading state that disables the button to prevent accidental double submission.' },
+      { icon: '🎓', title: 'Course launches', desc: 'Announce early-bird access to an online course, with social-proof avatars beneath the form to encourage hesitant visitors.' },
+      { icon: '🔔', title: 'Open-source release notices', desc: 'Offer release notifications for a library or tool, ending in an animated success checkmark with a spring easing.' },
     ],
     faqs: [
       { q: 'How do I connect this to Mailchimp or ConvertKit?', a: 'Replace the setTimeout in subscribe() with a fetch POST to your mailing list API endpoint. Include the email in the request body and handle the response to show success or error states.' },

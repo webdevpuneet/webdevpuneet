@@ -136,12 +136,11 @@ Tune \`BASE\` for a faster or slower resting drift, raise the \`0.25\` boost fac
       { title: 'Outline + fill type', text: `-webkit-text-stroke alternates hollow and solid words.` },
     ],
     useCases: [
-      { title: 'Agency landing pages', text: `A kinetic band above a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/).` },
-      { title: 'Portfolio sites', text: `Between a [portfolio hero](/ui-snippets/portfolio-hero/) and the work grid.` },
-      { title: 'Brand statements', text: `Loop slogans like a giant [marquee](/ui-snippets/marquee/) with motion.` },
-      { title: 'Event microsites', text: `Pair with a [lamp header](/ui-snippets/lamp-header/) for drama.` },
-      { title: 'Product launches', text: `Reinforce a tagline near an [animated gradient CTA](/ui-snippets/animated-gradient-cta/).` },
-      { title: 'Kinetic type demos', text: `A reference for scroll-driven velocity and skew.` },
+      { title: 'Agency landing bands', text: 'Place a kinetic band of giant words above a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/), drifting on its own and surging when the visitor scrolls.' },
+      { title: 'Portfolio dividers', text: 'Sit between a [portfolio hero](/ui-snippets/portfolio-hero/) and the project grid, with rows alternating direction through a `data-dir` attribute.' },
+      { title: 'Brand slogan loops', text: 'Loop a slogan as a giant marquee with momentum, clamping the `skewX` lean at 18 degrees so the type stays legible.' },
+      { title: 'Event and launch microsites', text: 'Pair with a [lamp header](/ui-snippets/lamp-header/) for drama, or reinforce a tagline near an [animated gradient CTA](/ui-snippets/animated-gradient-cta/).' },
+      { title: 'Plain marquee comparison', text: 'See the simpler [marquee](/ui-snippets/marquee/) for constant-speed scrolling, and use this version when speed should respond to the reader\'s own scrolling.' },
       { icon: 'CODE', title: 'Related: Three.js Scroll Typography Shatter', desc: 'See the [Three.js Scroll Typography Shatter](/ui-snippets/three-scroll-typo-shatter/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

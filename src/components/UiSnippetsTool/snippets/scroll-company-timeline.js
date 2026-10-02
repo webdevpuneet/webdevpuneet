@@ -147,12 +147,11 @@ Add or remove \`.ctl-item\` blocks freely — the per-item trigger loop picks up
       { title: 'Zero external images', text: `Nodes and the line are pure CSS shapes and gradients.` },
     ],
     useCases: [
-      { title: 'Company "our story" / about pages', text: `Turn a static founding history into a paced, scroll-driven narrative.` },
-      { title: 'Product roadmap or changelog pages', text: `Show release milestones with the same fill-line progress metaphor.` },
-      { title: 'Annual report retrospectives', text: `Walk investors through year-by-year milestones before a final metrics summary.` },
-      { title: 'Nonprofit impact timelines', text: `Narrate program milestones alongside a growing progress indicator.` },
-      { title: 'Personal portfolio "career journey" sections', text: `Reuse the same alternating-card pattern for individual work history.` },
-      { title: 'Event or conference history pages', text: `Show past editions as milestones building toward the current one.` },
+      { title: 'Our story pages', text: 'Turn a static founding story into a scroll-driven narrative, where a vertical line grows in lockstep with how far the visitor has scrolled.' },
+      { title: 'Roadmap and changelog pages', text: 'Show release milestones on alternating sides, with each card getting its own ScrollTrigger so it reveals exactly when it reaches the viewport.' },
+      { title: 'Annual report retrospectives', text: 'Walk investors through year-by-year milestones, with every reveal fully reversible so scrolling back retracts the line.' },
+      { title: 'Nonprofit impact timelines', text: 'Narrate programme milestones along the line, with left and right placement set by a class name through CSS grid.' },
+      { title: 'Career and event histories', text: 'Reuse the layout for a personal career journey, or show past editions of a conference as milestone cards.' },
       { icon: 'CODE', title: 'Related: Scroll Comic Panel Sequence', desc: 'See the [Scroll Comic Panel Sequence](/ui-snippets/scroll-comic-panels/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

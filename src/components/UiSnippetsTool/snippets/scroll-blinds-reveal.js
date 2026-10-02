@@ -121,12 +121,11 @@ Rotate slats to +92° to open downward, switch to vertical slats with \`flex-dir
       { title: 'Reversible', text: `Scrolling up closes the blinds.` },
     ],
     useCases: [
-      { title: 'Section transitions', text: `A more textured hand-off than a [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/).` },
-      { title: 'Hero reveals', text: `Open onto a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/) or product shot.` },
-      { title: 'Photography portfolios', text: `Slat open a full-bleed image, then a [photo gallery](/ui-snippets/photo-gallery/).` },
-      { title: 'Launch teasers', text: `Tease the announcement through widening gaps; pair with a [countdown timer](/ui-snippets/countdown-timer/).` },
-      { title: 'Editorial chapters', text: `Punctuate long reads inside a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Alternative masks', text: `Swap in a [scroll image mask](/ui-snippets/scroll-image-mask/) where a single-shape reveal fits better.` },
+      { title: 'Section transitions', text: 'Hand off between sections with a more textured effect than a [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/), with slats tilting open in 3D from the top downwards.' },
+      { title: 'Hero reveals', text: 'Open onto a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/) or a product shot, with 900px perspective adding real foreshortening to each slat.' },
+      { title: 'Photography portfolios', text: 'Slat open a full-bleed image before leading into a [photo gallery](/ui-snippets/photo-gallery/), with a `SLATS` constant controlling how many blinds there are.' },
+      { title: 'Launch teasers', text: 'Tease an announcement through widening gaps, perhaps with a [countdown timer](/ui-snippets/countdown-timer/) visible behind the blinds as they tilt open.' },
+      { title: 'Editorial chapter breaks', text: 'Punctuate long reads inside a [scroll pin story](/ui-snippets/scroll-pin-story/), or swap in a [scroll image mask](/ui-snippets/scroll-image-mask/) where a single aperture suits better.' },
       { icon: 'CODE', title: 'Related: Scroll Card Fan', desc: 'See the [Scroll Card Fan](/ui-snippets/scroll-card-fan/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

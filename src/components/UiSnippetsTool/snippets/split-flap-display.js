@@ -283,12 +283,11 @@ The whole effect — flipping leaves, the mechanical seam, the left-to-right rip
       'Pure DOM and CSS: no images, sprites, canvas or external libraries',
     ],
     useCases: [
-      { icon: 'WEB', title: 'Retro hero headers', desc: 'Animate a headline or tagline on a landing page with nostalgic mechanical charm, alongside effects like [text particles](/ui-snippets/text-particles/).' },
-      { icon: 'DASH', title: 'Live status boards', desc: 'Display departures, scores or queue numbers that flip when values change.' },
-      { icon: 'ART', title: 'Countdown and reveals', desc: 'Build anticipation for a launch or event with characters flapping into place.' },
-      { icon: 'DESIGN', title: 'Brand microsites', desc: 'Add a memorable Solari-board signature to a product or campaign page.' },
-      { icon: 'LEARN', title: 'Teaching CSS 3D', desc: 'A focused example of perspective, rotateX and transform-origin next to a [color wheel picker](/ui-snippets/color-wheel-picker/).' },
-      { icon: 'GAME', title: 'Game scoreboards', desc: 'Show scores, lives or level names with playful flip animations.' },
+      { icon: '🚉', title: 'Retro hero headers', desc: 'Animate a headline or tagline on a landing page with mechanical character cells that flap through letters until they land on the target.' },
+      { icon: '📋', title: 'Live status boards', desc: 'Show departures, scores or queue numbers in a Solari style, with cells stepping through a `CHARSET` one character at a time.' },
+      { icon: '⏳', title: 'Countdown and launch reveals', desc: 'Build anticipation for a launch or reveal, with staggered timing so the board settles from one side to the other.' },
+      { icon: '🏷️', title: 'Brand microsite signatures', desc: 'Add a memorable board to a microsite, then compare with [text particles](/ui-snippets/text-particles/) for a looser, scattered take on kinetic type.' },
+      { icon: '🎓', title: 'CSS 3D transform reference', desc: 'Study how perspective, `rotateX` and dual transform origins create realistic hinged flaps, with `backface-visibility` hiding each leaf\'s reverse.' },
     ],
     faqs: [
       { q: 'Why does each cell flap through every letter instead of jumping?', a: 'It mimics a real split-flap board, which can only step one leaf forward at a time. The code advances the current index by one per animation and repeats until it reaches the target, so it visibly rolls through intermediate characters.' },

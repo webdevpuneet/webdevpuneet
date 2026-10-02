@@ -107,12 +107,11 @@ Change the \`22ms\` step for a faster or slower cascade, swap the accent color o
       { title: 'Clean markup', text: `One word per link; the split is scripted.` },
     ],
     useCases: [
-      { title: 'Editorial navigation', text: `Big menus beside a [fullscreen menu](/ui-snippets/fullscreen-menu/).` },
-      { title: 'Agency sites', text: `Pair with an [agency hero](/ui-snippets/agency-hero/).` },
-      { title: 'Portfolio menus', text: `Top a [portfolio hero](/ui-snippets/portfolio-hero/) with kinetic links.` },
-      { title: 'Footer link lists', text: `Liven up a [mega footer](/ui-snippets/mega-footer/) column.` },
-      { title: 'Landing nav', text: `Combine with a [floating pill nav](/ui-snippets/floating-pill-nav/).` },
-      { title: 'Kinetic type demos', text: `A reference for per-letter staggered flips.` },
+      { title: 'Editorial navigation menus', text: 'Create oversized links where each letter rolls vertically in sequence on hover, inside a [fullscreen menu](/ui-snippets/fullscreen-menu/).' },
+      { title: 'Agency site navigation', text: 'Pair with an [agency hero](/ui-snippets/agency-hero/) so the opening screen and its menu share a confident kinetic style.' },
+      { title: 'Portfolio menus', text: 'Top a [portfolio hero](/ui-snippets/portfolio-hero/) with links that flip to an accent-coloured copy, rendered by `::after` so no extra nodes are needed.' },
+      { title: 'Footer link lists', text: 'Liven up a column in a [mega footer](/ui-snippets/mega-footer/), with the stagger direction reversing on leave for natural follow-through.' },
+      { title: 'Floating navigation companions', text: 'Combine with a [floating pill nav](/ui-snippets/floating-pill-nav/) on a landing page, using `--i` and `transition-delay` for the per-letter cascade.' },
       { icon: 'CODE', title: 'Related: Keyboard Keys', desc: 'See the [Keyboard Keys](/ui-snippets/kbd-keys/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

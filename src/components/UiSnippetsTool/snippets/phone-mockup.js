@@ -153,12 +153,11 @@ Replace the \`.pm-app\` contents with your own screen and the frame becomes a re
       { title: 'No dependency', text: `Pure HTML/CSS/JS for mockups and showcases.` },
     ],
     useCases: [
-      { title: 'App landing pages', text: `Showcase a screen beside a [product hero](/ui-snippets/product-hero/).` },
-      { title: 'Portfolio and case studies', text: `Frame work next to a [bento grid](/ui-snippets/bento-grid/) gallery.` },
-      { title: 'Design presentations', text: `Present a [mobile login screen](/ui-snippets/mobile-login-screen/) in context.` },
-      { title: 'Feature showcases', text: `Pair with a [tablet mockup](/ui-snippets/tablet-mockup/) for responsive demos.` },
-      { title: 'Marketing screenshots', text: `Wrap a [music player](/ui-snippets/music-player/) for store-style shots.` },
-      { title: 'Learning CSS device art', text: `A reference for nested-radius bezels and CSS hardware.` },
+      { title: 'App landing pages', text: 'Showcase an app screen beside a [product hero](/ui-snippets/product-hero/), with a dynamic island pill and hardware buttons drawn entirely in CSS.' },
+      { title: 'Mobile case study frames', text: 'Frame mobile work next to a [bento grid](/ui-snippets/bento-grid/), with nested border radii on the bezel creating a realistic rim at any size.' },
+      { title: 'Design presentations', text: 'Present a [mobile login screen](/ui-snippets/mobile-login-screen/) in context, with a live status bar and scrollable app screen inside the frame.' },
+      { title: 'Feature showcases', text: 'Pair with a [tablet mockup](/ui-snippets/tablet-mockup/) for responsive demonstrations, and swap content freely since no phone image is involved.' },
+      { title: 'Store-style marketing shots', text: 'Wrap a [music player](/ui-snippets/music-player/) screen for app-store style marketing, and learn nested-radius bezels as a CSS device art reference.' },
       { icon: 'CODE', title: 'Related: CSS text-wrap: balance Demo', desc: 'See the [CSS text-wrap: balance Demo](/ui-snippets/text-wrap-balance-demo/) for a related layouts pattern worth pairing with this one.' },
     ],
     faqs: [

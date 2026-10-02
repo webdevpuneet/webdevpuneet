@@ -152,12 +152,11 @@ Rows come from a \`ROWS\` array keyed by stable ids, so the selection survives b
       { title: 'Data-driven & no library', text: `Renders from a ROWS array in plain HTML/CSS/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Admin record management', text: `Select and bulk-act on users or items — pair with a [bulk actions bar](/ui-snippets/bulk-actions-bar/) for richer toolbars.` },
-      { title: 'Email and inbox UIs', text: `Multi-select messages with shift-click, alongside a [data table](/ui-snippets/data-table/) for sorting.` },
-      { title: 'File and asset managers', text: `Range-select files for move or delete, next to a [file manager UI](/ui-snippets/file-manager-ui/).` },
-      { title: 'Moderation and review queues', text: `Approve or remove many items at once.` },
-      { title: 'Export and assignment flows', text: `Pick rows, then export or assign in bulk.` },
-      { title: 'Learning selection mechanics', text: `A reference for tri-state and range selection — compare with a [filterable table](/ui-snippets/filterable-table/).` },
+      { title: 'Admin bulk management', text: 'Select and act on many users or items, with a header checkbox that is checked, indeterminate or empty depending on the selection.' },
+      { title: 'Email multi-select', text: 'Select messages with shift-click ranges, as in an inbox, with one selection `Set` driving all visual state.' },
+      { title: 'File and asset managers', text: 'Range-select files for move or delete in a [file manager UI](/ui-snippets/file-manager-ui/), using whole-row click targets that are easy to hit.' },
+      { title: 'Moderation queues', text: 'Approve or remove many items at once, revealing a [bulk actions bar](/ui-snippets/bulk-actions-bar/) with a live count once anything is selected.' },
+      { title: 'Export and assignment flows', text: 'Pick rows then export or assign, combining with a [filterable table](/ui-snippets/filterable-table/) and a plain [data table](/ui-snippets/data-table/).' },
       { icon: 'CODE', title: 'Related: Conditional Formatting Table', desc: 'See the [Conditional Formatting Table](/ui-snippets/table-conditional-formatting/) for a related tables pattern worth pairing with this one.' },
     ],
     faqs: [

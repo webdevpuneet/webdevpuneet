@@ -134,10 +134,10 @@ The copy button has its own subtlety: it copies code.textContent, not innerHTML.
       'Event delegation on the pre element for dynamically generated line numbers',
     ],
     useCases: [
-      { icon: 'CODE', title: 'Developer blogs and tutorials', desc: `Give every code sample line numbers and a copy button. For an editable version see the [CodeMirror editor](/ui-snippets/codemirror-editor-line-numbers-themes/).` },
-      { icon: 'DOC', title: 'API and product documentation', desc: `Highlight the exact lines a paragraph is talking about.` },
-      { icon: 'LEARN', title: 'Course material', desc: `Point students at specific lines in a longer listing by number.` },
-      { icon: 'ADMIN', title: 'Changelog and diff-style displays', desc: `Emphasise changed lines in configuration and release-note snippets.` },
+      { icon: '📝', title: 'Developer blogs and tutorials', desc: 'Give every code sample line numbers, syntax highlighting and a copy button that copies clean source with a clipboard fallback.' },
+      { icon: '📚', title: 'API documentation', desc: 'Highlight the exact lines a reader needs, with clickable line numbers toggling highlighted lines through the line-highlight plug-in.' },
+      { icon: '🎓', title: 'Course material', desc: 'Point students at specific lines in a long example, using the Tomorrow theme for readable contrast.' },
+      { icon: '🔄', title: 'Changelog and diff displays', desc: 'Emphasise changed lines in a snippet, or compare with the full editor in [CodeMirror line numbers and themes](/ui-snippets/codemirror-editor-line-numbers-themes/).' },
     ],
     faqs: [
       { q: 'Why do I need both a script and a stylesheet per plug-in?', a: 'Prism plug-ins split behaviour and styling. The script adds the feature, and the CSS supplies the gutter and highlight bar appearance.' },

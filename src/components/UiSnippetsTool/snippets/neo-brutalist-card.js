@@ -113,12 +113,11 @@ Resize the shadow offset to make the card feel heavier or lighter, change the bo
       { title: 'No images or blur', text: `Pure HTML and CSS, trivially themeable.` },
     ],
     useCases: [
-      { title: 'Bold landing pages', text: `Headline a brutalist hero next to an [animated gradient CTA](/ui-snippets/animated-gradient-cta/).` },
-      { title: 'Pricing grids', text: `Restyle a [pricing card](/ui-snippets/pricing-card/) wall in the brutalist look.` },
-      { title: 'Feature highlights', text: `Use as the cells of a [bento grid](/ui-snippets/bento-grid/) layout.` },
-      { title: 'Product cards', text: `Give an e-commerce [product card](/ui-snippets/product-card/) a high-contrast treatment.` },
-      { title: 'Portfolio sites', text: `Match the chunky shadow on a [neon glow](/ui-snippets/neon-glow/) accent.` },
-      { title: 'Design-system demos', text: `A reference for the hard-shadow brutalist pattern.` },
+      { title: 'Bold landing pages', text: 'Headline a brutalist hero beside an [animated gradient CTA](/ui-snippets/animated-gradient-cta/), using thick black borders and flat saturated colour blocks.' },
+      { title: 'Pricing grids', text: 'Restyle a wall of [pricing card](/ui-snippets/pricing-card/) options in the brutalist style, with a zero-blur hard shadow giving a crisp offset.' },
+      { title: 'Brutalist bento cells', text: 'Use as the cells of a [bento grid](/ui-snippets/bento-grid/) layout, with cards lifting on hover and focus through translate plus a larger shadow.' },
+      { title: 'E-commerce product cards', text: 'Give a [product card](/ui-snippets/product-card/) a high-contrast treatment, so pressing it moves it toward its shadow like a physical button.' },
+      { title: 'Design system demos', text: 'Contrast with a [neon glow](/ui-snippets/neon-glow/) accent, and use as a reference for the hard-shadow brutalist look.' },
     ],
     faqs: [
       { q: 'What makes a shadow look brutalist?', a: `The blur radius is zero: box-shadow: 8px 8px 0 #111 paints a solid offset copy of the element rather than a soft fade. Paired with a thick 3px solid black border, the card reads as a flat cut-out sticker instead of a floating material surface, which is the core of the neo-brutalist aesthetic.` },

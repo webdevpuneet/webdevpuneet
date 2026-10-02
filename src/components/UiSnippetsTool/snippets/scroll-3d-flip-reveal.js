@@ -120,12 +120,11 @@ Put a teaser question on the back face and an answer on the front for a quiz for
       { title: 'Configurable trigger range', text: `start/end control how much scroll the flip spans.` },
     ],
     useCases: [
-      { title: 'Feature reveals', text: `Hide a feature name, reveal its description on flip.` },
-      { title: 'Quiz or trivia pages', text: `Question on the back, answer on the front.` },
-      { title: 'Team pages', text: `Flip from a silhouette to a bio on scroll.` },
-      { title: 'Product comparisons', text: `Reveal specs as each card flips into view.` },
-      { title: 'Portfolios', text: `Pair with [scroll 3D cards](/ui-snippets/scroll-3d-cards/) for contrast.` },
-      { title: 'Onboarding steps', text: `Flip open each step as the user scrolls to it.` },
+      { title: 'Feature name reveals', text: 'Hide a feature\'s name on a face-down card and reveal its description as the card rotates 180 degrees through the viewport centre.' },
+      { title: 'Quiz and trivia pages', text: 'Show the question on the back and the answer on the front, with rotation scrubbed so scrolling back reverses the flip precisely.' },
+      { title: 'Team pages', text: 'Flip from a silhouette to a biography as each card passes the centre, using `backface-visibility: hidden` to show only the turned side.' },
+      { title: 'Product comparison cards', text: 'Reveal specifications as each card flips into view, with two genuine faces rather than one face that fades.' },
+      { title: 'Entrance style contrast', text: 'Pair with [scroll 3D cards](/ui-snippets/scroll-3d-cards/) for contrast between a tilt-and-settle entrance and a genuine two-sided flip.' },
       { icon: 'CODE', title: 'Related: Scroll Accordion', desc: 'See the [Scroll Accordion](/ui-snippets/scroll-accordion/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

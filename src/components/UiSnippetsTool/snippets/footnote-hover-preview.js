@@ -157,12 +157,11 @@ Make the popover itself scrollable-interactive content (a link inside it, say) s
       { title: 'Print and SEO friendly', text: `The underlying footnote list stays fully readable without any JavaScript.` },
     ],
     useCases: [
-      { title: 'Long-form journalism and essays', text: `Let readers check a source without losing their place in the article.` },
-      { title: 'Academic and research publishing', text: `Pair with a [citation style formatter](/ui-snippets/citation-formatter/) to show full references inline.` },
-      { title: 'Legal and policy documents', text: `Preview clause references or definitions without navigating away.` },
-      { title: 'Technical documentation', text: `Show a glossary definition or caveat inline via the same pattern.` },
-      { title: 'Newsletter and blog platforms', text: `A lightweight enhancement for any footnote-heavy writing tool.` },
-      { title: 'Learning popover positioning logic', text: `A reference for viewport-aware flip positioning — compare with [table of contents](/ui-snippets/table-of-contents/) for other article-navigation patterns.` },
+      { title: 'Long-form journalism and essays', text: 'Let readers check a source without leaving their place, with a preview popover next to the superscript marker on hover or keyboard focus.' },
+      { title: 'Academic and research publishing', text: 'Pair with a [citation formatter](/ui-snippets/citation-formatter/) so formatted references can be previewed inline, using content read from a real semantic footnote list.' },
+      { title: 'Legal and policy documents', text: 'Preview clause references or definitions in place, with popovers that flip below the marker when there is no room above.' },
+      { title: 'Technical documentation', text: 'Show a glossary definition or caveat on demand, with Escape dismissing the preview for keyboard users.' },
+      { title: 'Newsletter and blog platforms', text: 'Add a lightweight enhancement using one reused popover element, alongside a [table of contents](/ui-snippets/table-of-contents/) for long articles.' },
       { icon: 'CODE', title: 'Related: Priority Matrix Board', desc: 'See the [Priority Matrix Board](/ui-snippets/priority-matrix-board/) for a related layouts pattern worth pairing with this one.' },
     ],
     faqs: [

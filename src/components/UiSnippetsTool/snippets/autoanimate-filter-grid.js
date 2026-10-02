@@ -166,12 +166,11 @@ Any grid with a category, tag, or search filter benefits from wrapping the conta
       { title: 'Zero dependencies beyond the library', text: 'No animation library besides auto-animate itself is required.' },
     ],
     useCases: [
-      { icon: 'DESIGN', title: 'Portfolio and gallery filters', text: 'Tag-based project or image galleries that filter by category.' },
-      { icon: 'APP', title: 'Component or template libraries', text: 'Catalog UIs like this one, filtering by type.' },
-      { icon: 'FORM', title: 'Search-as-you-type results', text: 'Any live-filtered result grid where result count changes per keystroke.' },
-      { icon: 'FLOW', title: 'Product catalogs', text: 'E-commerce category filters where products animate in and out of view.' },
-      { icon: 'LEARN', title: 'Teaching FLIP insert/remove', text: 'A clear, minimal reference for how autoAnimate treats entering vs leaving nodes.' },
-      { icon: 'CODE', title: 'Rapid admin tooling', text: 'Internal dashboards needing filter polish without hand-rolled animation code.' },
+      { title: 'Portfolio and gallery filters', text: 'Filter projects or images by tag, with cards leaving the set playing an exit and remaining cards sliding into the gaps through FLIP.' },
+      { title: 'Component and template libraries', text: 'Build a catalogue like this one where choosing a category chip smoothly reflows the grid without any hand-written animation.' },
+      { title: 'Live search results', text: 'Animate any live-filtered result grid as users type, since `autoAnimate` handles removal, insertion and reordering with a single call.' },
+      { title: 'Product catalogue categories', text: 'Handle e-commerce category filters where products disappear and reappear, rebuilding the grid with `innerHTML = \'\'` safely on each click.' },
+      { title: 'Admin tool filtering', text: 'Give internal dashboards polished filtering without custom code, passing duration and easing as a plain options object.' },
     ],
     faqs: [
       { q: 'How does autoAnimate know which cards are "leaving" if I already deleted them with innerHTML?', a: 'It does not rely on your JS still holding a reference to them. Its MutationObserver callback fires with the removed nodes included in the mutation record, so it clones them, re-inserts the clone temporarily, plays the exit animation on the clone, and only then discards it. Your code never needs to keep the old nodes around.' },

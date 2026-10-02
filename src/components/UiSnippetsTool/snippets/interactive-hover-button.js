@@ -90,12 +90,11 @@ Change the accent color of the dot and fill, adjust the \`scale\` value to match
       { title: 'Real button element', text: `Keyboard-focusable and accessible.` },
     ],
     useCases: [
-      { title: 'Primary CTAs', text: `Pair with a [shimmer button](/ui-snippets/shimmer-button/) elsewhere.` },
-      { title: 'Hero actions', text: `Place under a [lamp header](/ui-snippets/lamp-header/) title.` },
-      { title: 'Pricing buttons', text: `The action on a [pricing card](/ui-snippets/pricing-card/).` },
-      { title: 'Signup flows', text: `A tactile alternative to a [loading button](/ui-snippets/loading-button/).` },
-      { title: 'Landing CTAs', text: `Coordinate with a [pulse button](/ui-snippets/pulse-button/).` },
-      { title: 'Hover button demos', text: `A reference for dot-expand fill effects.` },
+      { title: 'Primary calls to action', text: 'Pair with a [shimmer button](/ui-snippets/shimmer-button/) elsewhere on a page, using a small accent dot that expands on hover to flood the whole button.' },
+      { title: 'Hero actions', text: 'Place under a [lamp header](/ui-snippets/lamp-header/) title, with the resting label sliding out and a fresh label with an arrow sliding in.' },
+      { title: 'Pricing plan buttons', text: 'Use as the action on a [pricing card](/ui-snippets/pricing-card/) plan, where an arrow nudge reinforces forward intent as the label swaps on hover.' },
+      { title: 'Signup flows', text: 'Offer a tactile alternative to a [loading button](/ui-snippets/loading-button/), scaling one small element that is clipped by the pill for GPU-friendly motion.' },
+      { title: 'Coordinated landing CTAs', text: 'Coordinate with a [pulse button](/ui-snippets/pulse-button/) elsewhere on a landing page, and study the dot-expand fill as a hover reference.' },
       { icon: 'CODE', title: 'Related: Push Notification Subscription Toggle', desc: 'See the [Push Notification Subscription Toggle](/ui-snippets/push-subscription-toggle/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

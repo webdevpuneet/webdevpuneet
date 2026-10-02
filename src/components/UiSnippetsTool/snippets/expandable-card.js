@@ -159,12 +159,11 @@ Adjust the modal's target width and vertical position, change the transition dur
       { title: 'Per-card theming', text: `A --c accent flows through the modal.` },
     ],
     useCases: [
-      { title: 'Feature lists', text: `Expand details from a [feature cards](/ui-snippets/feature-cards/) layout.` },
-      { title: 'App and integration grids', text: `Pair with [integration cards](/ui-snippets/integration-cards/).` },
-      { title: 'Pricing detail', text: `Open plan specifics beside a [pricing card](/ui-snippets/pricing-card/).` },
-      { title: 'Portfolio items', text: `Grow a thumbnail into a case study.` },
-      { title: 'Settings rows', text: `Expand a row from a [settings panel](/ui-snippets/settings-panel/).` },
-      { title: 'FLIP animation demos', text: `A reference for shared-element transitions.` },
+      { title: 'Feature detail expansion', text: 'Grow a card from its place in a [feature cards](/ui-snippets/feature-cards/) layout into a centred modal, using a FLIP transition from the card\'s own rectangle.' },
+      { title: 'App and integration grids', text: 'Pair with [integration cards](/ui-snippets/integration-cards/) in an app grid, keeping full details in an unrendered template until a card is opened.' },
+      { title: 'Pricing plan specifics', text: 'Open plan details beside a [pricing card](/ui-snippets/pricing-card/), hiding the source card so its spot is preserved for the collapse.' },
+      { title: 'Case study thumbnails', text: 'Grow a thumbnail into a full case study, with a blurred backdrop dimming the page behind through `backdrop-filter`.' },
+      { title: 'Settings row detail', text: 'Expand a row from a [settings panel](/ui-snippets/settings-panel/) into a larger view, as a reference for shared-element transitions.' },
       { icon: 'CODE', title: 'Related: Nutrition Label', desc: 'See the [Nutrition Label](/ui-snippets/nutrition-label/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

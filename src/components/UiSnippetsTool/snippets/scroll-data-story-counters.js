@@ -142,12 +142,11 @@ Add metrics to the array with their own \`from\`/\`to\`/\`format\`, and adjust \
       { title: 'Fully pinned, single-viewport layout', text: `Metrics stay grouped in one frame rather than scattered across long scroll.` },
     ],
     useCases: [
-      { title: 'Annual report growth narratives', text: `Let readers scrub through multi-year KPI growth at their own pace.` },
-      { title: 'Investor and fundraising decks', text: `Show traction metrics as a continuous, exactly-scrubbable trajectory.` },
-      { title: 'SaaS "our growth" marketing pages', text: `Narrate user, revenue, and team growth with position-accurate counters.` },
-      { title: 'Sustainability or impact dashboards', text: `Interpolate environmental or program metrics across a reporting period.` },
-      { title: 'Internal all-hands or board presentation microsites', text: `Give stakeholders a scrubbable, exact view of company trajectory.` },
-      { title: 'Data journalism explainers', text: `Pair with a scrollytelling chart for a combined numeric-and-visual narrative.` },
+      { title: 'Annual growth narratives', text: 'Let readers scrub through a year of growth, with every figure computed from scroll position instead of a one-time count-up.' },
+      { title: 'Investor and fundraising pages', text: 'Show traction metrics as a story, where scrolling up retreats the numbers precisely with no separate reverse animation.' },
+      { title: 'SaaS growth marketing', text: 'Narrate user, revenue and retention growth, with values, the year label and a fill bar all derived from one shared progress.' },
+      { title: 'Sustainability impact pages', text: 'Interpolate environmental figures over time, each metric supplying its own display format while sharing the same arithmetic.' },
+      { title: 'Fixed-position counting benefits', text: 'Choose position-locked counting when readers should be able to scrub back and forth and always see exactly the same number for the same place on the page.' },
       { icon: 'CODE', title: 'Related: Scroll-Triggered Overshoot Counter', desc: 'See the [Scroll-Triggered Overshoot Counter](/ui-snippets/scroll-counter-overshoot/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -206,12 +206,11 @@ The tunable numbers are \`COUNT\`, the step size of \`1.6\`, and the background 
       { title: 'Instance mode', text: 'No p5 globals leaked onto window, canvas mounted into a host div.' },
     ],
     useCases: [
-      { title: 'Generative hero backdrops', text: 'Living artwork behind a headline instead of a static gradient.' },
-      { title: 'Music and event visuals', text: 'A field whose drift can be driven by audio amplitude.' },
-      { title: 'Login and splash screens', text: 'Atmosphere behind a [glassmorphism login](/ui-snippets/glassmorphism-login/).' },
-      { title: 'Creative-coding reference', text: 'A companion to the [drawing canvas](/ui-snippets/drawing-canvas/) sketch.' },
-      { title: 'Data-driven art', text: 'Swap the noise input for real data to visualize a field.' },
-      { title: 'Learning Perlin noise', text: 'A live demonstration of smooth versus uniform randomness.' },
+      { title: 'Generative hero backdrops', text: 'Place living artwork behind a headline, with 3,000 particles that never communicate yet move together because they follow the same noise field.' },
+      { title: 'Audio-driven flow art', text: 'Drive the field\'s drift from audio or event intensity, where the moving z offset slides through a 3D noise volume over time.' },
+      { title: 'Login and splash atmosphere', text: 'Create atmosphere behind a [glassmorphism login](/ui-snippets/glassmorphism-login/), with accumulating trails producing soft, painterly lines that frost nicely through the glass.' },
+      { title: 'Creative coding companions', text: 'Sit alongside a [drawing canvas](/ui-snippets/drawing-canvas/) in a creative section, with live controls for noise scale and octave detail.' },
+      { title: 'Perlin noise learning', text: 'Learn how `noiseScale` acts like zoom and `noiseDetail` trades fine texture against smooth abstraction, with data able to replace the noise input.' },
     ],
     faqs: [
       { q: 'Why Perlin noise instead of Math.random for the angles?', a: 'Math.random has no relationship between consecutive values, so sampling it per particle produces static. Perlin noise is spatially continuous — nearby inputs return nearby outputs — so particles standing close together receive almost the same angle and travel in almost the same direction. That local agreement is what makes thousands of independent particles trace coherent streams.' },

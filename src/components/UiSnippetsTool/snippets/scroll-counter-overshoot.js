@@ -128,12 +128,11 @@ Tune \`c1\` for a bigger or smaller overshoot, change \`duration\` for a snappie
       { title: 'No dependencies', text: `Pure vanilla JS and IntersectionObserver, no library needed.` },
     ],
     useCases: [
-      { title: 'Metrics dashboards', text: `Give KPI tiles real weight versus a linear [count up](/ui-snippets/count-up/).` },
-      { title: 'Landing page stats', text: `Pair with [feature cards](/ui-snippets/scroll-reveal-grid/) reveals.` },
-      { title: 'Pricing pages', text: `Emphasize savings or usage numbers with a springy entrance.` },
-      { title: 'Investor decks (web)', text: `Compare against [number ticker](/ui-snippets/number-ticker/) for tone.` },
-      { title: 'Product analytics', text: `Highlight growth stats alongside [odometer counters](/ui-snippets/odometer-stat-counter/).` },
-      { title: 'Annual report pages', text: `Reveal year-end totals with a satisfying settle.` },
+      { title: 'Weighty KPI tiles', text: 'Give dashboard figures a springy feel, running past the target and then settling exactly on it through a back-ease that genuinely exceeds 1 mid-animation.' },
+      { title: 'Landing page stats', text: 'Pair with a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) of feature cards so the statistics bounce in after the cards appear.' },
+      { title: 'Savings and usage numbers', text: 'Emphasise a saving or usage figure on a pricing page, with each stat running its own animation loop from its own start time.' },
+      { title: 'Plain count-up comparison', text: 'Compare against [count up](/ui-snippets/count-up/) and [number ticker](/ui-snippets/number-ticker/) to choose between linear, odometer and spring-like motion for the same data.' },
+      { title: 'Annual report totals', text: 'Reveal year-end totals with a satisfying settle, as a contrast to the mechanical roll of an [odometer stat counter](/ui-snippets/odometer-stat-counter/).' },
       { icon: 'CODE', title: 'Related: Scroll Comic Panel Sequence', desc: 'See the [Scroll Comic Panel Sequence](/ui-snippets/scroll-comic-panels/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

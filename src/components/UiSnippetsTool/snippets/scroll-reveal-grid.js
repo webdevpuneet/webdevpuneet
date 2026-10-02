@@ -100,12 +100,11 @@ Change the rise distance, the stagger spacing or origin (\`'center'\`, \`'edges'
       { title: 'Proportional cards', text: `aspect-ratio keeps shape at any count.` },
     ],
     useCases: [
-      { title: 'Portfolios', text: `Reveal a [portfolio filter grid](/ui-snippets/portfolio-filter-grid/).` },
-      { title: 'Feature sections', text: `Animate [feature cards](/ui-snippets/feature-cards/) in.` },
-      { title: 'Galleries', text: `Pair with a [photo gallery](/ui-snippets/photo-gallery/).` },
-      { title: 'Lists', text: `A grid sibling of [stagger list](/ui-snippets/stagger-list/).` },
-      { title: 'Team pages', text: `Reveal a [team card](/ui-snippets/team-card/) grid.` },
-      { title: 'Products', text: `Enter a [product card](/ui-snippets/product-card/) grid.` },
+      { title: 'Portfolio filter grids', text: 'Reveal a [portfolio filter grid](/ui-snippets/portfolio-filter-grid/) as it scrolls into view, with cards rising in a diagonal wave read from the live layout.' },
+      { title: 'Feature card entrances', text: 'Animate [feature cards](/ui-snippets/feature-cards/) in, starting at the top 75% mark so the motion begins before the section is fully visible.' },
+      { title: 'Gallery tile reveals', text: 'Pair with a [photo gallery](/ui-snippets/photo-gallery/) so images arrive in sequence, replaying with `toggleActions` when the user scrolls back.' },
+      { title: 'List-to-grid comparison', text: 'Use as the grid sibling of a [stagger list](/ui-snippets/stagger-list/), where one `from` tween lands every card at its grid position.' },
+      { title: 'Team and product grids', text: 'Reveal a [team card](/ui-snippets/team-card/) grid or enter a [product card](/ui-snippets/product-card/) grid with the same grid-aware stagger.' },
       { icon: 'CODE', title: 'Related: Scroll Velocity Motion Blur', desc: 'See the [Scroll Velocity Motion Blur](/ui-snippets/scroll-velocity-blur/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

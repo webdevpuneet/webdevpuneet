@@ -114,12 +114,11 @@ The card's fixed-ratio media and consistent footer height make it safe to repeat
       { title: 'Grid-ready layout', text: `Consistent footer height so rows stay level at any column count.` },
     ],
     useCases: [
-      { title: 'Real estate search results', text: `The repeating unit for an MLS or listing-site results grid.` },
-      { title: 'Map pin popups', text: `A compact version inside a map marker's popover card.` },
-      { title: 'Similar homes rails', text: `A horizontal scroller of comparable listings on a detail page.` },
-      { title: 'Saved / favorites list', text: `Pair with [favorite button](/ui-snippets/favorite-button/) for a shortlist page.` },
-      { title: 'Affordability handoff', text: `Link the price into a [mortgage calculator](/ui-snippets/mortgage-calculator/).` },
-      { title: 'Agent portfolio pages', text: `Showcase an agent's active listings in a card grid.` },
+      { title: 'Real estate search results', text: 'Build the repeating unit of an MLS-style results list, with a price tag overlaid on a placeholder photo made from layered gradients.' },
+      { title: 'Map pin popups', text: 'Use a compact version inside a map marker popup, with inline SVG icons for beds, baths and square footage.' },
+      { title: 'Similar homes rails', text: 'Show a horizontal scroller of comparable listings in a similar homes rail, each with a New or Price reduced badge on the photo.' },
+      { title: 'Saved favourites lists', text: 'Pair with a [favorite button](/ui-snippets/favorite-button/) for a shortlist, with a real button using `aria-pressed` and a dynamic label.' },
+      { title: 'Affordability hand-off', text: 'Link the price to a [mortgage calculator](/ui-snippets/mortgage-calculator/), or showcase an agent\'s active listings on a portfolio page.' },
     ],
     faqs: [
       { q: 'Why is the photo a CSS gradient instead of an image?', a: `So the snippet renders instantly with zero network requests and no licensing concerns while you evaluate the layout. In production, swap the .plc-media background for a real photo via background-image or an absolutely positioned <img> with object-fit: cover — the badge, price tag, and heart button are already positioned with z-index above the media layer, so they'll sit correctly on top of a real photo too.` },

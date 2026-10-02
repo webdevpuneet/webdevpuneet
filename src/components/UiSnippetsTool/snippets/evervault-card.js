@@ -108,12 +108,11 @@ Change the mask circle radius to widen or tighten the reveal, edit the \`CHARS\`
       { title: 'Monospace authenticity', text: `Mono font sells the encrypted look.` },
     ],
     useCases: [
-      { title: 'Security product pages', text: `Pair with a [glow input](/ui-snippets/glow-input/) sign-in.` },
-      { title: 'Privacy and encryption', text: `Headline a feature beside a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/).` },
-      { title: 'Developer tools', text: `Set a technical mood near a [terminal window](/ui-snippets/terminal-window/).` },
-      { title: 'Crypto and fintech', text: `Combine with an [animated grid background](/ui-snippets/animated-grid-background/).` },
-      { title: 'Hacker-themed sites', text: `A subtler take than a full [matrix rain](/ui-snippets/matrix-rain/).` },
-      { title: 'CSS mask demos', text: `A reference for cursor-driven mask reveals.` },
+      { title: 'Security product pages', text: 'Pair with a [glow input](/ui-snippets/glow-input/) sign-in on a security product page, revealing churning ciphertext only under the cursor.' },
+      { title: 'Privacy and encryption features', text: 'Headline an encryption feature beside a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/), with a locked icon at rest and a decrypting porthole on hover.' },
+      { title: 'Developer tool moods', text: 'Set a technical mood near a [terminal window](/ui-snippets/terminal-window/), with only about a quarter of mouse moves regenerating the random text.' },
+      { title: 'Crypto and fintech backdrops', text: 'Combine with an [animated grid background](/ui-snippets/animated-grid-background/) on a crypto or fintech page, with `--mx` and `--my` moving the mask cheaply.' },
+      { title: 'Hacker-themed alternatives', text: 'Offer a subtler take than full [matrix rain](/ui-snippets/matrix-rain/), and study cursor-driven masks as a reference for reveal effects.' },
       { icon: 'CODE', title: 'Related: Nutrition Label', desc: 'See the [Nutrition Label](/ui-snippets/nutrition-label/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

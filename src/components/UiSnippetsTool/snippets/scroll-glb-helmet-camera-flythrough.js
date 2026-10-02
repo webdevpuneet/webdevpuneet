@@ -282,12 +282,11 @@ Add more checkpoints for a longer tour, change \`CHECKPOINTS\`' \`pos\`/\`look\`
       { title: 'Zoom multiplier, not a snap-back distance', text: `A slider and Ctrl/Cmd-scroll zoom hold steady relative to every checkpoint.` },
     ],
     useCases: [
-      { title: 'Product detail scroll tours', text: `Walk a visitor past specific features of a real 3D product model.` },
-      { title: 'Portfolio and technical showpieces', text: `Demonstrates a genuinely hard scroll-vs-camera-control coordination problem, solved cleanly.` },
-      { title: 'Museum/collectible virtual tours', text: `Tour an artifact's front, detail, and back as a guided scroll sequence.` },
-      { title: 'glTF/OrbitControls teaching demos', text: `A complete, real example of resolving scroll-driven and manual camera control.` },
-      { title: 'Alongside the simpler turntable', text: `Compare against [scroll-scrubbed GLB turntable](/ui-snippets/scroll-glb-duck-turntable-scrub/)'s conflict-free object-spin approach.` },
-      { title: 'Longer scroll narratives', text: `Use as a 3D centerpiece between other [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) sections.` },
+      { title: 'Product detail tours', text: 'Walk a visitor past specific views of a product, such as front, close-up detail, side and back, as named camera checkpoints interpolated from scroll.' },
+      { title: 'Technical portfolio showpieces', text: 'Demonstrate a genuine camera path rather than a simple spin, with the camera position itself a function of scroll progress.' },
+      { title: 'Museum virtual tours', text: 'Tour an artefact\'s features in sequence, with drag-to-orbit overriding the scripted path and a 900 ms delay before it resumes.' },
+      { title: 'Simpler turntable comparison', text: 'Compare against the [scroll GLB duck turntable](/ui-snippets/scroll-glb-duck-turntable-scrub/), where the object spins and the camera stays fixed.' },
+      { title: 'Longer scroll narratives', text: 'Use as a 3D centrepiece between sections, followed by a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/), with a stage label naming the nearest checkpoint.' },
       { icon: 'CODE', title: 'Related: Scroll-Triggered GLB Model Carousel', desc: 'See the [Scroll-Triggered GLB Model Carousel](/ui-snippets/scroll-glb-model-carousel/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

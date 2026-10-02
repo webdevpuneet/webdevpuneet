@@ -236,12 +236,11 @@ The key insight is decoupling the *what* from the *how*: the offscreen canvas an
       'requestAnimationFrame loop: refresh-synced animation with no libraries',
     ],
     useCases: [
-      { icon: 'ART', title: 'Animated hero titles', desc: 'Assemble a brand name or headline from particles, alongside effects like a [split-flap display](/ui-snippets/split-flap-display/).' },
-      { icon: 'WEB', title: 'Landing page intros', desc: 'Open a site with text that forms, holds and reacts to clicks for a memorable first impression.' },
-      { icon: 'STAR', title: 'Event countdowns and reveals', desc: 'Explode and reform a date or message to build anticipation for a launch.' },
-      { icon: 'GAME', title: 'Title and score screens', desc: 'Give game titles and victory text a dynamic particle treatment.' },
-      { icon: 'LEARN', title: 'Teaching particle systems', desc: 'Demonstrate spring physics and image sampling next to [physics balls](/ui-snippets/physics-balls/).' },
-      { icon: 'DESIGN', title: 'Interactive brand demos', desc: 'Let visitors type their own word and watch it form in your brand colors.' },
+      { icon: '✨', title: 'Animated hero titles', desc: 'Assemble a brand name from thousands of dots that fly in, hold the shape and scatter on click before reforming.' },
+      { icon: '🌠', title: 'Landing page intros', desc: 'Open a site with text that forms, holds and dissolves, using spring physics with damping so particles settle without endless oscillation.' },
+      { icon: '🎆', title: 'Event countdowns and reveals', desc: 'Explode and reform a date or tagline, then compare with a mechanical take in the [split flap display](/ui-snippets/split-flap-display/).' },
+      { icon: '🎮', title: 'Game title screens', desc: 'Give game titles and victory text a physical, playful entrance, sampling glyph pixels offscreen with `getImageData`.' },
+      { icon: '⌨️', title: 'Interactive word demos', desc: 'Let visitors type their own word and watch it form, with a hue shift recolouring particles and [physics balls](/ui-snippets/physics-balls/) offering a complementary toy.' },
     ],
     faqs: [
       { q: 'How do the particles know where to form the letters?', a: 'The word is drawn to a hidden canvas and read back with getImageData. The code scans the pixel buffer on a stride and any pixel whose alpha exceeds a threshold becomes a target position for a particle.' },

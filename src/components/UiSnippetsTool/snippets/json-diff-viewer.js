@@ -259,12 +259,11 @@ Because \`diffValue\` calls itself for every object/array value, a change three 
       { title: 'Zero dependencies', text: `No diff library — genuine recursive comparison logic.` },
     ],
     useCases: [
-      { title: 'API response debugging', text: `Compare two payloads to spot an unexpected field change.` },
-      { title: 'Config/feature-flag review', text: `See exactly what changed between two config versions.` },
-      { title: 'Code review tooling', text: `Pair with a [code diff viewer](/ui-snippets/code-diff-viewer/) for JSON fixtures.` },
-      { title: 'Data migration QA', text: `Verify a transform only changed the fields it should.` },
-      { title: 'Webhook/event payload comparison', text: `Diff two event samples to spot schema drift.` },
-      { title: 'Documentation tools', text: `Pair with a [JSON tree](/ui-snippets/json-tree/) viewer for schema docs.` },
+      { title: 'API response debugging', text: 'Compare two payloads to spot an unexpected change, ignoring whitespace and key order that make text diffs misleading.' },
+      { title: 'Configuration and flag review', text: 'See exactly what changed between two config versions, with every value tagged added, removed or changed at its precise path.' },
+      { title: 'Code review companions', text: 'Pair with a [code diff viewer](/ui-snippets/code-diff-viewer/) so reviewers can read structured data changes next to line-based source changes.' },
+      { title: 'Data migration QA', text: 'Verify that a transform changed only the intended fields, showing old and new values side by side for changed primitives.' },
+      { title: 'Schema documentation', text: 'Pair with a [JSON tree](/ui-snippets/json-tree/) viewer for exploring documents, since both walk real object structure rather than text lines.' },
       { icon: 'CODE', title: 'Related: Live Log Stream Panel', desc: 'See the [Live Log Stream Panel](/ui-snippets/live-log-stream-panel/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

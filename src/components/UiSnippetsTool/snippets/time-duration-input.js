@@ -152,12 +152,11 @@ Bind \`totalSeconds()\` to your form state and you have a clean integer to persi
       { title: 'No dependency', text: `Pure HTML/CSS/JS — no date or picker library.` },
     ],
     useCases: [
-      { title: 'Timers and alarms', text: `Set a length that feeds a [circular countdown](/ui-snippets/circular-countdown/).` },
-      { title: 'Video and media editors', text: `Enter a clip duration next to a [video player](/ui-snippets/video-player/).` },
-      { title: 'Booking and scheduling', text: `Pick a slot length beside a [time slot picker](/ui-snippets/time-slot-picker/).` },
-      { title: 'Workout and cooking apps', text: `Set step durations alongside a [pomodoro timer](/ui-snippets/pomodoro-timer/).` },
-      { title: 'Stepper-style inputs', text: `Pair with a [quantity stepper](/ui-snippets/quantity-stepper/) for numeric fields.` },
-      { title: 'Learning input modeling', text: `A reference for single-source-of-truth field groups.` },
+      { title: 'Timers and alarms', text: 'Set a length that feeds a [circular countdown](/ui-snippets/circular-countdown/), using separate hours, minutes and seconds fields instead of one confusing number.' },
+      { title: 'Video and clip editors', text: 'Enter a clip duration beside a [video player](/ui-snippets/video-player/), with 59 seconds plus one carrying cleanly into the minutes segment.' },
+      { title: 'Booking slot lengths', text: 'Pick a slot length beside a [time slot picker](/ui-snippets/time-slot-picker/), clamping values through a single total-seconds model.' },
+      { title: 'Workout and cooking steps', text: 'Set step durations next to a [pomodoro timer](/ui-snippets/pomodoro-timer/) style display, with arrow keys and stepper buttons sharing one increment path.' },
+      { title: 'Numeric stepper pairings', text: 'Pair with a [quantity stepper](/ui-snippets/quantity-stepper/) for numeric entry, sanitising non-digits and capping each segment at two characters as the user types.' },
     ],
     faqs: [
       { q: 'How does the rollover between segments work?', a: `The control treats everything as a single total-seconds number. Stepping a segment converts the fields to a total, adds the unit weight (3600, 60, or 1), then setFromTotal() re-derives hours, minutes, and seconds with floor and modulo. So incrementing seconds at 59 automatically adds a minute — there's no manual carry logic, which is where hand-rolled time inputs usually have bugs.` },

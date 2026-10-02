@@ -159,12 +159,11 @@ Export your shapes at the same \`viewBox\`, all-cubic, each starting at the same
       { title: 'Gradient-filled shape', text: 'An SVG linearGradient that survives every transformation.' },
     ],
     useCases: [
-      { title: 'Brand and logo transitions', text: 'Morph a mark between states rather than cross-fading.' },
-      { title: 'Feature section illustrations', text: 'Change the shape as the user moves through content.' },
-      { title: 'Icon state changes', text: 'A richer sibling of [morph SVG icons](/ui-snippets/morph-svg-icons/).' },
-      { title: 'Loading indicators', text: 'Cycle a shape through a set while work is in progress.' },
-      { title: 'Interactive infographics', text: 'Morph a data shape as filters change.' },
-      { title: 'Learning path interpolation', text: 'A reference for sampling and point correspondence.' },
+      { title: 'Brand and logo transitions', text: 'Morph a mark between states, keeping one rendered path so gradient, shadow and fill persist through every shape change.' },
+      { title: 'Feature section illustrations', text: 'Change a shape as the user moves between tabs, with hidden reference geometry kept as editable SVG instead of path strings in JavaScript.' },
+      { title: 'Icon state changes', text: 'Offer a richer sibling of [morph SVG icons](/ui-snippets/morph-svg-icons/), where `morphIndex` 0 stops the shape twisting halfway through.' },
+      { title: 'Loading indicator shapes', text: 'Cycle a shape through a circle, blob, squircle and star while work happens, with `morphPrecision` 1 keeping star corners sharp.' },
+      { title: 'Interactive infographic shapes', text: 'Morph a data shape as filters change, and learn why SVG path interpolation needs matched points rather than simple number blending.' },
       { icon: 'CODE', title: 'Related: Pixi.js Particle Field', desc: 'See the [Pixi.js Particle Field](/ui-snippets/pixi-particle-field/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

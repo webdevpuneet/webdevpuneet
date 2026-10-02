@@ -143,12 +143,11 @@ Replace the \`.bw-content\` markup with your own page or a screenshot and the fr
       { title: 'No dependency', text: `Pure HTML/CSS/JS for mockups and docs.` },
     ],
     useCases: [
-      { title: 'Landing-page screenshots', text: `Frame a [hero section](/ui-snippets/hero-section/) as a live browser shot.` },
-      { title: 'Documentation', text: `Show a UI in context beside a [code block](/ui-snippets/code-block/).` },
-      { title: 'Product showcases', text: `Present a [dashboard layout](/ui-snippets/dashboard-layout/) in a window.` },
-      { title: 'Responsive demos', text: `Pair with a [phone mockup](/ui-snippets/phone-mockup/) for desktop-and-mobile.` },
-      { title: 'Portfolio pieces', text: `Display work in a [bento grid](/ui-snippets/bento-grid/) of mockups.` },
-      { title: 'Learning CSS chrome', text: `A reference for tabs, address bars, and reload motion.` },
+      { title: 'Landing page screenshots', text: 'Frame a hero section as a live browser with traffic-light buttons, top-rounded tabs that merge into the page and an editable address bar with a padlock icon.' },
+      { title: 'Documentation context', text: 'Show a UI in context beside a [code block](/ui-snippets/code-block/), using pure CSS chrome with no images so it stays sharp and themeable.' },
+      { title: 'Product dashboard presentation', text: 'Present a [dashboard layout](/ui-snippets/dashboard-layout/) inside a browser window, with a reload icon that spins and the content dimming then resetting on refresh.' },
+      { title: 'Responsive demos', text: 'Pair with a [phone mockup](/ui-snippets/phone-mockup/) to show desktop and mobile versions side by side, or put it in a [bento grid](/ui-snippets/bento-grid/) showcase.' },
+      { title: 'Hero section framing', text: 'Wrap a [hero section](/ui-snippets/hero-section/) screenshot for marketing pages, and learn how tabs, address bars and padlock icons are built from plain CSS.' },
       { icon: 'CODE', title: 'Related: Code Snippet Tabs', desc: 'See the [Code Snippet Tabs](/ui-snippets/code-snippet-tabs/) for a related layouts pattern worth pairing with this one.' },
     ],
     faqs: [

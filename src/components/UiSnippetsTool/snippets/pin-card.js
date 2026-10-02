@@ -118,12 +118,11 @@ Tune the \`rotateX(28deg)\` for a steeper or gentler tilt, change the \`translat
       { title: 'Clipboard link', text: `Clicking copies the label as a share handle.` },
     ],
     useCases: [
-      { title: 'Featured links', text: `Showcase a profile beside a [focus cards](/ui-snippets/focus-cards/) grid.` },
-      { title: 'Portfolio highlights', text: `Pin a project above a [portfolio hero](/ui-snippets/portfolio-hero/).` },
-      { title: 'Product spotlights', text: `Pair with a [meteor card](/ui-snippets/meteor-card/) for variety.` },
-      { title: 'Profile cards', text: `A 3D upgrade to a flat [profile card](/ui-snippets/profile-card/).` },
-      { title: 'Link-in-bio pages', text: `Make a shareable handle the centerpiece.` },
-      { title: '3D transform demos', text: `A reference for perspective and preserve-3d.` },
+      { title: 'Featured links', text: 'Showcase a profile or link inside a [focus cards](/ui-snippets/focus-cards/) grid, with a floating pin label, beam and pinging rings rising above the card.' },
+      { title: 'Portfolio highlights', text: 'Pin a project above a [portfolio hero](/ui-snippets/portfolio-hero/), with `rotateX` laying the card back into the scene on hover.' },
+      { title: 'Product spotlights', text: 'Pair with a [meteor card](/ui-snippets/meteor-card/) for variety in a feature grid, using `translateZ` to lift the label above the card.' },
+      { title: 'Profile card upgrades', text: 'Give a flat [profile card](/ui-snippets/profile-card/) a 3D treatment, where a perspective stage and `preserve-3d` make every layer hold its own depth.' },
+      { title: 'Link-in-bio pages', text: 'Make a shareable handle the centrepiece of a link page, and use it as a reference for combining perspective with floating elements.' },
     ],
     faqs: [
       { q: 'Why does the card need a perspective parent?', a: `perspective: 1000px on the stage is what gives 3D transforms real depth — it defines how strongly things recede. Without it, rotateX(28deg) just looks like a vertical squash. The pin wrapper also uses transform-style: preserve-3d so the card, label, beam, and rings each keep their own 3D position instead of flattening into one plane.` },

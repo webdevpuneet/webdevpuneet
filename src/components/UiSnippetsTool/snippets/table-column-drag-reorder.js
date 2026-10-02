@@ -182,12 +182,11 @@ Persist the column order to localStorage or a user preference, combine with [res
       { title: 'Column-type-aware formatting', text: `Numeric columns right-align and the price column formats as currency, independent of column order.` },
     ],
     useCases: [
-      { title: 'Custom report builders', text: `Let users arrange which metric columns appear first in an exported or viewed report.` },
-      { title: 'Spreadsheet-style admin tools', text: `Pair with [resizable columns](/ui-snippets/resizable-columns-table/) for full column customization.` },
-      { title: 'Inventory and catalog dashboards', text: `Let operators prioritize the columns most relevant to their workflow.` },
-      { title: 'Data comparison and analysis tools', text: `Reorder columns to place related metrics next to each other for easier scanning.` },
-      { title: 'Personalized dashboard tables', text: `Persist a user's preferred column order across sessions via localStorage.` },
-      { title: 'Learning header-axis drag-and-drop', text: `A clear reference distinguishing column reordering from a [row drag reorder table](/ui-snippets/table-row-drag-reorder/).` },
+      { title: 'Custom report builders', text: 'Let users arrange which metric columns appear first, with native `draggable` headers and every row\'s cells following along.' },
+      { title: 'Spreadsheet-style admin tools', text: 'Pair with a [resizable columns table](/ui-snippets/resizable-columns-table/) so users of spreadsheet-style admin tools can both reorder and resize columns.' },
+      { title: 'Inventory and catalogue dashboards', text: 'Let operators prioritise the fields they check most, with a single order array rendering both header and body.' },
+      { title: 'Data comparison tools', text: 'Reorder columns to place related values next to each other, with the drop side chosen by whether the cursor is in the left or right half of the target header.' },
+      { title: 'Row reordering companion', text: 'Combine with [table row drag reorder](/ui-snippets/table-row-drag-reorder/) for both axes, and study HTML5 drag events for header cells specifically.' },
       { icon: 'CODE', title: 'Related: Inline Add Row to Table', desc: 'See the [Inline Add Row to Table](/ui-snippets/table-inline-add-row/) for a related tables pattern worth pairing with this one.' },
     ],
     faqs: [

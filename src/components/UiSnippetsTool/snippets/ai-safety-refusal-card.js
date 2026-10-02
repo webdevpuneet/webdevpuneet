@@ -117,12 +117,11 @@ Wire the "Learn more" panel to link to your real usage policy, replace the stati
       { title: 'No dependencies', text: `Pure HTML, CSS, and vanilla JavaScript.` },
     ],
     useCases: [
-      { title: 'AI chat products', text: `Render as an inline message type in an [AI chat interface](/ui-snippets/ai-chat-interface/).` },
-      { title: 'Content moderation UIs', text: `Explain why generated content was withheld, non-punitively.` },
-      { title: 'Agentic tool-use products', text: `Pair with an [AI action approval card](/ui-snippets/ai-action-approval-card/) for declined actions.` },
-      { title: 'Code assistants', text: `Decline unsafe code requests alongside an [AI diff review card](/ui-snippets/ai-diff-review-card/) for safe ones.` },
-      { title: 'Customer support bots', text: `Redirect out-of-scope requests to a human or a different channel.` },
-      { title: 'Trust and safety documentation', text: `Show teams a reference pattern for designing refusal UX.` },
+      { title: 'AI chat refusals', text: 'Render a declined request as an inline message in an [AI chat interface](/ui-snippets/ai-chat-interface/), with a calm slate icon rather than alarming red error styling.' },
+      { title: 'Content moderation explanations', text: 'Explain why generated content was withheld in plain language, with a non-judgmental statement that the boundary applies consistently to everyone.' },
+      { title: 'Agentic tool-use products', text: 'Pair with an [AI action approval card](/ui-snippets/ai-action-approval-card/) so users see both when an agent asks permission and when it declines.' },
+      { title: 'Code assistants', text: 'Decline unsafe code requests, then use the What I can help with instead panel to redirect users toward concrete alternatives.' },
+      { title: 'Support bots and trust documentation', text: 'Redirect out-of-scope requests to a human, or show trust and safety teams a reference pattern with rephrase and learn-more actions.' },
       { icon: 'CODE', title: 'Related: Certificate of Completion Preview', desc: 'See the [Certificate of Completion Preview](/ui-snippets/certificate-preview-card/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

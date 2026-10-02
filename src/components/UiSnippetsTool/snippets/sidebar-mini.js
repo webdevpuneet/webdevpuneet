@@ -122,12 +122,11 @@ Change the two widths, the transition speed, the accent, or the icon set; persis
       { title: 'ARIA toggle', text: `aria-expanded and label update on change.` },
     ],
     useCases: [
-      { title: 'Dashboards', text: `Pair with a [dashboard layout](/ui-snippets/dashboard-layout/).` },
-      { title: 'Admin panels', text: `A collapsible [sidebar nav](/ui-snippets/sidebar-nav/).` },
-      { title: 'Editors', text: `Maximize canvas space in a [file manager UI](/ui-snippets/file-manager-ui/).` },
-      { title: 'Settings areas', text: `Navigate to a [settings panel](/ui-snippets/settings-panel/).` },
-      { title: 'Mobile docks', text: `Complement a [floating dock](/ui-snippets/floating-dock/).` },
-      { title: 'Apps', text: `Frame an [email inbox](/ui-snippets/email-inbox/) shell.` },
+      { title: 'Dashboard navigation', text: 'Collapse a full labelled column into an icon rail beside a [dashboard layout](/ui-snippets/dashboard-layout/), animating a single `--w` property for the width.' },
+      { title: 'Admin panel menus', text: 'Provide a collapsible [sidebar nav](/ui-snippets/sidebar-nav/) that saves space, with label text fading out via opacity so nothing reflows or pops.' },
+      { title: 'Editor workspaces', text: 'Maximise canvas space in a [file manager UI](/ui-snippets/file-manager-ui/) or editor, with `data-tip` tooltips appearing only when the rail is narrow.' },
+      { title: 'Settings area navigation', text: 'Link to sections of a [settings panel](/ui-snippets/settings-panel/), and compare with a [floating dock](/ui-snippets/floating-dock/) for mobile-style navigation.' },
+      { title: 'App shells', text: 'Frame an [email inbox](/ui-snippets/email-inbox/) or any similar app shell with a sidebar that expands on demand and collapses to icons when space is tight.' },
       { icon: 'CODE', title: 'Related: View Transitions API Page Navigation', desc: 'See the [View Transitions API Page Navigation](/ui-snippets/view-transition-page-nav/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

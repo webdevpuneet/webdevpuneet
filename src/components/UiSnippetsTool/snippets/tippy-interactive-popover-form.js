@@ -155,12 +155,11 @@ Swap the people list for any searchable option set — tags, projects, reviewers
       { title: 'Custom light popover theme', text: `Plain CSS on Tippy's own theming attribute.` },
     ],
     useCases: [
-      { title: 'Task and issue assignee pickers', text: `The exact pattern for project management tools.` },
-      { title: 'Tag and label selectors', text: `Searchable multi-option pickers in a compact trigger.` },
-      { title: 'Quick-filter dropdowns', text: `Pair with the [dropdown menu with submenus](/ui-snippets/tippy-dropdown-menu-submenus/) elsewhere in this collection.` },
-      { title: 'Inline reviewer or approver selection', text: `Compact people-pickers inside a toolbar.` },
-      { title: 'Contextual quick-action panels', text: `Any small interactive form triggered from a button.` },
-      { title: 'Learning Tippy interactivity', text: `A clear reference for the interactive option and real DOM content.` },
+      { title: 'Task assignee pickers', text: 'Build the exact pattern for choosing who owns an issue, with a live search input and clickable list that stay open because `interactive: true` is set.' },
+      { title: 'Tag and label selectors', text: 'Provide searchable multi-option pickers inside a popover, using an existing DOM element as content so event listeners keep working.' },
+      { title: 'Quick filter dropdowns', text: 'Pair with the [Tippy dropdown menu with submenus](/ui-snippets/tippy-dropdown-menu-submenus/) for a consistent family of popovers in quick-filter dropdowns.' },
+      { title: 'Reviewer and approver selection', text: 'Offer compact people pickers inside an inline card, with `onShow` clearing stale search text and re-rendering the full list each time.' },
+      { title: 'Contextual quick actions', text: 'Place any small interactive form inside a popover, deferring autofocus until the element is mounted so the cursor lands correctly.' },
     ],
     faqs: [
       { q: 'Why does the popover close immediately without interactive: true?', a: `By default, Tippy starts hiding its content as soon as the mouse leaves the trigger element, regardless of where the cursor is heading next. Without interactive: true, moving the mouse from the trigger button toward the popover's own content counts as "leaving," so the popover closes before the cursor ever reaches the search input or list — interactive: true tells Tippy to also treat hovering the popover's own content as still active, which is what lets it be used at all.` },

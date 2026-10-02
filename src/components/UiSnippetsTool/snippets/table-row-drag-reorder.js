@@ -173,12 +173,11 @@ Persist the new order to a backend on drop, add multi-row drag selection, or com
       { title: 'Live row numbering', text: `The # column renumbers automatically after every reorder, no manual bookkeeping.` },
     ],
     useCases: [
-      { title: 'Sprint and backlog prioritization', text: `Let a team drag tasks into priority order directly in a planning table.` },
-      { title: 'Playlist and queue management', text: `Reorder tracks or items in a queue with a familiar drag interaction.` },
-      { title: 'Step and workflow builders', text: `Reorder steps in an onboarding flow or automation sequence table.` },
-      { title: 'Navigation and menu ordering', text: `Let admins drag menu items into the order they should appear on a site.` },
-      { title: 'Ranked lists and leaderboards', text: `Manually adjust ranking order for curated or editorial lists.` },
-      { title: 'Learning native drag-and-drop', text: `A clear reference for the dragover-preventDefault requirement and index-shift math, versus [table column drag reorder](/ui-snippets/table-column-drag-reorder/) for the header-axis version.` },
+      { title: 'Sprint and backlog prioritisation', text: 'Let a team drag tasks into priority order, with a live drop line computed from `getBoundingClientRect` showing where the row will land.' },
+      { title: 'Playlist and queue management', text: 'Reorder tracks or items in a queue, with `preventDefault` on dragover so the drop event fires at all.' },
+      { title: 'Workflow step builders', text: 'Reorder steps in an onboarding or approval flow, using splice-then-adjust maths that accounts for the removed item\'s index shift.' },
+      { title: 'Menu ordering', text: 'Let admins drag menu items into position, and compare with column dragging in [table column drag reorder](/ui-snippets/table-column-drag-reorder/).' },
+      { title: 'Native drag-and-drop learning', text: 'Study native `draggable` rows and the ranking use case, where manual order is clearer than editing a number field.' },
     ],
     faqs: [
       { q: 'Why does drop never fire without calling preventDefault in dragover?', a: `The HTML5 drag-and-drop spec treats every element as a non-drop-target by default. Calling e.preventDefault() inside the dragover handler is the explicit signal that this element accepts the drop; skip it and the browser silently rejects the drop attempt, so the drop event handler never runs no matter how the drag ends.` },

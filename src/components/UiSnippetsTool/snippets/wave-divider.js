@@ -113,12 +113,11 @@ Editing the path's control points reshapes the wave — taller crests, more peak
       { title: 'No library', text: `Pure HTML/CSS/SVG/JS — no divider generator.` },
     ],
     useCases: [
-      { title: 'Landing page sections', text: `Blend a hero into the next block, near a [logo cloud](/ui-snippets/logo-cloud/).` },
-      { title: 'Hero bottoms', text: `Soften the edge of a [gradient mesh hero](/ui-snippets/gradient-mesh-hero/).` },
-      { title: 'Pricing and feature breaks', text: `Separate a [pricing page](/ui-snippets/pricing-page/) from testimonials.` },
-      { title: 'Footers', text: `Wave into a [mega footer](/ui-snippets/mega-footer/) for a soft finish.` },
-      { title: 'Marketing microsites', text: `Add personality between flat content sections.` },
-      { title: 'Learning SVG paths', text: `A reference for full-width responsive SVG shapes.` },
+      { title: 'Landing page section breaks', text: 'Blend a hero into the next block with a curved SVG edge, stretching with `preserveAspectRatio="none"` so it stays crisp at any width, beside a [logo cloud](/ui-snippets/logo-cloud/).' },
+      { title: 'Hero bottom edges', text: 'Soften the bottom of a [gradient mesh hero](/ui-snippets/gradient-mesh-hero/), with the wave fill set to the colour of the next section.' },
+      { title: 'Pricing and feature separations', text: 'Separate a [pricing page](/ui-snippets/pricing-page/) from the features above it, choosing between layered, single or animated drifting styles.' },
+      { title: 'Footer transitions', text: 'Wave into a [mega footer](/ui-snippets/mega-footer/) for a soft finish, with two offset paths giving motion even when static.' },
+      { title: 'Marketing microsite personality', text: 'Add character between flat content blocks, and learn full-width responsive SVG paths as a reference for custom dividers.' },
     ],
     faqs: [
       { q: 'Why use preserveAspectRatio="none"?', a: `By default an SVG keeps its aspect ratio, so a wave would scale uniformly and either crop or letterbox on wide screens. Setting preserveAspectRatio="none" lets the path stretch horizontally to fill any width while keeping a fixed pixel height, which is exactly what a full-width divider needs — it spans the page on any monitor without becoming a tall blob or a thin line.` },

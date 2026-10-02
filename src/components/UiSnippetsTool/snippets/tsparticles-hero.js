@@ -192,12 +192,11 @@ Swap the colors to your brand and pick the preset that matches the mood — cons
       { title: 'Retina rendering', text: 'detectRetina keeps particles crisp on high-DPI screens.' },
     ],
     useCases: [
-      { title: 'SaaS and product heroes', text: 'Atmosphere behind a headline without a video file.' },
-      { title: 'Event and launch pages', text: 'Snowfall for seasonal campaigns, bubbles for lighter brands.' },
-      { title: 'Dependency-free alternative', text: 'Compare against a hand-built [particle network](/ui-snippets/particle-network/).' },
-      { title: 'Login and auth screens', text: 'A quiet moving field behind a [glassmorphism login](/ui-snippets/glassmorphism-login/).' },
-      { title: 'Portfolio landings', text: 'An interactive first impression that rewards cursor movement.' },
-      { title: 'Learning particle config', text: 'A reference for density, outModes, and interactivity modes.' },
+      { title: 'SaaS and product heroes', text: 'Add atmosphere behind a headline with `detectsOn: window` so overlaid copy never blocks interaction, and a click that repels particles.' },
+      { title: 'Event and seasonal pages', text: 'Switch to a snowfall preset for holiday campaigns, using one shared base configuration merged with each preset.' },
+      { title: 'Dependency-free comparison', text: 'Compare against a hand-built [particle network](/ui-snippets/particle-network/) to see what the library adds and what it costs.' },
+      { title: 'Login and auth screens', text: 'Put a quiet moving field behind a [glassmorphism login](/ui-snippets/glassmorphism-login/), with particles contained inside the hero rather than over the whole page.' },
+      { title: 'Portfolio landings and config learning', text: 'Create an interactive first impression, and learn density, `outModes` and sensible limits for a particle field that does not melt laptops.' },
       { icon: 'CODE', title: 'Related: Hero with Animated Stat Counters', desc: 'See the [Hero with Animated Stat Counters](/ui-snippets/hero-stats-counter-row/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

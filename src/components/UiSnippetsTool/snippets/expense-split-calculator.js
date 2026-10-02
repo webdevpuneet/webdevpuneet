@@ -299,12 +299,11 @@ Both modes share the same subtotal/tip/grand-total breakdown at the bottom; only
       { title: 'Floating-point-safe check', text: `A half-cent tolerance avoids false "unbalanced" flags.` },
     ],
     useCases: [
-      { title: 'Group dinners', text: `Equal split with tip for a straightforward night out.` },
-      { title: 'Shared trip expenses', text: `Unequal split when people ordered different amounts.` },
-      { title: 'Roommate bill splitting', text: `Validate that everyone's share actually sums correctly.` },
-      { title: 'Event/party cost sharing', text: `Named contributors with custom amounts.` },
-      { title: 'Simple invoicing tools', text: `Pair with a [currency converter](/ui-snippets/currency-converter/) for cross-border groups.` },
-      { title: 'Expense-tracking apps', text: `A quick splitter alongside a [tip calculator](/ui-snippets/tip-calculator/).` },
+      { title: 'Group dinner bills', text: 'Split a restaurant total with tip evenly using a people stepper and four tip presets, plus a custom percentage.' },
+      { title: 'Shared trip expenses', text: 'Handle unequal shares when people ordered differently, with named people and individual amounts checked against the true total.' },
+      { title: 'Roommate bills', text: 'Validate that everyone\'s share adds up, showing a signed difference when the summed amounts are over or under.' },
+      { title: 'Party and event cost sharing', text: 'Collect named contributions with custom amounts, and use the live balance check so the host knows exactly what is still owed.' },
+      { title: 'Multi-currency and tipping tools', text: 'Pair with a [currency converter](/ui-snippets/currency-converter/) for international trips, or alongside a [tip calculator](/ui-snippets/tip-calculator/) in a bill-splitting suite.' },
       { icon: 'CODE', title: 'Related: Half-Star Rating Input', desc: 'See the [Half-Star Rating Input](/ui-snippets/half-star-rating-input/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

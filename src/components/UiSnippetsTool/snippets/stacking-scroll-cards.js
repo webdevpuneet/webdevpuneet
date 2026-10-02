@@ -114,12 +114,11 @@ Adjust \`top: 90px\` to change where cards pin, tune the \`0.08\` scale and \`0.
       { title: 'Auto-linked cards', text: `Each card measures against its successor.` },
     ],
     useCases: [
-      { title: 'How-it-works sections', text: `Numbered steps before a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/).` },
-      { title: 'Product storytelling', text: `Walk through value, then an [animated gradient CTA](/ui-snippets/animated-gradient-cta/).` },
-      { title: 'Onboarding pages', text: `A scroll version of an [onboarding tour](/ui-snippets/onboarding-tour/).` },
-      { title: 'Pricing narratives', text: `Lead into a [pricing card](/ui-snippets/pricing-card/) comparison.` },
-      { title: 'Case studies', text: `Reveal milestones over a [vertical timeline](/ui-snippets/vertical-timeline/).` },
-      { title: 'Sticky scroll demos', text: `A reference for sticky-based card stacking.` },
+      { title: 'Numbered how-it-works steps', text: 'Present numbered steps as cards that pin and cover one another, before a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/) for the detail.' },
+      { title: 'Product storytelling', text: 'Walk through value propositions one card at a time, then end with an [animated gradient CTA](/ui-snippets/animated-gradient-cta/) once the stack is complete.' },
+      { title: 'Onboarding pages', text: 'Offer a scroll version of an [onboarding tour](/ui-snippets/onboarding-tour/), with native `position: sticky` pinning each card and requiring no JavaScript.' },
+      { title: 'Pricing narratives', text: 'Lead into a [pricing card](/ui-snippets/pricing-card/) comparison by building the case first, with covered cards shrinking up to 8% and dimming as they recede.' },
+      { title: 'Case study milestones', text: 'Reveal project milestones over a [vertical timeline](/ui-snippets/vertical-timeline/), using a top-anchored transform origin so card spines stay aligned.' },
     ],
     faqs: [
       { q: 'What makes the cards pin and stack?', a: `Each card is position: sticky with the same top: 90px. A card scrolls normally until its top reaches the pin line, then sticks there while the page keeps moving, so the next card rises from below and slides over it. The pinning is entirely native CSS, which keeps it smooth even without JavaScript.` },

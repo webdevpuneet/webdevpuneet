@@ -168,12 +168,11 @@ Change \`PANEL_WIDTH\` and \`SNAP_THRESHOLD\`, move the handle and panel to the 
       { title: `Click-outside close`, text: `Tapping the scrim closes an open panel.` },
     ],
     useCases: [
-      { title: `Mobile navigation drawers`, text: `An edge-drag alternative to a hamburger toggle.` },
-      { title: `Filter and settings panels`, text: `Reveal filters without a permanent sidebar.` },
-      { title: `Notification trays`, text: `Drag open a tray instead of a click-only toggle.` },
-      { title: `Comparison with resize panels`, text: `Contrast with [drag-to-resize panels](/ui-snippets/drag-resize-panels/).` },
-      { title: `Kiosk and tablet UIs`, text: `A natural gesture for touch-first interfaces.` },
-      { title: `Learning drag-distance UI`, text: `A reference for live-tracked, snap-on-release drags.` },
+      { title: 'Mobile navigation drawers', text: 'Offer an edge-drag alternative to a hamburger menu, where dragging partway reveals the panel partway in real time.' },
+      { title: 'Filter and settings panels', text: 'Reveal filters without a permanent sidebar, with a threshold on release deciding whether the panel snaps open or closed.' },
+      { title: 'Notification trays', text: 'Drag open a tray instead of using a click-only button, with one offset value driving the panel, handle and scrim.' },
+      { title: 'Resize panel contrast', text: 'Contrast with [drag resize panels](/ui-snippets/drag-resize-panels/), which keep a panel visible and change its size rather than revealing it.' },
+      { title: 'Touch-first kiosk UIs', text: 'Provide a natural gesture for tablets and kiosks, transitioning only the final snap so live dragging stays responsive.' },
       { icon: 'CODE', title: 'Related: Floating Share Dock', desc: 'See the [Floating Share Dock](/ui-snippets/floating-share-dock/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

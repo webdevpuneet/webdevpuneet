@@ -103,11 +103,11 @@ If the two path strings had a different number of points or a different sequence
       { title: 'Live status text', text: 'A text label mirrors the button\\u2019s current logical state.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'Mobile nav toggles', text: 'Hamburger-to-X or hamburger-to-check menu buttons.' },
-      { icon: 'FORM', title: 'Form submit confirmation', text: 'A submit icon morphing into a checkmark on success.' },
-      { icon: 'LEARN', title: 'Teaching SVG path structure', text: 'A concrete case study in path command/point matching.' },
-      { icon: 'CODE', title: 'Micro-interaction libraries', text: 'A reusable pattern for any two-state icon toggle.' },
-      { icon: 'STAR', title: 'Delightful UI accents', text: 'Small, satisfying motion on a frequently-clicked control.' },
+      { title: 'Mobile navigation toggles', text: 'Morph a hamburger into a checkmark or arrow with real path interpolation, rather than rotating three separate lines through CSS.' },
+      { title: 'Form submit confirmation', text: 'Turn a submit icon into a checkmark when the action completes, with both paths resolved to three M and L segments so points map one to one.' },
+      { title: 'Path structure teaching', text: 'Use as a concrete case study in matched point counts, and why morphing only works cleanly when path structures correspond.' },
+      { title: 'Reusable micro-interactions', text: 'Apply the same pattern to any two-state control, with `mina.easeinout` supplying the timing curve without a separate easing library.' },
+      { title: 'Delightful UI accents', text: 'Add small, satisfying motion to frequently used controls, while a CSS transition fades the stroke colour in step with the shape.' },
     ],
     faqs: [
       { q: 'How does Snap.svg morph one path into another?', a: 'path.animate({ d: newPathString }, duration, easing) walks the current path\\u2019s sequence of coordinate points and the target path\\u2019s sequence of coordinate points, in order, and linearly interpolates each corresponding pair over the animation duration. It is point-index interpolation, not shape-aware.' },

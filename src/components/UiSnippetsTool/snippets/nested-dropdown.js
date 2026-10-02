@@ -150,12 +150,11 @@ Edit the \`DATA\` tree to change the menu — add items, nest deeper, or attach 
       { title: 'Inline shortcuts', text: `Keyboard hints shown on leaf items.` },
     ],
     useCases: [
-      { title: 'App menu bars', text: `Pair with a [context menu](/ui-snippets/context-menu/) for right-click parity.` },
-      { title: 'Account menus', text: `Nest settings under a [profile dropdown](/ui-snippets/profile-dropdown/).` },
-      { title: 'Toolbar actions', text: `Group commands beside a [command palette](/ui-snippets/command-palette/).` },
-      { title: 'Navigation', text: `Cascading sections like a [mega menu](/ui-snippets/mega-menu/).` },
-      { title: 'File browsers', text: `Open-recent and share submenus.` },
-      { title: 'Recursive UI demos', text: `A reference for tree-driven flyout menus.` },
+      { title: 'Application menu bars', text: 'Build a desktop-style application menu bar with several levels, generated recursively from a single data tree of any depth.' },
+      { title: 'Account menus', text: 'Nest settings beneath a [profile dropdown](/ui-snippets/profile-dropdown/) in an account menu, with only one branch open per level at a time.' },
+      { title: 'Toolbar command groups', text: 'Group toolbar commands beside a [command palette](/ui-snippets/command-palette/), so power users can choose between searching and browsing for actions.' },
+      { title: 'Cascading site navigation', text: 'Provide cascading sections like a [mega menu](/ui-snippets/mega-menu/), with submenus flying out to the right at `left: 100%`.' },
+      { title: 'Recursive UI learning', text: 'Study tree-driven flyouts where `:scope` selectors open just the direct submenu, with click-away dismissal closing everything.' },
       { icon: 'CODE', title: 'Related: Pagination', desc: 'See the [Pagination](/ui-snippets/pagination/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

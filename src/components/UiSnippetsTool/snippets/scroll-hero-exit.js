@@ -117,12 +117,11 @@ Retune vectors per element, tighten the cascade, or end earlier (\`bottom 50%\`)
       { title: 'Reversible', text: `Scrolling up reassembles the hero.` },
     ],
     useCases: [
-      { title: 'Landing pages', text: `An exit that matches a strong entrance like [scroll letter stagger](/ui-snippets/scroll-letter-stagger/).` },
-      { title: 'Product launches', text: `Scatter into a [scroll image sequence](/ui-snippets/scroll-image-sequence/) showcase.` },
-      { title: 'Portfolio intros', text: `Depart with personality, then a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) of work.` },
-      { title: 'Section transitions', text: `Hand off into a [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/).` },
-      { title: 'App marketing', text: `Exit the pitch, enter the [scroll phone screens](/ui-snippets/scroll-phone-screens/) demo.` },
-      { title: 'Pinned alternative', text: `Where you want the hero held instead, use a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/).` },
+      { title: 'Landing page departures', text: 'Choreograph how a hero leaves, with the badge lifting out, the headline banking left, the subtitle drifting right and the buttons sinking away on their own paths.' },
+      { title: 'Product launch handoffs', text: 'Scatter the hero into a [scroll image sequence](/ui-snippets/scroll-image-sequence/) showcase, using tight staggered starts so the exit reads as a deliberate sequence.' },
+      { title: 'Portfolio introductions', text: 'Depart with personality, then lead into a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) of work, with title and copy counter-rotating like dealt cards.' },
+      { title: 'Section transition handoffs', text: 'Hand off into a [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/), with no added scroll length because the motion rides the natural exit of the hero.' },
+      { title: 'Pinned alternatives and app marketing', text: 'Compare with a held hero like [scroll zoom hero](/ui-snippets/scroll-zoom-hero/), or exit a pitch before entering [scroll phone screens](/ui-snippets/scroll-phone-screens/) for an app launch.' },
       { icon: 'CODE', title: 'Related: Scroll-Linked Audio Waveform Scrub', desc: 'See the [Scroll-Linked Audio Waveform Scrub](/ui-snippets/scroll-linked-audio-scrub/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

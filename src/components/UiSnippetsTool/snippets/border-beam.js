@@ -114,12 +114,11 @@ Change the \`round\` radius in \`offset-path\` to match your card, recolor the b
       { title: 'GPU-cheap', text: `One property animates on a tiny element.` },
     ],
     useCases: [
-      { title: 'Featured plan cards', text: `Highlight a tier beside a [pricing card](/ui-snippets/pricing-card/).` },
-      { title: 'Premium upsells', text: `Pair with a [meteor card](/ui-snippets/meteor-card/) set.` },
-      { title: 'AI product cards', text: `Match a [shimmer button](/ui-snippets/shimmer-button/) CTA.` },
-      { title: 'Highlighted inputs', text: `Run a beam around a focused field.` },
-      { title: 'Dashboard widgets', text: `Draw attention to a [metric card grid](/ui-snippets/metric-card-grid/) tile.` },
-      { title: 'Motion Path demos', text: `A reference for offset-path border animation.` },
+      { title: 'Featured plan highlights', text: 'Highlight a tier beside a [pricing card](/ui-snippets/pricing-card/), with a bright bead tracing the border like a comet on a track.' },
+      { title: 'Premium upsell cards', text: 'Pair with a [meteor card](/ui-snippets/meteor-card/) set, using `offset-path` so the beam follows the exact rounded border.' },
+      { title: 'AI product cards', text: 'Match a [shimmer button](/ui-snippets/shimmer-button/) call to action, with a second beam on a delayed offset for a dual chasing effect.' },
+      { title: 'Dashboard attention markers', text: 'Draw attention to a key tile inside a [metric card grid](/ui-snippets/metric-card-grid/), with `offset-rotate` banking the bead around corners.' },
+      { title: 'Motion Path reference', text: 'Learn border animation with CSS Motion Path, including the JavaScript fallback for browsers that do not support it.' },
       { icon: 'CODE', title: 'Related: Direction-Aware Hover', desc: 'See the [Direction-Aware Hover](/ui-snippets/direction-aware-hover/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

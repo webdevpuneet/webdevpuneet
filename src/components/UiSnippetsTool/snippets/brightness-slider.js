@@ -105,12 +105,11 @@ The same \`brightness()\` filter applies to any element — a full theme contain
       { title: 'No dependency', text: `Pure HTML/CSS/JS — no canvas or image processing.` },
     ],
     useCases: [
-      { title: 'Photo and image editors', text: `Adjust exposure next to an [image filter editor](/ui-snippets/image-filter-editor/).` },
-      { title: 'Display settings panels', text: `Drop into a [settings panel](/ui-snippets/settings-panel/) for screen brightness.` },
-      { title: 'Night and reading modes', text: `Dim a whole theme alongside a [color mode toggle](/ui-snippets/color-mode-toggle/).` },
-      { title: 'Media controls', text: `Tune preview brightness beside a [volume control](/ui-snippets/volume-control/).` },
-      { title: 'Any filter slider', text: `Reuse the pattern with a [range slider](/ui-snippets/range-slider/).` },
-      { title: 'Learning CSS filters', text: `A reference for live brightness() and composited transitions.` },
+      { title: 'Photo editor exposure controls', text: 'Adjust exposure beside an [image filter editor](/ui-snippets/image-filter-editor/), with the CSS `brightness()` filter dimming or over-brightening a live preview on the GPU.' },
+      { title: 'Display settings panels', text: 'Drop into a [settings panel](/ui-snippets/settings-panel/) for screen brightness, where a sun icon scales with the value and glows once it passes 100%.' },
+      { title: 'Night and reading modes', text: 'Dim a whole theme alongside a [colour mode toggle](/ui-snippets/color-mode-toggle/), with a dark-to-yellow gradient track signalling the range visually.' },
+      { title: 'Media preview controls', text: 'Tune preview brightness beside a [volume control](/ui-snippets/volume-control/) in a media player, using one wired range input.' },
+      { title: 'Generic filter sliders', text: 'Reuse the pattern with a [range slider](/ui-snippets/range-slider/) for contrast, saturation or blur, since each only needs a different CSS filter function.' },
       { icon: 'CODE', title: 'Related: Chip Multiselect', desc: 'See the [Chip Multiselect](/ui-snippets/chip-multiselect/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

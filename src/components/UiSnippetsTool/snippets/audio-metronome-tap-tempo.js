@@ -217,10 +217,10 @@ A small dot pulses (scales up and changes color) via a CSS class toggled in the 
       'No dependencies — pure Web Audio API and setInterval scheduling',
     ],
     useCases: [
-      { icon: 'APP', title: 'Music practice tools', desc: 'A drop-in metronome for guitar, piano, or drum practice web apps.' },
-      { icon: 'LEARN', title: 'Rhythm and timing tutorials', desc: 'Demonstrates tap-tempo averaging and Web Audio click synthesis together.' },
-      { icon: 'DESIGN', title: 'DJ or DAW-adjacent tools', desc: 'A reusable BPM input widget for any tempo-driven audio interface.' },
-      { icon: 'CODE', title: 'Web Audio scheduling reference', desc: 'A simple starting point before upgrading to a full lookahead scheduler.' },
+      { icon: '🎸', title: 'Music practice tools', desc: 'Provide a drop-in metronome for guitar or piano practice, with BPM from 30 to 300 and plus and minus steppers.' },
+      { icon: '🥁', title: 'Rhythm tutorials', desc: 'Demonstrate tap-tempo averaging, where BPM comes from a rolling average of tap intervals and stale taps reset after two seconds.' },
+      { icon: '🎛️', title: 'DJ and DAW-adjacent tools', desc: 'Reuse the BPM input widget in a mixing or sequencing interface, with a synthesised square-wave click and no audio file.' },
+      { icon: '🎓', title: 'Web Audio scheduling reference', desc: 'Start from a simple click generator as a Web Audio reference, then move on to lookahead scheduling for sample-accurate timing later.' },
     ],
     faqs: [
       { q: 'How does Tap Tempo calculate the BPM?', a: 'Every tap records a timestamp. From the second tap onward, the time gaps between the last up to five taps are averaged, and BPM is computed as 60000 divided by that average gap in milliseconds — so it smooths out small inconsistencies in your tapping.' },

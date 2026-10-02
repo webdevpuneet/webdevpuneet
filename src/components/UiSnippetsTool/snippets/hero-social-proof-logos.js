@@ -123,12 +123,11 @@ Swap in your own rating, testimonial copy, and CSS marks or real logo images; ad
       { title: 'Zero JS', text: `Pure HTML and CSS — works as a server component.` },
     ],
     useCases: [
-      { title: 'B2B SaaS landing pages', text: `Answer "does this work for teams like mine" fast.` },
-      { title: 'Enterprise sales pages', text: `Pair with [product hero](/ui-snippets/product-hero/) above features.` },
-      { title: 'Investor and demo-day pages', text: `Logos and testimonial signal traction quickly.` },
-      { title: 'Case study landing pages', text: `Feature the case study's own quote up top.` },
-      { title: 'Agency and consultancy sites', text: `Client logos plus a client quote build credibility.` },
-      { title: 'Pricing page intros', text: `Precede a plan grid with proof before the ask.` },
+      { title: 'B2B SaaS landing pages', text: 'Answer whether the product works for teams like theirs with a rating badge, a named testimonial and six CSS-drawn logo marks.' },
+      { title: 'Enterprise sales pages', text: 'Pair with a [product hero](/ui-snippets/product-hero/) above the feature section, adding trust before any technical claims on an enterprise sales page.' },
+      { title: 'Investor and demo-day pages', text: 'Use customer logos and a quote as signals of traction, separating pitch from proof with a top border on the trusted-by strip.' },
+      { title: 'Case study landing pages', text: 'Feature the case study\'s own quote with an avatar, name and role, so proof arrives with attribution.' },
+      { title: 'Agency and pricing intros', text: 'Show client logos plus a client quote on a consultancy site, or precede a plan grid with proof before asking for a decision.' },
       { icon: 'CODE', title: 'Related: Hero with Live Ticking User Counter', desc: 'See the [Hero with Live Ticking User Counter](/ui-snippets/hero-live-social-proof-counter/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

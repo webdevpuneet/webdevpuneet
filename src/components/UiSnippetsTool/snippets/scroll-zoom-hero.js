@@ -107,12 +107,11 @@ Change the zoom amount, the copy's exit direction, the overlay strength, or the 
       { title: 'Asset-free demo', text: `Gradient stands in for a real photo.` },
     ],
     useCases: [
-      { title: 'Landing openers', text: `A bolder [parallax hero](/ui-snippets/parallax-hero/).` },
-      { title: 'Editorial', text: `Pair with a [scroll image mask](/ui-snippets/scroll-image-mask/) reveal.` },
-      { title: 'Product intros', text: `Lead into a [scroll horizontal pin](/ui-snippets/scroll-horizontal-pin/).` },
-      { title: 'Stories', text: `Open a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Portfolios', text: `Replace a static [portfolio hero](/ui-snippets/portfolio-hero/).` },
-      { title: 'Campaigns', text: `Hand off to a [scroll color sections](/ui-snippets/scroll-color-sections/) flow.` },
+      { title: 'Cinematic landing openers', text: 'Open a page with a background that zooms as the headline lifts away, as a bolder alternative to a [parallax hero](/ui-snippets/parallax-hero/).' },
+      { title: 'Editorial openings', text: 'Pair with a [scroll image mask](/ui-snippets/scroll-image-mask/) reveal so one image zooms in and the next is revealed through a shape.' },
+      { title: 'Product intros', text: 'Lead into a [scroll horizontal pin](/ui-snippets/scroll-horizontal-pin/) after the zoom, with `pinSpacing: false` letting the next section overlap seamlessly.' },
+      { title: 'Story chapter starts', text: 'Open a [scroll pin story](/ui-snippets/scroll-pin-story/) with a descent into the frame, with one scrubbed timeline driving zoom, lift and overlay together.' },
+      { title: 'Portfolio and campaign pages', text: 'Replace a static [portfolio hero](/ui-snippets/portfolio-hero/), or hand off to [scroll colour sections](/ui-snippets/scroll-color-sections/) for a campaign flow.' },
     ],
     faqs: [
       { q: 'How are the zoom and the text move synchronized?', a: `All three movements live on one GSAP timeline tied to a ScrollTrigger with scrub: true, starting at position 0. The media scales, the copy lifts and fades, and the overlay deepens together, so they advance in lockstep with the scrollbar and reverse cleanly on scroll-up. scrub makes scroll position, not time, drive the progress.` },

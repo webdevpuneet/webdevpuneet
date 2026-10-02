@@ -112,12 +112,11 @@ Adjust the cone \`skewX\` angles to widen or narrow the beams, change the line a
       { title: 'One-accent theming', text: `A single color recolors the entire lamp.` },
     ],
     useCases: [
-      { title: 'Product launch heroes', text: `Spotlight a headline above a [shimmer button](/ui-snippets/shimmer-button/).` },
-      { title: 'SaaS landing pages', text: `Open a page that flows into a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/).` },
-      { title: 'Event microsites', text: `Pair with a [scroll velocity marquee](/ui-snippets/scroll-velocity-marquee/).` },
-      { title: 'Portfolio intros', text: `A dramatic alternative to a [minimal hero](/ui-snippets/minimal-hero/).` },
-      { title: 'Announcement pages', text: `Light up a reveal over an [animated grid background](/ui-snippets/animated-grid-background/).` },
-      { title: 'CSS lighting demos', text: `A reference for conic-gradient spotlight beams.` },
+      { title: 'Product launch heroes', text: 'Spotlight a headline above a [shimmer button](/ui-snippets/shimmer-button/), with two conic-gradient cones converging on a glowing line.' },
+      { title: 'Feature tour openers', text: 'Open a page that flows into a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/), with a widening filament that switches on from zero width.' },
+      { title: 'Event microsites', text: 'Pair with a [scroll velocity marquee](/ui-snippets/scroll-velocity-marquee/) for drama, using a vertical mask to fade the light as it falls.' },
+      { title: 'Portfolio intros', text: 'Offer a dramatic alternative to a [minimal hero](/ui-snippets/minimal-hero/), with a blurred ellipse lighting the headline area.' },
+      { title: 'Announcement pages', text: 'Light up a reveal over an [animated grid background](/ui-snippets/animated-grid-background/), and study conic-gradient spotlights as a CSS lighting reference.' },
       { icon: 'CODE', title: 'Related: Hero with Animated Scroll Cue', desc: 'See the [Hero with Animated Scroll Cue](/ui-snippets/hero-scroll-cue-arrow/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

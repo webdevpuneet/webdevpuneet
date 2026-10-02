@@ -163,12 +163,11 @@ Swap the palette for a brand color, change the serif stack, or replace the check
       { title: 'Metadata row', text: `Completion date and certificate ID displayed as a labeled pair.` },
     ],
     useCases: [
-      { title: 'Online course platforms', text: `Issue a shareable completion artifact after the final lesson.` },
-      { title: 'Corporate training LMS', text: `Confirm compliance-course completion with a formal record.` },
-      { title: 'Certification programs', text: `Pair with [quiz result breakdown](/ui-snippets/quiz-result-breakdown/) to gate on passing.` },
-      { title: 'Bootcamps and workshops', text: `Generate a card learners screenshot and post on social media.` },
-      { title: 'Progress-linked rewards', text: `Trigger from a [course progress tracker](/ui-snippets/course-progress-tracker/) hitting 100%.` },
-      { title: 'Event attendance proof', text: `Adapt the layout for a conference or webinar attendance certificate.` },
+      { title: 'Online course completion', text: 'Issue a shareable certificate when a learner finishes, with corners, border and vignette drawn entirely in CSS and an inline SVG seal.' },
+      { title: 'Corporate training completion', text: 'Confirm compliance course completion in a corporate LMS, using a Download button that simulates a realistic preparing-then-done sequence.' },
+      { title: 'Certification programmes', text: 'Pair with a [quiz result breakdown](/ui-snippets/quiz-result-breakdown/) so a certificate follows a passing score, with cursive signature lines on underline rules.' },
+      { title: 'Bootcamp and workshop achievements', text: 'Generate a card learners can screenshot and share, adapting wording for a workshop or event attendance proof.' },
+      { title: 'Progress-linked rewards', text: 'Trigger from a [course progress tracker](/ui-snippets/course-progress-tracker/) when every module is complete, with a seal that recolours to match the palette.' },
       { icon: 'CODE', title: 'Related: Empty State with Sample Data Toggle', desc: 'See the [Empty State with Sample Data Toggle](/ui-snippets/empty-state-sample-data-toggle/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

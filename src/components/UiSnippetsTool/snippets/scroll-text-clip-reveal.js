@@ -95,12 +95,11 @@ Change the dim and bright colors, the per-word stagger spacing, or the scroll le
       { title: 'Any sentence', text: `Works on whatever text you paste.` },
     ],
     useCases: [
-      { title: 'Mission statements', text: `A cousin of [text reveal scroll](/ui-snippets/text-reveal-scroll/).` },
-      { title: 'Section intros', text: `Pair with a [split text](/ui-snippets/split-text/) entrance.` },
-      { title: 'Storytelling', text: `Reveal lines in a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'About pages', text: `Lead into a [team card](/ui-snippets/team-card/) grid.` },
-      { title: 'Editorial', text: `Combine with a [scroll image mask](/ui-snippets/scroll-image-mask/).` },
-      { title: 'Quotes', text: `Emphasize a [testimonial card](/ui-snippets/testimonial-card/) line.` },
+      { title: 'Mission statement reveals', text: 'Light up each word of a bold statement as the reader scrolls, as a cousin of [text reveal scroll](/ui-snippets/text-reveal-scroll/) built on a staggered scrub.' },
+      { title: 'Section lead-ins', text: 'Pair with a [split text](/ui-snippets/split-text/) entrance for the heading, with the scroll window scaling to the number of words in the sentence.' },
+      { title: 'Pinned storytelling lines', text: 'Reveal narrative lines inside a [scroll pin story](/ui-snippets/scroll-pin-story/), with the sentence holding in place while the bright edge sweeps word by word.' },
+      { title: 'About page openers', text: 'Lead into a [team card](/ui-snippets/team-card/) grid with a brand statement that reads along with the scroll.' },
+      { title: 'Editorial and quote emphasis', text: 'Combine with a [scroll image mask](/ui-snippets/scroll-image-mask/), or emphasise a line from a [testimonial card](/ui-snippets/testimonial-card/) with the same bright-edge sweep.' },
       { icon: 'CODE', title: 'Related: Three.js Scroll Hologram Scan Reveal', desc: 'See the [Three.js Scroll Hologram Scan Reveal](/ui-snippets/three-scroll-hologram-scan/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

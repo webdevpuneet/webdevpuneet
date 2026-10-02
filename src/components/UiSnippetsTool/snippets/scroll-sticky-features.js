@@ -145,12 +145,11 @@ Swap the gradient placeholder panels for screenshots, videos, or live components
       { title: 'Responsive collapse', text: `Single column below 760px.` },
     ],
     useCases: [
-      { title: 'SaaS feature tours', text: `The classic product walkthrough; follow it with a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) of secondary features.` },
-      { title: 'Onboarding explainers', text: `Show each setup stage beside its screenshot, then a [scroll timeline dots](/ui-snippets/scroll-timeline-dots/) roadmap.` },
-      { title: 'Case studies', text: `Walk through process phases; open with a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/).` },
-      { title: 'App showcases', text: `Pair with [scroll phone screens](/ui-snippets/scroll-phone-screens/) for a device-framed variant.` },
-      { title: 'Docs landing pages', text: `Anchor sections with a [scroll spy nav](/ui-snippets/scroll-spy-nav/).` },
-      { title: 'Pricing narratives', text: `Lead into a [pricing card](/ui-snippets/pricing-card/) section once the story lands.` },
+      { title: 'SaaS feature tours', text: 'Build the classic walkthrough with copy scrolling on the left while a media panel stays pinned on the right, following a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/) opener.' },
+      { title: 'Onboarding explainers', text: 'Show each setup stage beside its screenshot, with `position: sticky` pinning the frame and `rootMargin` of minus 45% activating centred steps.' },
+      { title: 'Case study phases', text: 'Walk through process phases alongside [scroll timeline dots](/ui-snippets/scroll-timeline-dots/) in a case study, with an `is-active` class crossfading each panel.' },
+      { title: 'App showcases', text: 'Pair with [scroll phone screens](/ui-snippets/scroll-phone-screens/) for a device walkthrough, using a springy cubic-bezier overshoot on panel changes.' },
+      { title: 'Documentation and pricing narratives', text: 'Anchor sections with a [scroll spy nav](/ui-snippets/scroll-spy-nav/), or lead into a [pricing card](/ui-snippets/pricing-card/) section once the tour has made its case.' },
       { icon: 'CODE', title: 'Related: Three.js Scroll Asteroid Belt Run', desc: 'See the [Three.js Scroll Asteroid Belt Run](/ui-snippets/three-scroll-asteroid-belt/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

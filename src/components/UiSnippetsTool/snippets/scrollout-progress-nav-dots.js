@@ -136,10 +136,10 @@ Clicking a dot calls \`scrollIntoView({ behavior: 'smooth', block: 'center' })\`
       { title: 'Fixed positioning', text: 'The rail stays pinned to the viewport edge independent of page scroll position.' },
     ],
     useCases: [
-      { icon: 'FLOW', title: 'Long-form landing pages', text: 'Give visitors a persistent sense of progress through a scrollytelling page.' },
-      { icon: 'CODE', title: 'Documentation sidebars', text: 'Track which doc section is in view the same way a table-of-contents highlight does.' },
-      { icon: 'DESIGN', title: 'Portfolio case studies', text: 'A minimal dot rail that doubles as both navigation and a progress indicator.' },
-      { icon: 'LEARN', title: 'Teaching ScrollOut basics', text: 'A compact example of targets, threshold, and onShown before more advanced cssProps usage.' },
+      { title: 'Long-form landing pages', text: 'Give visitors a persistent sense of position with a fixed dot rail, with ScrollOut wrapping `IntersectionObserver` internally.' },
+      { title: 'Documentation sidebars', text: 'Track which doc section is in view, using `threshold: 0.5` so the active dot does not flip on a barely visible section.' },
+      { title: 'Case study dot rails', text: 'Provide a minimal rail that doubles as a jump menu, smooth-scrolling to a section when a dot is clicked.' },
+      { title: 'ScrollOut teaching', text: 'Learn a compact example of selector-based `targets`, thresholds and `onShown`, where one function clears and sets every dot.' },
     ],
     faqs: [
       { q: 'How does ScrollOut know which section is "active"?', a: 'ScrollOut tracks every element matched by the targets option using an internal IntersectionObserver-based visibility check, and calls onShown(el) whenever one crosses the configured threshold going into view. This snippet reads el.id inside onShown and toggles the matching dot\'s active class.' },

@@ -137,12 +137,11 @@ Change \`TARGET\` to any number, add a comma-separated thousands grouping betwee
       { title: 'Sticky scrub panel', text: `CSS position: sticky provides the pinned viewing window.` },
     ],
     useCases: [
-      { title: 'Milestone stats', text: `Distance, downloads, or usage totals tied to reading pace.` },
-      { title: 'Annual report pages', text: `Contrast with [odometer stat counter](/ui-snippets/odometer-stat-counter/)'s timed roll.` },
-      { title: 'Product landing pages', text: `Reveal a big number as part of the scroll narrative.` },
-      { title: 'Fundraising trackers', text: `Sync a running total to how far the reader has scrolled.` },
-      { title: 'Data-heavy dashboards', text: `Pair with [gsap-scroll-number-counter](/ui-snippets/gsap-scroll-number-counter/).` },
-      { title: 'Scrollytelling pieces', text: `Combine with a [scroll SVG line chart draw](/ui-snippets/scroll-svg-line-chart-draw/).` },
+      { title: 'Milestone statistics', text: 'Roll distance, download or usage totals in proportion to scroll, with each digit as a strip of ten numerals translated directly by progress.' },
+      { title: 'Annual report contrast', text: 'Contrast with the timer-driven [odometer stat counter](/ui-snippets/odometer-stat-counter/), where scroll scrubs the roll and no duration exists.' },
+      { title: 'Product landing figures', text: 'Reveal a big number as part of the story, exactly reversible because the same formula simply rolls back on upward scroll.' },
+      { title: 'Fundraising trackers', text: 'Sync a running total to how far the reader has scrolled, pairing with a [GSAP scroll number counter](/ui-snippets/gsap-scroll-number-counter/) for different stats.' },
+      { title: 'Scrollytelling pairings', text: 'Combine with a [scroll SVG line chart draw](/ui-snippets/scroll-svg-line-chart-draw/) so a chart and its headline number build together.' },
       { icon: 'CODE', title: 'Related: Scroll Progress Journey Trail', desc: 'See the [Scroll Progress Journey Trail](/ui-snippets/scroll-progress-journey-trail/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

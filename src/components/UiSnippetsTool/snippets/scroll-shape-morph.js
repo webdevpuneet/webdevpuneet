@@ -119,12 +119,11 @@ Add states to the \`SHAPES\` array (one tween per transition), retint via the hu
       { title: 'Reversible melt', text: `Scrolling up un-squares the shape.` },
     ],
     useCases: [
-      { title: 'Concept storytelling', text: `Visualize flexible-to-structured narratives inside a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Brand motifs', text: `Morph the brand blob between sections; keep it ambient with [liquid blob](/ui-snippets/liquid-blob/).` },
-      { title: 'Feature states', text: `One shape per product mode, narrated like [scroll pin steps](/ui-snippets/scroll-pin-steps/).` },
-      { title: 'Design-tool sites', text: `Show malleability literally, then a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) of outputs.` },
-      { title: 'Theme transitions', text: `Sync the hue shift with [scroll color sections](/ui-snippets/scroll-color-sections/).` },
-      { title: 'Hero accents', text: `Park the morph beside a [scroll letter stagger](/ui-snippets/scroll-letter-stagger/) headline.` },
+      { title: 'Concept storytelling', text: 'Visualise a move from flexible to structured by morphing one pinned gradient shape from an organic blob into crisp geometry as the reader scrolls.' },
+      { title: 'Brand motif morphs', text: 'Morph a brand blob between sections of a [scroll pin story](/ui-snippets/scroll-pin-story/), interpolating eight border-radius values independently.' },
+      { title: 'Feature state shapes', text: 'Show one shape per product mode, narrated like [scroll pin steps](/ui-snippets/scroll-pin-steps/), with captions changing in sync.' },
+      { title: 'Design tool sites', text: 'Show malleability literally, using a single div with no SVG or clip-path and a [liquid blob](/ui-snippets/liquid-blob/) elsewhere for comparison.' },
+      { title: 'Theme and hero accents', text: 'Sync the hue shift with [scroll colour sections](/ui-snippets/scroll-color-sections/), or park the morph beside a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) and a [scroll letter stagger](/ui-snippets/scroll-letter-stagger/) headline.' },
       { icon: 'CODE', title: 'Related: Scrollama Scrollytelling', desc: 'See the [Scrollama Scrollytelling](/ui-snippets/scrollama-story-steps/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

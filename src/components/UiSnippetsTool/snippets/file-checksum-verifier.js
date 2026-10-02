@@ -184,10 +184,10 @@ copyBtn.addEventListener('click', function () {
       'Zero dependencies — pure Web Crypto and DOM APIs',
     ],
     useCases: [
-      { icon: 'CODE', title: 'Download integrity pages', desc: 'Let users verify a downloaded file against a published checksum before running it.' },
-      { icon: 'APP', title: 'Internal file transfer tools', desc: 'Confirm files were not corrupted or tampered with during upload or transfer.' },
-      { icon: 'DESIGN', title: 'Security-focused product pages', desc: 'Showcase transparent checksum verification as part of a trust-building flow.' },
-      { icon: 'LEARN', title: 'Web Crypto API teaching example', desc: 'Demonstrates digest hashing and ArrayBuffer-to-hex conversion in plain JavaScript.' },
+      { icon: '📥', title: 'Download integrity pages', desc: 'Let users verify a downloaded file by dropping it in and comparing its SHA-256 digest against the publisher\'s value.' },
+      { icon: '📦', title: 'Internal file transfers', desc: 'Confirm that files were not corrupted in transit, with a live match or mismatch message as the expected checksum is typed.' },
+      { icon: '🛡️', title: 'Security product pages', desc: 'Showcase transparent verification, using `crypto.subtle.digest` with no external hashing library and no upload to any server.' },
+      { icon: '🎓', title: 'Web Crypto teaching', desc: 'Demonstrate reading a file into an `ArrayBuffer` and hashing it, with an idle-state demo hash so the UI never looks empty.' },
     ],
     faqs: [
       { q: 'Does the file ever leave the browser?', a: 'No. The file is read locally with file.arrayBuffer() and hashed entirely in-browser via crypto.subtle.digest — nothing is uploaded anywhere.' },

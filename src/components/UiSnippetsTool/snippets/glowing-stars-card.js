@@ -110,12 +110,11 @@ Change \`COLS\`/\`ROWS\` for a finer or coarser sky, adjust the 16% probability 
       { title: 'Pure CSS twinkle', text: `Keyframes do the pulsing, JS only toggles.` },
     ],
     useCases: [
-      { title: 'Cosmic feature cards', text: `Pair with a [meteor card](/ui-snippets/meteor-card/) in a grid.` },
-      { title: 'Premium tiers', text: `A dreamy [pricing card](/ui-snippets/pricing-card/) variant.` },
-      { title: 'Launch sections', text: `Match a [sparkles text](/ui-snippets/sparkles-text/) headline.` },
-      { title: 'Space-themed sites', text: `Echo a [starfield](/ui-snippets/starfield/) background.` },
-      { title: 'Aspirational CTAs', text: `Wrap a [shimmer button](/ui-snippets/shimmer-button/) call to action.` },
-      { title: 'CSS animation demos', text: `A reference for paused, per-element twinkles.` },
+      { title: 'Cosmic feature cards', text: 'Place a dim dot field that brightens into a twinkling constellation on hover, in a grid beside a [meteor card](/ui-snippets/meteor-card/).' },
+      { title: 'Premium pricing tiers', text: 'Give a dreamy variant of a [pricing card](/ui-snippets/pricing-card/) a hovering constellation, with stars that drift on and off over time.' },
+      { title: 'Launch section headings', text: 'Match a [sparkles text](/ui-snippets/sparkles-text/) headline in a launch section with a card that twinkles to the same cosmic theme.' },
+      { title: 'Space-themed sites', text: 'Echo a [starfield](/ui-snippets/starfield/) background with a hover-reactive card, building the field in code with a probability-based star flag.' },
+      { title: 'Aspirational call to action wrappers', text: 'Wrap a [shimmer button](/ui-snippets/shimmer-button/) in a sky of stars, with per-star random `--tw` durations making the twinkle asynchronous.' },
       { icon: 'CODE', title: 'Related: ResizeObserver Live Card', desc: 'See the [ResizeObserver Live Card](/ui-snippets/resize-observer-card/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -178,12 +178,11 @@ Change the milestone percentages or add more of them, swap the rectangle particl
       { title: 'Configurable milestones', text: `Percentages and count are a simple array to edit.` },
     ],
     useCases: [
-      { title: 'Long-form articles', text: `Reward readers for making progress through the piece.` },
-      { title: 'Onboarding tours', text: `Celebrate completing each step of a guided page.` },
-      { title: 'Fundraising pages', text: `Mark funding milestones as visitors scroll a campaign.` },
-      { title: 'Course pages', text: `Signal lesson checkpoints down a long syllabus page.` },
-      { title: 'Product changelogs', text: `Celebrate reaching major version sections.` },
-      { title: 'Playful landing pages', text: `Pair with [canvas confetti burst](/ui-snippets/canvas-confetti-burst/) for a final CTA.` },
+      { title: 'Long-form article rewards', text: 'Reward readers for reaching 25%, 50%, 75% and 100% of an article with a small canvas burst at each point.' },
+      { title: 'Onboarding step celebrations', text: 'Celebrate completing each section of a guided tour, with a fired flag so confetti never repeats when scrolling back.' },
+      { title: 'Fundraising progress pages', text: 'Mark funding milestones as visitors scroll, with a top progress bar tracking the exact percentage reached.' },
+      { title: 'Course syllabus checkpoints', text: 'Signal lesson checkpoints down a long course syllabus page, using `IntersectionObserver` for cheap threshold detection instead of scroll handlers.' },
+      { title: 'Playful landing pages', text: 'Pair with a [canvas confetti burst](/ui-snippets/canvas-confetti-burst/) for a page that celebrates progress, with about 90 particles per burst under gravity and drag.' },
       { icon: 'CODE', title: 'Related: Scroll Progress Journey Trail', desc: 'See the [Scroll Progress Journey Trail](/ui-snippets/scroll-progress-journey-trail/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -182,12 +182,11 @@ Wire the count to a real unread-messages or pending-tasks total, call \`setAppBa
       { title: 'Named failure states', text: `Surfaces the actual error name if the call throws.` },
     ],
     useCases: [
-      { title: 'Messaging and email PWAs', text: `Show an unread count on the installed app icon.` },
-      { title: 'Task and to-do apps', text: `Badge pending items count on the home screen.` },
-      { title: 'Notification-heavy dashboards', text: `Pair with a [notification permission prompt](/ui-snippets/notification-permission-prompt/).` },
-      { title: 'Support/ticketing PWAs', text: `Badge open tickets alongside a [status dashboard](/ui-snippets/status-dashboard/).` },
-      { title: 'Non-PWA unread indicators', text: `Use the mock pattern alone with a [status pill](/ui-snippets/status-pill/).` },
-      { title: 'PWA onboarding demos', text: `Teach what installing a PWA actually changes visually.` },
+      { title: 'Messaging and email PWAs', text: 'Show an unread count on the installed app icon with `setAppBadge()`, using a mock icon so the effect is visible even when the app is not installed.' },
+      { title: 'Task and to-do apps', text: 'Badge the number of pending items on the home screen, with an independent count stepper before committing the number.' },
+      { title: 'Notification-heavy dashboards', text: 'Pair with a [notification permission prompt](/ui-snippets/notification-permission-prompt/) so people grant access before badges are expected to appear.' },
+      { title: 'Support ticketing apps', text: 'Badge open tickets next to a [status pill](/ui-snippets/status-pill/) for each agent, clearing the badge with `clearAppBadge()` when the queue is empty.' },
+      { title: 'PWA install education', text: 'Teach what installing a PWA changes, with honest messaging explaining that a successful call can still be invisible, and the mock pattern also useful without the API.' },
       { icon: 'CODE', title: 'Related: Clipboard Paste Button', desc: 'See the [Clipboard Paste Button](/ui-snippets/clipboard-paste-button/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

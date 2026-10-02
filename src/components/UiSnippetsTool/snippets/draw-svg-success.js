@@ -108,12 +108,11 @@ Recolor to your brand, swap the tick for a cross (error state) or your logo's pa
       { title: 'Pen-tip caps', text: `Round linecaps read as handwriting.` },
     ],
     useCases: [
-      { title: 'Checkout confirmations', text: `The payment-landed moment, extended by a [payment success card](/ui-snippets/payment-success-card/).` },
-      { title: 'Form submissions', text: `Draw success after async saves; compare the CSS [animated success checkmark](/ui-snippets/animated-success-checkmark/).` },
-      { title: 'Onboarding completions', text: `Celebrate finished setup steps beside a [step progress](/ui-snippets/step-progress/) tracker.` },
-      { title: 'Upload finishes', text: `Cap an [upload progress](/ui-snippets/upload-progress/) bar with a drawn tick.` },
-      { title: 'Error twins', text: `Swap the tick path for a cross to mirror an [animated error state](/ui-snippets/animated-error-state/).` },
-      { title: 'Diagram reveals', text: `The same plugin drives [scroll svg path draw](/ui-snippets/scroll-svg-path-draw/)-style illustrations.` },
+      { title: 'Checkout confirmations', text: 'Show the payment-landed moment beside a [payment success card](/ui-snippets/payment-success-card/), tracing a circle before the tick strokes in with a pulse.' },
+      { title: 'Async form submissions', text: 'Draw success after a save completes, and compare with the simpler [animated success checkmark](/ui-snippets/animated-success-checkmark/) for plain CSS projects.' },
+      { title: 'Onboarding completions', text: 'Celebrate a finished setup step beside a [step progress](/ui-snippets/step-progress/) indicator, using segment syntax like `20% 80%` for partial strokes.' },
+      { title: 'Upload finish markers', text: 'Cap an [upload progress](/ui-snippets/upload-progress/) bar with a drawn tick, with no dash maths needed because DrawSVG measures length itself.' },
+      { title: 'Error twin screens', text: 'Swap the tick for a cross to mirror an [animated error state](/ui-snippets/animated-error-state/), or see [scroll SVG path draw](/ui-snippets/scroll-svg-path-draw/) for the scroll-driven version.' },
       { icon: 'CODE', title: 'Related: GSAP Flip Layout Transition', desc: 'See the [GSAP Flip Layout Transition](/ui-snippets/gsap-flip-layout-transition/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

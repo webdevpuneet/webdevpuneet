@@ -128,12 +128,11 @@ Tweak \`squash\` (1 subtle, 4 cartoon), drop from a click position, or apply the
       { title: 'CustomEase family', text: `Built on SVG-path-defined easing.` },
     ],
     useCases: [
-      { title: 'Notification landings', text: `Drop badges with impact squash onto a [notification bell](/ui-snippets/notification-bell/).` },
-      { title: 'Modal entrances', text: `A dialog that lands with weight, softer than a [confirm dialog](/ui-snippets/confirm-dialog/) fade.` },
-      { title: 'Game UI', text: `Coins and pickups bouncing into HUDs, near [physics balls](/ui-snippets/physics-balls/).` },
-      { title: 'Empty-state mascots', text: `A character bouncing into an [empty state](/ui-snippets/empty-state/).` },
-      { title: 'Ease education', text: `Compare against stock curves in the [gsap ease gallery](/ui-snippets/gsap-ease-gallery/).` },
-      { title: 'Wiggle siblings', text: `Oscillation from the same family in [custom wiggle icons](/ui-snippets/custom-wiggle-icons/).` },
+      { title: 'Notification arrivals', text: 'Drop a badge in with impact squash beside a [notification bell](/ui-snippets/notification-bell/), using paired position and squash curves from one call.' },
+      { title: 'Modal entrances', text: 'Land a [confirm dialog](/ui-snippets/confirm-dialog/) with weight, using a softer strength preset so the bounce suits a serious message.' },
+      { title: 'Game HUD pickups', text: 'Bounce coins or items into a heads-up display, near [physics balls](/ui-snippets/physics-balls/) that show the same idea with a real engine.' },
+      { title: 'Empty-state mascots', text: 'Bring a character into an [empty state](/ui-snippets/empty-state/) with squash against the ground, anchored so deformation flattens at the floor.' },
+      { title: 'Ease education', text: 'Compare against stock curves in the [GSAP ease gallery](/ui-snippets/gsap-ease-gallery/), or look at [custom wiggle icons](/ui-snippets/custom-wiggle-icons/) for oscillation from the same plugin family.' },
       { icon: 'CODE', title: 'Related: FLIP Technique List Reorder Animation', desc: 'See the [FLIP Technique List Reorder Animation](/ui-snippets/flip-list-reorder-animation/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

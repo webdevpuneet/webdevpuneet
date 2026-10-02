@@ -110,12 +110,11 @@ Swap the gradient tiles for real images, change the overlay content and its back
       { title: 'Responsive grid', text: `Two columns collapse to one on mobile.` },
     ],
     useCases: [
-      { title: 'Portfolio galleries', text: `Reveal project captions like a [focus cards](/ui-snippets/focus-cards/) grid.` },
-      { title: 'Image collections', text: `Pair with an [Instagram gallery](/ui-snippets/instagram-gallery/).` },
-      { title: 'Team grids', text: `Slide in roles over a [team card](/ui-snippets/team-card/) layout.` },
-      { title: 'Product tiles', text: `Surface a CTA over a [product card](/ui-snippets/product-card/).` },
-      { title: 'Category navigation', text: `Animate labels on a [bento grid](/ui-snippets/bento-grid/).` },
-      { title: 'Hover effect demos', text: `A reference for direction-aware reveals.` },
+      { title: 'Portfolio gallery captions', text: 'Reveal project captions from the edge the cursor crossed, as an alternative to the dimming effect of [focus cards](/ui-snippets/focus-cards/).' },
+      { title: 'Image collection grids', text: 'Pair with an [Instagram gallery](/ui-snippets/instagram-gallery/) of images, with a dominant-axis test classifying entry direction without any trigonometry.' },
+      { title: 'Team role overlays', text: 'Slide in a role description over a [team card](/ui-snippets/team-card/) layout, entering from the side the visitor approached.' },
+      { title: 'Product tile calls to action', text: 'Surface a CTA over a [product card](/ui-snippets/product-card/), with `--tx` and `--ty` variables setting the starting offset per edge.' },
+      { title: 'Category navigation labels', text: 'Animate category labels over a [bento grid](/ui-snippets/bento-grid/) of navigation tiles, where a single transform transition handles every reveal.' },
       { icon: 'CODE', title: 'Related: Motion One Spring Cards', desc: 'See the [Motion One Spring Cards](/ui-snippets/motion-one-spring-cards/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

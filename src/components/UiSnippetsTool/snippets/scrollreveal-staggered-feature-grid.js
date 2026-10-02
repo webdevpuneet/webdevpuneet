@@ -100,12 +100,11 @@ The entire visual identity of this pattern — direction, distance, stagger spee
       { title: 'Config-only customization', text: 'Every visual property of the effect is one options object, easy to retune without touching structure.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'SaaS feature sections', text: 'The classic "why choose us" 3-column grid, given entrance polish.' },
-      { icon: 'DESIGN', title: 'Portfolio skill grids', text: 'Stagger competency or service cards in as a visitor scrolls a personal site.' },
-      { icon: 'CODE', title: 'Docs/changelog highlight cards', text: 'Draw attention to release highlights without an intrusive animation.' },
-      { title: 'Team/testimonial grids', text: 'Any repeated card layout benefits from a one-time staggered entrance.' },
-      { title: 'Pricing feature comparisons', text: 'Cascade the included-features list in below a pricing table.' },
-      { title: 'Learning ScrollReveal defaults', text: 'A minimal reference for interval stagger and the reset option\'s real effect.' },
+      { title: 'SaaS why-choose-us sections', text: 'Cascade a three-column feature grid in from the bottom with one selector and one `reveal()` call.' },
+      { title: 'Portfolio skill grids', text: 'Stagger competency or service cards, with `interval` delaying each match by its position in the DOM.' },
+      { title: 'Changelog highlight cards', text: 'Draw attention to release highlights, with `reset: false` set deliberately so the reveal happens only once.' },
+      { title: 'Team and testimonial grids', text: 'Apply to any repeated card layout such as teams or testimonials, combining translate and fade into a single CSS transition.' },
+      { title: 'Pricing included-features lists and defaults learning', text: 'Cascade the included features beneath a plan, and use it as a minimal reference for how few ScrollReveal options are needed.' },
     ],
     faqs: [
       { q: 'Why does the stagger read as row-by-row rather than random?', a: 'interval delays each matched element by its position in DOM order, and because the six cards are written in the HTML in the same left-to-right, top-to-bottom order they appear in the 3-column grid, the delay sequence lines up with the visual sweep. It is a side effect of DOM order matching visual order, not something the grid layout enforces.' },

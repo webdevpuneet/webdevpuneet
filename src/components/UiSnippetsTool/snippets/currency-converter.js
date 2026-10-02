@@ -163,10 +163,11 @@ convert();`,
       'Zero dependencies — pure HTML, CSS, JavaScript'
     ],
     useCases: [
-      { icon: 'MONEY', title: 'Finance Dashboards', desc: 'Currency conversion widget in fintech and banking dashboards' },
-      { icon: 'APP', title: 'Travel Apps', desc: 'Quick currency reference for travel planning tools' },
-      { icon: 'CONVERT', title: 'E-commerce', desc: 'Let international shoppers see prices in their currency' },
-      { icon: 'DOC', title: 'Invoice Tools', desc: 'Embedded converter in freelancer invoicing tools' },
+      { icon: '💱', title: 'Fintech dashboard widgets', desc: 'Add a compact conversion tool to a finance dashboard, with a swap button and live rate shown for the selected pair.' },
+      { icon: '✈️', title: 'Travel planning apps', desc: 'Give travellers a quick reference for converting prices, with pair shortcuts for their most common routes.' },
+      { icon: '🛒', title: 'International e-commerce', desc: 'Let shoppers see prices in their own currency, using a USD-base table to calculate cross rates between any two of ten currencies.' },
+      { icon: '🧾', title: 'Freelancer invoice tools', desc: 'Embed a converter next to an invoice form, with currency-aware decimals such as zero for JPY and INR.' },
+      { icon: '👥', title: 'Expense splitting pairing', desc: 'Combine with the [expense split calculator](/ui-snippets/expense-split-calculator/) when a group trip involves several currencies and one person fronted the bill.' },
       { icon: 'CODE', title: 'Related: Environment Switcher with Color-Coded Persistent Banner', desc: 'See the [Environment Switcher with Color-Coded Persistent Banner](/ui-snippets/environment-switcher-banner/) for a related dashboards pattern worth pairing with this one.' },
     ],
     faqs: [

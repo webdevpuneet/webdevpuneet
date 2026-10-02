@@ -105,12 +105,11 @@ Change the gradient color to your accent, widen the \`180px circle\` radius for 
       { title: 'Submit state', text: `Button swaps to a loading then success label.` },
     ],
     useCases: [
-      { title: 'Sign-in screens', text: `Pair with a [glassmorphism login](/ui-snippets/glassmorphism-login/) panel.` },
-      { title: 'Waitlist forms', text: `Light up fields in an [animated gradient CTA](/ui-snippets/animated-gradient-cta/).` },
-      { title: 'Search bars', text: `Apply the glow to a [search box](/ui-snippets/search-box/).` },
-      { title: 'Settings panels', text: `Highlight inputs in a [settings panel](/ui-snippets/settings-panel/).` },
-      { title: 'Contact forms', text: `Upgrade a plain [contact form](/ui-snippets/contact-form/).` },
-      { title: 'Gradient border demos', text: `A reference for the mask-composite border trick.` },
+      { title: 'Sign-in screens', text: 'Give fields a radial border glow that follows the cursor, on a [glassmorphism login](/ui-snippets/glassmorphism-login/) panel for a refined developer-tool look.' },
+      { title: 'Waitlist forms', text: 'Light up fields beside an [animated gradient CTA](/ui-snippets/animated-gradient-cta/), where the same glow doubles as a clear focus indicator.' },
+      { title: 'Search bars', text: 'Apply the glow to a [search box](/ui-snippets/search-box/), with a single `pointermove` handler writing the `--x` and `--y` variables for every field.' },
+      { title: 'Settings and contact forms', text: 'Highlight inputs in a [settings panel](/ui-snippets/settings-panel/) or upgrade a plain [contact form](/ui-snippets/contact-form/) with a polished hover state.' },
+      { title: 'Gradient border reference', text: 'Learn how `mask-composite` confines the glow to a one-pixel border, a technique reusable for any spotlight-border effect.' },
       { icon: 'CODE', title: 'Related: Price Range Slider', desc: 'See the [Price Range Slider](/ui-snippets/price-range-slider/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

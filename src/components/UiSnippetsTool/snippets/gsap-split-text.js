@@ -127,12 +127,11 @@ Change the per-mode staggers, add \`from: 'random'\` scatter, or attach the entr
       { title: 'Resize-aware', text: `3.13 re-splits lines on wrap changes.` },
     ],
     useCases: [
-      { title: 'Hero headlines', text: `Character entrances for landing pages; exit them with [scroll hero exit](/ui-snippets/scroll-hero-exit/).` },
-      { title: 'Editorial intros', text: `Masked line reveals for articles, beside a [reading time left](/ui-snippets/scroll-reading-time/) pill.` },
-      { title: 'Scroll-triggered copy', text: `Attach to ScrollTrigger like [text reveal on scroll](/ui-snippets/text-reveal-scroll/).` },
-      { title: 'Word-wheel pairings', text: `Static structure via SplitText, rotating slot via [scroll word wheel](/ui-snippets/scroll-word-wheel/).` },
-      { title: 'Quote moments', text: `Line-by-line pull quotes, styled like [pull quote](/ui-snippets/pull-quote/).` },
-      { title: 'Loading transitions', text: `Re-split and replay on route changes, after a [top loading bar](/ui-snippets/top-loading-bar/).` },
+      { title: 'Hero headline entrances', text: 'Reveal characters, words or whole lines from one split, with a built-in mask option creating clip wrappers for rising text.' },
+      { title: 'Editorial masked line reveals', text: 'Bring articles to life, where SplitText measures real wrap points after layout so line splitting matches what readers see.' },
+      { title: 'Scroll-triggered copy', text: 'Attach to ScrollTrigger like a [text reveal scroll](/ui-snippets/text-reveal-scroll/) section, and see [scroll hero exit](/ui-snippets/scroll-hero-exit/) for the matching outro.' },
+      { title: 'Pull quote moments', text: 'Reveal a [pull quote](/ui-snippets/pull-quote/) line by line, reverting cleanly so the original markup is restored between modes.' },
+      { title: 'Route transition replays', text: 'Re-split and replay on page changes beside a [top loading bar](/ui-snippets/top-loading-bar/), or pair with a [scroll word wheel](/ui-snippets/scroll-word-wheel/) for rotating words.' },
       { icon: 'CODE', title: 'Related: Page Flip', desc: 'See the [Page Flip](/ui-snippets/page-flip/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -144,10 +144,11 @@ Dragging is enabled with dragEnabled: true, and the dragSortHeuristics options t
       'Layout refreshed on window resize',
     ],
     useCases: [
-      { icon: 'WEB', title: 'Portfolios and project galleries', desc: `Let visitors filter work and curate what they see. For a card-focused layout with a sliding row see the [Swiper multi-row grid](/ui-snippets/swiper-multirow-grid-carousel/).` },
-      { icon: 'DASH', title: 'Personal boards and bookmark walls', desc: `Search and rearrange saved items freely.` },
-      { icon: 'SHOP', title: 'Wishlists and comparison walls', desc: `Group and reorder products the user is considering.` },
-      { icon: 'LEARN', title: 'Learning combined layout features', desc: `A rare example where filter, sort and drag share one source of truth.` },
+      { icon: '🖼️', title: 'Portfolio and project galleries', desc: 'Let visitors filter, search, sort and reorder work in one animated masonry layout, using a single predicate that combines category chips and search text.' },
+      { icon: '📌', title: 'Bookmark and board walls', desc: 'Search and rearrange saved items freely, with `fillGaps` packing cards of different heights into tight columns.' },
+      { icon: '🛒', title: 'Wishlist and comparison walls', desc: 'Group and reorder products to compare, with sort and shuffle operating on the very same list that users can drag.' },
+      { icon: '🎠', title: 'Carousel alternative', desc: 'Compare with the [Swiper multirow grid carousel](/ui-snippets/swiper-multirow-grid-carousel/) when a swipeable paged grid suits the content better than a free-form wall.' },
+      { icon: '🎓', title: 'Combined layout learning', desc: 'Study a rare example where filtering, sorting, shuffling and dragging all share one layout engine, instead of fighting each other.' },
     ],
     faqs: [
       { q: 'How is Muuri different from Isotope or Sortable?', a: 'Muuri combines filtering, sorting, masonry packing and drag-and-drop in one engine, so all of them work on the same layout.' },

@@ -147,11 +147,11 @@ Add more \`data-annotate\` phrases and loop over \`document.querySelectorAll('[d
       { title: 'Ellipse-based circling', text: 'A heading annotation uses rc.ellipse() sized larger than the text to read as "circled," not outlined.' },
     ],
     useCases: [
-      { icon: 'LEARN', title: 'Interactive reading/study tools', text: 'Let readers toggle emphasis marks over real article or textbook text.' },
-      { icon: 'DESIGN', title: 'Marketing pages with hand-marked callouts', text: 'Draw attention to a key phrase or heading with an informal, human touch.' },
-      { icon: 'CODE', title: 'Documentation emphasis', text: 'Circle a critical warning or highlight a key term without editing the underlying markup.' },
-      { icon: 'APP', title: 'Annotation/review tools', text: 'A foundation for letting users mark up shared documents with sketch-style highlights.' },
-      { icon: 'STAR', title: 'Teaching canvas-over-DOM overlays', text: 'A clear reference for combining getBoundingClientRect with a decorative canvas layer.' },
+      { title: 'Interactive reading and study tools', text: 'Let readers toggle hand-drawn emphasis on key passages, with real selectable text under a transparent canvas overlay instead of an image of the page.' },
+      { title: 'Marketing callouts', text: 'Draw attention to a key phrase with a sketched highlighter mark or circle, positioned live from each element\'s `getBoundingClientRect`.' },
+      { title: 'Documentation emphasis', text: 'Circle a critical warning or highlight a requirement, while find-in-page, screen readers and SEO all keep working on the underlying text.' },
+      { title: 'Review and annotation tools', text: 'Provide a foundation for letting users mark up content, with viewport coordinates converted to wrapper-relative positions for the canvas.' },
+      { title: 'Canvas-over-DOM reference', text: 'Study the layering of an absolutely positioned canvas behind or above live text, and how annotations redraw when the layout changes.' },
     ],
     faqs: [
       { q: 'How does the highlight avoid covering up the text it\'s supposed to highlight?', a: 'The canvas is positioned absolutely and given a lower z-index (1) than the real text elements, which have position: relative and z-index: 2. Both being stacking contexts on the same page, the browser paints the canvas first and the text second, so the yellow hachure fill visually sits behind the text rather than obscuring it — the same visual relationship as a highlighter mark showing through printed paper.' },

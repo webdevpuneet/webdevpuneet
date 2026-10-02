@@ -138,12 +138,11 @@ A live summary counts the selected leaf items, demonstrating how to read the tre
       { title: 'No library', text: `Pure HTML/CSS/JS — no tree or form component.` },
     ],
     useCases: [
-      { title: 'Permission grids', text: `Assign grouped capabilities in a [settings panel](/ui-snippets/settings-panel/).` },
-      { title: 'Category and tag pickers', text: `Select nested categories alongside a [faceted filter sidebar](/ui-snippets/faceted-filter-sidebar/).` },
-      { title: 'File and folder selection', text: `Pick items in a [file manager UI](/ui-snippets/file-manager-ui/) with parent folders.` },
-      { title: 'Notification preferences', text: `Group channels under topics in a [notification preferences](/ui-snippets/notification-preferences/) panel.` },
-      { title: 'Column and field toggles', text: `Show/hide grouped fields, like a [column toggle](/ui-snippets/data-table-column-toggle/).` },
-      { title: 'Learning tri-state checkboxes', text: `A reference for indeterminate state and two-way propagation.` },
+      { title: 'Permission grids', text: 'Assign grouped capabilities in a [settings panel](/ui-snippets/settings-panel/), with parents ticking all children and showing a dash when only some are selected.' },
+      { title: 'Category and tag filters', text: 'Select nested categories alongside a [faceted filter sidebar](/ui-snippets/faceted-filter-sidebar/), using the real DOM `indeterminate` property for mixed parents.' },
+      { title: 'File and folder selection', text: 'Pick items inside a [file manager UI](/ui-snippets/file-manager-ui/), with child changes propagating upward to recompute each parent.' },
+      { title: 'Notification preferences', text: 'Group channels under topics in [notification preferences](/ui-snippets/notification-preferences/), with expand and collapse keeping a long tree manageable.' },
+      { title: 'Column visibility toggles', text: 'Show or hide grouped fields like a [data table column toggle](/ui-snippets/data-table-column-toggle/), cascading down and recalculating up in one pass.' },
       { icon: 'CODE', title: 'Related: CSS color-mix() Playground', desc: 'See the [CSS color-mix() Playground](/ui-snippets/color-mix-playground/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -98,12 +98,11 @@ Add or remove phrases in the \`strings\` array, tune \`typeSpeed\`/\`backSpeed\`
       { title: 'Minimal setup', text: `One constructor call replaces manual interval-based typing logic.` },
     ],
     useCases: [
-      { title: 'Multi-audience SaaS heroes', text: `Cycle through customer segments in a [Hero Section](/ui-snippets/hero-section/).` },
-      { title: 'Recruiting / careers pages', text: `Rotate through roles or values a company hires for.` },
-      { title: 'Personal portfolio intros', text: `Cycle job titles or skills, similar to [Typewriter](/ui-snippets/typewriter/).` },
-      { title: 'Agency landing pages', text: `Rotate industries or services the agency specializes in.` },
-      { title: 'Product positioning pages', text: `Show several use cases for one product without separate heroes.` },
-      { title: 'App onboarding intros', text: `Cycle through feature highlights before the sign-up flow.` },
+      { title: 'Multi-audience SaaS heroes', text: 'Cycle through customer segments in one headline, driven by a single `strings` array that supports an unlimited loop.' },
+      { title: 'Recruiting and careers pages', text: 'Rotate roles or values, with `backDelay` controlling how long each finished phrase stays visible for reading.' },
+      { title: 'Personal portfolio intros', text: 'Cycle job titles or skills in a personal portfolio introduction, with `typeSpeed` and `backSpeed` tuned independently for each direction.' },
+      { title: 'Agency landing pages', text: 'Rotate industries or services under a standard [hero section](/ui-snippets/hero-section/), using `smartBackspace` to avoid deleting shared prefixes.' },
+      { title: 'Positioning and onboarding', text: 'Show several use cases for one product, or compare with the lighter [typewriter](/ui-snippets/typewriter/) effect for a single phrase.' },
       { icon: 'CODE', title: 'Related: Hero with Animated Stat Counters', desc: 'See the [Hero with Animated Stat Counters](/ui-snippets/hero-stats-counter-row/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

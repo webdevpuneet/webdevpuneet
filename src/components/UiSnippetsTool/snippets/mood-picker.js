@@ -136,12 +136,11 @@ Faces lift and scale on hover with a short transition, giving the control a play
       { title: 'No library', text: `Pure HTML/CSS/JS/SVG — no emoji assets or rating widget.` },
     ],
     useCases: [
-      { title: 'Satisfaction surveys', text: `Capture a quick mood before a comment box or [review form](/ui-snippets/review-form/).` },
-      { title: 'Support ticket closeout', text: `Rate a resolved issue in a [comment thread](/ui-snippets/comment-thread/).` },
-      { title: 'Post-session check-ins', text: `Ask how a call or lesson went with a friendly face row.` },
-      { title: 'Feedback widgets', text: `Drop into a [feedback tab widget](/ui-snippets/feedback-tab-widget/) for one-tap sentiment.` },
-      { title: 'Daily mood journaling', text: `Log a daily mood next to a [streak tracker](/ui-snippets/streak-tracker/).` },
-      { title: 'Learning SVG + ARIA', text: `A reference for SVG faces and radio-group accessibility.` },
+      { title: 'Satisfaction surveys', text: 'Capture a quick mood before a written comment, using inline SVG faces whose mouths curve from a frown to a grin.' },
+      { title: 'Support ticket closeout', text: 'Rate a resolved issue in a [comment thread](/ui-snippets/comment-thread/), where hovering previews a mood without changing the saved value.' },
+      { title: 'Post-session check-ins', text: 'Ask how a call or lesson went with a [review form](/ui-snippets/review-form/) for details, and a click committing the score.' },
+      { title: 'Feedback widgets', text: 'Drop into a [feedback tab widget](/ui-snippets/feedback-tab-widget/) for one-click sentiment, avoiding emoji font inconsistencies across platforms and devices.' },
+      { title: 'Daily mood journaling', text: 'Log a daily mood next to a [streak tracker](/ui-snippets/streak-tracker/), and learn SVG with radio-group ARIA roles for accessible faces.' },
       { icon: 'CODE', title: 'Related: Shortcut Recorder', desc: 'See the [Shortcut Recorder](/ui-snippets/shortcut-recorder/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

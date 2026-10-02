@@ -181,12 +181,11 @@ Replace the schedule computation with the actual plan returned by your BNPL prov
       { title: 'Tabular installment amounts', text: `Monospaced numerals keep the schedule list visually steady.` },
     ],
     useCases: [
-      { title: 'E-commerce checkout', text: `Offer BNPL alongside full payment, next to a [promo code input](/ui-snippets/promo-code-input/) and [order summary](/ui-snippets/order-summary/).` },
-      { title: 'Multi-step checkout flows', text: `Slot this as the payment-method step inside a [multi-step checkout](/ui-snippets/multi-step-checkout/).` },
-      { title: 'Subscription upgrades', text: `Let users split a large annual upgrade into installments.` },
-      { title: 'High-ticket purchases', text: `Show installment framing for electronics, furniture, or travel bookings.` },
-      { title: 'Mobile checkout', text: `The stacked card layout works cleanly on narrow viewports without a redesign.` },
-      { title: 'A/B testing payment framing', text: `Swap which option is pre-selected to test conversion impact of default framing.` },
+      { title: 'E-commerce checkout options', text: 'Offer Pay in 4 beside full payment, with a revealed schedule panel instead of a hidden tooltip, next to a [promo code input](/ui-snippets/promo-code-input/).' },
+      { title: 'Multi-step payment methods', text: 'Slot in as the payment step of a [multi-step checkout](/ui-snippets/multi-step-checkout/), using native radio inputs for keyboard navigation and form submission.' },
+      { title: 'Subscription upgrades', text: 'Let users split a large annual upgrade into instalments, with amounts and dates computed from the order total and today\'s date.' },
+      { title: 'High-ticket purchases', text: 'Show instalment framing for electronics or furniture, marking the first payment as due at checkout so today\'s charge is clear.' },
+      { title: 'Order summary pairing', text: 'Place beside an [order summary](/ui-snippets/order-summary/) on mobile, where stacked cards work well, and A/B test which option is pre-selected.' },
       { icon: 'CODE', title: 'Related: Cascading Select', desc: 'See the [Cascading Select](/ui-snippets/cascading-select/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

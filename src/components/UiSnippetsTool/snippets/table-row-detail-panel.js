@@ -152,12 +152,11 @@ The list intentionally shows only three columns (From, Subject, Date) with \`tex
       { title: 'Data-driven & no library', text: `Renders from a MESSAGES array of objects — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Inbox and messaging UIs', text: `The canonical master-detail pattern — pair with a [table search highlight](/ui-snippets/table-search-highlight/) box to filter the list.` },
-      { title: 'Support ticket queues', text: `Show full ticket context in a panel beside a compact queue list.` },
-      { title: 'CRM contact browsers', text: `Click a contact row to inspect full details without navigating away.` },
-      { title: 'Admin record inspectors', text: `Pair with a [selectable table](/ui-snippets/selectable-table/) for list-plus-inspect-plus-bulk-action workflows.` },
-      { title: 'Log and event viewers', text: `Click an event row to see its full payload in a side panel.` },
-      { title: 'Learning list-detail patterns', text: `A reference for master-detail state — compare with an [expandable table](/ui-snippets/expandable-table/)'s inline accordion approach.` },
+      { title: 'Inbox and messaging layouts', text: 'Build the canonical list and reading pane, where clicking a row updates a detail panel instantly rather than expanding inline.' },
+      { title: 'Ticket reading panes', text: 'Show full ticket context in an adjacent panel, with a [table search highlight](/ui-snippets/table-search-highlight/) helping agents find the right ticket first.' },
+      { title: 'CRM contact browsers', text: 'Click a contact row to inspect full details, with one selected id driving both the row highlight and the panel.' },
+      { title: 'Admin record inspectors', text: 'Pair with a [selectable table](/ui-snippets/selectable-table/) when both bulk actions and single-record detail are needed on the same admin screen.' },
+      { title: 'Master-detail versus accordion', text: 'Compare with an [expandable table](/ui-snippets/expandable-table/) that opens details inline, and study the empty state shown before any row is chosen.' },
     ],
     faqs: [
       { q: 'How is this different from an expandable/accordion table row?', a: `An expandable row grows taller in place to reveal its detail, pushing every row beneath it down the page — the list's layout changes with every click. This pattern keeps the list a fixed grid and shows detail in a completely separate panel beside it, so clicking different rows never resizes or reflows the list itself — exactly like an email client's message list and reading pane.` },

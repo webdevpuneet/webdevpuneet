@@ -112,12 +112,11 @@ Swap the accent colour, adjust the padding to change the float distance, or rest
       { title: 'Smooth motion', text: `Transform and color transitions.` },
     ],
     useCases: [
-      { title: 'Signup forms', text: `Sit beside a [floating label](/ui-snippets/floating-label/) input.` },
-      { title: 'Checkout', text: `Country and region in a [checkout form](/ui-snippets/checkout-form/).` },
-      { title: 'Settings', text: `Preference dropdowns on a [settings panel](/ui-snippets/settings-panel/).` },
-      { title: 'Filters', text: `Compact selects above a [filterable table](/ui-snippets/filterable-table/).` },
-      { title: 'Onboarding', text: `Profile fields in a [multi-step form](/ui-snippets/multi-step-form/).` },
-      { title: 'Validation', text: `Combine with an [inline validation form](/ui-snippets/inline-validation-form/).` },
+      { title: 'Signup form dropdowns', text: 'Sit beside a [floating label](/ui-snippets/floating-label/) text input so selects and inputs share the same rising-label behaviour.' },
+      { title: 'Checkout country and region', text: 'Offer country and region choices in a [checkout form](/ui-snippets/checkout-form/), keeping the real native select for mobile pickers and accessibility.' },
+      { title: 'Settings preferences', text: 'Place preference dropdowns in a [settings panel](/ui-snippets/settings-panel/), with a caret that flips 180 degrees on focus.' },
+      { title: 'Table filters', text: 'Use compact selects above a [filterable table](/ui-snippets/filterable-table/), where a hidden empty option keeps the control truly blank until chosen.' },
+      { title: 'Multi-step and validated forms', text: 'Collect profile fields in a [multi-step form](/ui-snippets/multi-step-form/), and combine with an [inline validation form](/ui-snippets/inline-validation-form/) for error feedback.' },
       { icon: 'CODE', title: 'Related: Mood Picker', desc: 'See the [Mood Picker](/ui-snippets/mood-picker/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

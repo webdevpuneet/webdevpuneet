@@ -135,12 +135,11 @@ Add filtering (set \`display: none\` inside the mutation and pass \`onEnter\`/\`
       { title: 'Layout-agnostic', text: `Works with grid, flex, or floats unchanged.` },
     ],
     useCases: [
-      { title: 'Filterable galleries', text: `Animate category filtering; compare the vanilla [portfolio filter grid](/ui-snippets/portfolio-filter-grid/).` },
-      { title: 'Sortable dashboards', text: `Reorder KPI cards by metric; style them like a [metric card grid](/ui-snippets/metric-card-grid/).` },
-      { title: 'View switchers', text: `Grid/list toggles in file browsers, as in [file manager UI](/ui-snippets/file-manager-ui/).` },
-      { title: 'Kanban-style moves', text: `Animate card re-slotting alongside a [kanban board](/ui-snippets/kanban-board/).` },
-      { title: 'Shared-element flows', text: `Expand an item to a detail view with [flip card modal](/ui-snippets/flip-card-modal/).` },
-      { title: 'Drag reordering', text: `Pair with [drag sort list](/ui-snippets/drag-sort-list/) for pointer-driven order.` },
+      { title: 'Filterable galleries', text: 'Animate category filtering alongside a [portfolio filter grid](/ui-snippets/portfolio-filter-grid/), with GSAP Flip capturing state, mutating the DOM and playing from the old positions.' },
+      { title: 'Sortable dashboards', text: 'Reorder KPI cards by metric using a [metric card grid](/ui-snippets/metric-card-grid/), with sort and shuffle sharing one `withFlip()` wrapper.' },
+      { title: 'View switchers', text: 'Toggle grid and list layouts as in a [file manager UI](/ui-snippets/file-manager-ui/), with `absolute: true` flights letting items cross without disturbing siblings.' },
+      { title: 'Kanban-style re-slotting', text: 'Animate card movement alongside a [kanban board](/ui-snippets/kanban-board/), so people never lose track of what moved where.' },
+      { title: 'Shared-element and drag flows', text: 'Expand items into details like a [flip card modal](/ui-snippets/flip-card-modal/), or pair with a [drag sort list](/ui-snippets/drag-sort-list/) for pointer-driven reordering.' },
       { icon: 'CODE', title: 'Related: Priority Matrix Board', desc: 'See the [Priority Matrix Board](/ui-snippets/priority-matrix-board/) for a related layouts pattern worth pairing with this one.' },
     ],
     faqs: [

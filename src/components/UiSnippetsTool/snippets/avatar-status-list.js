@@ -136,12 +136,11 @@ Swap initials for real avatar images, add more statuses (e.g. "in a meeting"), c
       { title: 'API-ready', text: `Drive status from a websocket feed.` },
     ],
     useCases: [
-      { title: 'Chat apps', text: `Presence beside a [comment thread](/ui-snippets/comment-thread/).` },
-      { title: 'Team panels', text: `An alternative to a [team presence list](/ui-snippets/team-presence-list/).` },
-      { title: 'Collaboration', text: `Pair with [multiplayer cursors](/ui-snippets/multiplayer-cursors/).` },
-      { title: 'Overlapping avatars', text: `Summarize with an [avatar group](/ui-snippets/avatar-group/).` },
-      { title: 'Dashboards', text: `Add to a [dashboard layout](/ui-snippets/dashboard-layout/) sidebar.` },
-      { title: 'Support queues', text: `Show agents on a [status dashboard](/ui-snippets/status-dashboard/).` },
+      { title: 'Chat presence panels', text: 'Show who is online beside a [comment thread](/ui-snippets/comment-thread/), with a pulsing ring on online members created by layered box-shadow keyframes.' },
+      { title: 'Team presence alternatives', text: 'Offer a richer variant of the [team presence list](/ui-snippets/team-presence-list/), with the list sorting itself so online people rise and offline sink.' },
+      { title: 'Collaboration tools', text: 'Pair with [multiplayer cursors](/ui-snippets/multiplayer-cursors/) so a live document shows both who is present and where they are working.' },
+      { title: 'Compact summaries', text: 'Condense the list into an [avatar group](/ui-snippets/avatar-group/) where space is tight, keeping the same colour-coded status meanings.' },
+      { title: 'Dashboard sidebars and support queues', text: 'Add to a [dashboard layout](/ui-snippets/dashboard-layout/) sidebar, or show available agents on a [status dashboard](/ui-snippets/status-dashboard/) for a support team.' },
       { icon: 'CODE', title: 'Related: CSS backdrop-filter Playground', desc: 'See the [CSS backdrop-filter Playground](/ui-snippets/css-backdrop-filter-playground/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

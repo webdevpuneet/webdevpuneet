@@ -162,12 +162,11 @@ Add a fifth testimonial and a matching \`.tss-step\` with the next \`data-index\
       { title: 'Responsive fallback', text: `Sticky card hides and context labels read as a plain list on narrow viewports.` },
     ],
     useCases: [
-      { title: 'SaaS marketing and pricing pages', text: `Narrate multiple customer voices without a click-driven carousel.` },
-      { title: 'Case study landing pages', text: `Pair each testimonial with a specific outcome or metric as scroll context.` },
-      { title: 'Sales enablement microsites', text: `Walk prospects through varied customer profiles who solved similar problems.` },
-      { title: 'Agency or consultancy portfolios', text: `Show client feedback tied to distinct project types.` },
-      { title: 'App store or product landing pages', text: `Reveal reviews from different user segments as visitors scroll features.` },
-      { title: 'Investor or partner-facing pages', text: `Present customer validation as a paced narrative rather than a static grid.` },
+      { title: 'SaaS marketing narratives', text: 'Narrate several customer stories while one sticky quote card swaps content as short context labels scroll past, using a native IntersectionObserver.' },
+      { title: 'Case study landing pages', text: 'Pair each testimonial with the specific situation it came from, with swaps firing when a context label sits in the middle band of the viewport.' },
+      { title: 'Sales enablement microsites', text: 'Walk prospects through varied customer voices, with a brief opacity dip giving each testimonial its own distinct moment.' },
+      { title: 'Agency portfolio feedback', text: 'Show client feedback tied to the project it concerns, rewriting a single stable card in place so its position never jumps.' },
+      { title: 'Product page reviews and partner validation', text: 'Reveal reviews from different customer types on an app page, or present customer validation to investors and partners in the same format.' },
       { icon: 'CODE', title: 'Related: Three.js Scroll Fold Cards', desc: 'See the [Three.js Scroll Fold Cards](/ui-snippets/three-scroll-fold-cards/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

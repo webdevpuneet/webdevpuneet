@@ -101,12 +101,11 @@ Tune the \`MAX\` constant to make the tilt subtler or more dramatic, change the 
       { title: 'Content-agnostic', text: `Wrap any markup in the card.` },
     ],
     useCases: [
-      { title: 'Pricing tiers', text: `Make a [pricing card](/ui-snippets/pricing-card/) interactive.` },
-      { title: 'Feature highlights', text: `Tilt a [spotlight card](/ui-snippets/spotlight-card/) on hover.` },
-      { title: 'Product showcases', text: `Lift a [product card](/ui-snippets/product-card/) toward the user.` },
-      { title: 'Portfolio grids', text: `Add depth to [focus cards](/ui-snippets/focus-cards/).` },
-      { title: 'Hero callouts', text: `A floating panel above a [gradient mesh hero](/ui-snippets/gradient-mesh-hero/).` },
-      { title: 'Dashboards', text: `Make a [glass stat card](/ui-snippets/glass-stat-card/) feel tactile.` },
+      { title: 'Interactive pricing tiers', text: 'Make a [pricing card](/ui-snippets/pricing-card/) feel alive, tilting in 3D toward the cursor with a radial glow tracking the pointer.' },
+      { title: 'Feature highlights', text: 'Tilt a [spotlight card](/ui-snippets/spotlight-card/) on hover so a key feature leans toward the visitor, with content floating above through `translateZ`.' },
+      { title: 'Product showcase lift', text: 'Lift a [product card](/ui-snippets/product-card/) toward the user, using only transform changes so no layout reflow occurs.' },
+      { title: 'Portfolio grids', text: 'Add depth to [focus cards](/ui-snippets/focus-cards/) or project tiles, with rotateX and rotateY mapped to pointer position.' },
+      { title: 'Hero callouts and dashboards', text: 'Float a panel above a [gradient mesh hero](/ui-snippets/gradient-mesh-hero/), or make a [glass stat card](/ui-snippets/glass-stat-card/) feel tactile.' },
     ],
     faqs: [
       { q: 'How does the card know which way to tilt?', a: `On each mousemove the handler reads getBoundingClientRect() and turns the cursor position into ratios from 0 to 1 across the card. Those ratios map to rotateX and rotateY angles, inverted per axis so the corner under the pointer lifts toward you. A perspective(800px) prefix turns the rotation into real depth instead of a flat skew.` },

@@ -119,12 +119,11 @@ Swap the simulated \`BOOKED\` array for real reserved dates fetched from a booki
       { title: 'Tooltip on booked dates', text: `A title attribute explains why a date cannot be clicked.` },
     ],
     useCases: [
-      { title: 'Vacation rental and hotel booking', text: `Exactly this pattern for showing real availability.` },
-      { title: 'Equipment or venue reservation systems', text: `Any resource with date-based availability windows.` },
-      { title: 'Appointment scheduling with blocked days', text: `Pair with the [time picker](/ui-snippets/flatpickr-time-picker-intervals/) elsewhere in this collection for a full date-plus-time flow.` },
-      { title: 'Class or workshop session sign-ups', text: `Show which session dates are already full.` },
-      { title: 'Delivery date selection with blackout days', text: `Holidays or capacity-limited days marked unavailable.` },
-      { title: 'Learning Flatpickr hooks', text: `A clear reference for onDayCreate and data-driven disabling.` },
+      { title: 'Vacation rental booking', text: 'Show already-booked nights as both unselectable and struck through, driven by one shared data array for blocking and styling.' },
+      { title: 'Equipment and venue reservations', text: 'Prevent clicks on unavailable days for any resource, using the `disable` option so the restriction is functional and not merely cosmetic.' },
+      { title: 'Appointment scheduling with blocked days', text: 'Pair with the [Flatpickr time picker with intervals](/ui-snippets/flatpickr-time-picker-intervals/) so a date and an available time are chosen together.' },
+      { title: 'Workshop session sign-ups', text: 'Show which session dates are full, with `onDayCreate` adding a custom class per cell based on real booking data.' },
+      { title: 'Delivery blackout days', text: 'Mark holidays or capacity-limited days, and derive the checkout date automatically from the chosen check-in instead of a second pick.' },
     ],
     faqs: [
       { q: 'How are booked dates both unselectable and visually distinct from one data source?', a: `The same BOOKED array of ISO date strings is used two ways: passed directly to Flatpickr's disable option (which makes those dates functionally unclickable) and checked inside an onDayCreate handler that adds a custom booked-date CSS class to matching day cells (which makes them visually struck through and red). Because both behaviors read from the identical array, there's no way for a date to be blocked without also looking blocked, or vice versa.` },

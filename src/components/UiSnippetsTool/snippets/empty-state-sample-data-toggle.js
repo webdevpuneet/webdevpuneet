@@ -160,12 +160,11 @@ Swap the illustration and copy for your own resource type (contacts, invoices, c
       { title: 'Easy to theme', text: `Swap the illustration, copy, and sample data for any resource type.` },
     ],
     useCases: [
-      { title: 'Project & task dashboards', text: `Preview a populated project list before a user creates their first one.` },
-      { title: 'CRM and pipeline tools', text: `Show sample deals or contacts so a new user understands the layout.` },
-      { title: 'Analytics dashboards', text: `Pair with a [skeleton dashboard](/ui-snippets/skeleton-dashboard/) loading state for the fully-onboarded view.` },
-      { title: 'Onboarding flows', text: `Combine with an [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/) for a guided first session.` },
-      { title: 'Table-based tools', text: `Use the same toggle pattern in front of a [filterable table](/ui-snippets/filterable-table/) or [editable table](/ui-snippets/editable-table/).` },
-      { title: 'Feature discovery', text: `Let users self-demo a feature before committing, reducing drop-off on first run.` },
+      { title: 'Project and task dashboards', text: 'Preview a populated project list before a user commits to creating anything, so they understand what the feature will look like when full.' },
+      { title: 'CRM and pipeline tools', text: 'Show sample deals or contacts so a new user can see the value of the product, with a persistent Sample data tag preventing confusion with real records.' },
+      { title: 'Analytics previews before data', text: 'Pair with a [skeleton dashboard](/ui-snippets/skeleton-dashboard/) loading state, so empty, loading and populated views are all designed.' },
+      { title: 'Onboarding flows', text: 'Combine with an [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/) so the first step can be exploring sample content or creating a real item.' },
+      { title: 'Table-based tools', text: 'Use the same toggle in front of a [filterable table](/ui-snippets/filterable-table/) or [editable table](/ui-snippets/editable-table/), with a one-click Clear sample data button beside the tag.' },
       { icon: 'CODE', title: 'Related: Now Playing Mini Player', desc: 'See the [Now Playing Mini Player](/ui-snippets/now-playing-mini-player/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

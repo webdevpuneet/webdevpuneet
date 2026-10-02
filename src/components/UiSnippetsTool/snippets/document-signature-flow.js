@@ -227,12 +227,11 @@ Change stroke color/width, add a typed-name fallback for accessibility, or send 
       { title: 'Real formatted timestamp', text: `toLocaleString records the actual sign time.` },
     ],
     useCases: [
-      { title: 'Contract & agreement signing', text: `A self-contained sign-here flow for documents.` },
-      { title: 'Delivery proof-of-receipt', text: `Capture a recipient's signature on delivery.` },
-      { title: 'Onboarding/HR paperwork', text: `Sign offer letters or policy acknowledgments.` },
-      { title: 'Consent forms', text: `Pair with [terms acceptance checkbox](/ui-snippets/terms-acceptance-checkbox/).` },
-      { title: 'Standalone signature capture', text: `Reuse the pad alone via [signature pad](/ui-snippets/signature-pad/).` },
-      { title: 'Field service apps', text: `Capture a customer's sign-off on-site.` },
+      { title: 'Contract and agreement signing', text: 'Provide a self-contained sign-here flow with a real canvas signature pad, a Clear button and a timestamped confirmation after Sign and Submit.' },
+      { title: 'Delivery proof of receipt', text: 'Capture a recipient\'s signature on delivery, with pointer capture keeping the stroke tracking even when the finger leaves the canvas edge.' },
+      { title: 'HR onboarding paperwork', text: 'Sign offer letters or policy acknowledgements in the browser, with unified pointer events supporting mouse, touch and stylus identically.' },
+      { title: 'Consent forms', text: 'Pair with a [terms acceptance checkbox](/ui-snippets/terms-acceptance-checkbox/) so a person agrees to the terms and then signs, with coordinate mapping putting ink exactly under the cursor.' },
+      { title: 'Standalone pad reuse', text: 'Lift the pad out as a [signature pad](/ui-snippets/signature-pad/) for any capture task, such as a field service customer signing off a completed job.' },
       { icon: 'CODE', title: 'Related: Focus Mode / Do Not Disturb Status Toggle', desc: 'See the [Focus Mode / Do Not Disturb Status Toggle](/ui-snippets/focus-status-toggle/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

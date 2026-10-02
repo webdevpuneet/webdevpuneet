@@ -96,12 +96,11 @@ Adjust each layer's \`data-rellax-speed\` to taste (Rellax typically expects val
       { title: 'Blurred color blobs', text: `A soft gradient blob mid-layer adds atmosphere with pure CSS.` },
     ],
     useCases: [
-      { title: 'Landing page heroes', text: `A lighter-weight alternative to [Parallax Hero Section](/ui-snippets/parallax-hero/) for scroll-only depth.` },
-      { title: 'Product launch pages', text: `Layer product shots and glow effects at different scroll speeds.` },
-      { title: 'Event and conference pages', text: `Add drifting shapes behind a [Hero Section](/ui-snippets/hero-section/) headline.` },
-      { title: 'Editorial / storytelling pages', text: `Build scroll-driven scene depth without custom parallax math.` },
-      { title: 'Agency portfolio intros', text: `Demonstrate motion craft with minimal JavaScript overhead.` },
-      { title: 'App marketing sites', text: `Combine with [Scroll Reveal Grid](/ui-snippets/scroll-reveal-grid/) feature sections below.` },
+      { title: 'Landing page heroes', text: 'Build a layered hero where each element\'s depth is one `data-rellax-speed` attribute, as a lighter alternative to a full [parallax hero](/ui-snippets/parallax-hero/).' },
+      { title: 'Launch page layered shots', text: 'Layer product shots and glow shapes at different speeds, with `translate3d` keeping the movement composited off the main thread.' },
+      { title: 'Event and conference sites', text: 'Add drifting shapes behind a [hero section](/ui-snippets/hero-section/), wiring every tagged layer with one `new Rellax()` call.' },
+      { title: 'Editorial scene building', text: 'Build scroll-driven scenes for editorial and storytelling pages without hand-writing scroll maths for every layer of the illustration.' },
+      { title: 'App marketing combinations', text: 'Combine with a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) of features below, while one shared scroll listener updates all parallax layers regardless of count.' },
       { icon: 'CODE', title: 'Related: Scroll 3D Flip Reveal', desc: 'See the [Scroll 3D Flip Reveal](/ui-snippets/scroll-3d-flip-reveal/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

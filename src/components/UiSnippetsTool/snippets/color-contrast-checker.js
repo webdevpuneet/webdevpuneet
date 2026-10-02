@@ -143,12 +143,11 @@ The luminance and ratio functions are pure and dependency-free — you can lift 
       { title: 'No library', text: `Pure HTML/CSS/JS — no color or accessibility package.` },
     ],
     useCases: [
-      { title: 'Design-system token checks', text: `Validate text-on-surface pairings, then apply them in a [color swatch](/ui-snippets/color-swatch/).` },
-      { title: 'Theme building', text: `Test palette choices from a [theme palette generator](/ui-snippets/theme-palette-generator/).` },
-      { title: 'Accessibility audits', text: `Spot failing combinations before they ship.` },
-      { title: 'Dark mode tuning', text: `Verify contrast in both themes alongside a [color mode toggle](/ui-snippets/color-mode-toggle/).` },
-      { title: 'Brand and marketing pages', text: `Keep CTAs and headings legible without guesswork.` },
-      { title: 'Learning WCAG math', text: `A reference for relative luminance and the contrast formula.` },
+      { title: 'Design token validation', text: 'Validate text-on-surface pairs against the exact WCAG 2.x relative-luminance formula before they become part of a design system.' },
+      { title: 'Theme building', text: 'Test palette choices from a [theme palette generator](/ui-snippets/theme-palette-generator/), with pass or fail for AA and AAA at normal and large sizes.' },
+      { title: 'Accessibility audits', text: 'Spot failing combinations before launch, with a live preview rendering both big and small text in the chosen colours.' },
+      { title: 'Dark mode tuning', text: 'Verify contrast in both themes alongside a [colour mode toggle](/ui-snippets/color-mode-toggle/), where a pair that passes in light often fails in dark.' },
+      { title: 'Brand and marketing legibility', text: 'Keep calls to action and headings readable over brand colours, using a [colour swatch](/ui-snippets/color-swatch/) for the chosen pair.' },
       { icon: 'CODE', title: 'Related: Cron Expression Builder', desc: 'See the [Cron Expression Builder](/ui-snippets/cron-expression-builder/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

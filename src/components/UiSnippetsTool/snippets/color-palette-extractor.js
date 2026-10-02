@@ -185,12 +185,11 @@ Swap \`paintScene()\` for drawing an actual uploaded image via \`drawImage()\` a
       { title: 'Accessible labels', text: `Each swatch has an aria-label with its hex value.` },
     ],
     useCases: [
-      { title: 'Design tools', text: `Extract a palette from an uploaded reference image.` },
-      { title: 'Branding kits', text: `Pull accent colors from a logo or photo.` },
-      { title: 'Theming', text: `Generate a starting palette for a new UI theme.` },
-      { title: 'Mood boards', text: `Pair with a [gradient picker](/ui-snippets/gradient-picker/) for exploration.` },
-      { title: 'Product photography', text: `Extract dominant tones from product shots.` },
-      { title: 'Content tools', text: `Auto-suggest colors for a blog post's hero image.` },
+      { title: 'Design tool palettes', text: 'Pull a five-swatch palette from a reference image, sampled from real pixels with `getImageData` rather than invented values.' },
+      { title: 'Branding kits', text: 'Extract accent colours from a logo or photograph, with click-to-copy hex codes and a confirmation toast.' },
+      { title: 'UI theming', text: 'Generate a starting palette for a new theme, and regenerate to prove the swatches follow the underlying pixels.' },
+      { title: 'Mood board exploration', text: 'Pair with a [gradient picker](/ui-snippets/gradient-picker/) so the extracted colours can become the stops of a custom gradient straight away.' },
+      { title: 'Content and product tooling', text: 'Suggest hero colours for a blog post or extract dominant tones from product shots, where each regeneration paints a new random source scene.' },
       { icon: 'CODE', title: 'Related: GLB AR-Style Pedestal Viewer', desc: 'See the [GLB AR-Style Pedestal Viewer](/ui-snippets/glb-ar-pedestal-viewer/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

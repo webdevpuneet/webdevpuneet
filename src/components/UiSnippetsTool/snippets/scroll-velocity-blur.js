@@ -130,12 +130,11 @@ Raise \`MAX_BLUR\` for a more dramatic smear, tighten \`BLUR_SMOOTHING\` for a s
       { title: 'Tunable intensity', text: `MAX_BLUR and smoothing factors are simple constants.` },
     ],
     useCases: [
-      { title: 'Long-scroll editorial', text: `Add kinetic feel to fast reader scrolling.` },
-      { title: 'Portfolio sites', text: `Pair with [scroll skew velocity](/ui-snippets/scroll-skew-velocity/) cards.` },
-      { title: 'Product galleries', text: `Blur thumbnails during fast flicks, sharpen on settle.` },
-      { title: 'Marketing pages', text: `Add a tactile, physical feel to a long scroll.` },
-      { title: 'Image-heavy feeds', text: `Contrast with a calmer [scroll reveal grid](/ui-snippets/scroll-reveal-grid/).` },
-      { title: 'Interactive demos', text: `Show the live velocity meter as a teaching tool.` },
+      { title: 'Kinetic long-scroll editorial', text: 'Make fast scrolling feel physical, with blur computed continuously from real pixels-per-frame speed instead of a simple scrolling or still toggle.' },
+      { title: 'Portfolio motion pairing', text: 'Pair with [scroll skew velocity](/ui-snippets/scroll-skew-velocity/) cards so one effect blurs content and another shears it with momentum.' },
+      { title: 'Product gallery flicks', text: 'Blur thumbnails during fast flicks and sharpen them as scrolling slows, with an `rAF` loop clearing blur even if no final scroll event fires.' },
+      { title: 'Image-heavy feeds', text: 'Contrast with a calmer [scroll reveal grid](/ui-snippets/scroll-reveal-grid/), choosing between energetic and restrained approaches for the same content.' },
+      { title: 'Interactive velocity teaching', text: 'Use the visible velocity meter as a teaching aid, with two-stage smoothing preventing jitter in both the number and the blur.' },
       { icon: 'CODE', title: 'Related: Three.js Scroll Shatter & Assemble', desc: 'See the [Three.js Scroll Shatter & Assemble](/ui-snippets/three-scroll-shatter-assemble/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

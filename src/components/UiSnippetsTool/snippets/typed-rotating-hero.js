@@ -199,12 +199,11 @@ Rewrite \`STRINGS\` and the matching \`META\` array — keep them the same lengt
       { title: 'WCAG pause control', text: 'stop() and start() satisfy the pause requirement for looping motion.' },
     ],
     useCases: [
-      { title: 'Agency and SaaS heroes', text: 'Rotate through what you actually sell above the fold.' },
-      { title: 'Portfolio landings', text: 'Cycle roles or disciplines with the accent following each.' },
-      { title: 'Feature carousels', text: 'Pair with a [word flip hero](/ui-snippets/word-flip-hero/) for a quieter variant.' },
-      { title: 'Waitlist and launch pages', text: 'Type the benefit above a [waitlist signup](/ui-snippets/waitlist-signup/).' },
-      { title: 'Job and hiring pages', text: 'Rotate the roles you are hiring for with a color per team.' },
-      { title: 'Learning typewriter UX', text: 'A reference for smart backspace and callback-driven UI sync.' },
+      { title: 'Agency and SaaS heroes', text: 'Rotate through what you actually sell, with smart backspace rewinding only to where consecutive strings diverge.' },
+      { title: 'Portfolio landings', text: 'Cycle roles or disciplines, with a single `--accent` custom property retinting five elements as each line changes.' },
+      { title: 'Feature carousel pairings', text: 'Pair with a [word flip hero](/ui-snippets/word-flip-hero/) for a quieter variation, using cross-faded captions without mid-line flicker.' },
+      { title: 'Waitlist and launch pages', text: 'Type the benefit above a [waitlist signup](/ui-snippets/waitlist-signup/), with `preStringTyped` keeping accent colour and caption in step with the line.' },
+      { title: 'Hiring and typewriter learning', text: 'Rotate the roles you are hiring for, and study how to avoid layout jumps and screen reader noise that make rotating headlines hurt conversion.' },
       { icon: 'CODE', title: 'Related: Hero with Terminal Boot Sequence', desc: 'See the [Hero with Terminal Boot Sequence](/ui-snippets/hero-typewriter-terminal-boot/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

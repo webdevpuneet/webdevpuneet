@@ -171,12 +171,11 @@ Tune \`SHAKE_THRESHOLD\` and the cooldown window for stricter or looser detectio
       { title: `No dependency`, text: `Pure DeviceMotion API, no motion library.` },
     ],
     useCases: [
-      { title: `Note and email apps`, text: `Undo a delete or send with a physical shake.` },
-      { title: `Form and draft recovery`, text: `Shake to revert an accidental clear or discard.` },
-      { title: `Mobile games`, text: `Shake gestures for resets, re-rolls, or power-ups.` },
-      { title: `Accessibility-conscious undo`, text: `Always paired with a tappable equal alternative.` },
-      { title: `Progressive web apps`, text: `Add native-feeling gestures without a native shell.` },
-      { title: `Learning permission-gated APIs`, text: `A reference for feature-detect + honest fallback design.` },
+      { title: 'Note and email apps', text: 'Undo a delete or send with a physical shake, comparing consecutive acceleration readings from the real `devicemotion` event.' },
+      { title: 'Form and draft recovery', text: 'Revert an accidental clear by shaking, with an equal-weight tap button running the exact same undo function.' },
+      { title: 'Mobile game shortcuts', text: 'Use shake gestures for resets, re-rolls or power-ups, handling the three paths of unsupported, iOS permission-gated and ungated devices.' },
+      { title: 'Accessible undo', text: 'Always pair the gesture with a tappable control, since not everyone can shake a device reliably or at all.' },
+      { title: 'Permission-gated API learning', text: 'Study how iOS requires `requestPermission()` to be called from a real tap, as a reference for any permission-gated sensor API in a progressive web app.' },
     ],
     faqs: [
       { q: `How is a real shake distinguished from normal device movement?`, a: `Every devicemotion event provides an x/y/z acceleration reading. The handler computes the absolute difference between the current and previous reading on each axis and sums them into a single delta value. Only when that delta exceeds SHAKE_THRESHOLD does it count as a shake — a single still or slowly-moving reading never triggers it, since a shake is specifically a large change between consecutive samples, not a large single reading.` },

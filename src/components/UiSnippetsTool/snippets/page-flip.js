@@ -131,12 +131,11 @@ Many page-turn effects on the web reach for canvas or WebGL to draw a curling, p
       { title: 'Content-driven & no library', text: `Renders from a PAGES array in plain HTML/CSS/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Guides and tutorials', text: `Present steps as a flippable book — pair with a [multi-step modal](/ui-snippets/multi-step-modal/) for a wizard variant.` },
-      { title: 'Lookbooks and catalogs', text: `Flip through product pages or a photo album, alongside a [photo gallery](/ui-snippets/photo-gallery/).` },
-      { title: 'Storytelling and onboarding', text: `Turn intro content into a tactile reading experience.` },
-      { title: 'Recipe and instruction cards', text: `Page through steps like a recipe book.` },
-      { title: 'Portfolios and case studies', text: `Present work as turnable pages.` },
-      { title: 'Learning CSS 3D transforms', text: `A reference for spine rotation and backface hiding — compare with a [3D flip card](/ui-snippets/3d-flip-card/).` },
+      { title: 'Guides and tutorials', text: 'Present steps as a flippable book, with pages rotating around the spine thanks to `transform-origin: left`.' },
+      { title: 'Lookbooks and catalogues', text: 'Flip through product pages beside a [photo gallery](/ui-snippets/photo-gallery/), where perspective and `preserve-3d` give the turn real depth.' },
+      { title: 'Storytelling and onboarding', text: 'Turn introduction content into a tactile experience, with `backface-visibility` hiding the reverse so text never appears mirrored.' },
+      { title: 'Recipe and instruction cards', text: 'Page through steps like a real cookbook, updating z-index on every flip so the turning page stays above its neighbours.' },
+      { title: 'Portfolios and flip alternatives', text: 'Present case studies as turnable pages, or compare with a [3D flip card](/ui-snippets/3d-flip-card/) and a [multi-step modal](/ui-snippets/multi-step-modal/) for other sequential patterns.' },
     ],
     faqs: [
       { q: 'How does a page turn around the spine?', a: `Each page has transform-origin: left center, so when it's rotated with rotateY(-180deg) it pivots around its left edge — the spine — swinging across like a real page rather than spinning about its centre. A perspective on the book and preserve-3d on the page stack give the rotation real depth, and a CSS transition animates the half-circle turn smoothly.` },

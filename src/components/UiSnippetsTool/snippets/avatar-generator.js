@@ -136,12 +136,11 @@ The hash, initials, and colour functions are pure and reusable — drop them int
       { title: 'No library', text: `Pure HTML/CSS/JS — no avatar dependency.` },
     ],
     useCases: [
-      { title: 'User list fallbacks', text: `Show initials when no photo, beside an [avatar group](/ui-snippets/avatar-group/).` },
-      { title: 'Comment and chat avatars', text: `Color-code authors in a [comment thread](/ui-snippets/comment-thread/).` },
-      { title: 'Team and member grids', text: `Consistent avatars across a [team card](/ui-snippets/team-card/) list.` },
-      { title: 'Presence and mentions', text: `Recognizable avatars in a [team presence list](/ui-snippets/team-presence-list/).` },
-      { title: 'Seed data and demos', text: `Generate avatars without uploading images.` },
-      { title: 'Learning hashing', text: `A reference for deterministic color from strings.` },
+      { title: 'User list fallbacks', text: 'Show coloured initials when no photo exists, grouped neatly using an [avatar group](/ui-snippets/avatar-group/) component in a user list.' },
+      { title: 'Comment and chat authors', text: 'Colour-code authors in a [comment thread](/ui-snippets/comment-thread/), with a stable hash giving each person the same colour every time.' },
+      { title: 'Team member grids', text: 'Keep avatars consistent across a [team card](/ui-snippets/team-card/) layout, with correct initials from names, emails and single words.' },
+      { title: 'Presence and mentions', text: 'Provide recognisable avatars in a [team presence list](/ui-snippets/team-presence-list/) for mentions, with circle or rounded-square shapes to match your design.' },
+      { title: 'Seed data and demos', text: 'Generate avatars for demos without uploading any images, and swap curated palettes while colours stay consistent per name.' },
       { icon: 'CODE', title: 'Related: Buy Now Pay Later Selector', desc: 'See the [Buy Now Pay Later Selector](/ui-snippets/bnpl-payment-selector/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

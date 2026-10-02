@@ -169,12 +169,11 @@ Categories and their units live in one \`CATS\` object, and the UI (category chi
       { title: 'Data-driven & no library', text: `Categories and units live in one CATS object; the UI generates from it — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Utility and tool dashboards', text: `A handy converter widget — pair with a [currency converter](/ui-snippets/currency-converter/) for money.` },
-      { title: 'Cooking and recipe apps', text: `Convert volumes and weights between metric and US units.` },
-      { title: 'Fitness and health tools', text: `Switch weight and height units next to a [BMI calculator](/ui-snippets/bmi-calculator/).` },
-      { title: 'Travel and shipping', text: `Convert distances and parcel weights on the fly.` },
-      { title: 'Education and science', text: `Teach unit relationships, including temperature scales.` },
-      { title: 'Learning the base-factor pattern', text: `A reference for any-to-any conversion and mixed linear/affine units — compare with a [timezone converter](/ui-snippets/timezone-converter/).` },
+      { title: 'Utility tool dashboards', text: 'Add a handy converter widget next to a [currency converter](/ui-snippets/currency-converter/), covering length, weight, temperature and volume.' },
+      { title: 'Cooking and recipe apps', text: 'Convert volumes and weights between metric and imperial, with units generated from a data table, not hand-written pairs.' },
+      { title: 'Fitness and health tools', text: 'Switch weight and height units beside a [BMI calculator](/ui-snippets/bmi-calculator/), with live two-way conversion when either dropdown changes.' },
+      { title: 'Travel and shipping', text: 'Convert distances and parcel weights, and pair with a [timezone converter](/ui-snippets/timezone-converter/) for a complete travel utility panel.' },
+      { title: 'Base-factor pattern teaching', text: 'Learn how one factor per unit lets any unit convert to any other, with temperature handled by to and from functions for affine scales.' },
     ],
     faqs: [
       { q: 'How does it convert any unit to any other without a formula per pair?', a: `Each unit is defined by a single factor relative to one base unit per category (metres, grams, litres). Conversion goes through the base: value × fromFactor gives the base amount, then ÷ toFactor gives the target. So N units need only N factors, and adding a unit is one number — versus N² formulas if you converted each pair directly. This base-unit design is how conversion libraries are built.` },

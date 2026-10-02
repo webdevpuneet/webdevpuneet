@@ -93,10 +93,10 @@ document.getElementById('leiCreateBtn').addEventListener('click', function () {
       'Dark-theme styling consistent with the rest of the snippet library',
     ],
     useCases: [
-      { icon: 'APP', title: 'Empty list and dashboard states', desc: 'Show this card when a table, board, or feed has no items yet.' },
-      { icon: 'CODE', title: 'New workspace onboarding', desc: 'Welcome users into an empty project space with a clear first action.' },
-      { icon: 'DESIGN', title: 'Search with no results', desc: 'Swap the copy to explain a search returned nothing and suggest next steps.' },
-      { icon: 'LEARN', title: 'lottie-web integration example', desc: 'Demonstrates loading a small looping Lottie animation in vanilla JS.' },
+      { icon: '📭', title: 'Empty lists and dashboards', desc: 'Show this card when a table or tab has no data, using a looping illustration drawn from inline `animationData` so no extra file is loaded.' },
+      { icon: '👋', title: 'New workspace onboarding', desc: 'Welcome users into an empty project with a clear headline, supporting sentence and a call-to-action button that creates their first item.' },
+      { icon: '🔍', title: 'Search with no results', desc: 'Swap the copy to explain that a search returned nothing, keeping the decorative animation as a friendly accent beside the message.' },
+      { icon: '🎓', title: 'lottie-web integration reference', desc: 'Demonstrate loading a small animation with the SVG renderer from a CDN, looping it as a decorative element inside a card.' },
     ],
     faqs: [
       { q: 'Does this fetch an external animation file?', a: 'No. The animationData object is embedded directly in the JavaScript, so aside from loading the lottie-web library, no additional network request is made for the animation itself.' },

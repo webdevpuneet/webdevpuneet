@@ -107,10 +107,10 @@ body { font-family: system-ui, sans-serif; background: #f3f4f6; display: flex; a
       'Zero dependencies — vanilla HTML, CSS, JavaScript'
     ],
     useCases: [
-      { icon: 'APP', title: 'Product Pages', desc: 'E-commerce rating breakdown to build purchase confidence' },
-      { icon: 'LEARN', title: 'Course Platforms', desc: 'Show student satisfaction distribution on course listings' },
-      { icon: 'DOC', title: 'App Stores', desc: 'Mobile app or SaaS review distribution widget' },
-      { icon: 'FLOW', title: 'Service Businesses', desc: 'Hotel, restaurant, or agency quality distribution display' }
+      { icon: '⭐', title: 'Product page reviews', desc: 'Show a rating distribution that builds purchase confidence, with a large score and bars that animate when scrolled into view.' },
+      { icon: '🎓', title: 'Course platform feedback', desc: 'Show how satisfied students are across one to five stars, with percentages driven by `data-pct` attributes so no JavaScript changes are needed.' },
+      { icon: '📱', title: 'App store listings', desc: 'Summarise mobile app or SaaS reviews with sentiment badges in green and yellow variants beneath the distribution.' },
+      { icon: '🏨', title: 'Service business quality', desc: 'Show hotel, restaurant or agency quality at a glance, with a pure CSS half-star technique for fractional scores.' },
     ],
     faqs: [
       { q: 'How do I use this rating card in React?', a: 'Accept a distribution prop (object mapping 1–5 to percentages) and use useEffect with an IntersectionObserver ref to trigger bar width animation after mount.' },

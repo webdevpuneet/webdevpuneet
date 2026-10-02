@@ -116,12 +116,11 @@ This pattern — destroy, reinitialize with new options — is the general fix a
       { title: 'Minimal, focused UI', text: `Just the input and interval toggle, nothing extraneous.` },
     ],
     useCases: [
-      { title: 'Appointment and meeting booking', text: `Business-hours-only time slots with adjustable granularity.` },
-      { title: 'Restaurant reservation times', text: `Pair with the [booking calendar](/ui-snippets/flatpickr-booking-calendar/) elsewhere in this collection for a full date-plus-time flow.` },
-      { title: 'Service and repair scheduling', text: `Different job types needing different slot lengths.` },
-      { title: 'Class or session sign-up times', text: `Fixed-length sessions at a fixed daily cadence.` },
-      { title: 'Delivery window selection', text: `Coarser 60-minute windows versus precise 15-minute ones.` },
-      { title: 'Learning Flatpickr time mode', text: `A clear reference for time-only configuration and reinit.` },
+      { title: 'Meeting and appointment booking', text: 'Limit selection to business hours using `minTime` and `maxTime`, blocking out-of-range values structurally instead of only visually.' },
+      { title: 'Restaurant reservation times', text: 'Pair with the [Flatpickr booking calendar](/ui-snippets/flatpickr-booking-calendar/) so a date and a time are picked in a consistent style.' },
+      { title: 'Service and repair scheduling', text: 'Let different job types use different step intervals, switching between 15, 30 and 60 minutes by destroying and recreating the picker cleanly.' },
+      { title: 'Class and session sign-ups', text: 'Choose start times for fixed-length sessions, with `noCalendar` removing the date grid entirely for a pure time input.' },
+      { title: 'Delivery windows and time-mode learning', text: 'Offer coarser 60-minute windows against precise 15-minute slots, and use it as a reference for 12-hour AM and PM formatting.' },
     ],
     faqs: [
       { q: 'Why does changing the interval destroy and recreate the picker instead of just updating a setting?', a: `Flatpickr reads minuteIncrement once when an instance is constructed and uses it to build the scrollable time UI at that point — it is not one of the options that can be changed on a live instance via Flatpickr's set() API. Calling fp.destroy() to clean up the existing instance and then creating a new one with the desired increment is the correct, supported way to apply a construction-time-only option change.` },

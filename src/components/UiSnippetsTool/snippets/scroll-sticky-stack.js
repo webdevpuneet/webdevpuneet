@@ -104,12 +104,11 @@ Add cards (each with its own accent), change how small or dim they get, adjust t
       { title: 'Any card count', text: `Works for as many as you add.` },
     ],
     useCases: [
-      { title: 'Product steps', text: `A cousin of [stacking scroll cards](/ui-snippets/stacking-scroll-cards/).` },
-      { title: 'How it works', text: `Pair with [scroll pin steps](/ui-snippets/scroll-pin-steps/).` },
-      { title: 'Feature stories', text: `Stack [feature cards](/ui-snippets/feature-cards/).` },
-      { title: 'Case studies', text: `Layer project [team card](/ui-snippets/team-card/) panels.` },
-      { title: '3D combo', text: `Lead into [scroll 3d cards](/ui-snippets/scroll-3d-cards/).` },
-      { title: 'Pricing', text: `Stack [pricing card](/ui-snippets/pricing-card/) tiers.` },
+      { title: 'Product step stacks', text: 'Layer full-height cards that pin and cover one another, as a cousin of [stacking scroll cards](/ui-snippets/stacking-scroll-cards/) using CSS sticky for the overlap.' },
+      { title: 'How it works sequences', text: 'Pair with [scroll pin steps](/ui-snippets/scroll-pin-steps/) so one section swaps content in place while another builds a deck.' },
+      { title: 'Feature stories', text: 'Stack [feature cards](/ui-snippets/feature-cards/), with each card shrinking toward its pinned top edge and darkening as the next slides over it.' },
+      { title: 'Case study panels', text: 'Layer project panels beside a [team card](/ui-snippets/team-card/), with GSAP scale and brightness adding depth to the recession.' },
+      { title: 'Pricing tier decks', text: 'Stack [pricing card](/ui-snippets/pricing-card/) tiers one after another, or lead into [scroll 3D cards](/ui-snippets/scroll-3d-cards/) for a more dimensional follow-up.' },
       { icon: 'CODE', title: 'Related: Three.js Scroll Asteroid Belt Run', desc: 'See the [Three.js Scroll Asteroid Belt Run](/ui-snippets/three-scroll-asteroid-belt/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

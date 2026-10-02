@@ -87,12 +87,11 @@ Swap \`type: 'x,y'\` for \`'x'\` or \`'y'\` to constrain to one axis, tune \`edg
       { title: 'Single Draggable.create call', text: `One declarative config drives the whole interaction.` },
     ],
     useCases: [
-      { title: 'Sortable boards', text: `Pair momentum with a [drag sort list](/ui-snippets/drag-sort-list/).` },
-      { title: 'Sticky note walls', text: `Similar feel to [drag throw notes](/ui-snippets/drag-throw-notes/).` },
-      { title: 'Onboarding demos', text: `Show a flingable token beside [bento grid](/ui-snippets/bento-grid/) tiles.` },
-      { title: 'Kanban cards', text: `Add throwable motion to a [kanban board](/ui-snippets/kanban-board/) card.` },
-      { title: 'Game pieces', text: `Reuse the physics for casual canvas-adjacent games.` },
-      { title: 'Widget repositioning', text: `Let users fling a floating panel into a corner.` },
+      { title: 'Sortable board momentum', text: 'Add physical feel to a [drag sort list](/ui-snippets/drag-sort-list/), where a flick continues in the release direction and decelerates smoothly.' },
+      { title: 'Sticky note walls', text: 'Give notes a similar feel to [drag-throw notes](/ui-snippets/drag-throw-notes/), staying inside the stage with soft edge resistance.' },
+      { title: 'Onboarding demos', text: 'Show a flingable token beside a [bento grid](/ui-snippets/bento-grid/), where mouse, touch and pen all behave identically.' },
+      { title: 'Throwable kanban cards', text: 'Add throwable motion to a card on a [kanban board](/ui-snippets/kanban-board/), with bounds keeping it within the board once it stops.' },
+      { title: 'Casual game pieces', text: 'Reuse the release-velocity physics for casual game pieces or a floating panel that users can fling to a screen corner.' },
       { icon: 'CODE', title: 'Related: Morphing Icon State Transitions (Play/Pause, Bookmark, Menu/Close)', desc: 'See the [Morphing Icon State Transitions (Play/Pause, Bookmark, Menu/Close)](/ui-snippets/morphing-icon-state-transition/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

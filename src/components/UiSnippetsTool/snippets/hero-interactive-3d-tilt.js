@@ -136,12 +136,11 @@ Adjust \`MAX_TILT\` for a subtler or more dramatic effect, add more \`translateZ
       { title: 'No dependencies', text: `Pure vanilla JS pointer math.` },
     ],
     useCases: [
-      { title: 'Design/creative tool landing pages', text: `Show off a canvas product with tactile feel.` },
-      { title: 'Hardware and device launches', text: `Tilt a 3D-rendered device mockup toward the cursor.` },
-      { title: 'App landing pages', text: `Pair with [app hero](/ui-snippets/app-hero/) for a phone mockup tilt.` },
-      { title: 'Portfolio hero pieces', text: `Feature a flagship project with interactive depth.` },
-      { title: 'Premium/luxury product pages', text: `Signal craftsmanship through responsive motion.` },
-      { title: 'Interactive UI showcases', text: `Complement [3D card tilt](/ui-snippets/3d-card-tilt/) grids.` },
+      { title: 'Creative tool landing pages', text: 'Show off a canvas product with a mockup that tilts toward the cursor, with `rotateX` and `rotateY` computed from the live pointer position.' },
+      { title: 'Hardware and device launches', text: 'Tilt a rendered device in real 3D, with screen content floating above the card base through `translateZ` for visible depth.' },
+      { title: 'Phone mockup tilt pairing', text: 'Pair with an [app hero](/ui-snippets/app-hero/) for a phone mockup that responds to the pointer, with a glare synchronised to the same tilt values.' },
+      { title: 'Portfolio flagship projects', text: 'Feature a standout piece with proportional tilt that scales with distance from the centre of the card.' },
+      { title: 'Premium product pages', text: 'Signal craftsmanship, and complement a grid of [3D card tilt](/ui-snippets/3d-card-tilt/) tiles elsewhere on a showcase page.' },
       { icon: 'CODE', title: 'Related: Hero with Feature Tabs Preview', desc: 'See the [Hero with Feature Tabs Preview](/ui-snippets/hero-feature-tabs-preview/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

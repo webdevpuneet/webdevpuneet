@@ -144,12 +144,11 @@ Because the reveal logic is entirely selector-driven, adding a sixth timeline en
       { title: 'Zero manual observer code', text: 'The entire effect is configuration passed to sr.reveal() — no IntersectionObserver written by hand.' },
     ],
     useCases: [
-      { icon: 'FLOW', title: 'Company/product timelines', text: 'About pages and changelogs where chronology is the point.' },
-      { icon: 'LEARN', title: 'Course/roadmap progress', text: 'Show completed and upcoming milestones as a learner scrolls.' },
-      { icon: 'DESIGN', title: 'Case study narratives', text: 'Walk through a project\'s phases with alternating supporting screenshots.' },
-      { title: 'Event schedules', text: 'Conference or launch-day agendas presented as a scrolling spine.' },
-      { title: 'Resume/CV pages', text: 'Career history revealed as the visitor scrolls, left/right per role.' },
-      { title: 'Learning ScrollReveal selectors', text: 'A concrete example of routing reveal config via data attributes instead of JS conditionals.' },
+      { title: 'Company and product timelines', text: 'Reveal entries from alternating sides on an About page or changelog, so items on the left arrive from the left and items on the right from the right.' },
+      { title: 'Course and roadmap progress', text: 'Show completed and upcoming milestones with motion that reinforces the layout, using `data-side` attributes to route two `reveal()` calls.' },
+      { title: 'Case study narratives', text: 'Walk through a project\'s phases in order, with each selector\'s `interval` staggering its own matching items independently.' },
+      { title: 'Event schedules', text: 'Present a conference or launch-day agenda as an alternating timeline, with ScrollReveal observing visibility natively and no scroll listener.' },
+      { title: 'Resume and career pages', text: 'Reveal career history as the visitor scrolls, and use it as a concrete example of per-side selector routing for ScrollReveal.' },
     ],
     faqs: [
       { q: 'Why call .reveal() twice instead of once for all timeline items?', a: "Each call configures a distinct origin direction — 'left' for the left-side selector, 'right' for the right-side one. ScrollReveal's reveal() takes one origin per call, so two selectors (routed by the existing data-side attribute) is the simplest way to give each side its own travel direction without writing conditional JS." },

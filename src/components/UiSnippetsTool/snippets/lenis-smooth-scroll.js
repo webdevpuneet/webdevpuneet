@@ -216,12 +216,11 @@ Keep the required CSS, the rAF loop, and the scroll handler; everything else is 
       { title: 'Native scroll preserved', text: 'Keyboard, find-on-page, and screen readers keep working.' },
     ],
     useCases: [
-      { title: 'Agency and portfolio sites', text: 'The weighted scroll feel behind most award-winning sites.' },
-      { title: 'Long-form landing pages', text: 'Pair with [scroll progress](/ui-snippets/scroll-progress/) for orientation.' },
-      { title: 'Scroll-driven storytelling', text: 'Feed the scroll event into pinned or scrubbed sections.' },
-      { title: 'Parallax hero sections', text: 'A library-backed take on [scroll parallax layers](/ui-snippets/scroll-parallax-layers/).' },
-      { title: 'Product tours', text: 'Eased anchor jumps between sections instead of hard teleports.' },
-      { title: 'Learning virtual scroll', text: 'A reference for rAF ownership and scroll-linked transforms.' },
+      { title: 'Weighted agency scrolling', text: 'Give an agency or portfolio site the soft, momentum-based feel of premium sites, without hijacking the scrollbar or breaking find-on-page and keyboard navigation.' },
+      { title: 'Long landing page progress', text: 'Pair with [scroll progress](/ui-snippets/scroll-progress/) for orientation on long pages, using the velocity and progress values Lenis supplies already computed each frame.' },
+      { title: 'Parallax with library support', text: 'Build a library-backed take on [scroll parallax layers](/ui-snippets/scroll-parallax-layers/), where any element opts in through a `data-parallax` multiplier.' },
+      { title: 'Eased anchor navigation', text: 'Replace abrupt anchor jumps between sections with eased movement on product tour pages, using the exponential ease-out that decelerates toward each target.' },
+      { title: 'Virtual scroll learning', text: 'Learn why owning the `requestAnimationFrame` loop and calling `lenis.raf()` yourself lets scrolling share a single frame with other animation libraries.' },
       { icon: 'CODE', title: 'Related: Saturation Gallery (view-timeline)', desc: 'See the [Saturation Gallery (view-timeline)](/ui-snippets/view-timeline-saturation-gallery/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

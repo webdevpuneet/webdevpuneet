@@ -197,12 +197,11 @@ All three actions read from the same \`ROWS\`/\`COLUMNS\`/\`KEYS\` — there's n
       { title: 'No library', text: `Blob, URL.createObjectURL, and window.print() — all native browser APIs.` },
     ],
     useCases: [
-      { title: 'Admin dashboards', text: `Offer spreadsheet, API-consumable, and paper formats from one table — pair with a [data table](/ui-snippets/data-table/).` },
-      { title: 'Inventory and operations', text: `Let warehouse staff print a clean stock sheet or export CSV for accounting.` },
-      { title: 'Reports shared across tools', text: `JSON export feeds another script or dashboard; CSV feeds a spreadsheet.` },
-      { title: 'Finance and invoicing', text: `Export line items in multiple formats next to an [invoice line items table](/ui-snippets/invoice-line-items-table/).` },
-      { title: 'Compliance and audit trails', text: `Print a dated, chrome-free record for physical filing.` },
-      { title: 'Learning multi-format export', text: `A reference combining Blob downloads and window.print — compare with a [CSV export table](/ui-snippets/csv-export-table/).` },
+      { title: 'Admin dashboard exports', text: 'Offer spreadsheet, API-consumable and printable output from one Export menu, closing on outside click or Escape.' },
+      { title: 'Warehouse printing', text: 'Let operations staff print a clean copy of a [data table](/ui-snippets/data-table/), using dedicated `@media print` rules that remove interface chrome.' },
+      { title: 'JSON hand-off to tools', text: 'Feed another script with `JSON.stringify` of the real row objects, so the export matches the table exactly.' },
+      { title: 'Finance and invoicing', text: 'Export line items in several formats from an [invoice line items table](/ui-snippets/invoice-line-items-table/), with CSV escaped per RFC 4180.' },
+      { title: 'Compliance records', text: 'Print a dated, chrome-free report for audits, and see [CSV export table](/ui-snippets/csv-export-table/) for a single-format version.' },
       { icon: 'CODE', title: 'Related: Table Row Density Toggle — Compact / Comfortable / Spacious, Persisted', desc: 'See the [Table Row Density Toggle — Compact / Comfortable / Spacious, Persisted](/ui-snippets/table-row-density-toggle/) for a related tables pattern worth pairing with this one.' },
     ],
     faqs: [

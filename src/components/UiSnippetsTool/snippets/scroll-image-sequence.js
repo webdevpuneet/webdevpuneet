@@ -158,12 +158,11 @@ Raise \`FRAMES\` for smoother motion (120–150 for hero sequences), stretch \`e
       { title: 'Reversible', text: `Rounding keeps reverse playback symmetric.` },
     ],
     useCases: [
-      { title: 'Product launches', text: `Rotate a product 360° like Apple; intro it with a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/).` },
-      { title: 'Feature walkthroughs', text: `Scrub an exploded-view sequence, then pin copy with [scroll pin steps](/ui-snippets/scroll-pin-steps/).` },
-      { title: 'Storytelling', text: `Drive a rendered scene inside a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Hero sections', text: `Follow the sequence with a [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/).` },
-      { title: 'Data animations', text: `Scrub a pre-rendered chart build near a [scroll story chart](/ui-snippets/scroll-story-chart/).` },
-      { title: 'Editorial features', text: `Mix with [scroll parallax layers](/ui-snippets/scroll-parallax-layers/) for depth between chapters.` },
+      { title: 'Product 360 rotations', text: 'Rotate a product through 80 pre-rendered frames as the scrollbar acts as the playhead, the technique behind Apple\'s product pages.' },
+      { title: 'Feature walkthroughs', text: 'Scrub an exploded-view sequence, following a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/) opener with [scroll pin steps](/ui-snippets/scroll-pin-steps/) for the narrative.' },
+      { title: 'Story scenes', text: 'Drive a rendered scene inside a [scroll pin story](/ui-snippets/scroll-pin-story/), with every frame painted once offscreen so scrolling costs a single `drawImage` call.' },
+      { title: 'Hero follow-ups', text: 'Follow the sequence with a [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/), tweening a plain proxy object that holds the current frame number.' },
+      { title: 'Data and editorial animations', text: 'Scrub a pre-rendered chart build near a [scroll story chart](/ui-snippets/scroll-story-chart/), or mix with [scroll parallax layers](/ui-snippets/scroll-parallax-layers/) for depth.' },
       { icon: 'CODE', title: 'Related: Scroll-Synced Margin Annotations', desc: 'See the [Scroll-Synced Margin Annotations](/ui-snippets/scroll-margin-annotations-sync/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

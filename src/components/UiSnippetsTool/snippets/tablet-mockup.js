@@ -115,12 +115,11 @@ Keep the device markup as a component and replace the \`.tm-main\` contents with
       { title: 'No dependency', text: `Pure HTML/CSS/JS for mockups and demos.` },
     ],
     useCases: [
-      { title: 'Responsive design demos', text: `Show a layout adapt beside a [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Dashboard showcases', text: `Frame an admin UI like a [dashboard layout](/ui-snippets/dashboard-layout/).` },
-      { title: 'Portfolio and case studies', text: `Present work in a [bento grid](/ui-snippets/bento-grid/) section.` },
-      { title: 'Landing pages', text: `Pair with a [product hero](/ui-snippets/product-hero/) screenshot.` },
-      { title: 'Kiosk and POS UIs', text: `Mock a tablet app next to a [metric card grid](/ui-snippets/metric-card-grid/).` },
-      { title: 'Learning CSS transitions', text: `A reference for animating frame dimensions.` },
+      { title: 'Responsive design demos', text: 'Show a layout adapting beside a [phone mockup](/ui-snippets/phone-mockup/), with a pure-CSS frame and thin, even bezels that give an authentic tablet rim.' },
+      { title: 'Dashboard showcases', text: 'Frame an admin UI built like a [dashboard layout](/ui-snippets/dashboard-layout/), with a sample screen containing charts, cards and sparklines.' },
+      { title: 'Portfolio and case studies', text: 'Present work in a [bento grid](/ui-snippets/bento-grid/), with an animated portrait and landscape rotate transitioning width and height.' },
+      { title: 'Landing page hero shots', text: 'Pair with a [product hero](/ui-snippets/product-hero/) screenshot, with the camera dot repositioning between bezels as part of the rotation.' },
+      { title: 'Kiosk and POS mockups', text: 'Mock a tablet app beside a [metric card grid](/ui-snippets/metric-card-grid/), and learn how animating frame dimensions produces a convincing orientation change.' },
     ],
     faqs: [
       { q: 'How does the rotate animation work?', a: `Rotating toggles a portrait or landscape class that changes the frame's width and height (300×400 versus 400×300). Both dimensions have a CSS transition with a cubic-bezier ease, so the device visibly reflows between orientations instead of snapping. The camera dot's position is class-driven too, so it slides to the new bezel during the same transition.` },

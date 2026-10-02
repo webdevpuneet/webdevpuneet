@@ -188,12 +188,11 @@ Add a \`.sss-step\` and a matching node and everything follows, since the handle
       { title: 'Honest mobile fallback', text: 'The grid collapses to one column below 820px.' },
     ],
     useCases: [
-      { title: 'Data journalism', text: 'The standard format for explaining a chart one beat at a time.' },
-      { title: 'Product explainers', text: 'Walk a diagram through a pipeline or architecture.' },
-      { title: 'Onboarding narratives', text: 'A scrolled alternative to an [onboarding tour](/ui-snippets/onboarding-tour/).' },
-      { title: 'Case studies', text: 'Reveal results progressively as the reader moves through.' },
-      { title: 'Documentation walkthroughs', text: 'Highlight the relevant part of a diagram per paragraph.' },
-      { title: 'Learning scroll triggers', text: 'A reference beside [scroll pin steps](/ui-snippets/scroll-pin-steps/).' },
+      { title: 'Data journalism graphics', text: 'Explain a chart or diagram step by step, with a sticky graphic that advances as each text block reaches the reader, using an IntersectionObserver rather than costly scroll listeners.' },
+      { title: 'Product pipeline explainers', text: 'Walk a diagram through the stages of a pipeline or system, with nodes shown as upcoming, current or completed instead of a simple on and off toggle.' },
+      { title: 'Onboarding narratives', text: 'Offer a scrolled alternative to an [onboarding tour](/ui-snippets/onboarding-tour/), using discrete step callbacks for state and continuous progress callbacks for the bar.' },
+      { title: 'Documentation walkthroughs', text: 'Highlight the relevant part of an architecture diagram as each paragraph is read, with the trigger offset tuned to 0.55 so changes happen as the reader arrives.' },
+      { title: 'Scroll trigger comparisons', text: 'Compare with [scroll pin steps](/ui-snippets/scroll-pin-steps/) to see the same idea built with GSAP pinning instead of a library designed specifically for scrollytelling.' },
     ],
     faqs: [
       { q: 'Why use Scrollama instead of a scroll event listener?', a: 'A scroll listener fires hundreds of times per second and typically calls getBoundingClientRect on every step, forcing a layout recalculation each time — a reliable way to make a page feel sluggish. Scrollama wraps the Intersection Observer API, so the browser watches the elements and reports threshold crossings off the main thread, with no throttling code to write.' },

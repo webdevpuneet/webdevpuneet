@@ -156,12 +156,11 @@ Change the accepted file type and extension, generate the contents dynamically (
       { title: 'Blob URL cleanup', text: `Object URLs are revoked after the download starts.` },
     ],
     useCases: [
-      { title: 'Note or draft export tools', text: `Save editor contents as a real local file.` },
-      { title: 'Data export buttons', text: `Pair with a [download button](/ui-snippets/download-button/) for CSV/JSON.` },
-      { title: 'Report generation', text: `Let users choose exactly where a generated report lands.` },
-      { title: 'Code playgrounds', text: `Save a snippet's source to disk without a backend.` },
-      { title: 'Config/settings backups', text: `Export a dashboard's current [status](/ui-snippets/status-dashboard/) config.` },
-      { title: 'Offline-first apps', text: `Persist user work to disk without any server round-trip.` },
+      { title: 'Note and draft export', text: 'Save editor contents to a real file chosen by the user, via `showSaveFilePicker()` and a writable stream that writes directly to disk.' },
+      { title: 'Data export buttons', text: 'Pair with a [download button](/ui-snippets/download-button/) for CSV and JSON exports, falling back to a blob and `a download` link where the API is missing.' },
+      { title: 'Report generation', text: 'Let users choose exactly where a generated report lands, treating a cancelled picker as `AbortError` so no surprise download occurs.' },
+      { title: 'Playgrounds and backups', text: 'Save a code snippet\'s source or back up a dashboard\'s current state, such as a [status dashboard](/ui-snippets/status-dashboard/) configuration.' },
+      { title: 'Offline-first apps', text: 'Persist user work to disk without any server, with the fallback working in every modern browser.' },
       { icon: 'CODE', title: 'Related: Media Session API Controls', desc: 'See the [Media Session API Controls](/ui-snippets/media-session-controls/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

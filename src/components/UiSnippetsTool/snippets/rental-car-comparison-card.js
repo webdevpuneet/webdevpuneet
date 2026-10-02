@@ -139,12 +139,11 @@ Add a fourth class, wire the price to real per-day rates from a rental API, or t
       { title: 'Zero dependencies', text: `Plain HTML, CSS, and JS, no CDN.` },
     ],
     useCases: [
-      { title: 'Car rental sites', text: `Pair with a [flight search form](/ui-snippets/flight-search-form/) upstream.` },
-      { title: 'Trip planning dashboards', text: `Combine with a [property listing card](/ui-snippets/property-listing-card/).` },
-      { title: 'Booking flows', text: `Feed the selected class into [checkout](/ui-snippets/checkout-form/).` },
-      { title: 'Comparison pages', text: `A sibling pattern to [radio card group](/ui-snippets/radio-card-group/).` },
-      { title: 'Corporate travel tools', text: `Let travelers pick within a policy tier.` },
-      { title: 'Peer-to-peer rental apps', text: `Compare vehicle classes before booking.` },
+      { title: 'Car rental booking', text: 'Show Economy, SUV and Luxury classes with seat and bag capacity, following a [flight search form](/ui-snippets/flight-search-form/) in a travel flow.' },
+      { title: 'Trip planning dashboards', text: 'Combine with a [property listing card](/ui-snippets/property-listing-card/) so a trip plan covers both where to stay and how to get around.' },
+      { title: 'Booking flow hand-off', text: 'Feed the chosen class into a [checkout form](/ui-snippets/checkout-form/), with `data-selected` driving every visual change on the card.' },
+      { title: 'Comparison page patterns', text: 'Compare with a [radio card group](/ui-snippets/radio-card-group/), noting how inline SVG silhouettes recolour with `currentColor` and need no image files.' },
+      { title: 'Corporate and peer-to-peer rentals', text: 'Let travellers choose within a policy class, or compare vehicle types before booking on a peer-to-peer app, using a featured badge to guide the choice.' },
     ],
     faqs: [
       { q: 'How does the selected card get its highlighted look?', a: `Clicking a Select button sets data-selected="true" on its own card and "false" on the other two. Every visual change tied to selection — border color, background tint, a slight lift, the silhouette's recolor, and the button's relabel to "Selected ✓" — is a CSS or JS rule keyed off that one attribute per card.` },

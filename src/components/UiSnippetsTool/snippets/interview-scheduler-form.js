@@ -181,12 +181,11 @@ Wire the submit handler to your booking API, generate the slot grid dynamically 
       { title: 'Zero dependencies', text: `Plain HTML, CSS, and JS.` },
     ],
     useCases: [
-      { title: 'Recruiting coordination', text: `Pair with a [candidate pipeline kanban](/ui-snippets/candidate-pipeline-kanban/).` },
-      { title: 'Panel interview booking', text: `Extend to multiple interviewer selects.` },
-      { title: 'Consultation scheduling', text: `Reuse for client or sales calls.` },
-      { title: 'Availability tools', text: `Combine with [availability scheduler](/ui-snippets/availability-scheduler/).` },
-      { title: 'Group scheduling', text: `See [meeting scheduler poll](/ui-snippets/meeting-scheduler-poll/) for many attendees.` },
-      { title: 'Onboarding kickoff calls', text: `Book a new hire's first 1:1.` },
+      { title: 'Recruiting coordination', text: 'Let a coordinator pick an interviewer, a duration and a time, alongside a [candidate pipeline kanban](/ui-snippets/candidate-pipeline-kanban/) that shows where each candidate stands.' },
+      { title: 'Panel interview booking', text: 'Extend the single interviewer picker to several interviewers, with taken slots genuinely disabled rather than only styled to look unavailable.' },
+      { title: 'Consultation and sales calls', text: 'Reuse the duration toggle of 30, 45 or 60 minutes for client consultations or sales discovery calls, with inline validation instead of browser alerts.' },
+      { title: 'Availability tool pairings', text: 'Combine with an [availability scheduler](/ui-snippets/availability-scheduler/) so the slots a candidate sees reflect real calendars rather than a static grid.' },
+      { title: 'Group and kickoff scheduling', text: 'Use a [meeting scheduler poll](/ui-snippets/meeting-scheduler-poll/) when many attendees must agree, or book a new hire\'s first one-to-one call.' },
       { icon: 'CODE', title: 'Related: Resume Upload Dropzone', desc: 'See the [Resume Upload Dropzone](/ui-snippets/resume-upload-dropzone/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

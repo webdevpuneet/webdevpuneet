@@ -109,12 +109,11 @@ Change the per-word delay to speed up or slow down the "generation," adjust the 
       { title: 'No per-frame JS', text: `Transitions and the observer do the work.` },
     ],
     useCases: [
-      { title: 'AI product headlines', text: `Pair with a [shimmer button](/ui-snippets/shimmer-button/) CTA.` },
-      { title: 'Landing hero copy', text: `Reveal a tagline above a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/).` },
-      { title: 'Section intros', text: `Animate a lead-in before a [testimonial wall](/ui-snippets/testimonial-wall/).` },
-      { title: 'Storytelling pages', text: `Stream narrative atop [stacking scroll cards](/ui-snippets/stacking-scroll-cards/).` },
-      { title: 'Quote reveals', text: `An alternative to a static [gradient text](/ui-snippets/gradient-text/) headline.` },
-      { title: 'Reveal-on-scroll demos', text: `A reference for IntersectionObserver staggers.` },
+      { title: 'AI product headlines', text: 'Let a sentence materialise word by word, each word un-blurring and rising into place, with a [shimmer button](/ui-snippets/shimmer-button/) call to action beneath.' },
+      { title: 'Landing page hero copy', text: 'Reveal a tagline above a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/), with `setTimeout` offsets of 90 ms between each word span.' },
+      { title: 'Section lead-ins', text: 'Animate an introduction before a [testimonial wall](/ui-snippets/testimonial-wall/), starting only once an `IntersectionObserver` sees the block scroll into view.' },
+      { title: 'Storytelling pages', text: 'Stream narrative copy on top of [stacking scroll cards](/ui-snippets/stacking-scroll-cards/), so each paragraph arrives as if the page were writing it.' },
+      { title: 'Quote reveals', text: 'Offer a more dramatic alternative to a static [gradient text](/ui-snippets/gradient-text/) quote, with gradient accents on selected words.' },
     ],
     faqs: [
       { q: 'Why wrap every word in a span?', a: `You can't transition parts of a single text node, so each word is wrapped in its own inline-block span. That lets every word carry its own opacity, blur, and transform and animate independently, which is what makes the staggered word-by-word reveal possible. Rejoining with spaces preserves natural line wrapping.` },

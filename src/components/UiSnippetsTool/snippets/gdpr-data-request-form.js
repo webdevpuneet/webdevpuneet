@@ -161,12 +161,11 @@ Wire the submit handler to your real request-intake API or ticketing system, add
       { title: 'No dependencies', text: `Pure HTML, CSS, and JavaScript.` },
     ],
     useCases: [
-      { title: 'Privacy/account settings pages', text: `Let users self-serve data subject requests.` },
-      { title: 'Compliance & legal teams', text: `An intake form feeding a request-tracking system.` },
-      { title: 'Consent management platforms', text: `Pair with [gdpr-consent-manager](/ui-snippets/gdpr-consent-manager/).` },
-      { title: 'Cookie/privacy centers', text: `Sit alongside [cookie preferences](/ui-snippets/cookie-preferences/).` },
-      { title: 'Customer support tools', text: `Agents log requests on a user's behalf.` },
-      { title: 'Multi-region compliance', text: `A template adaptable to CCPA/other regimes.` },
+      { title: 'Privacy settings pages', text: 'Let users exercise access, deletion, correction and export rights themselves, using a grouped radio fieldset with an accessible legend and labelled options.' },
+      { title: 'Compliance intake forms', text: 'Feed a legal team\'s request queue with structured submissions, blocking invalid email addresses before anything is sent.' },
+      { title: 'Consent management pairing', text: 'Sit beside a [GDPR consent manager](/ui-snippets/gdpr-consent-manager/) so people can set cookie preferences and also request their data in one privacy centre.' },
+      { title: 'Cookie and privacy centres', text: 'Place alongside [cookie preferences](/ui-snippets/cookie-preferences/), with copy that states the real statutory deadline of one month for a response.' },
+      { title: 'Multi-region adaptation', text: 'Adapt the template for CCPA and other regimes, and let support agents log a request on a user\'s behalf using the same form.' },
       { icon: 'CODE', title: 'Related: Number Stepper with Keyboard Arrows and Long-Press Acceleration', desc: 'See the [Number Stepper with Keyboard Arrows and Long-Press Acceleration](/ui-snippets/number-stepper-keyboard-longpress/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

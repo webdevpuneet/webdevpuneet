@@ -120,12 +120,11 @@ Change the blob and gradient-text colors to your palette — the gradient text o
       { title: 'Responsive fallback', text: `Cards hide below 900px to protect headline readability.` },
     ],
     useCases: [
-      { title: 'Design system and component library homepages', text: `Showcase a glass/depth visual language as the product itself.` },
-      { title: 'Productivity and ambient-computing apps', text: `Pair floating mini-widgets with a [product hero](/ui-snippets/product-hero/) pitch.` },
-      { title: 'Creative agency and portfolio sites', text: `Use as a distinctive alternative to [gradient mesh hero](/ui-snippets/gradient-mesh-hero/).` },
-      { title: 'AI and generative product launches', text: `The floating, weightless feel suits an "ambient intelligence" positioning.` },
-      { title: 'Music, wellness, and lifestyle apps', text: `Swap card content for relevant live-feeling widgets.` },
-      { title: 'Learning layered glassmorphism motion', text: `A reference for combining backdrop-filter with independently timed keyframes.` },
+      { title: 'Design system homepages', text: 'Showcase a component library with three frosted cards floating at different depths, each on its own duration and amplitude.' },
+      { title: 'Productivity and ambient apps', text: 'Pair floating mini panels with a drifting blob backdrop, keeping glass from looking flat and lifeless.' },
+      { title: 'Creative agency sites', text: 'Use as a distinctive opener for a creative agency, with `backdrop-filter: blur` over translucent backgrounds making genuine frosted glass.' },
+      { title: 'AI and generative launches', text: 'Convey a floating, weightless feel with three blurred gradient circles that drift and scale slowly behind the cards.' },
+      { title: 'Wellness and lifestyle apps', text: 'Swap card content for mood or routine summaries, with a gradient headline painted through `background-clip: text`, and compare with a [gradient mesh hero](/ui-snippets/gradient-mesh-hero/).' },
       { icon: 'CODE', title: 'Related: Product Launch Countdown Hero', desc: 'See the [Product Launch Countdown Hero](/ui-snippets/hero-countdown-launch/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

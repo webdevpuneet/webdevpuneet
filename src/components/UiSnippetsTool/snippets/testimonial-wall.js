@@ -138,12 +138,11 @@ Adjust the \`data-speed\` values for faster or calmer motion, change the mask pe
       { title: 'Responsive columns', text: `Drops to two then one column on small screens.` },
     ],
     useCases: [
-      { title: 'Landing-page social proof', text: `Anchor it below a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/).` },
-      { title: 'SaaS homepages', text: `Pair with a [rating breakdown](/ui-snippets/rating-breakdown/) summary card.` },
-      { title: 'Agency sites', text: `Follow a [logo marquee](/ui-snippets/logo-marquee/) of client brands.` },
-      { title: 'Product pages', text: `Complement a static [testimonial masonry](/ui-snippets/testimonial-masonry/) grid.` },
-      { title: 'App marketing', text: `Reinforce a [testimonial slider](/ui-snippets/testimonial-slider/) above it.` },
-      { title: 'Marquee learning', text: `A reference for seamless rAF-based infinite scroll.` },
+      { title: 'Moving social proof wall', text: 'Anchor an endless wall of review cards below a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/), with columns drifting at different speeds.' },
+      { title: 'SaaS homepage credibility', text: 'Pair with a [rating breakdown](/ui-snippets/rating-breakdown/) summary card so an overall score is followed by individual voices.' },
+      { title: 'Agency client reviews', text: 'Follow a [logo marquee](/ui-snippets/logo-marquee/) of client brands with real quotes from the people behind those agency clients.' },
+      { title: 'Static alternative pairing', text: 'Complement a [testimonial masonry](/ui-snippets/testimonial-masonry/) grid with a moving wall, or place a [testimonial slider](/ui-snippets/testimonial-slider/) above it for variety.' },
+      { title: 'Infinite loop reference', text: 'Study a seamless `requestAnimationFrame` loop with delta timing, so speed stays constant across screen refresh rates.' },
     ],
     faqs: [
       { q: 'How does the scroll loop without a visible jump?', a: `Each column renders its cards twice and scrolls by translateY. When the offset reaches one set's height (scrollHeight / 2), the position wraps by adding that height back. Because the second set is an exact copy of the first, the reset lands on an identical frame, so the loop is seamless.` },

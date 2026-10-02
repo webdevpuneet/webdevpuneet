@@ -122,12 +122,11 @@ Edit the words (keep them short enough for your narrowest viewport), tune the dw
       { title: 'Per-word accent', text: `Each word brings its own color.` },
     ],
     useCases: [
-      { title: 'Audience headlines', text: `Name every persona you serve; expand each with [sticky scroll features](/ui-snippets/scroll-sticky-features/).` },
-      { title: 'Hero sections', text: `A scrubbed alternative to the auto-playing [word flip hero](/ui-snippets/word-flip-hero/).` },
-      { title: 'Capability lists', text: `Cycle verbs — build, ship, scale — before a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/).` },
-      { title: 'Campaign taglines', text: `Snap through slogan variants, then a [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/) transition.` },
-      { title: 'Typing alternatives', text: `Where per-character motion fits better, use the [scroll typewriter](/ui-snippets/scroll-typewriter/).` },
-      { title: 'Stat pairings', text: `Match each audience with a number via [count up](/ui-snippets/count-up/).` },
+      { title: 'Audience headlines', text: 'Name every persona you serve by turning a headline word through a column of options as the reader scrolls, expanding with a [scroll sticky features](/ui-snippets/scroll-sticky-features/) section.' },
+      { title: 'Scrubbed hero alternatives', text: 'Offer a scroll-driven option to an auto-playing [word flip hero](/ui-snippets/word-flip-hero/), with a masked column sized in `em` so no JavaScript measuring is needed.' },
+      { title: 'Capability lists', text: 'Cycle verbs such as build, ship and scale before a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) of capability details appears below.' },
+      { title: 'Campaign taglines', text: 'Snap through slogan variants and then reveal with a [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/), with words dwelling then clicking like a slot drum.' },
+      { title: 'Typing alternatives and stat pairings', text: 'Where per-character motion fits better, use [scroll typewriter](/ui-snippets/scroll-typewriter/), or match each audience with a number using [count up](/ui-snippets/count-up/).' },
       { icon: 'CODE', title: 'Related: Three.js Scroll Typography Shatter', desc: 'See the [Three.js Scroll Typography Shatter](/ui-snippets/three-scroll-typo-shatter/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

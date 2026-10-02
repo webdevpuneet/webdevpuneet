@@ -185,12 +185,11 @@ Fire on genuine milestones — a completed purchase, a finished onboarding, a sh
       { title: 'Normalized origins', text: 'Cannons pinned to 0 and 1 stay at the edges on any viewport.' },
     ],
     useCases: [
-      { title: 'Checkout and payment success', text: 'Celebrate a completed purchase on the confirmation screen.' },
-      { title: 'Onboarding completion', text: 'Reward finishing an [onboarding checklist](/ui-snippets/onboarding-checklist-widget/).' },
-      { title: 'Milestone and streak moments', text: 'Fire when a [streak tracker](/ui-snippets/streak-tracker/) hits a target.' },
-      { title: 'Form submission wins', text: 'A bigger moment than an [animated success checkmark](/ui-snippets/animated-success-checkmark/).' },
-      { title: 'Gamified progress', text: 'Level-ups, badges, and achievement unlocks.' },
-      { title: 'Launch and announcement pages', text: 'A one-time burst when a countdown reaches zero.' },
+      { title: 'Checkout and payment success', text: 'Celebrate a completed purchase with layered bursts and side cannons, using `confetti.create` bound to your element instead of taking over the whole page.' },
+      { title: 'Onboarding completion', text: 'Reward finishing an [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/), with `useWorker` running the particle physics off the main thread.' },
+      { title: 'Streak and milestone moments', text: 'Fire when a [streak tracker](/ui-snippets/streak-tracker/) hits a goal, with a click-through overlay so the canvas never blocks the interface.' },
+      { title: 'Form submission wins', text: 'Offer a bigger moment than an [animated success checkmark](/ui-snippets/animated-success-checkmark/) when something important has been submitted successfully.' },
+      { title: 'Gamified progress and launches', text: 'Mark level-ups, badges and launch announcements, with `disableForReducedMotion` respecting the operating system preference through one option.' },
       { icon: 'CODE', title: 'Related: EyeDropper Color Picker', desc: 'See the [EyeDropper Color Picker](/ui-snippets/eyedropper-color-picker/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

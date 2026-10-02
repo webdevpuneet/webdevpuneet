@@ -116,12 +116,11 @@ This exact pattern — a multi-select calendar with a synced chip/tag list, sing
       { title: 'Fully re-themed calendar', text: `Custom CSS matches the surrounding card design.` },
     ],
     useCases: [
-      { title: 'Recurring class or event scheduling', text: `Pick every session date for a course upfront.` },
-      { title: 'Multi-day availability blocks', text: `Mark several specific available or unavailable days.` },
-      { title: 'Custom blackout date configuration', text: `Admin tools for defining exception dates.` },
-      { title: 'Multi-day trip planning tools', text: `Select specific non-consecutive travel days.` },
-      { title: 'Bulk content publishing schedules', text: `Pair with the [date range with presets](/ui-snippets/flatpickr-date-range-presets/) elsewhere in this collection for a contiguous-range alternative.` },
-      { title: 'Learning Flatpickr multi-select', text: `A clear reference for syncing external UI to library state.` },
+      { title: 'Recurring class scheduling', text: 'Pick every session date for a course, using `mode: multiple` so clicks toggle dates on and off natively.' },
+      { title: 'Multi-day availability', text: 'Mark several specific days as available, with a chronological chip list reviewing the full selection however it was clicked.' },
+      { title: 'Blackout date configuration', text: 'Let admins define custom unavailable dates, where removing a chip updates the real calendar selection rather than only the chip display.' },
+      { title: 'Trip planning with gaps', text: 'Select non-consecutive travel days, with chips sorted at render time regardless of the order they were picked.' },
+      { title: 'Bulk publishing schedules', text: 'Pair with the [date range presets](/ui-snippets/flatpickr-date-range-presets/) approach for content calendars, and use it to learn two-way state sync.' },
     ],
     faqs: [
       { q: 'How does clicking a date twice both select and deselect it?', a: `Setting mode: 'multiple' changes Flatpickr's internal click handling so that clicking an unselected date adds it to the selection and clicking an already-selected date removes it — this toggle logic is built into multiple mode itself, with no manual selection-array management or click-counting needed in application code.` },

@@ -186,12 +186,11 @@ Because every column's rule lives in one small function keyed by field name, add
       { title: 'Real captured data', text: `Valid rows are pushed into a real array and rendered into a running log.` },
     ],
     useCases: [
-      { title: 'Bulk data entry grids', text: `Validate spreadsheet-style row entry before it's committed, alongside an [editable table](/ui-snippets/editable-table/).` },
-      { title: 'Order and invoice line entry', text: `Catch bad quantities or discounts before they reach an [invoice line items table](/ui-snippets/invoice-line-items-table/).` },
-      { title: 'Contact and CRM imports', text: `Validate emails inline before saving a new contact row.` },
-      { title: 'Admin panels with inline editing', text: `Block a save on any row that fails its column rules.` },
-      { title: 'Onboarding and setup forms', text: `Reuse the per-field validator pattern for tabular setup wizards.` },
-      { title: 'Learning inline form validation', text: `A reference for real per-field validators and blocked saves — compare with a plain [editable table](/ui-snippets/editable-table/) with no validation.` },
+      { title: 'Bulk data entry grids', text: 'Validate spreadsheet-style row entry in bulk data entry grids, with a dedicated function per column genuinely inspecting each value.' },
+      { title: 'Order and invoice line entry', text: 'Catch bad quantities or discounts using `Number.isInteger` plus a positivity check, as in an [invoice line items table](/ui-snippets/invoice-line-items-table/).' },
+      { title: 'CRM and contact imports', text: 'Validate emails inline with a real pattern before saving, showing red outlines and an inline error tooltip.' },
+      { title: 'Editable admin panels', text: 'Block a save on any row with errors, extending a plain [editable table](/ui-snippets/editable-table/) with real validation rules.' },
+      { title: 'Optional bounded fields', text: 'Treat discount as optional when empty but required to be between 0 and 100 when filled, reusing the validator pattern for onboarding forms.' },
       { icon: 'CODE', title: 'Related: Inline Add Row to Table', desc: 'See the [Inline Add Row to Table](/ui-snippets/table-inline-add-row/) for a related tables pattern worth pairing with this one.' },
     ],
     faqs: [

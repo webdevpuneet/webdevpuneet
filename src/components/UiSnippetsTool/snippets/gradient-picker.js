@@ -141,12 +141,11 @@ The whole picker is the stops array, a render function, and pointer handlers, wi
       { title: 'No library', text: `Pure HTML/CSS/JS — no color or gradient dependency.` },
     ],
     useCases: [
-      { title: 'Theme editors', text: `Author gradients for buttons and heroes, then blend with a [color mixer](/ui-snippets/color-mixer/).` },
-      { title: 'Design tools', text: `A gradient control in a builder or settings panel.` },
-      { title: 'Hero and background design', text: `Craft a [gradient mesh hero](/ui-snippets/gradient-mesh-hero/) base.` },
-      { title: 'Button and badge styling', text: `Generate gradients for a [gradient button](/ui-snippets/gradient-button/).` },
-      { title: 'Brand palette work', text: `Define brand gradients to reuse across a site.` },
-      { title: 'Learning gradients', text: `A reference for stop math and pointer dragging.` },
+      { title: 'Theme editor gradients', text: 'Author gradients for buttons and hero sections by dragging colour stops along a bar and copying the finished `linear-gradient`.' },
+      { title: 'Design tool controls', text: 'Embed a gradient control in a builder, where clicking the bar adds a stop and deleting keeps at least two in place.' },
+      { title: 'Hero background design', text: 'Craft the base for a [gradient mesh hero](/ui-snippets/gradient-mesh-hero/), choosing an angle and stop positions visually first.' },
+      { title: 'Button and badge styling', text: 'Generate gradients for a [gradient button](/ui-snippets/gradient-button/), with the colour input editing exactly the stop currently selected.' },
+      { title: 'Blending and brand palettes', text: 'Define shared brand gradients, and use a [color mixer](/ui-snippets/color-mixer/) to find intermediate shades between two stop colours.' },
       { icon: 'CODE', title: 'Related: Price Range Slider', desc: 'See the [Price Range Slider](/ui-snippets/price-range-slider/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

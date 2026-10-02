@@ -109,12 +109,11 @@ Real boards persist positions (write \`this.x / this.y\` to storage in \`onThrow
       { title: 'Transform-driven', text: `Drags and glides are compositor-only.` },
     ],
     useCases: [
-      { title: 'Brainstorm boards', text: `Movable idea notes; make them orderable with [drag sort list](/ui-snippets/drag-sort-list/).` },
-      { title: 'Moodboards', text: `Tossable image cards for creative tools, near a [masonry grid](/ui-snippets/masonry-grid/).` },
-      { title: 'Playful 404s and heroes', text: `Interactive props visitors can flick, like [physics balls](/ui-snippets/physics-balls/).` },
-      { title: 'Kanban prototypes', text: `Momentum-dragged cards before wiring a [kanban board](/ui-snippets/kanban-board/).` },
-      { title: 'Rotation controls', text: `Same inertia applied to knobs in [drag spin dial](/ui-snippets/drag-spin-dial/).` },
-      { title: 'Swipe interactions', text: `Velocity-based dismissal, cousin to [swipe cards](/ui-snippets/swipe-cards/).` },
+      { title: 'Brainstorm boards', text: 'Let teams move idea notes freely and flick them across a corkboard, then make them orderable with a [drag sort list](/ui-snippets/drag-sort-list/) when order starts to matter.' },
+      { title: 'Mood boards for creative tools', text: 'Offer tossable image cards, placed near a [masonry grid](/ui-snippets/masonry-grid/), with release velocity turning into a natural glide that stays inside the board.' },
+      { title: 'Playful 404 pages and heroes', text: 'Add interactive props that visitors can fling around, alongside [physics balls](/ui-snippets/physics-balls/), with edge resistance damping any over-drag by 72 percent.' },
+      { title: 'Kanban prototypes', text: 'Test momentum-dragged cards before wiring up a real [kanban board](/ui-snippets/kanban-board/), with lift, square-up and z-index changes on press.' },
+      { title: 'Rotation and swipe relatives', text: 'Compare with inertia applied to knobs in a [drag spin dial](/ui-snippets/drag-spin-dial/), or velocity-based dismissal in [swipe cards](/ui-snippets/swipe-cards/).' },
       { icon: 'CODE', title: 'Related: Motion One Spring Cards', desc: 'See the [Motion One Spring Cards](/ui-snippets/motion-one-spring-cards/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

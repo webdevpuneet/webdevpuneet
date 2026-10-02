@@ -119,12 +119,11 @@ Add or remove tasks — the counter and bar adapt to the list length automatical
       { title: 'Data-ready', text: `Drive is-done from real progress.` },
     ],
     useCases: [
-      { title: 'Onboarding', text: `A card form of an [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/).` },
-      { title: 'Setup flows', text: `Track steps beside a [progress wizard](/ui-snippets/progress-wizard/).` },
-      { title: 'Profile nudges', text: `Pair with a [profile completion](/ui-snippets/profile-completion/) meter.` },
-      { title: 'Task lists', text: `A richer [todo widget](/ui-snippets/todo-widget/).` },
-      { title: 'Activation', text: `Guide users from an [empty state](/ui-snippets/empty-state/).` },
-      { title: 'Tutorials', text: `Follow steps from an [onboarding tour](/ui-snippets/onboarding-tour/).` },
+      { title: 'Onboarding checklist cards', text: 'Offer a card form of an [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/), with a drawn tick that pops in with overshoot.' },
+      { title: 'Setup flow tracking', text: 'Track setup steps beside a [progress wizard](/ui-snippets/progress-wizard/), using whole-row click targets that are large, friendly and easy to hit.' },
+      { title: 'Profile completion nudges', text: 'Pair with a [profile completion](/ui-snippets/profile-completion/) meter, with a single count driving bar, counter and completion banner.' },
+      { title: 'Richer task lists', text: 'Compare with a [todo widget](/ui-snippets/todo-widget/) when tasks need adding and deleting as well as simply being ticked off.' },
+      { title: 'Activation and tutorials', text: 'Guide users from an [empty state](/ui-snippets/empty-state/) through setup, and follow with an [onboarding tour](/ui-snippets/onboarding-tour/) for the first real action.' },
       { icon: 'CODE', title: 'Related: Offer Letter Preview Card', desc: 'See the [Offer Letter Preview Card](/ui-snippets/offer-letter-preview/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

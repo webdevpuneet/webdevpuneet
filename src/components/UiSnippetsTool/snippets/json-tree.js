@@ -184,12 +184,11 @@ Rows highlight on hover for easy scanning, the monospace type and dark palette r
       { title: 'No library', text: `Pure HTML/CSS/JS — no JSON-viewer dependency.` },
     ],
     useCases: [
-      { title: 'API response inspectors', text: `Explore payloads next to an [API key manager](/ui-snippets/api-key-manager/).` },
-      { title: 'Debug panels', text: `Show app state in a [terminal window](/ui-snippets/terminal-window/)-style console.` },
-      { title: 'Config and settings editors', text: `Render structured config readably before editing.` },
-      { title: 'Webhook and log viewers', text: `Drill into nested event payloads in a [changelog feed](/ui-snippets/changelog-feed/).` },
-      { title: 'Documentation examples', text: `Display sample responses in API docs.` },
-      { title: 'Learning recursion + DOM', text: `A reference for recursive rendering and type handling.` },
+      { title: 'API response exploration', text: 'Explore payloads beside an [API key manager](/ui-snippets/api-key-manager/), with one recursive function rendering objects and arrays of any depth.' },
+      { title: 'Debug state panels', text: 'Show application state in a [terminal window](/ui-snippets/terminal-window/) style container, with keys, strings, numbers, booleans and null each coloured.' },
+      { title: 'Configuration editors', text: 'Render structured settings in a readable way, with each node showing a preview and an item count when collapsed.' },
+      { title: 'Webhook and log inspection', text: 'Drill into nested event payloads, using correct type detection that tells null and arrays apart from plain objects.' },
+      { title: 'Documentation examples', text: 'Display sample responses in API docs next to a [changelog feed](/ui-snippets/changelog-feed/), with expand and collapse all plus copy controls.' },
       { icon: 'CODE', title: 'Related: Table Inline Cell Validation', desc: 'See the [Table Inline Cell Validation](/ui-snippets/table-cell-validation-errors/) for a related tables pattern worth pairing with this one.' },
     ],
     faqs: [

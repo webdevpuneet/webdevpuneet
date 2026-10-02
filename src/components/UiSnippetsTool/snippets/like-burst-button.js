@@ -111,12 +111,11 @@ Change the particle count, colors, spread distance, and durations for a bigger o
       { title: 'No accumulation', text: `Particles clean themselves up.` },
     ],
     useCases: [
-      { title: 'Social feeds', text: `Like posts in a [social post card](/ui-snippets/social-post-card/).` },
-      { title: 'Reaction controls', text: `Pair with an [emoji reaction bar](/ui-snippets/emoji-reaction-bar/).` },
-      { title: 'Bookmarks and saves', text: `An alternative to a [favorite button](/ui-snippets/favorite-button/).` },
-      { title: 'Product wishlists', text: `Heart items on a [product card](/ui-snippets/product-card/).` },
-      { title: 'Comment upvotes', text: `Celebrate a [voting buttons](/ui-snippets/voting-buttons/) action.` },
-      { title: 'Particle demos', text: `A reference for radial WAAPI bursts.` },
+      { title: 'Social feed posts', text: 'Like posts in a [social post card](/ui-snippets/social-post-card/), with a spring pop and a radial burst of evenly angled particles.' },
+      { title: 'Reaction controls', text: 'Pair with an [emoji reaction bar](/ui-snippets/emoji-reaction-bar/) so people can choose between a quick like and a richer reaction.' },
+      { title: 'Bookmarks and saves', text: 'Offer an alternative to a [favorite button](/ui-snippets/favorite-button/), with an optimistic count and a pressed state announced by `aria-pressed`.' },
+      { title: 'Product wishlists', text: 'Heart items on a [product card](/ui-snippets/product-card/), where particles fire through the Web Animations API and remove themselves when done.' },
+      { title: 'Comment upvotes and particle reference', text: 'Celebrate a [voting buttons](/ui-snippets/voting-buttons/) action for comment upvotes, and study randomised distance and duration for organic particle dissipation.' },
       { icon: 'CODE', title: 'Related: Push Notification Subscription Toggle', desc: 'See the [Push Notification Subscription Toggle](/ui-snippets/push-subscription-toggle/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

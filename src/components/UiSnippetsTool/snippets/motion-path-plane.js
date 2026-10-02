@@ -117,12 +117,11 @@ Swap the emoji for an SVG plane that points right (autoRotate assumes rightward-
       { title: 'Partial segments', text: `start/end fractions fly sub-routes.` },
     ],
     useCases: [
-      { title: 'Delivery and travel maps', text: `Fly a plane or truck along a route; scrub it with scroll in [scroll path follow](/ui-snippets/scroll-path-follow/).` },
-      { title: 'Onboarding journeys', text: `A dot traveling between setup milestones, like [scroll timeline dots](/ui-snippets/scroll-timeline-dots/).` },
-      { title: 'Hero ambience', text: `Paper planes or comets drifting through a [startup hero](/ui-snippets/startup-hero/).` },
-      { title: 'Process diagrams', text: `Tokens flowing through pipeline curves; draw the pipes with [scroll svg path draw](/ui-snippets/scroll-svg-path-draw/).` },
-      { title: 'Orbital systems', text: `Circular paths for satellites, cousin to [orbiting icons](/ui-snippets/orbiting-icons/).` },
-      { title: 'Game-like UI', text: `Characters patrolling level select maps near [physics balls](/ui-snippets/physics-balls/).` },
+      { title: 'Travel and delivery maps', text: 'Fly a plane or truck along a route using real bezier travel, with `autoRotate` deriving the heading from the curve tangent.' },
+      { title: 'Onboarding journey markers', text: 'Move a dot between setup milestones beside [scroll timeline dots](/ui-snippets/scroll-timeline-dots/), with `align` calibrating SVG space to the element.' },
+      { title: 'Hero ambience', text: 'Let paper planes or comets drift through a [startup hero](/ui-snippets/startup-hero/), with `alignOrigin` pinning the element\'s middle to the line.' },
+      { title: 'Process diagrams', text: 'Send tokens flowing through pipeline curves, and pair with [scroll SVG path draw](/ui-snippets/scroll-svg-path-draw/) to draw the route as well.' },
+      { title: 'Orbital and game paths', text: 'Use circular paths for satellites next to [orbiting icons](/ui-snippets/orbiting-icons/), or have characters patrol a map near [physics balls](/ui-snippets/physics-balls/).' },
       { icon: 'CODE', title: 'Related: Zdog Pseudo-3D Orbit Scene', desc: 'See the [Zdog Pseudo-3D Orbit Scene](/ui-snippets/zdog-orbit-scene/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

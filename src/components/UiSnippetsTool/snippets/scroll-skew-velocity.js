@@ -93,12 +93,11 @@ Change the divisor for more or less shear, the clamp for a tighter or looser lim
       { title: 'Scales to many', text: `One velocity read drives all cards.` },
     ],
     useCases: [
-      { title: 'Feature lists', text: `Add momentum to an [animated list](/ui-snippets/animated-list/).` },
-      { title: 'Marquees', text: `Pair with a [scroll velocity marquee](/ui-snippets/scroll-velocity-marquee/).` },
-      { title: 'Galleries', text: `Lean a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) on scroll.` },
-      { title: 'Portfolios', text: `Energize a [portfolio filter grid](/ui-snippets/portfolio-filter-grid/).` },
-      { title: 'Editorial', text: `Give body sections a kinetic feel.` },
-      { title: 'Landing', text: `Energize a [feature cards](/ui-snippets/feature-cards/) section.` },
+      { title: 'Momentum-feel feature lists', text: 'Add a kinetic quality to an [animated list](/ui-snippets/animated-list/), where cards shear in the direction of scrolling and settle upright when you stop.' },
+      { title: 'Marquee pairings', text: 'Pair with a [scroll velocity marquee](/ui-snippets/scroll-velocity-marquee/) so that both text and cards visibly respond to how fast the visitor is scrolling.' },
+      { title: 'Gallery and grid lean', text: 'Make a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) lean with the scroll, using a hard clamp on the skew so the shear stays tasteful.' },
+      { title: 'Portfolio energy', text: 'Energise a [portfolio filter grid](/ui-snippets/portfolio-filter-grid/) with `quickTo` setters that reuse tweens instead of creating one per frame.' },
+      { title: 'Editorial and landing sections', text: 'Give body copy or a [feature cards](/ui-snippets/feature-cards/) section a kinetic feel, with power3 easing ramping the skew up and settling it back.' },
       { icon: 'CODE', title: 'Related: Scrollama Scrollytelling', desc: 'See the [Scrollama Scrollytelling](/ui-snippets/scrollama-story-steps/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

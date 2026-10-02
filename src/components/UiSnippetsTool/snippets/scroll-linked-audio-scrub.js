@@ -151,12 +151,11 @@ Swap the synthetic waveform for real amplitude data decoded from an actual audio
       { title: 'Real audio ready', text: `Swap the marker-only demo for audio.currentTime control.` },
     ],
     useCases: [
-      { title: 'Podcast pages', text: `Let scroll preview a transcript-synced waveform.` },
-      { title: 'Music portfolios', text: `Pair with [scroll SVG path draw](/ui-snippets/scroll-svg-path-draw/) reveals.` },
-      { title: 'Interactive articles', text: `Scrub archival audio alongside [scrollytelling](/ui-snippets/scroll-story-chart/).` },
-      { title: 'Sound design showcases', text: `Visualize a track without autoplaying audio.` },
-      { title: 'Course players', text: `Preview lecture audio position while scroll-reading notes.` },
-      { title: 'Progress indicators', text: `Complement a [scroll progress bar](/ui-snippets/css-scroll-driven-progress/).` },
+      { title: 'Podcast page previews', text: 'Let scrolling scrub a synthetic waveform playhead, with no clock running and no audio asset needed.' },
+      { title: 'Music portfolio pages', text: 'Pair with [scroll SVG path draw](/ui-snippets/scroll-svg-path-draw/) reveals so a track and an illustration both respond to scroll position.' },
+      { title: 'Interactive articles', text: 'Scrub through archival audio alongside the text of an interactive article, with one rect measurement driving four synchronised visuals at once.' },
+      { title: 'Sound design showcases', text: 'Visualise a track without autoplay, using deterministic sine-based bars so the waveform looks the same every visit.' },
+      { title: 'Progress indicator companions', text: 'Complement a [CSS scroll-driven progress](/ui-snippets/css-scroll-driven-progress/) bar, recalculating fresh each frame so reversal has no easing lag.' },
       { icon: 'CODE', title: 'Related: Scroll Milestone Confetti', desc: 'See the [Scroll Milestone Confetti](/ui-snippets/scroll-milestone-confetti/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

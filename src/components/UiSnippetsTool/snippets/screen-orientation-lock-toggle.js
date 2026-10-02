@@ -156,12 +156,11 @@ Pair this with a [screen wake lock toggle](/ui-snippets/screen-wake-lock-toggle/
       { title: 'No dependencies', text: `Pure vanilla JS against native APIs.` },
     ],
     useCases: [
-      { title: 'Mobile games', text: `Lock landscape for a game view, unlock on exit.` },
-      { title: 'Video players', text: `Force landscape during fullscreen video playback.` },
-      { title: 'Kiosk apps', text: `Pin a fixed orientation for dedicated hardware.` },
-      { title: 'Drawing/photo apps', text: `Lock portrait for a consistent canvas aspect.` },
-      { title: 'Capability showcases', text: `Alongside a [screen wake lock toggle](/ui-snippets/screen-wake-lock-toggle/).` },
-      { title: 'Progressive web apps', text: `Combine with fullscreen for an app-like feel.` },
+      { title: 'Mobile game views', text: 'Lock landscape for a game and unlock on exit, handling the common need to enter fullscreen before a lock is allowed.' },
+      { title: 'Video player fullscreen', text: 'Force landscape during fullscreen video playback, surfacing the named error such as `NotSupportedError` when the lock fails.' },
+      { title: 'Kiosk applications', text: 'Pin a fixed orientation for dedicated hardware, with a device mockup reflecting the requested orientation whatever the API returns.' },
+      { title: 'Drawing and photo apps', text: 'Lock portrait for a consistent canvas size, with an honest simulated fallback where locking is impossible.' },
+      { title: 'Capability showcases and PWAs', text: 'Show alongside a [screen wake lock toggle](/ui-snippets/screen-wake-lock-toggle/) as a capability showcase, and combine with fullscreen for an app-like progressive web app.' },
     ],
     faqs: [
       { q: 'Why does locking orientation require fullscreen?', a: `Most browsers that implement screen.orientation.lock() (primarily Chromium and Firefox on mobile) only honor the call while the document is in fullscreen. The reasoning is that locking a normal browser tab's orientation would fight the rest of the OS and browser chrome, which still needs to rotate freely — fullscreen removes that conflict. This snippet checks document.fullscreenElement and requests fullscreen automatically before attempting the lock.` },

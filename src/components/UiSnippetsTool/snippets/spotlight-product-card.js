@@ -108,12 +108,11 @@ Change the glow colours and radii in the two gradients, adjust the border thickn
       { title: 'Content-agnostic', text: `Drop in any product markup.` },
     ],
     useCases: [
-      { title: 'Store grids', text: `Replace a plain [product card](/ui-snippets/product-card/).` },
-      { title: 'Feature cards', text: `Light up a [tilt glow card](/ui-snippets/tilt-glow-card/) row.` },
-      { title: 'Add to cart', text: `Pair with an [add to cart button](/ui-snippets/add-to-cart-button/).` },
-      { title: 'Quick view', text: `Use inside a [product quick view](/ui-snippets/product-quick-view/).` },
-      { title: 'Pricing', text: `Spotlight a [pricing card](/ui-snippets/pricing-card/) tier.` },
-      { title: 'Showcases', text: `Highlight items in a [focus cards](/ui-snippets/focus-cards/) grid.` },
+      { title: 'Store product grids', text: 'Replace a plain [product card](/ui-snippets/product-card/) with one that lights up under the cursor, with a gradient border that illuminates where the pointer is.' },
+      { title: 'Feature card rows', text: 'Light up a row of [tilt glow cards](/ui-snippets/tilt-glow-card/) with the same spotlight idea, using one `mousemove` handler to write `--mx` and `--my`.' },
+      { title: 'Add to cart pairing', text: 'Pair with an [add to cart button](/ui-snippets/add-to-cart-button/) so the lit card leads naturally into the purchase action.' },
+      { title: 'Quick view and pricing', text: 'Use inside a [product quick view](/ui-snippets/product-quick-view/) or spotlight a tier on a [pricing card](/ui-snippets/pricing-card/), with both layers fading in on hover only.' },
+      { title: 'Focus grids', text: 'Highlight items in a [focus cards](/ui-snippets/focus-cards/) grid, where the masked `::after` frame brightens under the pointer.' },
     ],
     faqs: [
       { q: 'How do the glow and border track the cursor together?', a: `A single mousemove handler writes the pointer position into two CSS custom properties, --mx and --my, on the card. Two pseudo-elements read those same variables — ::before for the surface glow and ::after for the border — so both move in lockstep with only two values updated per frame.` },

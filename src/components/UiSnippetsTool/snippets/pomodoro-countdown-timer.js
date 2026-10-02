@@ -173,10 +173,10 @@ When \`remainingMs\` reaches zero, the timer shows "Time's up!" and, after a sho
       'Fully self-contained vanilla JS with no external timer library',
     ],
     useCases: [
-      { icon: 'APP', title: 'Productivity and focus-tracking apps', desc: 'A ready-made Pomodoro technique timer for any focus or study tool.' },
-      { icon: 'FORM', title: 'Browser extensions and desktop productivity widgets', desc: 'Drop-in timer logic that stays accurate even if the tab is backgrounded.' },
-      { icon: 'LEARN', title: 'Teaching drift-free timer implementation', desc: 'A clear, practical example of why timestamp-based countdowns beat naive decrementing counters.' },
-      { icon: 'DESIGN', title: 'Study and habit-tracking dashboards', desc: 'A clean, minimal timer component that fits into a broader personal productivity UI.' },
+      { icon: '🍅', title: 'Productivity and focus apps', desc: 'Provide a ready-made Pomodoro timer with Focus, Short Break and Long Break modes, each sharing one timing engine.' },
+      { icon: '🧩', title: 'Browser extension widgets', desc: 'Drop a minimal timer into a desktop widget, where remaining time is computed from `Date.now()` plus a duration on every tick.' },
+      { icon: '🎓', title: 'Drift-free timer teaching', desc: 'Show why decrementing a counter inside `setInterval` drifts over time, due to background tabs, garbage collection and CPU load.' },
+      { icon: '📚', title: 'Study and habit dashboards', desc: 'Embed a clean timer in a study tracker, with pause and resume preserving the exact remaining milliseconds.' },
     ],
     faqs: [
       { q: 'Why compute remaining time from a timestamp instead of just decrementing a counter?', a: 'setInterval callbacks are not guaranteed to fire at exactly the requested interval — delays accumulate over a 25-minute session and cause visible drift. By recomputing remainingMs as endTime - Date.now() on every tick, the displayed time is always correct regardless of exactly when a given tick fires.' },

@@ -147,12 +147,11 @@ Swap the CSS gradients for real \`background-image\` photos, adjust \`INTERVAL_M
       { title: 'Consistent-contrast scrim', text: `Text stays legible regardless of active background.` },
     ],
     useCases: [
-      { title: 'Travel and hospitality heroes', text: `Show range across destinations without a slider UI.` },
-      { title: 'Real estate listing heroes', text: `Rotate through featured properties.` },
-      { title: 'Event and venue landing pages', text: `Cycle through past event photography.` },
-      { title: 'Restaurant and hospitality sites', text: `Pair with [video bg hero](/ui-snippets/video-bg-hero/) alternatives.` },
-      { title: 'Fashion and lifestyle brand heroes', text: `Rotate seasonal campaign imagery.` },
-      { title: 'Conference and summit pages', text: `Show multiple venue or speaker moments.` },
+      { title: 'Travel destination heroes', text: 'Show range across destinations while the headline and call to action stay fixed, cross-fading four backgrounds on a real `setInterval` timer.' },
+      { title: 'Real estate featured properties', text: 'Rotate through featured listings behind one search prompt, with layers stacked and only their opacity toggling.' },
+      { title: 'Event and venue pages', text: 'Cycle through photos from past events, with clickable indicator dots and a timer that restarts when someone picks a slide manually.' },
+      { title: 'Restaurant and hotel sites', text: 'Compare with a [video background hero](/ui-snippets/video-bg-hero/) when moving footage is available and a lighter image rotation when it is not.' },
+      { title: 'Fashion and conference campaigns', text: 'Rotate seasonal campaign images for a brand, or show multiple venues and speakers for a summit without a full slider interface.' },
       { icon: 'CODE', title: 'Related: Developer Hero with Typing Code Window', desc: 'See the [Developer Hero with Typing Code Window](/ui-snippets/hero-code-window-showcase/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

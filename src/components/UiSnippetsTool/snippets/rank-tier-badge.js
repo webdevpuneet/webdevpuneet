@@ -144,12 +144,11 @@ At the highest tier (Diamond here), there's no "next tier" to progress toward. R
       { title: 'Easily extended', text: `Add a new tier with one array entry.` },
     ],
     useCases: [
-      { title: 'Competitive game UIs', text: `A ranked-mode profile badge.` },
-      { title: 'Gamified learning apps', text: `Pair with [activity rings](/ui-snippets/activity-rings/) for streaks.` },
-      { title: 'Loyalty/rewards tiers', text: `Bronze-to-Diamond spend tiers.` },
-      { title: 'Esports leaderboards', text: `Per-player rank display alongside stats.` },
-      { title: 'Fitness/gamified apps', text: `Combine with [gradient stat ring](/ui-snippets/gradient-stat-ring/).` },
-      { title: 'Sales gamification', text: `Rep performance tiers with a progress goal.` },
+      { title: 'Competitive game profiles', text: 'Show a ranked-mode badge from Bronze to Diamond, with the glow, emblem and progress bar all derived from one ranked-points value.' },
+      { title: 'Gamified learning apps', text: 'Pair with [activity rings](/ui-snippets/activity-rings/) so a learner sees both daily streak progress and their overall tier, with points needed shown for the next one.' },
+      { title: 'Loyalty and rewards tiers', text: 'Map spend to Bronze through Diamond status, using a table-driven array of tiers instead of a nested if-else chain.' },
+      { title: 'Esports leaderboard rows', text: 'Display each player\'s rank next to their stats, with one JavaScript write to a CSS custom property recolouring the whole card.' },
+      { title: 'Sales rep performance tiers', text: 'Combine with a [gradient stat ring](/ui-snippets/gradient-stat-ring/) for fitness or sales gamification, where real threshold ranges decide the bar fill.' },
     ],
     faqs: [
       { q: 'How does the badge know which tier the current RP belongs to?', a: `TIERS is an ordered array of objects each with a min RP threshold where that tier begins. tierForRp() walks the array and keeps updating its answer to the last tier whose min the current RP meets or exceeds, so the result is always the highest tier the player has actually reached — no separate if/else chain to keep in sync as tiers are added.` },

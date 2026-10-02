@@ -117,12 +117,11 @@ Feed \`cardData\` from a real API response and the grid, the loop, and the anima
       { title: 'No animation library conflicts', text: 'Velocity queues per-element automatically, so rapid replay clicks never overlap ugly.' },
     ],
     useCases: [
-      { icon: 'DESIGN', title: 'Feature grids', text: 'Marketing sections that reveal benefits one at a time on page load.' },
-      { icon: 'APP', title: 'Dashboard widget entrance', text: 'Stagger KPI or chart cards in in the same cascading order they matter.' },
-      { icon: 'LEARN', title: 'Onboarding tours', text: 'Replay the reveal as a guided highlight when a user revisits a tutorial step.' },
-      { title: 'Pricing tiers', text: 'Cascade pricing cards in so the eye naturally lands on them left to right.' },
-      { title: 'Portfolio/case-study grids', text: 'A staggered reveal signals polish before the visitor reads any content.' },
-      { title: 'Learning manual stagger', text: 'A concrete example of when to hand-roll delay math instead of a library helper.' },
+      { title: 'Feature grids', text: 'Reveal marketing benefits one at a time using a hand-written loop that calls Velocity once per card with `delay: i * 90`.' },
+      { title: 'Dashboard widget entrances', text: 'Stagger KPI or chart cards in on load, using a zero-duration Velocity call to snap state back before each replay.' },
+      { title: 'Onboarding highlights', text: 'Replay the reveal as a guided highlight, since the manual loop gives control over per-element starting values.' },
+      { title: 'Pricing tier cascades', text: 'Cascade pricing cards in so the eye follows a natural left-to-right order, with a gentle spring easing of `[180, 18]`.' },
+      { title: 'Manual stagger learning', text: 'Learn when to handle stagger yourself rather than rely on the built-in helper, with cards rendered from a plain data array via `innerHTML`.' },
     ],
     faqs: [
       { q: 'Why loop and call Velocity per card instead of using the stagger option once?', a: "Velocity's stagger option computes delay = index * value automatically, but only for one uniform Velocity() call across a list. The manual loop does the same math explicitly, which is necessary the moment any card needs different values, a skipped index, or a delay computed from something other than array position." },

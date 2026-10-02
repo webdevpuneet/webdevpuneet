@@ -179,12 +179,11 @@ Pair this with [passkey login](/ui-snippets/passkey-login/) for the registration
       { title: 'No dependencies', text: `Pure vanilla JS against the native WebAuthn API.` },
     ],
     useCases: [
-      { title: 'Login page mockups', text: `Show a security-key option alongside [passkey login](/ui-snippets/passkey-login/).` },
-      { title: 'Auth method comparisons', text: `Contrast with [OTP verification](/ui-snippets/otp-verification/).` },
-      { title: 'Security feature marketing', text: `Explain phishing-resistant auth without a backend.` },
-      { title: 'Developer education', text: `Teach the create/get WebAuthn lifecycle interactively.` },
-      { title: 'Design system components', text: `A styled security-key button ready for real wiring.` },
-      { title: 'Account settings pages', text: `Prototype a "manage security keys" section.` },
+      { title: 'Login page mockups', text: 'Show a security-key option beside passkey sign-in, using a genuine `navigator.credentials.get()` call with a cryptographically random challenge.' },
+      { title: 'Authentication method comparisons', text: 'Contrast with [OTP verification](/ui-snippets/otp-verification/) when explaining the practical differences between phishing-resistant hardware keys and code-based second factors.' },
+      { title: 'Security feature marketing', text: 'Explain phishing-resistant authentication, treating the expected failure as the teaching moment because no credential was ever registered here.' },
+      { title: 'Developer education', text: 'Teach the create and get WebAuthn lifecycle to developers, with `NotAllowedError`, `SecurityError` and `AbortError` each explained separately.' },
+      { title: 'Security key management screens', text: 'Prototype a manage security keys screen alongside [passkey login](/ui-snippets/passkey-login/), as a styled button ready for real credential registration.' },
     ],
     faqs: [
       { q: 'Why does clicking "Verify with security key" always fail?', a: `Because WebAuthn requires a credential to be registered first via navigator.credentials.create(), which needs a real server to issue a registration challenge and store the resulting public key against an account. This demo has no server, so navigator.credentials.get() correctly and honestly rejects — almost always with NotAllowedError — since the browser finds no matching credential for this origin. That's the expected, correct behavior, not a bug in the snippet.` },

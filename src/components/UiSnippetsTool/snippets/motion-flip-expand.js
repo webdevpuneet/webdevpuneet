@@ -254,12 +254,11 @@ The detail copy already lives inside each card and is simply \`display: none\` u
       { title: 'Three ways to close', text: 'Escape key, backdrop click, and button all share one close path.' },
     ],
     useCases: [
-      { title: 'Editorial and photo grids', text: 'Open a story in place instead of navigating away from the feed.' },
-      { title: 'Product detail previews', text: 'A richer alternative to a [product quick view](/ui-snippets/product-quick-view/).' },
-      { title: 'Portfolio case studies', text: 'Expand a project tile into its full write-up without a route change.' },
-      { title: 'Dashboard widget zoom', text: 'Grow a small metric tile into a full chart panel on click.' },
-      { title: 'Team and profile grids', text: 'Expand a card into a bio, next to an [expandable card](/ui-snippets/expandable-card/).' },
-      { title: 'Learning FLIP', text: 'A readable reference for measure-then-animate layout transitions.' },
+      { title: 'Editorial and photo grids', text: 'Open a story in place instead of navigating to a new page, with a placeholder holding the card\'s slot so the grid never reflows.' },
+      { title: 'Product detail previews', text: 'Offer a richer alternative to a [product quick view](/ui-snippets/product-quick-view/), growing a grid card into a detail panel on real spring physics.' },
+      { title: 'Project tile expansion', text: 'Expand a project tile into its full story, with `getBoundingClientRect` captured before the card leaves the normal flow of the page.' },
+      { title: 'Dashboard widget zoom', text: 'Grow a small metric tile into a full panel, with close reading the placeholder position at close time so layout changes in between are respected.' },
+      { title: 'Team profiles and FLIP learning', text: 'Expand a card into a bio next to an [expandable card](/ui-snippets/expandable-card/) variant, and learn measure-then-animate with spring stiffness, damping and mass.' },
     ],
     faqs: [
       { q: 'Why use a spring easing instead of a cubic-bezier?', a: 'A bezier arrives at the target and stops dead, which reads as a scrub rather than a movement. A spring is defined by stiffness, damping, and mass, so it overshoots slightly and settles — that overshoot is what the eye interprets as weight. Springs also have no fixed duration; the physics decides when the motion ends, so opens and closes over different distances stay consistent.' },

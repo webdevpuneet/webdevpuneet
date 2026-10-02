@@ -151,12 +151,11 @@ Change \`RADIUS\`, the action list, or the starting angle offset; make the menu 
       { title: `No dependency`, text: `Pure HTML/CSS/JS — no context-menu library.` },
     ],
     useCases: [
-      { title: `Canvas and design tools`, text: `A circular alternative to a [context menu](/ui-snippets/context-menu/).` },
-      { title: `Game-style interfaces`, text: `Radial wheels are a familiar pattern from game UIs.` },
-      { title: `Map and diagram editors`, text: `Fan out actions around a right-clicked map point.` },
-      { title: `Whiteboard and node editors`, text: `Right-click a node for circular quick actions.` },
-      { title: `Data grids`, text: `Pair with a [table row context menu](/ui-snippets/table-row-context-menu/) for per-row wheels.` },
-      { title: `Learning contextmenu + trigonometry`, text: `A reference for real right-click events and polar placement.` },
+      { title: 'Canvas and design tools', text: 'Provide a circular alternative to a [context menu](/ui-snippets/context-menu/), centred on the exact point of a real `contextmenu` event.' },
+      { title: 'Game-style interfaces', text: 'Use the radial wheel pattern familiar from games, with items placed around a full circle through `cos` and `sin`.' },
+      { title: 'Map and diagram editors', text: 'Fan actions out around a right-click point in map and diagram editors, with `preventDefault` suppressing the native browser menu entirely.' },
+      { title: 'Whiteboard and node editors', text: 'Right-click a node in a whiteboard or node editor for circular actions, using a spring-out animation from the centre of the wheel.' },
+      { title: 'Data grid pairings', text: 'Pair with a [table row context menu](/ui-snippets/table-row-context-menu/) for per-row actions, and learn polar to Cartesian placement.' },
       { icon: 'CODE', title: 'Related: Tabs with URL Sync', desc: 'See the [Tabs with URL Sync](/ui-snippets/tabs-url-sync/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

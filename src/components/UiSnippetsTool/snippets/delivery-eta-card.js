@@ -144,12 +144,11 @@ Swap the countdown source for a real ETA timestamp, replace the avatar initials 
       { title: 'No dependencies', text: `Pure HTML, CSS, and JavaScript.` },
     ],
     useCases: [
-      { title: 'Food delivery apps', text: `Show a live courier ETA after an order.` },
-      { title: 'Package tracking', text: `Pair with a [package tracking route](/ui-snippets/package-tracking-map/).` },
-      { title: 'Rideshare-style apps', text: `Reuse the pattern for a driver arrival card.` },
-      { title: 'Order confirmation pages', text: `Sit beside [order summary](/ui-snippets/order-summary/).` },
-      { title: 'Support widgets', text: `Give agents a quick courier-contact shortcut.` },
-      { title: 'Dashboards', text: `Combine with a [status dashboard](/ui-snippets/status-dashboard/) for ops teams.` },
+      { title: 'Food delivery tracking', text: 'Show a live courier countdown after an order is out for delivery, with tabular numerals so the time never jitters as digits change.' },
+      { title: 'Package tracking pairings', text: 'Place beside a [package tracking map](/ui-snippets/package-tracking-map/) so the route and the arrival time are visible together.' },
+      { title: 'Driver arrival cards', text: 'Reuse the pattern for ride-style apps, where a progress bar and distance remaining derive from one ratio.' },
+      { title: 'Order confirmation pages', text: 'Sit beside an [order summary](/ui-snippets/order-summary/), with an avatar initial for the courier so it renders without any photo.' },
+      { title: 'Operations and support views', text: 'Give agents a quick contact-courier shortcut, or combine with a [status dashboard](/ui-snippets/status-dashboard/) for operations teams watching many deliveries.' },
       { icon: 'CODE', title: 'Related: Motion One Spring Card Expand', desc: 'See the [Motion One Spring Card Expand](/ui-snippets/motion-flip-expand/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

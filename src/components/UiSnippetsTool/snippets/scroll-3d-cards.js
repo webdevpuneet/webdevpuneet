@@ -97,12 +97,11 @@ Change the starting tilt, the rise distance, the trigger range for an earlier or
       { title: 'Pace-matched', text: `Speed follows how fast you scroll.` },
     ],
     useCases: [
-      { title: 'Feature lists', text: `A 3D take on a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/).` },
-      { title: 'Pricing', text: `Flip in [pricing card](/ui-snippets/pricing-card/) tiers.` },
-      { title: 'Portfolios', text: `Stand up [feature cards](/ui-snippets/feature-cards/).` },
-      { title: 'Hover combo', text: `Pair entry with [3d card tilt](/ui-snippets/3d-card-tilt/) hover.` },
-      { title: 'Stacks', text: `Lead into a [scroll sticky stack](/ui-snippets/scroll-sticky-stack/).` },
-      { title: 'Testimonials', text: `Reveal a [testimonial card](/ui-snippets/testimonial-card/) column.` },
+      { title: 'Feature list entrances', text: 'Stand cards up from a back tilt as they near the centre of the screen, as a 3D take on a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/).' },
+      { title: 'Pricing tier reveals', text: 'Flip in [pricing card](/ui-snippets/pricing-card/) tiers one after another, using `transform-origin` at the base so each card hinges like a page.' },
+      { title: 'Portfolio capability cards', text: 'Stand up [feature cards](/ui-snippets/feature-cards/) with parent perspective foreshortening the tilt, giving real depth rather than a flat fade.' },
+      { title: 'Hover pairing', text: 'Combine the entrance with a [3D card tilt](/ui-snippets/3d-card-tilt/) hover so cards stand up on scroll and respond to the pointer afterwards.' },
+      { title: 'Stack and testimonial follow-ups', text: 'Lead into a [scroll sticky stack](/ui-snippets/scroll-sticky-stack/), or reveal a column of [testimonial cards](/ui-snippets/testimonial-card/) with a scrubbed angle.' },
       { icon: 'CODE', title: 'Related: Scroll Accordion', desc: 'See the [Scroll Accordion](/ui-snippets/scroll-accordion/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

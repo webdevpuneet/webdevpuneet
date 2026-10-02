@@ -151,12 +151,11 @@ Redraw the \`d\` path with your own route geometry (a real city walk, a hiking t
       { title: 'Extensible waypoint list', text: `Add stops and matching waypoint entries with no other logic to update.` },
     ],
     useCases: [
-      { title: 'Expedition and travel recap pages', text: `Narrate a real trip's route with the map itself as the storytelling device.` },
-      { title: 'Delivery or logistics journey explainers', text: `Show a package's route with waypoint status updates along the way.` },
-      { title: 'City walking tour microsites', text: `Guide readers stop by stop along a real walking route.` },
-      { title: 'Historical migration or exploration stories', text: `Illustrate a historic journey with a self-drawing route line.` },
-      { title: 'Sales or onboarding "customer journey" visuals', text: `Reuse the path-draw metaphor for an abstract, non-geographic journey.` },
-      { title: 'Race or endurance event recaps', text: `Trace a marathon or trail-race route with waypoint splits and stories.` },
+      { title: 'Expedition and travel recaps', text: 'Narrate a real trip\'s route, with an SVG trail drawing itself as the visitor scrolls and a marker travelling along the exact path geometry.' },
+      { title: 'Logistics journey explainers', text: 'Show a package\'s journey from origin to door, revealing waypoint stories as the marker passes each stop.' },
+      { title: 'City walking tours', text: 'Guide readers stop by stop, with each waypoint\'s trigger threshold matched to its actual location along the path.' },
+      { title: 'Historical migration stories', text: 'Illustrate an exploration or migration route, using `getPointAtLength` so the marker sits exactly on the line at every position.' },
+      { title: 'Customer journey visuals and race recaps', text: 'Reuse for sales or onboarding journey graphics, or trace a marathon or trail race, with one shared progress value driving the draw, marker, stops and text.' },
       { icon: 'CODE', title: 'Related: Scroll Product Launch Story', desc: 'See the [Scroll Product Launch Story](/ui-snippets/scroll-product-launch-story/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

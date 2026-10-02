@@ -118,12 +118,11 @@ Add cards (each with the next \`--d\`), change the \`GAP\` for tighter or looser
       { title: 'Any card count', text: `Add cards with the next --d.` },
     ],
     useCases: [
-      { title: 'Showcases', text: `A 3D cousin of [scroll 3d cards](/ui-snippets/scroll-3d-cards/).` },
-      { title: 'Galleries', text: `Fly through a [coverflow carousel](/ui-snippets/coverflow-carousel/) set.` },
-      { title: 'Intros', text: `Open before a [scroll horizontal pin](/ui-snippets/scroll-horizontal-pin/).` },
-      { title: 'Storytelling', text: `Sequence scenes in a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Feature reels', text: `Rush through [feature cards](/ui-snippets/feature-cards/).` },
-      { title: 'Brand moments', text: `Pair with a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/).` },
+      { title: '3D showcase tunnels', text: 'Fly through cards arranged one behind another in depth, as a deeper cousin of [scroll 3D cards](/ui-snippets/scroll-3d-cards/).' },
+      { title: 'Gallery fly-throughs', text: 'Pair with a [coverflow carousel](/ui-snippets/coverflow-carousel/) so visitors can either fly through or browse a set of images.' },
+      { title: 'Pre-pin intros', text: 'Open ahead of a [scroll horizontal pin](/ui-snippets/scroll-horizontal-pin/), with one parent z-tween moving the camera through the whole scene.' },
+      { title: 'Story scene sequences', text: 'Sequence scenes inside a [scroll pin story](/ui-snippets/scroll-pin-story/), with cards fading by their distance from the focal point.' },
+      { title: 'Feature reels and brand moments', text: 'Rush through [feature cards](/ui-snippets/feature-cards/) toward the camera, or pair with a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/) for an immersive start.' },
       { icon: 'CODE', title: 'Related: Scroll Rotate Gallery', desc: 'See the [Scroll Rotate Gallery](/ui-snippets/scroll-rotate-gallery/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

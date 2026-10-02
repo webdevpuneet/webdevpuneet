@@ -227,12 +227,11 @@ Every applied color — from either path — is pushed to the front of a \`picke
       { title: 'One-click copy', text: `Copies the current hex to the clipboard with confirmation.` },
     ],
     useCases: [
-      { title: 'Design tools', text: `Sample any on-screen color into a [gradient picker](/ui-snippets/gradient-picker/).` },
-      { title: 'Brand palette builders', text: `Collect sampled colors alongside a [color swatch](/ui-snippets/color-swatch/) grid.` },
-      { title: 'CSS/theme editors', text: `Grab a real color from a mockup to seed a theme.` },
-      { title: 'Accessibility contrast checks', text: `Sample foreground/background pairs to test contrast.` },
-      { title: 'Illustration/whiteboard apps', text: `Match a stroke color to something already on screen.` },
-      { title: 'QA/design review tools', text: `Quickly report the exact hex of a rendering bug.` },
+      { title: 'Design tool colour sampling', text: 'Sample any visible pixel on screen into a [gradient picker](/ui-snippets/gradient-picker/), using the real `EyeDropper` API called directly from the click handler.' },
+      { title: 'Brand palette collection', text: 'Collect sampled colours beside a [colour swatch](/ui-snippets/color-swatch/) palette, with copy-to-clipboard available for each hex value in the running list.' },
+      { title: 'Theme editor seeding', text: 'Grab a real colour from a mockup to seed a theme, with a manual hex fallback for browsers that lack the API.' },
+      { title: 'Accessibility contrast checks', text: 'Sample foreground and background colours from any page to test contrast, with the API sampling beyond the browser window itself.' },
+      { title: 'Illustration and design review', text: 'Match a stroke colour to something on screen, or report the exact hex of a rendered element, with Escape cleanly restoring the idle state.' },
       { icon: 'CODE', title: 'Related: Load More Button', desc: 'See the [Load More Button](/ui-snippets/load-more-button/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

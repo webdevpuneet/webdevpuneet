@@ -109,12 +109,11 @@ Change the gradient, the overshoot in the bezier, or the padding to restyle the 
       { title: 'Label crossfade', text: `Active text color follows the pill.` },
     ],
     useCases: [
-      { title: 'Time ranges', text: `Day/Week/Month above a [line chart widget](/ui-snippets/line-chart-widget/).` },
-      { title: 'View switchers', text: `Toggle layouts on a [dashboard layout](/ui-snippets/dashboard-layout/).` },
-      { title: 'Pricing periods', text: `Pair with a [pricing toggle](/ui-snippets/pricing-toggle/).` },
-      { title: 'Filters', text: `Switch categories beside a [chip filter](/ui-snippets/chip-filter/).` },
-      { title: 'Settings', text: `Theme or density on a [settings panel](/ui-snippets/settings-panel/).` },
-      { title: 'Tabbed content', text: `An alternative to [dynamic tabs](/ui-snippets/dynamic-tabs/).` },
+      { title: 'Chart time ranges', text: 'Switch Day, Week and Month above a [line chart widget](/ui-snippets/line-chart-widget/), with a gradient pill sliding to the chosen option.' },
+      { title: 'Dashboard view switchers', text: 'Toggle layouts on a [dashboard layout](/ui-snippets/dashboard-layout/), measuring positions with `offsetLeft` and `offsetWidth` so labels of any length work.' },
+      { title: 'Pricing period switches', text: 'Pair with a [pricing toggle](/ui-snippets/pricing-toggle/) for monthly and annual choices, using an overshooting bezier for a gentle bounce.' },
+      { title: 'Filter category switches', text: 'Switch categories beside a [chip filter](/ui-snippets/chip-filter/) in a listing, with full arrow-key support for keyboard users moving between options.' },
+      { title: 'Settings and tab alternatives', text: 'Pick theme or density in a [settings panel](/ui-snippets/settings-panel/), or compare with [dynamic tabs](/ui-snippets/dynamic-tabs/) when content panels change.' },
     ],
     faqs: [
       { q: 'How does the pill wrap options of different widths?', a: `On each selection JavaScript reads the active button's offsetWidth and offsetLeft from the live layout and sets the pill's width and translateX to match. Because both are measured rather than hard-coded, the pill resizes to fit whichever option is active, even when labels have different lengths.` },

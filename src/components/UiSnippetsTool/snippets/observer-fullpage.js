@@ -135,12 +135,11 @@ Retheme via each section's \`--sb\`/\`--sa\` variables, swap the hand-off for cr
       { title: 'Boundary stops', text: `Deck ends are guarded, no wraparound.` },
     ],
     useCases: [
-      { title: 'Product launch decks', text: `One idea per screen; the scroll-native cousin is [full page scroll](/ui-snippets/full-page-scroll/).` },
-      { title: 'Portfolio showcases', text: `Case studies as slides, each opened by a [scroll letter stagger](/ui-snippets/scroll-letter-stagger/) headline.` },
-      { title: 'Onboarding flows', text: `Swipeable app intros, like [mobile onboarding](/ui-snippets/mobile-onboarding/) at page scale.` },
-      { title: 'Event and campaign sites', text: `Chaptered storytelling; pin variants live in [scroll fade stack](/ui-snippets/scroll-fade-stack/).` },
-      { title: 'Presentation mode', text: `Web slide decks with dot progress from [page dots nav](/ui-snippets/page-dots-nav/).` },
-      { title: 'Immersive heroes', text: `Gate the deck behind a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/) landing.` },
+      { title: 'Product launch decks', text: 'Show one idea per screen, where a single wheel flick or swipe advances one full-screen section, and compare with native [full page scroll](/ui-snippets/full-page-scroll/) snapping.' },
+      { title: 'Portfolio case study slides', text: 'Present each case study as a slide that opens with a [scroll letter stagger](/ui-snippets/scroll-letter-stagger/) headline, with the incoming slide overlapping the receding one.' },
+      { title: 'Mobile-style onboarding', text: 'Build swipeable intros like [mobile onboarding](/ui-snippets/mobile-onboarding/), with wheel, touch and drag unified into up and down intents by GSAP Observer.' },
+      { title: 'Event and campaign chapters', text: 'Tell a chaptered story where stacked sections add zero scroll height, using a tolerance and lock so one gesture moves exactly one section.' },
+      { title: 'Presentation mode and immersive heroes', text: 'Create web slide decks with dot progress from [page dots nav](/ui-snippets/page-dots-nav/), or gate the deck behind a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/).' },
       { icon: 'CODE', title: 'Related: Related Articles Carousel', desc: 'See the [Related Articles Carousel](/ui-snippets/related-articles-carousel/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

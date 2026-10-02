@@ -119,12 +119,11 @@ Change the star count, the colours, or the label words; pre-set a rating by call
       { title: 'Descriptive label', text: `Shows score plus a word like Good.` },
     ],
     useCases: [
-      { title: 'Review forms', text: `Score input atop a [review form](/ui-snippets/review-form/).` },
-      { title: 'Order feedback', text: `Rate after an [order summary](/ui-snippets/order-summary/).` },
-      { title: 'Display vs input', text: `Pair with a read-only [star rating](/ui-snippets/star-rating/).` },
-      { title: 'Aggregate views', text: `Feed a [rating breakdown](/ui-snippets/rating-breakdown/).` },
-      { title: 'Surveys', text: `A scale step in an [NPS survey](/ui-snippets/nps-survey/).` },
-      { title: 'Support', text: `CSAT after a [helpful feedback widget](/ui-snippets/helpful-feedback-widget/).` },
+      { title: 'Review forms', text: 'Add a score input at the top of a [review form](/ui-snippets/review-form/), with stars previewing a lighter fill on hover and a brighter fill once committed.' },
+      { title: 'Post-order feedback', text: 'Ask for a rating after an [order summary](/ui-snippets/order-summary/), with a live label such as Great or Poor describing the chosen score.' },
+      { title: 'Display versus input', text: 'Pair with a read-only [star rating](/ui-snippets/star-rating/) so the same visual language covers both showing and collecting scores.' },
+      { title: 'Aggregate rating views', text: 'Feed collected scores into a [rating breakdown](/ui-snippets/rating-breakdown/), with SVG stars staying crisp and recolourable at any size.' },
+      { title: 'Survey and support scales', text: 'Use as a step in an [NPS survey](/ui-snippets/nps-survey/), or collect CSAT after a [helpful feedback widget](/ui-snippets/helpful-feedback-widget/) interaction.' },
     ],
     faqs: [
       { q: 'Why does moving the mouse away not clear my rating?', a: `The control keeps hover preview and committed selection as separate classes. Hovering paints a lighter is-hover fill, while clicking sets a persistent is-on fill. On mouseleave only the hover class is cleared, so the committed rating stays shown — the behaviour a star input should have but many implementations get wrong.` },

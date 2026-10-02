@@ -106,12 +106,11 @@ Tune the \`18\`/\`12\`/\`22\` multipliers to control how far the shell leans, ho
       { title: 'Single handler', text: `One pointermove drives both layers.` },
     ],
     useCases: [
-      { title: 'Playful feature tiles', text: `Liven up a [feature cards](/ui-snippets/feature-cards/) grid.` },
-      { title: 'Product highlights', text: `Pair with a [glare card](/ui-snippets/glare-card/) showcase.` },
-      { title: 'Bento sections', text: `A tactile cell inside a [bento grid](/ui-snippets/bento-grid/).` },
-      { title: 'Landing CTAs', text: `Wrap a [shimmer button](/ui-snippets/shimmer-button/) call to action.` },
-      { title: 'Portfolio cards', text: `Make project tiles feel interactive.` },
-      { title: 'Hover-physics demos', text: `A reference for spring-eased pointer follow.` },
+      { title: 'Playful feature tiles', text: 'Liven up a [feature cards](/ui-snippets/feature-cards/) grid with tiles that squish toward the pointer like jelly while contents drift the opposite way.' },
+      { title: 'Product highlights', text: 'Pair with a [glare card](/ui-snippets/glare-card/) showcase, using perspective and `preserve-3d` for genuine depth in the wobble.' },
+      { title: 'Bento grid cells', text: 'Add a tactile cell inside a [bento grid](/ui-snippets/bento-grid/), springing back with an overshooting cubic-bezier when the pointer leaves.' },
+      { title: 'Landing call to action wrappers', text: 'Wrap a [shimmer button](/ui-snippets/shimmer-button/) in a landing page card that responds softly to the pointer as visitors approach.' },
+      { title: 'Portfolio and hover-physics demos', text: 'Make project tiles feel interactive, with a short transition making the card softly chase the cursor.' },
     ],
     faqs: [
       { q: 'What makes the card feel like jelly instead of glass?', a: `Two things: the shell and the inner content translate in opposite directions on pointer move, so the surface appears to stretch and the text resists, and both layers use a spring-like cubic-bezier(.2,.8,.2,1) that overshoots and settles. The opposing motion plus the bouncy easing read as soft, deformable material rather than a rigid tilt.` },

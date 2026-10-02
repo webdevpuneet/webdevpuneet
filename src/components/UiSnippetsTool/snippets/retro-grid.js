@@ -93,12 +93,11 @@ Change the \`perspective\` and \`rotateX\` to steepen or flatten the floor, adju
       { title: 'Runtime speed API', text: `A tiny helper retunes the run speed.` },
     ],
     useCases: [
-      { title: 'Synthwave landing pages', text: `Pair with an [aurora text](/ui-snippets/aurora-text/) headline.` },
-      { title: 'Game and arcade sites', text: `Set the mood behind a [pulse button](/ui-snippets/pulse-button/) CTA.` },
-      { title: 'Music and DJ pages', text: `A retro backdrop for an [app hero](/ui-snippets/app-hero/).` },
-      { title: 'Event microsites', text: `Frame a [shiny text](/ui-snippets/shiny-text/) announcement.` },
-      { title: 'Retro portfolios', text: `An 80s alternative to a [minimal hero](/ui-snippets/minimal-hero/).` },
-      { title: 'CSS perspective demos', text: `A reference for animated receding grids.` },
+      { title: 'Synthwave landing pages', text: 'Pair with an [aurora text](/ui-snippets/aurora-text/) headline over a neon grid floor that races toward the horizon in CSS perspective.' },
+      { title: 'Game and arcade sites', text: 'Set the mood behind a [pulse button](/ui-snippets/pulse-button/), with a looping `background-position` shift producing a seamless forward race.' },
+      { title: 'Music and DJ pages', text: 'Provide a retro backdrop for an [app hero](/ui-snippets/app-hero/), with a striped sun built from a mask gradient.' },
+      { title: 'Event microsites', text: 'Frame a [shiny text](/ui-snippets/shiny-text/) announcement against a vaporwave scene made from two layered gradients and no images.' },
+      { title: 'Retro portfolios', text: 'Offer an 80s alternative to a [minimal hero](/ui-snippets/minimal-hero/), and learn `rotateX` with low perspective as a reference for receding planes.' },
       { icon: 'CODE', title: 'Related: Split-Screen Hero with Embedded Signup Form', desc: 'See the [Split-Screen Hero with Embedded Signup Form](/ui-snippets/hero-split-screen-form/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

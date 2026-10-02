@@ -109,12 +109,11 @@ Add slides (bump the \`end\` accordingly), change the drift distance or fade dur
       { title: 'Reversible', text: `Crossfades run backward on scroll-up.` },
     ],
     useCases: [
-      { title: 'Feature sequences', text: `A crossfade take on [scroll pin steps](/ui-snippets/scroll-pin-steps/).` },
-      { title: 'Storytelling', text: `Pace a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Quotes', text: `Cycle a [testimonial slider](/ui-snippets/testimonial-slider/).` },
-      { title: 'Product value', text: `Stack messages like [scroll sticky stack](/ui-snippets/scroll-sticky-stack/).` },
-      { title: 'Onboarding', text: `Explain steps before an [onboarding tour](/ui-snippets/onboarding-tour/).` },
-      { title: 'Highlights', text: `Summarize beside [feature cards](/ui-snippets/feature-cards/).` },
+      { title: 'Feature message sequences', text: 'Crossfade a series of messages inside one frame, as a gentler take on [scroll pin steps](/ui-snippets/scroll-pin-steps/) with no layout change.' },
+      { title: 'Pinned storytelling', text: 'Pace a narrative alongside a [scroll pin story](/ui-snippets/scroll-pin-story/), with slides drifting the direction the reader is scrolling.' },
+      { title: 'Testimonial cycles', text: 'Cycle customer quotes like a [testimonial slider](/ui-snippets/testimonial-slider/), but driven by `floor(progress × count)` instead of buttons or timers.' },
+      { title: 'Product value statements', text: 'Stack key messages the way a [scroll sticky stack](/ui-snippets/scroll-sticky-stack/) does, but crossfading in one fixed frame with a progress bar.' },
+      { title: 'Onboarding and highlights', text: 'Explain steps before an [onboarding tour](/ui-snippets/onboarding-tour/), or summarise key benefits beside [feature cards](/ui-snippets/feature-cards/) in a landing section.' },
       { icon: 'CODE', title: 'Related: Scroll Day/Night Sky Cycle', desc: 'See the [Scroll Day/Night Sky Cycle](/ui-snippets/scroll-day-night-sky-cycle/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

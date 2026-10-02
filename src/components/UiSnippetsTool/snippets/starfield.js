@@ -128,12 +128,11 @@ It's designed as a full-stage background with overlay content on top (a hero hea
       { title: 'Canvas, no library', text: `Pure canvas 2D and vanilla JS — no images or dependencies.` },
     ],
     useCases: [
-      { title: 'Hero and landing backgrounds', text: `A dynamic space backdrop behind a headline — pair with a [gradient mesh hero](/ui-snippets/gradient-mesh-hero/) for other ambient looks.` },
-      { title: 'Coming-soon and launch pages', text: `A warp-speed background for a teaser, alongside a [coming soon hero](/ui-snippets/coming-soon-hero/).` },
-      { title: 'Game and sci-fi UIs', text: `A flying-through-space effect for menus and loaders.` },
-      { title: 'Login and splash screens', text: `An eye-catching animated backdrop.` },
-      { title: 'Event and product reveals', text: `Build anticipation with motion behind the content.` },
-      { title: 'Learning canvas projection', text: `A reference for 3D-to-2D projection and motion trails — compare with [floating particles](/ui-snippets/floating-particles/).` },
+      { title: 'Hero backdrops in space', text: 'Fly through a warp-speed field behind headline copy, using true perspective projection with `screen = center + pos / z`.' },
+      { title: 'Coming-soon pages', text: 'Build anticipation for a launch with motion behind a [coming soon hero](/ui-snippets/coming-soon-hero/), with an adjustable speed slider.' },
+      { title: 'Game and sci-fi menus', text: 'Add a flying-through-space effect to menus and loading screens, where stars passing the viewer reset to a far random position.' },
+      { title: 'Login and splash visuals', text: 'Pair with [floating particles](/ui-snippets/floating-particles/) for a layered, eye-catching backdrop behind a login or splash screen card.' },
+      { title: '3D-to-2D projection reference', text: 'Learn perspective projection with motion-blur streaks, where a translucent overpaint each frame fades old trails; compare with a [gradient mesh hero](/ui-snippets/gradient-mesh-hero/) for calmer styles.' },
     ],
     faqs: [
       { q: 'How does the 3D perspective work?', a: `Each star has x, y in a centred space and z for depth. The screen position is center + (x / z) × width (and the same for y). Dividing by z is the perspective divide: as z shrinks (the star nears you), the same x/y maps further from the centre, so stars fan outward and accelerate toward the edges — the hallmark of flying through a star field. Each frame z decreases by the speed value.` },

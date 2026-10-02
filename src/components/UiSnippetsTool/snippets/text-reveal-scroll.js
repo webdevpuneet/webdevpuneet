@@ -96,12 +96,11 @@ Change the dim and lit colors (or fade other properties like opacity or blur), a
       { title: 'Wrap-preserving', text: `Natural line breaks kept.` },
     ],
     useCases: [
-      { title: 'Mission statements', text: `Reveal copy above [stacking scroll cards](/ui-snippets/stacking-scroll-cards/).` },
-      { title: 'Manifesto sections', text: `Pair with a [text generate](/ui-snippets/text-generate/) headline.` },
-      { title: 'About pages', text: `Tell a story as the reader scrolls.` },
-      { title: 'Product narratives', text: `Lead into a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/).` },
-      { title: 'Long-form intros', text: `Set the tone before the content.` },
-      { title: 'Scroll-link demos', text: `A reference for progress-based word reveals.` },
+      { title: 'Mission statements', text: 'Reveal company copy above [stacking scroll cards](/ui-snippets/stacking-scroll-cards/), with words brightening from grey to white as the reader scrolls.' },
+      { title: 'Manifesto sections', text: 'Pair with a [text generate](/ui-snippets/text-generate/) headline, so a title materialises and the paragraph beneath is read along with the scroll.' },
+      { title: 'About page stories', text: 'Tell a story as the reader scrolls, with words lighting slightly ahead of progress so the effect feels responsive.' },
+      { title: 'Product narratives', text: 'Lead into a [feature tabs showcase](/ui-snippets/feature-tabs-showcase/) with a pinned paragraph that holds still while it reveals.' },
+      { title: 'Progress-based reveal reference', text: 'Study how a lit-word count maps to scroll progress, using per-word spans that each brighten independently.' },
     ],
     faqs: [
       { q: 'Why wrap every word in a span?', a: `Each word brightens on its own, and you cannot transition part of a text node, so JavaScript wraps every word in a span starting in muted gray. Lighting a word toggles a class that transitions its color. Rejoining the spans with spaces preserves the natural line wrapping of the paragraph.` },

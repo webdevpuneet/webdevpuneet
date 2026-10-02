@@ -238,12 +238,11 @@ Swap \`MODEL_URL\` for [any other Khronos sample-asset \`.glb\`](/ui-snippets/sc
       { title: 'Studio-lit scene', text: `Key/fill lighting and a grounding disc, matching this library's 3D conventions.` },
     ],
     useCases: [
-      { title: 'Product and portfolio scroll stories', text: `A genuinely 3D centerpiece for a scroll-driven product reveal section.` },
-      { title: 'glTF/GLTFLoader teaching demos', text: `A minimal, complete example of loading and animating a real .glb file.` },
-      { title: 'Brand and agency showpieces', text: `Demonstrates combined GSAP ScrollTrigger + Three.js technical range.` },
-      { title: 'Museum/collectible scroll exhibits', text: `Spin an artifact model into view as part of a longer scroll narrative.` },
-      { title: 'Alongside other 3D snippets', text: `Compare against [three product viewer](/ui-snippets/three-product-viewer/)'s time-driven auto-rotate.` },
-      { title: 'Scroll-narrative sequences', text: `Combine with [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) sections before or after.` },
+      { title: 'Product and portfolio scroll stories', text: 'Use a genuinely three-dimensional centrepiece that spins by scroll while visitors can still drag to orbit the camera at the same time.' },
+      { title: 'glTF loader teaching', text: 'Learn a minimal, complete `GLTFLoader` example, with object rotation and camera orbit stored as two independent transforms that never conflict.' },
+      { title: 'Brand and agency showpieces', text: 'Demonstrate combined GSAP ScrollTrigger and Three.js skills, with `duck.rotation.y` a direct, reversible function of scroll position.' },
+      { title: 'Museum and collectible exhibits', text: 'Spin an artefact model as the reader scrolls, with a zoom slider letting them get closer to details.' },
+      { title: 'Neighbouring 3D snippets', text: 'Compare against the [three product viewer](/ui-snippets/three-product-viewer/), or follow with a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/) in a longer scroll narrative.' },
       { icon: 'CODE', title: 'Related: Scroll Direction Theme Shift', desc: 'See the [Scroll Direction Theme Shift](/ui-snippets/scroll-direction-theme-shift/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

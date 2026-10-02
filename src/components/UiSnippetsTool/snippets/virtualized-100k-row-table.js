@@ -180,10 +180,11 @@ The rest is what makes it a usable table. Header buttons sort with aria-sort upd
       'No library, no build step',
     ],
     useCases: [
-      { icon: 'DASH', title: 'Logs, audit trails and event streams', desc: `Browse very long lists smoothly. For a grid with rich features on smaller datasets see the [Tabulator grid](/ui-snippets/tabulator-sortable-filterable-grid/).` },
-      { icon: 'ADMIN', title: 'Large exports and admin lists', desc: `Show every customer or order without pagination.` },
-      { icon: 'DEV', title: 'Developer tools', desc: `Data browsers and inspectors that must stay fast with huge inputs.` },
-      { icon: 'LEARN', title: 'Learning windowing', desc: `A minimal, dependency-free view of how libraries like react-window work.` },
+      { icon: '📜', title: 'Logs and audit trails', desc: 'Browse very long event lists, rendering only about 20 of 100,000 rows with a small buffer so scrolling stays smooth.' },
+      { icon: '🗂️', title: 'Large exports and admin lists', desc: 'Show every customer or order without pagination, using fixed row height so the visible range is simple arithmetic.' },
+      { icon: '🧰', title: 'Developer data browsers', desc: 'Build data browsers and inspectors that must stay fast with huge datasets, with scroll events coalesced through `requestAnimationFrame`.' },
+      { icon: '⚖️', title: 'Library comparison', desc: 'Compare with the [Tabulator sortable filterable grid](/ui-snippets/tabulator-sortable-filterable-grid/) for a library-based approach to very large tables with built-in features.' },
+      { icon: '🎓', title: 'Windowing learning', desc: 'Study a dependency-free explanation of how a sizer element creates the scrollbar height while a translated row window shows only the visible slice.' },
     ],
     faqs: [
       { q: 'What is virtualization (windowing)?', a: 'Rendering only the items currently visible, plus a small buffer, while making the scroll area the size of the full list. The DOM stays small no matter how much data there is.' },

@@ -130,12 +130,11 @@ The clock is self-contained and themeable — change the flap colour, digit size
       { title: 'No images, no library', text: `Pure HTML/CSS/JS — themeable and dependency-free.` },
     ],
     useCases: [
-      { title: 'Retro and dashboard clocks', text: `Add a split-flap clock to a dashboard — pair with a [world clock](/ui-snippets/world-clock/) for multiple zones.` },
-      { title: 'Launch and event countdowns', text: `Repurpose the flip mechanic for a countdown alongside a [countdown timer](/ui-snippets/countdown-timer/).` },
-      { title: 'Landing-page hero accents', text: `A nostalgic time display in a hero or coming-soon page next to a [coming soon hero](/ui-snippets/coming-soon-hero/).` },
-      { title: 'Kiosks and signage', text: `A large, legible clock for displays and waiting screens.` },
-      { title: 'Animated number displays', text: `Adapt the leaf flip for any rolling-number readout.` },
-      { title: 'Learning split-flap animation', text: `A reference for the hinged-flip technique — compare with a [split-flap display](/ui-snippets/split-flap-display/).` },
+      { title: 'Retro dashboard clocks', text: 'Add a split-flap clock to a dashboard that reads the real `Date` every second, beside a [world clock](/ui-snippets/world-clock/) for other time zones.' },
+      { title: 'Launch and event countdowns', text: 'Repurpose the flip mechanic for a [countdown timer](/ui-snippets/countdown-timer/), keeping the two-half digit construction and hinged leaf.' },
+      { title: 'Landing page hero accents', text: 'Place a nostalgic time display in a [coming soon hero](/ui-snippets/coming-soon-hero/), with only changed digits flipping to save work.' },
+      { title: 'Kiosk and signage clocks', text: 'Show a large, legible clock on a display, with each flip using a disposable leaf that rotates from 0 to minus 90 degrees.' },
+      { title: 'Mechanical sign pairing', text: 'Pair with a [split flap display](/ui-snippets/split-flap-display/) for text, so numbers and words share the same Solari-board look.' },
       { icon: 'CODE', title: 'Related: Loot Box Reveal Animation', desc: 'See the [Loot Box Reveal Animation](/ui-snippets/loot-box-reveal/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

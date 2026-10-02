@@ -113,12 +113,11 @@ Add milestones (each is a step with a dot and card), change the fill gradient, t
       { title: 'Any milestone count', text: `Add steps freely.` },
     ],
     useCases: [
-      { title: 'Company history', text: `A richer [vertical timeline](/ui-snippets/vertical-timeline/).` },
-      { title: 'Roadmaps', text: `Animate a [product roadmap](/ui-snippets/product-roadmap/).` },
-      { title: 'Changelogs', text: `Reveal a [changelog feed](/ui-snippets/changelog-feed/).` },
-      { title: 'Processes', text: `Pair with [scroll pin steps](/ui-snippets/scroll-pin-steps/).` },
-      { title: 'Journeys', text: `Combine with a [scroll svg path draw](/ui-snippets/scroll-svg-path-draw/).` },
-      { title: 'About pages', text: `Lead into a [team card](/ui-snippets/team-card/) grid.` },
+      { title: 'Company history timelines', text: 'Tell a company story where a spine fills as you scroll and each milestone dot lights up when reached, as a richer [vertical timeline](/ui-snippets/vertical-timeline/).' },
+      { title: 'Product roadmaps', text: 'Animate a [product roadmap](/ui-snippets/product-roadmap/) so upcoming items appear in order, mixing scrub, `toggleActions` and `onToggle` triggers.' },
+      { title: 'Changelog feeds', text: 'Reveal a [changelog feed](/ui-snippets/changelog-feed/) entry by entry, with cards sliding in once and reversing if the user scrolls back.' },
+      { title: 'Process narratives', text: 'Pair with [scroll pin steps](/ui-snippets/scroll-pin-steps/) to explain a process using two different scroll-driven layouts in the same page.' },
+      { title: 'Journey and about pages', text: 'Combine with a [scroll SVG path draw](/ui-snippets/scroll-svg-path-draw/) for a drawn route, or lead into a [team card](/ui-snippets/team-card/) grid on an About page.' },
       { icon: 'CODE', title: 'Related: Three.js Scroll Moon Phases Cycle', desc: 'See the [Three.js Scroll Moon Phases Cycle](/ui-snippets/three-scroll-moon-phases/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

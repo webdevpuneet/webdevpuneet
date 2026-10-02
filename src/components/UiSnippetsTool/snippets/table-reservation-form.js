@@ -209,12 +209,11 @@ Wire the slots to a real availability API, add a party-size cap per time slot, o
       { title: 'Zero dependencies', text: `Plain HTML, CSS, and JS, no CDN.` },
     ],
     useCases: [
-      { title: 'Restaurant sites', text: `Pair with a [menu item customizer](/ui-snippets/menu-item-customizer/).` },
-      { title: 'Booking platforms', text: `A sibling of [time slot picker](/ui-snippets/time-slot-picker/).` },
-      { title: 'Salon & spa apps', text: `Reuse for appointment-style reservations.` },
-      { title: 'Event RSVPs', text: `Adapt guests + slots for an RSVP form.` },
-      { title: 'Coworking spaces', text: `Book a room using the same slot grid.` },
-      { title: 'Small business sites', text: `A lightweight alternative to a booking iframe.` },
+      { title: 'Restaurant booking pages', text: 'Take a reservation in one screen using a party-size stepper, native date input and a grid of time slots, beside a [menu item customizer](/ui-snippets/menu-item-customizer/) for pre-orders.' },
+      { title: 'Booking platform siblings', text: 'Compare with a standalone [time slot picker](/ui-snippets/time-slot-picker/) when only the time grid is needed without guest numbers.' },
+      { title: 'Salon and spa appointments', text: 'Reuse the slot grid for appointments, with full slots disabled and struck through so people never click something unavailable.' },
+      { title: 'Event RSVP adaptation', text: 'Adapt guests and slots into an RSVP form, using `aria-pressed` to ensure only one time is ever selected.' },
+      { title: 'Coworking and small business booking', text: 'Book a room or desk with the same grid, as a lightweight alternative to a full booking system for a small business site.' },
     ],
     faqs: [
       { q: 'How are full time slots shown as unavailable?', a: `Full slot buttons carry both the disabled attribute and a data-full="true" flag, and CSS applies reduced opacity plus a struck-through text style when disabled. Because they're genuinely disabled buttons, they can't receive focus or clicks, so users can't accidentally select an unavailable time.` },

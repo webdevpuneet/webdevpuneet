@@ -113,12 +113,11 @@ Swap the gradient figures for real images, change the item width or gap, add mor
       { title: 'Legible captions', text: `Gradient scrim under each label.` },
     ],
     useCases: [
-      { title: 'Portfolios', text: `A captioned [scroll horizontal pin](/ui-snippets/scroll-horizontal-pin/).` },
-      { title: 'Photography', text: `A pinned [photo gallery](/ui-snippets/photo-gallery/).` },
-      { title: 'Product lines', text: `Glide through [product card](/ui-snippets/product-card/) shots.` },
-      { title: 'Coverflow', text: `Pair with a [coverflow carousel](/ui-snippets/coverflow-carousel/).` },
-      { title: 'Case studies', text: `Showcase work beside a [team card](/ui-snippets/team-card/).` },
-      { title: 'Lookbooks', text: `Reveal via a [scroll image mask](/ui-snippets/scroll-image-mask/) first.` },
+      { title: 'Portfolio showcases', text: 'Pin a portfolio section while an image rail glides sideways, with a live caption and an index counter such as 03 / 05 naming the focused work.' },
+      { title: 'Photography series', text: 'Present a photo series that holds the screen as images pass, as a captioned relative of the [scroll horizontal pin](/ui-snippets/scroll-horizontal-pin/).' },
+      { title: 'Product line tours', text: 'Glide through shots of a product range beside a [product card](/ui-snippets/product-card/) grid, with the heading updating to name the item in view.' },
+      { title: 'Coverflow companions', text: 'Pair with a [coverflow carousel](/ui-snippets/coverflow-carousel/) elsewhere on the page, so one gallery scrolls and another is swiped.' },
+      { title: 'Lookbook reveals', text: 'Open a lookbook with a [scroll image mask](/ui-snippets/scroll-image-mask/) and follow with this pinned rail, or place beside a [team card](/ui-snippets/team-card/) in a case study.' },
       { icon: 'CODE', title: 'Related: Scroll Day/Night Sky Cycle', desc: 'See the [Scroll Day/Night Sky Cycle](/ui-snippets/scroll-day-night-sky-cycle/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

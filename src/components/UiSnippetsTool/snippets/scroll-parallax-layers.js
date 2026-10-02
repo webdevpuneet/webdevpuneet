@@ -95,12 +95,11 @@ Add more layers with their own \`data-speed\`, change the base travel multiplier
       { title: 'Asset-free demo', text: `Gradient layers, swap for images.` },
     ],
     useCases: [
-      { title: 'Hero scenes', text: `A richer [parallax hero](/ui-snippets/parallax-hero/).` },
-      { title: 'Landing depth', text: `Pair with a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/).` },
-      { title: 'Showcases', text: `Combine with a [hero parallax grid](/ui-snippets/hero-parallax-grid/).` },
-      { title: 'Storytelling', text: `Set scenes in a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Game/landing', text: `Layer art behind a [startup hero](/ui-snippets/startup-hero/).` },
-      { title: 'Transitions', text: `Lead into [scroll color sections](/ui-snippets/scroll-color-sections/).` },
+      { title: 'Layered hero scenes', text: 'Create depth with layers moving at different speeds, as a richer version of a [parallax hero](/ui-snippets/parallax-hero/) using a `data-speed` attribute per layer.' },
+      { title: 'Landing page depth', text: 'Pair with a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/) on a landing page, using `yPercent` transforms that composite on the GPU for depth.' },
+      { title: 'Showcase combinations', text: 'Combine with a [hero parallax grid](/ui-snippets/hero-parallax-grid/) for a page with both layered scenes and moving image columns.' },
+      { title: 'Narrative scene setting', text: 'Set scenes in a [scroll pin story](/ui-snippets/scroll-pin-story/), with one wiring loop tweening every layer from a single `forEach`.' },
+      { title: 'Game and startup landing art', text: 'Layer illustrations behind a [startup hero](/ui-snippets/startup-hero/), then lead into [scroll colour sections](/ui-snippets/scroll-color-sections/) for the next scene.' },
       { icon: 'CODE', title: 'Related: Scroll Position Memory Across Tab Switches', desc: 'See the [Scroll Position Memory Across Tab Switches](/ui-snippets/scroll-restoration-tab-memory/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

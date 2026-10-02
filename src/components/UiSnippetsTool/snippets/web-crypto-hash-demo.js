@@ -182,12 +182,11 @@ Unlike the flaky, permission-gated APIs elsewhere in this library, \`crypto.subt
       { title: 'Zero dependencies', text: `No hashing library — the browser does the actual work.` },
     ],
     useCases: [
-      { title: 'Dev/security tools', text: `A quick SHA-256 scratchpad alongside a [password generator](/ui-snippets/password-generator/).` },
-      { title: 'File-integrity education', text: `Teach how a checksum changes with any input change.` },
-      { title: 'Config/checksum widgets', text: `Show a settings blob's hash for change detection.` },
-      { title: 'API/webhook debugging', text: `Manually compute a payload digest to compare against a signature.` },
-      { title: 'Onboarding/demo pages', text: `Demonstrate real client-side crypto with no backend.` },
-      { title: 'CS/security teaching tools', text: `Show how tiny input changes cascade the whole digest.` },
+      { title: 'Developer security scratchpads', text: 'Hash text on every pause in typing using the genuine `crypto.subtle.digest()`, with SHA-256, SHA-384, SHA-512 and SHA-1 selectable.' },
+      { title: 'File-integrity education', text: 'Teach how a checksum changes when a single character changes, with a byte-by-byte hex conversion verified against known test vectors.' },
+      { title: 'Config checksum displays', text: 'Show a settings blob\'s hash so teams can confirm two environments hold identical data, using debounced updates to avoid per-keystroke work.' },
+      { title: 'Webhook payload debugging', text: 'Manually compute a payload digest while debugging signature verification, pairing with a [password generator](/ui-snippets/password-generator/) for secret creation.' },
+      { title: 'Avalanche effect lessons', text: 'Show students how tiny input changes produce completely different digests, computed client-side so nothing is sent anywhere.' },
     ],
     faqs: [
       { q: 'Is the hash actually computed, or is it a fake/simulated value?', a: `It's a real digest. The typed text is UTF-8 encoded with TextEncoder and passed to the browser's native window.crypto.subtle.digest(algorithm, data), which returns the actual cryptographic hash as an ArrayBuffer. You can verify it: hashing the default sample text "The quick brown fox jumps over the lazy dog" with SHA-256 produces d7a8fbb307d7809469ca9abcb0082e4f8d5651e46d3cdb762d02d0bf37c9e592, matching any standard SHA-256 implementation.` },

@@ -202,12 +202,11 @@ Expand the curated list with more web-safe stacks, group fonts by category (seri
       { title: 'Named permission outcomes', text: `States plainly why real fonts weren't loaded, if they weren't.` },
     ],
     useCases: [
-      { title: 'Design and creative tools', text: `Let users pick from their real installed fonts.` },
-      { title: 'Document editors', text: `A typography picker with instant live preview.` },
-      { title: 'Website builder settings panels', text: `Pair with a [dark mode toggle](/ui-snippets/dark-mode-toggle/) settings group.` },
-      { title: 'Presentation software', text: `Font selection with a working fallback for any browser.` },
-      { title: 'Branding/style guide tools', text: `Preview brand fonts against curated system alternatives.` },
-      { title: 'Accessibility font testers', text: `Compare readability across common system font stacks.` },
+      { title: 'Design tool font menus', text: 'Let users choose from fonts actually installed on their device using `queryLocalFonts()`, with deduplicated and sorted family names.' },
+      { title: 'Document editor typography', text: 'Offer a typography picker with instant live preview, falling back to a full curated system-font list where permission is unavailable.' },
+      { title: 'Website builder settings', text: 'Pair with a [dark mode toggle](/ui-snippets/dark-mode-toggle/) in a builder\'s settings panel so fonts and themes can be previewed together.' },
+      { title: 'Presentation software', text: 'Provide font selection with a working fallback, using shared `populateSelect` and `applyPreview` functions for both real and curated data.' },
+      { title: 'Brand and accessibility testing', text: 'Preview brand fonts against custom text, or compare readability across common system fonts when auditing a style guide.' },
       { icon: 'CODE', title: 'Related: Segmented Toggle', desc: 'See the [Segmented Toggle](/ui-snippets/segmented-toggle/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

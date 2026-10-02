@@ -185,12 +185,11 @@ Swap in your real plan catalog and cycle-length logic (many billing providers pr
       { title: 'Framework-agnostic core', text: `One recalc(plan) function ports directly to React, Vue, or Angular state.` },
     ],
     useCases: [
-      { title: 'Subscription upgrade modals', text: `Show exactly what a customer owes before they confirm a mid-cycle upgrade.` },
-      { title: 'Plan comparison + upsell', text: `Pair with a [pricing card](/ui-snippets/pricing-card/) or [pricing toggle](/ui-snippets/pricing-toggle/) set.` },
-      { title: 'Seat + plan changes together', text: `Combine with a [seat-based pricing calculator](/ui-snippets/seat-based-pricing-calculator/) when both change at once.` },
-      { title: 'Billing support deflection', text: `Reduce "why was I charged X" tickets by showing the math up front.` },
-      { title: 'Post-upgrade receipts', text: `Follow this preview with an [invoice preview](/ui-snippets/invoice-preview/) for the finalized charge.` },
-      { title: 'Account settings pages', text: `Let a user preview an upgrade before committing, without leaving the page.` },
+      { title: 'Subscription upgrade modals', text: 'Show customers exactly what they will pay mid-cycle, with unused-time credit and the new prorated charge derived from price divided by cycle days times days remaining.' },
+      { title: 'Plan comparison and upsell', text: 'Pair with a [pricing card](/ui-snippets/pricing-card/) or [pricing toggle](/ui-snippets/pricing-toggle/), with a live plan selector re-running the maths whenever a different plan is clicked.' },
+      { title: 'Seat and plan changes', text: 'Combine with a [seat-based pricing calculator](/ui-snippets/seat-based-pricing-calculator/) so both seat count and plan tier changes are previewed before payment.' },
+      { title: 'Billing support deflection', text: 'Reduce why was I charged X tickets, since the due-today total is simply charge minus credit and any customer can check it by hand.' },
+      { title: 'Receipts and account settings', text: 'Follow this preview with an [invoice preview](/ui-snippets/invoice-preview/) after upgrading, and show a clear no-change state if the current plan is selected.' },
     ],
     faqs: [
       { q: 'How is the unused-time credit calculated?', a: `The current plan's monthly price is divided by the cycle length (30 days) to get a daily rate, then multiplied by the days remaining in the cycle. For a $49/mo plan with 18 days left, that's (49/30) × 18 = $29.40 — the value of the time the customer already paid for but won't use on that plan.` },

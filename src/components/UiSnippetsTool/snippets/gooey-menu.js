@@ -107,12 +107,11 @@ Add or remove action buttons (each with the next \`--i\`) and the fan adapts; ch
       { title: 'No images, no library', text: `Pure HTML/CSS/SVG/JS — the goo is all filter math.` },
     ],
     useCases: [
-      { title: 'Floating action menus', text: `A playful FAB that reveals actions — pair with an [expanding FAB](/ui-snippets/expanding-fab/) for a simpler variant.` },
-      { title: 'Quick-action speed dials', text: `Edit / share / delete actions on a card or screen, alongside a [floating action button](/ui-snippets/floating-action-btn/).` },
-      { title: 'Compose and create menus', text: `A delightful "new item" menu in an app.` },
-      { title: 'Social share clusters', text: `Fan out share targets with a liquid effect, next to a [social share bar](/ui-snippets/social-share-bar/).` },
-      { title: 'Playful mobile UIs', text: `A signature micro-interaction for app home screens.` },
-      { title: 'Learning SVG filters', text: `A reference for the goo blur-then-sharpen technique — compare with a [liquid blob](/ui-snippets/liquid-blob/).` },
+      { title: 'Floating action menus', text: 'Reveal actions from a floating button as liquid drops, joined by stretchy goo before they separate into distinct buttons, beside an [expanding FAB](/ui-snippets/expanding-fab/).' },
+      { title: 'Quick-action speed dials', text: 'Offer edit, share and delete actions on a card, with a plus that rotates 135 degrees into a cross on open.' },
+      { title: 'Compose and create menus', text: 'Provide a delightful new item menu in a notes or mail app, using per-item `transition-delay` so options ooze out one after another.' },
+      { title: 'Social share clusters', text: 'Fan out share targets with a liquid feel, as an alternative to a plain [social share bar](/ui-snippets/social-share-bar/).' },
+      { title: 'SVG goo filter learning', text: 'Learn how `feGaussianBlur` followed by `feColorMatrix` fuses nearby circles, and pair with the [liquid blob](/ui-snippets/liquid-blob/) for related gooey effects.' },
       { icon: 'CODE', title: 'Related: Matter.js Falling Tags', desc: 'See the [Matter.js Falling Tags](/ui-snippets/matter-falling-tags/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -116,12 +116,11 @@ Change the detent size (one divisor), widen the sweep, or emit the value to a re
       { title: 'Wraparound-free', text: `No atan2 seams at ±180°.` },
     ],
     useCases: [
-      { title: 'Volume and media controls', text: `The knob for a [music player](/ui-snippets/music-player/) or [volume control](/ui-snippets/volume-control/).` },
-      { title: 'Smart-home dials', text: `Thermostats and dimmers, beside a [brightness slider](/ui-snippets/brightness-slider/).` },
-      { title: 'Audio tool UIs', text: `Synth and mixer knobs; the vanilla-math version is [rotary knob](/ui-snippets/rotary-knob/).` },
-      { title: 'Settings inputs', text: `A tactile alternative to a [range slider](/ui-snippets/range-slider/) for bounded values.` },
-      { title: 'Game options', text: `Sensitivity and FOV dials with detent feedback.` },
-      { title: 'Data thresholds', text: `Set alert levels feeding a [gauge chart](/ui-snippets/gauge-chart/).` },
+      { title: 'Media volume knobs', text: 'Build the knob for a [music player](/ui-snippets/music-player/) or a [volume control](/ui-snippets/volume-control/), with a 270-degree sweep and soft end stops.' },
+      { title: 'Smart-home thermostats', text: 'Offer a tactile temperature or dimmer dial beside a [brightness slider](/ui-snippets/brightness-slider/), with inertia flicks and 5% detents.' },
+      { title: 'Audio tool interfaces', text: 'Provide synth and mixer knobs, comparing with the vanilla-maths [rotary knob](/ui-snippets/rotary-knob/) when no library is wanted.' },
+      { title: 'Settings and game options', text: 'Offer a tactile alternative to a [range slider](/ui-snippets/range-slider/) for sensitivity or field-of-view, with snap detents giving distinct feedback.' },
+      { title: 'Alert thresholds', text: 'Set alert levels that feed a [gauge chart](/ui-snippets/gauge-chart/) in monitoring tools, with `edgeResistance` of 0.9 at the extreme ends.' },
       { icon: 'CODE', title: 'Related: Form Change Diff Preview — Show Exactly What Will Change Before Saving', desc: 'See the [Form Change Diff Preview — Show Exactly What Will Change Before Saving](/ui-snippets/form-change-diff-preview/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

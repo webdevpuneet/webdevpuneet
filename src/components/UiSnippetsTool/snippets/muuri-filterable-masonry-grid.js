@@ -132,11 +132,11 @@ Swap \`fillGaps: true\` for \`false\` if you want strict row-order packing inste
       { title: 'Foundation for drag', text: 'The same grid can add dragEnabled: true for manual reordering with no other changes.' },
     ],
     useCases: [
-      { icon: 'DESIGN', title: 'Portfolio and project grids', text: 'Filter case studies by category with a genuinely animated repack, next to [draggable widgets](/ui-snippets/muuri-draggable-dashboard-widgets/).' },
-      { icon: 'APP', title: 'Product catalogs', text: 'Filter products by tag or availability while the grid smoothly closes gaps.' },
-      { icon: 'CODE', title: 'Blog and content indexes', text: 'Category-filter articles or posts with cards of varying excerpt length.' },
-      { icon: 'FLOW', title: 'Media galleries', text: 'Filter a photo grid by album or tag, pairing with the [photo grid](/ui-snippets/muuri-drag-reorder-photo-grid/) snippet.' },
-      { icon: 'LEARN', title: 'Teaching JS-layout engines', text: 'A concrete example of why absolute positioning enables animation that native grid cannot.' },
+      { title: 'Portfolio and project grids', text: 'Filter case studies by category with every item absolutely positioned, so Muuri can animate each move between layouts.' },
+      { title: 'Product catalogues', text: 'Filter products by tag or availability, with `fillGaps: true` backfilling space left by hidden or variable-height cards.' },
+      { title: 'Blog and content indexes', text: 'Category-filter articles or posts, with the predicate reading `data-tag` straight off each item\'s element in the DOM.' },
+      { title: 'Media galleries', text: 'Filter a photo grid by album or tag, pairing with the draggable [Muuri dashboard widgets](/ui-snippets/muuri-draggable-dashboard-widgets/) and [Muuri photo reorder grid](/ui-snippets/muuri-drag-reorder-photo-grid/).' },
+      { title: 'JavaScript layout engine teaching', text: 'Show why JS-computed positioning allows animation between layouts, which CSS grid and CSS columns cannot offer.' },
     ],
     faqs: [
       { q: 'Why can\'t CSS grid or CSS columns do this same animated filter effect?', a: 'CSS grid and multi-column layout are computed internally by the browser\'s layout engine, which gives you no hook to animate a transition between two different layouts — items just snap to their new grid-template position. Muuri sidesteps this by never using native grid placement at all: every item is position: absolute with coordinates Muuri computes and animates itself via transform, so a layout change is just an ordinary per-element transition.' },

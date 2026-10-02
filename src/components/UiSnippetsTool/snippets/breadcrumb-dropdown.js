@@ -110,12 +110,11 @@ Choose how many crumbs to keep on each side before collapsing, restyle the chevr
       { title: 'Graceful wrap', text: `Flex-wrap fallback on tiny screens.` },
     ],
     useCases: [
-      { title: 'Deep apps', text: `Compact paths over a plain [breadcrumb](/ui-snippets/breadcrumb/).` },
-      { title: 'File managers', text: `Fold long trails in a [file manager UI](/ui-snippets/file-manager-ui/).` },
-      { title: 'Nested nav', text: `Pair with a [nested dropdown](/ui-snippets/nested-dropdown/).` },
-      { title: 'Docs', text: `Orient readers above a [table of contents](/ui-snippets/table-of-contents/).` },
-      { title: 'Dashboards', text: `Header path beside a [sidebar nav](/ui-snippets/sidebar-nav/).` },
-      { title: 'CMS editors', text: `Show location in a [dashboard layout](/ui-snippets/dashboard-layout/).` },
+      { title: 'Deep application paths', text: 'Collapse middle segments into a single ellipsis button, giving a compact path as an alternative to a plain [breadcrumb](/ui-snippets/breadcrumb/).' },
+      { title: 'File manager trails', text: 'Fold long folder paths inside a [file manager UI](/ui-snippets/file-manager-ui/), with hidden levels preserved in the dropdown menu.' },
+      { title: 'Nested navigation', text: 'Pair with a [nested dropdown](/ui-snippets/nested-dropdown/) so deep structures are navigable both by path and by menu.' },
+      { title: 'Documentation orientation', text: 'Orient readers above a [table of contents](/ui-snippets/table-of-contents/), using a semantic `nav` and ordered list with `aria-current`.' },
+      { title: 'Dashboard and CMS headers', text: 'Show a header path beside a [sidebar nav](/ui-snippets/sidebar-nav/) inside a [dashboard layout](/ui-snippets/dashboard-layout/), with Escape closing the menu.' },
       { icon: 'CODE', title: 'Related: CSS Anchor-Positioned Tooltip Menu', desc: 'See the [CSS Anchor-Positioned Tooltip Menu](/ui-snippets/css-anchor-tooltip-menu/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

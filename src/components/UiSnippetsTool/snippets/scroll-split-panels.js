@@ -101,12 +101,11 @@ Swap the panel gradients for images, change the slide direction (vertical curtai
       { title: 'Direction-flexible', text: `Swap to vertical with yPercent.` },
     ],
     useCases: [
-      { title: 'Big reveals', text: `Pair with a [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/).` },
-      { title: 'Product launches', text: `Uncover a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/).` },
-      { title: 'Editorial', text: `Frame a [scroll image mask](/ui-snippets/scroll-image-mask/) reveal.` },
-      { title: 'Brand intros', text: `Open onto a [minimal hero](/ui-snippets/minimal-hero/).` },
-      { title: 'Galleries', text: `Reveal a [scroll gallery pin](/ui-snippets/scroll-gallery-pin/).` },
-      { title: 'Stories', text: `Punctuate a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
+      { title: 'Big reveal moments', text: 'Part two halves like curtains to uncover a headline, with a [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/) as a related opening effect.' },
+      { title: 'Product launch intros', text: 'Uncover a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/) behind the panels, with the centre content scaling and brightening as it is revealed.' },
+      { title: 'Editorial framing', text: 'Frame a [scroll image mask](/ui-snippets/scroll-image-mask/) reveal, using layered covers that sit above a centred content block.' },
+      { title: 'Brand intros', text: 'Open onto a [minimal hero](/ui-snippets/minimal-hero/) after the panels part, pinned and scrubbed so the movement follows the scrollbar.' },
+      { title: 'Gallery and story punctuation', text: 'Reveal a [scroll gallery pin](/ui-snippets/scroll-gallery-pin/) or punctuate a [scroll pin story](/ui-snippets/scroll-pin-story/) with a dramatic split between chapters.' },
       { icon: 'CODE', title: 'Related: Staggered Reveal on Scroll — IntersectionObserver, One Timer', desc: 'See the [Staggered Reveal on Scroll — IntersectionObserver, One Timer](/ui-snippets/stagger-reveal-scroll-list/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

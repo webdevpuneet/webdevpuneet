@@ -153,12 +153,11 @@ Swap the CSS-built camera body for a real product photo or a Three.js-rendered m
       { title: 'Zero external product photography', text: `The device is built entirely from CSS gradients and shapes.` },
     ],
     useCases: [
-      { title: 'Product launch and pre-order landing pages', text: `Give a new device the cinematic reveal treatment before the pre-order CTA.` },
-      { title: 'Hardware/gadget marketing sites', text: `Highlight physical features (lens, materials, weight) with paced callouts.` },
-      { title: 'App or SaaS feature announcement pages', text: `Adapt the same callout-timeline pattern to UI screenshots instead of a device.` },
-      { title: 'Crowdfunding campaign pages', text: `Build backer confidence with a polished, cinematic feature walkthrough.` },
-      { title: 'Investor demo day microsites', text: `Show off a flagship product's key differentiators in a controlled sequence.` },
-      { title: 'E-commerce flagship product pages', text: `Precede a standard product page with a short scroll-driven highlight reel.` },
+      { title: 'Product launch and pre-order pages', text: 'Give a new device a cinematic reveal, with the device scaling and tilting into place while feature callouts fade in one after another.' },
+      { title: 'Hardware and gadget marketing', text: 'Highlight physical features one at a time without losing the device at the centre, using a single scrubbed master timeline.' },
+      { title: 'App and SaaS announcements', text: 'Adapt the callout sequence to announce a software release, with the chapter label derived from the timeline\'s own current time.' },
+      { title: 'Crowdfunding campaign pages', text: 'Build backer confidence by introducing features in sequence, with callouts scheduled back to back so they never overlap.' },
+      { title: 'Investor demo and flagship pages', text: 'Show off a flagship product at demo day, or precede a standard product page with a pinned reveal using real `transformPerspective` depth.' },
       { icon: 'CODE', title: 'Related: Scroll Testimonial Sequence', desc: 'See the [Scroll Testimonial Sequence](/ui-snippets/scroll-testimonial-sequence/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

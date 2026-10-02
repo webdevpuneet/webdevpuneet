@@ -226,12 +226,11 @@ The card offers both "use the suggested address" (which repopulates and revalida
       { title: 'Format-only ZIP/state checks', text: `Honestly validates shape, not real-world existence — a documented, intentional boundary.` },
     ],
     useCases: [
-      { title: 'E-commerce checkout', text: `Catch shipping typos before they cause a failed delivery, alongside [checkout form](/ui-snippets/checkout-form/).` },
-      { title: 'Account shipping settings', text: `Validate saved addresses in a user's account page.` },
-      { title: 'Order fulfillment tools', text: `Give internal staff the same verification safety net when editing customer addresses.` },
-      { title: 'Signup and onboarding forms', text: `Validate a billing address alongside [inline validation form](/ui-snippets/inline-validation-form/) patterns.` },
-      { title: 'Logistics and shipping platforms', text: `Reduce bounced packages by catching format and verification issues pre-submit.` },
-      { title: 'Autocomplete pairing', text: `Use as a fallback manual-entry path alongside [address autocomplete](/ui-snippets/address-autocomplete/).` },
+      { title: 'E-commerce checkout addresses', text: 'Catch shipping typos before a package bounces, with per-field checks and an amber did-you-mean suggestion card inside a [checkout form](/ui-snippets/checkout-form/).' },
+      { title: 'Saved address settings', text: 'Validate addresses in an account area, with one `setFieldState()` function controlling every field\'s border, class and message.' },
+      { title: 'Fulfilment staff tools', text: 'Give internal staff the same verification as customers, using honest regular expressions for ZIP and state format.' },
+      { title: 'Signup billing addresses', text: 'Validate a billing address during onboarding, combining input and blur checks as in an [inline validation form](/ui-snippets/inline-validation-form/).' },
+      { title: 'Logistics and autocomplete pairing', text: 'Reduce bounced packages on shipping platforms, using this as the manual fallback beside an [address autocomplete](/ui-snippets/address-autocomplete/).' },
     ],
     faqs: [
       { q: "How does the form keep a field's color and message text from disagreeing?", a: `setFieldState(key, state, message) is the single function that ever touches a field's valid/invalid class and its message text — it clears any previous state class before applying the new one and setting the message, in one call. Because no other code path modifies these independently, a field's border color and its message can never contradict each other.` },

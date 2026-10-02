@@ -105,10 +105,10 @@ Because this snippet needs to demonstrate a scroll effect in an isolated preview
       'Fully configurable per-layer parallax rate via a simple data-rate attribute',
     ],
     useCases: [
-      { icon: 'DESIGN', title: 'Marketing and landing page banners', desc: 'A visually rich section break that adds depth without heavy scroll-jank.' },
-      { icon: 'LEARN', title: 'Scroll performance tutorials', desc: 'A textbook example of the rAF-throttled scroll handler pattern applied to a real effect.' },
-      { icon: 'APP', title: 'Storytelling and editorial pages', desc: 'Layered scroll depth for narrative sections between article content.' },
-      { icon: 'CODE', title: 'Reference implementation for scroll listeners', desc: 'A reusable pattern for any effect that must react to scroll without causing jank.' },
+      { icon: '🏞️', title: 'Marketing banner depth', desc: 'Give a landing page banner three layers that move at different vertical rates, so it feels deep as the visitor scrolls past it.' },
+      { icon: '🎓', title: 'Scroll performance tutorials', desc: 'Use as a textbook case of the requestAnimationFrame pattern, where the scroll handler only reads `scrollTop` and does no layout work.' },
+      { icon: '📰', title: 'Editorial storytelling', desc: 'Add layered depth to a long feature article, with each layer\'s rate configurable through a `data-rate` attribute.' },
+      { icon: '🛠️', title: 'Scroll listener reference', desc: 'Reuse the ticking flag that coalesces many scroll events into one frame, deferring all `getBoundingClientRect()` reads and transform writes.' },
     ],
     faqs: [
       { q: 'Why not just compute the transform directly inside the scroll event listener?', a: 'The browser can fire many scroll events within a single animation frame, and reading layout (getBoundingClientRect) inside each one forces repeated synchronous layout recalculation, causing visible jank. Deferring the actual read/write work to a single requestAnimationFrame callback per frame — regardless of how many scroll events fired — keeps the effect smooth.' },

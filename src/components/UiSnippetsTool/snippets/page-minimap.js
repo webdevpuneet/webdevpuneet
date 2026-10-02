@@ -136,12 +136,11 @@ On resize the minimap rebuilds its blocks and rescales, because section heights 
       { title: 'No library', text: `Pure HTML/CSS/JS — no minimap dependency.` },
     ],
     useCases: [
-      { title: 'Long documentation pages', text: `Overview and jump beside a [table of contents](/ui-snippets/table-of-contents/).` },
-      { title: 'Articles and guides', text: `Pair with a [scroll progress](/ui-snippets/scroll-progress/) bar for orientation.` },
-      { title: 'Dashboards and reports', text: `Navigate a tall stack of panels quickly.` },
-      { title: 'Editors and builders', text: `An editor-style minimap for a document canvas.` },
-      { title: 'Landing pages', text: `Jump between sections like a [scroll-spy nav](/ui-snippets/scroll-spy-nav/).` },
-      { title: 'Learning scroll math', text: `A reference for scaling and viewport mapping.` },
+      { title: 'Long documentation pages', text: 'Show an overview and jump control beside a [table of contents](/ui-snippets/table-of-contents/), with each section block sized to its real height.' },
+      { title: 'Article and guide navigation', text: 'Pair with a [scroll progress](/ui-snippets/scroll-progress/) bar so readers see both where they are and how far through they have gone.' },
+      { title: 'Dashboards and reports', text: 'Navigate a tall stack of panels quickly, with a live viewport box that reflects scroll position and visible area.' },
+      { title: 'Editors and builders', text: 'Provide an editor-style minimap for a document, supporting click to jump and press and drag to scrub continuously.' },
+      { title: 'Landing page section jumps', text: 'Jump between sections like a [scroll spy nav](/ui-snippets/scroll-spy-nav/), and learn the scaling maths behind a proportional overview.' },
       { icon: 'CODE', title: 'Related: Scrollspy Navigation — Active Link Tracks the Section in View', desc: 'See the [Scrollspy Navigation — Active Link Tracks the Section in View](/ui-snippets/scrollspy-active-section-nav/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

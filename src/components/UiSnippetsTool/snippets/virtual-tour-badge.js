@@ -95,12 +95,11 @@ Because real hover doesn't exist on touchscreens, the badge also toggles an \`ar
       { title: 'Drop onto any photo', text: `A self-contained overlay that layers onto an existing image or placeholder.` },
     ],
     useCases: [
-      { title: 'Real estate listing photos', text: `Flag which photos on a [property listing card](/ui-snippets/property-listing-card/) have a full walkthrough.` },
-      { title: 'E-commerce product galleries', text: `Signal a 360° spin view on a [product quick view](/ui-snippets/product-quick-view/) image.` },
-      { title: 'Hotel and venue galleries', text: `Highlight rooms with an immersive tour inside a [hotel room picker](/ui-snippets/hotel-room-picker/).` },
-      { title: 'Vehicle listing photos', text: `Mark cars with an interior 360° view, alongside a rental class card.` },
-      { title: 'Event venue browsing', text: `Show which venue photos include a walkable virtual tour.` },
-      { title: 'Museum and exhibit previews', text: `Flag exhibits with an immersive online walkthrough available.` },
+      { title: 'Real estate listing photos', text: 'Flag which photos on a property listing have a 360 degree walkthrough, using a real `button` with `aria-expanded` rather than a clickable `div`.' },
+      { title: 'E-commerce product galleries', text: 'Signal a 360 degree spin view on a [product quick view](/ui-snippets/product-quick-view/) gallery, with a pure-CSS ring pulse that needs no script or GIF.' },
+      { title: 'Hotel and venue galleries', text: 'Highlight rooms with an immersive tour next to a [hotel room picker](/ui-snippets/hotel-room-picker/), with a preview thumbnail expanding on hover.' },
+      { title: 'Vehicle and venue listings', text: 'Mark cars that have an interior 360 view, or show which event venue photos include a walkthrough, with touch and keyboard toggling that mirrors hover.' },
+      { title: 'Property and exhibit cards', text: 'Place on a [property listing card](/ui-snippets/property-listing-card/) photo, or flag museum exhibits that have an immersive preview available.' },
     ],
     faqs: [
       { q: 'Why is the badge a button instead of a styled div?', a: `A real <button> is focusable by Tab, activatable with Enter or Space, and announced correctly by screen readers by default — none of which a <div> with a click handler gets without extra ARIA plumbing and manual key handling. Since this badge triggers an action (opening a tour), it belongs in the accessibility tree as an actual control.` },

@@ -169,12 +169,11 @@ Clicking the button when nothing is fullscreen tries the real API first; only on
       { title: 'Esc-safe', text: `Correctly reflects exits triggered outside the button.` },
     ],
     useCases: [
-      { title: 'Video/media players', text: `Pair with a [screen wake lock toggle](/ui-snippets/screen-wake-lock-toggle/).` },
-      { title: 'Image/photo viewers', text: `Enlarge a single image or gallery view.` },
-      { title: 'Dashboards', text: `Fullscreen a chart or [uptime status page](/ui-snippets/uptime-status-page/).` },
-      { title: 'Presentations', text: `Kiosk-style slide or demo panels.` },
-      { title: 'Code playgrounds', text: `Distraction-free fullscreen editing panes.` },
-      { title: 'Embedded widgets', text: `Safe to ship inside sandboxed iframes.` },
+      { title: 'Video and media players', text: 'Toggle a player panel in and out of real fullscreen, pairing with a [screen wake lock toggle](/ui-snippets/screen-wake-lock-toggle/) so the display does not sleep during viewing.' },
+      { title: 'Image and photo viewers', text: 'Enlarge a single image or a whole gallery view, with icon and label driven by the real `fullscreenchange` event instead of click-local assumptions.' },
+      { title: 'Dashboard fullscreen', text: 'Fullscreen a chart or an [uptime status page](/ui-snippets/uptime-status-page/) on a wall display, falling back to a simulated mode when fullscreen is blocked.' },
+      { title: 'Presentation and kiosk panels', text: 'Run slide or demo panels kiosk-style, checking `fullscreenEnabled` up front so outright disallowed contexts are detected early.' },
+      { title: 'Playgrounds and sandboxed embeds', text: 'Offer distraction-free fullscreen editing for code panes, and ship safely inside sandboxed iframes thanks to the honest fallback.' },
       { icon: 'CODE', title: 'Related: Neumorphic Button', desc: 'See the [Neumorphic Button](/ui-snippets/neumorphic-button/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

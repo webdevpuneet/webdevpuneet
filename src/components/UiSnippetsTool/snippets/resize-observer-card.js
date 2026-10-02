@@ -163,12 +163,11 @@ The demo wires up three different ways to resize the card — the native CSS res
       { title: 'Zero dependencies', text: `Plain DOM APIs only.` },
     ],
     useCases: [
-      { title: 'Responsive card layouts', text: `Switch internal layout past a pixel threshold.` },
-      { title: 'Chart/canvas containers', text: `Redraw canvas content on container resize.` },
-      { title: 'Sidebar/panel resizing', text: `Track live width of a draggable-width panel.` },
-      { title: 'Text-truncation logic', text: `Recompute line clamps as available width changes.` },
-      { title: 'Editor components', text: `Resize a code editor's internal canvas/grid.` },
-      { title: 'Debug/dev tools', text: `Pair with [network information badge](/ui-snippets/network-information-badge/) in a capability panel.` },
+      { title: 'Responsive component layouts', text: 'Switch a card\'s internal layout when its own width crosses a threshold, regardless of the viewport, using the real `ResizeObserver` API.' },
+      { title: 'Chart and canvas containers', text: 'Redraw canvas content whenever its container changes size, however the change happens, whether by CSS, JavaScript, drag or reflow.' },
+      { title: 'Resizable sidebars and panels', text: 'Track the live width of a draggable panel, reading `contentBoxSize` so padding and border are correctly excluded from the numbers.' },
+      { title: 'Text truncation logic', text: 'Recompute line clamps as available space changes, with an event counter proving the observer keeps firing rather than running only once.' },
+      { title: 'Developer debug panels', text: 'Pair with a [network information badge](/ui-snippets/network-information-badge/) in a developer tools overlay, and resize editor canvases as their containers change.' },
     ],
     faqs: [
       { q: 'How is ResizeObserver different from a getBoundingClientRect() call?', a: `getBoundingClientRect() returns the element's size at the exact moment you call it and never updates again on its own — you'd have to manually re-call it after every possible resize cause. ResizeObserver instead sets up an ongoing subscription: its callback fires automatically every time the observed element's box actually changes, regardless of what caused it, so you never have to enumerate resize causes yourself.` },

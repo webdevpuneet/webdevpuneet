@@ -136,12 +136,11 @@ Change the two width values to control how dramatically the bar condenses, adjus
       { title: 'CSS-driven morph', text: `JS only toggles a class; transitions do the animation.` },
     ],
     useCases: [
-      { title: 'SaaS landing pages', text: `Float above a [gradient mesh hero](/ui-snippets/gradient-mesh-hero/) section.` },
-      { title: 'Product marketing sites', text: `Pair with a [sticky header](/ui-snippets/sticky-header/) alternative pattern.` },
-      { title: 'Portfolios', text: `Top a [portfolio hero](/ui-snippets/portfolio-hero/) with a minimal floating menu.` },
-      { title: 'Docs sites', text: `Combine with a [scroll spy nav](/ui-snippets/scroll-spy-nav/) for section tracking.` },
-      { title: 'Mobile fallback', text: `Swap to a [hamburger nav](/ui-snippets/hamburger-nav/) under 560px.` },
-      { title: 'Animated nav demos', text: `A reference for a transform-based sliding indicator.` },
+      { title: 'Floating nav over mesh heroes', text: 'Float a frosted glass navbar above a [gradient mesh hero](/ui-snippets/gradient-mesh-hero/), shrinking its width and height with one class on scroll.' },
+      { title: 'Product marketing sites', text: 'Offer an alternative to a full-width [sticky header](/ui-snippets/sticky-header/), with a sliding pill that follows the hovered and active link.' },
+      { title: 'Portfolio menus', text: 'Top a [portfolio hero](/ui-snippets/portfolio-hero/) with a minimal floating menu, using throttled passive scroll handling to keep the main thread free.' },
+      { title: 'Documentation sections', text: 'Combine with a [scroll spy nav](/ui-snippets/scroll-spy-nav/) for section tracking, with the pill indicator moving by transform.' },
+      { title: 'Mobile fallback pairing', text: 'Swap to a [hamburger nav](/ui-snippets/hamburger-nav/) under about 560 pixels, and study the transform-based sliding indicator as a reference.' },
       { icon: 'CODE', title: 'Related: Keyboard-Navigable Icon Rail', desc: 'See the [Keyboard-Navigable Icon Rail](/ui-snippets/keyboard-nav-rail/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

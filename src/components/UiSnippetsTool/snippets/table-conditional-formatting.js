@@ -127,12 +127,11 @@ Add a third or fourth band with more granular thresholds, invert the direction (
       { title: 'Data-driven, not markup-driven', text: `Adding rows, columns, or changing values requires no changes to the coloring logic.` },
     ],
     useCases: [
-      { title: 'Sales and performance dashboards', text: `Spot underperforming reps or products across a grid of monthly figures at a glance.` },
-      { title: 'Inventory and stock-level monitoring', text: `Color stock counts red near depletion, green when well-stocked.` },
-      { title: 'Financial and budget tracking', text: `Flag over-budget or under-target cells across a period-by-period breakdown.` },
-      { title: 'QA and test result matrices', text: `Color pass-rate percentages by threshold across test suites or environments.` },
-      { title: 'Grading and scoring tables', text: `Highlight scores in a grid the way a spreadsheet grading rubric would.` },
-      { title: 'Learning live-computed styling', text: `A clear reference for driving inline styles from a pure function of adjustable inputs, versus a static [comparison table](/ui-snippets/comparison-table/).` },
+      { title: 'Sales performance dashboards', text: 'Spot underperforming reps by colouring each cell from its value against low and high thresholds, recalculated on every keystroke.' },
+      { title: 'Inventory stock monitoring', text: 'Colour stock counts red, amber or green according to adjustable limits, with high clamped so it can never fall below low.' },
+      { title: 'Budget tracking', text: 'Flag over-budget or under-target lines in a grid, in the same way spreadsheets use conditional formatting for outliers.' },
+      { title: 'QA test result matrices', text: 'Colour pass-rate percentages across builds and suites, and compare with a [comparison table](/ui-snippets/comparison-table/) for feature grids.' },
+      { title: 'Grading tables', text: 'Highlight scores in a grid, using a pure `colorFor` function that maps a value and two thresholds to a colour band.' },
       { icon: 'CODE', title: 'Related: Nested JSON to Table Mapper', desc: 'See the [Nested JSON to Table Mapper](/ui-snippets/table-nested-json-mapper/) for a related tables pattern worth pairing with this one.' },
     ],
     faqs: [

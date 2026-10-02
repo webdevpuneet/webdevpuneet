@@ -204,12 +204,11 @@ Swap the input for a textarea to paste larger blocks, add a "clear" button, or v
       { title: 'Empty-value guard', text: `Copy is blocked with a message if there's nothing to copy.` },
     ],
     useCases: [
-      { title: 'Tracking number / code fields', text: `Let users paste an order or tracking ID quickly.` },
-      { title: 'API key / token inputs', text: `Pair with a [copy button](/ui-snippets/copy-button/) for the generated value.` },
-      { title: 'Referral link fields', text: `Combine with a [Web Share button](/ui-snippets/web-share-button/).` },
-      { title: 'Support ticket forms', text: `Paste an error message or log line for triage.` },
-      { title: 'Settings & config panels', text: `Copy a webhook URL or embed snippet reliably.` },
-      { title: 'Dashboards', text: `Copy a filtered view link from a [status dashboard](/ui-snippets/status-dashboard/).` },
+      { title: 'Tracking number fields', text: 'Let users paste an order or tracking code with one click, using `navigator.clipboard.readText()` and an honest message when permission is denied.' },
+      { title: 'API key and token inputs', text: 'Pair with a [copy button](/ui-snippets/copy-button/) for the generated value, with an `execCommand` fallback if the Clipboard API write fails.' },
+      { title: 'Referral link fields', text: 'Combine with a [web share button](/ui-snippets/web-share-button/) so a link can be both copied and shared, naming the exact reason if access fails.' },
+      { title: 'Support ticket forms', text: 'Paste an error message or log line quickly, with the input staying fully usable by hand when clipboard access is refused.' },
+      { title: 'Config panels and dashboards', text: 'Copy a webhook URL or embed snippet in settings, or copy a filtered view link from a [status dashboard](/ui-snippets/status-dashboard/).' },
       { icon: 'CODE', title: 'Related: FAB Speed Dial Menu', desc: 'See the [FAB Speed Dial Menu](/ui-snippets/fab-speed-dial-menu/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

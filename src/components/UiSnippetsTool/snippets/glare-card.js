@@ -109,12 +109,11 @@ Tune the \`28\` multiplier for a stronger or subtler tilt, change the glare radi
       { title: 'Fully themeable', text: `Colors, tilt, and depth are all tunable.` },
     ],
     useCases: [
-      { title: 'NFT and collectibles', text: `Show a holo card beside a [pin card](/ui-snippets/pin-card/).` },
-      { title: 'Premium pricing tiers', text: `A flashy [pricing card](/ui-snippets/pricing-card/) variant.` },
-      { title: 'Membership cards', text: `Pair with a [wallet card](/ui-snippets/wallet-card/) flip.` },
-      { title: 'Event tickets', text: `Make a [boarding pass](/ui-snippets/boarding-pass/) feel special.` },
-      { title: 'Product hero shots', text: `Combine with a [wobble card](/ui-snippets/wobble-card/) grid.` },
-      { title: 'Blend-mode demos', text: `A reference for color-dodge holographic foil.` },
+      { title: 'NFT and collectible cards', text: 'Show a holographic card beside a [pin card](/ui-snippets/pin-card/), with a bright hotspot tracking the pointer and a rainbow foil sheen shifting across the surface.' },
+      { title: 'Premium pricing tiers', text: 'Offer a flashy variant of a [pricing card](/ui-snippets/pricing-card/), using `color-dodge` and `soft-light` blend modes that react to what lies beneath.' },
+      { title: 'Membership cards', text: 'Pair with a [wallet card](/ui-snippets/wallet-card/) flip for loyalty programmes, so a membership card both tilts and turns over.' },
+      { title: 'Event tickets', text: 'Make a [boarding pass](/ui-snippets/boarding-pass/) or concert ticket feel special, with a panning conic gradient creating the foil effect.' },
+      { title: 'Product hero shots', text: 'Combine with a [wobble card](/ui-snippets/wobble-card/) grid, and use it as a reference for holographic blend-mode treatments.' },
       { icon: 'CODE', title: 'Related: 360° Product Spin Viewer', desc: 'See the [360° Product Spin Viewer](/ui-snippets/product-360-image-spin/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -116,12 +116,11 @@ Change \`COUNT\` for a denser or sparser shower, widen the random duration range
       { title: 'Tunable density', text: `One COUNT constant controls the shower.` },
     ],
     useCases: [
-      { title: 'Premium pricing tiers', text: `A flashy upgrade to a [pricing card](/ui-snippets/pricing-card/).` },
-      { title: 'Feature highlights', text: `Pair with a [pin card](/ui-snippets/pin-card/) in a grid.` },
-      { title: 'Launch announcements', text: `Set a cosmic mood near a [lamp header](/ui-snippets/lamp-header/).` },
-      { title: 'Reward screens', text: `Echo the sky with a [confetti button](/ui-snippets/confetti-button/).` },
-      { title: 'Space-themed sites', text: `Combine with a [starfield](/ui-snippets/starfield/) background.` },
-      { title: 'CSS effect demos', text: `A reference for randomized meteor showers.` },
+      { title: 'Premium pricing tiers', text: 'Give a [pricing card](/ui-snippets/pricing-card/) a flashy upgrade, with thin shooting stars streaking diagonally across a dark card on randomised timings.' },
+      { title: 'Feature highlights', text: 'Pair with a [pin card](/ui-snippets/pin-card/) in a feature grid, building each meteor from a head and a gradient `::before` tail with no images.' },
+      { title: 'Launch announcements', text: 'Set a cosmic mood near a [lamp header](/ui-snippets/lamp-header/), with `overflow: hidden` framing the streaks inside the card.' },
+      { title: 'Reward screens', text: 'Echo the sky behind a [confetti button](/ui-snippets/confetti-button/), so a completed task feels celebratory as meteors pass behind the message.' },
+      { title: 'Space-themed sites', text: 'Combine with a [starfield](/ui-snippets/starfield/) background, and study per-meteor start, delay and duration as a reference for randomised effects.' },
       { icon: 'CODE', title: 'Related: Virtual Tour Badge', desc: 'See the [Virtual Tour Badge](/ui-snippets/virtual-tour-badge/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

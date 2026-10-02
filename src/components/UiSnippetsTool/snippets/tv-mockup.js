@@ -124,12 +124,11 @@ Replace the rows with your real content and tag focusable items with \`data-f\`;
       { title: 'No dependency', text: `Pure HTML/CSS/JS for TV interfaces.` },
     ],
     useCases: [
-      { title: 'Streaming app prototypes', text: `Mock a TV home screen of poster [carousel](/ui-snippets/carousel/) rows.` },
-      { title: 'Cross-device showcases', text: `Pair with a [laptop mockup](/ui-snippets/laptop-mockup/) and [phone mockup](/ui-snippets/phone-mockup/).` },
-      { title: 'Kiosk and signage', text: `Prototype focus UIs beside a [sidebar nav](/ui-snippets/sidebar-nav/).` },
-      { title: 'Marketing shots', text: `Frame a media app in a [bento grid](/ui-snippets/bento-grid/).` },
-      { title: 'Game and console UIs', text: `Reuse the focus model for a [leaderboard podium](/ui-snippets/leaderboard-podium/).` },
-      { title: 'Learning spatial nav', text: `A reference for D-pad focus navigation.` },
+      { title: 'Streaming app prototypes', text: 'Mock a TV home screen of poster tiles inside a 16:9 flat panel with bezel, stand and foot drawn from CSS shapes alone.' },
+      { title: 'Cross-device showcases', text: 'Pair with a [laptop mockup](/ui-snippets/laptop-mockup/) and [phone mockup](/ui-snippets/phone-mockup/) to present a media app across screens, as part of a [carousel](/ui-snippets/carousel/) of device shots.' },
+      { title: 'Kiosk and signage prototypes', text: 'Prototype focus-driven interfaces beside a [sidebar nav](/ui-snippets/sidebar-nav/), with D-pad arrow keys moving a focus highlight rather than a cursor.' },
+      { title: 'Marketing shots', text: 'Frame a media app in a [bento grid](/ui-snippets/bento-grid/), with spatial groups letting Down and Up jump between a hero row and tile rows.' },
+      { title: 'Game and console interfaces', text: 'Reuse the focus model for a [leaderboard podium](/ui-snippets/leaderboard-podium/) or menu screens, and study D-pad navigation as a spatial focus reference.' },
     ],
     faqs: [
       { q: 'How does the arrow-key navigation work?', a: `Every focusable element is tagged with a data-f attribute and collected into an array. A setFocus(index) function toggles a focus class — scaling the item and drawing a white ring — and arrow keys change the index: Left/Right move within a row, Down jumps from the hero buttons into the tiles, and Up returns. The index is clamped so focus stays on a valid item.` },

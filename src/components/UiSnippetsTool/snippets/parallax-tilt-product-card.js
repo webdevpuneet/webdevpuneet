@@ -111,10 +111,10 @@ A radial-gradient .tc-shine overlay fades in only while hovering, positioned to 
       'Self-contained single card component, easy to drop into any product grid',
     ],
     useCases: [
-      { icon: 'DESIGN', title: 'E-commerce product cards', desc: 'An engaging hover interaction that draws attention to featured products.' },
-      { icon: 'APP', title: 'Portfolio and showcase grids', desc: 'A tactile, premium-feeling hover treatment for project or item cards.' },
-      { icon: 'LEARN', title: '3D CSS transform tutorials', desc: 'A clear worked example combining perspective, rotation, and opposing-layer parallax.' },
-      { icon: 'CODE', title: 'Design system hover patterns', desc: 'A reusable interaction pattern for any card-based component library.' },
+      { icon: '🛍️', title: 'E-commerce product cards', desc: 'Make product tiles feel engaging with a 3D tilt toward the cursor, while an inner icon layer shifts the opposite way for fake depth.' },
+      { icon: '🎨', title: 'Portfolio and showcase grids', desc: 'Offer a tactile, premium-feeling hover on project tiles, with a near-instant transition class while hovering so tracking never lags.' },
+      { icon: '📚', title: '3D CSS transform tutorials', desc: 'Provide a clear worked example combining perspective, `rotateX` and `rotateY` computed from cursor position with a counter-moving layer.' },
+      { icon: '🧩', title: 'Design system hover patterns', desc: 'Offer a reusable interaction pattern with a smooth eased return to rest triggered when the mouse leaves the card.' },
     ],
     faqs: [
       { q: 'Why does the icon move in the opposite direction from the tilt?', a: 'Moving the icon opposite to the tilt direction mimics how a physically raised, separate layer would shift relative to its background as your viewpoint changes — the same principle behind larger-scale mouse-parallax effects, applied to one small element to fake extra depth on the card.' },

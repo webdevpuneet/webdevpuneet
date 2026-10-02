@@ -135,12 +135,11 @@ Add beats freely — each just needs a \`data-target\` and optional prefix/suffi
       { title: 'Fully reversible reveal', text: `The fade/rise-in of each beat still reverses on scroll-up, independent of counting.` },
     ],
     useCases: [
-      { title: 'Annual report and impact pages', text: `Turn a list of yearly facts into a paced, one-stat-at-a-time story.` },
-      { title: 'Pitch deck landing pages', text: `Lead investors through traction metrics with satisfying count-up beats.` },
-      { title: 'Nonprofit and fundraising sites', text: `Reveal donation totals and reach stats as visitors scroll the story.` },
-      { title: 'Product "by the numbers" sections', text: `Show usage scale (requests, users, uptime) as a scroll-paced sequence.` },
-      { title: 'Marketing case study pages', text: `Count up before/after results at the point the reader's story reaches them.` },
-      { title: 'Conference or event recap pages', text: `Reveal attendance and engagement stats one beat per scroll.` },
+      { title: 'Annual report and impact pages', text: 'Turn a list of yearly facts into a narrative sequence, with each big number counting up the first time it reaches the middle of the screen.' },
+      { title: 'Pitch deck landing pages', text: 'Lead investors through traction numbers, with markup-driven `data-target` and `data-suffix` attributes holding each stat\'s value and format.' },
+      { title: 'Nonprofit fundraising sites', text: 'Reveal donation totals and people helped, using a `WeakSet` so scrolling back never replays a count.' },
+      { title: 'By-the-numbers sections', text: 'Show usage scale such as requests served or users reached, built with native observers and no animation library.' },
+      { title: 'Case study and event recaps', text: 'Count up before and after results in a marketing case study, or reveal attendance and engagement figures on a conference recap page.' },
       { icon: 'CODE', title: 'Related: Sticky Filter Bar', desc: 'See the [Sticky Filter Bar](/ui-snippets/sticky-filter-bar/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

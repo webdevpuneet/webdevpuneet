@@ -170,12 +170,11 @@ A production integration needs a real merchant account and server-side charge ve
       { title: 'No backend required', text: `Fully functional demo with zero server code.` },
     ],
     useCases: [
-      { title: 'Checkout flows', text: `Pair with [OTP verification](/ui-snippets/otp-verification/) for a full purchase.` },
-      { title: 'Account-gated purchases', text: `Combine with [passkey login](/ui-snippets/passkey-login/).` },
-      { title: 'Donation buttons', text: `A one-tap "Pay now" for a fixed amount.` },
-      { title: 'Digital goods stores', text: `Skip a full cart page for single-item buys.` },
-      { title: 'Subscription upsells', text: `A quick native-feeling upgrade prompt.` },
-      { title: 'Design prototypes', text: `Demonstrate checkout UX without a payment backend.` },
+      { title: 'Checkout flows', text: 'Offer a native-feeling Pay now sheet where supported, followed by [OTP verification](/ui-snippets/otp-verification/) for a complete purchase flow.' },
+      { title: 'Account-gated purchases', text: 'Combine with [passkey login](/ui-snippets/passkey-login/), so a signed-in user can pay in one tap using saved cards or wallets.' },
+      { title: 'Donation buttons', text: 'Provide a one-tap Pay now for a fixed amount, checking that `PaymentRequest` exists and calling `canMakePayment` before opening a sheet.' },
+      { title: 'Digital goods stores', text: 'Skip the full cart page for single-item purchases, with every rejection routed into a working mock checkout.' },
+      { title: 'Prototypes and subscription upsells', text: 'Demonstrate checkout UX without a payment processor, or present a quick upgrade prompt that behaves like the real native sheet.' },
       { icon: 'CODE', title: 'Related: WebAuthn Security Key Prompt', desc: 'See the [WebAuthn Security Key Prompt](/ui-snippets/webauthn-security-key-prompt/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

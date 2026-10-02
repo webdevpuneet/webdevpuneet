@@ -242,12 +242,11 @@ Add a short countdown "warm-up" phase before round 1, a distinct color for the f
       { title: 'Clear completion state', text: `A checkmark and "Workout complete" message replace the countdown when finished.` },
     ],
     useCases: [
-      { title: 'HIIT and Tabata workouts', text: `Run classic 20-on/10-off interval training with a configurable round count.` },
-      { title: 'Circuit training apps', text: `Adapt the work/rest phases to cue exercise stations in a gym circuit.` },
-      { title: 'Fitness dashboard widgets', text: `Combine with a [water intake tracker](/ui-snippets/water-intake-tracker/) and [sleep cycle chart](/ui-snippets/sleep-cycle-chart/) for a full health view.` },
-      { title: 'Focus and work sprints', text: `Reuse the work/rest ring pattern for Pomodoro-style focus sessions — see [pomodoro timer](/ui-snippets/pomodoro-timer/).` },
-      { title: 'Physical therapy routines', text: `Time exercise holds and rest periods for a guided rehab session.` },
-      { title: 'Learning countdown state machines', text: `A clear reference for building a multi-phase timer without a library, alongside [stopwatch](/ui-snippets/stopwatch/).` },
+      { title: 'HIIT and Tabata workouts', text: 'Run classic 20 seconds on and 10 seconds off intervals, with a configurable round count and the round shown prominently.' },
+      { title: 'Circuit training apps', text: 'Adapt the phases to cue exercise stations, with orange work and blue rest colours that are unmistakable at a glance.' },
+      { title: 'Fitness dashboard widgets', text: 'Combine with a [water intake tracker](/ui-snippets/water-intake-tracker/) and a [sleep cycle chart](/ui-snippets/sleep-cycle-chart/) for a complete health screen.' },
+      { title: 'Work-sprint timers', text: 'Reuse the work and rest ring for focus sprints next to a [Pomodoro timer](/ui-snippets/pomodoro-timer/), or time laps with a [stopwatch](/ui-snippets/stopwatch/).' },
+      { title: 'Countdown state machine reference', text: 'Study one state object and one `tick()` function driving every phase, with a brief scale pulse cueing each transition.' },
     ],
     faqs: [
       { q: 'How does the timer decide when to switch phases?', a: `tick() runs every second, decrementing timeLeft. When timeLeft drops below zero, a single block of logic decides the next phase: if the current phase was "work," it switches to "rest" with the configured rest duration; if it was "rest," it either advances to the next round's work phase or, if the last round just finished resting, calls finish(). This keeps all transition logic in one place instead of scattered across separate timers.` },

@@ -139,12 +139,11 @@ Below the scale, the mixer prints a ready-to-use \`linear-gradient(90deg, …)\`
       { title: 'No library', text: `Pure HTML/CSS/JS — no color library.` },
     ],
     useCases: [
-      { title: 'Design-system tint scales', text: `Generate 50–900 shades, then store them as a [color swatch](/ui-snippets/color-swatch/) set.` },
-      { title: 'Building gradients', text: `Find stops for a hero or button, like a [gradient button](/ui-snippets/gradient-button/).` },
-      { title: 'Theme creation', text: `Blend brand colors alongside a [theme palette generator](/ui-snippets/theme-palette-generator/).` },
-      { title: 'Data-viz color ramps', text: `Create sequential scales for a [heatmap matrix](/ui-snippets/heatmap-matrix/).` },
-      { title: 'Picking a middle shade', text: `Get the exact color halfway between two hues.` },
-      { title: 'Learning color math', text: `A reference for hex/RGB conversion and interpolation.` },
+      { title: 'Design system tint scales', text: 'Generate a series of shades between two brand colours, then check them with a [colour swatch](/ui-snippets/color-swatch/) in a design system.' },
+      { title: 'Gradient stop discovery', text: 'Find stops for a hero or button, then apply them in a [gradient button](/ui-snippets/gradient-button/), choosing between 3 and 11 swatches.' },
+      { title: 'Theme creation', text: 'Blend brand colours alongside a [theme palette generator](/ui-snippets/theme-palette-generator/), with each swatch copying its hex on click.' },
+      { title: 'Data visualisation ramps', text: 'Create sequential colour scales for a [heatmap matrix](/ui-snippets/heatmap-matrix/), where exact endpoints keep the scale faithful to your two chosen colours.' },
+      { title: 'Mid-point shade picking', text: 'Get the exact colour halfway between two values, with luminance-aware labels flipping dark or light to stay readable on every swatch.' },
       { icon: 'CODE', title: 'Related: OKLCH Color Picker & Playground', desc: 'See the [OKLCH Color Picker & Playground](/ui-snippets/css-oklch-color-picker/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

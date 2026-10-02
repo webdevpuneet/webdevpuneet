@@ -136,12 +136,11 @@ Tune \`stiffness\`/\`damping\` for snappier or looser motion (higher stiffness =
       { title: 'No build step needed', text: `Loaded as a UMD global straight from a CDN script tag.` },
     ],
     useCases: [
-      { title: 'Team and about pages', text: `Introduce a [team card](/ui-snippets/team-card/) grid with springy motion.` },
-      { title: 'Product catalogs', text: `Animate a [product card](/ui-snippets/product-card/) grid entrance.` },
-      { title: 'Feature showcases', text: `Give [feature cards](/ui-snippets/feature-cards/) a physical, tactile feel.` },
-      { title: 'Kanban / sortable boards', text: `Use the drag-and-spring-back pattern as a base for reorderable cards.` },
-      { title: 'Onboarding carousels', text: `Spring-driven card stacks feel more alive than duration-based fades.` },
-      { title: 'Testimonial rotators', text: `Pair with [Testimonial Card](/ui-snippets/testimonial-card/) for springy transitions.` },
+      { title: 'Team and about pages', text: 'Introduce a [team card](/ui-snippets/team-card/) grid with spring physics instead of easing curves, using `stagger(0.08)` to delay each card in turn.' },
+      { title: 'Product catalogue entrances', text: 'Animate a [product card](/ui-snippets/product-card/) grid so each item pops in with a believable overshoot and settle, defined by stiffness and damping.' },
+      { title: 'Feature showcases', text: 'Give [feature cards](/ui-snippets/feature-cards/) a physical, tactile hover pop, with higher stiffness and lower damping for a lively bounce.' },
+      { title: 'Draggable sortable boards', text: 'Use the drag and spring-back pattern for kanban-style boards, where cards rotate slightly while dragged horizontally.' },
+      { title: 'Onboarding and testimonial rotators', text: 'Make onboarding card stacks feel physical, or pair with a [testimonial card](/ui-snippets/testimonial-card/) for a spring-driven review carousel.' },
     ],
     faqs: [
       { q: 'What does spring({ stiffness, damping }) actually control?', a: `stiffness controls how strongly the spring pulls toward its target — higher values move faster and more urgently. damping controls how much the motion is resisted as it approaches the target — lower damping allows more oscillation and overshoot before settling, higher damping approaches smoothly with little or no bounce. Motion One simulates these forces frame by frame rather than interpolating along a fixed curve, which is why the resulting motion looks different depending on how far the element travels.` },

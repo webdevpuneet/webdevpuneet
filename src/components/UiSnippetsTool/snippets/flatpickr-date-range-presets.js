@@ -142,12 +142,11 @@ Swap the day counts (7/30/90) for whatever ranges your report or filter actually
       { title: 'maxDate guard', text: `Prevents selecting a range that extends into the future.` },
     ],
     useCases: [
-      { title: 'Analytics and reporting dashboards', text: `The standard date-range filter pattern.` },
-      { title: 'Financial and billing statement views', text: `Quick common ranges plus a custom option.` },
-      { title: 'Booking and availability search', text: `Pair with the [booking calendar](/ui-snippets/flatpickr-booking-calendar/) snippet elsewhere in this collection.` },
-      { title: 'Export and download tools', text: `Let users scope a data export to a specific window.` },
-      { title: 'Admin activity log filters', text: `Narrow a log view to a relevant time span.` },
-      { title: 'Learning Flatpickr range mode', text: `A clear reference for presets that stay honest to real state.` },
+      { title: 'Analytics date filters', text: 'Provide the standard date range control for reporting dashboards, with Last 7, 30 and 90 day presets that move the real calendar selection.' },
+      { title: 'Billing statement ranges', text: 'Offer quick common ranges on financial views, with a single function keeping the highlighted preset honest as dates change.' },
+      { title: 'Booking availability search', text: 'Pair with the [Flatpickr booking calendar](/ui-snippets/flatpickr-booking-calendar/) so shoppers can search by range and then pick from the available dates.' },
+      { title: 'Export scoping', text: 'Let users limit a data export to a period, with range mode styling every day between start and end automatically.' },
+      { title: 'Activity log filters', text: 'Narrow an admin log to a relevant window, and clear before a manual pick so a stale leftover range never appears.' },
     ],
     faqs: [
       { q: 'Why does clicking a preset call setDate instead of just updating the summary text?', a: `Calling fp.setDate([start, end], true) updates Flatpickr's actual internal selection state, its calendar UI highlighting, and its input field text all at once — the true second argument also fires the same onChange callback a manual selection would trigger. If the preset only updated the summary text directly, the calendar's own state would silently disagree the moment anyone opened it to inspect or adjust the range.` },

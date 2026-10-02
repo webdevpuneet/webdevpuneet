@@ -114,12 +114,11 @@ Add or remove panels — the overflow math adapts automatically — change the s
       { title: 'Any panel count', text: `Flex max-content adapts to the markup.` },
     ],
     useCases: [
-      { title: 'Process sections', text: `Step through stages like [scroll pin steps](/ui-snippets/scroll-pin-steps/).` },
-      { title: 'Galleries', text: `A pinned [scroll gallery pin](/ui-snippets/scroll-gallery-pin/) variant.` },
-      { title: 'Case studies', text: `Showcase work beside [stacking scroll cards](/ui-snippets/stacking-scroll-cards/).` },
-      { title: 'Product tours', text: `Pair with a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/).` },
-      { title: 'Storytelling', text: `Complement a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Portfolios', text: `Slide projects past a [portfolio hero](/ui-snippets/portfolio-hero/).` },
+      { title: 'Process walkthroughs', text: 'Step through stages of a service like [scroll pin steps](/ui-snippets/scroll-pin-steps/), with vertical scrolling driving horizontal travel across full-screen panels.' },
+      { title: 'Gallery variants', text: 'Compare with the captioned [scroll gallery pin](/ui-snippets/scroll-gallery-pin/) to choose between plain panels and an image rail with a counter.' },
+      { title: 'Case study stories', text: 'Showcase work alongside [stacking scroll cards](/ui-snippets/stacking-scroll-cards/) in a case study, with travel distance equal to `scrollWidth` minus the viewport width.' },
+      { title: 'Product tours', text: 'Pair with a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/) so a cinematic opener leads into a sideways tour of features.' },
+      { title: 'Narrative and portfolio sections', text: 'Complement a [scroll pin story](/ui-snippets/scroll-pin-story/), or slide projects past a [portfolio hero](/ui-snippets/portfolio-hero/), using one screen of scrolling per panel.' },
       { icon: 'CODE', title: 'Related: Scroll Map Journey Story', desc: 'See the [Scroll Map Journey Story](/ui-snippets/scroll-map-journey-story/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -154,11 +154,11 @@ Rolling this by hand means listening to \`pointerdown\`/\`pointermove\`/\`pointe
       { title: 'Real exportable image', text: 'The export button produces an actual PNG data URL, previewed inline.' },
     ],
     useCases: [
-      { icon: 'FORM', title: 'Contract / agreement forms', text: 'Capture a legal or consent signature inline in a web form.' },
-      { icon: 'APP', title: 'Delivery confirmation', text: 'A recipient sign-off pad for delivery or service apps.' },
-      { icon: 'DESIGN', title: 'Quick sketch capture', text: 'A minimal freehand input for annotations or doodles.' },
-      { icon: 'LEARN', title: 'Learning canvas export', text: 'A concrete reference for toDataURL and resolution multipliers.' },
-      { icon: 'CODE', title: 'Kiosk / tablet check-in', text: 'Touch-friendly signing for in-person check-in flows.' },
+      { title: 'Contract and consent signing', text: 'Capture a legal or consent signature with smooth freehand strokes, using Fabric\'s free-drawing mode and a configurable `PencilBrush`.' },
+      { title: 'Delivery sign-off pads', text: 'Provide a recipient sign-off for a courier app, with colour swatches and a Clear button for another attempt.' },
+      { title: 'Quick sketch capture', text: 'Offer a minimal freehand input for annotations, where brush width and colour are read fresh at the start of every new stroke.' },
+      { title: 'Canvas export learning', text: 'Learn how `toDataURL` with a multiplier of 2 rasterises a high-resolution PNG, doubling the on-screen resolution for crisp output.' },
+      { title: 'Kiosk and tablet check-in', text: 'Support touch-friendly signing for in-person visits at a front desk, with multi-colour signing handled by swapping `freeDrawingBrush.color` only.' },
     ],
     faqs: [
       { q: 'Why assign a new PencilBrush instead of using the canvas default?', a: 'Fabric does create a default free-drawing brush automatically, but explicitly constructing new fabric.PencilBrush(canvas) guarantees the brush type and gives an unambiguous, documented object to set width and color on, which keeps the code portable across Fabric versions.' },

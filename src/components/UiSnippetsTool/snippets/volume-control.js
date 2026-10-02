@@ -144,12 +144,11 @@ Point \`setVolume()\` at a real sink: set \`audioElement.volume = shown / 100\` 
       { title: 'No dependency', text: `Pure HTML/CSS/JS — drop it onto any player.` },
     ],
     useCases: [
-      { title: 'Media players', text: `Control playback level next to a [video player](/ui-snippets/video-player/).` },
-      { title: 'Audio and music apps', text: `Pair with a [music player](/ui-snippets/music-player/) transport bar.` },
-      { title: 'Voice and recording UIs', text: `Set monitor level beside an [audio waveform visualizer](/ui-snippets/audio-waveform-visualizer/).` },
-      { title: 'Settings panels', text: `Drop into a [settings panel](/ui-snippets/settings-panel/) for sound preferences.` },
-      { title: 'Any value slider', text: `Reuse the drag math for a [range slider](/ui-snippets/range-slider/).` },
-      { title: 'Learning Pointer Events', text: `A reference for capture-based dragging and ARIA sliders.` },
+      { title: 'Media player levels', text: 'Control playback volume next to a [video player](/ui-snippets/video-player/), with a mute toggle that remembers the previous level on un-mute.' },
+      { title: 'Music and audio apps', text: 'Pair with a [music player](/ui-snippets/music-player/) transport bar, with the speaker icon changing as the level crosses thresholds.' },
+      { title: 'Recording monitor levels', text: 'Set a monitor level beside an [audio waveform visualiser](/ui-snippets/audio-waveform-visualizer/) while recording voice or music in the browser.' },
+      { title: 'Sound settings panels', text: 'Drop the control into a [settings panel](/ui-snippets/settings-panel/) for sound preferences, with full keyboard control for accessibility.' },
+      { title: 'Custom slider reference', text: 'Reuse the drag maths for a [range slider](/ui-snippets/range-slider/), and learn Pointer Events with capture for mouse, touch and pen.' },
     ],
     faqs: [
       { q: 'Why build a custom slider instead of input type=range?', a: `Native range inputs are hard to style consistently — the track, thumb, and focus ring differ across browsers and need vendor pseudo-elements. A custom div track gives full control over the knob, the active scale, and the focus ring, while role=slider plus aria-valuenow restores the accessibility you'd otherwise get for free.` },

@@ -193,12 +193,11 @@ Add a taxes-and-fees line, a "sold out" disabled state for a room type, or swap 
       { title: 'Zero dependencies', text: `Plain HTML, CSS, and JS, no CDN.` },
     ],
     useCases: [
-      { title: 'Hotel booking sites', text: `Pair with a [property listing card](/ui-snippets/property-listing-card/).` },
-      { title: 'Checkout flows', text: `Feed the selected room into [checkout](/ui-snippets/checkout-form/).` },
-      { title: 'Vacation rentals', text: `Offer room or unit tiers with live pricing.` },
-      { title: 'Event ticketing', text: `Reuse the pattern for ticket-tier selection.` },
-      { title: 'Subscription plans', text: `A sibling of [radio card group](/ui-snippets/radio-card-group/) pricing.` },
-      { title: 'Corporate travel tools', text: `Compare room options with a running total.` },
+      { title: 'Hotel booking pages', text: 'Let guests choose between Standard, Deluxe and Suite cards that show bed type, size and amenities, beside a [property listing card](/ui-snippets/property-listing-card/) for the hotel itself.' },
+      { title: 'Checkout hand-off', text: 'Feed the selected room and number of nights straight into a [checkout form](/ui-snippets/checkout-form/), with the total read from each radio\'s `data-price` attribute.' },
+      { title: 'Vacation rental units', text: 'Offer unit tiers with live pricing, where the whole card is a real radio input so keyboard and screen reader users get proper radiogroup behaviour.' },
+      { title: 'Ticket tier selection', text: 'Reuse the pattern for event ticket tiers, with a sibling selector driving the checked appearance and a clamped stepper recomputing the total.' },
+      { title: 'Plan comparison siblings', text: 'Compare with a [radio card group](/ui-snippets/radio-card-group/) for subscription plans, and use it in corporate travel tools that compare room options against a running total.' },
       { icon: 'CODE', title: 'Related: Staking Rewards Card', desc: 'See the [Staking Rewards Card](/ui-snippets/staking-rewards-card/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

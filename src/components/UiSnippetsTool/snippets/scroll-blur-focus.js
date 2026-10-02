@@ -103,12 +103,11 @@ Change the blur amount, the focal position (\`center 45%\`), the scale, or the e
       { title: 'Works on any block', text: `Text, images, or cards.` },
     ],
     useCases: [
-      { title: 'Mission statements', text: `Pair with a [scroll text clip reveal](/ui-snippets/scroll-text-clip-reveal/).` },
-      { title: 'Editorial', text: `Focus lines like [text reveal scroll](/ui-snippets/text-reveal-scroll/).` },
-      { title: 'Quotes', text: `Sharpen a [testimonial card](/ui-snippets/testimonial-card/) line.` },
-      { title: 'Section intros', text: `Combine with [reveal on scroll](/ui-snippets/reveal-on-scroll/).` },
-      { title: 'Storytelling', text: `Pace a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Galleries', text: `Apply focus to a [photo gallery](/ui-snippets/photo-gallery/).` },
+      { title: 'Mission statement sections', text: 'Show a company statement one line at a time, with each line blurred and faint until it reaches the middle of the screen and snaps sharp.' },
+      { title: 'Editorial pull-through', text: 'Focus lines like a [text reveal scroll](/ui-snippets/text-reveal-scroll/) passage, using blur, opacity and scale together so the centred line really reads as in focus.' },
+      { title: 'Testimonial and quote sections', text: 'Sharpen each line of a quote in turn, or pair with a [testimonial card](/ui-snippets/testimonial-card/) so customer words arrive one thought at a time.' },
+      { title: 'Scroll storytelling pacing', text: 'Pace a narrative alongside a [scroll pin story](/ui-snippets/scroll-pin-story/), using two scrubbed ranges that meet at the centre of the viewport.' },
+      { title: 'Section intros', text: 'Combine with [reveal on scroll](/ui-snippets/reveal-on-scroll/) for lead-in copy, giving the page a depth-of-field feel as the focal plane moves down the text.' },
       { icon: 'CODE', title: 'Related: Scroll Card Fan', desc: 'See the [Scroll Card Fan](/ui-snippets/scroll-card-fan/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

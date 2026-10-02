@@ -158,12 +158,11 @@ Swap the option list for your own data or an async source, allow free-text entri
       { title: 'Single source of truth', text: `A selected array drives all rendering.` },
     ],
     useCases: [
-      { title: 'Tagging', text: `A richer alternative to a [tag input](/ui-snippets/tag-input/).` },
-      { title: 'Search filters', text: `Pick facets beside a [filterable table](/ui-snippets/filterable-table/).` },
-      { title: 'Recipients', text: `Address fields in a [contact form](/ui-snippets/contact-form/).` },
-      { title: 'Categories', text: `Combine with a [multi select dropdown](/ui-snippets/multi-select-dropdown/).` },
-      { title: 'Autocomplete', text: `Single-pick variant: [autocomplete input](/ui-snippets/autocomplete-input/).` },
-      { title: 'Profile editing', text: `Skills and interests on a [settings panel](/ui-snippets/settings-panel/).` },
+      { title: 'Tagging fields', text: 'Build a richer alternative to a [tag input](/ui-snippets/tag-input/), where every selection becomes a removable chip and chosen items leave the suggestion pool.' },
+      { title: 'Search facet selection', text: 'Pick several facets beside a [filterable table](/ui-snippets/filterable-table/), using case-insensitive substring matching as the user types into the field.' },
+      { title: 'Recipient fields', text: 'Address a [contact form](/ui-snippets/contact-form/) to several people, with arrow keys moving an active option that wraps at either end.' },
+      { title: 'Category pickers', text: 'Combine with a [multi-select dropdown](/ui-snippets/multi-select-dropdown/) for large category lists, or switch to an [autocomplete input](/ui-snippets/autocomplete-input/) for a single choice.' },
+      { title: 'Skills and interests editing', text: 'Let people edit their skills on a [settings panel](/ui-snippets/settings-panel/), with each chip carrying an x button for removal.' },
       { icon: 'CODE', title: 'Related: Searchable Combobox with Keyboard Navigation', desc: 'See the [Searchable Combobox with Keyboard Navigation](/ui-snippets/combobox/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

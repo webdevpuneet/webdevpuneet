@@ -113,12 +113,11 @@ Change the gradient, the glow colour, the grid density, or the copy; replace the
       { title: 'Responsive form', text: `Wraps to two rows on small screens.` },
     ],
     useCases: [
-      { title: 'Landing footers', text: `Close the page above a [mega footer](/ui-snippets/mega-footer/).` },
-      { title: 'Waitlists', text: `An expressive [waitlist signup](/ui-snippets/waitlist-signup/).` },
-      { title: 'Newsletters', text: `A bolder [newsletter signup](/ui-snippets/newsletter-signup/).` },
-      { title: 'Launches', text: `Pair with a [coming soon hero](/ui-snippets/coming-soon-hero/).` },
-      { title: 'Promotions', text: `Echo an [animated gradient CTA](/ui-snippets/animated-gradient-cta/).` },
-      { title: 'Sticky combo', text: `Reinforce a [sticky CTA footer](/ui-snippets/sticky-cta-footer/).` },
+      { title: 'Landing page closers', text: 'Close a page above a [mega footer](/ui-snippets/mega-footer/) with a gradient panel, with a glow that eases toward the cursor through `--gx` and `--gy`.' },
+      { title: 'Waitlist capture', text: 'Offer an expressive alternative to a plain [waitlist signup](/ui-snippets/waitlist-signup/), with an inline email field inside the banner.' },
+      { title: 'Newsletter promotion', text: 'Provide a bolder take on a [newsletter signup](/ui-snippets/newsletter-signup/), where a faded repeating-gradient grid sits behind the headline.' },
+      { title: 'Launch announcements', text: 'Pair with a [coming soon hero](/ui-snippets/coming-soon-hero/) to open a page and close it with matching energy, using `isolation` to contain the layers.' },
+      { title: 'Promotion and sticky combinations', text: 'Echo an [animated gradient CTA](/ui-snippets/animated-gradient-cta/) elsewhere, or reinforce the ask with a [sticky CTA footer](/ui-snippets/sticky-cta-footer/) as the reader scrolls.' },
       { icon: 'CODE', title: 'Related: Search-Engine-Style Hero', desc: 'See the [Search-Engine-Style Hero](/ui-snippets/hero-search-bar-centerpiece/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

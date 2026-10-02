@@ -184,12 +184,11 @@ Swap the section and lesson data for your own course, add per-lesson duration or
       { title: 'Zero dependencies', text: `Plain HTML, CSS, and JS — no framework needed.` },
     ],
     useCases: [
-      { title: 'Online courses', text: `Navigate lessons alongside a [progress wizard](/ui-snippets/progress-wizard/).` },
-      { title: 'Onboarding tracks', text: `Structure steps like [onboarding tour](/ui-snippets/onboarding-tour/).` },
-      { title: 'Documentation sites', text: `Collapsible chapters for long guides.` },
-      { title: 'Certification programs', text: `Lock modules until prerequisites finish.` },
-      { title: 'Internal training', text: `Pair with an [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/).` },
-      { title: 'Video lesson players', text: `Sidebar playlist with watched/unwatched state.` },
+      { title: 'Online course navigation', text: 'Let learners move through sections that expand and collapse, with each lesson marked done, current or locked from a `data-status` attribute.' },
+      { title: 'Onboarding tracks', text: 'Structure product setup like an [onboarding tour](/ui-snippets/onboarding-tour/), with a [progress wizard](/ui-snippets/progress-wizard/) showing the overall step the learner is on.' },
+      { title: 'Documentation chapters', text: 'Organise long guides into collapsible chapters for documentation sites, animating height through `grid-template-rows` without any fixed pixel values.' },
+      { title: 'Certification prerequisites', text: 'Lock modules in certification programmes until earlier ones are completed, dimming locked rows and ignoring clicks on them entirely.' },
+      { title: 'Internal training programmes', text: 'Pair with an [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/) for new hires, with a left accent bar marking the active lesson.' },
       { icon: 'CODE', title: 'Related: Off-Canvas Push Menu', desc: 'See the [Off-Canvas Push Menu](/ui-snippets/off-canvas-menu/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

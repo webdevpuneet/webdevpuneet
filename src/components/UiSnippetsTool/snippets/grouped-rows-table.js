@@ -150,12 +150,11 @@ Everything derives from the \`ITEMS\` array and its \`group\` field, so swapping
       { title: 'Data-driven & no library', text: `Renders from an ITEMS array keyed by its group field — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Expense and budget reports', text: `Group spend by category with subtotals — pair with a [bar chart](/ui-snippets/bar-chart/) of category totals.` },
-      { title: 'Tasks and issues by project', text: `Cluster work items under project headers alongside a [kanban board](/ui-snippets/kanban-board/).` },
-      { title: 'Sales by region or rep', text: `Summarise revenue per group next to a [leaderboard table](/ui-snippets/leaderboard-table/).` },
-      { title: 'Inventory by warehouse', text: `Group stock with per-location counts and totals.` },
-      { title: 'Invoices and line items', text: `Group billable items by client, complementing an [invoice preview](/ui-snippets/invoice-preview/).` },
-      { title: 'Learning grouped data rendering', text: `A reference for view-layer grouping and delegated collapse — compare with a [tree table](/ui-snippets/tree-table/).` },
+      { title: 'Expense and budget reports', text: 'Group spend by category with per-group subtotals and counts, and show a [bar chart](/ui-snippets/bar-chart/) for the same data.' },
+      { title: 'Tasks by project', text: 'Cluster work items under project headers, with a link to a [kanban board](/ui-snippets/kanban-board/) for the board view.' },
+      { title: 'Sales by region or rep', text: 'Summarise revenue per group by region or rep, with a [leaderboard table](/ui-snippets/leaderboard-table/) as the ranked alternative view.' },
+      { title: 'Inventory by warehouse', text: 'Group stock with per-location counts, using view-layer grouping so the flat data is folded into sections only at render time.' },
+      { title: 'Invoices and tree comparisons', text: 'Group billable items by client in an [invoice preview](/ui-snippets/invoice-preview/) style report, or compare with a [tree table](/ui-snippets/tree-table/) for deeper hierarchies.' },
       { icon: 'CODE', title: 'Related: Spreadsheet Keyboard Navigation Table', desc: 'See the [Spreadsheet Keyboard Navigation Table](/ui-snippets/spreadsheet-keyboard-nav-table/) for a related tables pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -166,12 +166,11 @@ Add a "spice level" radio group, a max-add-ons limit, or an out-of-stock disable
       { title: 'Zero dependencies', text: `Plain HTML, CSS, and JS, no CDN.` },
     ],
     useCases: [
-      { title: 'Food delivery apps', text: `Feed the total into an [order summary](/ui-snippets/order-summary/).` },
-      { title: 'Restaurant ordering kiosks', text: `Customize a dish before adding to cart.` },
-      { title: 'Coffee shop apps', text: `Reuse size/add-ons for drink customization.` },
-      { title: 'Product configurators', text: `A sibling of [variant selector](/ui-snippets/variant-selector/).` },
-      { title: 'Meal kit services', text: `Let customers size and add extras to a box.` },
-      { title: 'Catering order forms', text: `Combine with a [quantity stepper](/ui-snippets/quantity-stepper/).` },
+      { title: 'Food delivery dish pages', text: 'Let customers choose a size, add extras and set a quantity, feeding the total into an [order summary](/ui-snippets/order-summary/).' },
+      { title: 'Restaurant ordering kiosks', text: 'Customise a dish before adding it to an order, with radios for exclusive size and checkboxes for independent add-ons.' },
+      { title: 'Coffee shop drink options', text: 'Reuse the size and add-on pattern for drinks, with CSS `:has()` highlighting selected options without any class toggling.' },
+      { title: 'Variant selector siblings', text: 'Compare with a [variant selector](/ui-snippets/variant-selector/) for product configurators, where the chosen options change the product itself rather than just its price.' },
+      { title: 'Catering and meal kit forms', text: 'Combine with a [quantity stepper](/ui-snippets/quantity-stepper/) so customers can size and extend a catering order with one price calculation.' },
       { icon: 'CODE', title: 'Related: Virtual Tour Badge', desc: 'See the [Virtual Tour Badge](/ui-snippets/virtual-tour-badge/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

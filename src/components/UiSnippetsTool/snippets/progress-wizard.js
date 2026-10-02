@@ -257,10 +257,10 @@ updateWizard();`,
       'Zero dependencies — pure HTML, CSS, JavaScript'
     ],
     useCases: [
-      { icon: 'FLOW', title: 'Signup Onboarding', desc: 'Multi-step account creation with profile, security, and plan selection' },
-      { icon: 'APP', title: 'Product Setup', desc: 'SaaS product configuration wizard split into logical stages' },
-      { icon: 'MONEY', title: 'Checkout Flow', desc: 'E-commerce checkout split into cart, shipping, payment, confirm' },
-      { icon: 'DOC', title: 'Form Surveys', desc: 'Long intake forms split into sections to improve completion rates' },
+      { icon: '👤', title: 'Signup onboarding', desc: 'Create a multi-step account flow with profile, security and plan steps, with an animated connector filling between completed steps.' },
+      { icon: '⚙️', title: 'Product setup wizards', desc: 'Split a SaaS configuration into manageable stages, with icons turning into checkmarks on completed steps through CSS only.' },
+      { icon: '🛒', title: 'Checkout flows', desc: 'Divide an e-commerce checkout into cart, shipping and payment, with panels sliding in when the step changes.' },
+      { icon: '📝', title: 'Intake and survey forms', desc: 'Break long forms into sections to improve completion, using a plan selector built with `:has()` and a JavaScript fallback.' },
       { icon: 'CODE', title: 'Related: Sticky Product Bar', desc: 'See the [Sticky Product Bar](/ui-snippets/sticky-product-bar/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

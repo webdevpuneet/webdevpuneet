@@ -92,12 +92,11 @@ If you need one distinctive tilt effect with full control over the easing curve 
       { title: 'Zero manual pointer math', text: `No mousemove handlers are written in this file at all.` },
     ],
     useCases: [
-      { title: 'Skill or service grids', text: `Give a services list the same tactile feel as [3D Card Tilt](/ui-snippets/3d-card-tilt/).` },
-      { title: 'Product catalogs', text: `Apply tilt across an entire [Product Card](/ui-snippets/product-card/) grid at once.` },
-      { title: 'Portfolio project grids', text: `Combine with [Portfolio Filter Grid](/ui-snippets/portfolio-filter-grid/) thumbnails.` },
-      { title: 'Pricing tiers', text: `Add tilt to plan cards for a livelier comparison table.` },
-      { title: 'Team member grids', text: `Apply the same options object across a [Team Card](/ui-snippets/team-card/) list.` },
-      { title: 'NFT / collectible galleries', text: `The tilt-plus-glare combination is a common pattern for card-like collectibles.` },
+      { title: 'Skill and service grids', text: 'Give a services list the same tactile feel as a [3D card tilt](/ui-snippets/3d-card-tilt/), wiring every card with one `VanillaTilt.init()` call.' },
+      { title: 'Product catalogues', text: 'Apply tilt across an entire [product card](/ui-snippets/product-card/) grid, with `max` controlling the maximum rotation in degrees.' },
+      { title: 'Portfolio project grids', text: 'Combine with a [portfolio filter grid](/ui-snippets/portfolio-filter-grid/), adding `glare: true` for a moving highlight with no extra markup.' },
+      { title: 'Team member grids', text: 'Apply one options object across a [team card](/ui-snippets/team-card/) grid, and enable `gyroscope: true` so phones drive tilt from device orientation.' },
+      { title: 'NFT and collectible galleries', text: 'Use the tilt-plus-glare combination for trading-card style displays, and for pricing plans that need a livelier comparison.' },
     ],
     faqs: [
       { q: 'How is this different from hand-writing the tilt effect myself?', a: `The mechanics are conceptually the same as a hand-written version like 3D Card Tilt — pointer offset from the element's center drives rotateX/rotateY — but VanillaTilt handles the event listeners, easing, glare rendering, and gyroscope support for every matched element automatically from one options object, so you don't maintain that logic yourself or repeat it per card.` },

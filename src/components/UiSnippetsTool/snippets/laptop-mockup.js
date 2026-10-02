@@ -110,12 +110,11 @@ Replace the \`.lm-page\` contents with your site or an \`<img>\`, and keep the d
       { title: 'No dependency', text: `Pure HTML/CSS/JS for device shots.` },
     ],
     useCases: [
-      { title: 'SaaS landing pages', text: `Show the app beside a [startup hero](/ui-snippets/startup-hero/).` },
-      { title: 'Portfolios', text: `Frame web work in a [bento grid](/ui-snippets/bento-grid/) of mockups.` },
-      { title: 'Case studies', text: `Present a [dashboard layout](/ui-snippets/dashboard-layout/) on a laptop.` },
-      { title: 'Responsive showcases', text: `Pair with a [tablet mockup](/ui-snippets/tablet-mockup/) and phone.` },
-      { title: 'Agency sites', text: `Display projects next to an [agency hero](/ui-snippets/agency-hero/).` },
-      { title: 'Learning CSS device art', text: `A reference for laptop frames and parallax tilt.` },
+      { title: 'SaaS landing page device shots', text: 'Show the app inside a MacBook-style frame beside a [startup hero](/ui-snippets/startup-hero/), with a 16:10 screen kept authentic through `aspect-ratio` and no device photo.' },
+      { title: 'Portfolio device grids', text: 'Frame web work inside a [bento grid](/ui-snippets/bento-grid/) of mockups, with a subtle pointer parallax tilt giving each laptop a lifelike feel.' },
+      { title: 'Case study dashboards', text: 'Present a [dashboard layout](/ui-snippets/dashboard-layout/) on a laptop, with a live styled page inside the lid so the screen content stays crisp at any size.' },
+      { title: 'Responsive showcases', text: 'Pair with a [tablet mockup](/ui-snippets/tablet-mockup/) and phone to show one design across devices, using a hinge base wedge with an edge strip and thumb notch.' },
+      { title: 'Agency project displays', text: 'Display client projects next to an [agency hero](/ui-snippets/agency-hero/), and learn how a gradient wedge builds a convincing laptop base entirely from CSS.' },
       { icon: 'CODE', title: 'Related: Split Screen Layout', desc: 'See the [Split Screen Layout](/ui-snippets/split-screen-layout/) for a related layouts pattern worth pairing with this one.' },
     ],
     faqs: [

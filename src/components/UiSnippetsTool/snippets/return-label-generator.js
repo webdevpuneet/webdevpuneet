@@ -178,12 +178,11 @@ Wire the submit handler to a real shipping API, pull the item list from the actu
       { title: 'No dependencies', text: `Pure HTML, CSS, and JavaScript.` },
     ],
     useCases: [
-      { title: 'E-commerce order pages', text: `Let customers self-serve a return request.` },
-      { title: 'Customer support tools', text: `Agents generate labels on a shopper's behalf.` },
-      { title: 'Order history dashboards', text: `Pair with [order tracking timeline](/ui-snippets/order-tracking-timeline/).` },
-      { title: 'Multi-item orders', text: `Combine with [checkbox tree](/ui-snippets/checkbox-tree/) for grouped selection.` },
-      { title: 'Marketplace seller tools', text: `A return-intake step in a seller dashboard.` },
-      { title: 'Warranty/RMA flows', text: `Adapt the reason list for defect-based returns.` },
+      { title: 'Customer self-service returns', text: 'Let shoppers pick a reason, select the items to send back and receive a label, all in one card with no page reload.' },
+      { title: 'Support agent tools', text: 'Let agents generate a label on a customer\'s behalf, with inline validation blocking submission until a reason and an item are chosen.' },
+      { title: 'Order history pages', text: 'Pair with an [order tracking timeline](/ui-snippets/order-tracking-timeline/) so a shopper can see an order\'s journey and start a return from the same view.' },
+      { title: 'Multi-item order returns', text: 'Combine with a [checkbox tree](/ui-snippets/checkbox-tree/) for grouped items, using full-row targets that carry size and quantity metadata.' },
+      { title: 'Warranty and RMA flows', text: 'Adapt the reason list for defect-based returns, with a confirmation state showing a mock tracking number and next steps.' },
     ],
     faqs: [
       { q: 'Is the tracking number real?', a: `No — generateTrackingNumber() produces a randomly formatted, UPS-style placeholder purely to demonstrate the confirmation state. Replace it with the tracking number your real shipping-label API returns before using this in production.` },

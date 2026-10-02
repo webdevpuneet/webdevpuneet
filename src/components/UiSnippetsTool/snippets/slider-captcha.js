@@ -143,12 +143,11 @@ The whole challenge recalculates its geometry on resize so it works at any width
       { title: 'No library', text: `Pure HTML/CSS/JS — no captcha dependency.` },
     ],
     useCases: [
-      { title: 'Login and signup flows', text: `Add friction for bots before an [auth login card](/ui-snippets/auth-login-card/) submit.` },
-      { title: 'Comment and form spam', text: `Gate a [contact form](/ui-snippets/contact-form/) on a human drag.` },
-      { title: 'Rate-limited actions', text: `Require verification before a sensitive request.` },
-      { title: 'Slide-to-confirm flows', text: `A richer cousin of [slide to confirm](/ui-snippets/slide-to-confirm/).` },
-      { title: 'Demos and prototypes', text: `Show a captcha UX without a third-party service.` },
-      { title: 'Learning pointer dragging', text: `A reference for linked drag interactions.` },
+      { title: 'Login and signup bot checks', text: 'Add friction for bots before an authentication step, with a puzzle piece the user drags into a randomly placed gap, inside an [auth login card](/ui-snippets/auth-login-card/).' },
+      { title: 'Contact form spam control', text: 'Gate a [contact form](/ui-snippets/contact-form/) on a human drag, using a forgiving pixel tolerance suitable for touch use.' },
+      { title: 'Rate-limited action checks', text: 'Require verification before a sensitive action is allowed, with distinct success and failure states and a reset to try again.' },
+      { title: 'Slide confirmation variants', text: 'Compare with [slide to confirm](/ui-snippets/slide-to-confirm/), which uses a similar drag but confirms intent instead of proving a human is present.' },
+      { title: 'Prototypes and drag learning', text: 'Show a captcha experience without a third-party service, and learn linked drag interactions with Pointer Events tracked at document level.' },
     ],
     faqs: [
       { q: 'Is a slider captcha actually secure?', a: `On its own, no — any client-side check can be bypassed. A slider captcha deters casual bots and is far less annoying than text captchas, but real protection requires sending the drag trajectory, timing, and a server-issued challenge token to your backend and validating them there. Treat this snippet as the front-end interaction; pair it with server verification for security.` },

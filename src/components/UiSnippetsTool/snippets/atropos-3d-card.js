@@ -170,12 +170,11 @@ Keep the four-level nesting, then compose your own content inside \`.atropos-inn
       { title: 'Reduced-motion aware', text: 'destroy() restores a static card when motion is reduced.' },
     ],
     useCases: [
-      { title: 'Product showcases', text: 'Hero a single item with depth instead of a flat render.' },
-      { title: 'Pricing and plan highlights', text: 'Make the recommended tier physically stand forward.' },
-      { title: 'Collectible and NFT cards', text: 'Layered art that reads as a real object in the hand.' },
-      { title: 'Portfolio project tiles', text: 'A richer alternative to a [3D card tilt](/ui-snippets/3d-card-tilt/).' },
-      { title: 'App store listings', text: 'Depth on a [app store card](/ui-snippets/app-store-card/) above the fold.' },
-      { title: 'Learning 3D transforms', text: 'A reference for perspective, transform splitting, and depth stacking.' },
+      { title: 'Product hero showcases', text: 'Show a single product with real depth, where each child moves by its own `data-atropos-offset` multiplier on pointer movement or device tilt.' },
+      { title: 'Pricing plan highlights', text: 'Make the recommended tier feel physical, with a negative offset on the background moving against the pointer for convincing separation.' },
+      { title: 'Collectible and NFT cards', text: 'Present layered artwork that reads as a real object, with a glare layer that tracks the pointer so the surface looks like glass.' },
+      { title: 'Portfolio project tiles', text: 'Offer a richer alternative to a [3D card tilt](/ui-snippets/3d-card-tilt/), nesting scale and rotate on separate elements so they never skew.' },
+      { title: 'App store listings', text: 'Add depth to an [app store card](/ui-snippets/app-store-card/) above the fold, and learn how perspective and transform layers combine.' },
       { icon: 'CODE', title: 'Related: Color Palette Extractor', desc: 'See the [Color Palette Extractor](/ui-snippets/color-palette-extractor/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

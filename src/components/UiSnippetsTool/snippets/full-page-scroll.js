@@ -115,12 +115,11 @@ Add or remove \`<section>\` panels and the dots and observers adapt automaticall
       { title: 'No library', text: `Replaces fullPage.js with native snap and vanilla JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Landing and product pages', text: `Present a story as snapping panels — pair with a [startup hero](/ui-snippets/startup-hero/) as the first section.` },
-      { title: 'Portfolios and showcases', text: `One project per full-screen section, alongside a [portfolio hero](/ui-snippets/portfolio-hero/).` },
-      { title: 'Onboarding and intros', text: `Walk through value props one screen at a time.` },
-      { title: 'Pitch decks on the web', text: `A slide-like scrolling presentation.` },
-      { title: 'Editorial and campaign sites', text: `Immersive full-bleed sections with motion.` },
-      { title: 'Learning scroll-snap', text: `A reference for native snap and observer nav — compare with a [scroll snap gallery](/ui-snippets/scroll-snap-gallery/) for horizontal.` },
+      { title: 'Landing and product pages', text: 'Present a story as full-viewport panels that snap into place, using native `scroll-snap-type` with no scroll listeners.' },
+      { title: 'Portfolio showcases', text: 'Give each project its own full-screen section for a portfolio showcase, with a [portfolio hero](/ui-snippets/portfolio-hero/) as the opening panel.' },
+      { title: 'Intros and onboarding', text: 'Walk through value propositions one screen at a time, opening with a [startup hero](/ui-snippets/startup-hero/) before the snapping sections begin.' },
+      { title: 'Web pitch decks', text: 'Create a slide-like presentation, where a dot navigator tracks the active section through an IntersectionObserver whether you scroll, touch, press keys or click.' },
+      { title: 'Scroll-snap learning', text: 'Study native snap and observation together, or compare with a [scroll snap gallery](/ui-snippets/scroll-snap-gallery/) for a horizontal variant.' },
       { icon: 'CODE', title: 'Related: Resizable Sidebar with Persisted Width', desc: 'See the [Resizable Sidebar with Persisted Width](/ui-snippets/resizable-sidebar-persisted-width/) for a related layouts pattern worth pairing with this one.' },
     ],
     faqs: [

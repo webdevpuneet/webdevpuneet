@@ -171,12 +171,11 @@ Replace \`LAUNCH_AT\` with a fixed \`new Date('2026-09-01T09:00:00Z').getTime()\
       { title: 'No dependencies', text: `Pure vanilla JS timer logic.` },
     ],
     useCases: [
-      { title: 'Product launch pages', text: `Pair with [coming soon hero](/ui-snippets/coming-soon-hero/).` },
-      { title: 'Event and webinar countdowns', text: `Swap copy for an event start time.` },
-      { title: 'Flash sale / drop pages', text: `Reuse goLive() for a "shop now" transition.` },
-      { title: 'App store launch pages', text: `Pair with [app hero](/ui-snippets/app-hero/) post-launch.` },
-      { title: 'Kickstarter/crowdfunding pages', text: `Countdown to campaign open or close.` },
-      { title: 'Beta-to-GA transition pages', text: `Automate the messaging switch at go-live.` },
+      { title: 'Pre-launch countdown pages', text: 'Pair with a [coming soon hero](/ui-snippets/coming-soon-hero/) for the pre-launch phase, with a countdown derived fresh from `Date.now()` on every tick.' },
+      { title: 'Event and webinar starts', text: 'Swap the copy for an event start time, with zero-padded tabular digits that never shift the layout width.' },
+      { title: 'Flash sale and drop pages', text: 'Reuse `goLive()` to switch to a Shop now state at zero, guarded by an `isLive` flag so the transition fires only once.' },
+      { title: 'App store launch pages', text: 'Follow the countdown with an [app hero](/ui-snippets/app-hero/) after release, automatically swapping copy and call to action.' },
+      { title: 'Crowdfunding and beta transitions', text: 'Count down to a campaign opening, or automate the messaging switch between beta and general availability.' },
       { icon: 'CODE', title: 'Related: Hero Framed as Us vs. Them', desc: 'See the [Hero Framed as Us vs. Them](/ui-snippets/hero-comparison-vs-competitor/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

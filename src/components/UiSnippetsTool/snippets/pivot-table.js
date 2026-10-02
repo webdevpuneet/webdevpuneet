@@ -128,12 +128,11 @@ Change the \`ROW\`, \`COL\`, and \`VAL\` field names at the top to pivot any fla
       { title: 'Data-driven & no library', text: `Pivots a flat DATA array by configurable fields in plain HTML/CSS/JS.` },
     ],
     useCases: [
-      { title: 'Sales and revenue reports', text: `Cross-tab sales by region and period — pair with a [bar chart](/ui-snippets/bar-chart/) of the totals.` },
-      { title: 'Analytics breakdowns', text: `Summarise events by two dimensions alongside a [data table](/ui-snippets/data-table/) of the raw rows.` },
-      { title: 'Finance and budgeting', text: `Pivot spend by category and month with correct subtotals.` },
-      { title: 'Survey cross-tabs', text: `Cross-tabulate responses by two questions.` },
-      { title: 'Inventory by location and type', text: `Summarise stock across two dimensions.` },
-      { title: 'Learning cross-tabulation', text: `A reference for pivot aggregation and totals — compare with a [grouped rows table](/ui-snippets/grouped-rows-table/).` },
+      { title: 'Sales by region and product', text: 'Cross-tabulate flat records into a row by column grid, summarising revenue with row, column and grand totals.' },
+      { title: 'Analytics breakdowns', text: 'Summarise events by two dimensions, pairing with a [bar chart](/ui-snippets/bar-chart/) so the same figures can be viewed as a picture.' },
+      { title: 'Finance and budgeting', text: 'Pivot spend by category and month using sum, average or count, with totals aggregated from raw records so averages remain correct.' },
+      { title: 'Survey cross-tabs', text: 'Cross-tabulate survey responses by two questions at once, switching between sum, average and count through a single aggregate function.' },
+      { title: 'Inventory across locations', text: 'Summarise stock by site and type, or compare with a flat [data table](/ui-snippets/data-table/) and a [grouped rows table](/ui-snippets/grouped-rows-table/) for different levels of detail.' },
       { icon: 'CODE', title: 'Related: Table Column Pin/Unpin Toggle — User-Controlled Sticky Columns', desc: 'See the [Table Column Pin/Unpin Toggle — User-Controlled Sticky Columns](/ui-snippets/table-column-pin-toggle/) for a related tables pattern worth pairing with this one.' },
     ],
     faqs: [

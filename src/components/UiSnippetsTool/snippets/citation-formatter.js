@@ -249,12 +249,11 @@ Add support for multiple authors (APA joins additional authors with \`&\`; MLA l
       { title: 'Single-word author handling', text: `Author names with no separable first/last split still format sensibly.` },
     ],
     useCases: [
-      { title: 'Academic writing tools', text: `Drop-in citation formatting for student research and paper-writing apps.` },
-      { title: 'Blog and journalism CMSs', text: `Let writers generate a properly formatted source citation for a footnote.` },
-      { title: 'Reference and bibliography managers', text: `A lightweight formatting core before a full reference-manager integration.` },
-      { title: 'Library and research portals', text: `Offer patrons instant APA/MLA citations for a catalog record.` },
-      { title: 'Long-form article footnotes', text: `Pair with [footnote hover preview](/ui-snippets/footnote-hover-preview/) to show full citations inline.` },
-      { title: 'Learning style-formatting logic', text: `A reference for punctuation-rule-driven string building — compare with [table of contents](/ui-snippets/table-of-contents/) for structuring long articles.` },
+      { title: 'Academic writing tools', text: 'Give students properly punctuated APA or MLA references, with italics, quotation marks and terminal punctuation handled as each style requires.' },
+      { title: 'Blog and journalism CMSs', text: 'Let writers generate a correct source reference from five fields, never adding a redundant period after a title ending in a question mark.' },
+      { title: 'Bibliography managers', text: 'Provide a lightweight formatter in a reference tool, switching between styles without retyping, with one-click copy for the finished citation.' },
+      { title: 'Library and research portals', text: 'Offer patrons instant APA or MLA output, with initials-only author formatting for APA and full names for MLA.' },
+      { title: 'Footnote and article pairing', text: 'Pair with a [footnote hover preview](/ui-snippets/footnote-hover-preview/) and a [table of contents](/ui-snippets/table-of-contents/) for long articles that cite sources.' },
       { icon: 'CODE', title: 'Related: Conditional Branching Form Fields — Show Only What Applies', desc: 'See the [Conditional Branching Form Fields — Show Only What Applies](/ui-snippets/conditional-branching-form-fields/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -116,12 +116,11 @@ Adjust \`HIDE_THRESHOLD\` for a cue that disappears sooner or later, swap the ar
       { title: 'Reappears on scroll-up', text: `State reflects current position, not a one-time fade.` },
     ],
     useCases: [
-      { title: 'Editorial and long-form landing pages', text: `Signal there's more content below the fold.` },
-      { title: 'Portfolio and case-study heroes', text: `Pair with [portfolio hero](/ui-snippets/portfolio-hero/).` },
-      { title: 'Single-page storytelling sites', text: `Guide visitors into a scroll-driven narrative.` },
-      { title: 'Product launch pages', text: `Combine with [minimal hero](/ui-snippets/minimal-hero/).` },
-      { title: 'Agency reels and showcases', text: `Nudge visitors past a bold opening statement.` },
-      { title: 'Documentation landing pages', text: `Hint at content beneath a large intro section.` },
+      { title: 'Editorial landing pages', text: 'Signal that there is more below with a bouncing arrow that disappears once the visitor has actually scrolled, read from `window.scrollY`.' },
+      { title: 'Portfolio heroes', text: 'Pair with a [portfolio hero](/ui-snippets/portfolio-hero/) so the opening screen invites exploration, using a passive scroll listener that never blocks scrolling.' },
+      { title: 'Single-page storytelling', text: 'Guide visitors into a scroll narrative, with a real button that triggers a smooth scroll to the next section.' },
+      { title: 'Launch pages', text: 'Combine with a [minimal hero](/ui-snippets/minimal-hero/) for a clean first screen, with `evaluateScroll()` running once on load to handle mid-page refreshes.' },
+      { title: 'Agency reels and documentation', text: 'Nudge visitors past a bold opener, or hint at content beneath a large documentation landing banner.' },
       { icon: 'CODE', title: 'Related: Hero with 3D Tilting Product Mockup', desc: 'See the [Hero with 3D Tilting Product Mockup](/ui-snippets/hero-interactive-3d-tilt/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

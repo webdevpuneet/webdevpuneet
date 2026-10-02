@@ -100,12 +100,11 @@ Change the zoom factor, the transition speeds, or the \`cursor\`; swap the gradi
       { title: 'Drop-in image', text: `Swap background for any product shot.` },
     ],
     useCases: [
-      { title: 'Product photos', text: `Inspect detail on a [product card](/ui-snippets/product-card/).` },
-      { title: 'Quick view', text: `Zoom inside a [product quick view](/ui-snippets/product-quick-view/).` },
-      { title: 'Lens alternative', text: `Lighter than an [image magnifier](/ui-snippets/image-magnifier/).` },
-      { title: 'Galleries', text: `Combine with a [photo gallery](/ui-snippets/photo-gallery/).` },
-      { title: 'Lightboxes', text: `Pair with an [image lightbox](/ui-snippets/image-lightbox/).` },
-      { title: 'Catalogs', text: `Detail view beside a [spotlight product card](/ui-snippets/spotlight-product-card/).` },
+      { title: 'Product photo inspection', text: 'Let shoppers inspect fine detail on a [product card](/ui-snippets/product-card/), where the zoom centres on wherever the cursor is.' },
+      { title: 'Quick view dialogs', text: 'Zoom inside a [product quick view](/ui-snippets/product-quick-view/), using one element and `transform-origin` tracking instead of a second image.' },
+      { title: 'Lighter lens alternative', text: 'Offer a simpler option than an [image magnifier](/ui-snippets/image-magnifier/), clipping the scaled image with `overflow: hidden` instead of drawing a separate lens.' },
+      { title: 'Gallery and lightbox combinations', text: 'Combine with a [photo gallery](/ui-snippets/photo-gallery/) or pair with an [image lightbox](/ui-snippets/image-lightbox/) for a fuller viewing experience.' },
+      { title: 'Catalogue detail views', text: 'Provide a detail view beside a [spotlight product card](/ui-snippets/spotlight-product-card/), with a fast zoom in and a gentle ease out.' },
       { icon: 'CODE', title: 'Related: Team Member Card Grid', desc: 'See the [Team Member Card Grid](/ui-snippets/team-member-card-grid/) for a related cards pattern worth pairing with this one.' },
     ],
     faqs: [

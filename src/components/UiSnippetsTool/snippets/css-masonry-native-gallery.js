@@ -126,12 +126,11 @@ If your grid item heights are known or fixed ahead of time (as in this demo) and
       { title: 'Ordinary grid item properties still apply', text: `Because it's still CSS Grid underneath the masonry row mode.` },
     ],
     useCases: [
-      { title: 'Photo and portfolio galleries', text: `A Pinterest-style waterfall for images with varying aspect ratios.` },
-      { title: 'Blog/article card grids', text: `Stagger cards of differing excerpt length without JS.` },
-      { title: 'Progressive enhancement demos', text: `Show how a layout can genuinely upgrade as browser support grows.` },
-      { title: 'Modern CSS layout showcases', text: `Pair with [CSS subgrid](/ui-snippets/css-subgrid-demo/) or [container query units](/ui-snippets/css-container-query-units-demo/).` },
-      { title: 'Replacing a JS masonry library', text: `Drop a JS dependency for fixed/known-height item grids.` },
-      { title: 'Design system layout primitives', text: `Document both the native and fallback masonry patterns for a team.` },
+      { title: 'Photo and portfolio galleries', text: 'Build a Pinterest-style waterfall for photo and portfolio galleries using `grid-template-rows: masonry`, with no JavaScript measuring pass or layout library required.' },
+      { title: 'Blog and article card grids', text: 'Stagger cards with different excerpt lengths, using a genuine `columns()` fallback in which `break-inside: avoid` keeps cards from splitting.' },
+      { title: 'Layered browser support demos', text: 'Show how a layout can truly enhance, with a real `@supports` fallback rather than a broken grid in unsupported browsers.' },
+      { title: 'Modern CSS layout showcases', text: 'Pair with the [CSS subgrid demo](/ui-snippets/css-subgrid-demo/) or [container query units demo](/ui-snippets/css-container-query-units-demo/) in a modern layout section.' },
+      { title: 'Replacing JavaScript masonry', text: 'Drop a JavaScript dependency for browsers that support native masonry, and document both code paths as a design system primitive.' },
       { icon: 'CODE', title: 'Related: 500 Internal Server Error Page', desc: 'See the [500 Internal Server Error Page](/ui-snippets/error-500-page/) for a related layouts pattern worth pairing with this one.' },
     ],
     faqs: [

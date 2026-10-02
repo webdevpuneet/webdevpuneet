@@ -187,12 +187,11 @@ Swap the chip text for skills, tags, product categories, or filter values and th
       { title: 'Tunnel-proof walls', text: 'Oversized static bodies stop fast chips escaping the stage.' },
     ],
     useCases: [
-      { title: 'Portfolio skill piles', text: 'The signature tech-stack effect, a livelier take on a [tag cloud](/ui-snippets/tag-cloud/).' },
-      { title: 'Playful 404 pages', text: 'Let the page furniture collapse into a heap on a [404 page](/ui-snippets/404-page/).' },
-      { title: 'Filter and category chips', text: 'Turn a static [chip filter](/ui-snippets/chip-filter/) row into something tactile.' },
-      { title: 'Hero interactions', text: 'A draggable pile above the fold that rewards the first click.' },
-      { title: 'Product feature reveals', text: 'Drop benefit tags into view as a section scrolls in.' },
-      { title: 'Learning rigid-body basics', text: 'A readable reference for bodies, constraints, and DOM syncing.' },
+      { title: 'Portfolio skill piles', text: 'Drop real HTML chips into a draggable heap, where each body is measured from its element\'s `offsetWidth` and `offsetHeight`.' },
+      { title: 'Playful 404 pages', text: 'Let page furniture tumble on a [404 page](/ui-snippets/404-page/), keeping the chips selectable HTML rather than pixels painted into a canvas.' },
+      { title: 'Category chip experiments', text: 'Turn a static [chip filter](/ui-snippets/chip-filter/) row into a physics pile, using pill-shaped colliders with a chamfer of half the height.' },
+      { title: 'Tag cloud alternatives', text: 'Offer a more tactile option than a [tag cloud](/ui-snippets/tag-cloud/), with a center-to-corner conversion bridging Matter and CSS coordinates.' },
+      { title: 'Rigid-body learning', text: 'Read a clear reference for syncing a physics world to the DOM, with a reset button to drop everything again.' },
       { icon: 'CODE', title: 'Related: Wave Text Animation', desc: 'See the [Wave Text Animation](/ui-snippets/wave-text/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

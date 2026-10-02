@@ -281,12 +281,11 @@ This threshold-plus-velocity-carried-exit pattern generalizes to any swipe-to-ac
       { title: 'Empty state', text: 'A dashed placeholder appears once the deck is exhausted, with a reset action.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'Dating and matching UIs', text: 'The canonical Tinder-style swipe deck for people, listings, or recommendations.' },
-      { icon: 'FLOW', title: 'Review and triage queues', text: 'Approve/reject flows for photos, submissions, or moderation items.' },
-      { icon: 'FORM', title: 'Onboarding card stacks', text: 'Swipeable intro or preference cards during first-run setup.' },
-      { icon: 'STAR', title: 'Flashcard and quiz apps', text: 'Swipe-to-grade study decks with know/don\'t-know gestures.' },
-      { icon: 'LEARN', title: 'Teaching velocity-carried motion', text: 'A concrete example of decay animation seeded with real pointer velocity.' },
-      { icon: 'CODE', title: 'Recommendation feed prototypes', text: 'Quick prototyping of swipe-based content feeds before native implementation.' },
+      { title: 'Dating and matching decks', text: 'Build the canonical swipe-to-decide stack, where the card tilts with the drag and Like and Nope stamps fade in proportionally.' },
+      { title: 'Review and triage queues', text: 'Approve or reject photos, applications or posts, with a single distance comparison at pointer release deciding whether to dismiss.' },
+      { title: 'Onboarding preference stacks', text: 'Collect preferences through swipeable intro cards, with the exit animation seeded by the real release velocity.' },
+      { title: 'Flashcard and quiz decks', text: 'Create swipe-to-grade study decks for flashcards and quizzes, with keyboard buttons for learners who prefer not to drag.' },
+      { title: 'Velocity-carried motion teaching', text: 'Show why an exit should continue from the finger\'s speed using Popmotion\'s decay animation, and prototype recommendation feeds the same way.' },
     ],
     faqs: [
       { q: 'How does the exit animation know how fast to fly the card off?', a: 'The drag handler recomputes vx (horizontal velocity in px/s) on every pointermove the same way the Popmotion Drag Inertia Card does. On release past the threshold, that vx is passed directly as the velocity option to a decay-type animate() call, so a hard flick continues fast off-screen and a slower drag gets a minimum floor velocity (dir * 900) so it does not crawl.' },

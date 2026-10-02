@@ -133,12 +133,11 @@ The header stays pinned with \`position: sticky\` as rows scroll beneath it, and
       { title: 'Row fade-in & no library', text: `New rows fade in; pure HTML/CSS/JS with zero dependencies.` },
     ],
     useCases: [
-      { title: 'Transaction and order logs', text: `Lazy-load long financial lists — pair with a [data table](/ui-snippets/data-table/) for search and sort.` },
-      { title: 'Feeds and activity streams', text: `Page through events as the user scrolls, alongside an [activity feed](/ui-snippets/activity-feed/).` },
-      { title: 'Search results', text: `Load more matches on demand instead of all at once.` },
-      { title: 'Admin record browsers', text: `Browse large datasets without a heavy initial load, next to a [filterable table](/ui-snippets/filterable-table/).` },
-      { title: 'Audit trails and history', text: `Stream long histories in pages.` },
-      { title: 'Learning the sentinel pattern', text: `A reference for IntersectionObserver infinite scroll — compare with [infinite scroll](/ui-snippets/infinite-scroll/) for cards.` },
+      { title: 'Transaction and order logs', text: 'Lazy-load long financial lists in a [data table](/ui-snippets/data-table/), fetching the next page when a bottom sentinel scrolls into view.' },
+      { title: 'Activity streams', text: 'Page through events with an [activity feed](/ui-snippets/activity-feed/), using a loading flag so duplicate fetches never overlap.' },
+      { title: 'Search result tables', text: 'Load more matches on demand beside a [filterable table](/ui-snippets/filterable-table/) of search results, instead of fetching everything upfront.' },
+      { title: 'Admin record browsers', text: 'Browse large datasets without a heavy pagination control, scoping the observer to the scroll box with `rootMargin` to prefetch early.' },
+      { title: 'Sentinel pattern reference', text: 'Study `fetchPage(offset, limit)`, which mirrors a real backend, and compare with the list-based [infinite scroll](/ui-snippets/infinite-scroll/) pattern.' },
       { icon: 'CODE', title: 'Related: Sticky Table Header', desc: 'See the [Sticky Table Header](/ui-snippets/sticky-table-header/) for a related tables pattern worth pairing with this one.' },
     ],
     faqs: [

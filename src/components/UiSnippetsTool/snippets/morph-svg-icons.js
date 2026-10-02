@@ -116,12 +116,11 @@ Add shapes (a path in defs plus a button), auto-cycle the icons on a timer, or m
       { title: 'Drop-shadow glow', text: `A CSS filter follows every fill color.` },
     ],
     useCases: [
-      { title: 'Play/pause controls', text: `The canonical morph pair for a [music player](/ui-snippets/music-player/) or [video player](/ui-snippets/video-player/).` },
-      { title: 'Reaction pickers', text: `Morph between like, heart, and star in an [emoji reaction bar](/ui-snippets/emoji-reaction-bar/).` },
-      { title: 'State icons', text: `Bell to checkmark on subscribe, near a [notification bell](/ui-snippets/notification-bell/).` },
-      { title: 'Brand moments', text: `Logo marks flowing between forms, like [scroll shape morph](/ui-snippets/scroll-shape-morph/) with real geometry.` },
-      { title: 'Weather and status', text: `Sun to cloud to bolt for a [weather widget](/ui-snippets/weather-widget/).` },
-      { title: 'Menu toggles', text: `Hamburger to X with true path flow, beyond [animated hamburger](/ui-snippets/animated-hamburger/).` },
+      { title: 'Play and pause controls', text: 'Morph a play triangle into other shapes inside a [music player](/ui-snippets/music-player/) or [video player](/ui-snippets/video-player/), flowing with MorphSVG.' },
+      { title: 'Reaction pickers', text: 'Morph between like, heart and star shapes in an [emoji reaction bar](/ui-snippets/emoji-reaction-bar/), with colour tweening inside the same animation.' },
+      { title: 'State icons', text: 'Turn a bell into a checkmark on subscribe near a [notification bell](/ui-snippets/notification-bell/), using `shapeIndex: \'auto\'` to minimise point travel.' },
+      { title: 'Weather and status icons', text: 'Flow from sun to cloud to bolt in a [weather widget](/ui-snippets/weather-widget/), with shapes held in `defs` and referenced by selector.' },
+      { title: 'Menu toggles and brand marks', text: 'Morph an [animated hamburger](/ui-snippets/animated-hamburger/) into a cross with true path flow, or see [scroll shape morph](/ui-snippets/scroll-shape-morph/) for scroll-driven logo changes.' },
       { icon: 'CODE', title: 'Related: WebGL Gradient Shader Background', desc: 'See the [WebGL Gradient Shader Background](/ui-snippets/webgl-gradient-shader-bg/) for a related animations pattern worth pairing with this one.' },
     ],
     faqs: [

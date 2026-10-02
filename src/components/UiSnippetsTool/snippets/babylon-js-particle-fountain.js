@@ -191,12 +191,11 @@ The same four-part model — texture, emitter shape, forces, lifetime fade — a
       { title: 'Orbit camera included', text: 'ArcRotateCamera lets the fountain be viewed from any angle while running.' },
     ],
     useCases: [
-      { icon: 'STAR', title: 'Celebratory effects', text: 'Success states, achievement unlocks, or checkout confirmations with a burst of particles.' },
-      { icon: 'DESIGN', title: '3D landing page hero elements', text: 'An ambient animated centerpiece for a product or agency site.' },
-      { icon: 'LEARN', title: 'Teaching particle systems', text: 'A clear, commented reference for emitter shape, gravity, and lifetime fade.' },
-      { icon: 'APP', title: 'Game UI and effects prototyping', text: 'A starting point for spark, magic, or liquid effects in a Babylon.js game.' },
-      { icon: 'FLOW', title: 'Data-driven visual flourishes', text: 'Emit rate or color tied to a live metric for an ambient dashboard visualization.' },
-      { icon: 'CODE', title: 'Learning DynamicTexture', text: 'A minimal example of drawing a procedural sprite without external image assets.' },
+      { title: 'Celebratory effects', text: 'Fire a fountain on success states or achievement unlocks, with particles that fade out smoothly as their lifetime ends.' },
+      { title: '3D landing page centrepieces', text: 'Add an ambient animated focal point to a hero section, built from a point emitter cone with direction vectors defining the spread.' },
+      { title: 'Particle system teaching', text: 'Break a fountain into four composable systems of texture, emitter, forces and lifetime, in a clearly commented reference.' },
+      { title: 'Game effect prototyping', text: 'Start from a working spark or smoke emitter, with a constant downward gravity vector producing the arc.' },
+      { title: 'Procedural texture learning', text: 'Study a minimal `DynamicTexture` example that draws a radial-gradient sprite in code, so no image file is needed.' },
     ],
     faqs: [
       { q: 'How is the particle sprite created without an image file?', a: 'It is drawn at runtime into a BABYLON.DynamicTexture, which exposes a standard CanvasRenderingContext2D via getContext(). A radial gradient from opaque white at the center to transparent at the edges is filled into it and dynTex.update() uploads it as the particle texture, avoiding any external asset request.' },

@@ -151,12 +151,11 @@ Add more stats by copying a \`.stc-stat\` block with new \`data-*\` values, adju
       { title: 'Graceful fallback', text: `Animates immediately if IntersectionObserver is unavailable.` },
     ],
     useCases: [
-      { title: 'SaaS scale/trust heroes', text: `Communicate scale immediately below the headline.` },
-      { title: 'Marketplace and platform pages', text: `Show GMV, sellers, or transaction counts.` },
-      { title: 'Investor and about pages', text: `Pair with [gradient mesh hero](/ui-snippets/gradient-mesh-hero/).` },
-      { title: 'Nonprofit impact pages', text: `Count up funds raised or people helped.` },
-      { title: 'Open source project pages', text: `Show stars, contributors, downloads.` },
-      { title: 'Conference/event landing pages', text: `Attendees, speakers, and sessions at a glance.` },
+      { title: 'SaaS scale and trust', text: 'Communicate scale immediately beneath a headline, with numbers counting up through `easeOutExpo` that decelerates into the final value.' },
+      { title: 'Marketplace and platform pages', text: 'Show gross volume, sellers or transactions, with one function animating any number of stats from `data-target` attributes.' },
+      { title: 'Investor and about pages', text: 'Pair with a [gradient mesh hero](/ui-snippets/gradient-mesh-hero/) for a polished credibility opener, using time-based duration so the count is correct at any frame rate.' },
+      { title: 'Nonprofit impact pages', text: 'Count up funds raised or people helped, triggered once by an `IntersectionObserver` when the row reaches the viewport.' },
+      { title: 'Open source and event pages', text: 'Show stars, contributors and downloads for a project, or attendees, speakers and sessions for a conference, with suffix support for units such as plus or percent.' },
       { icon: 'CODE', title: 'Related: Newsletter Hero with Benefit Checklist', desc: 'See the [Newsletter Hero with Benefit Checklist](/ui-snippets/hero-newsletter-benefit-list/) for a related heroes pattern worth pairing with this one.' },
     ],
     faqs: [

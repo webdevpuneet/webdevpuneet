@@ -111,12 +111,11 @@ Animate \`y\` for a fabric-like bulge, switch \`from: 'random'\` for sparkle, or
       { title: 'Plugin-free', text: `Core GSAP only — staggers are built in.` },
     ],
     useCases: [
-      { title: 'Interactive heroes', text: `A drummable dot field as the landing centerpiece, cousin to [particle network](/ui-snippets/particle-network/).` },
-      { title: 'Loading states', text: `Center-out pulses as an ambient loader, like an animated [dot pattern](/ui-snippets/dot-pattern/).` },
-      { title: 'Success feedback', text: `Radiate from a submitted button, pairing with [physics 2d burst](/ui-snippets/physics-2d-burst/).` },
-      { title: 'Grid entrances', text: `Distance-based reveals as in [scroll reveal grid](/ui-snippets/scroll-reveal-grid/).` },
-      { title: 'Ambient walls', text: `Slow random ripples behind content, calmer than [flickering grid](/ui-snippets/flickering-grid/).` },
-      { title: 'Data pulse maps', text: `Ripple from updated cells in an [activity heatmap](/ui-snippets/activity-heatmap/).` },
+      { title: 'Interactive dot-field heroes', text: 'Let visitors drum a field of 112 dots, with delays computed from true 2D distance using `grid: [rows, cols]`.' },
+      { title: 'Ambient loader pulses', text: 'Pulse outward from the centre as a loader, pairing with a [dot pattern](/ui-snippets/dot-pattern/) backdrop for a technical atmosphere.' },
+      { title: 'Success feedback', text: 'Radiate a ripple from a submitted button, using `from: index` to move the epicentre to whichever dot was clicked.' },
+      { title: 'Distance-based entrances', text: 'Reveal grid items by distance from a point, as in a [scroll reveal grid](/ui-snippets/scroll-reveal-grid/), with `overwrite` handing dots to the newest ripple.' },
+      { title: 'Data pulse maps', text: 'Ripple from updated cells in an [activity heatmap](/ui-snippets/activity-heatmap/), or run slow random ripples behind content next to a [flickering grid](/ui-snippets/flickering-grid/).' },
     ],
     faqs: [
       { q: 'How does GSAP know the dots form a grid?', a: `You declare it: stagger: { grid: [8, 14] } tells the engine the flat target list wraps into 8 rows of 14. From then on, from-based delays use true 2D Euclidean distance to the origin rather than DOM order — which is why the wavefront is circular, with diagonal neighbors starting √2 later than orthogonal ones.` },

@@ -204,12 +204,11 @@ Swap the simulated progress interval for real \`XMLHttpRequest\`/\`fetch\` uploa
       { title: 'Remove & retry', text: `Resets the input so the same file can be re-selected.` },
     ],
     useCases: [
-      { title: 'Job application forms', text: `Pair with an [interview scheduler form](/ui-snippets/interview-scheduler-form/).` },
-      { title: 'ATS candidate portals', text: `Collect resumes ahead of a [candidate pipeline kanban](/ui-snippets/candidate-pipeline-kanban/).` },
-      { title: 'Profile photo uploads', text: `See [avatar upload](/ui-snippets/avatar-upload/) for a cropped variant.` },
-      { title: 'General document uploads', text: `Compare with [file dropzone](/ui-snippets/file-dropzone/).` },
-      { title: 'Grant or scholarship applications', text: `Reuse for supporting-document uploads.` },
-      { title: 'Freelancer portfolios', text: `Upload a CV or work-sample PDF.` },
+      { title: 'Job application forms', text: 'Collect a CV next to an [interview scheduler form](/ui-snippets/interview-scheduler-form/), with true HTML5 drag events and a click-to-browse fallback.' },
+      { title: 'Applicant portal intake', text: 'Gather resumes ahead of a [candidate pipeline kanban](/ui-snippets/candidate-pipeline-kanban/), validating extension and a 5 MB cap before upload begins.' },
+      { title: 'Profile photo variants', text: 'See [avatar upload](/ui-snippets/avatar-upload/) for a cropped image version, using the same shared `handleFile` path for drops and browsing.' },
+      { title: 'General document uploads', text: 'Compare with a plain [file dropzone](/ui-snippets/file-dropzone/), noting how a `relatedTarget` check avoids dragleave flicker over child elements.' },
+      { title: 'Grant and portfolio applications', text: 'Reuse for scholarship supporting documents or a freelancer\'s CV and work-sample PDFs, with a parsed filename shown on success.' },
     ],
     faqs: [
       { q: 'Is the drag-and-drop real, or just a styled border with a click fallback?', a: `It's real HTML5 drag-and-drop. The zone listens for the actual dragenter, dragover, dragleave, and drop events the browser fires during an OS-level file drag, and the drop handler reads e.dataTransfer.files[0] to get the genuine File object the user dragged in — not a value typed or selected some other way. The click-to-browse path exists alongside it as an accessible fallback, using the same validation function.` },

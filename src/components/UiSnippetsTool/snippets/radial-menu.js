@@ -115,12 +115,11 @@ Edit the \`ACTIONS\` array to change the options, adjust \`START\`/\`SPREAD\`/\`
       { title: 'Accessible trigger', text: `aria-haspopup and aria-expanded.` },
     ],
     useCases: [
-      { title: 'Floating action buttons', text: `A radial take on an [expanding fab](/ui-snippets/expanding-fab/).` },
-      { title: 'Quick actions', text: `Fan out edit, share, and delete options.` },
-      { title: 'Canvas and editor tools', text: `Pair with a [context menu](/ui-snippets/context-menu/).` },
-      { title: 'Mobile launchers', text: `A playful cousin of a [gooey menu](/ui-snippets/gooey-menu/).` },
-      { title: 'Map and media controls', text: `Surface controls around a focal point.` },
-      { title: 'Arc-layout demos', text: `A reference for trig-based item placement.` },
+      { title: 'Floating action buttons', text: 'Offer a radial take on an [expanding FAB](/ui-snippets/expanding-fab/), with options springing outward along a circular arc.' },
+      { title: 'Quick action launchers', text: 'Fan out edit, share and delete from a central trigger, with `START`, `SPREAD` and `RADIUS` constants shaping the arc.' },
+      { title: 'Canvas and editor tools', text: 'Pair with a [context menu](/ui-snippets/context-menu/) for right-click operations in canvas and editor tools, using trigonometry to space items evenly around the arc.' },
+      { title: 'Mobile launchers', text: 'Offer mobile apps a playful cousin of a [gooey menu](/ui-snippets/gooey-menu/), with staggered per-item delays that unfurl the whole menu smoothly.' },
+      { title: 'Map and media controls', text: 'Surface controls around a focal point, using an overshooting easing so each item pops out with a spring.' },
       { icon: 'CODE', title: 'Related: Sticky Product Bar', desc: 'See the [Sticky Product Bar](/ui-snippets/sticky-product-bar/) for a related navigation pattern worth pairing with this one.' },
     ],
     faqs: [

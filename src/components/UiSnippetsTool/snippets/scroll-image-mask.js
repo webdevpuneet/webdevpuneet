@@ -99,12 +99,11 @@ Change the starting inset for a different slit shape (a horizontal letterbox, a 
       { title: 'Asset-free demo', text: `Gradient stands in for a photo.` },
     ],
     useCases: [
-      { title: 'Media reveals', text: `Pair with a [scroll split panels](/ui-snippets/scroll-split-panels/) open.` },
-      { title: 'Hero intros', text: `Lead into a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/).` },
-      { title: 'Editorial', text: `Frame an article's [parallax hero](/ui-snippets/parallax-hero/).` },
-      { title: 'Launches', text: `Unveil with a [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/).` },
-      { title: 'Galleries', text: `Open into a [scroll gallery pin](/ui-snippets/scroll-gallery-pin/).` },
-      { title: 'Stories', text: `Punctuate a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
+      { title: 'Cinematic media reveals', text: 'Open an image from a thin slit to full frame, with `clip-path: inset()` animating while the picture inside un-zooms from 1.3 to 1.' },
+      { title: 'Hero intros', text: 'Lead into a [scroll zoom hero](/ui-snippets/scroll-zoom-hero/) after the mask opens, with a caption that rises in once the opening begins.' },
+      { title: 'Editorial article openers', text: 'Open an editorial article, pairing with a [parallax hero](/ui-snippets/parallax-hero/) so long-form pages begin with depth and a sense of scale.' },
+      { title: 'Launch unveilings', text: 'Unveil a product like a [scroll curtain reveal](/ui-snippets/scroll-curtain-reveal/), pinned and scrubbed so the aperture follows the scrollbar.' },
+      { title: 'Gallery and story transitions', text: 'Open into a [scroll gallery pin](/ui-snippets/scroll-gallery-pin/), or punctuate a [scroll pin story](/ui-snippets/scroll-pin-story/) with a dramatic aperture, and compare with [scroll split panels](/ui-snippets/scroll-split-panels/).' },
       { icon: 'CODE', title: 'Related: Scroll-Synced Margin Annotations', desc: 'See the [Scroll-Synced Margin Annotations](/ui-snippets/scroll-margin-annotations-sync/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

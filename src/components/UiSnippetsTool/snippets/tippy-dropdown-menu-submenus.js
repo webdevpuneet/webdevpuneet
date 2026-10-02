@@ -165,12 +165,11 @@ Add a second or third submenu the same way — a new Tippy instance anchored to 
       { title: 'Custom light menu theme', text: `Plain CSS on Tippy's own theming attribute.` },
     ],
     useCases: [
-      { title: 'File and document management UIs', text: `Rename/duplicate/move/delete action menus.` },
-      { title: 'Table row context actions', text: `Compact per-row action menus with nested options.` },
-      { title: 'Settings and account menus', text: `Grouped actions with a nested destination picker.` },
-      { title: 'Admin dashboard toolbars', text: `Pair with the [interactive popover with form](/ui-snippets/tippy-interactive-popover-form/) elsewhere in this collection.` },
-      { title: 'Content management systems', text: `Move-to-folder style nested navigation.` },
-      { title: 'Learning nested Tippy menus', text: `A clear reference for composing multiple instances correctly.` },
+      { title: 'File and document management', text: 'Offer rename, duplicate, move and delete actions, with a submenu implemented as its own independent Tippy instance rather than a nested panel.' },
+      { title: 'Table row context actions', text: 'Provide compact per-row action menus where a Move to option opens a submenu to the right with a small overlap offset.' },
+      { title: 'Settings and account menus', text: 'Group actions with a nested option, with `onShow` proactively closing any lingering open submenu when the parent reopens.' },
+      { title: 'Admin toolbars', text: 'Pair with the [Tippy interactive popover form](/ui-snippets/tippy-interactive-popover-form/) so toolbars can hold both menus and small forms.' },
+      { title: 'Content management moves', text: 'Build move-to-folder style nested navigation, where selecting any item closes both submenu and parent for a clean result.' },
     ],
     faqs: [
       { q: 'Why does the code grab every content element into a variable before calling tippy() at all?', a: `Passing a DOM node as Tippy's content option doesn't just reference it — Tippy moves that node out of its original place in the page and into its own popper structure the moment the instance is created, and that structure isn't reattached to the visible document until the tooltip first shows. Querying document.getElementById for that same id afterward would return null, since the element (though still valid and usable through the reference already saved in JavaScript) is no longer part of the live, attached document tree. Capturing every needed element into a variable before any tippy() call runs, and reusing those variables afterward, avoids this entirely.` },

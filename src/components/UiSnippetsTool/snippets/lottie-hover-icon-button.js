@@ -141,12 +141,11 @@ Export your own icon animation from After Effects with Bodymovin (or build one i
       { title: 'Drop-in swap', text: `Replace animationData with any exported file's JSON.` },
     ],
     useCases: [
-      { title: 'Favorite/like buttons', text: `A heart or star icon that animates on interaction.` },
-      { title: 'Notification actions', text: `Pair with [notification bell](/ui-snippets/notification-bell/).` },
-      { title: 'Add-to-cart flows', text: `An icon flourish alongside [add to cart button](/ui-snippets/add-to-cart-button/).` },
-      { title: 'Nav icon buttons', text: `Subtle motion on hover for icon-only nav items.` },
-      { title: 'Micro-interaction libraries', text: `A reusable pattern beside [interactive hover button](/ui-snippets/interactive-hover-button/).` },
-      { title: 'Asset-independence pattern', text: `Reuse alongside [Rive interactive icon](/ui-snippets/rive-interactive-icon/).` },
+      { title: 'Favourite and like buttons', text: 'Play a heart or star animation on hover, using `mouseenter` and `mouseleave` to drive `play()` calls on a small inline animation.' },
+      { title: 'Notification actions', text: 'Pair with a [notification bell](/ui-snippets/notification-bell/) so that a bell icon animates when the pointer reaches the button.' },
+      { title: 'Add-to-cart flourishes', text: 'Add an icon flourish alongside an [add to cart button](/ui-snippets/add-to-cart-button/), with `setDirection(-1)` reversing smoothly from the current frame.' },
+      { title: 'Navigation icon buttons', text: 'Give subtle hover motion to icon-only navigation, using non-looping animations that settle at a clear off or on state.' },
+      { title: 'Asset-independent micro-interactions', text: 'Reuse beside [interactive hover button](/ui-snippets/interactive-hover-button/) or the [Rive interactive icon](/ui-snippets/rive-interactive-icon/), since inline `animationData` avoids hosted JSON files and extra network requests.' },
       { icon: 'CODE', title: 'Related: Shake to Undo', desc: 'See the [Shake to Undo](/ui-snippets/shake-to-undo/) for a related buttons pattern worth pairing with this one.' },
     ],
     faqs: [

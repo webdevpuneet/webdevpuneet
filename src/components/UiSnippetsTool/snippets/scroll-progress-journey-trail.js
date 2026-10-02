@@ -136,12 +136,11 @@ Swap the numbered dots for small avatar photos or icons, add a fifth waypoint, o
       { title: 'No dependencies', text: `Pure vanilla JS, IntersectionObserver, and scroll math.` },
     ],
     useCases: [
-      { title: 'Product onboarding pages', text: `Show progress through a multi-step setup narrative.` },
-      { title: 'Long-form case studies', text: `Track which phase of a project story the reader is in.` },
-      { title: 'Course or tutorial pages', text: `Mark lesson progress as the page scrolls.` },
-      { title: 'Company history pages', text: `Pair with [scroll timeline dots](/ui-snippets/scroll-timeline-dots/) for contrast.` },
-      { title: 'Fundraising journeys', text: `Show a donor how far a campaign narrative has progressed.` },
-      { title: 'Documentation walkthroughs', text: `Combine with a [scroll progress bar](/ui-snippets/css-scroll-driven-progress/).` },
+      { title: 'Product onboarding stories', text: 'Show progress through a multi-step narrative such as sign up, import data, automate and scale, lighting each waypoint dot as its section crosses the middle.' },
+      { title: 'Long-form case studies', text: 'Track which phase of a project the reader is in, with a sticky sidebar rail that keeps the waypoints visible while reading.' },
+      { title: 'Course and tutorial pages', text: 'Mark lesson progress down the page, with a connecting line that fills continuously in proportion to real scroll position.' },
+      { title: 'Company history trails', text: 'Pair with [scroll timeline dots](/ui-snippets/scroll-timeline-dots/) for a longer story, where `rootMargin` shrinks the observer to the viewport\'s exact midpoint.' },
+      { title: 'Documentation walkthroughs', text: 'Combine with [CSS scroll-driven progress](/ui-snippets/css-scroll-driven-progress/) so a rail shows the stage and a top bar shows the overall position.' },
       { icon: 'CODE', title: 'Related: Scroll Timeline Beam', desc: 'See the [Scroll Timeline Beam](/ui-snippets/scroll-timeline-beam/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

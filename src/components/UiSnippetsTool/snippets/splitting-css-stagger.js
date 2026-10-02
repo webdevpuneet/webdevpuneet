@@ -164,12 +164,11 @@ Add \`data-splitting\` to any element, call \`Splitting()\` once after the DOM i
       { title: 'Composited properties', text: 'Effects stay on transform, opacity, and filter.' },
     ],
     useCases: [
-      { title: 'Hero headlines', text: 'A character entrance that costs no animation library at runtime.' },
-      { title: 'Section reveals', text: 'Trigger the class from an [reveal on scroll](/ui-snippets/reveal-on-scroll/) observer.' },
-      { title: 'Brand statements', text: 'Spectrum coloring across a tagline with no per-letter markup.' },
-      { title: 'Loading and splash text', text: 'Stagger a wordmark on a [splash screen](/ui-snippets/splash-screen/).' },
-      { title: 'Interactive typography', text: 'Hover states per character using the same index arithmetic.' },
-      { title: 'Learning CSS custom properties', text: 'A live reference for driving layout math from data.' },
+      { title: 'Zero-JavaScript headline entrances', text: 'Animate a hero title entirely in CSS, since Splitting only writes `--char-index` custom properties and the stylesheet does every effect.' },
+      { title: 'Scroll-triggered section reveals', text: 'Add the animation class from a [reveal on scroll](/ui-snippets/reveal-on-scroll/) observer, so the characters stagger in as the section appears.' },
+      { title: 'Spectrum brand statements', text: 'Colour a tagline across the rainbow, with `--char-index` divided by `--char-total` giving a 0 to 1 position that survives any text length.' },
+      { title: 'Splash screen wordmarks', text: 'Stagger a wordmark on a [splash screen](/ui-snippets/splash-screen/), switching between wave, 3D flip and blur-in effects with a data attribute.' },
+      { title: 'Per-character hover and learning', text: 'Build hover states for each letter from the same variables, and use it as a live reference for driving CSS from custom properties.' },
     ],
     faqs: [
       { q: 'Does Splitting.js animate the text itself?', a: 'No, and that is the point of choosing it. It only rewrites the element into .word and .char spans and writes --char-index, --char-total and a data-char attribute onto them. Every animation is written by you in CSS, so effects can be restyled or themed without touching JavaScript.' },

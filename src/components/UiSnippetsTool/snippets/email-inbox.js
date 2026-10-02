@@ -140,12 +140,11 @@ The entire list renders from a \`DATA\` array, so swapping in real messages — 
       { title: 'No library', text: `Pure HTML/CSS/JS — no mail UI dependency.` },
     ],
     useCases: [
-      { title: 'Webmail and messaging apps', text: `The core list beside a [side drawer](/ui-snippets/side-drawer/) of folders.` },
-      { title: 'Notification centers', text: `Read/unread rows like a [notification center](/ui-snippets/notification-center/).` },
-      { title: 'Support ticket queues', text: `Triage conversations with select-all bulk actions.` },
-      { title: 'Activity and digest lists', text: `Mark items read in a [changelog feed](/ui-snippets/changelog-feed/).` },
-      { title: 'Admin record lists', text: `Searchable, selectable rows with status emphasis.` },
-      { title: 'Learning list state', text: `A reference for read state, selection, and search.` },
+      { title: 'Webmail and messaging apps', text: 'Provide the core list beside a [side drawer](/ui-snippets/side-drawer/), with unread rows shown by bolder text, a tint and a dot until they are opened.' },
+      { title: 'Notification centres', text: 'Reuse the read and unread rows for a [notification center](/ui-snippets/notification-center/), with opening a row clearing its unread state and updating the count.' },
+      { title: 'Support ticket queues', text: 'Triage conversations with a tri-state select-all header checkbox, with checkbox and star clicks stopping propagation so the row does not open.' },
+      { title: 'Digest and activity lists', text: 'Mark items read in a [changelog feed](/ui-snippets/changelog-feed/) style digest, with per-row stars that persist and re-render in place.' },
+      { title: 'Admin record lists', text: 'Offer searchable, selectable rows with status styling, where live search highlighting shows exactly why each row matched the query.' },
       { icon: 'CODE', title: 'Related: Image Hotspot with Tooltips', desc: 'See the [Image Hotspot with Tooltips](/ui-snippets/image-hotspot/) for a related layouts pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -124,12 +124,11 @@ Make friction user-editable, add lanes, or apply the same model to a scroll posi
       { title: 'Acceleration-ready', text: `Add gravity or headwinds per property.` },
     ],
     useCases: [
-      { title: 'Physics explainers', text: `Teach friction visually; pair gravity's version with [physics 2d burst](/ui-snippets/physics-2d-burst/).` },
-      { title: 'Game UI', text: `Air-hockey and shuffleboard motion, next to [physics balls](/ui-snippets/physics-balls/).` },
-      { title: 'Momentum widgets', text: `Coasting carousels and dials — the gesture version is [drag throw notes](/ui-snippets/drag-throw-notes/).` },
-      { title: 'Decay meters', text: `Values that bleed off naturally, like a draining [gradient progress](/ui-snippets/gradient-progress/).` },
-      { title: 'Slot mechanics', text: `Spin-downs for wheels, cousin to [spin wheel](/ui-snippets/spin-wheel/).` },
-      { title: 'Bounce contrasts', text: `Show restitution instead via [custom bounce ball](/ui-snippets/custom-bounce-ball/).` },
+      { title: 'Physics explainers', text: 'Teach friction visually, where three pucks share a 620 px/s launch velocity but stop at points set by coefficients of 0.02, 0.08 and 0.2.' },
+      { title: 'Game air-hockey motion', text: 'Reuse the glide for shuffleboard or hockey games, next to [physics 2D burst](/ui-snippets/physics-2d-burst/) for the gravity version of launch conditions.' },
+      { title: 'Momentum widgets', text: 'Build coasting carousels and dials, echoing the gesture feel of [drag throw notes](/ui-snippets/drag-throw-notes/) with exponential decay.' },
+      { title: 'Decay meters', text: 'Show values that bleed off naturally, like a draining [gradient progress](/ui-snippets/gradient-progress/) bar, with no fixed destination required.' },
+      { title: 'Spin-down mechanics', text: 'Create wheels that spin down to a stop like a [spin wheel](/ui-snippets/spin-wheel/), or contrast with bounce by trying [custom bounce ball](/ui-snippets/custom-bounce-ball/).' },
     ],
     faqs: [
       { q: 'What’s the difference between physicsProps and physics2D?', a: `physics2D simulates a point in 2D space — one velocity with an angle, plus gravity — ideal for particles and projectiles. physicsProps runs an independent simulation per property: x can have velocity and friction while rotation has its own, and any tweenable property (even opacity) can carry momentum. It's the general-purpose plugin; physics2D is the specialized ballistic one.` },

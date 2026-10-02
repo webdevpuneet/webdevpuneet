@@ -170,12 +170,11 @@ Swap the local \`PLACES\` array for a real geocoding API call (Nominatim, Mapbox
       { title: 'Free OpenStreetMap tiles', text: `No API key or paid map provider required.` },
     ],
     useCases: [
-      { title: 'Checkout and delivery address forms', text: `Let a customer fine-tune their exact drop-off point.` },
-      { title: 'Ride-share pickup location pickers', text: `Map-and-form entry that always agree.` },
-      { title: 'Property listing coordinate entry', text: `Admin tools for placing a listing precisely.` },
-      { title: 'Event or venue location setup', text: `Organizer-facing forms needing exact coordinates.` },
-      { title: 'Geofence and service-area configuration', text: `Pair with the [radius selector](/ui-snippets/leaflet-draw-radius-selector/) elsewhere in this collection.` },
-      { title: 'Learning Leaflet forms', text: `A clear reference for two-way map-and-input synchronization.` },
+      { title: 'Delivery address refinement', text: 'Let a customer fine-tune a delivery pin by clicking the map, dragging the marker, typing coordinates or searching for a place name.' },
+      { title: 'Ride-share pickup points', text: 'Offer a map and form entry for pickup spots, with all four input paths calling a single function that updates every piece of state.' },
+      { title: 'Property listing coordinates', text: 'Place a property accurately in an admin tool, range-checking typed latitude and longitude before the marker moves anywhere.' },
+      { title: 'Event and venue setup', text: 'Let an organiser set a venue location, with a place-search demo that follows the pattern a real geocoding API integration would use.' },
+      { title: 'Geofence configuration', text: 'Pair with the [Leaflet draw radius selector](/ui-snippets/leaflet-draw-radius-selector/) so a point is chosen first and a service area is drawn around it.' },
     ],
     faqs: [
       { q: 'How do the map, the pin, and the text fields stay in sync no matter which one I use?', a: `Every interaction path — clicking the map, dragging the pin, selecting a search result, or typing valid coordinates — ultimately calls the same setLocation function, which is the only code that updates the latitude/longitude input values, moves or creates the marker, and enables the confirm button. Because there is exactly one function responsible for that state, no interaction path can leave the form and the map pin showing different locations.` },

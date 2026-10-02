@@ -136,12 +136,11 @@ Redraw the \`d\` attribute in any editor (both path copies must match), move the
       { title: 'Reversible', text: `Scrolling up rides the path backward.` },
     ],
     useCases: [
-      { title: 'Journey roadmaps', text: `Product milestones along a winding trail; compare a straight [scroll timeline dots](/ui-snippets/scroll-timeline-dots/) rail.` },
-      { title: 'Delivery tracking pages', text: `A truck riding the route; show statuses with an [order tracking timeline](/ui-snippets/order-tracking-timeline/).` },
-      { title: 'Process explainers', text: `Guide readers step to step, then detail each with [sticky scroll features](/ui-snippets/scroll-sticky-features/).` },
-      { title: 'Storytelling sites', text: `A character traveling through a [scroll pin story](/ui-snippets/scroll-pin-story/).` },
-      { title: 'Line-only diagrams', text: `Drop the ship and use [scroll SVG path draw](/ui-snippets/scroll-svg-path-draw/).` },
-      { title: 'History routes', text: `Pair the trail with a [scroll year timeline](/ui-snippets/scroll-year-timeline/) counter.` },
+      { title: 'Journey roadmaps', text: 'Show product milestones along a winding trail, with a rocket positioned by `getPointAtLength` and rotated by sampling two nearby points for heading.' },
+      { title: 'Delivery tracking pages', text: 'Ride a truck along a route beside an [order tracking timeline](/ui-snippets/order-tracking-timeline/), with milestone dots lighting as the vehicle passes each stop.' },
+      { title: 'Process explainers', text: 'Guide readers from step to step, then detail each with [scroll sticky features](/ui-snippets/scroll-sticky-features/) or [scroll timeline dots](/ui-snippets/scroll-timeline-dots/).' },
+      { title: 'Story characters', text: 'Let a character travel through a [scroll pin story](/ui-snippets/scroll-pin-story/), with the trail drawing to exactly under the moving ship.' },
+      { title: 'Line-only and history variants', text: 'Drop the ship and use [scroll SVG path draw](/ui-snippets/scroll-svg-path-draw/) for plain lines, or pair the trail with a [scroll year timeline](/ui-snippets/scroll-year-timeline/) for history routes.' },
       { icon: 'CODE', title: 'Related: Scroll Position Memory Across Tab Switches', desc: 'See the [Scroll Position Memory Across Tab Switches](/ui-snippets/scroll-restoration-tab-memory/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

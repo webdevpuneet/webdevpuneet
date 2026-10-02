@@ -154,12 +154,11 @@ On narrow screens the two lists stack vertically and the control column rotates 
       { title: 'No library', text: `Pure HTML/CSS/JS — no UI-kit transfer component.` },
     ],
     useCases: [
-      { title: 'Assigning permissions or roles', text: `Pick capabilities for a user in a [settings panel](/ui-snippets/settings-panel/).` },
-      { title: 'Choosing table columns', text: `Move columns in/out of view alongside a [column toggle](/ui-snippets/data-table-column-toggle/).` },
-      { title: 'Picking recipients', text: `Build a send list from a directory of people or teams.` },
-      { title: 'Configuring integrations', text: `Enable a subset of services from an [integration cards](/ui-snippets/integration-cards/) catalog.` },
-      { title: 'Tag and category assignment', text: `Assign many tags at once instead of one chip at a time.` },
-      { title: 'Learning list-state UI', text: `A reference for single-source-of-truth rendering and filtering.` },
+      { title: 'Role and permission assignment', text: 'Pick capabilities for a user by moving them from an Available pool into Selected, with multi-select toggling and move-all controls.' },
+      { title: 'Table column choices', text: 'Move columns in or out of view alongside a [data table column toggle](/ui-snippets/data-table-column-toggle/), filtering each pool by search.' },
+      { title: 'Recipient lists', text: 'Build a send list from a directory of recipients, with double-click sending any single item across instantly without using the buttons.' },
+      { title: 'Integration enablement', text: 'Enable a subset of services from a catalogue, linked to [integration cards](/ui-snippets/integration-cards/) for details on each.' },
+      { title: 'Tag assignment and settings', text: 'Assign many tags at once, or place inside a [settings panel](/ui-snippets/settings-panel/), with a single source of truth for both lists.' },
     ],
     faqs: [
       { q: 'What is a transfer list (dual list box)?', a: `It is a control with two side-by-side lists — an available pool and a selected set — and buttons to move items between them. It is ideal when users assign a subset from a larger collection, such as permissions, columns, or recipients, because it shows both what is chosen and what remains in one view, unlike a multi-select dropdown.` },

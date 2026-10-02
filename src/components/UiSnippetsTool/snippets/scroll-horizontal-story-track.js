@@ -164,12 +164,11 @@ Add a sixth \`.hst-slide\` and the horizontal distance, progress bar, and dot co
       { title: 'Zero external images', text: `Chapter backgrounds are CSS gradients, swappable for real photography.` },
     ],
     useCases: [
-      { title: 'Product manufacturing journey pages', text: `Walk visitors from concept sketch to retail shelf, chapter by chapter.` },
-      { title: 'Process or pipeline explainers', text: `Show a multi-stage workflow as a left-to-right sequence instead of a vertical list.` },
-      { title: 'Portfolio project case studies', text: `Present a project's phases (research, design, build, launch) horizontally.` },
-      { title: 'Editorial "day in the life" features', text: `Move through hours or scenes as a sideways-scrolling narrative.` },
-      { title: 'Museum or exhibit microsites', text: `Recreate a gallery-walk feel entirely in the browser.` },
-      { title: 'Onboarding tours with a distinct visual identity', text: `Differentiate a horizontal walkthrough from standard vertical scroll pages.` },
+      { title: 'Product journey pages', text: 'Walk visitors from raw material to finished product as a left-to-right narrative, with ordinary vertical scrolling driving the sideways movement.' },
+      { title: 'Process and pipeline explainers', text: 'Show a multi-stage workflow in sequence, with `invalidateOnRefresh` recomputing the scroll distance whenever the window is resized.' },
+      { title: 'Portfolio project phases', text: 'Present a case study\'s phases as chapters, with a progress bar and clickable dots reading the same progress value.' },
+      { title: 'Day-in-the-life features', text: 'Move through the hours of a day in an editorial piece, jumping to any chapter through dots that compute their scroll positions live.' },
+      { title: 'Museum and exhibit microsites', text: 'Recreate a gallery-walk feel online, or give an onboarding tour a distinct visual identity with a pinned narrative track.' },
       { icon: 'CODE', title: 'Related: Scroll Map Journey Story', desc: 'See the [Scroll Map Journey Story](/ui-snippets/scroll-map-journey-story/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

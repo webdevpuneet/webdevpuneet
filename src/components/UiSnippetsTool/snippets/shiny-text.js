@@ -103,12 +103,11 @@ Adjust the gradient stops to widen or sharpen the bright band, change the \`220%
       { title: 'Multi-line friendly', text: `Follows the exact glyph shapes.` },
     ],
     useCases: [
-      { title: 'Announcement badges', text: `Introduce a release near a [shimmer button](/ui-snippets/shimmer-button/).` },
-      { title: 'Premium headlines', text: `Shine a title over a [retro grid](/ui-snippets/retro-grid/) hero.` },
-      { title: 'Pricing highlights', text: `Mark a popular tier on a [pricing card](/ui-snippets/pricing-card/).` },
-      { title: 'Beta and new chips', text: `Pair with a [sticky promo bar](/ui-snippets/sticky-promo-bar/).` },
-      { title: 'Loading labels', text: `A calmer cousin of an [ai thinking loader](/ui-snippets/ai-thinking-loader/).` },
-      { title: 'Text effect demos', text: `A reference for clipped-gradient shimmer.` },
+      { title: 'Announcement badges', text: 'Introduce a release near a [shimmer button](/ui-snippets/shimmer-button/), with muted text and a light band sweeping across it on a loop.' },
+      { title: 'Premium headlines', text: 'Shine a title over a [retro grid](/ui-snippets/retro-grid/) hero, using a clipped gradient painted into the letters with no pseudo-element.' },
+      { title: 'Pricing highlights', text: 'Mark a popular tier on a [pricing card](/ui-snippets/pricing-card/) with a quiet sheen that draws the eye without shouting.' },
+      { title: 'Beta and new chips', text: 'Pair with a [sticky promo bar](/ui-snippets/sticky-promo-bar/) so a small label gently animates, with matching grey ends hiding the loop restart.' },
+      { title: 'Calm loading labels', text: 'Offer a gentler cousin of an [AI thinking loader](/ui-snippets/ai-thinking-loader/) for labels, respecting reduced-motion preferences by holding perfectly still.' },
     ],
     faqs: [
       { q: 'How is the shine confined to the text?', a: `The text color is set to transparent and filled with a linear-gradient via background-clip: text, so the gradient only shows through the letter shapes. The gradient is mostly the muted base gray with a bright band in the middle, so the highlight appears only where there are glyphs — that is the sheen.` },

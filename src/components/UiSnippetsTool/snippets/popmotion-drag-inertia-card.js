@@ -222,12 +222,11 @@ This pattern — track pointer velocity, hand it to \`animate({ type: 'decay' })
       { title: 'No CSS transitions', text: 'Every motion frame is driven by JS onUpdate, so it composes cleanly with interrupts.' },
     ],
     useCases: [
-      { icon: 'FLOW', title: 'Throwable card decks', text: 'Tinder-style swipe stacks and any card that should fling naturally on release.' },
-      { icon: 'APP', title: 'Bottom sheets and drawers', text: 'Mobile-style panels that should coast and settle rather than stop dead when released.' },
-      { icon: 'DESIGN', title: 'Draggable canvas widgets', text: 'Free-floating panels, mini-map markers, or moodboard cards with momentum.' },
-      { icon: 'STAR', title: 'Physical-feeling prototypes', text: 'Design prototypes that need to demonstrate momentum for stakeholder review.' },
-      { icon: 'LEARN', title: 'Teaching physics-based animation', text: 'A clear reference for decay vs spring vs duration-based tweening.' },
-      { icon: 'CODE', title: 'Custom carousel momentum', text: 'A building block for carousels that should keep sliding after a fast swipe.' },
+      { title: 'Throwable card decks', text: 'Build swipe stacks and any card that should keep moving after release, with Popmotion decay simulating exponential friction from the measured pointer speed.' },
+      { title: 'Bottom sheets and drawers', text: 'Give mobile-style panels momentum, with a mid-flight bounds correction that replaces decay with a spring if the card is thrown out of bounds.' },
+      { title: 'Draggable canvas widgets', text: 'Create free-floating panels and mini-maps whose X and Y axes each run their own decay animation seeded with that axis velocity.' },
+      { title: 'Physical-feeling prototypes', text: 'Let design prototypes feel real without a physics engine, tracking velocity from displacement over time on every pointer move.' },
+      { title: 'Carousel momentum learning', text: 'Study a building block for carousels that keep gliding after a flick, and as a clear reference for decay-based physics animation.' },
     ],
     faqs: [
       { q: 'How is velocity actually computed here, and why not just use the total drag distance?', a: 'Velocity is recalculated on every pointermove as (change in position) / (change in time) since the last move event, scaled to px/s. Using total drag distance over total drag time would average out fast flicks with slow starts -- a slow drag ending in a quick flick would report low average speed and throw weakly, which feels wrong. Recomputing per-move captures only the most recent motion.' },

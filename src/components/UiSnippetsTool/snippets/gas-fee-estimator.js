@@ -194,12 +194,11 @@ Swap the hardcoded \`ETH_USD\` rate for a live price (pair with the [crypto pric
       { title: 'Tabular gwei readout', text: `Monospaced numerals keep the value from jittering as digits change.` },
     ],
     useCases: [
-      { title: 'Wallet send flows', text: `Show fee tiers before confirming a transfer, alongside a [wallet card](/ui-snippets/wallet-card/).` },
-      { title: 'DeFi transaction confirms', text: `Let users pick urgency before signing a swap or stake action.` },
-      { title: 'NFT minting checkouts', text: `Pair with [NFT mint progress](/ui-snippets/nft-mint-progress/) to show total cost before minting.` },
-      { title: 'dApp settings panels', text: `Offer a default gas preference alongside a [settings panel](/ui-snippets/settings-panel/).` },
-      { title: 'Bridge and swap widgets', text: `Show network cost next to a [currency converter](/ui-snippets/currency-converter/)-style rate display.` },
-      { title: 'Developer tooling', text: `Estimate gas in an internal ops dashboard next to an [api key manager](/ui-snippets/api-key-manager/).` },
+      { title: 'Wallet send flows', text: 'Show Slow, Normal and Fast tiers with fees and wait times before confirming a transaction, beside a [wallet card](/ui-snippets/wallet-card/).' },
+      { title: 'DeFi transaction confirmations', text: 'Let users choose urgency before signing, with every tier and the custom slider sharing one gwei to dollar formula.' },
+      { title: 'NFT minting checkouts', text: 'Pair with [NFT mint progress](/ui-snippets/nft-mint-progress/) so the cost is shown before submission and the transaction status is shown after it.' },
+      { title: 'dApp settings panels', text: 'Offer a default gas preference alongside a [settings panel](/ui-snippets/settings-panel/), with an advanced disclosure using `aria-expanded` and `aria-controls`.' },
+      { title: 'Swap and bridge widgets', text: 'Show network cost next to a [currency converter](/ui-snippets/currency-converter/), and an [API key manager](/ui-snippets/api-key-manager/) for developer tooling.' },
       { icon: 'CODE', title: 'Related: Number Stepper with Keyboard Arrows and Long-Press Acceleration', desc: 'See the [Number Stepper with Keyboard Arrows and Long-Press Acceleration](/ui-snippets/number-stepper-keyboard-longpress/) for a related forms pattern worth pairing with this one.' },
     ],
     faqs: [

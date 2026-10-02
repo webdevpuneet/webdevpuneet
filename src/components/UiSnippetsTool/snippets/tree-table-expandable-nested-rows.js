@@ -195,10 +195,11 @@ The accessibility model follows the WAI-ARIA treegrid pattern. The container has
       'Full keyboard model: arrows, Home, End, Enter, Space',
     ],
     useCases: [
-      { icon: 'DOC', title: 'File and asset browsers', desc: `Show nested files with rolled-up sizes. For a flat, very large list see the [virtualized 100k-row table](/ui-snippets/virtualized-100k-row-table/).` },
-      { icon: 'MONEY', title: 'Chart of accounts and budgets', desc: `Nest categories under parents with subtotals.` },
-      { icon: 'PEOPLE', title: 'Org charts and permission trees', desc: `Explore reporting lines or nested roles in a table with columns.` },
-      { icon: 'LEARN', title: 'Learning the treegrid pattern', desc: `A complete, working example of the WAI-ARIA treegrid keyboard interactions.` },
+      { icon: '📁', title: 'File and asset browsers', desc: 'Show nested files with rolled-up folder sizes in an asset browser, with indentation derived from each row\'s stored depth.' },
+      { icon: '🧾', title: 'Chart of accounts', desc: 'Nest categories under parents so totals roll up, with rendering a pure function of the tree, the open set and the filter.' },
+      { icon: '🏢', title: 'Org charts and permission trees', desc: 'Explore reporting lines or permissions, using a filter that keeps the ancestors of every match visible and opens them.' },
+      { icon: '🎓', title: 'Treegrid pattern learning', desc: 'See a complete working example of the WAI-ARIA treegrid keyboard model, with arrow keys moving focus between rows.' },
+      { icon: '🌳', title: 'Large tree tables', desc: 'Combine ideas with the [virtualized 100k row table](/ui-snippets/virtualized-100k-row-table/) when a tree grows too large to render at once.' },
     ],
     faqs: [
       { q: 'What is the difference between a tree and a treegrid?', a: 'A tree is a hierarchical list. A treegrid is a hierarchy laid out in rows and columns, so each node can show multiple cells such as type, date and size.' },

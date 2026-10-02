@@ -112,12 +112,11 @@ Retune the two durations (the gap *is* the personality), scale the dot on click 
       { title: 'Hover-gated', text: `Designed to disable on touch devices.` },
     ],
     useCases: [
-      { title: 'Portfolio cursors', text: `Labeled lenses over project cards; the vanilla cousin is [custom cursor](/ui-snippets/custom-cursor/).` },
-      { title: 'Magnetic CTAs', text: `The same quickTo pattern powers a [magnetic button](/ui-snippets/magnetic-button/).` },
-      { title: 'Gallery hovers', text: `"View" rings over images, pairing with [hover expand gallery](/ui-snippets/hover-expand-gallery/).` },
-      { title: 'Tilt interactions', text: `Feed pointer coords into a [3d card tilt](/ui-snippets/3d-card-tilt/) via quickTo.` },
-      { title: 'Drag ghosts', text: `Smooth-follow previews for [drag sort list](/ui-snippets/drag-sort-list/) style UIs.` },
-      { title: 'Trail effects', text: `Chain lazier followers into a [hover image trail](/ui-snippets/hover-image-trail/).` },
+      { title: 'Portfolio labelled cursors', text: 'Show a labelled ring over project cards, with a dot that follows instantly and a ring that trails slightly behind for a premium feel.' },
+      { title: 'Magnetic CTAs', text: 'Power a [magnetic button](/ui-snippets/magnetic-button/) with the same retargeting pattern, where every mousemove costs only a function call.' },
+      { title: 'Gallery hover rings', text: 'Show a View ring over images in a [hover expand gallery](/ui-snippets/hover-expand-gallery/), using `gsap.quickTo` to avoid creating tweens on every move.' },
+      { title: 'Tilt interactions', text: 'Feed pointer coordinates into a [3D card tilt](/ui-snippets/3d-card-tilt/), with retargets re-easing from the current motion for natural velocity.' },
+      { title: 'Drag ghosts and trails', text: 'Make smooth-follow previews for a [drag sort list](/ui-snippets/drag-sort-list/), or chain lazier followers into a [hover image trail](/ui-snippets/hover-image-trail/).' },
     ],
     faqs: [
       { q: 'What problem does quickTo solve over calling gsap.to on mousemove?', a: `Allocation and overwrite churn: mousemove can fire 120+ times per second, and a fresh gsap.to each time creates a tween object, resolves overwrites against the previous one, and discards it milliseconds later. quickTo builds one tween per property once and returns a setter function that merely retargets it — per event, the cost is a number assignment.` },

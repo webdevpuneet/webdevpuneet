@@ -168,12 +168,11 @@ Swap in your own data points and month labels, add a second line for a compariso
       { title: 'Fully reversible', text: `Scrubbing back up un-draws the chart precisely.` },
     ],
     useCases: [
-      { title: 'Annual reports', text: `Draw in revenue or growth alongside narrative text.` },
-      { title: 'Investor pages', text: `Pair with a [scrollytelling bar chart](/ui-snippets/scroll-story-chart/).` },
-      { title: 'Product analytics', text: `Contrast with a live [realtime line chart](/ui-snippets/realtime-line-chart/).` },
-      { title: 'Case studies', text: `Reveal before/after metrics as the reader scrolls.` },
-      { title: 'Marketing landing pages', text: `Draw a growth curve beneath a headline claim.` },
-      { title: 'Dashboards (scroll intro)', text: `Animate a [line chart widget](/ui-snippets/line-chart-widget/) on first view.` },
+      { title: 'Annual report charts', text: 'Draw in revenue or growth beside the narrative, with the line, area fill, dots and labels all scrubbed together.' },
+      { title: 'Investor update pages', text: 'Pair with a [scroll story chart](/ui-snippets/scroll-story-chart/) so a bar chart and a line chart both build as the reader scrolls.' },
+      { title: 'Product analytics contrast', text: 'Contrast with a live [realtime line chart](/ui-snippets/realtime-line-chart/), since this one reveals a fixed history while that streams new points.' },
+      { title: 'Case study metrics', text: 'Reveal before and after figures as the reader scrolls, with dots popping in with an overshoot as the line reaches them.' },
+      { title: 'Dashboard scroll intros', text: 'Introduce a [line chart widget](/ui-snippets/line-chart-widget/) with a draw-in on first view, using the standard GPU-friendly `stroke-dashoffset` technique.' },
       { icon: 'CODE', title: 'Related: Three.js Scroll Crystal Bloom', desc: 'See the [Three.js Scroll Crystal Bloom](/ui-snippets/three-scroll-crystal-bloom/) for a related scroll pattern worth pairing with this one.' },
     ],
     faqs: [

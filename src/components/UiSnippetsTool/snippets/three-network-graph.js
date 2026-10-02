@@ -180,12 +180,11 @@ The scatter-plus-nearest-neighbor-edges technique generalizes directly to knowle
       'Loaded entirely from a CDN: no npm install, bundler, or build step',
     ],
     useCases: [
-      { icon: 'DASH', title: 'Knowledge graph and data visualizations', desc: 'A natural fit for representing concepts, dependencies, or relationships as an explorable 3D structure.' },
-      { icon: 'WEB', title: 'Tech and infrastructure landing pages', desc: 'Represents distributed systems, microservices, or network topology as an interactive hero visual.' },
-      { icon: 'LEARN', title: 'Teaching nearest-neighbor algorithms', desc: 'A concrete, visual demonstration of distance sorting and neighbor selection applied to real 3D geometry.' },
-      { icon: 'ART', title: 'Portfolio and agency showpieces', desc: 'Demonstrates procedural graph generation and real-time geometry updates, not just a static 3D render.' },
-      { icon: 'GAME', title: 'Loading and menu backgrounds', desc: 'A slowly drifting, explorable node cloud gives a loading screen ambient motion worth looking at.' },
-      { icon: 'DESIGN', title: 'Social and community platform visuals', desc: 'Represent user connections or community structure as a literal, explorable 3D social graph.' },
+      { icon: '🕸️', title: 'Knowledge graph visuals', desc: 'Present connected concepts as glowing nodes in a sphere, with each node linked to its three nearest neighbours.' },
+      { icon: '🌐', title: 'Tech and infrastructure landing pages', desc: 'Represent distributed systems with a floating 3D web, where all edges share one `LineSegments` draw call that is redrawn in place.' },
+      { icon: '📚', title: 'Nearest-neighbour teaching', desc: 'Show a concrete, visual demonstration of a nearest-neighbour algorithm, with nodes distributed using proper spherical-coordinate sampling rather than naive random values.' },
+      { icon: '🎨', title: 'Procedural 3D generation demos', desc: 'Demonstrate procedural 3D generation, as each node bobs around its own saved base position instead of drifting away.' },
+      { icon: '👥', title: 'Social and community visuals', desc: 'Represent user connections in a menu or loading background, with a draggable camera letting visitors explore the structure.' },
     ],
     faqs: [
       { q: 'How are the nodes scattered evenly through a sphere instead of clustering?', a: 'Each node\'s position is generated using spherical coordinates — a random angle theta, a random angle phi derived from acos(2v - 1), and a radius scaled by the cube root of a random value. This specific formula is required for a mathematically uniform distribution inside a sphere\'s volume; sampling X, Y, and Z independently with plain random numbers instead produces a cube-shaped distribution with visibly denser corners.' },

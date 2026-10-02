@@ -176,12 +176,11 @@ The clicked row's avatar circle gets \`view-transition-name: vtn-avatar-active\`
       { title: 'Reusable transition name', text: `Class toggling releases the name for repeat use.` },
     ],
     useCases: [
-      { title: 'Inbox/message apps', text: `List-to-detail navigation with a native cross-fade.` },
-      { title: 'Settings panels', text: `Swap between a menu and a detail settings screen.` },
-      { title: 'Product catalogs', text: `Morph a thumbnail into a product detail hero.` },
-      { title: 'Mobile-style SPA nav', text: `App-like transitions without a router library.` },
-      { title: 'Wizard/step flows', text: `Cross-fade between steps as named views.` },
-      { title: 'Design system demos', text: `Showcase native transitions beside an [accordion FAQ](/ui-snippets/accordion-faq/).` },
+      { title: 'Inbox list to detail', text: 'Swap from a message list to a detail view using the real `document.startViewTransition()` API, with an avatar morphing across both views.' },
+      { title: 'Settings menu to detail', text: 'Move between a settings menu and a detail screen with a native cross-fade, and an instant swap on browsers that lack the API.' },
+      { title: 'Product catalogue transitions', text: 'Morph a thumbnail into a product detail view in a catalogue, linked together through a shared `view-transition-name` on both elements.' },
+      { title: 'App-like single-page navigation', text: 'Get smooth transitions without a router or a manual FLIP animation, since the browser captures old and new states for you.' },
+      { title: 'Wizard and design demos', text: 'Cross-fade between named views of a step flow, or pair with an [accordion FAQ](/ui-snippets/accordion-faq/) to compare inline and full-view transitions.' },
     ],
     faqs: [
       { q: 'How is this different from a scroll-based view transition?', a: `This snippet performs a discrete state swap triggered by a click -- one named "view" (the list) is replaced by another (the detail screen) inside the same document, with no dependency on scroll position at all. A scroll-driven view transition effect instead ties its animation progress to how far the user has scrolled. Both can use the View Transitions API, but the trigger and interaction model are entirely different.` },

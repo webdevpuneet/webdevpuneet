@@ -118,12 +118,11 @@ Swap the \`chars\` set (the plugin accepts any custom string, e.g. Japanese kana
       { title: 'Mono-optimized', text: `Fixed-width churn never shifts siblings.` },
     ],
     useCases: [
-      { title: 'Studio navs', text: `Signature hover identity for portfolios; pair with a [floating pill nav](/ui-snippets/floating-pill-nav/).` },
-      { title: 'Role headlines', text: `"We are X" cyclers; a smoother cousin of the [scroll word wheel](/ui-snippets/scroll-word-wheel/).` },
-      { title: 'Terminal aesthetics', text: `Decode reveals inside a [terminal window](/ui-snippets/terminal-window/).` },
-      { title: 'Security products', text: `Encryption metaphors made visible, near a [password strength](/ui-snippets/password-strength/) meter.` },
-      { title: 'Sci-fi campaign sites', text: `Glyph noise plus [glitch text](/ui-snippets/glitch-text/) for full cyberpunk.` },
-      { title: 'Stat reveals', text: `Scramble numbers into place instead of [count up](/ui-snippets/count-up/).` },
+      { title: 'Studio navigation hovers', text: 'Give portfolio menus a hacker-style hover, with links scrambling and resolving into their own `data-text` beside a [floating pill nav](/ui-snippets/floating-pill-nav/).' },
+      { title: 'Role-cycling headlines', text: 'Cycle We are designer, developer and maker through glyph noise, as a smoother cousin of a [scroll word wheel](/ui-snippets/scroll-word-wheel/).' },
+      { title: 'Terminal decrypt reveals', text: 'Decode text inside a [terminal window](/ui-snippets/terminal-window/), with correct characters locking in progressively from left to right.' },
+      { title: 'Security product metaphors', text: 'Make encryption visible near a [password strength](/ui-snippets/password-strength/) meter for security products, with `revealDelay` holding full churn before resolving.' },
+      { title: 'Sci-fi campaign and stat reveals', text: 'Combine with [glitch text](/ui-snippets/glitch-text/) for futuristic sites, or scramble numbers into place instead of a [count up](/ui-snippets/count-up/).' },
     ],
     faqs: [
       { q: 'How does ScrambleText differ from just showing random characters?', a: `It resolves progressively: correct characters lock in from left to right while only the unresolved remainder keeps cycling through the chars set. That advancing "decode front" is what reads as decryption rather than noise. The speed option controls how fast unresolved glyphs churn, independently of the tween duration that moves the front.` },
