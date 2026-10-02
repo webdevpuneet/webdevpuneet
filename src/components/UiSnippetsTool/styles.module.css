@@ -1279,7 +1279,7 @@ button.headerBrand {
   flex: 0 0 auto;
   display: flex;
   justify-content: center;
-  padding: 4px 12px;  /* tight: just enough to frame the banner */
+  padding: 9px 12px;  /* room for the 4px-offset outline around the unit */
   overflow: hidden;
   background: var(--bg);  /* match the page background beside the preview */
   border-bottom: 1px solid var(--border);
@@ -1300,7 +1300,15 @@ button.headerBrand {
   font-family: var(--font-ui);
 }
 /* Real AdSense unit: reserves the exact 728x90 box so nothing shifts on load. */
-.adBarUnit { display: block; flex-shrink: 0; }  /* width/height set inline from the chosen size */
+.adBarUnit {
+  display: block;
+  flex-shrink: 0;           /* width/height set inline from the chosen size */
+  /* Outline frames the ad as its own box, visibly apart from the toolbar buttons.
+     outline (not border) so the unit keeps its exact AdSense size. */
+  outline: 1px solid var(--border2, var(--border));
+  outline-offset: 4px;
+  border-radius: 2px;
+}
 .adBarLabel { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .adBarSize { font-size: 12px; font-family: var(--font-mono); }
 /* No breakpoint hide: the unit itself drops to 468x60 / 320x50 when space is short. */
@@ -1455,7 +1463,7 @@ button.headerBrand {
   /* Preview first, code editors after — on a small screen seeing the result
      before wading through HTML/CSS/JS tabs is the more useful default. */
   .previewHeader { order: 1; }
-  .adBar         { order: 1; }  /* right after the toolbar (same order, later in the DOM) */
+  .adBar         { order: 0; }  /* above the toolbar on mobile too */
   .previewStage  { order: 2; flex: none; }
   .iframeWrap    { order: 2; }
   .consolePanel  { order: 3; }
