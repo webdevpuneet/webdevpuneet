@@ -104,6 +104,66 @@ export function GalleryStickyAd() {
   );
 }
 
+// Browse panel — real, crawlable <a href> links to every category page and every
+// tag page (not a JS filter). The active category/tag sorts first in its column so
+// it's visible in the collapsed strip; hovering reveals both columns in full as an
+// overlay. Shared by the gallery pages and the snippet page (above Related Snippets).
+// `highlightAll`: mark "All categories" / "All tags" current when nothing is active
+// (gallery behaviour); the snippet page turns it off — it isn't an "all" view.
+export function BrowsePanel({ activeCategory = 'all', activeTag = null, highlightAll = true }) {
+  return (
+    <div className={s.browseWrap}>
+      <div className={s.browseCols}>
+        <div className={s.browseCol}>
+          <span className={s.browseColLabel}>Categories</span>
+          <div className={s.browseChips}>
+            {CATEGORIES.filter(cat => !cat.devOnly)
+              .slice()
+              .sort((a, b) => (a.id === activeCategory ? -1 : b.id === activeCategory ? 1 : 0))
+              .map(cat => {
+                const current = !activeTag && activeCategory === cat.id && (cat.id !== 'all' || highlightAll);
+                return (
+                  <a
+                    key={cat.id}
+                    href={cat.id === 'all' ? '/ui-snippets/' : `/ui-snippets/${cat.id}/`}
+                    className={s.browseChip}
+                    aria-current={current ? 'true' : undefined}
+                  >
+                    {cat.label}
+                  </a>
+                );
+              })}
+          </div>
+        </div>
+        <div className={s.browseCol}>
+          <span className={s.browseColLabel}>Tags</span>
+          <div className={s.browseChips}>
+            <a
+              href="/ui-snippets/"
+              className={s.browseChip}
+              aria-current={!activeTag && highlightAll ? 'true' : undefined}
+            >
+              All tags
+            </a>
+            {TAG_LINKS.slice()
+              .sort((a, b) => (a.id === activeTag ? -1 : b.id === activeTag ? 1 : 0))
+              .map(tag => (
+                <a
+                  key={tag.id}
+                  href={`/ui-snippets/tag/${tag.id}/`}
+                  className={s.browseChip}
+                  aria-current={tag.id === activeTag ? 'true' : undefined}
+                >
+                  {tag.label}
+                </a>
+              ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // "Load more" under a snippet grid: each click appends the next page below the
 // cards already shown (nothing is replaced). With `href` it renders a real link
 // to that page (?page=N, which loads pages 1..N) so crawlers can still reach
@@ -309,57 +369,7 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
           </button>
         </div>
 
-        {/* Browse panel — real, crawlable <a href> links to every category
-            page and every tag page (not a JS filter). The active category/tag
-            sorts first in its column so it's visible in the collapsed strip;
-            hovering reveals both columns in full as an overlay, mirroring the
-            sidebar library's filter popover. */}
-        <div className={s.browseWrap}>
-          <div className={s.browseCols}>
-            <div className={s.browseCol}>
-              <span className={s.browseColLabel}>Categories</span>
-              <div className={s.browseChips}>
-                {CATEGORIES.filter(cat => !cat.devOnly)
-                  .slice()
-                  .sort((a, b) => (a.id === category ? -1 : b.id === category ? 1 : 0))
-                  .map(cat => (
-                    <a
-                      key={cat.id}
-                      href={cat.id === 'all' ? '/ui-snippets/' : `/ui-snippets/${cat.id}/`}
-                      className={s.browseChip}
-                      aria-current={!initialTag && category === cat.id ? 'true' : undefined}
-                    >
-                      {cat.label}
-                    </a>
-                  ))}
-              </div>
-            </div>
-            <div className={s.browseCol}>
-              <span className={s.browseColLabel}>Tags</span>
-              <div className={s.browseChips}>
-                <a
-                  href="/ui-snippets/"
-                  className={s.browseChip}
-                  aria-current={!activeTag ? 'true' : undefined}
-                >
-                  All tags
-                </a>
-                {TAG_LINKS.slice()
-                  .sort((a, b) => (a.id === initialTag ? -1 : b.id === initialTag ? 1 : 0))
-                  .map(tag => (
-                    <a
-                      key={tag.id}
-                      href={`/ui-snippets/tag/${tag.id}/`}
-                      className={s.browseChip}
-                      aria-current={tag.id === initialTag ? 'true' : undefined}
-                    >
-                      {tag.label}
-                    </a>
-                  ))}
-              </div>
-            </div>
-          </div>
-        </div>
+        <BrowsePanel activeCategory={category} activeTag={initialTag} />
       </div>
 
       {filtered.length === 0 ? (

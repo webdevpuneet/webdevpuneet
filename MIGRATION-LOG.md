@@ -506,3 +506,13 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   (it observes the layout, so it was not looping, but it can no longer start).
 - PlaygroundTopNav also shows on library snippet pages (`/ui-snippets/<snippet>/`), not only galleries. Not on My Code (its grid renders the nav itself; the My Code editor has none) or embeds. `ui-snippets/layout.js` measures the nav again (ResizeObserver) and sets `--pnav-h` / `calc(100dvh - navH)`, so the snippet editor fits below it and the Console stays on screen.
 - Follow-up: PlaygroundTopNav now shows on every UI Snippets page, including the My Code editor (`showNav = true` in the layout; embeds still return early). The tool no longer renders its own nav for the My Code grid, so there is no duplicate.
+
+## 2026-10-02 — Category | Tags strip above Related Snippets
+
+- Snippet pages (`ui-snippets/[slug]/page.js`): a `CategoryStrip` sits above Related Snippets (`.relatedCats`, 20px inset).
+  It is one row of categories with this snippet's category first and highlighted; hover or focus opens the two-column
+  Categories | Tags panel (`STRIP_CATEGORIES` with live counts, `STRIP_TAGS` = publishedTags).
+- `CategoryStrip` has a new `panel` prop: it enables the Categories | Tags panel outside the header (`.catBarPanel`, same
+  CSS as `.catBarHeader` for keeping the row single-line and showing the panel). The header is unchanged.
+- Follow-up: above Related Snippets the snippet page now uses the gallery's own Categories | Tags browse box instead of a CategoryStrip. It is extracted as `BrowsePanel` (exported from UiSnippetsGallery), used by the gallery (`activeCategory`, `activeTag`) and the snippet page (`activeCategory={sn.category} highlightAll={false}`, so "All …" isn't marked current). Each column is one row that opens in full on hover. `CategoryStrip`'s `panel` prop stays available but is unused.
+- Follow-up: on snippet pages the browse box highlights nothing and keeps the natural order (`activeCategory={null}`, `highlightAll={false}`).

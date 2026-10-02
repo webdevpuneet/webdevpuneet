@@ -55,7 +55,8 @@ function PanelChip({ href, label, active }) {
   );
 }
 
-export function CategoryStrip({ categories, tags = [], activeCategory, activeTag = null, inHeader = false, panelLeft = false }) {
+export function CategoryStrip({ categories, tags = [], activeCategory, activeTag = null, inHeader = false, panelLeft = false, panel = false }) {
+  // Two-column Categories | Tags hover panel: always in the header, opt-in (`panel`) elsewhere.
   if (!categories?.length) return null;
   // The active category leads the row, so it is always visible without opening the strip.
   const ordered = activeCategory
@@ -64,7 +65,7 @@ export function CategoryStrip({ categories, tags = [], activeCategory, activeTag
   // On a tag page the active tag leads the row, highlighted, ahead of the categories.
   const leadTag = activeTag ? tags.find(t => t.id === activeTag) : null;
   return (
-    <nav className={`${rs.catBar} ${inHeader ? rs.catBarHeader : ''}`} aria-label="Snippet categories">
+    <nav className={`${rs.catBar} ${inHeader ? rs.catBarHeader : ''} ${panel && !inHeader ? rs.catBarPanel : ''}`} aria-label="Snippet categories">
       <div className={rs.catList}>
         {leadTag && (
           <a
@@ -92,7 +93,7 @@ export function CategoryStrip({ categories, tags = [], activeCategory, activeTag
         More
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </span>
-      {inHeader && (
+      {(inHeader || panel) && (
         <div className={`${rs.catPanel} ${panelLeft ? rs.catPanelLeft : ''}`}>
           <div className={rs.catPanelInner}>
             <div className={rs.catCol}>

@@ -82,12 +82,16 @@
 /* In the header the row itself stays one line; the two-column panel below takes over.
    `.catBar.catBarHeader` outranks the generic `.catBar:hover` rules defined further down. */
 .catBar.catBarHeader:hover .catList,
-.catBar.catBarHeader:focus-within .catList {
+.catBar.catBarHeader:focus-within .catList,
+.catBar.catBarPanel:hover .catList,
+.catBar.catBarPanel:focus-within .catList {
   max-height: 32px; padding-right: 60px;
   background: none; border-color: transparent; box-shadow: none;
 }
 .catBar.catBarHeader:hover .catMore,
-.catBar.catBarHeader:focus-within .catMore { opacity: 1; color: var(--accent, #6366f1); }
+.catBar.catBarHeader:focus-within .catMore,
+.catBar.catBarPanel:hover .catMore,
+.catBar.catBarPanel:focus-within .catMore { opacity: 1; color: var(--accent, #6366f1); }
 
 /* Header drop-down: Categories | Tags in two columns. The transparent top padding
    bridges the gap so the pointer can travel from the strip into the panel. */
@@ -107,7 +111,9 @@
 /* Header in the narrow code column: open the panel rightwards from the strip's left edge. */
 .catPanel.catPanelLeft { left: 0; transform: none; }
 .catBarHeader:hover .catPanel,
-.catBarHeader:focus-within .catPanel { opacity: 1; visibility: visible; pointer-events: auto; }
+.catBarHeader:focus-within .catPanel,
+.catBarPanel:hover .catPanel,
+.catBarPanel:focus-within .catPanel { opacity: 1; visibility: visible; pointer-events: auto; }
 .catPanelInner {
   display: grid;
   grid-template-columns: 1fr 1fr;
