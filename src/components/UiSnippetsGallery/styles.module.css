@@ -25,12 +25,12 @@
   gap: 20px;
 }
 .adSticky {
-  flex: 0 0 300px;
+  flex: 0 0 auto;           /* width set inline: 300 / 160 / 120 by available space */
   position: sticky;
   top: 16px;
 }
 .adStickySlot {
-  width: 300px;
+  width: 300px;             /* overridden inline to the chosen width */
   height: 600px;
   display: flex;
   flex-direction: column;
@@ -43,12 +43,9 @@
   color: var(--text3);
   font-family: var(--font-ui);
 }
-/* Real AdSense unit: reserves the exact 300x600 box. */
-.adStickyUnit { display: block; width: 300px; height: 600px; }
 .adStickyLabel { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .adStickySize { font-size: 12px; font-family: var(--font-mono); }
-/* Needs room for at least two snippet columns beside a 300px ad. */
-@media (max-width: 1400px) { .adSticky { display: none; } }
+/* No breakpoint hide: GalleryStickyAd picks 300 / 160 / 120 wide, or none on phones. */
 
 /* ── Controls bar ── */
 .controls {

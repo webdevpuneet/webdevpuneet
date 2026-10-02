@@ -38,33 +38,30 @@ function syncSearchToSidebar(value) {
 // /ui-snippets/tag/ routes are generated from, so a chip never links to a 404.
 const TAG_LINKS = publishedTags(SNIPPETS);
 
-// Sticky 300x600 AdSense half-page (slot 8625178551) beside the gallery grid — used by
-// the library gallery / categories / tags and the My Code grid. Fixed size, not
-// "auto", so the column never resizes while a creative loads. The column is hidden
-// at 1400px and below, so the <ins> only renders (and pushes) when it can be seen:
-// AdSense errors on zero-width slots. The adsbygoogle.js loader is site-wide.
-const STICKY_AD_MEDIA = '(min-width: 1401px)';
-function StickyAdUnit() {
-  const [wide, setWide] = useState(false);
+// Sticky AdSense column (slot 8625178551) beside the gallery grid — library gallery /
+// categories / tags and the My Code grid. Its size follows the width the gallery
+// actually has (the sidebar eats into the viewport, so screen width alone is wrong),
+// always leaving the snippet grid at least ~560px:
+//   300x600 half-page → 160x600 wide skyscraper → 120x600 skyscraper → none (phones).
+// Fixed sizes, so nothing shifts while a creative loads. Crossing into another size
+// remounts the <ins> (key) for a fresh ad — AdSense fixes a slot's size once filled.
+// The adsbygoogle.js loader is site-wide.
+const STICKY_AD_SIZES = [
+  { w: 300, minLayout: 1180 },
+  { w: 160, minLayout: 860 },
+  { w: 120, minLayout: 700 },
+];
+function StickyAdIns({ w }) {
   useEffect(() => {
-    const mq = window.matchMedia(STICKY_AD_MEDIA);
-    const sync = () => setWide(mq.matches);
-    sync();
-    mq.addEventListener('change', sync);
-    return () => mq.removeEventListener('change', sync);
-  }, []);
-  useEffect(() => {
-    if (!wide) return;
     const id = setTimeout(() => {
       try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
     }, 300);
     return () => clearTimeout(id);
-  }, [wide]);
-  if (!wide) return <div className={s.adStickyUnit} />;
+  }, []);
   return (
     <ins
-      className={`adsbygoogle ${s.adStickyUnit}`}
-      style={{ display: 'inline-block', width: '300px', height: '600px' }}
+      className="adsbygoogle"
+      style={{ display: 'inline-block', width: `${w}px`, height: '600px' }}
       data-ad-client="ca-pub-2762737943861458"
       data-ad-slot="8625178551"
     />
@@ -72,14 +69,35 @@ function StickyAdUnit() {
 }
 
 export function GalleryStickyAd() {
+  const ref = useRef(null);
+  const [w, setW] = useState(null);
+  useEffect(() => {
+    const layout = ref.current?.parentElement;
+    if (!layout) return;
+    const pick = () => {
+      const width = layout.clientWidth;
+      const next = STICKY_AD_SIZES.find(z => width >= z.minLayout)?.w ?? null;
+      setW(prev => (prev === next ? prev : next));
+    };
+    pick();
+    if (typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(pick);
+    ro.observe(layout);
+    return () => ro.disconnect();
+  }, []);
   return (
-    <aside className={s.adSticky} aria-label="Advertisement">
-      {ADS_ENABLED ? <StickyAdUnit /> : (
-        <div className={s.adStickySlot}>
+    <aside
+      ref={ref}
+      className={s.adSticky}
+      style={w ? { flexBasis: w, width: w } : { display: 'none' }}
+      aria-label="Advertisement"
+    >
+      {w && (ADS_ENABLED ? <StickyAdIns key={w} w={w} /> : (
+        <div className={s.adStickySlot} style={{ width: w }}>
           <span className={s.adStickyLabel}>Ad space</span>
-          <span className={s.adStickySize}>300 × 600</span>
+          <span className={s.adStickySize}>{w} × 600</span>
         </div>
-      )}
+      ))}
     </aside>
   );
 }
