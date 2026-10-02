@@ -138,12 +138,11 @@ This is the base pattern for any "live map of things with state" — delivery dr
       { title: 'Free OpenStreetMap tiles', text: `No API key or paid map provider required.` },
     ],
     useCases: [
-      { title: 'Fleet and field-team tracking', text: `Driver or technician avatars with live status on a map.` },
-      { title: 'Real-time ride or delivery apps', text: `Rich, actionable popups beyond plain text info.` },
-      { title: 'IoT device dashboards', text: `Custom icons per device type and health state.` },
-      { title: 'Team "who is online" maps', text: `Presence indicators tied to real map positions.` },
-      { title: 'Property and listing maps', text: `Photo markers instead of generic pins.` },
-      { title: 'Learning Leaflet customization', text: `A clear reference for divIcon and popup event timing.` },
+      { title: 'Field team and fleet tracking', text: 'Show each driver or technician as an avatar with a live status ring, so dispatchers can tell who is online, busy or offline without opening a popup.' },
+      { title: 'Ride and delivery apps', text: 'Give popups real actions such as call or reassign. A working button lives inside the popup card, and its listener attaches only once the popup content exists.' },
+      { title: 'IoT device dashboards', text: 'Use different icons per device type and health state instead of one generic pin, so a problem sensor stands out across hundreds of markers.' },
+      { title: 'Team presence maps', text: 'Show who is online across offices with status dots tied to real data. `iconAnchor` and `popupAnchor` keep the pin and its popup aligned with the avatar.' },
+      { title: 'Property listings with photo markers', text: 'Replace default pins with photo markers for homes or venues, giving visitors a visual cue before they click through to the full popup card.' },
       { icon: 'CODE', title: 'Related: Leaflet Store Locator with Search', desc: 'See the Leaflet Store Locator snippet elsewhere in this collection for a searchable-list companion pattern.' },
     ],
     faqs: [

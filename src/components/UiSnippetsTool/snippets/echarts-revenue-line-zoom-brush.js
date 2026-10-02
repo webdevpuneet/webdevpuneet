@@ -163,12 +163,11 @@ Swap the deterministic sample series for your own date/value pairs, and the tota
       { title: 'Deterministic sample data', text: `Same 90-day wave on every load for reliable screenshots.` },
     ],
     useCases: [
-      { title: 'Revenue dashboards', text: `Pair with a [KPI gauge cluster](/ui-snippets/echarts-kpi-gauge-cluster/) for an at-a-glance overview page.` },
-      { title: 'Analytics products', text: `The zoom-then-total pattern generalizes to any metric over time.` },
-      { title: 'Investor and exec reports', text: `Let readers zoom into the quarter that matters to them.` },
-      { title: 'Server and app metrics', text: `Swap revenue for latency or request volume unchanged.` },
-      { title: 'Traffic breakdowns', text: `Compare against a [stacked area traffic chart](/ui-snippets/echarts-stacked-area-traffic/) for source-level detail.` },
-      { title: 'Learning ECharts', text: `A clear reference for dataZoom, gradients, and event handling together.` },
+      { title: 'Revenue dashboards', text: 'Pair with an [ECharts KPI gauge cluster](/ui-snippets/echarts-kpi-gauge-cluster/) for an at-a-glance view, then let people zoom a 90-day line into any window.' },
+      { title: 'Analytics products', text: 'Generalise the zoom-then-total pattern: the header sum recalculates from the visible window every time the range changes.' },
+      { title: 'Investor and executive reports', text: 'Let readers zoom into a quarter or a single week themselves, using the slider or scroll-to-zoom, which share one synced range.' },
+      { title: 'Server and application metrics', text: 'Swap revenue for latency or request counts, keeping the gradient area fill and the range-aware total in the header.' },
+      { title: 'Traffic breakdowns', text: 'Compare the total line with an [ECharts stacked area traffic breakdown](/ui-snippets/echarts-stacked-area-traffic/) to see what each source contributes.' },
       { icon: 'CODE', title: 'Related: ECharts Live-Updating Realtime Chart', desc: 'See the [ECharts Live-Updating Realtime Chart](/ui-snippets/echarts-live-realtime-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

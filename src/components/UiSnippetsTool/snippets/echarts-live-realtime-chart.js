@@ -180,12 +180,11 @@ Point the interval body at a real data source — a WebSocket message handler, a
       { title: 'Responsive canvas', text: `ResizeObserver keeps the chart sized to its container.` },
     ],
     useCases: [
-      { title: 'Server and infra monitoring', text: `Requests per second, latency, error rate as they happen.` },
-      { title: 'IoT and sensor dashboards', text: `Live readings from a device or WebSocket feed.` },
-      { title: 'Trading tickers', text: `The same sliding-window model applies to live prices.` },
-      { title: 'Live event dashboards', text: `Concurrent viewers, active sessions, queue depth.` },
-      { title: 'Ops rooms and status walls', text: `Pair with a [KPI gauge cluster](/ui-snippets/echarts-kpi-gauge-cluster/) for a fuller live board.` },
-      { title: 'Learning ECharts', text: `A clear reference for time axes and partial live updates.` },
+      { title: 'Server and infrastructure monitoring', text: 'Plot requests per second or latency live, with a fixed-size window that drops old points automatically so memory and render cost stay flat no matter how long it runs.' },
+      { title: 'IoT and sensor dashboards', text: 'Stream readings from a device or machine on a real time axis, with pause and resume controls for stopping the chart to inspect a spike.' },
+      { title: 'Trading tickers', text: 'Apply the same sliding-window model to price feeds, where only the series data changes on each tick rather than the whole chart option being rebuilt.' },
+      { title: 'Live event dashboards', text: 'Show concurrent viewers or active sessions during a launch, with `animationDurationUpdate` keeping each new point from snapping abruptly into place.' },
+      { title: 'Operations rooms and status walls', text: 'Pair with an [ECharts KPI gauge cluster](/ui-snippets/echarts-kpi-gauge-cluster/) so the wall shows both the current reading and the trend behind it.' },
       { icon: 'CODE', title: 'Related: ECharts Animated Revenue Line with Zoom Brush', desc: 'See the [ECharts Animated Revenue Line with Zoom Brush](/ui-snippets/echarts-revenue-line-zoom-brush/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

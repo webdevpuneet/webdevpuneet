@@ -158,11 +158,11 @@ Because \`draw()\` doubles as the replay handler, it needs to remove the previou
       { title: 'Snap.svg easing', text: 'mina.easeinout and mina.easeout shape the line and dot timing curves.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'Dashboard KPI charts', text: 'A line chart that draws itself in when a dashboard section loads.' },
-      { icon: 'FLOW', title: 'Landing page stat reveals', text: 'An animated growth chart as a marketing page scroll trigger.' },
-      { icon: 'LEARN', title: 'Teaching SVG dash tricks', text: 'A concrete reference for the dasharray/dashoffset reveal technique.' },
-      { icon: 'CODE', title: 'Report / summary animations', text: 'Data visualizations that animate in on a report\\u2019s first render.' },
-      { icon: 'STAR', title: 'Presentation-style reveals', text: 'A chart timed to reveal alongside a spoken or scrolled narrative.' },
+      { title: 'Dashboard KPI charts', text: 'Make a line chart draw itself in as a dashboard loads, using `stroke-dasharray` and `stroke-dashoffset` animated through Snap.svg.' },
+      { title: 'Landing page growth reveals', text: 'Reveal an animated growth chart as a marketing proof point, with data points that only appear once the line has finished drawing.' },
+      { title: 'Teaching SVG dash tricks', text: 'Use it as a concrete reference for the dash-offset reveal, including measuring the exact path length with `getTotalLength()`.' },
+      { title: 'Report and summary animations', text: 'Animate data visualisations in a summary page, with staggered fade-ins scaled by point index to create a left-to-right cascade.' },
+      { title: 'Presentation-style reveals', text: 'Time a chart to draw alongside a speaker\'s narrative, and use the replay button to rerun the animation on demand during a talk.' },
     ],
     faqs: [
       { q: 'How does the line-drawing effect actually work?', a: 'It sets stroke-dasharray to the path\\u2019s exact total length (from getTotalLength()), which makes the dash pattern effectively one dash and one gap the length of the whole line. Setting stroke-dashoffset to that same length shifts the visible dash entirely off the path, so it starts invisible. Animating dashoffset down to 0 slides the visible portion in from the start, reading as a line being drawn.' },

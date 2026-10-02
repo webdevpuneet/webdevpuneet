@@ -144,12 +144,11 @@ Swap the generated OHLC and volume arrays for real market data (from any exchang
       { title: 'Responsive canvas', text: `ResizeObserver keeps both panels sized to their container.` },
     ],
     useCases: [
-      { title: 'Trading and finance dashboards', text: `The standard price-plus-volume layout for any ticker.` },
-      { title: 'Crypto and token trackers', text: `Same OHLC-plus-volume model, any asset class.` },
-      { title: 'Portfolio and watchlist detail views', text: `Drill into one holding's recent price action.` },
-      { title: 'Backtesting and research tools', text: `Zoom into a specific window to inspect a trade signal.` },
-      { title: 'Financial reporting', text: `Pair with a [revenue line chart](/ui-snippets/echarts-revenue-line-zoom-brush/) for business-side metrics nearby.` },
-      { title: 'Learning ECharts', text: `A clear reference for multi-grid, axis-linked layouts.` },
+      { title: 'Trading and finance dashboards', text: 'Show the standard price-plus-volume view, where a big move on thin volume reads very differently from the same move on heavy volume.' },
+      { title: 'Crypto and token trackers', text: 'Apply the same open-high-low-close plus volume model to token pairs, with volume bars coloured by that day\'s own candle direction.' },
+      { title: 'Watchlist detail views', text: 'Drill into one holding with a synced crosshair across both panels, so hovering a candle also shows that day\'s trading volume.' },
+      { title: 'Backtesting and research tools', text: 'Zoom into a specific window and keep price and volume aligned, since a single `dataZoom` drives both x-axes at the same time.' },
+      { title: 'Financial reporting', text: 'Pair with an [ECharts revenue line with zoom brush](/ui-snippets/echarts-revenue-line-zoom-brush/) for a report that covers both market data and business revenue.' },
       { icon: 'CODE', title: 'Related: ECharts Live-Updating Realtime Chart', desc: 'See the [ECharts Live-Updating Realtime Chart](/ui-snippets/echarts-live-realtime-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

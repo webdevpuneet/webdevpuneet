@@ -142,12 +142,11 @@ Swap the five traffic sources for any composition-over-time data — revenue by 
       { title: 'Responsive canvas', text: `ResizeObserver keeps the chart sized to its container.` },
     ],
     useCases: [
-      { title: 'Marketing analytics dashboards', text: `Compare acquisition channels over any date range.` },
-      { title: 'Revenue composition reports', text: `Product lines or regions stacked into one total.` },
-      { title: 'Infrastructure load breakdowns', text: `Requests by service or region over time.` },
-      { title: 'Budget tracking', text: `Expense categories stacked against a spending cap.` },
-      { title: 'Executive dashboards', text: `Pair with a [revenue line chart](/ui-snippets/echarts-revenue-line-zoom-brush/) for trend plus composition.` },
-      { title: 'Learning ECharts', text: `A clear reference for stacking and legend interaction.` },
+      { title: 'Marketing analytics dashboards', text: 'Compare acquisition channels over time, then click a legend item to remove one source and watch the stack total redraw without it.' },
+      { title: 'Revenue composition reports', text: 'Stack product lines or regions to show composition over time, isolating just two of them by eye when five overlapping colours get hard to parse.' },
+      { title: 'Infrastructure load breakdowns', text: 'Show requests by service or region, with hover isolating the series you are tracing and dimming everything else through `emphasis.focus`.' },
+      { title: 'Budget tracking', text: 'Stack expense categories against a spending limit, hiding the biggest ones to see how the smaller categories behave.' },
+      { title: 'Executive dashboards', text: 'Pair with an [ECharts revenue line with zoom brush](/ui-snippets/echarts-revenue-line-zoom-brush/) so executives see both the composition and the detailed trend.' },
       { icon: 'CODE', title: 'Related: ECharts Radar Skill Comparison', desc: 'See the [ECharts Radar Skill Comparison](/ui-snippets/echarts-radar-skill-comparison/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

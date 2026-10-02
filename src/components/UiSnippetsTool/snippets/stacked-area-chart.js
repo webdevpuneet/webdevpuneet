@@ -159,12 +159,11 @@ Series are an array of \`{ name, color, data }\`, so adding a series or swapping
       { title: 'No library', text: `Pure HTML/CSS/JS/SVG — no chart dependency.` },
     ],
     useCases: [
-      { title: 'Traffic by source', text: `Break down visits over time beside an [area chart](/ui-snippets/area-chart/).` },
-      { title: 'Revenue by product', text: `Show composition of totals in a [metric card grid](/ui-snippets/metric-card-grid/).` },
-      { title: 'Usage by tier', text: `Visualize plan mix next to a [quota usage meter](/ui-snippets/quota-usage-meter/).` },
-      { title: 'Analytics dashboards', text: `Pair with a [multi line chart](/ui-snippets/multi-line-chart/) for trends.` },
-      { title: 'Resource allocation', text: `Stack categories that sum to a capacity.` },
-      { title: 'Learning SVG charts', text: `A reference for cumulative stacking and hit areas.` },
+      { title: 'Traffic by source', text: 'Break visits down by source over time beside an [area chart](/ui-snippets/area-chart/), so total traffic and each channel\'s share are visible together.' },
+      { title: 'Revenue by product', text: 'Show how product lines add up to total revenue, with each band stacked cumulatively on the one below so the top edge is always the true total.' },
+      { title: 'Usage by plan tier', text: 'Visualise plan mix next to a [quota usage meter](/ui-snippets/quota-usage-meter/), with the y-axis fitted to the tallest stacked column.' },
+      { title: 'Dashboards with a trend line', text: 'Pair with a [multi-line chart](/ui-snippets/multi-line-chart/) for trends, using the hover guide and per-series tooltip to read each source\'s exact value at a point in time.' },
+      { title: 'Resource allocation', text: 'Stack categories that sum to a fixed capacity, so shifts in allocation are visible while the total remains the visual constraint.' },
     ],
     faqs: [
       { q: 'How is the stacking calculated?', a: `The script keeps a running lower-boundary array, starting at zero. For each series it computes the upper boundary as lower plus that series' values, draws a closed area between the two boundaries, then sets lower to upper for the next series. This makes each band sit exactly on top of the ones below, and the y-scale uses the maximum stacked total so the tallest column fits.` },

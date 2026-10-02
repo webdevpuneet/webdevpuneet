@@ -138,12 +138,11 @@ The whole chart is the sector math plus a layout loop — no D3 or chart library
       { title: 'No library', text: `Pure HTML/CSS/JS/SVG — no D3 or chart dependency.` },
     ],
     useCases: [
-      { title: 'Storage and disk usage', text: `Break down space by category and type, like a [quota usage meter](/ui-snippets/quota-usage-meter/).` },
-      { title: 'Budget composition', text: `Show spend by category and subcategory.` },
-      { title: 'Traffic and source breakdowns', text: `Nest channels under groups beside a [donut chart](/ui-snippets/donut-chart/).` },
-      { title: 'Portfolio allocation', text: `Visualize holdings by sector and asset.` },
-      { title: 'File and project structure', text: `Proportions of a hierarchy at a glance.` },
-      { title: 'Learning arc math', text: `A reference for annular sectors and nested layout.` },
+      { title: 'Storage and disk usage', text: 'Break space down by top-level category and sub-folder in nested rings, with a centre readout showing the value of whichever segment is currently hovered.' },
+      { title: 'Budget composition', text: 'Show spend by category and subcategory, with each child coloured as a tint of its parent so related groups stay visually together on the ring.' },
+      { title: 'Traffic and source breakdowns', text: 'Nest channels under groups such as Paid, Organic and Social, and compare each channel\'s share of its parent next to a [donut chart](/ui-snippets/donut-chart/).' },
+      { title: 'Portfolio allocation', text: 'Visualise holdings by sector and asset, where every node\'s angle reflects its exact share of the total and children sit inside their parent\'s slice.' },
+      { title: 'Hierarchy and arc maths', text: 'Study how each annular sector is a single SVG path with correct arc flags, and how children are fitted inside their parent\'s angular span.' },
     ],
     faqs: [
       { q: 'How is each ring segment drawn?', a: `Every segment is an annular sector — a slice of a ring — built as one SVG path: an outer arc, a line in to the inner radius, an inner arc back, and a closing line. A polar helper converts a radius and angle to coordinates around the centre (offset so angles begin at the top), and the path uses the large-arc-flag to handle slices over 180 degrees. It is the donut-arc technique applied to two radii.` },

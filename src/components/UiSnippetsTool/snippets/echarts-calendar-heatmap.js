@@ -144,12 +144,11 @@ Swap the generated data for real daily counts (from git log, an activity log tab
       { title: 'Responsive canvas', text: `ResizeObserver keeps the grid sized to its container.` },
     ],
     useCases: [
-      { title: 'Developer profile pages', text: `Show commit or PR activity without a GitHub embed.` },
-      { title: 'Habit and streak trackers', text: `Any daily-count metric — workouts, journal entries, logins.` },
-      { title: 'Content publishing dashboards', text: `Visualize posting cadence across a full year.` },
-      { title: 'Support and ops activity', text: `Ticket volume or deploy frequency by day.` },
-      { title: 'Personal analytics tools', text: `Pair with a [line chart](/ui-snippets/echarts-revenue-line-zoom-brush/) for trend plus density views.` },
-      { title: 'Learning ECharts', text: `A clear reference for the calendar coordinate system.` },
+      { title: 'Developer profile pages', text: 'Show commit or pull request activity as a year of coloured squares, the way GitHub does, so streaks and gaps are visible at a glance.' },
+      { title: 'Habit and streak trackers', text: 'Track any daily count, such as workouts, reading or meditation, and hover a square for the exact number on that day.' },
+      { title: 'Content publishing dashboards', text: 'Visualise posting cadence across a year to spot quiet months, using a five-stop colour scale that `visualMap` drives without drawing its own UI.' },
+      { title: 'Support and ops activity', text: 'Show ticket volume or deploy frequency per day, with the calendar coordinate system placing dates in grid cells automatically.' },
+      { title: 'Personal analytics tools', text: 'Pair with an [ECharts revenue line with zoom brush](/ui-snippets/echarts-revenue-line-zoom-brush/) so the daily grid sits beside a trend view.' },
       { icon: 'CODE', title: 'Related: ECharts Treemap Storage Breakdown', desc: 'See the [ECharts Treemap Storage Breakdown](/ui-snippets/echarts-treemap-storage-breakdown/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

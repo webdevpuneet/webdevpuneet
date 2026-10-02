@@ -136,12 +136,11 @@ Swap in your own \`reviewCounts\` object — pulled from an API response, a CMS 
       { title: 'Framework-portable logic', text: `computeStats() is pure and easy to reuse.` },
     ],
     useCases: [
-      { title: 'Marketplace seller pages', text: `The classic eBay/Etsy-style reputation summary.` },
-      { title: 'Product review sections', text: `Pair with [rating breakdown](/ui-snippets/rating-breakdown/).` },
-      { title: 'App store listings', text: `Show a star distribution for an app's reviews.` },
-      { title: 'Restaurant/service platforms', text: `Summarize customer feedback distribution.` },
-      { title: 'Review collection flows', text: `Follow up a [review form](/ui-snippets/review-form/) with this summary.` },
-      { title: 'B2B vendor scorecards', text: `Adapt star levels to a different rating scale.` },
+      { title: 'Marketplace seller pages', text: 'Build the classic reputation summary: a big average, a star row, a total review count and a bar per star level showing its share of reviews.' },
+      { title: 'Product review sections', text: 'Place it above the reviews list, or combine it with the [rating breakdown](/ui-snippets/rating-breakdown/) pattern for a fuller picture of how customers rated an item.' },
+      { title: 'App store listings', text: 'Show a star distribution for an app. Because every percentage derives from `reviewCounts`, the bars and the average can never contradict each other.' },
+      { title: 'Restaurant and service platforms', text: 'Summarise customer feedback in one glance, letting visitors judge a business by the shape of its ratings and not only by its average.' },
+      { title: 'Review collection flows', text: 'Follow a [review form](/ui-snippets/review-form/) with this summary so customers see how their rating fits in. Adapt the star levels for a different scale in vendor scorecards.' },
       { icon: 'CODE', title: 'Related: Waffle Chart', desc: 'See the [Waffle Chart](/ui-snippets/waffle-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

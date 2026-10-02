@@ -115,12 +115,11 @@ Data is an array of \`{ category, a, b }\`, so changing the bands or values is a
       { title: 'No library', text: `Pure HTML/CSS/JS — no chart dependency.` },
     ],
     useCases: [
-      { title: 'Demographics', text: `Age/gender distributions in an analytics dashboard.` },
-      { title: 'Before vs after', text: `Compare two states across categories beside a [bar chart](/ui-snippets/bar-chart/).` },
-      { title: 'Segment comparison', text: `Two user segments across the same metrics.` },
-      { title: 'Survey responses', text: `Compare two groups' answers per question.` },
-      { title: 'Win/loss by category', text: `Mirror two outcomes across buckets.` },
-      { title: 'Learning CSS charts', text: `A reference for mirrored grid bars and shared scales.` },
+      { title: 'Population and demographics', text: 'Show age and gender distributions side by side in an analytics dashboard. Both sides use one maximum, so bar lengths are directly comparable.' },
+      { title: 'Before and after comparisons', text: 'Compare two states across the same categories, such as last year and this year, by mirroring them around a centre axis instead of using two charts.' },
+      { title: 'User segment comparison', text: 'Compare two segments, for example free and paid users, across the same metrics. A three-column grid keeps both sides aligned to a single spine.' },
+      { title: 'Survey responses by group', text: 'Compare how two groups answered each question, with percentage widths making the bars responsive without any coordinate maths.' },
+      { title: 'Win and loss by category', text: 'Mirror two outcomes across buckets, such as deals won versus lost by region, and use a plain [bar chart](/ui-snippets/bar-chart/) when you only have one series.' },
       { icon: 'CODE', title: 'Related: Stacked Area Chart', desc: 'See the [Stacked Area Chart](/ui-snippets/stacked-area-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

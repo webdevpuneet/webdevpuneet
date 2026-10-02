@@ -243,12 +243,11 @@ Replace \`FULL\` with your series and everything downstream follows, including t
       { title: 'Container-driven sizing', text: 'maintainAspectRatio false with a fixed-height wrapper.' },
     ],
     useCases: [
-      { title: 'SaaS revenue dashboards', text: 'The headline chart above a [metric card grid](/ui-snippets/metric-card-grid/).' },
-      { title: 'Analytics panels', text: 'Traffic or conversion trends with period comparison.' },
-      { title: 'Finance and billing pages', text: 'Spend over time with an honest period-over-period delta.' },
-      { title: 'Admin overview screens', text: 'Pair with a [stats card](/ui-snippets/stats-card/) row.' },
-      { title: 'Reporting exports', text: 'A styled chart that reads well in a PDF or screenshot.' },
-      { title: 'Learning Chart.js', text: 'A reference for scriptable options and non-destructive updates.' },
+      { title: 'SaaS revenue dashboards', text: 'Make the headline revenue chart above a [metric card grid](/ui-snippets/metric-card-grid/) look like part of a designed product, using a scriptable gradient fill.' },
+      { title: 'Analytics panels', text: 'Show traffic or conversion trends with period chips, and use index-mode tooltips so hovering anywhere on the chart reads the nearest month.' },
+      { title: 'Finance and billing pages', text: 'Display spend over time with an honest baseline, with hover points that are hidden at rest and revealed with a punched-out border.' },
+      { title: 'Admin overview screens', text: 'Pair with a [stats card](/ui-snippets/stats-card/) row to give an admin landing page both the headline numbers and the shape of the trend behind them.' },
+      { title: 'Learning Chart.js scriptable options', text: 'Study the `chartArea` guard that returns a fallback on first layout instead of crashing, one of the most common sources of Chart.js gradient errors.' },
       { icon: 'CODE', title: 'Related: Dumbbell Chart', desc: 'See the [Dumbbell Chart](/ui-snippets/dumbbell-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

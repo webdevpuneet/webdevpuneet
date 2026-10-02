@@ -130,12 +130,11 @@ Swap in your own funnel stages and real conversion counts (from your analytics o
       { title: 'Responsive canvas', text: `ResizeObserver keeps the diagram sized to its container.` },
     ],
     useCases: [
-      { title: 'Product analytics dashboards', text: `Trace onboarding funnels end to end, not just stage counts.` },
-      { title: 'Growth and marketing reviews', text: `Show where acquisition spend is leaking at a glance.` },
-      { title: 'Executive reporting', text: `Pair with a [funnel conversion chart](/ui-snippets/echarts-funnel-conversion/) for stage-by-stage detail.` },
-      { title: 'Budget and resource flow', text: `The same node/link structure works for money or traffic flow.` },
-      { title: 'Support and churn analysis', text: `Visualize which stages precede churn most often.` },
-      { title: 'Learning ECharts', text: `A clear reference for graph-based charts beyond bars and lines.` },
+      { title: 'Product analytics dashboards', text: 'Trace onboarding from landing page through signup and trial to paid, with ribbon thickness showing exact user counts at each step.' },
+      { title: 'Growth and marketing reviews', text: 'Show where acquisition spend ends up and where visitors drop off, with hover focus dimming everything except the traced path.' },
+      { title: 'Executive funnel reporting', text: 'Give leaders the story a funnel cannot tell: where the users who did not convert actually went, such as an immediate bounce or churn after the trial.' },
+      { title: 'Budget and resource flow', text: 'Reuse the same node and link structure for money or hours flowing from sources through categories to outcomes.' },
+      { title: 'Support and churn analysis', text: 'Visualise which stages precede churn, with Paid and Churned pinned into one rightmost column through `depth` so the outcomes line up.' },
       { icon: 'CODE', title: 'Related: ECharts Funnel Conversion Chart', desc: 'See the [ECharts Funnel Conversion Chart](/ui-snippets/echarts-funnel-conversion/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -131,12 +131,11 @@ Set each ring's target with a \`data-value\` attribute, change the gradient stop
       { title: 'Clamped values', text: `0–100 guard prevents overdraw.` },
     ],
     useCases: [
-      { title: 'Dashboards', text: `Show KPIs beside a [metric card grid](/ui-snippets/metric-card-grid/).` },
-      { title: 'Usage meters', text: `Storage and quota next to a [glass stat card](/ui-snippets/glass-stat-card/).` },
-      { title: 'Fitness apps', text: `Pair activity rings with a [streak tracker](/ui-snippets/streak-tracker/).` },
-      { title: 'Goal tracking', text: `Progress toward a target in a [feature checklist](/ui-snippets/feature-checklist/).` },
-      { title: 'Reports', text: `Headline percentages above a [donut chart](/ui-snippets/donut-chart/).` },
-      { title: 'Status panels', text: `Resource load on a [status dashboard](/ui-snippets/status-dashboard/).` },
+      { title: 'KPI row above a metric grid', text: 'Show completion or health scores as gradient rings beside a [metric card grid](/ui-snippets/metric-card-grid/), with the percentage counting up as the card scrolls into view.' },
+      { title: 'Storage and quota usage', text: 'Put a gradient ring inside a [glass stat card](/ui-snippets/glass-stat-card/) to show how much space or plan allowance is used, with the arc and the number finishing together.' },
+      { title: 'Fitness activity rings', text: 'Pair rings for move, exercise and stand with a [streak tracker](/ui-snippets/streak-tracker/), each ring carrying its own gradient from a `linearGradient` definition.' },
+      { title: 'Goal tracking panels', text: 'Show progress toward a target next to a [feature checklist](/ui-snippets/feature-checklist/), using pure SVG stroke-dash geometry instead of pulling in a charting library.' },
+      { title: 'Report headline percentages', text: 'Lead a report with big percentage rings above a [donut chart](/ui-snippets/donut-chart/), triggering the sweep on scroll so readers see the animation as they arrive.' },
       { icon: 'CODE', title: 'Related: Range Area Chart', desc: 'See the [Range Area Chart](/ui-snippets/range-area-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

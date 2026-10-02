@@ -151,12 +151,11 @@ This is the standard shape for any live-tracking display — delivery, ride-shar
       { title: 'Free OpenStreetMap tiles', text: `No API key or paid map provider required.` },
     ],
     useCases: [
-      { title: 'Delivery and courier tracking pages', text: `The exact "where's my order" map pattern.` },
-      { title: 'Ride-share driver-en-route screens', text: `Smooth vehicle motion along a confirmed route.` },
-      { title: 'Fleet and logistics dashboards', text: `Multiple simultaneous vehicles on shared routes.` },
-      { title: 'Flight or shipment tracking visualizations', text: `Same interpolation math, longer routes.` },
-      { title: 'Trip playback and route replay tools', text: `Pair with the [heatmap density layer](/ui-snippets/leaflet-heatmap-density-layer/) elsewhere in this collection for historical trip analysis.` },
-      { title: 'Learning Leaflet animation', text: `A clear reference for smooth marker motion along a path.` },
+      { title: 'Delivery tracking pages', text: 'Build the where-is-my-order screen: a van moves smoothly along the real route with a live ETA countdown, instead of teleporting between waypoints.' },
+      { title: 'Driver en-route screens', text: 'Show a ride-share driver approaching the pickup. Progress is computed from elapsed wall-clock time, so the speed stays steady on slow and fast devices alike.' },
+      { title: 'Fleet and logistics dashboards', text: 'Run several vehicles at once by reusing the interpolation and giving each its own start time, so staggered departures need no extra animation code.' },
+      { title: 'Trip playback and replay tools', text: 'Replay a finished journey with pause and resume that preserve exact progress. Add a [heatmap density layer](/ui-snippets/leaflet-heatmap-density-layer/) to show where trips cluster.' },
+      { title: 'Learning smooth Leaflet animation', text: 'See how to answer where exactly 43% along a route is, then place a marker there every frame while a second polyline fills in the distance already travelled.' },
     ],
     faqs: [
       { q: 'How is the vehicle positioned exactly on the route line, not just at waypoints?', a: `Before animating, the code computes the cumulative straight-line distance up to every waypoint in the route. Given a progress percentage, it finds which segment that percentage's target distance falls within, then linearly interpolates between that segment's two endpoints proportionally — which is what lets the vehicle sit at any point along the path, not just jump discretely from one waypoint to the next.` },

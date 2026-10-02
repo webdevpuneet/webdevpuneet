@@ -123,12 +123,11 @@ The chart derives entirely from a \`{ name, a, b }\` array and a \`MAX\` for the
       { title: 'No dependency', text: `Pure HTML/CSS/JS — no charting library.` },
     ],
     useCases: [
-      { title: 'Before / after metrics', text: `Show change over time more clearly than a [grouped bar chart](/ui-snippets/grouped-bar-chart/).` },
-      { title: 'Survey wave comparison', text: `Plot two periods next to a [rating breakdown](/ui-snippets/rating-breakdown/).` },
-      { title: 'A/B test results', text: `Compare arms beside a [bullet chart](/ui-snippets/bullet-chart/) of targets.` },
-      { title: 'Ranking shifts', text: `Pair with a [bump chart](/ui-snippets/bump-chart/) for rank-over-time.` },
-      { title: 'Regional figures', text: `Contrast two markets alongside a [slope chart](/ui-snippets/slope-chart/).` },
-      { title: 'Learning chart design', text: `A reference for connected-dot comparison plots.` },
+      { title: 'Before and after metrics', text: 'Show change more clearly than a [grouped bar chart](/ui-snippets/grouped-bar-chart/) can: a dot per value and a connector whose length is the size of the gap.' },
+      { title: 'Survey wave comparison', text: 'Plot two survey periods next to a [rating breakdown](/ui-snippets/rating-breakdown/) so readers see how each answer moved between waves.' },
+      { title: 'A/B test results', text: 'Compare test arms per metric beside a [bullet chart](/ui-snippets/bullet-chart/) of targets, with the connector automatically spanning from the lower to the higher value.' },
+      { title: 'Ranking shifts', text: 'Pair with a [bump chart](/ui-snippets/bump-chart/) for rank over time, using the dumbbell for the exact before and after values.' },
+      { title: 'Regional figures', text: 'Contrast two markets or years across regions alongside a [slope chart](/ui-snippets/slope-chart/), with the after dot always drawn above the before dot where they overlap.' },
       { icon: 'CODE', title: 'Related: Polar Area Chart', desc: 'See the [Polar Area Chart](/ui-snippets/polar-area-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

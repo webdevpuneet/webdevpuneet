@@ -153,12 +153,11 @@ Point it at any array of raw numbers — response times, ages, scores, prices �
       { title: 'Data-driven & no library', text: `Bins and draws from a raw DATA array in plain HTML/CSS/SVG/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Performance distributions', text: `Show response-time or latency spread — pair with a [line chart](/ui-snippets/line-chart-widget/) for trends.` },
-      { title: 'Analytics and metrics', text: `Visualise the distribution of session lengths, order values, or scores alongside a [bar chart](/ui-snippets/bar-chart/).` },
-      { title: 'Survey and rating spread', text: `See how responses cluster, complementing a [rating breakdown](/ui-snippets/rating-breakdown/).` },
-      { title: 'Pricing and demographics', text: `Show price bands or age distributions for a dataset.` },
-      { title: 'Scientific and lab data', text: `Reveal the shape of measurement data without a plotting library.` },
-      { title: 'Learning the binning algorithm', text: `A reference for histogram binning and frequency scaling — compare with a [box plot](/ui-snippets/box-plot/).` },
+      { title: 'Performance distributions', text: 'Show response-time or latency spread in adjustable bins, switching the bin count live to find the resolution that reveals the shape of the data.' },
+      { title: 'Session and order value analytics', text: 'Visualise how session lengths or order values are distributed, which a [line chart widget](/ui-snippets/line-chart-widget/) of averages would hide.' },
+      { title: 'Survey and rating spread', text: 'See how responses cluster alongside a [rating breakdown](/ui-snippets/rating-breakdown/), and whether opinions are one-sided, evenly split or polarised into two camps.' },
+      { title: 'Pricing and demographics', text: 'Show price bands or age distributions with bars that touch, because the x-axis is a continuous range and not a set of separate categories.' },
+      { title: 'Lab and measurement data', text: 'Reveal whether measurements are normal, skewed or bimodal, then compare groups side by side with a [box plot](/ui-snippets/box-plot/) of the same values.' },
       { icon: 'CODE', title: 'Related: Range Bar Chart', desc: 'See the [Range Bar Chart](/ui-snippets/range-bar-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

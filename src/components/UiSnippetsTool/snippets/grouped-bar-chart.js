@@ -122,12 +122,11 @@ Series are defined once (\`name\`, \`color\`) and groups are \`{ label, values }
       { title: 'No library', text: `Pure HTML/CSS/JS — no chart dependency.` },
     ],
     useCases: [
-      { title: 'Year-over-year comparison', text: `Compare quarters across years in a [metric card grid](/ui-snippets/metric-card-grid/).` },
-      { title: 'A/B and variant results', text: `Show metrics per variant side by side.` },
-      { title: 'Survey breakdowns', text: `Compare answers across segments beside a [bar chart](/ui-snippets/bar-chart/).` },
-      { title: 'Team or region performance', text: `Cluster KPIs per group on a dashboard.` },
-      { title: 'Budget vs actual', text: `Pair planned and actual bars per category.` },
-      { title: 'Learning CSS charts', text: `A reference for flexbox bars and tooltips.` },
+      { title: 'Year-over-year comparison', text: 'Compare quarters across years in one chart, with side-by-side bars per quarter so both the season and the trend are readable.' },
+      { title: 'A/B and variant results', text: 'Show a metric per variant side by side for each segment, with one colour per variant kept consistent across every group.' },
+      { title: 'Survey breakdowns by segment', text: 'Compare how segments answered each question, using percentage heights from flexbox so the chart needs no SVG or coordinate maths.' },
+      { title: 'Team and region KPIs', text: 'Cluster KPIs per group in a dashboard beside a [metric card grid](/ui-snippets/metric-card-grid/). The y-scale rounds up so the tallest bar fits neatly.' },
+      { title: 'Budget versus actual', text: 'Pair planned and actual bars for each category so overspend is visible immediately, and use the simpler [bar chart](/ui-snippets/bar-chart/) when there is only one series.' },
       { icon: 'CODE', title: 'Related: Range Area Chart', desc: 'See the [Range Area Chart](/ui-snippets/range-area-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

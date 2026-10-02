@@ -137,11 +137,11 @@ Event handlers call \`shapeLayer.batchDraw()\` rather than \`.draw()\`. \`batchD
       { title: 'Four distinct shape types', text: 'Circle, Rect, Star, and RegularPolygon all use the same drag pipeline.' },
     ],
     useCases: [
-      { icon: 'APP', title: 'Diagram / flowchart editors', text: 'Grid-aligned nodes for wireframing or flow diagrams.' },
-      { icon: 'DESIGN', title: 'Floor plan / layout tools', text: 'Snap furniture or fixtures to a design grid.' },
-      { icon: 'FORM', title: 'Puzzle / game boards', text: 'Piece placement that always lands on a valid cell.' },
-      { icon: 'LEARN', title: 'Teaching Konva layers', text: 'A concrete reference for layer separation and batchDraw.' },
-      { icon: 'CODE', title: 'Dashboard widget arranging', text: 'Grid-snapped repositioning for draggable dashboard tiles.' },
+      { title: 'Diagram and flowchart editors', text: 'Keep nodes aligned on a grid so a flowchart looks tidy without effort. Snapping happens on release, so the shape follows the pointer freely while it is being dragged.' },
+      { title: 'Floor plan and layout tools', text: 'Snap furniture, fixtures or booths to the nearest grid intersection so a plan stays measurable. The static guide grid lives on its own layer and never redraws as shapes move.' },
+      { title: 'Puzzle and board-game pieces', text: 'Make pieces land cleanly in cells when dropped. The `makeDraggable` helper wires drag, snap and cursor feedback in one call, so adding a new piece type takes a single line.' },
+      { title: 'Teaching Konva layers', text: 'Use it as a concrete example of separating a `gridLayer` from a `shapeLayer`, and of why `moveToTop()` keeps the shape you are holding above its neighbours.' },
+      { title: 'Dashboard widget arranging', text: 'Let users rearrange widgets on a snap grid. Rounding on `dragend` instead of every `dragmove` avoids the jitter that makes aggressive snapping feel like it is fighting the hand.' },
     ],
     faqs: [
       { q: 'Why snap on dragend instead of dragmove?', a: 'Snapping on every dragmove event would overwrite the shape\\u2019s position with a rounded value on each pointer move, making it visibly jump between grid points instead of following the cursor. Snapping only once, on dragend, keeps movement smooth while dragging and settles the shape precisely on release.' },

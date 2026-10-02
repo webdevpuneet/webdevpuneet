@@ -127,12 +127,11 @@ Swap the six skill axes and the two profiles for any comparison — product feat
       { title: 'Responsive canvas', text: `ResizeObserver keeps the radar sized to its container.` },
     ],
     useCases: [
-      { title: 'Hiring and performance reviews', text: `Candidate skills against role requirements at a glance.` },
-      { title: 'Competitive product analysis', text: `Feature coverage against a competitor's offering.` },
-      { title: 'Team capability mapping', text: `Individual scores against team or role benchmarks.` },
-      { title: 'Quarter-over-quarter tracking', text: `Overlay this quarter's profile against last quarter's.` },
-      { title: 'Player or character stats', text: `Games and fantasy-sport comparison screens.` },
-      { title: 'Learning ECharts', text: `A clear reference for the radar series and multi-series overlays.` },
+      { title: 'Hiring and performance reviews', text: 'Overlay a candidate\'s six skill scores on the role\'s requirements, so gaps appear wherever the candidate\'s shape falls inside the requirement shape.' },
+      { title: 'Competitive product analysis', text: 'Compare your feature coverage against a competitor\'s on the same hexagon, using dashed and solid lines so the profiles stay distinct beyond colour alone.' },
+      { title: 'Team capability mapping', text: 'Map individual scores against a team or role average to see where training would help, with a shared maximum keeping the grid undistorted.' },
+      { title: 'Quarter-over-quarter tracking', text: 'Overlay this quarter\'s profile on last quarter\'s to show growth. Hover isolates one profile through `emphasis.focus`, dimming the other for a clean comparison.' },
+      { title: 'Player and character stats', text: 'Compare games or fantasy-sports players across six attributes, with overlapping fills that make strengths and weaknesses easy to read.' },
       { icon: 'CODE', title: 'Related: ECharts Stacked Area Traffic Breakdown', desc: 'See the [ECharts Stacked Area Traffic Breakdown](/ui-snippets/echarts-stacked-area-traffic/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

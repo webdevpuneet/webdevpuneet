@@ -230,12 +230,11 @@ Replace \`DATA\`, \`GROUPS\`, and \`COLOR\`; everything else derives. For hierar
       { title: 'Grouped node rendering', text: 'One transform per g moves circle and both labels together.' },
     ],
     useCases: [
-      { title: 'Traffic and attribution', text: 'Channel mix where grouping matters as much as size.' },
-      { title: 'Portfolio and budget splits', text: 'Allocation across categories at a glance.' },
-      { title: 'Skill and tag clouds', text: 'A data-driven cousin of a [tag cloud](/ui-snippets/tag-cloud/).' },
-      { title: 'Survey and poll results', text: 'Response volume clustered by theme.' },
-      { title: 'Dashboard overviews', text: 'A visual counterpoint to a [bubble chart](/ui-snippets/bubble-chart/).' },
-      { title: 'Learning d3-force', text: 'A reference for alpha, forces, and drag behavior.' },
+      { title: 'Traffic and attribution mix', text: 'Show channel share where grouping matters, with bubbles sized by `scaleSqrt` so a value twice as big looks twice as big, not four times.' },
+      { title: 'Portfolio and budget splits', text: 'Present allocation across categories as clustered bubbles that pack tightly without overlapping, thanks to collision resolution with `iterations: 3`.' },
+      { title: 'Data-driven tag clouds', text: 'Use it as a data-driven cousin of a [tag cloud](/ui-snippets/tag-cloud/), where bubble area carries real values instead of font size.' },
+      { title: 'Survey and poll clusters', text: 'Cluster response volume by theme so the largest themes are obvious at a glance, and let visitors drag bubbles to explore the layout.' },
+      { title: 'Learning d3-force', text: 'Study how positional x and y forces plus collision packing work together, and why `alpha().restart()` is needed after changing a force for it to take effect.' },
       { icon: 'CODE', title: 'Related: Lollipop Chart', desc: 'See the [Lollipop Chart](/ui-snippets/lollipop-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

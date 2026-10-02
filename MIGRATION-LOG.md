@@ -526,3 +526,4 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   column, rotating) no longer re-requests ads, since refreshing without new content or user action is against AdSense
   policy. A new snippet still gets a fresh ad.
 - Removed the stale "trial slot / hidden at 1280px" comment.
+- Follow-up: the top snippet ad has a 970x90 size for large screens. Sizes by available width above the preview: 970x90, 728x90, 468x60 (tablet), 320x50 (mobile). Same slot 7360198340, locked once per snippet view.

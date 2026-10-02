@@ -215,12 +215,11 @@ Swap the simulated data for your real cohort table, change the color ramp's hue 
       { title: 'Zero dependencies', text: `No chart library — just DOM and CSS.` },
     ],
     useCases: [
-      { title: 'Growth dashboards', text: `Show product-wide weekly retention trends.` },
-      { title: 'Onboarding analysis', text: `Spot cohorts with weak early retention.` },
-      { title: 'Feature launches', text: `Compare retention before and after a release.` },
-      { title: 'Investor updates', text: `Visualize retention alongside a [funnel chart](/ui-snippets/funnel-chart/).` },
-      { title: 'Customer success', text: `Flag accounts cohorts that need outreach.` },
-      { title: 'A/B rollouts', text: `Track retention drift across experiment cohorts.` },
+      { title: 'Growth dashboards', text: 'Show product-wide weekly retention at a glance. Each row is a signup cohort and each column a week since signup, with colour intensity set by `retentionColor(pct)`.' },
+      { title: 'Onboarding analysis', text: 'Spot cohorts with weak early retention by scanning the first columns. A pale cell in week one tells you the onboarding changed for the worse.' },
+      { title: 'Before and after feature launches', text: 'Compare cohorts either side of a release to see whether retention improved. The legend uses the same colour function as the cells, so shades stay comparable.' },
+      { title: 'Investor and board updates', text: 'Present retention beside a [funnel chart](/ui-snippets/funnel-chart/) to show both how users arrive and whether they stay, using one clear heatmap instead of a table of numbers.' },
+      { title: 'Customer success outreach', text: 'Flag cohorts that need attention and hover any cell for the exact percentage and cohort label before deciding who to contact.' },
       { icon: 'CODE', title: 'Related: Funnel Conversion Steps', desc: 'See the [Funnel Conversion Steps](/ui-snippets/funnel-conversion-steps/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

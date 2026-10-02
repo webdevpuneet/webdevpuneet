@@ -136,12 +136,11 @@ Replace the five checkout stages with any sequential process — onboarding step
       { title: 'Responsive canvas', text: `ResizeObserver keeps the funnel sized to its container.` },
     ],
     useCases: [
-      { title: 'E-commerce checkout analysis', text: `Find the exact step where carts are abandoned.` },
-      { title: 'Onboarding flow reviews', text: `Apply the same stage-over-stage math to signup steps.` },
-      { title: 'Sales pipeline dashboards', text: `Lead to opportunity to closed-won, one stage at a time.` },
-      { title: 'Hiring pipeline tracking', text: `Applied to interviewed to offered to hired.` },
-      { title: 'Growth team reporting', text: `Pair with a [Sankey user flow](/ui-snippets/echarts-sankey-user-flow/) to see where drop-offs actually go.` },
-      { title: 'Learning ECharts', text: `A clear reference for the funnel series and label formatting.` },
+      { title: 'E-commerce checkout analysis', text: 'Find the exact step where carts are abandoned. Each stage shows its count and its rate relative to the previous step, not just to the top of the funnel.' },
+      { title: 'Onboarding flow reviews', text: 'Apply the same stage-over-stage maths to signup, activation and first-action steps to see exactly where new users stall.' },
+      { title: 'Sales pipeline dashboards', text: 'Show lead to opportunity to closed-won, using `sort: \'none\'` so the real process order is preserved instead of being re-sorted by size.' },
+      { title: 'Hiring pipeline tracking', text: 'Track applied, screened, interviewed and offered stages, with `minSize` stopping the smallest stage at the bottom from vanishing.' },
+      { title: 'Growth team reporting', text: 'Report both the conversion rate between steps and the absolute counts together, with a count and rate shown on two lines inside every segment.' },
       { icon: 'CODE', title: 'Related: ECharts Sankey User Flow Diagram', desc: 'See the [ECharts Sankey User Flow Diagram](/ui-snippets/echarts-sankey-user-flow/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

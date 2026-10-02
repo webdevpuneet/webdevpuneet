@@ -112,12 +112,11 @@ Each dot carries a native \`title\` with its label and value for an instant tool
       { title: 'No library', text: `Pure HTML/CSS/JS — no chart dependency.` },
     ],
     useCases: [
-      { title: 'Feature request voting', text: `Rank requests in a [poll widget](/ui-snippets/poll-widget/)-style board.` },
-      { title: 'Survey results', text: `Show responses cleanly with many options.` },
-      { title: 'Rankings and top lists', text: `A lighter take than a [horizontal bar chart](/ui-snippets/horizontal-bar-chart/).` },
-      { title: 'Category comparisons', text: `Compare values across many labels in a dashboard.` },
-      { title: 'KPI snapshots', text: `Precise dot reads next to a [metric card grid](/ui-snippets/metric-card-grid/).` },
-      { title: 'Learning CSS charts', text: `A reference for stem/dot geometry and sorting.` },
+      { title: 'Feature request voting', text: 'Rank requests in a [poll widget](/ui-snippets/poll-widget/) style list where stems and dots keep many options scannable, with a sort control to reorder them.' },
+      { title: 'Survey results with many options', text: 'Show responses cleanly when a bar chart would feel heavy. With less ink per item, twenty categories stay airy and readable.' },
+      { title: 'Rankings and top lists', text: 'Offer a lighter take than a [horizontal bar chart](/ui-snippets/horizontal-bar-chart/), with stems that grow and dots that pop in from zero.' },
+      { title: 'Category comparisons', text: 'Compare values across many labels, where the dot gives a precise read and the thin stem guides the eye along each row.' },
+      { title: 'KPI snapshots', text: 'Place precise dot readings next to a [metric card grid](/ui-snippets/metric-card-grid/), since the stem end and the dot share one percentage position.' },
       { icon: 'CODE', title: 'Related: Sankey Diagram', desc: 'See the [Sankey Diagram](/ui-snippets/sankey-diagram/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

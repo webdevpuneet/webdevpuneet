@@ -207,12 +207,11 @@ Add PMI (private mortgage insurance, typically required below a 20% down payment
       { title: 'Zero dependencies', text: `Pure vanilla JS and SVG, no chart library.` },
     ],
     useCases: [
-      { title: 'Real estate listing sites', text: `Pair with a [property listing card](/ui-snippets/property-listing-card/).` },
-      { title: 'Mortgage lender tools', text: `Give prospects a transparent payment breakdown before applying.` },
-      { title: 'Personal finance apps', text: `Compare against [mortgage calculator](/ui-snippets/mortgage-calculator/).` },
-      { title: 'Home affordability calculators', text: `Show how down payment size changes the monthly split.` },
-      { title: 'First-time buyer education', text: `Demonstrate why interest dominates early payments.` },
-      { title: 'Refinance comparison tools', text: `Toggle rate/term to show the payment impact of refinancing.` },
+      { title: 'Real estate listing sites', text: 'Show buyers the full monthly cost under a [property listing card](/ui-snippets/property-listing-card/), split into principal, interest, taxes and insurance rather than one unexplained number.' },
+      { title: 'Mortgage lender tools', text: 'Give prospects a transparent payment breakdown using the standard fixed-rate formula, so the figures stand up to scrutiny.' },
+      { title: 'First-time buyer education', text: 'Demonstrate why interest dominates early payments: the interest portion is computed from the actual outstanding balance, so the donut makes the proportion obvious.' },
+      { title: 'Home affordability checks', text: 'Let people change the down payment, rate and term and watch the four arcs recompute live, showing how each input shifts the total.' },
+      { title: 'Refinance comparisons', text: 'Toggle rate or term to compare scenarios, and point visitors to the simpler [mortgage calculator](/ui-snippets/mortgage-calculator/) when they only need a single payment figure.' },
       { icon: 'CODE', title: 'Related: Seller Rating Breakdown', desc: 'See the [Seller Rating Breakdown](/ui-snippets/seller-rating-breakdown/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

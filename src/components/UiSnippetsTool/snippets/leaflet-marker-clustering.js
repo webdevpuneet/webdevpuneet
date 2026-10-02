@@ -132,12 +132,11 @@ This scales to real datasets of thousands of points — store locations, sensor 
       { title: 'Free OpenStreetMap tiles', text: `No API key or paid map provider required.` },
     ],
     useCases: [
-      { title: 'Real estate and rental listing maps', text: `Thousands of properties without an unreadable pin smear.` },
-      { title: 'IoT sensor and asset tracking dashboards', text: `Cluster device locations at a fleet-wide zoom level.` },
-      { title: 'Incident and crime mapping tools', text: `Density becomes visually obvious at any zoom.` },
-      { title: 'Delivery and logistics coverage maps', text: `Visualize thousands of stops or drop-off points.` },
-      { title: 'Store locators past a few dozen locations', text: `Pair with the [store locator snippet](/ui-snippets/leaflet-store-locator-search/) elsewhere in this collection once a single-list sidebar stops scaling.` },
-      { title: 'Learning Leaflet plugins', text: `A clear reference for extending Leaflet beyond its core API.` },
+      { title: 'Property and rental maps', text: 'Plot thousands of listings without an unreadable smear of pins. Nearby markers group into colour-coded bubbles that split apart as the visitor zooms in.' },
+      { title: 'IoT sensors and asset tracking', text: 'Cluster thousands of devices on a dashboard so the browser renders far fewer elements, with small, medium and large density tiers styled from the plugin\'s own classes.' },
+      { title: 'Incident and crime mapping', text: 'Let density become visible at a glance: busy areas show up as large clusters, while the visible-count readout updates on every pan and zoom.' },
+      { title: 'Logistics coverage maps', text: 'Visualise thousands of delivery points on one map. At maximum zoom, overlapping markers fan out with spiderfy, so none stay hidden underneath another.' },
+      { title: 'Store locators with many locations', text: 'Beyond a few dozen stores clustering becomes essential. Pair it with the [store locator search](/ui-snippets/leaflet-store-locator-search/) pattern to list the nearest locations as well.' },
     ],
     faqs: [
       { q: 'Why do markers get added to a cluster group instead of the map directly?', a: `The cluster group (L.markerClusterGroup()) is itself a Leaflet layer that manages a whole collection of markers — it decides, based on the current zoom and how close markers are to each other, whether to render a given area as individual pins or one numbered bubble. Adding a marker directly to the map would bypass that logic entirely and just render every marker individually regardless of density, defeating the purpose of clustering.` },

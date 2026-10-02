@@ -503,13 +503,14 @@ const SAVED_PER_PAGE = 9;
 /* — Snippet top ad: AdSense unit (slot 7360198340) above the preview, library snippets.
    The size follows the space actually available above the preview (sidebar and code
    column eat into the viewport, so screen width alone would be wrong):
-     728x90 leaderboard → 468x60 banner (tablet) → 320x50 mobile banner.
+     970x90 large leaderboard → 728x90 leaderboard → 468x60 banner (tablet) → 320x50 mobile.
    Each size is a fixed slot, so nothing shifts while a creative loads. The size is
    picked ONCE per snippet view (the parent keys this by snippet id): later resizes —
    dragging the code column, rotating a tablet — never re-request an ad, because AdSense
    policy forbids refreshing ads without new content or a user action. A new snippet is
    new content, so it gets a fresh request. The adsbygoogle.js loader is site-wide. — */
 const TOP_AD_SIZES = [
+  { w: 970, h: 90 },
   { w: 728, h: 90 },
   { w: 468, h: 60 },
   { w: 320, h: 50 },
@@ -1902,7 +1903,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             </div>
           )}
           {/* AdSense leaderboard (slot 7360198340) at the top of the preview column, above the
-              Preview toolbar — 728x90 / 468x60 / 320x50 by available width, library snippets only.
+              Preview toolbar — 970x90 / 728x90 / 468x60 / 320x50 by available width, library snippets only.
               Collapses when unfilled (.adBar:has(ins[data-ad-status="unfilled"])). */}
           {showEditor && !inMyCode && (
             <div className={s.adBar} aria-label="Advertisement">

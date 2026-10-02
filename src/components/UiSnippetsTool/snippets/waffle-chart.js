@@ -138,12 +138,11 @@ It renders from a \`DATA\` array of \`{ name, value, color }\`; values need not 
       { title: 'Data-driven & no library', text: `Renders from a DATA array in plain HTML/CSS/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Budget and spend allocation', text: `Show how a budget splits across teams — pair with a [treemap](/ui-snippets/treemap/) for nested sizes.` },
-      { title: 'Market and category share', text: `Display share of a whole more intuitively than a pie, alongside a [pie chart](/ui-snippets/pie-chart/).` },
-      { title: 'Time and effort breakdown', text: `Visualise where time goes across activities.` },
-      { title: 'Survey and demographic splits', text: `Show response composition as countable squares.` },
-      { title: 'Progress and completion', text: `A single-colour waffle reads as a percent-complete grid.` },
-      { title: 'Learning apportionment rounding', text: `A reference for the largest-remainder method — compare with a [donut chart](/ui-snippets/donut-chart/).` },
+      { title: 'Budget and spend allocation', text: 'Show how a budget splits across categories as a 10 by 10 grid, where each square represents exactly one percent of the total.' },
+      { title: 'Market and category share', text: 'Display share of a whole more intuitively than a [pie chart](/ui-snippets/pie-chart/), because counting squares is easier than judging angles.' },
+      { title: 'Time and effort breakdown', text: 'Visualise where time goes across projects, with each category filling one continuous run of cells for clear, countable blocks.' },
+      { title: 'Survey and demographic splits', text: 'Show response composition, with largest-remainder rounding guaranteeing that the categories always add up to exactly 100 squares.' },
+      { title: 'Single-colour progress', text: 'Use one colour for a completion figure that reads at a glance, and a [donut chart](/ui-snippets/donut-chart/) when you want a continuous ring instead.' },
     ],
     faqs: [
       { q: 'Why is special rounding needed?', a: `Each category's share rarely converts to a whole number of cells, and naively rounding each one can make the total come out to 99 or 101 instead of 100. The largest-remainder method floors every count, then distributes the leftover cells one at a time to the categories with the largest fractional parts. This guarantees the grid sums to exactly 100 while keeping the rounding as fair as possible.` },

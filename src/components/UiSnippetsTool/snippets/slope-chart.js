@@ -134,12 +134,11 @@ It renders from a \`DATA\` array of \`{ name, before, after, color }\`. Swap in 
       { title: 'Data-driven & no library', text: `Renders from a DATA array in plain HTML/CSS/SVG/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Before-and-after comparisons', text: `Show change between two periods — pair with a [bar chart](/ui-snippets/bar-chart/) for many periods.` },
-      { title: 'Market share and rankings', text: `Visualise share or rank shifts year over year, alongside a [horizontal bar chart](/ui-snippets/horizontal-bar-chart/).` },
-      { title: 'Survey and poll change', text: `Compare responses across two waves.` },
-      { title: 'Price and metric movement', text: `Show how prices or KPIs moved between two dates.` },
-      { title: 'A/B and experiment results', text: `Compare baseline to result across segments.` },
-      { title: 'Learning slopegraph design', text: `A reference for shared-scale before/after lines — compare with a [multi-line chart](/ui-snippets/multi-line-chart/).` },
+      { title: 'Before-and-after comparisons', text: 'Show change between two periods with one line per category, where steepness reads as the size of the change and direction as an increase or decrease.' },
+      { title: 'Market share and ranking shifts', text: 'Visualise share or rank movement between two years, where lines that cross reveal the categories that swapped positions.' },
+      { title: 'Survey and poll waves', text: 'Compare responses across two waves with the name and value labelled at both ends, so every line can be followed without a legend.' },
+      { title: 'Price and KPI movement', text: 'Show how prices or KPIs moved between two dates on one shared scale, so slopes stay honest and comparable across categories.' },
+      { title: 'Experiment results', text: 'Compare a baseline with the result across segments, and reach for a [bar chart](/ui-snippets/bar-chart/) or [multi-line chart](/ui-snippets/multi-line-chart/) when you need more than two time points.' },
     ],
     faqs: [
       { q: 'What is a slope chart good for?', a: `Comparing exactly two points — usually two time periods — across several categories. Each category becomes a line whose slope shows the direction and size of change, and crossings reveal rank swaps. It communicates change more directly than grouped bars (no comparing heights across a gap) or two pies (no tracking slices between them), which is why Tufte popularised it for before/after comparisons.` },

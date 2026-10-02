@@ -157,12 +157,11 @@ Swap the six sample stores for a real dataset (from a CMS, a database, or a JSON
       { title: 'Free OpenStreetMap tiles', text: `No API key or paid map provider required.` },
     ],
     useCases: [
-      { title: 'Retail and restaurant locators', text: `The exact pattern for a "find a location near you" page.` },
-      { title: 'Real estate listing maps', text: `Same list-plus-map sync for property search results.` },
-      { title: 'Service area finders', text: `Repair shops, clinics, or dealership locator pages.` },
-      { title: 'Event venue directories', text: `Sortable-by-distance venue lists with map pins.` },
-      { title: 'Franchise and multi-location sites', text: `Pair with a [dashboard admin panel](/ui-snippets/tag/dashboard-ui/) for location management.` },
-      { title: 'Learning Leaflet', text: `A clear reference for markers, popups, and map events together.` },
+      { title: 'Restaurant and retail locators', text: 'Offer the familiar find-a-store page: a searchable list synced to real map markers and sorted by great-circle distance from wherever the map is currently centred.' },
+      { title: 'Real estate listing maps', text: 'Use the same list-plus-map sync for properties. Clicking a card highlights the right pin, and clicking a pin selects the same card through one shared function.' },
+      { title: 'Clinics, repair shops and dealerships', text: 'Help people find the nearest service point. The nearest results re-sort as the map is panned, so the list always matches what is on screen.' },
+      { title: 'Event venue directories', text: 'List venues by distance and search by name or address. Filtering pauses the distance re-sort while a search term is active, so results do not jump around.' },
+      { title: 'Learning Haversine distance', text: 'See the great-circle formula used for real distance sorting, instead of an approximate flat-map shortcut that gives the wrong order at longer ranges.' },
       { icon: 'CODE', title: 'Related: Leaflet Marker Clustering at Scale', desc: 'See the Leaflet Marker Clustering snippet elsewhere in this collection for the pattern that replaces this one past a few dozen locations.' },
     ],
     faqs: [

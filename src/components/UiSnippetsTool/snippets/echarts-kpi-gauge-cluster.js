@@ -136,12 +136,11 @@ Swap CPU/memory/uptime for any three percentage-based KPIs — SLA compliance, q
       { title: 'Responsive canvas', text: `ResizeObserver keeps gauges sized to their container.` },
     ],
     useCases: [
-      { title: 'Ops and infra dashboards', text: `CPU, memory, disk, and network at a glance.` },
-      { title: 'SLA and uptime pages', text: `Status-page-style speedometers for public dashboards.` },
-      { title: 'SaaS usage panels', text: `Quota consumption gauges next to a [stat tiles](/ui-snippets/echarts-stacked-area-traffic/) row.` },
-      { title: 'Health scorecards', text: `Team or account health metrics as a glanceable cluster.` },
-      { title: 'Executive summary screens', text: `Pair with a [revenue line chart](/ui-snippets/echarts-revenue-line-zoom-brush/) for a fuller dashboard.` },
-      { title: 'Learning ECharts gauges', text: `A clear reference for multi-gauge layout and live updates.` },
+      { title: 'Ops and infrastructure dashboards', text: 'Show CPU, memory and uptime as three speedometer gauges hosted in a single ECharts instance, updating every few seconds.' },
+      { title: 'SLA and uptime pages', text: 'Publish status-page style speedometers for public metrics, using `valueAnimation` so numbers roll to new readings instead of jump-cutting.' },
+      { title: 'SaaS usage panels', text: 'Show quota consumption as gauges beside a headline stat, with custom start and end angles sweeping the bottom three quarters of the circle.' },
+      { title: 'Account health scorecards', text: 'Summarise team or account health as a glanceable cluster. Each gauge is independent, and `setOption` animates only the data that changed.' },
+      { title: 'Executive summary screens', text: 'Pair with an [ECharts stacked area traffic breakdown](/ui-snippets/echarts-stacked-area-traffic/) to give leaders both the headline gauges and the detail behind them.' },
       { icon: 'CODE', title: 'Related: ECharts Live-Updating Realtime Chart', desc: 'See the [ECharts Live-Updating Realtime Chart](/ui-snippets/echarts-live-realtime-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

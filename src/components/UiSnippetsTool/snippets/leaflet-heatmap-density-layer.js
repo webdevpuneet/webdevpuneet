@@ -130,12 +130,11 @@ Swap the generated hotspot points for real event data — check-ins, sensor ping
       { title: 'Free OpenStreetMap tiles', text: `No API key or paid map provider required.` },
     ],
     useCases: [
-      { title: 'Foot traffic and retail analytics', text: `Visualize where customers actually concentrate.` },
-      { title: 'Crime and safety density maps', text: `Incident concentration by neighborhood or block.` },
-      { title: 'Delivery and logistics hotspot analysis', text: `Where drop-offs or pickups cluster most.` },
-      { title: 'Event attendance and crowd density', text: `Real-time or historical crowd concentration views.` },
-      { title: 'Environmental sensor readings', text: `Pair with the [GeoJSON choropleth](/ui-snippets/leaflet-geojson-choropleth/) elsewhere in this collection for a region-level companion view.` },
-      { title: 'Learning Leaflet plugins', text: `A clear reference for weighted density visualization.` },
+      { title: 'Foot traffic and retail analytics', text: 'Visualise where customers gather in a mall or on a high street. Each point contributes its own weight, so busy spots glow brighter than quiet ones.' },
+      { title: 'Crime and safety density maps', text: 'Show how incidents concentrate by neighbourhood, with adjustable radius and blur through `setOptions` so you can tune how smooth the picture is.' },
+      { title: 'Delivery and logistics hotspots', text: 'Find where drop-offs cluster to plan depots and routes, and flip the raw-points overlay to check that the heat really reflects the data.' },
+      { title: 'Event attendance and crowd density', text: 'Show real-time or historical crowd concentration at a festival or stadium without drawing thousands of individual markers, and tune the radius for a smoother or sharper picture.' },
+      { title: 'Environmental sensor readings', text: 'Pair with the [GeoJSON choropleth](/ui-snippets/leaflet-geojson-choropleth/) to show sensor density on top of regional statistics, so both detail and area totals appear on one map.' },
     ],
     faqs: [
       { q: 'What does the third number in each heatmap point represent?', a: `leaflet.heat expects points in the form [latitude, longitude, intensity], where the third value is that specific point's weight or contribution to the overall heat surface. Two points at similar locations but different weights will contribute different amounts of "heat" — this is what lets a heatmap represent genuine relative intensity rather than treating every point as equally significant.` },

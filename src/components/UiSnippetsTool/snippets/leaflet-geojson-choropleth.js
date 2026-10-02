@@ -140,12 +140,11 @@ Swap the simplified six-region \`REGIONS\` object for a real GeoJSON file (US st
       { title: 'Self-contained sample data', text: `A simplified GeoJSON so the demo needs no external file.` },
     ],
     useCases: [
-      { title: 'Regional sales and revenue dashboards', text: `Exactly this pattern with real states/territories.` },
-      { title: 'Election and demographic maps', text: `Vote share or population density by district.` },
-      { title: 'Public health and epidemiology visualizations', text: `Case counts or rates by region.` },
-      { title: 'Real estate market heat maps', text: `Median price or inventory by neighborhood.` },
-      { title: 'Environmental and climate data maps', text: `Pair with the [heatmap density layer](/ui-snippets/leaflet-heatmap-density-layer/) elsewhere in this collection for a point-based companion view.` },
-      { title: 'Learning Leaflet GeoJSON', text: `A clear reference for per-feature styling and events.` },
+      { title: 'Regional sales dashboards', text: 'Colour real GeoJSON regions by sales with a threshold scale, so the colour bands reflect absolute value rather than relative rank.' },
+      { title: 'Election and demographic maps', text: 'Show vote share or population density by region, with a cursor-following tooltip positioned through real map-to-pixel conversion.' },
+      { title: 'Public health visualisations', text: 'Display case counts by region, with click-to-zoom into any area and hover highlights using Leaflet\'s own style and event API.' },
+      { title: 'Real estate market maps', text: 'Show median price or inventory by area on true boundaries rather than on approximated circles or squares.' },
+      { title: 'Environmental and climate data', text: 'Combine with the [Leaflet heatmap density layer](/ui-snippets/leaflet-heatmap-density-layer/) so regional totals and point-level detail can share one map.' },
     ],
     faqs: [
       { q: 'Why does the color scale use fixed thresholds instead of ranking the regions?', a: `colorFor buckets each region against fixed dollar amounts ($90k, $70k, $50k, $30k), so a region's color reflects its actual absolute sales figure. A rank-based scheme (coloring the top N regions one way, the rest another) would make every region's color dependent on how the others happen to perform — adding or removing a region would silently recolor ones that didn't actually change.` },

@@ -114,12 +114,11 @@ Swap either tile layer's URL for any other XYZ tile source — a different date'
       { title: 'Standard Leaflet map underneath', text: `Pan, zoom, and attribution all work normally.` },
     ],
     useCases: [
-      { title: 'Before/after satellite or aerial imagery', text: `Compare historical and current imagery directly.` },
-      { title: 'Urban planning and development visualization', text: `Show proposed versus existing conditions.` },
-      { title: 'Climate and environmental change comparisons', text: `Two dates of the same region side by side.` },
-      { title: 'Different basemap style comparisons', text: `Topographic versus street map, or two vendors' tiles.` },
-      { title: 'Construction or disaster-impact documentation', text: `Pair with the [GeoJSON choropleth](/ui-snippets/leaflet-geojson-choropleth/) elsewhere in this collection for a data-layer companion.` },
-      { title: 'Learning CSS clip-path techniques', text: `A clear, non-map-specific reference for compositor-based reveals.` },
+      { title: 'Before and after imagery', text: 'Compare historic and current aerial imagery of the same place with a draggable divider. Because clipping uses CSS `clip-path`, both layers stay perfectly aligned while you swipe.' },
+      { title: 'Urban planning proposals', text: 'Show a proposed development against the existing streetscape, and pair it with a [GeoJSON choropleth](/ui-snippets/leaflet-geojson-choropleth/) to show data beside the imagery. The range input is accessible by keyboard.' },
+      { title: 'Climate and environmental change', text: 'Place two dates of the same dataset side by side to show coastline retreat, deforestation or snow cover, and let readers decide where to look.' },
+      { title: 'Basemap style comparison', text: 'Compare a street map with a topographic one before choosing a style for your product, without adding a swipe plugin dependency to your bundle.' },
+      { title: 'A map-free clip-path lesson', text: 'Even outside maps it is a clear example of a `clip-path` compare slider: percentage-based, resize-safe and cheap to redraw because it avoids per-frame layout work in JavaScript.' },
     ],
     faqs: [
       { q: 'How does the divider actually reveal one layer versus the other?', a: `Both tile layers are stacked on the same map, with the "after" layer rendered on top. A CSS clip-path with an inset() value is applied to the after layer's DOM container, clipping away everything to the left of the divider's percentage position — so only the region to the right of the handle actually gets painted from that top layer, letting the layer underneath show through everywhere to the left.` },

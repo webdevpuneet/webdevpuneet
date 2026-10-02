@@ -119,12 +119,11 @@ The centre text always shows the real value, so the meaning survives even if the
       { title: 'No library', text: `Pure HTML/CSS/JS/SVG — no chart dependency.` },
     ],
     useCases: [
-      { title: 'Profile completion', text: `Show setup progress like a [profile completion](/ui-snippets/profile-completion/) widget.` },
-      { title: 'Storage and quota', text: `Visualize usage next to a [quota usage meter](/ui-snippets/quota-usage-meter/).` },
-      { title: 'Goals and targets', text: `Track a goal in a [metric card grid](/ui-snippets/metric-card-grid/).` },
-      { title: 'Scores and ratings', text: `Display a score with status color.` },
-      { title: 'Onboarding checklists', text: `Mirror progress from an [onboarding checklist](/ui-snippets/onboarding-checklist-widget/).` },
-      { title: 'Learning SVG rings', text: `A reference for ring sweep and synced counting.` },
+      { title: 'Profile completion', text: 'Show setup progress like a [profile completion](/ui-snippets/profile-completion/) prompt, with the ring sweeping to the percentage as the number counts up.' },
+      { title: 'Storage and quota usage', text: 'Visualise usage next to a [quota usage meter](/ui-snippets/quota-usage-meter/), with the colour shifting from green to amber to red as the value climbs.' },
+      { title: 'Goals and targets', text: 'Track a goal on a [metric card grid](/ui-snippets/metric-card-grid/), where the colour thresholds encode status without any extra labels.' },
+      { title: 'Scores and ratings', text: 'Display a test score or rating with a status colour, and change the radius freely because the circumference is computed as 2πr in JavaScript.' },
+      { title: 'Onboarding checklists', text: 'Mirror progress from an [onboarding checklist widget](/ui-snippets/onboarding-checklist-widget/) so completing a step visibly advances the ring and the number counts up to the new percentage.' },
       { icon: 'CODE', title: 'Related: Marimekko (Mekko) Chart — Proportional Stacked Segments', desc: 'See the [Marimekko (Mekko) Chart — Proportional Stacked Segments](/ui-snippets/marimekko-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

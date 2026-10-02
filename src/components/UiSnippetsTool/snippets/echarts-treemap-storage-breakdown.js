@@ -162,12 +162,11 @@ Swap the storage categories for any hierarchical size data — folder sizes, bud
       { title: 'Responsive canvas', text: `ResizeObserver keeps the treemap sized to its container.` },
     ],
     useCases: [
-      { title: 'Storage and disk usage screens', text: `Photos, videos, documents, apps — exactly this pattern.` },
-      { title: 'Budget and cost breakdowns', text: `Departments drilling into line items.` },
-      { title: 'Org chart headcount views', text: `Company to department to team sizing.` },
-      { title: 'Portfolio allocation dashboards', text: `Asset class down to individual holdings.` },
-      { title: 'File explorer visualizations', text: `Pair with a [data table](/ui-snippets/echarts-candlestick-volume-panel/) for a list-plus-map view.` },
-      { title: 'Learning ECharts', text: `A clear reference for treemap drill-down without a framework.` },
+      { title: 'Storage and disk usage screens', text: 'Show photos, videos, documents and apps as boxes sized by the space they use, and let people click a category to see what is inside it.' },
+      { title: 'Budget and cost breakdowns', text: 'Let departments drill down into line items. Box area encodes value directly, so large costs are obvious without reading an axis.' },
+      { title: 'Headcount and org views', text: 'Go from company to department to team, with `leafDepth` keeping each view to the current root\'s direct children so the screen stays uncluttered.' },
+      { title: 'Portfolio allocation dashboards', text: 'Drill from asset class down to individual holdings, with a back button that resets the root through `dispatchAction` instead of re-rendering the chart.' },
+      { title: 'Learning ECharts treemaps', text: 'Study how `nodeClick: \'zoomToNode\'` handles the whole zoom interaction, and why a treemap beats pie and bar charts once categories nest.' },
       { icon: 'CODE', title: 'Related: ECharts Calendar Heatmap', desc: 'See the [ECharts Calendar Heatmap](/ui-snippets/echarts-calendar-heatmap/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

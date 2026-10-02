@@ -145,12 +145,11 @@ The chart takes parallel \`LOW\` and \`HIGH\` arrays and an axis labels array, s
       { title: 'No library', text: `Pure HTML/CSS/JS/SVG — no chart dependency.` },
     ],
     useCases: [
-      { title: 'Weather forecasts', text: `Daily high/low bands like a [weather forecast](/ui-snippets/weather-forecast/).` },
-      { title: 'Price ranges', text: `Show daily high–low next to a [candlestick chart](/ui-snippets/candlestick-chart/).` },
-      { title: 'Confidence intervals', text: `Plot uncertainty around a forecast line.` },
-      { title: 'Best/worst case', text: `Visualize scenario spreads in projections.` },
-      { title: 'Performance envelopes', text: `Min/max latency or load over time.` },
-      { title: 'Learning SVG areas', text: `A reference for band paths and hover readouts.` },
+      { title: 'Weather forecasts', text: 'Show daily high and low temperatures as a band with an average line, the way a [weather forecast](/ui-snippets/weather-forecast/) widget would summarise the week.' },
+      { title: 'Daily price ranges', text: 'Show each day\'s high-to-low price range next to a [candlestick chart](/ui-snippets/candlestick-chart/), with a warm-to-cool gradient marking highs versus lows.' },
+      { title: 'Forecast confidence intervals', text: 'Plot uncertainty around a forecast line so decision-makers see the spread of likely outcomes and not just one confident number.' },
+      { title: 'Best and worst case projections', text: 'Visualise scenario spreads for revenue or cost projections, with edge lines keeping each boundary legible and the average line showing the midpoint trend.' },
+      { title: 'Performance envelopes', text: 'Show minimum and maximum latency or load over time, so a widening band signals instability before the average moves.' },
       { icon: 'CODE', title: 'Related: Sunburst Chart', desc: 'See the [Sunburst Chart](/ui-snippets/sunburst-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

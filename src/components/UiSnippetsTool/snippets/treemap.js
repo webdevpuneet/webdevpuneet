@@ -140,12 +140,11 @@ Feed it any array of \`{ name, value, color }\` and it packs them by area. Becau
       { title: 'Data-driven & no library', text: `Packs and draws from a DATA array in plain HTML/CSS/JS — zero dependencies.` },
     ],
     useCases: [
-      { title: 'Disk and storage usage', text: `Visualise folder or file sizes — pair with a [pie chart](/ui-snippets/pie-chart/) for a simpler share view.` },
-      { title: 'Budget and spend composition', text: `Show where money goes by area alongside a [bar chart](/ui-snippets/bar-chart/) for ranking.` },
-      { title: 'Portfolio and asset allocation', text: `Map holdings by weight, complementing a [donut chart](/ui-snippets/donut-chart/).` },
-      { title: 'Codebase and bundle analysis', text: `Show module or package sizes like a bundle analyzer.` },
-      { title: 'Category and inventory breakdowns', text: `Compare many categories where space efficiency matters.` },
-      { title: 'Learning treemap layout', text: `A reference for recursive slice-and-dice packing — compare with a [bubble chart](/ui-snippets/bubble-chart/).` },
+      { title: 'Disk and storage usage', text: 'Visualise folder or file sizes as tiles whose area is proportional to size, with labels shown only on tiles large enough to hold them.' },
+      { title: 'Budget and spend composition', text: 'Show where money goes by area, with near-square tiles from alternating split direction so small categories stay legible.' },
+      { title: 'Portfolio and asset allocation', text: 'Map holdings by weight, and compare with a [pie chart](/ui-snippets/pie-chart/) when you only have a few categories to show.' },
+      { title: 'Codebase and bundle analysis', text: 'Show module or package sizes, where hovering any tile reveals its details even when its label is hidden for being too small.' },
+      { title: 'Category and inventory breakdowns', text: 'Compare many categories at once in a fixed rectangle, where a [bar chart](/ui-snippets/bar-chart/) would need scrolling.' },
     ],
     faqs: [
       { q: 'How does a treemap decide each tile size?', a: `Value is encoded as area. The layout recursively splits the items into two groups with as-balanced-as-possible value sums, divides the rectangle between them in proportion to those sums, and recurses — alternating horizontal and vertical splits depending on which side of the rectangle is longer. Each leaf item ends up with an {x, y, w, h} whose area is proportional to its value, filling the container with no gaps.` },

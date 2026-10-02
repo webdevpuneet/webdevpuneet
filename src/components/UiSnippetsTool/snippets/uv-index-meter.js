@@ -164,12 +164,11 @@ Each band carries real short-form WHO/EPA guidance — from "minimal danger" and
       { title: 'Zero dependencies', text: `Pure CSS/DOM, no charting library.` },
     ],
     useCases: [
-      { title: 'Weather apps', text: `Pair with a [weather widget](/ui-snippets/weather-widget/).` },
-      { title: 'Outdoor activity planners', text: `Advise hikers, runners, or beachgoers before heading out.` },
-      { title: 'Skin health/dermatology apps', text: `Show real-time sun-exposure risk and advice.` },
-      { title: 'Parks/recreation dashboards', text: `Public-facing UV conditions for a facility.` },
-      { title: 'Travel apps', text: `Combine with [weather forecast](/ui-snippets/weather-forecast/) for a destination brief.` },
-      { title: 'Sunscreen/wellness product pages', text: `Contextualize protection level recommendations.` },
+      { title: 'Weather apps', text: 'Add a UV tile beside a [weather widget](/ui-snippets/weather-widget/), using the real WHO and EPA bands (boundaries at 2, 5, 7 and 10) with their official colours.' },
+      { title: 'Outdoor activity planners', text: 'Advise hikers, runners and beach-goers when to cover up. Each band shows its own sun-safety advice, so the number comes with a recommendation.' },
+      { title: 'Skin health and dermatology apps', text: 'Show real-time sun exposure risk with the correct category from Low to Extreme, and use the presets to demonstrate what each level means.' },
+      { title: 'Park and recreation dashboards', text: 'Publish current UV conditions for visitors on a public-facing display, with the marker tick pointing at the exact value using a springy animation.' },
+      { title: 'Travel and holiday planning', text: 'Combine with a [weather forecast](/ui-snippets/weather-forecast/) so travellers see the UV risk for their destination alongside temperature and rain.' },
     ],
     faqs: [
       { q: 'Are the UV Index bands in this meter accurate?', a: `Yes. The BANDS table matches the World Health Organization's Global Solar UV Index scale, also used in US EPA UV Index reporting: Low 0-2, Moderate 3-5, High 6-7, Very High 8-10, and Extreme 11 and above, with the standard green/yellow/orange/red/purple color coding used across weather services worldwide.` },

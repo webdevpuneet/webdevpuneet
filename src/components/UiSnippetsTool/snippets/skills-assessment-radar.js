@@ -169,12 +169,11 @@ Change \`axisCount\` by adding or removing entries in \`axes\`, adjust \`maxValu
       { title: 'Zero dependencies', text: `Pure SVG built with vanilla JavaScript.` },
     ],
     useCases: [
-      { title: 'Hiring assessments', text: `Pair with a [quiz result breakdown](/ui-snippets/quiz-result-breakdown/).` },
-      { title: 'Performance reviews', text: `Plot competencies against a role benchmark.` },
-      { title: 'Candidate scorecards', text: `Combine with a [candidate pipeline kanban](/ui-snippets/candidate-pipeline-kanban/).` },
-      { title: 'Player/character stats', text: `Reuse for game attribute comparisons.` },
-      { title: 'Product comparisons', text: `Plot feature scores across competitors.` },
-      { title: 'Self-assessment surveys', text: `Visualize survey results across dimensions.` },
+      { title: 'Hiring assessments', text: 'Plot a candidate\'s communication, technical and leadership scores as a polygon, then follow it with a [quiz result breakdown](/ui-snippets/quiz-result-breakdown/) for the detail behind each axis.' },
+      { title: 'Performance reviews', text: 'Plot competencies against a role benchmark. The second polygon on the same axes makes gaps and strengths visible at a glance.' },
+      { title: 'Candidate scorecards', text: 'Show a profile on each card in a [candidate pipeline kanban](/ui-snippets/candidate-pipeline-kanban/), so reviewers compare shapes instead of reading lists of scores.' },
+      { title: 'Game character stats', text: 'Reuse the chart for attribute comparisons between characters or classes, with any number of axes spaced evenly using `2π / axisCount`.' },
+      { title: 'Learning SVG polar maths', text: 'See how every point is computed with real trigonometry (`pointFor`) instead of hard-coded coordinates, with no charting library in the bundle.' },
       { icon: 'CODE', title: 'Related: Waffle Chart', desc: 'See the [Waffle Chart](/ui-snippets/waffle-chart/) for a related charts pattern worth pairing with this one.' },
     ],
     faqs: [

@@ -125,12 +125,11 @@ Tasks are \`{ name, start, end, color }\` over an integer day range, so swapping
       { title: 'No library', text: `Pure HTML/CSS/JS — no Gantt dependency.` },
     ],
     useCases: [
-      { title: 'Project schedules', text: `Plan phases like a lightweight [gantt table](/ui-snippets/gantt-table/).` },
-      { title: 'Product roadmaps', text: `Lay out initiatives over time beside a [product roadmap](/ui-snippets/product-roadmap/).` },
-      { title: 'Campaign planning', text: `Show overlapping marketing activities.` },
-      { title: 'Release timelines', text: `Track milestones toward a launch.` },
-      { title: 'Resource scheduling', text: `Allocate work across a period.` },
-      { title: 'Learning time scales', text: `A reference for mapping dates to positions.` },
+      { title: 'Lightweight project schedules', text: 'Plan phases as bars on one shared time axis, a quick alternative to a full [gantt table](/ui-snippets/gantt-table/) when you only need to see overlaps and the red today line.' },
+      { title: 'Product roadmaps', text: 'Lay out initiatives over a half-year beside a [product roadmap](/ui-snippets/product-roadmap/) view, with each bar\'s position and width derived from start and end percentages.' },
+      { title: 'Marketing campaign planning', text: 'Show overlapping campaigns across channels so planners can spot crowded weeks. Gridlines and a scale make start and end dates easy to read without hovering.' },
+      { title: 'Release milestones', text: 'Track the run-up to a launch with duration bars for build, testing and rollout, and a today marker showing how far along the team really is.' },
+      { title: 'Learning date-to-position mapping', text: 'Use it to understand how dates map to percentages along an axis, the same idea behind every schedule view, calendar strip and time-based visualisation.' },
     ],
     faqs: [
       { q: 'How are bars positioned on the time axis?', a: `Each task's start and end are mapped to percentages across the chart's time range with (value − min) / (max − min). The bar's left is the start percentage and its width is the end minus start percentage. Because every row uses the same mapping, all bars align under one shared axis, which is what lets you read overlaps and sequencing vertically.` },
