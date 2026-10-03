@@ -421,9 +421,9 @@ function FreelancerGroup({ activeSlug, open, onToggle }) {
   }, [open]);
 
   return (
-    <div className={styles.playgroundsGroup}>
+    <div className={styles.group}>
       <button
-        className={`${styles.playgroundsHeader} ${open ? styles.groupOpen : ''}`}
+        className={`${styles.groupHeader} ${open ? styles.groupOpen : ''}`}
         onClick={onToggle}
         aria-expanded={open}
       >
@@ -433,7 +433,7 @@ function FreelancerGroup({ activeSlug, open, onToggle }) {
           </svg>
         </span>
         <span className={styles.groupLabel}>Freelance</span>
-        <span className={`${styles.groupCount} ${styles.playgroundsCount}`}>{FREELANCER_TOOLS_SIDEBAR.length}</span>
+        <span className={styles.groupCount}>{FREELANCER_TOOLS_SIDEBAR.length}</span>
         <svg className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`}
           width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true"
         >
@@ -467,7 +467,7 @@ function FreelancerGroup({ activeSlug, open, onToggle }) {
 /* ─────────────────────────────────────────────────────────────
    CategoryGroup
 ───────────────────────────────────────────────────────────── */
-function CategoryGroup({ category, open, onToggle, activeSlug, query }) {
+function CategoryGroup({ category, open, onToggle, activeSlug, query, green = false }) {
   const bodyRef = useRef(null);
   const [everOpened, setEverOpened] = useState(false);
 
@@ -486,9 +486,9 @@ function CategoryGroup({ category, open, onToggle, activeSlug, query }) {
   }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className={styles.group}>
+    <div className={green ? styles.playgroundsGroup : styles.group}>
       <button
-        className={`${styles.groupHeader} ${open ? styles.groupOpen : ''}`}
+        className={`${green ? styles.playgroundsHeader : styles.groupHeader} ${open ? styles.groupOpen : ''}`}
         onClick={onToggle}
         aria-expanded={open}
       >
@@ -1366,7 +1366,7 @@ export default function Sidebar() {
   const [query, setQuery] = useState('');
   const [openIds, setOpenIds] = useState(() => new Set());
   const [favourites, setFavourites] = useState([]);
-  const [uiSnippetsOpen,   setUiSnippetsOpen]   = useState(true);
+  const [uiSnippetsOpen,   setUiSnippetsOpen]   = useState(false);
   const [playgroundsOpen,  setPlaygroundsOpen]  = useState(true);
   const [freelancerOpen,   setFreelancerOpen]   = useState(false);
   const [mobileOpen, setMobileOpen]   = useState(false);
@@ -1716,6 +1716,18 @@ export default function Sidebar() {
                     open={playgroundsOpen}
                     onToggle={() => setPlaygroundsOpen(v => !v)}
                   />
+                  {CATEGORIES.filter(cat => cat.id === 'css').map(cat => (
+                    <div key={cat.id} className={styles.categories}>
+                      <CategoryGroup
+                        green
+                        category={cat}
+                        open={openIds.has(cat.id)}
+                        onToggle={() => toggleCategory(cat.id)}
+                        activeSlug={activeSlug}
+                        query=""
+                      />
+                    </div>
+                  ))}
                   {FREELANCER_TOOLS_SIDEBAR.length > 0 && (
                     <FreelancerGroup
                       activeSlug={activeSlug}
@@ -1724,7 +1736,7 @@ export default function Sidebar() {
                     />
                   )}
                   <div className={styles.categories}>
-                    {CATEGORIES.map(cat => (
+                    {CATEGORIES.filter(cat => cat.id !== 'css').map(cat => (
                       <CategoryGroup
                         key={cat.id}
                         category={cat}
