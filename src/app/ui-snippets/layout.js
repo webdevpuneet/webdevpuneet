@@ -122,8 +122,9 @@ function UiSnippetsToolSection() {
 export default function UiSnippetsLayout({ children }) {
   const pathname = usePathname();
 
-  // Playground top nav on the gallery, categories, tags and My Code — but not on an
-  // individual snippet page, where the editor gets the full screen. Embeds return early below.
+  // Playground top nav on every UI Snippets page — gallery, categories, tags, snippet
+  // pages and My Code (grid and editor). Embeds return early below and get none.
+  // Snippet pages (the editor) have no top nav; the other UI Snippets pages keep it.
   const slugPart = pathname.split('/').filter(Boolean)[1] || null;
   const isSnippetPage = !!slugPart && slugPart !== 'mycode' && !isGalleryRoute(pathname);
   const showNav = !isSnippetPage;
@@ -150,14 +151,16 @@ export default function UiSnippetsLayout({ children }) {
   // Render only the embed page's own content (preview + canonical-URL link).
   if (isEmbedRoute(pathname)) return <>{children}</>;
 
+  // No nav on a snippet page: never carry a stale measurement over from the previous page.
+  const effNavH = showNav ? navH : 0;
   const isGallery = isGalleryRoute(pathname);
 
   return (
-    <div className={styles.page} style={{ '--pnav-h': `${navH}px` }}>
+    <div className={styles.page} style={{ '--pnav-h': `${effNavH}px` }}>
       {showNav && <div ref={navRef}><PlaygroundTopNav active="ui-snippets" /></div>}
       <div
-        className={`${styles.toolSection} ${isGallery ? styles.toolSectionGallery : ''}`}
-        style={isGallery ? undefined : { height: `calc(100dvh - ${navH}px)` }}
+        className={`${styles.toolSection} ${isGallery ? styles.toolSectionGallery : styles.toolSectionEditor}`}
+        style={isGallery ? undefined : { height: `calc(100dvh - ${effNavH}px)` }}
       >
         <Suspense fallback={null}>
           <UiSnippetsToolSection />
