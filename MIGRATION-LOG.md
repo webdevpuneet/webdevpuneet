@@ -538,3 +538,12 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 - `Related:` link cards were preserved; the original file shape (`text` vs `desc`+`icon`) was kept.
 - Re-audit after the rewrite: GOOD 1,678, OK 385, THIN 0, WEAK 0. All 2,063 snippets still load.
 - Changes are uncommitted in `src/components/UiSnippetsTool/snippets/*.js`. Not yet deployed (the earlier deploy included the first 82).
+
+## 2026-10-03 — SVG Animation, SVG Motion Studio, Font Pairing, Responsive Preview, CSS↔Tailwind copied in (301 from fwdtools)
+
+- **webdevpuneet:** copied the pages and components for `svg-animation-generator`, `svg-motion-studio`, `font-pairing-tool`,
+  `responsive-preview-tool`, `css-to-tailwind` and `tailwind-to-css`, plus icons and OG images. Canonical, OG and siteName
+  are rebranded; links to tools that stay on fwdtools are absolute.
+- Registered in `tools-registry.js` as category `css`, added to the `/css-tools/` hub `toolSlugs`; CssToolsTopNav already lists them.
+- Sidebar JSON re-synced with `sync-fwdtools-sidebar.mjs`.
+- **fwdtools:** slugs added to `moved-to-webdevpuneet.js` and the `.htaccess` 301 rule.

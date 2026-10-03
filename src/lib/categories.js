@@ -166,6 +166,10 @@ Watching a tutorial is passive. Writing code is active. These playgrounds keep y
       'mesh-gradient-generator', 'css-clip-path-generator', 'css-loader-generator',
       'css-transform-generator', 'css-filter-generator',
       'css-easing-generator', 'css-shape-generator', 'toggle-switch-generator',
+      // SVG, typography and responsive
+      'svg-animation-generator', 'svg-motion-studio', 'font-pairing-tool', 'responsive-preview-tool',
+      'css-to-tailwind', 'tailwind-to-css',
+      'css-to-tailwind', 'tailwind-to-css',
     ],
     related: ['design-tools', 'developer-tools'],
     about: `Writing CSS by hand is slow — especially when iterating on shadow layers, gradient stops, animation timing functions, or grid template areas. These free CSS generators let you adjust visual controls, see a live preview, and copy production-ready CSS — or export to Tailwind, SCSS, or React inline styles — in seconds.

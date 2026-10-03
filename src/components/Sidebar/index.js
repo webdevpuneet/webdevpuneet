@@ -1367,7 +1367,7 @@ export default function Sidebar() {
   const [openIds, setOpenIds] = useState(() => new Set());
   const [favourites, setFavourites] = useState([]);
   const [uiSnippetsOpen,   setUiSnippetsOpen]   = useState(false);
-  const [playgroundsOpen,  setPlaygroundsOpen]  = useState(true);
+  const [playgroundsOpen,  setPlaygroundsOpen]  = useState(false);
   const [freelancerOpen,   setFreelancerOpen]   = useState(false);
   const [mobileOpen, setMobileOpen]   = useState(false);
   const [expanded, setExpanded] = useState(false);
