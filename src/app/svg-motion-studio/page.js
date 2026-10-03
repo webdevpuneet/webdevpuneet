@@ -214,7 +214,7 @@ The tool is built around the problem that most SVG animation workflows are eithe
   },
 
   features: [
-    'Multi-project library — create, name, rename, and delete unlimited projects from the header project picker; switch between them instantly with auto-load; source ready-made icons from the [animated SVG icons library](https://fwdtools.com/animated-svg-icons/)',
+    'Multi-project library — create, name, rename, and delete unlimited projects from the header project picker; switch between them instantly with auto-load; source ready-made icons from the [animated SVG icons library](/animated-svg-icons/)',
     'IndexedDB storage — projects persist reliably across sessions; deleted projects stored as tombstones for 30 days so deletes propagate to all devices via Gist',
     'Multi-track timeline — all layers visible as rows with a shared playhead; drag keyframe diamonds to retime, hold Shift to snap to 5% grid — a level up from the preset-based [SVG animation generator](/svg-animation-generator)',
     'Drag-and-drop layer reorder via handle — affects stagger timing order across all export formats, including GSAP timelines you can refine in the [GSAP playground](/gsap-playground)',

@@ -43,7 +43,7 @@ const seoData = {
     'Arbitrary value fallbacks for any value outside Tailwind\'s default scale — w-[420px], text-[#3b82f6], gap-[18px], etc.',
     'Parses full CSS rules with selectors (e.g. .card { ... }) and outputs selector as a comment above the class list',
     '@media query detection — nested declarations are processed and output with the media context annotated',
-    'Three output formats: Classes (plain string), HTML (div with class=""), JSX (div with className=""); convert JSX further with our [HTML to JSX Converter](https://fwdtools.com/html-to-jsx-converter/)',
+    'Three output formats: Classes (plain string), HTML (div with class=""), JSX (div with className=""); convert JSX further with our [HTML to JSX Converter](/html-to-jsx-converter/)',
     'CSS syntax highlighting in the input panel — selectors, properties, values, and at-rules all highlighted',
     'Tailwind output highlighting — arbitrary value classes highlighted in amber to distinguish from standard utilities',
     'Live conversion — output updates as you type with no delay',
@@ -86,7 +86,7 @@ const seoData = {
     {
       icon: '⇢',
       title: 'Migrate a component from CSS Modules or SCSS to Tailwind',
-      desc: 'Paste each CSS rule block, take the Classes output, and add it to the JSX className. The mechanical conversion is automated — only the amber-highlighted arbitrary values need decisions about whether to normalize to your design scale. Sort the resulting classes with our [Tailwind Formatter](https://fwdtools.com/tailwind-formatter/) to keep them consistent.',
+      desc: 'Paste each CSS rule block, take the Classes output, and add it to the JSX className. The mechanical conversion is automated — only the amber-highlighted arbitrary values need decisions about whether to normalize to your design scale. Sort the resulting classes with our [Tailwind Formatter](/tailwind-formatter/) to keep them consistent.',
     },
     {
       icon: '⚡',

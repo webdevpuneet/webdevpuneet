@@ -150,7 +150,7 @@ Exports cover the three ways people actually drop waves into a project: raw \`<s
         'Decorative export toggle adds aria-hidden="true" automatically (on by default) so screen readers skip the divider',
         'Undo/redo with Ctrl+Z / Ctrl+Shift+Z (up to 60 steps) and a Share button that copies a URL encoding your exact design',
         'Randomize button shuffles phase, amplitude, wave count, and smoothness for instant organic variations',
-        'Export to SVG markup, a CSS data-URI background, or a React component; convert raster art to vectors with our [Image to SVG](https://fwdtools.com/image-to-svg/) tool',
+        'Export to SVG markup, a CSS data-URI background, or a React component; convert raster art to vectors with our [Image to SVG](/image-to-svg/) tool',
       ],
     },
 

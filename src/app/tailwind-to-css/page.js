@@ -43,7 +43,7 @@ const seoData = {
     'Arbitrary value support — w-[420px], bg-[#3b82f6], p-[1.5rem], gap-[18px], translate-x-[calc(...)] all handled',
     'Responsive breakpoints — sm: md: lg: xl: 2xl: converted to correct @media (min-width: ...) rule blocks',
     'State variants — hover:, focus:, active:, disabled:, dark:, placeholder:, group-hover:, peer-focus: and more converted to proper CSS selectors and media rules',
-    'HTML and JSX snippet input — paste a full component with class="..." or className="..." and the tool extracts and converts all classes automatically; use our [HTML Formatter](https://fwdtools.com/html-formatter/) to clean up the markup first',
+    'HTML and JSX snippet input — paste a full component with class="..." or className="..." and the tool extracts and converts all classes automatically; use our [HTML Formatter](/html-formatter/) to clean up the markup first',
     'Clean CSS output — base classes in .element { }, variants in separate .element:hover { } and @media { } blocks, all properly indented; minify the result with our [CSS Minifier & Beautifier](/css-minifier-beautifier)',
     'Conversion history — last 15 conversions auto-saved with one-click restore',
     'Syntax highlighting for Tailwind input and CSS output panels',
@@ -86,7 +86,7 @@ const seoData = {
     {
       icon: '⇠',
       title: 'Debug a layout — see all the CSS a component is producing at once',
-      desc: 'Paste a component\'s full className string and see every CSS declaration it generates. Makes it easy to spot conflicting values, unexpected overrides, and properties that aren\'t doing what you thought without digging through DevTools. Sort the class string first with our [Tailwind Formatter](https://fwdtools.com/tailwind-formatter/) to organize it by category.',
+      desc: 'Paste a component\'s full className string and see every CSS declaration it generates. Makes it easy to spot conflicting values, unexpected overrides, and properties that aren\'t doing what you thought without digging through DevTools. Sort the class string first with our [Tailwind Formatter](/tailwind-formatter/) to organize it by category.',
     },
     {
       icon: '⚡',

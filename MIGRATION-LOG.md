@@ -547,3 +547,14 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 - Registered in `tools-registry.js` as category `css`, added to the `/css-tools/` hub `toolSlugs`; CssToolsTopNav already lists them.
 - Sidebar JSON re-synced with `sync-fwdtools-sidebar.mjs`.
 - **fwdtools:** slugs added to `moved-to-webdevpuneet.js` and the `.htaccess` 301 rule.
+
+## 2026-10-03 — 14 more tools copied in (301 from fwdtools)
+
+- **Moved:** animated-svg-icons, aspect-ratio-calculator, code-screenshot-generator, image-color-palette, rem-px-converter,
+  html-to-jsx-converter, tailwind-formatter, json-to-typescript, image-to-svg, svg-to-png, html-formatter, javascript-minifier,
+  html-table-generator, markdown-table-generator.
+- **webdevpuneet:** pages, components, icons and OG images copied (rem-px-converter has no OG image on either site); pages rebranded.
+  Also copied ImageToolsTopNav, DevConvertersTopNav, JsonToolsTopNav and TextToolsTopNav, which link locally for moved tools and to
+  fwdtools for the rest. Registry entries keep their original categories. fwdtools links to now-local tools were made relative in 18 pages.
+- **fwdtools:** slugs added to `moved-to-webdevpuneet.js` and the `.htaccess` 301. `SeoSection` inline markdown links to moved tools now
+  point straight to webdevpuneet.com (no 301 hop), and four hard-coded links were fixed (image-editor, relight-photo, Header, SeoSection).

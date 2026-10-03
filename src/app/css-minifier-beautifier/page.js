@@ -40,14 +40,14 @@ const seoData = {
 
   features: [
     'CSS minification — strips whitespace, comments, line breaks, and trailing semicolons for maximum compression',
-    'CSS beautification — reformats with 2-space indentation, consistent line breaks, and readable property spacing; combine with our [HTML Formatter](https://fwdtools.com/html-formatter/) to clean up full HTML+CSS files',
+    'CSS beautification — reformats with 2-space indentation, consistent line breaks, and readable property spacing; combine with our [HTML Formatter](/html-formatter/) to clean up full HTML+CSS files',
     'Compression stats — shows input size, output size, bytes saved, and percentage change in the header',
     'Syntax highlighting — properties, values, selectors, at-rules, and comments are all color-coded',
     'History panel — up to 15 timestamped snapshots, click any entry to restore input and output instantly',
     'File upload — drag and drop or click to load any .css file directly into the editor',
     'Download output as .css (beautified) or .min.css (minified)',
     'One-click Copy to clipboard with a confirmation toast',
-    '100% client-side — no CSS is ever sent to a server, private and offline-capable; convert minified Tailwind output with our [Tailwind to CSS](https://fwdtools.com/tailwind-to-css/) converter',
+    '100% client-side — no CSS is ever sent to a server, private and offline-capable; convert minified Tailwind output with our [Tailwind to CSS](/tailwind-to-css/) converter',
   ],
 
   howToUse: {
@@ -99,12 +99,12 @@ const seoData = {
     {
       icon: '◑',
       title: 'Clean up auto-generated CSS from a CMS or page builder',
-      desc: 'WordPress themes, Elementor, Webflow, and other page builders output redundant, poorly structured CSS. Beautify it first to identify unused rules and understand the actual selector structure before deciding what to remove or optimize. Then convert surviving utility patterns with our [CSS to Tailwind](https://fwdtools.com/css-to-tailwind/) converter.',
+      desc: 'WordPress themes, Elementor, Webflow, and other page builders output redundant, poorly structured CSS. Beautify it first to identify unused rules and understand the actual selector structure before deciding what to remove or optimize. Then convert surviving utility patterns with our [CSS to Tailwind](/css-to-tailwind/) converter.',
     },
     {
       icon: '▦',
       title: 'Format a CSS example from a tutorial or AI before using it',
-      desc: 'Code snippets from Stack Overflow, documentation, or AI tools often arrive with inconsistent indentation or minified. Beautify them here before adding to your project so the style matches your codebase conventions. Format the surrounding HTML with our [HTML Formatter](https://fwdtools.com/html-formatter/) too.',
+      desc: 'Code snippets from Stack Overflow, documentation, or AI tools often arrive with inconsistent indentation or minified. Beautify them here before adding to your project so the style matches your codebase conventions. Format the surrounding HTML with our [HTML Formatter](/html-formatter/) too.',
     },
     {
       icon: '◉',

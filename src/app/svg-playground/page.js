@@ -163,7 +163,7 @@ Every lesson has a Quick Check multiple-choice question, and progress is saved t
     'SMIL animation — animate, animateTransform, animateMotion, keyTimes, repeatCount',
     'Pro techniques — self-drawing lines, spinners, animated icons, and animated gradients',
     'Progress tracking via localStorage — resume exactly where you left off',
-    'Copy, download as .svg, and share via a base64 URL — pair it with the [SVG animation generator](https://fwdtools.com/svg-animation-generator)',
+    'Copy, download as .svg, and share via a base64 URL — pair it with the [SVG animation generator](/svg-animation-generator/)',
     '100% browser-based — no design software, no build step, no setup',
   ],
 

@@ -82,7 +82,7 @@ const SEO = {
     'Canvas background options — Dots, Grid, Dark, Light for different review contexts',
     'Viewport dimensions displayed below the preview frame for precise reference',
     'X-Frame-Options block detection with clear error message and "Open in new tab" fallback link',
-    '100% free — no sign-up, no extension needed, works in any modern browser; sort Tailwind responsive classes with our [Tailwind Formatter](https://fwdtools.com/tailwind-formatter/)',
+    '100% free — no sign-up, no extension needed, works in any modern browser; sort Tailwind responsive classes with our [Tailwind Formatter](/tailwind-formatter/)',
   ],
 
   useCases: [

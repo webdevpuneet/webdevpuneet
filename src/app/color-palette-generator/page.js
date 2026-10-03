@@ -116,7 +116,7 @@ const SEO = {
     {
       icon: '{}',
       title: 'Define semantic color tokens for a design system',
-      desc: 'Generate harmonies for each semantic role — brand, neutral, success, warning, error — and export each as CSS variables or SCSS. The numeric 100–900 scale matches Tailwind, Material Design, and most design system conventions. Preview how your palette looks in typography with our [Font Pairing Tool](https://fwdtools.com/font-pairing-tool/).',
+      desc: 'Generate harmonies for each semantic role — brand, neutral, success, warning, error — and export each as CSS variables or SCSS. The numeric 100–900 scale matches Tailwind, Material Design, and most design system conventions. Preview how your palette looks in typography with our [Font Pairing Tool](/font-pairing-tool/).',
     },
   ],
 

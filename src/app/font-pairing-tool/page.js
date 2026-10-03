@@ -114,7 +114,7 @@ const SEO = {
     {
       icon: '⚙',
       title: 'Study classic font pairings to understand why some combinations work and others do not',
-      desc: 'Browse pairings like Playfair Display + Source Sans or Roboto + Merriweather and analyze the contrast in stroke weight, x-height, and letter width between the heading and body fonts. Seeing both rendered at size with real text builds intuition faster than theory alone. Convert reference px sizes to rem with our [REM to PX Converter](https://fwdtools.com/rem-px-converter/).',
+      desc: 'Browse pairings like Playfair Display + Source Sans or Roboto + Merriweather and analyze the contrast in stroke weight, x-height, and letter width between the heading and body fonts. Seeing both rendered at size with real text builds intuition faster than theory alone. Convert reference px sizes to rem with our [REM to PX Converter](/rem-px-converter/).',
     },
   ],
 

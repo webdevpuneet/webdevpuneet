@@ -108,7 +108,7 @@ const SEO = {
     'Preview element picker — box, button, text paragraph, or card UI element',
     'Slow-motion preview at ¼× and ½× speed; dark background toggle for neon and glow effects; Stagger×3 shows three elements with cascading delays',
     'Edit @keyframes tab — editable textarea with live preview updates; reset to preset with one click',
-    'Export as CSS @keyframes + animation property, Tailwind tailwind.config.js snippet, or React inline style; animate SVG icons with our [SVG Animation Generator](https://fwdtools.com/svg-animation-generator/)',
+    'Export as CSS @keyframes + animation property, Tailwind tailwind.config.js snippet, or React inline style; animate SVG icons with our [SVG Animation Generator](/svg-animation-generator/)',
     'Download as .css, .js, or .jsx file; 100% client-side — no data sent to any server; build loaders with our [CSS Loader Generator](/css-loader-generator)',
   ],
 
@@ -136,7 +136,7 @@ const SEO = {
     {
       icon: '⚙',
       title: 'Add personality to empty states or landing page illustrations',
-      desc: 'Apply bounce or swing to an SVG icon with direction: alternate and iteration: infinite for a natural back-and-forth oscillation. The alternate direction avoids the jarring jump of a standard looping animation. Use our [Animated SVG Icons](https://fwdtools.com/animated-svg-icons/) collection for ready-made animated icon options.',
+      desc: 'Apply bounce or swing to an SVG icon with direction: alternate and iteration: infinite for a natural back-and-forth oscillation. The alternate direction avoids the jarring jump of a standard looping animation. Use our [Animated SVG Icons](/animated-svg-icons/) collection for ready-made animated icon options.',
     },
     {
       icon: '≡',

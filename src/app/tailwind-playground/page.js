@@ -160,7 +160,7 @@ The **Advanced Patterns** chapter (7 lessons) goes deep on Tailwind's most power
 The **Tailwind v4** chapter covers the major changes in Tailwind CSS v4: the new CSS-first configuration approach using \`@import "tailwindcss"\` and \`@theme\` instead of \`tailwind.config.js\`, new built-in variants and color features, and how utility composition changes in v4. Understanding these differences is essential for any developer starting a new project or upgrading from v3.`,
   },
   features: [
-    '48 lessons across 15 chapters — complete Tailwind CSS curriculum from first utility class to Tailwind v4 — convert existing styles with [CSS to Tailwind](https://fwdtools.com/css-to-tailwind) or expand classes back with [Tailwind to CSS](https://fwdtools.com/tailwind-to-css)',
+    '48 lessons across 15 chapters — complete Tailwind CSS curriculum from first utility class to Tailwind v4 — convert existing styles with [CSS to Tailwind](/css-to-tailwind/) or expand classes back with [Tailwind to CSS](/tailwind-to-css/)',
     'Live HTML editor with Tailwind Play CDN — JIT engine supports all utilities including arbitrary values like w-[327px]',
     'Dark mode toggle — adds/removes dark class from preview <html> to activate dark: modifier classes',
     'Responsive preview sizes — 375px mobile, 768px tablet, full width — check breakpoints without resizing',

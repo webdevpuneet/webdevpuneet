@@ -103,7 +103,7 @@ const SEO = {
     'Per-item controls — flex-grow, flex-shrink, flex-basis, order, align-self',
     'Add and remove flex items dynamically in the live preview',
     'Live preview updates in real time with every property change',
-    'Export as CSS rule block, SCSS nesting, Tailwind utility classes, or React style object; convert to Tailwind with our [CSS to Tailwind](https://fwdtools.com/css-to-tailwind/) converter',
+    'Export as CSS rule block, SCSS nesting, Tailwind utility classes, or React style object; convert to Tailwind with our [CSS to Tailwind](/css-to-tailwind/) converter',
     'Tooltip on every property label explaining what the property does',
     'Reset to defaults in one click',
     '100% browser-based — no data sent to a server; for two-dimensional layouts use our [CSS Grid Builder](/css-grid-builder)',
@@ -138,7 +138,7 @@ const SEO = {
     {
       icon: '◎',
       title: 'Debug a flex layout that isn\'t behaving as expected',
-      desc: 'Reproduce your container and item structure here — add the same number of items, same flex-basis, same wrap settings — and adjust properties until the preview matches what you want. Then compare the generated CSS to what your stylesheet actually has. Preview the result across screen sizes with our [Responsive Preview Tool](https://fwdtools.com/responsive-preview-tool/).',
+      desc: 'Reproduce your container and item structure here — add the same number of items, same flex-basis, same wrap settings — and adjust properties until the preview matches what you want. Then compare the generated CSS to what your stylesheet actually has. Preview the result across screen sizes with our [Responsive Preview Tool](/responsive-preview-tool/).',
     },
   ],
 

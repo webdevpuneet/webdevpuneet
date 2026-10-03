@@ -162,9 +162,9 @@ const SEO = {
     'Independent column-gap and row-gap sliders',
     'justify-items and align-items alignment controls for item placement within grid cells; use our [Flexbox Builder](/flexbox-builder) for item-level alignment inside grid cells',
     'Named area management with color-coded overlays, double-click rename, and delete',
-    '5 export formats: CSS, SCSS with $variables, Tailwind classes, React component, full HTML file; convert Tailwind classes with our [Tailwind Formatter](https://fwdtools.com/tailwind-formatter/)',
+    '5 export formats: CSS, SCSS with $variables, Tailwind classes, React component, full HTML file; convert Tailwind classes with our [Tailwind Formatter](/tailwind-formatter/)',
     'Live code output synced to canvas — every change updates the code instantly',
-    '100% client-side — no server, no upload, no login required; preview across breakpoints with our [Responsive Preview Tool](https://fwdtools.com/responsive-preview-tool/)',
+    '100% client-side — no server, no upload, no login required; preview across breakpoints with our [Responsive Preview Tool](/responsive-preview-tool/)',
   ],
   useCases: [
     { icon: '⊞', title: 'Build a header + sidebar + main + footer layout', desc: 'Click the Holy Grail preset or drag areas yourself. The generated CSS includes grid-template-areas and the correct grid-area rule for each child — the complete structure is ready to paste into any project.' },

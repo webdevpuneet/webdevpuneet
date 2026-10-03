@@ -129,9 +129,9 @@ const SEO = {
     '6 scale ratio presets: Minor Third, Major Third, Perfect Fourth, Aug. Fourth, Perfect Fifth, Golden Ratio + custom input',
     'Step-by-step formula explainer showing slope, intercept, and derivation for every selected size',
     'CSS custom properties output (:root with --text-xs through --text-4xl)',
-    'Tailwind CSS fontSize config output — paste into tailwind.config.js theme.extend.fontSize; sort your Tailwind classes with our [Tailwind Formatter](https://fwdtools.com/tailwind-formatter/)',
+    'Tailwind CSS fontSize config output — paste into tailwind.config.js theme.extend.fontSize; sort your Tailwind classes with our [Tailwind Formatter](/tailwind-formatter/)',
     'SCSS variables output ($text-xs through $text-4xl) for SCSS/Sass workflows',
-    'rem/px unit toggle — rem output respects user browser font size preferences (WCAG 1.4.4 compliance); convert rem values with our [REM to PX Converter](https://fwdtools.com/rem-px-converter/)',
+    'rem/px unit toggle — rem output respects user browser font size preferences (WCAG 1.4.4 compliance); convert rem values with our [REM to PX Converter](/rem-px-converter/)',
     'Configurable root font size for accurate rem conversion on non-standard base sizes',
     '100% client-side — all calculations run in the browser, nothing is sent to any server; apply sizes to a fluid layout with our [Flexbox Builder](/flexbox-builder)',
   ],
@@ -145,7 +145,7 @@ const SEO = {
     {
       icon: '⬡',
       title: 'Add fluid typography to a Tailwind project without overriding every class',
-      desc: 'Export the Tailwind fontSize config and paste it into tailwind.config.js under theme.extend.fontSize. All your existing text-xl, text-2xl etc. classes immediately output fluid clamp() values — no changes to templates. The generated values respect Tailwind\'s naming conventions. Pair with our [Font Pairing Tool](https://fwdtools.com/font-pairing-tool/) to choose typefaces for the scale.',
+      desc: 'Export the Tailwind fontSize config and paste it into tailwind.config.js under theme.extend.fontSize. All your existing text-xl, text-2xl etc. classes immediately output fluid clamp() values — no changes to templates. The generated values respect Tailwind\'s naming conventions. Pair with our [Font Pairing Tool](/font-pairing-tool/) to choose typefaces for the scale.',
     },
     {
       icon: '⚡',
@@ -160,7 +160,7 @@ const SEO = {
     {
       icon: '◑',
       title: 'Build a complete design system type scale from one ratio and base size',
-      desc: 'Set min base to 16px, max to 18px, Perfect Fourth ratio. Export the CSS custom properties (--text-xs through --text-4xl) for a :root block. Every component references the same tokens — update the entire system\'s typography by changing two numbers. Preview the scale across viewports with our [Responsive Preview Tool](https://fwdtools.com/responsive-preview-tool/).',
+      desc: 'Set min base to 16px, max to 18px, Perfect Fourth ratio. Export the CSS custom properties (--text-xs through --text-4xl) for a :root block. Every component references the same tokens — update the entire system\'s typography by changing two numbers. Preview the scale across viewports with our [Responsive Preview Tool](/responsive-preview-tool/).',
     },
     {
       icon: '▦',

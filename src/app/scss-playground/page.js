@@ -116,7 +116,7 @@ Use this page as a Sass tutorial for beginners, an SCSS practice editor, a quick
   },
   useCases: [
     { icon: 'CSS', title: 'Learn Sass after CSS basics', desc: 'Use SCSS variables, nesting, and mixins once plain CSS starts feeling repetitive across components.' },
-    { icon: 'CODE', title: 'Practice SCSS online without setup', desc: 'Use the browser editor as a no-install SCSS practice space with live preview and compiled CSS output. Minify the result with the [CSS minifier](/css-minifier-beautifier/) or convert utility-first codebases with [CSS to Tailwind](https://fwdtools.com/css-to-tailwind).' },
+    { icon: 'CODE', title: 'Practice SCSS online without setup', desc: 'Use the browser editor as a no-install SCSS practice space with live preview and compiled CSS output. Minify the result with the [CSS minifier](/css-minifier-beautifier/) or convert utility-first codebases with [CSS to Tailwind](/css-to-tailwind/).' },
     { icon: 'TABS', title: 'Understand SCSS to CSS compilation', desc: 'Compare the source and output so you know what Sass sends to the browser.' },
     { icon: 'SAFE', title: 'Modernize old Sass projects', desc: 'Move from @import and global helpers toward @use, @forward, module namespaces, and safer APIs.' },
     { icon: 'CHART', title: 'Build design tokens and themes', desc: 'Practice maps, token output, CSS variables, theme scopes, generated utilities, and component variants.' },

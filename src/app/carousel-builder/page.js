@@ -184,7 +184,7 @@ const SEO = {
   },
   features: [
     'Free, fully in-browser — no sign-up, no data sent to any server',
-    'Responsive preview toggle — instantly test your carousel at 375 px (mobile), 768 px (tablet), or full width; verify in our [Responsive Preview Tool](https://fwdtools.com/responsive-preview-tool/) as well',
+    'Responsive preview toggle — instantly test your carousel at 375 px (mobile), 768 px (tablet), or full width; verify in our [Responsive Preview Tool](/responsive-preview-tool/) as well',
     'Horizontal and vertical scroll direction with one-click toggle',
     'Per View 1–6: display multiple slides side by side or stacked at once',
     'Gap control 0–32 px — set spacing between slides in the exported CSS and live preview',
@@ -198,7 +198,7 @@ const SEO = {
     'Dot navigation: circle, dash, and square styles — stack vertically in vertical mode',
     'Autoplay with 1s–8s speed control, loop toggle, and pause on hover',
     'Accent color, border radius, and carousel height controls',
-    'Export as HTML, CSS, JS, React component, or All-in-one standalone HTML; format the HTML output with our [HTML Formatter](https://fwdtools.com/html-formatter/)',
+    'Export as HTML, CSS, JS, React component, or All-in-one standalone HTML; format the HTML output with our [HTML Formatter](/html-formatter/)',
     'Generated CSS uses custom properties (--c-gap, --c-overlay, --c-per-view, and more) for runtime theming; beautify the CSS with our [CSS Minifier & Beautifier](/css-minifier-beautifier)',
     'Semantic HTML5 with ARIA labels — accessible out of the box',
     'Zero dependencies — no jQuery, no Swiper, no external packages',
