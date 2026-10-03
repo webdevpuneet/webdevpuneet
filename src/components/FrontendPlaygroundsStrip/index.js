@@ -2,6 +2,7 @@
 
 import styles from '@/components/SeoSection/styles.module.css';
 import { LIVE_TOOLS } from '@/lib/tools-registry';
+import BlogStrip from '@/components/BlogStrip';
 
 const PLAYGROUND_SLUGS = [
   'html-playground',
@@ -23,6 +24,7 @@ export default function FrontendPlaygroundsStrip() {
   if (!tools.length) return null;
 
   return (
+    <>
     <div className={styles.ymal}>
       <div className={styles.ymalHead}>
         <div>
@@ -48,5 +50,8 @@ export default function FrontendPlaygroundsStrip() {
         ))}
       </div>
     </div>
+    {/* Latest blog posts, loaded in the browser, right after this strip on every page that shows it. */}
+    <BlogStrip />
+    </>
   );
 }
