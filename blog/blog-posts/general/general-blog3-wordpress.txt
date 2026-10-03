@@ -1,0 +1,440 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  CSS :has() Selector: 10 Practical Examples You Can Click and Edit
+
+  SEO TITLE (50 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  CSS :has() Selector: 10 Live Examples You Can Edit
+
+  SEO DESCRIPTION (159 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  Learn the CSS :has() parent selector with 10 clickable live demos: cards, forms, tables, menus and more. Edit each one free in your browser, no sign-up needed.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p><code>:has()</code> is the CSS feature people spent a decade calling impossible: a <strong>parent selector</strong>. Before it, CSS could style a descendant based on its ancestor, but never the other way round &mdash; there was no way to say "style this <code>&lt;div&gt;</code> differently because a specific child is present inside it." <code>:has()</code> closes that gap, and it does more than the "parent selector" nickname suggests: it's a general relational selector that can look at children, siblings, and combinations of conditions, then style the element it's attached to based on what it finds.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The 10 demos below are all real, clickable UI patterns &mdash; a selectable card, a validated form field, a table row that reacts to its own status cell, a CSS-only dropdown menu. Nothing here is decorative; every one is copy-paste-ready for an actual project.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> &mdash; webdevpuneet's free in-browser editor. Rename a class, delete a line from the selector, and watch the rule stop matching. That's a faster way to understand <em>why</em> a selector works than reading about it: change one thing, see what breaks, put it back.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The syntax, in one breath</h2>
+<!-- /wp:heading -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>selector:has(relative-selector) { /* styles for selector */ }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>:has()</code> takes a selector (or a comma-separated list of them) and matches the element it's attached to <em>if</em> that inner selector finds something relative to it &mdash; a descendant by default, or a sibling if you give it a combinator. It never styles the thing found inside the parentheses; it only ever decides whether the outer element matches. In demo #1 below, <code>.planCard:has(input:checked)</code> reads as "any <code>.planCard</code> that has a checked input somewhere inside it" &mdash; and the border, background, and checkmark that then get styled all belong to <code>.planCard</code>, never to the input itself.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Why every demo here is something you click, not drag</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>These demos aren't draggable sliders, because <code>:has()</code> doesn't respond to size &mdash; it responds to the DOM: a checkbox getting checked, an input becoming invalid, a child element being added or removed, a sibling being hovered. So each demo below is wired to whatever interaction actually triggers its rule: click a card, type in a field, hover a step, add a tile.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>One thing worth knowing about how these are built: the JavaScript in every demo only ever <em>reports</em> what's happening into the small readout under each one &mdash; it counts checked boxes, reads a field's validity, counts child elements. It never sets the class or style that produces the visual effect. That part is left entirely to the <code>:has()</code> rule shown in the code tag below each demo, so what you're watching react is genuinely the CSS, not a script pretending to be one.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. Selectable Plan Card</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click a pricing card and the whole card &mdash; border, background, checkmark &mdash; reacts to its own radio input being checked, no JavaScript required for the styling.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/02/1.html" style="width:100%;height:380px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Selectable Plan Card — CSS :has() Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.planCard:has(input:checked) {
+  border-color: var(--accent);
+  background: #eef0ff;
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Before <code>:has()</code>, doing this meant either JavaScript toggling a class on click, or the "checkbox hack" &mdash; styling a <em>sibling</em> of a checked input with the <code>~</code> combinator, which only works if the thing you want to style happens to come after the input in the markup. Here the input is nested <em>inside</em> the card, and the whole card reacts &mdash; something <code>~</code> alone could never do.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> plan selectors, radio-card pickers, any UI where the whole card should look "selected," not just a small radio dot in the corner. <strong>Tip:</strong> because this is a native input under the hood, keyboard navigation (Tab, arrow keys, Space) works automatically &mdash; you get accessible selection for free, as long as you hide the radio visually instead of using <code>display: none</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. Live Invalid-Field Highlight</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Type an email address into the field &mdash; its wrapper turns red the moment the input becomes invalid, and green once it's a properly formatted address. No submit button, no JavaScript validation logic.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/02/2.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Live Invalid-Field Highlight — CSS :has() Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.field:has(input:not(:placeholder-shown):invalid) {
+  border-color: #dc2626;
+  background: #fef2f2;
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>:invalid</code> alone would flag this field red the instant the page loads, since an empty <code>required</code> field is invalid by definition &mdash; that would tell a visitor they've made a mistake before they've typed a single character. Chaining in <code>:not(:placeholder-shown)</code> withholds the red state until there's actually something in the field to be wrong (this relies on the input having a <code>placeholder</code> attribute, even a single space). <code>:has()</code> is what lets that whole condition style the <em>wrapper</em> &mdash; the label and helper text included, not just the input's own border.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any form where you want validation feedback to feel immediate rather than waiting for a submit-and-scroll-to-the-error round trip. <strong>Tip:</strong> this is real, spec-defined <code>:invalid</code> matching &mdash; it respects whatever <code>type</code>, <code>pattern</code>, or <code>required</code> attributes are already on the input, so there's no separate validation logic to keep in sync.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. "Contains a Badge" List Row</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click a notification to mark it read &mdash; its "NEW" badge is removed from the DOM, and the row's bold styling and tinted background disappear because it no longer contains one.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/02/3.html" style="width:100%;height:430px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Contains a Badge List Row — CSS :has() Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.notifRow:has(.badge) {
+  background: #eef0ff;
+  font-weight: 700;
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is <code>:has()</code> in its purest form &mdash; not reacting to a state like <code>:checked</code> or <code>:hover</code>, just to whether a particular element is present at all. If your badge is added or removed by a real change in your data (an API response, a state update in a framework), this rule needs zero JavaScript to stay in sync: the moment the badge element exists or doesn't, the row's styling follows.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> notification lists, inboxes, any row-based UI where an icon, badge, or flag buried inside a row should also change how the whole row reads at a glance. <strong>Tip:</strong> this same pattern works for "contains an error icon," "contains an attachment," or "contains a pinned marker" &mdash; anywhere a small piece of content should promote itself to a whole-row treatment.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. Quantity-Aware Grid ("Quantity Query")</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Add tiles one at a time &mdash; once the grid holds 6 or more, it switches itself to a denser 3-column layout. Remove tiles back below 6 and it reverts. No JavaScript sets that layout; the CSS does the counting.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/02/4.html" style="width:100%;height:380px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Quantity-Aware Grid Quantity Query — CSS :has() Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.qGrid:has(> .qTile:nth-child(6)) {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is the trick known as a <strong>"quantity query"</strong>: <code>:nth-child(6)</code> matches a 6th child if one exists, so <code>:has(> .qTile:nth-child(6))</code> reads as "has a 6th tile child" &mdash; which is only true once there are at least six. The <code>&gt;</code> restricts the check to direct children, so a tile nested somewhere deeper wouldn't accidentally count. Change <code>nth-child(6)</code> to <code>nth-child(4)</code> in the editor and the switch happens a lot sooner &mdash; a good first thing to try.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> product grids, image galleries, dashboard tiles &mdash; any layout where a handful of items should get generous spacing but a full grid should tighten up rather than requiring an endless scroll. <strong>Tip:</strong> there's no separate "at least N" selector &mdash; the existence of an Nth child <em>is</em> the "at least N" check, so for "5 or more" you'd simply use <code>:nth-child(5)</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Gated Submit Button</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The submit button looks disabled, and ignores mouse and touch clicks, until the terms checkbox is checked &mdash; driven entirely by <code>:has()</code> reaching from the form down to the button.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/02/5.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Gated Submit Button — CSS :has() Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.gateForm:has(#terms:not(:checked)) .submitBtn {
+  opacity: .45;
+  pointer-events: none;
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Notice the shape here: the condition is checked on the <em>form</em> (does it have an unchecked <code>#terms</code>?), and the styling lands on a completely different element, the button. <code>:has()</code> is what makes the form a legal place to ask that question at all &mdash; without it, you'd need JavaScript watching the checkbox and toggling a <code>disabled</code> attribute on the button by hand.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> terms-of-service gates, "I've reviewed this" confirmations, any consent checkbox that should visibly and functionally block a next step. <strong>Tip:</strong> <code>pointer-events: none</code> is what stops mouse and touch clicks &mdash; opacity alone would still let them through. It does not stop keyboard users, though: Tab can still reach the button and Enter can still submit the form. If the gate has to be airtight, also set the <code>disabled</code> attribute (or validate on submit).</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. Status-Highlighted Table Row</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Cycle status" on any row &mdash; the whole row's background reacts to whichever status cell it currently contains, cycling between on-track, overdue, and failed.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/02/6.html" style="width:100%;height:500px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Status-Highlighted Table Row — CSS :has() Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>tr:has(td.status-overdue) { background: #fef2f2; }
+tr:has(td.status-error)   { background: #fff7ed; }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Tables are a place this pattern earns its keep immediately: a status, a severity level, or a flag usually lives in one column's cell, but a reader scanning the table benefits from the <em>whole row</em> carrying that signal. Before <code>:has()</code>, this meant a server or a script adding a class like <code>row-overdue</code> to the <code>&lt;tr&gt;</code> itself, duplicating information that was already sitting one cell over.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> admin dashboards, order lists, any tabular data where a status column should be scannable from across the room, not just readable up close. <strong>Tip:</strong> list your status rules in priority order &mdash; if a row could match more than one (say, both "overdue" and "error"), whichever <code>:has()</code> rule is defined later in the stylesheet wins under equal specificity.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. Step Progress Hover Preview</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Hover any step in the tracker &mdash; it and every step <em>before</em> it light up as a preview. Selecting a "previous sibling" like this was flatly impossible in CSS before <code>:has()</code> existed.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/02/7.html" style="width:100%;height:380px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Step Progress Hover Preview — CSS :has() Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.step:has(~ .step:hover),
+.step:hover {
+  background: var(--accent);
+  color: #fff;
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is the demo that best shows off what's genuinely new here. <code>~</code> is the general sibling combinator, and it has always only been able to look <em>forward</em> &mdash; "a <code>.step</code> that is followed by a hovered <code>.step</code>" was writable for two decades. But it could only style the <em>later</em> element. <code>:has(~ .step:hover)</code> flips the direction: it asks each step "do any of my later siblings currently have <code>:hover</code>?" &mdash; and answers that question about <em>itself</em>, which is exactly what makes the earlier steps light up. This exact "select the previous sibling" gap is the single most-requested CSS feature <code>:has()</code> resolved.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> checkout/order-status trackers, multi-step wizards, breadcrumb-style progress bars where hovering a later step should preview "everything up to here." <strong>Tip:</strong> this pattern works identically for a star rating widget &mdash; swap the steps for star icons and <code>:hover</code> for a mix of <code>:hover</code> and <code>:checked</code> radios.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. CSS-Only Dropdown Menu</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click the menu button &mdash; no JavaScript opens this. A hidden checkbox toggles, and <code>:has()</code> lets the wrapper react to it no matter how deeply the menu itself is nested inside.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/02/8.html" style="width:100%;height:320px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="CSS-Only Dropdown Menu — CSS :has() Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.ddWrap:has(#ddToggle:checked) .ddMenu {
+  display: block;
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The classic "checkbox hack" for a no-JS dropdown relies on the sibling combinator too, which quietly constrains your markup: the toggle and the thing it controls have to be siblings, or the trick breaks. <code>:has()</code> removes that constraint &mdash; the wrapper is checking "do I contain a checked <code>#ddToggle</code> anywhere," so the checkbox, the button, and the menu can be nested however your markup actually needs them to be.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> lightweight menus, filter panels, or any toggle-driven UI in a static site or email-safe context where you'd rather not reach for JavaScript at all. <strong>Tip:</strong> real apps almost always still want the JavaScript too &mdash; for closing the menu on an outside click, which is what this demo's own JS does (it only ever unchecks the box; the CSS still decides what that means visually), and for closing it on <code>Escape</code>, which this demo doesn't handle.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">9. Empty-State Message</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Clear every task &mdash; the "you're all caught up" message appears the instant the list has no items left, and disappears the moment you add one back.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/02/9.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Empty-State Message — CSS :has() Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.taskList:not(:has(li)) + .emptyMsg {
+  display: block;
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>:not(:has(li))</code> matches a list with zero matching <code>&lt;li&gt;</code> elements &mdash; which is a more reliable "is this empty" check than the <code>:empty</code> pseudo-class, since <code>:empty</code> also gets defeated by so much as a stray whitespace text node between tags (a near-guarantee in real, human-formatted HTML). Notice this uses a plain <code>+</code> adjacent-sibling combinator to reach the message, rather than a second <code>:has()</code> wrapped around the first &mdash; see the pitfall below for why.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> to-do lists, search results, inbox views, cart pages &mdash; anywhere "nothing here" deserves an intentional message instead of a blank space that reads like the page is broken. <strong>Tip:</strong> pair this with a matching "results: N" counter elsewhere on the page (as this demo's readout does), so the empty state and the count never have separate logic to fall out of sync.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">10. Favorite Toggle Gallery Card</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click the heart on any card &mdash; unlike the plan-card demo, these are independent checkboxes rather than a mutually exclusive radio group, so any number of cards can be favorited at once.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/02/10.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Favorite Toggle Gallery Card — CSS :has() Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.galleryCard:has(.likeBox:checked) {
+  border-color: gold;
+  box-shadow: 0 0 0 3px #fef9c3;
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Structurally this is the same shape as demo #1 &mdash; <code>:has(input:checked)</code> &mdash; but the <em>meaning</em> is different because the input type is different. Radios enforce mutual exclusion for free; checkboxes don't, so this same one-line pattern quietly becomes a multi-select favorites system instead of a single-select picker, with no extra CSS or JS needed to manage the "only one at a time" logic, because there isn't any.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> image galleries, product grids, bookmarking UI &mdash; anywhere "liked" or "saved" needs to be an independent per-item toggle rather than a single choice. <strong>Tip:</strong> the readout under this demo counts checked boxes with <code>document.querySelectorAll('.likeBox:checked').length</code> &mdash; a good reminder that even though the visual state is pure CSS, reading that state back out for a "3 favorited" counter is a completely normal, honest use of a few lines of JavaScript.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Common :has() pitfalls</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>:has() cannot contain another :has() &mdash; even through a :not().</strong> The CSS spec explicitly disallows nesting: the selector inside <code>:has()</code> is not allowed to contain a second <code>:has()</code> anywhere within it, including tucked inside a <code>:not()</code>. <code>.wrap:has(.list:not(:has(li)))</code> is invalid CSS and the whole rule is silently ignored &mdash; no console error, it just never matches. Demo #9 avoids it by dropping the outer <code>:has()</code> and reaching the sibling with a plain <code>+</code> combinator instead.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>:has() isn't specificity-free &mdash; and it can end up more specific than it looks.</strong> The selector inside the parentheses counts toward the specificity of the whole rule, in full: <code>tr:has(td.status-overdue)</code> is actually <em>more</em> specific than a simpler-looking <code>tr.status-overdue</code>, because the <code>td</code> type selector inside <code>:has()</code> adds its own weight on top of the class &mdash; it beats it even when the plain class rule is declared later, which normally would be enough to win a tie. If a <code>:has()</code> rule refuses to lose to something you expected to override it, this is usually why.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>With no combinator, :has() matches at any depth &mdash; not just direct children.</strong> <code>.card:has(.icon)</code> matches whether <code>.icon</code> is an immediate child or buried five levels deep; the implicit combinator is the same "any descendant" one a plain space means everywhere else in CSS. If you specifically need "a direct child," write <code>:has(&gt; .icon)</code> the way demo #4's quantity query does &mdash; leaving the <code>&gt;</code> out there would let a stray <code>.qTile</code> nested inside some other element count toward the total by accident.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Well supported, but always worth a quick check for your audience.</strong> Every evergreen browser (Chrome, Edge, Safari, Firefox) has shipped <code>:has()</code> since late 2023. If your project needs to support meaningfully older browsers, check <a href="https://caniuse.com/css-has">caniuse.com/css-has</a> for exact minimum versions before relying on it for anything load-bearing.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>:has() can be expensive on deeply nested trees.</strong> Unlike most CSS selectors, which the browser can often reason about without walking much of the DOM, <code>:has()</code> may need to inspect a whole subtree to decide whether an element matches. For most real UI &mdash; cards, form fields, table rows &mdash; this is a non-issue. It's worth being deliberate about it only if you're applying a <code>:has()</code> rule broadly across a very large, deeply nested page.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What is the CSS :has() selector?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><code>:has()</code> is a CSS pseudo-class that matches an element based on what's found relative to it &mdash; a descendant by default, or a sibling with a combinator &mdash; rather than based on the element's own attributes or state. It's often called a "parent selector" because the most common use is styling an ancestor based on one of its children, but it also works for sibling relationships, as in the step-tracker hover-preview demo above.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What is the syntax of :has()?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><code>selector:has(relative-selector)</code>. The relative selector can start with a combinator &mdash; <code>&gt;</code> for a direct child only, <code>~</code> or <code>+</code> for a sibling &mdash; or omit one entirely, which defaults to matching any descendant at any depth. It also accepts a comma-separated list, matching if any one of the listed conditions is found.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Can I nest :has() inside :has()?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>No &mdash; the CSS spec explicitly forbids it, and that restriction applies even if the inner <code>:has()</code> is wrapped inside a <code>:not()</code>. A selector like <code>.wrap:has(.list:not(:has(li)))</code> is invalid and the whole rule is ignored. Reach for a sibling combinator (<code>+</code> or <code>~</code>) instead when you find yourself wanting to nest, as demo #9's empty-state pattern does above.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Does :has() work with the :not() pseudo-class?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes &mdash; <code>:has(x:not(y))</code> and <code>:not(:has(x))</code> are both valid and genuinely useful; several demos above rely on exactly this combination, including the gated-submit-button (<code>:has(#terms:not(:checked))</code>) and the empty-state message (<code>:not(:has(li))</code>). The one thing <code>:not()</code> can't do for you inside a <code>:has()</code> is contain a second <code>:has()</code> &mdash; see the pitfall above.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Is :has() well supported in browsers?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes, in every evergreen browser as of late 2023 &mdash; Chrome, Edge, Safari, and Firefox all ship it. If your project has to support older or less common browsers, verify the exact cutoff on <a href="https://caniuse.com/css-has">caniuse.com/css-has</a> before depending on it for essential functionality.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Can :has() replace JavaScript for interactive styling?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>For a large class of "style something based on a checkbox, an input's validity, or the presence of another element" interactions, yes &mdash; every demo above does exactly that with zero JavaScript driving the visual result. It doesn't replace JavaScript outright, though: anything that needs to read state back out (a "3 selected" counter), persist a choice, or run real application logic still needs script, same as it always has.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. But the better way to actually learn this is to click <strong>Fork &amp; Edit</strong> instead of just copying: it hands you the same snippet in a live editor where you can rename a class, delete a combinator, or swap a selector and watch exactly what stops working. Once you've got a version you like, save it to <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or reuse in a real project.</p>
+<!-- /wp:paragraph -->
