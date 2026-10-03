@@ -49,7 +49,7 @@ Progress is tracked automatically in localStorage. Your completed lessons and cu
   },
 
   features: [
-    'Real PostgreSQL engine (PGlite WASM) — not a toy interpreter; runs actual PostgreSQL in your browser; design tables visually first in the [database schema designer](/database-schema-designer)',
+    'Real PostgreSQL engine (PGlite WASM) — not a toy interpreter; runs actual PostgreSQL in your browser; design tables visually first in the [database schema designer](https://fwdtools.com/database-schema-designer/)',
     '39 structured lessons across 10 chapters, beginner to pro — from SELECT basics to window functions, indexes, EXPLAIN, transactions, upserts, and views — tidy your practice queries with the [SQL formatter](https://fwdtools.com/sql-formatter/)',
     'Multiple-choice challenge after every lesson — confirm understanding before marking it complete',
     'Write-your-own SQL challenges — task prompts with automatic result validation and hints',

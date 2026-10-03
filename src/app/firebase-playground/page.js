@@ -187,7 +187,7 @@ Firebase is a backend-as-a-service that lets you ship a complete app without man
     'Data modeling lessons — denormalization and array-vs-subcollection — for the NoSQL, JOIN-free mindset',
     'Firebase Authentication flow — sign up, sign in, sign out, and onAuthStateChanged guarding',
     'Security rules taught with real firestore.rules syntax (ownership and validation) modeled in runnable JS',
-    'Live Firestore State panel — visual collapsible tree of all collections, documents, and fields after each run; sketch your collections first in the [database schema designer](/database-schema-designer)',
+    'Live Firestore State panel — visual collapsible tree of all collections, documents, and fields after each run; sketch your collections first in the [database schema designer](https://fwdtools.com/database-schema-designer/)',
     'Full document write API — addDoc() with auto ID, setDoc() with custom ID, setDoc() with merge option',
     'Document read API — getDoc() with DocumentSnapshot pattern, getDocs() with QuerySnapshot and forEach()',
     'Partial update and delete — updateDoc() for field-level changes, deleteDoc() with subcollection caveat',

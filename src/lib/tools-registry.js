@@ -988,19 +988,6 @@ export const TOOLS = [
     lastmod:  '2026-05-27',
     hasUpdates: false,
   },
-  {
-    slug:     'database-schema-designer',
-    name:     'Database Schema Designer',
-    sub:      'Templates · Indexes · SQL dialects',
-    desc:     'Design database tables, fields, indexes, keys, and relationships visually. Start from SaaS, ecommerce, or CRM templates and export PostgreSQL, MySQL, SQLite, Prisma, Mongoose, and Firestore code.',
-    icon:     '/icons/database-schema-designer.svg',
-    accent:   '#14b8a6',
-    category: 'learn',
-    extended: false,
-    status:   'live',
-    lastmod:  '2026-05-24',
-    hasUpdates: false,
-  },
 
 ];
 

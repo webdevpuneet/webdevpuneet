@@ -30,7 +30,6 @@ const PLAYGROUND_SLUGS = [
   'git-playground', 'python-playground', 'nodejs-playground', 'php-playground',
   'sql-playground', 'mongo-playground', 'express-playground', 'graphql-playground',
   'firebase-playground', 'rest-api-builder-playground', 'redis-playground',
-  'database-schema-designer',
 ];
 
 const FREELANCER_SLUGS = [

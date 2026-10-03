@@ -153,7 +153,7 @@ Every lesson includes a Quick Check multiple-choice question to test your unders
 
   features: [
     'Full in-browser MongoDB simulation — no server, no install, works offline after first load — the document-database counterpart to the [SQL playground](/sql-playground)',
-    '37 structured lessons across 11 chapters, beginner to pro — from basic find() to $lookup joins, reporting pipelines, data modeling, indexes, and transactions; model your collections first in the [database schema designer](/database-schema-designer)',
+    '37 structured lessons across 11 chapters, beginner to pro — from basic find() to $lookup joins, reporting pipelines, data modeling, indexes, and transactions; model your collections first in the [database schema designer](https://fwdtools.com/database-schema-designer/)',
     'Four realistic sample collections: employees, products, orders, and reviews — inspect any result with the [JSON formatter](https://fwdtools.com/json-formatter/)',
     'Complete query operator support: $gt, $lt, $eq, $ne, $in, $nin, $and, $or, $nor, $not, $exists, $regex, $size, $all, $elemMatch',
     'Full CRUD operations: insertOne, insertMany, updateOne, updateMany, replaceOne, deleteOne, deleteMany',

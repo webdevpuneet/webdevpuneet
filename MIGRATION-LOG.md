@@ -558,3 +558,10 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   fwdtools for the rest. Registry entries keep their original categories. fwdtools links to now-local tools were made relative in 18 pages.
 - **fwdtools:** slugs added to `moved-to-webdevpuneet.js` and the `.htaccess` 301. `SeoSection` inline markdown links to moved tools now
   point straight to webdevpuneet.com (no 301 hop), and four hard-coded links were fixed (image-editor, relight-photo, Header, SeoSection).
+
+## 2026-10-03 — Database Schema Designer moved back to fwdtools
+
+- Removed from webdevpuneet (page, component, registry entry, PlaygroundTopNav, sync list, hub slugs); links in the SQL, Mongo and
+  Firebase playground pages now point to fwdtools.com. Added a webdevpuneet `.htaccess` 301 to `https://fwdtools.com/database-schema-designer/`.
+- fwdtools: removed from `moved-to-webdevpuneet.js` and from the `.htaccess` 301 rule; its page and component were never deleted.
+- Also: fwdtools sidebar ad placeholder is hidden while `ADS_ENABLED` is false; snippet ad bar background is `#dde0e8`.

@@ -134,11 +134,6 @@
       "slug": "redis-playground",
       "name": "Redis Playground",
       "icon": "/icons/redis-playground.svg"
-    },
-    {
-      "slug": "database-schema-designer",
-      "name": "Database Schema Designer",
-      "icon": "/icons/database-schema-designer.svg"
     }
   ],
   "freelancer": [

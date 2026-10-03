@@ -4,6 +4,9 @@ Options -Indexes
 
 RewriteEngine On
 
+# Database Schema Designer lives on fwdtools.com
+RewriteRule ^database-schema-designer/?$ https://fwdtools.com/database-schema-designer/ [R=301,L]
+
 # --------------------------------------------------
 # Redirect www to non-www (canonical host)
 # --------------------------------------------------

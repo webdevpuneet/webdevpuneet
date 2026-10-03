@@ -32,7 +32,7 @@ export const CATEGORIES = [
       'vue-playground',
       'nextjs-playground',
       'gsap-playground',
-      'svg-playground', 'git-playground', 'python-playground', 'nodejs-playground', 'php-playground', 'sql-playground', 'mongo-playground', 'express-playground', 'graphql-playground', 'firebase-playground', 'rest-api-builder-playground', 'redis-playground', 'database-schema-designer'],
+      'svg-playground', 'git-playground', 'python-playground', 'nodejs-playground', 'php-playground', 'sql-playground', 'mongo-playground', 'express-playground', 'graphql-playground', 'firebase-playground', 'rest-api-builder-playground', 'redis-playground'],
     related: ['css-tools', 'developer-tools', 'design-tools'],
     about: `Learning to code is easier when you can see the result of every change instantly. These interactive playgrounds cover the frontend stack — HTML, CSS, SCSS/Sass, JavaScript, TypeScript, jQuery, Bootstrap 5, Tailwind CSS, React, Vue.js, Angular, Next.js, GSAP, and SVG — each with a structured curriculum of lessons, a live editor, or an instant preview. No Node.js, no terminal, no build step. Open the browser and start writing.
 
