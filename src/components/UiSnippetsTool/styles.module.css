@@ -1300,7 +1300,7 @@ button.headerBrand {
   font-family: var(--font-ui);
 }
 /* Real AdSense unit: reserves the exact 728x90 box so nothing shifts on load. */
-.adBarUnit { display: block; flex-shrink: 0; }  /* width/height set inline from the chosen size */
+.adBarUnit { display: block; width: 100%; min-width: 0; }  /* full width of the strip; the <ins> inside is 100% x 90px */
 .adBarLabel { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .adBarSize { font-size: 12px; font-family: var(--font-mono); }
 /* No breakpoint hide: the unit itself drops to 468x60 / 320x50 when space is short. */

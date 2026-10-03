@@ -501,21 +501,13 @@ function buildSrcdocSimple(html, css, js, cdnUrls = []) {
 const SAVED_PER_PAGE = 9;
 
 /* — Snippet top ad: AdSense unit (slot 7360198340) above the preview, library snippets.
-   The size follows the space actually available above the preview (sidebar and code
-   column eat into the viewport, so screen width alone would be wrong):
-     970x90 large leaderboard → 728x90 leaderboard → 468x60 banner (tablet) → 320x50 mobile.
-   Each size is a fixed slot, so nothing shifts while a creative loads. The size is
-   picked ONCE per snippet view (the parent keys this by snippet id): later resizes —
-   dragging the code column, rotating a tablet — never re-request an ad, because AdSense
-   policy forbids refreshing ads without new content or a user action. A new snippet is
-   new content, so it gets a fresh request. The adsbygoogle.js loader is site-wide. — */
-const TOP_AD_SIZES = [
-  { w: 970, h: 90 },
-  { w: 728, h: 90 },
-  { w: 468, h: 60 },
-  { w: 320, h: 50 },
-];
-function TopAdIns({ w, h }) {
+   One full-width horizontal unit (width 100%, height 90px, data-ad-format="horizontal"):
+   it fills the strip above the preview and AdSense picks the creative size that fits the
+   width. The unit is requested ONCE per snippet view (the parent keys this by snippet
+   id) so resizing never re-requests an ad — AdSense policy forbids refreshing without new
+   content or a user action; a new snippet is new content and gets a fresh request.
+   The adsbygoogle.js loader is site-wide. — */
+function SnippetTopAd() {
   useEffect(() => {
     const id = setTimeout(() => {
       try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
@@ -523,41 +515,14 @@ function TopAdIns({ w, h }) {
     return () => clearTimeout(id);
   }, []);
   return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: 'inline-block', width: `${w}px`, height: `${h}px` }}
-      data-ad-client="ca-pub-2762737943861458"
-      data-ad-slot="7360198340"
-    />
-  );
-}
-function SnippetTopAd() {
-  const boxRef = useRef(null);
-  const [size, setSize] = useState(null);
-  useEffect(() => {
-    const strip = boxRef.current?.parentElement;
-    if (!strip) return;
-    const pick = () => {
-      // A strip collapsed by the unfilled-ad rule (display:none) measures 0 wide.
-      // Ignore that: dropping the size would remove the unfilled <ins>, un-collapse
-      // the strip, request a new ad, collapse again… a visible jerk and an ad-request
-      // loop. Keep the current size until the strip is really laid out again.
-      if (strip.offsetParent === null || strip.clientWidth === 0) return;
-      const cs = getComputedStyle(strip);
-      const avail = strip.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-      const next = TOP_AD_SIZES.find(z => z.w <= avail) || null;
-      // Lock the first size that fits for this snippet view (see policy note above).
-      setSize(prev => prev ?? next);
-    };
-    pick();
-    if (typeof ResizeObserver === 'undefined') return;
-    const ro = new ResizeObserver(pick);
-    ro.observe(strip);
-    return () => ro.disconnect();
-  }, []);
-  return (
-    <div ref={boxRef} className={s.adBarUnit} style={size ? { width: size.w, height: size.h } : undefined}>
-      {size && <TopAdIns key={size.w} w={size.w} h={size.h} />}
+    <div className={s.adBarUnit}>
+      <ins
+        className="adsbygoogle"
+        style={{ display: 'block', width: '100%', height: '90px' }}
+        data-ad-client="ca-pub-2762737943861458"
+        data-ad-slot="7360198340"
+        data-ad-format="horizontal"
+      />
     </div>
   );
 }
