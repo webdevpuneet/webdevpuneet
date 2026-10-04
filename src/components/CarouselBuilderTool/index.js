@@ -3,6 +3,7 @@
 import { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 
 /* ══════════════════════════════════════════════════════════
    Constants & defaults
@@ -671,7 +672,6 @@ function genReact(slides, cfg) {
   return `import { useState, useEffect, useRef, useCallback } from 'react';
 import './carousel.css';
 
-import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const SLIDES = [
 ${data}
 ];
