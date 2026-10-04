@@ -45,7 +45,16 @@ function resize() {
 resize();
 // The canvas can be 0px wide when the script first runs (iframe still laying out), and
 // getImageData throws on a 0-width canvas. Wait for a real size, and rebuild on every resize.
-new ResizeObserver(() => { resize(); buildParticles(currentText); }).observe(canvas);
+// Setting canvas.width changes its layout, so rebuild one frame later (not inside the
+// observer callback) and only when the size really changed, or the browser reports
+// "ResizeObserver loop completed with undelivered notifications".
+let lastW = 0, lastH = 0;
+new ResizeObserver(() => {
+  const w = canvas.offsetWidth, h = canvas.offsetHeight;
+  if (w === lastW && h === lastH) return;
+  lastW = w; lastH = h;
+  requestAnimationFrame(() => { resize(); buildParticles(currentText); });
+}).observe(canvas);
 
 let particles = [];
 let state = 'FORM'; // FORM | EXPLODE
