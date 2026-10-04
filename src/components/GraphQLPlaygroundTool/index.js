@@ -5,6 +5,7 @@ import s from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import PlaygroundSidebarTitle from '@/components/PlaygroundSidebarTitle';
 const LS_LESSON = 'fwd-graphql-playground-lesson';
 const ACCENT = '#E10098';
 
@@ -2070,26 +2071,12 @@ export default function GraphQLPlaygroundTool() {
     <div className={s.wrap}>
       <PlaygroundTopNav active="graphql-playground" />
       {/* Header */}
-      <header className={s.header}>
-        <div className={s.headerLeft}>
-          <img src="/icons/graphql-playground.svg" width={22} height={22} alt="" />
-          <span className={s.headerTitle}>GraphQL <span className={s.accent}>Playground</span></span>
-          <span className={s.headerSub}>In-browser executor · 12 lessons · No server needed</span>
-        </div>
-        <div className={s.headerRight}>
-          <span className={s.lessonBadge}>{activeIdx + 1} / {LESSONS.length}</span>
-        </div>
-      </header>
-
       {/* Body */}
       <div className={s.body}>
         {/* Sidebar */}
         <aside className={sidebarOpen ? s.sidebar : s.sidebarHidden}>
           <div className={s.sidebarTop}>
-            <div className={s.sidebarPill}>
-              <span className={s.sidebarDot} />
-              GraphQL
-            </div>
+            <PlaygroundSidebarTitle slug="graphql-playground" name="GraphQL Playground" />
             <button className={s.hideBtn} onClick={() => setSidebarOpen(false)} aria-label="Close sidebar">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="15 18 9 12 15 6" />

@@ -6,6 +6,7 @@ import { CHAPTERS, LESSONS } from './lessons';
 import s from './styles.module.css';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import PlaygroundSidebarTitle from '@/components/PlaygroundSidebarTitle';
 const LS_PROGRESS = 'fwd-angular-playground-progress';
 const LS_POSITION = 'fwd-angular-playground-position';
 
@@ -506,20 +507,11 @@ export default function AngularPlaygroundTool() {
   return (
     <div className={s.wrap}>
       <PlaygroundTopNav active="angular-playground" />
-      <header className={s.header}>
-        <div className={s.headerLeft}>
-          <img src="/icons/angular-playground.svg" width="24" height="24" alt="" />
-          <span className={s.title}>Angular <b>Playground</b></span>
-          <span className={s.breadcrumb}>{current.chapter} - {current.title}</span>
-        </div>
-        <span className={s.progressBadge}>{doneCount}/{LESSONS.length} lessons</span>
-      </header>
-
       <div className={s.body}>
         {sidebarOpen ? (
           <aside className={s.sidebar}>
             <div className={s.sidebarTop}>
-              <span><i />Angular Playground</span>
+              <PlaygroundSidebarTitle slug="angular-playground" name="Angular Playground" />
               <button onClick={() => setSidebarOpen(false)} aria-label="Hide lessons">&lt;</button>
             </div>
             <input className={s.search} value={query} onChange={e => setQuery(e.target.value)} placeholder="Search lessons..." />

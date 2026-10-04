@@ -7,6 +7,7 @@ import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { LESSONS, CHAPTERS, BASE_FILES } from './lessons';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import PlaygroundSidebarTitle from '@/components/PlaygroundSidebarTitle';
 const PROGRESS_KEY = 'fwd-nextjs-playground-progress';
 const POSITION_KEY = 'fwd-nextjs-playground-position';
 
@@ -376,22 +377,11 @@ export default function NextjsPlaygroundTool() {
   return (
     <div className={s.wrap}>
       <PlaygroundTopNav active="nextjs-playground" />
-      <header className={s.header}>
-        <div className={s.headerTitle}>
-          <span className={s.badge}>Next</span>
-          <div>
-            <strong>Next.js Playground</strong>
-            <span>{lesson.chapter} → {lesson.title}</span>
-          </div>
-        </div>
-        <div className={s.headerActions}>
-          <span className={s.progressBadge}>{completedCount}/{LESSONS.length} lessons</span>
-          <button onClick={downloadProject}>Export ZIP</button>
-        </div>
-      </header>
-
       <div className={s.body}>
         <aside className={sidebarOpen ? s.sidebar : s.sidebarHidden}>
+          <PlaygroundSidebarTitle slug="nextjs-playground" name="Next.js Playground" standalone>
+<div className={s.headerActions}><button onClick={downloadProject}>Export ZIP</button></div>
+</PlaygroundSidebarTitle>
           <div className={s.searchWrap}>
             <input className={s.searchInput} value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search lessons..." />
           </div>

@@ -5,6 +5,7 @@ import s from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import PlaygroundSidebarTitle from '@/components/PlaygroundSidebarTitle';
 const LESSONS = [
   {
     id: 'kv',
@@ -603,20 +604,12 @@ export default function RedisPlaygroundTool() {
   return (
     <div className={s.wrap}>
       <PlaygroundTopNav active="redis-playground" />
-      <header className={s.header}>
-        <div className={s.headerLeft}>
-          <span className={s.logo}>Redis <b>Playground</b></span>
-          <span className={s.crumb}>Learn Redis visually</span>
-        </div>
-        <div className={s.headerRight}>
-          <button onClick={resetDemo}>Reset demo</button>
-        </div>
-      </header>
-
       <div className={s.body}>
         <aside className={s.sidebar}>
           <div className={s.sidebarTop}>
-            <span><i />Lessons</span>
+            <PlaygroundSidebarTitle slug="redis-playground" name="Redis Playground">
+<div className={s.headerRight}><button onClick={resetDemo}>Reset demo</button></div>
+</PlaygroundSidebarTitle>
           </div>
           <nav className={s.lessonList}>
             {LESSONS.map(item => (

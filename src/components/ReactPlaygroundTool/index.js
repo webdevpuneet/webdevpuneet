@@ -6,6 +6,7 @@ import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { LESSONS, CHAPTERS } from './lessons';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import PlaygroundSidebarTitle from '@/components/PlaygroundSidebarTitle';
 // ── localStorage keys ─────────────────────────────────────────────────────────
 const LS_PROGRESS = 'fwd-react-playground-progress';
 const LS_POSITION = 'fwd-react-playground-position';
@@ -708,25 +709,11 @@ export default function ReactPlaygroundTool() {
     <div className={s.wrap}>
       <PlaygroundTopNav active="react-playground" />
       {/* ── Header ── */}
-      <header className={s.header}>
-        <div className={s.headerLeft}>
-          <img src="/icons/react-playground.svg" width={24} height={24} alt="" />
-          <span className={s.headerTitle}>React <span className={s.accent}>Playground</span></span>
-          <span className={s.headerBreadcrumb}>{lesson.chapter} &rarr; {lesson.title}</span>
-        </div>
-        <div className={s.headerRight}>
-          <span className={s.progressBadge}>{completedCount}/{LESSONS.length} lessons</span>
-        </div>
-      </header>
-
       <div className={s.body}>
         {/* ── Sidebar ── */}
         <aside className={sidebarOpen ? s.sidebar : s.sidebarHidden}>
           <div className={s.sidebarTop}>
-            <div className={s.sidebarPill}>
-              <span className={s.sidebarPillDot} />
-              React Playground
-            </div>
+            <PlaygroundSidebarTitle slug="react-playground" name="React Playground" />
             <button className={s.hideBtn} onClick={() => setSidebarOpen(false)} title="Hide sidebar">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="15 18 9 12 15 6"/>

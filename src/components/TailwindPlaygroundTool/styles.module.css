@@ -17,7 +17,7 @@
 .body { display:flex; flex:1; overflow:hidden; }
 
 /* ── Sidebar ──────────────────────────────────────────────────────────────── */
-.sidebar { width:210px; flex-shrink:0; display:flex; flex-direction:column; border-right:1px solid var(--border); background:var(--surface); overflow:hidden; }
+.sidebar { width: 280px; flex-shrink:0; display:flex; flex-direction:column; border-right:1px solid var(--border); background:var(--surface); overflow:hidden; }
 .sidebarOverlay { position:fixed; top:44px; left:0; bottom:0; z-index:100; box-shadow:4px 0 16px rgba(0,0,0,0.15); }
 
 .sidebarTopBar { display:flex; align-items:center; justify-content:space-between; padding:6px 8px; border-bottom:1px solid var(--border); flex-shrink:0; }

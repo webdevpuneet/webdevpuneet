@@ -7,6 +7,7 @@ import { createDatabase, SAMPLE_DATA } from './mongo-engine';
 import { CHAPTERS, LESSONS } from './lessons';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import PlaygroundSidebarTitle from '@/components/PlaygroundSidebarTitle';
 /* ── Constants ─────────────────────────────────────────────────────────────── */
 const LS_PROGRESS = 'fwd-mongo-playground-progress';
 const LS_POSITION = 'fwd-mongo-playground-position';
@@ -550,27 +551,13 @@ export default function MongoPlaygroundTool() {
       <PlaygroundTopNav active="mongo-playground" />
 
       {/* Header */}
-      <header className={s.header}>
-        <div className={s.headerLeft}>
-          <img src="/icons/mongo-playground.svg" width={22} height={22} alt="" />
-          <span className={s.headerTitle}>Mongo <span className={s.accent}>Playground</span></span>
-          <span className={s.headerBreadcrumb}>{lesson.chapter} &rarr; {lesson.title}</span>
-        </div>
-        <div className={s.headerRight}>
-          <span className={s.progressBadge}>{completedCount}/{LESSONS.length}</span>
-        </div>
-      </header>
-
       {/* Body */}
       <div className={s.body}>
 
         {/* Sidebar */}
         <aside className={sidebarOpen ? s.sidebar : s.sidebarHidden}>
           <div className={s.sidebarTop}>
-            <div className={s.sidebarPill}>
-              <span className={s.sidebarPillDot} />
-              MongoDB
-            </div>
+            <PlaygroundSidebarTitle slug="mongo-playground" name="MongoDB Playground" />
             <button className={s.hideBtn} onClick={() => setSidebarOpen(false)} aria-label="Close sidebar">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="15 18 9 12 15 6" />

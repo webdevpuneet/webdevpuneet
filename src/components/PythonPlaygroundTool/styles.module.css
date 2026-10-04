@@ -85,7 +85,7 @@
 }
 
 .sidebar {
-  width: 220px;
+  width: 280px;
   flex-shrink: 0;
   border-right: 1px solid var(--border);
   display: flex;

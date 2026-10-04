@@ -48,7 +48,7 @@
 .body { display: flex; flex: 1; overflow: hidden; position: relative; }
 
 .sidebar {
-  width: 224px; flex-shrink: 0; border-right: 1px solid var(--border);
+  width: 280px; flex-shrink: 0; border-right: 1px solid var(--border);
   display: flex; flex-direction: column; overflow: hidden; background: var(--surface);
 }
 .sidebarHidden { display: none; }

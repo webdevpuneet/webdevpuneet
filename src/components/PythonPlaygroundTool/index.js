@@ -5,6 +5,7 @@ import s from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import PlaygroundSidebarTitle from '@/components/PlaygroundSidebarTitle';
 const STORAGE_KEY = 'fwd-python-playground-lesson';
 const PROGRESS_KEY = 'fwd-python-playground-progress';
 
@@ -1356,32 +1357,19 @@ export default function PythonPlaygroundTool() {
   return (
     <div className={s.wrap}>
       <PlaygroundTopNav active="python-playground" />
-      <header className={s.header}>
-        <div className={s.headerLeft}>
-          <img src="/icons/python-playground.svg" alt="" width="24" height="24" />
-          <span className={s.headerTitle}>Python <span className={s.accent}>Playground</span></span>
-          <span className={s.headerBreadcrumb}>{lesson.chapter} &rarr; {lesson.title}</span>
-        </div>
-        <div className={s.headerRight}>
-          <span className={s.progressBadge}>{completedCount}/{LESSONS.length} lessons</span>
-          <label className={s.speedControl}>
-            <span>Speed</span>
-            <select value={speed} onChange={(event) => setSpeed(Number(event.target.value))}>
-              <option value={1300}>Slow</option>
-              <option value={900}>Normal</option>
-              <option value={500}>Fast</option>
-            </select>
-          </label>
-        </div>
-      </header>
-
       <div className={s.body}>
         <aside className={sidebarOpen ? s.sidebar : s.sidebarHidden}>
           <div className={s.sidebarTop}>
-            <div className={s.sidebarPill}>
-              <span className={s.sidebarPillDot} />
-              Python
-            </div>
+            <PlaygroundSidebarTitle slug="python-playground" name="Python Playground">
+<div className={s.headerRight}><label className={s.speedControl}>
+                <span>Speed</span>
+                <select value={speed} onChange={(event) => setSpeed(Number(event.target.value))}>
+                  <option value={1300}>Slow</option>
+                  <option value={900}>Normal</option>
+                  <option value={500}>Fast</option>
+                </select>
+              </label></div>
+</PlaygroundSidebarTitle>
             <button className={s.hideBtn} onClick={() => setSidebarOpen(false)} title="Hide sidebar">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="15 18 9 12 15 6" />

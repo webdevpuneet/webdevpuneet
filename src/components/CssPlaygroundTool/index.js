@@ -6,6 +6,7 @@ import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { CHAPTERS } from './lessons';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import PlaygroundSidebarTitle from '@/components/PlaygroundSidebarTitle';
 const LS_PROGRESS   = 'fwd-css-playground-progress';
 const LS_POSITION   = 'fwd-css-playground-position';
 const LS_CHALLENGES = 'fwd-css-playground-challenges';
@@ -660,16 +661,6 @@ ${htmlCodeRef.current}
       <PlaygroundTopNav active="css-playground" />
 
       {/* ── Header ── */}
-      <header className={s.header}>
-        <div className={s.headerLeft}>
-          <img src="/icons/css-playground.svg" width="20" height="20" alt="" />
-          <span className={s.headerTitle}>CSS Playground</span>
-          {!isMobile && chapter && (
-            <span className={s.breadcrumb}>{chapter.emoji} {chapter.title} / {lesson.title}</span>
-          )}
-        </div>
-      </header>
-
       {/* ── Body ── */}
       <div className={s.body}>
 
@@ -677,7 +668,7 @@ ${htmlCodeRef.current}
         {sidebarOpen && (
           <aside className={`${s.sidebar} ${isMobile ? s.sidebarOverlay : ''}`}>
             <div className={s.sidebarTopBar}>
-              <span className={s.progressCount}>{completedCount}/{totalLessons} lessons</span>
+              <PlaygroundSidebarTitle slug="css-playground" name="CSS Playground" />
               <button className={s.sidebarHideBtn} onClick={() => setSidebarOpen(false)} title="Hide sidebar">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <polyline points="15 18 9 12 15 6"/>

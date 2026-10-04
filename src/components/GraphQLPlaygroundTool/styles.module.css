@@ -31,7 +31,7 @@
 
 /* ── Sidebar ───────────────────────────────────────────────────────────── */
 .sidebar {
-  width: 220px; flex-shrink: 0; border-right: 1px solid var(--border);
+  width: 280px; flex-shrink: 0; border-right: 1px solid var(--border);
   display: flex; flex-direction: column; overflow: hidden; background: var(--surface);
 }
 .sidebarHidden { display: none; }

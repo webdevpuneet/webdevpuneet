@@ -5,6 +5,7 @@ import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { CHAPTERS } from './lessons';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import PlaygroundSidebarTitle from '@/components/PlaygroundSidebarTitle';
 const LS_PROGRESS_KEY = 'fwd-html-playground-progress';
 const LS_POSITION_KEY = 'fwd-html-playground-position';
 
@@ -535,20 +536,12 @@ export default function HtmlPlaygroundTool() {
     <div className={s.wrap}>
       <PlaygroundTopNav active="html-playground" />
       {/* ── Header ── */}
-      <header className={s.header}>
-        <div className={s.headerLeft}>
-          <img src="/icons/html-playground.svg" width={26} height={26} alt="" />
-          <span className={s.headerTitle}>HTML <span className={s.accent}>Playground</span></span>
-          <span className={s.lessonBreadcrumb}>{activeChapter.emoji} {activeChapter.title} &rarr; {activeLesson.title}</span>
-        </div>
-      </header>
-
       <div className={s.body}>
         {/* ── Sidebar ── */}
         {sidebarOpen && (
           <nav className={s.sidebar}>
             <div className={s.sidebarTopBar}>
-              <span className={s.progressCount}>{completedCount}/{totalLessons} lessons</span>
+              <PlaygroundSidebarTitle slug="html-playground" name="HTML Playground" />
               <button className={s.sidebarHideBtn} onClick={() => setSidebarOpen(false)} title="Hide sidebar">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="15 18 9 12 15 6"/>

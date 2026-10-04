@@ -6,6 +6,7 @@ import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { RUN_LESSONS, CHAPTER_ORDER, VISUALIZER_CHAPTER } from './lessons';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import PlaygroundSidebarTitle from '@/components/PlaygroundSidebarTitle';
 const STORAGE_KEY = 'fwd-nodejs-playground-position';
 const PROGRESS_KEY = 'fwd-nodejs-playground-progress';
 
@@ -874,21 +875,9 @@ export default function NodejsPlaygroundTool() {
   return (
     <div className={s.wrap}>
       <PlaygroundTopNav active="nodejs-playground" />
-      <header className={s.header}>
-        <div className={s.brand}>
-          <img src="/icons/nodejs-playground.svg" alt="" width="28" height="28" />
-          <div>
-            <h1>Node.js Playground</h1>
-            <p>Run real Node-flavoured JavaScript in your browser, plus an event-loop visualizer.</p>
-          </div>
-        </div>
-        <div className={s.headerActions}>
-          <span className={s.progressBadge}>{completedCount}/{ALL_LESSONS.length} lessons</span>
-        </div>
-      </header>
-
       <div className={s.body}>
         <aside className={s.sidebar}>
+          <PlaygroundSidebarTitle slug="nodejs-playground" name="Node.js Playground" as="h1" standalone />
           <input className={s.searchInput} value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search lessons..." />
           <div className={s.progressTop}>
             <span>Progress</span>

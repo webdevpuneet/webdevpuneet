@@ -7,6 +7,7 @@ import { CHAPTERS } from './lessons';
 import { TW_CLASSES } from './tw-classes';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import PlaygroundSidebarTitle from '@/components/PlaygroundSidebarTitle';
 const LS_PROGRESS   = 'fwd-tw-playground-progress';
 const LS_POSITION   = 'fwd-tw-playground-position';
 const LS_CHALLENGES = 'fwd-tw-playground-challenges';
@@ -465,16 +466,6 @@ export default function TailwindPlaygroundTool() {
       <PlaygroundTopNav active="tailwind-playground" />
 
       {/* ── Header ── */}
-      <header className={s.header}>
-        <div className={s.headerLeft}>
-          <img src="/icons/tailwind-playground.svg" width="20" height="20" alt="" />
-          <span className={s.headerTitle}>Tailwind Playground</span>
-          {!isMobile && chapter && (
-            <span className={s.breadcrumb}>{chapter.emoji} {chapter.title} / {lesson.title}</span>
-          )}
-        </div>
-      </header>
-
       {/* ── Body ── */}
       <div className={s.body}>
 
@@ -482,7 +473,7 @@ export default function TailwindPlaygroundTool() {
         {sidebarOpen && (
           <aside className={`${s.sidebar} ${isMobile ? s.sidebarOverlay : ''}`}>
             <div className={s.sidebarTopBar}>
-              <span className={s.progressCount}>{completedCount}/{totalLessons} lessons</span>
+              <PlaygroundSidebarTitle slug="tailwind-playground" name="Tailwind Playground" />
               <button className={s.sidebarHideBtn} onClick={() => setSidebarOpen(false)} title="Hide sidebar">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
               </button>

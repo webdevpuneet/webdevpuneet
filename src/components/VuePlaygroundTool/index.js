@@ -6,6 +6,7 @@ import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { LESSONS, CHAPTERS } from './lessons';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import PlaygroundSidebarTitle from '@/components/PlaygroundSidebarTitle';
 const LS_PROGRESS = 'fwd-vue-playground-progress';
 const LS_POSITION = 'fwd-vue-playground-position';
 
@@ -518,30 +519,10 @@ export default function VuePlaygroundTool() {
   return (
     <div className={s.wrap}>
       <PlaygroundTopNav active="vue-playground" />
-      <header className={s.header}>
-        <div className={s.headerLeft}>
-          <img src="/icons/vue-playground.svg" width={24} height={24} alt="" />
-          <span className={s.headerTitle}>Vue <span className={s.accent} style={{ color: '#42b883' }}>Playground</span></span>
-          <span className={s.headerBreadcrumb}>{lesson.chapter} &rarr; {lesson.title}</span>
-        </div>
-        <div className={s.headerRight}>
-          <button className={s.iconBtn} onClick={shareCode} title="Copy share link">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-            Share
-          </button>
-          <span className={s.progressBadge} style={{ background: 'rgba(66,184,131,0.12)', color: '#42b883', borderColor: 'rgba(66,184,131,0.3)' }}>
-            {completedCount}/{LESSONS.length} lessons
-          </span>
-        </div>
-      </header>
-
       <div className={s.body}>
         <aside className={sidebarOpen ? s.sidebar : s.sidebarHidden}>
           <div className={s.sidebarTop}>
-            <div className={s.sidebarPill}>
-              <span className={s.sidebarPillDot} style={{ background: '#42b883' }} />
-              Vue Playground
-            </div>
+            <PlaygroundSidebarTitle slug="vue-playground" name="Vue Playground" />
             <button className={s.hideBtn} onClick={() => setSidebarOpen(false)}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
             </button>
