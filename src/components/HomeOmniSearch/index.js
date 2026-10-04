@@ -5,17 +5,38 @@ import { SEARCHABLE_TOOLS } from '@/lib/tools-registry';
 import styles from './styles.module.css';
 
 const POPULAR = ['CSS', 'JavaScript', 'React'];
-const MAX_TOOL_RESULTS = 5;
+const MAX_TOOL_RESULTS = 8;
 const MAX_SNIPPET_RESULTS = 5;
 
-function matchTools(query) {
+// Every tool on this site plus every tool that still lives on fwdtools.com (external
+// links). Name matches rank first, then slug, then the longer description text; tools on
+// this site win ties.
+function matchTools(query, externalTools) {
   const q = query.toLowerCase();
-  return SEARCHABLE_TOOLS.filter(t =>
-    t.name.toLowerCase().includes(q) ||
-    (t.sub || '').toLowerCase().includes(q) ||
-    (t.desc || '').toLowerCase().includes(q) ||
-    t.slug.includes(q)
-  ).slice(0, MAX_TOOL_RESULTS);
+  const local = new Set(SEARCHABLE_TOOLS.map(t => t.slug));
+  const pool = [
+    ...SEARCHABLE_TOOLS.map(t => ({ ...t, external: false })),
+    ...(externalTools || [])
+      .filter(t => !local.has(t.slug))
+      .map(t => ({ slug: t.slug, name: t.name, icon: t.icon, accent: '#64748b', sub: 'on fwdtools.com', external: true })),
+  ];
+  const scored = [];
+  for (const t of pool) {
+    const name = t.name.toLowerCase();
+    let score = 0;
+    if (name.startsWith(q)) score = 5;
+    else if (name.split(/[\s\-/·]+/).some(w => w.startsWith(q))) score = 4;
+    else if (name.includes(q)) score = 3;
+    else if (t.slug.includes(q)) score = 2;
+    else if (!t.external && ((t.sub || '').toLowerCase().includes(q) || (t.desc || '').toLowerCase().includes(q))) score = 1;
+    if (score) scored.push({ t, score });
+  }
+  scored.sort((a, b) => b.score - a.score || (a.t.external - b.t.external));
+  return scored.slice(0, MAX_TOOL_RESULTS).map(x => x.t);
+}
+
+function toolHref(t) {
+  return t.external ? `https://fwdtools.com/${t.slug}/` : `/${t.slug}`;
 }
 
 function matchSnippets(query, index) {
@@ -31,6 +52,7 @@ export default function HomeOmniSearch() {
   const [open, setOpen] = useState(false);
   const [highlight, setHighlight] = useState(-1);
   const [snippetIndex, setSnippetIndex] = useState(null);
+  const [externalTools, setExternalTools] = useState(null);
   const wrapRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -44,6 +66,17 @@ export default function HomeOmniSearch() {
     return () => { cancelled = true; };
   }, []);
 
+  // fwdtools' tool list, also its own chunk: only needed once someone starts typing.
+  useEffect(() => {
+    let cancelled = false;
+    import('@/data/fwdtools-sidebar.json').then(mod => {
+      const d = mod.default || mod;
+      const list = [...(d.freelancer || []), ...d.categories.flatMap(c => c.tools)];
+      if (!cancelled) setExternalTools(list);
+    });
+    return () => { cancelled = true; };
+  }, []);
+
   useEffect(() => {
     function onDocMouseDown(e) {
       if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false);
@@ -52,14 +85,14 @@ export default function HomeOmniSearch() {
     return () => document.removeEventListener('mousedown', onDocMouseDown);
   }, []);
 
-  const toolResults = useMemo(() => (query.trim() ? matchTools(query.trim()) : []), [query]);
+  const toolResults = useMemo(() => (query.trim() ? matchTools(query.trim(), externalTools) : []), [query, externalTools]);
   const snippetResults = useMemo(
     () => (query.trim() ? matchSnippets(query.trim(), snippetIndex) : []),
     [query, snippetIndex]
   );
   const flatResults = useMemo(
     () => [
-      ...toolResults.map(t => ({ kind: 'tool', href: `/${t.slug}`, ...t })),
+      ...toolResults.map(t => ({ kind: 'tool', ...t, href: toolHref(t) })),
       ...snippetResults.map(s => ({ kind: 'snippet', href: `/ui-snippets/${s.id}/`, ...s })),
     ],
     [toolResults, snippetResults]
@@ -145,7 +178,7 @@ export default function HomeOmniSearch() {
                       return (
                         <a
                           key={t.slug}
-                          href={`/${t.slug}`}
+                          href={toolHref(t)}
                           role="option"
                           aria-selected={highlight === idx}
                           className={`${styles.resultRow} ${highlight === idx ? styles.resultRowActive : ''}`}

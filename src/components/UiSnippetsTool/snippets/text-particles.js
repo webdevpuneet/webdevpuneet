@@ -43,7 +43,9 @@ function resize() {
   H = canvas.height = canvas.offsetHeight;
 }
 resize();
-window.addEventListener('resize', () => { resize(); buildParticles(currentText); });
+// The canvas can be 0px wide when the script first runs (iframe still laying out), and
+// getImageData throws on a 0-width canvas. Wait for a real size, and rebuild on every resize.
+new ResizeObserver(() => { resize(); buildParticles(currentText); }).observe(canvas);
 
 let particles = [];
 let state = 'FORM'; // FORM | EXPLODE
@@ -51,6 +53,7 @@ let currentText = 'HELLO';
 
 function buildParticles(text) {
   currentText = text;
+  if (!W || !H) return;
   const off = document.createElement('canvas');
   const FONT_SIZE = Math.min(120, W * 0.25);
   off.width = W; off.height = H;
