@@ -5,6 +5,7 @@ import s from '../ReactPlaygroundTool/styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { CHAPTERS, LESSONS } from './lessons';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const LS_PROGRESS = 'fwd-scss-playground-progress';
 const LS_POSITION = 'fwd-scss-playground-position';
 
@@ -473,6 +474,7 @@ ${compiledCss}
         )}
 
         <div className={s.main}>
+          <PlaygroundTopAd />
           <div className={s.conceptPanel}>
             <div className={s.conceptHeader} onClick={() => setConceptOpen(open => !open)}>
               <div className={s.conceptTitle}><span className={s.chapterTag}>{lesson.chapter}</span>{lesson.title}</div>

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import s from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const LS_LESSON = 'fwd-graphql-playground-lesson';
 const ACCENT = '#E10098';
 
@@ -2125,6 +2126,7 @@ export default function GraphQLPlaygroundTool() {
 
         {/* Center */}
         <div className={s.main}>
+          <PlaygroundTopAd />
           {/* Concept */}
           <div className={s.conceptPanel}>
             <div className={s.conceptHeader}>

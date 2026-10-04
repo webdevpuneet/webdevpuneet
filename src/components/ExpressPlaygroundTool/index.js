@@ -6,6 +6,7 @@ import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { createExpressApp, jsonParser, cors, logger, urlencoded, authMiddleware } from './express-engine';
 import { CHAPTERS, LESSONS } from './lessons';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ── Constants ─────────────────────────────────────────────────────────────── */
 const LS_PROGRESS = 'fwd-express-playground-progress';
 const LS_POSITION = 'fwd-express-playground-position';
@@ -703,6 +704,7 @@ export default function ExpressPlaygroundTool() {
 
         {/* Main */}
         <div className={s.main}>
+          <PlaygroundTopAd />
 
           {/* Concept panel */}
           <div className={s.conceptPanel}>

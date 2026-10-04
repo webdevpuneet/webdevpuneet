@@ -5,6 +5,7 @@ import s from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { LESSONS, CHAPTERS } from './lessons';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 // ── localStorage keys ─────────────────────────────────────────────────────────
 const LS_PROGRESS = 'fwd-jquery-playground-progress';
 const LS_POSITION = 'fwd-jquery-playground-position';
@@ -561,6 +562,7 @@ export default function JqueryPlaygroundTool() {
 
         {/* ── Main ── */}
         <div className={s.main}>
+          <PlaygroundTopAd />
           {/* Concept panel */}
           <div className={s.conceptPanel}>
             <div className={s.conceptHeader} onClick={() => setConceptOpen(o => !o)}>

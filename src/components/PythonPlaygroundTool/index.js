@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import s from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const STORAGE_KEY = 'fwd-python-playground-lesson';
 const PROGRESS_KEY = 'fwd-python-playground-progress';
 
@@ -1425,6 +1426,7 @@ export default function PythonPlaygroundTool() {
         )}
 
         <main className={s.main}>
+          <PlaygroundTopAd />
           <div className={s.conceptPanel}>
             <div className={s.conceptHeader} onClick={() => setConceptOpen(open => !open)}>
               <div className={s.conceptTitle}>

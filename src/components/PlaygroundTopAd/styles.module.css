@@ -1,0 +1,15 @@
+/* Leaderboard strip above the lesson: full width of the main column, at most 90px of ad. */
+.bar {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 4px 12px;
+  overflow: hidden;
+  background: #e8eaf1;
+  border-bottom: 1px solid var(--border);
+  box-sizing: border-box;
+}
+.unit { display: block; flex-shrink: 0; }  /* width/height set inline from the chosen size */
+/* AdSense found no ad: collapse the whole strip instead of leaving a gap. */
+.bar:has(ins[data-ad-status="unfilled"]) { display: none; }

@@ -5,6 +5,7 @@ import s from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { CHAPTERS } from './lessons';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const LS_PROGRESS   = 'fwd-css-playground-progress';
 const LS_POSITION   = 'fwd-css-playground-position';
 const LS_CHALLENGES = 'fwd-css-playground-challenges';
@@ -745,6 +746,7 @@ ${htmlCodeRef.current}
 
         {/* ── Main ── */}
         <div className={s.main}>
+          <PlaygroundTopAd />
 
           {/* ── Concept strip ── */}
           <div className={s.conceptStrip}>

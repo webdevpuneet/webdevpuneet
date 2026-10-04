@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import s from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const LS_LESSON = 'fwd-firebase-playground-lesson';
 
 /* ── Firestore simulator ────────────────────────────────────────────────── */
@@ -1179,6 +1180,7 @@ export default function FirebasePlaygroundTool() {
 
         {/* Center */}
         <div className={s.main}>
+          <PlaygroundTopAd />
           {/* Concept */}
           <div className={s.conceptPanel}>
             <div className={s.conceptHeader} onClick={() => setConceptOpen(v => !v)}>

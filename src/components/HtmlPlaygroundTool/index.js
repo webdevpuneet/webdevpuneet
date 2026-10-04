@@ -4,6 +4,7 @@ import s from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { CHAPTERS } from './lessons';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const LS_PROGRESS_KEY = 'fwd-html-playground-progress';
 const LS_POSITION_KEY = 'fwd-html-playground-position';
 
@@ -608,6 +609,7 @@ export default function HtmlPlaygroundTool() {
 
         {/* ── Main content ── */}
         <main className={s.main}>
+          <PlaygroundTopAd className={s.topAd} />
           <div key={activeLessonId} className={s.lessonContent}>
             {/* Concept */}
             <section className={s.conceptSection}>

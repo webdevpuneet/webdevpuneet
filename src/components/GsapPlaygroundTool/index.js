@@ -5,6 +5,7 @@ import s from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { CHAPTERS, LESSONS } from './lessons';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const LS_PROGRESS = 'fwd-gsap-playground-progress';
 const LS_POSITION = 'fwd-gsap-playground-position';
 const GSAP_PLUGIN_FILES = [
@@ -852,6 +853,7 @@ export default function GsapPlaygroundTool() {
         )}
 
         <div className={s.main}>
+          <PlaygroundTopAd />
           <div className={s.conceptPanel}>
             <div className={s.conceptHeader} onClick={() => setConceptOpen(o => !o)}>
               <div className={s.conceptTitle}>

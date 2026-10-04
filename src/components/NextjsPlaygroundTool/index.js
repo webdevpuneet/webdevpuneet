@@ -6,6 +6,7 @@ import s from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { LESSONS, CHAPTERS, BASE_FILES } from './lessons';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const PROGRESS_KEY = 'fwd-nextjs-playground-progress';
 const POSITION_KEY = 'fwd-nextjs-playground-position';
 
@@ -444,6 +445,7 @@ export default function NextjsPlaygroundTool() {
         </aside>
 
         <div className={s.mainCol}>
+          <PlaygroundTopAd />
           <div className={s.conceptPanel}>
             <div className={s.conceptHeader} onClick={() => setConceptOpen((open) => !open)}>
               <div className={s.conceptTitle}>

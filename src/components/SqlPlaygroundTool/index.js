@@ -5,6 +5,7 @@ import s from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { CHAPTERS, LESSONS, INIT_SQL } from './lessons';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ── Constants ──────────────────────────────────────────────────────────────── */
 const LS_PROGRESS = 'fwd-sql-playground-progress';
 const LS_POSITION = 'fwd-sql-playground-position';
@@ -1037,6 +1038,7 @@ export default function SqlPlaygroundTool() {
 
         {/* Main */}
         <div className={s.main}>
+          <PlaygroundTopAd />
 
           {/* Concept panel */}
           <div className={s.conceptPanel}>

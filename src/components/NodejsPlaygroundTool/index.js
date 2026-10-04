@@ -5,6 +5,7 @@ import s from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { RUN_LESSONS, CHAPTER_ORDER, VISUALIZER_CHAPTER } from './lessons';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const STORAGE_KEY = 'fwd-nodejs-playground-position';
 const PROGRESS_KEY = 'fwd-nodejs-playground-progress';
 
@@ -910,6 +911,7 @@ export default function NodejsPlaygroundTool() {
         </aside>
 
         <main className={s.main}>
+          <PlaygroundTopAd />
           <section className={s.conceptHead}>
             <div className={s.conceptHeadTop} onClick={() => setConceptOpen((o) => !o)}>
               <div>

@@ -5,6 +5,7 @@ import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { CHAPTERS, LESSONS } from './lessons';
 import s from './styles.module.css';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const LS_PROGRESS = 'fwd-angular-playground-progress';
 const LS_POSITION = 'fwd-angular-playground-position';
 
@@ -558,6 +559,7 @@ export default function AngularPlaygroundTool() {
         )}
 
         <main className={s.main}>
+          <PlaygroundTopAd />
           <section className={s.concept}>
             <button className={s.conceptHeader} onClick={() => setConceptOpen(open => !open)}>
               <span><b>{current.chapter}</b>{current.title}</span>

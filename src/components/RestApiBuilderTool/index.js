@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import s from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ── Constants ────────────────────────────────────────────────────────────── */
 const METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
 const METHOD_COLOR = {
@@ -534,6 +535,7 @@ export default function RestApiBuilderTool() {
 
         {/* ── Main ── */}
         <div className={s.main}>
+          <PlaygroundTopAd />
           {/* ── Tab bar ── */}
           <div className={s.tabBar}>
             {[

@@ -5,6 +5,7 @@ import s from '../ReactPlaygroundTool/styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { LESSONS, CHAPTERS } from './lessons';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const LS_PROGRESS = 'fwd-vue-playground-progress';
 const LS_POSITION = 'fwd-vue-playground-position';
 
@@ -599,6 +600,7 @@ export default function VuePlaygroundTool() {
         )}
 
         <div className={s.main}>
+          <PlaygroundTopAd />
           <div className={s.conceptPanel}>
             <div className={s.conceptHeader} onClick={() => setConceptOpen(v => !v)}>
               <div className={s.conceptTitle}>

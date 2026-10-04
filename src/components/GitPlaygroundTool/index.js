@@ -5,6 +5,7 @@ import s from '../ReactPlaygroundTool/styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { CHAPTERS, LESSONS } from './lessons';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const LS_PROGRESS = 'fwd-git-playground-progress';
 const LS_POSITION = 'fwd-git-playground-position';
 
@@ -990,6 +991,7 @@ export default function GitPlaygroundTool() {
         )}
 
         <div className={s.main}>
+          <PlaygroundTopAd />
           <div className={s.conceptPanel}>
             <div className={s.conceptHeader} onClick={() => setConceptOpen(open => !open)}>
               <div className={s.conceptTitle}>

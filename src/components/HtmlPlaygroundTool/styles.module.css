@@ -809,3 +809,9 @@
 .infoBlock { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
 .infoCode { background: var(--bg); border: 1px solid var(--border2); border-radius: 8px; padding: 14px 16px; font: 13px/1.7 var(--font-mono); overflow-x: auto; margin: 0; }
 .infoDesc { font-size: 13px; color: var(--text2); line-height: 1.65; margin: 0; }
+
+/* Top leaderboard strip: cancel .main's padding so it spans the column edge to edge. */
+.topAd { margin: -24px -28px 0; width: calc(100% + 56px) !important; }
+@media (max-width: 768px) {
+  .topAd { margin: -16px -16px 0; width: calc(100% + 32px) !important; }
+}

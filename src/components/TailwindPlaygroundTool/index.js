@@ -6,6 +6,7 @@ import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { CHAPTERS } from './lessons';
 import { TW_CLASSES } from './tw-classes';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const LS_PROGRESS   = 'fwd-tw-playground-progress';
 const LS_POSITION   = 'fwd-tw-playground-position';
 const LS_CHALLENGES = 'fwd-tw-playground-challenges';
@@ -534,6 +535,7 @@ export default function TailwindPlaygroundTool() {
 
         {/* ── Main ── */}
         <div className={s.main}>
+          <PlaygroundTopAd />
 
           {/* ── Concept strip ── */}
           <div className={s.conceptStrip}>

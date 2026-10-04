@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import s from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const LESSONS = [
   {
     id: 'kv',
@@ -640,6 +641,7 @@ export default function RedisPlaygroundTool() {
         </aside>
 
         <main className={s.main}>
+          <PlaygroundTopAd />
           <section className={s.concept}>
             <div>
               <span>{lesson.tag}</span>

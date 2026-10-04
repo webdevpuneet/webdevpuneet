@@ -6,6 +6,7 @@ import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { createDatabase, SAMPLE_DATA } from './mongo-engine';
 import { CHAPTERS, LESSONS } from './lessons';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ── Constants ─────────────────────────────────────────────────────────────── */
 const LS_PROGRESS = 'fwd-mongo-playground-progress';
 const LS_POSITION = 'fwd-mongo-playground-position';
@@ -644,6 +645,7 @@ export default function MongoPlaygroundTool() {
 
         {/* Main */}
         <div className={s.main}>
+          <PlaygroundTopAd />
 
           {/* Concept panel */}
           <div className={s.conceptPanel}>
