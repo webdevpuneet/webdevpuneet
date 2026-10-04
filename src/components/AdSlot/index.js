@@ -4,6 +4,8 @@ import { usePathname } from 'next/navigation';
 import { ADS_ENABLED as ADS_CONFIG_ENABLED } from '@/lib/ads-config';
 import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import RelatedStrip from '@/components/RelatedStrip';
+import BlogStrip from '@/components/BlogStrip';
+import IndexOnly from '@/components/SeoSection/IndexOnly';
 import styles from './styles.module.css';
 
 // Ads are never shown on the 404 page.
@@ -49,6 +51,9 @@ export default function AdSlot({ contained = false, related = null, adFirst = fa
 
   // related={false}: the page renders its own related strip, so show none here.
   const relatedContent = related === false ? null : (related || (slug ? <RelatedStrip slug={slug} /> : null));
+  // Tool pages (default related strip) get the blog strip right after Related Tools.
+  // Custom `related` content (FrontendPlaygroundsStrip) already carries its own.
+  const blogContent = related == null && slug ? <BlogStrip /> : null;
 
   if (!ADS_ENABLED) {
     return (
@@ -56,13 +61,17 @@ export default function AdSlot({ contained = false, related = null, adFirst = fa
         {relatedContent && (
           <div className={styles.relatedFull}>
             {relatedContent}
+            {blogContent}
           </div>
         )}
       </div>
     );
   }
 
+  // Ads only belong on the canonical URL: any query string hides the ad, while
+  // Related Tools and the blog strip still render (pages keep AdSlot outside IndexOnly).
   const ad = (
+    <IndexOnly>
     <div className={contained ? styles.adWrapContained : adFirst ? styles.adWrapFull : styles.adWrap}>
       <ins
         className="adsbygoogle"
@@ -73,19 +82,20 @@ export default function AdSlot({ contained = false, related = null, adFirst = fa
         data-full-width-responsive="true"
       />
     </div>
+    </IndexOnly>
   );
 
-  // adFirst (UI snippet pages): the ad leads, full width and centered, above the
-  // related strip. Elsewhere it keeps its place below the related strip.
+  // The ad always leads, above the related strip (tool pages included).
+  // adFirst only switches it to the full-width, centered wrapper.
   return (
     <div className={styles.adShell}>
-      {adFirst && ad}
+      {ad}
       {relatedContent && (
         <div className={styles.relatedFull}>
           {relatedContent}
+          {blogContent}
         </div>
       )}
-      {!adFirst && ad}
     </div>
   );
 }

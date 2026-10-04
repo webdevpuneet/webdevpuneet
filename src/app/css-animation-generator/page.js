@@ -155,8 +155,8 @@ export default function CssAnimationGeneratorPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><CssAnimationGeneratorTool /></div>
-      <IndexOnly><AdSlot />
-      <SeoSection {...SEO} /></IndexOnly>
+      <AdSlot />
+      <IndexOnly><SeoSection {...SEO} /></IndexOnly>
 
     </div>
   );

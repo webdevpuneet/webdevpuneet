@@ -283,8 +283,8 @@ export default function FirebasePlaygroundPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><FirebasePlaygroundTool /></div>
-      <IndexOnly><AdSlot />
-      <SeoSection {...seoData} /></IndexOnly>
+      <AdSlot />
+      <IndexOnly><SeoSection {...seoData} /></IndexOnly>
     </div>
   );
 }

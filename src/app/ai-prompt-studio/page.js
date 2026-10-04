@@ -151,8 +151,8 @@ export default function AiPromptStudioPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <div className={styles.toolSection}><AiPromptStudioTool /></div>
-      <IndexOnly><AdSlot />
-      <SeoSection {...SEO} /></IndexOnly>
+      <AdSlot />
+      <IndexOnly><SeoSection {...SEO} /></IndexOnly>
 
 
     </div>

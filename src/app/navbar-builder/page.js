@@ -159,8 +159,8 @@ export default function NavbarBuilderPage() {
         <div className={styles.toolSection}>
           <NavbarBuilderTool />
         </div>
-        <IndexOnly><AdSlot />
-        <SeoSection {...seoData} /></IndexOnly>
+        <AdSlot />
+        <IndexOnly><SeoSection {...seoData} /></IndexOnly>
 
       </div>
     </>

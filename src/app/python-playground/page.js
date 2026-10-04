@@ -198,8 +198,8 @@ export default function PythonPlaygroundPage() {
       <div className={styles.toolSection}>
         <PythonPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot />
-      <SeoSection {...seoData} noShare /></IndexOnly>
+      <AdSlot />
+      <IndexOnly><SeoSection {...seoData} noShare /></IndexOnly>
     </div>
   );
 }

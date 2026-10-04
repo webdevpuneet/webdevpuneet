@@ -200,8 +200,8 @@ export default function TailwindPlaygroundPage() {
       <div className={styles.toolSection}>
         <TailwindPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot />
-      <SeoSection {...SEO} /></IndexOnly>
+      <AdSlot />
+      <IndexOnly><SeoSection {...SEO} /></IndexOnly>
     </div>
   );
 }

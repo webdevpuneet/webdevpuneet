@@ -176,8 +176,8 @@ export default function CssMediaQueriesGeneratorPage() {
         <div className={styles.toolSection}>
           <CssMediaQueriesGeneratorTool />
         </div>
-        <IndexOnly><AdSlot />
-        <SeoSection {...seoData} /></IndexOnly>
+        <AdSlot />
+        <IndexOnly><SeoSection {...seoData} /></IndexOnly>
 
       </div>
     </>

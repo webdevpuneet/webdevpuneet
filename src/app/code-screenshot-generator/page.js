@@ -165,8 +165,8 @@ export default function Page() {
       <div className={styles.toolSection}>
         <CodeScreenshotTool />
       </div>
-      <IndexOnly><AdSlot />
-      <SeoSection {...seo} /></IndexOnly>
+      <AdSlot />
+      <IndexOnly><SeoSection {...seo} /></IndexOnly>
 
 
     </div>

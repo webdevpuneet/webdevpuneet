@@ -205,8 +205,8 @@ export default function SvgToPngPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><SvgToPng /></div>
-      <IndexOnly><AdSlot />
-      <SeoSection heading="Free SVG to PNG Converter — Custom Size, Scale & Transparent Background" {...SEO} /></IndexOnly>
+      <AdSlot />
+      <IndexOnly><SeoSection heading="Free SVG to PNG Converter — Custom Size, Scale & Transparent Background" {...SEO} /></IndexOnly>
 
     </div>
   );

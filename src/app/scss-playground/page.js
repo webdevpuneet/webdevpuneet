@@ -152,8 +152,8 @@ export default function ScssPlaygroundPage() {
       <div className={styles.toolSection}>
         <ScssPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot />
-      <SeoSection {...seoData} /></IndexOnly>
+      <AdSlot />
+      <IndexOnly><SeoSection {...seoData} /></IndexOnly>
     </div>
   );
 }

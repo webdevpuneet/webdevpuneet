@@ -175,8 +175,8 @@ export default function JavascriptMinifierPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><JavascriptMinifierTool /></div>
-      <IndexOnly><AdSlot slot="javascript-minifier-below-tool" />
-      <SeoSection
+      <AdSlot slot="javascript-minifier-below-tool" />
+      <IndexOnly><SeoSection
         slug="javascript-minifier"
         title="JavaScript Minifier Online - Compress, Uglify, and Concatenate JS"
         subtitle="Paste JavaScript or upload multiple files, remove comments, compress whitespace, optionally uglify identifiers, and download a .min.js file."

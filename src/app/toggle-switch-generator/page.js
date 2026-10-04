@@ -199,8 +199,8 @@ export default function ToggleSwitchGeneratorPage() {
         <div className={styles.toolSection}>
           <ToggleSwitchGeneratorTool />
         </div>
-        <IndexOnly><AdSlot />
-        <SeoSection {...seoData} /></IndexOnly>
+        <AdSlot />
+        <IndexOnly><SeoSection {...seoData} /></IndexOnly>
 
 
       </div>

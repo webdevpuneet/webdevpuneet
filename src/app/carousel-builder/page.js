@@ -224,8 +224,8 @@ export default function Page() {
       <div className={styles.toolSection}>
         <CarouselBuilderTool />
       </div>
-      <IndexOnly><AdSlot />
-      <SeoSection {...SEO} /></IndexOnly>
+      <AdSlot />
+      <IndexOnly><SeoSection {...SEO} /></IndexOnly>
 
     </div>
   );

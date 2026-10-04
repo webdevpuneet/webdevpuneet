@@ -165,8 +165,8 @@ export default function Page() {
       <div className={styles.toolSection}>
         <AspectRatioCalculatorTool />
       </div>
-      <IndexOnly><AdSlot />
-      <SeoSection {...SEO} /></IndexOnly>
+      <AdSlot />
+      <IndexOnly><SeoSection {...SEO} /></IndexOnly>
     </div>
   );
 }

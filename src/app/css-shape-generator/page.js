@@ -157,8 +157,8 @@ export default function CssShapeGeneratorPage() {
         <div className={styles.toolSection}>
           <CssShapeGeneratorTool />
         </div>
-        <IndexOnly><AdSlot />
-        <SeoSection {...seoData} /></IndexOnly>
+        <AdSlot />
+        <IndexOnly><SeoSection {...seoData} /></IndexOnly>
 
       </div>
     </>

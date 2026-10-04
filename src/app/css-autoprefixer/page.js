@@ -157,8 +157,8 @@ export default function CssAutoprefixerPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><CssAutoprefixerTool /></div>
-      <IndexOnly><AdSlot slot="css-autoprefixer-below-tool" />
-      <SeoSection
+      <AdSlot slot="css-autoprefixer-below-tool" />
+      <IndexOnly><SeoSection
         slug="css-autoprefixer"
         title="CSS Autoprefixer Online - Add Vendor Prefixes"
         subtitle="Use PostCSS Autoprefixer with Browserslist targets, rejected browsers, grid/flexbox settings, copy, and download."

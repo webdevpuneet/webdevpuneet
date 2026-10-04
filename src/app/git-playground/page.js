@@ -164,8 +164,8 @@ export default function GitPlaygroundPage() {
       <div className={styles.toolSection}>
         <GitPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot />
-      <SeoSection {...seoData} /></IndexOnly>
+      <AdSlot />
+      <IndexOnly><SeoSection {...seoData} /></IndexOnly>
     </div>
   );
 }

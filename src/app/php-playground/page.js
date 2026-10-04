@@ -163,8 +163,8 @@ export default function PhpPlaygroundPage() {
       <div className={styles.toolSection}>
         <PhpPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot />
-      <SeoSection {...seoData} /></IndexOnly>
+      <AdSlot />
+      <IndexOnly><SeoSection {...seoData} /></IndexOnly>
     </div>
   );
 }

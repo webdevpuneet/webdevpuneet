@@ -208,8 +208,8 @@ export default function ColorContrastCheckerPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><ColorContrastChecker /></div>
-      <IndexOnly><AdSlot />
-      <SeoSection heading="Free Color Contrast Checker — WCAG 2.1 AA & AAA Compliance" {...SEO} /></IndexOnly>
+      <AdSlot />
+      <IndexOnly><SeoSection heading="Free Color Contrast Checker — WCAG 2.1 AA & AAA Compliance" {...SEO} /></IndexOnly>
 
     </div>
   );

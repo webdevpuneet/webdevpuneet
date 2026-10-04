@@ -411,7 +411,7 @@ export default async function Home() {
       </div>
       </div>
 
-      <IndexOnly><AdSlot /></IndexOnly>
+      <AdSlot />
 
       <div className={styles.seoWrap}>
         <IndexOnly><SeoSection {...SEO} /></IndexOnly>

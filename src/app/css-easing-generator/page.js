@@ -147,8 +147,8 @@ export default function CssEasingGeneratorPage() {
         <div className={styles.toolSection}>
           <CssEasingGeneratorTool />
         </div>
-        <IndexOnly><AdSlot />
-        <SeoSection {...seoData} /></IndexOnly>
+        <AdSlot />
+        <IndexOnly><SeoSection {...seoData} /></IndexOnly>
       </div>
     </>
   );

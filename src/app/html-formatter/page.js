@@ -198,8 +198,8 @@ export default function Page() {
       <div className={styles.toolSection}>
         <HtmlFormatterTool />
       </div>
-      <IndexOnly><AdSlot />
-      <SeoSection {...seoData} /></IndexOnly>
+      <AdSlot />
+      <IndexOnly><SeoSection {...seoData} /></IndexOnly>
 
     </div>
   );

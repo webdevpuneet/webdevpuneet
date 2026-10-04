@@ -191,8 +191,8 @@ export default function Page() {
       <div className={styles.toolSection}>
         <CssMinifierBeautifierTool />
       </div>
-      <IndexOnly><AdSlot />
-      <SeoSection {...seoData} /></IndexOnly>
+      <AdSlot />
+      <IndexOnly><SeoSection {...seoData} /></IndexOnly>
 
     </div>
   );

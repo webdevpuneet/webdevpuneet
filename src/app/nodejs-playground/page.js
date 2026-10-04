@@ -227,8 +227,8 @@ export default function NodejsPlaygroundPage() {
       <div className={styles.toolSection}>
         <NodejsPlaygroundTool />
       </div>
-      <IndexOnly><AdSlot />
-      <SeoSection {...seoData} noShare /></IndexOnly>
+      <AdSlot />
+      <IndexOnly><SeoSection {...seoData} noShare /></IndexOnly>
     </div>
   );
 }
