@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import styles from './styles.module.css';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const RATIOS = [
   { label: '16:9',   w: 16, h: 9,   desc: 'Widescreen / YouTube / TV' },
   { label: '9:16',   w: 9,  h: 16,  desc: 'Vertical / Reels / TikTok' },
@@ -179,6 +180,7 @@ export default function AspectRatioCalculatorTool() {
 
   return (
     <div className={styles.wrap}>
+      <PlaygroundTopAd />
       {/* Header */}
       <div className={styles.header}>
         <div className={styles.logo}>

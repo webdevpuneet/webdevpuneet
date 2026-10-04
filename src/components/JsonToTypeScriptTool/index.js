@@ -4,6 +4,7 @@ import { useState, useMemo, useCallback, useRef, forwardRef } from 'react';
 import styles from './styles.module.css';
 import JsonToolsTopNav from '@/components/JsonToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ── Sample ─────────────────────────────────────────────────────────────── */
 
 const SAMPLE_JSON = `{
@@ -289,6 +290,7 @@ export default function JsonToTypeScriptTool() {
   return (
     <div className={styles.wrap}>
       <JsonToolsTopNav active="json-to-typescript" />
+      <PlaygroundTopAd />
 
       {/* ── Header ── */}
       <div className={styles.header}>

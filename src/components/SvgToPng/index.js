@@ -4,6 +4,7 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import s from './styles.module.css';
 import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ── Helpers ─────────────────────────────────────────────────────────────────── */
 function fmtBytes(n) {
   if (!n) return '—';
@@ -222,6 +223,7 @@ export default function SvgToPng() {
   return (
     <div className={s.wrap}>
       <ImageToolsTopNav active="svg-to-png" />
+      <PlaygroundTopAd />
       {/* Header */}
       <div className={s.header}>
         <div className={s.logo}>

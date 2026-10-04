@@ -4,6 +4,7 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ─── Preset shapes ────────────────────────────────────────────────────── */
 const PRESETS = [
   // Basic polygons
@@ -354,7 +355,7 @@ export default function CssClipPathGenerator() {
       <CssToolsTopNav active="css-clip-path-generator" />
 
       {/* ── Header ──────────────────────────────────────────────────────── */}
-      <div className={styles.header}>
+      <div className={styles.header} style={{ height: 'auto', minHeight: 52 }}>
         <div className={styles.logo}>
           <div className={styles.logoIcon}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
@@ -364,6 +365,7 @@ export default function CssClipPathGenerator() {
           <span>CSS <span style={{ color: '#818cf8' }}>Clip-path</span> Generator</span>
         </div>
 
+        <PlaygroundTopAd inline />
       </div>
 
       {/* ── Preset strip ─────────────────────────────────────────────────── */}

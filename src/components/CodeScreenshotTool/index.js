@@ -4,6 +4,7 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import styles from './styles.module.css';
 import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ─── Themes ──────────────────────────────────────────────────────────────── */
 
 const THEMES = {
@@ -631,6 +632,7 @@ export default function CodeScreenshotTool() {
   return (
     <div className={styles.wrap}>
       <ImageToolsTopNav active="code-screenshot-generator" />
+      <PlaygroundTopAd />
 
       {/* ── Header ── */}
       <div className={styles.header}>

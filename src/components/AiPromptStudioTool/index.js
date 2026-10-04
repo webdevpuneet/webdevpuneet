@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import styles from './styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 // ── Scoring Engine ──────────────────────────────────────────────────────────
 const DIMENSIONS = [
   { key: 'role',        label: 'Role / Persona',  color: '#818cf8' },
@@ -518,6 +519,7 @@ export default function AiPromptStudioTool() {
   return (
     <div className={styles.wrap}>
       <PlaygroundTopNav active="ai-prompt-studio" />
+      <PlaygroundTopAd />
       {/* Header */}
       <div className={styles.header}>
         <div className={styles.logo}>

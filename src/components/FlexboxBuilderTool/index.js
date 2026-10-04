@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 // ── Color palette for flex items ─────────────────────────────────────────────
 const PALETTE = [
   { bg: 'rgba(91,156,246,0.15)', border: 'rgba(91,156,246,0.5)', text: '#5b9cf6' },
@@ -318,6 +319,7 @@ export default function FlexboxBuilderTool() {
   return (
     <div className={styles.outerWrap}>
       <CssToolsTopNav active="flexbox-builder" />
+      <PlaygroundTopAd />
       <div className={styles.app}>
       {/* ── Control Sidebar ── */}
       <aside className={styles.sidebar}>

@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 let idCounter = 0;
 function mkId() { return ++idCounter; }
 
@@ -249,6 +250,7 @@ export default function BoxShadowGeneratorTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="box-shadow-generator" />
+      <PlaygroundTopAd />
       {/* Tool header */}
       <div className={styles.toolHeader}>
         <div className={styles.logo}>

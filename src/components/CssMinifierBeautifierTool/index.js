@@ -4,6 +4,7 @@ import { useState, useRef, useCallback } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ── CSS Minifier ────────────────────────────────────────────────── */
 
 function minifyCss(input) {
@@ -405,6 +406,7 @@ export default function CssMinifierBeautifierTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="css-minifier-beautifier" />
+      <PlaygroundTopAd />
 
       {/* ── Header ── */}
       <header className={styles.header}>

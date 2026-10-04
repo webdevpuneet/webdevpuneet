@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const DEVICE_GROUPS = [
   {
     label: 'Mobile',
@@ -113,6 +114,7 @@ function ResponsivePreviewInner() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="responsive-preview-tool" />
+      <PlaygroundTopAd />
       {/* Single header bar */}
       <div className={styles.header}>
         {/* ── Left: logo + URL bar ── */}

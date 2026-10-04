@@ -4,6 +4,7 @@ import { useState, useMemo, useRef } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const FILTERS = [
   { id: 'blur',       label: 'Blur',        unit: 'px',  min: 0,    max: 20,   step: 0.5,  default: 0,   format: v => `blur(${v}px)` },
   { id: 'brightness', label: 'Brightness',  unit: '%',   min: 0,    max: 300,  step: 1,    default: 100, format: v => `brightness(${v}%)` },
@@ -132,6 +133,7 @@ export default function CssFilterGeneratorTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="css-filter-generator" />
+      <PlaygroundTopAd />
       {/* ── Header ── */}
       <header className={styles.header}>
         <div className={styles.logoIcon}>

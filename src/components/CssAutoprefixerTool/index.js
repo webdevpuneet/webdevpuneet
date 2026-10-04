@@ -7,6 +7,7 @@ import browserslist from 'browserslist';
 import s from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const SAMPLE_CSS = `.card {
   display: flex;
   user-select: none;
@@ -294,6 +295,7 @@ export default function CssAutoprefixerTool() {
   return (
     <div className={s.wrap}>
       <CssToolsTopNav active="css-autoprefixer" />
+      <PlaygroundTopAd />
       <div className={s.header}>
         <div className={s.logo}>
           <span className={s.logoIcon} aria-hidden="true">

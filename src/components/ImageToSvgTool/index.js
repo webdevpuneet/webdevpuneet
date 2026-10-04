@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import styles from './styles.module.css';
 import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ─── Constants ────────────────────────────────────────────────────────── */
 const ACCENT = '#f97316';
 
@@ -330,6 +331,7 @@ export default function ImageToSvgTool() {
   return (
     <div className={styles.wrap}>
       <ImageToolsTopNav active="image-to-svg" />
+      <PlaygroundTopAd />
 
       {/* ── Header ──────────────────────────────────────────────────────── */}
       <div className={styles.header}>

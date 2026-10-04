@@ -4,6 +4,7 @@ import { useState, useRef, useCallback, useMemo, useEffect } from 'react';
 import styles from './styles.module.css';
 import DevConvertersTopNav from '@/components/DevConvertersTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ── Formatters ──────────────────────────────────────────────────── */
 const VOID_TAGS = new Set(['area','base','br','col','embed','hr','img','input','link','meta','param','source','track','wbr']);
 
@@ -433,6 +434,7 @@ export default function HtmlFormatterTool() {
   return (
     <div className={styles.wrap}>
       <DevConvertersTopNav active="html-formatter" />
+      <PlaygroundTopAd />
       {/* ── Header ── */}
       <header className={styles.header}>
         <div className={styles.logoIcon}>

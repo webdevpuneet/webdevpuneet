@@ -5,6 +5,7 @@ import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 import { convert } from '@/lib/css-to-tailwind';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ════════════════════════════════════════════════════════════════
    Output formatting
 ════════════════════════════════════════════════════════════════ */
@@ -254,6 +255,7 @@ export default function CssToTailwindTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="css-to-tailwind" />
+      <PlaygroundTopAd />
 
       {/* ── Header ── */}
       <header className={styles.header}>

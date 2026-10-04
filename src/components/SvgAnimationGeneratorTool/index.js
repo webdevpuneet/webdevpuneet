@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 let shapeId = 0;
 function mkId(tag) { return `${tag}_${++shapeId}`; }
 
@@ -778,9 +779,10 @@ export default function SvgAnimationGeneratorTool() {
     <div className={styles.wrap}>
       <CssToolsTopNav active="svg-animation-generator" />
       {/* Header */}
-      <div className={styles.header}>
+      <div className={styles.header} style={{ height: 'auto', minHeight: 52 }}>
         <div className={styles.headerIcon}>△</div>
         <span className={styles.headerTitle}>SVG <span className={styles.headerAccent}>Animation</span> Generator</span>
+        <PlaygroundTopAd inline />
       </div>
 
       <div className={styles.layout}>

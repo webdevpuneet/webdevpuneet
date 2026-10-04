@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import s from './styles.module.css';
 import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 function rgbToHex(r, g, b) {
   return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0').toUpperCase()).join('');
 }
@@ -110,6 +111,7 @@ export default function ImageColorPaletteTool() {
   return (
     <div className={s.wrap}>
       <ImageToolsTopNav active="image-color-palette" />
+      <PlaygroundTopAd />
       <div className={s.header}>
         <div className={s.titleRow}>
           <img src="/icons/image-color-palette.svg" alt="" width={28} height={28} className={s.logoIcon} />

@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 
 /* ── SVG coordinate helpers ─────────────────────────────────────────────── */
 const SVG_W  = 260;
@@ -305,6 +306,7 @@ export default function CssEasingGeneratorTool() {
 
         {/* Right panel */}
         <div className={styles.rightPanel}>
+          <PlaygroundTopAd />
 
           {/* Preview */}
           <div className={styles.previewSection}>

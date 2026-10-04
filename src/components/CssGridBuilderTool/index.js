@@ -4,6 +4,7 @@ import { useState, useRef, useCallback, useMemo } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ─── Area color palette ─────────────────────────────────────────────────── */
 const AREA_COLORS = [
   { bg: 'rgba(129,140,248,0.22)', border: 'rgba(129,140,248,0.7)', text: '#818cf8' },
@@ -426,6 +427,7 @@ export default function CssGridBuilderTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="css-grid-builder" />
+      <PlaygroundTopAd />
 
       {/* ── Header ─────────────────────────────────────────────────────── */}
       <header className={styles.header}>

@@ -3,6 +3,7 @@ import { useState, useMemo } from 'react';
 import s from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ── Constants ── */
 const LAYOUTS = [
   { id: 'default',  label: 'Default',  hint: 'Logo left, links right' },
@@ -526,6 +527,7 @@ export default function NavbarBuilderTool() {
   return (
     <div className={s.wrap}>
       <CssToolsTopNav active="navbar-builder" />
+      <PlaygroundTopAd />
 
       {/* Header */}
       <div className={s.header}>

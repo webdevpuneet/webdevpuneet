@@ -5,6 +5,7 @@ import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 import GistSyncButton from '@/components/GistSyncButton';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 // ─── constants ────────────────────────────────────────────────────────────────
 
 const LOCAL_SAVE_DEBOUNCE = 500;
@@ -1203,6 +1204,7 @@ export default function SvgMotionStudioTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="svg-motion-studio" />
+      <PlaygroundTopAd />
 
       {/* ── header ── */}
       <header className={styles.header}>

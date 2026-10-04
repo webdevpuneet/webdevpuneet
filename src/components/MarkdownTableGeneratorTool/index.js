@@ -3,6 +3,7 @@ import { useState, useMemo, useCallback } from 'react';
 import s from './styles.module.css';
 import TextToolsTopNav from '@/components/TextToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const ALIGNS = ['left','center','right'];
 const ALIGN_ICONS = { left: '⬅', center: '↔', right: '➡' };
 
@@ -82,6 +83,7 @@ export default function MarkdownTableGeneratorTool() {
   return (
     <div className={s.wrap}>
       <TextToolsTopNav active="markdown-table-generator" />
+      <PlaygroundTopAd />
       <div className={s.toolbar}>
         <div className={s.titleRow}>
           <img src="/icons/markdown-table-generator.svg" alt="" width={26} height={26} className={s.logoIcon} />

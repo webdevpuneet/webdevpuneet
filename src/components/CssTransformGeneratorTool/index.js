@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ── Default state ──────────────────────────────────────────── */
 const DEFAULTS = {
   translateX: 0, translateY: 0, translateZ: 0,
@@ -181,6 +182,7 @@ export default function CssTransformGeneratorTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="css-transform-generator" />
+      <PlaygroundTopAd />
       {/* ── Header ── */}
       <header className={styles.header}>
         <div className={styles.logoIcon}>

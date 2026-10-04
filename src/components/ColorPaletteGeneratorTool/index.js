@@ -4,6 +4,7 @@ import { useState, useMemo, useCallback } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ─── Color math ─────────────────────────────────────────────── */
 function hexToHsl(hex) {
   let r = parseInt(hex.slice(1, 3), 16) / 255;
@@ -239,6 +240,7 @@ export default function ColorPaletteGeneratorTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="color-palette-generator" />
+      <PlaygroundTopAd />
       {/* ── Header ── */}
       <header className={styles.header}>
         <div className={styles.logoIcon}>

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const ANIMATIONS = [
   { id: 'fade-in',     name: 'Fade In',      kf: 'fade-in' },
   { id: 'fade-out',    name: 'Fade Out',     kf: 'fade-out' },
@@ -392,7 +393,7 @@ export default function CssAnimationGeneratorTool() {
       <CssToolsTopNav active="css-animation-generator" />
       <style>{activeKf}</style>
 
-      <div className={styles.header}>
+      <div className={styles.header} style={{ height: 'auto', minHeight: 52 }}>
         <div className={styles.headerIcon}>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <rect x="2" y="2" width="5" height="5" rx="1.5" fill="currentColor" opacity="0.4"/>
@@ -402,6 +403,7 @@ export default function CssAnimationGeneratorTool() {
           </svg>
         </div>
         <span className={styles.headerTitle}>CSS <span className={styles.headerAccent}>Animation</span> Generator</span>
+        <PlaygroundTopAd inline />
       </div>
 
       <div className={styles.layout}>

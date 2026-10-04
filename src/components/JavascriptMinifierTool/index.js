@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import s from './styles.module.css';
 import DevConvertersTopNav from '@/components/DevConvertersTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const SAMPLE = `// Paste JavaScript or upload multiple .js files
 function calculateTotal(items, taxRate) {
   const subtotal = items.reduce((sum, item) => {
@@ -254,6 +255,7 @@ export default function JavascriptMinifierTool() {
   return (
     <div className={s.wrap}>
       <DevConvertersTopNav active="javascript-minifier" />
+      <PlaygroundTopAd />
       <div className={s.header}>
         <div className={s.logo}>
           <span className={s.logoIcon}>JS</span>

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const COMMON_USES = {
   0.5: 'xs spacing', 0.75: 'small text', 0.875: 'body sm', 1: 'body text',
   1.125: 'body md', 1.25: 'h5 / lead', 1.5: 'h4', 1.75: 'h3',
@@ -57,11 +58,12 @@ export default function RemPxConverterTool() {
       <CssToolsTopNav active="rem-px-converter" />
 
       {/* ── Top header bar ── */}
-      <header className={styles.header}>
+      <header className={styles.header} style={{ height: 'auto', minHeight: 52 }}>
         <div className={styles.logo}>
           <div className={styles.logoIcon}>Rp</div>
           REM<span>↔ PX</span>
         </div>
+        <PlaygroundTopAd inline />
       </header>
 
       {/* ── Body ── */}

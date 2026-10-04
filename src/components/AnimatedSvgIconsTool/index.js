@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import styles from './styles.module.css';
 import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ─────────────────────────────────────────────────────────────
    Icon definitions
    Each icon returns an <svg> string given { color, size, stroke, speed }
@@ -1955,6 +1956,7 @@ export default function AnimatedSvgIconsTool() {
   return (
     <div className={styles.wrap}>
       <ImageToolsTopNav active="animated-svg-icons" />
+      <PlaygroundTopAd />
       {/* ── Header ── */}
       <header className={styles.header}>
         <div className={styles.logoIcon}>

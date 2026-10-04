@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import s from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const PRESETS = [
   { name: 'Blue',    trackOff: '#d1d5db', trackOn: '#3b82f6', thumb: '#ffffff', focus: '#3b82f6', shape: 'pill', shadow: true,  border: false },
   { name: 'Green',   trackOff: '#d1d5db', trackOn: '#10b981', thumb: '#ffffff', focus: '#10b981', shape: 'pill', shadow: true,  border: false },
@@ -541,6 +542,7 @@ export default function ToggleSwitchGeneratorTool() {
   return (
     <div className={s.wrap}>
       <CssToolsTopNav active="toggle-switch-generator" />
+      <PlaygroundTopAd />
 
       {/* ── Header ── */}
       <div className={s.header}>

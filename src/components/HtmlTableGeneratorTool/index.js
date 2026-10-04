@@ -3,6 +3,7 @@ import { useState, useMemo } from 'react';
 import s from './styles.module.css';
 import TextToolsTopNav from '@/components/TextToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const ALIGNS = ['left','center','right'];
 
 function makeGrid(rows, cols) {
@@ -83,6 +84,7 @@ export default function HtmlTableGeneratorTool() {
   return (
     <div className={s.wrap}>
       <TextToolsTopNav active="html-table-generator" />
+      <PlaygroundTopAd />
       <div className={s.toolbar}>
         <div className={s.titleRow}>
           <img src="/icons/html-table-generator.svg" alt="" width={26} height={26} className={s.logoIcon} />

@@ -4,6 +4,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import styles from './styles.module.css';
 import DevConvertersTopNav from '@/components/DevConvertersTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const VOID_ELEMENTS = new Set(['area','base','br','col','embed','hr','img','input','link','meta','param','source','track','wbr']);
 
 const EVENT_MAP = {
@@ -440,6 +441,7 @@ export default function HtmlToJsxConverterTool() {
   return (
     <div className={styles.wrap}>
       <DevConvertersTopNav active="html-to-jsx-converter" />
+      <PlaygroundTopAd />
       <header className={styles.header}>
         <div className={styles.logo}>
           <div className={styles.logoIcon}>&lt;/&gt;</div>

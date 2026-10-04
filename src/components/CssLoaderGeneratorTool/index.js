@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const LOADERS = [
   { id: 'spinner', name: 'Spinner' },
   { id: 'dots',    name: 'Dots' },
@@ -275,7 +276,7 @@ export default function CssLoaderGeneratorTool() {
       <style>{miniStyles}</style>
 
       {/* Full-width header */}
-      <div className={styles.header}>
+      <div className={styles.header} style={{ height: 'auto', minHeight: 52 }}>
         <div className={styles.logoIcon}>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3"/>
@@ -283,6 +284,7 @@ export default function CssLoaderGeneratorTool() {
           </svg>
         </div>
         <span className={styles.headerTitle}>CSS <span className={styles.logoAccent}>Loader</span> Generator</span>
+        <PlaygroundTopAd inline />
       </div>
 
       {/* Body: sidebar + content */}

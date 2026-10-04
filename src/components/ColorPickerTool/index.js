@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ─── Color math ───────────────────────────────────────────────────────── */
 function hexToRgb(hex) {
   const h = hex.replace('#', '');
@@ -284,6 +285,7 @@ export default function ColorPickerTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="color-picker" />
+      <PlaygroundTopAd />
 
       {/* ── Header ─────────────────────────────────────────────────────── */}
       <div className={styles.header}>

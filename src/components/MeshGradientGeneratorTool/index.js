@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ── Helpers ──────────────────────────────────────────────────── */
 function hexToRgba(hex, alpha) {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -470,6 +471,7 @@ export default function MeshGradientGeneratorTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="mesh-gradient-generator" />
+      <PlaygroundTopAd />
 
       {/* ── Header ── */}
       <div className={styles.header}>

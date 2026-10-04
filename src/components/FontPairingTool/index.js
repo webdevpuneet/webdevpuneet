@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 // ── Comprehensive Google Fonts list (category + variants) ─────────────────────
 // Loaded lazily from Google Fonts API; this is the offline fallback/seed list
 const SEED_FONTS = [
@@ -189,7 +190,7 @@ const SAMPLE_TEXTS = {
 };
 
 // ── Font picker panel ─────────────────────────────────────────────────────────
-function FontPicker({ fonts, headingFont, bodyFont, onSelectHeading, onSelectBody }) {
+function FontPicker({ fonts, headingFont, bodyFont, onSelectHeading, onSelectBody, title = null }) {
   const [activeTab, setActiveTab] = useState('heading');
   const [search, setSearch] = useState('');
   const [cat, setCat] = useState('all');
@@ -242,6 +243,7 @@ function FontPicker({ fonts, headingFont, bodyFont, onSelectHeading, onSelectBod
 
   return (
     <div className={styles.pickerPanel}>
+      {title}
       {/* Tabs */}
       <div className={styles.pickerTabs}>
         <button
@@ -394,15 +396,6 @@ body, p {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="font-pairing-tool" />
-      {/* Header */}
-      <div className={styles.header}>
-        <div className={styles.logo}>
-          <div className={styles.logoIcon}>Ff</div>
-          <span>Font <span className={styles.logoAccent}>Pairing</span></span>
-        </div>
-        <div className={styles.headerCenter} />
-      </div>
-
       {/* Body */}
       <div className={styles.layout}>
         {/* Left: tabbed font picker sidebar */}
@@ -412,10 +405,20 @@ body, p {
           bodyFont={bodyFont}
           onSelectHeading={selectHeading}
           onSelectBody={selectBody}
+          title={
+            // Tool name heads the left column, so the ad can sit at the very top on the right.
+            <div className={styles.pickerTitle}>
+              <div className={styles.logo}>
+                <div className={styles.logoIcon}>Ff</div>
+                <span>Font <span className={styles.logoAccent}>Pairing</span></span>
+              </div>
+            </div>
+          }
         />
 
         {/* Right: preview + controls + output */}
         <div className={styles.main}>
+          <PlaygroundTopAd />
           {/* Size controls */}
           <div className={styles.controls}>
             <span className={styles.ctrlFontPair}>

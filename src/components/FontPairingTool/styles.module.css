@@ -67,6 +67,17 @@
   overflow: hidden;
 }
 
+/* Tool name at the top of the left column (was a full-width header row). */
+.pickerTitle {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  height: 52px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
 /* ── Picker panel (single sidebar) ── */
 .pickerPanel {
   display: flex; flex-direction: column;
@@ -187,6 +198,7 @@
 .main {
   display: flex; flex-direction: column;
   overflow: hidden;
+  min-width: 0;  /* lets the top ad measure the real column width */
 }
 
 .controls {

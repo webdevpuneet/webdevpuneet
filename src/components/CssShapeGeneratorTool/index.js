@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ─── Helpers ───────────────────────────────────────────────────── */
 function c2k(s) { return s.replace(/([A-Z])/g, m => `-${m.toLowerCase()}`); }
 function rot(r)  { return r ? { transform: `rotate(${r}deg)` } : {}; }
@@ -249,6 +250,7 @@ export default function CssShapeGeneratorTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="css-shape-generator" />
+      <PlaygroundTopAd />
 
       {/* ── Header ── */}
       <div className={styles.header}>

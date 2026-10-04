@@ -4,6 +4,7 @@ import { useState, useMemo, useCallback } from 'react';
 import s from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ── WCAG color math ─────────────────────────────────────────────────────────── */
 function hexToRgb(hex) {
   const h = hex.replace('#', '');
@@ -158,7 +159,7 @@ export default function ColorContrastChecker() {
     <div className={s.wrap}>
       <CssToolsTopNav active="color-contrast-checker" />
       {/* Header */}
-      <div className={s.header}>
+      <div className={s.header} style={{ height: 'auto', minHeight: 52 }}>
         <div className={s.logo}>
           <span className={s.logoIcon}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -167,6 +168,7 @@ export default function ColorContrastChecker() {
           </span>
           Color Contrast Checker
         </div>
+        <PlaygroundTopAd inline />
       </div>
 
       <div className={s.body}>

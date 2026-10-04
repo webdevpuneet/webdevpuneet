@@ -671,6 +671,7 @@ function genReact(slides, cfg) {
   return `import { useState, useEffect, useRef, useCallback } from 'react';
 import './carousel.css';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const SLIDES = [
 ${data}
 ];
@@ -1475,6 +1476,7 @@ export default function CarouselBuilderTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="carousel-builder" />
+      <PlaygroundTopAd />
 
       {/* ── Header ── */}
       <header className={styles.header}>

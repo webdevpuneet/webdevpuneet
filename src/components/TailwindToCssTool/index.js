@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ════════════════════════════════════════════════════════════════
    Tailwind → CSS conversion engine
 ════════════════════════════════════════════════════════════════ */
@@ -1324,6 +1325,7 @@ export default function TailwindToCssTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="tailwind-to-css" />
+      <PlaygroundTopAd />
 
       {/* ── Header ── */}
       <header className={styles.header}>

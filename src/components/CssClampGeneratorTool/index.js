@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 /* ── Math ─────────────────────────────────────────────────────── */
 function f(n, d = 4) { return parseFloat(n.toFixed(d)); }
 
@@ -192,6 +193,7 @@ export default function CssClampGeneratorTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="css-clamp-generator" />
+      <PlaygroundTopAd />
       {/* ── Header ── */}
       <div className={styles.header}>
         <div className={styles.logoIcon}>

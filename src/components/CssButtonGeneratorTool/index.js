@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const EmojiPicker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
 /* ─── Google Fonts ────────────────────────────────────────────────────────── */
@@ -640,6 +641,7 @@ export default function CssButtonGeneratorTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="css-button-generator" />
+      <PlaygroundTopAd />
 
       {/* ── Header ── */}
       <div className={styles.header}>

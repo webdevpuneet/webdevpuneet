@@ -67,13 +67,14 @@ function AdUnit() {
   );
 }
 
+// `inline` sits the strip inside a tool's title row (title left, ad filling the rest).
 // `className` lets a padded main column pull the strip out to its edges (HTML playground).
-export default function PlaygroundTopAd({ className = '' }) {
+export default function PlaygroundTopAd({ className = '', inline = false }) {
   const notFound = useIsNotFound();
   if (!ADS_ENABLED || notFound) return null;
   return (
     <IndexOnly>
-      <div className={`${s.bar} ${className}`} aria-label="Advertisement">
+      <div className={`${s.bar} ${inline ? s.inline : ''} ${className}`} aria-label="Advertisement">
         <AdUnit />
       </div>
     </IndexOnly>

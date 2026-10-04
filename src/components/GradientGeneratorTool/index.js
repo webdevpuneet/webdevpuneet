@@ -4,6 +4,7 @@ import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const ANIM_PRESETS = [
   { id: 'none',      label: 'Off' },
   {
@@ -330,6 +331,7 @@ export default function GradientGeneratorTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="gradient-generator" />
+      <PlaygroundTopAd />
       {/* Header */}
       <div className={styles.header}>
         <div className={styles.headerIcon}>◈</div>

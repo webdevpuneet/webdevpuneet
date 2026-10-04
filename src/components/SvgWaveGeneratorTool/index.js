@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import CssToolsTopNav from '../CssToolsTopNav';
 import styles from './styles.module.css';
 
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 const ACCENT = '#06b6d4';
 const VB_LEN = 1440; // length along the main (long) axis, regardless of orientation
 const DEFAULT_LAYER_COLORS = ['#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b'];
@@ -304,6 +305,7 @@ export default function SvgWaveGeneratorTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="svg-wave-generator" />
+      <PlaygroundTopAd />
 
       <div className={styles.header}>
         <div className={styles.logoIcon}>
