@@ -20,10 +20,10 @@
   <main class="stageWrap">
     <div class="resizeBox" id="rzBox" style="width:340px">
       <div class="prodGrid">
-        <div class="prodCard"><div class="prodImg"></div><div class="prodInfo"><strong>Desk Lamp</strong><span>$34</span></div></div>
-        <div class="prodCard"><div class="prodImg"></div><div class="prodInfo"><strong>Ceramic Mug</strong><span>$12</span></div></div>
-        <div class="prodCard"><div class="prodImg"></div><div class="prodInfo"><strong>Wool Throw</strong><span>$58</span></div></div>
-        <div class="prodCard"><div class="prodImg"></div><div class="prodInfo"><strong>Wall Clock</strong><span>$29</span></div></div>
+        <div class="prodItem"><div class="prodCard"><div class="prodImg"></div><div class="prodInfo"><strong>Desk Lamp</strong><span>$34</span></div></div></div>
+        <div class="prodItem"><div class="prodCard"><div class="prodImg"></div><div class="prodInfo"><strong>Ceramic Mug</strong><span>$12</span></div></div></div>
+        <div class="prodItem"><div class="prodCard"><div class="prodImg"></div><div class="prodInfo"><strong>Wool Throw</strong><span>$58</span></div></div></div>
+        <div class="prodItem"><div class="prodCard"><div class="prodImg"></div><div class="prodInfo"><strong>Wall Clock</strong><span>$29</span></div></div></div>
       </div>
       <div class="resizeHandle" id="rzHandle" aria-hidden="true"></div>
     </div>
@@ -31,7 +31,7 @@
       <span>Grid width: <strong id="readoutValue">340px</strong></span>
       <span>Approx. column width: <strong id="readoutCol">160px</strong></span>
     </div>
-    <pre class="ruleTag">.prodCard { container-type: inline-size; }
+    <pre class="ruleTag">.prodItem { container-type: inline-size; }
 @container (min-width: 210px) {
   .prodCard { flex-direction: row; }
 }</pre>
@@ -103,11 +103,11 @@
     padding: 10px;
     border: 1.5px solid var(--line);
     border-radius: 10px;
-
-    /* Each card is its own query container, sized by the grid column it
-       landed in — not by the grid, and not by the viewport. */
-    container-type: inline-size;
   }
+  /* Each grid item is its own query container, sized by the grid column it
+     landed in — not by the grid, and not by the viewport. The card inside it
+     reacts; an element can't be restyled by a query against itself. */
+  .prodItem { container-type: inline-size; }
   .prodImg {
     width: 100%;
     aspect-ratio: 1;

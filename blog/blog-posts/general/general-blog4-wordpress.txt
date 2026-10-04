@@ -1,0 +1,451 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  CSS Container Queries: A Practical Guide with Real Examples
+
+  SEO TITLE (52 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  CSS Container Queries: 10 Live Examples You Can Edit
+
+  SEO DESCRIPTION (158 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  Learn CSS container queries with 10 draggable live demos: cards, grids, units, named containers and style queries. Edit each free in your browser, no sign-up.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>A media query only ever knows one thing: how wide the browser window is. That's a problem the moment a component gets reused somewhere its container isn't the full page &mdash; a sidebar widget, a dashboard tile that might span one grid column or three, a card dropped into a narrow panel on a wide desktop screen. The component has no way to know its own width; all it can ask is "how big is the whole window," which is often a completely different number.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Container queries</strong> fix this by letting an element query the size of its own container instead of the viewport. Mark an ancestor as a "query container" with one CSS property, and anything inside it can react to <em>that element's</em> width (or height) with an <code>@container</code> rule &mdash; the same component then looks right whether it's sitting in a 200px sidebar or a 600px main column, without a single line of JavaScript and without caring what the browser window is doing.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The 10 demos below are all real, working examples &mdash; nine of them have a handle you drag to resize a box live and watch the CSS react in real time, and the tenth is a switch that flips a style query. Nothing here is a static screenshot of "before" and "after"; you're resizing the actual container and watching the actual rule fire.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> &mdash; webdevpuneet's free in-browser editor. Change a breakpoint number, delete a <code>container-type</code> line, and watch the reaction stop. That's a faster way to build real intuition for this feature than reading about it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The syntax, in one breath</h2>
+<!-- /wp:heading -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.card { container-type: inline-size; }
+
+@container (min-width: 380px) {
+  .card { flex-direction: row; }
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Two separate steps, and both are required. First, an element has to be explicitly turned into a <strong>query container</strong> with <code>container-type</code> &mdash; usually <code>inline-size</code>, which tracks the element's own width. Nothing queries anything until some ancestor has this. Second, an <code>@container</code> rule reacts to that container's size &mdash; and unlike <code>@media</code>, it applies to whichever container is nearest going up the tree, not to the whole page. The elements it styles inside the rule don't have to be the container itself; they can be any descendant, the same way demo #1 below styles a card based on its own width.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Why nearly every demo here is something you drag, not click</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Container queries are fundamentally about size, so a click-triggered demo would hide the actual point. Nine of the ten boxes below have a real resize handle wired to genuine <code>pointerdown</code>/<code>pointermove</code> events that change an element's actual <code>width</code> (and, in one case, <code>height</code>) in pixels &mdash; not a CSS transform, not a simulated state. The exception is demo #9: style queries react to a custom property rather than to size, so that one is a switch you click. The <code>@container</code> rule shown under each demo is what's firing as you drag; the small JavaScript readout next to it only ever <em>reports</em> the current width and which side of a breakpoint it's on, the same "JS reports, CSS decides" split used throughout these demos, so what you're watching react is genuinely the container query, not a script pretending to be one.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. Resizable Profile Card</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Drag the handle on the right edge &mdash; the card switches from a stacked to a side-by-side layout once its own container crosses 380px, independent of how wide the browser window actually is.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/03/1.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Resizable Profile Card &mdash; CSS Container Query Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.cqCard { container-type: inline-size; }
+
+@container (min-width: 380px) {
+  .cqCard { flex-direction: row; }
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The card element itself isn't the query container here &mdash; its parent, <code>.resizeBox</code>, is (that's the box you're actually dragging). <code>.cqCard</code> just sits inside it and reacts, the same way any number of unrelated descendants could react to the same container at once. Before container queries, matching a profile card's layout to the width of whatever panel it landed in meant either a JavaScript <code>ResizeObserver</code> measuring the element by hand, or accepting that the card would look wrong in at least one context.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any card, panel, or widget that gets reused across differently-sized contexts &mdash; a dashboard, a CMS page builder, a component library. <strong>Tip:</strong> the container doesn't have to be the direct parent &mdash; any ancestor with <code>container-type</code> set works, however many plain <code>div</code>s sit in between.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. Same Component, Two Different Containers</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Identical HTML and CSS, dropped into two containers of different widths on the very same page, at the very same viewport width &mdash; the single clearest proof that this is genuinely about the container, not the screen.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/03/2.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Same Component, Two Different Containers &mdash; CSS Container Query Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.navWidget { container-type: inline-size; }
+
+@container (max-width: 200px) {
+  .navLabel { display: none; }
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Nothing about the nav widget's own markup or CSS differs between the two panels &mdash; the only difference is which container it happens to be sitting inside. A media query applied to <code>.navLabel</code> could never produce two different results on the same page at the same time like this; it only has one number to check, the viewport, and that number is identical for both copies.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> a component library where the same nav, card, or button genuinely gets embedded in unpredictable contexts &mdash; a CMS, a dashboard with resizable panels, an email-builder-style drag-and-drop layout. <strong>Tip:</strong> this is also why container queries matter for component libraries specifically &mdash; a component that queries itself, not the page, is the only kind that's honestly reusable.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. Product Grid With Per-Card Layout</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Drag the grid wider and watch closely: sometimes a <em>wider</em> grid flips a card's layout back to stacked, because more columns now fit and each one gets less room &mdash; a reaction happening per-card, which a page-level media query has no way to see.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/03/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Product Grid With Per-Card Layout &mdash; CSS Container Query Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.prodCard { container-type: inline-size; }
+
+@container (min-width: 210px) {
+  .prodCard { flex-direction: row; }
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Each grid item (<code>.prodItem</code>, which wraps a <code>.prodCard</code>) is its own independent query container, sized by whatever column <code>grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))</code> happened to give it &mdash; not by the grid as a whole, and not by the viewport. That's the detail that makes the counter-intuitive part possible: as the overall grid widens past the point where a fourth column fits, every card's individual width drops, and cards that were previously wide enough to lay out sideways can flip back to stacked, at the exact same time the grid itself got bigger.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any responsive grid of cards &mdash; products, articles, team members &mdash; where a fixed number of grid breakpoints in a media query always feels one step behind the actual column count. <strong>Tip:</strong> pair this with <code>grid-template-columns: repeat(auto-fill, minmax(...))</code> specifically &mdash; the container query then handles each card's internal layout while the grid itself handles how many columns fit, and neither needs to know about the other.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. Container Query Units (cqw)</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Drag the handle &mdash; the heading's font size is set in <code>cqw</code>, a unit meaning "percent of the container's width," not "percent of the viewport's width" the way <code>vw</code> does. The text scales with the box; your browser window stays completely out of it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/03/4.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Container Query Units (cqw) &mdash; CSS Container Query Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.cqHeading {
+  font-size: clamp(16px, 9cqw, 48px);
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>cqw</code> is one of a family of container query length units &mdash; <code>cqw</code>/<code>cqh</code> for percent of the container's width/height, <code>cqi</code>/<code>cqb</code> for the writing-mode-aware inline/block equivalents, and <code>cqmin</code>/<code>cqmax</code> for whichever of those is smaller or larger. Wrapping the unit in <code>clamp()</code> here does the same job it always does &mdash; it sets a floor and a ceiling so the text never gets unreadably small in a narrow box or absurdly large in a wide one, with the <code>cqw</code> value doing the actual scaling in between.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> fluid typography and spacing inside a specific component &mdash; a card headline, a hero title inside a variable-width section &mdash; where <code>vw</code>-based fluid type would scale with the whole page instead of the one element that should actually control it. <strong>Tip:</strong> these units also work inside a <code>calc()</code> alongside fixed units, e.g. <code>calc(12px + 2cqw)</code>, for scaling that never drops below a hard minimum.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Dashboard KPI Tile</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Drag the handle wider &mdash; once the tile crosses 260px it reveals a trend line and description it was hiding, not just resizing a number. This is the pattern behind a dashboard whose widgets look intentional whether they occupy one grid column or three.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/03/5.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Dashboard KPI Tile &mdash; CSS Container Query Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.kpiDetail { display: none; }
+
+@container (min-width: 260px) {
+  .kpiDetail { display: block; }
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is the same underlying mechanism as demo #1's layout flip, applied to a different kind of decision: instead of rearranging what's already visible, it's choosing whether to show extra content at all. A narrow tile stays honest about what it can actually fit &mdash; just the number and its label &mdash; rather than cramming in a trend line and a description that would wrap awkwardly or overflow.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> dashboards, widget grids, or any layout where the same tile component can end up at genuinely different sizes depending on how a user arranges their view. <strong>Tip:</strong> this progressive-disclosure pattern (hide by default, reveal past a threshold) is usually the safer default compared to the reverse &mdash; it never risks a narrow container showing content that doesn't fit.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. Named Containers</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Drag the outer panel &mdash; two rules are watching two different named ancestors at once, one keyed to the inner card and one reaching straight past it to the outer panel, proving <code>@container</code> can target a specific ancestor rather than just "whichever is nearest."</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/03/6.html" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Named Containers &mdash; CSS Container Query Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.outerPanel { container: panel / inline-size; }
+.innerCard  { container: card  / inline-size; }
+
+@container card (min-width: 200px)  { .innerBadge { font-size: 15px; } }
+@container panel (min-width: 420px) { .innerBadge { background: gold; } }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>With no name, <code>@container</code> always resolves to the <em>nearest</em> ancestor container &mdash; which is fine until an element is nested inside more than one, and you need the outer one specifically. The <code>container</code> shorthand (<code>name / type</code>) assigns a name alongside the type, and <code>@container &lt;name&gt; (...)</code> then skips past any nearer, unnamed containers to find the one you actually meant. Both rules above are reading from the exact same drag gesture, since resizing the outer panel resizes the inner card proportionally along with it &mdash; they just answer to different names and different thresholds.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> deeply nested component systems &mdash; a card inside a panel inside a page region &mdash; where more than one ancestor is a legitimate query container and "nearest" isn't always the one that should decide. <strong>Tip:</strong> name containers for what they represent (<code>sidebar</code>, <code>modal</code>, <code>card</code>) rather than generically &mdash; it turns <code>@container</code> rules into something genuinely readable months later.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. Three-Tier Container Breakpoints</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A settings row with three real container-query breakpoints, not just one &mdash; drag across the full range and watch the label, then the value column, appear as the panel actually has room for them.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/03/7.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three-Tier Container Breakpoints &mdash; CSS Container Query Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>@container (min-width: 180px) { .rowLabel { display: inline; } }
+@container (min-width: 320px) { .rowValue { display: inline; } }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Nothing stops a single container from being watched by any number of independent <code>@container</code> rules, each with its own threshold &mdash; exactly the way a page can have several <code>@media</code> breakpoints. Here that means a settings row can progressively reveal a label, then a value column, rather than needing to jump straight from "minimal" to "everything" at one single width.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any information-dense row or list item &mdash; settings, table rows rendered as cards on narrow layouts, notification items &mdash; where more than two states genuinely exist between "cramped" and "spacious." <strong>Tip:</strong> keep breakpoint thresholds meaningfully spaced apart (as 180px and 320px are here) &mdash; two triggers close together can cause visibly janky, flickery reflows while dragging or resizing.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. Height-Aware Container</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Drag the corner handle. This box uses <code>container-type: size</code> instead of <code>inline-size</code> &mdash; it can query height too, so the description disappears once the box gets short, no matter how wide it stays.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/03/8.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Height-Aware Container &mdash; CSS Container Query Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.noticeCard { container-type: size; }
+
+@container (max-height: 120px) {
+  .noticeDesc { display: none; }
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>container-type: inline-size</code> &mdash; used in every other demo in this batch &mdash; only ever tracks width. Querying height needs <code>size</code> instead, which contains layout on <em>both</em> axes. That comes with a real requirement: a <code>size</code>-containing element needs a genuinely definite height from somewhere else (an explicit <code>height</code>, or a parent that gives it one), because size containment tells the browser to ignore the element's children when computing its own size &mdash; without an explicit height, a size-contained box with no other height source can collapse to zero.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> fixed-aspect boxes, dashboard tiles with an explicit grid-row height, or any card whose available <em>height</em> &mdash; not just width &mdash; genuinely varies and should drive what's shown. <strong>Tip:</strong> reach for <code>inline-size</code> by default and only use <code>size</code> when a height-based rule is a genuine requirement &mdash; it needs that explicit height, which most naturally-flowing content doesn't have and shouldn't be forced into.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">9. Style Container Queries</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click the switch &mdash; it doesn't resize anything. It flips a custom property on the container, and <code>@container style()</code> reacts to that property's value instead of to a width or height.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/03/9.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Style Container Queries &mdash; CSS Container Query Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.densityBox { container-name: densitybox; }
+
+@container densitybox style(--density: compact) {
+  .densityCard { padding: 8px 10px; }
+  .densityCard p { display: none; }
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Every other demo here queries size &mdash; this one queries <em>state</em>, expressed as a CSS custom property. Setting <code>--density: compact</code> on the container (in this demo, via one line of JavaScript on a button click, but it could just as easily come from a data attribute–driven style rule) is what the <code>style()</code> condition checks; nothing about the container's width or height needs to change for it to match. Notice the container here doesn't need <code>container-type: inline-size</code> or <code>size</code> at all &mdash; a style query only needs the element to be a named container, since it isn't reading the container's dimensions.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> a design-system "compact mode," theme, or density toggle that needs to cascade down to descendants without threading a class onto every single child manually. <strong>Tip:</strong> style queries currently only reliably support custom-property conditions like the one here &mdash; they shipped later than size-based container queries and browser support isn't as universal yet, so check <a href="https://caniuse.com/css-container-queries">caniuse.com/css-container-queries</a> before relying on this one for anything load-bearing.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">10. Media Query vs. Container Query, Side by Side</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Drag the handle down to a narrow width. The top widget is styled with <code>@media (min-width: 500px)</code> &mdash; it only ever looks at your browser window, which never changes here, so it stays in its wide layout and overflows. The bottom widget uses <code>@container</code> and correctly adapts to the box it's actually in.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/03/10.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Media Query vs. Container Query, Side by Side &mdash; CSS Container Query Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>@media (min-width: 500px) { .mediaWidget { flex-direction: row; } }
+
+@container (min-width: 300px) { .containerWidget { flex-direction: row; } }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is the demo that makes the whole article's point in one gesture. Both widgets sit inside the exact same box, so this is an honest, identical comparison &mdash; the only difference is which condition each one checks. The media query is answering a question that was never actually useful here ("how wide is the window"), and the container query is answering the one that was ("how wide is <em>this</em>") &mdash; and the visible overflow on the top widget as you narrow the box is exactly the failure mode container queries exist to prevent.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> literally any component you're deciding whether to reach for a media query or a container query for &mdash; if the honest answer to "what size actually matters here" is the component's own box rather than the browser window, this demo is the reason to pick <code>@container</code>. <strong>Tip:</strong> media queries aren't obsolete &mdash; page-level decisions like overall layout direction or hiding a whole sidebar are still legitimately about the viewport. The two are complementary, not competing.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Common container query pitfalls</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Forgetting container-type means the query silently never fires.</strong> An <code>@container</code> rule with no ancestor carrying <code>container-type</code> anywhere above it doesn't error &mdash; it simply never matches, and the CSS inside it never applies. If a rule "isn't working," the very first thing to check is whether some ancestor actually opted in.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>An element cannot query its own size.</strong> <code>container-type</code> establishes the container on one element, but the <code>@container</code> rule that reads it has to apply to a <em>descendant</em> &mdash; an element querying itself would be asking a question with no stable answer, since its own size could depend on the very rule deciding it. This is why every demo above sets <code>container-type</code> one level up from whatever actually changes.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>container-type: size needs a real, explicit size to contain.</strong> As demo #8 covers, <code>size</code> containment (unlike <code>inline-size</code>) affects both axes and ignores children when sizing the box &mdash; an element with no explicit height and no other height source can collapse to zero rather than sizing to its content.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Container query units only work inside a sized container.</strong> <code>cqw</code>/<code>cqh</code>/<code>cqi</code>/<code>cqb</code> resolve against the nearest ancestor with the matching containment &mdash; outside of any query container, they fall back to behaving like the small viewport units instead, which is easy to miss if a component gets moved outside its expected wrapper.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Broad browser support, but always worth a quick check.</strong> Size-based container queries (<code>container-type: inline-size</code>/<code>size</code>, container query units) have shipped in every evergreen browser since 2023. Style queries are newer and less universally supported. Check <a href="https://caniuse.com/css-container-queries">caniuse.com/css-container-queries</a> for the exact cutoffs your project needs.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What are CSS container queries?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Container queries let an element apply styles based on the size (or, with style queries, a custom property's value) of an ancestor element &mdash; its "query container" &mdash; rather than the size of the browser viewport, which is what a traditional <code>@media</code> query is limited to. This lets a single component adapt correctly to whatever context it's actually placed in.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">How do I set up a container query?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Two steps: mark an ancestor as a query container with <code>container-type: inline-size</code> (or <code>size</code> for height too), optionally giving it a name with <code>container-name</code> (or both at once via the <code>container: name / type</code> shorthand). Then write an <code>@container (condition) { ... }</code> rule targeting any descendant of that container.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What's the difference between container-type: inline-size and size?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><code>inline-size</code> only contains and tracks the element's inline dimension (width, in the default horizontal writing mode) &mdash; the right choice for the large majority of components, since it doesn't require the element to have an explicit height. <code>size</code> contains and tracks both axes, which is necessary if you need to query height, but requires the container to have a genuinely definite size on both axes from somewhere.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What are container query units?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><code>cqw</code>, <code>cqh</code>, <code>cqi</code>, <code>cqb</code>, <code>cqmin</code>, and <code>cqmax</code> are length units that resolve as a percentage of the nearest query container's width, height, inline-size, block-size, and the smaller/larger of those, respectively &mdash; the container-relative equivalent of <code>vw</code>/<code>vh</code>/<code>vmin</code>/<code>vmax</code>, which are always relative to the viewport instead.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Do container queries replace media queries?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>No &mdash; they solve different problems. Media queries remain the right tool for page-level decisions that are genuinely about the viewport: overall layout direction, whether to show a full sidebar at all, print styles. Container queries are for a component that needs to adapt to its own box regardless of where that box ends up on the page, as demo #10 above demonstrates directly.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Are container queries well supported in browsers?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Size-based container queries and container query units have shipped in every evergreen browser (Chrome, Edge, Safari, Firefox) since 2023. Style queries arrived later and have less universal support. Check <a href="https://caniuse.com/css-container-queries">caniuse.com/css-container-queries</a> for exact version cutoffs before depending on any of this for essential functionality in an older-browser context.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. But the better way to actually learn this is to click <strong>Fork &amp; Edit</strong> instead of just copying: it hands you the same snippet in a live editor where you can change a breakpoint, swap <code>inline-size</code> for <code>size</code>, or delete the <code>container-type</code> line entirely and watch exactly what stops working. Once you've got a version you like, save it to <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or reuse in a real project.</p>
+<!-- /wp:paragraph -->

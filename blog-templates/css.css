@@ -1,8 +1,7 @@
 .boxed_layout .container {
     width: calc(100% - 50px);
 }
-.wp-block-code {
-    box-sizing: border-box;
+.post-wrap pre {
     border: 1px solid #cecece;
     background: #fafafa;
     min-height: 54px;
