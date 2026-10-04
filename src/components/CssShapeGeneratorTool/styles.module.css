@@ -86,6 +86,15 @@
   overflow: hidden;
 }
 
+/* Tool name at the top of the shape picker (was a full-width header row). */
+.panelTitle {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
 /* ── Left panel ── */
 .shapePanel {
   width: 282px;

@@ -51,6 +51,15 @@
   overflow: hidden;
 }
 
+/* Tool name at the top of the left panel (was a full-width header row). */
+.leftTitle {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
 /* ── Left panel ── */
 .left {
   width: 300px;

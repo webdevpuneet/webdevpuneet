@@ -94,7 +94,7 @@ const seoData = {
     {
       icon: '⇄',
       title: 'Review a CSS diff in a pull request without formatting noise',
-      desc: 'Beautify CSS snippets from both versions before comparing them with our [Diff Checker](https://fwdtools.com/diff-checker/). Clean, consistently formatted rules make added, removed, or changed properties immediately visible — rather than trying to read structural changes through inconsistent indentation.',
+      desc: 'Beautify CSS snippets from both versions before comparing them with our [Diff Checker](/diff-checker/). Clean, consistently formatted rules make added, removed, or changed properties immediately visible — rather than trying to read structural changes through inconsistent indentation.',
     },
     {
       icon: '◑',

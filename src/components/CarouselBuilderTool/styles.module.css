@@ -127,6 +127,18 @@
   min-height: 0;
 }
 
+/* Tool name + Import/Export at the top of the left column (was a full-width header row). */
+.settingsHead {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.settingsTitle { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.settingsActions { display: flex; align-items: center; gap: 6px; }
+
 /* ── Settings column (left) ── */
 .settings {
   display: flex;

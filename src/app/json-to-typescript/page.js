@@ -136,14 +136,14 @@ const SEO = {
     'Instant live conversion — TypeScript interfaces update as you type JSON',
     '**interface** vs **type alias** output — choose your codebase\'s preferred style; both produce identical runtime behavior for object shapes',
     'Recursive nested object support — each object at any depth generates its own PascalCase-named interface with the parent referencing it by name',
-    'Smart array handling — arrays of objects merge all elements into one unified interface, catching optional fields that appear in some elements but not others; use the [JSON Formatter](https://fwdtools.com/json-formatter/) to pretty-print API responses before pasting here',
+    'Smart array handling — arrays of objects merge all elements into one unified interface, catching optional fields that appear in some elements but not others; use the [JSON Formatter](/json-formatter/) to pretty-print API responses before pasting here',
     'Optional fields toggle — adds `?` to every property for partial types, partial update payloads, or APIs that may omit fields',
     'Null safety control — choose between `null`, `unknown`, and `any` for null JSON values to match your `tsconfig` and safety requirements',
     'Export keyword toggle — turn off for module-internal types, turn on (default) for shareable types that can be imported across your project',
     'Array syntax: `T[]` (concise, idiomatic) or `Array<T>` (explicit, readable in complex generics)',
     'Customizable root interface name — rename from the default `Root` to `ApiResponse`, `UserProfile`, or whatever matches your domain model',
     'Syntax-highlighted TypeScript output — keywords, type names, primitives, and punctuation in distinct colors for easy scanning',
-    'Copy to clipboard + Download as `.ts` file — drop directly into your `types/` folder; pair with the [JSON Table Viewer](https://fwdtools.com/json-table-viewer/) to inspect the actual data while typing against your new interfaces',
+    'Copy to clipboard + Download as `.ts` file — drop directly into your `types/` folder; pair with the [JSON Table Viewer](/json-table-viewer/) to inspect the actual data while typing against your new interfaces',
     '100% client-side — no server, no account, works offline; your API responses never leave the browser',
   ],
 
@@ -181,7 +181,7 @@ const SEO = {
     {
       icon: '🔌',
       title: 'Type an API response in seconds instead of minutes',
-      desc: 'You called a REST API and got back 200 lines of nested JSON. Instead of writing interfaces by hand — getting field names wrong, missing nested types, forgetting nullables — paste the response here and get complete TypeScript interfaces in under two seconds. Pair with the [API Request Generator & Tester](https://fwdtools.com/api-request-generator-tester/) to make and capture the API call in the same browser tab.',
+      desc: 'You called a REST API and got back 200 lines of nested JSON. Instead of writing interfaces by hand — getting field names wrong, missing nested types, forgetting nullables — paste the response here and get complete TypeScript interfaces in under two seconds. Pair with the [API Request Generator & Tester](/api-request-generator-tester/) to make and capture the API call in the same browser tab.',
     },
     {
       icon: '🗂️',
@@ -196,7 +196,7 @@ const SEO = {
     {
       icon: '🧪',
       title: 'Write typed test fixtures and mock data',
-      desc: 'Paste a JSON fixture or mock response that you use in tests. Generate the TypeScript interface for it and annotate your fixture with the type — TypeScript will catch the moment a test fixture drifts from the real API shape. Use the [Diff Checker](https://fwdtools.com/diff-checker/) to compare old and new API response shapes when the API changes.',
+      desc: 'Paste a JSON fixture or mock response that you use in tests. Generate the TypeScript interface for it and annotate your fixture with the type — TypeScript will catch the moment a test fixture drifts from the real API shape. Use the [Diff Checker](/diff-checker/) to compare old and new API response shapes when the API changes.',
     },
     {
       icon: '📋',

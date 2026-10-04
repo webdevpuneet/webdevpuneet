@@ -44,7 +44,7 @@ const seoData = {
     'Flat output mode — single sorted class string ready for direct use in className or class attributes',
     'Grouped output mode — categories displayed as labeled blocks for documentation and readability',
     'Stats bar — shows total class count, unique count, duplicate count, and number of active groups',
-    'Multiline output option — each class on its own line for cleaner diffs in version control; compare versions using our [Diff Checker](https://fwdtools.com/diff-checker/)',
+    'Multiline output option — each class on its own line for cleaner diffs in version control; compare versions using our [Diff Checker](/diff-checker/)',
     'Responsive and state variant support — sm:, md:, lg:, hover:, focus:, dark:, active: all preserved and sorted correctly',
     'Sort and Group toggles — enable or disable sorting and grouping independently',
     'Sample button — loads a representative class string to explore all formatter features instantly',

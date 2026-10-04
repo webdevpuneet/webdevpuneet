@@ -188,7 +188,7 @@ GraphQL lets the client ask for exactly the data it needs in one request, ending
     'Enums and interfaces with inline fragments, errors and nullability, plus operation- and field-level authorization modeled with context',
     'Performance & Production chapter: runnable N+1 problem and DataLoader batching lessons, schema design best practices, and a subscriptions/federation overview',
     'Full query language support — fields, arguments, aliases, nested selections, operation names',
-    'Mutation support — mutation keyword, root Mutation type, resolver-based write operations that return fields; mock equivalent REST endpoints with the [API mock generator](https://fwdtools.com/api-mock-generator/)',
+    'Mutation support — mutation keyword, root Mutation type, resolver-based write operations that return fields; mock equivalent REST endpoints with the [API mock generator](/api-mock-generator/)',
     'Input types — object literal arguments parsed and resolved for createPost(input: { ... }) patterns',
     'Variables panel — declare $var: Type in operation, pass JSON values, supports default values with = value syntax',
     'Fragment support — fragment Name on Type { } definitions and ...Name spreads fully expanded before execution',

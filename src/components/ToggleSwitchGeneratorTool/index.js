@@ -542,29 +542,22 @@ export default function ToggleSwitchGeneratorTool() {
   return (
     <div className={s.wrap}>
       <CssToolsTopNav active="toggle-switch-generator" />
-      <PlaygroundTopAd />
-
-      {/* ── Header ── */}
-      <div className={s.header}>
-        <div className={s.logo}>
-          <div className={s.logoIcon}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="2" y="7" width="20" height="10" rx="5" stroke="#3b82f6" strokeWidth="1.5"/>
-              <circle cx="16" cy="12" r="3" fill="#3b82f6"/>
-            </svg>
-          </div>
-          <span>Toggle Switch <span className={s.accent}>Generator</span></span>
-        </div>
-        <div className={s.headerRight}>
-          <span className={s.hint}>Live preview · 6 states · HTML, React, Vue, Svelte, Tailwind</span>
-        </div>
-      </div>
-
       {/* ── Body ── */}
       <div className={s.body}>
 
         {/* ── Left panel ── */}
         <div className={s.left}>
+          <div className={s.leftTitle}>
+            <div className={s.logo}>
+              <div className={s.logoIcon}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="2" y="7" width="20" height="10" rx="5" stroke="#3b82f6" strokeWidth="1.5"/>
+                  <circle cx="16" cy="12" r="3" fill="#3b82f6"/>
+                </svg>
+              </div>
+              <span>Toggle Switch <span className={s.accent}>Generator</span></span>
+            </div>
+          </div>
           <div className={s.leftScroll}>
 
             {/* Presets */}
@@ -703,6 +696,7 @@ export default function ToggleSwitchGeneratorTool() {
 
         {/* ── Right panel ── */}
         <div className={s.right}>
+          <PlaygroundTopAd />
 
           {/* Preview */}
           <div className={s.preview}>

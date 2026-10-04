@@ -38,7 +38,7 @@ const seo = {
   },
   features: [
     '9 professional themes: One Dark, Dracula, GitHub Dark, Monokai, Nord, Tokyo Night, GitHub Light, Solarized Dark, Night Owl',
-    'Syntax highlighting for 20+ languages: JS, TS, Python, HTML, CSS, JSON, SQL, Go, Rust, Java, C, C++, C#, Bash, PHP, Ruby, Swift, Kotlin, YAML and more; format JSON before screenshotting with our [JSON Formatter](https://fwdtools.com/json-formatter/)',
+    'Syntax highlighting for 20+ languages: JS, TS, Python, HTML, CSS, JSON, SQL, Go, Rust, Java, C, C++, C#, Bash, PHP, Ruby, Swift, Kotlin, YAML and more; format JSON before screenshotting with our [JSON Formatter](/json-formatter/)',
     'Window frame styles: macOS (traffic lights), Windows title bar, Terminal, or no frame',
     '10 gradient backgrounds plus solid color picker with full hex control; create mesh gradient backgrounds with our [Mesh Gradient Generator](/mesh-gradient-generator)',
     'Toggle line numbers on/off for clean or annotated screenshots',

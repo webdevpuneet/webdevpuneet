@@ -108,7 +108,7 @@ This HTML table generator lets you build tables visually in a spreadsheet-style 
     { icon: "\u25b3", title: "Convert spreadsheet data to HTML", desc: "Enter data from a spreadsheet grid and export as a semantic HTML table for embedding in a web page, email, or CMS. Working in Markdown instead? Use the [Markdown table generator](/markdown-table-generator)." },
     { icon: "\u26a1", title: "Generate Tailwind CSS tables quickly", desc: "Build tables with Tailwind utility classes for Next.js, Nuxt, or other Tailwind-based projects without writing repetitive class strings." },
     { icon: "\u25d1", title: "Create HTML tables for email templates", desc: "Export minimal, accessible HTML table markup with proper th and td elements suitable for HTML email layouts." },
-    { icon: "\u2261", title: "Reference tables for documentation", desc: "Build keyboard shortcut tables, API parameter tables, or option reference tables for documentation sites with proper scope attributes. Convert docs back to Markdown with [HTML to Markdown](https://fwdtools.com/html-to-markdown/)." },
+    { icon: "\u2261", title: "Reference tables for documentation", desc: "Build keyboard shortcut tables, API parameter tables, or option reference tables for documentation sites with proper scope attributes. Convert docs back to Markdown with [HTML to Markdown](/html-to-markdown/)." },
   ],
   faqs: [
     { q: "How do I create an HTML table?", a: "An HTML table uses `<table>`, `<thead>`, `<tbody>`, `<tr>`, `<th>`, and `<td>` elements. This generator creates that structure visually \u2014 you edit cells and it writes the markup." },

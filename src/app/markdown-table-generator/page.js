@@ -106,7 +106,7 @@ This Markdown table generator gives you a spreadsheet-style grid backed by a two
   },
   useCases: [
     { icon: "\u25c9", title: "Create comparison tables for README files", desc: "Build feature comparison or API reference tables for GitHub README files without counting pipe characters or manually aligning column separators. For pure HTML tables, use the [HTML table generator](/html-table-generator)." },
-    { icon: "\u25a6", title: "Write documentation with structured data tables", desc: "Generate Markdown tables for docs, wikis, Notion pages, and Confluence without switching to a spreadsheet or writing pipe syntax by hand. Draft the surrounding docs in the [Markdown editor](https://fwdtools.com/markdown-editor/)." },
+    { icon: "\u25a6", title: "Write documentation with structured data tables", desc: "Generate Markdown tables for docs, wikis, Notion pages, and Confluence without switching to a spreadsheet or writing pipe syntax by hand. Draft the surrounding docs in the [Markdown editor](/markdown-editor/)." },
     { icon: "\u25b3", title: "Convert spreadsheet data to Markdown", desc: "Paste data from a CSV export into the table cells and generate the Markdown equivalent for pasting into a documentation file or README. Convert full CSV files with the [CSV to JSON converter](https://fwdtools.com/csv-json-converter/)." },
     { icon: "\u26a1", title: "Convert between Markdown, HTML, and CSV", desc: "Enter the table once and export in whichever format your workflow needs \u2014 Markdown for docs, HTML for web, CSV for spreadsheets." },
     { icon: "\u25d1", title: "Create pricing and comparison tables", desc: "Build tier comparison tables for product pages or proposals and export clean Markdown or HTML without writing the markup by hand." },

@@ -147,8 +147,8 @@ All data is saved automatically to your browser's localStorage. Return to the to
 
   features: [
     'Visual route builder — define method, path, status code, response body, and headers through a clean form interface; graduate to real route code in the [Express playground](/express-playground)',
-    'Five CRUD templates — Users, Posts, Products, Blog API, and Auth API with pre-built realistic routes; generate richer fake payloads with the [API mock generator](https://fwdtools.com/api-mock-generator/)',
-    'Built-in HTTP Client — test GET/POST/PUT/PATCH/DELETE requests against your mock routes with one click — or use the standalone [API request tester](https://fwdtools.com/api-request-generator-tester/) against live APIs',
+    'Five CRUD templates — Users, Posts, Products, Blog API, and Auth API with pre-built realistic routes; generate richer fake payloads with the [API mock generator](/api-mock-generator/)',
+    'Built-in HTTP Client — test GET/POST/PUT/PATCH/DELETE requests against your mock routes with one click — or use the standalone [API request tester](/api-request-generator-tester/) against live APIs',
     'Route parameter matching — :id and :slug wildcards work exactly like Express.js, matching any value in that path position',
     'Auth simulation — mark routes as auth-required; HTTP client returns 401 when no token is provided',
     'Authorization token input — add a Bearer token to test protected routes without setting up a real auth system',

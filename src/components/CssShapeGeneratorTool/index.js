@@ -250,25 +250,17 @@ export default function CssShapeGeneratorTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="css-shape-generator" />
-      <PlaygroundTopAd />
-
-      {/* ── Header ── */}
-      <div className={styles.header}>
-        <div className={styles.logo}>
-          <div className={styles.logoIcon}><span className={styles.accent}>◆</span></div>
-          <span>CSS <span className={styles.accent}>Shape</span> Generator</span>
-        </div>
-        <div className={styles.headerRight}>
-          {shape && <span className={styles.techBadge}>{shape.tech}</span>}
-          <span className={styles.countBadge}>{SHAPES.length} shapes · 7 exports</span>
-        </div>
-      </div>
-
       {/* ── Body ── */}
       <div className={styles.body}>
 
         {/* Left panel: shape picker */}
         <div className={styles.shapePanel}>
+          <div className={styles.panelTitle}>
+            <div className={styles.logo}>
+              <div className={styles.logoIcon}><span className={styles.accent}>◆</span></div>
+              <span>CSS <span className={styles.accent}>Shape</span> Generator</span>
+            </div>
+          </div>
           <div className={styles.groupTabs}>
             {GROUPS.map(g => (
               <button
@@ -297,6 +289,7 @@ export default function CssShapeGeneratorTool() {
 
         {/* Right panel */}
         <div className={styles.rightPanel}>
+          <PlaygroundTopAd />
 
           {/* Preview */}
           <div className={styles.previewSection}>

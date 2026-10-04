@@ -47,7 +47,7 @@ const seoData = {
     'CSS syntax highlighting in the input panel — selectors, properties, values, and at-rules all highlighted',
     'Tailwind output highlighting — arbitrary value classes highlighted in amber to distinguish from standard utilities',
     'Live conversion — output updates as you type with no delay',
-    'File upload and drag & drop for .css files — convert entire stylesheets at once; compare the before/after with our [Diff Checker](https://fwdtools.com/diff-checker/)',
+    'File upload and drag & drop for .css files — convert entire stylesheets at once; compare the before/after with our [Diff Checker](/diff-checker/)',
     'One-click Copy and Download for the converted output',
     '100% client-side — no CSS is ever sent to a server, no sign-up required; go back from Tailwind to CSS with our [Tailwind to CSS](/tailwind-to-css) converter',
   ],

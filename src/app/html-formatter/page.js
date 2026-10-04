@@ -50,7 +50,7 @@ const seoData = {
     'Handles self-closing tags (/>), DOCTYPE declarations, and HTML comment blocks; convert formatted HTML to JSX with our [HTML to JSX Converter](/html-to-jsx-converter)',
     'Works on partial HTML fragments — no complete document required, any snippet works',
     'One-click Copy button copies the full formatted output to clipboard',
-    '100% client-side — no data sent to any server, no sign-up, no watermark, no limit; compare two versions of a template with our [Diff Checker](https://fwdtools.com/diff-checker/)',
+    '100% client-side — no data sent to any server, no sign-up, no watermark, no limit; compare two versions of a template with our [Diff Checker](/diff-checker/)',
   ],
 
   howToUse: {
@@ -91,12 +91,12 @@ const seoData = {
     {
       icon: '</>',
       title: 'Expand minified HTML from a build tool or CDN into readable code',
-      desc: 'Paste one-line minified HTML from webpack, Vite, a CDN response, or a server-rendered page and expand it into a fully indented, navigable structure. Line numbers make it easy to find broken nesting or missing closing tags. Then use our [JSON Formatter](https://fwdtools.com/json-formatter/) to format any embedded JSON payloads in script tags.',
+      desc: 'Paste one-line minified HTML from webpack, Vite, a CDN response, or a server-rendered page and expand it into a fully indented, navigable structure. Line numbers make it easy to find broken nesting or missing closing tags. Then use our [JSON Formatter](/json-formatter/) to format any embedded JSON payloads in script tags.',
     },
     {
       icon: '⇄',
       title: 'Review a PR with messy or auto-generated HTML templates',
-      desc: 'Paste the template HTML before reviewing a pull request. Clean 2-space indentation makes structural issues — extra nesting levels, misplaced divs, wrong tag order — immediately visible. Compare before and after with our [Diff Checker](https://fwdtools.com/diff-checker/) to see only what changed.',
+      desc: 'Paste the template HTML before reviewing a pull request. Clean 2-space indentation makes structural issues — extra nesting levels, misplaced divs, wrong tag order — immediately visible. Compare before and after with our [Diff Checker](/diff-checker/) to see only what changed.',
     },
     {
       icon: '◑',

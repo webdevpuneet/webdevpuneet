@@ -154,7 +154,7 @@ The two **Mini-Projects** — a complete Todo REST API and a Users API with filt
   features: [
     'Complete in-browser Express.js simulation — route matching, middleware chains, req/res objects, no server needed — the same in-browser approach as the [Node.js playground](/nodejs-playground)',
     '38 structured lessons across 11 chapters, beginner to pro — from Hello World to validation, security headers, rate limiting, centralized errors, testing, and deployment; design mock endpoints first in the [REST API builder](/rest-api-builder-playground)',
-    'Built-in HTTP Client panel — select method, enter path, add JSON body, click Send, see response — like a mini [API request tester](https://fwdtools.com/api-request-generator-tester/) built into every lesson',
+    'Built-in HTTP Client panel — select method, enter path, add JSON body, click Send, see response — like a mini [API request tester](/api-request-generator-tester/) built into every lesson',
     'Live response panel with colour-coded status codes (2xx green, 4xx orange, 5xx red), body, timing, and headers',
     'Auto-fill HTTP client from lesson TEST comments — each lesson pre-fills the correct method and path',
     'Route parameter support — :id, :slug, nested routes like /users/:id/posts with req.params extraction',

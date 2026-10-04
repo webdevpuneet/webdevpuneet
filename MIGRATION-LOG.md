@@ -565,3 +565,17 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   Firebase playground pages now point to fwdtools.com. Added a webdevpuneet `.htaccess` 301 to `https://fwdtools.com/database-schema-designer/`.
 - fwdtools: removed from `moved-to-webdevpuneet.js` and from the `.htaccess` 301 rule; its page and component were never deleted.
 - Also: fwdtools sidebar ad placeholder is hidden while `ADS_ENABLED` is false; snippet ad bar background is `#dde0e8`.
+
+## 2026-10-04 — 16 coding tools copied in (301 from fwdtools), all tools get the top ad
+
+- **Moved:** html-entity-encoder, html-to-markdown, markdown-to-html, markdown-editor, lorem-ipsum-generator,
+  json-formatter, json-schema-generator, json-table-viewer, json-dashboard-generator, api-mock-generator,
+  diff-checker, xml-formatter, sql-formatter, uuid-generator, image-to-base64, api-request-generator-tester.
+- **webdevpuneet:** pages, components, icons and OG images copied (json-formatter has no OG image on either site);
+  pages rebranded. New navs DevEncodersTopNav, DevGeneratorsTopNav and ApiToolsTopNav (local links for moved tools).
+  Registry entries keep their original categories. 19 existing pages relinked to the new local URLs.
+- Every tool and playground now renders `PlaygroundTopAd` (leaderboard, fixed sizes 970/728/468/320, max 90px).
+  Playgrounds, Font Pairing, Easing, Toggle Switch, Carousel and Shape Generator put it at the top of the right column
+  with the tool title moved into the left column; the rest show it directly under the tools nav.
+- **fwdtools:** slugs added to `moved-to-webdevpuneet.js` and a new `.htaccess` 301 rule; hard links in
+  image-background-remover, image-editor, jquery-playground and Header now point at webdevpuneet.com.

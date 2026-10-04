@@ -112,7 +112,7 @@ const SEO = {
     {
       icon: '⇄',
       title: 'Fix className, htmlFor, and inline style errors when pasting HTML into React',
-      desc: 'Paste the HTML template here first. Copy the JSX output. Paste it into your component. No more hunting through markup to fix every class → className, every style string to a style object, and every onclick to onClick one at a time. Use our [Diff Checker](https://fwdtools.com/diff-checker/) to verify the conversion changed only what it should.',
+      desc: 'Paste the HTML template here first. Copy the JSX output. Paste it into your component. No more hunting through markup to fix every class → className, every style string to a style object, and every onclick to onClick one at a time. Use our [Diff Checker](/diff-checker/) to verify the conversion changed only what it should.',
     },
     {
       icon: '◎',

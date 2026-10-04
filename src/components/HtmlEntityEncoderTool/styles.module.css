@@ -1,0 +1,50 @@
+/* HtmlEntityEncoderTool -- accent #f59e0b */
+.wrap{display:flex;flex-direction:column;height:100%;background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',var(--font-ui),sans-serif;overflow:hidden;box-sizing:border-box}
+.header{min-height:48px;border-bottom:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 14px;flex-shrink:0}
+.logo{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:500;white-space:nowrap}
+.logoIcon{width:28px;height:28px;border-radius:7px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.28);display:flex;align-items:center;justify-content:center}
+.accent{color:#f59e0b}
+.hint{font-size:11px;color:var(--text3)}
+.body{flex:1;min-height:0;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:14px}
+
+/* Mode */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px}
+.fieldLabel{font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.7px;color:var(--text3);margin-bottom:10px}
+.modeToggle{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.modeBtn{display:flex;flex-direction:column;padding:9px 10px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--text3);font:inherit;cursor:pointer;transition:all .13s;text-align:left;gap:3px}
+.modeBtn:hover{border-color:#f59e0b;color:var(--text)}
+.modeBtnActive{border-color:rgba(245,158,11,.5);background:rgba(245,158,11,.1);color:#f59e0b}
+.modeBtnLabel{font-size:12.5px;font-weight:700}
+.modeBtnSub{font-size:10px;color:var(--text3);line-height:1.3}
+.modeBtnActive .modeBtnSub{color:rgba(245,158,11,.7)}
+
+/* Editors */
+.editorsGrid{display:grid;grid-template-columns:1fr 80px 1fr;gap:10px;align-items:stretch}
+@media(max-width:680px){.editorsGrid{grid-template-columns:1fr;gap:8px}.actionsCol{flex-direction:row;gap:6px}}
+.editorPanel{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.editorHeader{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
+.editorLabel{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;flex:1}
+.editorMeta{font-size:10.5px;color:var(--text3)}
+.clearBtn{padding:3px 9px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--text3);font:inherit;font-size:11px;cursor:pointer}
+.clearBtn:hover{color:#ef4444;border-color:#ef4444}
+.copyBtn{padding:3px 9px;border-radius:5px;border:1px solid var(--border);background:transparent;color:var(--text3);font:inherit;font-size:11px;cursor:pointer}
+.copyBtn:hover{border-color:#f59e0b;color:#f59e0b}
+.textarea{flex:1;border:none;background:transparent;color:var(--text);padding:12px;font-family:monospace;font-size:12.5px;line-height:1.6;outline:none;resize:none;min-height:240px}
+.textareaOut{background:rgba(255,255,255,.015);color:var(--text2)}
+.actionsCol{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.actionBtn{width:72px;padding:8px 6px;border-radius:7px;border:1px solid var(--border);background:var(--surface);color:var(--text3);font:inherit;font-size:11.5px;font-weight:700;cursor:pointer;transition:all .13s;text-align:center}
+.actionBtn:hover{border-color:#f59e0b;color:#f59e0b}
+.swapBtn{width:72px;padding:6px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--text3);font:inherit;font-size:18px;cursor:pointer;transition:all .13s}
+.swapBtn:hover{border-color:#f59e0b;color:#f59e0b}
+
+/* Ref */
+.refCard{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px}
+.refTitle{font-size:13px;font-weight:700;margin-bottom:12px}
+.tableWrap{overflow-x:auto}
+.table{width:100%;border-collapse:collapse;font-size:12px}
+.table th,.table td{padding:6px 10px;border-bottom:1px solid var(--border);text-align:left}
+.table th{color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:.6px;background:var(--surface);position:sticky;top:0}
+.table tr:last-child td{border-bottom:0}
+.table tbody tr:hover td{background:rgba(245,158,11,.05)}
+
+@media(max-width:768px){.wrap{height:auto;overflow:visible}.body{overflow-y:visible;flex:none;min-height:auto}.modeToggle{grid-template-columns:1fr}}

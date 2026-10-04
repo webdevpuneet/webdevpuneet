@@ -6,14 +6,17 @@ import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 // ── Color palette for flex items ─────────────────────────────────────────────
+// Text colours are the dark (700) shade of each hue so the number and grow/shrink
+// label stay readable on the light canvas; the old 400-shade lime (#d4f064) was
+// nearly invisible on white.
 const PALETTE = [
-  { bg: 'rgba(91,156,246,0.15)', border: 'rgba(91,156,246,0.5)', text: '#5b9cf6' },
-  { bg: 'rgba(212,240,100,0.12)', border: 'rgba(212,240,100,0.4)', text: '#d4f064' },
-  { bg: 'rgba(248,113,113,0.13)', border: 'rgba(248,113,113,0.4)', text: '#f87171' },
-  { bg: 'rgba(52,211,153,0.13)', border: 'rgba(52,211,153,0.4)', text: '#34d399' },
-  { bg: 'rgba(251,146,60,0.13)', border: 'rgba(251,146,60,0.4)', text: '#fb923c' },
-  { bg: 'rgba(167,139,250,0.13)', border: 'rgba(167,139,250,0.4)', text: '#a78bfa' },
-  { bg: 'rgba(244,114,182,0.13)', border: 'rgba(244,114,182,0.4)', text: '#f472b6' },
+  { bg: 'rgba(59,130,246,0.14)',  border: 'rgba(59,130,246,0.55)',  text: '#1d4ed8' },
+  { bg: 'rgba(132,204,22,0.16)',  border: 'rgba(101,163,13,0.6)',   text: '#3f6212' },
+  { bg: 'rgba(239,68,68,0.12)',   border: 'rgba(239,68,68,0.5)',    text: '#b91c1c' },
+  { bg: 'rgba(16,185,129,0.13)',  border: 'rgba(16,185,129,0.55)',  text: '#047857' },
+  { bg: 'rgba(249,115,22,0.13)',  border: 'rgba(249,115,22,0.55)',  text: '#c2410c' },
+  { bg: 'rgba(139,92,246,0.13)',  border: 'rgba(139,92,246,0.55)',  text: '#6d28d9' },
+  { bg: 'rgba(236,72,153,0.12)',  border: 'rgba(236,72,153,0.5)',   text: '#be185d' },
 ];
 
 // ── Default state ────────────────────────────────────────────────────────────
