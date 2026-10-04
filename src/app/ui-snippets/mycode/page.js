@@ -3,6 +3,8 @@ import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import FrontendPlaygroundsStrip from '@/components/FrontendPlaygroundsStrip';
 import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
+import { BrowsePanel } from '@/components/UiSnippetsGallery';
+import styles from './styles.module.css';
 import adStyles from '@/components/AdSlot/styles.module.css';
 import { getLatestSnippets } from '@/lib/snippet-related';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
@@ -172,6 +174,10 @@ export default function SavedSnippetsPage() {
           above the "Learn Coding Visually" strip. Outside IndexOnly on purpose. Its section
           carries its own 20px (16px mobile) side inset, matching AdSlot's relatedFull. */}
       <div className={adStyles.adShell}>
+        {/* Same Categories | Tags browse box as the gallery and snippet pages — plain links, nothing highlighted. */}
+        <div className={styles.browse}>
+          <BrowsePanel activeCategory={null} highlightAll={false} />
+        </div>
         <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} />
         {/* "Learn Coding Visually" also shows on saved snippets, so it lives here rather than in AdSlot. */}
         <div className={adStyles.relatedFull}>

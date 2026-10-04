@@ -1,0 +1,3 @@
+/* Categories | Tags browse box above Latest UI Snippets — same inset as the carousel. */
+.browse { padding: 16px 20px 0; }
+@media (max-width: 768px) { .browse { padding: 14px 16px 0; } }
