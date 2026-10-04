@@ -577,18 +577,55 @@
   background: white;
 }
 
-.codeBlock {
+.codeEditWrap {
+  position: relative;
   flex: 1;
+  min-height: 0;
+  background: var(--surface2, var(--surface));
+}
+
+/* Highlighted copy underneath; the textarea on top shares every metric below. */
+.codeBlock,
+.codeEditor {
+  position: absolute;
+  inset: 0;
   margin: 0;
   padding: 12px;
   font-size: 12px;
   line-height: 1.6;
   font-family: var(--font-mono, monospace);
-  color: var(--text2);
-  overflow: auto;
-  background: var(--surface2, var(--surface));
+  letter-spacing: 0;
   white-space: pre-wrap;
   word-break: break-all;
+  overflow: auto;
+  tab-size: 2;
+  box-sizing: border-box;
+}
+.codeBlock {
+  color: var(--text2);
+  background: transparent;
+  pointer-events: none;
+}
+.codeEditor {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: transparent;
+  caret-color: var(--text);
+}
+.codeEditor::selection { background: rgba(249, 115, 22, 0.25); }
+
+.paneBtns { display: inline-flex; gap: 6px; }
+.editHint {
+  font-size: 9px;
+  font-weight: 600;
+  color: #c2410c;
+  letter-spacing: 0.04em;
+  margin-left: 6px;
+  margin-right: auto;
 }
 
 /* ── Lesson navigation ──────────────────────────────────── */

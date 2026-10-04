@@ -331,6 +331,14 @@ export default function HtmlPlaygroundTool() {
   const [search,          setSearch]          = useState('');
 
   const [outputHeight,    setOutputHeight]    = useState(300);
+  // The HTML pane is editable: typing updates the preview directly. `edited` keeps
+  // the pane on screen even if the user clears every line; `demoKey` remounts the
+  // lesson demo so Reset brings back its generated code.
+  const [edited,          setEdited]          = useState(false);
+  const [demoKey,         setDemoKey]         = useState(0);
+  const userEditRef       = useRef(false);
+  const codeTextaRef      = useRef(null);
+  const codeHighRef       = useRef(null);
 
   const prevHtmlRef       = useRef('');
   const splitDragging     = useRef(false);
@@ -343,6 +351,36 @@ export default function HtmlPlaygroundTool() {
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   }, [previewHtml]);
+
+  const onCodeChange = useCallback(e => {
+    userEditRef.current = true;
+    setEdited(true);
+    setPreviewHtml(e.target.value);
+  }, []);
+
+  // Tab inserts two spaces instead of leaving the editor.
+  const onCodeKeyDown = useCallback(e => {
+    if (e.key !== 'Tab') return;
+    e.preventDefault();
+    const ta = e.target;
+    const start = ta.selectionStart;
+    const next = ta.value.slice(0, start) + '  ' + ta.value.slice(ta.selectionEnd);
+    userEditRef.current = true;
+    setEdited(true);
+    setPreviewHtml(next);
+    requestAnimationFrame(() => { ta.selectionStart = ta.selectionEnd = start + 2; });
+  }, []);
+
+  const onCodeScroll = useCallback(() => {
+    const ta = codeTextaRef.current, hi = codeHighRef.current;
+    if (ta && hi) { hi.scrollTop = ta.scrollTop; hi.scrollLeft = ta.scrollLeft; }
+  }, []);
+
+  // Remount the demo so it pushes its own code again, discarding the user's edits.
+  const resetCode = useCallback(() => {
+    setEdited(false);
+    setDemoKey(k => k + 1);
+  }, []);
 
   useEffect(() => {
     setProgress(readProgress());
@@ -359,7 +397,9 @@ export default function HtmlPlaygroundTool() {
 
   // Diff lines when previewHtml changes
   useEffect(() => {
-    if (!previewHtml || !prevHtmlRef.current) {
+    // Typing in the HTML pane shouldn't flash every line it touches.
+    if (userEditRef.current || !previewHtml || !prevHtmlRef.current) {
+      userEditRef.current = false;
       prevHtmlRef.current = previewHtml;
       return;
     }
@@ -401,6 +441,7 @@ export default function HtmlPlaygroundTool() {
     setActiveLessonId(lessonId);
     setPreviewHtml('');
     prevHtmlRef.current = '';
+    setEdited(false);
     setChallengeDone(false);
     setChallengeResult(null);
     savePosition(chapterId, lessonId);
@@ -582,13 +623,13 @@ export default function HtmlPlaygroundTool() {
                 <span className={s.demoSectionLabel}>Interactive Demo</span>
               </div>
               {activeLesson.demo.type === 'picker' && (
-                <PickerDemo key={activeLessonId} demo={activeLesson.demo} onHtmlChange={setPreviewHtml} />
+                <PickerDemo key={`${activeLessonId}-${demoKey}`} demo={activeLesson.demo} onHtmlChange={setPreviewHtml} />
               )}
               {activeLesson.demo.type === 'toggle' && (
-                <ToggleDemo key={activeLessonId} demo={activeLesson.demo} onHtmlChange={setPreviewHtml} />
+                <ToggleDemo key={`${activeLessonId}-${demoKey}`} demo={activeLesson.demo} onHtmlChange={setPreviewHtml} />
               )}
               {activeLesson.demo.type === 'sandbox' && (
-                <SandboxDemo key={activeLessonId} demo={activeLesson.demo} onHtmlChange={setPreviewHtml} />
+                <SandboxDemo key={`${activeLessonId}-${demoKey}`} demo={activeLesson.demo} onHtmlChange={setPreviewHtml} />
             )}
             {activeLesson.demo.type === 'info' && (
                 <InfoDemo key={activeLessonId} demo={activeLesson.demo} />
@@ -596,7 +637,7 @@ export default function HtmlPlaygroundTool() {
             </section>
 
             {/* Preview + Code */}
-            {previewHtml && (
+            {(previewHtml || edited) && (
               <div className={s.outputWrap}>
               <section className={s.outputSection} ref={splitContainerRef} style={{ display: 'flex', gap: 0, height: outputHeight }}>
                 <div className={s.previewPane} style={{ flex: `0 0 ${splitPct}%` }}>
@@ -613,20 +654,41 @@ export default function HtmlPlaygroundTool() {
                 </div>
                 <div className={s.codePane} style={{ flex: 1 }}>
                   <div className={s.paneLabel}>
-                    HTML
-                    <button className={`${s.copyBtn} ${copied ? s.copyBtnDone : ''}`} onClick={copyCode}>
-                      {copied ? '✓ Copied' : 'Copy'}
-                    </button>
+                    HTML <span className={s.editHint}>editable</span>
+                    <span className={s.paneBtns}>
+                      {edited && (
+                        <button className={s.copyBtn} onClick={resetCode} title="Discard your edits">Reset</button>
+                      )}
+                      <button className={`${s.copyBtn} ${copied ? s.copyBtnDone : ''}`} onClick={copyCode}>
+                        {copied ? '✓ Copied' : 'Copy'}
+                      </button>
+                    </span>
                   </div>
-                  <pre className={s.codeBlock}>
-                    {previewHtml.split('\n').map((line, i) => (
-                      <div
-                        key={i}
-                        className={`${s.codeLine} ${changedLines.has(i) ? s.codeLineChanged : ''}`}
-                        dangerouslySetInnerHTML={{ __html: highlightHTML(line) || '&nbsp;' }}
-                      />
-                    ))}
-                  </pre>
+                  {/* Highlighted lines underneath, a transparent textarea on top —
+                      same font, padding and wrapping, so the caret lines up. */}
+                  <div className={s.codeEditWrap}>
+                    <pre ref={codeHighRef} className={s.codeBlock} aria-hidden="true">
+                      {previewHtml.split('\n').map((line, i) => (
+                        <div
+                          key={i}
+                          className={`${s.codeLine} ${changedLines.has(i) ? s.codeLineChanged : ''}`}
+                          dangerouslySetInnerHTML={{ __html: highlightHTML(line) || '&nbsp;' }}
+                        />
+                      ))}
+                    </pre>
+                    <textarea
+                      ref={codeTextaRef}
+                      className={s.codeEditor}
+                      value={previewHtml}
+                      onChange={onCodeChange}
+                      onKeyDown={onCodeKeyDown}
+                      onScroll={onCodeScroll}
+                      spellCheck={false}
+                      autoCorrect="off"
+                      autoCapitalize="off"
+                      aria-label="HTML code — edit to update the preview"
+                    />
+                  </div>
                 </div>
               </section>
               <div className={s.heightHandle} onMouseDown={onHeightDragStart} title="Drag to resize preview">
