@@ -30,7 +30,7 @@
 
 <p><strong>The rule:</strong></p>
 
-<pre><code>.cqCard { container-type: inline-size; }
+<pre><code>.resizeBox { container-type: inline-size; }
 
 @container (min-width: 380px) {
   .cqCard { flex-direction: row; }
@@ -66,7 +66,7 @@
 
 <p><strong>The rule:</strong></p>
 
-<pre><code>.prodCard { container-type: inline-size; }
+<pre><code>.prodItem { container-type: inline-size; }
 
 @container (min-width: 210px) {
   .prodCard { flex-direction: row; }

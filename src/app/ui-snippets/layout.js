@@ -124,10 +124,7 @@ export default function UiSnippetsLayout({ children }) {
 
   // Playground top nav on every UI Snippets page — gallery, categories, tags, snippet
   // pages and My Code (grid and editor). Embeds return early below and get none.
-  // Snippet pages (the editor) have no top nav; the other UI Snippets pages keep it.
-  const slugPart = pathname.split('/').filter(Boolean)[1] || null;
-  const isSnippetPage = !!slugPart && slugPart !== 'mycode' && !isGalleryRoute(pathname);
-  const showNav = !isSnippetPage;
+  const showNav = true;  // top nav shows on every ui-snippets page, individual snippets included
 
   // The snippet editor fills the screen BELOW the nav, so it needs the nav's real
   // height (a hard-coded number breaks the moment the nav wraps or its font changes,

@@ -73,7 +73,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>.cqCard { container-type: inline-size; }
+<pre class="wp-block-code"><code>.resizeBox { container-type: inline-size; }
 
 @container (min-width: 380px) {
   .cqCard { flex-direction: row; }
@@ -137,7 +137,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>.prodCard { container-type: inline-size; }
+<pre class="wp-block-code"><code>.prodItem { container-type: inline-size; }
 
 @container (min-width: 210px) {
   .prodCard { flex-direction: row; }
