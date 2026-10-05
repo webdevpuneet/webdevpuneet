@@ -250,30 +250,28 @@ export default function BoxShadowGeneratorTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="box-shadow-generator" />
-      <PlaygroundTopAd />
-      {/* Tool header */}
-      <div className={styles.toolHeader}>
-        <div className={styles.logo}>
-          <div className={styles.logoIcon}>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <rect x="1" y="1" width="10" height="10" rx="2" fill="currentColor" opacity="0.9"/>
-              <rect x="5" y="5" width="10" height="10" rx="2" fill="currentColor" opacity="0.3"/>
-            </svg>
-          </div>
-          <span>Box Shadow <span className={styles.logoAccent}>Generator</span></span>
-        </div>
-        <div className={styles.headerActions}>
-          <span className={`${styles.saveIndicator} ${saveState === 'saving' ? styles.saveIndicatorSaving : saveState === 'saved' ? styles.saveIndicatorSaved : ''}`}>
-            <span className={styles.saveDot} />
-            {saveState === 'saving' ? 'Saving…' : saveState === 'saved' ? 'Saved' : 'Auto-saved'}
-          </span>
-          <button className={styles.resetBtn} onClick={handleReset}>Reset</button>
-        </div>
-      </div>
 
       <div className={styles.layout}>
-        {/* Sidebar */}
+        {/* Sidebar: title, save state and Reset on top, then the controls */}
         <aside className={styles.sidebar}>
+          <div className={styles.toolHeader}>
+            <div className={styles.logo}>
+              <div className={styles.logoIcon}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="1" y="1" width="10" height="10" rx="2" fill="currentColor" opacity="0.9"/>
+                  <rect x="5" y="5" width="10" height="10" rx="2" fill="currentColor" opacity="0.3"/>
+                </svg>
+              </div>
+              <span>Box Shadow <span className={styles.logoAccent}>Generator</span></span>
+            </div>
+            <div className={styles.headerActions}>
+              <span className={`${styles.saveIndicator} ${saveState === 'saving' ? styles.saveIndicatorSaving : saveState === 'saved' ? styles.saveIndicatorSaved : ''}`}>
+                <span className={styles.saveDot} />
+                {saveState === 'saving' ? 'Saving…' : saveState === 'saved' ? 'Saved' : 'Auto-saved'}
+              </span>
+              <button className={styles.resetBtn} onClick={handleReset}>Reset</button>
+            </div>
+          </div>
 
           {/* Mode toggle — top of sidebar */}
           <div className={styles.section}>
@@ -376,6 +374,9 @@ export default function BoxShadowGeneratorTool() {
 
         {/* Main area */}
         <main className={styles.main}>
+          {/* Leaderboard ad (max 90px) at the top of the right panel */}
+          <PlaygroundTopAd />
+
           {/* Preview toolbar */}
           <div className={styles.previewToolbar}>
             <span className={styles.previewLabel}>Background</span>
