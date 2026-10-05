@@ -8,6 +8,11 @@
   background: var(--bg);
 }
 
+/* Categories | Tags browse box above "Latest UI Snippets": same 20px (16px mobile) side
+   inset as the snippets strip below it. */
+.snippetBrowse { position: relative; padding: 0 20px; }
+@media (max-width: 768px) { .snippetBrowse { padding: 0 16px; } }
+
 /* ── Hero ───────────────────────────────────────────────────────────────── */
 .hero {
   position: relative;

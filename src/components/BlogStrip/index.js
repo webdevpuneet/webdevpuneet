@@ -11,15 +11,17 @@ import { fetchLatestBlogPosts, BLOG_URL } from '@/lib/blog-feed';
 // leaves it out. One fetch per page load is shared through a module-level promise.
 let postsPromise = null;
 
-export default function BlogStrip({ max = 6 }) {
-  const [posts, setPosts] = useState(null);
+// `initialPosts`: posts already fetched on the server (home), so no browser fetch is needed.
+export default function BlogStrip({ max = 6, initialPosts = null }) {
+  const [posts, setPosts] = useState(initialPosts);
 
   useEffect(() => {
+    if (initialPosts) return;
     let cancelled = false;
     postsPromise = postsPromise || fetchLatestBlogPosts(max);
     postsPromise.then(list => { if (!cancelled) setPosts(list); });
     return () => { cancelled = true; };
-  }, [max]);
+  }, [max, initialPosts]);
 
   if (!posts || posts.length === 0) return null;
 

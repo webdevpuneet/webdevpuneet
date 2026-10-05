@@ -1,6 +1,10 @@
 import HomeOmniSearch from '@/components/HomeOmniSearch';
 import ProfileHeroCard from '@/components/ProfileHeroCard';
 import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
+import FrontendPlaygroundsStrip from '@/components/FrontendPlaygroundsStrip';
+import ToolsStrip from '@/components/ToolsStrip';
+import { BrowsePanel } from '@/components/UiSnippetsGallery';
+import adStyles from '@/components/AdSlot/styles.module.css';
 import { getLatestSnippets } from '@/lib/snippet-related';
 import { fetchLatestBlogPosts } from '@/lib/blog-feed';
 import SeoSection from '@/components/SeoSection';
@@ -237,7 +241,9 @@ function ItemIcon({ d, accent }) {
 
 export default async function Home() {
   const playgroundCardTools = PLAYGROUND_CARD_SLUGS.map(slug => LIVE_TOOLS.find(t => t.slug === slug)).filter(Boolean);
-  const latestPosts = await fetchLatestBlogPosts(5);
+  // Six for the blog strip; the feature card below lists the first five.
+  const blogPosts = await fetchLatestBlogPosts(6);
+  const latestPosts = blogPosts.slice(0, 5);
   const latestSnippets = getLatestSnippets(60);
 
   return (
@@ -273,8 +279,18 @@ export default async function Home() {
           <p className={styles.subtitleSeo}>{SNIPPET_COUNT}+ copy-paste UI snippets — cards, heroes, navbars, modals, forms, loaders and animations — plus {PLAYGROUND_COUNT} learn-to-code playgrounds for HTML, CSS, JavaScript, TypeScript, React, Vue, Next.js, Tailwind and more. Live preview, structured lessons, nothing to install and no account needed.</p>
         </div>
 
+      {/* Same Categories | Tags browse box as the gallery and snippet pages — plain links, nothing highlighted. */}
+      <div className={styles.snippetBrowse}>
+        <BrowsePanel activeCategory={null} highlightAll={false} />
+      </div>
+
       {/* ── Latest UI snippets: newest six, arrows page through the rest ── */}
       <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} />
+
+      {/* ── Latest blog posts (fetched on the server above) + Learn Coding Visually + tools ── */}
+      <div className={adStyles.relatedFull}>
+        <FrontendPlaygroundsStrip blogPosts={blogPosts} blogFirst after={<ToolsStrip />} />
+      </div>
 
       {/* ── Above-the-fold feature grid ──────────────────────────────────── */}
       <div className={`${styles.featureGrid}`}>

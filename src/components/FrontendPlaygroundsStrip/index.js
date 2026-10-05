@@ -16,15 +16,21 @@ const PLAYGROUND_SLUGS = [
   'bootstrap5-playground',
 ];
 
-export default function FrontendPlaygroundsStrip() {
+// `blogPosts`: latest posts already fetched on the server (home), handed to the blog strip.
+// `blogFirst`: put the blog strip above this one instead of below it (home).
+// `after`: extra strip(s) placed right after this one (home: tools).
+export default function FrontendPlaygroundsStrip({ blogPosts = null, blogFirst = false, after = null }) {
   const tools = PLAYGROUND_SLUGS
     .map(s => LIVE_TOOLS.find(t => t.slug === s))
     .filter(Boolean);
 
   if (!tools.length) return null;
 
+  const blog = <BlogStrip initialPosts={blogPosts} />;
+
   return (
     <>
+    {blogFirst && blog}
     <div className={styles.ymal}>
       <div className={styles.ymalHead}>
         <div>
@@ -50,8 +56,9 @@ export default function FrontendPlaygroundsStrip() {
         ))}
       </div>
     </div>
-    {/* Latest blog posts, loaded in the browser, right after this strip on every page that shows it. */}
-    <BlogStrip />
+    {/* Latest blog posts: right after this strip (after any `after` strips) unless blogFirst. */}
+    {after}
+    {!blogFirst && blog}
     </>
   );
 }
