@@ -2,6 +2,7 @@ import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import FrontendPlaygroundsStrip from '@/components/FrontendPlaygroundsStrip';
+import ToolsStrip from '@/components/ToolsStrip';
 import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
 import { BrowsePanel } from '@/components/UiSnippetsGallery';
 import styles from './styles.module.css';
@@ -181,7 +182,7 @@ export default function SavedSnippetsPage() {
         <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} />
         {/* "Learn Coding Visually" also shows on saved snippets, so it lives here rather than in AdSlot. */}
         <div className={adStyles.relatedFull}>
-          <FrontendPlaygroundsStrip />
+          <FrontendPlaygroundsStrip after={<ToolsStrip />} />
         </div>
       </div>
       <IndexOnly>

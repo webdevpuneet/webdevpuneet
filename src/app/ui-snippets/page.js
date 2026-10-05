@@ -2,6 +2,7 @@
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import FrontendPlaygroundsStrip from '@/components/FrontendPlaygroundsStrip';
+import ToolsStrip from '@/components/ToolsStrip';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 
 const OG_IMAGE = 'https://webdevpuneet.com/images/ui-snippets.png';
@@ -185,7 +186,7 @@ export default function UiSnippetsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <IndexOnly>
-        <AdSlot adFirst related={<FrontendPlaygroundsStrip />} />
+        <AdSlot adFirst related={<FrontendPlaygroundsStrip after={<ToolsStrip />} />} />
         <SeoSection {...SEO} />
       </IndexOnly>
     </>

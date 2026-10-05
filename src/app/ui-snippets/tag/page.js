@@ -2,6 +2,7 @@ import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import FrontendPlaygroundsStrip from '@/components/FrontendPlaygroundsStrip';
+import ToolsStrip from '@/components/ToolsStrip';
 import { VISIBLE_SNIPPETS } from '@/components/UiSnippetsTool/snippets';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import { BASE_URL, TAG_BASE, TAG_OG_DIR, OG_WIDTH, OG_HEIGHT, publishedTags } from '@/lib/snippet-tags';
@@ -67,7 +68,7 @@ export default function TagIndexPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(listSchema) }} />
-      <AdSlot adFirst related={<FrontendPlaygroundsStrip />} />
+      <AdSlot adFirst related={<FrontendPlaygroundsStrip after={<ToolsStrip />} />} />
       <IndexOnly>
       <SeoSection
         slug="ui-snippets/tag"

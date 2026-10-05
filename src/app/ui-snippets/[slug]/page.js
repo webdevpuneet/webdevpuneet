@@ -4,6 +4,7 @@ import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import adStyles from '@/components/AdSlot/styles.module.css';
 import FrontendPlaygroundsStrip from '@/components/FrontendPlaygroundsStrip';
+import ToolsStrip from '@/components/ToolsStrip';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import { SNIPPETS, VISIBLE_SNIPPETS, CATEGORIES } from '@/components/UiSnippetsTool/snippets';
 import { buildSnippetMetadata } from '@/lib/snippet-seo';
@@ -751,7 +752,7 @@ export default async function UiSnippetSlugPage({ params }) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }} />
         {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
         <IndexOnly>
-          <AdSlot adFirst related={<FrontendPlaygroundsStrip />} />
+          <AdSlot adFirst related={<FrontendPlaygroundsStrip after={<ToolsStrip />} />} />
           <SeoSection
             slug={`ui-snippets/${slug}`}
             title={content.title}
@@ -943,7 +944,7 @@ Requirements:
       <RelatedCarousel items={related.items} total={related.total} activeId={sn.id} category={CATEGORIES.find(c => c.id === sn.category)?.label || categoryLabel} />
       <div className={adStyles.adShell}>
         <div className={adStyles.relatedFull}>
-          <FrontendPlaygroundsStrip />
+          <FrontendPlaygroundsStrip after={<ToolsStrip />} />
         </div>
       </div>
       <SeoSection
