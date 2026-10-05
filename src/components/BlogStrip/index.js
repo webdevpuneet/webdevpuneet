@@ -23,8 +23,10 @@ export default function BlogStrip({ max = 6 }) {
 
   if (!posts || posts.length === 0) return null;
 
+  // Always rendered inside AdSlot's .relatedFull, which already pads the sides, so drop
+  // .section's own side padding or the strip sits indented from the strips above it.
   return (
-    <div className={rs.section}>
+    <div className={rs.section} style={{ paddingLeft: 0, paddingRight: 0 }}>
       <div className={rs.header}>
         <h2 className={rs.title}>Latest from the Blog</h2>
         <span className={rs.headCount}>front-end tips, tutorials and live demos</span>
