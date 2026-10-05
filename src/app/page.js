@@ -15,12 +15,20 @@ import { LIVE_TOOLS } from '@/lib/tools-registry';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import styles from './page.module.css';
 
-// Playgrounds = every live tool except the UI Snippets library itself
-const PLAYGROUND_COUNT = LIVE_TOOLS.filter(t => t.slug !== 'ui-snippets').length;
+// Coding playgrounds (lesson-based editors) vs. everything else that is a tool.
+const PLAYGROUND_COUNT = LIVE_TOOLS.filter(t => t.slug.endsWith('-playground')).length;
+const TOOL_COUNT = LIVE_TOOLS.filter(t => t.slug !== 'ui-snippets' && !t.slug.endsWith('-playground')).length;
+
+const META_DESCRIPTION = `${SNIPPET_COUNT}+ copy-paste UI snippets, ${PLAYGROUND_COUNT} coding playgrounds with lessons and ${TOOL_COUNT} free developer tools for HTML, CSS, JS, React and more. No signup, all in-browser.`;
 
 export const metadata = {
-  title: `UI Snippets & Learn to Code — Free Interactive Playgrounds | webdevpuneet.com`,
-  description: `${SNIPPET_COUNT}+ copy-paste UI snippets and ${PLAYGROUND_COUNT} interactive playgrounds to learn HTML, CSS, JavaScript, TypeScript, React, Vue, Angular, Next.js, Tailwind, GSAP and more. Live preview, structured lessons. No install, no signup, 100% private.`,
+  title: 'Free UI Snippets, Coding Playgrounds & Developer Tools',
+  description: META_DESCRIPTION,
+  keywords: [
+    'ui snippets', 'html css js snippets', 'copy paste ui components', 'learn to code online free',
+    'coding playground', 'html playground', 'css playground', 'javascript playground', 'react playground',
+    'free developer tools', 'css generators', 'online code editor', 'frontend developer tools',
+  ],
   authors: [{ name: 'Puneet Sharma', url: 'https://www.webdevpuneet.com/' }],
   robots: { index: true, follow: true },
   alternates: { canonical: 'https://webdevpuneet.com' },
@@ -28,17 +36,17 @@ export const metadata = {
     type: 'website',
     url: 'https://webdevpuneet.com',
     siteName: 'webdevpuneet.com',
-    title: `${SNIPPET_COUNT}+ UI Snippets · Learn to Code · Interactive Playgrounds — Free`,
-    description: `${SNIPPET_COUNT}+ copy-paste UI snippets and ${PLAYGROUND_COUNT} interactive playgrounds to learn HTML, CSS, JavaScript, TypeScript, React, Vue, Angular, Next.js, Tailwind, GSAP and more. Live preview, structured lessons. No install, no signup, 100% private.`,
-    images: [{ url: 'https://webdevpuneet.com/images/dev-tools.png', width: 1200, height: 640, alt: 'webdevpuneet.com — UI Snippets & Learn to Code' }],
+    title: 'UI Snippets, Coding Playgrounds & Dev Tools — All Free',
+    description: META_DESCRIPTION,
+    images: [{ url: 'https://webdevpuneet.com/images/dev-tools.png', width: 1200, height: 640, alt: 'webdevpuneet.com — UI snippets, coding playgrounds and developer tools' }],
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
     site: '@webdevpuneet',
     creator: '@webdevpuneet',
-    title: `${SNIPPET_COUNT}+ UI Snippets · Learn to Code · Interactive Playgrounds — Free`,
-    description: `${SNIPPET_COUNT}+ copy-paste UI snippets and ${PLAYGROUND_COUNT} interactive coding playgrounds — HTML, CSS, JavaScript, React, Vue, Next.js, Tailwind and more. No install, no signup, 100% private.`,
+    title: 'UI Snippets, Coding Playgrounds & Dev Tools — All Free',
+    description: META_DESCRIPTION,
     images: ['https://webdevpuneet.com/images/dev-tools.png'],
   },
 };
@@ -52,7 +60,7 @@ const websiteSchema = {
       name: 'webdevpuneet.com',
       url: 'https://webdevpuneet.com',
       inLanguage: 'en',
-      description: `${SNIPPET_COUNT}+ copy-paste UI snippets (HTML/CSS/JS components) and ${PLAYGROUND_COUNT} interactive coding playgrounds to learn HTML, CSS, JavaScript, TypeScript, React, Vue, Next.js, Tailwind and more. All free, no signup, runs entirely in your browser.`,
+      description: `${SNIPPET_COUNT}+ copy-paste UI snippets (HTML, CSS and JavaScript components), ${PLAYGROUND_COUNT} interactive coding playgrounds with structured lessons, and ${TOOL_COUNT} free developer tools including CSS generators, code formatters and converters. Free, no signup, runs entirely in your browser.`,
       publisher: { '@id': 'https://webdevpuneet.com/#organization' },
       potentialAction: {
         '@type': 'SearchAction',
@@ -65,6 +73,7 @@ const websiteSchema = {
       '@id': 'https://webdevpuneet.com/#organization',
       name: 'webdevpuneet.com',
       url: 'https://webdevpuneet.com',
+      founder: { '@type': 'Person', name: 'Puneet Sharma', url: 'https://www.webdevpuneet.com/' },
       sameAs: ['https://www.webdevpuneet.com/'],
     },
   ],
@@ -73,144 +82,152 @@ const websiteSchema = {
 const itemListSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  name: 'UI Snippets & Interactive Coding Playgrounds',
+  name: 'UI Snippets, Coding Playgrounds and Developer Tools',
   url: 'https://webdevpuneet.com',
-  description: 'Free copy-paste UI snippets and browser-based coding playgrounds for learning web development.',
-  itemListElement: LIVE_TOOLS
-    .map((t, i) => ({
-      '@type': 'ListItem',
-      position: i + 1,
-      name: t.name,
-      description: t.desc,
-      url: `https://webdevpuneet.com/${t.slug}`,
-    })),
+  description: 'Free copy-paste UI snippets, browser-based coding playgrounds and developer tools on webdevpuneet.com.',
+  itemListElement: LIVE_TOOLS.map((t, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: t.name,
+    description: t.desc,
+    url: `https://webdevpuneet.com/${t.slug}`,
+  })),
 };
+
+/* ── FAQ: shown on the page and published as FAQPage structured data ── */
+const FAQS = [
+  {
+    q: 'What is webdevpuneet.com?',
+    a: `webdevpuneet.com is a free website for frontend developers and people learning to code. It brings together ${SNIPPET_COUNT}+ copy-paste UI snippets, ${PLAYGROUND_COUNT} interactive coding playgrounds with structured lessons, ${TOOL_COUNT} developer tools such as CSS generators, code formatters and converters, a personal online code editor called My Code, and a blog of tutorials with live demos. Everything runs in your browser with no account.`,
+  },
+  {
+    q: 'Is everything on webdevpuneet.com free?',
+    a: 'Yes. Every snippet, playground, lesson and tool is completely free, with no account, no subscription, no trial and no usage limits. Code you copy or generate is yours to use in personal and commercial projects.',
+  },
+  {
+    q: 'What are the UI snippets?',
+    a: `${SNIPPET_COUNT}+ ready-to-use HTML, CSS and JavaScript components — buttons, cards, hero sections, navigation, modals, forms, loaders, animations, layouts, tables, dashboards, games and more. Each one has a live preview, an editable code editor, full source code on its page, and one-click export to React (JSX), React + Tailwind, a standalone Tailwind HTML file, a Vue 3 single-file component or an Angular component. Browse them by category or tag, or search the whole library.`,
+  },
+  {
+    q: 'Which languages and frameworks can I learn here?',
+    a: `The ${PLAYGROUND_COUNT} playgrounds cover HTML, CSS, SCSS, JavaScript, TypeScript, Tailwind CSS, Bootstrap 5, jQuery, React, Vue.js, Angular, Next.js, GSAP and SVG on the frontend, plus Node.js, Express, Python, PHP, SQL, MongoDB, Redis, GraphQL, Firebase, Git and REST APIs. Most teach through structured lessons with a live editor and preview, and your progress is saved in your browser.`,
+  },
+  {
+    q: 'What developer tools are available?',
+    a: `${TOOL_COUNT} tools, including visual CSS generators (Flexbox and Grid builders, gradients, box shadows, glassmorphism, animations, clip-path and more), component builders such as the Responsive Navbar Builder, code formatters and validators for JSON, XML, SQL and HTML, converters like HTML to JSX and JSON to TypeScript, an API request tester, a diff checker, a color contrast checker and an AI prompt builder. The All Tools page lists every one.`,
+  },
+  {
+    q: 'What is My Code?',
+    a: 'My Code is a free online code editor on webdevpuneet.com for your own HTML, CSS and JavaScript snippets. It has separate editor panes with a live preview, saves your snippets in your browser, can back them up to a private GitHub Gist, and exports them as an HTML file or a React component. You can save any UI snippet into it, or use Fork & Edit on a demo or a tool such as the Navbar Builder to open the result there and keep editing.',
+  },
+  {
+    q: 'Is my code sent to a server?',
+    a: 'No. Snippet previews, playgrounds, tools and My Code all run in your browser, so your code and lesson progress stay on your device. The only exceptions are tools whose job is a network request, such as the API request tester, which sends the requests you ask it to.',
+  },
+  {
+    q: 'Do I need to install anything or create an account?',
+    a: 'No. Open any snippet, playground or tool in a modern browser — Chrome, Edge, Firefox or Safari — and start straight away. There is no npm install, no build step, no extension and no sign-up.',
+  },
+  {
+    q: 'Can I use it on a phone or tablet?',
+    a: 'Yes. The whole site is responsive. Editors with side-by-side code and preview are most comfortable on a laptop or desktop, but everything works on phones and tablets.',
+  },
+  {
+    q: 'Who builds webdevpuneet.com?',
+    a: 'webdevpuneet.com is built and maintained by Puneet Sharma, a frontend developer and UI engineer who builds pixel-perfect HTML, React and WordPress websites. New snippets, lessons, tools and blog posts are added regularly.',
+  },
+];
 
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'Are the UI snippets and playgrounds completely free?',
-      acceptedAnswer: { '@type': 'Answer', text: `Yes — all ${SNIPPET_COUNT}+ UI snippets and all ${PLAYGROUND_COUNT} coding playgrounds are completely free with no account, no subscription, and no usage limits. There are no paywalled lessons or components.` },
-    },
-    {
-      '@type': 'Question',
-      name: 'Does my code get sent to a server?',
-      acceptedAnswer: { '@type': 'Answer', text: 'No. Snippet previews and every playground run entirely in your browser. Your code and lesson progress stay on your device (progress is saved in your browser\'s local storage).' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Which languages and frameworks can I learn?',
-      acceptedAnswer: { '@type': 'Answer', text: 'HTML, CSS, SCSS, JavaScript, TypeScript, jQuery, Bootstrap 5, Tailwind CSS, React, Vue.js, Angular, Next.js, GSAP and SVG — each with structured lessons and live preview.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'What are the UI snippets?',
-      acceptedAnswer: { '@type': 'Answer', text: `${SNIPPET_COUNT}+ production-ready HTML, CSS and JavaScript components — cards, heroes, navigation, modals, forms, loaders, animations, dashboards, games and more. Each has a live preview, source code, and export to React, Vue, Angular and Tailwind.` },
-    },
-    {
-      '@type': 'Question',
-      name: 'Do I need to install anything?',
-      acceptedAnswer: { '@type': 'Answer', text: 'No installation needed. Open any playground or snippet in a modern browser and start immediately. No Node.js, no npm install, no terminal, no build step.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Which browsers are supported?',
-      acceptedAnswer: { '@type': 'Answer', text: 'All modern browsers are supported — Chrome, Firefox, Safari, and Edge. Internet Explorer is not supported.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Can I use it on mobile or tablet?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes. The layout is fully responsive. Playgrounds with side-by-side editor and preview panels are most comfortable on a larger screen, but everything works on phones and tablets.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'Can I save my own code?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Yes — My Code (/ui-snippets/mycode/) lets you write and keep your own HTML, CSS and JS snippets in your browser, and playground progress is saved automatically.' },
-    },
+  mainEntity: FAQS.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+
+/* ── Page content ── */
+const FEATURES = [
+  { title: `${SNIPPET_COUNT}+ UI snippets`, text: 'Copy-paste HTML, CSS and JavaScript components with live preview — [browse the library](/ui-snippets/).' },
+  { title: `${PLAYGROUND_COUNT} coding playgrounds`, text: 'Learn frontend and backend with structured lessons and a live editor — [start learning](/learn-to-code/).' },
+  { title: `${TOOL_COUNT} developer tools`, text: 'CSS generators, builders, formatters and converters — [see all tools](/tools/).' },
+  { title: 'Export to any framework', text: 'Every snippet exports to React, React + Tailwind, Tailwind HTML, Vue 3 and Angular.' },
+  { title: 'My Code editor', text: 'Keep your own snippets with a live preview, Gist backup and export — [open My Code](/ui-snippets/mycode/).' },
+  { title: 'Fork & Edit', text: 'Open any demo or builder result in My Code and keep editing it in the browser.' },
+  { title: 'Lessons that save progress', text: 'Pick up any playground exactly where you left off — no account needed.' },
+  { title: 'Tutorials with live demos', text: 'Practical front-end guides on the [blog](https://webdevpuneet.com/blog/), every demo runnable and forkable.' },
+  { title: '100% in your browser', text: 'Nothing to install, nothing uploaded — your code stays on your device.' },
+  { title: 'Free, no sign-up', text: 'No account, no paywall, no limits — and the code is yours to use.' },
+];
+
+const ABOUT = `**webdevpuneet.com** is a free home for frontend developers and anyone learning to code. In one place you get **${SNIPPET_COUNT}+ copy-paste UI snippets**, **${PLAYGROUND_COUNT} interactive coding playgrounds** with structured lessons, **${TOOL_COUNT} free developer tools**, a personal online code editor and a blog of practical tutorials. Everything runs in your browser: there is nothing to install, no account to create, and your code never leaves your device.
+
+Use it when you need a component today, when you are learning a language or framework, or when you want a quick tool to generate, format or convert code. Each part of the site is described below.
+
+### UI Snippets: ${SNIPPET_COUNT}+ copy-paste HTML, CSS and JavaScript components
+
+The [UI Snippets library](/ui-snippets/) is a collection of ready-to-use interface components written in plain HTML, CSS and vanilla JavaScript — **buttons, cards, hero sections, navigation, modals, forms, loaders, animations, layouts, tables, dashboards, games** and much more. Every snippet opens in a live editor where you can change the HTML, CSS and JS and see the preview update as you type, check it at mobile, tablet and desktop widths, and copy it in one click.
+
+Because projects use different stacks, every snippet also **exports to React (JSX), React + Tailwind CSS, a standalone Tailwind HTML file, a Vue 3 single-file component and an Angular standalone component**, and a built-in export tester renders each version live so you can confirm it works before you download it. Each snippet has its own page with the full source code, a screenshot, how it works and FAQs. Browse by category or tag, or search all ${SNIPPET_COUNT}+ from the box at the top of this page.
+
+### Learn to code: ${PLAYGROUND_COUNT} interactive playgrounds
+
+The [Learn to Code](/learn-to-code/) playgrounds teach by doing. Each one pairs short lessons with a live editor and an instant preview, so you change real code and see what happens instead of watching a video. On the frontend there are playgrounds for [HTML](/html-playground/) (42 lessons), [CSS](/css-playground/), [SCSS](/scss-playground/) (45 lessons), [JavaScript](/js-playground/) (60 lessons), [TypeScript](/typescript-playground/), [Tailwind CSS](/tailwind-playground/), [Bootstrap 5](/bootstrap5-playground/) (50 lessons), [jQuery](/jquery-playground/) (72 lessons), [React](/react-playground/), [Vue.js](/vue-playground/) (40 lessons), [Angular](/angular-playground/) (45 lessons), [Next.js](/nextjs-playground/), [GSAP](/gsap-playground/) and [SVG](/svg-playground/) (44 lessons).
+
+For the backend and data side there are playgrounds for [Node.js](/nodejs-playground/), [Express](/express-playground/), [Python](/python-playground/), [PHP](/php-playground/) (60 lessons), [SQL](/sql-playground/) with a real PostgreSQL engine in the browser, [MongoDB](/mongo-playground/), [Redis](/redis-playground/), [GraphQL](/graphql-playground/), [Firebase](/firebase-playground/), [Git](/git-playground/) (43 lessons) and a [REST API builder](/rest-api-builder-playground/). Progress is saved in your browser automatically, so you can close the tab and continue exactly where you stopped.
+
+### ${TOOL_COUNT} free developer tools
+
+The [developer tools](/tools/) handle the small jobs that shouldn't need a new package. **CSS generators** build layouts and effects visually with a live preview — the [Flexbox Builder](/flexbox-builder/), [CSS Grid Builder](/css-grid-builder/), [Gradient Generator](/gradient-generator/), [Box Shadow Generator](/box-shadow-generator/), [Glassmorphism Generator](/glassmorphism-generator/), [CSS Animation Generator](/css-animation-generator/) and many more — and component builders such as the [Responsive Navbar Builder](/navbar-builder/) design a whole navigation bar with dropdowns and a mobile menu. **Code tools** format and validate JSON, XML, SQL and HTML, convert HTML to JSX or JSON to TypeScript, compare text with a diff checker and test HTTP APIs, while the [Color Contrast Checker](/color-contrast-checker/) checks WCAG accessibility and [AI Prompt Studio](/ai-prompt-studio/) helps you write better prompts. Most generators export plain CSS, Tailwind, SCSS or a React or Vue component. The [CSS Tools](/css-tools/) page lists just the CSS generators.
+
+### My Code and Fork & Edit
+
+[My Code](/ui-snippets/mycode/) is your own free online code editor for HTML, CSS and JavaScript. Write a snippet from scratch or save any UI snippet into it, edit it with a live preview, and it stays saved in your browser — with an optional private GitHub Gist backup to sync across devices. When it is ready, export it as a standalone HTML file or a React component. **Fork & Edit** buttons on blog demos and on tools like the Navbar Builder open the result straight in My Code, so you can keep building where the demo or tool stops.
+
+### The blog: tutorials with live demos
+
+The [webdevpuneet.com blog](https://webdevpuneet.com/blog/) publishes practical front-end guides — CSS Grid vs Flexbox, container queries, the :has() selector, fluid typography with clamp(), learning to code in the age of AI, and complete guides to the tools on this site. Every article includes live, interactive demos you can open, read the source of, and fork into My Code.
+
+### Private, free and built for the browser
+
+Everything on webdevpuneet.com runs client-side. Snippets, playgrounds, tools and My Code process your code on your own device, and lesson progress and saved snippets stay in your browser's storage. There is no sign-up, no paywall and no usage limit, and the site works in every modern browser on desktop, tablet and phone.`;
+
+const AT_A_GLANCE = {
+  columns: ['Section', 'What you get', 'Start here'],
+  rows: [
+    ['**UI Snippets**', `${SNIPPET_COUNT}+ HTML/CSS/JS components with live editor and export to React, Tailwind, Vue and Angular`, '[Browse snippets](/ui-snippets/)'],
+    ['**Learn to Code**', `${PLAYGROUND_COUNT} playgrounds with structured lessons, frontend to backend`, '[Pick a playground](/learn-to-code/)'],
+    ['**Developer Tools**', `${TOOL_COUNT} CSS generators, builders, formatters, converters and testers`, '[See all tools](/tools/)'],
+    ['**CSS Tools**', 'Visual generators for layout, effects, color and animation', '[CSS Tools](/css-tools/)'],
+    ['**My Code**', 'Your own HTML/CSS/JS editor with live preview, saved in the browser', '[Open My Code](/ui-snippets/mycode/)'],
+    ['**Blog**', 'Front-end tutorials with live, forkable demos', '[Read the blog](https://webdevpuneet.com/blog/)'],
   ],
 };
 
-const SEO = {
-  about: {
-    title: `${SNIPPET_COUNT}+ UI Snippets & ${PLAYGROUND_COUNT} Interactive Coding Playgrounds — webdevpuneet.com`,
-    description: `webdevpuneet.com brings two things together in one place: a library of ${SNIPPET_COUNT}+ copy-paste UI snippets and ${PLAYGROUND_COUNT} interactive coding playgrounds for learning web development — with nothing to install, no account to create, and no code sent to any server.
+const STEPS = [
+  { title: 'Search or browse', text: `Type what you need — "card", "modal", "flexbox", "json" — into the search box at the top of this page to search snippets, playgrounds and tools at once, or browse the categories and tags.` },
+  { title: 'Grab a component', text: 'Open a UI snippet, tweak the HTML, CSS and JS in the live editor, then copy it or export it to React, Tailwind, Vue or Angular.' },
+  { title: 'Learn something new', text: 'Open a playground and follow its lessons in order. Edit the code, watch the preview, and come back later — your progress is saved.' },
+  { title: 'Generate code with a tool', text: 'Use a CSS generator or builder to design visually, then copy production-ready CSS, Tailwind or a framework component.' },
+  { title: 'Keep it in My Code', text: 'Save snippets you edit, or use Fork & Edit, to keep building in your own browser-based code editor.' },
+];
 
-**UI Snippets** — ${SNIPPET_COUNT}+ production-ready HTML, CSS, and JavaScript components you can copy-paste directly into any project. Cards, heroes, navigation, modals, forms, loaders, animations, dashboards, games and more. No framework required — pure HTML/CSS/JS that works anywhere. Every snippet has a live preview, syntax-highlighted source code, and a dedicated page with framework export tips for React, Vue, and Tailwind. A built-in **Test Exports** preview renders each snippet live in HTML, Tailwind, React, React + Tailwind, Vue, and Angular — so you can confirm the converted code actually works before you download it. **My Code** lets you write and keep your own snippets in the browser.
+const USE_CASES = [
+  { icon: '⚡', title: 'Frontend developers shipping fast', desc: 'Skip rebuilding the same components: start from a tested snippet or generate the CSS visually, then export it in the framework your project uses.' },
+  { icon: '🎓', title: 'Beginners learning to code', desc: 'Start with the HTML, CSS and JavaScript playgrounds, follow the lessons in order, and see every change in a live preview — no setup, no account.' },
+  { icon: '🔁', title: 'Developers learning a new framework', desc: 'Move from plain JavaScript to React, Vue, Angular or Next.js, or from CSS to Tailwind and SCSS, in a playground that runs straight in the browser.' },
+  { icon: '🗄️', title: 'Exploring the backend', desc: 'Try SQL, MongoDB, Redis, Node.js, Express, PHP, Python and Git with interactive lessons and simulators before setting anything up locally.' },
+  { icon: '👩‍🏫', title: 'Teachers and workshop leaders', desc: 'Project a playground or snippet, edit it live in front of the class, and share the URL — students follow along with nothing to install.' },
+  { icon: '🎨', title: 'Designers who code', desc: 'Turn visual ideas into CSS with the generators, check color contrast, and copy production-ready code without memorising syntax.' },
+];
 
-**Learn to code interactively** — ${PLAYGROUND_COUNT} browser-based playgrounds with no install, no account, and no setup required. The **HTML Playground** teaches semantic markup through 42 lessons. The **CSS Playground** shows every property live with 53 lessons. The **JavaScript Playground** covers 60 lessons from variables through generators and Proxy. The **Tailwind Playground** includes class autocomplete and 48 lessons. The **React Playground** covers 44 lessons from JSX through hooks, portals, and Suspense. The **Vue.js Playground** covers 40 lessons including Composition API, Teleport, and custom directives. The **GSAP Playground** teaches animation with 55 lessons including ScrollTrigger. TypeScript, SCSS, jQuery, Bootstrap 5, Angular, Next.js and SVG playgrounds round out the frontend stack. All save progress automatically in your browser.
-
-Everything is built with React 19 and runs 100% client-side. No signup, no account, no data uploaded — your code never leaves your device. The interface is keyboard-friendly, fast, and fully mobile-responsive.`,
-  },
-  features: [
-    `${SNIPPET_COUNT}+ copy-paste UI snippets — cards, heroes, navigation, modals, forms, loaders, animations, and dashboards in pure HTML/CSS/JS`,
-    'Live preview for every snippet — see exactly how it looks before copying; export to React, Vue, Angular and Tailwind',
-    `${PLAYGROUND_COUNT} interactive coding playgrounds — HTML, CSS, JavaScript, TypeScript, Tailwind, React, Vue.js, Angular, Next.js, GSAP, SVG, jQuery and Bootstrap 5`,
-    'Structured lessons from beginner to pro — no install, no account, progress saved automatically in your browser',
-    'My Code — write and keep your own HTML, CSS and JS snippets in the browser',
-    '100% browser-based — your code, snippets, and progress never leave your device',
-    'No sign-up, no account, no usage limits — completely free',
-    'Dark theme UI — keyboard-friendly, fast, and fully mobile-responsive',
-  ],
-  useCases: [
-    {
-      icon: 'CODE',
-      title: 'Copy-Paste UI Snippets',
-      desc: `${SNIPPET_COUNT}+ production-ready HTML, CSS, and JavaScript components — cards, heroes, navigation, modals, forms, loaders, animations, and dashboards. No framework needed. Live preview, one-click copy, works in any project.`,
-    },
-    {
-      icon: 'LEARN',
-      title: 'Learn Frontend Interactively',
-      desc: 'HTML, CSS, SCSS, JavaScript, TypeScript, Tailwind, React, Vue.js, Angular, Next.js, GSAP and SVG playgrounds — live editor, instant preview, structured lessons from beginner to pro.',
-    },
-    {
-      icon: 'FLOW',
-      title: 'Animate the Web',
-      desc: 'GSAP and SVG playgrounds teach tweens, timelines, ScrollTrigger, paths and SVG animation with instant visual feedback and replay controls.',
-    },
-    {
-      icon: 'DESIGN',
-      title: 'Style With Any Approach',
-      desc: 'Plain CSS, SCSS, Tailwind and Bootstrap 5 side by side — learn the box model, flexbox, grid, utilities and components with a live preview.',
-    },
-  ],
-  faqs: [
-    {
-      q: 'What are the UI snippets?',
-      a: `webdevpuneet.com has ${SNIPPET_COUNT}+ copy-paste HTML, CSS, and JavaScript UI components — no framework, no npm install required. Categories include cards, hero sections, navigation, modals, forms, loaders, animations, dashboards, and more. Every snippet has a live preview, syntax-highlighted source, and a dedicated page with notes on using it in React, Vue, and Tailwind projects. New snippets are added regularly.`,
-    },
-    {
-      q: 'Who is this site built for?',
-      a: 'webdevpuneet.com is built for frontend developers, students, and anyone learning to code. It covers two areas: UI snippets (copy-paste components) and interactive coding playgrounds (learn HTML/CSS/JS/TypeScript/React/Vue/Next.js and more).',
-    },
-    {
-      q: 'What are the interactive coding playgrounds?',
-      a: `${PLAYGROUND_COUNT} browser-based coding playgrounds — no install, no account, no setup required. The **HTML Playground** teaches semantic markup through 42 lessons. The **CSS Playground** shows every property live with 53 lessons. The **JavaScript Playground** has 60 lessons from variables through generators and Proxy. The **Tailwind Playground** includes class name autocomplete and 48 lessons. The **React Playground** covers 44 lessons from JSX through hooks, portals, and Suspense. The **Vue.js Playground** covers 40 lessons including Composition API, Teleport, custom directives, and mini-projects. The **GSAP Playground** teaches animation with 55 lessons including ScrollTrigger. TypeScript, SCSS, jQuery, Bootstrap 5, Angular, Next.js and SVG playgrounds cover the rest of the frontend stack. All save progress automatically.`,
-    },
-    {
-      q: 'Is everything completely free?',
-      a: 'Yes — every snippet and playground is completely free with no account, no subscription, and no usage limits. There are no paywalled lessons or components.',
-    },
-    {
-      q: 'Is my code sent to a server?',
-      a: 'No. All processing happens entirely in your browser. Your code and lesson progress never leave your device.',
-    },
-    {
-      q: 'Do I need to install anything?',
-      a: 'No. Open any playground in a modern browser — Chrome, Firefox, Safari, or Edge — and start immediately. No npm install, no browser extension, no app download required.',
-    },
-    {
-      q: 'Can I use it on mobile?',
-      a: 'Yes. The layout is fully responsive and works on phones and tablets. Playgrounds with side-by-side editor and preview are best on larger screens, but everything is functional on mobile.',
-    },
-    {
-      q: 'Will more snippets and lessons be added?',
-      a: 'Yes. New UI snippets are added in regular batches and playgrounds gain new lessons over time.',
-    },
-  ],
-};
+const SECTIONS = [
+  { type: 'features', label: "What's inside", heading: 'Everything on webdevpuneet.com', items: FEATURES },
+  { type: 'text', label: 'About the site', heading: 'Free UI Snippets, Coding Playgrounds and Developer Tools — All in Your Browser', text: ABOUT },
+  { type: 'table', label: 'At a glance', heading: 'What You Can Do Here', ...AT_A_GLANCE },
+  { type: 'steps', label: 'Get started', heading: 'How to Use webdevpuneet.com', items: STEPS },
+  { type: 'cards', label: 'Who it is for', heading: 'Built for Developers and Learners', columns: 3, items: USE_CASES },
+  { type: 'callout', variant: 'tip', heading: 'Private by design', text: 'Snippets, playgrounds, tools and My Code all run in your browser. Your code and progress stay on your device — no account, no upload, no tracking of what you write.' },
+  { type: 'faq', label: 'Got questions?', heading: 'Frequently Asked Questions', items: FAQS },
+];
 
 export default async function Home() {
   const blogPosts = await fetchLatestBlogPosts(6);
@@ -231,7 +248,7 @@ export default async function Home() {
           <div className={styles.heroTextCol}>
             <div className={styles.heroBadge}>
               <span className={styles.heroBadgeDot} />
-              {SNIPPET_COUNT}+ UI snippets &bull; {PLAYGROUND_COUNT} playgrounds &bull; 100% free &bull; No signup required
+              {SNIPPET_COUNT}+ UI snippets &bull; {PLAYGROUND_COUNT} playgrounds &bull; {TOOL_COUNT} tools &bull; 100% free &bull; No signup required
             </div>
             <h1 className={styles.title}>
               Build UIs &amp; <span className={styles.titleGrad}>Learn to Code</span>
@@ -246,7 +263,7 @@ export default async function Home() {
           <div className={styles.heroProfileCol}>
             <ProfileHeroCard />
           </div>
-          <p className={styles.subtitleSeo}>{SNIPPET_COUNT}+ copy-paste UI snippets — cards, heroes, navbars, modals, forms, loaders and animations — plus {PLAYGROUND_COUNT} learn-to-code playgrounds for HTML, CSS, JavaScript, TypeScript, React, Vue, Next.js, Tailwind and more. Live preview, structured lessons, nothing to install and no account needed.</p>
+          <p className={styles.subtitleSeo}>{SNIPPET_COUNT}+ copy-paste UI snippets — cards, heroes, navbars, modals, forms, loaders and animations — plus {PLAYGROUND_COUNT} learn-to-code playgrounds for HTML, CSS, JavaScript, TypeScript, React, Vue, Angular, Next.js, Tailwind, SQL, Python and more, and {TOOL_COUNT} free developer tools. Live preview, structured lessons, nothing to install and no account needed.</p>
         </div>
 
       {/* Leaderboard ad (same unit as the snippet editor, max 90px), full width of the content column. */}
@@ -273,12 +290,8 @@ export default async function Home() {
       <AdSlot />
 
       <div className={styles.seoWrap}>
-        <IndexOnly><SeoSection {...SEO} /></IndexOnly>
+        <IndexOnly><SeoSection sections={SECTIONS} /></IndexOnly>
       </div>
     </div>
   );
 }
-
-
-
-
