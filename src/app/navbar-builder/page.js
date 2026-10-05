@@ -23,7 +23,7 @@ export const metadata = {
     siteName: 'webdevpuneet.com',
     title: 'Responsive Navbar Builder — Dropdowns, Mobile Menu & Code',
     description: 'Design a responsive navbar visually: dropdown menus, 5 scroll effects, drawer or full-screen mobile menu, 6 presets. Export 5 formats or fork it to edit.',
-    images: [{ url: 'https://webdevpuneet.com/images/css-tools.png', width: 1200, height: 630, alt: 'Responsive Navbar Builder — live preview and code export' }],
+    images: [{ url: 'https://webdevpuneet.com/images/navbar-builder.png', width: 1200, height: 630, alt: 'Responsive Navbar Builder — live preview and code export' }],
     locale: 'en_US',
   },
   twitter: {
@@ -31,7 +31,7 @@ export const metadata = {
     site: '@webdevpuneet',
     title: 'Responsive Navbar Builder — Dropdowns, Mobile Menu & Code',
     description: 'Design a responsive navbar visually: dropdown menus, 5 scroll effects, drawer or full-screen mobile menu, 6 presets. Export 5 formats or fork it to edit.',
-    images: ['https://webdevpuneet.com/images/css-tools.png'],
+    images: ['https://webdevpuneet.com/images/navbar-builder.png'],
   },
 };
 
