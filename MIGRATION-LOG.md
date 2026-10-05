@@ -603,3 +603,4 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   right column); Mobile = real 375px frame. Title + layout picker moved into the left panel; ad above preview.
 - `/navbar-builder/` page: was `noindex` (stale "unregistered" comment) though live in the registry and sitemap —
   now indexed; breadcrumb pointed at fwdtools.com — fixed. New SEO title/description, 10 FAQs, features, steps.
+- Deployed 2026-10-05 (2nd): navbar builder rebuild + SEO, /tools/ hub, home strips, ad moves (tools.zip uploaded; extract by hand).
