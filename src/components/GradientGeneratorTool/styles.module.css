@@ -76,7 +76,7 @@
 
 .layout {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 300px 1fr;
   flex: 1; overflow: hidden;
 }
 
@@ -151,7 +151,7 @@
 }
 
 .hexInput {
-  width: 68px; flex-shrink: 0;
+  width: 64px; flex-shrink: 0;
   background: var(--surface2);
   border: 1px solid var(--border2);
   border-radius: 5px;
@@ -228,10 +228,9 @@
 .preview {
   flex: 1;
   display: flex; align-items: center; justify-content: center;
-  min-height: 200px;
+  min-height: 220px;
   position: relative;
-  background: var(--bg);
-  background-size: 300% 300%;
+  overflow: hidden;
 }
 
 .randomBtn {
@@ -301,13 +300,13 @@
   background: var(--surface);
 }
 
+.gradBarChecker { border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.25); }
 .gradBar {
   position: relative;
   height: 36px;
   border-radius: 8px;
   cursor: crosshair;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.4);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(0,0,0,0.08);
 }
 
 .gradHandle {
@@ -342,7 +341,7 @@
 
 /* ── Preview mode bar ── */
 .previewModeBar {
-  display: flex; align-items: center; gap: 4px;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px;
   padding: 8px 12px;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
@@ -423,3 +422,155 @@
   cursor: default;
   box-shadow: 0 4px 18px rgba(0,0,0,0.3);
 }
+
+/* ══ v2: layers, per-type controls, smoothness, real-world previews, export tools ══ */
+
+.hint { margin: 8px 0 0; font-size: 10.5px; line-height: 1.5; color: var(--text3); }
+.hintInline { font-size: 10.5px; color: var(--text3); }
+
+/* Layers */
+.layerList { display: flex; flex-direction: column; gap: 4px; }
+.layerItem {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 6px; border-radius: 6px;
+  border: 1px solid var(--border2); background: var(--surface2);
+  cursor: pointer; font-size: 11px; color: var(--text2);
+}
+.layerItemActive { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; color: var(--text); }
+.layerSwatch { width: 46px; height: 18px; border-radius: 4px; flex-shrink: 0; border: 1px solid rgba(0,0,0,0.08); }
+.layerName { flex: 1; min-width: 0; text-transform: capitalize; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.iconBtn {
+  width: 20px; height: 20px; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border2); border-radius: 4px; background: var(--surface);
+  color: var(--text3); font-size: 10px; cursor: pointer; padding: 0;
+}
+.iconBtn:hover:not(:disabled) { color: var(--accent); border-color: var(--accent); }
+.iconBtn:disabled { opacity: 0.35; cursor: default; }
+.addBtn:disabled { opacity: 0.4; cursor: default; }
+.inlineRow { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.inlineRow .controlLabel { margin: 0; }
+.select {
+  flex: 1; min-width: 0;
+  background: var(--surface2); border: 1px solid var(--border2); border-radius: 5px;
+  color: var(--text); font-family: var(--font-ui); font-size: 11px; padding: 4px 6px; outline: none;
+}
+.select:focus { border-color: var(--accent); }
+
+/* Per-type controls */
+.typeBlock { margin-top: 12px; }
+.modeBtnSm { padding: 4px 6px; font-size: 10.5px; }
+.dialRow { display: flex; align-items: center; gap: 12px; }
+.dialSide { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.dial {
+  position: relative; flex-shrink: 0;
+  width: 64px; height: 64px; border-radius: 50%;
+  border: 1px solid var(--border2); background: var(--surface2);
+  cursor: grab; touch-action: none;
+}
+.dial:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dialLine {
+  position: absolute; left: 50%; top: 8px; bottom: 50%; width: 2px; margin-left: -1px;
+  background: var(--accent); transform-origin: 50% 100%; border-radius: 2px; pointer-events: none;
+}
+.dialKnob {
+  position: absolute; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%;
+  background: var(--accent); box-shadow: 0 0 0 2px var(--surface); pointer-events: none;
+}
+.angleChips { display: flex; flex-wrap: wrap; gap: 3px; }
+.chip {
+  padding: 2px 6px; font-size: 10px; border-radius: 999px;
+  border: 1px solid var(--border2); background: var(--surface2); color: var(--text3); cursor: pointer;
+}
+.chipActive { border-color: var(--accent); color: var(--accent); }
+.axis { font-size: 10px; font-weight: 700; color: var(--text3); width: 10px; }
+.sliderRow + .sliderRow { margin-top: 4px; }
+.toggleGrid { display: flex; gap: 14px; margin-top: 12px; }
+.toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text2); cursor: pointer; margin-top: 8px; }
+.toggleGrid .toggle { margin-top: 0; }
+.toggle input { accent-color: var(--accent); }
+.spaceGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.spaceGrid .modeBtn { flex: none; }
+
+/* Stop rows */
+.alphaInput {
+  width: 40px; flex-shrink: 0;
+  background: var(--surface2); border: 1px solid var(--border2); border-radius: 5px;
+  color: var(--text); font-family: var(--font-mono); font-size: 11px; padding: 4px 3px; text-align: center; outline: none;
+}
+.alphaInput:focus { border-color: var(--accent); }
+.gradHandle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Toolbar */
+.toolbarRight { display: flex; flex-wrap: wrap; gap: 4px; margin-left: auto; }
+.toolBtn {
+  font-family: var(--font-ui); font-size: 10.5px; font-weight: 600;
+  padding: 4px 10px; border-radius: 6px; cursor: pointer;
+  background: var(--surface2); border: 1px solid var(--border2); color: var(--text2);
+  white-space: nowrap; transition: all 0.14s;
+}
+.toolBtn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.toolBtn:disabled { opacity: 0.45; cursor: not-allowed; }
+.forkBtn { border-color: #f97316; color: #f97316; background: transparent; }
+.forkBtn:hover:not(:disabled) { background: #f97316; color: #fff; border-color: #f97316; }
+
+/* Preview surfaces */
+.fill { position: absolute; inset: 0; }
+.previewDraggable .fill { cursor: crosshair; touch-action: none; }
+.centerMarker {
+  position: absolute; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%;
+  border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.3);
+  pointer-events: none;
+}
+.contrastBadge {
+  position: absolute; left: 12px; bottom: 12px;
+  padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700;
+  background: rgba(15, 23, 42, 0.78); color: #fff; backdrop-filter: blur(4px);
+}
+.contrastFail { background: rgba(185, 28, 28, 0.88); }
+.toast {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 600;
+  background: rgba(15, 23, 42, 0.88); color: #fff; pointer-events: none;
+}
+
+/* Hero */
+.hero {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 12px; padding: 32px 24px; text-align: center;
+}
+.heroEyebrow { margin: 0; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; opacity: .8; }
+.heroTitle { margin: 0; max-width: 560px; font-size: clamp(24px, 3.4vw, 40px); line-height: 1.1; font-weight: 800; letter-spacing: -0.02em; }
+.heroText { margin: 0; max-width: 460px; font-size: 14px; line-height: 1.6; opacity: .9; }
+.heroBtns { display: flex; gap: 10px; margin-top: 6px; }
+.heroBtn, .heroBtnGhost { padding: 10px 20px; border-radius: 999px; font-size: 13px; font-weight: 700; cursor: default; }
+.heroBtnGhost { border: 2px solid; }
+
+/* Card */
+.cardStage { display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 28px; }
+.demoCard { width: 300px; border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 0 12px 32px rgba(15,23,42,0.18); color: #0f172a; }
+.demoCardMedia { height: 150px; }
+.demoCardBody { padding: 16px 18px 18px; }
+.demoCardBody h3 { margin: 6px 0 4px; font-size: 16px; }
+.demoCardBody p { margin: 0; font-size: 12.5px; line-height: 1.55; color: #475569; }
+.demoCardTag { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #64748b; }
+.demoAvatarRow { display: flex; align-items: center; gap: 8px; }
+.demoAvatar { width: 36px; height: 36px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+.demoPill { padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+
+/* Buttons */
+.btnStage { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px; padding: 28px; }
+.demoBtn { border: 0; padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: var(--font-ui); cursor: default; box-shadow: 0 6px 18px rgba(0,0,0,0.18); }
+.demoBtnPill { border-radius: 999px; }
+.demoBtnIcon { border: 0; width: 46px; height: 46px; border-radius: 50%; font-size: 18px; cursor: default; box-shadow: 0 6px 18px rgba(0,0,0,0.18); }
+.demoBtnOutline {
+  padding: 10px 22px; border-radius: 10px; font-size: 14px; font-weight: 700; font-family: var(--font-ui);
+  border: 2px solid transparent; color: #0f172a; cursor: default;
+  background-image: linear-gradient(#fff, #fff), var(--grad);
+  background-clip: padding-box, border-box; background-origin: padding-box, border-box;
+}
+
+/* Export tools */
+.exportTabs { align-items: center; flex-wrap: wrap; }
+.downloadRow { display: flex; align-items: center; gap: 4px; margin: 4px 10px 4px auto; }
+.downloadRow .select { flex: none; width: auto; }

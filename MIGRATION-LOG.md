@@ -619,3 +619,13 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   Every navigation snippet (101) + `animated-hamburger`: promo under Source Code + one FAQ (also in FAQPage schema).
   Built output: 103 pages carry the promo. Deployed (tools.zip uploaded; extract by hand).
 - Deployed 2026-10-05: home SEO rewrite (25 playgrounds / 62 tools), blog strip first, tools strip on UI Snippets pages.
+
+## 2026-10-05 — Gradient Generator v2 (not yet deployed)
+
+- New `GradientGeneratorTool/engine.js`: OKLab/OKLCH/HSL mixing, eased stops, per-stop opacity, multi-layer
+  CSS with blend modes + SVG grain, sRGB fallback line, canvas (PNG) and SVG renderers, contrast sampling.
+- UI: layers (up to 6, reorder, blend), angle dial, radial shape/size, draggable centers, repeating + hard stops,
+  Smoothness (color space + eased), Grain, 16 presets, previews Background/Hero/Card/Buttons/Text/Border with
+  contrast badge, exports CSS/Tailwind/SCSS/CSS Variable/React, PNG/SVG download, share link (#g=), Fork & Edit.
+  Storage key v2 (v1 migrated). Fork hand-off moved to shared `src/lib/fork-to-mycode.js` (Navbar Builder uses it too).
+- `/gradient-generator/` SEO rewritten (sections API, 14 FAQs, breadcrumb fixed from fwdtools.com). Blog skipped (user).

@@ -4,6 +4,7 @@ import s from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import { forkToMyCode } from '@/lib/fork-to-mycode';
 /* ── Constants ── */
 const LAYOUTS = [
   { id: 'default',  label: 'Default',  hint: 'Logo left, links right' },
@@ -1292,30 +1293,15 @@ ${demo.html}
 </body></html>`;
 }
 
-/* ── Fork & Edit → My Code (same hand-off the demo pages use) ── */
-const FORK_PREFIX = 'uis_fork_';
-function b64url(str) {
-  return btoa(unescape(encodeURIComponent(str))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-}
-function forkToMyCode(data) {
+/* ── Fork & Edit → My Code ── */
+function forkNavbar(data) {
   const demo = demoPage(data);
-  const payload = {
-    v: 1,
+  forkToMyCode({
     name: `Navbar — ${data.logo.text || 'Navbar Builder'}`,
     html: `${genMarkup(data)}\n\n${demo.html}`,
     css: `${genCSS(data)}\n\n${demo.css}`,
     js: genJS(data),
-    cdnUrls: [],
-  };
-  const base = `${window.location.origin}/ui-snippets/mycode/`;
-  let url = null;
-  try {
-    const token = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
-    localStorage.setItem(FORK_PREFIX + token, JSON.stringify({ t: Date.now(), payload }));
-    if (localStorage.getItem(FORK_PREFIX + token)) url = `${base}#fork=ls:${token}`;
-  } catch { /* storage unavailable: fall back to the self-contained link */ }
-  if (!url) url = `${base}#fork=${b64url(JSON.stringify(payload))}`;
-  window.open(url, '_blank', 'noopener');
+  });
 }
 
 /* ── Sub-components ── */
@@ -1726,7 +1712,7 @@ export default function NavbarBuilderTool() {
                 <button
                   type="button"
                   className={`${s.forkBtn} ${s.forkBtnSm}`}
-                  onClick={() => forkToMyCode(genData)}
+                  onClick={() => forkNavbar(genData)}
                   title="Open this navbar (HTML, CSS & JS) in My Code to keep editing it"
                 >
                   ⑂ Fork &amp; Edit
@@ -1761,7 +1747,7 @@ export default function NavbarBuilderTool() {
             <div className={s.codeActions}>
               <button
                 className={s.forkBtn}
-                onClick={() => forkToMyCode(genData)}
+                onClick={() => forkNavbar(genData)}
                 title="Open this navbar (HTML, CSS & JS) in My Code to keep editing it"
               >
                 ⑂ Fork &amp; Edit
