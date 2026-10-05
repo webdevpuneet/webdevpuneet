@@ -39,6 +39,9 @@
   margin-bottom: 16px;
 }
 
+/* Navbar Builder call-out under the source code on navigation snippets */
+.navbarPromoGap { margin-top: 28px; }
+
 .sourceCodeTitle {
   font-size: 18px;
   font-weight: 700;
