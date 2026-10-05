@@ -592,3 +592,14 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   built from the registry (new tools appear automatically, sitemap included). Full SEO copy, 8 use cases, 8 FAQs.
   CategoryGrid tabs: Home → All Tools → CSS Tools → Learn → Snippets.
 - Deployed 2026-10-05 (`npm run deploy`, tools.zip uploaded; extract on the server by hand).
+
+## 2026-10-05 — Navbar Builder rebuilt (responsive, dropdowns, presets, Angular)
+
+- `NavbarBuilderTool` rewritten: dropdown submenus (per-link "+ Dropdown item"), 5 scroll modes
+  (static/sticky/shrink/hide/transparent), 3 mobile menus (dropdown/drawer L-R/full screen), 3 hamburger
+  animations, breakpoint slider (480–1024), 6 presets, aria-current + :focus-visible, Fork & Edit → My Code
+  (same uis_fork_ localStorage hand-off as demo.js). New Angular 17+ standalone export (5 formats total).
+- Preview is now an iframe running the exact generated HTML/CSS/JS over a scrollable demo page (75% of the
+  right column); Mobile = real 375px frame. Title + layout picker moved into the left panel; ad above preview.
+- `/navbar-builder/` page: was `noindex` (stale "unregistered" comment) though live in the registry and sitemap —
+  now indexed; breadcrumb pointed at fwdtools.com — fixed. New SEO title/description, 10 FAQs, features, steps.

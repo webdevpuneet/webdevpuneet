@@ -71,8 +71,12 @@
 }
 
 /* ── Preview ── */
+/* Preview takes 75% of the right column's height; the code panel gets the rest. */
 .previewWrap {
-  flex-shrink: 0;
+  flex: 0 0 75%;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
   border-bottom: 1px solid var(--border);
   background: #f0f4f8;
 }
@@ -81,19 +85,99 @@
   background: #1a1f2e;
 }
 
-.previewInner {
-  overflow: hidden;
+/* Live preview: an iframe running the generated HTML/CSS/JS over a scrollable demo page.
+   Mobile is a real 375px-wide frame, so the generated media query switches the menu. */
+.previewStage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  background: #e2e8f0;
 }
-
-/* Mobile preview: a phone-width frame, centred, so the hamburger + dropdown show. */
-.previewMobile {
+:global(.dark) .previewStage { background: #0b1220; }
+.previewFrame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+}
+.previewFrameMobile {
   width: 375px;
   max-width: 100%;
-  margin: 0 auto;
   border-left: 1px solid var(--border);
   border-right: 1px solid var(--border);
-  background: color-mix(in srgb, var(--surface, #fff) 60%, transparent);
 }
+
+/* Presets */
+.presetGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.presetCard {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  padding: 6px 6px 8px;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.presetCard:hover { border-color: #f97316; transform: translateY(-1px); }
+.presetCardActive { border-color: #f97316; box-shadow: 0 0 0 1px #f97316; }
+.presetSwatch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  height: 26px;
+  padding: 0 7px;
+  border: 1px solid;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  overflow: hidden;
+}
+.presetLogo { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.presetDot { width: 18px; height: 8px; border-radius: 4px; flex-shrink: 0; }
+.presetName { padding: 0 2px; font-size: 12px; font-weight: 600; color: var(--text); }
+.presetDesc { padding: 0 2px; font-size: 10.5px; line-height: 1.35; color: var(--text-3); }
+
+/* Option buttons (Behavior tab) */
+.optGroup { display: flex; flex-wrap: wrap; gap: 4px; }
+.optBtn {
+  padding: 5px 9px;
+  font-size: 11.5px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.optBtn:hover { background: var(--hover); color: var(--text); }
+.optBtnActive,
+.optBtnActive:hover { background: #f97316; border-color: #f97316; color: #fff; }
+.optHint { margin: 2px 0 0; font-size: 11px; color: var(--text-3); }
+
+/* Dropdown items under a link (Links tab) */
+.childList { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; padding-left: 10px; border-left: 2px solid var(--border); }
+.childRow { display: flex; gap: 4px; align-items: center; }
+.childInput { flex: 1; min-width: 0; padding: 4px 7px !important; font-size: 11.5px !important; }
+.childNote { margin: 4px 0 0; font-size: 11px; color: var(--text-3); }
+.addChildBtn {
+  align-self: flex-start;
+  padding: 3px 8px;
+  font-size: 11px;
+  border: 1px dashed var(--border);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text-3);
+  cursor: pointer;
+}
+.addChildBtn:hover { border-color: #f97316; color: #f97316; }
 
 /* Logo icon field: text input + emoji picker button with a drop-down grid */
 .emojiRow { display: flex; gap: 6px; align-items: stretch; }
@@ -204,35 +288,6 @@
   color: #fff;
 }
 
-/* Fake page content under the navbar; tall enough to leave 100px+ between the preview and the code tabs. */
-.pageHint {
-  padding: 14px 20px 70px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.pageLineW {
-  height: 10px;
-  background: #cbd5e1;
-  border-radius: 4px;
-  width: 60%;
-  opacity: 0.5;
-}
-
-.pageLineN {
-  height: 10px;
-  background: #cbd5e1;
-  border-radius: 4px;
-  width: 35%;
-  opacity: 0.3;
-}
-
-:global(.dark) .pageLineW,
-:global(.dark) .pageLineN {
-  background: #334155;
-}
-
 /* ── Body ── */
 .body {
   display: flex;
@@ -261,7 +316,7 @@
 .configTab {
   flex: 1;
   padding: 9px 0;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   background: transparent;
   border: none;
@@ -678,9 +733,30 @@
 }
 
 /* Copy sits at the right end of the code tab bar. */
-.copyBtn {
+/* Fork + Copy at the right end of the code tab bar */
+.codeActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   margin: 4px 10px 4px auto;
-  align-self: center;
+}
+.forkBtn {
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid #f97316;
+  background: transparent;
+  color: #f97316;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.forkBtn:hover { background: #f97316; color: #fff; }
+/* Compact version in the preview bar, sized like the Desktop / Mobile buttons */
+.forkBtnSm { padding: 4px 10px; font-size: 11.5px; margin-right: 6px; }
+
+.copyBtn {
   padding: 5px 14px;
   font-size: 12px;
   font-weight: 600;
