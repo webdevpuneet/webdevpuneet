@@ -1281,8 +1281,8 @@ button.headerBrand {
   justify-content: center;
   padding: 4px 12px;  /* tight: just enough to frame the banner */
   overflow: hidden;
-  background: #e8eaf1;  /* behind the ad */
-  border-bottom: 1px solid var(--border);
+  background: #fff;  /* behind the ad */
+  border-bottom: 1px solid var(--border);  /* sits between the Preview toolbar and the preview */
 }
 .adBarSlot {
   width: 728px;

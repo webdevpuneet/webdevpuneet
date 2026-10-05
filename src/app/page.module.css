@@ -13,6 +13,14 @@
 .snippetBrowse { position: relative; padding: 0 20px; }
 @media (max-width: 768px) { .snippetBrowse { padding: 0 16px; } }
 
+/* Leaderboard ad above the browse box: a rounded card instead of the playgrounds' edge-to-edge strip.
+   The strip collapses itself (display:none) when AdSense has no ad, taking this margin with it. */
+.homeTopAd {
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
 /* ── Hero ───────────────────────────────────────────────────────────────── */
 .hero {
   position: relative;

@@ -3,6 +3,7 @@ import ProfileHeroCard from '@/components/ProfileHeroCard';
 import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
 import FrontendPlaygroundsStrip from '@/components/FrontendPlaygroundsStrip';
 import ToolsStrip from '@/components/ToolsStrip';
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { BrowsePanel } from '@/components/UiSnippetsGallery';
 import adStyles from '@/components/AdSlot/styles.module.css';
 import { getLatestSnippets } from '@/lib/snippet-related';
@@ -247,6 +248,11 @@ export default async function Home() {
           </div>
           <p className={styles.subtitleSeo}>{SNIPPET_COUNT}+ copy-paste UI snippets — cards, heroes, navbars, modals, forms, loaders and animations — plus {PLAYGROUND_COUNT} learn-to-code playgrounds for HTML, CSS, JavaScript, TypeScript, React, Vue, Next.js, Tailwind and more. Live preview, structured lessons, nothing to install and no account needed.</p>
         </div>
+
+      {/* Leaderboard ad (same unit as the snippet editor, max 90px), full width of the content column. */}
+      <div className={styles.snippetBrowse}>
+        <PlaygroundTopAd className={styles.homeTopAd} />
+      </div>
 
       {/* Same Categories | Tags browse box as the gallery and snippet pages — plain links, nothing highlighted. */}
       <div className={styles.snippetBrowse}>
