@@ -579,3 +579,16 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   with the tool title moved into the left column; the rest show it directly under the tools nav.
 - **fwdtools:** slugs added to `moved-to-webdevpuneet.js` and a new `.htaccess` 301 rule; hard links in
   image-background-remover, image-editor, jquery-playground and Header now point at webdevpuneet.com.
+
+## 2026-10-05 — Home page strips, /tools/ hub, deployed
+
+- **Home:** removed the four-card feature grid. New order under the hero: Categories | Tags browse box →
+  Latest UI Snippets → Latest from the Blog → Learn Coding Visually → Free Developer Tools (`ToolsStrip`,
+  paged six at a time, View all → /tools/). Blog posts are fetched on the server and passed down
+  (`FrontendPlaygroundsStrip blogPosts/blogFirst/after`, `BlogStrip initialPosts/first`).
+- `BlogStrip` drops its own side padding (it always sits inside AdSlot's `.relatedFull`), fixing the indent on snippet pages.
+- `BrowsePanel` clips the collapsed box to one chip row (second row was peeking through the bottom edge).
+- **New `/tools/` hub:** `tools` category in `src/lib/categories.js` lists every live tool except ui-snippets,
+  built from the registry (new tools appear automatically, sitemap included). Full SEO copy, 8 use cases, 8 FAQs.
+  CategoryGrid tabs: Home → All Tools → CSS Tools → Learn → Snippets.
+- Deployed 2026-10-05 (`npm run deploy`, tools.zip uploaded; extract on the server by hand).

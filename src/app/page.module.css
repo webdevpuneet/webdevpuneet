@@ -79,7 +79,8 @@
 
 .heroCenter {
   position: relative;
-  z-index: 2;
+  /* Above the Categories | Tags box below (z-index 5) so the search dropdown overlays it. */
+  z-index: 10;
   display: flex;
   flex-direction: row;
   align-items: center;
