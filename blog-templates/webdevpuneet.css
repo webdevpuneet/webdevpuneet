@@ -21,3 +21,25 @@
 .post-wrap h1, .post-wrap h2, .post-wrap h3, .post-wrap h4, .post-wrap h5, .post-wrap h6{
 	padding-top:10px;
 }
+@media screen and (max-width: 782px) {
+    html {
+        margin-top: 0px !important;
+    }
+	.boxed_layout {
+    	width: 100%;
+	}
+	.boxed_layout .container {
+		width: calc(100% - 10px);
+	}
+	.page .post-wrap, .post-wrap {
+		padding: 0 5px 25px;
+	}
+	#main-header {
+		height: 60px;
+		padding: 0 5px 0 0;
+	}
+	.logo {
+    height: 50px;
+    margin: 5px 0;
+	}
+}
