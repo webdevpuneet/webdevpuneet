@@ -85,6 +85,125 @@
   overflow: hidden;
 }
 
+/* Mobile preview: a phone-width frame, centred, so the hamburger + dropdown show. */
+.previewMobile {
+  width: 375px;
+  max-width: 100%;
+  margin: 0 auto;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface, #fff) 60%, transparent);
+}
+
+/* Logo icon field: text input + emoji picker button with a drop-down grid */
+.emojiRow { display: flex; gap: 6px; align-items: stretch; }
+.emojiRow .input { flex: 1; min-width: 0; }
+.emojiPicker { position: relative; flex-shrink: 0; }
+.emojiTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  min-height: 34px;
+  padding: 0 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text-2);
+  cursor: pointer;
+}
+.emojiTrigger:hover,
+.emojiTriggerOpen { border-color: #f97316; color: #f97316; }
+.emojiTriggerIcon { font-size: 16px; line-height: 1; }
+.emojiPanel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 40;
+  width: 252px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 8px 10px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.16);
+}
+.emojiGroupLabel {
+  margin: 6px 0 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.emojiGrid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 2px; }
+.emojiBtn {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  line-height: 1;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  color: var(--text);
+  cursor: pointer;
+}
+.emojiBtn:hover { background: var(--hover); }
+.emojiBtnActive { border-color: #f97316; background: rgba(249, 115, 22, 0.1); }
+.emojiClear {
+  width: 100%;
+  margin-top: 8px;
+  padding: 6px;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: none;
+  color: var(--text-2);
+  cursor: pointer;
+}
+.emojiClear:hover { background: var(--hover); color: var(--text); }
+
+/* Desktop / Mobile switch above the preview */
+.previewBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.previewBarLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.deviceBtns { display: flex; gap: 4px; flex-shrink: 0; }
+.deviceBtn {
+  padding: 4px 10px;
+  font-size: 11.5px;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.deviceBtn:hover { background: var(--hover); color: var(--text); }
+.deviceBtnActive,
+.deviceBtnActive:hover {
+  background: #f97316;
+  border-color: #f97316;
+  color: #fff;
+}
+
 /* Fake page content under the navbar; tall enough to leave 100px+ between the preview and the code tabs. */
 .pageHint {
   padding: 14px 20px 70px;

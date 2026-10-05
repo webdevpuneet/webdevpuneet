@@ -1,5 +1,5 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import s from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
@@ -41,65 +41,57 @@ function hexToRgba(hex, alpha) {
 }
 const ctaPadV = st => Math.round(st.padding * 0.45);
 
+// Below this width every layout collapses to a hamburger + dropdown (Tailwind's `md`).
+const MOBILE_BP = 768;
+
+const showLogo = (layout, logo) => logo.show && layout !== 'minimal';
+const logoText = logo => `${logo.icon ? logo.icon + ' ' : ''}${logo.text || 'Logo'}`;
+const containerMod = layout =>
+  layout === 'centered' ? ' nav-centered' : layout === 'minimal' ? ' nav-minimal' : layout === 'split' ? ' nav-split' : '';
+const splitAt = links => Math.ceil(links.length / 2);
+const linksJSON = links =>
+  JSON.stringify(links.map(l => ({ label: l.label, href: l.href, active: l.active, cta: l.cta })), null, 2);
+
 /* ── Code Generators ── */
 
-function genHTML({ layout, logo, links, navStyle: st }) {
-  const renderLink = l =>
-    `      <li><a href="${l.href}" class="nav-link${l.active ? ' active' : ''}${l.cta ? ' cta' : ''}">${l.label}</a></li>`;
-
-  let htmlBlock;
-  if (layout === 'split') {
-    const mid = Math.ceil(links.length / 2);
-    const left = links.slice(0, mid).map(renderLink).join('\n');
-    const right = links.slice(mid).map(renderLink).join('\n');
-    const logoLine = logo.show ? `    <a href="#" class="nav-logo">${logo.icon ? logo.icon + ' ' : ''}${logo.text || 'Logo'}</a>` : '    <span></span>';
-    htmlBlock = `<nav class="navbar">
-  <div class="nav-container nav-split">
-    <ul class="nav-links">
-${left}
-    </ul>
-${logoLine}
-    <ul class="nav-links">
-${right}
-    </ul>
-  </div>
-</nav>`;
-  } else {
-    const logoLine = logo.show && layout !== 'minimal'
-      ? `    <a href="#" class="nav-logo">${logo.icon ? logo.icon + ' ' : ''}${logo.text || 'Logo'}</a>\n` : '';
-    htmlBlock = `<nav class="navbar">
-  <div class="nav-container${layout === 'centered' ? ' nav-centered' : layout === 'minimal' ? ' nav-minimal' : ''}">
-${logoLine}    <ul class="nav-links">
-${links.map(renderLink).join('\n')}
-    </ul>
-  </div>
-</nav>`;
-  }
-
-  const borderVal = st.border ? `  border-bottom: 1px solid ${hexToRgba(st.text, 0.1)};` : '';
-  const shadowVal = st.shadow ? `  box-shadow: 0 1px 8px ${hexToRgba(st.text, 0.08)};` : '';
-  const logoCSS = logo.show ? `
+// Shared stylesheet for the HTML, React and Vue outputs. Desktop: links inline in the bar.
+// Mobile: the links move into a dropdown under the bar, opened by a hamburger that morphs
+// into an × (the `is-open` class on .navbar drives both).
+function genCSS({ layout, logo, navStyle: st }, { reset = true } = {}) {
+  const shadow = st.shadow ? `\n  box-shadow: 0 1px 8px ${hexToRgba(st.text, 0.08)};` : '';
+  const border = st.border ? `\n  border-bottom: 1px solid ${hexToRgba(st.text, 0.1)};` : '';
+  const logoCSS = showLogo(layout, logo) ? `
 .nav-logo {
   font-size: ${st.fontSize + 4}px;
   font-weight: 700;
   color: ${st.text};
   text-decoration: none;
   flex-shrink: 0;
-}` : '';
+}
+` : '';
+  // Split: the menu wrapper drops out of the box tree so its two lists become grid cells
+  // either side of the logo.
   const splitCSS = layout === 'split' ? `
 .nav-split {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
+  grid-template-areas: "left logo right";
+  gap: 24px;
 }
-.nav-split .nav-links:first-child { justify-content: flex-end; }
-.nav-split .nav-links:last-child  { justify-content: flex-start; }` : '';
+.nav-split .nav-logo { grid-area: logo; }
+.nav-split .nav-menu { display: contents; }
+.nav-split .nav-links:first-child { grid-area: left;  justify-content: flex-end; }
+.nav-split .nav-links:last-child  { grid-area: right; justify-content: flex-start; }
+` : '';
+  const splitMobileCSS = layout === 'split' ? `
+  .nav-split { display: flex; }
+  .nav-split .nav-menu { display: none; }` : '';
+  const centerMobileCSS = layout === 'centered' || layout === 'minimal' ? `
+  .nav-centered, .nav-minimal { justify-content: space-between; }` : '';
 
-  const css = `<style>
-* { box-sizing: border-box; }
-
-.navbar {
-  background: ${st.bg};
-${shadowVal}${borderVal}
+  return `${reset ? '* { box-sizing: border-box; }\n\n' : ''}.navbar {
+  position: relative;
+  background: ${st.bg};${shadow}${border}
 }
 
 .nav-container {
@@ -110,10 +102,14 @@ ${shadowVal}${borderVal}
   align-items: center;
   justify-content: space-between;
 }
-
 .nav-centered { justify-content: center; gap: 40px; }
 .nav-minimal  { justify-content: center; }
 ${splitCSS}${logoCSS}
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: ${st.gap}px;
+}
 
 .nav-links {
   display: flex;
@@ -131,7 +127,7 @@ ${splitCSS}${logoCSS}
   text-decoration: none;
   transition: color 0.15s;
 }
-.nav-link:hover { color: ${st.accent}; }
+.nav-link:hover,
 .nav-link.active { color: ${st.accent}; }
 
 .nav-link.cta {
@@ -142,248 +138,286 @@ ${splitCSS}${logoCSS}
   transition: opacity 0.15s;
 }
 .nav-link.cta:hover { opacity: 0.88; }
-</style>`;
 
-  return `${htmlBlock}\n\n${css}`;
+/* Hamburger: hidden on desktop, morphs into an × while the menu is open */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+  padding: 8px;
+  background: none;
+  border: 0;
+  cursor: pointer;
 }
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  border-radius: 2px;
+  background: ${st.text};
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+.navbar.is-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.navbar.is-open .nav-toggle span:nth-child(2) { opacity: 0; }
+.navbar.is-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-function genReact({ layout, logo, links, navStyle: st }) {
-  const containerExtras = layout === 'split'
-    ? `\n    display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: '24px',`
-    : layout === 'centered'
-    ? `\n    justifyContent: 'center', gap: '40px',`
-    : layout === 'minimal'
-    ? `\n    justifyContent: 'center',`
-    : `\n    justifyContent: 'space-between',`;
-
-  const navShadow = st.shadow ? `, boxShadow: '0 1px 8px ${hexToRgba(st.text, 0.08)}'` : '';
-  const navBorder = st.border ? `, borderBottom: '1px solid ${hexToRgba(st.text, 0.1)}'` : '';
-
-  const renderLink = l => {
-    const extraStyle = l.active
-      ? `, color: '${st.accent}'`
-      : l.cta
-      ? `, background: '${st.accent}', color: '#fff', padding: '${ctaPadV(st)}px ${st.padding}px', borderRadius: '${st.rounded}px'`
-      : '';
-    return `        <li key="${l.label}"><a href="${l.href}" style={{ fontSize: '${st.fontSize}px', fontWeight: ${st.fontWeight}, color: '${st.text}', textDecoration: 'none'${extraStyle} }}>${l.label}</a></li>`;
-  };
-
-  let body;
-  if (layout === 'split') {
-    const mid = Math.ceil(links.length / 2);
-    const left = links.slice(0, mid).map(renderLink).join('\n');
-    const right = links.slice(mid).map(renderLink).join('\n');
-    const logoEl = logo.show
-      ? `<a href="#" style={{ fontSize: '${st.fontSize + 4}px', fontWeight: 700, color: '${st.text}', textDecoration: 'none' }}>${logo.icon ? logo.icon + ' ' : ''}${logo.text || 'Logo'}</a>`
-      : '<span />';
-    body = `      <ul style={linkStyle}>${left}\n      </ul>
-      ${logoEl}
-      <ul style={{ ...linkStyle, justifyContent: 'flex-start' }}>
-${right}
-      </ul>`;
-  } else {
-    const logoEl = logo.show && layout !== 'minimal'
-      ? `<a href="#" style={{ fontSize: '${st.fontSize + 4}px', fontWeight: 700, color: '${st.text}', textDecoration: 'none' }}>${logo.icon ? logo.icon + ' ' : ''}${logo.text || 'Logo'}</a>\n      ` : '';
-    body = `      ${logoEl}<ul style={linkStyle}>
-${links.map(renderLink).join('\n')}
-      </ul>`;
+/* Mobile: the links collapse into a dropdown under the bar */
+@media (max-width: ${MOBILE_BP}px) {
+  .nav-container { gap: 16px; }${centerMobileCSS}${splitMobileCSS}
+  .nav-toggle { display: flex; }
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 8px 24px 16px;
+    background: ${st.bg};
+    box-shadow: 0 8px 16px ${hexToRgba(st.text, 0.1)};
   }
-
-  return `const linkStyle = {
-  display: 'flex', alignItems: 'center',
-  gap: '${st.gap}px', listStyle: 'none', margin: 0, padding: 0,
-};
-
-export default function Navbar() {
-  return (
-    <nav style={{ background: '${st.bg}'${navShadow}${navBorder} }}>
-      <div style={{
-        maxWidth: '1200px', margin: '0 auto',
-        padding: '${st.padding}px 24px',
-        display: 'flex', alignItems: 'center',${containerExtras}
-      }}>
-${body}
-      </div>
-    </nav>
-  );
+  .navbar.is-open .nav-menu { display: flex; }
+  .nav-links { flex-direction: column; align-items: stretch; gap: 0; }
+  .nav-link { display: block; padding: 12px 0; }
+  .nav-link.cta { margin-top: 8px; padding: 12px ${st.padding}px; text-align: center; }
 }`;
 }
 
+function genHTML(data) {
+  const { layout, logo, links } = data;
+  const renderLink = l =>
+    `        <li><a href="${l.href}" class="nav-link${l.active ? ' active' : ''}${l.cta ? ' cta' : ''}">${l.label}</a></li>`;
+  const list = items => `      <ul class="nav-links">\n${items.map(renderLink).join('\n')}\n      </ul>`;
+  const lists = layout === 'split'
+    ? `${list(links.slice(0, splitAt(links)))}\n${list(links.slice(splitAt(links)))}`
+    : list(links);
+  const logoLine = showLogo(layout, logo)
+    ? `    <a href="#" class="nav-logo">${logoText(logo)}</a>\n` : '';
+
+  return `<nav class="navbar">
+  <div class="nav-container${containerMod(layout)}">
+${logoLine}    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="nav-menu" id="nav-menu">
+${lists}
+    </div>
+  </div>
+</nav>
+
+<style>
+${genCSS(data)}
+</style>
+
+<script>
+  // Mobile menu: toggle the dropdown, and close it again when a link is picked.
+  const navbar = document.querySelector('.navbar');
+  const toggle = navbar.querySelector('.nav-toggle');
+
+  function setMenu(open) {
+    navbar.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open);
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+
+  toggle.addEventListener('click', () => setMenu(!navbar.classList.contains('is-open')));
+  navbar.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', () => setMenu(false)));
+</script>`;
+}
+
+function genReact(data) {
+  const { layout, logo, links } = data;
+  const lists = layout === 'split'
+    ? `          <ul className="nav-links">{renderLinks(links.slice(0, ${splitAt(links)}))}</ul>
+          <ul className="nav-links">{renderLinks(links.slice(${splitAt(links)}))}</ul>`
+    : `          <ul className="nav-links">{renderLinks(links)}</ul>`;
+  const logoLine = showLogo(layout, logo)
+    ? `        <a href="#" className="nav-logo">${logoText(logo)}</a>\n` : '';
+
+  return `// Navbar.jsx
+import { useState } from 'react';
+import './Navbar.css';
+
+const links = ${linksJSON(links)};
+
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+
+  const renderLinks = items => items.map(link => (
+    <li key={link.label}>
+      <a
+        href={link.href}
+        className={\`nav-link\${link.active ? ' active' : ''}\${link.cta ? ' cta' : ''}\`}
+        onClick={() => setOpen(false)}
+      >
+        {link.label}
+      </a>
+    </li>
+  ));
+
+  return (
+    <nav className={\`navbar\${open ? ' is-open' : ''}\`}>
+      <div className="nav-container${containerMod(layout)}">
+${logoLine}        <button
+          className="nav-toggle"
+          type="button"
+          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-expanded={open}
+          aria-controls="nav-menu"
+          onClick={() => setOpen(o => !o)}
+        >
+          <span /><span /><span />
+        </button>
+        <div className="nav-menu" id="nav-menu">
+${lists}
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+/* ── Navbar.css ─────────────────────────────────────────── */
+${genCSS(data)}`;
+}
+
 function genTailwind({ layout, logo, links, navStyle: st }) {
+  const split = layout === 'split';
+  const centered = layout === 'centered' || layout === 'minimal';
   const navClasses = [
-    `bg-[${st.bg}]`,
+    `relative bg-[${st.bg}]`,
     st.shadow ? 'shadow-sm' : '',
     st.border ? 'border-b border-black/10' : '',
   ].filter(Boolean).join(' ');
 
   const containerClasses = [
-    'max-w-6xl mx-auto px-6 flex items-center',
-    layout === 'centered' ? 'justify-center gap-10' : layout === 'minimal' ? 'justify-center' : 'justify-between',
+    'max-w-6xl mx-auto px-6 flex items-center justify-between gap-4',
+    split ? 'md:grid md:grid-cols-[1fr_auto_1fr] md:gap-6' : '',
+    layout === 'centered' ? 'md:justify-center md:gap-10' : layout === 'minimal' ? 'md:justify-center' : '',
   ].filter(Boolean).join(' ');
 
-  const gapClass = `gap-[${st.gap}px]`;
+  // Mobile: a full-width dropdown under the bar. md and up: back inline in the bar
+  // (split: `md:contents` lets the two lists sit in the grid either side of the logo).
+  const menuClasses = [
+    'absolute top-full inset-x-0 z-50 flex-col px-6 pt-2 pb-4',
+    `bg-[${st.bg}] shadow-lg`,
+    'md:static md:p-0 md:shadow-none md:bg-transparent',
+    split ? 'md:contents' : `md:flex md:flex-row md:items-center md:gap-[${st.gap}px]`,
+  ].join(' ');
 
-  const renderLink = l => {
-    let cls = `text-[${st.fontSize}px] font-[${st.fontWeight}] no-underline transition-opacity`;
-    if (l.cta) {
-      cls += ` bg-[${st.accent}] text-white px-[${st.padding}px] py-[${ctaPadV(st)}px] rounded-[${st.rounded}px] hover:opacity-90`;
-    } else {
-      cls += ` text-[${l.active ? st.accent : st.text}] hover:text-[${st.accent}]`;
-    }
-    return `        <li><a href="${l.href}" className="${cls}">${l.label}</a></li>`;
-  };
+  const ulBase = `flex flex-col md:flex-row md:items-center md:gap-[${st.gap}px] list-none m-0 p-0`;
+  const lists = split
+    ? `          <ul className="${ulBase} md:col-start-1 md:row-start-1 md:justify-end">{renderLinks(links.slice(0, ${splitAt(links)}))}</ul>
+          <ul className="${ulBase} md:col-start-3 md:row-start-1">{renderLinks(links.slice(${splitAt(links)}))}</ul>`
+    : `          <ul className="${ulBase}">{renderLinks(links)}</ul>`;
 
-  let body;
-  if (layout === 'split') {
-    const mid = Math.ceil(links.length / 2);
-    const left = links.slice(0, mid).map(renderLink).join('\n');
-    const right = links.slice(mid).map(renderLink).join('\n');
-    const logoEl = logo.show
-      ? `<a href="#" className="text-[${st.fontSize + 4}px] font-bold text-[${st.text}] no-underline">${logo.icon ? logo.icon + ' ' : ''}${logo.text || 'Logo'}</a>`
-      : '<span />';
-    body = `      <ul className="flex items-center ${gapClass} list-none m-0 p-0 justify-end">
-${left}
-      </ul>
-      ${logoEl}
-      <ul className="flex items-center ${gapClass} list-none m-0 p-0 justify-start">
-${right}
-      </ul>`;
-  } else {
-    const logoEl = logo.show && layout !== 'minimal'
-      ? `<a href="#" className="text-[${st.fontSize + 4}px] font-bold text-[${st.text}] no-underline shrink-0">${logo.icon ? logo.icon + ' ' : ''}${logo.text || 'Logo'}</a>\n      ` : '';
-    body = `      ${logoEl}<ul className="flex items-center ${gapClass} list-none m-0 p-0">
-${links.map(renderLink).join('\n')}
-      </ul>`;
-  }
+  const logoLine = showLogo(layout, logo)
+    ? `        <a href="#" className="text-[${st.fontSize + 4}px] font-bold text-[${st.text}] no-underline shrink-0${split ? ' md:col-start-2 md:row-start-1' : ''}">${logoText(logo)}</a>\n`
+    : '';
 
-  const containerStyle = layout === 'split'
-    ? `\n        style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: '24px' }}` : '';
+  return `import { useState } from 'react';
 
-  return `export default function Navbar() {
+const links = ${linksJSON(links)};
+
+const linkBase = 'text-[${st.fontSize}px] font-[${st.fontWeight}] no-underline transition';
+const linkClass = link => link.cta
+  ? \`\${linkBase} block mt-2 md:mt-0 text-center bg-[${st.accent}] text-white px-[${st.padding}px] py-3 md:py-[${ctaPadV(st)}px] rounded-[${st.rounded}px] hover:opacity-90\`
+  : \`\${linkBase} block py-3 md:py-0 \${link.active ? 'text-[${st.accent}]' : 'text-[${st.text}]'} hover:text-[${st.accent}]\`;
+
+// Hamburger bars; the outer two rotate into an × and the middle one fades out.
+const bar = 'block h-0.5 w-6 rounded bg-[${st.text}] transition duration-300';
+
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+
+  const renderLinks = items => items.map(link => (
+    <li key={link.label}>
+      <a href={link.href} className={linkClass(link)} onClick={() => setOpen(false)}>
+        {link.label}
+      </a>
+    </li>
+  ));
+
   return (
     <nav className="${navClasses}">
-      <div
-        className="${containerClasses}"
-        style={{ padding: '${st.padding}px 24px' }}${containerStyle}
-      >
-${body}
+      <div className="${containerClasses}" style={{ paddingTop: '${st.padding}px', paddingBottom: '${st.padding}px' }}>
+${logoLine}        <button
+          type="button"
+          className="md:hidden ml-auto flex flex-col justify-center gap-[5px] w-10 h-10 p-2"
+          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-expanded={open}
+          aria-controls="nav-menu"
+          onClick={() => setOpen(o => !o)}
+        >
+          <span className={\`\${bar} \${open ? 'translate-y-[7px] rotate-45' : ''}\`} />
+          <span className={\`\${bar} \${open ? 'opacity-0' : ''}\`} />
+          <span className={\`\${bar} \${open ? '-translate-y-[7px] -rotate-45' : ''}\`} />
+        </button>
+        <div id="nav-menu" className={\`\${open ? 'flex' : 'hidden'} ${menuClasses}\`}>
+${lists}
+        </div>
       </div>
     </nav>
   );
 }`;
 }
 
-function genVue({ layout, logo, links, navStyle: st }) {
-  const containerClass = layout === 'centered' ? 'nav-centered' : layout === 'minimal' ? 'nav-minimal' : layout === 'split' ? 'nav-split' : '';
-  const logoLine = logo.show && layout !== 'minimal'
-    ? `      <a href="#" class="nav-logo">${logo.icon ? logo.icon + ' ' : ''}{{ logo.text }}</a>` : '';
+function genVue(data) {
+  const { layout, logo, links } = data;
+  const split = layout === 'split';
+  const list = source => `        <ul class="nav-links">
+          <li v-for="link in ${source}" :key="link.label">
+            <a :href="link.href" :class="['nav-link', { active: link.active, cta: link.cta }]" @click="open = false">{{ link.label }}</a>
+          </li>
+        </ul>`;
+  const lists = split ? `${list('leftLinks')}\n${list('rightLinks')}` : list('links');
+  const logoLine = showLogo(layout, logo)
+    ? `      <a href="#" class="nav-logo">${logoText(logo)}</a>\n` : '';
+  const scriptSplit = split ? `
+const leftLinks = links.slice(0, ${splitAt(links)});
+const rightLinks = links.slice(${splitAt(links)});
+` : '';
 
-  const borderVal = st.border ? `  border-bottom: 1px solid ${hexToRgba(st.text, 0.1)};` : '';
-  const shadowVal = st.shadow ? `  box-shadow: 0 1px 8px ${hexToRgba(st.text, 0.08)};` : '';
-
-  const linksData = JSON.stringify(links.map(l => ({ label: l.label, href: l.href, active: l.active, cta: l.cta })), null, 4).replace(/^/gm, '  ');
-
-  let template;
-  if (layout === 'split') {
-    template = `<template>
-  <nav class="navbar">
-    <div class="nav-container nav-split">
-      <ul class="nav-links">
-        <li v-for="link in leftLinks" :key="link.label">
-          <a :href="link.href" :class="['nav-link', { active: link.active, cta: link.cta }]">{{ link.label }}</a>
-        </li>
-      </ul>
-      <a href="#" class="nav-logo">{{ logo.text }}</a>
-      <ul class="nav-links">
-        <li v-for="link in rightLinks" :key="link.label">
-          <a :href="link.href" :class="['nav-link', { active: link.active, cta: link.cta }]">{{ link.label }}</a>
-        </li>
-      </ul>
+  return `<template>
+  <nav :class="['navbar', { 'is-open': open }]">
+    <div class="nav-container${containerMod(layout)}">
+${logoLine}      <button
+        class="nav-toggle"
+        type="button"
+        :aria-label="open ? 'Close menu' : 'Open menu'"
+        :aria-expanded="open"
+        aria-controls="nav-menu"
+        @click="open = !open"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="nav-menu" id="nav-menu">
+${lists}
+      </div>
     </div>
   </nav>
-</template>`;
-  } else {
-    template = `<template>
-  <nav class="navbar">
-    <div class="nav-container${containerClass ? ' ' + containerClass : ''}">
-${logoLine ? logoLine + '\n' : ''}      <ul class="nav-links">
-        <li v-for="link in links" :key="link.label">
-          <a :href="link.href" :class="['nav-link', { active: link.active, cta: link.cta }]">{{ link.label }}</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-</template>`;
-  }
-
-  const mid = Math.ceil(links.length / 2);
-  const scriptSplit = layout === 'split' ? `
-const leftLinks = links.slice(0, ${mid});
-const rightLinks = links.slice(${mid});` : '';
-
-  const splitCSS = layout === 'split' ? `
-.nav-split {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-}
-.nav-split .nav-links:first-child { justify-content: flex-end; }
-.nav-split .nav-links:last-child  { justify-content: flex-start; }` : '';
-
-  return `${template}
+</template>
 
 <script setup>
-const logo = { text: '${logo.text || 'Logo'}' };
+import { ref } from 'vue';
 
-const links = ${linksData};
-${scriptSplit}
-</script>
+const open = ref(false);
+
+const links = ${linksJSON(links)};
+${scriptSplit}</script>
 
 <style scoped>
-.navbar {
-  background: ${st.bg};
-${shadowVal}${borderVal}
-}
-.nav-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: ${st.padding}px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.nav-centered { justify-content: center; gap: 40px; }
-.nav-minimal  { justify-content: center; }
-${splitCSS}
-.nav-logo {
-  font-size: ${st.fontSize + 4}px;
-  font-weight: 700;
-  color: ${st.text};
-  text-decoration: none;
-}
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: ${st.gap}px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.nav-link {
-  font-size: ${st.fontSize}px;
-  font-weight: ${st.fontWeight};
-  color: ${st.text};
-  text-decoration: none;
-  transition: color 0.15s;
-}
-.nav-link:hover,
-.nav-link.active { color: ${st.accent}; }
-.nav-link.cta {
-  background: ${st.accent};
-  color: #fff;
-  padding: ${ctaPadV(st)}px ${st.padding}px;
-  border-radius: ${st.rounded}px;
-}
-.nav-link.cta:hover { opacity: 0.88; }
+${genCSS(data, { reset: false })}
 </style>`;
 }
 
@@ -403,7 +437,7 @@ function generateCode(tab, data) {
 
 /* ── Sub-components ── */
 
-function NavbarPreview({ layout, logo, links, navStyle: st }) {
+function NavbarPreview({ layout, logo, links, navStyle: st, mobile = false, open = false, onToggle }) {
   const navBg = { background: st.bg, boxShadow: st.shadow ? `0 1px 8px ${hexToRgba(st.text, 0.08)}` : 'none', borderBottom: st.border ? `1px solid ${hexToRgba(st.text, 0.1)}` : 'none' };
   const inner = { maxWidth: '100%', padding: `${st.padding}px 20px`, display: 'flex', alignItems: 'center' };
   const logoStyle = { fontSize: st.fontSize + 4 + 'px', fontWeight: 700, color: st.text, textDecoration: 'none', flexShrink: 0 };
@@ -428,6 +462,52 @@ function NavbarPreview({ layout, logo, links, navStyle: st }) {
     </a>
   );
 
+  // Mobile: logo + hamburger in the bar; the links drop down underneath. Mirrors the
+  // generated CSS (same 5px bar gap, so a 7px shift lands the outer bars on the middle).
+  if (mobile) {
+    const barStyle = i => ({
+      display: 'block', width: 24, height: 2, borderRadius: 2, background: st.text,
+      transition: 'transform 0.25s ease, opacity 0.2s ease',
+      transform: open && i === 0 ? 'translateY(7px) rotate(45deg)' : open && i === 2 ? 'translateY(-7px) rotate(-45deg)' : 'none',
+      opacity: open && i === 1 ? 0 : 1,
+    });
+    return (
+      <div style={{ ...navBg, position: 'relative' }}>
+        <div style={{ ...inner, padding: `${st.padding}px 16px`, justifyContent: 'space-between', gap: 16 }}>
+          {logoEl}
+          <button
+            type="button"
+            onClick={onToggle}
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 5, width: 40, height: 40, padding: 8, background: 'none', border: 0, cursor: 'pointer' }}
+          >
+            {[0, 1, 2].map(i => <span key={i} style={barStyle(i)} />)}
+          </button>
+        </div>
+        {open && (
+          <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 5, padding: '8px 16px 16px', background: st.bg, boxShadow: `0 8px 16px ${hexToRgba(st.text, 0.1)}` }}>
+            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column' }}>
+              {links.map(l => (
+                <li key={l.id}>
+                  <a
+                    href="#"
+                    onClick={e => { e.preventDefault(); onToggle(); }}
+                    style={l.cta
+                      ? { ...linkBase, display: 'block', marginTop: 8, textAlign: 'center', background: st.accent, color: '#fff', padding: `12px ${st.padding}px`, borderRadius: st.rounded + 'px' }
+                      : { ...linkBase, display: 'block', padding: '12px 0', color: l.active ? st.accent : st.text }}
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   if (layout === 'split') {
     const mid = Math.ceil(links.length / 2);
     return (
@@ -446,6 +526,74 @@ function NavbarPreview({ layout, logo, links, navStyle: st }) {
         {logoEl}
         <ul style={linksWrap}>{links.map(renderLink)}</ul>
       </div>
+    </div>
+  );
+}
+
+// Logo-friendly emoji, grouped; the picker shows them as one scrollable grid per group.
+const EMOJI_GROUPS = [
+  ['Tech',     ['🚀', '💻', '⚡', '🔥', '✨', '💡', '🧠', '🤖', '⚙️', '🛠️', '🔒', '🌐', '📱', '🖥️', '🧩', '📦']],
+  ['Business', ['💼', '📈', '📊', '💰', '🏆', '🎯', '🤝', '🏢', '🛒', '🧾', '📣', '💎']],
+  ['Creative', ['🎨', '🖌️', '📷', '🎬', '🎵', '✏️', '📝', '📚', '🎮', '🪄', '🌈', '🎉']],
+  ['Nature',   ['🌱', '🌿', '🍃', '🌸', '🌻', '🌊', '🌙', '☀️', '⭐', '🌍', '🍀', '🔆']],
+  ['Shapes',   ['●', '◆', '▲', '■', '★', '♦', '✦', '⬢', '◉', '❖', '✚', '➜']],
+];
+
+function EmojiPicker({ value, onPick }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  // Close on a click outside the picker or on Escape.
+  useEffect(() => {
+    if (!open) return;
+    const onDown = e => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    const onKey = e => { if (e.key === 'Escape') setOpen(false); };
+    document.addEventListener('mousedown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
+  const pick = v => { onPick(v); setOpen(false); };
+
+  return (
+    <div className={s.emojiPicker} ref={ref}>
+      <button
+        type="button"
+        className={`${s.emojiTrigger} ${open ? s.emojiTriggerOpen : ''}`}
+        onClick={() => setOpen(o => !o)}
+        aria-haspopup="true"
+        aria-expanded={open}
+        title="Pick an emoji"
+      >
+        <span className={s.emojiTriggerIcon}>{value || '😀'}</span>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+      </button>
+      {open && (
+        <div className={s.emojiPanel} role="dialog" aria-label="Pick an emoji">
+          {EMOJI_GROUPS.map(([group, list]) => (
+            <div key={group}>
+              <div className={s.emojiGroupLabel}>{group}</div>
+              <div className={s.emojiGrid}>
+                {list.map(em => (
+                  <button
+                    key={em}
+                    type="button"
+                    className={`${s.emojiBtn} ${value === em ? s.emojiBtnActive : ''}`}
+                    onClick={() => pick(em)}
+                    title={em}
+                  >
+                    {em}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+          <button type="button" className={s.emojiClear} onClick={() => pick('')}>No icon</button>
+        </div>
+      )}
     </div>
   );
 }
@@ -489,6 +637,13 @@ export default function NavbarBuilderTool() {
   const [configTab, setConfigTab] = useState('Logo');
   const [codeTab, setCodeTab] = useState('HTML');
   const [copied, setCopied] = useState(false);
+  const [device, setDevice] = useState('desktop');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const mobile = device === 'mobile';
+  // Room for the open dropdown inside the preview frame (it overlays the page below the bar).
+  const mobileMinHeight = menuOpen
+    ? navStyle.padding * 2 + 40 + 24 + links.length * (navStyle.fontSize * 1.4 + 24) + 24
+    : undefined;
 
   const updLogo = (k, v) => setLogo(l => ({ ...l, [k]: v }));
   const updStyle = (k, v) => setNavStyle(st => ({ ...st, [k]: v }));
@@ -527,7 +682,6 @@ export default function NavbarBuilderTool() {
   return (
     <div className={s.wrap}>
       <CssToolsTopNav active="navbar-builder" />
-      <PlaygroundTopAd />
 
       {/* Body */}
       <div className={s.body}>
@@ -578,7 +732,10 @@ export default function NavbarBuilderTool() {
                     </div>
                     <div className={s.fieldGroup}>
                       <label className={s.fieldLabel}>Icon / Emoji <span className={s.hint}>(optional, before text)</span></label>
-                      <input className={s.input} value={logo.icon} onChange={e => updLogo('icon', e.target.value)} placeholder="🚀" />
+                      <div className={s.emojiRow}>
+                        <input className={s.input} value={logo.icon} onChange={e => updLogo('icon', e.target.value)} placeholder="🚀" />
+                        <EmojiPicker value={logo.icon} onPick={v => updLogo('icon', v)} />
+                      </div>
                     </div>
                   </>
                 )}
@@ -672,9 +829,31 @@ export default function NavbarBuilderTool() {
 
         {/* Code panel: live preview on top, then the code tabs */}
         <div className={s.codePanel}>
+          {/* Leaderboard ad (max 90px) at the top of the right column, above the preview */}
+          <PlaygroundTopAd />
           <div className={s.previewWrap}>
-            <div className={s.previewInner}>
-              <NavbarPreview layout={layout} logo={logo} links={links} navStyle={navStyle} />
+            <div className={s.previewBar}>
+              <span className={s.previewBarLabel}>
+                Preview{mobile && ` · ${MOBILE_BP}px and below — tap the menu icon`}
+              </span>
+              <div className={s.deviceBtns}>
+                {['desktop', 'mobile'].map(d => (
+                  <button
+                    key={d}
+                    type="button"
+                    className={`${s.deviceBtn} ${device === d ? s.deviceBtnActive : ''}`}
+                    onClick={() => { setDevice(d); setMenuOpen(false); }}
+                  >
+                    {d === 'desktop' ? 'Desktop' : 'Mobile'}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className={`${s.previewInner} ${mobile ? s.previewMobile : ''}`} style={mobile ? { minHeight: mobileMinHeight } : undefined}>
+              <NavbarPreview
+                layout={layout} logo={logo} links={links} navStyle={navStyle}
+                mobile={mobile} open={menuOpen} onToggle={() => setMenuOpen(o => !o)}
+              />
               <div className={s.pageHint}>
                 <div className={s.pageLineW} />
                 <div className={s.pageLineN} />
