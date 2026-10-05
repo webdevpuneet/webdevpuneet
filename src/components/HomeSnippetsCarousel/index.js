@@ -15,7 +15,8 @@ const PAGE_SIZE = 6;
 // Only when the reader pages past that slice does the full {id, title} list
 // load - lazily, from the same index the home page search already uses - so
 // the client never imports the whole snippet library just to draw thumbnails.
-export default function HomeSnippetsCarousel({ items, total }) {
+// `flush`: rendered inside AdSlot's .relatedFull (tool pages), which already pads the sides.
+export default function HomeSnippetsCarousel({ items, total, flush = false }) {
   const [start, setStart] = useState(0);
   const [all, setAll] = useState(null);        // the whole library, newest first, once loaded
   const [loading, setLoading] = useState(false);
@@ -46,7 +47,7 @@ export default function HomeSnippetsCarousel({ items, total }) {
   }
 
   return (
-    <section className={rs.section} aria-label="Latest UI snippets">
+    <section className={rs.section} style={flush ? { paddingLeft: 0, paddingRight: 0 } : undefined} aria-label="Latest UI snippets">
       <div className={rs.header}>
         <h2 className={rs.title}>Latest UI Snippets</h2>
         <span className={rs.headCount}>{grand.toLocaleString('en-US')} in the library</span>

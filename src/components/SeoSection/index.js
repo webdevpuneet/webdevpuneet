@@ -376,7 +376,7 @@ function ToolCTA({ slug }) {
 function TextSection({ label, heading, headingSize = 'h2', text, extra, quickFacts = true, boxed = false }) {
   const Tag = headingSize === 'h3' ? 'h3' : 'h2';
   const headingClass = headingSize === 'h3' ? styles.sectionH3 : styles.seoH2;
-  const isAbout = label === 'About this tool' || label === 'About this UI Snippet' || label === 'About this category' || label === 'About this tag';
+  const isAbout = label === 'About this tool' || label === 'About this UI Snippet' || label === 'About this category' || label === 'About this tag' || label === 'About the site';
 
   if (isAbout) {
     const paras = (text || '').split(/\n\n+/).map(p => p.trim()).filter(Boolean);

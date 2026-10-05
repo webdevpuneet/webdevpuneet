@@ -6,10 +6,24 @@ import seo from '@/components/SeoSection/styles.module.css';
 import { fetchLatestBlogPosts, BLOG_URL } from '@/lib/blog-feed';
 
 // "From the blog" strip, styled like the Related Snippets strip. The posts load in the
-// browser after the page is up (WordPress REST API), so they never block rendering; the
-// strip stays out of the page until there is something to show, and a blog outage just
-// leaves it out. One fetch per page load is shared through a module-level promise.
+// browser after the page is up, so they never block rendering. The live WordPress REST API
+// comes first (newest posts); if that returns nothing, the build-time copy at
+// /blog-posts.json (same origin) fills in. The strip stays out of the page until there is
+// something to show. One load per page is shared through a module-level promise, and an
+// empty result is not cached, so the next page tries again.
 let postsPromise = null;
+
+async function loadPosts(max) {
+  const live = await fetchLatestBlogPosts(max);
+  if (live.length) return live;
+  try {
+    const res = await fetch('/blog-posts.json');
+    const saved = res.ok ? await res.json() : [];
+    return Array.isArray(saved) ? saved.slice(0, max) : [];
+  } catch {
+    return [];
+  }
+}
 
 // `initialPosts`: posts already fetched on the server (home), so no browser fetch is needed.
 // `first`: leads its block (home), so the strip above already supplies the spacing.
@@ -19,8 +33,11 @@ export default function BlogStrip({ max = 6, initialPosts = null, first = false 
   useEffect(() => {
     if (initialPosts) return;
     let cancelled = false;
-    postsPromise = postsPromise || fetchLatestBlogPosts(max);
-    postsPromise.then(list => { if (!cancelled) setPosts(list); });
+    postsPromise = postsPromise || loadPosts(max);
+    postsPromise.then(list => {
+      if (!list.length) postsPromise = null;   // nothing came back: let the next page retry
+      if (!cancelled) setPosts(list);
+    });
     return () => { cancelled = true; };
   }, [max, initialPosts]);
 

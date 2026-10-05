@@ -618,3 +618,4 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 - New `NavbarBuilderPromo` call-out. `/ui-snippets/navigation/`: About paragraph, feature, use case, FAQ + promo.
   Every navigation snippet (101) + `animated-hamburger`: promo under Source Code + one FAQ (also in FAQPage schema).
   Built output: 103 pages carry the promo. Deployed (tools.zip uploaded; extract by hand).
+- Deployed 2026-10-05: home SEO rewrite (25 playgrounds / 62 tools), blog strip first, tools strip on UI Snippets pages.

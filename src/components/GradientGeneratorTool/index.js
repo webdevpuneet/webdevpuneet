@@ -331,34 +331,21 @@ export default function GradientGeneratorTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="gradient-generator" />
-      <PlaygroundTopAd />
-      {/* Header */}
-      <div className={styles.header}>
-        <div className={styles.headerIcon}>◈</div>
-        <span className={styles.headerTitle}>Gradient <span className={styles.headerAccent}>Generator</span></span>
-        <div className={styles.headerActions}>
-          <span className={`${styles.saveIndicator} ${saveState === 'saving' ? styles.saveIndicatorSaving : saveState === 'saved' ? styles.saveIndicatorSaved : ''}`}>
-            <span className={styles.saveDot} />
-            {saveState === 'saving' ? 'Saving…' : saveState === 'saved' ? 'Saved' : 'Auto-saved'}
-          </span>
-          <button className={styles.resetBtn} onClick={handleReset}>Reset</button>
-        </div>
-      </div>
-
-      {/* Interactive gradient bar */}
-      <GradientBar
-        stops={stops}
-        gradientCSS={gradientCSS}
-        onStopChange={updateStop}
-        onStopAdd={addStop}
-        onStopRemove={removeStop}
-        selectedId={selectedStopId}
-        onSelect={setSelectedStopId}
-      />
-
       <div className={styles.layout}>
-        {/* Left panel */}
+        {/* Left panel: title, save state and Reset on top, then the controls */}
         <aside className={styles.panel}>
+          <div className={styles.header}>
+            <div className={styles.headerIcon}>◈</div>
+            <span className={styles.headerTitle}>Gradient <span className={styles.headerAccent}>Generator</span></span>
+            <div className={styles.headerActions}>
+              <span className={`${styles.saveIndicator} ${saveState === 'saving' ? styles.saveIndicatorSaving : saveState === 'saved' ? styles.saveIndicatorSaved : ''}`}>
+                <span className={styles.saveDot} />
+                {saveState === 'saving' ? 'Saving…' : saveState === 'saved' ? 'Saved' : 'Auto-saved'}
+              </span>
+              <button className={styles.resetBtn} onClick={handleReset}>Reset</button>
+            </div>
+          </div>
+
           {/* Mode */}
           <div className={styles.section}>
             <div className={styles.sectionTitle}>Type</div>
@@ -465,6 +452,9 @@ export default function GradientGeneratorTool() {
             <style>{activeAnim.keyframes}</style>
           )}
 
+          {/* Leaderboard ad (max 90px) at the top of the right panel */}
+          <PlaygroundTopAd />
+
           {/* Preview mode toggle */}
           <div className={styles.previewModeBar}>
             {[['bg','Background'],['text','Text'],['border','Border']].map(([id, label]) => (
@@ -474,6 +464,17 @@ export default function GradientGeneratorTool() {
             ))}
             <button className={styles.randomBtn} onClick={randomize}>⟳ Randomize</button>
           </div>
+
+          {/* Interactive gradient bar — in the right panel, under the preview mode toggle */}
+          <GradientBar
+            stops={stops}
+            gradientCSS={gradientCSS}
+            onStopChange={updateStop}
+            onStopAdd={addStop}
+            onStopRemove={removeStop}
+            selectedId={selectedStopId}
+            onSelect={setSelectedStopId}
+          />
 
           {/* Preview */}
           <div className={styles.preview}
