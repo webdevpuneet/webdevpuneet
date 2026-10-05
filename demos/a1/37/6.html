@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Navbar Builder — Midnight Preset (Transparent Navbar)">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <nav class="navbar" aria-label="Main">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">🌙 Nova</a>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="nav-menu" id="nav-menu">
+        <ul class="nav-links">
+          <li><a href="#" class="nav-link">Features</a></li>
+          <li><a href="#" class="nav-link">Showcase</a></li>
+          <li class="nav-item has-dropdown">
+            <button class="nav-link nav-dropdown-toggle" type="button" aria-expanded="false">
+              Company
+              <svg class="nav-caret" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+            </button>
+            <ul class="nav-dropdown">
+              <li><a href="#" class="nav-dropdown-link">About us</a></li>
+              <li><a href="#" class="nav-dropdown-link">Careers</a></li>
+              <li><a href="#" class="nav-dropdown-link">Press</a></li>
+            </ul>
+          </li>
+          <li><a href="#" class="nav-link cta">Join waitlist</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="nav-backdrop"></div>
+  </nav>
+
+  <header class="demo-hero">
+    <div class="demo-wrap">
+      <p class="demo-eyebrow">Made with the Navbar Builder</p>
+      <h1>Scroll this page</h1>
+      <p class="demo-lead">The navbar starts transparent over this hero and turns solid as soon as you scroll.</p>
+    </div>
+  </header>
+  <main class="demo-wrap demo-grid">
+    <section class="demo-card"><div class="demo-line w60"></div><div class="demo-line"></div><div class="demo-line w80"></div></section>
+    <section class="demo-card"><div class="demo-line w60"></div><div class="demo-line"></div><div class="demo-line w80"></div></section>
+    <section class="demo-card"><div class="demo-line w60"></div><div class="demo-line"></div><div class="demo-line w80"></div></section>
+    <section class="demo-card"><div class="demo-line w60"></div><div class="demo-line"></div><div class="demo-line w80"></div></section>
+    <section class="demo-card"><div class="demo-line w60"></div><div class="demo-line"></div><div class="demo-line w80"></div></section>
+    <section class="demo-card"><div class="demo-line w60"></div><div class="demo-line"></div><div class="demo-line w80"></div></section>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  * { box-sizing: border-box; }
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: transparent;
+    transition: background-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  /* Solid once the page scrolls (or while the mobile menu is open) */
+  .navbar.is-scrolled,
+  .navbar.is-open {
+    background: #111827;
+    box-shadow: 0 1px 8px rgba(249,250,251,0.08);
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .nav-logo {
+    font-size: 18px;
+    font-weight: 700;
+    color: #f9fafb;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: #f9fafb;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .nav-link:hover,
+  .nav-link.active { color: #a78bfa; }
+
+  .nav-link.cta {
+    background: #a78bfa;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 999px;
+    transition: opacity 0.15s;
+  }
+  .nav-link.cta:hover { opacity: 0.88; }
+
+  /* Dropdowns */
+  .nav-item { position: relative; }
+  .nav-caret { transition: transform 0.2s ease; }
+  .nav-item.is-open .nav-caret { transform: rotate(180deg); }
+  .nav-dropdown {
+    list-style: none;
+    margin: 0;
+    padding: 6px;
+  }
+  .nav-dropdown-link {
+    display: block;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #f9fafb;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.15s, color 0.15s;
+  }
+  .nav-dropdown-link:hover { background: rgba(249,250,251,0.06); color: #a78bfa; }
+
+  /* Visible keyboard focus */
+  .nav-logo:focus-visible,
+  .nav-link:focus-visible,
+  .nav-dropdown-link:focus-visible,
+  .nav-toggle:focus-visible {
+    outline: 2px solid #a78bfa;
+    outline-offset: 3px;
+  }
+
+  /* Hamburger: hidden on desktop; folds into a ← arrow while the menu is open */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+    padding: 8px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    border-radius: 2px;
+    background: #f9fafb;
+    transform-origin: left center;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+  }
+  .navbar.is-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(-45deg) scaleX(0.55); }
+  .navbar.is-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(45deg) scaleX(0.55); }
+  .nav-backdrop { display: none; }
+
+  @media (min-width: 561px) {
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    /* Dropdowns float under their link and open on hover or click */
+    .nav-dropdown {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 50%;
+      min-width: 200px;
+      background: #111827;
+      border: 1px solid rgba(249,250,251,0.08);
+      border-radius: 10px;
+      box-shadow: 0 12px 32px rgba(249,250,251,0.14);
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, 6px);
+      transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+    }
+    /* Invisible bridge so the pointer can cross the gap into the dropdown */
+    .nav-dropdown::before { content: ''; position: absolute; left: 0; right: 0; top: -12px; height: 12px; }
+    .nav-item:hover > .nav-dropdown,
+    .nav-item.is-open > .nav-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0);
+    }
+    .nav-item:hover .nav-caret { transform: rotate(180deg); }
+  }
+
+  /* Mobile: a left drawer */
+  @media (max-width: 560px) {
+    .nav-toggle { display: flex; }
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      width: min(320px, 85vw);
+      padding: 80px 24px 24px;
+      overflow-y: auto;
+      background: #111827;
+      box-shadow: 0 0 32px rgba(15, 23, 42, 0.2);
+      transform: translateX(-100%);
+      visibility: hidden;
+      transition: transform 0.3s ease, visibility 0.3s;
+    }
+    .navbar.is-open .nav-menu {
+      transform: none;
+      visibility: visible;
+    }
+    .nav-backdrop {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s;
+    }
+    .navbar.is-open .nav-backdrop {
+      opacity: 1;
+      visibility: visible;
+    }
+    .nav-toggle {
+      position: relative;
+      z-index: 2;
+    }
+    .nav-links {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+    .nav-link {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      padding: 12px 0;
+    }
+    .nav-link.cta {
+      justify-content: center;
+      margin-top: 8px;
+      padding: 12px 14px;
+    }
+    /* Dropdowns become expandable sections inside the menu */
+    .nav-dropdown {
+      display: none;
+      padding: 0 0 8px 12px;
+    }
+    .nav-item.is-open > .nav-dropdown { display: block; }
+    .nav-dropdown-link { padding: 10px 12px; }
+  }
+
+  /* Demo page content (not part of the navbar) */
+  body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; background: #f8fafc; color: #0f172a; }
+  .demo-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .demo-hero { padding: 130px 0 64px; background: linear-gradient(135deg, #0f172a, #312e81); color: #f8fafc; }
+  .demo-hero h1 { margin: 0 0 10px; font-size: clamp(24px, 5vw, 36px); line-height: 1.15; }
+  .demo-eyebrow { margin: 0 0 8px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; opacity: .7; }
+  .demo-lead { margin: 0; max-width: 560px; font-size: 15px; line-height: 1.6; opacity: .85; }
+  .demo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; padding-top: 24px; padding-bottom: 40px; }
+  .demo-card { height: 140px; padding: 18px; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; }
+  .demo-line { height: 10px; margin-bottom: 12px; border-radius: 5px; background: #e2e8f0; }
+  .demo-line.w60 { width: 60%; background: #cbd5e1; } .demo-line.w80 { width: 80%; }
+</script>
+
+<script type="text/plain" id="js">
+  (() => {
+    const navbar = document.querySelector('.navbar');
+    const toggle = navbar.querySelector('.nav-toggle');
+    const dropdowns = navbar.querySelectorAll('.has-dropdown');
+
+    function setMenu(open) {
+      navbar.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', open);
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      document.body.style.overflow = open ? 'hidden' : '';  // no page scroll behind the menu
+    }
+
+    function closeDropdowns(except) {
+      dropdowns.forEach(item => {
+        if (item === except) return;
+        item.classList.remove('is-open');
+        item.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    toggle.addEventListener('click', () => setMenu(!navbar.classList.contains('is-open')));
+    navbar.querySelector('.nav-backdrop').addEventListener('click', () => setMenu(false));
+    navbar.querySelectorAll('.nav-menu a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+
+    // Dropdowns: click (or Enter / Space) toggles; on desktop hover opens them too.
+    dropdowns.forEach(item => {
+      const button = item.querySelector('.nav-dropdown-toggle');
+      button.addEventListener('click', () => {
+        const open = !item.classList.contains('is-open');
+        closeDropdowns(item);
+        item.classList.toggle('is-open', open);
+        button.setAttribute('aria-expanded', open);
+      });
+    });
+    document.addEventListener('click', e => { if (!navbar.contains(e.target)) closeDropdowns(); });
+
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      closeDropdowns();
+      setMenu(false);
+    });
+
+    // Back to the desktop layout: reset the mobile menu.
+    matchMedia('(min-width: 561px)').addEventListener('change', () => setMenu(false));
+
+    // Turn the bar solid once the page has scrolled.
+    const onScroll = () => navbar.classList.toggle('is-scrolled', window.scrollY > 10);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

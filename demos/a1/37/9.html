@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Navbar Builder — Full-Screen Menu (Spin Icon)">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+  <nav class="navbar" aria-label="Main">
+    <div class="nav-container nav-split">
+      <a href="#" class="nav-logo">STUDIO</a>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="nav-menu" id="nav-menu">
+        <ul class="nav-links">
+          <li><a href="#" class="nav-link">Work</a></li>
+          <li class="nav-item has-dropdown">
+            <button class="nav-link nav-dropdown-toggle" type="button" aria-expanded="false">
+              Services
+              <svg class="nav-caret" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+            </button>
+            <ul class="nav-dropdown">
+              <li><a href="#" class="nav-dropdown-link">Branding</a></li>
+              <li><a href="#" class="nav-dropdown-link">Web Design</a></li>
+              <li><a href="#" class="nav-dropdown-link">Motion</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav-links">
+          <li><a href="#" class="nav-link">About</a></li>
+          <li><a href="#" class="nav-link cta">Let's talk</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="demo-hero">
+    <div class="demo-wrap">
+      <p class="demo-eyebrow">Made with the Navbar Builder</p>
+      <h1>Scroll this page</h1>
+      <p class="demo-lead">Tap the menu icon: it spins into an × while a full-screen menu fades in. Services expands inline.</p>
+    </div>
+  </header>
+  <main class="demo-wrap demo-grid">
+    <section class="demo-card"><div class="demo-line w60"></div><div class="demo-line"></div><div class="demo-line w80"></div></section>
+    <section class="demo-card"><div class="demo-line w60"></div><div class="demo-line"></div><div class="demo-line w80"></div></section>
+    <section class="demo-card"><div class="demo-line w60"></div><div class="demo-line"></div><div class="demo-line w80"></div></section>
+    <section class="demo-card"><div class="demo-line w60"></div><div class="demo-line"></div><div class="demo-line w80"></div></section>
+    <section class="demo-card"><div class="demo-line w60"></div><div class="demo-line"></div><div class="demo-line w80"></div></section>
+    <section class="demo-card"><div class="demo-line w60"></div><div class="demo-line"></div><div class="demo-line w80"></div></section>
+  </main>
+</script>
+
+<script type="text/plain" id="css">
+  * { box-sizing: border-box; }
+
+  .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: #ffffff;
+    box-shadow: 0 1px 8px rgba(10,10,10,0.08);
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .nav-logo {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0a0a0a;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0a0a0a;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .nav-link:hover,
+  .nav-link.active { color: #e11d48; }
+
+  .nav-link.cta {
+    background: #e11d48;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 0px;
+    transition: opacity 0.15s;
+  }
+  .nav-link.cta:hover { opacity: 0.88; }
+
+  /* Dropdowns */
+  .nav-item { position: relative; }
+  .nav-caret { transition: transform 0.2s ease; }
+  .nav-item.is-open .nav-caret { transform: rotate(180deg); }
+  .nav-dropdown {
+    list-style: none;
+    margin: 0;
+    padding: 6px;
+  }
+  .nav-dropdown-link {
+    display: block;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #0a0a0a;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.15s, color 0.15s;
+  }
+  .nav-dropdown-link:hover { background: rgba(10,10,10,0.06); color: #e11d48; }
+
+  /* Visible keyboard focus */
+  .nav-logo:focus-visible,
+  .nav-link:focus-visible,
+  .nav-dropdown-link:focus-visible,
+  .nav-toggle:focus-visible {
+    outline: 2px solid #e11d48;
+    outline-offset: 3px;
+  }
+
+  /* Hamburger: hidden on desktop; spins into an × while the menu is open */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+    padding: 8px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    transition: transform 0.35s ease;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    border-radius: 2px;
+    background: #0a0a0a;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+  }
+  .navbar.is-open .nav-toggle { transform: rotate(180deg); }
+  .navbar.is-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .navbar.is-open .nav-toggle span:nth-child(2) { opacity: 0; }
+  .navbar.is-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  @media (min-width: 1025px) {
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    /* Split: the menu wrapper steps aside so its two lists sit either side of the logo */
+    .nav-split {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      grid-template-areas: "left logo right";
+      gap: 24px;
+    }
+    .nav-split .nav-logo { grid-area: logo; }
+    .nav-split .nav-menu { display: contents; }
+    .nav-split .nav-links:first-child { grid-area: left; justify-content: flex-end; }
+    .nav-split .nav-links:last-child { grid-area: right; justify-content: flex-start; }
+    /* Dropdowns float under their link and open on hover or click */
+    .nav-dropdown {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 50%;
+      min-width: 200px;
+      background: #ffffff;
+      border: 1px solid rgba(10,10,10,0.08);
+      border-radius: 10px;
+      box-shadow: 0 12px 32px rgba(10,10,10,0.14);
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, 6px);
+      transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+    }
+    /* Invisible bridge so the pointer can cross the gap into the dropdown */
+    .nav-dropdown::before { content: ''; position: absolute; left: 0; right: 0; top: -12px; height: 12px; }
+    .nav-item:hover > .nav-dropdown,
+    .nav-item.is-open > .nav-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0);
+    }
+    .nav-item:hover .nav-caret { transform: rotate(180deg); }
+  }
+
+  /* Mobile: a full-screen menu */
+  @media (max-width: 1024px) {
+    .nav-toggle { display: flex; }
+    .nav-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: safe center;
+      padding: 96px 32px 32px;
+      overflow-y: auto;
+      background: #ffffff;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s;
+    }
+    .navbar.is-open .nav-menu {
+      opacity: 1;
+      visibility: visible;
+    }
+    .nav-toggle {
+      position: relative;
+      z-index: 2;
+    }
+    .nav-links {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+    .nav-link {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      padding: 12px 0;
+      font-size: 20px;
+    }
+    .nav-link.cta {
+      justify-content: center;
+      margin-top: 8px;
+      padding: 12px 14px;
+    }
+    /* Dropdowns become expandable sections inside the menu */
+    .nav-dropdown {
+      display: none;
+      padding: 0 0 8px;
+      text-align: center;
+    }
+    .nav-item.is-open > .nav-dropdown { display: block; }
+    .nav-dropdown-link { padding: 10px 12px; }
+  }
+
+  /* Demo page content (not part of the navbar) */
+  body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; background: #f8fafc; color: #0f172a; }
+  .demo-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .demo-hero { padding: 60px 0 64px; background: linear-gradient(135deg, #eef2ff, #fdf2f8); color: #0f172a; }
+  .demo-hero h1 { margin: 0 0 10px; font-size: clamp(24px, 5vw, 36px); line-height: 1.15; }
+  .demo-eyebrow { margin: 0 0 8px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; opacity: .7; }
+  .demo-lead { margin: 0; max-width: 560px; font-size: 15px; line-height: 1.6; opacity: .85; }
+  .demo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; padding-top: 24px; padding-bottom: 40px; }
+  .demo-card { height: 140px; padding: 18px; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; }
+  .demo-line { height: 10px; margin-bottom: 12px; border-radius: 5px; background: #e2e8f0; }
+  .demo-line.w60 { width: 60%; background: #cbd5e1; } .demo-line.w80 { width: 80%; }
+</script>
+
+<script type="text/plain" id="js">
+  (() => {
+    const navbar = document.querySelector('.navbar');
+    const toggle = navbar.querySelector('.nav-toggle');
+    const dropdowns = navbar.querySelectorAll('.has-dropdown');
+
+    function setMenu(open) {
+      navbar.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', open);
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      document.body.style.overflow = open ? 'hidden' : '';  // no page scroll behind the menu
+    }
+
+    function closeDropdowns(except) {
+      dropdowns.forEach(item => {
+        if (item === except) return;
+        item.classList.remove('is-open');
+        item.querySelector('.nav-dropdown-toggle').setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    toggle.addEventListener('click', () => setMenu(!navbar.classList.contains('is-open')));
+    navbar.querySelectorAll('.nav-menu a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+
+    // Dropdowns: click (or Enter / Space) toggles; on desktop hover opens them too.
+    dropdowns.forEach(item => {
+      const button = item.querySelector('.nav-dropdown-toggle');
+      button.addEventListener('click', () => {
+        const open = !item.classList.contains('is-open');
+        closeDropdowns(item);
+        item.classList.toggle('is-open', open);
+        button.setAttribute('aria-expanded', open);
+      });
+    });
+    document.addEventListener('click', e => { if (!navbar.contains(e.target)) closeDropdowns(); });
+
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      closeDropdowns();
+      setMenu(false);
+    });
+
+    // Back to the desktop layout: reset the mobile menu.
+    matchMedia('(min-width: 1025px)').addEventListener('change', () => setMenu(false));
+  })();
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

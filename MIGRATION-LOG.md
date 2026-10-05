@@ -604,3 +604,10 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 - `/navbar-builder/` page: was `noindex` (stale "unregistered" comment) though live in the registry and sitemap —
   now indexed; breadcrumb pointed at fwdtools.com — fixed. New SEO title/description, 10 FAQs, features, steps.
 - Deployed 2026-10-05 (2nd): navbar builder rebuild + SEO, /tools/ hub, home strips, ad moves (tools.zip uploaded; extract by hand).
+
+## 2026-10-05 — Navbar Builder blog post + demos
+
+- `blog/blog-posts/tools/tools-blog1-wordpress.txt`: full Navbar Builder guide (WordPress block format, no draft).
+- `demos/a1/37/1–9.html`: generated from the builder's own genMarkup/genCSS/genJS (defaults + presets; desktop
+  demos use a 560px breakpoint, mobile-menu demos 1024px so both show in the blog column; links rewritten to "#").
+  Uploaded straight to `/demos/a1/37/` over FTP — all 9 return 200.
