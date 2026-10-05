@@ -12,7 +12,8 @@ import { fetchLatestBlogPosts, BLOG_URL } from '@/lib/blog-feed';
 let postsPromise = null;
 
 // `initialPosts`: posts already fetched on the server (home), so no browser fetch is needed.
-export default function BlogStrip({ max = 6, initialPosts = null }) {
+// `first`: leads its block (home), so the strip above already supplies the spacing.
+export default function BlogStrip({ max = 6, initialPosts = null, first = false }) {
   const [posts, setPosts] = useState(initialPosts);
 
   useEffect(() => {
@@ -28,7 +29,7 @@ export default function BlogStrip({ max = 6, initialPosts = null }) {
   // Always rendered inside AdSlot's .relatedFull, which already pads the sides, so drop
   // .section's own side padding or the strip sits indented from the strips above it.
   return (
-    <div className={rs.section} style={{ paddingLeft: 0, paddingRight: 0 }}>
+    <div className={rs.section} style={{ paddingLeft: 0, paddingRight: 0, ...(first && { marginTop: 0 }) }}>
       <div className={rs.header}>
         <h2 className={rs.title}>Latest from the Blog</h2>
         <span className={rs.headCount}>front-end tips, tutorials and live demos</span>

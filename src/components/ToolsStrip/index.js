@@ -31,7 +31,7 @@ export default function ToolsStrip() {
       <div className={rs.header}>
         <h2 className={rs.title}>Free Developer Tools</h2>
         <span className={rs.headCount}>{total} tools</span>
-        <a href="/css-tools/" className={rs.viewAll}>View all &rarr;</a>
+        <a href="/tools/" className={rs.viewAll}>View all &rarr;</a>
         <div className={rs.navBtns}>
           <span className={rs.pageIndicator}>{start + 1}–{rangeEnd} of {total}</span>
           <button

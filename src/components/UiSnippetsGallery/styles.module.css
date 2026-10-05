@@ -182,6 +182,12 @@
   align-content: flex-start;
   gap: 5px;
 }
+/* Collapsed: one row only. The 54px box otherwise lets the top edge of the
+   second wrapped row peek through along its bottom border. */
+.browseCols:not(:hover) .browseChips {
+  max-height: 23px;
+  overflow: hidden;
+}
 
 .browseChip {
   display: inline-flex;

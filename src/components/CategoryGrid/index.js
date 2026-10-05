@@ -4,6 +4,8 @@ import s from './styles.module.css';
 
 const ALL_CATEGORIES = [
   { label: null,         href: '/',                 home: true },
+  { label: 'All Tools',  href: '/tools',            icon: '🧰' },
+  { label: 'CSS Tools',  href: '/css-tools',        icon: '🎨' },
   { label: 'Learn',      href: '/learn-to-code',    icon: '🎓' },
   { label: 'Snippets',   href: '/ui-snippets',      icon: '🧩' },
 ];

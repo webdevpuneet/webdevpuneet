@@ -26,7 +26,7 @@ export default function FrontendPlaygroundsStrip({ blogPosts = null, blogFirst =
 
   if (!tools.length) return null;
 
-  const blog = <BlogStrip initialPosts={blogPosts} />;
+  const blog = <BlogStrip initialPosts={blogPosts} first={blogFirst} />;
 
   return (
     <>

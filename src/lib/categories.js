@@ -2,6 +2,17 @@
    Each category page lives at /<slug>/ and lists tools from multiple
    registry categories — allowing one tool to appear in several clusters. */
 
+import { LIVE_TOOLS, CATEGORY_META } from './tools-registry.js';
+
+// /tools/ lists every live tool (the UI Snippets library has its own tab), grouped in
+// the registry's category order.
+const CATEGORY_ORDER = new Map(CATEGORY_META.map((c, i) => [c.id, i]));
+const ALL_TOOL_SLUGS = LIVE_TOOLS
+  .filter(t => t.slug !== 'ui-snippets')
+  .slice()
+  .sort((a, b) => (CATEGORY_ORDER.get(a.category) ?? 99) - (CATEGORY_ORDER.get(b.category) ?? 99))
+  .map(t => t.slug);
+
 export const CATEGORIES = [
 
 
@@ -239,6 +250,103 @@ Every tool in this collection runs entirely in your browser — no sign-up, no s
       title: 'Online CSS Tools & Generators — Free Flexbox, Grid, Animations & More | webdevpuneet.com',
       description: 'Free CSS generators with live preview: Flexbox Builder, CSS Grid Builder, CSS Autoprefixer, Box Shadow, Gradient, Animation, Glassmorphism, CSS to Tailwind, and more.',
       keywords: ['css tools online free', 'css generator', 'css autoprefixer online', 'postcss autoprefixer', 'browserslist css prefixes', 'flexbox builder online', 'css grid builder', 'box shadow generator', 'gradient generator css', 'css animation generator', 'glassmorphism generator', 'mesh gradient generator', 'css to tailwind converter', 'tailwind to css', 'css clamp generator', 'css minifier online', 'css clip path generator', 'color contrast checker wcag'],
+    },
+  },
+  // ── All tools hub: every live tool, so a new tool shows up here without editing this list ──
+  {
+    slug:        'tools',
+    name:        'All Tools',
+    headline:    'All Free Developer Tools, Generators & Playgrounds',
+    tagline:     'Every tool on webdevpuneet.com in one place — CSS generators, converters, dev utilities and interactive coding playgrounds. Free, private and right in your browser.',
+    accent:      '#6366f1',
+    icon:        '🧰',
+    toolSlugs:   ALL_TOOL_SLUGS,
+    related:     ['css-tools', 'learn-to-code'],
+    about: `Front-end work is full of small jobs that shouldn't need a new npm package, a desktop app or an account: tuning a box shadow, building a grid layout, formatting a JSON response, converting HTML to JSX, testing an API, or learning how a React hook behaves. This page collects every free developer tool on webdevpuneet.com — more than 80 of them — in one searchable directory, grouped by what they help you do.
+
+Type into the search box above the grid to filter by name or description, or browse the groups below. Every card opens a working tool straight away — no sign-up, no install and no usage limit.
+
+### CSS Generators and Layout Builders
+
+The largest group is visual CSS tooling. The **Flexbox Builder** and **CSS Grid Builder** let you configure layouts with clicks instead of memorised syntax, with a live preview and copy-ready code. For visual effects there is a **Gradient Generator**, **Mesh Gradient Generator**, **Box Shadow Generator**, **Glassmorphism Generator**, **CSS Clip-path Generator**, **CSS Filter Generator**, **CSS Transform Generator** and **CSS Shape Generator**. Motion is covered by the **CSS Animation Generator**, **CSS Easing Generator** and **CSS Loader Generator**, and components by the **CSS Button Generator**, **Toggle Switch Generator**, **Navbar Builder** and **Carousel Builder**.
+
+Utility tools round it out: the **CSS Clamp() Generator** for fluid typography, **Media Queries Generator**, **CSS Autoprefixer**, **CSS Minifier / Beautifier**, **REM ↔ PX Converter**, and the **CSS → Tailwind** and **Tailwind → CSS** converters. For colour, use the **Color Picker**, **Color Palette Generator** and the **Color Contrast Checker** for WCAG AA and AAA compliance. The CSS Tools page lists just this group.
+
+### Interactive Coding Playgrounds
+
+The playgrounds are structured, lesson-based editors with a live preview — learn by changing real code rather than watching a video. Front-end playgrounds cover **HTML**, **CSS**, **SCSS**, **JavaScript**, **TypeScript**, **Tailwind CSS**, **Bootstrap 5**, **jQuery**, **React**, **Vue.js**, **Angular**, **Next.js**, **GSAP** and **SVG**. Back-end and data playgrounds cover **Node.js**, **Express.js**, **Python**, **PHP**, **SQL**, **MongoDB**, **Redis**, **GraphQL**, **Firebase**, **Git** and a **REST API Builder**. Lesson progress is saved in your browser, so you can close the tab and pick up exactly where you left off. The Learn to Code page lists just the playgrounds.
+
+### Code Formatters, Validators and Data Tools
+
+For everyday clean-up and inspection there is a **JSON Formatter**, **XML Formatter / Validator**, **SQL Formatter**, **HTML Formatter**, **Tailwind Formatter** and **JavaScript Minifier**. Working with data is easier with the **JSON Schema Generator**, **JSON Table Viewer** and **JSON Dashboard Generator**, while the **Diff Checker** compares two blocks of text or code side by side. Smaller helpers include the **HTML Entity Encoder**, **UUID / ULID / NanoID** generator, **HTML Table Generator** and **Markdown Table Generator**.
+
+### API and Back-End Helpers
+
+The **API Request Generator & Tester** builds HTTP request code in many languages and sends test requests from your browser, and the **API Mock Generator** produces realistic mock data and endpoints for prototyping a front end before the real API exists.
+
+### Converters
+
+Convert between the formats you meet every day: **HTML → JSX**, **JSON → TypeScript**, **HTML to Markdown**, **Markdown to HTML**, **Image to Base64**, **Image to SVG** and **SVG to PNG**.
+
+### Design, SVG and Writing Tools
+
+Design helpers include the **SVG Wave Generator**, **SVG Animation Generator**, **SVG Motion Studio**, **Animated SVG Icons**, **Font Pairing Tool**, **Image Color Palette Extractor**, **Aspect Ratio Calculator**, **Responsive Preview** and **Code Screenshot** for sharing good-looking code images. For writing there is a **Markdown Editor**, a **Lorem Ipsum Generator** and **AI Prompt Studio** for building structured prompts.
+
+### Free, Private and Built for the Browser
+
+These tools do their work in your browser, so what you paste — CSS, JSON, SQL, HTML or an image — is processed on your own device rather than uploaded to a server. The exception is by design: the API tester sends the requests you ask it to send. There is no account to create, no trial that expires and no daily limit. Because nothing needs installing, they also work on a locked-down work laptop, a borrowed machine or a Chromebook.
+
+### Which Tool Should You Use?
+
+If you are styling something, start with the CSS generators. If you are learning a language or framework, open its playground and follow the lessons in order. If you are debugging or tidying data, reach for the formatters, validators and converters. And if you are not sure, type what you want to do into the search box — it matches tool names and descriptions.`,
+    useCases: [
+      { icon: '🔎', title: 'Find the right tool in seconds', desc: 'Type what you need — "shadow", "json", "tailwind", "sql" — into the search box and the grid filters every tool by name and description instantly.' },
+      { icon: '🎨', title: 'Generate production-ready CSS', desc: 'Build gradients, shadows, glassmorphism, clip-paths, animations and full Flexbox or Grid layouts with a live preview, then copy CSS — or a Tailwind, SCSS or React version — straight into your project.' },
+      { icon: '🎓', title: 'Learn a language or framework', desc: 'Work through structured lessons for HTML, CSS, JavaScript, TypeScript, React, Vue, Angular, Python, SQL and more in a live editor. Progress is saved in your browser — no course sign-up.' },
+      { icon: '🧹', title: 'Format and validate code', desc: 'Paste messy JSON, XML, SQL or HTML and get it indented, validated and readable in one click — handy when inspecting an API response or a log file.' },
+      { icon: '🔁', title: 'Convert between formats', desc: 'Turn HTML into JSX for a React component, JSON into TypeScript interfaces, Markdown into HTML, CSS into Tailwind classes, or an image into Base64 — without writing a throwaway script.' },
+      { icon: '🔌', title: 'Prototype and test APIs', desc: 'Generate request code in your language of choice, send test calls from the browser, and mock endpoints and data so front-end work isn\'t blocked waiting on the back end.' },
+      { icon: '♿', title: 'Check accessibility', desc: 'Test text and background colour pairs against WCAG AA and AAA contrast ratios with the Color Contrast Checker before a design ships.' },
+      { icon: '💻', title: 'Work on any machine', desc: 'Nothing to install means the same tools work on a locked-down office laptop, a borrowed computer or a Chromebook — open the page and get on with it.' },
+    ],
+    faqs: [
+      {
+        q: 'Are all of these developer tools free?',
+        a: 'Yes. Every tool on webdevpuneet.com is completely free, with no sign-up, no account, no trial period and no usage limit. Open any tool and use it as often as you like.',
+      },
+      {
+        q: 'Is my code or data uploaded to a server?',
+        a: 'No. The tools process your input in your browser, so code, JSON, CSS and images you paste stay on your device. The one deliberate exception is the API Request Tester, which sends the HTTP requests you ask it to send. Playground progress and saved settings are kept in your browser\'s local storage.',
+      },
+      {
+        q: 'Do I need to install anything or create an account?',
+        a: 'No. Every tool runs in a modern browser such as Chrome, Edge, Firefox or Safari. Some playgrounds load a library like React, Vue or Tailwind from a CDN when they open, but there is nothing for you to install and no account to create.',
+      },
+      {
+        q: 'How many tools are there?',
+        a: 'More than 80, and the list grows as new tools are added — this page always shows every live tool. They cover CSS generators, interactive coding playgrounds, code formatters and validators, converters, API helpers, and design, SVG and writing tools.',
+      },
+      {
+        q: 'What is the difference between All Tools, CSS Tools and Learn to Code?',
+        a: 'All Tools lists every tool on the site. CSS Tools is a focused page with only the CSS generators, layout builders and CSS utilities. Learn to Code shows only the interactive, lesson-based coding playgrounds. Use the tabs above the grid to switch between them.',
+      },
+      {
+        q: 'Can I use the generated code in commercial projects?',
+        a: 'Yes. Code you generate or write with these tools is yours to use in personal and commercial projects, with no attribution required.',
+      },
+      {
+        q: 'Do the tools work on mobile?',
+        a: 'Most tools work on phones and tablets, but the generators and playgrounds are designed for a larger screen, where the controls, editor and live preview fit side by side. For longer sessions a laptop or desktop is the better experience.',
+      },
+      {
+        q: 'Which tool should a beginner start with?',
+        a: 'Start with the HTML Playground, then the CSS Playground and JavaScript Playground — each teaches through short lessons with a live preview. Once you are styling real pages, the Flexbox Builder and CSS Grid Builder are the quickest way to understand layout by seeing every property change the result.',
+      },
+    ],
+    metadata: {
+      title: 'All Free Developer Tools & Generators | webdevpuneet.com',
+      description: '80+ free developer tools in one place: CSS generators, coding playgrounds, JSON & code formatters, converters and API helpers. In-browser, no sign-up.',
+      keywords: ['free developer tools', 'online developer tools', 'web developer tools online', 'free css generators', 'online code formatter', 'json formatter online', 'coding playgrounds online', 'html to jsx converter', 'api request tester online', 'free web dev tools no signup', 'browser based developer tools', 'front end developer tools'],
     },
   },
 ];
