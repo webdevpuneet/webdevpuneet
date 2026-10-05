@@ -10,16 +10,6 @@
 }
 
 /* ── Header ────────────────────────────────────────────────────────────────── */
-.header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 7px 14px;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface);
-  flex-shrink: 0;
-}
-
 .logo {
   display: flex;
   align-items: center;
@@ -70,6 +60,12 @@
   padding: 16px;
   overflow-y: auto;
   min-width: 0;
+}
+
+/* Leaderboard ad at the top of the right column: a rounded card inside the column padding. */
+.topAd {
+  border: 1px solid var(--border);
+  border-radius: 10px;
 }
 
 /* ── Color inputs ──────────────────────────────────────────────────────────── */

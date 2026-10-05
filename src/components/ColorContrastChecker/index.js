@@ -158,22 +158,17 @@ export default function ColorContrastChecker() {
   return (
     <div className={s.wrap}>
       <CssToolsTopNav active="color-contrast-checker" />
-      {/* Header */}
-      <div className={s.header} style={{ height: 'auto', minHeight: 52 }}>
-        <div className={s.logo}>
-          <span className={s.logoIcon}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20"/>
-            </svg>
-          </span>
-          Color Contrast Checker
-        </div>
-        <PlaygroundTopAd inline />
-      </div>
-
       <div className={s.body}>
-        {/* ── Left column: inputs + criteria ── */}
+        {/* ── Left column: title + inputs + criteria ── */}
         <div className={s.left}>
+          <div className={s.logo}>
+            <span className={s.logoIcon}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20"/>
+              </svg>
+            </span>
+            Color Contrast Checker
+          </div>
           {/* Color inputs */}
           <div className={s.colorInputs}>
             {/* Foreground */}
@@ -291,6 +286,8 @@ export default function ColorContrastChecker() {
 
         {/* ── Right column: preview ── */}
         <div className={s.right}>
+          {/* Leaderboard ad at the top of the right column (max 90px). */}
+          <PlaygroundTopAd className={s.topAd} />
           <div className={s.previewCard} style={{ background: bg }}>
             {/* Preview size tabs */}
             <div className={s.previewTabs}>

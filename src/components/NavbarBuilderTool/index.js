@@ -529,42 +529,29 @@ export default function NavbarBuilderTool() {
       <CssToolsTopNav active="navbar-builder" />
       <PlaygroundTopAd />
 
-      {/* Header */}
-      <div className={s.header}>
-        <span className={s.logo}>
-          <span className={s.logoIcon}>☰</span>
-          <span>Navbar <span className={s.accent}>Builder</span></span>
-        </span>
-        <div className={s.layoutPicker}>
-          {LAYOUTS.map(lay => (
-            <button
-              key={lay.id}
-              className={`${s.layoutBtn} ${layout === lay.id ? s.layoutBtnActive : ''}`}
-              onClick={() => setLayout(lay.id)}
-              title={lay.hint}
-            >
-              {lay.label}
-            </button>
-          ))}
-        </div>
-        <span className={s.headerHint}>{LAYOUTS.find(l => l.id === layout)?.hint}</span>
-      </div>
-
-      {/* Live preview */}
-      <div className={s.previewWrap}>
-        <div className={s.previewInner}>
-          <NavbarPreview layout={layout} logo={logo} links={links} navStyle={navStyle} />
-          <div className={s.pageHint}>
-            <div className={s.pageLineW} />
-            <div className={s.pageLineN} />
-          </div>
-        </div>
-      </div>
-
       {/* Body */}
       <div className={s.body}>
-        {/* Config panel */}
+        {/* Config panel: title + layout picker on top, then the settings tabs */}
         <div className={s.configPanel}>
+          <div className={s.header}>
+            <span className={s.logo}>
+              <span className={s.logoIcon}>☰</span>
+              <span>Navbar <span className={s.accent}>Builder</span></span>
+            </span>
+            <div className={s.layoutPicker}>
+              {LAYOUTS.map(lay => (
+                <button
+                  key={lay.id}
+                  className={`${s.layoutBtn} ${layout === lay.id ? s.layoutBtnActive : ''}`}
+                  onClick={() => setLayout(lay.id)}
+                  title={lay.hint}
+                >
+                  {lay.label}
+                </button>
+              ))}
+            </div>
+            <span className={s.headerHint}>{LAYOUTS.find(l => l.id === layout)?.hint}</span>
+          </div>
           <div className={s.configTabBar}>
             {CONFIG_TABS.map(t => (
               <button key={t} className={`${s.configTab} ${configTab === t ? s.configTabActive : ''}`} onClick={() => setConfigTab(t)}>
@@ -683,23 +670,29 @@ export default function NavbarBuilderTool() {
           </div>
         </div>
 
-        {/* Code panel */}
+        {/* Code panel: live preview on top, then the code tabs */}
         <div className={s.codePanel}>
+          <div className={s.previewWrap}>
+            <div className={s.previewInner}>
+              <NavbarPreview layout={layout} logo={logo} links={links} navStyle={navStyle} />
+              <div className={s.pageHint}>
+                <div className={s.pageLineW} />
+                <div className={s.pageLineN} />
+              </div>
+            </div>
+          </div>
           <div className={s.codeTabBar}>
             {CODE_TABS.map(t => (
               <button key={t} className={`${s.codeTab} ${codeTab === t ? s.codeTabActive : ''}`} onClick={() => setCodeTab(t)}>
                 {t}
               </button>
             ))}
+            <button className={`${s.copyBtn} ${copied ? s.copyOk : ''}`} onClick={handleCopy}>
+              {copied ? '✓ Copied' : `⎘ Copy ${codeTab}`}
+            </button>
           </div>
           <div className={s.codeWrap}>
             <pre className={s.code}>{code}</pre>
-          </div>
-          <div className={s.codeFooter}>
-            <span className={s.codeLabel}>{codeTab}</span>
-            <button className={`${s.copyBtn} ${copied ? s.copyOk : ''}`} onClick={handleCopy}>
-              {copied ? '✓ Copied' : '⎘ Copy'}
-            </button>
           </div>
         </div>
       </div>

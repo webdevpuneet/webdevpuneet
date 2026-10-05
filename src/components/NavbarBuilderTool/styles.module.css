@@ -7,15 +7,16 @@
 }
 
 /* ── Header ── */
+/* Title + layout picker at the top of the left config panel: stacked to fit its 300px. */
 .header {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 10px 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 14px;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
   flex-shrink: 0;
-  flex-wrap: wrap;
 }
 
 .logo {
@@ -67,8 +68,6 @@
 .headerHint {
   font-size: 11px;
   color: var(--text-3);
-  margin-left: auto;
-  white-space: nowrap;
 }
 
 /* ── Preview ── */
@@ -86,8 +85,9 @@
   overflow: hidden;
 }
 
+/* Fake page content under the navbar; tall enough to leave 100px+ between the preview and the code tabs. */
 .pageHint {
-  padding: 14px 20px 10px;
+  padding: 14px 20px 70px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -540,10 +540,11 @@
   border-bottom-color: #f97316;
 }
 
+/* Light code area that follows the site theme (surface colours, normal text colour). */
 .codeWrap {
   flex: 1;
   overflow: auto;
-  background: var(--code-bg, #0f172a);
+  background: var(--surface2, #f8fafc);
 }
 
 .code {
@@ -552,28 +553,15 @@
   font-family: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace;
   font-size: 12.5px;
   line-height: 1.65;
-  color: #e2e8f0;
+  color: var(--text, #1e293b);
   white-space: pre;
   tab-size: 2;
 }
 
-.codeFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 14px;
-  border-top: 1px solid var(--border);
-  background: var(--surface);
-  flex-shrink: 0;
-}
-
-.codeLabel {
-  font-size: 11px;
-  color: var(--text-3);
-  font-family: monospace;
-}
-
+/* Copy sits at the right end of the code tab bar. */
 .copyBtn {
+  margin: 4px 10px 4px auto;
+  align-self: center;
   padding: 5px 14px;
   font-size: 12px;
   font-weight: 600;
