@@ -611,3 +611,10 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 - `demos/a1/37/1–9.html`: generated from the builder's own genMarkup/genCSS/genJS (defaults + presets; desktop
   demos use a 560px breakpoint, mobile-menu demos 1024px so both show in the blog column; links rewritten to "#").
   Uploaded straight to `/demos/a1/37/` over FTP — all 9 return 200.
+
+## 2026-10-05 — Navbar Builder cross-links + OG image, deployed
+
+- `/navbar-builder/` OG/Twitter image → `/images/navbar-builder.png` (1200×630, user-supplied).
+- New `NavbarBuilderPromo` call-out. `/ui-snippets/navigation/`: About paragraph, feature, use case, FAQ + promo.
+  Every navigation snippet (101) + `animated-hamburger`: promo under Source Code + one FAQ (also in FAQPage schema).
+  Built output: 103 pages carry the promo. Deployed (tools.zip uploaded; extract by hand).

@@ -17,9 +17,9 @@ const PLAYGROUND_SLUGS = [
 ];
 
 // `blogPosts`: latest posts already fetched on the server (home), handed to the blog strip.
-// `blogFirst`: put the blog strip above this one instead of below it (home).
+// `blogFirst`: blog strip above this one (the default everywhere); false puts it below.
 // `after`: extra strip(s) placed right after this one (home: tools).
-export default function FrontendPlaygroundsStrip({ blogPosts = null, blogFirst = false, after = null }) {
+export default function FrontendPlaygroundsStrip({ blogPosts = null, blogFirst = true, after = null }) {
   const tools = PLAYGROUND_SLUGS
     .map(s => LIVE_TOOLS.find(t => t.slug === s))
     .filter(Boolean);
