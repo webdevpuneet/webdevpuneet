@@ -1,0 +1,408 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  How to Build Accessible Tabs with Vanilla JavaScript
+
+  SEO TITLE (52 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  How to Build Accessible Tabs with Vanilla JavaScript
+
+  SEO DESCRIPTION (150 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  Build accessible tabs in vanilla JavaScript with the WAI-ARIA pattern: 8 live demos on roles, roving tabindex, arrow keys, Home/End and hidden panels.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>A tabbed interface looks like the easiest widget in the entire component catalog: three buttons, three panels, one <code>click</code> listener that toggles a class. That version works perfectly for a mouse. It's also, by itself, unusable for a huge slice of your users &mdash; no keyboard shortcuts beyond plain Tab, no indication to a screen reader that these buttons belong together or that clicking one changes something elsewhere on the page, and inactive content that's still sitting in the tab order even though it's invisible. None of this throws an error. The widget "works" in every manual click-test a sighted mouse user would ever run, which is exactly why so much production code ships with tabs that are functionally broken for keyboard and screen reader users and nobody notices until an audit &mdash; or a real user &mdash; finds it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The 8 demos below are all live and interactive, and each one puts a broken or incomplete version next to a version built to the WAI-ARIA Authoring Practices tabs pattern, so you can watch the actual behavioral difference &mdash; focus movement, keyboard input, what gets logged as "announced" &mdash; rather than just read about it. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> &mdash; webdevpuneet's free in-browser editor &mdash; and if you'd rather start from a blank file and build your own tabs widget alongside these, the <a href="https://webdevpuneet.com/js-playground/">JavaScript Playground</a> is webdevpuneet's in-browser JS sandbox for exactly that.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The ground rules</h2>
+<!-- /wp:heading -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// The minimum shape of an accessible tablist: one active tab is
+// tabbable (tabindex 0), the rest are removed from the Tab order
+// (tabindex -1), and the arrow keys move focus between them.
+function setActiveTab(tabs, panels, newIndex) {
+  tabs.forEach(function (tab, i) {
+    var active = i === newIndex;
+    tab.setAttribute('aria-selected', String(active));
+    tab.tabIndex = active ? 0 : -1;
+    panels[i].hidden = !active;
+  });
+  tabs[newIndex].focus();
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The WAI-ARIA tabs pattern is really four separate commitments, and every demo below is one of them done well or done badly: correct roles (<code>tablist</code>/<code>tab</code>/<code>tabpanel</code>) so assistive tech knows what kind of widget it's looking at, roving tabindex so Tab moves past the whole group in one press instead of stopping on every tab, arrow-key navigation so Left/Right (or Up/Down for a vertical tablist) moves between tabs the way native OS tab controls do, and explicit id associations (<code>aria-controls</code>, <code>aria-labelledby</code>) so a screen reader can state which panel belongs to which tab. None of these four pieces is optional or "nice to have" &mdash; leave any one of them out and the result isn't a slightly worse tablist, it's a different, less predictable widget that happens to look identical to a sighted mouse user. Keep this four-part shape in mind as you go through the demos: roles, roving tabindex, arrow keys, and id associations.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. Plain Divs vs. the WAI-ARIA Tabs Pattern</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click each tab, then check the log below it. It prints the tag name, role, and aria-selected value read straight off the element you just activated.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/27/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Plain Divs vs the WAI-ARIA Tabs Pattern Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// BROKEN: divs with a click handler -- no role, no aria-selected,
+// nothing a screen reader can identify as a tab
+tab.addEventListener('click', function () {
+  tab.classList.add('active');
+});
+
+// FIXED: real roles, real state
+tab.setAttribute('role', 'tab');
+tab.setAttribute('aria-selected', 'true');
+panel.setAttribute('role', 'tabpanel');</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Assistive technology doesn't inspect your CSS classes or your visual layout to figure out what a group of elements is for &mdash; it reads the accessibility tree, a parallel structure the browser builds from HTML semantics and ARIA attributes, and a screen reader narrates from that tree, not from pixels. A <code>&lt;div&gt;</code> with a <code>click</code> listener and a <code>.active</code> class is, to the accessibility tree, just an anonymous, non-interactive chunk of text; nothing marks it as clickable, selectable, or related to the content it toggles. Native <code>&lt;button&gt;</code> elements at least get keyboard-focusability and a generic "button" role for free, but even that isn't enough on its own &mdash; without <code>role="tab"</code>, <code>role="tablist"</code>, <code>role="tabpanel"</code>, and <code>aria-selected</code>, a screen reader has no way to say "tab, 2 of 3, selected" the way it would for a native OS tab control. The roles and the state attribute are what turn a row of buttons into a widget assistive tech actually recognizes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> the very first structural decision on any tabs widget &mdash; get the roles right before adding any keyboard behavior. <strong>Tip:</strong> <code>role="tablist"</code> belongs on the container that wraps the tab buttons, not on each button individually &mdash; mixing this up is a common first mistake.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. Roving Tabindex: Only the Active Tab Should Be Tabbable</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click the first tab to focus it, then press Tab repeatedly and count how many presses it takes to reach the "Continue" link below the panel.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/27/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Roving Tabindex Only the Active Tab Should Be Tabbable Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// BROKEN: every tab button keeps its native default tabindex (0),
+// so Tab stops on all three before it can leave the tablist
+&lt;button role="tab"&gt;Cart&lt;/button&gt;
+&lt;button role="tab"&gt;Shipping&lt;/button&gt;
+
+// FIXED: only the active tab is tabindex 0; the rest are -1
+tabs.forEach(function (t, i) {
+  t.tabIndex = (i === activeIndex) ? 0 : -1;
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Roving tabindex is the single most distinctive keyboard-behavior difference between a real tab widget and a plain row of buttons, and it's easy to miss because the failure looks like extra convenience rather than a bug. Every native <code>&lt;button&gt;</code> is independently tabbable by default, so a tablist built without touching <code>tabindex</code> forces a keyboard user to Tab through every single tab, one at a time, just to get past the tablist entirely &mdash; on a widget with a dozen tabs, that's a dozen wasted keystrokes before reaching the actual page content. The WAI-ARIA pattern instead treats the whole tablist as a single stop in the page's Tab order: only the currently active tab carries <code>tabindex="0"</code>, every other tab is set to <code>tabindex="-1"</code> (focusable programmatically, but skipped by sequential Tab navigation), and moving between tabs is handled separately by the arrow keys in demo 3. This mirrors how native OS-level tab controls, radio button groups, and menus have always behaved &mdash; Tab treats the group as one unit, arrow keys move within it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> every tablist beyond a toy example &mdash; this single difference is what makes a tab widget behave like a tab widget instead of a row of ordinary buttons. <strong>Tip:</strong> roving tabindex needs to be recalculated any time the active tab changes, whether that change came from a click, an arrow key, or &mdash; as demo 8 shows &mdash; a tab being added or removed entirely.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. Arrow Keys Move Between Tabs, Not Tab</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click the first tab to focus it, then press the Right Arrow key twice, then Left Arrow once. Watch the keydown log below each tablist.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/27/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Arrow Keys Move Between Tabs Not Tab Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// FIXED: a keydown handler on the tablist container intercepts
+// the arrow keys and moves focus + selection between tabs
+tablist.addEventListener('keydown', function (e) {
+  if (e.key === 'ArrowRight') {
+    e.preventDefault();
+    activate((currentIndex + 1) % tabs.length);
+  } else if (e.key === 'ArrowLeft') {
+    e.preventDefault();
+    activate((currentIndex - 1 + tabs.length) % tabs.length);
+  }
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Arrow keys have no built-in meaning for a <code>&lt;button&gt;</code> &mdash; the browser doesn't do anything with them by default, so a tablist with no keydown handler simply ignores every arrow key press, which is why the broken column in this demo does nothing at all. The WAI-ARIA Authoring Practices specify arrow-key navigation as a required part of the tabs pattern precisely because it's the interaction every keyboard and screen-reader user expects from a horizontal tablist, learned from years of the exact same behavior in operating-system tab controls, browser tab strips, and settings dialogs. Implementing it means listening for <code>keydown</code> on the tablist container (not on each individual tab), checking <code>e.key</code> against <code>'ArrowLeft'</code>/<code>'ArrowRight'</code> (or <code>'ArrowUp'</code>/<code>'ArrowDown'</code> for a vertical tablist), calling <code>preventDefault()</code> so the key doesn't also scroll the page, and wrapping the index calculation with modulo arithmetic so arrowing past the last tab loops back to the first &mdash; exactly the way a real OS tab strip behaves.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any horizontal or vertical group of tabs &mdash; this is not an enhancement, the ARIA spec treats it as baseline required behavior. <strong>Tip:</strong> attach the keydown listener once, on the tablist container, rather than duplicating it on every individual tab button &mdash; it's less code and it naturally handles tabs added later, which matters for demo 8.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. Home and End Jump to First and Last Tab</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Tue" (the middle tab) to focus it, then press End, then Home. A tablist with many tabs should let a keyboard user reach either end in a single press.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/27/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Home and End Jump to First and Last Tab Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>tablist.addEventListener('keydown', function (e) {
+  if (e.key === 'Home') {
+    e.preventDefault();
+    activate(0);
+  } else if (e.key === 'End') {
+    e.preventDefault();
+    activate(tabs.length - 1);
+  }
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Arrow keys alone scale badly the moment a tablist has more than a handful of tabs &mdash; reaching the last tab in a list of twelve by pressing Right eleven times is technically possible and practically painful, which is exactly the gap <code>Home</code> and <code>End</code> exist to close. The WAI-ARIA Authoring Practices list them as optional-but-recommended for tabs (they're required for some related widgets, like listboxes and trees), and in practice any tablist that can realistically grow past three or four items should implement them, because the cost is a few extra lines in the same keydown handler already built for arrow keys. The behavior is deliberately simple &mdash; <code>Home</code> activates index 0, <code>End</code> activates the last index &mdash; but it has an outsized effect on how usable a wide tablist feels to someone who isn't using a mouse, especially in interfaces like settings pages or dashboards where tab counts tend to grow over a product's lifetime.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> tablists with more than three or four tabs, or any tablist whose tab count is expected to grow over time. <strong>Tip:</strong> Home/End and Left/Right should share the same underlying "activate(index)" function, as shown here &mdash; duplicating the activation logic per key is how these two behaviors quietly drift out of sync with each other.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Manual vs. Automatic Tab Activation</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Focus the first tab in each tablist below, then press ArrowRight twice without pressing Enter. Watch when the panel content actually changes in each column.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/27/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Manual vs Automatic Tab Activation Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// AUTOMATIC: focus and selection move together
+function activate(idx) { moveFocus(idx); selectPanel(idx); }
+
+// MANUAL: arrow keys only move focus; Enter/Space commits the selection
+function onArrowKey(idx) { moveFocus(idx); }
+function onEnterOrSpace(idx) { selectPanel(idx); }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The WAI-ARIA Authoring Practices explicitly define two valid activation models, and the choice between them is a real design decision, not a bug either way. Automatic activation &mdash; what the other demos in this post use &mdash; switches the visible panel the instant focus moves to a new tab, so arrowing through the tablist immediately shows each panel's content; it's simple and it's the default most implementations reach for. Manual activation decouples the two: arrow keys move focus between tabs and update which tab is visually highlighted as focused, but the panel doesn't switch until the user explicitly presses <code>Enter</code> or <code>Space</code> to commit that selection. The ARIA spec recommends manual activation specifically when switching panels is expensive or disruptive &mdash; a panel that triggers a network request, re-renders a large chart, or shifts focus unexpectedly &mdash; because automatic activation in that situation would fire that expensive operation on every single arrow-key press as someone merely browses past a tab, not just when they mean to select it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> automatic activation for simple, cheap-to-render panels (the common case); manual activation specifically when moving focus off a tab shouldn't also trigger a costly or disruptive panel change. <strong>Tip:</strong> if you choose manual activation, the visual distinction between "focused" and "selected" needs to be genuinely different (the demo above uses a focus ring versus an underline) &mdash; without it, users can't tell which tab they're about to commit to.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. Forgetting "hidden" on Inactive Panels</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click the first tab, then press Tab repeatedly. Watch whether focus ever lands on a link that belongs to an invisible, inactive panel.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/27/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Forgetting hidden on Inactive Panels Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// BROKEN: visually hidden with CSS only -- still in the DOM,
+// still focusable, still in the accessibility tree
+.panel.inactive { height: 0; overflow: hidden; opacity: 0; }
+
+// FIXED: the native hidden attribute removes it from rendering,
+// the tab order, AND the accessibility tree in one step
+panel.hidden = true;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Making an element invisible and making it inaccessible are not the same operation, and this demo is where that distinction has real consequences. CSS techniques like <code>height: 0; overflow: hidden</code> or <code>opacity: 0</code> remove a panel from what a sighted user sees, but they do nothing to its place in the DOM or the accessibility tree &mdash; any focusable element inside that panel, like a link or a form field, is still perfectly reachable by pressing Tab, and a screen reader will still read its content when focus lands there, because as far as the browser's accessibility APIs are concerned, nothing about that content's exposure has changed. A keyboard user tabbing through the page hits a link that isn't visible anywhere on screen, with no indication of why, which is disorienting in the mildest case and completely blocking in the worst. The native <code>hidden</code> attribute (or setting <code>element.hidden = true</code> from JavaScript) is different in kind, not just degree &mdash; it removes the element from layout, from the Tab order, and from the accessibility tree simultaneously, which is exactly the combination an inactive tab panel needs.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> every inactive tab panel, without exception &mdash; this should be a default reflex, not something added after an audit flags it. <strong>Tip:</strong> <code>display: none</code> achieves the same accessibility result as the <code>hidden</code> attribute (they're functionally equivalent for this purpose) &mdash; the failure mode is specifically any technique that hides visually without also removing the element from layout.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. Associating Tabs and Panels with aria-controls and aria-labelledby</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click each tab and check the "what a screen reader announces" log. It's built directly from each panel's actual aria-labelledby/id wiring &mdash; the same relationship a screen reader would read.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/27/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Associating Tabs and Panels with aria-controls and aria-labelledby Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// FIXED: each tab points forward to its panel, and each panel
+// points back to the tab that labels it
+tab.id = 'tab-monthly';
+tab.setAttribute('aria-controls', 'panel-monthly');
+panel.id = 'panel-monthly';
+panel.setAttribute('aria-labelledby', 'tab-monthly');</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Getting the roles right (demo 1) tells assistive tech "this is a tab" and "this is a tabpanel," but roles alone don't say which tab goes with which panel &mdash; that relationship has to be spelled out explicitly with matching <code>id</code> pairs, because DOM proximity or visual layout isn't something the accessibility tree infers on its own. <code>aria-controls</code> on the tab points forward to the <code>id</code> of the panel it reveals, which some assistive technologies use to describe the relationship when the tab receives focus. <code>aria-labelledby</code> on the panel points back to the <code>id</code> of the tab that names it, which is the half that matters most in practice &mdash; it's what lets a screen reader announce a freshly revealed panel as "Monthly, tab panel" rather than reading its content with no label at all, leaving the user to guess which tab they just activated purely from context. Without this pairing, a screen reader user who jumps directly into panel content (rather than arriving there by way of the tab) gets an anonymous region with no indication of what selected it or why.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> every tab/panel pair without exception &mdash; this is a small amount of markup with an outsized effect on how a screen reader announces the panel change. <strong>Tip:</strong> generate the paired ids programmatically from a shared base (like <code>'tab-' + key</code> and <code>'panel-' + key</code>) rather than hand-writing each one &mdash; it's the easiest way to guarantee the pairing never drifts out of sync as tabs are added or reordered.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. Dynamically Added and Removed Tabs</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Add tab" twice, then "Remove active tab" once. Watch the log for how many tabs currently have tabindex="0" &mdash; it should always be exactly one.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/27/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Dynamically Added and Removed Tabs Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// FIXED: tabindex is recalculated for ALL tabs on every render,
+// not just assigned once when a tab is first created
+function render() {
+  tabs.forEach(function (tab, i) {
+    tab.tabIndex = (i === activeIndex) ? 0 : -1;
+  });
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Every demo up to this point assumes a fixed set of tabs, but real tab widgets &mdash; browser-style tab strips, editor panes, multi-step forms with skippable steps &mdash; routinely add and remove tabs at runtime, and roving tabindex is exactly the kind of state that's easy to set up correctly once and then quietly break the first time the tab count changes. A newly created tab button typically defaults to whatever tabindex its markup was given, and if that's <code>0</code> &mdash; a very easy default to reach for since it "just works" for a single new tab in isolation &mdash; it now sits alongside whichever tab was already marked <code>tabindex="0"</code>, leaving two (or more) simultaneously tabbable tabs and an ambiguous entry point into the tablist. Removing the active tab has the mirror-image failure: if nothing explicitly picks a new active tab and recalculates tabindex afterward, no tab may end up with <code>tabindex="0"</code> at all, and the entire tablist silently drops out of the page's Tab order. The fix is treating roving tabindex as derived state, recalculated from scratch across every tab whenever the tab list itself changes, rather than as something assigned once at creation time and left alone.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any tablist where tabs can be added, removed, or reordered after initial render &mdash; browser-style tab strips and multi-step wizards are the classic cases. <strong>Tip:</strong> centralize tab creation and removal through a single render function, as shown here, rather than patching individual tab elements in place &mdash; it's much harder for the tabindex bookkeeping to drift when there's exactly one code path that assigns it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Common pitfalls</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Building tabs from unstyled divs with only a click handler.</strong> Demo 1's failure is the root of almost everything else in this post &mdash; without real roles, none of the later fixes have anything correct to build on.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Leaving every tab at its native tabindex.</strong> Demo 2's roving tabindex is what separates a tab widget from a row of ordinary buttons for keyboard users, and it's invisible in a quick mouse-only test.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Hiding inactive panels with CSS alone.</strong> Demo 6's opacity/height trick leaves focusable content reachable and announced even though nobody can see it.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Skipping the id pairing between tabs and panels.</strong> Demo 7's <code>aria-controls</code>/<code>aria-labelledby</code> wiring is what turns "an unlabeled region appeared" into "Monthly, tab panel."</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Treating roving tabindex as a one-time setup step.</strong> Demo 8 shows it has to be recalculated every time the tab list itself changes, not just assigned once when tabs are first created.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>A panel with nothing focusable inside it.</strong> If a tab panel holds only text, pressing Tab from the tablist skips straight past it, so a keyboard user never lands on the content they just opened. The WAI-ARIA pattern's answer is <code>tabindex="0"</code> on the <code>tabpanel</code> itself whenever its first piece of content isn't focusable.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Should I use tabs or an accordion for this content?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Tabs are the right choice when exactly one panel is ever visible at a time and switching between panels is a deliberate, discrete action &mdash; settings sections, pricing plans, code language switchers. An accordion is the better fit when panels can be open independently, more than one might be expanded at once, or the content reads naturally as a vertically stacked list rather than parallel views of "the same slot." A common tell: if users regularly want to compare two panels' content at a glance, neither pattern is quite right and you may want both panels visible simultaneously instead.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Does every tab panel need to exist in the DOM at all times?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>For most tab widgets, yes &mdash; keeping all panels in the DOM and toggling <code>hidden</code> (as in demo 6) is simpler, avoids layout shift, and keeps the id associations from demo 7 stable. The exception is genuinely heavy content &mdash; a panel that embeds a video player, a large data table, or a third-party widget &mdash; where mounting and unmounting the panel's contents on activation is worth the added complexity to avoid paying that cost for panels nobody has opened yet. If you do mount lazily, make sure the panel's <code>role="tabpanel"</code>, <code>id</code>, and <code>aria-labelledby</code> are all present the moment its content exists, not added in a later pass.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Is testing with just a keyboard enough, or do I need a real screen reader?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Keyboard-only testing (unplug the mouse, navigate with Tab, arrows, Home/End, Enter, and Escape) catches everything demonstrated in demos 2 through 5 &mdash; focus order, roving tabindex, and activation behavior are all things you can verify purely by watching where the visible focus ring goes. It does not catch demo 6 or demo 7's failures, because those are about what gets announced, not where focus lands &mdash; a hidden-but-focusable link and a correctly focusable-but-unlabeled panel both look completely fine in a keyboard-only pass. Running at least a quick check with a real screen reader (NVDA and VoiceOver are both free) is the only reliable way to confirm the announcement side of the pattern, not just the navigation side.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Do tabs need different handling on mobile or touch devices?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The core ARIA structure &mdash; roles, aria-selected, aria-controls/aria-labelledby &mdash; is exactly as necessary on mobile, since touch users of screen readers like VoiceOver on iOS or TalkBack on Android rely on the same accessibility tree this post has been building all along. What changes is the keyboard-specific behavior: arrow keys, Home/End, and roving tabindex are meaningless without a physical or on-screen keyboard focus, so a touch user swiping between screen-reader-announced elements depends entirely on correct roles and labels rather than on demos 2 through 4's keyboard logic. Tap targets should also be sized generously (44px is a commonly cited minimum) since touch lacks a mouse's precision, but that's a general touch-target concern, not something specific to the tabs pattern itself.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What happens if I only fix some of the four ground rules and not all of them?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You get a widget that's partially accessible in a way that can be more confusing than doing nothing at all. Correct roles with no keyboard handling (skipping demos 2 through 4) announces something as a tablist and then fails to behave like one the moment a keyboard user tries to interact with it, which reads as broken rather than merely unfinished. Correct keyboard handling with missing id associations (skipping demo 7) lets a keyboard user navigate the tabs fine but leaves a screen reader user unable to tell which tab produced the content they're now reading. All four pieces working together is what actually produces the expected experience &mdash; partial credit doesn't translate to partial usability here.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The fastest way to internalize all of this is to open demo 8 &mdash; the dynamic tabs &mdash; with <strong>Fork &amp; Edit</strong>, and add a third and fourth tab manually by calling the "Add tab" button several times in a row while watching the tabindex count in the log. Then remove tabs from the middle instead of the end and watch how the fixed version keeps recalculating correctly while the broken version's tabindex count drifts. Once you've got a version you're happy with, save it to <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop into a real project.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/js-playground/">JavaScript Playground</a> &mdash; webdevpuneet's full in-browser JavaScript sandbox &mdash; and rebuild demo 5's manual-activation logic as a vertical tablist using ArrowUp/ArrowDown instead of ArrowLeft/ArrowRight, to prove to yourself the pattern generalizes beyond the horizontal case. Typing it out yourself, not just reading it, is what makes it stick. For more tutorials like this one, browse the <a href="https://webdevpuneet.com/blog/category/javascript/">JavaScript</a> category on the blog.</p>
+<!-- /wp:paragraph -->

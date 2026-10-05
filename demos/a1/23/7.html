@@ -78,7 +78,7 @@ https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.developmen
         e(Counter, { label: 'Plain' }),
         e(React.StrictMode, null, e(Counter, { label: 'Inside StrictMode' }))
       ),
-      e('p', { className: 'note' }, 'In development, StrictMode intentionally renders (and mounts/unmounts) components twice to surface impure render logic — that extra render count jump is expected and disappears in a production build. It stays flat after that; if a counter keeps climbing on its own with no clicks, that’s a real bug, not StrictMode.')
+      e('p', { className: 'note' }, 'In development, StrictMode calls the component twice on every render (and mounts, unmounts and remounts it once) to surface impure render logic, so its counter rises by 2 per click instead of 1. That doubling is expected and disappears in a production build. What StrictMode never does is make a counter climb on its own with no clicks: that is a real bug.')
     );
   }
 

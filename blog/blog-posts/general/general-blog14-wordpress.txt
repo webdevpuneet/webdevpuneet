@@ -1,0 +1,387 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  React useRef Explained: 8 Practical Uses Beyond the DOM
+
+  SEO TITLE (55 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  React useRef Explained: 8 Practical Uses Beyond the DOM
+
+  SEO DESCRIPTION (155 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  React useRef explained with 8 live demos: focus, values that don't re-render, previous values, stale closures, uncontrolled inputs, click-outside and more.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>Most useRef tutorials stop at one example &mdash; focusing an input &mdash; and leave the impression that <code>useRef</code> is just "the DOM access hook." That's true of maybe a third of what it's actually for. The real idea behind <code>useRef</code> is simpler and more general: it gives a component a box that <strong>survives re-renders but never causes one</strong>. Sometimes that box holds a DOM node. Just as often it holds an interval ID, a previous value, a render count, or a method you want a parent to call directly. Once that distinction is clear, a whole category of "how do I do X in React" questions turns out to have the same one-line answer.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The 8 demos below are all real, running React &mdash; drag a slider, start a ticker, click outside a menu &mdash; so you can watch each use of <code>useRef</code> actually behave instead of reading about it secondhand.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> &mdash; webdevpuneet's free in-browser editor. One note on the code you'll see: these demos skip a build step, so the live JS uses <code>React.createElement</code> directly instead of JSX &mdash; the logic is identical to the JSX version you'd actually write, just without a compiler in between.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The one-sentence rule</h2>
+<!-- /wp:heading -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const ref = useRef(initialValue);
+
+ref.current;              // read or write it any time &mdash; never triggers a render
+// compare: setState(next) always schedules a render</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>useRef(initialValue)</code> returns one plain object, <code>{ current: initialValue }</code>, and that same object is handed back on every render of the component &mdash; React never replaces it, never diffs it, never re-renders anything because you changed <code>.current</code>. That's the entire mechanism. Everything below is just a different reason to want a box with that one property.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. Focusing a Real DOM Node</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click the button &mdash; it calls a real DOM method, <code>.focus()</code>, on the actual input element. No state, no re-render.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/13/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Focusing a Real DOM Node Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const inputRef = useRef(null);
+
+// on the element: ref={inputRef}
+inputRef.current.focus();</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is the canonical use, and worth understanding precisely before the rest: passing a ref as an element's <code>ref</code> prop tells React "once you've created the real DOM node for this element, put it in <code>ref.current</code>." After the component mounts, <code>inputRef.current</code> <em>is</em> the actual <code>&lt;input&gt;</code> element sitting in the page &mdash; the same object <code>document.querySelector</code> would return &mdash; so any real DOM method (<code>.focus()</code>, <code>.scrollIntoView()</code>, <code>.click()</code>) works on it directly.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> focus management, scrolling an element into view, reading a canvas or video element to call its native API. <strong>Tip:</strong> <code>ref.current</code> is <code>null</code> until after the first render commits &mdash; never read it during the render itself, only inside event handlers or effects.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. A Value That Doesn't Trigger a Re-render</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Both counters go up on every click. Only one of them makes the paragraph below actually update on screen.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/13/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="State vs Ref Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const [stateClicks, setStateClicks] = useState(0);
+const refClicks = useRef(0);
+
+setStateClicks(stateClicks + 1);   // schedules a re-render
+refClicks.current += 1;            // does not</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is the demo that makes the core distinction impossible to unsee: the ref's number is genuinely changing, every single click, exactly like the state's number &mdash; you can prove it by forcing an unrelated re-render and watching the box update to the correct value it had all along. It just never <em>causes</em> a render on its own, so the screen only catches up once something else asks React to re-render.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> a value the UI never needs to reflect live &mdash; a click counter feeding an analytics batch that flushes every 10 seconds, a flag checked only inside an event handler. <strong>Tip:</strong> if you catch yourself reading <code>ref.current</code> to decide what to render, that's a sign it should be state instead &mdash; refs are for values only imperative code ever needs to see.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. Remembering the Previous Value</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Drag the slider. The "previous" value is always one render behind &mdash; a ref updated inside an effect, after the render it's shown in.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/13/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="usePrevious Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() =&gt; { ref.current = value; });
+  return ref.current;
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The ordering here is the entire trick. During a given render, <code>ref.current</code> still holds whatever was stored on the <em>previous</em> render &mdash; the effect that updates it to the new value only runs <em>after</em> the DOM has committed, which is too late to affect the render that just happened. So the hook hands back "the value as of last time" precisely because writing the new value is deliberately deferred past the point where it could overwrite what this render needed to read.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> comparing a prop or state value against what it was last render &mdash; detecting a transition (was closed, now open), animating based on direction of change, or logging "changed from X to Y." <strong>Tip:</strong> this exact 4-line hook is one of the most commonly hand-rolled utilities in React codebases &mdash; worth recognizing on sight in a codebase you didn't write.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. Fixing a Stale Closure in setInterval</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Start the ticker, then flip the mode a few times before it logs. The "stale" side reports whatever mode was active when the interval was created; the "fixed" side always reports the mode right now.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/13/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Stale Closure Fix Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const modeRef = useRef(mode);
+useEffect(() =&gt; { modeRef.current = mode; }, [mode]);
+
+useEffect(() =&gt; {
+  const id = setInterval(() =&gt; {
+    console.log(modeRef.current);   // always current
+  }, 1200);
+  return () =&gt; clearInterval(id);
+}, []);   // intentionally not re-created when mode changes</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The interval is set up once and deliberately not recreated on every <code>mode</code> change &mdash; recreating it would reset the timer's own clock every time. But that means its callback's own closure only ever sees the <code>mode</code> value from the render when it was created &mdash; a real, common bug, not a contrived one. The fix isn't to add <code>mode</code> back to the dependency array; it's to give the callback a ref it can read fresh every tick, updated by a <em>separate</em> effect that's allowed to re-run as often as <code>mode</code> changes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any long-lived callback &mdash; an interval, a WebSocket message handler, an IntersectionObserver callback &mdash; that needs to act on the latest value of something without being torn down and rebuilt every time that value changes. <strong>Tip:</strong> this pattern has a name, "the latest ref pattern," and it's worth building once as a small <code>useLatest(value)</code> hook rather than re-deriving it inline every time you hit this bug.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Uncontrolled Input &mdash; Read Once, Not on Every Keystroke</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Type in either field. The left one re-renders on every keystroke (watch the counter); the right one only reads its value when you click Submit.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/13/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Controlled vs Uncontrolled Input Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const inputRef = useRef(null);
+// on the element: ref={inputRef} defaultValue=""
+
+function handleSubmit() {
+  console.log(inputRef.current.value);   // read once, on demand
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>A controlled input (<code>value</code> + <code>onChange</code>) re-renders the component on every keystroke, because React has to own the value to keep it in sync &mdash; for most fields that cost is invisible, but it's a real cost. An uncontrolled input just lets the browser's own DOM hold the value the whole time, the same as plain HTML always has, and a ref is only used to reach in and read <code>.value</code> the one moment it's actually needed. Fewer renders, less code, at the price of not knowing the live value until you ask for it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> a field whose value only matters on submit &mdash; a search box, a one-shot form field, any input where you don't need to validate or mirror the value as the user types. <strong>Tip:</strong> the moment you need live validation, a character counter, or to disable a button based on the current text, that's the signal to switch that specific field back to controlled &mdash; the two approaches mix fine within one form.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. Imperative Scrolling and Measuring</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The buttons call real DOM methods on the scroll container through a ref &mdash; nothing here is tracked in state, so scrolling itself never triggers a React re-render.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/13/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Imperative Scrolling Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const boxRef = useRef(null);
+
+boxRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+boxRef.current.scrollTop;         // read the current position, on demand
+boxRef.current.scrollHeight;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Scroll position is a textbook case for a ref rather than state: it changes dozens of times a second while a user drags or flicks, and almost nothing about a typical UI needs to re-render on every one of those changes. This demo never listens for a <code>scroll</code> event at all &mdash; it just reaches into the DOM node on demand, either to command it (<code>scrollTo</code>) or to read its current numbers (<code>scrollTop</code>, <code>scrollHeight</code>), exactly when a button click asks for it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> scroll-to-top buttons, "jump to section" navigation, infinite-scroll boundary checks triggered from a throttled listener rather than every frame. <strong>Tip:</strong> if you do need to react continuously to scroll position (a progress bar, a parallax effect), attach a real <code>scroll</code> event listener in an effect and throttle it &mdash; don't try to poll a ref on a timer instead.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. Click-Outside Detection with a Ref</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Open the menu, then click anywhere outside it. A ref on the menu's own DOM node is how the outside-click check knows what "outside" even means.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/13/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Click Outside Detection Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const wrapRef = useRef(null);
+
+useEffect(() =&gt; {
+  function onPointerDown(e) {
+    if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false);
+  }
+  document.addEventListener('pointerdown', onPointerDown);
+  return () =&gt; document.removeEventListener('pointerdown', onPointerDown);
+}, [open]);</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The check itself is a single native DOM method, <code>.contains()</code> &mdash; "is the thing that was clicked inside this element?" &mdash; and a ref is what makes that element reachable from a document-level listener in the first place. The listener is only attached while the menu is actually open (the effect returns early otherwise), and it's cleaned up the moment the menu closes or the component unmounts, so an already-closed menu never keeps a stray global listener running.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> dropdowns, popovers, custom select menus, any small floating panel that should dismiss itself the instant focus moves elsewhere. <strong>Tip:</strong> listen on <code>pointerdown</code> rather than <code>click</code> &mdash; it fires before focus moves, which avoids a class of bugs where clicking a different focusable element both closes the menu and immediately reopens something else in the same interaction.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. Exposing an Imperative API with useImperativeHandle</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The parent's buttons never touch a DOM node directly &mdash; they call <code>.focus()</code> and <code>.clear()</code>, two methods the child component chose to expose on its own ref.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/13/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="useImperativeHandle Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const FancyInput = forwardRef((props, ref) =&gt; {
+  const innerRef = useRef(null);
+  useImperativeHandle(ref, () =&gt; ({
+    focus: () =&gt; innerRef.current.focus(),
+    clear: () =&gt; { innerRef.current.value = ''; innerRef.current.focus(); }
+  }));
+  return &lt;input ref={innerRef} /&gt;;
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is the one entry on this list where a component deliberately does <em>not</em> hand over its raw DOM node to whoever holds its ref. <code>forwardRef</code> lets a component accept a <code>ref</code> from its parent at all (in React 19 a function component can simply take <code>ref</code> as a normal prop, so <code>forwardRef</code> is optional there &mdash; this demo uses it because it runs on React 18 from a CDN), and <code>useImperativeHandle</code> replaces what that ref actually points to &mdash; instead of the real <code>&lt;input&gt;</code> element, the parent's <code>fancyRef.current</code> becomes the small object returned here, with exactly the two methods the child decided to expose. The parent can call <code>.clear()</code>; it can't reach in and read <code>.value</code> directly, because that was never part of the API the child chose to publish.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> a reusable component (a custom input, a modal, a video player wrapper) that needs to offer a few specific imperative actions to its parent without exposing its entire internal DOM structure. <strong>Tip:</strong> reach for this only when a prop genuinely can't express the interaction &mdash; most "imperative-seeming" needs (open/closed state, current value) are still better modeled as a prop and a callback than as a ref method.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Common pitfalls</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Reading <code>ref.current</code> during render to decide what to show.</strong> Refs don't trigger re-renders, so a UI that depends on a ref's value can silently go stale &mdash; demo #2 shows exactly this gap. If a value needs to affect what's on screen, it belongs in state.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Mutating <code>ref.current</code> and expecting the screen to update on its own.</strong> Nothing is wrong with the mutation itself &mdash; the screen just won't reflect it until some other state change forces a re-render, as demo #2's "force a re-render" button demonstrates.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Recreating an interval or listener every time a dependency changes, just to avoid a stale closure.</strong> Demo #4 shows the better fix: keep the effect's own lifecycle stable and give its callback a ref it can read fresh, instead of tearing down and rebuilding the whole subscription.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Attaching a click-outside listener that's never removed.</strong> Demo #7's effect only exists while <code>open</code> is true and always returns a cleanup function &mdash; skipping either half leaks a document-level listener per mount.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Reaching for <code>useImperativeHandle</code> when a prop would do.</strong> It's the right tool for demo #8's <code>.focus()</code>/<code>.clear()</code> case specifically because there's no natural prop for "do this now" &mdash; most component APIs are better served by props and callbacks than by ref methods.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Does changing ref.current ever cause a re-render?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>No, never, by design &mdash; that's the one property that defines what a ref is. Demo #2 proves it directly: the ref's number changes every click exactly like the state's number does, but the screen only updates once something else (state) triggers a render.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">When should I use useRef instead of useState?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>When the value needs to persist across renders but the UI never needs to visually reflect it changing &mdash; a DOM node reference, an interval ID, a previous value for comparison, a render counter. The moment you need the screen to update when the value changes, it needs to be state, not a ref.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Why is ref.current null on the first render?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Because the DOM node it will eventually point to doesn't exist yet until after React commits the render to the actual page. Reading a DOM ref's <code>.current</code> only makes sense inside an effect or an event handler, both of which run after that commit &mdash; never read it in the middle of a render function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What's the difference between useRef and createRef?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><code>useRef</code> is the hook, for use inside function components &mdash; it returns the exact same ref object on every render of that component instance. <code>createRef</code> predates hooks and creates a brand-new ref object every time it's called, which makes it unsuitable for use inside a function component's body (it would reset every render); it's still occasionally used in class components, where <code>useRef</code> isn't available at all.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Can a ref hold something other than a DOM node?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes &mdash; a ref is just a mutable box; nothing about it is DOM-specific. Demos #2 through #4 store a plain number, a previous value, or the latest mode for an interval &mdash; nothing DOM-related at all. Demos #1, #5, #6 and #7 put a DOM node inside one via the <code>ref</code> prop on an element, and demo #8 does too, hidden inside the child component.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to actually internalize these is to click <strong>Fork &amp; Edit</strong> on demo #4 &mdash; the stale closure one &mdash; delete the <code>modeRef</code> fix, and watch the "fixed" column start reporting stale values too. Once you've got a version you like, save it to <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or reuse in a real project.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Want to go deeper than a single embed? The <a href="https://webdevpuneet.com/react-playground/">React Playground</a> is webdevpuneet's full in-browser React sandbox &mdash; a real editor with instant preview, built for exactly this kind of edit-and-see learning, without the eight-tab constraint of a blog post.</p>
+<!-- /wp:paragraph -->

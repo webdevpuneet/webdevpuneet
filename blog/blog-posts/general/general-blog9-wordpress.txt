@@ -1,0 +1,525 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  HTML <input> Types You Should Actually Use in Modern Forms
+
+  SEO TITLE (58 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  HTML Input Types You Should Use in Modern Forms (14 Demos)
+
+  SEO DESCRIPTION (154 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  14 HTML input types with live demos: email, tel, url, number, range, date, time, color, file and more — plus when inputmode="numeric" beats type="number".
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>Most forms on the web still use <code>type="text"</code> for everything &mdash; email, phone, dates, even six-digit codes &mdash; and then rebuild, in JavaScript, behavior the browser already gives away for free. HTML has shipped more than a dozen specialized input types for years: the right one swaps in the correct on-screen keyboard on mobile, opens a native picker instead of a custom widget, and checks its own format before your code ever runs. Reaching for the specific type instead of the generic one is one of the highest-leverage, lowest-effort upgrades a form can get.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The demos below are all real, interactive fields &mdash; type into them, drag them, open their pickers. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://webdevpuneet.com/ui-snippets/mycode/" target="_blank" rel="noopener">My Code</a> &mdash; webdevpuneet's free in-browser editor. Swap a <code>type</code>, change a <code>min</code>, and watch what the browser does differently &mdash; that's a faster way to build real intuition than any explanation.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>If input types and form structure in general are still shaky ground, the <a href="https://webdevpuneet.com/html-playground/" target="_blank" rel="noopener">HTML Playground</a> is worth having open alongside this post &mdash; a free, click-based, in-browser course that runs beginner to pro across 42 lessons in 13 chapters, with a dedicated Forms chapter covering exactly this ground as a guided curriculum.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Why the specific type is worth the extra five characters</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Changing <code>type="text"</code> to <code>type="email"</code> costs nothing &mdash; it's the same number of attributes, often fewer. What it buys back, on every device and in every browser, without a line of script: the correct mobile keyboard layout, built-in format checking on submit, and in several cases (dates, times, colors, files) an entire native picker UI that would otherwise be a whole component to design, build, test, and maintain. Every demo in this post is doing something a plain <code>type="text"</code> field either can't do at all, or can only do by re-implementing what the browser already ships.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. type="email"</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>On a phone this opens a keyboard with @ and . on the main layer. Type an address without an @ and submit &mdash; the browser blocks it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/08/1.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="type=email Input Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input type="email" required&gt;
+&lt;input type="email" multiple&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Beyond the mobile keyboard and the built-in "is this shaped like an address" check, few developers know about the <code>multiple</code> attribute: add it, and a single email field accepts a comma-separated list, validating <em>each</em> address in it independently &mdash; useful for a "notify these people" field without building a tag-input component.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any email address field, full stop. <strong>Tip:</strong> <code>type="email"</code> checks shape, not existence &mdash; it happily accepts <code>a@b.co</code> even though that domain may not exist. Confirming a real, reachable inbox still needs a verification email sent server-side.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. type="tel"</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>On a phone this opens the numeric phone keypad, not the full alphabet keyboard.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/08/2.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="type=tel Input Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input type="tel" pattern="[0-9\-\+\s\(\)]{7,}"&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>tel</code> is the one common input type with zero built-in format checking &mdash; deliberately, since valid phone number shapes vary enormously by country (spaces, dashes, parentheses, leading <code>+</code> codes all differ). The keyboard swap alone is worth using it; add your own <code>pattern</code> on top if the form needs actual format enforcement.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any phone number field. <strong>Tip:</strong> don't reach for <code>type="number"</code> here even though phone numbers are digits &mdash; number fields treat the value as a number (so a leading <code>0</code> is lost the moment anything reads it numerically) and reject the <code>+</code>, dashes, and spaces real phone numbers actually contain.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. type="url"</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Type "example" with no protocol and submit &mdash; the browser blocks it. Type "https://example.com" and it passes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/08/3.html" style="width:100%;height:380px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="type=url Input Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input type="url" placeholder="https://…"&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>A URL needs a scheme (<code>https://</code>, typically) to be considered valid &mdash; a bare domain-looking string like <code>example.com</code> fails the built-in check even though a human would read it as a website. That's worth surfacing to the visitor via the placeholder, since it's the single most common reason this field rejects an otherwise-reasonable-looking answer.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> portfolio links, company websites, any single-URL field. <strong>Tip:</strong> on mobile this also swaps in a keyboard with <code>/</code> and <code>.com</code> shortcuts, which <code>type="text"</code> never does.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. type="number"</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Use the spinner arrows or type directly &mdash; the value can't go below 1 or above 10.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/08/4.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="type=number Input Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input type="number" min="1" max="10" step="1"&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>min</code>, <code>max</code>, and <code>step</code> constrain the spinner and what the browser will submit, and <code>:in-range</code>/<code>:out-of-range</code> in CSS can style either state with no script. But this type has a real downside worth knowing before reaching for it by default: the value is a number, so a leading zero doesn't survive being treated as one (press the spinner on <code>007</code> and you get <code>8</code>; read <code>valueAsNumber</code> and you get <code>7</code>), it won't take the <code>+</code>, spaces or dashes a phone number needs, and it accepts scientific notation like <code>1e3</code> as a valid number. None of that is a bug &mdash; it's the type doing exactly what "this is a number" implies.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> genuine arithmetic quantities &mdash; cart quantity, age, a rating out of 10. <strong>Tip:</strong> if the value is never actually going to be added, subtracted, or compared numerically &mdash; a phone number, a zip code, a six-digit code &mdash; it isn't really a number, and demo #14 below shows the better alternative.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. type="range"</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Drag the slider &mdash; it snaps to the tick marks.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/08/5.html" style="width:100%;height:380px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="type=range Input Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input type="range" min="0" max="100" step="25" list="ticks"&gt;
+&lt;datalist id="ticks"&gt;
+  &lt;option value="0"&gt;&lt;/option&gt;
+  &lt;option value="25"&gt;&lt;/option&gt;
+  &lt;option value="50"&gt;&lt;/option&gt;
+&lt;/datalist&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Most developers who use <code>range</code> never discover it can pair with a <code>&lt;datalist&gt;</code> the same way a text input's autocomplete list does &mdash; the browser renders literal tick marks at each listed value and the thumb snaps toward them. The current numeric value itself isn't shown anywhere by default; this demo's live readout above the slider is a few lines of script reading <code>input.value</code> on the <code>input</code> event, which is the standard pattern for surfacing it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> volume, brightness, a price-range filter &mdash; any single value where the relative position matters more than typing an exact number. <strong>Tip:</strong> a range slider alone gives no visible number; always pair it with a live readout, or visitors are dragging blind.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. type="search"</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Type something, then look at the right edge of the field.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/08/6.html" style="width:100%;height:340px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="type=search Input Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input type="search" placeholder="Search…"&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Most browsers render a built-in "clear" (×) button inside a search field the instant it has text &mdash; a plain <code>type="text"</code> field never gets this, and reimplementing it means an absolutely positioned button, a click handler, and manual focus management. <code>type="search"</code> also communicates the field's purpose to assistive technology directly, which a generic text input paired with a magnifying-glass icon alone does not.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any search box &mdash; site search, in-page filtering, a command palette's input. <strong>Tip:</strong> exact clear-button styling varies by browser and can't be customized with CSS; if pixel-perfect control over that × matters more than the free functionality, build your own clear button and accept the type purely for its semantics and keyboard behavior.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. type="date"</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click the field to open the browser's own native date picker.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/08/7.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="type=date Input Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input type="date" min="2024-01-01" max="2030-12-31"&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The picker's on-screen appearance follows the visitor's OS and locale settings, but the underlying value is always a locale-independent <code>YYYY-MM-DD</code> string &mdash; parse it with <code>new Date(value + 'T00:00:00')</code> rather than passing the raw string to <code>Date</code>, since JavaScript parses a bare date-only ISO string as UTC midnight (that's in the spec) and it shows up as the previous day in any timezone behind UTC.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> birthdates, booking dates, deadlines &mdash; any single calendar date. <strong>Tip:</strong> <code>min</code> and <code>max</code> constrain the picker itself, not just submission &mdash; a booking form can make dates in the past simply unselectable rather than selectable-then-rejected.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. type="time"</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A dedicated hour/minute picker &mdash; no date attached.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/08/8.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="type=time Input Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input type="time"&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The underlying value is always a 24-hour <code>HH:MM</code> string, regardless of whether the picker itself displays a 12-hour or 24-hour interface &mdash; that display choice follows the visitor's OS locale automatically, with zero configuration on your part.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> reminder times, opening hours, appointment slots &mdash; any time-of-day value that isn't attached to a specific date. <strong>Tip:</strong> add a <code>step</code> attribute (in seconds) if the picker needs finer or coarser granularity than the default one-minute increments &mdash; <code>step="1"</code> reveals a seconds column, <code>step="900"</code> snaps to 15-minute intervals.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">9. type="datetime-local"</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Date and time in one picker, one field, one value.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/08/9.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="type=datetime-local Input Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input type="datetime-local"&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This replaces what used to require two separate inputs (a date field and a time field) plus script to combine their values into one timestamp. The name's "local" half matters: the value has no timezone attached at all &mdash; it's the visitor's own wall-clock date and time, as typed, with no offset. If the value needs to be stored or compared against other timezones server-side, that attachment has to happen explicitly, since the browser never supplies it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> event start times, appointment scheduling &mdash; anywhere a date and a time are really one combined value rather than two independent ones. <strong>Tip:</strong> don't assume the value is UTC or includes an offset; it's exactly what the visitor's local picker showed, nothing more.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">10. type="month" &amp; type="week"</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Two narrower siblings of <code>date</code> &mdash; pick just a month with no day, or just a week number.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/08/10.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="type=month and type=week Input Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input type="month"&gt;   &lt;!-- value like 2026-03 --&gt;
+&lt;input type="week"&gt;    &lt;!-- value like 2026-W12 --&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Both are genuinely awkward to build correctly by hand &mdash; a month picker needs to avoid ever implying a specific day, and a week picker needs to implement ISO week numbering (which doesn't align with calendar months or even always start the same weekday depending on locale). Reaching for either type means the browser has already solved that, rather than a bespoke dropdown-of-months or a week-number lookup table living in your own code.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> <code>month</code> for billing periods, "born in" fields, or subscription cycles; <code>week</code> for weekly reports, sprint planning, or anything that genuinely operates on calendar weeks rather than specific days. <strong>Tip:</strong> browser support for these two is the least universal of the date family &mdash; verify current coverage before depending on either for essential functionality in an older-browser context.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">11. type="color"</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click the swatch to open the browser's own color picker.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/08/11.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="type=color Input Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input type="color" value="#6366f1"&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The value is always a lowercase 6-digit hex string (<code>#rrggbb</code>) &mdash; no alpha channel, no <code>rgb()</code> function, no color names. That's a genuine limitation if a design system needs transparency or an HSL value picked directly, but for a plain solid color it's an entire picker UI &mdash; swatch grid, hue slider, hex input &mdash; with zero component code.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> theme customizers, brand color pickers, any single opaque color a visitor selects directly. <strong>Tip:</strong> if the design needs alpha transparency or an HSL/HSB workflow, this native picker can't do it &mdash; that's when a JS color-picker library actually earns its weight.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">12. type="password"</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click the eye icon to toggle the field between masked and plain text.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/08/12.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="type=password Input Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input type="password" autocomplete="new-password"&gt;
+&lt;input type="password" autocomplete="current-password"&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>There's no built-in "reveal password" mode &mdash; the toggle button in this demo works by swapping the input's <code>type</code> attribute between <code>password</code> and <code>text</code> in script, which is the standard pattern everywhere this UI appears. The <code>autocomplete</code> value matters more than most developers realize: <code>new-password</code> tells the browser this is a signup or change-password field (don't offer a saved login), while <code>current-password</code> tells it this is a login field (do offer one) &mdash; getting this backwards is a common source of password managers behaving strangely on a form.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> every password field, always. <strong>Tip:</strong> pair a signup password field with <code>minlength</code> and your own strength feedback &mdash; <code>type="password"</code> masks input, it doesn't evaluate strength on its own.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">13. type="file"</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Pick one or more images &mdash; nothing uploads anywhere; the names just get listed below.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/08/13.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="type=file Input Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input type="file" accept="image/*" multiple&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>accept</code> filters what the native file picker shows &mdash; a MIME type like <code>image/*</code>, a specific type like <code>application/pdf</code>, or a file extension like <code>.csv</code>, comma-separated for more than one. <code>multiple</code> is what allows picking more than a single file at once; without it, selecting a second file in the OS picker just replaces the first. The selected files are available in script as a real <code>FileList</code> (<code>input.files</code>), each with a <code>name</code>, <code>size</code>, and <code>type</code> &mdash; as this demo's live list shows &mdash; before anything is ever sent anywhere.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> avatar uploads, document attachments, CSV imports &mdash; anything reading a file from the visitor's own device. <strong>Tip:</strong> <code>accept</code> is a UI hint, not a security boundary &mdash; a visitor can still bypass the picker's filter and choose "all files," so any real type or size validation has to happen again once the file actually arrives at your server.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">14. type="text" + inputmode="numeric"</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>On a phone this still opens a numeric keypad &mdash; the same one <code>type="number"</code> gives you &mdash; but without a spinner, without scientific notation, and while still storing the value as a plain string.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/08/14.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="text inputmode numeric Input Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input
+  type="text"
+  inputmode="numeric"
+  pattern="[0-9]{6}"
+  autocomplete="one-time-code"&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is the fix for demo #4's caveat: a six-digit verification code, a PIN, or a ZIP code is a string of digits, not a number you'd ever add or compare &mdash; a leading zero matters, and there's no spinner or arithmetic behavior to gain from <code>type="number"</code>. <code>inputmode="numeric"</code> is purely a hint to the on-screen keyboard; it changes nothing about how the value validates or submits, so it's paired here with <code>pattern</code> to actually enforce the digits-only, exact-length shape. <code>autocomplete="one-time-code"</code> is a smaller but genuinely useful addition on top: on supporting browsers and OSes it lets the field auto-fill directly from an incoming SMS code.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> OTP/verification codes, PINs, ZIP or postal codes, credit card numbers &mdash; any fixed-format digit string that is never used arithmetically. <strong>Tip:</strong> <code>inputmode</code> has several other values worth knowing beyond <code>numeric</code> &mdash; <code>decimal</code> (adds a decimal point key), <code>tel</code>, <code>email</code>, <code>url</code>, and <code>search</code> all exist for tuning the keyboard on a plain <code>type="text"</code> field when none of the dedicated input types quite fit.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Common pitfalls</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Reaching for <code>type="number"</code> for anything that isn't really arithmetic.</strong> Phone numbers, ZIP codes, credit card numbers, and OTP codes are all strings of digits, not numbers &mdash; and <code>number</code> mangles a couple of them (a leading zero is lost as soon as the value is read as a number, in particular). Demo #14's <code>inputmode="numeric"</code> pattern is almost always the better fit.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Forgetting that <code>type="tel"</code> validates nothing on its own.</strong> Unlike <code>email</code> or <code>url</code>, there's no built-in format check &mdash; the keyboard swap happens regardless, but an actual format constraint needs a <code>pattern</code> added explicitly, as in demo #2.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Getting <code>autocomplete="new-password"</code> vs <code>"current-password"</code> backwards.</strong> This one swap is what tells a password manager whether to suggest a saved credential (login forms) or generate/save a fresh one (signup forms) &mdash; mixing them up is a common, subtle source of odd autofill behavior.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Treating <code>accept</code> on a file input as real validation.</strong> It filters what the OS picker shows, but a visitor can select "all files" and bypass it entirely &mdash; genuine type and size checks still belong on the server, same as every other client-side constraint.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Parsing a <code>type="date"</code> value with a bare <code>new Date(value)</code> call.</strong> JavaScript treats a date-only ISO string as UTC midnight, which displays as the previous day in any timezone behind UTC. Append a time (<code>new Date(value + 'T00:00:00')</code>) to parse it in the visitor's local timezone instead.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Do all these input types work the same in every browser?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The core value format for each type is standardized and consistent everywhere, but the picker UI itself is native to the browser and OS &mdash; a <code>type="date"</code> field looks different in Chrome on Android than in Safari on iOS, and <code>month</code>/<code>week</code> in particular have the least universal support of the group. Check <a href="https://caniuse.com" target="_blank" rel="noopener">caniuse.com</a> for the specific type before depending on it for essential functionality in an older-browser context.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What's the actual difference between type="number" and inputmode="numeric"?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><code>type="number"</code> tells the browser the value <em>is</em> a number &mdash; it gets a spinner, arithmetic-aware validation, and its value is meant to be read as a number (where a leading zero simply doesn't exist). <code>inputmode="numeric"</code> on a plain <code>type="text"</code> field only changes which on-screen keyboard appears on a touch device; the value stays an untouched string underneath. Use <code>number</code> for values you'll actually do math on, and <code>inputmode="numeric"</code> for digit strings you won't, as demo #14 explains.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Why does my type="tel" field accept literally anything?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Because <code>tel</code> has no built-in format validation at all &mdash; that's deliberate, since valid phone formats vary too much across countries for the spec to standardize one. It exists purely to trigger the numeric phone keyboard on mobile. Add a <code>pattern</code> attribute, as demo #2 does, if the field also needs to enforce a specific shape.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Should I still use type="text" for anything?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes &mdash; names, addresses, free-form comments, and anything else without a more specific native type are exactly what <code>type="text"</code> (the implicit default) is for. The point of this post isn't "avoid <code>text</code>," it's "don't use <code>text</code> when a more specific type already does the job for free."</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Can I style these native pickers to match my design?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Partially, and it varies a lot by type and browser. The field itself (border, background, font) styles like any input. The picker popup &mdash; the calendar grid for <code>date</code>, the color swatch grid for <code>color</code> &mdash; is native browser UI with limited or no CSS access, which is the real tradeoff for getting it for free. If pixel-perfect control over the picker's appearance matters more than that, a JS-built custom picker component is the alternative, at the cost of building and maintaining it yourself.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Does using the right input type help with accessibility too?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes, meaningfully. Each specific type communicates its purpose to assistive technology &mdash; a screen reader announces a <code>search</code> field differently from a generic text field, and a <code>date</code> field's native picker comes with keyboard navigation and ARIA semantics already built in. A custom-built equivalent has to reimplement all of that by hand to reach the same baseline.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to actually internalize the differences is to click <strong>Fork &amp; Edit</strong> on demo #4, change <code>type="number"</code> to <code>type="text" inputmode="numeric"</code>, type <code>007</code>, press the up arrow key, and notice it stays a string you control instead of stepping to <code>8</code>. Once you've got a version you like, save it to <a href="https://webdevpuneet.com/ui-snippets/mycode/" target="_blank" rel="noopener">My Code</a> and it's yours to keep, tweak further, or reuse in a real project.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/html-playground/" target="_blank" rel="noopener">HTML Playground</a> and go to the <strong>Forms</strong> chapter &mdash; it covers input types, form structure, fieldset and legend, and native form validation as a dedicated, click-based lesson set, built for exactly the pattern this post covers. For more tutorials like this one, browse the <a href="https://webdevpuneet.com/blog/category/html/" target="_blank" rel="noopener">HTML</a> category on the blog.</p>
+<!-- /wp:paragraph -->

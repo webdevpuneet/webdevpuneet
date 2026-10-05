@@ -1,0 +1,452 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  GSAP ScrollTrigger Tutorial: Animate Elements on Scroll (9 Live Demos)
+
+  SEO TITLE (56 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  GSAP ScrollTrigger Tutorial: Animate on Scroll (9 Demos)
+
+  SEO DESCRIPTION (156 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  Learn GSAP ScrollTrigger with 9 live demos: start and end positions, scrub, toggleActions, pinning, horizontal scroll, progress bars, stagger and refresh().
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>ScrollTrigger is the plugin that turns GSAP from "animates on click or on load" into "animates in response to where the user actually is on the page" &mdash; and it's the single most-requested GSAP feature for a reason: fade-ins on scroll, pinned sections, horizontal scroll stories, and scroll-scrubbed progress bars all build on the exact same handful of options. The syntax is small. What trips people up almost every time is the mental model &mdash; what <code>start</code> and <code>end</code> actually mean, why <code>scrub</code> changes everything about how an animation behaves, and why a trigger's saved position can quietly go stale the moment the page's layout changes underneath it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The 9 demos below are all <strong>live and interactive</strong> right here in the article &mdash; scroll inside each preview and watch the behavior happen in real time, not just in a video. Each embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact code, already running, in <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> &mdash; webdevpuneet's free in-browser editor. Change a <code>start</code> value, flip <code>scrub</code> on or off, delete <code>pin: true</code> &mdash; that's a far faster way to build real intuition than reading about it. For a slower, lesson-by-lesson path through GSAP from the very beginning, including a full ScrollTrigger chapter, the <a href="https://webdevpuneet.com/gsap-playground/">GSAP Playground</a> is webdevpuneet's free in-browser course.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The one thing every ScrollTrigger config has in common</h2>
+<!-- /wp:heading -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>gsap.registerPlugin(ScrollTrigger); // once, before any scrollTrigger option is used
+
+gsap.to('.el', {
+  x: 200,
+  scrollTrigger: {
+    trigger: '.el',   // the element being watched
+    start: 'top 80%', // when THIS point on the trigger reaches THIS point in the viewport
+    end: 'bottom 20%',
+    scrub: false,      // false = play once like a normal tween; true/number = tie to scroll position
+    pin: false,         // true = lock the trigger in place while start/end plays out
+    markers: false       // true in real projects (dev only) &mdash; draws start/end lines on screen
+  }
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Every demo below is a variation on this one object. <code>trigger</code> is the element ScrollTrigger watches; <code>start</code> and <code>end</code> are each a pair of positions &mdash; "this point on the trigger element" and "this point in the viewport" &mdash; written as a string like <code>'top 80%'</code> (the trigger's top edge reaches 80% down the viewport) or a pixel/relative offset like <code>'+=300'</code>. Everything else &mdash; <code>scrub</code>, <code>pin</code>, <code>toggleActions</code>, the <code>onEnter</code>/<code>onLeave</code> callbacks &mdash; controls what happens once the scroll position falls between those two points. <code>markers: true</code> is the real debugging tool for all of this (it draws the actual start/end lines directly on your page in a real browser), but it can't render meaningfully inside a small embedded iframe, so several demos below build an on-screen readout that shows the same underlying numbers instead.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. gsap.from() With a scrollTrigger Option</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Scroll down inside the preview. No click, no hover &mdash; the card animates in purely because it crossed a scroll position.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/19/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ScrollTrigger First Taste Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>gsap.registerPlugin(ScrollTrigger);
+
+gsap.from('.reveal', {
+  opacity: 0,
+  y: 50,
+  duration: 0.8,
+  ease: 'power2.out',
+  scrollTrigger: {
+    trigger: '.reveal',
+    start: 'top 80%'
+  }
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is the same <code>gsap.from()</code> from GSAP's core tweening API, unchanged &mdash; it still animates <em>from</em> the values you give it back to the element's real CSS. The only new part is the <code>scrollTrigger</code> object replacing "play immediately." <code>trigger: '.reveal'</code> tells ScrollTrigger which element's position to watch, and <code>start: 'top 80%'</code> means "fire the moment this element's top edge reaches 80% down the viewport" &mdash; leaving <code>end</code> unset is fine here because this tween isn't scrubbed or pinned, it just needs one moment to fire at. Under the hood, ScrollTrigger attaches a scroll listener, converts the trigger element's position into a pixel range using <code>getBoundingClientRect()</code>, and calls <code>.play()</code> on the tween the instant the scroll position crosses into that range. Everything else in this post is a variation on exactly that mechanism.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> the single most common scroll-triggered pattern on real websites &mdash; a section fading and sliding into place the moment it enters view. <strong>Tip:</strong> reach for <code>gsap.from()</code> here specifically because the destination values are already sitting in the element's normal CSS &mdash; you never have to hand-write where it should end up.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. start / end Position Strings, Made Visible</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Scroll slowly. The green line marks exactly where <code>start: 'top 80%'</code> sits in this preview's viewport &mdash; watch the readout flip from inactive to active the instant the target crosses it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/19/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ScrollTrigger start end Position Strings Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>scrollTrigger: {
+  trigger: '.target',
+  start: 'top 80%',  // trigger's TOP edge reaches 80% down the viewport
+  end: 'top 40%',     // trigger's TOP edge reaches 40% down the viewport
+  onUpdate: function (self) {
+    console.log(self.progress, self.isActive);
+  }
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>A position string always has the same shape: <code>'{edge of the trigger} {point in the viewport}'</code>. <code>'top 80%'</code> pins the trigger's own top edge against a horizontal line drawn 80% of the way down the viewport &mdash; that's the fixed green line in this demo, drawn independently in CSS purely to make the abstraction visible. The target only starts animating once its real top edge, moving upward as you scroll, crosses that same line. <code>self.progress</code> (0 at <code>start</code>, 1 at <code>end</code>) and <code>self.isActive</code> (true only while the scroll position sits between them) are the two values almost every callback and readout in ScrollTrigger cares about, and this demo exposes both directly instead of hiding them behind an animation. Percentages are relative to the viewport height and reflow automatically on resize; pixel values (<code>start: 200</code>) and relative offsets (<code>end: '+=300'</code>) are also valid and behave the same way once you know which axis they measure.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> building the actual mental model behind every other demo on this page &mdash; once <code>'top 80%'</code> clicks, every other combination of edges and percentages follows the same logic. <strong>Tip:</strong> in a real project, set <code>markers: true</code> during development instead of building a custom readout &mdash; it draws these exact lines directly on your page, with the actual pixel values labeled, and you strip it out before shipping.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. scrub: true Ties Progress to Scroll Position</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Scroll down slowly, then scroll back up. The dot doesn't play once &mdash; it tracks your scroll position directly, forward and backward.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/19/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ScrollTrigger scrub true Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>gsap.to('.dot', {
+  x: 260,
+  ease: 'none',   // let scroll position supply the easing, not the tween
+  scrollTrigger: {
+    trigger: '.track',
+    start: 'top 80%',
+    end: 'bottom 30%',
+    scrub: true    // or a number of seconds, for a slight catch-up delay
+  }
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Without <code>scrub</code>, a scroll-triggered tween behaves like any other tween: it plays once, on its own timeline, at its own <code>duration</code>, the moment <code>start</code> is crossed &mdash; scrolling faster or slower afterward has zero effect on it. <code>scrub: true</code> throws that timeline out entirely and replaces it with a direct link: the tween's playhead is set to exactly <code>self.progress</code>, every single scroll event, with no <code>duration</code> involved at all. That's why <code>ease: 'none'</code> matters here &mdash; the "easing" you actually feel now comes entirely from how the user scrolls, and a tween-level ease would just fight it. Passing a number instead of <code>true</code> (like <code>scrub: 0.5</code>) keeps the same link but adds a short elastic catch-up delay, which reads as smoother on a fast trackpad flick without losing the two-way binding. This is the mechanism behind almost every scroll-scrubbed effect on real websites, including the progress bar in demo #7 and the pinned section in demo #5.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any animation that should feel like it's physically attached to the scrollbar &mdash; parallax, scroll-scrubbed illustrations, progress indicators, horizontal scroll sections. <strong>Tip:</strong> a scrubbed tween's own <code>duration</code> is ignored entirely once <code>scrub</code> is set &mdash; the scroll distance between <code>start</code> and <code>end</code> is what actually controls how "long" the animation feels.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. toggleActions Controls Play / Pause / Resume / Reverse</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Scroll the box past both edges of the preview, then scroll back up through it. Watch the log at the top &mdash; four distinct events, one per direction crossed.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/19/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ScrollTrigger toggleActions Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>scrollTrigger: {
+  trigger: '.box',
+  start: 'top 80%',
+  end: 'bottom 20%',
+  toggleActions: 'play pause resume reverse',
+  // order: onEnter, onLeave, onEnterBack, onLeaveBack
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>toggleActions</code> takes exactly four space-separated keywords, mapped in order to the four ways a scroll position can cross a trigger's boundaries: scrolling down past <code>start</code> (<code>onEnter</code>), scrolling down past <code>end</code> (<code>onLeave</code>), scrolling back up past <code>end</code> (<code>onEnterBack</code>), and scrolling back up past <code>start</code> (<code>onLeaveBack</code>). Each keyword names what should happen to the tween at that moment &mdash; common choices are <code>play</code>, <code>pause</code>, <code>resume</code>, <code>reverse</code>, <code>restart</code>, and <code>none</code>. The default, <code>'play none none none'</code>, is why a plain <code>scrollTrigger</code> tween (like demo #1) only ever plays forward once and then does nothing on the way back up. <code>'play pause resume reverse'</code>, used here, is the classic "fully responsive to scroll direction" setup: it plays forward on the way down, pauses mid-animation if you stop and leave, resumes from wherever it paused if you re-enter, and genuinely reverses back to the start if you scroll back up past the beginning. Every corresponding callback (<code>onEnter</code>, <code>onLeave</code>, <code>onEnterBack</code>, <code>onLeaveBack</code>) still fires alongside whatever action runs, which is what populates this demo's log.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any element that should respond naturally to scrolling in both directions, not just play once on the way down. <strong>Tip:</strong> if an animation looks fine scrolling down but glitches or snaps oddly scrolling back up, <code>toggleActions</code> is almost always the first thing to check &mdash; the default leaves the three "scroll back up" cases doing nothing at all.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. pin: true Locks a Section in Place</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Scroll down. The card locks onto the screen and stays there while you keep scrolling &mdash; it only lets go once the pinned distance runs out.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/19/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ScrollTrigger pin true Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>ScrollTrigger.create({
+  trigger: '.pinSection',
+  start: 'top top',
+  end: '+=300',   // pinned for 300px of additional scrolling
+  pin: true,
+  scrub: true,
+  onUpdate: function (self) {
+    // self.progress tracks exactly how far through the pinned distance you are
+  }
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>pin: true</code> takes the trigger element out of normal document flow the instant <code>start</code> is reached and fixes it in place on screen &mdash; but critically, it also inserts an equivalent amount of empty space into the page so the total scrollable distance stays the same, and your scroll position keeps advancing normally underneath the pinned element. <code>end: '+=300'</code> defines exactly how much of that scroll distance the pin lasts for: 300px worth of scrolling, measured from wherever <code>start</code> fired. Combined with <code>scrub: true</code>, this is the actual pattern behind almost every "scroll-driven story" section on the web &mdash; a pinned hero that counts up a number, fills a chart, or steps through several states, all synced to a scroll distance the visitor controls entirely themselves, rather than a fixed duration. This demo's fill bar is just <code>self.progress</code> from the pinned trigger, written straight to a width percentage.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> a section that needs the reader's full attention for a beat &mdash; a stat reveal, a step-by-step explainer, a hero image that reacts as you scroll past it. <strong>Tip:</strong> pinning changes page layout (that inserted spacer), which is exactly the kind of change that can leave <em>other</em> triggers further down the page stale &mdash; see demo #9 for why, and when to call <code>ScrollTrigger.refresh()</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. A Horizontal-Scroll Section</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Scroll down normally. Instead of the page moving up, the panels below slide sideways &mdash; ordinary vertical scroll input, redirected into horizontal motion.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/19/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ScrollTrigger Horizontal Scroll Section Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>gsap.to('.hRow', {
+  x: function () { return -(hRow.scrollWidth - hSection.clientWidth); },
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '.hSection',
+    start: 'top top',
+    end: function () { return '+=' + (hRow.scrollWidth - hSection.clientWidth); },
+    scrub: true,
+    pin: true
+  }
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is demos #3 and #5 combined into one recognizable pattern: <code>pin: true</code> holds the horizontal-scroll section on screen exactly like demo #5, while <code>scrub: true</code> ties a horizontal <code>x</code> tween to that same held-in-place scroll distance exactly like demo #3. The only new idea is the math &mdash; the row of panels is wider than its container, so <code>x</code> animates from <code>0</code> to negative the overflow amount (<code>scrollWidth</code> minus <code>clientWidth</code>), and <code>end</code> is set to that exact same distance in pixels, so the scroll input and the horizontal motion always run out at precisely the same moment. Both values are computed as functions rather than fixed numbers specifically so they stay correct if the panel content or container size ever changes &mdash; ScrollTrigger re-evaluates function-based values on refresh. The vertical scroll never actually stops; the visitor is still scrolling down the page the entire time, it's just that the section responds by moving its contents sideways instead of scrolling itself off-screen.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> portfolio strips, image galleries, and step-by-step feature tours that read more naturally left-to-right than as a long vertical stack. <strong>Tip:</strong> horizontal-scroll sections are one of the trickiest ScrollTrigger patterns to get right on real content because the scroll distance depends on the content's actual rendered width &mdash; always compute it, never hard-code it, exactly as this demo does.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. A Scroll Progress Bar</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Scroll down through all four sections. The thin bar at the top fills in exact proportion to how far through the whole preview you've scrolled.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/19/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ScrollTrigger Progress Bar Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>ScrollTrigger.create({
+  trigger: document.body,
+  start: 'top top',
+  end: 'bottom bottom',
+  onUpdate: function (self) {
+    progressBar.style.width = (self.progress * 100) + '%';
+  }
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This demo skips animating any tween at all &mdash; there's no <code>gsap.to()</code> here, just a bare <code>ScrollTrigger.create()</code> whose only job is reporting position through its <code>onUpdate</code> callback. Setting <code>trigger</code> to the whole page (or, on a real site, whatever scrollable container matters) with <code>start: 'top top'</code> and <code>end: 'bottom bottom'</code> means <code>self.progress</code> tracks the entire document's scroll position, from 0 at the very top to 1 at the very bottom, and nothing in between needs any math of your own. This is the exact technique behind reading-progress bars on blogs and documentation sites &mdash; and because it's just a number being read on every scroll event, that same <code>self.progress</code> value can drive anything else just as easily: a percentage counter, a table-of-contents highlight, a "back to top" button's visibility.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> reading-progress indicators on long articles or docs, and as a template for any UI that needs a live 0-to-1 readout of scroll position rather than a triggered animation. <strong>Tip:</strong> <code>ScrollTrigger.create()</code> without any tween attached is a completely valid, common pattern &mdash; use it whenever you need the position data itself more than you need something to visibly animate.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. Staggered Card Reveal on Scroll</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Scroll down to the grid. One <code>scrollTrigger</code>, attached once to the whole grid &mdash; and all six cards reveal in a cascading sequence anyway.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/19/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ScrollTrigger Staggered Card Reveal Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>gsap.from('.card', {
+  opacity: 0,
+  y: 40,
+  duration: 0.5,
+  stagger: 0.12,
+  scrollTrigger: {
+    trigger: '.cardGrid',
+    start: 'top 85%'
+  }
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This works because <code>stagger</code> and <code>scrollTrigger</code> are two entirely independent GSAP features that happen to compose cleanly: <code>gsap.from('.card', ...)</code> targets every element matching <code>.card</code> in one call, <code>stagger: 0.12</code> offsets each of their individual start times by 0.12 seconds, and the <code>scrollTrigger</code> object decides only <em>when the whole group's clock starts</em> &mdash; the moment the grid (not any individual card) crosses <code>start</code>. ScrollTrigger doesn't need to know or care that it's driving six separate targets instead of one; from its perspective this is exactly the same single tween as demo #1, just with more elements inside it. That's a useful thing to internalize generally: ScrollTrigger only ever triggers a timeline or tween's playback, and everything that timeline or tween already knows how to do &mdash; stagger, ease, repeat, sequencing &mdash; keeps working completely unchanged underneath it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> a grid of cards, a list of features, or a row of icons that should reveal as a group the moment a visitor scrolls to them, rather than all snapping in simultaneously. <strong>Tip:</strong> trigger the group itself (the grid container), not each card individually &mdash; triggering each card separately would fire each one exactly when it crosses <code>start</code> on its own, which defeats the whole point of a coordinated stagger.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">9. ScrollTrigger.refresh() and Stale Trigger Positions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Insert block above" first, then read the number. Only after clicking "ScrollTrigger.refresh()" does the trigger's saved start position catch up to reality.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/19/9.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="ScrollTrigger refresh Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>var st = ScrollTrigger.create({ trigger: '.target', start: 'top 80%' });
+
+// st.start is a PIXEL NUMBER, calculated once and cached &mdash; not recalculated
+// automatically just because the page's layout changed underneath it.
+
+insertContentAbove(); // st.start is now wrong
+
+ScrollTrigger.refresh(); // recalculates every trigger's start/end against current layout</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The first time ScrollTrigger sees a trigger, it converts a position string like <code>'top 80%'</code> into an actual pixel number by measuring the page as it exists right then, and it caches that number rather than re-measuring it on every scroll event, for performance. That's normally invisible &mdash; ScrollTrigger already listens for window resize and automatically refreshes on its own. What it can't know about on its own is layout changing for a reason that isn't a resize: content inserted or removed by JavaScript, an image finishing its load and pushing everything below it down, a font swap changing text height, an accordion opening. In every one of those cases, the cached pixel number silently stops matching where the trigger visually is, until something calls <code>ScrollTrigger.refresh()</code> to remeasure. This demo makes that gap deliberately visible: clicking "Insert block above" changes the document's real height immediately, but <code>st.start</code> &mdash; read directly and shown in the readout &mdash; doesn't move until refresh is explicitly triggered.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> diagnosing "my ScrollTrigger fires at the wrong scroll position" bugs, which are very often a stale measurement rather than a wrong <code>start</code> value. <strong>Tip:</strong> call <code>ScrollTrigger.refresh()</code> right after any code that changes layout outside of a window resize &mdash; after images/fonts finish loading, after content is injected or removed, or after any animation that changes an element's height while <em>not</em> itself being driven by ScrollTrigger.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Common pitfalls</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Forgetting <code>gsap.registerPlugin(ScrollTrigger)</code>.</strong> ScrollTrigger ships as a separate script from core GSAP and has to be registered once before any <code>scrollTrigger</code> option does anything at all &mdash; skip it and the option is silently ignored, no error thrown.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Setting a tween's own <code>duration</code> on a scrubbed animation and expecting it to matter.</strong> Demo #3's rule explains why &mdash; once <code>scrub</code> is set, the scroll distance between <code>start</code> and <code>end</code> is what controls pacing, not the tween's <code>duration</code>.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Never touching <code>toggleActions</code> and being confused why scrolling back up does nothing.</strong> The default is <code>'play none none none'</code> &mdash; demo #4 shows what actually changes once all four states are handled deliberately.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Hard-coding a horizontal or pinned scroll distance in pixels.</strong> Demo #6 computes its distance from the actual rendered content width every time, specifically because a fixed number breaks the moment content, fonts, or viewport size changes.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Changing page layout with JavaScript and never calling <code>ScrollTrigger.refresh()</code>.</strong> Demo #9 is the direct proof &mdash; a trigger's start/end positions are cached numbers, not something ScrollTrigger continuously re-measures on its own.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Do I need a separate CDN script for ScrollTrigger, or does it come with GSAP core?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Separate script, every time. Core GSAP (<code>gsap.min.js</code>) doesn't include any plugins &mdash; ScrollTrigger loads from its own file (<code>ScrollTrigger.min.js</code>), as shown in the CDN panel on every demo above, and still needs <code>gsap.registerPlugin(ScrollTrigger)</code> called once before it can be used.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What does markers: true actually do, and why don't these demos use it?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>In a real browser, <code>markers: true</code> draws labeled horizontal lines directly on the page at each trigger's actual <code>start</code> and <code>end</code> positions &mdash; it's the fastest way to debug "why isn't this firing where I expect." It renders relative to the real page and doesn't translate meaningfully into a small embedded iframe, which is why several demos above (especially #2 and #9) build an on-screen readout instead, showing the same underlying numbers markers would reveal.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Why did my pinned section's layout break other ScrollTrigger animations further down the page?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><code>pin: true</code> inserts spacer space into the document to preserve total scroll distance, which changes every element's position below it. ScrollTrigger handles this automatically for pins it creates itself, but any other layout-changing code you run afterward can still leave other triggers stale &mdash; see demo #9's exact mechanism and call <code>ScrollTrigger.refresh()</code> after the change settles.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Can I use ScrollTrigger with a horizontally scrolling container instead of the page itself?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes &mdash; ScrollTrigger accepts a <code>scroller</code> option pointing at any scrollable element instead of the default window, along with a matching <code>horizontal: true</code> flag if that container scrolls sideways rather than vertically. Every demo on this page uses the default window/page scroller for simplicity, but the same <code>start</code>/<code>end</code>/<code>scrub</code>/<code>pin</code> options all carry over unchanged once <code>scroller</code> is set.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Is scrub: true expensive for performance compared to a normal triggered tween?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>It runs on every scroll event rather than once, but ScrollTrigger's scroll handling is already heavily optimized (throttled to the browser's paint cycle, not raw scroll events), so a scrubbed tween on a reasonable number of elements is not something to avoid on performance grounds alone. Where performance actually suffers is animating layout-triggering CSS properties (like <code>width</code> or <code>top</code>) instead of transform-based ones (<code>x</code>, <code>y</code>, <code>scale</code>) &mdash; the tweens above stick to transforms for exactly that reason. The two progress fills (demos #5 and #7) write a width directly from <code>onUpdate</code>, which is fine for one thin bar; for anything heavier, animate <code>scaleX</code> with <code>transform-origin: left</code> instead.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to actually lock this in is to click <strong>Fork &amp; Edit</strong> on demo #4, change <code>toggleActions</code> back to the default <code>'play none none none'</code>, and watch scrolling back up through the box do nothing at all &mdash; then restore it and watch the reverse action kick back in. That single experiment explains more than any diagram. Once you've got a version you like, save it to <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop into a real project.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/gsap-playground/">GSAP Playground</a> and rebuild demo #5's pinned section from scratch against a section of your own &mdash; typing it out yourself, not just reading it, is what makes <code>start</code>/<code>end</code>/<code>scrub</code>/<code>pin</code> actually stick together as one mental model. For more tutorials like this one, browse the <a href="https://webdevpuneet.com/blog/category/javascript/">JavaScript</a> category on the blog.</p>
+<!-- /wp:paragraph -->

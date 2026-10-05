@@ -1,0 +1,306 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  JavaScript Debounce vs Throttle: When Should You Use Each?
+
+  SEO TITLE (53 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  JavaScript Debounce vs Throttle: When to Use Each One
+
+  SEO DESCRIPTION (155 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  Debounce vs throttle in JavaScript, explained with live demos: a search box, scroll updates, a side-by-side event stream and autosave. Copy both functions.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>Both exist to solve the same underlying problem &mdash; a browser event that fires far more often than your code actually needs to react to it. A user typing into a search box fires an <code>input</code> event on every keystroke. A user scrolling or dragging fires dozens of events a second. Running an API call, a layout recalculation, or a re-render on every single one of those is wasteful at best and janky at worst. <strong>Debounce</strong> and <strong>throttle</strong> both slow that flood down &mdash; the real question isn't "which one is more efficient," it's <strong>what shape of behavior you actually want</strong>: debounce says "wait until things go quiet, then do it once." Throttle says "keep doing it, but never more often than this." Once that distinction clicks, most "which one do I reach for" questions answer themselves.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The 5 demos below are all real, running JavaScript &mdash; type, scroll, move your mouse &mdash; so you can watch each technique's actual firing pattern instead of reading about it secondhand. One demo in particular puts both side by side on the exact same stream of events, so the difference isn't a claim, it's something you can watch happen in real time.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> &mdash; webdevpuneet's free in-browser editor. Change a delay from 300ms to 1000ms on a real debounce and watch what changes &mdash; that's a faster way to build real intuition than any explanation.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The one-sentence rule</h2>
+<!-- /wp:heading -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>function debounce(fn, delay) {
+  let timer;
+  return (...args) =&gt; {
+    clearTimeout(timer);               // every call cancels the last wait
+    timer = setTimeout(() =&gt; fn(...args), delay);
+  };
+}
+
+function throttle(fn, limit) {
+  let inThrottle = false;
+  return (...args) =&gt; {
+    if (!inThrottle) {
+      fn(...args);                     // runs immediately, then goes quiet
+      inThrottle = true;
+      setTimeout(() =&gt; (inThrottle = false), limit);
+    }
+  };
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><strong>Debounce</strong> resets a timer on every call and only ever runs your function once that timer finally survives uninterrupted &mdash; so a burst of 50 calls in a row collapses into exactly 1, and it fires <em>after</em> the burst ends. <strong>Throttle</strong> runs your function immediately on the first call, then ignores every call that follows until a fixed amount of time has passed &mdash; so the same burst of 50 calls produces several evenly-spaced runs <em>during</em> the burst, not one run after it. Same goal (fewer runs), opposite shape (fires at the end vs. fires steadily throughout).</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. Debounced Search Box</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Type in the box below. With debounce on, a fake "API call" fires only once you pause typing for 500ms &mdash; turn it off and a call fires on every keystroke instead.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/06/1.html" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Debounced Search Box Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const debouncedSearch = debounce(query =&gt; fetchResults(query), 500);
+
+input.addEventListener('input', e =&gt; debouncedSearch(e.target.value));</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is the single most common reason debounce exists. Without it, typing "javascript" fires ten separate network requests &mdash; one per keystroke &mdash; and nine of them are wasted work for a result the user never even saw, because it was replaced by the next keystroke's response a moment later. With debounce, every keystroke still resets the 500ms timer, but only the <em>last</em> keystroke in a typing burst ever survives long enough to actually trigger a call. The counters make this concrete: type "hello world" at a normal pace and you'll see 11 keystrokes but exactly 1 API call.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> search-as-you-type, form field validation that hits an API, autocomplete, any "wait for the user to finish" input. <strong>Tip:</strong> 300&ndash;500ms is a good default delay for typing &mdash; short enough that the result still feels responsive, long enough to skip almost every intermediate keystroke.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. Throttled Scroll Updates</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Scroll inside the box below. Raw scroll events fire dozens of times a second &mdash; the throttled counter updates at most once every 150ms no matter how fast you scroll.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/06/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Throttled Scroll Updates Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const throttledOnScroll = throttle(() =&gt; updateProgressBar(), 150);
+
+scrollBox.addEventListener('scroll', throttledOnScroll);</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Unlike search, a scroll handler can't just wait for scrolling to stop &mdash; a progress bar or a scroll-spy nav needs to keep up <em>while</em> the user is actively scrolling, not sit frozen until they finish. That's exactly the case throttle is built for: the raw scroll event might fire 40+ times a second, but the throttled handler runs at a fixed, predictable rate regardless, capping the work without ever going silent for the whole gesture the way debounce would.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> scroll position tracking, scroll-spy navigation highlighting, infinite-scroll "near the bottom" checks, any handler that needs to stay live throughout continuous activity rather than only at the end. <strong>Tip:</strong> 100&ndash;200ms is plenty for anything visual &mdash; the human eye can't tell a progress bar updating every 150ms from one updating on every raw event, but the CPU very much can.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. Debounce vs Throttle, Side by Side</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Move your mouse (or finger) around inside the box below and keep it moving. Watch how each track fills &mdash; that's the entire difference between the two techniques, made visible.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/06/3.html" style="width:100%;height:500px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Debounce vs Throttle Side by Side Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const throttled = throttle(() =&gt; tick('throttle'), 150);
+const debounced = debounce(() =&gt; tick('debounce'), 300);
+
+zone.addEventListener('mousemove', () =&gt; {
+  tick('raw');   // every event, no wrapper
+  throttled();   // fires steadily, capped at once per 150ms
+  debounced();   // fires once, only after movement stops for 300ms
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is the demo that makes the distinction impossible to un-see. While you're actively moving the mouse, the <strong>raw</strong> track fills up almost solid &mdash; every single <code>mousemove</code> gets a tick. The <strong>throttled</strong> track fills at a steady, even pace the whole time you're moving &mdash; a tick roughly every 150ms, no matter how fast you wave the mouse around. The <strong>debounced</strong> track stays completely empty while you keep moving, and only gets a single tick once you stop and hold still for 300ms. That's not a bug &mdash; it's the entire point: debounce's timer keeps getting reset by every new event, so continuous movement means it never gets the uninterrupted gap it needs to fire, until you finally stop.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> building real intuition, fast, before reaching for either in actual code. <strong>Tip:</strong> if you've ever wondered why a debounced handler "never seems to fire" during continuous activity, this demo is why &mdash; that's expected behavior, not a bug in your implementation.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. Debounced Autosave</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Type in the box below. The status goes to "Typing…" instantly on every keystroke, but the note is only "Saved" once you pause for 800ms &mdash; nothing saves on every keystroke.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/06/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Debounced Autosave Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const debouncedSave = debounce(text =&gt; saveDraft(text), 800);
+
+textarea.addEventListener('input', e =&gt; {
+  setStatus('typing');            // runs on every keystroke, immediately
+  debouncedSave(e.target.value);  // only actually saves after a pause
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Autosave is a good example of combining a debounced action with UI feedback that <em>isn't</em> debounced. The "Typing…" status updates on every single keystroke &mdash; that part should feel instant. But the actual save (the expensive, or rate-limited, or network-bound part) only runs through the debounced function, so hammering out a paragraph doesn't trigger a save request per character. The 350ms artificial delay inside <code>doSave</code> before the status flips to "Saved" is there deliberately, to make the save itself visibly distinct from the debounce wait that preceded it &mdash; in a real app that gap is your actual network round-trip.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> autosave, draft persistence, any "save this eventually, but not on every change" pattern. <strong>Tip:</strong> keep instant feedback (like the "Typing…" label here) outside the debounced function &mdash; debounce the expensive work, not the parts of the UI that should react immediately.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Which One Should You Use?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click a real scenario below to see whether debounce or throttle actually fits it, and why.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/06/5.html" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Which One Should You Use Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// Debounce: "do this once, after things go quiet"
+search, form validation, autosave, resize-then-recalculate-once
+
+// Throttle: "do this steadily, no more than every N ms"
+scroll tracking, drag updates, live resize recalculation, rate-limited clicks</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The six scenarios in this demo aren't arbitrary &mdash; they're the cases that come up constantly in real UI work, and each one has a genuinely correct answer once you ask "does this need to fire once after activity stops, or steadily while activity continues?" Search and autosave both want silence first (debounce). Scroll-spy and drag both want to stay live the whole time (throttle). "Prevent double form submit" is a debounce case for a subtler reason: you want a burst of rapid clicks to collapse into exactly one action, and debounce's "only the last one survives" behavior does exactly that. In production, though, a leading-edge version (send on the first click, ignore the rest for a moment) or simply disabling the button until the request finishes is usually the better fit, because a trailing debounce makes every single submit wait out the delay first.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> a quick gut-check on any handler where you're genuinely unsure which technique fits. <strong>Tip:</strong> when a scenario could plausibly go either way, ask whether the handler needs to update <em>during</em> the activity (throttle) or only needs the <em>final</em> state once it's done (debounce) &mdash; that one question resolves almost every edge case.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Choosing between them, in practice</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Use debounce when you only care about the final state, after activity stops.</strong> Search-as-you-type, form validation, autosave, "recalculate once resizing has finished" &mdash; the intermediate values during the burst are noise you want to skip entirely.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Use throttle when the handler needs to stay live throughout continuous activity.</strong> Scroll tracking, drag position, live resize recalculation &mdash; going silent until activity stops (what debounce does) would make the UI feel frozen or laggy while it's actually happening.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Debounce fires at the end; throttle fires (at a steady rate) throughout.</strong> Demo #3 makes this the one fact worth remembering above all the others &mdash; if you only watch one demo on this page, watch that one.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Both exist to reduce how often expensive work runs &mdash; neither changes what that work does.</strong> Wrapping a function in <code>debounce()</code> or <code>throttle()</code> doesn't touch its logic at all; it only changes how often the browser is allowed to call it.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>When genuinely unsure, ask "does the user need to see updates while this is happening, or only once it's done?"</strong> "While it's happening" points to throttle. "Once it's done" points to debounce.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What's the actual difference between debounce and throttle, in one sentence?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Debounce waits for activity to pause, then runs your function once. Throttle runs your function immediately and repeatedly, but never more often than a fixed interval, for as long as activity continues.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Why did my debounced function never seem to fire?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This is almost always expected behavior, not a bug &mdash; demo #3 shows it directly. A debounced function's internal timer resets on every single call, so if the triggering event keeps firing continuously (a user moving a mouse without stopping, for example), the function never gets the uninterrupted gap of silence it needs to actually run. It will fire the instant the activity stops.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Can I use throttle for a search box instead of debounce?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You could, but it usually fights the goal. Throttle would fire a request partway through typing a word &mdash; using a stale, incomplete query &mdash; in addition to whatever final request debounce alone would have sent. Debounce is specifically the "only the final, complete value matters" tool, which is exactly what a search query is.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Does lodash's debounce/throttle do anything my own doesn't?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The core mechanism is the same as the two functions at the top of this post. Lodash's versions add configurable leading/trailing-edge control (fire on the first call, the last call, or both), a <code>maxWait</code> option for debounce, and a <code>.cancel()</code>/<code>.flush()</code> API for manually canceling or forcing a pending call &mdash; genuinely useful in larger apps, but not required to understand or use either technique correctly.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What delay/limit value should I actually use?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>For debounce on typing, 300&ndash;500ms feels responsive without firing on every keystroke. For throttle on scroll or drag, 100&ndash;200ms is usually indistinguishable from unthrottled to a human eye while cutting the actual call count drastically. Both are starting points, not rules &mdash; the right number depends on how expensive the wrapped function actually is.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Do I need a library to use debounce or throttle?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>No &mdash; both functions at the top of this post are complete, dependency-free implementations, and the demos above that fire anything run on exactly those two functions, with nothing else loaded. A library like lodash is worth reaching for once you want the extra options mentioned above, not because the core technique is hard to implement yourself.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to actually internalize the difference is to click <strong>Fork &amp; Edit</strong> on demo #3, change the throttle limit from 150ms to 600ms, and watch how much the throttled track's pacing changes. Once you've got a version you like, save it to <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or reuse in a real project.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Want to go deeper than a single embed? The <a href="https://webdevpuneet.com/js-playground/">JavaScript Playground</a> is webdevpuneet's full in-browser JS sandbox &mdash; a real editor with instant preview, built for exactly this kind of edit-and-see learning, without the five-tab constraint of a blog post.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/js-playground/">JavaScript Playground</a> and go to <strong>Performance &rarr; Debounce &amp; Throttle</strong> &mdash; a dedicated lesson with an editable debounce/throttle variant toggle and a live preview right next to the code, built for exactly the pattern this post covers. Editing both implementations by hand there, not just reading them, is what actually makes it stick. For more tutorials like this one, browse the <a href="https://webdevpuneet.com/blog/category/javascript/">JavaScript</a> category on the blog.</p>
+<!-- /wp:paragraph -->

@@ -64,6 +64,7 @@ https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production
     var setPos = posState[1];
 
     var logRef = useRef([]);
+    var tipRef = useRef(null);
     var forceState = useState(0);
     var forceTick = forceState[1];
 
@@ -76,10 +77,12 @@ https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production
 
     hook(function () {
       log('commit: pos=' + pos + (pos === 'right' ? ' (overflowing)' : ' (corrected)'));
-      // requestAnimationFrame runs AFTER the browser has painted this frame --
-      // this is how we prove what actually got shown to the user, not just what React committed.
+      // requestAnimationFrame runs right BEFORE the browser draws the next frame, so
+      // reading the real DOM here shows exactly what that frame paints -- not just
+      // what this effect run happened to see.
       requestAnimationFrame(function () {
-        log('PAINTED with pos=' + pos, true);
+        var shown = tipRef.current && tipRef.current.classList.contains('right') ? 'right' : 'left';
+        log('PAINTED with pos=' + shown, shown === 'right');
       });
       if (pos === 'right') {
         setPos('left'); // the real overflow check -- always corrects, on purpose, for this demo
@@ -87,16 +90,21 @@ https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production
     }, [pos, openCount]);
 
     function open() {
-      setPos('right');
-      setOpenCount(function (n) { return n + 1; });
       logRef.current = [];
+      // Deferred with setTimeout on purpose: since React 18, an update that comes straight from a
+      // click runs even useEffect before the browser paints. Starting it from a timer (like data
+      // arriving, or any non-click update) shows the timing difference this demo is about.
+      setTimeout(function () {
+        setPos('right');
+        setOpenCount(function (n) { return n + 1; });
+      }, 0);
     }
 
     return e('div', { className: 'col' },
       e('div', { className: 'colHead ' + (props.mode === 'layout' ? 'layout' : 'eff') }, props.mode === 'layout' ? 'useLayoutEffect' : 'useEffect'),
       e('div', { className: 'anchorRow' },
         e('button', { className: 'anchorBtn' }, 'menu'),
-        e('div', { className: 'tip ' + pos }, 'flipped to fit')
+        e('div', { className: 'tip ' + pos, ref: tipRef }, 'flipped to fit')
       ),
       e('button', { className: 'btn', onClick: open }, 'Open tooltip (' + openCount + ')'),
       e('div', { className: 'log' }, logRef.current.map(function (item, i) {
@@ -115,7 +123,7 @@ https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production
   ReactDOM.createRoot(document.getElementById('root')).render(
     e('div', null,
       e(Demo),
-      e('p', { className: 'note' }, 'Red "PAINTED" lines are captured with requestAnimationFrame, which only fires after the browser has actually drawn a frame. The useEffect side paints pos=right at least once before correcting -- a real, browser-confirmed wrong frame. The useLayoutEffect side never does, because its correction runs before the browser is allowed to paint at all.')
+      e('p', { className: 'note' }, '"PAINTED" lines are read from the real DOM inside requestAnimationFrame, which runs right before the browser draws each frame, so they show what was actually painted. A red line means the overflowing pos=right reached the screen. The useLayoutEffect side never paints it, because its correction runs before the browser is allowed to paint at all; the useEffect side can, whenever the browser gets a frame in before the correction lands.')
     )
   );
 </script>

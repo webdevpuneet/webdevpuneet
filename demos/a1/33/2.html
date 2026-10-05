@@ -75,8 +75,8 @@ https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production
       // and BEFORE the browser is allowed to paint anything.
       log('layout', '3. useLayoutEffect -- DOM already mutated, paint still blocked');
       requestAnimationFrame(function () {
-        // requestAnimationFrame only runs after a paint has happened.
-        log('paint', '4. browser paints the frame');
+        // requestAnimationFrame runs as the browser starts its next frame, right before it paints.
+        log('paint', '4. next frame starts (rAF) -- the browser paints right after this');
       });
     }, [tick]);
 
@@ -92,7 +92,10 @@ https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production
         onClick: function () {
           logRef.current = [];
           log('commit', '(new click -- React will re-render, then commit)');
-          setTick(tick + 1);
+          // Deferred with setTimeout on purpose: since React 18, an update that comes straight
+          // from a click flushes even useEffect before the paint. A timer-driven update shows
+          // the general-case order this demo is about.
+          setTimeout(function () { setTick(function (t) { return t + 1; }); }, 0);
         }
       }, 'Trigger update'),
       e('div', { className: 'log' }, logRef.current.map(function (item, i) {

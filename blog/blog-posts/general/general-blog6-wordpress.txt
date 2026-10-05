@@ -1,0 +1,464 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  React useState vs useReducer: When Should You Use Each?
+
+  SEO TITLE (51 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  React useState vs useReducer: When to Use Each Hook
+
+  SEO DESCRIPTION (159 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  React useState vs useReducer explained with 10 live demos: action logs, a state machine, undo/redo, a cart reducer and a quiz that tells you which hook to use.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>Both hooks do the exact same job &mdash; they hold state and trigger a re-render when it changes. The real question isn't "which one is more powerful," it's <strong>how you want to describe an update</strong>: with <strong>useState</strong>, the caller hands over the next value directly &mdash; <code>setCount(count + 1)</code> says "the count is now this." With <strong>useReducer</strong>, the caller hands over a description of what happened &mdash; <code>dispatch({ type: 'increment' })</code> says "this occurred," and one function, the reducer, is the only place that decides what it means for the state. Once that distinction clicks, most "which hook do I reach for" questions answer themselves.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The 10 demos below are all real, running React &mdash; click a button, dispatch an action, watch a log &mdash; so you can see each hook's actual behavior instead of reading about it secondhand. Several place the same feature under both hooks so the difference isn't a claim, it's something you can click through and feel.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> &mdash; webdevpuneet's free in-browser editor. Swap a <code>useState</code> call for a <code>useReducer</code> one on a real component and watch what changes &mdash; that's a faster way to build real intuition than any explanation. One note on the code you'll see: these demos skip a build step, so the live JS uses <code>React.createElement</code> directly instead of JSX &mdash; the logic is identical to the JSX version in every rule snippet below, just without a compiler in between.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The one-sentence rule</h2>
+<!-- /wp:heading -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// useState: the caller computes and hands over the next value
+const [count, setCount] = useState(0);
+setCount(count + 1);
+
+// useReducer: the caller describes what happened; the reducer decides the rest
+const [state, dispatch] = useReducer(reducer, { count: 0 });
+dispatch({ type: 'increment' });</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>useState</code> is a direct pipe: you read the current value, compute the next one yourself, and hand it to the setter. That's ideal when the "next value" logic is genuinely simple and lives comfortably next to wherever you're calling it from. <code>useReducer</code> adds one layer of indirection &mdash; a pure <code>(state, action) =&gt; newState</code> function that owns every transition &mdash; which pays for itself the moment there's more than one way to reach the same state, more than one field that needs to change together, or logic complex enough that you'd like to read it, and test it, in one place instead of scattered across event handlers.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. Same Counter, Two Hooks</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Flip the toggle &mdash; the exact same counter UI, rebuilt twice: once with useState, once with useReducer. Click +, &minus;, and Reset on each side.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/05/1.html" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Same Counter, Two Hooks Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// useState version
+const [count, setCount] = useState(0);
+setCount(count + 1);   // caller computes the next value
+
+// useReducer version
+const [state, dispatch] = useReducer(reducer, { count: 0 });
+dispatch({ type: 'increment' });  // caller only describes what happened</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Both versions render identically and behave identically to a user &mdash; that's the point. The useState version's three buttons each know exactly what the next count should be and say so directly. The useReducer version's three buttons don't calculate anything; they just name an action, and a single <code>reducer</code> function elsewhere is the only code that ever decides what <code>'increment'</code>, <code>'decrement'</code>, or <code>'reset'</code> actually do to the state. For a counter this simple, that indirection is genuinely optional &mdash; which is exactly why it's the clearest place to see it side by side before it starts mattering.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> building the base mental model before looking at either hook's harder cases. <strong>Tip:</strong> a reducer with a <code>default: return state</code> case is a defensive habit worth keeping even in a trivial reducer like this one &mdash; dispatching an unrecognized action type should never throw or silently produce <code>undefined</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. useState &mdash; One Value, One Setter</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click the switch. A single independent boolean is the case useState was built for.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/05/2.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="useState One Value One Setter Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const [on, setOn] = useState(false);
+const [clicks, setClicks] = useState(0);
+
+setOn(prev =&gt; !prev);
+setClicks(c =&gt; c + 1);</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This demo genuinely has two pieces of state &mdash; whether the light is on, and how many times it's been clicked &mdash; but they don't <em>need</em> to be one piece of state, because nothing about updating one depends on reading the other. Each <code>useState</code> call is fully self-contained, and the functional-updater form (<code>prev =&gt; !prev</code>) means neither setter even needs to close over the current value to stay correct across rapid clicks. Reaching for <code>useReducer</code> here wouldn't be wrong, exactly &mdash; it would just be solving a coordination problem that doesn't exist.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> toggles, single counters, an open/closed flag, a hovered/focused flag &mdash; any value whose next state is a short, self-contained calculation. <strong>Tip:</strong> the functional updater form, <code>setOn(prev => !prev)</code>, is worth defaulting to whenever the next value depends on the current one &mdash; it sidesteps stale-closure bugs that direct-value updates can hit inside fast event handlers or effects.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. useReducer's Action Log</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Every button dispatches a plain object describing what happened. Watch the log &mdash; it's a readable history of exactly what this component did, in order.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/05/3.html" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="useReducer Action Log Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':   return { count: state.count + 1 };
+    case 'decrement':   return { count: state.count - 1 };
+    case 'incrementBy': return { count: state.count + action.payload };
+    case 'reset':       return { count: 0 };
+    default:            return state;
+  }
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The log in this demo isn't a special feature of <code>useReducer</code> &mdash; it's just printing the exact objects each button dispatches, before the reducer ever sees them. That's the underlying benefit made visible: because every update is expressed as a small, named, serializable object rather than an inline calculation, you get a free audit trail of "what happened" for nothing extra. This is the same shape of information tools like Redux DevTools build an entire time-travel debugger on top of &mdash; <code>useReducer</code> gives you the raw ingredient without needing a library.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any state where knowing <em>what sequence of things happened</em> is genuinely useful for debugging, analytics, or logging &mdash; not just the current value. <strong>Tip:</strong> action objects with a <code>payload</code> field, like <code>incrementBy</code> here, are a common and readable convention &mdash; <code>{ type, payload }</code> &mdash; but nothing enforces it; the shape of an action is entirely up to your reducer.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. The Bug Multiple useState Calls Invite</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Two counters that are supposed to always move together. Click "Increment Both" a few times, then "Reset" &mdash; the useState version drifts out of sync. Then flip the toggle and try the same clicks on the reducer version.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/05/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="The Bug Multiple useState Calls Invite Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// two separate setters &mdash; easy to update only one by mistake
+function reset() {
+  setA(0);   // bug: copy-pasted from a single counter, forgot setB(0)
+}
+
+// one transition resets both fields from one source of truth
+dispatch({ type: 'reset' });   // the reducer returns { a: 0, b: 0 }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is a real, common bug, not a contrived one: two <code>useState</code> calls that are supposed to stay in lockstep, and a reset handler copy-pasted from a single-counter version that only calls one of the two setters. Nothing in the type system or in React itself catches it &mdash; <code>setA(0)</code> is perfectly valid code, and the bug only shows up as behavior, after a few clicks. The reducer version can't make this particular mistake, because there's no second setter to forget &mdash; the <code>'reset'</code> case returns <code>{ a: 0, b: 0 }</code> as one new object, from the one function that's allowed to touch either field.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> recognizing the actual failure mode useReducer exists to prevent &mdash; not "useState is bad at counters," but "state that must change together shouldn't live in separate setters." <strong>Tip:</strong> if you ever catch yourself calling more than one setter inside the same event handler for values that are supposed to represent one coherent thing, that's usually the tell that they belong in one <code>useReducer</code> (or one <code>useState</code> holding an object) instead.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. A Reducer as a State Machine</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Next" to advance the light through its only three legal transitions. There's no path to an invalid color.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/05/5.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A Reducer as a State Machine Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const TRANSITIONS = { red: 'green', green: 'yellow', yellow: 'red' };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'next': return TRANSITIONS[state];
+    default:     return state;
+  }
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>There's exactly one action this reducer understands, and exactly one legal next state for each current state &mdash; the traffic light can never jump from red straight to yellow, or sit in some in-between value, because <code>TRANSITIONS[state]</code> simply doesn't have an entry for that. This is <code>useReducer</code> used as what it actually is: a small, explicit state machine. Trying to build the same guarantee with <code>useState</code> would mean re-deriving "what's a valid next color" inline, every single place the light can change &mdash; and hoping every call site agrees.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> anything with a genuinely fixed set of states and a genuinely fixed set of legal transitions between them &mdash; a wizard's steps, a media player's play/pause/buffering states, an order's pending/shipped/delivered/cancelled lifecycle. <strong>Tip:</strong> when the transition table grows past a handful of states, a library like XState builds on exactly this pattern with visualization and stricter guarantees &mdash; but the core idea, a lookup table plus a reducer, is often all a UI actually needs.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. Undo/Redo, Free With a Reducer</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Change the color a few times, then hit Undo. The reducer keeps past and future stacks alongside the present value.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/05/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Undo Redo Free With a Reducer Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>function reducer(state, action) {
+  switch (action.type) {
+    case 'set':  return { past: [...state.past, state.present], present: action.color, future: [] };
+    case 'undo': return { past: state.past.slice(0, -1), present: state.past.at(-1), future: [state.present, ...state.future] };
+    case 'redo': return { past: [...state.past, state.present], present: state.future[0], future: state.future.slice(1) };
+    default:     return state;
+  }
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Undo/redo is the demo where the gap between the two hooks stops being subtle. The state here isn't just "the current color" &mdash; it's <em>the current color plus its entire history</em>, and every single change (setting a new color, undoing, redoing) has to correctly shuffle three arrays in relation to each other. Writing this with scattered <code>useState</code> calls would mean juggling three separate setters that all have to update in the same tick, in the correct order, from handlers all over the component. As one reducer, it's one function, and every transition is a single, self-contained case.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> undo/redo, multi-step wizards where "back" needs to restore exact prior state, draft/version history &mdash; any feature where "what was the state before this" is itself part of what you're modeling. <strong>Tip:</strong> this exact <code>{ past, present, future }</code> shape is a well-known enough pattern that it has a name &mdash; a "history reducer" &mdash; and it composes: you can wrap <em>any</em> existing reducer in one generically to add undo/redo to it without touching its original logic.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. Independent Fields Don't Need a Reducer</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Type in either field, or flip the checkbox &mdash; three plain useState calls, none of them aware the others exist.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/05/7.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Independent Fields Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const [name, setName] = useState('');
+const [email, setEmail] = useState('');
+const [subscribe, setSubscribe] = useState(false);</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>It's tempting, once <code>useReducer</code> is on your radar, to reach for it every time a component has "more than one piece of state" &mdash; but a form is exactly the case where that instinct usually backfires. These three fields don't validate against each other, don't derive from each other, and no single update ever needs to touch more than one of them. Wrapping them in a reducer would mean writing <code>dispatch({ type: 'setName', value })</code> at every keystroke for no behavioral gain &mdash; more code expressing exactly the same three independent facts.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> forms (up to a point), any UI region where each value's next state is computed from nothing but itself and the new input. <strong>Tip:</strong> the line does move &mdash; a form with five-plus interdependent fields, cross-field validation, or a submit path that needs to reset everything atomically is a legitimate signal to consolidate into either one <code>useState({...})</code> object or a <code>useReducer</code>, precisely because the fields have stopped being independent.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. One Reducer, One Cart</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Add items, bump quantities, remove a line &mdash; every update to this nested array runs through one function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/05/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="One Reducer One Cart Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>function reducer(items, action) {
+  switch (action.type) {
+    case 'add':       return items.some(i =&gt; i.id === action.id)
+                                   ? items.map(i =&gt; i.id === action.id ? { ...i, qty: i.qty + 1 } : i)
+                                   : [...items, { ...action.item, qty: 1 }];
+    case 'changeQty': return items.map(i =&gt; i.id === action.id ? { ...i, qty: i.qty + action.delta } : i)
+                                   .filter(i =&gt; i.qty &gt; 0);
+    case 'remove':    return items.filter(i =&gt; i.id !== action.id);
+    default:          return items;
+  }
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>A shopping cart is a nested array of objects, and updating it immutably &mdash; "increment this one item's quantity without mutating the array or the object" &mdash; takes a few lines of <code>map</code>/<code>filter</code>/spread every time you do it. With <code>useState</code>, that logic tends to get rewritten (slightly differently, and with slightly different bugs) inside every handler that touches the cart: one version inside "add to cart," a subtly different one inside "change quantity." Here it's written exactly once, inside the reducer, and every call site just describes intent &mdash; <code>dispatch({ type: 'add', id })</code> &mdash; and trusts the reducer to handle the immutable-update mechanics correctly, the same way, every time.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> collections &mdash; carts, todo lists, kanban boards, multi-select tables &mdash; any state shaped like an array or object of records where multiple different operations (add, remove, update-one) all need to preserve immutability correctly. <strong>Tip:</strong> because the reducer here is a plain function with no React inside it, you can copy its body into a unit test and assert <code>reducer(items, { type: 'add', id: 'p1' })</code> directly &mdash; no component render, no DOM, no testing-library setup required.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">9. A Reducer Is Just a Function &mdash; Replay It</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>"Replay" feeds the same six actions into the reducer every time, with no clicking involved. Same actions, same result.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/05/9.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A Reducer Is Just a Function Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const SCRIPT = [
+  { type: 'increment' }, { type: 'increment' }, { type: 'incrementBy', payload: 5 },
+  { type: 'decrement' }, { type: 'increment' }, { type: 'reset' }
+];
+
+SCRIPT.forEach(action =&gt; dispatch(action));</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This demo doesn't do anything a user would normally trigger &mdash; it's here to make one property concrete: a reducer is a pure function of <code>(state, action) =&gt; newState</code>, with no dependency on anything else in the component. Feed it the same starting state and the same sequence of actions, and you get the same result, every single time, whether that sequence comes from real clicks, a scripted replay like this one, or a test file that never renders a component at all. <code>useState</code> updater functions can be pure too, but they're never captured as data the way an action object is &mdash; there's nothing to "replay," because there was never a recorded list of what happened, only a series of direct value changes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> understanding <em>why</em> reducers are considered more testable, not just being told that they are. <strong>Tip:</strong> this is also the exact mechanism behind tools like Redux DevTools' time-travel debugging &mdash; record the dispatched actions, and you can replay, rewind, or fast-forward through them against the reducer at any time, entirely independent of the UI that originally triggered them.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">10. Which One Should You Use?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Answer four honest questions about the state you're actually building, and this small quiz tallies a recommendation.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/05/10.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Which One Should You Use Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>const QUESTIONS = [
+  'Is this more than two or three related values that always change together?',
+  'Does figuring out the next state need more than a one-line calculation?',
+  'Do several different event handlers update this same state?',
+  'Would you like to unit-test the state transitions on their own?'
+];
+// two or more "yes" answers → useReducer; otherwise → useState</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Fittingly, the quiz itself is built with <code>useReducer</code> &mdash; each answer is a dispatched action, and one function decides whether that action advances the question index or finalizes the result. That's not a coincidence for effect; a multi-step quiz with a running tally and a distinct "done" state is exactly the shape of problem &mdash; several related pieces of state, several different sources of updates, no single field independently sufficient &mdash; that tips the scale toward a reducer, which is precisely what questions 1 and 3 above are asking about.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> a quick gut-check on any component where you're genuinely unsure which hook fits. <strong>Tip:</strong> treat the result as a strong default, not a law &mdash; two "yes" answers is a reasonable line, but a component that's simple today and clearly about to grow (a form you know will gain cross-field validation next sprint) is a fair reason to start with <code>useReducer</code> a little early.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Choosing between them, in practice</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Use useState when each value's next state is a short, self-contained calculation.</strong> A toggle, a single counter, an independent form field &mdash; you don't need to look at anything else to know what the next value should be.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Use useReducer when several pieces of state change together, or the same state can be reached from several different places.</strong> A cart, a history stack, a wizard, a state machine &mdash; you want one function that's the single source of truth for what a given action actually does.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Reach for useReducer when you want a readable, testable log of what happened, not just the current value.</strong> Demos #3 and #9 show why: actions are data, and data can be logged, replayed, and unit-tested independently of any component.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Don't reach for useReducer by default.</strong> Demo #7's independent form fields are the common case where adding a reducer is pure ceremony &mdash; three unrelated <code>useState</code> calls are simpler to read and simpler to change than one reducer with three unrelated action types.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>The two aren't mutually exclusive within one component.</strong> It's entirely normal for a component to hold one <code>useReducer</code> for its genuinely coupled state (say, a multi-step form's step index and validation) alongside a plain <code>useState</code> for something unrelated (whether a tooltip is currently open).</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Is useReducer just Redux inside a component?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The pattern is the same &mdash; a pure <code>(state, action) => newState</code> function plus dispatched action objects &mdash; but useReducer is local to one component's state by default and needs nothing installed. Redux exists to solve a different problem on top of that pattern: sharing one store across many components that aren't related by props. If your state lives in and is only used by one component (or one that passes it down a short prop chain), useReducer alone is Redux's core idea without Redux's global-store machinery.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Is useReducer always the "more correct" choice for complex state?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>No &mdash; complexity has to actually be about <em>coordination</em>, not just quantity. Demo #7's form has three pieces of state, which sounds complex, but none of them coordinate with each other, so useState stays simpler. Demo #4's two counters are the opposite: only two values, but they must always move together, and that coordination requirement is what useReducer actually solves.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Can I use useReducer for state that's just one primitive value, like a number?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes &mdash; demo #9's counter reducer holds a plain number, not an object. useReducer doesn't require an object-shaped state; it requires that you want dispatched, named actions rather than direct value assignment. The state machine in demo #5 is the same idea with a string instead of a number.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Does useReducer replace useState entirely once I've learned it?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>No, and demos #2 and #7 are the case for why: for state with no cross-field logic, useState is genuinely less code and easier to scan, not just "the beginner option." Most real components end up with a mix &mdash; some fields as plain useState, one cluster of genuinely coupled state as a single useReducer &mdash; rather than standardizing on one hook everywhere.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">How do I test a reducer without rendering a component?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Because a reducer is a plain function, you call it directly: <code>expect(reducer(initialState, { type: 'increment' })).toEqual({ count: 1 })</code>, no component, no DOM, no testing-library render step. Demo #8's cart reducer and demo #9's replay script both lean on this &mdash; the state logic is fully decoupled from anything React-specific.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to actually internalize the difference between these two hooks is to click <strong>Fork &amp; Edit</strong> on whichever demo felt least intuitive, change one action type, and watch exactly what breaks. Once you've got a version you like, save it to <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or reuse in a real project.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Want to go deeper than a single embed? The <a href="https://webdevpuneet.com/react-playground/">React Playground</a> is webdevpuneet's full in-browser React sandbox &mdash; a real editor with instant preview, built for exactly this kind of edit-and-see learning, without the ten-tab constraint of a blog post.</p>
+<!-- /wp:paragraph -->

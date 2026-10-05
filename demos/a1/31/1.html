@@ -100,7 +100,7 @@
       var plainAngle = getComputedStyle(plainRing).getPropertyValue('--angle').trim();
       var regAngle = getComputedStyle(regRing).getPropertyValue('--angle').trim();
 
-      note.innerHTML = '300ms into a 1200ms transition (25% elapsed) &mdash; plain <strong>--angle</strong> reads <strong>' + plainAngle + '</strong> (an unregistered custom property can only flip discretely, so it is still showing the start value, then will jump straight to 360deg partway through). Registered <strong>--angle</strong> reads <strong>' + regAngle + '</strong> &mdash; roughly a quarter of the way to 360deg, because @property gave the browser an actual &lt;angle&gt; value space to interpolate within.';
+      note.innerHTML = '300ms into a 1200ms transition (25% elapsed) &mdash; plain <strong>--angle</strong> reads <strong>' + plainAngle + '</strong> (an unregistered custom property can't be interpolated, so the transition never runs for it: it switched straight to 360deg the moment the class changed). Registered <strong>--angle</strong> reads <strong>' + regAngle + '</strong> &mdash; roughly a quarter of the way to 360deg, because @property gave the browser an actual &lt;angle&gt; value space to interpolate within.';
     }, 300);
   });
 </script>

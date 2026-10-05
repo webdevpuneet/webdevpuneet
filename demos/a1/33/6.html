@@ -83,16 +83,23 @@ https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production
       var bw = btnRef.current.offsetWidth;
       var pw = popRef.current.offsetWidth;
       var centered = Math.round((bw - pw) / 2);
+      // rAF runs right before the next paint; read the popover's real position, not this run's variable.
       requestAnimationFrame(function () {
-        log('PAINTED offset=' + offset + 'px', offset === 0);
+        var shown = popRef.current ? parseInt(popRef.current.style.left, 10) || 0 : offset;
+        log('PAINTED offset=' + shown + 'px', shown === 0);
       });
       if (offset !== centered) setOffset(centered);
     }, [showId, offset, label]);
 
     function show() {
       logRef.current = [];
-      setOffset(0); // always starts left-aligned -- the wrong guess
-      setShowId(function (n) { return n + 1; });
+      // Deferred with setTimeout on purpose: since React 18, an update that comes straight from a
+      // click runs even useEffect before the browser paints. Starting it from a timer (like data
+      // arriving, or any non-click update) shows the timing difference this demo is about.
+      setTimeout(function () {
+        setOffset(0); // always starts left-aligned -- the wrong guess
+        setShowId(function (n) { return n + 1; });
+      }, 0);
     }
 
     return e('div', { className: 'col' },

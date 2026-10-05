@@ -1,0 +1,439 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Empty State Examples with HTML and CSS
+
+  SEO TITLE (54 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Empty State Examples with HTML and CSS (Live Demos)
+
+  SEO DESCRIPTION (158 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 empty state examples in HTML and CSS: no search results, inbox zero, first-use onboarding, filters, errors, empty carts, dashboards and permission screens.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>An empty state is the screen a user sees when there's nothing to show yet &mdash; an inbox with no messages, a search with no matches, a dashboard with no data. It's easy to treat as an afterthought because, by definition, there's "nothing there," but that blank moment is doing real work: it tells the user whether the app is broken, whether they did something wrong, or whether there's simply a next step to take. A well-designed empty state answers that question instantly. A neglected one &mdash; a bare "No data" label with nothing else &mdash; reads as a dead end, and dead ends are where users quietly leave. This post is a gallery of ten distinct empty-state patterns, each implemented in plain HTML and CSS with a touch of vanilla JavaScript, so you can see exactly how each one is triggered and why it's shaped the way it is.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every demo below is <strong>live and interactive</strong> right here in the article &mdash; type into the search boxes, click the filter chips, remove the cart items, and watch the actual empty state appear the same way it would in a real product. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact code, already running, in <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> &mdash; webdevpuneet's free in-browser editor. Change the copy, swap a color, delete the icon &mdash; that's a faster way to feel why an empty state lands or falls flat than any explanation.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>New to building these from scratch? The <a href="https://webdevpuneet.com/css-playground/">CSS Playground</a> is a free, click-based, in-browser course that covers the layout, flexbox and transition techniques every pattern below is built from, one guided step at a time.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Why the right empty state matters more than it looks like it should</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Every empty state is answering one implicit question: "why am I looking at nothing?" &mdash; and the answer changes the required response completely. Sometimes it means "you haven't created anything yet, here's how to start." Sometimes it means "your search or filter matched nothing, try adjusting it." Sometimes it means "we tried to load this and failed, try again." Sometimes it means "you're not allowed to see this." Collapsing all of these into the same gray box with the same generic "No data" message forces the user to do the diagnostic work the interface should be doing for them &mdash; figuring out on their own whether it's their fault, a bug, or just how things currently stand. The patterns below split roughly into three families: recovery states (search, filters, errors) that point back toward a working path; onboarding states that convert a blank slate into a first action; and boundary states (permissions, empty widgets) that explain a limit rather than invite an action. Knowing which family a given empty moment belongs to is what determines which pattern below fits.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. Empty Search Results</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Type into the search box &mdash; try "shoes" for real matches, then try something like "zzz" to see the empty state with suggested keyword chips.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/25/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Empty Search Results Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>var matches = PRODUCTS.filter(function (p) {
+  return p.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+});
+
+if (matches.length === 0) {
+  results.innerHTML =
+    '&lt;p&gt;No results for &ldquo;' + query + '&rdquo;&lt;/p&gt;' +
+    '&lt;p&gt;Try different keywords or check for typos.&lt;/p&gt;' +
+    buildSuggestionChips(['shoes', 'boots', 'jacket']);
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The core idea is narrow but easy to get wrong: this empty state exists specifically because the user took an action &mdash; typing a query &mdash; that happened to match nothing, which is a fundamentally different situation from a list that's empty because no data exists at all. The copy reflects that directly: "No results for [query]" names the actual search term back to the user, confirming their input was received and processed rather than silently ignored, which is the first thing an anxious searcher needs to know. The suggested-keyword chips go one step further than a bare message by giving a one-click way to retry with a term more likely to succeed, instead of leaving the user to guess at spelling or phrasing on their own. That's the difference between an empty state that explains a problem and one that also hands over the fix.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any search box, filter field, or lookup where the query itself is the most likely reason nothing matched. <strong>Tip:</strong> always echo the user's actual search term back in the message &mdash; a generic "No results found" with no reference to what was searched reads as less trustworthy, since it's not obviously reacting to what the user actually typed.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. "All Caught Up" Inbox</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Mark all as read" to clear the notifications and see a warm, positive empty state instead of a sad one.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/25/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="All Caught Up Inbox Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.emptyIcon {
+  width: 50px; height: 50px; border-radius: 50%;
+  background: #ecfdf3; color: #16a34a;   /* green, not gray or red */
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 800;
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The markup here is almost identical to a generic empty list &mdash; an icon, a heading, a description &mdash; but the entire effect comes from tone, not structure. "You're all caught up" reframes an empty inbox as an achievement rather than a lack: the user cleared their notifications, and the interface celebrates that instead of stating a flat, faintly negative fact like "You have no notifications." The green checkmark and soft mint background reinforce the same idea visually, borrowing the color language of "task complete" rather than "nothing here." This distinction matters specifically for states a user reaches through their own positive action &mdash; clearing a queue, finishing a task list, reaching inbox zero &mdash; where a neutral or sad-toned message would undercut something the user should feel good about.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> inboxes, task lists, and notification centers where emptiness is the result of the user finishing something. <strong>Tip:</strong> match icon color to tone deliberately &mdash; green or a check mark for "you did it," neutral gray or blue for a plain informational empty state, and reserve red or amber for genuine problems.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. First-Use Onboarding Empty State</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This is a brand-new workspace with no projects yet. Click the single call-to-action to create the first one.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/25/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="First-Use Onboarding Empty State Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.emptyState {
+  padding: 40px 20px;
+  border: 1.5px dashed var(--line);   /* dashed = "add something here" */
+  border-radius: 14px;
+}
+.ctaBtn { background: var(--accent); color: #fff; }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>An onboarding empty state isn't reporting a lack of results &mdash; it's the very first screen a new user or new feature ever shows, so it doubles as the product's introduction to what this section even does. That's why it carries more explanatory copy than the other patterns here ("Projects keep your tasks, files and notes together") and exactly one prominent, high-contrast call-to-action rather than a menu of options. A dashed border is a small but deliberate borrowed convention &mdash; it visually reads as a slot waiting to be filled, the same signal used for file-drop zones, priming the user to expect that clicking inside (or the button within it) creates something. Offering a single clear action here matters more than in any other empty state on this list, because a first-time user with no prior context has no other way to learn what to do next.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> brand-new features, first login, or any section a user is seeing for the very first time with genuinely zero data. <strong>Tip:</strong> keep it to one primary action &mdash; a first-use empty state with three competing buttons re-creates the exact decision paralysis it's supposed to resolve.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. Filtered-to-Empty State</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>These filters are already too narrow to match anything. Click a filter chip to remove it, or "Clear all filters" to reset.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/25/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Filtered-to-Empty State Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>var matches = activeFilters.length === 0 ? PRODUCTS : [];
+// with 3 filters active, matches is always empty &mdash; that's the trigger
+
+if (matches.length === 0 &amp;&amp; activeFilters.length &gt; 0) {
+  showEmptyState('No items match your filters', clearAllFilters);
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This looks close to the search empty state, but it's a deliberately different situation: the underlying data isn't missing, the user's own combination of active filters is simply too narrow to include any of it. The active filter chips stay visible and individually removable in the empty state itself, rather than disappearing along with the results, because they're the actual cause and the fastest fix is often removing just one of them, not starting over. "Clear all filters" is offered as a faster, blunter alternative for when the user doesn't want to debug which filter is the culprit. The key writing decision is naming "filters" specifically instead of reusing the same "no results" copy as a search box &mdash; conflating the two teaches users the wrong lesson about what actually went wrong and what action fixes it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any filterable list, table, or product grid where multiple filters can combine to exclude everything. <strong>Tip:</strong> never reuse identical empty-state copy for "your search matched nothing" and "your filters matched nothing" &mdash; they call for different recovery actions, and the message should point at the one that's actually available.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Failed-to-Load Empty State</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Load activity" &mdash; the first attempt fails on purpose. Click "Retry" and it succeeds, showing real data.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/25/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Failed-to-Load Empty State Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>attempt++;
+setTimeout(function () {
+  if (attempt === 1) { renderError(); }   // first try fails
+  else { renderData(); }                  // retry succeeds
+}, 1100);</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is the one pattern on the list that isn't really an "empty" state at all &mdash; there might be plenty of data behind it &mdash; it's a request that failed, and mislabeling it as emptiness is a real and common bug. Visually it borrows almost nothing from the other patterns here: a red-tinted icon instead of neutral or accent-colored, a message that names the failure ("Something went wrong") rather than describing an absence, and a Retry button as the single required action, since retrying is the only thing that can actually resolve this state. Confusing this with a genuine empty state is a serious mistake in either direction &mdash; showing "Something went wrong" when data genuinely doesn't exist sends the user on a pointless retry loop, and showing a calm "No data yet" when a request actually failed hides a real problem from both the user and, if nothing logs it, the team that could fix it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any network request, API call, or data fetch that can genuinely fail &mdash; as distinct from a request that succeeds and simply returns nothing. <strong>Tip:</strong> always give a failed-to-load state a retry action; an error message with no way to try again is a strictly worse dead end than the empty states it's often confused with.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. Empty Shopping Cart</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Remove both items with the &times; buttons to see the empty cart state, with a way back to browsing.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/25/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Empty Shopping Cart Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>items = items.filter(function (it) { return it.id !== removedId; });
+if (items.length === 0) {
+  renderEmptyCart();   // icon + message + "Browse products" button
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>An empty cart is functionally close to demo #3's onboarding state &mdash; both need exactly one clear next action &mdash; but the context is different enough to change the message. This isn't a user's first time in the product; it's a moment mid-shopping where the cart happens to hold nothing, either because they never added anything or, as in this demo, removed everything they'd added. "Browse products" is the specific fix, phrased as a direct link back into the part of the product that actually solves the emptiness, rather than a vague "explore" or, worse, no action at all. E-commerce empty carts are one of the highest-traffic empty states in any product with a checkout flow, which makes the button's destination worth getting right &mdash; it should route to a real product listing, not the homepage, to keep the recovery path as short as possible.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> shopping carts, wishlists, and saved-items lists in any e-commerce or marketplace product. <strong>Tip:</strong> link the recovery action straight to a relevant product listing or category, not a generic homepage &mdash; every extra click between the empty cart and a product page is a chance to lose the visit entirely.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. Empty Dashboard Widget</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This chart widget has no sales yet. Click "Add sample data" to see it populate into the shape it hints at now.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/25/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Empty Dashboard Widget Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.pbar {
+  background: repeating-linear-gradient(45deg,
+    var(--line), var(--line) 4px, #eef0f3 4px, #eef0f3 8px);
+  opacity: 0.5;   /* faded, hatched bars hint at the real chart's shape */
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Rather than replacing the whole widget with a generic "No data" label, this pattern keeps the chart's actual layout &mdash; seven bars in the same positions a real week of sales data would occupy &mdash; and renders them faded and hatched instead of removing them. The effect is closer to an architectural blueprint than a blank box: the user can see exactly what shape the widget will take on once real numbers start arriving, which sets an accurate expectation without needing any explanatory copy beyond a short caption. This sits deliberately between a full skeleton-loading placeholder (which implies data is actively arriving right now) and a text-only empty message (which gives up the layout information entirely) &mdash; it's for the specific case where data doesn't exist yet at all, but its eventual shape is already known.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> analytics widgets, charts, and dashboard tiles for a metric that's genuinely never had data yet, like a new store's first week. <strong>Tip:</strong> keep the placeholder's proportions honest &mdash; inventing a dramatic-looking fake chart shape sets an expectation for what real data will look like that the actual numbers may not match.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. Permission-Denied Empty State</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This role has no access to billing. Click "Request access," then "Switch to Admin" to see the unlocked view.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/25/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Permission-Denied Empty State Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.emptyIcon {
+  background: #fff7ed; color: #b45309;   /* amber, not red or neutral gray */
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is the other pattern on the list, alongside the failed-to-load state, that isn't describing an absence of data at all &mdash; the billing information in this demo exists and is populated the instant an admin views it, but a viewer-role user is structurally blocked from seeing it regardless of whether anything is there. Using the same "No data" empty state for this case is actively misleading, since it implies the fix is creating data rather than gaining access. The amber, lock-icon treatment sits deliberately between the neutral tone of a genuine empty list and the red, alarmed tone of a load failure &mdash; a permission boundary isn't broken and isn't the user's mistake, it's just a limit, and the visual language should communicate "this is expected" rather than "something is wrong."</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any section gated by role, plan tier, or workspace permissions where the content genuinely exists but this particular user can't see it. <strong>Tip:</strong> always name the actual barrier ("Billing is visible to admins only") instead of a vague "Access denied" &mdash; knowing exactly who can unlock it turns a wall into a concrete next step.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">9. Illustrated vs Text-Only Empty State</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Toggle between the two treatments of the exact same message to compare how much visual weight the illustration adds.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/25/9.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Illustrated vs Text-Only Empty State Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.illoWrap { width: 90px; height: 70px; margin: 0 auto 14px; }
+/* inline SVG, not a raster image -- scales cleanly and loads instantly */</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Both versions here share identical copy, so the entire comparison is about the weight an illustration adds versus what it costs. The illustrated version reads as friendlier and more considered &mdash; it's the treatment that turns a blank state into something that feels designed rather than defaulted-into &mdash; but it also adds visual complexity, another design asset to maintain across a product's set of empty states, and, if it were a raster image instead of the inline SVG used here, a loading cost that a text-only state never pays. The honest rule is proportional: a first-use onboarding moment (demo #3) or a top-level empty section a user sees often earns the extra polish, while a small, deeply nested, or rarely seen empty state &mdash; an empty comment thread on a comment, say &mdash; usually doesn't need more than a clear heading and description.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> comparing the two treatments before committing a design system to one or the other. <strong>Tip:</strong> if you do use an illustration, keep it as inline SVG rather than a PNG or JPEG &mdash; it stays crisp at any size, themes easily with CSS variables, and never adds a network request that could itself delay the empty state from appearing.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">10. No Results, but Here's What's Popular</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Type a search term that doesn't exist &mdash; instead of a dead end, trending articles are suggested. Click one to "open" it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/25/10.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="No Results But Popular Instead Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>if (matches.length === 0) {
+  results.innerHTML =
+    buildEmptyHeader(query) +
+    '&lt;div class="popularLabel"&gt;Popular right now&lt;/div&gt;' +
+    buildPopularCards(POPULAR_ARTICLES);   // real, clickable content
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This takes demo #1's search-empty pattern a step further: instead of only suggesting alternate keywords to try, it drops the user straight into real, browsable content &mdash; a ranked list of popular articles they can click into immediately, no retyping required. The distinction matters because a suggested keyword still requires the user to run another search and hope, while a populated list of alternatives is a completed recovery in a single click. This is a heavier pattern to build, since it requires a genuinely separate dataset (trending or popular content) to fall back to, which not every empty state has available &mdash; but wherever that data exists, it converts a moment that would otherwise end the session into one that keeps the user browsing. It's the empty-state equivalent of a 404 page that suggests related pages instead of just reporting the missing one.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> content search, article or product discovery, and any search experience where a "trending" or "popular" fallback dataset already exists elsewhere in the product. <strong>Tip:</strong> keep the fallback content genuinely relevant to the section being searched &mdash; surfacing unrelated popular content from across the whole site feels like a bait-and-switch rather than a helpful recovery.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Common pitfalls</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>A dead-end empty state with no action at all.</strong> A bare "No data" label with nothing to click leaves the user to figure out the next step on their own &mdash; nearly every pattern above pairs the message with a specific, clickable recovery action.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>A negative or blaming tone.</strong> "You have no items" reads worse than a warmer framing like demo #2's "You're all caught up" or demo #6's "Looks like you haven't added anything yet" &mdash; the user isn't at fault for a screen being empty, and the copy shouldn't imply otherwise.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Reusing the same message for "no results from your search" and "you haven't created anything yet."</strong> These call for different recovery actions &mdash; try a different query versus create your first item &mdash; and collapsing them into one generic message, as demos #1, #3 and #4 show, sends the user toward the wrong fix.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>An illustration so large or slow it delays the perceived load.</strong> A heavy raster image loading in after the empty state's text has already appeared creates its own small layout shift and defeats the point of an instant, reassuring response &mdash; demo #9's inline SVG avoids this entirely.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Missing a way back or a retry from an error empty state.</strong> Demo #5's failed-to-load state without its Retry button would be a genuine dead end &mdash; unlike a true empty state, a failure is often recoverable, and the interface should always offer the one action that can fix it.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>An empty state that appears silently.</strong> When a search or filter empties a list without a page load, a screen reader user hears nothing at all. Put the result message in a live region (<code>role="status"</code> or <code>aria-live="polite"</code>) so "No results for &lsquo;zzz&rsquo;" is announced the moment it appears, and move focus to the empty state's action when it replaces the content the user was working in.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Should every empty state have a call-to-action button?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Most should, but not all &mdash; an onboarding state (demo #3), an empty cart (demo #6), and a failed load with retry (demo #5) all need one because a specific action genuinely resolves the emptiness. A permission-denied state (demo #8) or a deeply nested, low-traffic empty section can get away with just a clear explanation, since there may be no action the current user is able to take at all.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Illustration, icon, or text-only &mdash; how do I choose?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Match the weight to how often and how prominently the state is seen, as demo #9 compares directly. A top-level, frequently-seen empty state (a new user's first dashboard, an empty inbox) earns a custom illustration or icon; a small, rarely-seen, or deeply nested one (an empty tag list inside a settings panel) is usually better served by a plain heading and description that loads instantly and needs no extra asset.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What's the difference between an empty state and a loading/skeleton state?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A loading or skeleton state means content is on its way and hasn't arrived yet &mdash; it's temporary by definition and should resolve within seconds. An empty state means the request has already completed and there genuinely isn't anything to show, whether that's zero results, zero created items, or (as in demo #5) a failure. Showing a skeleton indefinitely because a request never finished is a bug, not an empty state; the two should never be visually identical, or users can't tell whether to keep waiting or take action.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What tone should empty-state copy use?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Plain, warm, and specific to what actually happened &mdash; name the search term, the filter, or the barrier rather than defaulting to a generic "No data." Avoid language that implies fault ("You have no…") in favor of neutral or encouraging phrasing, and reserve urgent or alarmed language (as in demo #5's error state) strictly for situations that are actually a problem, not for ordinary emptiness.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">How is a "no results" search state different from a "filtered to empty" state?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>They look similar but point to different causes and fixes. A search empty state (demo #1) means the query itself didn't match anything, and the fix is trying different keywords. A filtered-to-empty state (demo #4) means the underlying data exists but the combination of active filters excludes all of it, and the fix is removing or loosening a filter &mdash; which is why that demo keeps the filter chips themselves visible and clickable inside the empty state, rather than hiding the cause along with the results.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The fastest way to actually internalize these patterns is to click <strong>Fork &amp; Edit</strong> on demo #4 &mdash; the filtered-to-empty state &mdash; and try swapping its "Clear all filters" button for a generic "No results" message with no action at all. Notice how much colder and less useful it feels the moment that one button disappears; that's the exact gap between an empty state that explains a problem and one that also resolves it. Once you've got a version you like, save it to <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop straight into a real project.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/css-playground/">CSS Playground</a> and design an empty state of your own from scratch &mdash; start with a simple icon-and-message layout, then try adding a single, well-worded call-to-action on top of it. For more posts like this one, browse the <a href="https://webdevpuneet.com/blog/">webdevpuneet.com blog</a>.</p>
+<!-- /wp:paragraph -->

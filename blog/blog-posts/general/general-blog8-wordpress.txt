@@ -1,0 +1,420 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  HTML Form Validation Without JavaScript: 10 Useful Techniques
+
+  SEO TITLE (54 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  HTML Form Validation Without JavaScript: 10 Techniques
+
+  SEO DESCRIPTION (159 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  Validate HTML forms with zero JavaScript: required, pattern, input types, min/max, length limits, :valid/:invalid styling and :has() — 10 live, editable demos.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>Most developers reach for JavaScript the moment a form needs validation &mdash; a keyup listener here, a regex check there, a red border toggled in code. But the browser has been able to validate forms on its own since HTML5 shipped <code>required</code>, <code>pattern</code>, typed inputs, and a full set of CSS pseudo-classes that expose the result. No listener, no library, no risk of the validation running before the script has finished loading. The browser blocks the submit itself, focuses the offending field, and shows its own message &mdash; and CSS alone can style every step of that.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The 10 demos below are all real forms &mdash; type into them, try submitting them empty or malformed, and watch the browser's <em>native</em> validation UI do the work. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://webdevpuneet.com/ui-snippets/mycode/" target="_blank" rel="noopener">My Code</a> &mdash; webdevpuneet's free in-browser editor. Loosen a <code>pattern</code>, delete a <code>required</code>, and watch what the browser stops catching &mdash; that's a faster way to understand constraint validation than any explanation.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>If forms are still a shaky part of your HTML in general &mdash; not just validation &mdash; the <a href="https://webdevpuneet.com/html-playground/" target="_blank" rel="noopener">HTML Playground</a> is worth having open alongside this post. It's a free, click-based, in-browser course that runs beginner to pro across 42 lessons in 13 chapters, with a dedicated Forms chapter covering input types, form structure, fieldset and legend, and native form validation itself &mdash; the same ground this post covers, but as a guided curriculum rather than a single deep dive.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Why this works without a single script tag</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Every form field participates in what the spec calls the <strong>Constraint Validation API</strong> &mdash; a built-in, browser-native system that runs automatically the moment a form is submitted. Attributes like <code>required</code>, <code>pattern</code>, <code>minlength</code>/<code>maxlength</code>, and <code>min</code>/<code>max</code>/<code>step</code> each add one constraint. If any field fails its constraint, the browser cancels the submit outright, scrolls to and focuses the first invalid field, and pops up its own message bubble &mdash; all before your code, if you had any, would even run. CSS gets a live read on the result too: <code>:valid</code>, <code>:invalid</code>, <code>:required</code>, <code>:optional</code>, and <code>:in-range</code>/<code>:out-of-range</code> all reflect a field's current state, updating the instant the user types.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. Required Fields</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Try clicking "Create account" without filling every field below &mdash; the browser blocks the submit and points at the first empty one.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/07/1.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Required Fields Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input type="text" name="name" required&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>That single attribute is the whole feature. A field with <code>required</code> is invalid whenever it's empty, and the form's native submit handler refuses to fire until every required field holds a value. The styling in this demo &mdash; a red border for empty-and-invalid, green for filled-and-valid &mdash; comes from CSS alone: <code>input:required:not(:placeholder-shown):invalid</code> only matches once the field is no longer showing its placeholder, so a blank required field doesn't look broken the instant the page loads.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any field the form genuinely cannot proceed without &mdash; name, email, a chosen plan. <strong>Tip:</strong> pair <code>required</code> with the <code>:not(:placeholder-shown)</code> trick above; without it, every required field renders red before the visitor has typed anything, which reads as a bug rather than a validation state.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. Native Input Types</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Each field below is a different <code>type</code> value. Try typing "not-an-email" in the email field, or letters in the phone field, then submit.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/07/2.html" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Native Input Types Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input type="email"&gt;
+&lt;input type="url"&gt;
+&lt;input type="tel" pattern="[0-9\-\+\s]{7,}"&gt;
+&lt;input type="number" min="0" max="120"&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Changing <code>type="text"</code> to <code>type="email"</code> or <code>type="url"</code> does two things at once: it swaps in the right on-screen keyboard on mobile, and it makes the browser check the value against the correct format before allowing submission &mdash; no regex required on your end for the basics. <code>type="tel"</code> is the odd one out: because phone number formats vary wildly by country, the browser enforces nothing on its own, which is exactly why this demo adds a <code>pattern</code> alongside it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> the most common form fields on the web &mdash; email, URL, phone, and numeric inputs. <strong>Tip:</strong> always add a <code>pattern</code> to <code>type="tel"</code> if you need real format enforcement; the type alone only changes the keyboard, not the validation.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. Pattern Matching</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The username field only accepts 3&ndash;16 letters, numbers or underscores &mdash; try typing a space or a symbol, then submit.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/07/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pattern Matching Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input
+  pattern="[A-Za-z0-9_]{3,16}"
+  title="3–16 characters: letters, numbers and underscores only"&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>pattern</code> takes a regular expression &mdash; implicitly anchored at both ends, so it must match the <em>entire</em> value, not just a substring &mdash; and the browser refuses to submit until the field matches it. This is the single most flexible constraint HTML offers, since almost any format rule (coupon codes, product SKUs, postal codes) can be expressed as one regex without a line of script. One modern gotcha: browsers now compile <code>pattern</code> with the regex <code>v</code> flag, which is stricter inside character classes &mdash; an unescaped hyphen or other symbol at the edge of a class, like <code>[\w-]</code>, can make the whole pattern invalid, and an invalid pattern is silently ignored. Escape symbols inside classes (<code>[\w\-]</code>) and test the field once in the browser.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any format the built-in input types don't already cover &mdash; usernames, coupon codes, custom ID formats. <strong>Tip:</strong> always pair <code>pattern</code> with a <code>title</code>; without one, the browser's default message is a generic "match the requested format," which tells the visitor nothing about what format is actually expected.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. Number Ranges</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Try nudging the quantity above 10 or below 1 with the spinner arrows &mdash; it won't let you.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/07/4.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Number Ranges min max step Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input type="number" min="1" max="10" step="1"&gt;
+&lt;input type="range" min="0" max="100" step="5"&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>min</code>, <code>max</code>, and <code>step</code> constrain both <code>number</code> and <code>range</code> inputs identically &mdash; the spinner arrows and the slider's draggable positions all respect them automatically. The CSS pseudo-classes <code>:in-range</code> and <code>:out-of-range</code> only apply to fields that actually have a <code>min</code> and/or <code>max</code> set, and only once the field holds a value, so you get free styling for "is this number where it should be" with zero script.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> quantities, ages, percentages, ratings &mdash; anything numeric with a sensible floor and ceiling. <strong>Tip:</strong> a mismatched <code>step</code> (e.g. <code>step="5"</code> starting from a <code>min</code> that isn't a multiple of 5) can make otherwise-reasonable values register as invalid; keep your <code>min</code> aligned to your <code>step</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Length Limits</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The bio field physically stops accepting keystrokes at 140 characters. The password field lets you type anything, but won't let the form submit under 8.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/07/5.html" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Length Limits minlength maxlength Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input type="password" required minlength="8"&gt;
+&lt;textarea maxlength="140"&gt;&lt;/textarea&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>maxlength</code> is a hard ceiling enforced at the keystroke level &mdash; the field literally cannot hold more characters, no submit attempt required to catch it. <code>minlength</code> works the opposite way: it doesn't stop you from typing fewer characters, but it does block the form from submitting until the value reaches that length, since there's no meaningful way to prevent someone from typing "too little."</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> passwords (a floor), bios and comment fields (a ceiling), usernames (often both at once). <strong>Tip:</strong> <code>maxlength</code> alone gives no visual feedback about how many characters remain &mdash; a live counter needs script, but the hard limit itself never does.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. Custom Error Messages</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Type an invalid postal code and click submit &mdash; the browser's own validation bubble shows the exact wording from the <code>title</code> attribute, not a generic message.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/07/6.html" style="width:100%;height:400px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Custom Error Messages via title Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;input
+  pattern="[A-Z]{2}[0-9]{4}"
+  title="Enter a postal code as 2 letters followed by 4 digits, e.g. AB1234"&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Without a <code>title</code>, a failed <code>pattern</code> match shows a browser-generic "please match the requested format" &mdash; technically correct, practically useless. Setting <code>title</code> to plain-language instructions replaces that generic text with something the visitor can actually act on, and it costs nothing but the attribute itself.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any field using <code>pattern</code>, since the default message never explains what the pattern actually requires. <strong>Tip:</strong> write the <code>title</code> as an instruction ("Enter a postal code as...") rather than a description of the regex &mdash; nobody wants to read their own field's regex back at them mid-submit.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. Styling with :valid and :invalid</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Type into each field and watch the border color and the check/&times; icon react instantly &mdash; that's pure CSS reading the browser's own validity state, live, as you type.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/07/7.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title=":valid :invalid Styling Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>input:not(:placeholder-shown):valid { border-color: green; }
+input:not(:placeholder-shown):invalid { border-color: red; }
+input:not(:placeholder-shown):valid ~ .iconOk { opacity: 1; }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is the demo that makes constraint validation feel like a real feature rather than a fallback: <code>:valid</code> and <code>:invalid</code> update continuously as the user types, not just on submit, and any CSS &mdash; a border color, a background tint, an icon shown via a sibling combinator &mdash; can key off either state. No <code>input</code> event listener, no manual class toggling; the browser already knows the answer, CSS is just asking it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> the general pattern behind every other demo on this page &mdash; if you take one thing from this post, it's this <code>:not(:placeholder-shown)</code> combo. <strong>Tip:</strong> the check/&times; icons here are two separate elements whose opacity toggles, not one icon whose content changes &mdash; content-swapping an icon needs script or a <code>content</code> property trick; toggling opacity on two pre-placed icons doesn't.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. Labeling with :required and :optional</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Nothing in this form's markup spells out "required" or "optional" in text &mdash; the red asterisk and the "(optional)" tag are both generated purely from each field's <code>required</code> attribute, via CSS.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/07/8.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title=":required :optional Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.field:has(input:required) .fieldLabel::after { content: " *"; }
+.field:has(input:optional) .fieldLabel::after { content: " (optional)"; }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>:required</code> and <code>:optional</code> are simply the inverse of each other &mdash; every form field matches exactly one of the two, based purely on whether it carries the <code>required</code> attribute. Combined with <code>:has()</code>, a label can react to its associated input's required-ness without either element needing an extra class. Change <code>required</code> on the input and the label's marker updates itself &mdash; there's nothing else to keep in sync.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> generating consistent required/optional markers across a large form without hand-writing an asterisk (or forgetting one) on every label. <strong>Tip:</strong> <code>:has()</code> is what makes this reach "up" from the input to style its ancestor label &mdash; without it, you'd need the asterisk baked directly into each label's HTML instead of derived from the input's state.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">9. Required Radio Groups</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click submit without picking a plan &mdash; the browser refuses and focuses the group, even though no single radio input is individually marked invalid on its own.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/07/9.html" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Required Radio Groups Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>&lt;fieldset&gt;
+  &lt;legend&gt;Choose a plan&lt;/legend&gt;
+  &lt;input type="radio" name="plan" value="free" required&gt;
+  &lt;input type="radio" name="plan" value="pro" required&gt;
+  &lt;input type="radio" name="plan" value="team" required&gt;
+&lt;/fieldset&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Radio buttons are a special case: put <code>required</code> on every input sharing the same <code>name</code>, and the browser treats the whole group as invalid until <em>one of them</em> is checked &mdash; it doesn't demand that every individual radio be checked, which would be impossible. <code>&lt;fieldset&gt;</code> and <code>&lt;legend&gt;</code> aren't required for the validation to work, but they give the group a proper accessible name, which matters more here than on a single input since screen readers need to announce what the group of options actually represents.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> plan selectors, shipping method choices, single-answer survey questions &mdash; any "pick exactly one" control. <strong>Tip:</strong> the same pattern doesn't apply to checkboxes the same way; a required checkbox validates individually (commonly used for a single "I agree to the terms" box), not as a group demanding at least one checked.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">10. Gating Submit with :has()</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Fill in both fields correctly and watch the button light up on its own &mdash; <code>form:has(:invalid)</code> reads the whole form's validity state and styles the button from outside it, no script watching either field.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/07/10.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Gating Submit with :has() Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>form:has(input:invalid) button[type="submit"] {
+  opacity: .45;
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>:has()</code> lets a selector match a parent based on what's inside it &mdash; here, "does this form currently contain any invalid input" &mdash; and apply styling to a completely different element, the submit button, based on that answer. It's worth being precise about what this does and doesn't do: the button isn't actually disabled by this CSS, and it doesn't need to be, because the browser's constraint validation already blocks the submit on its own the instant it's clicked while any field is invalid. The dimmed opacity is purely a visual cue that arrives before the click, not the mechanism doing the blocking.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> giving users an early visual signal that a form isn't ready, layered on top of &mdash; not replacing &mdash; the native validation that was already going to stop an invalid submit regardless. <strong>Tip:</strong> if you want the button <em>functionally</em> disabled too (removed from the tab order, for instance), that still requires the <code>disabled</code> attribute set via script; <code>:has()</code> alone only ever changes appearance.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Common pitfalls</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Styling a required field red before the user has touched it.</strong> An empty required field is <code>:invalid</code> by definition, from the moment the page loads &mdash; if your CSS is just <code>input:invalid { border-color: red }</code>, every required field on the page starts out looking broken. Add <code>:not(:placeholder-shown)</code> (as every demo above does) so the red state only appears once there's actually something to be wrong about.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong><code>novalidate</code> on the <code>&lt;form&gt;</code> turns all of this off at once.</strong> It's sometimes added deliberately (to let a JS validation layer fully take over), but if native validation mysteriously "stops working," check the form tag itself for a stray <code>novalidate</code> before debugging anything else.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>A <code>pattern</code> is implicitly anchored, so you don't need <code>^</code> and <code>$</code>.</strong> <code>pattern="[0-9]+"</code> requires the <em>entire</em> value to be digits, not just contain some &mdash; there's no need to write <code>^[0-9]+$</code> yourself, and doing so is harmless but redundant.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Client-side validation, native or not, is a UX layer &mdash; not a security boundary.</strong> There's no JavaScript here to disable, but that doesn't make these constraints unbypassable: anyone submitting the form with a tool that skips the browser entirely &mdash; curl, a crafted request &mdash; skips every constraint in this post along with it. Real validation and sanitization still has to happen again on the server.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Radio groups validate as a group; checkboxes don't.</strong> Don't expect <code>required</code> on three separate checkboxes to mean "check at least one of these three" &mdash; each required checkbox is independently mandatory, which is a different rule than demo #9's radio group.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Can you really validate a form with no JavaScript at all?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes, for everything covered in this post &mdash; presence (<code>required</code>), format (<code>type</code> and <code>pattern</code>), length (<code>minlength</code>/<code>maxlength</code>), and numeric range (<code>min</code>/<code>max</code>/<code>step</code>) are all enforced natively by the browser on submit, with live CSS styling available through <code>:valid</code>/<code>:invalid</code> and related pseudo-classes. JavaScript is only needed for validation logic the browser has no built-in concept of &mdash; cross-field rules like "confirm password must match password," or anything that has to check against a server.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">How do I stop a required field from looking invalid before the user has typed anything?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Combine the state you care about with <code>:not(:placeholder-shown)</code>, as every demo on this page does &mdash; <code>input:required:not(:placeholder-shown):invalid</code> only matches once the field no longer holds its placeholder text, meaning the visitor has interacted with it. A field's raw <code>:invalid</code> state alone is true from page load for any empty required field, which is the trap that makes forms look broken by default.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What's the difference between :invalid and :out-of-range?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><code>:invalid</code> is the broad state &mdash; it matches a field failing <em>any</em> constraint (required, pattern, type format, length, or range). <code>:out-of-range</code> is narrower: it only applies to fields with a <code>min</code> and/or <code>max</code>, and only matches when the value falls outside that specific numeric boundary. Every <code>:out-of-range</code> field is also <code>:invalid</code>, but not every <code>:invalid</code> field is <code>:out-of-range</code> &mdash; a required text field left empty is invalid without being in or out of any range at all.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Can I customize the browser's native validation bubble's text?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Partially. The <code>title</code> attribute (demo #6) replaces the message shown for a failed <code>pattern</code> match with your own wording. For full control over the message's text for <em>any</em> constraint &mdash; not just <code>pattern</code> &mdash; or over the bubble's appearance, you need the Constraint Validation API's <code>setCustomValidity()</code> method, which does require a small amount of JavaScript.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Does :has() work in every browser?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes, as of late 2023 it shipped in every evergreen browser &mdash; Chrome, Edge, Safari, and Firefox. If a project needs to support older or less common browsers, check the exact version cutoff on <a href="https://caniuse.com/css-has" target="_blank" rel="noopener">caniuse.com/css-has</a> before relying on it for anything beyond a progressive-enhancement nicety like demo #10's dimmed button.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Is native validation enough, or do I still need server-side validation?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>You still need server-side validation, always. Every technique in this post runs entirely in the browser and can be bypassed by anyone submitting the form outside a browser UI &mdash; a script, curl, a crafted request. Native validation is a genuinely good UX layer that stops the vast majority of accidental mistakes before they ever leave the browser, but it is not, and was never meant to be, a security boundary.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every demo above ships its full HTML and CSS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar &mdash; and the JS tab is empty on every single one, on purpose. The fastest way to actually internalize these is to click <strong>Fork &amp; Edit</strong> on demo #7, delete the <code>required</code> attribute from the email field, then submit it empty &mdash; it now goes through, because an empty optional field is always valid. Type a malformed address and the &times; still appears, because <code>type="email"</code> is a constraint of its own, separate from <code>required</code>. Once you've got a version you like, save it to <a href="https://webdevpuneet.com/ui-snippets/mycode/" target="_blank" rel="noopener">My Code</a> and it's yours to keep, tweak further, or reuse in a real project.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/html-playground/" target="_blank" rel="noopener">HTML Playground</a> and go to the <strong>Forms</strong> chapter &mdash; it covers input types, form structure, fieldset and legend, and native form validation as a dedicated, click-based lesson set, built for exactly the pattern this post covers. For more tutorials like this one, browse the <a href="https://webdevpuneet.com/blog/category/html/" target="_blank" rel="noopener">HTML</a> category on the blog.</p>
+<!-- /wp:paragraph -->

@@ -29,7 +29,7 @@
           maxlength="6"
           autocomplete="one-time-code"
           placeholder="000000">
-        <span class="fieldHelp"><code>type="number"</code> would let a leading zero silently vanish (<code>007612</code> becomes <code>7612</code>) &mdash; the wrong behavior for a code. This field never treats the value as a number at all.</span>
+        <span class="fieldHelp"><code>type="number"</code> would lose a leading zero as soon as the value is read as a number (<code>007612</code> becomes <code>7612</code>) &mdash; the wrong behavior for a code. This field never treats the value as a number at all.</span>
       </label>
       <button type="submit" class="submitBtn">Verify</button>
     </form>

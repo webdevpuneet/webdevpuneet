@@ -17,7 +17,7 @@ https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production
 <script type="text/plain" id="html">
   <header class="bar">
     <h1>The Bug Multiple useState Calls Invite</h1>
-    <p class="hint">Two counters that are supposed to always move together. Click "Increment Both" a few times on the left — then flip the toggle and try the same thing on the reducer version.</p>
+    <p class="hint">Two counters that are supposed to always move together. Click "Increment Both" a few times, then "Reset" — the useState version drifts out of sync. Then flip the toggle and try the same clicks on the reducer version.</p>
   </header>
   <main class="stageWrap">
     <button type="button" id="toggleBtn" class="toggleBtn">Switch to useReducer</button>
@@ -71,13 +71,13 @@ https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production
     var s1 = useState(0), a = s1[0], setA = s1[1];
     var s2 = useState(0), b = s2[0], setB = s2[1];
 
-    // The bug: this handler was written by copy-pasting the single-counter
-    // handler and reads `a` for both updates instead of `b`.
     function incrementBoth() {
       setA(a + 1);
-      setB(a + 1);
+      setB(b + 1);
     }
-    function reset() { setA(0); setB(0); }
+    // The bug: reset was copy-pasted from the single-counter version and only
+    // resets A. Nothing warns you; B just keeps its old value.
+    function reset() { setA(0); }
 
     var inSync = a === b;
     return e('div', { className: 'card' },
@@ -121,8 +121,8 @@ https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production
   var btn = document.getElementById('toggleBtn');
   var ruleTag = document.getElementById('ruleTag');
 
-  var STATE_RULE = 'const [a, setA] = useState(0);\nconst [b, setB] = useState(0);\n\n// two separate calls, easy to update only one by mistake\nfunction incrementBoth() {\n  setA(a + 1);\n  setB(a + 1);   // bug: should read b\n}';
-  var REDUCER_RULE = "const [state, dispatch] = useReducer(pairReducer, { a: 0, b: 0 });\n\n// one transition updates both fields from one source of truth\ndispatch({ type: 'incrementBoth' });";
+  var STATE_RULE = 'const [a, setA] = useState(0);\nconst [b, setB] = useState(0);\n\nfunction incrementBoth() {\n  setA(a + 1);\n  setB(b + 1);\n}\n\n// two separate setters: easy to update only one by mistake\nfunction reset() {\n  setA(0);   // bug: forgot setB(0)\n}';
+  var REDUCER_RULE = "const [state, dispatch] = useReducer(pairReducer, { a: 0, b: 0 });\n\n// one transition resets both fields from one source of truth\ndispatch({ type: 'reset' });   // returns { a: 0, b: 0 }";
 
   function render() {
     root.render(e(isReducer ? ReducerPair : BuggyPair));

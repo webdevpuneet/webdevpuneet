@@ -82,7 +82,10 @@ https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production
     }, [side]);
 
     function move() {
-      setSide(function (s) { return s === 'left' ? 'right' : 'left'; });
+      // Deferred with setTimeout on purpose: since React 18, an update that comes straight from a
+      // click runs even useEffect before the browser paints. Starting it from a timer (like data
+      // arriving, or any non-click update) shows the timing difference this demo is about.
+      setTimeout(function () { setSide(function (s) { return s === 'left' ? 'right' : 'left'; }); }, 0);
     }
 
     return e('div', { className: 'col' },

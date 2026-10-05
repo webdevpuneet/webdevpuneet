@@ -86,7 +86,10 @@ https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production
 
     function reopen() {
       logRef.current = [];
-      setOpenId(function (n) { return n + 1; });
+      // Deferred with setTimeout on purpose: since React 18, an update that comes straight from a
+      // click runs even useEffect before the browser paints. Starting it from a timer (like data
+      // arriving, or any non-click update) shows the timing difference this demo is about.
+      setTimeout(function () { setOpenId(function (n) { return n + 1; }); }, 0);
     }
 
     var rows = [];

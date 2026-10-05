@@ -69,6 +69,7 @@ https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production
     var setRunId = runState[1];
 
     var logRef = useRef([]);
+    var statusRef = useRef(null);
     var forceState = useState(0);
     var forceTick = forceState[1];
 
@@ -81,8 +82,10 @@ https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production
 
     hook(function () {
       if (status !== 'loading') return;
+      // rAF runs right before the next paint; read the real DOM to see what that frame shows.
       requestAnimationFrame(function () {
-        log('PAINTED status=loading at ' + ms() + 'ms');
+        var shown = statusRef.current ? statusRef.current.textContent : '';
+        log('first frame painted "' + shown + '" at ' + ms() + 'ms');
       });
       burnMs(350); // the "expensive work" -- identical on both sides
       setStatus('done');
@@ -91,14 +94,19 @@ https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production
     function run() {
       logRef.current = [];
       log('clicked at ' + ms() + 'ms');
-      setStatus('loading');
-      setRunId(function (n) { return n + 1; });
+      // Deferred with setTimeout on purpose: since React 18, an update that comes straight from a
+      // click runs even useEffect before the browser paints. Starting it from a timer (like data
+      // arriving, or any non-click update) shows the timing difference this demo is about.
+      setTimeout(function () {
+        setStatus('loading');
+        setRunId(function (n) { return n + 1; });
+      }, 0);
     }
 
     return e('div', { className: 'col' },
       e('div', { className: 'colHead ' + (props.mode === 'layout' ? 'layout' : 'eff') }, props.mode === 'layout' ? 'useLayoutEffect' : 'useEffect'),
       e('div', { className: 'spin' }),
-      e('div', { className: 'status' }, status === 'idle' ? '' : status === 'loading' ? 'Loading...' : 'Done'),
+      e('div', { className: 'status', ref: statusRef }, status === 'idle' ? '' : status === 'loading' ? 'Loading...' : 'Done'),
       e('button', { className: 'btn', onClick: run }, 'Run expensive work (350ms)'),
       e('div', { className: 'log' }, logRef.current.map(function (msg, i) {
         return e('div', { key: i }, msg);

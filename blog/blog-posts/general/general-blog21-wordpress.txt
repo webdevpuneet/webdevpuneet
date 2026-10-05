@@ -1,0 +1,502 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  11 Loading State Examples You Can Copy
+
+  SEO TITLE (55 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  11 Loading State Examples You Can Copy (HTML, CSS & JS)
+
+  SEO DESCRIPTION (157 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  11 copy-ready loading states in HTML, CSS and JS: spinners, skeletons, shimmer, progress bars, button loading, optimistic UI, typing dots and blur-up images.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>A loading state is the one piece of UI almost every product ships without much thought, and the one users notice the moment it's wrong. A spinner that never resolves reads as broken. A skeleton that doesn't match the content it precedes causes a visible jump the instant real data lands. A button that goes quiet with no feedback gets clicked three more times. None of this is exotic &mdash; it's a small, well-understood set of patterns, and picking the right one for the right situation is most of the battle. This post is a gallery of eleven distinct loading states, each implemented in plain HTML and CSS with a touch of vanilla JavaScript, so you can see exactly how each one is built and when it earns its place over the others.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every demo below is <strong>live and interactive</strong> right here in the article &mdash; click the trigger button on each one and watch the actual pattern play out over a couple of seconds, the same way it would against a real request. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact code, already running, in <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> &mdash; webdevpuneet's free in-browser editor. Change a duration, swap a color, delete a transition &mdash; that's a faster way to understand why a loading state feels right than any explanation.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>New to building these from scratch? The <a href="https://webdevpuneet.com/css-playground/">CSS Playground</a> is a free, click-based, in-browser course that covers the animations, transforms and transitions every pattern below is built from, one guided step at a time.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Why the right loading state matters more than it looks like it should</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Perceived performance is a different thing from actual performance, and loading states are almost entirely about the former. A request that takes 1.5 seconds with a well-designed loading state can feel faster than one that takes 900 milliseconds with none &mdash; because a blank screen or a frozen button reads as "did this work?" long before it reads as "this is slow." The patterns below split into a few families: pure motion (spinners, progress bars) that reassures the user something is happening; structural placeholders (skeletons, shimmer) that reduce the jump when content finally arrives; and state-driven patterns (button loading, optimistic UI) that keep a specific control honest about what it's doing. Knowing which family a given moment in your UI belongs to is what determines which demo below to reach for.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. Classic Rotating Spinner</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Simulate load" to trigger a fake 1.9 second request and watch the ring spin, then resolve into a checkmark.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/20/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Classic Rotating Spinner Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.spinner {
+  width: 44px; height: 44px;
+  border: 4px solid #e3e5ea;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>A spinner is just a circle with one differently-colored border edge, rotated continuously &mdash; the "loading" read comes entirely from motion, not from any actual information about progress. That's both its strength and its limit: because it conveys nothing about how much is left, it's the right tool exactly when there's nothing to convey &mdash; a request whose duration you can't estimate ahead of time, like a network round trip. <code>border-top-color</code> differing from the other three sides is what gives the eye a fixed point to track as it spins; without that contrast the animation reads as a static ring. Keeping the animation on <code>transform</code> rather than something like rotating background positions is also what keeps it running smoothly on the GPU instead of forcing layout recalculation on every frame, which matters once several spinners are on screen at once.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> short, unpredictable waits where you have no useful percentage to show &mdash; a button click, a small inline fetch, a modal opening. <strong>Tip:</strong> never let a spinner spin indefinitely with no timeout or fallback message; past 8-10 seconds it stops reading as "loading" and starts reading as "broken."</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. Skeleton Screen Placeholder</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Simulate load" &mdash; the gray placeholder blocks pulse in the exact shape of the final card, then swap for the real content with no layout shift.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/20/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Skeleton Screen Placeholder Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.skel {
+  background: #e7e9ee;
+  border-radius: 6px;
+  animation: pulse 1.1s ease-in-out infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>A skeleton screen replaces the spinner's "something is happening, somewhere" with "here is the shape of what's coming." Each placeholder block is sized to match the real element it stands in for &mdash; an avatar-sized circle, a title-height bar, a body-width bar &mdash; so the layout the user sees during loading is the same layout they'll see once content lands. That's the entire point: nothing shifts, resizes, or jumps when the swap happens, because the skeleton already occupies the correct footprint. The gentle opacity pulse exists purely to distinguish "this is a loading placeholder" from "this is a plain gray box that might be a bug" &mdash; without it, a skeleton on a slow connection can look like broken CSS rather than a deliberate loading state.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> content-heavy cards, feeds, and profile-style layouts where you know the final shape ahead of time. <strong>Tip:</strong> the placeholder's dimensions have to genuinely match the real content's &mdash; a skeleton line that's narrower or shorter than the text it precedes still causes the exact layout jump skeletons exist to prevent.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. Shimmer Sweep</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Simulate load" &mdash; a light band sweeps left to right across the placeholder blocks, a step up from a flat pulsing gray.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/20/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Shimmer Sweep Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.shimmer {
+  background: linear-gradient(90deg, #e7e9ee 25%, #f4f5f8 37%, #e7e9ee 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.3s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Shimmer is a skeleton with a moving highlight instead of a pulsing opacity &mdash; the gradient is four times wider than the element itself, and animating <code>background-position</code> slides that wide gradient across the visible box, so a lighter band appears to travel through it. The reason this reads as more "alive" than the plain pulse in demo #2 is directional motion: a pulse fades the whole shape in and out uniformly, while a sweep gives the eye something to follow left to right, which is closer to how reading and scanning actually work. It's a pure CSS effect &mdash; no JavaScript needed to animate it, only to swap the skeleton block for real content once the fake request resolves. Popularized by content feeds like LinkedIn and Facebook, it's become the default "premium" skeleton treatment.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any skeleton screen where a slightly more polished, branded loading feel is worth the extra few lines of CSS over a plain pulse. <strong>Tip:</strong> keep the gradient's light band subtle &mdash; a shimmer that's too bright or too fast reads as distracting rather than reassuring, especially when several skeleton cards are shimmering on screen at once.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. Determinate Progress Bar</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Start upload" &mdash; the bar fills to an actual known percentage instead of just animating forever, so you always know how much is left.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/20/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Determinate Progress Bar Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>var pct = 0;
+var timer = setInterval(function () {
+  pct += 4 + Math.random() * 14;   // real code: bytes uploaded so far
+  fill.style.width = Math.min(pct, 100) + '%';
+  pctLabel.textContent = Math.round(Math.min(pct, 100)) + '%';
+  if (pct &gt;= 100) clearInterval(timer);
+}, 180);</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>A determinate progress bar only works when you genuinely know a percentage &mdash; bytes uploaded out of total bytes, files processed out of total files, steps completed out of total steps. The CSS itself is trivial (a track div and a fill div whose <code>width</code> is set from JavaScript with a short <code>transition</code> so each jump animates smoothly instead of snapping); the actual design decision is what number drives it. In the demo, the increments are deliberately uneven &mdash; real uploads don't move at a perfectly constant rate, and a bar that fills in exactly equal steps every frame subconsciously reads as fake, the same way a countdown timer that's too round feels staged. Giving users a real percentage lets them make a decision a spinner never can &mdash; whether to wait it out or come back later.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> file uploads, multi-step imports, and any process where a genuine percentage or step count exists. <strong>Tip:</strong> never fake a determinate bar with an arbitrary timer when you don't actually have progress data &mdash; an indeterminate bar (next demo) is the honest choice, and a fake percentage that stalls at 94% erodes trust faster than no percentage at all.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Indeterminate Progress Bar</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Simulate load" &mdash; a band slides back and forth with no percentage at all, because the actual duration isn't known ahead of time.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/20/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Indeterminate Progress Bar Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.band {
+  position: absolute; top: 0; left: 0; height: 100%;
+  width: 35%; border-radius: 999px; background: #6366f1;
+  animation: slide 1.1s ease-in-out infinite;
+}
+@keyframes slide {
+  0% { left: -35%; }
+  100% { left: 100%; }
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is visually similar to demo #4 &mdash; same track, same fill color &mdash; but structurally closer to the spinner in demo #1: a fixed-width band moves back and forth with no relationship to actual progress, because none exists yet to report. It's the correct choice specifically for requests where a percentage would be a lie &mdash; a database query, a search, a server-side job whose duration genuinely varies run to run. The bar shape communicates "this kind of operation" (a linear process, not a point-in-time action) even without a number attached to it, which is a useful middle ground between a bare spinner and a fully numeric progress bar. Swapping between demo #4 and #5's markup is literally a one-line change &mdash; whether <code>width</code> is driven by real data or an animation &mdash; which makes it easy to pick the honest one for whatever data you actually have.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> operations whose duration can't be estimated up front but are still linear, ongoing processes rather than a single instant &mdash; page transitions, search queries, background jobs. <strong>Tip:</strong> pair it with a status message that changes over time ("Connecting…" then "Processing…") if the wait tends to run long &mdash; it gives the same reassurance a percentage would, without inventing a number you don't have.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. Button Loading State</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Save changes" &mdash; the button itself becomes the loading indicator: disabled, a spinner in place of its icon, then a confirmed state.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/20/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Button Loading State Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>saveBtn.disabled = true;
+saveBtn.className = 'saveBtn saving';
+icon.innerHTML = '&lt;span class="spinnerSm"&gt;&lt;/span&gt;';
+label.textContent = 'Saving…';
+
+setTimeout(function () {
+  saveBtn.className = 'saveBtn done';
+  icon.textContent = '✓';
+  label.textContent = 'Saved';
+  saveBtn.disabled = false;
+}, 1600);</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Rather than showing a separate spinner elsewhere on the page, the button that triggered the action becomes the loading indicator directly &mdash; its icon swaps for a small inline spinner, its label changes to a present-tense verb, and it's disabled so a second click can't fire a duplicate request. This solves a specific, common bug: a save button with no visual feedback gets clicked again (and again) by a user who isn't sure the first click registered, which is exactly how double form submissions happen. Setting <code>disabled</code> is what actually prevents that; the spinner and label change are what make the disabled state legible instead of just looking unresponsive. Fixing the button's <code>min-width</code> also matters here &mdash; swapping "Save changes" for "Saving…" and then "Saved" changes the text length each time, and without a minimum width the button itself visibly resizes with every state change.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any form submission, save action, or single-click operation where a duplicate click would cause a real problem. <strong>Tip:</strong> always disable the button itself, not just show a spinner next to it &mdash; a spinner with a still-clickable button underneath is a common source of duplicate-submit bugs in production.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. Optimistic UI Update</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click the heart a few times &mdash; it updates instantly, before any "server" reply. About 1 in 4 clicks simulates a failed request and rolls back, so you can see both outcomes.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/20/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Optimistic UI Update Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>var wasLiked = liked, wasCount = count;
+liked = !liked;                       // update the UI FIRST
+count = liked ? count + 1 : count - 1;
+render();
+
+fakeRequest().then(function (ok) {
+  if (!ok) { liked = wasLiked; count = wasCount; render(); }  // roll back
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Optimistic UI inverts the usual order of operations: instead of showing a loading state and waiting for a response before updating anything, it updates the interface immediately, assuming the request will succeed, and quietly rolls back only if it doesn't. For fast, high-frequency, low-stakes actions &mdash; likes, follows, toggles, reactions &mdash; this removes the loading state from the equation almost entirely, which is why these interactions feel instantaneous on most modern social apps. The trade-off is real, though: the demo deliberately fails about a quarter of the time to make the rollback visible, snapping the heart and count back to exactly what they were before, with a short message explaining why. That rollback path isn't optional &mdash; an optimistic update with no failure handling just silently lies to the user on the requests that don't go through.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> low-stakes, easily reversible actions where the vast majority of requests succeed &mdash; likes, favorites, toggles, drag-and-drop reordering. <strong>Tip:</strong> never use optimistic UI for anything hard to undo or high-consequence, like a payment or a delete &mdash; the brief window where the UI shows something that hasn't actually happened yet is the wrong trade for actions where being wrong is expensive.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. Skeleton-to-Content Crossfade</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Simulate load" &mdash; skeleton and real content are stacked in the same box and crossfade, so the card's height never jumps.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/20/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Skeleton-to-Content Crossfade Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.card { position: relative; height: 168px; }   /* fixed height, both layers fit it */
+.layer { position: absolute; inset: 0; transition: opacity 0.45s ease; }
+.skelLayer { opacity: 1; }
+.realLayer { opacity: 0; }
+.card.loaded .skelLayer { opacity: 0; }
+.card.loaded .realLayer { opacity: 1; }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Demo #2 swaps the skeleton's markup for real content directly, which is simple but produces an instant, un-animated cut the moment the data lands. This pattern keeps both versions in the DOM at once, stacked exactly on top of each other with <code>position: absolute; inset: 0</code> inside a card whose own height is fixed, and animates only their <code>opacity</code>. Because the card's height never depends on which layer is visible, adding a toggled <code>loaded</code> class produces a smooth 450ms crossfade instead of a jump cut, with zero risk of the classic skeleton failure mode &mdash; a placeholder shorter or taller than its real content causing a jarring resize. The cost is a genuinely fixed container height, which only works when you know the final content's dimensions ahead of time (an image at a known aspect ratio, a card with a capped line count).</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> cards, thumbnails, and any component where you know the exact final dimensions and want the transition itself to feel considered, not abrupt. <strong>Tip:</strong> this technique breaks down the moment content height is unpredictable &mdash; variable-length text, for instance &mdash; since a fixed-height container will either clip long content or leave visible gaps under short content.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">9. Pulsing Typing Indicator</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Send message" &mdash; three dots bounce in the reply bubble while a response is "typed," then the dots are replaced by the actual reply text.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/20/9.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pulsing Typing Indicator Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.dot {
+  width: 7px; height: 7px; border-radius: 50%; background: #6b7080;
+  animation: bounce 1s ease-in-out infinite;
+}
+.dot:nth-child(2) { animation-delay: 0.15s; }
+.dot:nth-child(3) { animation-delay: 0.3s; }
+@keyframes bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Three identical dots share one <code>@keyframes</code> animation, and the only difference between them is <code>animation-delay</code> staggered by 0.15s each &mdash; that offset is the entire trick, turning one bounce animation into what reads as a wave moving left to right. It's a purpose-built variant of the spinner: same "something is happening, duration unknown" message, but shaped and sized specifically to sit inside a chat bubble, which is why it's become the near-universal convention for "the other person (or the AI) is composing a reply" across messaging products. Keeping it visually distinct from a generic spinner matters here &mdash; a spinner inside a chat bubble reads as "loading the conversation," while three dots specifically read as "someone is actively typing right now," a subtly different and more accurate message.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> chat interfaces, AI assistant responses, and any "the other party is composing something" moment. <strong>Tip:</strong> keep the dot count at three &mdash; it's long enough to read as a wave rather than a single blink, and short enough to stay compact inside a narrow chat bubble.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">10. Staggered List Reveal</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Simulate load" &mdash; each row fades and slides in slightly after the one above it, instead of the whole list appearing at once.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/20/10.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Staggered List Reveal Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>items.forEach(function (item, i) {
+  var li = buildRow(item);
+  li.classList.add('entering');   // opacity: 0, translateY(6px)
+  list.appendChild(li);
+  setTimeout(function () {
+    li.classList.remove('entering');
+    li.classList.add('entered'); // transitions to opacity: 1, translateY(0)
+  }, i * 110);
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Every row is appended to the list already in its hidden "entering" state, and a <code>setTimeout</code> delayed by <code>i * 110</code> milliseconds &mdash; the row's index times a fixed stagger interval &mdash; is what removes that class and lets its own CSS transition run. The visual effect reads as data "arriving" in sequence rather than the list simply snapping into existence, which matters most for longer feeds where an instant swap from skeleton to twenty rows at once can feel more like a jarring pop-in than a load. Because each row only needs to know its own index to compute its delay, this scales to any list length without extra bookkeeping &mdash; the loop above works identically whether there are 4 items or 40, just with a longer total reveal time.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> feeds, search results, and notification lists where content arrives as a batch and a single simultaneous pop-in would feel abrupt. <strong>Tip:</strong> keep the per-row delay under roughly 150ms and cap the total stagger &mdash; a list of 30 items staggered at 110ms each takes over 3 seconds to fully render, which stops feeling polished and starts feeling slow.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">11. Blur-Up Image Loading</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Simulate load" &mdash; a soft blurred placeholder (the image's real colors, just heavily blurred) sharpens into the finished image instead of showing a blank box.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/20/11.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Blur-Up Image Loading Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>How it works:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>.ph {
+  filter: blur(18px);
+  transform: scale(1.15);   /* hides the blurred edge softening past the box */
+  transition: filter 0.6s ease, transform 0.6s ease;
+}
+.ph.sharp { filter: blur(0); transform: scale(1); }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The technique &mdash; popularized as "LQIP" (low-quality image placeholder) by sites like Medium &mdash; shows a tiny, heavily blurred version of the actual image immediately, then swaps or sharpens it into the full-resolution version once that's downloaded. The blur is what makes a handful of pixels look intentional rather than broken; a small blurred JPEG (often under 1KB) still carries the image's real colors and rough composition, so the placeholder is recognizably related to what's coming instead of a generic gray box. The slight <code>scale(1.15)</code> is a practical detail: blurring an element also visibly softens its edges past the element's own boundary, and scaling it up just enough hides that soft edge so it doesn't peek past the container's border. Real implementations generate the tiny placeholder server-side and swap the <code>&lt;img src&gt;</code> once the full image loads; this demo fakes the swap with a timer and a CSS class toggle to show the transition itself.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> hero images, photo galleries, and any content-heavy page where blank white boxes during image load would be jarring. <strong>Tip:</strong> generate the blurred placeholder at build time or upload time, not in the browser &mdash; the whole point is that the tiny placeholder is available instantly, before the real image has downloaded at all.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Common pitfalls</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>A spinner with no timeout or failure state.</strong> Past 8-10 seconds a spinner stops reading as "loading" and starts reading as "frozen" &mdash; always pair it with a fallback message or retry option for requests that can genuinely fail or hang.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>A skeleton that doesn't match the final layout's dimensions.</strong> If the placeholder is narrower, shorter, or differently proportioned than the real content, the swap causes exactly the layout jump skeletons exist to prevent &mdash; demo #8's crossfade sidesteps this by fixing the container's height outright.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>No minimum display time, causing flicker on fast connections.</strong> If a request sometimes resolves in 80ms, showing a loading state for that long can flash on and off faster than it's readable &mdash; a short artificial minimum (150-250ms) keeps it from looking like a glitch.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Missing <code>aria-live</code> or <code>aria-busy</code> for screen reader users.</strong> A purely visual loading state is invisible to anyone using a screen reader; <code>aria-busy="true"</code> on the loading container and an <code>aria-live="polite"</code> region for status changes are what carry the same information non-visually.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Disabling a button without visually showing why.</strong> A button that goes gray and unresponsive with no spinner or label change reads as broken, not busy &mdash; demo #6's combination of disabled state, spinner, and text change is what keeps a disabled control legible.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Ignoring reduced-motion preferences.</strong> Spinners, shimmer sweeps and bouncing dots run forever, which is exactly what <code>prefers-reduced-motion: reduce</code> users have asked to avoid. Wrap the motion in <code>@media (prefers-reduced-motion: no-preference)</code>, or swap it for a slow opacity pulse or a plain "Loading&hellip;" label when the user prefers less motion.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Should I use a spinner or a skeleton screen?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Reach for a skeleton (demos #2, #3, #8) whenever you know the shape of the content that's coming &mdash; a card, a list, a profile &mdash; since it also reduces the layout shift when that content lands. Reach for a spinner (demo #1) or an indeterminate bar (demo #5) when there's no meaningful shape to preview, like a short action with no structured result, such as a button click or a small inline confirmation.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Is there a minimum amount of time a loading state should show?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes, in practice &mdash; a loading state that appears and disappears in under roughly 150ms can flicker rather than communicate anything, especially on a fast connection or a cached response. A common fix is tracking the request's start time and, if it resolves faster than a set minimum, holding the loading state visible for the remainder of that minimum before showing the result.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">How do I make loading states accessible to screen reader users?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Mark the loading container with <code>aria-busy="true"</code> while it's active, and use a live region (<code>aria-live="polite"</code>, or <code>role="status"</code>) to announce meaningful status changes, like "Loading" and then "Loaded." Purely decorative motion &mdash; like a spinning icon &mdash; doesn't need its own announcement; what matters is that the start and end of the wait are communicated in text, not just conveyed visually.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What's the actual risk with optimistic UI?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The interface shows a result before the server has confirmed it actually happened, which means every optimistic update needs a genuine rollback path for the failure case &mdash; demo #7 shows this directly, snapping back to the exact prior state and surfacing a short message when the simulated request fails. Skipping the rollback path isn't a shortcut; it's a bug that only shows up once real requests start failing in production.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Why do some of these demos use CSS animations and others use JavaScript timers?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Whenever a loading state is pure, repeating motion with no state to track &mdash; a spinner, a shimmer sweep, a bouncing dot &mdash; CSS <code>@keyframes</code> alone can drive it, running smoothly without any JavaScript polling. The moment a pattern needs to know something &mdash; how much progress has actually happened, whether a request succeeded or failed, when to swap one layer for another &mdash; that's state, and state belongs in JavaScript, with CSS classes as the hand-off point between the two.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to actually internalize this is to click <strong>Fork &amp; Edit</strong> on demo #7 &mdash; the optimistic UI one &mdash; and change the failure rate from 25% to 0%. Watch how much less "honest" it feels once the rollback path can never actually run; that's the exact trade-off every optimistic interaction is making, just usually hidden from view. Once you've got a version you like, save it to <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop straight into a real project.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/css-playground/">CSS Playground</a> and build a loading state of your own from scratch &mdash; start with a spinner, then try combining a skeleton with the crossfade technique from demo #8 on a layout you're actually working on. For more posts like this one, browse the <a href="https://webdevpuneet.com/blog/">webdevpuneet.com blog</a>.</p>
+<!-- /wp:paragraph -->

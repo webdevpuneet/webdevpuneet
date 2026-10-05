@@ -88,7 +88,7 @@
     search:   { type: 'debounce', text: 'Wait until the user pauses typing, then fire one request for the final query — debounce avoids a network call on every keystroke.' },
     scroll:   { type: 'throttle', text: 'The user is scrolling continuously and you want the highlighted nav item to keep up throughout — throttle updates it at a steady, cheap rate instead of running the calculation on every single scroll event.' },
     resize:   { type: 'throttle', text: 'A window resize fires continuously while the user drags the edge — throttle recalculates layout at a steady interval instead of on every pixel of movement.' },
-    submit:   { type: 'debounce', text: 'You want exactly one submission after a burst of rapid clicks — debounce collapses repeated clicks into a single trailing action instead of sending several.' },
+    submit:   { type: 'debounce', text: 'You want exactly one submission after a burst of rapid clicks — debounce collapses repeated clicks into a single action instead of sending several. In production, a leading-edge version (or disabling the button until the request finishes) avoids making every submit wait out the delay.' },
     drag:     { type: 'throttle', text: 'A drag needs to feel continuous while it is happening — throttle updates the position at a steady rate so the UI stays responsive without recalculating on literally every pixel of pointer movement.' },
     autosave: { type: 'debounce', text: 'You only want to save once the user actually stops typing for a moment — debounce delays the save until activity pauses, instead of saving on every keystroke.' }
   };
