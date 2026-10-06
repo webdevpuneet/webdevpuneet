@@ -11,7 +11,7 @@
   gap: 20px;
 }
 
-/* ── Two columns: gallery + sticky 300x600 ad ── */
+/* ── Gallery column (the side ad was removed; a top leaderboard sits above the search) ── */
 .layout {
   display: flex;
   align-items: flex-start;
@@ -24,30 +24,11 @@
   flex-direction: column;
   gap: 20px;
 }
-.adSticky {
-  flex: 0 0 auto;           /* width set inline: 300 / 160 / 120 by available space */
-  position: sticky;
-  top: 16px;
-}
-.adStickySlot {
-  width: 300px;             /* overridden inline to the chosen width */
-  height: 600px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  border: 1.5px dashed var(--border);
+/* Leaderboard ad above the search box: a rounded card (the strip collapses itself when AdSense has no ad). */
+.topAd {
+  border: 1px solid var(--border);
   border-radius: 10px;
-  background: var(--surface2);
-  color: var(--text3);
-  font-family: var(--font-ui);
 }
-.adStickyLabel { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-.adStickySize { font-size: 12px; font-family: var(--font-mono); }
-/* No breakpoint hide: GalleryStickyAd picks 300 / 160 / 120 wide, or none on phones. */
-/* AdSense found no ad: drop the column so the grid takes the full width. */
-.adSticky:has(ins[data-ad-status="unfilled"]) { display: none !important; }
 
 /* ── Controls bar ── */
 .controls {

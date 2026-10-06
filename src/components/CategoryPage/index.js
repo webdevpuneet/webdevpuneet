@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import CategoryGrid from '@/components/CategoryGrid';
 import AdSlot from '@/components/AdSlot';
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import SeoSection from '@/components/SeoSection';
 import { LIVE_TOOLS } from '@/lib/tools-registry';
 import { CATEGORIES } from '@/lib/categories';
@@ -160,6 +161,8 @@ export default function CategoryPage({ slug }) {
           <div className={styles.heroBottom}>
             {lastmodFmt && <p className={styles.lastmod}>Updated {lastmodFmt}</p>}
           </div>
+          {/* Leaderboard ad (max 90px) at the bottom of the hero — all hub pages share this component */}
+          <PlaygroundTopAd className={styles.heroAd} />
         </div>
       </header>
 

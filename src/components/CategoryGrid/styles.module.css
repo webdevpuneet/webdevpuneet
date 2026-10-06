@@ -138,6 +138,44 @@
   max-width: 1296px;
 }
 
+/* Beyond the current page: kept in the markup (crawlable) but not shown. */
+.cardHidden { display: none !important; }
+
+/* "Show more" under the grid */
+.moreWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 1296px;
+  margin-top: 24px;
+}
+.moreMeta {
+  margin: 0;
+  font-size: 12px;
+  font-family: var(--font-ui);
+  color: rgba(0,0,0,0.45);
+}
+:global([data-theme="dark"]) .moreMeta { color: rgba(255,255,255,0.35); }
+.moreBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--font-ui);
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, transform 0.15s;
+}
+.moreBtn:hover { border-color: var(--accent, #6366f1); color: var(--accent, #6366f1); transform: translateY(-1px); }
+.moreBtn:focus-visible { outline: 2px solid var(--accent, #6366f1); outline-offset: 2px; }
+
 /* ── Card ── */
 .card {
   display: flex;

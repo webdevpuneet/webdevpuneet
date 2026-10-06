@@ -70,7 +70,7 @@ const faqSchema = {
       name: 'How do I convert an SVG icon to a specific PNG size like 512×512 or 1024×1024?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Upload your SVG or paste the SVG code. Then manually enter the desired width and height in the Output size fields. Type "512" in the width field — if aspect ratio lock is on (🔒), the height adjusts automatically to maintain the SVG\'s proportions. For square icons from a square SVG, both dimensions will be 512. Click "Re-convert" to render the PNG at the new size. Common sizes: 512×512 for macOS app icons, 1024×1024 for iOS app store, 192×192 for PWA icons, and 32×32 for favicons. For favicon generation specifically, use our [Favicon Generator](https://fwdtools.com/favicon-generator/).',
+        text: 'Upload your SVG or paste the SVG code. Then manually enter the desired width and height in the Output size fields. Type "512" in the width field — if aspect ratio lock is on (🔒), the height adjusts automatically to maintain the SVG\'s proportions. For square icons from a square SVG, both dimensions will be 512. Click "Re-convert" to render the PNG at the new size. Common sizes: 512×512 for macOS app icons, 1024×1024 for iOS app store, 192×192 for PWA icons, and 32×32 for favicons. For favicon generation specifically, use our [Favicon Generator](/favicon-generator/).',
       },
     },
     {
@@ -148,7 +148,7 @@ const SEO = {
     items: [
       { title: 'Load your SVG — file or code', text: 'Drag an SVG file onto the upload area or click it to open a file picker. Alternatively, switch to the Paste Code tab and paste raw SVG markup directly into the text editor — useful for SVG code copied from a CSS file, an icon library, browser DevTools, or a design tool export. The tool automatically parses width, height, and viewBox attributes to detect the SVG\'s native dimensions. Conversion begins immediately as soon as the SVG is loaded.' },
       { title: 'Set the output scale', text: 'Use the scale selector to choose 1×, 2×, 3×, or 4×. The scale multiplies the SVG\'s native dimensions: a 100×100 SVG at 2× produces a 200×200 PNG, and at 4× produces a 400×400 PNG. Use 2× for standard @2x Retina/HiDPI assets. Use 4× for print-quality output at 300 DPI (when your base SVG is designed at 75 DPI screen resolution). The output width and height fields update automatically when you change the scale.' },
-      { title: 'Set exact dimensions if needed', text: 'Type precise pixel values directly in the Width and Height input fields to override the scale-calculated dimensions. This is useful for platform-specific sizes: 512×512 for macOS app icons, 1024×1024 for iOS App Store, 192×192 for PWA icons, 1200×630 for OG images, or 32×32 for favicons. Toggle the aspect ratio lock (🔒) to keep proportions when you change one dimension — the other adjusts automatically. For favicon packages across all sizes, use the dedicated [Favicon Generator](https://fwdtools.com/favicon-generator/) instead.' },
+      { title: 'Set exact dimensions if needed', text: 'Type precise pixel values directly in the Width and Height input fields to override the scale-calculated dimensions. This is useful for platform-specific sizes: 512×512 for macOS app icons, 1024×1024 for iOS App Store, 192×192 for PWA icons, 1200×630 for OG images, or 32×32 for favicons. Toggle the aspect ratio lock (🔒) to keep proportions when you change one dimension — the other adjusts automatically. For favicon packages across all sizes, use the dedicated [Favicon Generator](/favicon-generator/) instead.' },
       { title: 'Choose a background color', text: 'Select Transparent to preserve SVG transparency in the output PNG — the checkered pattern in the preview represents transparency and does not appear in the downloaded file. Select White or Black to fill the canvas with a solid color before drawing. Select Custom to open a color picker and hex input for any background color — useful when the PNG needs to sit on a specific colored surface and you want the background pre-filled. The PNG preview on the right updates after each change.' },
       { title: 'Download or copy the PNG', text: 'Click Download PNG to save the full-resolution file to your computer — the filename is based on the original SVG filename where available. Click Copy Image to copy the rendered PNG directly to your clipboard via the Clipboard API — paste it into Figma, Sketch, Google Slides, an email, or a chat. The file size comparison strip below the preview shows the SVG source size vs the output PNG size for reference.' },
       { title: 'Re-convert after settings changes', text: 'The tool converts automatically when you load a new SVG. If you change dimensions, scale, or background color after the initial load, click Re-convert to render a fresh PNG at the new settings. This manual trigger prevents excessive rendering when you are typing in the dimension fields. All conversion runs entirely in your browser using the HTML Canvas API — no SVG or PNG data is sent to any server.' },
@@ -171,7 +171,7 @@ const SEO = {
     {
       icon: '◉',
       title: 'Convert SVG icons to PNG for app development',
-      desc: 'Export SVG icons at multiple resolutions for iOS and Android apps. Use 2× for xhdpi/Retina assets, 4× for xxxhdpi. Type exact target sizes (192×192 for PWA, 1024×1024 for iOS App Store) in the custom dimension fields. For favicon packages across all sizes, use our dedicated [Favicon Generator](https://fwdtools.com/favicon-generator/).',
+      desc: 'Export SVG icons at multiple resolutions for iOS and Android apps. Use 2× for xhdpi/Retina assets, 4× for xxxhdpi. Type exact target sizes (192×192 for PWA, 1024×1024 for iOS App Store) in the custom dimension fields. For favicon packages across all sizes, use our dedicated [Favicon Generator](/favicon-generator/).',
     },
     {
       icon: '▦',
@@ -186,7 +186,7 @@ const SEO = {
     {
       icon: '△',
       title: 'Generate Open Graph images from SVG templates',
-      desc: 'Design OG images as SVG templates in Figma or Inkscape, then convert to the 1200×630 PNG required for og:image meta tags. Enter 1200 width and 630 height in the custom dimension fields. Use the [OG Image Generator](https://fwdtools.com/og-image-generator/) to build OG images from scratch without an existing SVG.',
+      desc: 'Design OG images as SVG templates in Figma or Inkscape, then convert to the 1200×630 PNG required for og:image meta tags. Enter 1200 width and 630 height in the custom dimension fields. Use the [OG Image Generator](/og-image-generator/) to build OG images from scratch without an existing SVG.',
     },
     {
       icon: '⚡',

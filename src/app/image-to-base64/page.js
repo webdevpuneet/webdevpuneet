@@ -129,7 +129,7 @@ const SEO = {
     'Drag & drop or click to upload — PNG, JPEG, WebP, GIF, SVG, BMP, ICO supported',
     'Ctrl+V clipboard paste — paste screenshots, copied images, or anything in your clipboard',
     'Six ready-to-use output formats: Data URI, HTML img, CSS background-image, CSS content, Raw Base64, SVG URL-encoded',
-    'Canvas-based format conversion — convert to JPEG, PNG, or WebP before encoding; compress images first with our [Image Compressor](https://fwdtools.com/image-compressor/)',
+    'Canvas-based format conversion — convert to JPEG, PNG, or WebP before encoding; compress images first with our [Image Compressor](/image-compressor/)',
     'JPEG and WebP quality slider — control compression (10–100%) to tune Base64 output size',
     'Metadata panel — shows dimensions, MIME type, original size, Base64 size, and overhead %',
     'SVG URL-encoding — produces smaller, GZIP-friendly SVG data URIs instead of Base64; convert raster images to SVG with our [Image to SVG](/image-to-svg) converter',

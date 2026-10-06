@@ -186,7 +186,7 @@ Flat color backgrounds can feel dated, and photographic backgrounds compete with
         ['**Linear gradient**', 'Colors transition along one straight axis (`linear-gradient()`)', 'Directional, clean, predictable', 'Buttons, section dividers, progress bars, subtle overlays'],
         ['**Radial gradient**', 'Colors radiate outward from a single center point (`radial-gradient()`)', 'A single focal glow or vignette', 'Spotlights, glow effects, soft corner shading'],
         ['**Conic gradient**', 'Colors sweep around a center angle (`conic-gradient()`)', 'A pie or color-wheel sweep', 'Color wheels, pie charts, loading spinners, borders'],
-        ['**Mesh gradient**', 'Several blurred color blobs blend from many directions at once', 'Organic, multi-directional, almost 3D', 'Hero backgrounds, cards, splash screens, [OG images](https://fwdtools.com/og-image-generator/)'],
+        ['**Mesh gradient**', 'Several blurred color blobs blend from many directions at once', 'Organic, multi-directional, almost 3D', 'Hero backgrounds, cards, splash screens, [OG images](/og-image-generator/)'],
       ],
     },
 
@@ -206,7 +206,7 @@ Flat color backgrounds can feel dated, and photographic backgrounds compete with
         '6 curated presets: Aurora, Sunset, Ocean, Neon, Pastel, Dusk — plus save your own custom presets to your browser',
         'Blur (10–150px), spread (20–90%), and opacity (30–100%) sliders for global control',
         'SVG export — a complete, embeddable vector with a real Gaussian blur filter (infinitely scalable)',
-        'PNG, JPG, and WebP download up to 3200×2000px — retina-ready raster for email, social, and design tools; shrink it further with our [Image Compressor](https://fwdtools.com/image-compressor/)',
+        'PNG, JPG, and WebP download up to 3200×2000px — retina-ready raster for email, social, and design tools; shrink it further with our [Image Compressor](/image-compressor/)',
         'CSS, React component, and Tailwind export — copy ready-to-paste code for any stack; compare with our [Gradient Generator](/gradient-generator)',
         'Shareable link — copy a URL that restores your exact gradient for teammates or clients',
         '100% client-side — nothing is uploaded; layer frosted cards on top with our [Glassmorphism Generator](/glassmorphism-generator)',

@@ -44,7 +44,7 @@ const seo = {
     'Toggle line numbers on/off for clean or annotated screenshots',
     'Adjustable font size (10–22px) and padding (8–80px) for perfect framing',
     'Choose from JetBrains Mono, Fira Code, Source Code Pro, Cascadia Code, and more',
-    'Export at 1×, 2× or 3× pixel density for crisp Retina/HiDPI images; compress the PNG with our [Image Compressor](https://fwdtools.com/image-compressor/)',
+    'Export at 1×, 2× or 3× pixel density for crisp Retina/HiDPI images; compress the PNG with our [Image Compressor](/image-compressor/)',
     'Optional file title in the window chrome for realistic editor screenshots',
     'Line wrap toggle for long lines or narrow export widths',
     'Copy image to clipboard with one click — paste directly into Slack, Notion, or Figma',

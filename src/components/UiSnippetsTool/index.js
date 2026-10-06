@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import UiSnippetsGallery, { LoadMore, GalleryStickyAd } from '@/components/UiSnippetsGallery';
+import UiSnippetsGallery, { LoadMore } from '@/components/UiSnippetsGallery';
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import gs from '@/components/UiSnippetsGallery/styles.module.css';
 import s from './styles.module.css';
 // Never import ./snippets here: it bundles every snippet's source (~33 MB).
@@ -661,6 +662,8 @@ function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, on
     <div className={gs.wrap}>
       <div className={gs.layout}>
       <div className={gs.main}>
+      {/* Leaderboard ad (max 90px) above the search box, same as the library gallery */}
+      <PlaygroundTopAd className={gs.topAd} />
       <div className={gs.controls}>
         <div className={gs.searchRow}>
           <div className={gs.searchWrap}>
@@ -764,8 +767,6 @@ function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, on
       </div>
       <LoadMore shown={shown.length} total={filtered.length} onLoadMore={loadMore} />
       </div>
-      {/* Same sticky 300x600 AdSense unit as the library gallery. */}
-      <GalleryStickyAd />
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import { VISIBLE_SNIPPET_INDEX as SNIPPETS } from '@/lib/snippet-index';
 import { CATEGORIES } from '@/components/UiSnippetsTool/categories';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import { publishedTags, tagsForSnippetId, TAG_BY_ID } from '@/lib/snippet-tags';
-import { ADS_ENABLED } from '@/lib/ads-config';
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import s from './styles.module.css';
 
 const PER_PAGE = 9;
@@ -37,72 +37,6 @@ function syncSearchToSidebar(value) {
 // Tags big enough to have their own page, largest first — the same set the
 // /ui-snippets/tag/ routes are generated from, so a chip never links to a 404.
 const TAG_LINKS = publishedTags(SNIPPETS);
-
-// Sticky AdSense column (slot 8625178551) beside the gallery grid — library gallery /
-// categories / tags and the My Code grid. Its size follows the width the gallery
-// actually has (the sidebar eats into the viewport, so screen width alone is wrong),
-// always leaving the snippet grid at least ~560px:
-//   300x600 half-page → 160x600 wide skyscraper → 120x600 skyscraper → none (phones).
-// Fixed sizes, so nothing shifts while a creative loads. Crossing into another size
-// remounts the <ins> (key) for a fresh ad — AdSense fixes a slot's size once filled.
-// The adsbygoogle.js loader is site-wide.
-const STICKY_AD_SIZES = [
-  { w: 300, minLayout: 1180 },
-  { w: 160, minLayout: 860 },
-  { w: 120, minLayout: 700 },
-];
-function StickyAdIns({ w }) {
-  useEffect(() => {
-    const id = setTimeout(() => {
-      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
-    }, 300);
-    return () => clearTimeout(id);
-  }, []);
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: 'inline-block', width: `${w}px`, height: '600px' }}
-      data-ad-client="ca-pub-2762737943861458"
-      data-ad-slot="8625178551"
-    />
-  );
-}
-
-export function GalleryStickyAd() {
-  const ref = useRef(null);
-  const [w, setW] = useState(null);
-  useEffect(() => {
-    const layout = ref.current?.parentElement;
-    if (!layout) return;
-    const pick = () => {
-      // Ignore 0-width readings (hidden): never drop/re-request the ad because of one.
-      if (layout.clientWidth === 0) return;
-      const width = layout.clientWidth;
-      const next = STICKY_AD_SIZES.find(z => width >= z.minLayout)?.w ?? null;
-      setW(prev => (prev === next ? prev : next));
-    };
-    pick();
-    if (typeof ResizeObserver === 'undefined') return;
-    const ro = new ResizeObserver(pick);
-    ro.observe(layout);
-    return () => ro.disconnect();
-  }, []);
-  return (
-    <aside
-      ref={ref}
-      className={s.adSticky}
-      style={w ? { flexBasis: w, width: w } : { display: 'none' }}
-      aria-label="Advertisement"
-    >
-      {w && (ADS_ENABLED ? <StickyAdIns key={w} w={w} /> : (
-        <div className={s.adStickySlot} style={{ width: w }}>
-          <span className={s.adStickyLabel}>Ad space</span>
-          <span className={s.adStickySize}>{w} × 600</span>
-        </div>
-      ))}
-    </aside>
-  );
-}
 
 // Browse panel — real, crawlable <a href> links to every category page and every
 // tag page (not a JS filter). The active category/tag sorts first in its column so
@@ -333,6 +267,8 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
     <div className={s.wrap}>
       <div className={s.layout}>
       <div className={s.main}>
+      {/* Leaderboard ad (max 90px) above the search box */}
+      <PlaygroundTopAd className={s.topAd} />
       <div className={s.controls}>
         <div className={s.searchRow}>
           <div className={s.searchWrap}>
@@ -412,7 +348,6 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
         </>
       )}
       </div>
-      <GalleryStickyAd />
       </div>
     </div>
   );

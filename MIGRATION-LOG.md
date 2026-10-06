@@ -629,3 +629,18 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   contrast badge, exports CSS/Tailwind/SCSS/CSS Variable/React, PNG/SVG download, share link (#g=), Fork & Edit.
   Storage key v2 (v1 migrated). Fork hand-off moved to shared `src/lib/fork-to-mycode.js` (Navbar Builder uses it too).
 - `/gradient-generator/` SEO rewritten (sections API, 14 FAQs, breadcrumb fixed from fwdtools.com). Blog skipped (user).
+- Deployed 2026-10-05: Gradient Generator v2 + SEO, Box Shadow layout, tool-page strips + /blog-posts.json fallback, home About card, table bg.
+
+## 2026-10-06 — 7 image tools + /image-tools/ hub moved in (not yet deployed)
+
+- **Moved (copied, 301 from fwdtools):** image-editor, image-compressor, image-background-remover, relight-photo,
+  image-to-text-converter, favicon-generator, og-image-generator + the /image-tools/ hub. Images to PDF, PDF to Images
+  and QR Code stay on fwdtools (user's call). No new npm packages (tesseract.js, upng-js already installed).
+- **webdevpuneet:** routes (incl. examples/ subpages), 7 components, icons + OG images, registry entries (copied from
+  fwdtools), `image-tools` category in `src/lib/categories.js` (12 tools, adapted copy: no QR/PDF), "Image Tools" tab in
+  CategoryGrid. Pages rebranded; titles/descriptions rewritten to 50–60 / 150–160 chars. 12 existing links relinked local.
+- **fwdtools:** slugs + `image-tools` added to `moved-to-webdevpuneet.js`, new 301 rule in `public/.htaccess`, hub tab
+  links (CategoryGrid, HomeGrid, SeoSection, home card) now absolute webdevpuneet URLs. fwdtools copies left in place.
+- **Also today:** leaderboard ad above the search on the UI Snippets gallery and My Code grid, 300x600 side ad removed
+  (`GalleryStickyAd` deleted); leaderboard between hero and tabs on all hub pages (`CategoryPage`); hub grids show 12
+  tools then "Show 12 more" (all cards stay in the HTML, extras hidden).

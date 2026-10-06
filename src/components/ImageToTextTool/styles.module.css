@@ -1,0 +1,427 @@
+/* ── Wrap ────────────────────────────────────────────────────────────────── */
+.wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  position: relative;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  min-height: 48px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--text);
+  font-family: var(--font-ui);
+  flex-shrink: 0;
+}
+
+.logoIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: rgba(167, 139, 250, 0.12);
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--clr-violet);
+  flex-shrink: 0;
+}
+
+.accent { color: var(--clr-violet); }
+
+.headerMid { flex: 1; min-width: 0; }
+
+.hint {
+  font-size: 11px;
+  color: var(--text3);
+  white-space: nowrap;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+/* ── Language selector ───────────────────────────────────────────────────── */
+.langLabel {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.langLabelText {
+  font-size: 11px;
+  color: var(--text3);
+  white-space: nowrap;
+}
+
+.sel {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 5px;
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text2);
+  cursor: pointer;
+  outline: none;
+}
+.sel:hover, .sel:focus { border-color: #a78bfa; color: var(--text); }
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+.btn {
+  padding: 4px 11px;
+  border-radius: 5px;
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text3);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  cursor: pointer;
+  transition: color 0.13s, border-color 0.13s;
+  white-space: nowrap;
+}
+.btn:hover { border-color: #a78bfa; color: var(--clr-violet); }
+.btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.btnPrimary {
+  padding: 5px 16px;
+  border-radius: 5px;
+  border: 1px solid #a78bfa;
+  background: rgba(167, 139, 250, 0.12);
+  color: var(--clr-violet);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.13s;
+  white-space: nowrap;
+}
+.btnPrimary:hover { background: rgba(167, 139, 250, 0.22); }
+.btnPrimary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btnDanger:hover { border-color: var(--err); color: var(--err); }
+
+/* ── Body ───────────────────────────────────────────────────────────────── */
+.body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ── Image pane ─────────────────────────────────────────────────────────── */
+.imagePane {
+  width: 45%;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  transition: background 0.15s;
+}
+
+.imagePaneEmpty {
+  cursor: pointer;
+}
+.imagePaneEmpty:hover { background: rgba(167, 139, 250, 0.03); }
+
+.dragOver {
+  background: rgba(167, 139, 250, 0.07);
+  border-color: rgba(167, 139, 250, 0.5);
+}
+
+/* ── Drop zone ──────────────────────────────────────────────────────────── */
+.dropZone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 32px 20px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.dropIcon {
+  color: var(--text3);
+  opacity: 0.4;
+}
+
+.dropTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text2);
+  margin: 0;
+}
+
+.dropSub {
+  font-size: 12px;
+  color: var(--text3);
+  margin: 0;
+  pointer-events: all;
+}
+
+.dropLink {
+  color: var(--clr-violet);
+  cursor: pointer;
+}
+.dropLink:hover { text-decoration: underline; }
+
+.kbd {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  color: var(--text3);
+}
+
+.dropFormats {
+  font-size: 10px;
+  color: var(--text3);
+  opacity: 0.6;
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+/* ── Preview ────────────────────────────────────────────────────────────── */
+.previewWrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.preview {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: var(--bg);
+}
+
+/* ── Image info bar ─────────────────────────────────────────────────────── */
+.imageInfo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.infoItem { white-space: nowrap; }
+
+.infoDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--border2);
+  flex-shrink: 0;
+}
+
+/* ── Progress overlay ───────────────────────────────────────────────────── */
+.progressOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(14, 15, 17, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+}
+
+.progressBox {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 20px 24px;
+  width: min(280px, 85%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.progressLabel {
+  font-size: 12px;
+  color: var(--text2);
+  text-align: center;
+}
+
+.progressTrack {
+  height: 6px;
+  background: var(--surface3);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: #a78bfa;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.progressPct {
+  font-size: 11px;
+  color: var(--clr-violet);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+/* ── Text pane ──────────────────────────────────────────────────────────── */
+.textPane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.textHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  height: 36px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+.paneLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text3);
+  flex-shrink: 0;
+}
+
+.confidence {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  flex: 1;
+}
+
+.textActions {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+/* ── Output textarea ─────────────────────────────────────────────────────── */
+.outputArea {
+  flex: 1;
+  resize: none;
+  border: none;
+  outline: none;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 13.5px;
+  line-height: 1.8;
+  padding: 16px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+.outputArea::placeholder { color: var(--text3); opacity: 0.5; line-height: 1.8; }
+
+/* ── Stats bar ──────────────────────────────────────────────────────────── */
+.textStats {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.statDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--border2);
+  flex-shrink: 0;
+}
+
+/* ── Error state ─────────────────────────────────────────────────────────── */
+.errorState {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--err);
+  text-align: center;
+  padding: 32px;
+}
+.errorState p { margin: 0; font-size: 13px; }
+.errorHint { font-size: 11px; color: var(--text3); }
+
+/* ── Toast ───────────────────────────────────────────────────────────────── */
+.toast {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--text2);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 99;
+  animation: fadeIn 0.18s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(5px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}

@@ -6,8 +6,9 @@ const ALL_CATEGORIES = [
   { label: null,         href: '/',                 home: true },
   { label: 'All Tools',  href: '/tools',            icon: '🧰' },
   { label: 'CSS Tools',  href: '/css-tools',        icon: '🎨' },
-  { label: 'Learn',      href: '/learn-to-code',    icon: '🎓' },
-  { label: 'Snippets',   href: '/ui-snippets',      icon: '🧩' },
+  { label: 'Image Tools', href: '/image-tools',     icon: '🖼️' },
+  { label: 'Learn To Code Playgrounds', href: '/learn-to-code', icon: '🎓' },
+  { label: 'UI Snippets', href: '/ui-snippets',    icon: '🧩' },
 ];
 
 function highlight(text, query) {
@@ -23,8 +24,14 @@ function highlight(text, query) {
   );
 }
 
+// Tools shown per page; "Show more" reveals this many more each time.
+const PAGE_SIZE = 12;
+
 export default function CategoryGrid({ tools, currentSlug }) {
   const [query, setQuery] = useState('');
+  const [visible, setVisible] = useState(PAGE_SIZE);
+
+  const searching = query.trim() !== '';
 
   const shown = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -87,14 +94,14 @@ export default function CategoryGrid({ tools, currentSlug }) {
         </div>
       )}
 
-      {/* Grid — all tools in initial HTML for Google */}
+      {/* Grid — every tool is in the initial HTML for Google; only the first `visible` are shown */}
       {shown.length > 0 ? (
         <div className={s.grid}>
-          {shown.map(tool => (
+          {shown.map((tool, i) => (
             <a
               key={tool.slug}
               href={`/${tool.slug}`}
-              className={s.card}
+              className={`${s.card} ${!searching && i >= visible ? s.cardHidden : ''}`}
               style={{ '--accent': tool.accent, '--accent-border': tool.accent + '55' }}
             >
               <div className={s.cardTop}>
@@ -120,6 +127,20 @@ export default function CategoryGrid({ tools, currentSlug }) {
         </div>
       ) : (
         <div className={s.empty}>No tools match &ldquo;{query}&rdquo;</div>
+      )}
+
+      {!searching && tools.length > PAGE_SIZE && (
+        <div className={s.moreWrap}>
+          <p className={s.moreMeta} role="status" aria-live="polite">
+            Showing {Math.min(visible, tools.length)} of {tools.length} tools
+          </p>
+          {visible < tools.length && (
+            <button type="button" className={s.moreBtn} onClick={() => setVisible(v => v + PAGE_SIZE)}>
+              Show {Math.min(PAGE_SIZE, tools.length - visible)} more tools
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+          )}
+        </div>
       )}
     </>
   );

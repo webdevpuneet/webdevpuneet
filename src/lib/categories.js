@@ -349,6 +349,94 @@ If you are styling something, start with the CSS generators. If you are learning
       keywords: ['free developer tools', 'online developer tools', 'web developer tools online', 'free css generators', 'online code formatter', 'json formatter online', 'coding playgrounds online', 'html to jsx converter', 'api request tester online', 'free web dev tools no signup', 'browser based developer tools', 'front end developer tools'],
     },
   },
+  // ── Image tools hub (moved from fwdtools 2026-10-06) ──
+  {
+    slug:        'image-tools',
+    name:        'Image Tools',
+    headline:    'Free Online Image Tools — No Upload Needed',
+    tagline:     'Edit, compress, convert, trace and generate images — resize, remove backgrounds, relight photos, make favicons and OG images, all processed in your browser with no file uploads.',
+    accent:      '#10b981',
+    icon:        '🖼️',
+    toolSlugs: [
+      // most-searched image tasks
+      'image-editor', 'image-compressor', 'image-background-remover', 'relight-photo', 'favicon-generator',
+      // generation
+      'og-image-generator', 'code-screenshot-generator',
+      // format conversion
+      'image-to-svg', 'svg-to-png', 'image-to-base64',
+      // OCR and color
+      'image-to-text-converter', 'image-color-palette',
+    ],
+    related: ['tools', 'css-tools', 'learn-to-code'],
+    about: `Image editing and conversion come up constantly in web development, design and content work — but most online tools upload your images to a remote server to process them. Every tool in this collection processes your images locally in your browser, using the Canvas API, FileReader and WebAssembly libraries. Your files never leave your device, there is no sign-up, and nothing is watermarked.
+
+### Edit, Crop and Resize Images
+
+The **Image Editor** is a full browser-based editor: resize to exact pixels or social-media presets, crop with an aspect-ratio lock, rotate and flip, add text overlays and watermarks, fill a background color, compress with quality control and convert between formats. The **Image Compressor** is built for batches — drop several PNG, JPEG, WebP or AVIF files at once, compress or convert them in parallel, and compare before and after with a live split slider before you download.
+
+### Remove Backgrounds and Relight Photos
+
+The **Image Background Remover** makes a transparent PNG or WebP locally: remove a white background, pick a color to remove, or use a magic-wand selection with tolerance and edge feather, with zoom and pan for precise work. **Relight Photo** adds draggable studio, neon, sunset and product lights to an existing photo, lets you adjust ambient brightness and shadows, and exports PNG, JPEG or WebP with a before/after preview.
+
+### Convert Between Formats
+
+**Image to SVG** traces PNG, JPEG and WebP images into scalable vector paths with adjustable color and detail settings. **SVG to PNG** rasterizes vectors at any scale or pixel size for app icons, email headers and retina displays. **Image to Base64** turns any image into a Data URI, an HTML img tag or a CSS background-image ready to embed without an extra file request.
+
+### Text, Color and Social Images
+
+The **Image to Text Converter** uses Tesseract.js — a WebAssembly build of the Tesseract OCR engine — to extract editable text from photos, screenshots and scans in 16 languages, with no cloud API key. The **Image Color Palette Extractor** pulls the dominant colors out of any image. The **OG Image Generator** creates 1200×630 Open Graph images, which noticeably improve click-through when a link is shared on Twitter, LinkedIn or Slack, and the **Favicon Generator** produces the complete set of favicon assets — eight PNG sizes, a multi-size favicon.ico, the Apple Touch Icon, Android Chrome icons and site.webmanifest — in one ZIP. **Code Screenshot** turns a snippet into a shareable image with themed window frames and gradient backgrounds.
+
+### Why Use These Image Tools?
+
+Because all processing uses the browser's Canvas API and WebAssembly, there is no upload time, no server queue and no file-size limit set by a remote service. That matters for client photos, proprietary product images, medical scans and personal documents that should never leave your machine. Open a tool, drop your file, adjust the settings and download — the whole workflow happens in one browser tab, and the tools keep working offline once the page has loaded.`,
+    useCases: [
+      { icon: '🗜️', title: 'Compress images for web performance', desc: 'Reduce JPEG, PNG, WebP and AVIF file sizes before uploading to a CMS or CDN. The split-slider comparison shows quality against file size side by side before you download.' },
+      { icon: '✂️', title: 'Resize and crop for social media', desc: 'Use the Image Editor presets to resize and crop photos to exact social-media dimensions, add a text overlay or watermark, and export in the format you need.' },
+      { icon: '🪄', title: 'Cut out a product photo', desc: 'Remove a white or solid background with the Image Background Remover, then relight the product with studio or neon lights for a clean, consistent catalog look.' },
+      { icon: '🔵', title: 'Trace logos and icons to SVG', desc: 'Convert a PNG or JPEG logo into scalable SVG paths for design tools and CSS, or rasterize an SVG to PNG at the exact size an app store or email client wants.' },
+      { icon: '📱', title: 'Generate every favicon size', desc: 'Upload one image and get the full favicon set in a ZIP — PNG sizes, a multi-size .ico, Apple Touch and Android Chrome icons, and site.webmanifest — with no Photoshop.' },
+      { icon: '👁️', title: 'Extract text from screenshots', desc: 'Pull editable text out of scanned documents, screenshots and photos with OCR in 16 languages, then copy it straight into your notes or a spreadsheet.' },
+    ],
+    faqs: [
+      {
+        q: 'Are my images uploaded to any server?',
+        a: 'No. All image tools use the browser\'s FileReader and Canvas APIs and local JavaScript and WebAssembly libraries. Your images are read from disk into browser memory, processed locally and downloaded back to your computer. No image data is transmitted to a server at any point, so the tools are safe for confidential or proprietary images.',
+      },
+      {
+        q: 'What image formats does the Image Compressor support?',
+        a: 'It accepts JPEG, PNG and WebP and can output PNG, JPEG, WebP or AVIF. Set a quality level from 1 to 100, optionally resize to custom pixel dimensions, and compress several files in parallel. A live split slider lets you compare before and after side by side at full zoom before you download.',
+      },
+      {
+        q: 'How do I remove the background from an image?',
+        a: 'Open the Image Background Remover, drop in your image and choose a mode: white or light background, a picked color, or a magic-wand selection with adjustable tolerance and edge feather. You can zoom and pan to refine the result, preview it on different backgrounds, and export a transparent PNG or WebP. It works best on simple, evenly colored backgrounds.',
+      },
+      {
+        q: 'What does Relight Photo do?',
+        a: 'Relight Photo lets you place draggable lights on a photo — studio, neon, sunset, product or dramatic presets — and adjust ambient brightness and shadows, with a before and after preview. The result is rendered locally and exported as PNG, JPEG or WebP, so your photo is never uploaded.',
+      },
+      {
+        q: 'How does Image to SVG vectorisation work?',
+        a: 'Image to SVG traces a raster image into scalable vector paths. Choose full color, greyscale or black and white, then adjust the number of colors, smoothing and detail threshold. The output is clean SVG markup you can use in design tools, CSS backgrounds or HTML.',
+      },
+      {
+        q: 'What sizes does the Favicon Generator produce?',
+        a: 'It produces 16, 32, 48, 64, 96, 128, 192 and 512 pixel PNG files, a multi-size favicon.ico, a 180×180 Apple Touch Icon, 192 and 512 pixel Android Chrome icons and a site.webmanifest file, all in one ZIP ready to upload to your web server root.',
+      },
+      {
+        q: 'How accurate is the Image to Text (OCR) conversion?',
+        a: 'The converter uses Tesseract.js, a WebAssembly port of the Tesseract OCR engine. Accuracy is highest for high-resolution images with clear fonts and good contrast. For best results increase contrast, remove background noise and use scans of about 300 DPI. Handwriting and decorative fonts are less accurate.',
+      },
+      {
+        q: 'What is an OG image and why do I need one?',
+        a: 'An Open Graph image is the thumbnail shown when your link is shared on Twitter, LinkedIn, Slack, Discord or Facebook. Without one, platforms show a generic placeholder. The OG Image Generator creates a correctly sized 1200×630 PNG that you reference in your page\'s og:image meta tag, which improves click-through when the link is shared.',
+      },
+    ],
+    metadata: {
+      title: 'Free Online Image Tools — Compress, Convert & Edit',
+      description: '12 free image tools in your browser: editor, compressor, background remover, image to SVG, Base64, OCR, favicon and OG image generators. No upload, no sign-up.',
+      keywords: ['free image tools online', 'online image editor', 'image compressor online', 'remove image background free', 'image to svg converter', 'image to base64', 'svg to png converter', 'favicon generator online', 'og image generator', 'image to text ocr', 'relight photo online', 'image converter online free'],
+    },
+  },
 ];
 
 export const CATEGORY_MAP = Object.fromEntries(CATEGORIES.map(c => [c.slug, c]));

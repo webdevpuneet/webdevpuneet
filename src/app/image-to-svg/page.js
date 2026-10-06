@@ -39,7 +39,7 @@ const seoData = {
   },
 
   features: [
-    'Client-side vectorization using imagetracerjs — no file upload, no server, images stay on your device; compress the source first with our [Image Compressor](https://fwdtools.com/image-compressor/)',
+    'Client-side vectorization using imagetracerjs — no file upload, no server, images stay on your device; compress the source first with our [Image Compressor](/image-compressor/)',
     '3 color modes: full Color (2–32 colors), Grayscale (luminance-based), Black & White (threshold + smoothing)',
     'Pre-trace controls: Source Blur (0–5) smooths JPEG noise before tracing; Stroke Width (0–5px) adds outlines; Line Noise Filter removes speckle artifacts; Corner Snap forces exact right angles',
     'SVG Effects embedded in the downloaded file: Output Softness feGaussianBlur, Sharpen feConvolveMatrix, Drop Shadow feDropShadow with adjustable blur and offset',

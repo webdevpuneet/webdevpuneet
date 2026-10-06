@@ -6,6 +6,13 @@
   padding: 0 48px 80px;
 }
 
+/* ── Leaderboard ad at the bottom of the hero card (collapses itself when AdSense has no ad) ── */
+.heroAd {
+  margin-top: 20px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
 /* ── Breadcrumb ── */
 .breadcrumb {
   display: flex;
