@@ -55,7 +55,7 @@ dispatch({ type: 'increment' });</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/demos/a1/05/1.html" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Same Counter, Two Hooks Demo by webdevpuneet.com"></iframe>
+<iframe src="https://webdevpuneet.com/demos/a1/05/1.html" style="width:100%;height:540px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Same Counter, Two Hooks Demo by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -89,7 +89,7 @@ dispatch({ type: 'increment' });  // caller only describes what happened</code><
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/demos/a1/05/2.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="useState One Value One Setter Demo by webdevpuneet.com"></iframe>
+<iframe src="https://webdevpuneet.com/demos/a1/05/2.html" style="width:100%;height:550px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="useState One Value One Setter Demo by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -121,7 +121,7 @@ setClicks(c =&gt; c + 1);</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/demos/a1/05/3.html" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="useReducer Action Log Demo by webdevpuneet.com"></iframe>
+<iframe src="https://webdevpuneet.com/demos/a1/05/3.html" style="width:100%;height:500px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="useReducer Action Log Demo by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -157,7 +157,7 @@ setClicks(c =&gt; c + 1);</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/demos/a1/05/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="The Bug Multiple useState Calls Invite Demo by webdevpuneet.com"></iframe>
+<iframe src="https://webdevpuneet.com/demos/a1/05/4.html" style="width:100%;height:690px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="The Bug Multiple useState Calls Invite Demo by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -191,7 +191,7 @@ dispatch({ type: 'reset' });   // the reducer returns { a: 0, b: 0 }</code></pre
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/demos/a1/05/5.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A Reducer as a State Machine Demo by webdevpuneet.com"></iframe>
+<iframe src="https://webdevpuneet.com/demos/a1/05/5.html" style="width:100%;height:700px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A Reducer as a State Machine Demo by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -226,7 +226,7 @@ function reducer(state, action) {
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/demos/a1/05/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Undo Redo Free With a Reducer Demo by webdevpuneet.com"></iframe>
+<iframe src="https://webdevpuneet.com/demos/a1/05/6.html" style="width:100%;height:470px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Undo Redo Free With a Reducer Demo by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -261,7 +261,7 @@ function reducer(state, action) {
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/demos/a1/05/7.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Independent Fields Demo by webdevpuneet.com"></iframe>
+<iframe src="https://webdevpuneet.com/demos/a1/05/7.html" style="width:100%;height:510px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Independent Fields Demo by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -291,7 +291,7 @@ const [subscribe, setSubscribe] = useState(false);</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/demos/a1/05/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="One Reducer One Cart Demo by webdevpuneet.com"></iframe>
+<iframe src="https://webdevpuneet.com/demos/a1/05/8.html" style="width:100%;height:500px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="One Reducer One Cart Demo by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -329,7 +329,7 @@ const [subscribe, setSubscribe] = useState(false);</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/demos/a1/05/9.html" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A Reducer Is Just a Function Demo by webdevpuneet.com"></iframe>
+<iframe src="https://webdevpuneet.com/demos/a1/05/9.html" style="width:100%;height:530px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A Reducer Is Just a Function Demo by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->

@@ -1901,6 +1901,19 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               <EditorPanel lang="js"   code={jsCode}   highlight={highlightJS}   onChange={onJs}   onReset={resetJs}   collapsed={jsCollapsed}   onToggle={toggleJsPanel} headerExtra={jsHeaderExtra} />
             </div>
           )}
+          {/* AdSense leaderboard (slot 7360198340) at the very top of the preview column, above the
+              Preview toolbar — 970x90 / 728x90 / 468x60 / 320x50 by available width, library snippets
+              only. Collapses when unfilled (.adBar:has(ins[data-ad-status="unfilled"])). */}
+          {showEditor && !inMyCode && (
+            <div className={s.adBar} aria-label="Advertisement">
+              {ADS_ENABLED ? <SnippetTopAd key={activeId || 'none'} /> : (
+                <div className={s.adBarSlot}>
+                  <span className={s.adBarLabel}>Ad space</span>
+                  <span className={s.adBarSize}>728 × 90</span>
+                </div>
+              )}
+            </div>
+          )}
           {showEditor && <div className={s.previewHeader}>
             {/* Everything but the action menus scrolls sideways in one row when space is
                 short; Fork / Export stay pinned outside so their menus aren't clipped. */}
@@ -2074,19 +2087,6 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               <ExportMenu options={exportOptions} />
             </div>
           </div>}
-          {/* AdSense leaderboard (slot 7360198340) directly below the Preview toolbar, above the preview —
-              970x90 / 728x90 / 468x60 / 320x50 by available width, library snippets only.
-              Collapses when unfilled (.adBar:has(ins[data-ad-status="unfilled"])). */}
-          {showEditor && !inMyCode && (
-            <div className={s.adBar} aria-label="Advertisement">
-              {ADS_ENABLED ? <SnippetTopAd key={activeId || 'none'} /> : (
-                <div className={s.adBarSlot}>
-                  <span className={s.adBarLabel}>Ad space</span>
-                  <span className={s.adBarSize}>728 × 90</span>
-                </div>
-              )}
-            </div>
-          )}
           {showEditor && <div className={s.previewStage}>
           <div className={s.iframeWrap}>
             {!previewVisible && (
