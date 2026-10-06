@@ -645,3 +645,4 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   (`GalleryStickyAd` deleted); leaderboard between hero and tabs on all hub pages (`CategoryPage`); hub grids show 12
   tools then "Show 12 more" (all cards stay in the HTML, extras hidden).
 - Deployed 2026-10-06: 7 image tools + /image-tools/ hub, hub pagination + hero ad, gallery ad change, image-tool ads (webdevpuneet 2nd attempt after a one-off build failure; fwdtools redirects deployed first — extract webdevpuneet zip first).
+- Deployed 2026-10-06: snippet editor ad moved above the Preview toolbar (#e8eaf1).
