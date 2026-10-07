@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Gradient Generator — Six Animated Gradient Presets">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+<main class="stage">
+  <h1>Six one-click gradient animations</h1>
+  <div class="tiles">
+    <figure><div class="tile slide"></div><figcaption>Slide</figcaption></figure>
+    <figure><div class="tile diagonal"></div><figcaption>Diagonal</figcaption></figure>
+    <figure><div class="tile hue"></div><figcaption>Hue Shift</figcaption></figure>
+    <figure><div class="tile breathe"></div><figcaption>Breathe</figcaption></figure>
+    <figure><div class="tile pulse"></div><figcaption>Pulse</figcaption></figure>
+    <figure><div class="tile spin"></div><figcaption>Spin</figcaption></figure>
+  </div>
+  <label class="ctl">Duration <input type="range" id="speed" min="1" max="12" value="4"> <output id="out">4s</output></label>
+</main>
+</script>
+
+<script type="text/plain" id="css">
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+body { background: #f8fafc; color: #0f172a; }
+.stage { min-height: 100vh; padding: 18px 16px; display: grid; align-content: center; gap: 14px; max-width: 640px; margin: 0 auto; }
+h1 { margin: 0; font-size: 17px; text-align: center; }
+.tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+figure { margin: 0; display: grid; gap: 6px; }
+.tile { aspect-ratio: 16 / 10; border-radius: 12px; overflow: hidden; }
+figcaption { font-size: 12.5px; font-weight: 700; text-align: center; }
+.ctl { justify-self: center; display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13px; }
+.ctl input { width: 150px; accent-color: #6366f1; }
+
+.slide {
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background: linear-gradient(135deg, #7c6dfa 0%, #c47fff 50%, #4dd9c0 100%);
+  background: linear-gradient(in oklch 135deg, #7c6dfa 0%, #c47fff 50%, #4dd9c0 100%);
+  background-size: 300% 300%;
+  animation: gradSlide 4s ease infinite;
+}
+
+.diagonal {
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background: linear-gradient(135deg, #7c6dfa 0%, #c47fff 50%, #4dd9c0 100%);
+  background: linear-gradient(in oklch 135deg, #7c6dfa 0%, #c47fff 50%, #4dd9c0 100%);
+  background-size: 300% 300%;
+  animation: gradDiagonal 4s ease infinite;
+}
+
+.hue {
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background: linear-gradient(135deg, #7c6dfa 0%, #c47fff 50%, #4dd9c0 100%);
+  background: linear-gradient(in oklch 135deg, #7c6dfa 0%, #c47fff 50%, #4dd9c0 100%);
+  animation: gradHue 4s linear infinite;
+}
+
+.breathe {
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background: linear-gradient(135deg, #7c6dfa 0%, #c47fff 50%, #4dd9c0 100%);
+  background: linear-gradient(in oklch 135deg, #7c6dfa 0%, #c47fff 50%, #4dd9c0 100%);
+  animation: gradBreathe 4s ease-in-out infinite;
+}
+
+.pulse {
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background: linear-gradient(135deg, #7c6dfa 0%, #c47fff 50%, #4dd9c0 100%);
+  background: linear-gradient(in oklch 135deg, #7c6dfa 0%, #c47fff 50%, #4dd9c0 100%);
+  animation: gradPulse 4s ease-in-out infinite;
+}
+
+.spin {
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background: linear-gradient(var(--gradient-angle, 135deg), #7c6dfa 0%, #c47fff 50%, #4dd9c0 100%);
+  background: linear-gradient(in oklch var(--gradient-angle, 135deg), #7c6dfa 0%, #c47fff 50%, #4dd9c0 100%);
+  animation: gradSpin 4s linear infinite;
+}
+
+@keyframes gradSlide {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+
+@keyframes gradDiagonal {
+  0%, 100% { background-position: 0% 0%; }
+  50%       { background-position: 100% 100%; }
+}
+
+@keyframes gradHue {
+  0%   { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+@keyframes gradBreathe {
+  0%, 100% { background-size: 100% 100%; }
+  50%       { background-size: 250% 250%; }
+}
+
+@keyframes gradPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* Spins the linear layer — uses @property (Chrome, Edge, Safari 16.4+, Firefox 128+) */
+@property --gradient-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes gradSpin {
+  to { --gradient-angle: 360deg; }
+}
+
+/* Good practice: respect people who ask for less motion */
+@media (prefers-reduced-motion: reduce) {
+  .tile { animation: none; }
+}
+</script>
+
+<script type="text/plain" id="js">
+var tiles = document.querySelectorAll('.tile');
+var speed = document.getElementById('speed');
+var out = document.getElementById('out');
+speed.addEventListener('input', function () {
+  out.textContent = speed.value + 's';
+  tiles.forEach(function (t) { t.style.animationDuration = speed.value + 's'; });
+});
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

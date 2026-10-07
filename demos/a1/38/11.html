@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Gradient Generator — Gradient Border That Keeps Rounded Corners">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+<main class="stage">
+  <article class="gradient-border card">
+    <h2>Gradient border card</h2>
+    <p>A solid layer sits over the padding box, so the gradient only shows on the border and the corners stay rounded.</p>
+    <a class="gradient-border pill" href="#">Read more</a>
+  </article>
+</main>
+</script>
+
+<script type="text/plain" id="css">
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+body { background: #ffffff; color: #0f172a; }
+.stage { min-height: 100vh; display: grid; place-items: center; padding: 20px; }
+.card { max-width: 380px; padding: 26px; display: grid; gap: 10px; justify-items: start; }
+.card h2 { margin: 0; font-size: 21px; }
+.card p { margin: 0; font-size: 14px; line-height: 1.6; color: #475569; }
+.pill { padding: 8px 20px; border-radius: 999px; font-weight: 700; font-size: 13px; text-decoration: none; color: #0f172a; }
+
+/* Gradient border: a solid padding-box layer over the gradient border-box */
+.gradient-border {
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    linear-gradient(in oklch 135deg, #f64f59 0%, #c471ed 50%, #12c2e9 100%) border-box;
+}
+.pill.gradient-border { border-radius: 999px; }
+</script>
+
+<script type="text/plain" id="js">
+
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

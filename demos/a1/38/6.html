@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Gradient Generator — Layered Aurora Mesh Gradient">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+<section class="aurora">
+  <h1>Aurora mesh background</h1>
+  <p>Four stacked layers: three soft radial glows over a dark linear base, plus film grain.</p>
+</section>
+</script>
+
+<script type="text/plain" id="css">
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+
+.aurora {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  gap: 10px;
+  padding: 24px;
+  text-align: center;
+  color: #ffffff;
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E"),
+    radial-gradient(circle farthest-side at 15% 20%, #22d3eed9 0%, #22d3ee00 55%),
+    radial-gradient(circle farthest-side at 85% 25%, #a855f7cc 0%, #a855f700 55%),
+    radial-gradient(circle farthest-side at 55% 100%, #f472b6b3 0%, #f472b600 60%),
+    linear-gradient(160deg, #0f172a 0%, #1e1b4b 100%);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E"),
+    radial-gradient(in oklab circle farthest-side at 15% 20%, #22d3eed9 0%, #22d3ee00 55%),
+    radial-gradient(in oklab circle farthest-side at 85% 25%, #a855f7cc 0%, #a855f700 55%),
+    radial-gradient(in oklab circle farthest-side at 55% 100%, #f472b6b3 0%, #f472b600 60%),
+    linear-gradient(in oklab 160deg, #0f172a 0%, #1e1b4b 100%);
+  background-blend-mode: overlay, normal, normal, normal, normal;
+}
+.aurora h1 { margin: 0; font-size: clamp(26px, 6vw, 48px); }
+.aurora p { margin: 0 auto; max-width: 30em; font-size: 15px; opacity: 0.85; }
+</script>
+
+<script type="text/plain" id="js">
+
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

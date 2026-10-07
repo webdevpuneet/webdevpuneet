@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Gradient Generator — Grainy Gradient with Grain Slider">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+<section class="grainy" id="grainy">
+  <h1>Grainy sunset</h1>
+  <label class="ctl">Grain <input type="range" id="grain" min="0" max="60" value="30"> <output id="out">30%</output></label>
+</section>
+</script>
+
+<script type="text/plain" id="css">
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+
+.grainy {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  gap: 14px;
+  text-align: center;
+  color: #0f172a;
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E"),
+    linear-gradient(160deg, #ff7e5f 0%, #ff7e5f 6.88%, #ff825f 13.75%, #ff8a61 20.63%, #ff9a68 27.5%, #ffa972 34.38%, #feb178 41.25%, #feb47b 48.13%, #feb47b 55%, #feb47b 60.63%, #feb67c 66.25%, #feba7f 71.88%, #ffc386 77.5%, #ffcb8e 83.13%, #ffcf92 88.75%, #ffd194 94.38%, #ffd194 100%);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E"),
+    linear-gradient(in oklch 160deg, #ff7e5f 0%, #ff7e5f 6.88%, #ff825f 13.75%, #ff8a61 20.63%, #ff9a68 27.5%, #ffa972 34.38%, #feb178 41.25%, #feb47b 48.13%, #feb47b 55%, #feb47b 60.63%, #feb67c 66.25%, #feba7f 71.88%, #ffc386 77.5%, #ffcb8e 83.13%, #ffcf92 88.75%, #ffd194 94.38%, #ffd194 100%);
+  background-blend-mode: overlay, normal;
+  background-blend-mode: overlay, normal;
+}
+h1 { margin: 0; font-size: clamp(28px, 6vw, 52px); }
+.ctl { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; }
+.ctl input { width: 160px; accent-color: #0f172a; }
+output { min-width: 3ch; font-variant-numeric: tabular-nums; }
+</script>
+
+<script type="text/plain" id="js">
+// Grain = a tiny SVG noise image on top of the gradient, blended with "overlay".
+var el = document.getElementById('grainy');
+var slider = document.getElementById('grain');
+var out = document.getElementById('out');
+var BASE = "linear-gradient(in oklch 160deg, #ff7e5f 0%, #ff7e5f 6.88%, #ff825f 13.75%, #ff8a61 20.63%, #ff9a68 27.5%, #ffa972 34.38%, #feb178 41.25%, #feb47b 48.13%, #feb47b 55%, #feb47b 60.63%, #feb67c 66.25%, #feba7f 71.88%, #ffc386 77.5%, #ffcb8e 83.13%, #ffcf92 88.75%, #ffd194 94.38%, #ffd194 100%)";
+
+function grain(amount) {
+  var svg = "<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(#n)' opacity='" + (amount / 100).toFixed(2) + "'/></svg>";
+  return 'url("data:image/svg+xml,' + svg.replace(/%/g, '%25').replace(/</g, '%3C').replace(/>/g, '%3E').replace(/#/g, '%23').replace(/"/g, '%22') + '")';
+}
+
+function paint() {
+  var amount = +slider.value;
+  out.textContent = amount ? amount + '%' : 'off';
+  if (amount) {
+    el.style.backgroundImage = grain(amount) + ', ' + BASE;
+    el.style.backgroundBlendMode = 'overlay, normal';
+  } else {
+    el.style.backgroundImage = BASE;
+    el.style.backgroundBlendMode = 'normal';
+  }
+}
+slider.addEventListener('input', paint);
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

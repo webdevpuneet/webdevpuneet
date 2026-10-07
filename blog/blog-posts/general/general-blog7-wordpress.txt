@@ -9,6 +9,7 @@
   SEO DESCRIPTION (155 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
   Debounce vs throttle in JavaScript, explained with live demos: a search box, scroll updates, a side-by-side event stream and autosave. Copy both functions.
 
+  
   HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
   In WordPress click "Type / to choose a block", then Ctrl+V.
   Fallback: ⋮ menu → Code editor → paste.
@@ -66,7 +67,7 @@ function throttle(fn, limit) {
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/demos/a1/06/1.html" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Debounced Search Box Demo by webdevpuneet.com"></iframe>
+<iframe src="https://webdevpuneet.com/demos/a1/06/1.html" style="width:100%;height:500px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Debounced Search Box Demo by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -96,7 +97,7 @@ input.addEventListener('input', e =&gt; debouncedSearch(e.target.value));</code>
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/demos/a1/06/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Throttled Scroll Updates Demo by webdevpuneet.com"></iframe>
+<iframe src="https://webdevpuneet.com/demos/a1/06/2.html" style="width:100%;height:465px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Throttled Scroll Updates Demo by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -126,7 +127,7 @@ scrollBox.addEventListener('scroll', throttledOnScroll);</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/demos/a1/06/3.html" style="width:100%;height:500px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Debounce vs Throttle Side by Side Demo by webdevpuneet.com"></iframe>
+<iframe src="https://webdevpuneet.com/demos/a1/06/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Debounce vs Throttle Side by Side Demo by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -161,7 +162,7 @@ zone.addEventListener('mousemove', () =&gt; {
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/demos/a1/06/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Debounced Autosave Demo by webdevpuneet.com"></iframe>
+<iframe src="https://webdevpuneet.com/demos/a1/06/4.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Debounced Autosave Demo by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -194,7 +195,7 @@ textarea.addEventListener('input', e =&gt; {
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/demos/a1/06/5.html" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Which One Should You Use Demo by webdevpuneet.com"></iframe>
+<iframe src="https://webdevpuneet.com/demos/a1/06/5.html" style="width:100%;height:580px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Which One Should You Use Demo by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Gradient Generator — Gradient Buttons with Contrast Check">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+<main class="stage">
+  <h1>Gradient buttons, with the readable text color picked for you</h1>
+  <div class="grid">
+    <div class="item"><button class="gradient-btn cosmic" type="button">Cosmic</button><span class="badge ok">Dark text · 4.6:1 · AA</span></div>
+    <div class="item"><button class="gradient-btn sunset" type="button">Sunset</button><span class="badge ok">Dark text · 6.4:1 · AA</span></div>
+    <div class="item"><button class="gradient-btn ocean" type="button">Ocean</button><span class="badge ok">White text · 12.5:1 · AA</span></div>
+    <div class="item"><button class="gradient-btn neon" type="button">Neon</button><span class="badge warn">White text · 3:1 · AA large</span></div>
+  </div>
+</main>
+</script>
+
+<script type="text/plain" id="css">
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+body { background: #f8fafc; color: #0f172a; }
+.stage { min-height: 100vh; display: grid; align-content: center; gap: 18px; padding: 20px; max-width: 560px; margin: 0 auto; }
+h1 { margin: 0; font-size: 17px; text-align: center; line-height: 1.35; }
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.item { display: grid; gap: 8px; justify-items: center; }
+.badge { font: 700 11px system-ui, sans-serif; padding: 3px 9px; border-radius: 999px; background: #e2e8f0; color: #334155; }
+.badge.ok { background: #dcfce7; color: #166534; }
+.badge.warn { background: #fef3c7; color: #92400e; }
+.badge.bad { background: #fee2e2; color: #991b1b; }
+
+.gradient-btn {
+  width: 100%;
+  padding: 13px 20px;
+  border: 0;
+  border-radius: 10px;
+  font: 700 15px system-ui, sans-serif;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.gradient-btn:hover { transform: translateY(-2px); }
+
+.cosmic {
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background: linear-gradient(135deg, #7c6dfa 0%, #c47fff 50%, #4dd9c0 100%);
+  background: linear-gradient(in oklch 135deg, #7c6dfa 0%, #c47fff 50%, #4dd9c0 100%);
+  color: #0f172a;
+}
+
+.sunset {
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #ff9ff3 100%);
+  background: linear-gradient(in oklch 135deg, #ff6b6b 0%, #feca57 50%, #ff9ff3 100%);
+  color: #0f172a;
+}
+
+.ocean {
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #0f3460 100%);
+  background: linear-gradient(in oklch 135deg, #0f3460 0%, #16213e 50%, #0f3460 100%);
+  color: #ffffff;
+}
+
+.neon {
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background: linear-gradient(135deg, #f953c6 0%, #b91d73 100%);
+  background: linear-gradient(in oklch 135deg, #f953c6 0%, #b91d73 100%);
+  color: #ffffff;
+}
+</script>
+
+<script type="text/plain" id="js">
+
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

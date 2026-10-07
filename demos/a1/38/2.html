@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Gradient Generator — sRGB vs OKLab vs OKLCH Blending">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+<main class="stage">
+  <h1>Same two colors, four ways to blend them</h1>
+  <figure class="row"><div class="bar bar-srgb"></div><figcaption>sRGB — the browser default</figcaption></figure>
+  <figure class="row"><div class="bar bar-oklab"></div><figcaption>OKLab</figcaption></figure>
+  <figure class="row"><div class="bar bar-oklch"></div><figcaption>OKLCH</figcaption></figure>
+  <figure class="row"><div class="bar bar-hsl"></div><figcaption>HSL</figcaption></figure>
+  <p class="note">Blue → yellow. Look at the middle of each bar.</p>
+</main>
+</script>
+
+<script type="text/plain" id="css">
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+body { background: #f8fafc; color: #0f172a; }
+.stage { min-height: 100vh; padding: 22px 20px; display: grid; align-content: center; gap: 12px; max-width: 640px; margin: 0 auto; }
+h1 { margin: 0 0 4px; font-size: 18px; text-align: center; }
+.row { margin: 0; display: grid; gap: 5px; }
+.bar { height: 56px; border-radius: 10px; }
+figcaption { font-size: 12.5px; font-weight: 600; color: #475569; }
+.note { margin: 2px 0 0; text-align: center; font-size: 12.5px; color: #64748b; }
+
+.bar-srgb {
+  background: linear-gradient(90deg, #2563eb 0%, #facc15 100%);
+}
+
+.bar-oklab {
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background: linear-gradient(90deg, #2563eb 0%, #facc15 100%);
+  background: linear-gradient(in oklab 90deg, #2563eb 0%, #facc15 100%);
+}
+
+.bar-oklch {
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background: linear-gradient(90deg, #2563eb 0%, #facc15 100%);
+  background: linear-gradient(in oklch 90deg, #2563eb 0%, #facc15 100%);
+}
+
+.bar-hsl {
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background: linear-gradient(90deg, #2563eb 0%, #facc15 100%);
+  background: linear-gradient(in hsl 90deg, #2563eb 0%, #facc15 100%);
+}
+</script>
+
+<script type="text/plain" id="js">
+
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

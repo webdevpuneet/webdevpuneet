@@ -33,7 +33,7 @@ function throttle(fn, limit) {
 
 <p>Type in the box below. With debounce on, a fake "API call" fires only once you pause typing for 500ms — turn it off and a call fires on every keystroke instead.</p>
 
-<iframe src="https://fwdtools.com/demos/a1/06/1.html" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Debounced Search Box Demo by FWD Tools"></iframe>
+<iframe src="https://fwdtools.com/demos/a1/06/1.html" style="width:100%;height:500px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Debounced Search Box Demo by FWD Tools"></iframe>
 
 <p><strong>The rule:</strong></p>
 
@@ -49,7 +49,7 @@ input.addEventListener('input', e => debouncedSearch(e.target.value));</code></p
 
 <p>Scroll inside the box below. Raw scroll events fire dozens of times a second — the throttled counter updates at most once every 150ms no matter how fast you scroll.</p>
 
-<iframe src="https://fwdtools.com/demos/a1/06/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Throttled Scroll Updates Demo by FWD Tools"></iframe>
+<iframe src="https://fwdtools.com/demos/a1/06/2.html" style="width:100%;height:465px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Throttled Scroll Updates Demo by FWD Tools"></iframe>
 
 <p><strong>The rule:</strong></p>
 
@@ -65,7 +65,7 @@ scrollBox.addEventListener('scroll', throttledOnScroll);</code></pre>
 
 <p>Move your mouse (or finger) around inside the box below and keep it moving. Watch how each track fills — that's the entire difference between the two techniques, made visible.</p>
 
-<iframe src="https://fwdtools.com/demos/a1/06/3.html" style="width:100%;height:500px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Debounce vs Throttle Side by Side Demo by FWD Tools"></iframe>
+<iframe src="https://fwdtools.com/demos/a1/06/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Debounce vs Throttle Side by Side Demo by FWD Tools"></iframe>
 
 <p><strong>The rule:</strong></p>
 
@@ -86,7 +86,7 @@ zone.addEventListener('mousemove', () => {
 
 <p>Type in the box below. The status goes to "Typing…" instantly on every keystroke, but the note is only "Saved" once you pause for 800ms — nothing saves on every keystroke.</p>
 
-<iframe src="https://fwdtools.com/demos/a1/06/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Debounced Autosave Demo by FWD Tools"></iframe>
+<iframe src="https://fwdtools.com/demos/a1/06/4.html" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Debounced Autosave Demo by FWD Tools"></iframe>
 
 <p><strong>The rule:</strong></p>
 
@@ -105,7 +105,7 @@ textarea.addEventListener('input', e => {
 
 <p>Click a real scenario below to see whether debounce or throttle actually fits it, and why.</p>
 
-<iframe src="https://fwdtools.com/demos/a1/06/5.html" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Which One Should You Use Demo by FWD Tools"></iframe>
+<iframe src="https://fwdtools.com/demos/a1/06/5.html" style="width:100%;height:580px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Which One Should You Use Demo by FWD Tools"></iframe>
 
 <p><strong>The rule:</strong></p>
 

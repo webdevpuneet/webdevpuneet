@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Gradient Generator — Eased Gradient vs Normal">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+<main class="stage">
+  <h1>Eased gradients remove the seam at each color stop</h1>
+  <figure class="row"><div class="bar bar-normal"></div><figcaption>Normal — look for the faint line where the pink stop sits</figcaption></figure>
+  <figure class="row"><div class="bar bar-eased"></div><figcaption>Eased — the transition starts and ends gently</figcaption></figure>
+</main>
+</script>
+
+<script type="text/plain" id="css">
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+body { background: #f8fafc; color: #0f172a; }
+.stage { min-height: 100vh; padding: 22px 20px; display: grid; align-content: center; gap: 14px; max-width: 640px; margin: 0 auto; }
+h1 { margin: 0 0 4px; font-size: 17px; text-align: center; line-height: 1.3; }
+.row { margin: 0; display: grid; gap: 6px; }
+.bar { height: 92px; border-radius: 10px; }
+figcaption { font-size: 12.5px; font-weight: 600; color: #475569; }
+
+.bar-normal {
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background: linear-gradient(90deg, #1e1b4b 0%, #f472b6 50%, #fde68a 100%);
+  background: linear-gradient(in oklab 90deg, #1e1b4b 0%, #f472b6 50%, #fde68a 100%);
+}
+
+/* Eased: 7 extra in-between stops per segment, mixed in OKLab */
+.bar-eased {
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background: linear-gradient(90deg, #1e1b4b 0%, #1f1c4c 6.25%, #2a2152 12.5%, #462e61 18.75%, #824880 25%, #c3609f 31.25%, #e56daf 37.5%, #f271b5 43.75%, #f472b6 50%, #f473b6 56.25%, #f57ab4 62.5%, #f88db0 68.75%, #fbafa6 75%, #fdcf97 81.25%, #fddf8e 87.5%, #fde58b 93.75%, #fde68a 100%);
+  background: linear-gradient(in oklab 90deg, #1e1b4b 0%, #1f1c4c 6.25%, #2a2152 12.5%, #462e61 18.75%, #824880 25%, #c3609f 31.25%, #e56daf 37.5%, #f271b5 43.75%, #f472b6 50%, #f473b6 56.25%, #f57ab4 62.5%, #f88db0 68.75%, #fbafa6 75%, #fdcf97 81.25%, #fddf8e 87.5%, #fde58b 93.75%, #fde68a 100%);
+}
+</script>
+
+<script type="text/plain" id="js">
+
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

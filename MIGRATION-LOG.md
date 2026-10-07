@@ -646,3 +646,9 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   tools then "Show 12 more" (all cards stay in the HTML, extras hidden).
 - Deployed 2026-10-06: 7 image tools + /image-tools/ hub, hub pagination + hero ad, gallery ad change, image-tool ads (webdevpuneet 2nd attempt after a one-off build failure; fwdtools redirects deployed first — extract webdevpuneet zip first).
 - Deployed 2026-10-06: snippet editor ad moved above the Preview toolbar (#e8eaf1).
+
+## 2026-10-07 — Gradient Generator blog post + demos
+
+- `blog/blog-posts/tools/tools-blog2-wordpress.txt`: full Gradient Generator guide (WordPress block format, 15 iframes, FAQ, SEO title 56 / description ≤160).
+- `demos/a1/38/1–15.html`: CSS generated from the tool's own `engine.js` (cssDeclarations/backgroundParts), so the exports match the tool.
+  Heights were measured in headless Chrome (360 and 800px wide). Uploaded straight to `/demos/a1/38/` over FTP — spot-checked 1, 5, 15 return 200.

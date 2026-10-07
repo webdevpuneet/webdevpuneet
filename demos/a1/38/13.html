@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Gradient Generator — One CSS Variable Themes the Whole UI">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+<main class="stage">
+  <div class="picker" role="group" aria-label="Gradient theme">
+    <button type="button" class="swatch on" data-theme="cosmic">Cosmic</button>
+    <button type="button" class="swatch" data-theme="sunset">Sunset</button>
+    <button type="button" class="swatch" data-theme="forest">Forest</button>
+    <button type="button" class="swatch" data-theme="rose">Rose</button>
+  </div>
+  <article class="card">
+    <div class="card-top"><span class="tag">New</span></div>
+    <div class="card-body">
+      <h2>One variable, every surface</h2>
+      <p>The card header, the button, the badge and the progress bar all read <code>var(--gradient)</code>.</p>
+      <div class="bar"><span></span></div>
+      <button type="button" class="cta">Get started</button>
+    </div>
+  </article>
+</main>
+</script>
+
+<script type="text/plain" id="css">
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+body { background: #f1f5f9; color: #0f172a; }
+.stage { min-height: 100vh; display: grid; align-content: center; justify-items: center; gap: 14px; padding: 16px; }
+.picker { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.swatch { padding: 7px 14px; border: 1.5px solid #cbd5e1; border-radius: 999px; background: #fff; font: 700 12.5px system-ui, sans-serif; cursor: pointer; color: #334155; }
+.swatch.on { border-color: #0f172a; color: #0f172a; }
+
+/* 1 · the gradient lives in one custom property (the tool's "CSS Variable" export) */
+:root {
+  --gradient: linear-gradient(in oklch 135deg, #7c6dfa 0%, #c47fff 50%, #4dd9c0 100%);
+  --on-gradient: #0f172a;
+}
+[data-theme="sunset"] {
+  --gradient: linear-gradient(in oklch 135deg, #ff6b6b 0%, #feca57 50%, #ff9ff3 100%);
+  --on-gradient: #0f172a;
+}
+[data-theme="forest"] {
+  --gradient: linear-gradient(in oklch 135deg, #134e5e 0%, #71b280 100%);
+  --on-gradient: #ffffff;
+}
+[data-theme="rose"] {
+  --gradient: linear-gradient(in oklch 135deg, #f64f59 0%, #c471ed 50%, #12c2e9 100%);
+  --on-gradient: #0f172a;
+}
+
+/* 2 · every component just reads it */
+.card { width: 100%; max-width: 340px; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12); }
+.card-top { height: 92px; padding: 12px; background: var(--gradient); }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 999px; background: var(--gradient); color: var(--on-gradient); font: 800 11px system-ui, sans-serif; box-shadow: 0 0 0 2px #fff; }
+.card-body { padding: 16px 18px 20px; display: grid; gap: 10px; }
+.card-body h2 { margin: 0; font-size: 18px; }
+.card-body p { margin: 0; font-size: 13.5px; line-height: 1.55; color: #475569; }
+.bar { height: 8px; border-radius: 99px; background: #e2e8f0; overflow: hidden; }
+.bar span { display: block; width: 68%; height: 100%; background: var(--gradient); }
+.cta { padding: 11px 18px; border: 0; border-radius: 10px; background: var(--gradient); color: var(--on-gradient); font: 700 14px system-ui, sans-serif; cursor: pointer; }
+code { font: 600 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #6d28d9; }
+</script>
+
+<script type="text/plain" id="js">
+var swatches = document.querySelectorAll('.swatch');
+swatches.forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    document.documentElement.setAttribute('data-theme', btn.dataset.theme);
+    swatches.forEach(function (b) { b.classList.toggle('on', b === btn); });
+  });
+});
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Gradient Generator — Default Gradient on a Hero">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+<section class="gradient-hero">
+  <h1>Your gradient, ready to use</h1>
+  <p>Made with the Gradient Generator on webdevpuneet.com</p>
+  <a href="#">Get started</a>
+</section>
+</script>
+
+<script type="text/plain" id="css">
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+
+.gradient-hero {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  gap: 16px;
+  padding: 48px 24px;
+  text-align: center;
+  color: #0f172a;
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background: linear-gradient(135deg, #7c6dfa 0%, #c47fff 50%, #4dd9c0 100%);
+  background: linear-gradient(in oklch 135deg, #7c6dfa 0%, #c47fff 50%, #4dd9c0 100%);
+}
+.gradient-hero h1 { margin: 0; font-size: clamp(28px, 6vw, 56px); line-height: 1.1; }
+.gradient-hero p { margin: 0; font-size: 17px; opacity: 0.85; }
+.gradient-hero a {
+  justify-self: center;
+  padding: 12px 28px;
+  border-radius: 999px;
+  background: #0f172a;
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+}
+</script>
+
+<script type="text/plain" id="js">
+
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

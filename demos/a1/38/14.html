@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Gradient Generator — PNG and SVG Download Sizes">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+<main class="stage">
+  <div class="tabs" role="tablist" aria-label="Image size">
+    <button type="button" role="tab" class="tab on" data-r="1.7778" data-label="1920×1080">1920×1080</button>
+    <button type="button" role="tab" class="tab" data-r="1.7778" data-label="2560×1440">2560×1440</button>
+    <button type="button" role="tab" class="tab" data-r="1.9048" data-label="1200×630">1200×630 social</button>
+    <button type="button" role="tab" class="tab" data-r="1.0000" data-label="1080×1080">1080×1080 square</button>
+    <button type="button" role="tab" class="tab" data-r="0.5625" data-label="1080×1920">1080×1920 story</button>
+  </div>
+  <div class="area"><div class="frame" id="frame"><span id="dim">1920×1080</span></div></div>
+  <p class="note">Same gradient, five canvas sizes — each downloads as a PNG, or as an SVG when the gradient is linear or radial.</p>
+</main>
+</script>
+
+<script type="text/plain" id="css">
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+body { background: #f1f5f9; color: #0f172a; }
+.stage { height: 100vh; display: grid; grid-template-rows: auto 1fr auto; gap: 12px; padding: 14px 16px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.tab { padding: 6px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px; background: #fff; font: 700 12px system-ui, sans-serif; cursor: pointer; color: #475569; }
+.tab.on { border-color: #6366f1; background: #eef0ff; color: #3730a3; }
+.area { container-type: size; display: grid; place-items: center; min-height: 0; }
+.note { margin: 0; text-align: center; font-size: 12.5px; color: #64748b; }
+
+.frame {
+  --r: 1.7778;
+  width: min(100cqw, 100cqh * var(--r));
+  aspect-ratio: var(--r);
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: #ffffff;
+  font: 800 clamp(14px, 4cqw, 26px) system-ui, sans-serif;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background:
+    radial-gradient(circle farthest-side at 80% 20%, #fde68ae6 0%, #fde68ae4 8.75%, #fde68ad7 17.5%, #fde68ab5 26.25%, #fde68a73 35%, #fde68a30 43.75%, #fde68a0e 52.5%, #fde68a02 61.25%, #fde68a00 70%),
+    linear-gradient(135deg, #fb7185 0%, #fb7184 12.5%, #fc7180 25%, #fd7074 37.5%, #fd6f5a 50%, #fc713b 62.5%, #fa7224 75%, #f97318 87.5%, #f97316 100%);
+  background:
+    radial-gradient(in oklch circle farthest-side at 80% 20%, #fde68ae6 0%, #fde68ae4 8.75%, #fde68ad7 17.5%, #fde68ab5 26.25%, #fde68a73 35%, #fde68a30 43.75%, #fde68a0e 52.5%, #fde68a02 61.25%, #fde68a00 70%),
+    linear-gradient(in oklch 135deg, #fb7185 0%, #fb7184 12.5%, #fc7180 25%, #fd7074 37.5%, #fd6f5a 50%, #fc713b 62.5%, #fa7224 75%, #f97318 87.5%, #f97316 100%);
+}
+</script>
+
+<script type="text/plain" id="js">
+var frame = document.getElementById('frame');
+var dim = document.getElementById('dim');
+var tabs = document.querySelectorAll('.tab');
+tabs.forEach(function (tab) {
+  tab.addEventListener('click', function () {
+    frame.style.setProperty('--r', tab.dataset.r);
+    dim.textContent = tab.dataset.label;
+    tabs.forEach(function (t) { t.classList.toggle('on', t === tab); });
+  });
+});
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Gradient Generator — Gradient Text with background-clip">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+<main class="stage">
+  <h1 class="gradient-text">Gradient text</h1>
+  <p>Clipped to the letters with <code>background-clip: text</code>.</p>
+</main>
+</script>
+
+<script type="text/plain" id="css">
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+body { background: #ffffff; color: #475569; }
+.stage { min-height: 100vh; display: grid; place-content: center; gap: 8px; padding: 20px; text-align: center; }
+.stage h1 { margin: 0; font-size: clamp(44px, 12vw, 104px); line-height: 1.05; letter-spacing: -0.02em; }
+.stage p { margin: 0; font-size: 15px; }
+code { font: 600 13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #6d28d9; }
+
+.gradient-text {
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background: linear-gradient(135deg, #f64f59 0%, #c471ed 50%, #12c2e9 100%);
+  background: linear-gradient(in oklch 135deg, #f64f59 0%, #c471ed 50%, #12c2e9 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+</script>
+
+<script type="text/plain" id="js">
+
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

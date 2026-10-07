@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Gradient Generator — Radial Gradient Center Follows the Pointer">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+<section class="spot" id="spot">
+  <h1>Move your mouse or finger</h1>
+  <p>The radial gradient's center is just two CSS variables, <code>--x</code> and <code>--y</code>.</p>
+</section>
+</script>
+
+<script type="text/plain" id="css">
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
+
+.spot {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  gap: 8px;
+  padding: 24px;
+  text-align: center;
+  color: #f8fafc;
+  touch-action: none;
+  cursor: crosshair;
+  /* sRGB fallback for browsers without CSS color-space interpolation */
+  background:
+    radial-gradient(ellipse closest-side at var(--x, 50%) var(--y, 0%), #ffffff66 0%, #ffffff00 100%),
+    linear-gradient(180deg, #1e293b 0%, #020617 100%);
+  background:
+    radial-gradient(in oklab ellipse closest-side at var(--x, 50%) var(--y, 0%), #ffffff66 0%, #ffffff00 100%),
+    linear-gradient(in oklab 180deg, #1e293b 0%, #020617 100%);
+}
+.spot h1 { margin: 0; font-size: clamp(24px, 5vw, 42px); }
+.spot p { margin: 0; font-size: 14px; opacity: 0.8; }
+code { font: 600 13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #7dd3fc; }
+</script>
+
+<script type="text/plain" id="js">
+var spot = document.getElementById('spot');
+function move(e) {
+  var r = spot.getBoundingClientRect();
+  spot.style.setProperty('--x', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+  spot.style.setProperty('--y', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+}
+spot.addEventListener('pointermove', move);
+spot.addEventListener('pointerdown', move);
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>
