@@ -87,7 +87,18 @@ export default function AdSlot({ contained = false, related = null, adFirst = fa
     </IndexOnly>
   );
 
-  // The ad always leads, above the related strip (tool pages included).
+  // Tool pages (default related): Related Tools, then the ad, then the latest strips.
+  if (related == null && slug && relatedContent) {
+    return (
+      <div className={styles.adShell}>
+        <div className={styles.relatedFull}>{relatedContent}</div>
+        {ad}
+        <div className={styles.relatedFull}>{blogContent}</div>
+      </div>
+    );
+  }
+
+  // Otherwise the ad leads, above the related strip.
   // adFirst only switches it to the full-width, centered wrapper.
   return (
     <div className={styles.adShell}>

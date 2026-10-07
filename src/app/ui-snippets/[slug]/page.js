@@ -935,13 +935,13 @@ Requirements:
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }} />
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
-      {/* Ad first (full width), then Related Snippets, then "Learn Coding Visually". */}
-      <AdSlot adFirst related={false} />
+      {/* Related Snippets first, then the ad (full width), then "Learn Coding Visually". */}
       {/* Same Categories | Tags browse box as the gallery — plain links, natural order, nothing highlighted. */}
       <div className={styles.relatedCats}>
         <BrowsePanel activeCategory={null} highlightAll={false} />
       </div>
       <RelatedCarousel items={related.items} total={related.total} activeId={sn.id} category={CATEGORIES.find(c => c.id === sn.category)?.label || categoryLabel} />
+      <AdSlot adFirst related={false} />
       <div className={adStyles.adShell}>
         <div className={adStyles.relatedFull}>
           <FrontendPlaygroundsStrip after={<ToolsStrip />} />
