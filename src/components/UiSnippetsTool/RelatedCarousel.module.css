@@ -301,6 +301,45 @@
   transform: translateY(-1px);
 }
 
+/* Hover peek: larger thumbnail floating just above the hovered card (mouse devices only). */
+.peek {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  justify-content: center;
+  animation: peekIn .15s ease-out both;
+}
+.peekBox {
+  max-width: 100%;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .22);
+}
+.peekImg {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+  object-fit: contain;
+}
+.peekTitle {
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  color: var(--text);
+}
+@keyframes peekIn {
+  from { opacity: 0; transform: translateY(6px) scale(.98); }
+  to   { opacity: 1; transform: none; }
+}
+@media (hover: hover) and (min-width: 769px) { .peek { display: flex; } }
+@media (prefers-reduced-motion: reduce) { .peek { animation: none; } }
+
 .card.cardActive {
   border-color: var(--accent, #6366f1);
   box-shadow: 0 0 0 1.5px var(--accent, #6366f1);

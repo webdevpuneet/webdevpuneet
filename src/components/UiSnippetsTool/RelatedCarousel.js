@@ -1,18 +1,60 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { navStart } from '@/lib/navStart';
 import rs from './RelatedCarousel.module.css';
 
 const PAGE_SIZE = 6;
 
-function RelatedCard({ sn, active }) {
+const POP_W = 600;
+const POP_TITLE_H = 44;   // room for the title line under the image
+
+// Hover peek, like the sidebar library: a larger copy of the thumbnail (up to 600×600)
+// with its title beneath floats just above the hovered card. Fixed-positioned from the
+// card's rect and clamped to the viewport. Shared by the snippet and blog strips.
+export function usePeek() {
+  const [peek, setPeek] = useState(null);
+  function onPeek(item, r) {
+    if (!item) { setPeek(null); return; }
+    const w = Math.min(POP_W, window.innerWidth - 24);
+    const left = Math.min(Math.max(12, r.left + r.width / 2 - w / 2), window.innerWidth - w - 12);
+    setPeek({
+      ...item,
+      left, width: w,
+      bottom: window.innerHeight - r.top + 10,
+      maxH: Math.max(0, Math.min(POP_W, r.top - 24 - POP_TITLE_H)),
+    });
+  }
+  useEffect(() => {
+    if (!peek) return;
+    const close = () => setPeek(null);
+    window.addEventListener('scroll', close, { passive: true });
+    return () => window.removeEventListener('scroll', close);
+  }, [peek]);
+  return [peek, onPeek];
+}
+
+export function PeekPopup({ peek }) {
+  const [failed, setFailed] = useState(null);   // src that 404'd: show no popup for it
+  if (!peek || !peek.src || failed === peek.src) return null;
+  return (
+    <div className={rs.peek} style={{ left: peek.left, bottom: peek.bottom, width: peek.width }} aria-hidden="true">
+      <div className={rs.peekBox}>
+        <img className={rs.peekImg} style={{ maxHeight: peek.maxH }} src={peek.src} alt="" onError={() => setFailed(peek.src)} />
+        <div className={rs.peekTitle}>{peek.title}</div>
+      </div>
+    </div>
+  );
+}
+
+function RelatedCard({ sn, active, onPeek }) {
   return (
     <a
       href={`/ui-snippets/${sn.id}/`}
       className={`${rs.card} ${active ? rs.cardActive : ''}`}
-      title={sn.title}
-      onClick={() => navStart()}
+      onClick={() => { onPeek(null); navStart(); }}
+      onMouseEnter={e => onPeek({ src: `/images/ui-snippets/previews/${sn.id}.png`, title: sn.title }, e.currentTarget.getBoundingClientRect())}
+      onMouseLeave={() => onPeek(null)}
     >
       <img
         className={rs.thumb}
@@ -136,6 +178,8 @@ export default function RelatedCarousel({ items, total, activeId, category }) {
     return s;
   });
 
+  const [peek, onPeek] = usePeek();
+
   const hasPrevPage = start > 0;
   const hasNextPage = items?.length ? start + PAGE_SIZE < items.length : false;
   const shown = items?.length ? items.slice(start, start + PAGE_SIZE) : [];
@@ -173,8 +217,9 @@ export default function RelatedCarousel({ items, total, activeId, category }) {
         </div>
       </div>
       <div className={rs.track}>
-        {shown.map(sn => <RelatedCard key={sn.id} sn={sn} active={sn.id === activeId} />)}
+        {shown.map(sn => <RelatedCard key={sn.id} sn={sn} active={sn.id === activeId} onPeek={onPeek} />)}
       </div>
+      <PeekPopup peek={peek} />
     </div>
   );
 }

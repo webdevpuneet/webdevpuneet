@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import rs from '@/components/UiSnippetsTool/RelatedCarousel.module.css';
+import { usePeek, PeekPopup } from '@/components/UiSnippetsTool/RelatedCarousel';
 import seo from '@/components/SeoSection/styles.module.css';
 import { fetchLatestBlogPosts, BLOG_URL } from '@/lib/blog-feed';
 
@@ -29,6 +30,7 @@ async function loadPosts(max) {
 // `first`: leads its block (home), so the strip above already supplies the spacing.
 export default function BlogStrip({ max = 6, initialPosts = null, first = false }) {
   const [posts, setPosts] = useState(initialPosts);
+  const [peek, onPeek] = usePeek();
 
   useEffect(() => {
     if (initialPosts) return;
@@ -54,7 +56,14 @@ export default function BlogStrip({ max = 6, initialPosts = null, first = false 
       </div>
       <div className={rs.track}>
         {posts.slice(0, max).map(post => (
-          <a key={post.href} href={post.href} className={rs.card} title={post.title}>
+          <a
+            key={post.href}
+            href={post.href}
+            className={rs.card}
+            onClick={() => onPeek(null)}
+            onMouseEnter={e => onPeek({ src: post.thumb, title: post.title }, e.currentTarget.getBoundingClientRect())}
+            onMouseLeave={() => onPeek(null)}
+          >
             {post.thumb
               ? <img className={rs.thumb} src={post.thumb} alt="" loading="lazy" />
               : <div className={rs.thumb} aria-hidden="true" />}
@@ -62,6 +71,7 @@ export default function BlogStrip({ max = 6, initialPosts = null, first = false 
           </a>
         ))}
       </div>
+      <PeekPopup peek={peek} />
     </div>
   );
 }

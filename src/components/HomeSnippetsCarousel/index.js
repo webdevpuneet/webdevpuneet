@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import rs from '../UiSnippetsTool/RelatedCarousel.module.css';
+import { usePeek, PeekPopup } from '../UiSnippetsTool/RelatedCarousel';
 
 const PAGE_SIZE = 6;
 
@@ -20,6 +21,7 @@ export default function HomeSnippetsCarousel({ items, total, flush = false }) {
   const [start, setStart] = useState(0);
   const [all, setAll] = useState(null);        // the whole library, newest first, once loaded
   const [loading, setLoading] = useState(false);
+  const [peek, onPeek] = usePeek();
   if (!items?.length) return null;
 
   const list = all || items;
@@ -76,7 +78,14 @@ export default function HomeSnippetsCarousel({ items, total, flush = false }) {
       </div>
       <div className={`${rs.track} ${rs.trackThree}`}>
         {shown.map(sn => (
-          <a key={sn.id} href={`/ui-snippets/${sn.id}/`} className={rs.card} title={sn.title}>
+          <a
+            key={sn.id}
+            href={`/ui-snippets/${sn.id}/`}
+            className={rs.card}
+            onClick={() => onPeek(null)}
+            onMouseEnter={e => onPeek({ src: `/images/ui-snippets/previews/${sn.id}.png`, title: sn.title }, e.currentTarget.getBoundingClientRect())}
+            onMouseLeave={() => onPeek(null)}
+          >
             <img
               className={rs.thumb}
               src={`/images/ui-snippets/previews/${sn.id}.png`}
@@ -87,6 +96,7 @@ export default function HomeSnippetsCarousel({ items, total, flush = false }) {
           </a>
         ))}
       </div>
+      <PeekPopup peek={peek} />
     </section>
   );
 }

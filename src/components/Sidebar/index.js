@@ -880,12 +880,12 @@ function LibraryTab({ pathname }) {
   // container can't clip it.
   const [hoverPreview, setHoverPreview] = useState(null);
   const hoverTimer = useRef(null);
-  function showHoverPreview(e, id) {
+  function showHoverPreview(e, id, title) {
     const r = e.currentTarget.getBoundingClientRect();
     // The dim + preview start at the sidebar's own right edge (not the row's, which
     // sits a few pixels inside it), so the sidebar itself is never darkened.
     const edge = e.currentTarget.closest('aside')?.getBoundingClientRect().right ?? r.right;
-    const next = { id, left: edge + 12 };
+    const next = { id, title, left: edge + 12 };
     clearTimeout(hoverTimer.current);
     if (hoverPreview) {
       // Already showing: just swap to this row's image, no fade or delay.
@@ -1073,7 +1073,7 @@ function LibraryTab({ pathname }) {
             key={sn.id}
             href={`/ui-snippets/${sn.id}/`}
             data-snip-id={sn.id}
-            onMouseEnter={e => showHoverPreview(e, sn.id)}
+            onMouseEnter={e => showHoverPreview(e, sn.id, sn.title)}
             onMouseLeave={hideHoverPreview}
             className={`${styles.snippetItem} ${sn.id === activeId ? styles.snippetItemActive : ''}`}
           >
@@ -1096,11 +1096,14 @@ function LibraryTab({ pathname }) {
           <div className={styles.hoverStage} style={{ left: hoverPreview.left - 12 + 20 }}>
             {/* The preview is a peek, not a destination: pointing at it closes it. */}
             <div className={styles.hoverFrame} onMouseEnter={closeHoverPreview}>
-              <img
-                className={styles.hoverPreview}
-                src={`/images/ui-snippets/previews/${hoverPreview.id}.png`}
-                alt=""
-              />
+              <div className={styles.hoverBox}>
+                <img
+                  className={styles.hoverPreview}
+                  src={`/images/ui-snippets/previews/${hoverPreview.id}.png`}
+                  alt=""
+                />
+                {hoverPreview.title && <div className={styles.hoverTitle}>{hoverPreview.title}</div>}
+              </div>
             </div>
           </div>
         )}
