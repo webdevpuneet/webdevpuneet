@@ -1275,11 +1275,10 @@ function BlogTab() {
 ───────────────────────────────────────────────────────────── */
 // Which sidebar tab a route should default to: any /ui-snippets/mycode page →
 // My Code, any other /ui-snippets page (gallery, category, tag, snippet) →
-// Library, the home page → Library, and every tool page → Tools.
+// Library, and the home page and every tool page → Tools.
 function defaultSidebarViewFor(pathname) {
   if (pathname?.startsWith('/ui-snippets/mycode')) return 'mycode';
   if (pathname?.startsWith('/ui-snippets')) return 'library';
-  if (pathname === '/') return 'library';
   return 'tools';
 }
 
@@ -1333,7 +1332,7 @@ export default function Sidebar() {
   const [query, setQuery] = useState('');
   const [openIds, setOpenIds] = useState(() => new Set());
   const [favourites, setFavourites] = useState([]);
-  const [uiSnippetsOpen,   setUiSnippetsOpen]   = useState(false);
+  const [uiSnippetsOpen,   setUiSnippetsOpen]   = useState(pathname === '/'); // home: the UI Snippets group starts expanded
   const [playgroundsOpen,  setPlaygroundsOpen]  = useState(false);
   const [freelancerOpen,   setFreelancerOpen]   = useState(false);
   const [mobileOpen, setMobileOpen]   = useState(false);
@@ -1347,11 +1346,12 @@ export default function Sidebar() {
   const [sidebarView, setSidebarView] = useState(() => defaultSidebarViewFor(pathname));
 
   // Re-derive the default tab whenever the route changes (client-side nav keeps
-  // the sidebar mounted) — Home and /ui-snippets pages open on Library, My Code
-  // on My Code, and every other page (a tool page) on Tools. A manual tab click
+  // the sidebar mounted) — /ui-snippets pages open on Library, My Code on My Code,
+  // and every other page (Home, a tool page) on Tools. A manual tab click
   // still wins until the next navigation changes the page type.
   useEffect(() => {
     setSidebarView(defaultSidebarViewFor(pathname));
+    if (pathname === '/') setUiSnippetsOpen(true);
   }, [pathname]);
 
   // The Library and My Code tabs are real anchors so they can be opened in a new

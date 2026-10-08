@@ -4,7 +4,6 @@ import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
 import FrontendPlaygroundsStrip from '@/components/FrontendPlaygroundsStrip';
 import ToolsStrip from '@/components/ToolsStrip';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
-import { BrowsePanel } from '@/components/UiSnippetsGallery';
 import adStyles from '@/components/AdSlot/styles.module.css';
 import { getLatestSnippets } from '@/lib/snippet-related';
 import { fetchLatestBlogPosts } from '@/lib/blog-feed';
@@ -145,19 +144,6 @@ const faqSchema = {
 };
 
 /* ── Page content ── */
-const FEATURES = [
-  { title: `${SNIPPET_COUNT}+ UI snippets`, text: 'Copy-paste HTML, CSS and JavaScript components with live preview — [browse the library](/ui-snippets/).' },
-  { title: `${PLAYGROUND_COUNT} coding playgrounds`, text: 'Learn frontend and backend with structured lessons and a live editor — [start learning](/learn-to-code/).' },
-  { title: `${TOOL_COUNT} developer tools`, text: 'CSS generators, builders, formatters and converters — [see all tools](/tools/).' },
-  { title: 'Export to any framework', text: 'Every snippet exports to React, React + Tailwind, Tailwind HTML, Vue 3 and Angular.' },
-  { title: 'My Code editor', text: 'Keep your own snippets with a live preview, Gist backup and export — [open My Code](/ui-snippets/mycode/).' },
-  { title: 'Fork & Edit', text: 'Open any demo or builder result in My Code and keep editing it in the browser.' },
-  { title: 'Lessons that save progress', text: 'Pick up any playground exactly where you left off — no account needed.' },
-  { title: 'Tutorials with live demos', text: 'Practical front-end guides on the [blog](https://webdevpuneet.com/blog/), every demo runnable and forkable.' },
-  { title: '100% in your browser', text: 'Nothing to install, nothing uploaded — your code stays on your device.' },
-  { title: 'Free, no sign-up', text: 'No account, no paywall, no limits — and the code is yours to use.' },
-];
-
 const ABOUT = `**webdevpuneet.com** is a free home for frontend developers and anyone learning to code. In one place you get **${SNIPPET_COUNT}+ copy-paste UI snippets**, **${PLAYGROUND_COUNT} interactive coding playgrounds** with structured lessons, **${TOOL_COUNT} free developer tools**, a personal online code editor and a blog of practical tutorials. Everything runs in your browser: there is nothing to install, no account to create, and your code never leaves your device.
 
 Use it when you need a component today, when you are learning a language or framework, or when you want a quick tool to generate, format or convert code. Each part of the site is described below.
@@ -220,7 +206,6 @@ const USE_CASES = [
 ];
 
 const SECTIONS = [
-  { type: 'features', label: "What's inside", heading: 'Everything on webdevpuneet.com', items: FEATURES },
   { type: 'text', label: 'About the site', heading: 'Free UI Snippets, Coding Playgrounds and Developer Tools — All in Your Browser', text: ABOUT },
   { type: 'table', label: 'At a glance', heading: 'What You Can Do Here', ...AT_A_GLANCE },
   { type: 'steps', label: 'Get started', heading: 'How to Use webdevpuneet.com', items: STEPS },
@@ -269,11 +254,6 @@ export default async function Home() {
       {/* Leaderboard ad (same unit as the snippet editor, max 90px), full width of the content column. */}
       <div className={styles.snippetBrowse}>
         <PlaygroundTopAd className={styles.homeTopAd} />
-      </div>
-
-      {/* Same Categories | Tags browse box as the gallery and snippet pages — plain links, nothing highlighted. */}
-      <div className={styles.snippetBrowse}>
-        <BrowsePanel activeCategory={null} highlightAll={false} />
       </div>
 
       {/* ── Latest UI snippets: newest six, arrows page through the rest ── */}
