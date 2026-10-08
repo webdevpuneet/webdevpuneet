@@ -1,15 +1,11 @@
 import HomeOmniSearch from '@/components/HomeOmniSearch';
 import ProfileHeroCard from '@/components/ProfileHeroCard';
-import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
-import FrontendPlaygroundsStrip from '@/components/FrontendPlaygroundsStrip';
-import ToolsStrip from '@/components/ToolsStrip';
-import PlaygroundTopAd from '@/components/PlaygroundTopAd';
-import adStyles from '@/components/AdSlot/styles.module.css';
-import { getLatestSnippets } from '@/lib/snippet-related';
 import { fetchLatestBlogPosts } from '@/lib/blog-feed';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
+import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
+import { getLatestSnippets } from '@/lib/snippet-related';
 import { LIVE_TOOLS } from '@/lib/tools-registry';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import styles from './page.module.css';
@@ -214,9 +210,36 @@ const SECTIONS = [
   { type: 'faq', label: 'Got questions?', heading: 'Frequently Asked Questions', items: FAQS },
 ];
 
+/* ── Feature grid content (UI Snippets / Coding Playgrounds / Developer Tools / Blog) ── */
+const SNIPPET_CARD_ITEMS = [
+  { title: 'Animated Buttons',  sub: 'Modern & interactive button designs', href: '/ui-snippets/buttons/',    accent: '#6366f1', icon: 'M4 10a3 3 0 0 1 3-3h10a3 3 0 0 1 0 6H7a3 3 0 0 1-3-3Z' },
+  { title: 'Card Components',   sub: 'Beautiful card layouts',              href: '/ui-snippets/cards/',      accent: '#e11d48', icon: 'M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5ZM3 10h18' },
+  { title: 'Navigation Bars',   sub: 'Responsive navbars',                  href: '/ui-snippets/navigation/', accent: '#1f2937', icon: 'M4 6h16M4 12h16M4 18h16' },
+  { title: 'Modal Dialogs',     sub: 'Accessible & flexible',               href: '/ui-snippets/modals/',     accent: '#0ea5e9', icon: 'M4 4h16v16H4zM9 9l6 6M15 9l-6 6' },
+  { title: 'Form & Input',      sub: 'Stylish form elements',               href: '/ui-snippets/forms/',      accent: '#d97706', icon: 'M4 6h16M4 12h16M4 18h10' },
+  { title: 'Loaders',           sub: 'Spinners & progress indicators',      href: '/ui-snippets/loaders/',    accent: '#f59e0b', icon: 'M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83' },
+  { title: 'Tables',            sub: 'Sortable & responsive data grids',    href: '/ui-snippets/tables/',     accent: '#059669', icon: 'M3 4h18v16H3zM3 10h18M9 4v16' },
+  { title: 'Dashboards',        sub: 'Charts, stats & admin layouts',       href: '/ui-snippets/dashboards/', accent: '#7c3aed', icon: 'M4 20V10M10 20V4M16 20v-7M22 20H2' },
+];
+
+const PLAYGROUND_CARD_SLUGS = ['html-playground', 'css-playground', 'js-playground', 'react-playground', 'vue-playground', 'gsap-playground', 'svg-playground', 'tailwind-playground'];
+const TOOL_CARD_SLUGS = ['gradient-generator', 'box-shadow-generator', 'flexbox-builder', 'css-grid-builder', 'color-palette-generator', 'navbar-builder', 'css-animation-generator', 'image-editor'];
+
+function ItemIcon({ d, accent }) {
+  return (
+    <span className={styles.featureItemIcon} style={{ color: accent, background: accent + '18', borderColor: accent + '38' }}>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d={d} /></svg>
+    </span>
+  );
+}
+
 export default async function Home() {
   const blogPosts = await fetchLatestBlogPosts(6);
   const latestSnippets = getLatestSnippets(60);
+  const playgroundCardTools = PLAYGROUND_CARD_SLUGS.map(slug => LIVE_TOOLS.find(t => t.slug === slug)).filter(Boolean);
+  // Six for the blog fetch; the blog card lists the first four.
+  const latestPosts = blogPosts.slice(0, 4);
+  const toolCardTools = TOOL_CARD_SLUGS.map(slug => LIVE_TOOLS.find(t => t.slug === slug)).filter(Boolean);
 
   return (
     <div className={styles.home}>
@@ -251,18 +274,125 @@ export default async function Home() {
           <p className={styles.subtitleSeo}>{SNIPPET_COUNT}+ copy-paste UI snippets — cards, heroes, navbars, modals, forms, loaders and animations — plus {PLAYGROUND_COUNT} learn-to-code playgrounds for HTML, CSS, JavaScript, TypeScript, React, Vue, Angular, Next.js, Tailwind, SQL, Python and more, and {TOOL_COUNT} free developer tools. Live preview, structured lessons, nothing to install and no account needed.</p>
         </div>
 
-      {/* Leaderboard ad (same unit as the snippet editor, max 90px), full width of the content column. */}
-      <div className={styles.snippetBrowse}>
-        <PlaygroundTopAd className={styles.homeTopAd} />
-      </div>
-
       {/* ── Latest UI snippets: newest six, arrows page through the rest ── */}
       <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} />
 
-      {/* ── Latest blog posts (fetched on the server above) + Learn Coding Visually + tools ── */}
-      {/* No top padding: the snippets strip's bottom margin already sets the gap. */}
-      <div className={adStyles.relatedFull} style={{ paddingTop: 0 }}>
-        <FrontendPlaygroundsStrip blogPosts={blogPosts} blogFirst after={<ToolsStrip />} />
+      {/* ── Feature grid: UI Snippets / Coding Playgrounds / Developer Tools / Latest From the Blog ── */}
+      <div className={styles.featureGrid}>
+        <div className={styles.featureCard} style={{ '--fc-accent': '#7c3aed' }}>
+          <div className={styles.featureCardTop}>
+            <span className={styles.featureIcon}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </span>
+            <h2 className={styles.featureTitle}>UI Snippets</h2>
+            <a href="/ui-snippets/" className={styles.featureArrowLink} aria-label="View UI Snippets">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+          <p className={styles.featureDesc}>Copy-paste ready UI components for your next project. {SNIPPET_COUNT}+ snippets across 20+ categories.</p>
+          <div className={styles.featureList}>
+            {SNIPPET_CARD_ITEMS.map(item => (
+              <a key={item.href} href={item.href} className={styles.featureItem}>
+                <ItemIcon d={item.icon} accent={item.accent} />
+                <span className={styles.featureItemBody}>
+                  <span className={styles.featureItemTitle}>{item.title}</span>
+                  <span className={styles.featureItemSub}>{item.sub}</span>
+                </span>
+                <svg className={styles.featureItemChevron} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+              </a>
+            ))}
+          </div>
+          <a href="/ui-snippets/" className={styles.featureCtaBtn}>Explore All UI Snippets →</a>
+        </div>
+
+        <div className={styles.featureCard} style={{ '--fc-accent': '#2563eb' }}>
+          <div className={styles.featureCardTop}>
+            <span className={styles.featureIcon}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+            </span>
+            <h2 className={styles.featureTitle}>Coding Playgrounds</h2>
+            <a href="/learn-to-code/" className={styles.featureArrowLink} aria-label="View coding playgrounds">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+          <p className={styles.featureDesc}>Learn HTML, CSS, JavaScript, React and Next.js visually with live editors. No install required.</p>
+          <div className={styles.featureList}>
+            {playgroundCardTools.map(tool => (
+              <a key={tool.slug} href={`/${tool.slug}`} className={styles.featureItem}>
+                <span className={styles.featureItemIcon} style={{ background: tool.accent + '18', borderColor: tool.accent + '38' }}>
+                  {tool.icon?.startsWith('/')
+                    ? <img src={tool.icon} alt="" width={15} height={15} />
+                    : <span style={{ color: tool.accent }}>{tool.icon}</span>}
+                </span>
+                <span className={styles.featureItemBody}>
+                  <span className={styles.featureItemTitle}>{tool.name}</span>
+                  <span className={styles.featureItemSub}>{tool.sub}</span>
+                </span>
+                <svg className={styles.featureItemChevron} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+              </a>
+            ))}
+          </div>
+          <a href="/learn-to-code/" className={styles.featureCtaBtn}>Open All Playgrounds →</a>
+        </div>
+
+        <div className={styles.featureCard} style={{ '--fc-accent': '#0d9488' }}>
+          <div className={styles.featureCardTop}>
+            <span className={styles.featureIcon}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </span>
+            <h2 className={styles.featureTitle}>Developer Tools</h2>
+            <a href="/tools/" className={styles.featureArrowLink} aria-label="View developer tools">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+          <p className={styles.featureDesc}>{TOOL_COUNT} free browser-based tools for developers and designers — CSS generators, builders and converters. No install, no signup.</p>
+          <div className={styles.featureList}>
+            {toolCardTools.map(tool => (
+              <a key={tool.slug} href={`/${tool.slug}/`} className={styles.featureItem}>
+                <span className={styles.featureItemIcon} style={{ background: tool.accent + '18', borderColor: tool.accent + '38' }}>
+                  {tool.icon?.startsWith('/')
+                    ? <img src={tool.icon} alt="" width={15} height={15} />
+                    : <span style={{ color: tool.accent }}>{tool.icon}</span>}
+                </span>
+                <span className={styles.featureItemBody}>
+                  <span className={styles.featureItemTitle}>{tool.name}</span>
+                  <span className={styles.featureItemSub}>{tool.sub}</span>
+                </span>
+                <svg className={styles.featureItemChevron} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+            ))}
+          </div>
+          <a href="/tools/" className={styles.featureCtaBtn}>Browse All Tools →</a>
+        </div>
+
+        <div className={styles.featureCard} style={{ '--fc-accent': '#e11d48' }}>
+          <div className={styles.featureCardTop}>
+            <span className={styles.featureIcon}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+            </span>
+            <h2 className={styles.featureTitle}>Latest From the Blog</h2>
+            <a href="https://webdevpuneet.com/blog/" target="_blank" rel="noopener noreferrer" className={styles.featureArrowLink} aria-label="Visit the blog">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+          <p className={styles.featureDesc}>Practical tutorials, examples and guides for modern web development.</p>
+          <div className={styles.featureList}>
+            {latestPosts.length === 0 && (
+              <p className={styles.featureEmptyNote}>Couldn&apos;t load the latest posts right now — <a href="https://webdevpuneet.com/blog/" target="_blank" rel="noopener noreferrer">browse the blog directly</a>.</p>
+            )}
+            {latestPosts.map(post => (
+              <a key={post.href} href={post.href} target="_blank" rel="noopener noreferrer" className={styles.featureBlogItem}>
+                {post.thumb
+                  ? <img className={styles.featureBlogThumb} src={post.thumb} alt="" loading="lazy" />
+                  : <span className={styles.featureBlogThumbFallback} aria-hidden="true">{'</>'}</span>}
+                <span className={styles.featureItemBody}>
+                  <span className={styles.featureBlogTitle}>{post.title}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+          <a href="https://webdevpuneet.com/blog/" target="_blank" rel="noopener noreferrer" className={styles.featureCtaBtn}>Read More Blogs →</a>
+        </div>
       </div>
 
       </div>

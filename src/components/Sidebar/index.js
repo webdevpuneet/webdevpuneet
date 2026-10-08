@@ -1275,7 +1275,8 @@ function BlogTab() {
 ───────────────────────────────────────────────────────────── */
 // Which sidebar tab a route should default to: any /ui-snippets/mycode page →
 // My Code, any other /ui-snippets page (gallery, category, tag, snippet) →
-// Library, and the home page and every tool page → Tools.
+// Library, and the home page and every tool page → Tools (the home page also opens
+// the UI Snippets group).
 function defaultSidebarViewFor(pathname) {
   if (pathname?.startsWith('/ui-snippets/mycode')) return 'mycode';
   if (pathname?.startsWith('/ui-snippets')) return 'library';
