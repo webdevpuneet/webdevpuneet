@@ -4,8 +4,7 @@ import { usePathname } from 'next/navigation';
 import { ADS_ENABLED as ADS_CONFIG_ENABLED } from '@/lib/ads-config';
 import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import RelatedStrip from '@/components/RelatedStrip';
-import LatestSnippetsStrip from '@/components/LatestSnippetsStrip';
-import FrontendPlaygroundsStrip from '@/components/FrontendPlaygroundsStrip';
+import BlogStrip from '@/components/BlogStrip';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import styles from './styles.module.css';
 
@@ -52,10 +51,9 @@ export default function AdSlot({ contained = false, related = null, adFirst = fa
 
   // related={false}: the page renders its own related strip, so show none here.
   const relatedContent = related === false ? null : (related || (slug ? <RelatedStrip slug={slug} /> : null));
-  // Custom `related` content (FrontendPlaygroundsStrip) already carries its own blog strip.
-  // Tool pages, after Related Tools: Latest UI Snippets, then Latest from the Blog and
-  // Learn Coding Visually (FrontendPlaygroundsStrip puts its blog strip first).
-  const blogContent = related == null && slug ? <><LatestSnippetsStrip /><FrontendPlaygroundsStrip /></> : null;
+  // Custom `related` content supplies its own strips.
+  // Tool pages, after Related Tools: only Latest from the Blog.
+  const blogContent = related == null && slug ? <BlogStrip /> : null;
 
   if (!ADS_ENABLED) {
     return (

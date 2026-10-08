@@ -912,8 +912,6 @@ function LibraryTab({ pathname }) {
   // pointer, and anything that means "not hovering" closes it.
   // Escape, hovering the preview image and a click anywhere also close it.
   const hoverOpen = !!hoverPreview;
-  const hoverOpenRef = useRef(false);
-  hoverOpenRef.current = hoverOpen;
   useEffect(() => {
     if (!hoverOpen) return;
     const stillHovering = el =>
@@ -952,40 +950,6 @@ function LibraryTab({ pathname }) {
   }, [hoverOpen]); // eslint-disable-line react-hooks/exhaustive-deps
   // Navigating to another snippet always dismisses it.
   useEffect(() => { closeHoverPreview(); }, [activeId]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Related-list nudge: every 7.5s (first one 7.5s after the list settles), an accent
-  // outline sweeps down the rows currently in view, one after another, to
-  // hint that these are browsable. Pure DOM class toggling — no re-renders.
-  // Skipped while the tab is hidden or a hover preview is open.
-  useEffect(() => {
-    if (!showRelated) return;
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
-    const STEP_MS = 90;
-    let cleanupTimer = null;
-    const sweep = () => {
-      const root = snippetListRef.current;
-      if (!root || document.hidden || hoverOpenRef.current) return;
-      const box = root.getBoundingClientRect();
-      const rows = [...root.querySelectorAll('[data-snip-id]')].filter(el => {
-        const r = el.getBoundingClientRect();
-        return r.bottom > box.top && r.top < box.bottom;
-      });
-      if (!rows.length) return;
-      rows.forEach((el, i) => {
-        el.classList.remove(styles.snippetItemSweep);
-        el.style.setProperty('--sweep-delay', `${i * STEP_MS}ms`);
-      });
-      void root.offsetWidth;   // restart the animation if a previous one lingered
-      rows.forEach(el => el.classList.add(styles.snippetItemSweep));
-      clearTimeout(cleanupTimer);
-      cleanupTimer = setTimeout(() => {
-        rows.forEach(el => { el.classList.remove(styles.snippetItemSweep); el.style.removeProperty('--sweep-delay'); });
-      }, rows.length * STEP_MS + 1400);
-    };
-    let interval = null;
-    const first = setTimeout(() => { sweep(); interval = setInterval(sweep, 7500); }, 7500);
-    return () => { clearTimeout(first); clearInterval(interval); clearTimeout(cleanupTimer); };
-  }, [showRelated, activeId]);
 
   return (
     <>

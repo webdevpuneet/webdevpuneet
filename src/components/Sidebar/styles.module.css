@@ -1475,19 +1475,6 @@
 }
 .snippetItem:hover { background: var(--surface2); }
 
-/* Related-list nudge (see the sweep effect in Sidebar/index.js): each row in
-   view flashes an accent outline, staggered top → bottom via --sweep-delay.
-   Inset offset so the scrolling list never clips it. */
-.snippetItemSweep {
-  animation: snippetSweep 1.2s ease-in-out var(--sweep-delay, 0ms) both;
-}
-@keyframes snippetSweep {
-  0%   { outline: 2px solid transparent; outline-offset: -2px; }
-  35%  { outline: 2px solid var(--accent); outline-offset: -2px; }
-  100% { outline: 2px solid transparent; outline-offset: -2px; }
-}
-@media (prefers-reduced-motion: reduce) { .snippetItemSweep { animation: none; } }
-
 .myCodeRow { display: flex; align-items: center; }
 .myCodeDeleteBtn { opacity: 0; transition: opacity 0.15s, color 0.15s, background 0.15s; }
 .myCodeRow:hover .myCodeDeleteBtn,

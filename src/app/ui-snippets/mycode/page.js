@@ -1,13 +1,8 @@
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
-import FrontendPlaygroundsStrip from '@/components/FrontendPlaygroundsStrip';
-import ToolsStrip from '@/components/ToolsStrip';
-import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
-import { BrowsePanel } from '@/components/UiSnippetsGallery';
-import styles from './styles.module.css';
+import BlogStrip from '@/components/BlogStrip';
 import adStyles from '@/components/AdSlot/styles.module.css';
-import { getLatestSnippets } from '@/lib/snippet-related';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 
 const OG_IMAGE = 'https://webdevpuneet.com/images/ui-snippets/mycode.png';
@@ -160,7 +155,6 @@ const breadcrumbSchema = {
 };
 
 export default function SavedSnippetsPage() {
-  const latestSnippets = getLatestSnippets(60);
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
@@ -171,22 +165,15 @@ export default function SavedSnippetsPage() {
       <IndexOnly>
         <AdSlot adFirst related={false} />
       </IndexOnly>
-      {/* Latest UI Snippets — on the My Code gallery and on every saved snippet (?id=…),
-          above the "Learn Coding Visually" strip. Outside IndexOnly on purpose. Its section
-          carries its own 20px (16px mobile) side inset, matching AdSlot's relatedFull. */}
+      {/* Only "Latest from the Blog" below the editor — on the My Code gallery and on every
+          saved snippet (?id=…). Outside IndexOnly on purpose. */}
       <div className={adStyles.adShell}>
-        {/* Same Categories | Tags browse box as the gallery and snippet pages — plain links, nothing highlighted. */}
-        <div className={styles.browse}>
-          <BrowsePanel activeCategory={null} highlightAll={false} />
-        </div>
-        <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} />
-        {/* "Learn Coding Visually" also shows on saved snippets, so it lives here rather than in AdSlot. */}
         <div className={adStyles.relatedFull}>
-          <FrontendPlaygroundsStrip after={<ToolsStrip />} />
+          <BlogStrip />
         </div>
       </div>
       <IndexOnly>
-        <SeoSection {...SEO} slug="ui-snippets" title="My Code — Personal HTML CSS JS Code Space" />
+        <SeoSection {...SEO} featuresAfterAbout slug="ui-snippets" title="My Code — Personal HTML CSS JS Code Space" />
       </IndexOnly>
     </>
   );

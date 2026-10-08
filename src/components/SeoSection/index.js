@@ -1414,7 +1414,7 @@ function aiPromptSection(aiPrompt) {
   };
 }
 
-function normalizeSections({ sections, about, features, howToUse, useCases, faqs, whatsNew, aiPrompt, aboutExtra, aboutLabel = 'About this tool', quickFacts = true, injectAfterAiPrompt, aiPromptLast = false, featuresAfterAbout = false }) {
+function normalizeSections({ sections, about, features, howToUse, useCases, faqs, whatsNew, aiPrompt, aboutExtra, aboutLabel = 'About this tool', quickFacts = true, injectAfterAiPrompt, aiPromptLast = false, featuresAfterAbout = true }) {
   if (sections) return flattenSections(sections);
   const result = [];
   const featuresSection = features?.length
@@ -1453,7 +1453,7 @@ function normalizeSections({ sections, about, features, howToUse, useCases, faqs
 ───────────────────────────────────────────── */
 export default function SeoSection({
   // New API
-  slug, title, subtitle, sections, noShare, noRelated, injectAfterAbout, injectAfterAiPrompt, aboutExtra, aboutLabel, quickFacts, topExtra, bottomExtra, aiPromptLast, featuresAfterAbout, titleExtra,
+  slug, title, subtitle, sections, noShare, noRelated, injectAfterAbout, injectAfterAiPrompt, aboutExtra, aboutLabel, quickFacts, topExtra, bottomExtra, aiPromptLast, featuresAfterAbout = true, titleExtra,
   // Legacy flat props (auto-converted to sections)
   about, features, howToUse, useCases, faqs, whatsNew, aiPrompt,
 }) {
