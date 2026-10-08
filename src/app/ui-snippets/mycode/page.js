@@ -1,8 +1,6 @@
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
-import BlogStrip from '@/components/BlogStrip';
-import adStyles from '@/components/AdSlot/styles.module.css';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 
 const OG_IMAGE = 'https://webdevpuneet.com/images/ui-snippets/mycode.png';
@@ -165,13 +163,6 @@ export default function SavedSnippetsPage() {
       <IndexOnly>
         <AdSlot adFirst related={false} />
       </IndexOnly>
-      {/* Only "Latest from the Blog" below the editor — on the My Code gallery and on every
-          saved snippet (?id=…). Outside IndexOnly on purpose. */}
-      <div className={adStyles.adShell}>
-        <div className={adStyles.relatedFull}>
-          <BlogStrip />
-        </div>
-      </div>
       <IndexOnly>
         <SeoSection {...SEO} featuresAfterAbout slug="ui-snippets" title="My Code — Personal HTML CSS JS Code Space" />
       </IndexOnly>

@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
-import BlogStrip from '@/components/BlogStrip';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import { SNIPPETS, VISIBLE_SNIPPETS, CATEGORIES } from '@/components/UiSnippetsTool/snippets';
 import { buildSnippetMetadata } from '@/lib/snippet-seo';
@@ -932,9 +931,9 @@ Requirements:
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }} />
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
-      {/* Related Snippets first, then the ad (full width), then Latest from the Blog. */}
+      {/* Related Snippets first, then the ad (full width). */}
       <RelatedCarousel items={related.items} total={related.total} activeId={sn.id} category={CATEGORIES.find(c => c.id === sn.category)?.label || categoryLabel} />
-      <AdSlot adFirst related={<BlogStrip />} />
+      <AdSlot adFirst related={false} />
       <SeoSection
         {...SEO}
         titleExtra={(

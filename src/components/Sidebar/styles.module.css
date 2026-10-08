@@ -1495,7 +1495,7 @@
 .snippetItemActive .snippetTitle { color: var(--accent); }
 
 .snippetThumb {
-  width: 50%;
+  width: 30%;
   height: auto;
   aspect-ratio: 56 / 36;
   flex-shrink: 0;
@@ -1830,3 +1830,50 @@
 @keyframes hoverBackdropIn { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .hoverBackdrop { animation: none; } }
 @media (hover: hover) and (pointer: fine) and (min-width: 1024px) { .hoverBackdrop { display: block; } .hoverStage { display: flex; } }
+
+/* ── Blog ticker: latest posts, one title at a time, under the sidebar ad ── */
+.blogTicker {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-bottom: 1px solid var(--border);
+}
+.blogTickerBtn {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text3);
+  cursor: pointer;
+}
+.blogTickerBtn:hover { color: var(--accent); background: var(--surface2); }
+.blogTickerLink {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;   /* a one-line title sits in the vertical middle */
+  min-height: 2.4em;
+  font: 600 11px/1.2 var(--font-ui);
+  color: var(--text);
+  text-decoration: none;
+  animation: blogTickerIn 0.35s ease both;
+}
+.blogTickerText {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.blogTickerLink:hover { color: var(--accent); }
+@keyframes blogTickerIn {
+  from { opacity: 0; transform: translateY(3px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .blogTickerLink { animation: none; } }

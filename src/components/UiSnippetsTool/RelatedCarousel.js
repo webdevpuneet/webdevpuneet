@@ -47,14 +47,12 @@ export function PeekPopup({ peek }) {
   );
 }
 
-function RelatedCard({ sn, active, onPeek }) {
+function RelatedCard({ sn, active }) {
   return (
     <a
       href={`/ui-snippets/${sn.id}/`}
       className={`${rs.card} ${active ? rs.cardActive : ''}`}
-      onClick={() => { onPeek(null); navStart(); }}
-      onMouseEnter={e => onPeek({ src: `/images/ui-snippets/previews/${sn.id}.png`, title: sn.title }, e.currentTarget.getBoundingClientRect())}
-      onMouseLeave={() => onPeek(null)}
+      onClick={() => navStart()}
     >
       <img
         className={rs.thumb}
@@ -178,8 +176,6 @@ export default function RelatedCarousel({ items, total, activeId, category }) {
     return s;
   });
 
-  const [peek, onPeek] = usePeek();
-
   const hasPrevPage = start > 0;
   const hasNextPage = items?.length ? start + PAGE_SIZE < items.length : false;
   const shown = items?.length ? items.slice(start, start + PAGE_SIZE) : [];
@@ -217,9 +213,8 @@ export default function RelatedCarousel({ items, total, activeId, category }) {
         </div>
       </div>
       <div className={rs.track}>
-        {shown.map(sn => <RelatedCard key={sn.id} sn={sn} active={sn.id === activeId} onPeek={onPeek} />)}
+        {shown.map(sn => <RelatedCard key={sn.id} sn={sn} active={sn.id === activeId} />)}
       </div>
-      <PeekPopup peek={peek} />
     </div>
   );
 }

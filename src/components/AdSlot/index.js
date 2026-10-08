@@ -4,7 +4,6 @@ import { usePathname } from 'next/navigation';
 import { ADS_ENABLED as ADS_CONFIG_ENABLED } from '@/lib/ads-config';
 import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import RelatedStrip from '@/components/RelatedStrip';
-import BlogStrip from '@/components/BlogStrip';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import styles from './styles.module.css';
 
@@ -51,9 +50,6 @@ export default function AdSlot({ contained = false, related = null, adFirst = fa
 
   // related={false}: the page renders its own related strip, so show none here.
   const relatedContent = related === false ? null : (related || (slug ? <RelatedStrip slug={slug} /> : null));
-  // Custom `related` content supplies its own strips.
-  // Tool pages, after Related Tools: only Latest from the Blog.
-  const blogContent = related == null && slug ? <BlogStrip /> : null;
 
   if (!ADS_ENABLED) {
     return (
@@ -61,7 +57,6 @@ export default function AdSlot({ contained = false, related = null, adFirst = fa
         {relatedContent && (
           <div className={styles.relatedFull}>
             {relatedContent}
-            {blogContent}
           </div>
         )}
       </div>
@@ -85,13 +80,12 @@ export default function AdSlot({ contained = false, related = null, adFirst = fa
     </IndexOnly>
   );
 
-  // Tool pages (default related): Related Tools, then the ad, then the latest strips.
+  // Tool pages (default related): Related Tools, then the ad.
   if (related == null && slug && relatedContent) {
     return (
       <div className={styles.adShell}>
         <div className={styles.relatedFull}>{relatedContent}</div>
         {ad}
-        <div className={styles.relatedFull}>{blogContent}</div>
       </div>
     );
   }
@@ -104,7 +98,6 @@ export default function AdSlot({ contained = false, related = null, adFirst = fa
       {relatedContent && (
         <div className={styles.relatedFull}>
           {relatedContent}
-          {blogContent}
         </div>
       )}
     </div>

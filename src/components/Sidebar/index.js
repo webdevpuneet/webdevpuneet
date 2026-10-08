@@ -1270,6 +1270,79 @@ function BlogTab() {
   );
 }
 
+/* ─────────────────────────────────────────────────
+   BlogTicker — the latest five blog posts as a one/two-line title that rotates
+   every 5 seconds, just under the sidebar's top ad. Shares the BlogTab's
+   post cache; pauses while hovered or focused and while the tab is hidden.
+──────────────────────────────────────────────────*/
+const TICKER_COUNT = 5;
+const TICKER_MS = 5000;
+
+function BlogTicker() {
+  const [posts, setPosts] = useState(blogPostsCache);
+  const [idx, setIdx] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (blogPostsCache) return undefined;
+    let cancelled = false;
+    fetchLatestBlogPosts(10)
+      .then(list => {
+        if (cancelled) return;
+        blogPostsCache = list;
+        setPosts(list);
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
+
+  const items = posts ? posts.slice(0, TICKER_COUNT) : [];
+
+  useEffect(() => {
+    if (items.length < 2 || paused) return undefined;
+    const id = setInterval(() => {
+      if (!document.hidden) setIdx(i => (i + 1) % items.length);
+    }, TICKER_MS);
+    return () => clearInterval(id);
+  }, [items.length, paused]);
+
+  if (items.length === 0) return null;
+  const post = items[idx % items.length];
+
+  return (
+    <div
+      className={styles.blogTicker}
+      role="group"
+      aria-label="Latest from the blog"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
+    >
+      {items.length > 1 && (
+        <button type="button" className={styles.blogTickerBtn} onClick={() => setIdx(i => (i - 1 + items.length) % items.length)} aria-label="Previous post">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+      )}
+      <a
+        key={post.href}
+        href={post.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles.blogTickerLink}
+        title={post.title}
+      >
+        <span className={styles.blogTickerText}>{post.title}</span>
+      </a>
+      {items.length > 1 && (
+        <button type="button" className={styles.blogTickerBtn} onClick={() => setIdx(i => (i + 1) % items.length)} aria-label="Next post">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      )}
+    </div>
+  );
+}
+
 /* ─────────────────────────────────────────────────────────────
    Sidebar
 ───────────────────────────────────────────────────────────── */
@@ -1579,6 +1652,9 @@ export default function Sidebar() {
             ? <IndexOnly><SidebarTopAd key={pathname} /></IndexOnly>
             : <SidebarTopAd key={pathname} />
         )}
+
+        {/* Latest blog posts, one at a time, right under the ad. */}
+        <BlogTicker />
 
         {/* View tabs — Library / Tools / My Code */}
         <div className={styles.viewTabs}>

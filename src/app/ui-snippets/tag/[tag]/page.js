@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
-import BlogStrip from '@/components/BlogStrip';
 import { VISIBLE_SNIPPETS } from '@/components/UiSnippetsTool/snippets';
 import {
   BASE_URL, TAG_BASE, TAG_BY_ID,
@@ -134,7 +133,7 @@ export default async function TagPage({ params }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }} />
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
       <IndexOnly>
-        <AdSlot adFirst related={<BlogStrip />} />
+        <AdSlot adFirst related={false} />
         <SeoSection
           slug={content.slug}
           title={content.title}
