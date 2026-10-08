@@ -1282,7 +1282,7 @@ button.headerBrand {
   padding: 4px 12px;  /* tight: just enough to frame the banner */
   overflow: hidden;
   background: #e8eaf1;  /* behind the ad */
-  border-bottom: 1px solid var(--border);  /* divides the ad from the preview below it */
+  border-bottom: 1px solid var(--border);  /* divides the ad from the preview toolbar below it */
 }
 .adBarSlot {
   width: 728px;
@@ -1457,7 +1457,7 @@ button.headerBrand {
   /* Preview first, code editors after — on a small screen seeing the result
      before wading through HTML/CSS/JS tabs is the more useful default. */
   .previewHeader { order: 1; }
-  .adBar         { order: 1; }  /* preview toolbar first, then the ad (DOM order breaks the tie) */
+  .adBar         { order: 1; }  /* the ad sits above the preview toolbar (DOM order breaks the tie) */
   .previewStage  { order: 2; flex: none; }
   .iframeWrap    { order: 2; }
   .consolePanel  { order: 3; }

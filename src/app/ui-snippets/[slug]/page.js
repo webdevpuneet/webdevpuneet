@@ -2,9 +2,6 @@ import { notFound } from 'next/navigation';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
-import adStyles from '@/components/AdSlot/styles.module.css';
-import FrontendPlaygroundsStrip from '@/components/FrontendPlaygroundsStrip';
-import ToolsStrip from '@/components/ToolsStrip';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import { SNIPPETS, VISIBLE_SNIPPETS, CATEGORIES } from '@/components/UiSnippetsTool/snippets';
 import { buildSnippetMetadata } from '@/lib/snippet-seo';
@@ -13,7 +10,6 @@ import { highlightCode } from '@/lib/shiki-highlight';
 import SnippetExportButton from '@/components/UiSnippetsTool/SnippetExportButton';
 import SourceCodeTabs from '@/components/UiSnippetsTool/SourceCodeTabs';
 import RelatedCarousel from '@/components/UiSnippetsTool/RelatedCarousel';
-import { BrowsePanel } from '@/components/UiSnippetsGallery';
 import { getRelatedSnippets } from '@/lib/snippet-related';
 import NavbarBuilderPromo from '@/components/NavbarBuilderPromo';
 import styles from './styles.module.css';
@@ -752,7 +748,7 @@ export default async function UiSnippetSlugPage({ params }) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }} />
         {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
         <IndexOnly>
-          <AdSlot adFirst related={<FrontendPlaygroundsStrip after={<ToolsStrip />} />} />
+          <AdSlot adFirst related={false} />
           <SeoSection
             slug={`ui-snippets/${slug}`}
             title={content.title}
@@ -915,10 +911,10 @@ Requirements:
     sn.js ? highlightCode(sn.js, 'javascript', 'github-dark') : Promise.resolve(''),
   ]);
 
-  // Rendered inside the SeoSection flow, right after "Build, Understand,
-  // Optimize, and Extend It With AI" — rather than above all the SEO
-  // content — so a reader reaches the About/AI context before the raw code.
-  // Related Snippets and the "Learn Coding Visually" strip stay put, above.
+  // Rendered after the FAQ (SeoSection's bottomExtra), followed by "Build,
+  // Understand, Optimize, and Extend It With AI" (aiPromptLast), so a reader
+  // reaches the About/FAQ content before the raw code.
+  // Related Snippets stay put, above.
   const sourceCodeBlock = (
     <div>
       <div className={styles.sourceCodeHeader}>
@@ -935,18 +931,9 @@ Requirements:
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }} />
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
-      {/* Related Snippets first, then the ad (full width), then the Categories | Tags box, then "Learn Coding Visually". */}
+      {/* Related Snippets first, then the ad (full width). */}
       <RelatedCarousel items={related.items} total={related.total} activeId={sn.id} category={CATEGORIES.find(c => c.id === sn.category)?.label || categoryLabel} />
       <AdSlot adFirst related={false} />
-      {/* Same Categories | Tags browse box as the gallery — plain links, natural order, nothing highlighted. */}
-      <div className={styles.relatedCats}>
-        <BrowsePanel activeCategory={null} highlightAll={false} />
-      </div>
-      <div className={adStyles.adShell}>
-        <div className={adStyles.relatedFull}>
-          <FrontendPlaygroundsStrip after={<ToolsStrip />} />
-        </div>
-      </div>
       <SeoSection
         {...SEO}
         titleExtra={(
@@ -983,8 +970,11 @@ Requirements:
           </div>
         }
         injectAfterAiPrompt={navRelated
-          ? <>{sourceCodeBlock}<div className={styles.navbarPromoGap}><NavbarBuilderPromo /></div></>
-          : sourceCodeBlock}
+          ? <div className={styles.navbarPromoGap}><NavbarBuilderPromo /></div>
+          : undefined}
+        bottomExtra={sourceCodeBlock}
+        aiPromptLast
+        featuresAfterAbout
       />
     </>
   );

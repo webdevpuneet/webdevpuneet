@@ -1404,24 +1404,29 @@ function flattenSections(sections) {
   return result;
 }
 
-function normalizeSections({ sections, about, features, howToUse, useCases, faqs, whatsNew, aiPrompt, aboutExtra, aboutLabel = 'About this tool', quickFacts = true, injectAfterAiPrompt }) {
+function aiPromptSection(aiPrompt) {
+  return {
+    type: 'aiPrompt',
+    label: 'Build with AI',
+    heading: 'Build, Understand, Optimize, and Extend It With AI',
+    paragraph: aiPrompt.paragraph,
+    prompt: aiPrompt.prompt,
+  };
+}
+
+function normalizeSections({ sections, about, features, howToUse, useCases, faqs, whatsNew, aiPrompt, aboutExtra, aboutLabel = 'About this tool', quickFacts = true, injectAfterAiPrompt, aiPromptLast = false, featuresAfterAbout = false }) {
   if (sections) return flattenSections(sections);
   const result = [];
-  if (features?.length) {
-    result.push({ type: 'features', label: 'What\'s included', heading: 'Features', items: features });
-  }
+  const featuresSection = features?.length
+    ? { type: 'features', label: "What's included", heading: 'Features', items: features }
+    : null;
+  // featuresAfterAbout: the Features section follows About instead of preceding it.
+  if (featuresSection && !featuresAfterAbout) result.push(featuresSection);
   if (about) {
     result.push({ type: 'text', label: aboutLabel, heading: about?.title, text: about?.description || '', extra: aboutExtra, quickFacts });
   }
-  if (aiPrompt) {
-    result.push({
-      type: 'aiPrompt',
-      label: 'Build with AI',
-      heading: 'Build, Understand, Optimize, and Extend It With AI',
-      paragraph: aiPrompt.paragraph,
-      prompt: aiPrompt.prompt,
-    });
-  }
+  if (featuresSection && featuresAfterAbout) result.push(featuresSection);
+  if (aiPrompt && !aiPromptLast) result.push(aiPromptSection(aiPrompt));
   // Lands right after "Build, Understand, Optimize, and Extend It With AI" —
   // or, on the handful of pages with no aiPrompt, right after About — rather
   // than always at the very top of the page.
@@ -1448,11 +1453,11 @@ function normalizeSections({ sections, about, features, howToUse, useCases, faqs
 ───────────────────────────────────────────── */
 export default function SeoSection({
   // New API
-  slug, title, subtitle, sections, noShare, noRelated, injectAfterAbout, injectAfterAiPrompt, aboutExtra, aboutLabel, quickFacts, topExtra, bottomExtra, titleExtra,
+  slug, title, subtitle, sections, noShare, noRelated, injectAfterAbout, injectAfterAiPrompt, aboutExtra, aboutLabel, quickFacts, topExtra, bottomExtra, aiPromptLast, featuresAfterAbout, titleExtra,
   // Legacy flat props (auto-converted to sections)
   about, features, howToUse, useCases, faqs, whatsNew, aiPrompt,
 }) {
-  const normalizedSections = normalizeSections({ sections, about, features, howToUse, useCases, faqs, whatsNew, aiPrompt, aboutExtra, aboutLabel, quickFacts, injectAfterAiPrompt });
+  const normalizedSections = normalizeSections({ sections, about, features, howToUse, useCases, faqs, whatsNew, aiPrompt, aboutExtra, aboutLabel, quickFacts, injectAfterAiPrompt, aiPromptLast, featuresAfterAbout });
 
   const [searchOpen,  setSearchOpen]  = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -1620,7 +1625,7 @@ export default function SeoSection({
       )}
 
       {/* Two-column body: content left, 300×600 ad right */}
-      {(topExtra || normalizedSections.length > 0 || bottomExtra) && (
+      {(topExtra || normalizedSections.length > 0 || bottomExtra || (aiPromptLast && aiPrompt)) && (
         <div className={styles.seoBody}>
           <div className={styles.seoMain}>
             {topExtra && (
@@ -1639,6 +1644,12 @@ export default function SeoSection({
               <>
                 {normalizedSections.length > 0 && <div className={styles.sectionDivider} aria-hidden="true" />}
                 {bottomExtra}
+              </>
+            )}
+            {aiPromptLast && aiPrompt && (
+              <>
+                <div className={styles.sectionDivider} aria-hidden="true" />
+                <SectionBlock section={aiPromptSection(aiPrompt)} />
               </>
             )}
           </div>
