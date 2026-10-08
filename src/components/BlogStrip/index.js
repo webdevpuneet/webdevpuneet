@@ -1,17 +1,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import rs from '@/components/UiSnippetsTool/RelatedCarousel.module.css';
-import { usePeek, PeekPopup } from '@/components/UiSnippetsTool/RelatedCarousel';
-import seo from '@/components/SeoSection/styles.module.css';
 import { fetchLatestBlogPosts, BLOG_URL } from '@/lib/blog-feed';
+import styles from './styles.module.css';
 
-// "From the blog" strip, styled like the Related Snippets strip. The posts load in the
-// browser after the page is up, so they never block rendering. The live WordPress REST API
-// comes first (newest posts); if that returns nothing, the build-time copy at
-// /blog-posts.json (same origin) fills in. The strip stays out of the page until there is
-// something to show. One load per page is shared through a module-level promise, and an
-// empty result is not cached, so the next page tries again.
+// "Latest from the Blog": the newest post as a featured card (title, excerpt, Read article)
+// and the next three as a list. The posts load in the browser after the page is up, so they
+// never block rendering. The live WordPress REST API comes first (newest posts); if that
+// returns nothing, the build-time copy at /blog-posts.json (same origin) fills in. The strip
+// stays out of the page until there is something to show. One load per page is shared
+// through a module-level promise, and an empty result is not cached, so the next page tries
+// again.
 let postsPromise = null;
 
 async function loadPosts(max) {
@@ -28,9 +27,9 @@ async function loadPosts(max) {
 
 // `initialPosts`: posts already fetched on the server (home), so no browser fetch is needed.
 // `first`: leads its block (home), so the strip above already supplies the spacing.
-export default function BlogStrip({ max = 6, initialPosts = null, first = false }) {
+// `max`: posts shown, featured one included.
+export default function BlogStrip({ max = 4, initialPosts = null, first = false }) {
   const [posts, setPosts] = useState(initialPosts);
-  const [peek, onPeek] = usePeek();
 
   useEffect(() => {
     if (initialPosts) return;
@@ -45,33 +44,35 @@ export default function BlogStrip({ max = 6, initialPosts = null, first = false 
 
   if (!posts || posts.length === 0) return null;
 
-  // Always rendered inside AdSlot's .relatedFull, which already pads the sides, so drop
-  // .section's own side padding or the strip sits indented from the strips above it.
+  const [featured, ...rest] = posts.slice(0, max);
+
   return (
-    <div className={rs.section} style={{ paddingLeft: 0, paddingRight: 0, ...(first && { marginTop: 0 }) }}>
-      <div className={rs.header}>
-        <h2 className={rs.title}>Latest from the Blog</h2>
-        <span className={rs.headCount}>front-end tips, tutorials and live demos</span>
-        <a href={BLOG_URL} className={seo.ymalSeeAll} style={{ marginLeft: 'auto' }}>See all -&gt;</a>
+    <div className={`${styles.section} ${first ? styles.first : ''}`}>
+      <div className={styles.header}>
+        <div>
+          <h2 className={styles.title}>Latest from the Blog</h2>
+          <p className={styles.sub}>Practical front-end tips, tutorials &amp; live demos</p>
+        </div>
+        <a href={BLOG_URL} className={styles.seeAll}>See all &rarr;</a>
       </div>
-      <div className={rs.track}>
-        {posts.slice(0, max).map(post => (
-          <a
-            key={post.href}
-            href={post.href}
-            className={rs.card}
-            onClick={() => onPeek(null)}
-            onMouseEnter={e => onPeek({ src: post.thumb, title: post.title }, e.currentTarget.getBoundingClientRect())}
-            onMouseLeave={() => onPeek(null)}
-          >
-            {post.thumb
-              ? <img className={rs.thumb} src={post.thumb} alt="" loading="lazy" />
-              : <div className={rs.thumb} aria-hidden="true" />}
-            <h3 className={rs.cardTitle}>{post.title}</h3>
-          </a>
-        ))}
+      <div className={styles.card}>
+        <a href={featured.href} className={styles.featured}>
+          <span className={styles.badge}>FEATURED</span>
+          <h3 className={styles.featTitle}>{featured.title}</h3>
+          {featured.excerpt && <p className={styles.excerpt}>{featured.excerpt}</p>}
+          <span className={styles.read}>Read article &rarr;</span>
+        </a>
+        {rest.length > 0 && (
+          <div className={styles.list}>
+            {rest.map(post => (
+              <a key={post.href} href={post.href} className={styles.row}>
+                <span>{post.title}</span>
+                <svg className={styles.chev} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+              </a>
+            ))}
+          </div>
+        )}
       </div>
-      <PeekPopup peek={peek} />
     </div>
   );
 }
