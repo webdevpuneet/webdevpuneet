@@ -880,12 +880,23 @@ function LibraryTab({ pathname }) {
   // container can't clip it.
   const [hoverPreview, setHoverPreview] = useState(null);
   const hoverTimer = useRef(null);
+  // The preview rides along with the pointer vertically (max 300x300): the stage's `top`
+  // is set straight on the element, so moving the mouse never re-renders anything.
+  const hoverStageRef = useRef(null);
+  const hoverYRef = useRef(0);
+  function placeHoverStage(y) {
+    const el = hoverStageRef.current;
+    if (!el) return;
+    const h = el.offsetHeight;
+    el.style.top = `${Math.min(Math.max(12, y - h / 2), window.innerHeight - h - 12)}px`;
+  }
   function showHoverPreview(e, id, title) {
     const r = e.currentTarget.getBoundingClientRect();
     // The dim + preview start at the sidebar's own right edge (not the row's, which
     // sits a few pixels inside it), so the sidebar itself is never darkened.
     const edge = e.currentTarget.closest('aside')?.getBoundingClientRect().right ?? r.right;
     const next = { id, title, left: edge + 12 };
+    hoverYRef.current = r.top + r.height / 2;
     clearTimeout(hoverTimer.current);
     if (hoverPreview) {
       // Already showing: just swap to this row's image, no fade or delay.
@@ -921,6 +932,8 @@ function LibraryTab({ pathname }) {
     // cancels it.
     let leaveTimer = null;
     const onMove = e => {
+      hoverYRef.current = e.clientY;
+      placeHoverStage(e.clientY);
       if (stillHovering(e.target)) { clearTimeout(leaveTimer); leaveTimer = null; return; }
       if (!leaveTimer) leaveTimer = setTimeout(closeHoverPreview, 100);
     };
@@ -950,6 +963,8 @@ function LibraryTab({ pathname }) {
   }, [hoverOpen]); // eslint-disable-line react-hooks/exhaustive-deps
   // Navigating to another snippet always dismisses it.
   useEffect(() => { closeHoverPreview(); }, [activeId]); // eslint-disable-line react-hooks/exhaustive-deps
+  // A newly shown / swapped preview is placed beside the pointer straight away.
+  useEffect(() => { if (hoverPreview) placeHoverStage(hoverYRef.current); }, [hoverPreview?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -1050,14 +1065,9 @@ function LibraryTab({ pathname }) {
           </a>
         ))}
         {hoverPreview && (
-          // Blurs the page behind the preview (everything right of the sidebar,
-          // so the sidebar itself stays crisp).
-          <div className={styles.hoverBackdrop} style={{ left: hoverPreview.left - 12 }} onClick={closeHoverPreview} aria-hidden="true" />
-        )}
-        {hoverPreview && (
-          // Fills the blurred area (20px in from the sidebar, top, right and
-          // bottom); the image is pinned to the sidebar side, capped at 600×600 and only scales down, never up.
-          <div className={styles.hoverStage} style={{ left: hoverPreview.left - 12 + 20 }}>
+          // Starts at the sidebar's right edge and follows the pointer up and down; the image is
+          // capped at 300×300 and only scales down, never up. Image only, no title.
+          <div ref={hoverStageRef} className={styles.hoverStage} style={{ left: hoverPreview.left - 12 }}>
             {/* The preview is a peek, not a destination: pointing at it closes it. */}
             <div className={styles.hoverFrame} onMouseEnter={closeHoverPreview}>
               <div className={styles.hoverBox}>
@@ -1065,8 +1075,8 @@ function LibraryTab({ pathname }) {
                   className={styles.hoverPreview}
                   src={`/images/ui-snippets/previews/${hoverPreview.id}.png`}
                   alt=""
+                  onLoad={() => placeHoverStage(hoverYRef.current)}
                 />
-                {hoverPreview.title && <div className={styles.hoverTitle}>{hoverPreview.title}</div>}
               </div>
             </div>
           </div>
