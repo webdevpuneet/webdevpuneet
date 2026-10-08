@@ -275,7 +275,9 @@ export default async function Home() {
         </div>
 
       {/* ── Latest UI snippets: newest six, arrows page through the rest ── */}
-      <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} />
+      <div className={styles.snippetsStrip}>
+        <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} />
+      </div>
 
       {/* ── Feature grid: UI Snippets / Coding Playgrounds / Developer Tools / Latest From the Blog ── */}
       <div className={styles.featureGrid}>

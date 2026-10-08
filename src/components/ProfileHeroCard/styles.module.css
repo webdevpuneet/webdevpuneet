@@ -1,99 +1,85 @@
-/* Author card in the home hero. Built on the site's theme tokens so it follows
-   light/dark mode, with the same accent → indigo → pink palette as the hero
-   title gradient (.titleGrad in app/page.module.css). */
+/* Author card in the home hero: flat and quiet, built on the site's theme tokens so it
+   follows light/dark mode, and deliberately low-contrast so the hero title stays the focus. */
 .card {
-  --pc-indigo: #818cf8;
-  --pc-pink: #ec4899;
   --pc-btn-text: #ffffff;
 
   position: relative;
-  display: flex;
-  align-items: center;
-  gap: 26px;
-  padding: 24px 26px;
-  border-radius: 18px;
+  display: block;
+  padding: 18px 20px;
+  border-radius: 14px;
   font-family: var(--font-ui);
   color: var(--text);
-  /* soft tinted surface + gradient ring (padding-box / border-box trick) */
-  border: 1px solid transparent;
-  background:
-    radial-gradient(120% 140% at 100% 0%, color-mix(in srgb, var(--pc-indigo) 14%, transparent) 0%, transparent 55%),
-    radial-gradient(90% 120% at 0% 100%, var(--accent-dim) 0%, transparent 60%),
-    linear-gradient(var(--surface), var(--surface)) padding-box,
-    linear-gradient(135deg, var(--accent), var(--pc-indigo) 55%, var(--pc-pink)) border-box;
-  box-shadow: 0 18px 40px -22px color-mix(in srgb, var(--pc-indigo) 55%, transparent),
-              0 2px 6px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border);
+  background: var(--surface);
 }
-:global([data-theme="dark"]) .card {
-  --pc-btn-text: #06281c;
-  box-shadow: 0 18px 44px -20px rgba(0, 0, 0, 0.7);
-}
+:global([data-theme="dark"]) .card { --pc-btn-text: #06281c; }
 .card * { box-sizing: border-box; }
 
-.left { position: relative; flex: 1 1 auto; min-width: 0; z-index: 1; }
+.head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+.avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  color: var(--accent);
+  font: 800 14px var(--font-ui);
+  letter-spacing: 0.02em;
+}
+.who { flex: 1 1 auto; min-width: 0; }
 
 .available {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 5px 12px;
-  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  gap: 7px;
+  padding: 3px 10px;
+  border: 1px solid var(--border);
   border-radius: 99px;
-  background: var(--accent-dim);
-  color: var(--accent);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
+  background: transparent;
+  color: var(--text2);
+  font-size: 10.5px;
+  font-weight: 600;
 }
 .available i {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-glow);
-  animation: pulse 2s infinite;
 }
-@keyframes pulse { 50% { opacity: 0.45; } }
-@media (prefers-reduced-motion: reduce) { .available i { animation: none; } }
 
 .name {
-  margin: 12px 0 0;
-  font-size: clamp(22px, 1.9vw, 28px);
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  line-height: 1.15;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  line-height: 1.2;
   color: var(--text);
 }
 .role {
-  margin: 2px 0 0;
-  font-size: clamp(15px, 1.25vw, 18px);
-  font-weight: 700;
-  letter-spacing: -0.2px;
-  line-height: 1.3;
-  background: linear-gradient(90deg, var(--accent), var(--pc-indigo) 60%, var(--pc-pink));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.desc {
-  margin: 10px 0 0;
-  max-width: 440px;
-  font-size: 13px;
-  line-height: 1.65;
+  margin: 1px 0 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0;
   color: var(--text2);
 }
 
-.buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .primary,
 .secondary {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  height: 38px;
-  padding: 0 16px;
-  border-radius: 10px;
-  font: 700 13px/1 var(--font-ui);
+  height: 32px;
+  padding: 0 13px;
+  border-radius: 8px;
+  font: 600 12.5px/1 var(--font-ui);
   text-decoration: none;
   cursor: pointer;
   transition: transform 0.15s, box-shadow 0.15s, background 0.15s, border-color 0.15s, color 0.15s;
@@ -102,16 +88,15 @@
   border: 0;
   background: var(--accent);
   color: var(--pc-btn-text);
-  box-shadow: 0 6px 16px -6px var(--accent-glow);
 }
-.primary:hover { transform: translateY(-1px); box-shadow: 0 10px 22px -8px var(--accent-glow); }
+.primary:hover { filter: brightness(1.08); }
 .secondary {
   border: 1px solid var(--border2);
   background: var(--surface2);
   color: var(--text);
 }
 .secondary:hover,
-.secondary[aria-expanded="true"] { border-color: var(--pc-indigo); color: var(--pc-indigo); }
+.secondary[aria-expanded="true"] { border-color: var(--accent); color: var(--accent); }
 
 .emailWrap { position: relative; display: inline-flex; }
 .emailPop {
@@ -152,52 +137,6 @@
 }
 .copied { background: transparent; border-color: var(--accent); color: var(--accent); }
 
-.right { position: relative; flex: 0 0 auto; margin: 6px 6px 6px 0; }
-.photo {
-  position: relative;
-  width: 172px;
-  height: 196px;
-  border-radius: 16px;
-  overflow: hidden;
-  background:
-    radial-gradient(80% 70% at 50% 100%, color-mix(in srgb, var(--accent) 38%, transparent) 0%, transparent 70%),
-    linear-gradient(160deg, color-mix(in srgb, var(--pc-indigo) 35%, var(--surface2)) 0%, var(--surface3) 100%);
-  box-shadow: inset 0 0 0 1px var(--border);
-}
-.photo img {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: auto;
-  max-width: none;
-  height: auto;
-  max-height: 100%;
-}
-
-.badge {
-  position: absolute;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 10px;
-  border-radius: 99px;
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  box-shadow: 0 6px 16px -8px rgba(0, 0, 0, 0.35);
-  font-size: 10.5px;
-  font-weight: 700;
-  color: var(--text);
-  white-space: nowrap;
-  text-decoration: none;
-}
-.badgeTop { top: -10px; inset-inline-end: -10px; }
-.badgeTop b { color: var(--pc-indigo); }
-.badgeBottom { bottom: -10px; inset-inline-start: -12px; }
-a.badge:hover { border-color: var(--accent); color: var(--accent); }
-.badge i { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
-
 @media (max-width: 640px) {
-  .card { padding: 20px; }
-  .right { display: none; }
+  .card { padding: 16px; }
 }
