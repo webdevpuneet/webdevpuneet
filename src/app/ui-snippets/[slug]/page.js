@@ -911,9 +911,9 @@ Requirements:
     sn.js ? highlightCode(sn.js, 'javascript', 'github-dark') : Promise.resolve(''),
   ]);
 
-  // Rendered after the FAQ (SeoSection's bottomExtra), followed by "Build,
-  // Understand, Optimize, and Extend It With AI" (aiPromptLast), so a reader
-  // reaches the About/FAQ content before the raw code.
+  // Rendered after the FAQ and "Build, Understand, Optimize, and Extend It With
+  // AI" (aiPromptLast), as SeoSection's bottomExtra, so a reader reaches the
+  // About/FAQ and AI content before the raw code.
   // Related Snippets stay put, above.
   const sourceCodeBlock = (
     <div>

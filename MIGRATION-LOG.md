@@ -654,3 +654,5 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
   Heights were measured in headless Chrome (360 and 800px wide). Uploaded straight to `/demos/a1/38/` over FTP — spot-checked 1, 5, 15 return 200.
 
 - 2026-10-09: Sidebar BlogTicker restyled (accent gradient + left accent bar, pulsing "BLOG" pill, bottom progress bar that now drives rotation and pauses on hover; bottom padding 2px → 6px, same height otherwise).
+
+- 2026-10-09: environment-badge snippet rebuilt for developers: fixed-width ribbon (STAGING/PRODUCTION no longer clipped), --env variable per environment, detectEnv() hostname detection + ?env= override, [STG] tab title + colored favicon, build-info chip with Copy, hide-in-prod switch; SEO copy/FAQs/AI prompt rewritten to match. Not browser-tested (user tests).

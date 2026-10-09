@@ -23,26 +23,30 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0b0d16;color:#ff
 .lb-icon{width:28px;height:28px;display:block;flex-shrink:0}
 .lb-hint{font-size:12px;color:#6d7291}`,
 
-  js: `// No hosted .json asset exists for this sandbox, so a minimal but genuinely
-// valid Lottie animation is defined inline and passed straight to
-// animationData — this always works standalone, with no network request and
-// nothing that can 404. It animates a small heart shape scaling in and
-// changing color across 40 frames at 30fps (roughly 1.3s).
+  js: `// A minimal but genuinely valid Lottie animation defined inline and passed
+// straight to animationData: no hosted .json, no network request, nothing that
+// can 404. A grey heart sits visible at frame 0 (the resting state); playing
+// forward pops it to 120% and fades its fill to pink over 30 frames (1s at
+// 30fps). Every keyframe carries its own end value (e) and easing (i / o), which
+// lottie-web needs to interpolate. Without them the fill never resolves and the
+// icon renders as a black blob.
+const ease = { i: { x: 0.3, y: 1 }, o: { x: 0.2, y: 0 } };
+
 const heartAnimation = {
-  v: '5.9.0', fr: 30, ip: 0, op: 40, w: 100, h: 100, nm: 'heart', ddd: 0,
+  v: '5.9.0', fr: 30, ip: 0, op: 30, w: 100, h: 100, nm: 'heart', ddd: 0,
   assets: [],
   layers: [{
     ddd: 0, ind: 1, ty: 4, nm: 'heart-shape', sr: 1,
     ks: {
       o: { a: 0, k: 100 },
       r: { a: 0, k: 0 },
-      p: { a: 0, k: [50, 52, 0] },
+      p: { a: 0, k: [50, 50, 0] },
       a: { a: 0, k: [0, 0, 0] },
       s: {
         a: 1,
         k: [
-          { t: 0, s: [0, 0, 100], e: [130, 130, 100], i: { x: [0.3], y: [1] }, o: { x: [0.2], y: [0] } },
-          { t: 18, s: [130, 130, 100], e: [100, 100, 100], i: { x: [0.3], y: [1] }, o: { x: [0.2], y: [0] } },
+          { t: 0,  s: [100, 100, 100], e: [120, 120, 100], ...ease },
+          { t: 14, s: [120, 120, 100], e: [100, 100, 100], ...ease },
           { t: 30 },
         ],
       },
@@ -54,18 +58,18 @@ const heartAnimation = {
         {
           ty: 'sh', ix: 1,
           ks: { a: 0, k: {
-            i: [[0,-14],[14,0],[0,16],[-1,1],[-1,-1],[0,-16]],
-            o: [[-14,0],[0,16],[1,1],[1,-1],[16,0],[0,-14]],
-            v: [[0,-16],[-24,8],[0,32],[0,32],[0,32],[24,8]],
+            v: [[0, 34], [-18, -31], [0, -16], [18, -31]],
+            i: [[39, -26], [-21, 0], [0, -8], [-10, 0]],
+            o: [[-39, -26], [10, 0], [0, -8], [21, 0]],
             c: true,
           } },
         },
         {
           ty: 'fl', ix: 2,
           c: { a: 1, k: [
-            { t: 0, s: [0.42, 0.45, 0.9, 1] },
-            { t: 20, s: [0.95, 0.29, 0.6, 1] },
-            { t: 40 },
+            { t: 0,  s: [0.43, 0.45, 0.57, 1], e: [0.96, 0.26, 0.57, 1], ...ease },
+            { t: 12, s: [0.96, 0.26, 0.57, 1], e: [0.96, 0.26, 0.57, 1], ...ease },
+            { t: 30 },
           ] },
           o: { a: 0, k: 100 },
         },
@@ -73,7 +77,7 @@ const heartAnimation = {
       ],
       nm: 'heart-group',
     }],
-    ip: 0, op: 40, st: 0, bm: 0,
+    ip: 0, op: 30, st: 0, bm: 0,
   }],
 };
 
@@ -104,7 +108,7 @@ btn.addEventListener('mouseleave', () => {
 
 **A real, minimal Lottie document**
 
-\`heartAnimation\` is a genuine Lottie JSON structure — \`v\` (format version), \`fr\`/\`ip\`/\`op\` (frame rate and in/out points), and a single shape \`layer\` with keyframed \`s\` (scale) and a fill \`c\` (color) that shift over 40 frames. It's deliberately small (one layer, two keyframed properties) but it's not a mock — \`lottie.loadAnimation\` parses and renders it exactly as it would a much larger exported file, which is why this pattern is worth knowing: any time you need a Lottie animation that must never depend on an external asset load, hand-authoring or generating a minimal JSON document and passing it via \`animationData\` is the way to guarantee that.
+\`heartAnimation\` is a genuine Lottie JSON structure — \`v\` (format version), \`fr\`/\`ip\`/\`op\` (frame rate and in/out points), and a single shape \`layer\` with keyframed \`s\` (scale) and a fill \`c\` (color) that shift over 30 frames. It's deliberately small (one layer, two keyframed properties) but it's not a mock — \`lottie.loadAnimation\` parses and renders it exactly as it would a much larger exported file, which is why this pattern is worth knowing: any time you need a Lottie animation that must never depend on an external asset load, hand-authoring or generating a minimal JSON document and passing it via \`animationData\` is the way to guarantee that.
 
 **Play forward, reverse back**
 

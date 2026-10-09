@@ -42,10 +42,14 @@
 /* Navbar Builder call-out under the source code on navigation snippets */
 .navbarPromoGap { margin-top: 28px; }
 
+/* Matches SeoSection's .sectionH2 so it reads like the other section headings */
 .sourceCodeTitle {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 500;
   color: var(--text);
+  letter-spacing: -0.2px;
+  font-family: var(--font-ui);
+  line-height: 1.3;
   margin: 0;
 }
 

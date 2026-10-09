@@ -1640,16 +1640,16 @@ export default function SeoSection({
                 <SectionBlock section={section} />
               </React.Fragment>
             ))}
-            {bottomExtra && (
-              <>
-                {normalizedSections.length > 0 && <div className={styles.sectionDivider} aria-hidden="true" />}
-                {bottomExtra}
-              </>
-            )}
             {aiPromptLast && aiPrompt && (
               <>
-                <div className={styles.sectionDivider} aria-hidden="true" />
+                {normalizedSections.length > 0 && <div className={styles.sectionDivider} aria-hidden="true" />}
                 <SectionBlock section={aiPromptSection(aiPrompt)} />
+              </>
+            )}
+            {bottomExtra && (
+              <>
+                {(normalizedSections.length > 0 || (aiPromptLast && aiPrompt)) && <div className={styles.sectionDivider} aria-hidden="true" />}
+                {bottomExtra}
               </>
             )}
           </div>
