@@ -29,7 +29,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
-<h2 class="wp-block-heading">Why the specific type is worth the extra five characters</h2>
+<h2 class="wp-block-heading">Why the specific type is worth the extra few characters</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -126,7 +126,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Use the spinner arrows or type directly &mdash; the value can't go below 1 or above 10.</p>
+<p>Use the spinner arrows or type directly &mdash; the spinner stops at 1 and 10, and a typed value outside that range fails validation on submit.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
@@ -175,7 +175,7 @@
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
-<p>Most developers who use <code>range</code> never discover it can pair with a <code>&lt;datalist&gt;</code> the same way a text input's autocomplete list does &mdash; the browser renders literal tick marks at each listed value and the thumb snaps toward them. The current numeric value itself isn't shown anywhere by default; this demo's live readout above the slider is a few lines of script reading <code>input.value</code> on the <code>input</code> event, which is the standard pattern for surfacing it.</p>
+<p>Most developers who use <code>range</code> never discover it can pair with a <code>&lt;datalist&gt;</code> the same way a text input's autocomplete list does &mdash; supporting browsers render literal tick marks at each listed value, while the snapping itself comes from <code>step</code>. (The snippet above lists only three ticks to stay short; the demo lists all five.) The current numeric value itself isn't shown anywhere by default; this demo's live readout above the slider is a few lines of script reading <code>input.value</code> on the <code>input</code> event, which is the standard pattern for surfacing it.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -207,7 +207,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Best for:</strong> any search box &mdash; site search, in-page filtering, a command palette's input. <strong>Tip:</strong> exact clear-button styling varies by browser and can't be customized with CSS; if pixel-perfect control over that × matters more than the free functionality, build your own clear button and accept the type purely for its semantics and keyboard behavior.</p>
+<p><strong>Best for:</strong> any search box &mdash; site search, in-page filtering, a command palette's input. <strong>Tip:</strong> exact clear-button styling varies by browser and is only partly customizable with CSS; if pixel-perfect control over that × matters more than the free functionality, build your own clear button and accept the type purely for its semantics and keyboard behavior.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading -->
@@ -259,7 +259,7 @@
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
-<p>The underlying value is always a 24-hour <code>HH:MM</code> string, regardless of whether the picker itself displays a 12-hour or 24-hour interface &mdash; that display choice follows the visitor's OS locale automatically, with zero configuration on your part.</p>
+<p>The underlying value is always a 24-hour <code>HH:MM</code> string (<code>HH:MM:SS</code> once a <code>step</code> exposes seconds), regardless of whether the picker itself displays a 12-hour or 24-hour interface &mdash; that display choice follows the visitor's OS locale automatically, with zero configuration on your part.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -316,7 +316,7 @@
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
-<p>Both are genuinely awkward to build correctly by hand &mdash; a month picker needs to avoid ever implying a specific day, and a week picker needs to implement ISO week numbering (which doesn't align with calendar months or even always start the same weekday depending on locale). Reaching for either type means the browser has already solved that, rather than a bespoke dropdown-of-months or a week-number lookup table living in your own code.</p>
+<p>Both are genuinely awkward to build correctly by hand &mdash; a month picker needs to avoid ever implying a specific day, and a week picker needs to implement ISO week numbering (weeks start on Monday, week 1 can begin in the previous year, and weeks don't line up with calendar months). Reaching for either type means the browser has already solved that, rather than a bespoke dropdown-of-months or a week-number lookup table living in your own code.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -344,7 +344,7 @@
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
-<p>The value is always a lowercase 6-digit hex string (<code>#rrggbb</code>) &mdash; no alpha channel, no <code>rgb()</code> function, no color names. That's a genuine limitation if a design system needs transparency or an HSL value picked directly, but for a plain solid color it's an entire picker UI &mdash; swatch grid, hue slider, hex input &mdash; with zero component code.</p>
+<p>By default the value is a lowercase 6-digit hex string (<code>#rrggbb</code>) &mdash; no alpha channel, no <code>rgb()</code> function, no color names. That's a genuine limitation if a design system needs transparency or an HSL value picked directly, but for a plain solid color it's an entire picker UI &mdash; swatch grid, hue slider, hex input &mdash; with zero component code.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -413,7 +413,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>On a phone this still opens a numeric keypad &mdash; the same one <code>type="number"</code> gives you &mdash; but without a spinner, without scientific notation, and while still storing the value as a plain string.</p>
+<p>On a phone this still opens a numeric keypad &mdash; much like <code>type="number"</code> gives you &mdash; but without a spinner, without scientific notation, and while still storing the value as a plain string.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
@@ -516,8 +516,12 @@
 <p>Yes, meaningfully. Each specific type communicates its purpose to assistive technology &mdash; a screen reader announces a <code>search</code> field differently from a generic text field, and a <code>date</code> field's native picker comes with keyboard navigation and ARIA semantics already built in. A custom-built equivalent has to reimplement all of that by hand to reach the same baseline.</p>
 <!-- /wp:paragraph -->
 
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Try them yourself</h2>
+<!-- /wp:heading -->
+
 <!-- wp:paragraph -->
-<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to actually internalize the differences is to click <strong>Fork &amp; Edit</strong> on demo #4, change <code>type="number"</code> to <code>type="text" inputmode="numeric"</code>, type <code>007</code>, press the up arrow key, and notice it stays a string you control instead of stepping to <code>8</code>. Once you've got a version you like, save it to <a href="https://webdevpuneet.com/ui-snippets/mycode/" target="_blank" rel="noopener">My Code</a> and it's yours to keep, tweak further, or reuse in a real project.</p>
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to actually internalize the differences is to click <strong>Fork &amp; Edit</strong> on demo #4, change <code>type="number"</code> to <code>type="text" inputmode="numeric"</code>, type <code>007</code>, press the up arrow key, and notice it stays a string you control instead of stepping to <code>8</code> as the original does. Once you've got a version you like, save it to <a href="https://webdevpuneet.com/ui-snippets/mycode/" target="_blank" rel="noopener">My Code</a> and it's yours to keep, tweak further, or reuse in a real project.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
