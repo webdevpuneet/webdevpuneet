@@ -962,6 +962,13 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   const cdnUrlsRef   = useRef([]);
   const [consoleLogs,  setConsoleLogs]  = useState([]);
   const [consoleOpen,  setConsoleOpen]  = useState(false);
+  const [homeMenuPos, setHomeMenuPos] = useState(null); // fixed-position coords of the home-button drop-down, null = closed
+  function openHomeMenu(e) {
+    const r = e.currentTarget.getBoundingClientRect();
+    const w = Math.min(420, window.innerWidth - 16); // matches .homeMenuPanel width
+    // Centre the panel under the home icon, kept inside the window
+    setHomeMenuPos({ top: r.bottom, left: Math.max(8, Math.min(r.left + r.width / 2 - w / 2, window.innerWidth - w - 8)) });
+  }
   const consoleEndRef = useRef(null);
 
   // Embed modal — library snippets only, never for a custom/MyCode snippet
@@ -1144,6 +1151,9 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   useEffect(() => { cdnUrlsRef.current = cdnUrls; }, [cdnUrls]);
 
   useEffect(() => { setConsoleLogs([]); }, [activeId]);
+
+  // Nothing to show (cleared, or a fresh run): collapse, since an empty console can't be toggled.
+  useEffect(() => { if (consoleLogs.length === 0) setConsoleOpen(false); }, [consoleLogs.length]);
 
   // Keep the preview hidden behind a loading screen on every snippet load,
   // auto-clicking Refresh at 500ms, then reveal it in one instant flash —
@@ -2026,14 +2036,44 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             {/* — Library prev / next — */}
             {!activeIsCustom && activeSn && (
               <div className={s.previewNav}>
-                <a
-                  className={s.navBtn}
-                  href="/ui-snippets/"
-                  aria-label="All UI snippets"
-                  data-tip="All UI snippets"
+                <div
+                  className={s.homeMenu}
+                  onMouseEnter={openHomeMenu}
+                  onMouseLeave={() => setHomeMenuPos(null)}
+                  onFocus={openHomeMenu}
+                  onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget)) setHomeMenuPos(null); }}
                 >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                </a>
+                  <a
+                    className={s.navBtn}
+                    href="/ui-snippets/"
+                    aria-label="All UI snippets"
+                    aria-haspopup="true"
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  </a>
+                  {/* Hover / keyboard-focus panel: every category and tag, two columns */}
+                  {homeMenuPos && <div className={s.homeMenuPanel} style={homeMenuPos} role="navigation" aria-label="Browse UI snippets">
+                    <div className={s.homeMenuCol}>
+                      <div className={s.homeMenuHead}>Categories</div>
+                      <a className={s.homeMenuLink} href="/ui-snippets/">All snippets</a>
+                      {HEADER_CATEGORIES.map(c => (
+                        <a
+                          key={c.id}
+                          className={`${s.homeMenuLink} ${c.id === activeSn?.category ? s.homeMenuLinkActive : ''}`}
+                          href={`/ui-snippets/${c.id}/`}
+                        >
+                          <span>{c.label}</span><span className={s.homeMenuCount}>{c.count}</span>
+                        </a>
+                      ))}
+                    </div>
+                    <div className={s.homeMenuCol}>
+                      <div className={s.homeMenuHead}>Tags</div>
+                      {HEADER_TAGS.map(t => (
+                        <a key={t.id} className={s.homeMenuLink} href={`/ui-snippets/tag/${t.id}/`}>{t.label}</a>
+                      ))}
+                    </div>
+                  </div>}
+                </div>
                 {catSnippets.length > 1 && prevCatSn ? (
                   <a
                     className={`${s.navBtn} ${s.navBtnLabeled}`}
@@ -2093,7 +2133,10 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           {/* Console bar sits right under the PREVIEW toolbar */}
           {showEditor && (
             <div className={`${s.consolePanel} ${consoleOpen ? s.consolePanelOpen : ''}`}>
-              <div className={s.consoleBar} onClick={() => setConsoleOpen(v => !v)}>
+              <div
+                className={`${s.consoleBar} ${consoleLogs.length === 0 ? s.consoleBarEmpty : ''}`}
+                onClick={consoleLogs.length > 0 ? () => setConsoleOpen(v => !v) : undefined}
+              >
                 {(activeSn?.title || activeSn?.name) && (
                   <span className={s.consoleBarTitle} title={activeSn.title || activeSn.name}>{activeSn.title || activeSn.name}</span>
                 )}
@@ -2109,7 +2152,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                   {consoleLogs.length > 0 && (
                     <button className={s.consoleClearBtn} onClick={e => { e.stopPropagation(); setConsoleLogs([]); }} title="Clear console">Clear</button>
                   )}
-                  <span className={s.consoleBarChevron} style={{ transform: consoleOpen ? 'rotate(180deg)' : 'none' }}>
+                  <span className={s.consoleBarChevron} style={{ transform: consoleOpen ? 'rotate(180deg)' : 'none', visibility: consoleLogs.length > 0 ? 'visible' : 'hidden' }}>
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="6 9 12 15 18 9"/></svg>
                   </span>
                 </span>
@@ -2147,6 +2190,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               srcDoc={srcDoc}
               title="Preview"
               sandbox="allow-scripts allow-forms"
+              allow="clipboard-write"
               style={{
                 ...(previewMode === 'mobile' ? { width: '375px' } : previewMode === 'tablet' ? { width: '768px' } : {}),
                 visibility: previewVisible ? 'visible' : 'hidden',

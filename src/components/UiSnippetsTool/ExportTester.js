@@ -493,7 +493,7 @@ export default function ExportTester({ html = '', css = '', js = '', title = 'Sn
                       srcDoc={preview}
                       onLoad={() => setPreviewLoading(false)}
                       style={{ position: 'absolute', inset: 0, border: 'none', width: '100%', height: '100%' }}
-                      sandbox="allow-scripts allow-forms"
+                      sandbox="allow-scripts allow-forms" allow="clipboard-write"
                       title="Export preview"
                     />
                     {/* White loading veil until the iframe finishes loading the runtime */}

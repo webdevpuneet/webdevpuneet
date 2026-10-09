@@ -142,8 +142,24 @@ document.querySelectorAll('.seg-btn').forEach(btn => {
 document.getElementById('amount-input').addEventListener('input', generate);
 document.getElementById('start-classic').addEventListener('change', generate);
 document.getElementById('btn-regenerate').addEventListener('click', generate);
-document.getElementById('btn-copy').addEventListener('click', () => {
-  navigator.clipboard.writeText(document.getElementById('output-box').innerText);
+const copyBtn = document.getElementById('btn-copy');
+copyBtn.addEventListener('click', async () => {
+  const text = document.getElementById('output-box').innerText;
+  let ok = true;
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch (e) {
+    // Clipboard API blocked (sandboxed iframe, http page): fall back to execCommand
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+    ta.remove();
+  }
+  copyBtn.textContent = ok ? 'Copied!' : 'Copy failed';
+  setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1400);
 });
 
 generate();`,

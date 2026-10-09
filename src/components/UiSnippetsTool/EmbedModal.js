@@ -86,7 +86,7 @@ export default function EmbedModal({ slug, title, onClose }) {
               src={embedUrl}
               title={`${title} embed preview`}
               loading="lazy"
-              sandbox="allow-scripts allow-forms"
+              sandbox="allow-scripts allow-forms" allow="clipboard-write"
               style={{ width: '100%', height: '100%', border: 0 }}
             />
           </div>

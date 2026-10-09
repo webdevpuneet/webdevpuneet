@@ -154,7 +154,7 @@ export default function EmbedShell({ title, html, css, js, htmlHl, cssHl, jsHl, 
           <iframe
             className={styles.embedFrame}
             srcDoc={srcDoc}
-            sandbox="allow-scripts allow-forms"
+            sandbox="allow-scripts allow-forms" allow="clipboard-write"
             title={`${title} — live preview`}
           />
         </div>
