@@ -15,6 +15,8 @@ const asyncSubmitStateButton = {
   css: `* { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: system-ui, sans-serif; background: #f8fafc; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; flex-direction: column; gap: 12px; }
 
+.demo { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+
 .async-btn { display: inline-flex; align-items: center; gap: 8px; background: #4f46e5; color: #fff; border: none; padding: 12px 22px; border-radius: 11px; font-size: 13.5px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.2s; min-width: 140px; justify-content: center; }
 .async-btn:hover:not(:disabled) { background: #4338ca; }
 .async-btn:disabled { cursor: not-allowed; }

@@ -1225,6 +1225,11 @@ button.headerBrand {
 .consoleBadge[data-level="warn"]  { background: rgba(245,158,11,0.12); color: #d97706; }
 .consoleBadge[data-level="log"]   { background: rgba(34,197,94,0.14); color: #16a34a; }
 
+/* Console icon + label take the colour of the most severe badge present */
+.consoleBarRight[data-level="error"] .consoleBarLabel, .consoleBarRight[data-level="error"] > svg { color: #dc2626; }
+.consoleBarRight[data-level="warn"]  .consoleBarLabel, .consoleBarRight[data-level="warn"]  > svg { color: #d97706; }
+.consoleBarRight[data-level="log"]   .consoleBarLabel, .consoleBarRight[data-level="log"]   > svg { color: #16a34a; }
+
 .consoleClearBtn {
   font-size: 10px;
   font-weight: 600;

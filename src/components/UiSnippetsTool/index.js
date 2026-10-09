@@ -1233,6 +1233,9 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
     clearJsCountdown();
     setConsoleLogs([]);
     setSrcDoc(buildSrcdoc(html, css, js, cdnUrlsRef.current));
+    // An unchanged srcDoc string wouldn't reload the iframe, so Run would do
+    // nothing on unedited code: remount it so the JS really executes again.
+    setPreviewKey(k => k + 1);
   }
 
   function queuePreview(html, css, js, jsChanged = false) {
@@ -2094,15 +2097,18 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                 {(activeSn?.title || activeSn?.name) && (
                   <span className={s.consoleBarTitle} title={activeSn.title || activeSn.name}>{activeSn.title || activeSn.name}</span>
                 )}
-                {consoleLogs.filter(l => l.level === 'error').length > 0 && <span className={s.consoleBadge} data-level="error">{consoleLogs.filter(l => l.level === 'error').length}</span>}
-                {consoleLogs.filter(l => l.level === 'warn').length > 0 && <span className={s.consoleBadge} data-level="warn">{consoleLogs.filter(l => l.level === 'warn').length}</span>}
-                {consoleLogs.filter(l => l.level === 'log' || l.level === 'info').length > 0 && <span className={s.consoleBadge} data-level="log">{consoleLogs.filter(l => l.level === 'log' || l.level === 'info').length}</span>}
-                {consoleLogs.length > 0 && (
-                  <button className={s.consoleClearBtn} onClick={e => { e.stopPropagation(); setConsoleLogs([]); }} title="Clear console">Clear</button>
-                )}
-                <span className={s.consoleBarRight}>
+                <span
+                  className={s.consoleBarRight}
+                  data-level={consoleLogs.some(l => l.level === 'error') ? 'error' : consoleLogs.some(l => l.level === 'warn') ? 'warn' : consoleLogs.some(l => l.level === 'log' || l.level === 'info') ? 'log' : undefined}
+                >
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
                   <span className={s.consoleBarLabel}>Console</span>
+                  {consoleLogs.filter(l => l.level === 'error').length > 0 && <span className={s.consoleBadge} data-level="error">{consoleLogs.filter(l => l.level === 'error').length}</span>}
+                  {consoleLogs.filter(l => l.level === 'warn').length > 0 && <span className={s.consoleBadge} data-level="warn">{consoleLogs.filter(l => l.level === 'warn').length}</span>}
+                  {consoleLogs.filter(l => l.level === 'log' || l.level === 'info').length > 0 && <span className={s.consoleBadge} data-level="log">{consoleLogs.filter(l => l.level === 'log' || l.level === 'info').length}</span>}
+                  {consoleLogs.length > 0 && (
+                    <button className={s.consoleClearBtn} onClick={e => { e.stopPropagation(); setConsoleLogs([]); }} title="Clear console">Clear</button>
+                  )}
                   <span className={s.consoleBarChevron} style={{ transform: consoleOpen ? 'rotate(180deg)' : 'none' }}>
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="6 9 12 15 18 9"/></svg>
                   </span>

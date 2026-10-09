@@ -20,7 +20,7 @@ const longPressConfirmRadial = {
   css: `*{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,sans-serif;background:#0a0e1a;color:#e2e8f0;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:24px}
 
-.lpr-wrap{text-align:center}
+.lpr-wrap{display:flex;flex-direction:column;align-items:center;text-align:center}
 .lpr-btn{position:relative;width:120px;height:120px;border:none;border-radius:50%;background:#121826;cursor:pointer;display:flex;align-items:center;justify-content:center;touch-action:none;-webkit-user-select:none;user-select:none;padding:0;transition:transform .15s}
 .lpr-btn:active{transform:scale(.97)}
 .lpr-ring{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
