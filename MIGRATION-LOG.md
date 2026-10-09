@@ -652,3 +652,5 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 - `blog/blog-posts/tools/tools-blog2-wordpress.txt`: full Gradient Generator guide (WordPress block format, 15 iframes, FAQ, SEO title 56 / description ≤160).
 - `demos/a1/38/1–15.html`: CSS generated from the tool's own `engine.js` (cssDeclarations/backgroundParts), so the exports match the tool.
   Heights were measured in headless Chrome (360 and 800px wide). Uploaded straight to `/demos/a1/38/` over FTP — spot-checked 1, 5, 15 return 200.
+
+- 2026-10-09: Sidebar BlogTicker restyled (accent gradient + left accent bar, pulsing "BLOG" pill, bottom progress bar that now drives rotation and pauses on hover; bottom padding 2px → 6px, same height otherwise).

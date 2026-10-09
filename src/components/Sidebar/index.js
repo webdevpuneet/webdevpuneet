@@ -1236,6 +1236,20 @@ function MyCodeTab({ pathname, snippets }) {
 // doesn't refetch every time.
 let blogPostsCache = null;
 
+// The live WordPress API is cross-origin from localhost (CORS-blocked, so it
+// resolves to []); fall back to this site's own /blog-posts.json snapshot.
+async function loadBlogPosts() {
+  const live = await fetchLatestBlogPosts(10);
+  if (live.length) return live;
+  try {
+    const res = await fetch('/blog-posts.json');
+    const data = res.ok ? await res.json() : [];
+    return Array.isArray(data) ? data : [];
+  } catch (_) {
+    return [];
+  }
+}
+
 function BlogTab() {
   const [posts, setPosts] = useState(blogPostsCache);
   const [error, setError] = useState(false);
@@ -1243,10 +1257,10 @@ function BlogTab() {
   useEffect(() => {
     if (blogPostsCache) return;
     let cancelled = false;
-    fetchLatestBlogPosts(10)
+    loadBlogPosts()
       .then(list => {
         if (cancelled) return;
-        blogPostsCache = list;
+        if (list.length) blogPostsCache = list;
         setPosts(list);
       })
       .catch(() => { if (!cancelled) setError(true); });
@@ -1283,7 +1297,9 @@ function BlogTab() {
 /* ─────────────────────────────────────────────────
    BlogTicker — the latest five blog posts as a one/two-line title that rotates
    every 5 seconds, just under the sidebar's top ad. Shares the BlogTab's
-   post cache; pauses while hovered or focused and while the tab is hidden.
+   post cache. The bottom progress bar drives the rotation (its animationend
+   advances), so hover/focus pauses both together and a hidden tab, where CSS
+   animations don't run, doesn't rotate.
 ──────────────────────────────────────────────────*/
 const TICKER_COUNT = 5;
 const TICKER_MS = 5000;
@@ -1296,10 +1312,10 @@ function BlogTicker() {
   useEffect(() => {
     if (blogPostsCache) return undefined;
     let cancelled = false;
-    fetchLatestBlogPosts(10)
+    loadBlogPosts()
       .then(list => {
         if (cancelled) return;
-        blogPostsCache = list;
+        if (list.length) blogPostsCache = list;
         setPosts(list);
       })
       .catch(() => {});
@@ -1307,14 +1323,6 @@ function BlogTicker() {
   }, []);
 
   const items = posts ? posts.slice(0, TICKER_COUNT) : [];
-
-  useEffect(() => {
-    if (items.length < 2 || paused) return undefined;
-    const id = setInterval(() => {
-      if (!document.hidden) setIdx(i => (i + 1) % items.length);
-    }, TICKER_MS);
-    return () => clearInterval(id);
-  }, [items.length, paused]);
 
   if (items.length === 0) return null;
   const post = items[idx % items.length];
@@ -1342,12 +1350,24 @@ function BlogTicker() {
         className={styles.blogTickerLink}
         title={post.title}
       >
+        <span className={styles.blogTickerBadge} aria-hidden="true">
+          <span className={styles.blogTickerDot} />Blog
+        </span>
         <span className={styles.blogTickerText}>{post.title}</span>
       </a>
       {items.length > 1 && (
         <button type="button" className={styles.blogTickerBtn} onClick={() => setIdx(i => (i + 1) % items.length)} aria-label="Next post">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
+      )}
+      {items.length > 1 && (
+        <span
+          key={idx}
+          className={`${styles.blogTickerProgress} ${paused ? styles.blogTickerProgressPaused : ''}`}
+          style={{ animationDuration: `${TICKER_MS}ms` }}
+          onAnimationEnd={() => setIdx(i => (i + 1) % items.length)}
+          aria-hidden="true"
+        />
       )}
     </div>
   );
