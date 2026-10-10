@@ -1350,6 +1350,7 @@
   transition: border-color 0.12s, color 0.12s;
 }
 .sortBtn:hover { border-color: var(--accent); color: var(--accent); }
+a.sortBtn { text-decoration: none; }
 
 /* ── Category filter chips (Library tab) ── */
 /* ── Active filter bar — shown above the columns while a non-default
@@ -1569,6 +1570,23 @@
   line-height: 1.4;
 }
 
+/* "Create new" row at the top of the My Code list */
+.createNewRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 8px 10px 10px;
+  padding: 9px 12px;
+  border: 1px dashed var(--border2, var(--border));
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  text-decoration: none;
+  transition: background 0.12s, border-color 0.12s;
+}
+.createNewRow:hover { background: var(--accent-dim); border-color: var(--accent); }
 .loadMoreSidebar {
   display: flex;
   align-items: center;

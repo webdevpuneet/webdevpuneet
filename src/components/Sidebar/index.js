@@ -663,6 +663,15 @@ const LIB_CATEGORIES = SNIPPET_CATEGORIES.filter(cat => !cat.devOnly || process.
 const LIB_TAGS = publishedTags(VISIBLE_SNIPPETS);
 const LIB_PAGE_SIZE = 20;
 
+// Home-icon link placed before the search box: the gallery for the panel it sits in.
+function GalleryBtn({ href, label }) {
+  return (
+    <a href={href} className={styles.sortBtn} title={label} aria-label={label}>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </a>
+  );
+}
+
 function SortBtn({ order, onToggle }) {
   return (
     <button
@@ -969,6 +978,7 @@ function LibraryTab({ pathname }) {
   return (
     <>
       <div className={styles.libSearchWrap}>
+        <GalleryBtn href="/ui-snippets/" label="All snippets" />
         <div className={styles.libSearchBox}>
           <svg className={styles.libSearchIcon} width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input
@@ -1151,6 +1161,7 @@ function MyCodeTab({ pathname, snippets }) {
   return (
     <>
       <div className={styles.libSearchWrap}>
+        <GalleryBtn href="/ui-snippets/mycode/" label="All My Code snippets" />
         <div className={styles.libSearchBox}>
           <svg className={styles.libSearchIcon} width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input
@@ -1166,6 +1177,11 @@ function MyCodeTab({ pathname, snippets }) {
       </div>
 
       <div className={styles.snippetList} aria-label="My saved snippets">
+        {/* Same destination as the Create button in the snippet header: a blank editor */}
+        <a href="/ui-snippets/mycode/?new=1" className={styles.createNewRow}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Create new
+        </a>
         {filtered.length === 0 && (
           <div className={styles.noResults}>
             {snippets.length === 0
@@ -1455,21 +1471,6 @@ export default function Sidebar() {
     if (pathname === '/') setUiSnippetsOpen(true);
   }, [pathname]);
 
-  // The Library and My Code tabs are real anchors so they can be opened in a new
-  // tab / middle-clicked and are crawlable. A plain left click while already on
-  // the destination page would be a pointless full reload, so that case is
-  // intercepted and only swaps the tab panel. Modified clicks (new tab/window,
-  // download) are left to the browser.
-  function handleViewTabLink(e, href, view) {
-    setSidebarView(view);
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-    const trim = str => (str.endsWith('/') ? str.slice(0, -1) : str);
-    if (trim(pathname || '') !== trim(href)) return;
-    e.preventDefault();
-    // Already on this page but with a snippet open (?id=…): the tab should take
-    // you back to the gallery, so drop the query instead of doing nothing.
-    if (window.location.search) router.push(href, { scroll: false });
-  }
   const [customSnippets, setCustomSnippets] = useState([]);
 
   // Loaded on mount (for the My Code tab badge), refreshed whenever the My Code
@@ -1683,29 +1684,27 @@ export default function Sidebar() {
         {/* Latest blog posts, one at a time, right under the ad. */}
         <BlogTicker />
 
-        {/* View tabs — Library / Tools / My Code */}
+        {/* View tabs — all four only switch the panel; the My Code panel has Create new / All Snippets links for navigating */}
         <div className={styles.viewTabs}>
-          <a
-            href="/ui-snippets/"
+          <button
             className={`${styles.viewTab} ${sidebarView === 'library' ? styles.viewTabActive : ''}`}
-            onClick={e => handleViewTabLink(e, '/ui-snippets/', 'library')}
-          >Library</a>
+            onClick={() => setSidebarView('library')}
+          >Library</button>
           <button
             className={`${styles.viewTab} ${sidebarView === 'tools' ? styles.viewTabActive : ''}`}
             onClick={() => setSidebarView('tools')}
           >Tools</button>
-          <a
-            href="/ui-snippets/mycode/"
-            className={`${styles.viewTab} ${sidebarView === 'mycode' ? styles.viewTabActive : ''}`}
-            onClick={e => handleViewTabLink(e, '/ui-snippets/mycode/', 'mycode')}
-          >
-            My Code
-            {customSnippets.length > 0 && <span className={styles.savedCount}>{customSnippets.length}</span>}
-          </a>
           <button
             className={`${styles.viewTab} ${sidebarView === 'blog' ? styles.viewTabActive : ''}`}
             onClick={() => setSidebarView('blog')}
           >Blog</button>
+          <button
+            className={`${styles.viewTab} ${sidebarView === 'mycode' ? styles.viewTabActive : ''}`}
+            onClick={() => setSidebarView('mycode')}
+          >
+            My Code
+            {customSnippets.length > 0 && <span className={styles.savedCount}>{customSnippets.length}</span>}
+          </button>
         </div>
 
         {sidebarView === 'library' && <LibraryTab pathname={pathname} />}
