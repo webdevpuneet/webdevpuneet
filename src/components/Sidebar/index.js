@@ -1350,9 +1350,6 @@ function BlogTicker() {
         className={styles.blogTickerLink}
         title={post.title}
       >
-        <span className={styles.blogTickerBadge} aria-hidden="true">
-          <span className={styles.blogTickerDot} />Blog
-        </span>
         <span className={styles.blogTickerText}>{post.title}</span>
       </a>
       {items.length > 1 && (

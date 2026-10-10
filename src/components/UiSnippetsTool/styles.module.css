@@ -1350,7 +1350,12 @@ button.headerBrand {
   justify-content: center;
   padding: 4px 12px;  /* tight: just enough to frame the banner */
   overflow: hidden;
-  background: #e8eaf1;  /* behind the ad */
+  background: linear-gradient(
+    135deg,
+    #f0f5ff,
+    #e8f0ff,
+    #f5f8ff
+  );  /* behind the ad */
   border-bottom: 1px solid var(--border);  /* divides the ad from the preview toolbar below it */
 }
 .adBarSlot {
@@ -1512,6 +1517,9 @@ button.headerBrand {
     flex-wrap: wrap;
     row-gap: 4px;
   }
+  /* Library snippet pages: drop the UI Snippets / My Code / + bar on phones.
+     My Code pages keep it (it carries Save). */
+  .headerHideMobile { display: none; }
   .headerBrand .headerTitle {
     display: none;
   }
@@ -1527,6 +1535,11 @@ button.headerBrand {
      before wading through HTML/CSS/JS tabs is the more useful default. */
   .previewHeader { order: 1; }
   .adBar         { order: 1; }  /* the ad sits above the preview toolbar (DOM order breaks the tie) */
+  /* Top ad: no fixed height on phones, so the unit grows to whatever creative it is served.
+     (!important beats the inline width/height the size picker sets.) */
+  .adBarUnit { height: auto !important; min-height: 50px; }
+  .adBarUnit > :global(ins.adsbygoogle) { height: auto !important; min-height: 50px; }
+  .adBarSlot { height: auto; min-height: 50px; }
   .previewStage  { order: 2; flex: none; }
   .iframeWrap    { order: 2; }
   .consolePanel  { order: 1; }  /* DOM order puts it right after the preview toolbar */
@@ -1557,6 +1570,14 @@ button.headerBrand {
     border-bottom: 1px solid var(--border);
   }
 
+  /* Phones keep only Home, Prev/Next/Random and Export; the rest is hidden to leave room */
+  .forkAnchor,
+  .previewLabel,
+  .previewDeviceBtns,
+  .refreshBtn,
+  .previewActions,
+  .consolePanel { display: none; }
+
   /* Row 1: PREVIEW label + all icon controls */
   .previewLabel {
     font-size: 11px;
@@ -1573,12 +1594,8 @@ button.headerBrand {
     padding: 4px 0;
   }
 
-  /* Export stays pinned at the row's right end, outside the scroller. */
-  .previewBtns {
-    flex-shrink: 0;
-    padding: 0 6px;
-    border-left: 1px solid var(--border);
-  }
+  /* Export is hidden on phones. */
+  .previewBtns { display: none; }
   .previewBtns .iconBtn {
     padding: 5px 8px;
   }

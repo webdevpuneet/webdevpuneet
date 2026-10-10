@@ -1719,7 +1719,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             </button>
           )}
           {/* Fork & Edit — save your own editable copy, only when a snippet is open */}
-          {showEditor && <div className={s.popoverAnchor} ref={savePopRef}>
+          {showEditor && <div className={`${s.popoverAnchor} ${s.forkAnchor}`} ref={savePopRef}>
             <button
               className={s.iconBtn}
               onClick={() => { setSaveName(activeSn?.title || activeSn?.name || ''); setShowSave(v => !v); setSaveStatus(''); }}
@@ -1796,7 +1796,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   );
 
   const headerEl = (
-      <header className={`${s.header} ${headerInCode ? s.headerInCode : ''}`}>
+      <header className={`${s.header} ${headerInCode ? s.headerInCode : ''} ${!activeIsCustom && !isNewBlank ? s.headerHideMobile : ''}`}>
         <div className={s.headerLeft}>
           <a href="/ui-snippets/" className={`${s.headerBrand} ${!inMyCode ? s.headerBrandActive : ''}`}>
             <img src="/icons/ui-snippets.svg" width="20" height="20" alt="" />

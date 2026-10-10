@@ -1847,36 +1847,6 @@
   text-decoration: none;
   animation: blogTickerIn 0.35s ease both;
 }
-.blogTickerBadge {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 6px 2px 5px;
-  border-radius: 999px;
-  background: var(--accent);
-  color: #fff;
-  font: 700 9px/1.2 var(--font-ui);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  box-shadow: 0 1px 6px var(--accent-glow);
-}
-:global([data-theme="dark"]) .blogTickerBadge { color: #062a1c; }
-.blogTickerDot {
-  position: relative;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: currentColor;
-}
-.blogTickerDot::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: currentColor;
-  animation: blogTickerPing 1.6s ease-out infinite;
-}
 .blogTickerText {
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -1884,7 +1854,6 @@
   overflow: hidden;
 }
 .blogTickerLink:hover { color: var(--accent); }
-.blogTickerLink:hover .blogTickerText { text-decoration: underline; text-decoration-color: var(--accent-glow); text-underline-offset: 2px; }
 /* Time-left bar along the bottom edge; sits in the padding, adds no height. */
 .blogTickerProgress {
   position: absolute;
@@ -1907,12 +1876,8 @@
   from { opacity: 0; transform: translateY(3px); }
   to   { opacity: 1; transform: none; }
 }
-@keyframes blogTickerPing {
-  0%   { transform: scale(1); opacity: 0.7; }
-  100% { transform: scale(2.6); opacity: 0; }
-}
 @media (prefers-reduced-motion: reduce) {
-  .blogTickerLink, .blogTickerDot::after { animation: none; }
+  .blogTickerLink { animation: none; }
   /* The bar still runs (it drives rotation) but stays invisible. */
   .blogTickerProgress { opacity: 0; }
 }
