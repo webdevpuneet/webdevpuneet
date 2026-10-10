@@ -141,6 +141,76 @@ const ORIGIN_DISPLAY = {
   'top left': '50% 50%' === 'top left' ? '50% 50%' : 'top left',
 };
 
+/* ── Fork to My Code ──────────────────────────────────────────────
+   Hands the current transform to /ui-snippets/mycode/ as an editable snippet: the same
+   hand-off the demo pages use (localStorage under uis_fork_<token>, claimed from
+   #fork=ls:<token>), with the snippet itself in the fragment when storage is blocked.
+   Nothing goes to a server. */
+const FORK_PREFIX = 'uis_fork_';
+const FORK_PATH = '/ui-snippets/mycode/';
+
+function b64url(str) {
+  return btoa(unescape(encodeURIComponent(str))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function forkPayload(v, origin, perspective, color) {
+  const t = buildTransform(v, perspective);
+  const needs3d = buildPerspective(v);
+  const css = [
+    '* { box-sizing: border-box; }',
+    'body {',
+    '  margin: 0;',
+    '  min-height: 100vh;',
+    '  display: grid;',
+    '  place-items: center;',
+    '  background: #f1f5f9;',
+    '  font-family: system-ui, -apple-system, sans-serif;',
+    '}',
+    '',
+    '/* The stage supplies the perspective for 3D transforms on .element */',
+    '.stage {',
+    '  display: grid;',
+    '  place-items: center;',
+    '  width: 100%;',
+    '  min-height: 100vh;',
+    ...(needs3d ? [`  perspective: ${perspective}px;`] : []),
+    '}',
+    '',
+    '.element {',
+    '  width: 120px;',
+    '  height: 120px;',
+    '  display: grid;',
+    '  place-items: center;',
+    '  border-radius: 10px;',
+    `  background: ${color};`,
+    '  color: rgba(255, 255, 255, 0.9);',
+    '  font: 700 12px system-ui, sans-serif;',
+    '  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);',
+    '  transition: transform 0.3s ease;',
+    `  transform: ${t === 'none' ? 'none' : t.replace(/\n    /g, '\n    ')};`,
+    ...(origin !== '50% 50%' ? [`  transform-origin: ${origin};`] : []),
+    '}',
+  ].join('\n');
+  return {
+    v: 1,
+    name: 'CSS Transform',
+    html: '<div class="stage">\n  <div class="element">Element</div>\n</div>',
+    css,
+    js: '',
+    cdnUrls: [],
+  };
+}
+
+function forkUrl(payload) {
+  try {
+    const token = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    const key = FORK_PREFIX + token;
+    localStorage.setItem(key, JSON.stringify({ t: Date.now(), payload }));
+    if (localStorage.getItem(key)) return `${FORK_PATH}#fork=ls:${token}`;
+  } catch { /* no storage: fall back to the fragment */ }
+  return `${FORK_PATH}#fork=${b64url(JSON.stringify(payload))}`;
+}
+
 export default function CssTransformGeneratorTool() {
   const [values, setValues] = useState({ ...DEFAULTS });
   const [origin, setOrigin] = useState('center');
@@ -179,41 +249,67 @@ export default function CssTransformGeneratorTool() {
     try { await navigator.clipboard.writeText(exportCode); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch {}
   };
 
+  const forkToMyCode = () => {
+    window.open(forkUrl(forkPayload(values, originCss, perspective, previewBg)), '_blank', 'noopener');
+  };
+
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="css-transform-generator" />
-      <PlaygroundTopAd />
-      {/* ── Header ── */}
-      <header className={styles.header}>
-        <div className={styles.logoIcon}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="2"/>
-            <path d="M9 3v18M3 9h18"/>
-          </svg>
-        </div>
-        <span className={styles.headerTitle}>CSS <span className={styles.accent}>Transform</span> Generator</span>
-        <div className={styles.sep}/>
-        <code className={styles.headerCode}>{transformStr === 'none' ? 'none' : transformStr.replace(/\n    /g, ' ')}</code>
-        <div className={styles.headerActions}>
-          <button className={styles.resetBtn} onClick={reset} disabled={isDefault}>Reset</button>
-          <button className={styles.copyBtn} onClick={copy}>{copied ? '✓ Copied' : 'Copy CSS'}</button>
-        </div>
-      </header>
-
-      {/* ── Presets ── */}
-      <div className={styles.presetsBar}>
-        {PRESETS.map(p => (
-          <button
-            key={p.label}
-            className={`${styles.presetBtn} ${activePreset === p.label ? styles.presetBtnActive : ''}`}
-            onClick={() => { setValues({ ...p.values }); setActivePreset(p.label); }}
-          >{p.label}</button>
-        ))}
-      </div>
 
       <div className={styles.body}>
         {/* ── Left: sliders ── */}
         <aside className={styles.sidebar}>
+          {/* Title, live value and the two main actions stay pinned at the top of the panel */}
+          <div className={styles.sideTop}>
+            <div className={styles.sideTitleRow}>
+              <div className={styles.logoIcon}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <path d="M9 3v18M3 9h18"/>
+                </svg>
+              </div>
+              <div className={styles.headerTitle}>CSS <span className={styles.accent}>Transform</span> Generator</div>
+            </div>
+            <code
+              className={styles.sideCode}
+              title={transformStr === 'none' ? 'transform: none' : `transform: ${transformStr.replace(/\n    /g, ' ')}`}
+            >
+              {transformStr === 'none' ? 'transform: none' : `transform: ${transformStr.replace(/\n    /g, ' ')}`}
+            </code>
+            <div className={styles.sideActions}>
+              <button className={styles.resetBtn} onClick={reset} disabled={isDefault}>Reset</button>
+              <button className={styles.copyBtn} onClick={copy}>{copied ? '✓ Copied' : 'Copy CSS'}</button>
+              <button
+                className={`${styles.copyBtn} ${styles.forkBtn}`}
+                onClick={forkToMyCode}
+                title="Open this transform in My Code as an editable HTML + CSS snippet"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="6" cy="5" r="2.5"/><circle cx="18" cy="5" r="2.5"/><circle cx="12" cy="19" r="2.5"/><path d="M6 7.5v2a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-2"/><line x1="12" y1="11.5" x2="12" y2="16.5"/></svg>
+                Fork to My Code
+              </button>
+            </div>
+          </div>
+
+          {/* Presets */}
+          <div className={styles.group}>
+            <div className={styles.groupHeader}>
+              <span className={styles.groupIcon}>✦</span>
+              <span className={styles.groupLabel}>Presets</span>
+            </div>
+            <div className={styles.presetGrid}>
+              {PRESETS.map(p => (
+                <button
+                  key={p.label}
+                  className={`${styles.presetBtn} ${activePreset === p.label ? styles.presetBtnActive : ''}`}
+                  onClick={() => { setValues({ ...p.values }); setActivePreset(p.label); }}
+                >{p.label}</button>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.divider}/>
+
           {GROUPS.map(group => (
             <div key={group.id} className={styles.group}>
               <div className={styles.groupHeader}>
@@ -311,6 +407,9 @@ export default function CssTransformGeneratorTool() {
 
         {/* ── Right: preview + output ── */}
         <div className={styles.rightCol}>
+          {/* Ad space: top of the right panel, above the preview */}
+          <PlaygroundTopAd />
+
           {/* Preview */}
           <div className={styles.previewArea}>
             <div className={`${styles.previewBg} ${showGrid ? styles.previewGrid : ''}`}

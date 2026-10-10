@@ -46,6 +46,28 @@ function hexToRgba(hex, opacity) {
   return `rgba(${r}, ${g}, ${b}, ${(opacity / 100).toFixed(2)})`;
 }
 
+/* ── Fork to My Code ──────────────────────────────────────────────
+   Hands the current filter to /ui-snippets/mycode/ as an editable HTML + CSS snippet: the
+   same hand-off the demo pages use (localStorage under uis_fork_<token>, claimed from
+   #fork=ls:<token>; the snippet itself rides in the fragment if storage is blocked).
+   Nothing goes to a server. */
+const FORK_PREFIX = 'uis_fork_';
+const FORK_PATH = '/ui-snippets/mycode/';
+
+function b64url(str) {
+  return btoa(unescape(encodeURIComponent(str))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function forkUrl(payload) {
+  try {
+    const token = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    const key = FORK_PREFIX + token;
+    localStorage.setItem(key, JSON.stringify({ t: Date.now(), payload }));
+    if (localStorage.getItem(key)) return `${FORK_PATH}#fork=ls:${token}`;
+  } catch { /* no storage: fall back to the fragment */ }
+  return `${FORK_PATH}#fork=${b64url(JSON.stringify(payload))}`;
+}
+
 export default function CssFilterGeneratorTool() {
   const defaults = useMemo(() => Object.fromEntries(FILTERS.map(f => [f.id, f.default])), []);
 
@@ -117,6 +139,38 @@ export default function CssFilterGeneratorTool() {
     } catch {}
   };
 
+  const forkToMyCode = () => {
+    // An uploaded photo is a blob: URL that only exists in this tab, so it cannot travel to
+    // My Code; fall back to the Landscape sample and leave a comment saying how to swap it.
+    const isLocal = !/^https?:\/\//i.test(sample.url);
+    const src = (isLocal ? SAMPLE_IMAGES[0].url : sample.url).replace(/"/g, '&quot;');
+    const html = (isLocal ? '<!-- Your uploaded photo cannot be sent to My Code: replace this src with any image URL. -->\n' : '')
+      + `<img class="element" src="${src}" alt="Image with CSS filters applied">`;
+    const css = [
+      '* { box-sizing: border-box; }',
+      'body {',
+      '  margin: 0;',
+      '  min-height: 100vh;',
+      '  display: grid;',
+      '  place-items: center;',
+      '  padding: 24px;',
+      '  background: #f1f5f9;',
+      '}',
+      '',
+      '.element {',
+      '  display: block;',
+      '  width: min(560px, 100%);',
+      '  border-radius: 12px;',
+      '  transition: filter 0.3s ease;',
+      '}',
+      '',
+      '/* The filter you built */',
+      cssOutput,
+    ].join('\n');
+    const payload = { v: 1, name: 'CSS Filter', html, css, js: '', cdnUrls: [] };
+    window.open(forkUrl(payload), '_blank', 'noopener');
+  };
+
   const handleFile = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -133,28 +187,39 @@ export default function CssFilterGeneratorTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="css-filter-generator" />
-      <PlaygroundTopAd />
-      {/* ── Header ── */}
-      <header className={styles.header}>
-        <div className={styles.logoIcon}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <circle cx="9" cy="9" r="5" fill="#f472b6" opacity="0.85"/>
-            <circle cx="15" cy="9" r="5" fill="#facc15" opacity="0.85"/>
-            <circle cx="12" cy="15" r="5" fill="#60a5fa" opacity="0.85"/>
-          </svg>
-        </div>
-        <span className={styles.headerTitle}>CSS <span className={styles.accent}>Filter</span> Generator</span>
-        <div className={styles.sep}/>
-        <span className={styles.headerSub}>{isDefault ? 'no filters' : filterString.replace(/\n  /g, ' · ')}</span>
-        <div className={styles.headerActions}>
-          <button className={styles.resetBtn} onClick={reset} disabled={isDefault}>Reset</button>
-          <button className={styles.copyBtn} onClick={copyCSS}>{copied ? '✓ Copied' : 'Copy CSS'}</button>
-        </div>
-      </header>
 
       <div className={styles.body}>
         {/* ── Left: sliders ── */}
         <aside className={styles.sidebar}>
+          {/* Title, live value and the two main actions stay pinned at the top of the panel */}
+          <div className={styles.sideTop}>
+            <div className={styles.sideTitleRow}>
+              <div className={styles.logoIcon}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="5" fill="#f472b6" opacity="0.85"/>
+                  <circle cx="15" cy="9" r="5" fill="#facc15" opacity="0.85"/>
+                  <circle cx="12" cy="15" r="5" fill="#60a5fa" opacity="0.85"/>
+                </svg>
+              </div>
+              <div className={styles.headerTitle}>CSS <span className={styles.accent}>Filter</span> Generator</div>
+            </div>
+            <code className={styles.sideCode} title={isDefault ? 'no filters' : filterString.replace(/\n  /g, ' · ')}>
+              {isDefault ? 'no filters' : filterString.replace(/\n  /g, ' · ')}
+            </code>
+            <div className={styles.sideActions}>
+              <button className={styles.resetBtn} onClick={reset} disabled={isDefault}>Reset</button>
+              <button className={styles.copyBtn} onClick={copyCSS}>{copied ? '✓ Copied' : 'Copy CSS'}</button>
+              <button
+                className={`${styles.copyBtn} ${styles.forkBtn}`}
+                onClick={forkToMyCode}
+                title="Open this filter in My Code as an editable HTML + CSS snippet"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="6" cy="5" r="2.5"/><circle cx="18" cy="5" r="2.5"/><circle cx="12" cy="19" r="2.5"/><path d="M6 7.5v2a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-2"/><line x1="12" y1="11.5" x2="12" y2="16.5"/></svg>
+                Fork to My Code
+              </button>
+            </div>
+          </div>
+
           {/* Presets */}
           <div className={styles.sideSection}>
             <div className={styles.sideSectionTitle}>Presets</div>
@@ -285,6 +350,9 @@ export default function CssFilterGeneratorTool() {
 
         {/* ── Right: preview + output ── */}
         <div className={styles.rightCol}>
+          {/* Ad space: top of the right panel, above the preview */}
+          <PlaygroundTopAd />
+
           {/* Image selector */}
           <div className={styles.imageBar}>
             <div className={styles.imageTabs}>

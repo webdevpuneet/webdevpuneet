@@ -8,19 +8,6 @@
   font-family: var(--font-ui);
 }
 
-/* ── Header ── */
-.header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 16px;
-  height: 48px;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface);
-  flex-shrink: 0;
-  overflow: hidden;
-}
-
 .logoIcon {
   width: 28px; height: 28px;
   background: #1e1b4b;
@@ -30,29 +17,14 @@
 }
 
 .headerTitle {
-  font-size: 14px; font-weight: 700; letter-spacing: -0.3px;
-  color: var(--text); white-space: nowrap; flex-shrink: 0;
+  margin: 0;
+  font-size: 15px; font-weight: 700; letter-spacing: -0.3px; line-height: 1.2;
+  color: var(--text);
 }
 .accent { color: var(--clr-violet); }
 
-.sep {
-  width: 1px; height: 16px;
-  background: var(--border); flex-shrink: 0;
-}
-
-.headerSub {
-  font-size: 10px; color: var(--text3);
-  font-family: var(--font-mono);
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  flex: 1; min-width: 0;
-}
-
-.headerActions {
-  display: flex; gap: 6px; align-items: center; flex-shrink: 0; margin-left: auto;
-}
-
 .resetBtn {
-  padding: 4px 10px;
+  padding: 7px 10px;
   border-radius: 5px;
   border: 1px solid var(--border2);
   background: transparent;
@@ -64,7 +36,7 @@
 .resetBtn:disabled { opacity: 0.35; cursor: default; }
 
 .copyBtn {
-  padding: 4px 12px;
+  padding: 7px 12px;
   border-radius: 5px;
   border: 1px solid var(--border2);
   background: var(--surface2);
@@ -84,7 +56,7 @@
 
 /* ── Sidebar ── */
 .sidebar {
-  width: 240px;
+  width: 290px;
   flex-shrink: 0;
   border-right: 1px solid var(--border);
   background: var(--surface);
@@ -94,6 +66,34 @@
   overflow-x: hidden;
   min-height: 0;
 }
+
+/* Pinned head of the left panel: title, live filter value, Reset / Copy CSS */
+.sideTop {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  flex-shrink: 0;
+  padding: 14px 14px 12px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.sideTitleRow { display: flex; align-items: center; gap: 10px; }
+.sideCode {
+  display: block;
+  margin: 10px 0;
+  padding: 6px 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--font-mono); font-size: 10px; line-height: 1.5;
+  color: var(--text3);
+  white-space: nowrap;      /* one line; the full value is in the tooltip */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sideActions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+/* Fork spans both columns under Reset / Copy CSS */
+.forkBtn { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; gap: 7px; }
 
 .sideSection {
   padding: 12px 14px;
@@ -386,4 +386,13 @@
   line-height: 1.7; color: var(--text2);
   background: var(--surface2);
   white-space: pre;
+}
+
+/* Narrow screens: stack the panels, controls first, preview below */
+@media (max-width: 800px) {
+  .body { flex-direction: column; overflow-y: auto; }
+  .sidebar { width: 100%; border-right: 0; border-bottom: 1px solid var(--border); overflow: visible; }
+  .sideTop { position: static; }
+  .rightCol { min-height: 640px; overflow: visible; }
+  .previewArea { min-height: 320px; }
 }
