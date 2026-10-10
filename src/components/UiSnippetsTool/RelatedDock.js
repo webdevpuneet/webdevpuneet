@@ -5,18 +5,20 @@ import { createPortal } from 'react-dom';
 import RelatedCarousel from './RelatedCarousel';
 import ds from './RelatedDock.module.css';
 
-const SHOW_AFTER_MS = 10000;  // the dock slides up this long after the page loads
+const SHOW_AFTER_MS = 8000;   // the dock slides up this long after the page loads
 const HIDE_AFTER_PX = 40;     // scrolling down this far (in one direction) slides it away
+const SHOW_AFTER_UP_PX = 40;  // scrolling back up this far brings it back
 
 // Related-snippets dock for snippet pages, rendered inside the preview area (portal into
-// #related-dock-mount) rather than across the whole viewport. Slides up 10s after load,
-// slides down on its close button or as soon as the reader scrolls down, and leaves a
-// vertical "Related snippets" tab just outside the preview's right edge to bring it back.
+// #related-dock-mount) rather than across the whole viewport. Slides up 8s after load,
+// slides down on its close button or as soon as the reader scrolls down. A vertical
+// "Related" tab just outside the preview's right edge is there from page load whenever the
+// dock is hidden: it fades out in place when the dock opens and back in when it closes.
 // It reuses the RelatedCarousel cards, so the same items and paging as the in-page section.
 export default function RelatedDock({ items, total, activeId, category }) {
   const [open, setOpen] = useState(false);
-  const [ready, setReady] = useState(false);   // the tab only exists once the dock has had its moment
   const interacted = useRef(false);            // reader scrolled or closed it: don't auto-open
+  const hiddenByUser = useRef(false);          // dock was hidden after being shown (scroll down, ×, Escape): scrolling up brings it back
   const dockRef = useRef(null);
   const [mount, setMount] = useState(null);    // #related-dock-mount, inside the preview area
   const [tabPos, setTabPos] = useState(null);  // fixed coords of the edge tab
@@ -49,16 +51,18 @@ export default function RelatedDock({ items, total, activeId, category }) {
 
   useEffect(() => {
     const id = setTimeout(() => {
-      setReady(true);
       if (!interacted.current) setOpen(true);
     }, SHOW_AFTER_MS);
     return () => clearTimeout(id);
   }, []);
 
-  // Scroll down anywhere (window or an inner scroller: capture catches both) → slide down
+  // Scroll anywhere (window or an inner scroller: capture catches both).
+  // Down slides the dock away; scrolling back up brings it back, however it was closed
+  // (scroll, the × button or Escape).
   useEffect(() => {
     const last = new WeakMap();
-    let travelled = 0;
+    let down = 0;
+    let up = 0;
     function onScroll(e) {
       const t = e.target;
       if (dockRef.current && t instanceof Node && dockRef.current.contains(t)) return;
@@ -68,12 +72,16 @@ export default function RelatedDock({ items, total, activeId, category }) {
       last.set(el, el.scrollTop);
       if (prev === undefined) return;
       const delta = el.scrollTop - prev;
-      travelled = delta > 0 ? travelled + delta : 0;
-      if (travelled >= HIDE_AFTER_PX) {
-        travelled = 0;
+      if (delta > 0) { down += delta; up = 0; } else if (delta < 0) { up -= delta; down = 0; }
+      if (down >= HIDE_AFTER_PX) {
+        down = 0;
         interacted.current = true;
-        setReady(true);
+        hiddenByUser.current = true;
         setOpen(false);
+      } else if (up >= SHOW_AFTER_UP_PX && hiddenByUser.current) {
+        up = 0;
+        hiddenByUser.current = false;
+        setOpen(true);
       }
     }
     document.addEventListener('scroll', onScroll, { capture: true, passive: true });
@@ -82,7 +90,7 @@ export default function RelatedDock({ items, total, activeId, category }) {
 
   useEffect(() => {
     if (!open) return undefined;
-    const onKey = e => { if (e.key === 'Escape') { interacted.current = true; setOpen(false); } };
+    const onKey = e => { if (e.key === 'Escape') { interacted.current = true; hiddenByUser.current = true; setOpen(false); } };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, [open]);
@@ -102,7 +110,7 @@ export default function RelatedDock({ items, total, activeId, category }) {
             <button
               type="button"
               className={ds.close}
-              onClick={() => { interacted.current = true; setOpen(false); }}
+              onClick={() => { interacted.current = true; hiddenByUser.current = true; setOpen(false); }}
               aria-label="Close related snippets"
               tabIndex={open ? 0 : -1}
             >
@@ -117,14 +125,14 @@ export default function RelatedDock({ items, total, activeId, category }) {
       {tabPos && createPortal(
         <button
           type="button"
-          className={`${ds.edgeBtn} ${ready && !open ? ds.edgeBtnShown : ''}`}
+          className={`${ds.edgeBtn} ${!open ? ds.edgeBtnShown : ''}`}
           style={{ left: tabPos.left, bottom: tabPos.bottom }}
-          onClick={() => setOpen(true)}
+          onClick={() => { hiddenByUser.current = false; setOpen(true); }}
           aria-label="Show related snippets"
-          tabIndex={ready && !open ? 0 : -1}
+          tabIndex={!open ? 0 : -1}
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
-          Related snippets
+          Related
         </button>,
         document.body
       )}

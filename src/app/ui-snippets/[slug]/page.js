@@ -932,9 +932,9 @@ Requirements:
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }} />
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
-      {/* Related Snippets first, then the ad (full width). */}
-      <RelatedCarousel items={related.items} total={related.total} activeId={sn.id} category={CATEGORIES.find(c => c.id === sn.category)?.label || categoryLabel} />
+      {/* The ad (full width) first, then Related Snippets. */}
       <AdSlot adFirst related={false} />
+      <RelatedCarousel items={related.items} total={related.total} activeId={sn.id} category={CATEGORIES.find(c => c.id === sn.category)?.label || categoryLabel} />
       <RelatedDock items={related.items} total={related.total} activeId={sn.id} category={CATEGORIES.find(c => c.id === sn.category)?.label || categoryLabel} />
       <SeoSection
         {...SEO}

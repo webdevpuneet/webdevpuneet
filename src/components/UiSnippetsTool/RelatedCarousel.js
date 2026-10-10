@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { navStart } from '@/lib/navStart';
 import rs from './RelatedCarousel.module.css';
 
@@ -12,17 +13,17 @@ const POP_TITLE_H = 44;   // room for the title line under the image
 // Hover peek, like the sidebar library: a larger copy of the thumbnail (up to 600×600)
 // with its title beneath floats just above the hovered card. Fixed-positioned from the
 // card's rect and clamped to the viewport. Shared by the snippet and blog strips.
-export function usePeek() {
+export function usePeek(popW = POP_W, titleH = POP_TITLE_H) {
   const [peek, setPeek] = useState(null);
   function onPeek(item, r) {
     if (!item) { setPeek(null); return; }
-    const w = Math.min(POP_W, window.innerWidth - 24);
+    const w = Math.min(popW, window.innerWidth - 24);
     const left = Math.min(Math.max(12, r.left + r.width / 2 - w / 2), window.innerWidth - w - 12);
     setPeek({
       ...item,
       left, width: w,
       bottom: window.innerHeight - r.top + 10,
-      maxH: Math.max(0, Math.min(POP_W, r.top - 24 - POP_TITLE_H)),
+      maxH: Math.max(0, Math.min(popW, r.top - 24 - titleH)),
     });
   }
   useEffect(() => {
@@ -34,25 +35,30 @@ export function usePeek() {
   return [peek, onPeek];
 }
 
-export function PeekPopup({ peek }) {
+export function PeekPopup({ peek, imageOnly = false }) {
   const [failed, setFailed] = useState(null);   // src that 404'd: show no popup for it
-  if (!peek || !peek.src || failed === peek.src) return null;
-  return (
+  if (!peek || !peek.src || failed === peek.src || typeof document === 'undefined') return null;
+  // Portalled to <body>: position:fixed inside a transformed or overflow-clipped parent
+  // (the slide-up dock) would be trapped there.
+  return createPortal(
     <div className={rs.peek} style={{ left: peek.left, bottom: peek.bottom, width: peek.width }} aria-hidden="true">
       <div className={rs.peekBox}>
         <img className={rs.peekImg} style={{ maxHeight: peek.maxH }} src={peek.src} alt="" onError={() => setFailed(peek.src)} />
-        <div className={rs.peekTitle}>{peek.title}</div>
+        {!imageOnly && <div className={rs.peekTitle}>{peek.title}</div>}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
-function RelatedCard({ sn, active }) {
+function RelatedCard({ sn, active, onPeek }) {
   return (
     <a
       href={`/ui-snippets/${sn.id}/`}
       className={`${rs.card} ${active ? rs.cardActive : ''}`}
-      onClick={() => navStart()}
+      onClick={() => { onPeek?.(null); navStart(); }}
+      onMouseEnter={e => onPeek?.({ src: `/images/ui-snippets/previews/${sn.id}.png`, title: sn.title }, e.currentTarget.getBoundingClientRect())}
+      onMouseLeave={() => onPeek?.(null)}
     >
       <img
         className={rs.thumb}
@@ -163,6 +169,7 @@ export function CategoryStrip({ categories, tags = [], activeCategory, activeTag
 }
 
 export default function RelatedCarousel({ items, total, activeId, category, compact = false }) {
+  const [peek, onPeek] = usePeek(300);   // hover preview: up to 300x300 image plus the title
   const [start, setStart] = useState(() => {
     if (!items?.length) return 0;
     const idx = items.findIndex(sn => sn.id === activeId);
@@ -213,8 +220,9 @@ export default function RelatedCarousel({ items, total, activeId, category, comp
         </div>
       </div>
       <div className={rs.track}>
-        {shown.map(sn => <RelatedCard key={sn.id} sn={sn} active={sn.id === activeId} />)}
+        {shown.map(sn => <RelatedCard key={sn.id} sn={sn} active={sn.id === activeId} onPeek={onPeek} />)}
       </div>
+      <PeekPopup peek={peek} />
     </div>
   );
 }
