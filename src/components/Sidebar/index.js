@@ -1713,7 +1713,9 @@ export default function Sidebar() {
 
         {sidebarView === 'tools' && (
           <>
-            {/* Search */}
+            {/* Search, with a home button before it that opens the full tools hub */}
+            <div className={styles.toolsSearchRow}>
+            <GalleryBtn href="/tools/" label="All tools" />
             <div className={styles.searchWrap}>
               <svg className={styles.searchIcon} width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
@@ -1732,6 +1734,7 @@ export default function Sidebar() {
                 ? <button className={styles.searchClear} onClick={() => setQuery('')} aria-label="Clear search">✕</button>
                 : null
               }
+            </div>
             </div>
             {activeSlug !== 'ui-snippets' && !pathname?.startsWith('/ui-snippets') && (
               <FavNudge tool={activeTool} isFav={isFav} onToggle={toggleFav} />

@@ -253,6 +253,16 @@
 }
 
 /* ── Search ── */
+/* Home button + search box on one row in the Tools panel */
+.toolsSearchRow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding-left: 10px;
+  flex-shrink: 0;
+}
+.toolsSearchRow > .searchWrap { flex: 1; min-width: 0; margin-left: 0; }
+
 .searchWrap {
   display: flex;
   align-items: center;
