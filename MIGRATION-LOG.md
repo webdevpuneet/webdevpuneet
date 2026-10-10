@@ -662,3 +662,7 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 - 2026-10-10: Blog tools-blog3 (Carousel Builder) → `blog/blog-posts/tools/tools-blog3-wordpress.txt`, 15 demos in `demos/a1/39/1–15.html` generated from the tool's own genHtml/genCss/genJs (checked in headless Chrome: no errors, arrows advance the slide). Demo 10 uses picsum.photos images. Demos need uploading to `/demos/a1/39/`; the post also describes the new Fork to My Code button, which needs a deploy.
 
 - 2026-10-10: FIX in Carousel Builder genCss: fade/zoom/flip/blur slides had `position: absolute` followed by a hard-coded `position: relative` in the same rule, so slides 2+ stacked below the viewport and were invisible (exports were broken too). `position: relative` now only applies to the slide/vertical transitions. demos/a1/39 regenerated + re-uploaded. Needs a deploy for the tool itself.
+
+- Deployed 2026-10-10 (`npm run deploy`, tools.zip 314.6 MB uploaded; extract on the server by hand): Carousel Builder genCss fix + Fork to My Code, sidebar blog ticker, related dock, console bar/toolbar mobile changes, SeoSection features-first.
+
+- Deployed 2026-10-10 (2nd, `npm run deploy`, tools.zip 314.6 MB uploaded; extract by hand): RelatedDock now finds its mount via MutationObserver (dock + tab were not showing), dock delay 8s.

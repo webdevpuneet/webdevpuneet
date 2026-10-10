@@ -23,7 +23,18 @@ export default function RelatedDock({ items, total, activeId, category }) {
   const [mount, setMount] = useState(null);    // #related-dock-mount, inside the preview area
   const [tabPos, setTabPos] = useState(null);  // fixed coords of the edge tab
 
-  useEffect(() => { setMount(document.getElementById('related-dock-mount')); }, []);
+  // The mount is rendered by UiSnippetsTool, which can appear after this component's first
+  // effect runs (and be re-created when the tool re-renders), so keep looking for it.
+  useEffect(() => {
+    const find = () => {
+      const el = document.getElementById('related-dock-mount');
+      setMount(prev => (prev === el ? prev : el));
+    };
+    find();
+    const mo = new MutationObserver(find);
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => mo.disconnect();
+  }, []);
 
   // The tab sits just outside the preview's right edge, so it can't live inside the
   // (overflow-clipped) preview stage: it is portalled to <body>, fixed-positioned from the
