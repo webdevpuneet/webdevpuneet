@@ -28,7 +28,8 @@ const swiperThumbnailSyncedGallery = {
 .tg-main .swiper-slide { height: 320px; display: grid; place-items: center; color: #fff; font: 800 26px/1.2 system-ui, sans-serif; text-shadow: 0 2px 10px rgba(0,0,0,.35); }
 .tg-main .swiper-button-prev, .tg-main .swiper-button-next { width: 38px; height: 38px; margin-top: -19px; border-radius: 50%; background: rgba(255,255,255,.85); color: #1e1b4b; --swiper-navigation-size: 15px; }
 .tg-main .swiper-button-prev:hover, .tg-main .swiper-button-next:hover { background: #fff; }
-.tg-thumbs { padding: 2px; }
+/* room for the active thumb's 2px lift plus its outline (3px), or the swiper's overflow:hidden clips them */
+.tg-thumbs { padding: 6px 4px; }
 .tg-thumbs .swiper-slide { height: 64px; border-radius: 9px; overflow: hidden; cursor: pointer; opacity: .5; transition: opacity .2s, transform .2s; display: grid; place-items: center; color: #fff; font: 800 13px/1 system-ui, sans-serif; outline: 2px solid transparent; outline-offset: 1px; }
 .tg-thumbs .swiper-slide:hover { opacity: .8; }
 .tg-thumbs .swiper-slide-thumb-active { opacity: 1; outline-color: #4f46e5; transform: translateY(-2px); }

@@ -21,7 +21,11 @@ const swiperInfiniteLogoMarquee = {
   css: `body { background: #f6f7fb; padding: 26px 16px; font-family: system-ui, sans-serif; }
 .lm-wrap { max-width: 780px; margin: 0 auto; text-align: center; }
 .lm-title { margin: 0 0 18px; font: 800 12.5px/1 system-ui, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #7a8199; }
-.lm-rows { display: grid; gap: 14px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+.lm-rows { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+/* Swiper's own CSS gives .swiper auto left/right margins, and a grid item with auto margins
+   shrinks to its content instead of stretching. Without the explicit width each row would
+   measure as wide as all its logos laid end to end, and Swiper could never loop. */
+.lm-swiper { width: 100%; min-width: 0; }
 .lm-swiper .swiper-wrapper { transition-timing-function: linear !important; }   /* constant speed: no easing between slides */
 .lm-swiper .swiper-slide { width: auto; }
 .lm-logo { display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; background: #fff; border: 1px solid #e3e6f0; border-radius: 999px; font: 800 16px/1 system-ui, sans-serif; color: #2b3150; white-space: nowrap; box-shadow: 0 2px 8px rgba(20,25,70,.05); }
@@ -33,9 +37,12 @@ const swiperInfiniteLogoMarquee = {
   js: `const ROW1 = [['Northwind', '#6366f1'], ['Acme Labs', '#f97316'], ['Globex', '#10b981'], ['Initech', '#0ea5e9'], ['Umbrella', '#ef4444'], ['Hooli', '#8b5cf6'], ['Stark & Co', '#f59e0b']];
 const ROW2 = [['Wayne Tech', '#334155'], ['Soylent', '#84cc16'], ['Vandelay', '#ec4899'], ['Cyberdyne', '#14b8a6'], ['Tyrell', '#6366f1'], ['Massive', '#f43f5e'], ['Pied Piper', '#22c55e']];
 
+// Swiper's loop mode needs more slides than fit on screen at once, otherwise it logs
+// "not enough slides for loop mode" and stops looping. Seven logos only just clear that on a
+// 780px row, so each row is rendered twice for headroom; the copy is hidden from screen readers.
 function fill(id, list) {
-  document.querySelector('#' + id + ' .swiper-wrapper').innerHTML = list.map(function (l) {
-    return '<div class="swiper-slide"><span class="lm-logo"><i style="background:' + l[1] + '"></i>' + l[0] + '</span></div>';
+  document.querySelector('#' + id + ' .swiper-wrapper').innerHTML = list.concat(list).map(function (l, i) {
+    return '<div class="swiper-slide"' + (i >= list.length ? ' aria-hidden="true"' : '') + '><span class="lm-logo"><i style="background:' + l[1] + '"></i>' + l[0] + '</span></div>';
   }).join('');
 }
 fill('lmA', ROW1); fill('lmB', ROW2);

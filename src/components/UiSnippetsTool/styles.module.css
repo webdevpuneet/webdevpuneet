@@ -1208,7 +1208,8 @@ button.headerBrand {
   overflow: hidden;
   transition: height 0.18s ease;
 }
-.consolePanelOpen { height: 180px; }
+/* Grows with the output but never past ~5 lines; the list scrolls inside */
+.consolePanelOpen { height: auto; max-height: 128px; }
 
 .consoleBar {
   position: relative;

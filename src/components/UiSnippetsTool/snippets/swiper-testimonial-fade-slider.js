@@ -13,7 +13,7 @@ const swiperTestimonialFadeSlider = {
   </div>
   <div class="tt-pag" id="ttPag" role="tablist" aria-label="Choose a testimonial"></div>
 </div>`,
-  css: `body { background: linear-gradient(160deg, #eef2ff, #fdf2f8); padding: 26px 16px; font-family: system-ui, sans-serif; }
+  css: `body { background: linear-gradient(160deg, #eef2ff, #fdf2f8) fixed; min-height: 100vh; padding: 26px 16px; font-family: system-ui, sans-serif; }
 .tt-wrap { max-width: 620px; margin: 0 auto; text-align: center; }
 .tt-swiper { overflow: hidden; }
 .tt-swiper .swiper-slide { padding: 6px 22px 10px; }
@@ -23,7 +23,7 @@ const swiperTestimonialFadeSlider = {
 .tt-quote p { margin: 12px 0 18px; font-size: 19px; line-height: 1.6; color: #1e2140; font-weight: 500; }
 .tt-who { display: flex; align-items: center; justify-content: center; gap: 12px; }
 .tt-av { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: #fff; font: 800 15px/1 system-ui, sans-serif; }
-.tt-who b { display: block; font-size: 14.5px; color: #1e2140; text-align: left; } .tt-who span { display: block; font-size: 12.5px; color: #6b7290; text-align: left; }
+.tt-info b { display: block; font-size: 14.5px; color: #1e2140; text-align: left; } .tt-info span { display: block; font-size: 12.5px; color: #6b7290; text-align: left; }
 .tt-pag { display: flex; justify-content: center; gap: 12px; margin-top: 20px; }
 .tt-pag button { position: relative; width: 46px; height: 46px; border-radius: 50%; border: 3px solid transparent; padding: 0; color: #fff; font: 800 13px/1 system-ui, sans-serif; cursor: pointer; opacity: .55; filter: saturate(.7); transition: opacity .25s, transform .25s, border-color .25s, filter .25s; }
 .tt-pag button:hover { opacity: .85; }
@@ -40,7 +40,7 @@ const swiperTestimonialFadeSlider = {
 document.getElementById('ttSlides').innerHTML = VOICES.map(function (v) {
   return '<div class="swiper-slide"><figure class="tt-quote" style="margin:0"><div class="tt-stars" aria-label="5 out of 5 stars">★★★★★</div>' +
     '<blockquote style="margin:0"><p>' + v.q + '</p></blockquote>' +
-    '<figcaption class="tt-who"><span class="tt-av" style="background:' + v.c + '">' + v.i + '</span><span><b>' + v.n + '</b><span>' + v.r + '</span></span></figcaption></figure></div>';
+    '<figcaption class="tt-who"><span class="tt-av" style="background:' + v.c + '">' + v.i + '</span><span class="tt-info"><b>' + v.n + '</b><span>' + v.r + '</span></span></figcaption></figure></div>';
 }).join('');
 
 const pag = document.getElementById('ttPag');
