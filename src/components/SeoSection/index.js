@@ -1404,6 +1404,18 @@ function flattenSections(sections) {
   return result;
 }
 
+// Pages that pass an explicit `sections` array: lift the first Features section above the
+// first About (text) section, so Features lead on those pages too.
+function featuresBeforeAbout(list) {
+  const aboutIdx = list.findIndex(sec => sec.type === 'text');
+  const featIdx = list.findIndex((sec, i) => i > aboutIdx && sec.type === 'features');
+  if (aboutIdx < 0 || featIdx < 0) return list;
+  const next = list.slice();
+  const [feat] = next.splice(featIdx, 1);
+  next.splice(aboutIdx, 0, feat);
+  return next;
+}
+
 function aiPromptSection(aiPrompt) {
   return {
     type: 'aiPrompt',
@@ -1415,17 +1427,17 @@ function aiPromptSection(aiPrompt) {
 }
 
 function normalizeSections({ sections, about, features, howToUse, useCases, faqs, whatsNew, aiPrompt, aboutExtra, aboutLabel = 'About this tool', quickFacts = true, injectAfterAiPrompt, aiPromptLast = false, featuresAfterAbout = true }) {
-  if (sections) return flattenSections(sections);
+  if (sections) return featuresBeforeAbout(flattenSections(sections));
   const result = [];
   const featuresSection = features?.length
     ? { type: 'features', label: "What's included", heading: 'Features', items: features }
     : null;
-  // featuresAfterAbout: the Features section follows About instead of preceding it.
-  if (featuresSection && !featuresAfterAbout) result.push(featuresSection);
+  // Features always lead, above About, on every page (the featuresAfterAbout prop that
+  // used to flip this is still accepted by callers but no longer has any effect).
+  if (featuresSection) result.push(featuresSection);
   if (about) {
     result.push({ type: 'text', label: aboutLabel, heading: about?.title, text: about?.description || '', extra: aboutExtra, quickFacts });
   }
-  if (featuresSection && featuresAfterAbout) result.push(featuresSection);
   if (aiPrompt && !aiPromptLast) result.push(aiPromptSection(aiPrompt));
   // Lands right after "Build, Understand, Optimize, and Extend It With AI" —
   // or, on the handful of pages with no aiPrompt, right after About — rather

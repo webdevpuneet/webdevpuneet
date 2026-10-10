@@ -835,6 +835,57 @@ ${cfg.showDots ? `
 }`;
 }
 
+/* — Fork to My Code ------------------------------------------------------------
+   Hands the current carousel to /ui-snippets/mycode/ as a snippet (HTML / CSS / JS in
+   separate panels). Same hand-off the demo pages use: the snippet is stashed in
+   localStorage under uis_fork_<token> and My Code claims it from #fork=ls:<token>;
+   if storage is unavailable the snippet itself travels in the URL fragment. Nothing
+   goes to a server. — */
+const FORK_PREFIX = 'uis_fork_';
+const FORK_PATH = '/ui-snippets/mycode/';
+const FORK_URL_LIMIT = 1500000;   // fragment fallback only: bigger than this is not safe to open
+
+function b64url(str) {
+  return btoa(unescape(encodeURIComponent(str))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function forkPayload(slides, cfg) {
+  const body = genHtml(slides, cfg).split('\n').map(l => '  ' + l).join('\n');
+  return {
+    v: 1,
+    name: `Carousel (${slides.length} slide${slides.length !== 1 ? 's' : ''})`,
+    html: `<div class="carousel-wrapper">\n${body}\n</div>`,
+    css: `*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #0f172a;
+  padding: 2rem;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+.carousel-wrapper { width: 100%; max-width: 720px; }
+
+${genCss(cfg)}`,
+    js: genJs(cfg),
+    cdnUrls: [],
+  };
+}
+
+// Returns the My Code URL, or null when the carousel is too big to hand over without storage.
+function forkUrl(payload) {
+  try {
+    const token = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    const key = FORK_PREFIX + token;
+    localStorage.setItem(key, JSON.stringify({ t: Date.now(), payload }));
+    if (localStorage.getItem(key)) return `${FORK_PATH}#fork=ls:${token}`;
+  } catch { /* no storage, or over quota: fall through to the fragment */ }
+  const url = `${FORK_PATH}#fork=${b64url(JSON.stringify(payload))}`;
+  return url.length > FORK_URL_LIMIT ? null : url;
+}
+
 function genAll(slides, cfg) {
   const htmlBody = genHtml(slides, cfg).split('\n').map(l => '    ' + l).join('\n');
   const css = genCss(cfg).split('\n').map(l => '    ' + l).join('\n');
@@ -1462,6 +1513,20 @@ export default function CarouselBuilderTool() {
     });
   }
 
+  const [forkMsg, setForkMsg] = useState('');
+  function forkToMyCode() {
+    let url = null;
+    try { url = forkUrl(forkPayload(slides, cfg)); } catch { /* generator error: handled below */ }
+    if (!url) {
+      setForkMsg('Too large to fork. Try removing slide images.');
+      setTimeout(() => setForkMsg(''), 3500);
+      return;
+    }
+    window.open(url, '_blank', 'noopener');
+    setForkMsg('Opened in My Code');
+    setTimeout(() => setForkMsg(''), 2500);
+  }
+
   const extMap = { html:'html', css:'css', js:'js', react:'jsx', all:'html' };
   function downloadCode() {
     const a = document.createElement('a');
@@ -1771,6 +1836,10 @@ export default function CarouselBuilderTool() {
               ))}
             </div>
             <div className={styles.exportBarActions}>
+              <button className={styles.btnTool} onClick={forkToMyCode} title="Open a copy of this carousel in My Code (HTML, CSS and JS panels) to keep editing">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="5" r="2.5"/><circle cx="18" cy="5" r="2.5"/><circle cx="12" cy="19" r="2.5"/><path d="M6 7.5v2a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-2"/><line x1="12" y1="11.5" x2="12" y2="16.5"/></svg>
+                {forkMsg || 'Fork to My Code'}
+              </button>
               <button className={`${styles.btnCopy}${copyDone ? ' ' + styles.btnCopyDone : ''}`} onClick={copyCode}>{copyLabel}</button>
               <button className={styles.btnTool} onClick={downloadCode}>
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
