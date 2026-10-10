@@ -1,15 +1,17 @@
 'use client';
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { ADS_ENABLED as ADS_CONFIG_ENABLED } from '@/lib/ads-config';
+import { ADS_ENABLED as ADS_CONFIG_ENABLED, adsAllowedOnPath } from '@/lib/ads-config';
 import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import RelatedStrip from '@/components/RelatedStrip';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import styles from './styles.module.css';
 
-// Ads are never shown on the 404 page.
+// Ads are never shown on the 404 page or on My Code.
 function useAdsEnabled() {
-  return ADS_CONFIG_ENABLED && !useIsNotFound();
+  const pathname = usePathname();
+  const notFound = useIsNotFound();
+  return ADS_CONFIG_ENABLED && !notFound && adsAllowedOnPath(pathname);
 }
 
 function pushAd() {

@@ -1819,7 +1819,12 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               // navStart()'s pill only hides on a pathname change, so skip it when staying on /mycode/.
               const onMycode = typeof window !== 'undefined' && window.location.pathname.replace(/\/+$/, '') === '/ui-snippets/mycode';
               const onNew = onMycode && new URLSearchParams(window.location.search).get('new') === '1';
-              if (!onMycode) navStart();
+              if (!onMycode) {
+                // Coming from another page: a full page load, not a client-side push, so the
+                // AdSense loader that page started is gone (My Code runs without ads).
+                window.location.assign('/ui-snippets/mycode/?new=1');
+                return;
+              }
               applyBlank();
               if (!onNew) router.push('/ui-snippets/mycode/?new=1', { scroll: false });
             }}

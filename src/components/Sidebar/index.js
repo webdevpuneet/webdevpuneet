@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { isEmbedRoute } from '@/lib/is-embed-route';
-import { ADS_ENABLED, SIDEBAR_AD_ENABLED } from '@/lib/ads-config';
+import { ADS_ENABLED, SIDEBAR_AD_ENABLED, adsAllowedOnPath } from '@/lib/ads-config';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import { useState, useEffect, useRef, useMemo } from 'react';
@@ -1675,7 +1675,7 @@ export default function Sidebar() {
             On My Code it follows the IndexOnly standard: shown on the bare
             /ui-snippets/mycode/ page, hidden on a saved snippet (?id=…).
             Never shown on the 404 page. */}
-        {ADS_ENABLED && SIDEBAR_AD_ENABLED && !isNotFoundPage && !isEmbedRoute(pathname) && (
+        {ADS_ENABLED && SIDEBAR_AD_ENABLED && !isNotFoundPage && !isEmbedRoute(pathname) && adsAllowedOnPath(pathname) && (
           pathname.startsWith('/ui-snippets/mycode')
             ? <IndexOnly><SidebarTopAd key={pathname} /></IndexOnly>
             : <SidebarTopAd key={pathname} />
