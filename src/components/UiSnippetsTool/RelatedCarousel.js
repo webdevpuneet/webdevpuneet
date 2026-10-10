@@ -75,8 +75,8 @@ function RelatedCard({ sn, active }) {
 // the related links land in the raw server-rendered HTML. The grid opens on
 // whichever page naturally contains the current snippet — same windowing
 // formula the sidebar uses for its own active-snippet list — instead of
-// always starting at page 1. It is a plain in-page section: no floating
-// slide-up dock and no edge button.
+// always starting at page 1. By default it is a plain in-page section; the
+// `compact` variant (no outer margins, h3) is what RelatedDock slides up.
 
 // One-line strip of every category (links to the category pages). Hovering or
 // focusing it opens a panel below with two columns — every category and every tag —
@@ -162,7 +162,7 @@ export function CategoryStrip({ categories, tags = [], activeCategory, activeTag
   );
 }
 
-export default function RelatedCarousel({ items, total, activeId, category }) {
+export default function RelatedCarousel({ items, total, activeId, category, compact = false }) {
   const [start, setStart] = useState(() => {
     if (!items?.length) return 0;
     const idx = items.findIndex(sn => sn.id === activeId);
@@ -184,9 +184,9 @@ export default function RelatedCarousel({ items, total, activeId, category }) {
   if (!items?.length) return null;
 
   return (
-    <div className={rs.section}>
+    <div className={compact ? rs.sectionCompact : rs.section}>
       <div className={rs.header}>
-        <h2 className={rs.title}>Related Snippets</h2>
+        {compact ? <h3 className={rs.title}>Related Snippets</h3> : <h2 className={rs.title}>Related Snippets</h2>}
         <span className={rs.headCount}>{total ?? items.length} in {category ? `${category} category` : 'this category'}</span>
         <div className={rs.navBtns}>
           {items.length > PAGE_SIZE && (

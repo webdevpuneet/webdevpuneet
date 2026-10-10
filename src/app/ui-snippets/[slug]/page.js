@@ -10,6 +10,7 @@ import { highlightCode } from '@/lib/shiki-highlight';
 import SnippetExportButton from '@/components/UiSnippetsTool/SnippetExportButton';
 import SourceCodeTabs from '@/components/UiSnippetsTool/SourceCodeTabs';
 import RelatedCarousel from '@/components/UiSnippetsTool/RelatedCarousel';
+import RelatedDock from '@/components/UiSnippetsTool/RelatedDock';
 import { getRelatedSnippets } from '@/lib/snippet-related';
 import NavbarBuilderPromo from '@/components/NavbarBuilderPromo';
 import styles from './styles.module.css';
@@ -934,6 +935,7 @@ Requirements:
       {/* Related Snippets first, then the ad (full width). */}
       <RelatedCarousel items={related.items} total={related.total} activeId={sn.id} category={CATEGORIES.find(c => c.id === sn.category)?.label || categoryLabel} />
       <AdSlot adFirst related={false} />
+      <RelatedDock items={related.items} total={related.total} activeId={sn.id} category={CATEGORIES.find(c => c.id === sn.category)?.label || categoryLabel} />
       <SeoSection
         {...SEO}
         titleExtra={(

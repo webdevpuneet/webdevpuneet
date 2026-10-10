@@ -1,0 +1,84 @@
+/* Slide-up related-snippets dock + the edge button that brings it back, both pinned to
+   the bottom of the preview area (their parent is the position:relative preview stage) */
+.dock {
+  position: absolute;
+  pointer-events: auto;
+  max-height: 100%;
+  overflow-y: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  background: var(--surface, #fff);
+  border-top: 1px solid var(--border, #e2e8f0);
+  box-shadow: 0 -10px 30px rgba(15, 23, 42, 0.12);
+  transform: translateY(100%);
+  visibility: hidden;
+  /* visibility waits for the slide-down to finish, so the dock never vanishes mid-slide */
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.35s;
+}
+.dockOpen {
+  transform: none;
+  visibility: visible;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
+}
+
+.inner {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 10px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+}
+
+.close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  z-index: 2;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--border, #e2e8f0);
+  border-radius: 8px;
+  background: var(--surface, #fff);
+  color: var(--text2, #64748b);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.close:hover { border-color: var(--accent, #059669); color: var(--accent, #059669); background: var(--accent-dim, rgba(5, 150, 105, 0.12)); }
+
+/* Vertical tab just outside the preview's right edge (fixed, positioned from JS) */
+.edgeBtn {
+  position: fixed;
+  z-index: 41;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  writing-mode: vertical-rl;   /* text reads top to bottom */
+  padding: 14px 8px;
+  border: 1.5px solid var(--border, #e2e8f0);
+  border-left: 0;
+  border-radius: 0 10px 10px 0;
+  background: var(--surface, #fff);
+  color: var(--text, #1e293b);
+  font: 600 12.5px var(--font-ui, system-ui, sans-serif);
+  box-shadow: 4px 6px 20px rgba(15, 23, 42, 0.16);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateX(-12px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.15s, color 0.15s;
+}
+.edgeBtn svg { transform: rotate(-90deg); flex-shrink: 0; }   /* arrow points left, back toward the preview */
+.edgeBtnShown { opacity: 1; transform: none; pointer-events: auto; }
+.edgeBtn:hover { border-color: var(--accent, #059669); color: var(--accent, #059669); }
+
+@media (max-width: 768px) {
+  .inner { padding: 8px 12px calc(10px + env(safe-area-inset-bottom, 0px)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dock, .dockOpen, .edgeBtn { transition: none; }
+}

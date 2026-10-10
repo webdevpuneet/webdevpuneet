@@ -53,6 +53,16 @@
   padding-right: 20px;
 }
 
+/* Inside the slide-up dock: the dock supplies the padding; everything is tightened to keep it short */
+.sectionCompact { margin: 0; }
+.sectionCompact .header { margin-bottom: 8px; padding-right: 34px; gap: 8px; } /* room for the dock's close button */
+.sectionCompact .title { font-size: 14px; }
+.sectionCompact .headCount { font-size: 10.5px; }
+.sectionCompact .navBtn { width: 24px; height: 24px; }
+.sectionCompact .track { gap: 8px; }
+.sectionCompact .thumb { height: 64px; }
+.sectionCompact .cardTitle { padding: 5px 8px; font-size: 11px; }
+
 @media (max-width: 768px) {
   .section {
     padding-left: 16px;

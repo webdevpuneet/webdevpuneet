@@ -1339,11 +1339,15 @@ button.headerBrand {
 /* ── iframe wrap ─────────────────────────────────────────────────────────────── */
 /* Preview stage: optional ad banner on top, the preview below. */
 .previewStage {
+  position: relative;   /* anchors the related-snippets dock to the preview area */
   flex: 1;
   min-height: 0;
   display: flex;
   flex-direction: column;
+  overflow: hidden;     /* the dock slides up from, and back down behind, the bottom edge */
 }
+/* Portal target for RelatedDock: overlays the preview's bottom edge, clicks pass through */
+.dockMount { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
 .adBar {
   flex: 0 0 auto;
   display: flex;
