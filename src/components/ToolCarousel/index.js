@@ -2,21 +2,17 @@
 
 import { useState } from 'react';
 import rs from '@/components/UiSnippetsTool/RelatedCarousel.module.css';
-import { usePeek, PeekPopup } from '@/components/UiSnippetsTool/RelatedCarousel';
 
 const PAGE_SIZE = 6;
 
 // Thumbnail card for a tool/playground: its preview image over the name, like the
 // Latest UI Snippets cards. A tool without a preview image falls back to its icon.
-function ToolCard({ tool, onPeek }) {
+function ToolCard({ tool }) {
   const [noImg, setNoImg] = useState(false);
   return (
     <a
       href={`/${tool.slug}/`}
       className={rs.card}
-      onClick={() => onPeek(null)}
-      onMouseEnter={e => onPeek({ src: `/images/${tool.slug}.png`, title: tool.name }, e.currentTarget.getBoundingClientRect())}
-      onMouseLeave={() => onPeek(null)}
     >
       {noImg ? (
         <div className={rs.thumb} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} aria-hidden="true">
@@ -40,7 +36,6 @@ function ToolCard({ tool, onPeek }) {
 // Latest UI Snippets strip. Rendered inside AdSlot's .relatedFull, which already pads the sides.
 export default function ToolCarousel({ title, count, tools, allHref, ariaLabel }) {
   const [start, setStart] = useState(0);
-  const [peek, onPeek] = usePeek();
   if (!tools.length) return null;
 
   const total = tools.length;
@@ -78,9 +73,8 @@ export default function ToolCarousel({ title, count, tools, allHref, ariaLabel }
         </div>
       </div>
       <div className={rs.track}>
-        {shown.map(tool => <ToolCard key={tool.slug} tool={tool} onPeek={onPeek} />)}
+        {shown.map(tool => <ToolCard key={tool.slug} tool={tool} />)}
       </div>
-      <PeekPopup peek={peek} />
     </section>
   );
 }

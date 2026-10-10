@@ -108,6 +108,7 @@ const RAW_RELATED_TOOLS = {
   // ── Layout & Responsive ───────────────────────────────────────────────────
   'flexbox-builder':         ['ui-snippets', 'css-grid-builder', 'carousel-builder', 'css-to-tailwind', 'tailwind-to-css', 'rem-px-converter', 'css-media-queries-generator', 'responsive-preview-tool'],
   'css-grid-builder':        ['ui-snippets', 'flexbox-builder', 'carousel-builder', 'css-to-tailwind', 'tailwind-to-css', 'rem-px-converter', 'css-media-queries-generator', 'responsive-preview-tool'],
+  'navbar-builder':          ['ui-snippets', 'flexbox-builder', 'css-grid-builder', 'responsive-preview-tool', 'css-to-tailwind', 'css-button-generator', 'glassmorphism-generator', 'html-to-jsx-converter'],
   'responsive-preview-tool': ['ui-snippets', 'aspect-ratio-calculator', 'css-media-queries-generator', 'flexbox-builder', 'css-grid-builder', 'css-clamp-generator', 'rem-px-converter', 'tailwind-formatter'],
   'css-media-queries-generator': ['css-autoprefixer', 'responsive-preview-tool', 'rem-px-converter', 'css-clamp-generator', 'flexbox-builder', 'css-grid-builder', 'tailwind-formatter', 'css-to-tailwind'],
   'aspect-ratio-calculator': ['rem-px-converter', 'css-clamp-generator', 'responsive-preview-tool', 'image-compressor', 'og-image-generator', 'favicon-generator', 'css-media-queries-generator', 'image-editor'],
