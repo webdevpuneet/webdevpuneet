@@ -87,3 +87,8 @@
 @media (prefers-reduced-motion: reduce) {
   .dock, .dockOpen, .edgeBtn { transition: none; }
 }
+
+/* Phones: no dock and no edge tab at all (the in-page Related section is still there) */
+@media (max-width: 767px) {
+  .dock, .edgeBtn { display: none; }
+}
