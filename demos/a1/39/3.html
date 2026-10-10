@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Demo</title>
+<link rel="stylesheet" href="../../assets/demo.css">
+</head>
+<body data-title="Carousel Builder — Testimonial Slider (Fade)">
+
+<script type="text/plain" id="cdn">
+</script>
+
+<script type="text/plain" id="html">
+<div class="carousel-wrapper">
+  <div class="carousel" data-autoplay="true" data-speed="4000" data-transition="fade" data-carousel>
+    <div class="carousel__viewport">
+      <ul class="carousel__track">
+      <li class="carousel__slide is-selected" style="background: linear-gradient(135deg, #1a2a3a, #0f172a);">
+        <div class="carousel__overlay"></div>
+        <div class="carousel__content" style="text-align:center">
+          <div class="carousel__badge">⭐</div>
+          <h2 class="carousel__title" style="font-size:26px">"Absolutely fantastic tool!"</h2>
+          <p class="carousel__desc" style="font-size:14px">— Sarah K., Frontend Developer</p>
+        </div>
+      </li>
+      <li class="carousel__slide" style="background: linear-gradient(135deg, #1a3a2a, #083344);">
+        <div class="carousel__overlay"></div>
+        <div class="carousel__content" style="text-align:center">
+          <div class="carousel__badge">⭐</div>
+          <h2 class="carousel__title" style="font-size:26px">"Saved us weeks of work."</h2>
+          <p class="carousel__desc" style="font-size:14px">— James R., Product Manager</p>
+        </div>
+      </li>
+      <li class="carousel__slide" style="background: linear-gradient(135deg, #2d1a3a, #1e1b4b);">
+        <div class="carousel__overlay"></div>
+        <div class="carousel__content" style="text-align:center">
+          <div class="carousel__badge">⭐</div>
+          <h2 class="carousel__title" style="font-size:26px">"Best carousel builder out there."</h2>
+          <p class="carousel__desc" style="font-size:14px">— Priya M., UI Designer</p>
+        </div>
+      </li>
+      </ul>
+    </div>
+    <div class="carousel__dots" role="tablist" aria-label="Slide navigation">
+      <button class="carousel__dot is-selected" role="tab" aria-label="Slide 1" aria-selected="true"></button>
+      <button class="carousel__dot" role="tab" aria-label="Slide 2" aria-selected="false"></button>
+      <button class="carousel__dot" role="tab" aria-label="Slide 3" aria-selected="false"></button>
+    </div>
+  </div>
+</div>
+</script>
+
+<script type="text/plain" id="css">
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #0f172a;
+  padding: 2rem;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+.carousel-wrapper { width: 100%; max-width: 720px; }
+
+/* ─────────────────────────────────────────────────────
+   Carousel — DevTools Carousel Builder
+   https://webdevpuneet.com/carousel-builder
+──────────────────────────────────────────────────── */
+
+.carousel {
+  --c-accent:    #fbbf24;
+  --c-duration:  400ms;
+  --c-radius:    12px;
+  --c-height:    280px;
+  --c-per-view:  1;
+  --c-gap:       0px;
+  --c-overlay:   0.00;
+
+  position: relative;
+  width: 100%;
+  border-radius: var(--c-radius);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Viewport */
+.carousel__viewport {
+  overflow: hidden;
+  position: relative;
+  height: var(--c-height);
+}
+
+/* Track */
+.carousel__track {
+  display: block;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Slides */
+.carousel__slide {
+  position: absolute;
+  inset: 0;
+  height: var(--c-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel__slide {
+  opacity: 0;
+  transition: opacity var(--c-duration) ease-in-out;
+}
+.carousel__slide.is-selected { opacity: 1; z-index: 1; }
+
+/* Overlay (image tint) */
+.carousel__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,var(--c-overlay));
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Content */
+.carousel__content {
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+  padding: 2rem;
+  max-width: 540px;
+}
+
+.carousel__badge { font-size: 2.5rem; line-height: 1; margin-bottom: .75rem; }
+.carousel__title { font-weight: 700; margin: 0 0 .5rem; line-height: 1.2; }
+.carousel__desc  { margin: 0; opacity: .8; line-height: 1.6; }
+
+/* CTA button */
+.carousel__cta {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: .5rem 1.5rem;
+  border-radius: 6px;
+  background: var(--c-accent);
+  color: #fff;
+  text-decoration: none;
+  font-size: .875rem;
+  font-weight: 600;
+  transition: opacity .15s;
+}
+.carousel__cta:hover { opacity: .85; }
+
+/* Dots */
+.carousel__dots {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 10;
+}
+
+.carousel__dot {
+  width: 20px;
+  height: 3px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,.4);
+  cursor: pointer;
+  transition: background .2s, width .2s, transform .2s;
+}
+
+.carousel__dot.is-selected {
+  width: 32px;
+  background: var(--c-accent);
+  transform: none;
+}
+
+</script>
+
+<script type="text/plain" id="js">
+/* ─────────────────────────────────────────────────────
+   Carousel — DevTools Carousel Builder
+   https://webdevpuneet.com/carousel-builder
+──────────────────────────────────────────────────── */
+
+class Carousel {
+  constructor(root, options = {}) {
+    this.opt = {
+      loop: true, autoplay: false, infinite: false,
+      speed: 3000, pauseOnHover: true,
+      ...options,
+    };
+    this.root    = root;
+    this.track   = root.querySelector('.carousel__track');
+    this.slides  = [...root.querySelectorAll('.carousel__slide')];
+    this.dots    = [...root.querySelectorAll('.carousel__dot')];
+    this.current = 0;
+    this._timer  = null;
+    this._busy   = false;
+    this._inf    = this.opt.loop && this.opt.infinite;
+    this._dir    = root.dataset.direction || 'horizontal';
+
+    root.querySelector('.carousel__btn--prev')
+      ?.addEventListener('click', () => this.prev());
+    root.querySelector('.carousel__btn--next')
+      ?.addEventListener('click', () => this.next());
+    this.dots.forEach((d, i) =>
+      d.addEventListener('click', () => this.goTo(i)));
+
+    if (this.opt.pauseOnHover) {
+      root.addEventListener('mouseenter', () => this._stop());
+      root.addEventListener('mouseleave', () => {
+        if (this.opt.autoplay) this._play();
+      });
+    }
+
+    /* Touch / swipe */
+    let _sx = 0, _sy = 0;
+    root.addEventListener('touchstart', e => {
+      _sx = e.touches[0].clientX;
+      _sy = e.touches[0].clientY;
+    }, { passive: true });
+    root.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - _sx;
+      const dy = e.changedTouches[0].clientY - _sy;
+      const delta = this._dir === 'vertical' ? dy : dx;
+      if (Math.abs(delta) > 50) delta < 0 ? this.next() : this.prev();
+    }, { passive: true });
+
+    if (this._inf) this._initInfinite();
+    if (this.opt.autoplay) this._play();
+    this._render();
+  }
+
+  goTo(n) {
+    const len = this.slides.length;
+    if (!this.opt.loop && (n < 0 || n >= len)) return;
+    this.current = (n + len) % len;
+    this._render();
+  }
+
+  next() {
+    this.goTo(this.current + 1);
+  }
+
+  prev() {
+    this.goTo(this.current - 1);
+  }
+
+  _render() {
+    this.slides.forEach((s, i) =>
+      s.classList.toggle('is-selected', i === this.current));
+    this.dots.forEach((d, i) => {
+      d.classList.toggle('is-selected', i === this.current);
+      d.setAttribute('aria-selected', i === this.current);
+    });
+    
+  }
+
+  _play() {
+    clearInterval(this._timer);
+    this._timer = setInterval(() => this.next(), this.opt.speed);
+  }
+
+  _stop()    { clearInterval(this._timer); }
+  destroy()  { this._stop(); }
+}
+
+/* Init — runs after DOM is ready */
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-carousel]').forEach(el =>
+    new Carousel(el, {
+      loop:     el.dataset.loop !== 'false',
+      infinite: el.dataset.infinite === 'true',
+      autoplay: el.dataset.autoplay === 'true',
+      speed:    Number(el.dataset.speed) || 3000,
+    })
+  );
+});
+</script>
+
+<script src="../../assets/demo.js"></script>
+</body>
+</html>

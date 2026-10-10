@@ -207,8 +207,8 @@ function genCss(cfg) {
   const slideBaseCss = isOverlay
     ? 'position: absolute;\n  inset: 0;'
     : useVert
-      ? `flex-shrink: 0;\n  width: 100%;\n  height: calc((var(--c-height) - (var(--c-per-view) - 1) * var(--c-gap)) / var(--c-per-view)) !important;`
-      : `min-width: calc((100% - (var(--c-per-view) - 1) * var(--c-gap)) / var(--c-per-view));`;
+      ? `position: relative;\n  flex-shrink: 0;\n  width: 100%;\n  height: calc((var(--c-height) - (var(--c-per-view) - 1) * var(--c-gap)) / var(--c-per-view)) !important;`
+      : `position: relative;\n  min-width: calc((100% - (var(--c-per-view) - 1) * var(--c-gap)) / var(--c-per-view));`;
 
   // Per-transition overlay animation
   const overlayCss = isFade ? `
@@ -400,7 +400,6 @@ function genCss(cfg) {
 .carousel__slide {
   ${slideBaseCss}
   ${useVert ? '' : 'height: var(--c-height);'}
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
