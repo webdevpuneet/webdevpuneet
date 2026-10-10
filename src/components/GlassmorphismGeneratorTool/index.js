@@ -5,6 +5,7 @@ import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import ForkToMyCodeButton from '@/components/ForkToMyCodeButton';
 /* ── Helpers ──────────────────────────────────────────────────── */
 function hexToRgba(hex, alpha) {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -270,32 +271,82 @@ export default function GlassmorphismGeneratorTool() {
 
   const headerSub = `blur(${blur}px) · ${bgOp}% opacity · ${radius}px radius`;
 
+  // Fork to My Code: the glass card over the chosen background, with the three colour blobs.
+  // An uploaded background only exists in this tab, so the fork falls back to the preset.
+  const forkSnippet = () => {
+    const sceneBg = BACKGROUNDS[bgIdx]?.css ?? BACKGROUNDS[0].css;
+    return {
+      name: 'Glassmorphism Card',
+      html: `<div class="scene">
+  <span class="blob blob-1"></span>
+  <span class="blob blob-2"></span>
+  <span class="blob blob-3"></span>
+  <div class="glass-card">
+    <span class="badge">Glass Effect</span>
+    <h2>Glassmorphism</h2>
+    <p>Frosted glass made with backdrop-filter.</p>
+    <a href="#" class="cta">Learn More</a>
+  </div>
+</div>`,
+      css: `* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, sans-serif; }
+
+.scene {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: ${sceneBg};
+}
+.blob { position: absolute; border-radius: 50%; pointer-events: none; }
+.blob-1 { width: 180px; height: 180px; top: 12%; left: 10%; background: rgba(255, 180, 80, 0.55); filter: blur(42px); }
+.blob-2 { width: 150px; height: 150px; bottom: 15%; right: 12%; background: rgba(80, 200, 255, 0.5); filter: blur(38px); }
+.blob-3 { width: 120px; height: 120px; top: 55%; left: 55%; background: rgba(200, 100, 255, 0.45); filter: blur(35px); }
+
+/* The glass effect you built */
+.glass-card {
+  position: relative;
+  z-index: 1;
+  width: min(320px, 90vw);
+  padding: 28px 32px;
+  color: rgba(255, 255, 255, 0.95);
+  ${cssOutput.split('\n').join('\n  ')}
+}
+.badge { display: inline-block; margin-bottom: 14px; padding: 2px 10px; border-radius: 100px; border: 1px solid rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.2); font-size: 11px; font-weight: 700; }
+.glass-card h2 { margin: 0 0 6px; font-size: 24px; }
+.glass-card p { margin: 0 0 20px; font-size: 13px; opacity: 0.75; }
+.cta { display: inline-block; padding: 7px 18px; border-radius: 100px; border: 1px solid rgba(255, 255, 255, 0.35); background: rgba(255, 255, 255, 0.15); color: inherit; font-size: 12px; font-weight: 600; text-decoration: none; }`,
+    };
+  };
+
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="glassmorphism-generator" />
-      <PlaygroundTopAd />
-      {/* ── Header ── */}
-      <div className={styles.header}>
-        <div className={styles.logoIcon}>
+      {/* ── Body ── */}
+      <div className={styles.body}>
+
+        {/* ── Controls ── */}
+        <div className={styles.controls}>
+          {/* Title, live value and actions pinned at the top of the panel */}
+          <div className={styles.sideTop}>
+            <div className={styles.sideTitleRow}>
+              <div className={styles.logoIcon}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
             <rect x="3" y="3" width="11" height="11" rx="3" fill="#667eea" opacity="0.8"/>
             <circle cx="18" cy="8" r="5" fill="#f093fb" opacity="0.7"/>
             <rect x="10" y="10" width="11" height="11" rx="3" fill="white" fillOpacity="0.2" stroke="white" strokeOpacity="0.4" strokeWidth="1"/>
           </svg>
         </div>
-        <span className={styles.headerTitle}>CSS <strong className={styles.accent}>Glassmorphism</strong> Generator</span>
-        <div className={styles.sep} />
-        <span className={styles.headerSub}>{headerSub}</span>
-        <div className={styles.headerActions}>
-          <button className={styles.resetBtn} onClick={reset}>Reset</button>
-        </div>
-      </div>
+              <div className={styles.headerTitle}>CSS <strong className={styles.accent}>Glassmorphism</strong> Generator</div>
+            </div>
+            <code className={styles.sideCode} title={headerSub}>{headerSub}</code>
+            <div className={styles.sideActions}>
+              <button className={styles.resetBtn} onClick={reset}>Reset</button>
+              <ForkToMyCodeButton getSnippet={forkSnippet} />
+            </div>
+          </div>
 
-      {/* ── Body ── */}
-      <div className={styles.body}>
-
-        {/* ── Controls ── */}
-        <div className={styles.controls}>
           <div className={styles.section}>
             <div className={styles.sectionTitle}>Presets</div>
             <div className={styles.presetGrid}>
@@ -350,6 +401,8 @@ export default function GlassmorphismGeneratorTool() {
 
         {/* ── Preview ── */}
         <div className={styles.previewPane}>
+          {/* Ad space: top of the preview column */}
+          <PlaygroundTopAd />
           <div className={styles.bgBar}>
             <span className={styles.bgBarLabel}>Background</span>
             {BACKGROUNDS.map((bg, i) => (

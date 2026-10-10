@@ -86,6 +86,17 @@
 }
 
 /* ── Left pane (controls) ─────────────────────────────────────────────── */
+/* Tool name + Fork at the top of the left panel (was a full-width title row) */
+.toolHead {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 14px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.toolHeadTitle { display: flex; align-items: center; gap: 9px; font-size: 15px; font-weight: 700; line-height: 1.2; color: var(--text); }
+
 .leftPane {
   flex: 0 0 320px;
   display: flex;

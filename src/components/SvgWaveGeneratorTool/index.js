@@ -5,6 +5,7 @@ import CssToolsTopNav from '../CssToolsTopNav';
 import styles from './styles.module.css';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import ForkToMyCodeButton from '@/components/ForkToMyCodeButton';
 const ACCENT = '#06b6d4';
 const VB_LEN = 1440; // length along the main (long) axis, regardless of orientation
 const DEFAULT_LAYER_COLORS = ['#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b'];
@@ -302,33 +303,65 @@ export default function SvgWaveGeneratorTool() {
   const previewAspect = orientation === 'vertical' ? `${thickness} / ${VB_LEN}` : `${VB_LEN} / ${thickness}`;
   const previewFlexDir = edge === 'top' ? 'column-reverse' : edge === 'left' ? 'row-reverse' : edge === 'right' ? 'row' : 'column';
 
+  // Fork to My Code: the wave as a section divider between two blocks of content
+  const forkSnippet = () => ({
+    name: 'SVG Wave Divider',
+    html: `<section class="block block-top">
+  <h1>Section with a wave edge</h1>
+  <p>Made with the SVG Wave Generator on webdevpuneet.com</p>
+</section>
+<div class="wave">
+${svgString}
+</div>
+<section class="block block-bottom">
+  <h2>Next section</h2>
+  <p>Change the colours, height or position of the wave in the HTML and CSS.</p>
+</section>`,
+    css: `* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, sans-serif; color: #1e293b; }
+
+.block { padding: 64px 24px; text-align: center; }
+.block h1, .block h2 { margin: 0 0 10px; }
+.block p { margin: 0; opacity: 0.75; }
+.block-top { background: #f1f5f9; }
+.block-bottom { background: #ffffff; }
+
+/* The wave: full width, scales with the page */
+.wave { line-height: 0; background: #ffffff; }
+.wave svg { display: block; width: 100%; height: auto; }`,
+  });
+
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="svg-wave-generator" />
-      <PlaygroundTopAd />
+      <div className={styles.body}>
+        {/* ── Controls ─────────────────────────────────────────── */}
+        <div className={styles.leftPane}>
 
-      <div className={styles.header}>
-        <div className={styles.logoIcon}>
+          {/* Title, live value and actions pinned at the top of the panel */}
+          <div className={styles.sideTop}>
+            <div className={styles.sideTitleRow}>
+              <div className={styles.logoIcon}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M2 8c2.5 0 2.5 4 5 4s2.5-4 5-4 2.5 4 5 4 2.5-4 5-4" />
             <path d="M2 16c2.5 0 2.5 4 5 4s2.5-4 5-4 2.5 4 5 4 2.5-4 5-4" />
           </svg>
         </div>
-        <span className={styles.title}>
-          SVG <span style={{ color: ACCENT }}>Wave</span> Generator
-        </span>
-        <div className={styles.headerActions}>
-          <button className={styles.histBtn} onClick={undo} disabled={!canUndo} aria-label="Undo" title="Undo (Ctrl+Z)">↶</button>
-          <button className={styles.histBtn} onClick={redo} disabled={!canRedo} aria-label="Redo" title="Redo (Ctrl+Shift+Z)">↷</button>
-          <button className={`${styles.shareBtn} ${shareCopied ? styles.shareBtnDone : ''}`} onClick={copyShareLink}>
-            {shareCopied ? '✓ Link copied' : '🔗 Share'}
-          </button>
-        </div>
-      </div>
+              <div className={styles.title}>SVG <span style={{ color: ACCENT }}>Wave</span> Generator</div>
+            </div>
+            <code className={styles.sideCode} title={`${layers} layer${layers === 1 ? '' : 's'} · ${waves} waves · ${edge} edge`}>{`${layers} layer${layers === 1 ? '' : 's'} · ${waves} waves · ${edge} edge`}</code>
+            <div className={styles.sideActions}>
+              <div className={styles.sideBtnRow}>
+                <button className={styles.histBtn} onClick={undo} disabled={!canUndo} aria-label="Undo" title="Undo (Ctrl+Z)">↶</button>
+                <button className={styles.histBtn} onClick={redo} disabled={!canRedo} aria-label="Redo" title="Redo (Ctrl+Shift+Z)">↷</button>
+                <button className={`${styles.shareBtn} ${shareCopied ? styles.shareBtnDone : ''}`} onClick={copyShareLink}>
+                  {shareCopied ? '✓ Link copied' : '🔗 Share'}
+                </button>
+              </div>
+              <ForkToMyCodeButton getSnippet={forkSnippet} />
+            </div>
+          </div>
 
-      <div className={styles.body}>
-        {/* ── Controls ─────────────────────────────────────────── */}
-        <div className={styles.leftPane}>
           <div className={styles.section}>
             <div className={styles.sectionLabel}>Style presets</div>
             <div className={styles.presets}>
@@ -431,6 +464,8 @@ export default function SvgWaveGeneratorTool() {
 
         {/* ── Preview + Output ─────────────────────────────────── */}
         <div className={styles.rightPane}>
+          {/* Ad space: top of the preview column */}
+          <PlaygroundTopAd />
           <div className={styles.previewSection}>
             <div className={styles.preview} style={{ flexDirection: previewFlexDir }}>
               <div className={styles.previewFill} />

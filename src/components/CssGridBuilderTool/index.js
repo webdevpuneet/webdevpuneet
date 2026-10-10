@@ -5,6 +5,7 @@ import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import ForkToMyCodeButton from '@/components/ForkToMyCodeButton';
 /* ─── Area color palette ─────────────────────────────────────────────────── */
 const AREA_COLORS = [
   { bg: 'rgba(129,140,248,0.22)', border: 'rgba(129,140,248,0.7)', text: '#818cf8' },
@@ -423,16 +424,45 @@ export default function CssGridBuilderTool() {
     setActivePresetId(null);
   }, [editingAreaName]);
 
+  // Fork to My Code: the grid container and its named areas, each area tinted so the layout shows
+  const forkSnippet = () => ({
+    name: 'CSS Grid Layout',
+    html: `<div class="grid-container">\n${areas.map(a => `  <div class="${a.name}">${a.name}</div>`).join('\n')}\n</div>`,
+    css: `* { box-sizing: border-box; }
+body { margin: 0; padding: 24px; font-family: system-ui, -apple-system, sans-serif; background: #f8fafc; }
+
+/* Demo styling so each area is visible: delete when you add real content */
+.grid-container { min-height: calc(100vh - 48px); }
+.grid-container > div {
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  border-radius: 8px;
+  background: #e0e7ff;
+  color: #3730a3;
+  font-weight: 700;
+}
+.grid-container > div:nth-child(4n + 2) { background: #dcfce7; color: #166534; }
+.grid-container > div:nth-child(4n + 3) { background: #fef3c7; color: #92400e; }
+.grid-container > div:nth-child(4n + 4) { background: #fce7f3; color: #9d174d; }
+
+/* The grid you built */
+${buildCSS(cols, rows, colGap, rowGap, areas)}`,
+  });
+
   /* ── Render ────────────────────────────────────────────────────────────── */
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="css-grid-builder" />
-      <PlaygroundTopAd />
+      {/* ── Body ───────────────────────────────────────────────────────── */}
+      <div className={styles.body}>
 
-      {/* ── Header ─────────────────────────────────────────────────────── */}
-      <header className={styles.header}>
-        <div className={styles.logo}>
-          <div className={styles.logoIcon}>
+        {/* ── Left pane ────────────────────────────────────────────────── */}
+        <aside className={styles.leftPane}>
+          {/* Tool name, Fork and the layout presets at the top of the panel */}
+          <div className={styles.sideTop}>
+            <div className={styles.logo}>
+              <div className={styles.logoIcon}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <rect x="1" y="1" width="6" height="6" rx="1" fill="#818cf8" opacity="0.9"/>
               <rect x="9" y="1" width="6" height="6" rx="1" fill="#818cf8" opacity="0.5"/>
@@ -440,27 +470,26 @@ export default function CssGridBuilderTool() {
               <rect x="9" y="9" width="6" height="6" rx="1" fill="#818cf8" opacity="0.3"/>
             </svg>
           </div>
-          CSS Grid Builder
-        </div>
-
-        <div className={styles.presetStrip}>
-          {PRESETS.map(p => (
-            <button
-              key={p.id}
-              className={`${styles.presetBtn} ${activePresetId === p.id ? styles.presetBtnActive : ''}`}
-              onClick={() => applyPreset(p)}
-            >
-              {p.label}
-            </button>
-          ))}
-        </div>
-      </header>
-
-      {/* ── Body ───────────────────────────────────────────────────────── */}
-      <div className={styles.body}>
-
-        {/* ── Left pane ────────────────────────────────────────────────── */}
-        <aside className={styles.leftPane}>
+              CSS Grid Builder
+            </div>
+            <ForkToMyCodeButton getSnippet={forkSnippet} />
+          </div>
+          <div className={styles.section}>
+            <div className={styles.sectionHeader}>
+              <span className={styles.sectionLabel}>Presets</span>
+            </div>
+            <div className={styles.presetWrap}>
+              {PRESETS.map(p => (
+                <button
+                  key={p.id}
+                  className={`${styles.presetBtn} ${activePresetId === p.id ? styles.presetBtnActive : ''}`}
+                  onClick={() => applyPreset(p)}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+          </div>
 
           {/* Columns */}
           <div className={styles.section}>
@@ -609,6 +638,8 @@ export default function CssGridBuilderTool() {
 
         {/* ── Right pane ───────────────────────────────────────────────── */}
         <div className={styles.rightPane}>
+          {/* Ad space: top of the right panel, above the canvas */}
+          <PlaygroundTopAd />
 
           {/* Canvas hint bar */}
           <div className={styles.canvasBar}>

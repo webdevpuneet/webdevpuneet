@@ -70,9 +70,11 @@
 /* Tool name at the top of the left column (was a full-width header row). */
 .pickerTitle {
   display: flex;
-  align-items: center;
-  padding: 0 16px;
-  height: 52px;
+  flex-direction: column;     /* tool name, then the Fork button under it */
+  align-items: stretch;
+  justify-content: center;
+  padding: 12px 16px;
+  min-height: 52px;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
   flex-shrink: 0;
@@ -289,3 +291,6 @@
 :global([data-theme="dark"]) .copyBtn:hover { border-color: #6affd4; color: #6affd4; }
 :global([data-theme="dark"]) .copyBtnCopied { border-color: #6affd4 !important; color: #6affd4 !important; }
 :global([data-theme="dark"]) .codeBlock { background: var(--bg); color: #6affd4; }
+
+/* Fork to My Code under the tool name */
+.pickerFork { margin-top: 10px; }

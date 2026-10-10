@@ -5,6 +5,7 @@ import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import ForkToMyCodeButton from '@/components/ForkToMyCodeButton';
 // ── Comprehensive Google Fonts list (category + variants) ─────────────────────
 // Loaded lazily from Google Fonts API; this is the offline fallback/seed list
 const SEED_FONTS = [
@@ -386,6 +387,31 @@ body, p {
   font-family: '${bodyFont}', sans-serif;
 }`;
 
+  // Fork to My Code: a sample article page set in the pairing (fonts load via the @import)
+  const forkSnippet = () => ({
+    name: `Font Pairing — ${headingFont} + ${bodyFont}`,
+    html: `<article>
+  <p class="eyebrow">Font pairing</p>
+  <h1>${headingFont} meets ${bodyFont}</h1>
+  <p class="lead">A heading face with character and a body face built for reading: the pairing you picked, on a real page.</p>
+  <h2>Why pairings matter</h2>
+  <p>Contrast between the two families gives the page a clear hierarchy, while a shared mood keeps it feeling like one design. Edit the text, sizes and colours here to test it with your own content.</p>
+  <h3>Next steps</h3>
+  <p>Copy the @import line into your stylesheet, then apply the two font-family rules to your headings and body text.</p>
+</article>`,
+    css: `${cssCode}
+
+/* Demo page */
+* { box-sizing: border-box; }
+body { margin: 0; padding: 48px 20px; background: #fafaf9; color: #1c1917; line-height: 1.7; }
+article { max-width: 680px; margin: 0 auto; }
+.eyebrow { margin: 0 0 8px; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #a8a29e; }
+h1 { margin: 0 0 16px; font-size: clamp(34px, 6vw, 52px); line-height: 1.1; }
+h2 { margin: 40px 0 10px; font-size: 28px; line-height: 1.2; }
+h3 { margin: 28px 0 8px; font-size: 21px; }
+.lead { font-size: 19px; color: #57534e; }`,
+  });
+
   const copyCSS = () => {
     navigator.clipboard.writeText(cssCode).then(() => {
       setCopied(true);
@@ -412,6 +438,7 @@ body, p {
                 <div className={styles.logoIcon}>Ff</div>
                 <span>Font <span className={styles.logoAccent}>Pairing</span></span>
               </div>
+              <div className={styles.pickerFork}><ForkToMyCodeButton getSnippet={forkSnippet} /></div>
             </div>
           }
         />

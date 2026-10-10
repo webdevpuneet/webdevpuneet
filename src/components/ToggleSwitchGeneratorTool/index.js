@@ -5,6 +5,8 @@ import s from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import ForkToMyCodeButton from '@/components/ForkToMyCodeButton';
+import { CENTER_PAGE_CSS } from '@/lib/fork-to-mycode';
 const PRESETS = [
   { name: 'Blue',    trackOff: '#d1d5db', trackOn: '#3b82f6', thumb: '#ffffff', focus: '#3b82f6', shape: 'pill', shadow: true,  border: false },
   { name: 'Green',   trackOff: '#d1d5db', trackOn: '#10b981', thumb: '#ffffff', focus: '#10b981', shape: 'pill', shadow: true,  border: false },
@@ -521,6 +523,13 @@ export default function ToggleSwitchGeneratorTool() {
     setBorderColor(p.trackOn);
   }
 
+  // Fork to My Code: the switch markup in the HTML panel, its styles in the CSS panel
+  const forkSnippet = () => ({
+    name: 'Toggle Switch',
+    html: genHTML(cfg).split('\n\n<style>')[0],
+    css: `${CENTER_PAGE_CSS}\n\n/* The switch you built */\n${buildCSS(cfg)}`,
+  });
+
   const code = useMemo(() => {
     switch (codeTab) {
       case 'html':     return genHTML(cfg);
@@ -558,6 +567,7 @@ export default function ToggleSwitchGeneratorTool() {
               <span>Toggle Switch <span className={s.accent}>Generator</span></span>
             </div>
           </div>
+          <div className={s.forkRow}><ForkToMyCodeButton getSnippet={forkSnippet} /></div>
           <div className={s.leftScroll}>
 
             {/* Presets */}

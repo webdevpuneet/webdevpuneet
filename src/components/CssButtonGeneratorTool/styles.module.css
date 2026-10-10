@@ -9,17 +9,6 @@
 }
 
 /* ── Header ── */
-.header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 7px 14px;
-  min-height: 48px;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface);
-  flex-shrink: 0;
-}
-
 .logo {
   display: flex;
   align-items: center;
@@ -45,14 +34,17 @@
 
 .accent { color: var(--clr-purple); }
 
-.headerRight {
-  margin-left: auto;
+/* Tool name + Fork button at the top of the left panel */
+.toolHead {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 12px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
 }
-
-.hint {
-  font-size: 11px;
-  color: var(--text3);
-}
+.toolHead .logo { white-space: normal; line-height: 1.2; }
 
 /* ── Body ── */
 .body {

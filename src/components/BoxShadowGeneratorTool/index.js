@@ -5,6 +5,8 @@ import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import ForkToMyCodeButton from '@/components/ForkToMyCodeButton';
+import { CENTER_PAGE_CSS } from '@/lib/fork-to-mycode';
 let idCounter = 0;
 function mkId() { return ++idCounter; }
 
@@ -231,6 +233,26 @@ export default function BoxShadowGeneratorTool() {
     return '';
   };
 
+  // Fork to My Code: the preview box with the shadow you built, on the preview background
+  const forkSnippet = () => ({
+    name: 'Box Shadow',
+    html: '<div class="card">Box shadow</div>',
+    css: `${CENTER_PAGE_CSS.replace('background: #f1f5f9;', `background: ${previewBg};`)}
+
+.card {
+  width: ${boxW}px;
+  height: ${boxH}px;
+  display: grid;
+  place-items: center;
+  border-radius: ${boxRadius}px;
+  background: ${boxColor};
+  color: #475569;
+  font-weight: 600;
+  /* The shadow you built */
+  box-shadow: ${shadowMultiline.split('\n').join('\n  ')};
+}`,
+  });
+
   const copyCode = () => {
     navigator.clipboard.writeText(getCode()).then(() => {
       setCopied(true);
@@ -272,6 +294,7 @@ export default function BoxShadowGeneratorTool() {
               <button className={styles.resetBtn} onClick={handleReset}>Reset</button>
             </div>
           </div>
+          <div className={styles.forkRow}><ForkToMyCodeButton getSnippet={forkSnippet} /></div>
 
           {/* Mode toggle — top of sidebar */}
           <div className={styles.section}>

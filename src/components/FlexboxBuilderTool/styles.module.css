@@ -32,6 +32,9 @@
   flex-shrink: 0;
 }
 
+/* Fork button under the brand block */
+.brandActions { padding: 12px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+
 .brandIcon {
   width: 30px;
   height: 30px;

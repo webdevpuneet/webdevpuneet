@@ -5,6 +5,8 @@ import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import ForkToMyCodeButton from '@/components/ForkToMyCodeButton';
+import { CENTER_PAGE_CSS } from '@/lib/fork-to-mycode';
 let shapeId = 0;
 function mkId(tag) { return `${tag}_${++shapeId}`; }
 
@@ -762,6 +764,22 @@ export default function SvgAnimationGeneratorTool() {
   const fullHTML    = buildHtmlOutput({ shapes, viewBox: canvasViewBox, svgDefs, bg });
   const previewHTML = (cssStyleBlock ? cssStyleBlock + '\n  ' : '') + svgDefs + svgContent;
 
+  // Fork to My Code. GSAP: the static SVG in the HTML panel, GSAP (+ plugins) as CDN
+  // scripts and the timeline in the JS panel. CSS / SMIL: the animated SVG as it is.
+  const forkSnippet = () => {
+    const page = `* { margin: 0; padding: 0; box-sizing: border-box; }
+body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: ${BG_COLORS[bg] || '#0d0d1a'}; }
+svg { width: 90vmin; height: 90vmin; }`;
+    if (animEngine === 'gsap') {
+      const body = fullHTML.slice(fullHTML.indexOf('<body>') + 6, fullHTML.indexOf('</body>'));
+      const svg = body.slice(body.indexOf('<svg'), body.indexOf('</svg>') + 6).trim();
+      const cdnUrls = [...body.matchAll(/<script src="([^"]+)"/g)].map(m => m[1]);
+      const inline = body.match(/<script>([\s\S]*?)<\/script>/);
+      return { name: 'SVG Animation (GSAP)', html: svg, css: page, js: inline ? inline[1].trim() : '', cdnUrls };
+    }
+    return { name: 'SVG Animation', html: fullSVG, css: page };
+  };
+
   const copy = () => navigator.clipboard.writeText(fullSVG).then(() => { setCopied(true); setTimeout(() => setCopied(false), 1800); });
   const download = () => {
     const blob = new Blob([fullSVG], { type: 'image/svg+xml' });
@@ -778,16 +796,18 @@ export default function SvgAnimationGeneratorTool() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="svg-animation-generator" />
-      {/* Header */}
-      <div className={styles.header} style={{ height: 'auto', minHeight: 52 }}>
-        <div className={styles.headerIcon}>△</div>
-        <span className={styles.headerTitle}>SVG <span className={styles.headerAccent}>Animation</span> Generator</span>
-        <PlaygroundTopAd inline />
-      </div>
 
       <div className={styles.layout}>
         {/* ── Sidebar ── */}
         <aside className={styles.sidebar}>
+
+          <div className={styles.toolHead}>
+            <div className={styles.toolHeadTitle}>
+              <div className={styles.headerIcon}>△</div>
+              <span>SVG <span className={styles.headerAccent}>Animation</span> Generator</span>
+            </div>
+            <ForkToMyCodeButton getSnippet={forkSnippet} />
+          </div>
 
           {/* Import SVG */}
           <div className={styles.section}>
@@ -999,6 +1019,9 @@ export default function SvgAnimationGeneratorTool() {
 
         {/* ── Main ── */}
         <main className={styles.main}>
+          {/* Ad space: top of the preview column */}
+          <PlaygroundTopAd />
+
 
           {/* Canvas toolbar */}
           <div className={styles.canvasBar}>

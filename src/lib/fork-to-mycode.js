@@ -25,3 +25,15 @@ export function forkToMyCode({ name, html = '', css = '', js = '', cdnUrls = [] 
 }
 
 export { b64url };
+
+// Page shell for forked generator output: centres the result on a light background.
+export const CENTER_PAGE_CSS = `* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #f1f5f9;
+  font-family: system-ui, -apple-system, sans-serif;
+}`;

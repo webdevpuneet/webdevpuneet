@@ -93,6 +93,18 @@
 }
 
 /* ── Left panel: SVG editor + presets ── */
+/* Title, cubic-bezier value, Copy / Fork at the top of the left panel */
+.sideTop {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 14px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.sideTop .cbDisplay { display: block; overflow: hidden; text-overflow: ellipsis; }
+.sideActions { display: grid; grid-template-columns: auto 1fr; gap: 8px; }
+
 .editorPanel {
   width: 310px;
   flex-shrink: 0;

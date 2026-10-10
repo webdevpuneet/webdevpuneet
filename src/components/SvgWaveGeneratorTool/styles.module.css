@@ -98,6 +98,39 @@
 }
 
 /* ── Sections ───────────────────────────────────────────────── */
+/* Pinned head of the left panel: title, live value, actions */
+.sideTop {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  flex-shrink: 0;
+  padding: 14px 14px 12px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.sideTitleRow { display: flex; align-items: center; gap: 10px; }
+.sideTitleRow .headerTitle { white-space: normal; line-height: 1.2; font-size: 15px; }
+.sideCode {
+  display: block;
+  margin: 10px 0;
+  padding: 6px 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: var(--font-mono); font-size: 10px; line-height: 1.5;
+  color: var(--text3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sideActions { display: grid; grid-template-columns: auto 1fr; gap: 8px; }
+.sideActions > button:first-child { padding: 7px 12px; }
+.sideTitleRow .title { white-space: normal; line-height: 1.2; font-size: 15px; }
+/* Undo / redo / share on one row, Fork full width under it */
+.sideActions { grid-template-columns: 1fr; }
+.sideBtnRow { display: flex; gap: 6px; }
+.sideBtnRow .shareBtn { flex: 1; }
+
 .section {
   padding: 16px;
   border-bottom: 1px solid var(--border);

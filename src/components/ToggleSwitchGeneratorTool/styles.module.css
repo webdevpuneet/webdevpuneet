@@ -526,3 +526,6 @@
   line-height: 1.7;
   tab-size: 2;
 }
+
+/* Fork to My Code under the panel title */
+.forkRow { padding: 0 14px 12px; flex-shrink: 0; }

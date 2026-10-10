@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import ForkToMyCodeButton from '@/components/ForkToMyCodeButton';
 
 /* ── SVG coordinate helpers ─────────────────────────────────────────────── */
 const SVG_W  = 260;
@@ -188,30 +189,63 @@ export default function CssEasingGeneratorTool() {
   const hp2 = toSvgClamped(x2, y2);
   const path = bezierPath(x1, y1, x2, y2);
 
+  // Fork to My Code: a ball that travels back and forth with your easing curve
+  const forkSnippet = () => ({
+    name: `Easing — ${cbValue}`,
+    html: `<div class="track">
+  <div class="ball"></div>
+</div>
+<p class="label">${cbValue}</p>`,
+    css: `* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  gap: 16px;
+  padding: 24px;
+  background: #f1f5f9;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+.track { width: min(520px, 90vw); height: 56px; padding: 8px; border-radius: 999px; background: #e2e8f0; }
+.ball {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #8b5cf6;
+  /* The easing you built */
+  animation: slide ${duration}s ${cbValue} infinite alternate;
+}
+@keyframes slide {
+  to { transform: translateX(calc(min(520px, 90vw) - 56px)); }
+}
+.label { margin: 0; text-align: center; font: 600 13px ui-monospace, monospace; color: #64748b; }`,
+  });
+
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="css-easing-generator" />
-
-      {/* ── Header ── */}
-      <div className={styles.header}>
-        <div className={styles.logo}>
-          <div className={styles.logoIcon}><span className={styles.accent}>⌒</span></div>
-          <span>CSS <span className={styles.accent}>Easing</span> Generator</span>
-        </div>
-        <div className={styles.controls}>
-          <code className={styles.cbDisplay}>{cbValue}</code>
-          <button
-            className={`${styles.copyHeaderBtn} ${copied === 'cb' ? styles.copyOk : ''}`}
-            onClick={() => handleCopy(cbValue, 'cb')}
-          >{copied === 'cb' ? '✓ Copied' : 'Copy'}</button>
-        </div>
-      </div>
 
       {/* ── Body ── */}
       <div className={styles.body}>
 
         {/* Left: SVG curve editor */}
         <div className={styles.editorPanel}>
+          {/* Title, the cubic-bezier value and actions at the top of the panel */}
+          <div className={styles.sideTop}>
+            <div className={styles.logo}>
+              <div className={styles.logoIcon}><span className={styles.accent}>⌒</span></div>
+              <span>CSS <span className={styles.accent}>Easing</span> Generator</span>
+            </div>
+            <code className={styles.cbDisplay} title={cbValue}>{cbValue}</code>
+            <div className={styles.sideActions}>
+              <button
+                className={`${styles.copyHeaderBtn} ${copied === 'cb' ? styles.copyOk : ''}`}
+                onClick={() => handleCopy(cbValue, 'cb')}
+              >{copied === 'cb' ? '✓ Copied' : 'Copy'}</button>
+              <ForkToMyCodeButton getSnippet={forkSnippet} />
+            </div>
+          </div>
           <div className={styles.svgLabel}>Curve Editor <span className={styles.svgHint}>drag handles</span></div>
           <div className={styles.svgWrap}>
             <svg

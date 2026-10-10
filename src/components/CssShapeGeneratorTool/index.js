@@ -5,6 +5,8 @@ import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import ForkToMyCodeButton from '@/components/ForkToMyCodeButton';
+import { CENTER_PAGE_CSS } from '@/lib/fork-to-mycode';
 /* ─── Helpers ───────────────────────────────────────────────────── */
 function c2k(s) { return s.replace(/([A-Z])/g, m => `-${m.toLowerCase()}`); }
 function rot(r)  { return r ? { transform: `rotate(${r}deg)` } : {}; }
@@ -241,6 +243,13 @@ export default function CssShapeGeneratorTool() {
     return tab ? tab.gen(cssPropsObj, shape.name) : '';
   }, [cssPropsObj, exportTab, shape]);
 
+  // Fork to My Code: the selected shape as its own class, centred on a page
+  const forkSnippet = () => ({
+    name: `CSS Shape — ${shape ? shape.name : 'Shape'}`,
+    html: `<div class="${shape ? toSlug(shape.name) : 'shape'}"></div>`,
+    css: `${CENTER_PAGE_CSS}\n\n/* The shape you built */\n${shape ? genCSS(cssPropsObj, shape.name) : ''}`,
+  });
+
   function handleCopy() {
     navigator.clipboard.writeText(code).catch(() => {});
     setCopied(true);
@@ -261,6 +270,7 @@ export default function CssShapeGeneratorTool() {
               <span>CSS <span className={styles.accent}>Shape</span> Generator</span>
             </div>
           </div>
+          <div className={styles.forkRow}><ForkToMyCodeButton getSnippet={forkSnippet} /></div>
           <div className={styles.groupTabs}>
             {GROUPS.map(g => (
               <button

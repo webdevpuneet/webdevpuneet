@@ -6,6 +6,8 @@ import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import ForkToMyCodeButton from '@/components/ForkToMyCodeButton';
+import { CENTER_PAGE_CSS } from '@/lib/fork-to-mycode';
 const EmojiPicker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
 /* ─── Google Fonts ────────────────────────────────────────────────────────── */
@@ -638,15 +640,35 @@ export default function CssButtonGeneratorTool() {
     return '';
   }, [s, exportTab, fontFamily, iconPos, iconText, iconGap]);
 
+  // Fork to My Code: the button in its own HTML + CSS, centred on a page
+  const forkSnippet = () => {
+    const hasIcon = iconPos !== 'none' && iconText;
+    const inner = hasIcon
+      ? (iconPos === 'before'
+          ? `<span class="btn-icon">${iconText}</span><span>${s.label}</span>`
+          : `<span>${s.label}</span><span class="btn-icon">${iconText}</span>`)
+      : s.label;
+    const base = buildBaseCSS(s, '.my-button', fontFamily, iconPos, iconGap);
+    // @import (Google Font) has to stay first in the stylesheet
+    const imports = base.split('\n').filter(l => l.startsWith('@import')).join('\n');
+    const rules = base.split('\n').filter(l => !l.startsWith('@import')).join('\n').trim();
+    return {
+      name: `Button — ${s.label}`,
+      html: `<button class="my-button">${inner}</button>`,
+      css: [imports, CENTER_PAGE_CSS, rules].filter(Boolean).join('\n\n'),
+    };
+  };
+
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="css-button-generator" />
-      <PlaygroundTopAd />
+      <div className={styles.body}>
 
-      {/* ── Header ── */}
-      <div className={styles.header}>
-        <div className={styles.logo}>
-          <div className={styles.logoIcon}>
+        {/* ── Left: presets ── */}
+        <div className={styles.presetsPanel}>
+          <div className={styles.toolHead}>
+            <div className={styles.logo}>
+              <div className={styles.logoIcon}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="1" y="4" width="14" height="8" rx="3" stroke="#a855f7" strokeWidth="1.5"/>
               <rect x="3.5" y="6.5" width="4" height="3" rx="1" fill="#a855f7" opacity="0.7"/>
@@ -654,17 +676,10 @@ export default function CssButtonGeneratorTool() {
               <line x1="9.5" y1="9" x2="11.5" y2="9" stroke="#a855f7" strokeWidth="1.2" strokeLinecap="round" opacity="0.5"/>
             </svg>
           </div>
-          <span>CSS Button Generator</span>
-        </div>
-        <div className={styles.headerRight}>
-          <span className={styles.hint}>Live preview · Real-time CSS</span>
-        </div>
-      </div>
-
-      <div className={styles.body}>
-
-        {/* ── Left: presets ── */}
-        <div className={styles.presetsPanel}>
+              <span>CSS Button Generator</span>
+            </div>
+            <ForkToMyCodeButton getSnippet={forkSnippet} />
+          </div>
           <div className={styles.panelTitle}>Button Presets</div>
           <div className={styles.catTabs}>
             {CATEGORIES.map(c => (
@@ -891,6 +906,8 @@ export default function CssButtonGeneratorTool() {
 
         {/* ── Right: preview + export ── */}
         <div className={styles.rightPanel}>
+          {/* Ad space: top of the right panel, above the preview */}
+          <PlaygroundTopAd />
 
           {/* Preview */}
           <div className={styles.previewBox}>

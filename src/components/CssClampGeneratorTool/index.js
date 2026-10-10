@@ -5,6 +5,7 @@ import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import ForkToMyCodeButton from '@/components/ForkToMyCodeButton';
 /* ── Math ─────────────────────────────────────────────────────── */
 function f(n, d = 4) { return parseFloat(n.toFixed(d)); }
 
@@ -190,36 +191,64 @@ export default function CssClampGeneratorTool() {
   const clampedPreviewVw = Math.min(maxVw, Math.max(minVw, previewVw));
   const vpPercent = maxVw > minVw ? ((clampedPreviewVw - minVw) / (maxVw - minVw)) * 100 : 0;
 
+  // Fork to My Code: the fluid type scale as CSS variables, applied to a sample page.
+  // Resize the My Code preview to watch every size scale between the two viewports.
+  const forkSnippet = () => ({
+    name: 'Fluid Type Scale (clamp)',
+    html: scales.slice().reverse().map(s => `<p class="text-${s.name}"><span>${s.name}</span>${s.sample}</p>`).join('\n'),
+    css: `/* Fluid type scale: ${minBase}px → ${maxBase}px between ${minVw}px and ${maxVw}px wide */
+:root {
+${scales.map(s => `  --text-${s.name}: ${s.clampStr};`).join('\n')}
+}
+
+* { box-sizing: border-box; }
+body {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 20px;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #1e293b;
+}
+p { margin: 0 0 18px; line-height: 1.25; }
+p span {
+  display: inline-block;
+  min-width: 3.2em;
+  margin-right: 10px;
+  font: 600 11px ui-monospace, monospace;
+  color: #94a3b8;
+  vertical-align: middle;
+}
+
+${scales.map(s => `.text-${s.name} { font-size: var(--text-${s.name}); }`).join('\n')}`,
+  });
+
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="css-clamp-generator" />
-      <PlaygroundTopAd />
-      {/* ── Header ── */}
-      <div className={styles.header}>
-        <div className={styles.logoIcon}>
+      {/* ── Body ── */}
+      <div className={styles.body}>
+
+        {/* ── Controls ── */}
+        <div className={styles.controls}>
+
+          {/* Title, live value and actions pinned at the top of the panel */}
+          <div className={styles.sideTop}>
+            <div className={styles.sideTitleRow}>
+              <div className={styles.logoIcon}>
           <svg width="16" height="16" viewBox="0 0 32 32" fill="none">
             <line x1="3" y1="24" x2="8" y2="24" stroke="#a78bfa" strokeWidth="3" strokeLinecap="round"/>
             <line x1="8" y1="24" x2="24" y2="9"  stroke="#4ade9e" strokeWidth="3" strokeLinecap="round"/>
             <line x1="24" y1="9" x2="29" y2="9"  stroke="#a78bfa" strokeWidth="3" strokeLinecap="round"/>
           </svg>
         </div>
-        <span className={styles.headerTitle}>
-          CSS <strong className={styles.accent}>clamp()</strong> <span className={styles.accentGreen}>Generator</span>
-        </span>
-        <div className={styles.sep} />
-        <span className={styles.headerSub}>
-          {minBase}px → {maxBase}px · ratio {f(effectiveRatio, 3)} · {minVw}px–{maxVw}px
-        </span>
-        <div className={styles.headerActions}>
-          <button className={styles.resetBtn} onClick={reset}>Reset</button>
-        </div>
-      </div>
-
-      {/* ── Body ── */}
-      <div className={styles.body}>
-
-        {/* ── Controls ── */}
-        <div className={styles.controls}>
+              <div className={styles.headerTitle}>CSS <strong className={styles.accent}>clamp()</strong> <span className={styles.accentGreen}>Generator</span></div>
+            </div>
+            <code className={styles.sideCode} title={`${minBase}px → ${maxBase}px · ratio ${f(effectiveRatio, 3)} · ${minVw}px–${maxVw}px`}>{`${minBase}px → ${maxBase}px · ratio ${f(effectiveRatio, 3)} · ${minVw}px–${maxVw}px`}</code>
+            <div className={styles.sideActions}>
+              <button className={styles.resetBtn} onClick={reset}>Reset</button>
+              <ForkToMyCodeButton getSnippet={forkSnippet} />
+            </div>
+          </div>
 
           <div className={styles.section}>
             <div className={styles.sectionTitle}>Viewport Range</div>
@@ -335,6 +364,8 @@ export default function CssClampGeneratorTool() {
 
         {/* ── Preview ── */}
         <div className={styles.previewPane}>
+          {/* Ad space: top of the preview column */}
+          <PlaygroundTopAd />
           <div className={styles.vpBar}>
             <span className={styles.vpBarLabel}>Viewport</span>
             <input type="range" className={styles.vpSlider}

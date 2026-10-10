@@ -497,3 +497,6 @@
 
 .copyBtn:hover { border-color: #7c6aff; color: #7c6aff; }
 .copyBtnCopied { border-color: #16a34a !important; color: #16a34a !important; }
+
+/* Fork to My Code under the panel title */
+.forkRow { padding: 0 14px 12px; flex-shrink: 0; }

@@ -5,6 +5,8 @@ import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import ForkToMyCodeButton from '@/components/ForkToMyCodeButton';
+import { CENTER_PAGE_CSS } from '@/lib/fork-to-mycode';
 const ANIMATIONS = [
   { id: 'fade-in',     name: 'Fade In',      kf: 'fade-in' },
   { id: 'fade-out',    name: 'Fade Out',     kf: 'fade-out' },
@@ -350,6 +352,27 @@ export default function CssAnimationGeneratorTool() {
 
   const reactCode = `// React component\nconst style = {\n  animation: '${animVal}',\n};\n\n/* Add to global CSS or a <style> tag: */\n${activeKf}`;
 
+  // Fork to My Code: a box running the animation you picked, with its keyframes
+  const forkSnippet = () => ({
+    name: `CSS Animation — ${animName}`,
+    html: '<div class="element">Animate</div>',
+    css: `${CENTER_PAGE_CSS}
+
+.element {
+  width: 120px;
+  height: 120px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: #6366f1;
+  color: #fff;
+  font-weight: 700;
+}
+
+/* The animation you built */
+${fullCSS}`,
+  });
+
   const outputCode = tab === 'css' ? fullCSS : tab === 'tailwind' ? tailwindCode : reactCode;
 
   const copy = () => {
@@ -393,22 +416,25 @@ export default function CssAnimationGeneratorTool() {
       <CssToolsTopNav active="css-animation-generator" />
       <style>{activeKf}</style>
 
-      <div className={styles.header} style={{ height: 'auto', minHeight: 52 }}>
-        <div className={styles.headerIcon}>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <rect x="2" y="2" width="5" height="5" rx="1.5" fill="currentColor" opacity="0.4"/>
-            <rect x="9" y="2" width="5" height="5" rx="1.5" fill="currentColor"/>
-            <rect x="2" y="9" width="5" height="5" rx="1.5" fill="currentColor"/>
-            <rect x="9" y="9" width="5" height="5" rx="1.5" fill="currentColor" opacity="0.4"/>
-          </svg>
-        </div>
-        <span className={styles.headerTitle}>CSS <span className={styles.headerAccent}>Animation</span> Generator</span>
-        <PlaygroundTopAd inline />
-      </div>
 
       <div className={styles.layout}>
         {/* Sidebar */}
         <aside className={styles.sidebar}>
+
+          <div className={styles.toolHead}>
+            <div className={styles.toolHeadTitle}>
+              <div className={styles.headerIcon}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <rect x="2" y="2" width="5" height="5" rx="1.5" fill="currentColor" opacity="0.4"/>
+                  <rect x="9" y="2" width="5" height="5" rx="1.5" fill="currentColor"/>
+                  <rect x="2" y="9" width="5" height="5" rx="1.5" fill="currentColor"/>
+                  <rect x="9" y="9" width="5" height="5" rx="1.5" fill="currentColor" opacity="0.4"/>
+                </svg>
+              </div>
+              <span>CSS <span className={styles.headerAccent}>Animation</span> Generator</span>
+            </div>
+            <ForkToMyCodeButton getSnippet={forkSnippet} />
+          </div>
           <div className={styles.sidebarTitle}>Animations</div>
 
           <div className={styles.searchWrap}>
@@ -437,6 +463,9 @@ export default function CssAnimationGeneratorTool() {
 
         {/* Main */}
         <main className={styles.main}>
+          {/* Ad space: top of the preview column */}
+          <PlaygroundTopAd />
+
 
           {/* Controls */}
           <div className={styles.controls}>

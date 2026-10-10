@@ -5,6 +5,8 @@ import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import ForkToMyCodeButton from '@/components/ForkToMyCodeButton';
+import { CENTER_PAGE_CSS } from '@/lib/fork-to-mycode';
 /* ─── Preset shapes ────────────────────────────────────────────────────── */
 const PRESETS = [
   // Basic polygons
@@ -342,6 +344,25 @@ export default function CssClipPathGenerator() {
   }, [bgImage]); // re-run only when a new image is uploaded
 
   /* ── Preview background style ───────────────────────────────────────── */
+  // Fork to My Code: a block clipped with your shape. An uploaded image only exists in this
+  // tab, so image mode falls back to the gradient.
+  const forkSnippet = () => {
+    const fill = bgType === 'color' ? bgColor : 'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f97316 100%)';
+    return {
+      name: 'CSS Clip-path Shape',
+      html: '<div class="clipped"></div>',
+      css: `${CENTER_PAGE_CSS}
+
+.clipped {
+  width: min(360px, 80vw);
+  aspect-ratio: 1;
+  background: ${fill};
+  /* The shape you built */
+  clip-path: ${clipPath};
+}`,
+    };
+  };
+
   const bgStyle = bgType === 'gradient'
     ? { background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f97316 100%)' }
     : bgType === 'color'
@@ -355,18 +376,6 @@ export default function CssClipPathGenerator() {
       <CssToolsTopNav active="css-clip-path-generator" />
 
       {/* ── Header ──────────────────────────────────────────────────────── */}
-      <div className={styles.header} style={{ height: 'auto', minHeight: 52 }}>
-        <div className={styles.logo}>
-          <div className={styles.logoIcon}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-              <polygon points="12,2 22,22 2,22" stroke="#818cf8" strokeWidth="1.5" fill="rgba(129,140,248,0.15)"/>
-            </svg>
-          </div>
-          <span>CSS <span style={{ color: '#818cf8' }}>Clip-path</span> Generator</span>
-        </div>
-
-        <PlaygroundTopAd inline />
-      </div>
 
       {/* ── Preset strip ─────────────────────────────────────────────────── */}
       <div className={styles.presetStrip}>
@@ -405,6 +414,18 @@ export default function CssClipPathGenerator() {
 
         {/* ── Left: controls ───────────────────────────────────────────── */}
         <div className={styles.leftPane}>
+
+          <div className={styles.toolHead}>
+            <div className={styles.toolHeadTitle}>
+              <div className={styles.logoIcon}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                  <polygon points="12,2 22,22 2,22" stroke="#818cf8" strokeWidth="1.5" fill="rgba(129,140,248,0.15)"/>
+                </svg>
+              </div>
+              <span>CSS <span style={{ color: '#818cf8' }}>Clip-path</span> Generator</span>
+            </div>
+            <ForkToMyCodeButton getSnippet={forkSnippet} />
+          </div>
 
           {/* Mode selector */}
           <div className={styles.section}>
@@ -568,6 +589,9 @@ export default function CssClipPathGenerator() {
 
         {/* ── Right: preview ───────────────────────────────────────────── */}
         <div className={styles.rightPane}>
+          {/* Ad space: top of the preview column */}
+          <PlaygroundTopAd />
+
 
           {/* Preview bar: Live Preview label (left) + Background controls (right) */}
           <div className={styles.previewBar}>

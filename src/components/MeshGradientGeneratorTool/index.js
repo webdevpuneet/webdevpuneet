@@ -5,6 +5,7 @@ import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import ForkToMyCodeButton from '@/components/ForkToMyCodeButton';
 /* ── Helpers ──────────────────────────────────────────────────── */
 function hexToRgba(hex, alpha) {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -468,14 +469,45 @@ export default function MeshGradientGeneratorTool() {
   /* ── Render ── */
   const active = blobs.find(b => b.id === activeBlob) || null;
 
+  // Fork to My Code: the mesh as a full-page hero background (the CSS export, unchanged)
+  const forkSnippet = () => ({
+    name: 'Mesh Gradient Hero',
+    html: `<section class="mesh-bg hero">
+  <h1>Mesh gradient background</h1>
+  <p>Made with the Mesh Gradient Generator on webdevpuneet.com</p>
+</section>`,
+    css: `* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, sans-serif; }
+
+.hero {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  gap: 12px;
+  padding: 48px 24px;
+  text-align: center;
+  color: #fff;
+}
+.hero h1 { margin: 0; font-size: clamp(28px, 6vw, 56px); line-height: 1.1; }
+.hero p { margin: 0; font-size: 17px; opacity: 0.85; }
+
+/* The mesh gradient you built */
+${cssString}`,
+  });
+
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="mesh-gradient-generator" />
-      <PlaygroundTopAd />
+      {/* ── Body ── */}
+      <div className={styles.body}>
 
-      {/* ── Header ── */}
-      <div className={styles.header}>
-        <div className={styles.logoIcon}>
+        {/* ── Left: Controls ── */}
+        <div className={styles.blobPanel}>
+
+          {/* Title, live value and actions pinned at the top of the panel */}
+          <div className={styles.sideTop}>
+            <div className={styles.sideTitleRow}>
+              <div className={styles.logoIcon}>
           <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="32" height="32" rx="7" fill="#060d1f"/>
             <defs><filter id="hb" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="3"/></filter></defs>
@@ -484,24 +516,19 @@ export default function MeshGradientGeneratorTool() {
             <circle cx="16" cy="24" r="11" fill="#43e97b" opacity="0.85" filter="url(#hb)"/>
           </svg>
         </div>
-        <span className={styles.headerTitle}>
-          <strong className={styles.accent}>Mesh</strong> <span className={styles.accent2}>Gradient</span> Generator
-        </span>
-        <div className={styles.sep} />
-        <span className={styles.headerSub}>{blobs.length} blobs · blur {blur}px · spread {Math.round(spread * 100)}%{grain > 0 ? ` · grain ${grain}%` : ''}</span>
-        <div className={styles.headerActions}>
-          <button className={styles.histBtn} onClick={undo} disabled={!canUndo} aria-label="Undo" title="Undo (Ctrl+Z)">↶</button>
-          <button className={styles.histBtn} onClick={redo} disabled={!canRedo} aria-label="Redo" title="Redo (Ctrl+Shift+Z)">↷</button>
-          <button className={styles.randomBtn} onClick={randomize} aria-label="Randomize blob positions and colors">⟳ Randomize</button>
-          <button className={styles.resetBtn}  onClick={reset} aria-label="Reset to default gradient">Reset</button>
-        </div>
-      </div>
-
-      {/* ── Body ── */}
-      <div className={styles.body}>
-
-        {/* ── Left: Controls ── */}
-        <div className={styles.blobPanel}>
+              <div className={styles.headerTitle}><strong className={styles.accent}>Mesh</strong> <span className={styles.accent2}>Gradient</span> Generator</div>
+            </div>
+            <code className={styles.sideCode} title={`${blobs.length} blobs · blur ${blur}px · spread ${Math.round(spread * 100)}%${grain > 0 ? ` · grain ${grain}%` : ''}`}>{`${blobs.length} blobs · blur ${blur}px · spread ${Math.round(spread * 100)}%${grain > 0 ? ` · grain ${grain}%` : ''}`}</code>
+            <div className={styles.sideActions}>
+              <div className={styles.sideBtnRow}>
+                <button className={styles.histBtn} onClick={undo} disabled={!canUndo} aria-label="Undo" title="Undo (Ctrl+Z)">↶</button>
+                <button className={styles.histBtn} onClick={redo} disabled={!canRedo} aria-label="Redo" title="Redo (Ctrl+Shift+Z)">↷</button>
+                <button className={styles.randomBtn} onClick={randomize} aria-label="Randomize blob positions and colors">⟳ Randomize</button>
+                <button className={styles.resetBtn} onClick={reset} aria-label="Reset to default gradient">Reset</button>
+              </div>
+              <ForkToMyCodeButton getSnippet={forkSnippet} />
+            </div>
+          </div>
 
           <div className={styles.section}>
             <div className={styles.sectionTitle}>Presets</div>
@@ -731,6 +758,8 @@ export default function MeshGradientGeneratorTool() {
 
         {/* ── Center: SVG Preview ── */}
         <div className={styles.previewPane}>
+          {/* Ad space: top of the preview column */}
+          <PlaygroundTopAd />
           <div className={styles.previewArea}>
             <div className={styles.svgWrap} style={{ aspectRatio: `${W} / ${H}` }}>
               <svg

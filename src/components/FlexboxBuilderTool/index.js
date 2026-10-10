@@ -5,6 +5,7 @@ import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import ForkToMyCodeButton from '@/components/ForkToMyCodeButton';
 // ── Color palette for flex items ─────────────────────────────────────────────
 // Text colours are the dark (700) shade of each hue so the number and grow/shrink
 // label stay readable on the light canvas; the old 400-shade lime (#d4f064) was
@@ -302,6 +303,27 @@ export default function FlexboxBuilderTool() {
     return buildHTML(s);
   }, [s]);
 
+  // Fork to My Code: the container + items as real HTML and CSS, items tinted so the layout shows
+  const forkSnippet = () => {
+    const plain = str => str.replace(/<[^>]+>/g, '')
+      .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+    return {
+      name: 'Flexbox Layout',
+      html: plain(buildHTML(s)),
+      css: `* { box-sizing: border-box; }
+body { margin: 0; padding: 32px 20px; font-family: system-ui, -apple-system, sans-serif; background: #f8fafc; }
+
+/* Demo styling so the items are visible: delete when you add real content */
+.container { min-height: 260px; padding: 12px; border: 2px dashed #cbd5e1; border-radius: 10px; }
+.container > div { padding: 16px 20px; border-radius: 8px; background: #6366f1; color: #fff; font-weight: 600; }
+.container > div:nth-child(3n + 2) { background: #10b981; }
+.container > div:nth-child(3n + 3) { background: #f59e0b; }
+
+/* The flexbox layout you built */
+${plain(buildCSS(s))}`,
+    };
+  };
+
   const handleCopy = () => {
     const el = document.getElementById('fb-code-output');
     const text = el?.innerText || el?.textContent || '';
@@ -322,7 +344,6 @@ export default function FlexboxBuilderTool() {
   return (
     <div className={styles.outerWrap}>
       <CssToolsTopNav active="flexbox-builder" />
-      <PlaygroundTopAd />
       <div className={styles.app}>
       {/* ── Control Sidebar ── */}
       <aside className={styles.sidebar}>
@@ -338,6 +359,9 @@ export default function FlexboxBuilderTool() {
             <div className={styles.brandText}>Flexbox Builder</div>
             <div className={styles.brandSub}>Visual layout editor</div>
           </div>
+        </div>
+        <div className={styles.brandActions}>
+          <ForkToMyCodeButton getSnippet={forkSnippet} />
         </div>
 
         <div className={styles.sidebarScroll}>
@@ -435,6 +459,9 @@ export default function FlexboxBuilderTool() {
 
       {/* ── Main Area ── */}
       <main className={styles.main}>
+        {/* Ad space: top of the right panel, above the canvas */}
+        <PlaygroundTopAd />
+
         {/* Toolbar */}
         <div className={styles.toolbar}>
           <div className={styles.toolbarLeft}>

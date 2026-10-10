@@ -5,6 +5,8 @@ import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import ForkToMyCodeButton from '@/components/ForkToMyCodeButton';
+import { CENTER_PAGE_CSS } from '@/lib/fork-to-mycode';
 const LOADERS = [
   { id: 'spinner', name: 'Spinner' },
   { id: 'dots',    name: 'Dots' },
@@ -262,6 +264,13 @@ export default function CssLoaderGeneratorTool() {
     return '';
   }, [tab, loaderDef]);
 
+  // Fork to My Code: the loader markup in the HTML panel, its CSS in the CSS panel
+  const forkSnippet = () => ({
+    name: 'CSS Loader',
+    html: loaderDef.html,
+    css: `${CENTER_PAGE_CSS.replace('background: #f1f5f9;', `background: ${bgColor};`)}\n\n/* The loader you built */\n${loaderDef.css}`,
+  });
+
   const copy = () => {
     navigator.clipboard.writeText(outputCode).then(() => {
       setCopied(true);
@@ -275,23 +284,25 @@ export default function CssLoaderGeneratorTool() {
       <style>{remapCss(loaderDef.css)}</style>
       <style>{miniStyles}</style>
 
-      {/* Full-width header */}
-      <div className={styles.header} style={{ height: 'auto', minHeight: 52 }}>
-        <div className={styles.logoIcon}>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3"/>
-            <path d="M8 2a6 6 0 0 1 6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-          </svg>
-        </div>
-        <span className={styles.headerTitle}>CSS <span className={styles.logoAccent}>Loader</span> Generator</span>
-        <PlaygroundTopAd inline />
-      </div>
 
       {/* Body: sidebar + content */}
       <div className={styles.body}>
 
       {/* Left sidebar */}
       <aside className={styles.sidebar}>
+
+          <div className={styles.toolHead}>
+            <div className={styles.toolHeadTitle}>
+              <div className={styles.logoIcon}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3"/>
+                  <path d="M8 2a6 6 0 0 1 6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <span>CSS <span className={styles.logoAccent}>Loader</span> Generator</span>
+            </div>
+            <ForkToMyCodeButton getSnippet={forkSnippet} />
+          </div>
         <p className={styles.sidebarLabel}>Loader Type</p>
         <div className={styles.chipGrid}>
           {miniData.map(m => (
@@ -310,6 +321,9 @@ export default function CssLoaderGeneratorTool() {
 
       {/* Right content */}
       <div className={styles.content}>
+          {/* Ad space: top of the preview column */}
+          <PlaygroundTopAd />
+
         {/* Controls bar */}
         <div className={styles.controlsBar}>
           <div className={styles.colorControl}>
