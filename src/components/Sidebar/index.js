@@ -777,20 +777,22 @@ function LibraryTab({ pathname }) {
       return next;
     });
   }
-  // "Related" is ON by default: every snippet page the reader lands on opens
-  // the sidebar on that snippet's related list — as long as no search,
-  // category or tag filter is set (canShowRelated below; a filter always wins).
-  // Toggling it off only lasts for the current page: the next snippet page
-  // turns it back on (reset in the effect under activeId). Not persisted.
-  const [relatedOn, setRelatedOn] = useState(true);
+  // "Related" is OFF by default: a snippet page opens the sidebar on the normal full
+  // library, and Prev / Next / Random (which follow the sidebar's list) step through
+  // that same normal order. The Related chip is an opt-in: turning it on scopes the
+  // sidebar and Prev / Next / Random to the open snippet's category, as long as no
+  // search, category or tag filter is set (canShowRelated below; a filter always wins).
+  // It only lasts for the current page: the next snippet page starts off again
+  // (reset in the effect under activeId). Not persisted.
+  const [relatedOn, setRelatedOn] = useState(false);
   const snippetListRef = useRef(null);
   const loadMoreBtnRef = useRef(null);
 
   // The current /ui-snippets/[id]/ page, if any — resolves to null (and the
   // effect below no-ops) on every other route, category gallery, or /mycode/.
   const activeId = pathname?.match(/^\/ui-snippets\/([^/]+)\/?$/)?.[1] || null;
-  // Landing on a (new) snippet page re-enables Related.
-  useEffect(() => { if (activeId) setRelatedOn(true); }, [activeId]);
+  // Landing on a (new) snippet page starts with Related off.
+  useEffect(() => { if (activeId) setRelatedOn(false); }, [activeId]);
 
   const snippetById = useMemo(() => new Map(VISIBLE_SNIPPETS.map(sn => [sn.id, sn])), []);
 

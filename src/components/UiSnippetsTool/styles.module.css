@@ -1137,6 +1137,17 @@ button.headerBrand {
   gap: 4px;
 }
 .navBtnLabeled svg { flex-shrink: 0; }
+/* "12 / 2,063": position of the open snippet between Prev and Next */
+.navCount {
+  flex-shrink: 0;
+  min-width: 64px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text2, #64748b);
+  white-space: nowrap;
+}
 .navBtnText {
   font-size: 11px;
   font-weight: 700;

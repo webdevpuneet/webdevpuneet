@@ -2095,6 +2095,16 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                     <span className={s.navBtnText}>Prev</span>
                   </button>
                 )}
+                {/* Where this snippet sits in the list Prev / Next walk through (the sidebar's list) */}
+                {catIdx >= 0 && catSnippets.length > 1 && (
+                  <span
+                    className={s.navCount}
+                    title={`Snippet ${(catIdx + 1).toLocaleString('en-US')} of ${catSnippets.length.toLocaleString('en-US')} in the current list`}
+                    aria-label={`Snippet ${catIdx + 1} of ${catSnippets.length}`}
+                  >
+                    {(catIdx + 1).toLocaleString('en-US')} / {catSnippets.length.toLocaleString('en-US')}
+                  </span>
+                )}
                 {nextCatSn ? (
                   <a
                     className={`${s.navBtn} ${s.navBtnLabeled}`}

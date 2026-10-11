@@ -679,3 +679,7 @@ on fwdtools. Backup before deleting: session scratchpad `pre-backend-removal.tgz
 - Deployed 2026-10-10 (5th, `npm run deploy`, tools.zip 315.1 MB uploaded; extract by hand): CSS tools layout pass + Fork to My Code on 18 tools. Build reported 'Compiled with warnings' (details not captured).
 
 - 2026-10-11: Related-snippets dock removed from UI snippet pages (RelatedDock component + CSS, the #related-dock-mount in the tool, the compact variant of RelatedCarousel, and the preview-stage overflow rule it needed). The in-page Related Snippets section (with the 300px hover preview) stays. Not yet deployed.
+
+- Deployed 2026-10-11 (6th, `npm run deploy`, tools.zip 314.6 MB uploaded; extract by hand): related-snippets dock removed, Related Snippets above the ad on snippet pages, Latest UI Snippets strip on /ui-snippets/mycode/.
+
+- 2026-10-11: Sidebar 'Related' chip now defaults OFF on snippet pages (Sidebar/index.js relatedOn=false, reset to off per snippet page). Prev / Next / Random already follow the sidebar's list, so they now step through the normal full library by default; turning Related on scopes both to the category. Not yet deployed.
