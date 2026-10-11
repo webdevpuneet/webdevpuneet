@@ -19,8 +19,9 @@ const verticalContentCarousel = {
 
   css: `*{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,sans-serif;background:#f6f7f9;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-.vcc-wrap{display:flex;align-items:center;gap:14px}
-.vcc-viewport{width:220px;height:220px;overflow:hidden;border-radius:16px;box-shadow:0 12px 30px rgba(15,23,42,.16)}
+.vcc-wrap{display:grid;grid-template-columns:auto auto;grid-template-areas:"up ." "view dots" "down .";justify-items:center;align-items:center;gap:12px 16px}
+.vcc-up{grid-area:up}.vcc-viewport{grid-area:view}.vcc-down{grid-area:down}.vcc-dots{grid-area:dots}
+.vcc-viewport{width:220px;height:220px;overflow:hidden;border-radius:16px;box-shadow:0 12px 30px rgba(15,23,42,.16);touch-action:none;user-select:none;cursor:grab}
 .vcc-track{display:flex;flex-direction:column;transition:transform .4s cubic-bezier(.4,0,.2,1)}
 .vcc-slide{flex:0 0 220px;height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#fff}
 .vcc-slide span{font-size:42px}
@@ -46,7 +47,8 @@ slides.forEach(function (s, i) {
 var dots = document.querySelectorAll('.vcc-dot');
 
 function render() {
-  track.style.transform = 'translateY(' + (-current * 100) + '%)';
+  // translateY % is relative to the TRACK (all slides tall), so step by one slide's share of it
+  track.style.transform = 'translateY(' + (-current * (100 / slides.length)) + '%)';
   dots.forEach(function (d, i) { d.classList.toggle('active', i === current); });
 }
 
@@ -61,7 +63,7 @@ document.addEventListener('keydown', function (e) {
   else if (e.key === 'ArrowUp') prev();
 });
 
-// Vertical drag/swipe support
+// Vertical drag / swipe (pointer events cover mouse, pen and touch, so no separate touch handlers)
 var dragging = false;
 var startY = 0;
 var viewport = document.querySelector('.vcc-viewport');
@@ -72,11 +74,7 @@ window.addEventListener('pointerup', function (e) {
   var dy = e.clientY - startY;
   if (Math.abs(dy) > 30) { dy < 0 ? next() : prev(); }
 });
-viewport.addEventListener('touchstart', function (e) { startY = e.touches[0].clientY; }, { passive: true });
-viewport.addEventListener('touchend', function (e) {
-  var dy = e.changedTouches[0].clientY - startY;
-  if (Math.abs(dy) > 30) { dy < 0 ? next() : prev(); }
-});
+window.addEventListener('pointercancel', function () { dragging = false; });
 
 render();`,
 
