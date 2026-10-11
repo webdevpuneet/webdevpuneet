@@ -2,6 +2,8 @@ import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
+import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
+import { getLatestSnippets } from '@/lib/snippet-related';
 
 const OG_IMAGE = 'https://webdevpuneet.com/images/ui-snippets/mycode.png';
 const TITLE    = 'My Code — Free Personal HTML CSS JS Code Space, No Signup | webdevpuneet.com';
@@ -153,12 +155,16 @@ const breadcrumbSchema = {
 };
 
 export default function SavedSnippetsPage() {
+  const latestSnippets = getLatestSnippets(60);
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      {/* Latest UI Snippets (same strip as the home page), right after the editor / saved snippet.
+          Not wrapped in IndexOnly, so it also shows while a saved snippet (?id=) is open. */}
+      <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} />
       {/* Ad above everything below (gallery only, hidden on saved snippets). */}
       <IndexOnly>
         <AdSlot adFirst related={false} />

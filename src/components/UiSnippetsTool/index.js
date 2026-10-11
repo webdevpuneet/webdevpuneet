@@ -2177,7 +2177,6 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             </div>
           )}
           {showEditor && <div className={s.previewStage}>
-          <div id="related-dock-mount" className={s.dockMount} />
           <div className={s.iframeWrap}>
             {!previewVisible && (
               <div className={s.previewLoading}>
