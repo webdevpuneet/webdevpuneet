@@ -962,6 +962,8 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   const cdnUrlsRef   = useRef([]);
   const [consoleLogs,  setConsoleLogs]  = useState([]);
   const [consoleOpen,  setConsoleOpen]  = useState(false);
+  const [jumping, setJumping] = useState(false);   // the "12 / 2,063" counter is a number box while true
+  const [jumpVal, setJumpVal] = useState('');
   const [homeMenuPos, setHomeMenuPos] = useState(null); // fixed-position coords of the home-button drop-down, null = closed
   function openHomeMenu(e) {
     const r = e.currentTarget.getBoundingClientRect();
@@ -2095,16 +2097,48 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                     <span className={s.navBtnText}>Prev</span>
                   </button>
                 )}
-                {/* Where this snippet sits in the list Prev / Next walk through (the sidebar's list) */}
-                {catIdx >= 0 && catSnippets.length > 1 && (
-                  <span
-                    className={s.navCount}
-                    title={`Snippet ${(catIdx + 1).toLocaleString('en-US')} of ${catSnippets.length.toLocaleString('en-US')} in the current list`}
-                    aria-label={`Snippet ${catIdx + 1} of ${catSnippets.length}`}
-                  >
-                    {(catIdx + 1).toLocaleString('en-US')} / {catSnippets.length.toLocaleString('en-US')}
-                  </span>
-                )}
+                {/* Where this snippet sits in the list Prev / Next walk through (the sidebar's list):
+                    a pill with a progress line along the bottom; click it to type a number and jump. */}
+                {catIdx >= 0 && catSnippets.length > 1 && (() => {
+                  const total = catSnippets.length;
+                  const pos = catIdx + 1;
+                  const go = () => {
+                    const n = Math.min(total, Math.max(1, parseInt(jumpVal, 10) || pos));
+                    setJumping(false);
+                    const target = catSnippets[n - 1];
+                    if (target && target.id !== activeId) { navStart(); window.location.href = `/ui-snippets/${target.id}/`; }
+                  };
+                  return jumping ? (
+                    <span className={`${s.navCount} ${s.navCountEdit}`}>
+                      <input
+                        className={s.navCountInput}
+                        type="number"
+                        min={1}
+                        max={total}
+                        autoFocus
+                        value={jumpVal}
+                        placeholder={String(pos)}
+                        aria-label={`Jump to a snippet number, 1 to ${total}`}
+                        onChange={e => setJumpVal(e.target.value)}
+                        onKeyDown={e => { if (e.key === 'Enter') go(); else if (e.key === 'Escape') setJumping(false); }}
+                        onBlur={() => setJumping(false)}
+                      />
+                      <span className={s.navCountOf}>/ {total.toLocaleString('en-US')}</span>
+                    </span>
+                  ) : (
+                    <button
+                      type="button"
+                      className={s.navCount}
+                      onClick={() => { setJumpVal(''); setJumping(true); }}
+                      title={`Snippet ${pos.toLocaleString('en-US')} of ${total.toLocaleString('en-US')} in this list. Click to jump to a number.`}
+                      aria-label={`Snippet ${pos} of ${total}. Click to jump to a number.`}
+                    >
+                      <span className={s.navCountCur}>{pos.toLocaleString('en-US')}</span>
+                      <span className={s.navCountOf}>/ {total.toLocaleString('en-US')}</span>
+                      <i className={s.navCountBar} style={{ width: `${Math.max(2, (pos / total) * 100)}%` }} aria-hidden="true" />
+                    </button>
+                  );
+                })()}
                 {nextCatSn ? (
                   <a
                     className={`${s.navBtn} ${s.navBtnLabeled}`}

@@ -1137,17 +1137,53 @@ button.headerBrand {
   gap: 4px;
 }
 .navBtnLabeled svg { flex-shrink: 0; }
-/* "12 / 2,063": position of the open snippet between Prev and Next */
+/* "587 / 2,063": position of the open snippet between Prev and Next, as a pill with a
+   progress line along the bottom edge; click to jump to a number */
 .navCount {
+  position: relative;
   flex-shrink: 0;
-  min-width: 64px;
-  text-align: center;
-  font-size: 11px;
-  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 22px;
+  padding: 0 8px;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 999px;
+  background: var(--surface, #fff);
+  overflow: hidden;
+  cursor: pointer;
+  font-family: inherit;
   font-variant-numeric: tabular-nums;
-  color: var(--text2, #64748b);
   white-space: nowrap;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
+button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+.navCountCur { font-size: 10.5px; font-weight: 800; color: var(--accent); }
+.navCountOf { font-size: 9.5px; font-weight: 600; color: var(--text3, #94a3b8); }
+.navCountBar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1.5px;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
+  transition: width 0.3s ease;
+}
+.navCountEdit { cursor: text; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+.navCountInput {
+  width: 42px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--accent);
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-align: right;
+  -moz-appearance: textfield;
+}
+.navCountInput::-webkit-inner-spin-button,
+.navCountInput::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 .navBtnText {
   font-size: 11px;
   font-weight: 700;
