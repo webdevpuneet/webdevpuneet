@@ -9,7 +9,7 @@ import { publishedTags, snippetsForTag } from '../src/lib/snippet-tags.js';
 // Exclude nofollow/test snippets (noindex: true) from sitemap + llms.txt — they only show on localhost
 const SNIPPETS = ALL_SNIPPETS.filter(sn => !sn.noindex);
 
-// The build output always ends up in out/ and is then copied to tools/.
+// The build output always ends up in out/, which make-zip.js archives as tools.zip.
 // When NEXT_DIST_DIR is set (e.g. `NEXT_DIST_DIR=.next-deploy npm run deploy` while the dev
 // server owns .next), Next writes the static export into that folder instead, so step 1
 // moves it to out/ first.
@@ -100,11 +100,9 @@ function esc(str) {
     .replace(/"/g, '&quot;');
 }
 
-/** Write a file into every output directory */
+/** Write a file into the build output */
 function write(filename, content) {
-  for (const dest of ['out', 'tools']) {
-    fs.writeFileSync(path.join(dest, filename), content, 'utf8');
-  }
+  fs.writeFileSync(path.join('out', filename), content, 'utf8');
 }
 
 /** Build a <sitemapindex> string */
@@ -169,7 +167,7 @@ const imageSet = new Set(
 
 async function main() {
 
-  /* ── 1. Build output → out/ → tools/ ─────────────────────────────────────── */
+  /* ── 1. Build output → out/ ──────────────────────────────────────────────── */
   if (DIST_DIR && path.resolve(DIST_DIR) !== path.resolve('out')) {
     if (!fs.existsSync(path.join(DIST_DIR, 'index.html'))) throw new Error(`No static export found in ${DIST_DIR}/`);
     if (fs.existsSync('out')) fs.rmSync('out', { recursive: true });
@@ -177,9 +175,6 @@ async function main() {
     console.log(`✓ Moved ${DIST_DIR}/ → out/`);
   }
   if (!fs.existsSync(path.join('out', 'index.html'))) throw new Error('No static export found in out/');
-  if (fs.existsSync('tools')) fs.rmSync('tools', { recursive: true });
-  fs.cpSync('out', 'tools', { recursive: true });
-  console.log('✓ Copied out/ → tools/');
 
   /* ── 2. sitemap-categories.xml ─────────────────────────────────────────── */
   const categoryEntries = [
