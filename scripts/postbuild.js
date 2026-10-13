@@ -9,6 +9,12 @@ import { publishedTags, snippetsForTag } from '../src/lib/snippet-tags.js';
 // Exclude nofollow/test snippets (noindex: true) from sitemap + llms.txt — they only show on localhost
 const SNIPPETS = ALL_SNIPPETS.filter(sn => !sn.noindex);
 
+// The build output always ends up in out/ and is then copied to tools/.
+// When NEXT_DIST_DIR is set (e.g. `NEXT_DIST_DIR=.next-deploy npm run deploy` while the dev
+// server owns .next), Next writes the static export into that folder instead, so step 1
+// moves it to out/ first.
+const DIST_DIR = process.env.NEXT_DIST_DIR;
+
 const BASE_URL  = 'https://webdevpuneet.com';
 const PAGE_SIZE = 50_000; // Google's per-sitemap URL limit
 
@@ -163,7 +169,14 @@ const imageSet = new Set(
 
 async function main() {
 
-  /* ── 1. Copy out/ → tools/ ─────────────────────────────────────────────── */
+  /* ── 1. Build output → out/ → tools/ ─────────────────────────────────────── */
+  if (DIST_DIR && path.resolve(DIST_DIR) !== path.resolve('out')) {
+    if (!fs.existsSync(path.join(DIST_DIR, 'index.html'))) throw new Error(`No static export found in ${DIST_DIR}/`);
+    if (fs.existsSync('out')) fs.rmSync('out', { recursive: true });
+    fs.renameSync(DIST_DIR, 'out');
+    console.log(`✓ Moved ${DIST_DIR}/ → out/`);
+  }
+  if (!fs.existsSync(path.join('out', 'index.html'))) throw new Error('No static export found in out/');
   if (fs.existsSync('tools')) fs.rmSync('tools', { recursive: true });
   fs.cpSync('out', 'tools', { recursive: true });
   console.log('✓ Copied out/ → tools/');

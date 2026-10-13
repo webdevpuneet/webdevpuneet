@@ -12,6 +12,7 @@ dist/
 
 # Next.js
 .next/
+.next-deploy/
 out/
 tools/
 .env*.local
