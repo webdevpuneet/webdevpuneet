@@ -6,30 +6,40 @@ import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+// CSS viewport sizes (screen size in CSS px, as reported by the browser) of current devices.
+// Landscape is one click away with Rotate, so only portrait / native orientation is listed.
 const DEVICE_GROUPS = [
   {
-    label: 'Mobile',
+    label: 'Phones',
     devices: [
-      { id: 'mobile-sm',  label: 'Mobile S',  width: 320,  height: 568  },
-      { id: 'mobile',     label: 'Mobile',     width: 390,  height: 844  },
-      { id: 'mobile-lg',  label: 'Mobile L',   width: 428,  height: 926  },
+      { id: 'galaxy-fold',   label: 'Galaxy Z Fold (folded)', width: 344,  height: 882  },
+      { id: 'galaxy-s24',    label: 'Galaxy S24',             width: 360,  height: 780  },
+      { id: 'iphone-se',     label: 'iPhone SE',              width: 375,  height: 667  },
+      { id: 'iphone-16',     label: 'iPhone 16',              width: 393,  height: 852  },
+      { id: 'iphone-16-pro', label: 'iPhone 16 Pro',          width: 402,  height: 874  },
+      { id: 'pixel-8',       label: 'Pixel 8',                width: 412,  height: 915  },
+      { id: 'iphone-16-pm',  label: 'iPhone 16 Pro Max',      width: 440,  height: 956  },
     ],
   },
   {
-    label: 'Tablet',
+    label: 'Tablets',
     devices: [
-      { id: 'tablet-p',   label: 'Tablet ↕',   width: 768,  height: 1024 },
-      { id: 'tablet-l',   label: 'Tablet ↔',   width: 1024, height: 768  },
-      { id: 'ipad-p',     label: 'iPad Pro ↕', width: 1024, height: 1366 },
-      { id: 'ipad-l',     label: 'iPad Pro ↔', width: 1366, height: 1024 },
+      { id: 'ipad-mini',     label: 'iPad mini',              width: 744,  height: 1133 },
+      { id: 'android-tab',   label: 'Android tablet',         width: 800,  height: 1280 },
+      { id: 'ipad',          label: 'iPad / iPad Air 11″',     width: 820,  height: 1180 },
+      { id: 'ipad-pro-11',   label: 'iPad Pro 11″',           width: 834,  height: 1210 },
+      { id: 'ipad-pro-13',   label: 'iPad Pro 13″',           width: 1032, height: 1376 },
     ],
   },
   {
-    label: 'Desktop',
+    label: 'Laptops & desktops',
     devices: [
-      { id: 'laptop',     label: 'Laptop',     width: 1280, height: 800  },
-      { id: 'desktop',    label: 'Desktop',    width: 1440, height: 900  },
-      { id: 'wide',       label: 'Wide 2K',    width: 1920, height: 1080 },
+      { id: 'laptop-hd',     label: 'Laptop HD',              width: 1366, height: 768  },
+      { id: 'macbook-air',   label: 'MacBook Air 13″',        width: 1470, height: 956  },
+      { id: 'laptop',        label: 'Laptop (most common)',   width: 1536, height: 864  },
+      { id: 'macbook-pro',   label: 'MacBook Pro 16″',        width: 1728, height: 1117 },
+      { id: 'desktop',       label: 'Desktop Full HD',        width: 1920, height: 1080 },
+      { id: 'desktop-qhd',   label: 'Desktop QHD',            width: 2560, height: 1440 },
     ],
   },
 ];
@@ -45,7 +55,7 @@ const BG_OPTIONS = [
 
 const ZOOM_PRESETS = [25, 50, 75, 100];
 
-const MULTI_DEFAULT = ['mobile', 'tablet-p', 'laptop'];
+const MULTI_DEFAULT = ['iphone-16', 'ipad', 'laptop'];
 const BREAKPOINTS   = [375, 768, 1024, 1280, 1440];
 const TW_NAMES      = [[1536, '2xl'], [1280, 'xl'], [1024, 'lg'], [768, 'md'], [640, 'sm'], [0, 'base']];
 const MIN_SIZE = 200;
@@ -143,7 +153,7 @@ function MenuItem({ children, sub, meta, checked, onClick }) {
 function ResponsivePreviewInner() {
   const [url, setUrl]               = useState('');
   const [loadedUrl, setLoadedUrl]   = useState('');
-  const [device, setDevice]         = useState(ALL_DEVICES[1]);
+  const [device, setDevice]         = useState(ALL_DEVICES.find(d => d.id === 'iphone-16'));
   const [flipped, setFlipped]       = useState(false);
   const [zoom, setZoom]             = useState(50);
   const [autoFit, setAutoFit]       = useState(true);
@@ -494,10 +504,21 @@ function ResponsivePreviewInner() {
         <div className={styles.toolbar}>
         {/* Viewport */}
         <div className={styles.group}>
-          <Menu width={240} title="Device preset, custom size or multi-device view"
+          <Menu width={280} title="Device preset, custom size or multi-device view"
             label={multi ? `⫼ ${multiIds.length} devices` : (useCustom ? 'Custom' : device.label)}>
             {(close) => (
               <>
+                {!multi && (
+                  <MenuItem checked={useCustom} sub="Type a size, or drag the frame edges"
+                    onClick={() => { setCustomW(String(baseW)); setCustomH(String(baseH)); setUseCustom(true); close(); }}>
+                    Custom size
+                  </MenuItem>
+                )}
+                <MenuItem checked={multi} sub={multi ? 'Tick devices below to add or remove' : 'Several devices side by side (M)'}
+                  onClick={() => { setMulti(m => !m); setAutoFit(true); }}>
+                  Multi-device view
+                </MenuItem>
+                <div className={styles.menuDivider} />
                 {DEVICE_GROUPS.map(group => (
                   <div key={group.label}>
                     <div className={styles.menuHeading}>{group.label}</div>
@@ -510,17 +531,6 @@ function ResponsivePreviewInner() {
                     ))}
                   </div>
                 ))}
-                <div className={styles.menuDivider} />
-                {!multi && (
-                  <MenuItem checked={useCustom} sub="Type a size, or drag the frame edges"
-                    onClick={() => { setCustomW(String(baseW)); setCustomH(String(baseH)); setUseCustom(true); close(); }}>
-                    Custom size
-                  </MenuItem>
-                )}
-                <MenuItem checked={multi} sub={multi ? 'Tick devices above to add or remove' : 'Several devices side by side (M)'}
-                  onClick={() => { setMulti(m => !m); setAutoFit(true); }}>
-                  Multi-device view
-                </MenuItem>
               </>
             )}
           </Menu>
