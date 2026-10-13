@@ -73,7 +73,7 @@ Blog: https://webdevpuneet.com/blog/
 - [Tailwind Formatter](https://webdevpuneet.com/tailwind-formatter/) : Sort, deduplicate, and group Tailwind CSS classes by category. Flat and grouped output views.
 - [JSON Table Viewer](https://webdevpuneet.com/json-table-viewer/) : Visualize JSON arrays as tables. Filter, sort, paginate, toggle columns, and export as CSV.
 - [Diff Checker](https://webdevpuneet.com/diff-checker/) : Compare two texts side-by-side with LCS-based diffing. Split, unified, and char-level inline modes.
-- [Responsive Preview](https://webdevpuneet.com/responsive-preview-tool/) : Preview any website on 18 real devices or side by side. Drag to resize, breakpoint ruler, screenshots and shareable links.
+- [Responsive Preview](https://webdevpuneet.com/responsive-preview-tool/) : Preview any site on 18 real devices with frames and browser bars. Compare URLs, paste HTML, find overflow, take screenshots.
 - [SQL Formatter](https://webdevpuneet.com/sql-formatter/) : Format and beautify SQL queries with proper indentation, keyword casing, and syntax highlighting. Minify SQL, dialect support for MySQL, PostgreSQL, SQLite & SQL Server.
 - [API Mock Generator](https://webdevpuneet.com/api-mock-generator/) : Build fake REST API endpoints with realistic mock JSON. Auto-generate fake data, export as JSON Server db.json or Postman collection. Free for frontend devs.
 - [SVG to PNG Converter](https://webdevpuneet.com/svg-to-png/) : Convert SVG to PNG instantly. Upload file or paste SVG code. Set scale (1×–4×), custom dimensions, transparent or custom background. Download PNG free.

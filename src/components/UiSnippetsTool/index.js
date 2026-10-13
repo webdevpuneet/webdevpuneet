@@ -2001,6 +2001,22 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                   <line x1="10" y1="14" x2="21" y2="3"/>
                 </svg>
               </button>
+              {/* Hand the built page to the Responsive Preview tool (it reads rpt:html on ?mode=html) */}
+              {!isMobile && (
+                <button
+                  className={s.deviceBtn}
+                  onClick={() => {
+                    try { localStorage.setItem('rpt:html', srcDoc); } catch {}
+                    window.open('/responsive-preview-tool/?mode=html', '_blank');
+                  }}
+                  title="Test in Responsive Preview — real devices, overflow finder, dark mode"
+                  aria-label="Test in Responsive Preview"
+                >
+                  <svg width="14" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <rect x="2" y="4" width="13" height="10" rx="1.5"/><rect x="16" y="8" width="6" height="12" rx="1.5"/><line x1="6" y1="18" x2="11" y2="18"/>
+                  </svg>
+                </button>
+              )}
             </div>
             <button
               className={`${s.iconBtn} ${s.refreshBtn}`}

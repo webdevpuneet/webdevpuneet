@@ -598,7 +598,7 @@ export const TOOLS = [
     slug:     'responsive-preview-tool',
     name:     'Responsive Preview',
     sub:      'Test any screen size',
-    desc:     'Preview any website on 18 real devices or side by side. Drag to resize, breakpoint ruler, screenshots and shareable links.',
+    desc:     'Preview any site on 18 real devices with frames and browser bars. Compare URLs, paste HTML, find overflow, take screenshots.',
     icon:     '/icons/responsive-preview-tool.svg',
     accent:   '#4fc3f7',
     category: 'css',
