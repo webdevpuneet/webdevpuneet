@@ -432,5 +432,5 @@ gsap.from('.reveal', {
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/gsap-playground/" target="_blank" rel="noopener">GSAP Playground</a> and work through its early chapters on tweens and timelines &mdash; free, click-based lessons with a live editor, covering exactly the ground this post just introduced, one guided step at a time. For more tutorials like this one, browse the <a href="https://webdevpuneet.com/blog/category/javascript/" target="_blank" rel="noopener">JavaScript</a> category on the blog.</p>
+<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/gsap-playground/" target="_blank" rel="noopener">GSAP Playground</a> and work through its early chapters on tweens and timelines &mdash; free, click-based lessons with a live editor, covering exactly the ground this post just introduced, one guided step at a time. For more tutorials like this one, browse the <a href="https://webdevpuneet.com/blog/category/gsap/" target="_blank" rel="noopener">GSAP</a> category on the blog.</p>
 <!-- /wp:paragraph -->

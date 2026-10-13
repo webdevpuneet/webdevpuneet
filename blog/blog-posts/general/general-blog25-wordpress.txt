@@ -400,5 +400,5 @@ tl.fromTo('.title', { yPercent: -4 },  { yPercent: 4,  ease: 'none' }, 0);</code
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/gsap-playground/">GSAP Playground</a> and build a two-layer parallax hero from scratch against a section of your own &mdash; picking your own speed ratio, not copying one, is what makes the "shared progress, different range" mental model actually stick. For more tutorials like this one, browse the <a href="https://webdevpuneet.com/blog/category/javascript/">JavaScript</a> category on the blog.</p>
+<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/gsap-playground/">GSAP Playground</a> and build a two-layer parallax hero from scratch against a section of your own &mdash; picking your own speed ratio, not copying one, is what makes the "shared progress, different range" mental model actually stick. For more tutorials like this one, browse the <a href="https://webdevpuneet.com/blog/category/gsap/">GSAP</a> category on the blog.</p>
 <!-- /wp:paragraph -->

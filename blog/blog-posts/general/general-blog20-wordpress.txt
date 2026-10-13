@@ -448,5 +448,5 @@ ScrollTrigger.refresh(); // recalculates every trigger's start/end against curre
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/gsap-playground/">GSAP Playground</a> and rebuild demo #5's pinned section from scratch against a section of your own &mdash; typing it out yourself, not just reading it, is what makes <code>start</code>/<code>end</code>/<code>scrub</code>/<code>pin</code> actually stick together as one mental model. For more tutorials like this one, browse the <a href="https://webdevpuneet.com/blog/category/javascript/">JavaScript</a> category on the blog.</p>
+<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/gsap-playground/">GSAP Playground</a> and rebuild demo #5's pinned section from scratch against a section of your own &mdash; typing it out yourself, not just reading it, is what makes <code>start</code>/<code>end</code>/<code>scrub</code>/<code>pin</code> actually stick together as one mental model. For more tutorials like this one, browse the <a href="https://webdevpuneet.com/blog/category/gsap/">GSAP</a> category on the blog.</p>
 <!-- /wp:paragraph -->

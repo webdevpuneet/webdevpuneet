@@ -369,5 +369,5 @@ parentTl.add(introTl).add(moveTl, '+=0.2');</code></pre>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/gsap-playground/">GSAP Playground</a> and rebuild demo #7's nested-timeline structure from scratch against your own content &mdash; typing out <code>.add()</code> and a parent <code>scrollTrigger</code> yourself is what makes "one scroll input, any number of nested timelines underneath it" actually stick. For more tutorials like this one, browse the <a href="https://webdevpuneet.com/blog/category/javascript/">JavaScript</a> category on the blog.</p>
+<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/gsap-playground/">GSAP Playground</a> and rebuild demo #7's nested-timeline structure from scratch against your own content &mdash; typing out <code>.add()</code> and a parent <code>scrollTrigger</code> yourself is what makes "one scroll input, any number of nested timelines underneath it" actually stick. For more tutorials like this one, browse the <a href="https://webdevpuneet.com/blog/category/gsap/">GSAP</a> category on the blog.</p>
 <!-- /wp:paragraph -->
