@@ -592,3 +592,8 @@
   .modal { padding: 12px; }
   .modalText { min-height: 220px; }
 }
+
+/* Address-bar buttons share the URL bar's 28px height */
+.reloadBtn, .openBtn { width: 28px; height: 28px; font-size: 14px; }
+.previewBtn { height: 28px; padding: 0 16px; display: flex; align-items: center; }
+.previewBtnSm { height: 26px; padding: 0 12px; }
