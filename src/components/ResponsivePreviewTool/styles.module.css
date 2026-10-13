@@ -9,10 +9,11 @@
 .header {
   display: flex; align-items: center;
   justify-content: space-between;
-  padding: 0 12px; height: 48px;
+  padding: 7px 12px; min-height: 48px;
   border-bottom: 1px solid var(--border);
   background: var(--surface); flex-shrink: 0;
-  gap: 8px; overflow-x: auto;
+  gap: 8px; overflow-x: auto; overflow-y: hidden;
+  scrollbar-width: thin;
 }
 
 .headerLeft {
@@ -276,3 +277,132 @@
   cursor: pointer; transition: all 0.14s;
 }
 .exampleBtn:hover { border-color: #4d96ff; color: #4d96ff; }
+
+/* ── Frame stage + resize handles ── */
+.frameStage { position: relative; flex-shrink: 0; }
+.noTransition { transition: none !important; }
+
+.handle { position: absolute; z-index: 3; touch-action: none; }
+.handle::after {
+  content: ''; position: absolute; background: #4d96ff; border-radius: 3px;
+  opacity: 0.45; transition: opacity 0.14s;
+}
+.handle:hover::after { opacity: 1; }
+.handleR { top: 0; bottom: 14px; right: -14px; width: 14px; cursor: ew-resize; }
+.handleR::after { top: 50%; left: 5px; width: 4px; height: 36px; transform: translateY(-50%); }
+.handleB { left: 0; right: 14px; bottom: -14px; height: 14px; cursor: ns-resize; }
+.handleB::after { left: 50%; top: 5px; height: 4px; width: 36px; transform: translateX(-50%); }
+.handleC { right: -14px; bottom: -14px; width: 14px; height: 14px; cursor: nwse-resize; }
+.handleC::after { inset: 4px; border-radius: 50%; }
+
+/* ── Breakpoint ruler ── */
+.ruler {
+  position: relative; height: 20px; flex-shrink: 0;
+  border-bottom: 1px solid rgba(77,150,255,0.5);
+  font-family: var(--font-mono); font-size: 9px; color: var(--text2);
+}
+.rulerTick { position: absolute; bottom: 0; }
+.rulerMark { position: absolute; bottom: 0; left: 0; width: 1px; height: 8px; background: #4d96ff; }
+.rulerLabel { position: absolute; bottom: 9px; left: 0; transform: translateX(-50%); white-space: nowrap; }
+.rulerEnd {
+  position: absolute; right: 0; bottom: 3px; padding: 1px 6px;
+  border-radius: 3px; background: #4d96ff; color: #fff; font-weight: 600; white-space: nowrap;
+}
+
+/* ── Multi-device ── */
+.multiBar {
+  display: flex; align-items: center; gap: 5px; flex-wrap: wrap;
+  padding: 6px 12px; flex-shrink: 0;
+  border-bottom: 1px solid var(--border); background: var(--surface);
+}
+.multiLabel { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-right: 2px; }
+.multiChip {
+  padding: 3px 9px; border-radius: 12px;
+  border: 1px solid var(--border2); background: var(--surface2); color: var(--text3);
+  font-family: var(--font-ui); font-size: 10px; cursor: pointer; transition: all 0.12s;
+}
+.multiChip:hover { color: var(--text2); border-color: #4d96ff; }
+.multiChipActive { border-color: #4d96ff; color: #4d96ff; background: rgba(77,150,255,0.12); }
+.multiDim { font-family: var(--font-mono); opacity: 0.7; margin-left: 2px; }
+.multiRow { display: flex; align-items: flex-start; }
+.frameCaption { font-size: 11px; color: var(--text2); font-family: var(--font-mono); white-space: nowrap; }
+
+/* ── Blocked-site hint ── */
+.hintBar {
+  display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+  padding: 5px 12px; font-size: 11px; color: var(--text3);
+  border-bottom: 1px solid var(--border); background: var(--surface2);
+}
+.hintLink { color: #4d96ff; text-decoration: none; white-space: nowrap; }
+.hintLink:hover { text-decoration: underline; }
+.hintClose { margin-left: auto; background: none; border: none; color: var(--text3); cursor: pointer; font-size: 12px; }
+.hintClose:hover { color: var(--text); }
+
+.controlBtn:disabled { opacity: 0.45; cursor: not-allowed; }
+.controlBtn:disabled:hover { border-color: var(--border2); color: var(--text2); }
+.shotMsg { font-size: 10px; color: var(--text3); white-space: nowrap; }
+.canvas:fullscreen { padding-top: 24px; }
+
+/* ── Toolbar ── */
+/* Sits in the header row to the right of the address bar */
+.toolbar { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+/* Nothing in the header may shrink below its content: when space runs out the
+   row scrolls sideways instead of controls sliding over each other. */
+.headerLeft { flex: 1 0 auto; }
+.headerLeft > * { flex-shrink: 0; }
+.headerLeft > .urlInputWrap { flex: 1 0 220px; min-width: 220px; }
+.urlInput { width: 0; min-width: 0; }
+.toolbar > *, .group > * { flex-shrink: 0; }
+.customInput { min-width: 56px; }
+.menuBtn { white-space: nowrap; }
+.header::-webkit-scrollbar { height: 6px; }
+.header::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+.header::-webkit-scrollbar-track { background: transparent; }
+/* Narrower screens: drop the title text so the address bar keeps room */
+@media (max-width: 1500px) { .headerTitle { display: none; } }
+.group { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.sizeInputs { display: flex; align-items: center; gap: 4px; }
+
+.iconBtn {
+  width: 28px; height: 26px; border-radius: 5px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border2); background: var(--surface2); color: var(--text2);
+  font-size: 14px; line-height: 1; cursor: pointer; transition: all 0.14s;
+}
+.iconBtn:hover { border-color: #4d96ff; color: #4d96ff; }
+
+/* ── Dropdown menus ── */
+.menuWrap { position: relative; flex-shrink: 0; }
+.menuBtn { display: flex; align-items: center; gap: 6px; height: 26px; font-size: 11px; }
+.caret { font-size: 9px; opacity: 0.6; }
+.menu {
+  position: fixed; z-index: 1000;
+  max-height: min(70vh, 520px); overflow-y: auto;
+  padding: 4px;
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.menuHeading {
+  padding: 8px 10px 4px; font-size: 9px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.6px; color: var(--text3);
+}
+.menuDivider { height: 1px; margin: 4px 6px; background: var(--border); }
+.menuItem {
+  display: flex; align-items: center; gap: 8px;
+  width: 100%; padding: 6px 10px 6px 6px; border: none; border-radius: 6px;
+  background: none; text-align: left; cursor: pointer; font-family: var(--font-ui);
+}
+.menuItem:hover { background: var(--surface2); }
+.menuCheck { width: 12px; flex-shrink: 0; font-size: 11px; color: #4d96ff; text-align: center; }
+.menuText { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.menuTitle { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text); }
+.menuItemOn .menuTitle { color: #4d96ff; font-weight: 600; }
+.menuSub { font-size: 10px; color: var(--text3); line-height: 1.4; }
+.menuMeta { font-size: 10px; color: var(--text3); font-family: var(--font-mono); flex-shrink: 0; }
+
+.swatch { width: 14px; height: 14px; border-radius: 3px; border: 1px solid var(--border2); flex-shrink: 0; }
+.swatch_dots  { background: #c8cdd8 radial-gradient(circle, rgba(0,0,0,0.35) 1px, transparent 1.5px) 0 0 / 5px 5px; }
+.swatch_grid  { background: #c8cdd8 linear-gradient(rgba(0,0,0,0.2) 1px, transparent 1px) 0 0 / 5px 5px,
+                linear-gradient(90deg, rgba(0,0,0,0.2) 1px, transparent 1px) 0 0 / 5px 5px; }
+.swatch_dark  { background: #111118; }
+.swatch_light { background: #e8e8ef; }

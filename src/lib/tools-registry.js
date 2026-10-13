@@ -598,7 +598,7 @@ export const TOOLS = [
     slug:     'responsive-preview-tool',
     name:     'Responsive Preview',
     sub:      'Test any screen size',
-    desc:     'Preview any website at 8 screen sizes from 320px mobile to 1920px wide. Zoom controls and device tabs.',
+    desc:     'Preview any website at 10 device sizes or side by side. Drag to resize, breakpoint ruler, screenshots and shareable links.',
     icon:     '/icons/responsive-preview-tool.svg',
     accent:   '#4fc3f7',
     category: 'css',

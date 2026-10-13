@@ -933,6 +933,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   const [showEditor,    setShowEditor]    = useState(initialView === 'saved' ? false : !isHome);
   const [previewMode,   setPreviewMode]   = useState('desktop'); // 'mobile'|'tablet'|'desktop'
   const [isMobile,      setIsMobile]      = useState(false);
+  const [isTablet,      setIsTablet]      = useState(false);
 
   const [isMaximized,   setIsMaximized]   = useState(false);
   const [previewKey,    setPreviewKey]    = useState(0);
@@ -1196,9 +1197,16 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
 
   /* — Mobile — */
   useEffect(() => {
+    // Tablet widths: collapse the code panel to give the preview room. Only on entering the
+    // tablet range (or first load there), so a manual reopen isn't undone on every resize.
+    let wasTablet = false;
     const check = (initial = false) => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
+      const tablet = !mobile && window.innerWidth <= 1100;
+      setIsTablet(tablet);
+      if (tablet && !wasTablet) { setEditorVisible(false); setPreviewMode(m => (m === 'desktop' ? 'tablet' : m)); }
+      wasTablet = tablet;
       if (mobile) {
         if (initial) {
           setHtmlCollapsed(true);
@@ -1441,7 +1449,8 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
 
   /* — Options for the single Export dropdown (labels + what each produces) — */
   const exportOptions = [
-    { label: 'Test Exports',     sub: 'Preview & try every format live',      onClick: () => setTesterOpen(true) },
+    // Test Exports needs room for its side-by-side lightbox — desktop only.
+    ...(!isMobile && !isTablet ? [{ label: 'Test Exports', sub: 'Preview & try every format live', onClick: () => setTesterOpen(true) }] : []),
     { label: 'HTML',            sub: 'Standalone .html file',                onClick: downloadSnippet },
     { label: 'HTML + Tailwind',  sub: 'Standalone file via Tailwind CDN',     onClick: exportTailwindHtml },
     { label: 'React',            sub: 'JSX component (.jsx) with useEffect',   onClick: exportReact },
@@ -1809,6 +1818,16 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             <span className={s.headerTitle}>My Code</span>
             {customSnippets.length > 0 && <span className={s.savedCount}>{customSnippets.length}</span>}
           </a>
+          {headerInCode && (
+            <button
+              className={s.codeCollapseBtn}
+              onClick={() => setEditorVisible(false)}
+              title="Collapse code panel"
+              aria-label="Collapse code panel"
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+          )}
           <button
             className={s.headerBrand}
             onClick={() => {
@@ -1946,9 +1965,9 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               <button className={`${s.deviceBtn} ${previewMode === 'tablet'  ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('tablet')}  title="Tablet (768px)">
                 <svg width="13" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="3" y="2" width="18" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
               </button>
-              <button className={`${s.deviceBtn} ${previewMode === 'desktop' ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('desktop')} title="Desktop (full)">
+              {!isTablet && <button className={`${s.deviceBtn} ${previewMode === 'desktop' ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('desktop')} title="Desktop (full)">
                 <svg width="16" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-              </button>
+              </button>}
               <button
                 className={`${s.deviceBtn} ${isMaximized ? s.deviceBtnActive : ''}`}
                 onClick={toggleMaximize}

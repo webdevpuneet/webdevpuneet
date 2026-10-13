@@ -50,7 +50,7 @@
 .headerInCode .headerLeft {
   flex: 1 1 100%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
   gap: 6px;
 }
 .headerInCode .headerDivider { display: none; }
@@ -1704,3 +1704,14 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
   border-color: var(--accent);
   color: var(--accent);
 }
+
+
+/* Collapse-code-panel button: top row of the code column, same look as the left sidebar's ‹ button */
+.codeCollapseBtn {
+  display: flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; flex-shrink: 0;
+  border: 1px solid var(--border); border-radius: 6px;
+  background: none; color: var(--text3); cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.codeCollapseBtn:hover { background: var(--surface2); color: var(--accent); }
