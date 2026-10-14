@@ -273,7 +273,10 @@ function Menu({ label, title, active, disabled, width = 220, children }) {
 
   const toggle = (e) => {
     const r = e.currentTarget.getBoundingClientRect();
-    setPos({ top: r.bottom + 6, left: Math.max(8, Math.min(r.left, window.innerWidth - width - 8)) });
+    // Buttons on the right half open leftwards (menu's right edge under the button's right edge),
+    // so menus stay clear of the window edge and the floating share bar.
+    const preferred = r.left + r.width / 2 > window.innerWidth / 2 ? r.right - width : r.left;
+    setPos({ top: r.bottom + 6, left: Math.max(8, Math.min(preferred, window.innerWidth - width - 8)) });
     setOpen(o => !o);
   };
 
