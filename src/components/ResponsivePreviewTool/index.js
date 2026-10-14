@@ -225,9 +225,10 @@ const injectHelper = (html) => (/<\/body>/i.test(html)
 
 function Ruler({ width, scale }) {
   let lastLeft = -Infinity;
+  const endLabelStart = width * scale - 96; // room for the "393px · base" badge on the right
   const ticks = BREAKPOINTS.filter(b => b <= width).map(b => {
     const left = b * scale;
-    const showLabel = left - lastLeft >= 30;
+    const showLabel = left - lastLeft >= 30 && left < endLabelStart;
     if (showLabel) lastLeft = left;
     return { b, left, showLabel };
   });
