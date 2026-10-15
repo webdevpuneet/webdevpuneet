@@ -2123,6 +2123,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                   snippets={sortOrder === 'newest' ? VISIBLE_SNIPPETS_NEWEST : VISIBLE_SNIPPETS}
                   categoryLabels={CATEGORY_LABELS}
                   activeId={activeId}
+                  activeCategory={activeSn?.category}
                   onNavigate={navStart}
                 />
                 {catSnippets.length > 1 && prevCatSn ? (

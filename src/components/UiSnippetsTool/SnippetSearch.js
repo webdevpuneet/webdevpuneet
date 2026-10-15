@@ -22,7 +22,7 @@ const PEEK_GAP = 8;
 // snippets; typing filters by title, id and category. The panel is
 // position:fixed (placed from the input's rect) so the toolbar's horizontal
 // scroller can't clip it.
-export default function SnippetSearch({ snippets, categoryLabels, activeId, onNavigate }) {
+export default function SnippetSearch({ snippets, categoryLabels, activeId, activeCategory, onNavigate }) {
   const [query, setQuery] = useState('');
   const [pos, setPos] = useState(null); // null = closed
   const [hi, setHi] = useState(0);
@@ -34,12 +34,17 @@ export default function SnippetSearch({ snippets, categoryLabels, activeId, onNa
 
   const results = useMemo(() => {
     const words = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
-    const list = !words.length ? snippets : snippets.filter(sn => {
-      const hay = `${sn.title} ${sn.id} ${categoryLabels.get(sn.category) || sn.category || ''}`.toLowerCase();
-      return words.every(w => hay.includes(w));
-    });
-    return { total: list.length, items: list.slice(0, limit) };
-  }, [query, snippets, categoryLabels, limit]);
+    // No search text: show related snippets — the open snippet's own category,
+    // the same rule the sidebar's "Related" uses
+    const related = !words.length && !!activeCategory;
+    const list = !words.length
+      ? (related ? snippets.filter(sn => sn.category === activeCategory) : snippets)
+      : snippets.filter(sn => {
+          const hay = `${sn.title} ${sn.id} ${categoryLabels.get(sn.category) || sn.category || ''}`.toLowerCase();
+          return words.every(w => hay.includes(w));
+        });
+    return { total: list.length, items: list.slice(0, limit), related };
+  }, [query, snippets, categoryLabels, activeCategory, limit]);
   const hasMore = results.total > results.items.length;
   const showMore = () => setLimit(l => l + PAGE_SIZE);
 
@@ -148,7 +153,9 @@ export default function SnippetSearch({ snippets, categoryLabels, activeId, onNa
           <div className={s.head}>
             {query.trim()
               ? `${results.total.toLocaleString('en-US')} match${results.total === 1 ? '' : 'es'}`
-              : `${results.total.toLocaleString('en-US')} snippets — type to filter`}
+              : results.related
+                ? `${results.total.toLocaleString('en-US')} related in ${categoryLabels.get(activeCategory) || activeCategory} — type to search all`
+                : `${results.total.toLocaleString('en-US')} snippets — type to filter`}
           </div>
           {results.items.length === 0 ? (
             <div className={s.empty}>No snippets found</div>
