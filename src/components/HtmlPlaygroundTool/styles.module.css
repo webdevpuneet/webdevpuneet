@@ -676,13 +676,20 @@
     gap: 16px;
   }
 
+  /* Stacked: code on top, preview below, each at least 40% of the screen tall.
+     !important overrides the desktop split/height set inline from JS. */
   .outputSection {
     flex-direction: column;
+    height: auto !important;
   }
-  .splitHandle {
-    width: 100%;
-    height: 8px;
-    cursor: row-resize;
+  .codePane,
+  .previewPane {
+    flex: none !important;
+    min-height: 40vh;
+  }
+  .splitHandle,
+  .heightHandle {
+    display: none;
   }
 
   .lessonTitle {
