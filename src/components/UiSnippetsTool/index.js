@@ -30,6 +30,7 @@ import GistSyncButton from '@/components/GistSyncButton';
 import { ADS_ENABLED } from '@/lib/ads-config';
 import ExportTester from './ExportTester';
 import EmbedModal from './EmbedModal';
+import SnippetSearch from './SnippetSearch';
 import { CategoryStrip } from './RelatedCarousel';
 import { dbGetAll, dbPut, dbDelete, dbClear } from '@/lib/uiSnippetsDb';
 const SNIPPET_BY_ID = new Map(SNIPPETS.map(sn => [sn.id, sn]));
@@ -859,6 +860,9 @@ const HEADER_CATEGORIES = CATEGORIES
   .filter(c => c.id !== 'all' && !c.devOnly)
   .map(c => ({ id: c.id, label: c.label, count: VISIBLE_SNIPPETS.filter(sn => sn.category === c.id).length }))
   .filter(c => c.count > 0);
+// Category id -> label, for the toolbar search drop-down
+const CATEGORY_LABELS = new Map(CATEGORIES.map(c => [c.id, c.label]));
+const VISIBLE_SNIPPETS_NEWEST = [...VISIBLE_SNIPPETS].reverse();
 // Header tag list for the strip's drop-down (same set the gallery's Tags column shows).
 const HEADER_TAGS = publishedTags(SNIPPETS).map(t => ({ id: t.id, label: t.label }));
 
@@ -1175,7 +1179,6 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
     function handler(e) {
       if (e.data?._uisnip !== 'console') return;
       setConsoleLogs(prev => [...prev, { id: Date.now() + Math.random(), level: e.data.level, args: e.data.args }]);
-      setConsoleOpen(true); // slide the panel open on any console message or error
     }
     window.addEventListener('message', handler);
     return () => window.removeEventListener('message', handler);
@@ -2116,6 +2119,12 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                     </div>
                   </div>}
                 </div>
+                <SnippetSearch
+                  snippets={sortOrder === 'newest' ? VISIBLE_SNIPPETS_NEWEST : VISIBLE_SNIPPETS}
+                  categoryLabels={CATEGORY_LABELS}
+                  activeId={activeId}
+                  onNavigate={navStart}
+                />
                 {catSnippets.length > 1 && prevCatSn ? (
                   <a
                     className={`${s.navBtn} ${s.navBtnLabeled}`}
@@ -2228,11 +2237,9 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                   className={s.consoleBarRight}
                   data-level={consoleLogs.some(l => l.level === 'error') ? 'error' : consoleLogs.some(l => l.level === 'warn') ? 'warn' : consoleLogs.some(l => l.level === 'log' || l.level === 'info') ? 'log' : undefined}
                 >
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                  <span className={s.consoleDot} aria-hidden="true" />
                   <span className={s.consoleBarLabel}>Console</span>
-                  {consoleLogs.filter(l => l.level === 'error').length > 0 && <span className={s.consoleBadge} data-level="error">{consoleLogs.filter(l => l.level === 'error').length}</span>}
-                  {consoleLogs.filter(l => l.level === 'warn').length > 0 && <span className={s.consoleBadge} data-level="warn">{consoleLogs.filter(l => l.level === 'warn').length}</span>}
-                  {consoleLogs.filter(l => l.level === 'log' || l.level === 'info').length > 0 && <span className={s.consoleBadge} data-level="log">{consoleLogs.filter(l => l.level === 'log' || l.level === 'info').length}</span>}
+                  {consoleLogs.length > 0 && <span className={s.consoleBadge} title={`${consoleLogs.length} message${consoleLogs.length === 1 ? '' : 's'} — click to view`}>{consoleLogs.length}</span>}
                   {consoleLogs.length > 0 && (
                     <button className={s.consoleClearBtn} onClick={e => { e.stopPropagation(); setConsoleLogs([]); }} title="Clear console">Clear</button>
                   )}
