@@ -327,7 +327,7 @@ export default function HtmlPlaygroundTool() {
   const [sidebarOpen,     setSidebarOpen]     = useState(true);
   const [copied,          setCopied]          = useState(false);
   const [changedLines,    setChangedLines]    = useState(new Set());
-  const [splitPct,        setSplitPct]        = useState(50);
+  const [splitPct,        setSplitPct]        = useState(55); // code pane share
   const [challengeDone,   setChallengeDone]   = useState(false);
   const [challengeResult, setChallengeResult] = useState(null); // eslint-disable-line no-unused-vars
   const [search,          setSearch]          = useState('');
@@ -635,19 +635,8 @@ export default function HtmlPlaygroundTool() {
             {(previewHtml || edited) && (
               <div className={s.outputWrap}>
               <section className={s.outputSection} ref={splitContainerRef} style={{ display: 'flex', gap: 0, height: outputHeight }}>
-                <div className={s.previewPane} style={{ flex: `0 0 ${splitPct}%` }}>
-                  <div className={s.paneLabel}>Preview</div>
-                  <iframe
-                    className={s.iframe}
-                    src={iframeSrc}
-                    title="Preview"
-                    sandbox="allow-same-origin"
-                  />
-                </div>
-                <div className={s.splitHandle} onMouseDown={onSplitMouseDown} title="Drag to resize">
-                  <div className={s.splitHandleLine} />
-                </div>
-                <div className={s.codePane} style={{ flex: 1 }}>
+                {/* Code on the left (or on top on phones), result on the right: write → see */}
+                <div className={s.codePane} style={{ flex: `0 0 ${splitPct}%` }}>
                   <div className={s.paneLabel}>
                     HTML <span className={s.editHint}>editable</span>
                     <span className={s.paneBtns}>
@@ -684,6 +673,18 @@ export default function HtmlPlaygroundTool() {
                       aria-label="HTML code — edit to update the preview"
                     />
                   </div>
+                </div>
+                <div className={s.splitHandle} onMouseDown={onSplitMouseDown} title="Drag to resize">
+                  <div className={s.splitHandleLine} />
+                </div>
+                <div className={s.previewPane} style={{ flex: 1 }}>
+                  <div className={s.paneLabel}>Preview</div>
+                  <iframe
+                    className={s.iframe}
+                    src={iframeSrc}
+                    title="Preview"
+                    sandbox="allow-same-origin"
+                  />
                 </div>
               </section>
               <div className={s.heightHandle} onMouseDown={onHeightDragStart} title="Drag to resize preview">
