@@ -568,9 +568,10 @@ function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, on
   const [q, setQ] = useState('');
   const [tagFilter, setTagFilter] = useState(null);
   const [sortOrder, setSortOrder] = useState('newest');
-  // How many pages are loaded, minus one — "Load more" appends the next page
-  // below the cards already shown, same as the public library gallery. Seeded
-  // from an old ?page=N link (pages 1..N load); clicks don't touch the URL.
+  // Which page of SAVED_PER_PAGE cards is shown (0-based). Only one page is
+  // rendered at a time — every card is a live iframe, so "Load more" swaps in
+  // the next page and "Load previous" goes back, instead of piling them up.
+  // Seeded from an old ?page=N link; clicks don't touch the URL.
   const [page, setPage] = useState(() => Math.max(0, (parseInt(searchParams.get('page'), 10) || 1) - 1));
   // Which card the pointer is over — the delete button is only shown on that
   // one, so a full grid is not a grid of trash icons.
@@ -590,7 +591,11 @@ function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, on
     return true;
   });
   const totalPages = Math.max(1, Math.ceil(filtered.length / SAVED_PER_PAGE));
-  const shown = filtered.slice(0, (page + 1) * SAVED_PER_PAGE);
+  const pageStart = page * SAVED_PER_PAGE;
+  const shown = filtered.slice(pageStart, pageStart + SAVED_PER_PAGE);
+  const topRef = useRef(null);
+  const pageChangedByClick = useRef(false);
+  const [jumpVal, setJumpVal] = useState('');
 
   // A new search / tag / sort starts over at the first page. A stale ?page=N
   // from an old link is dropped then too; otherwise the URL is left alone, as
@@ -615,8 +620,29 @@ function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, on
   }, [loaded, totalPages, page]);
 
   function loadMore() {
+    pageChangedByClick.current = true;
     setPage(p => Math.min(p + 1, totalPages - 1));
   }
+  function loadPrevious() {
+    pageChangedByClick.current = true;
+    setPage(p => Math.max(0, p - 1));
+  }
+  function jumpToPage() {
+    const n = parseInt(jumpVal, 10);
+    setJumpVal('');
+    if (!n) return;
+    const target = Math.min(totalPages, Math.max(1, n)) - 1;
+    if (target === page) return;
+    pageChangedByClick.current = true;
+    setPage(target);
+  }
+  // The grid's contents were swapped: bring its top back into view, since
+  // "Load more" is clicked from the bottom of the old page.
+  useEffect(() => {
+    if (!pageChangedByClick.current) return;
+    pageChangedByClick.current = false;
+    topRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  }, [page]);
 
   if (snippets.length === 0) {
     return (
@@ -714,6 +740,19 @@ function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, on
       {filtered.length === 0 && (
         <div className={gs.empty}>No snippets match &ldquo;{q}&rdquo;</div>
       )}
+      <div ref={topRef} style={{ scrollMarginTop: 12 }}>
+        {page > 0 && (
+          <div className={gs.more} style={{ marginTop: 0, marginBottom: 16 }}>
+            <button type="button" className={gs.moreBtn} onClick={loadPrevious}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+              Load previous
+            </button>
+            <div className={gs.moreMeta}>
+              <span>Showing {(pageStart + 1).toLocaleString('en-US')}–{(pageStart + shown.length).toLocaleString('en-US')} of {filtered.length.toLocaleString('en-US')}</span>
+            </div>
+          </div>
+        )}
+      </div>
       <div className={gs.grid} ref={gridRef}>
         {shown.map(sn => (
           <div
@@ -766,7 +805,28 @@ function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, on
           </div>
         ))}
       </div>
-      <LoadMore shown={shown.length} total={filtered.length} onLoadMore={loadMore} />
+      <LoadMore shown={pageStart + shown.length} total={filtered.length} onLoadMore={loadMore} />
+      {totalPages > 1 && (
+        <form
+          className={s.pageJump}
+          onSubmit={e => { e.preventDefault(); jumpToPage(); }}
+        >
+          <label htmlFor="mycode-page-jump">Page</label>
+          <input
+            id="mycode-page-jump"
+            className={s.pageJumpInput}
+            type="number"
+            min={1}
+            max={totalPages}
+            value={jumpVal}
+            placeholder={String(page + 1)}
+            onChange={e => setJumpVal(e.target.value)}
+            aria-label={`Jump to page, 1 to ${totalPages}`}
+          />
+          <span>of {totalPages.toLocaleString('en-US')}</span>
+          <button type="submit" className={s.pageJumpBtn} disabled={!jumpVal}>Go</button>
+        </form>
+      )}
       </div>
       </div>
     </div>

@@ -1728,3 +1728,41 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
   transition: background 0.12s, color 0.12s;
 }
 .codeCollapseBtn:hover { background: var(--surface2); color: var(--accent); }
+
+/* My Code gallery: "Page [n] of N  Go" jump under Load more */
+.pageJump {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0 auto 20px;
+  font-size: 12px;
+  font-family: var(--font-ui);
+  color: var(--text3, #94a3b8);
+}
+.pageJumpInput {
+  width: 56px;
+  height: 28px;
+  padding: 0 6px;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 6px;
+  background: var(--surface, #fff);
+  color: var(--text, #1e293b);
+  font: inherit;
+  text-align: center;
+  outline: none;
+}
+.pageJumpInput:focus { border-color: var(--accent, #2563eb); }
+.pageJumpBtn {
+  height: 28px;
+  padding: 0 12px;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 6px;
+  background: var(--surface, #fff);
+  color: var(--text2, #64748b);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.pageJumpBtn:hover:not(:disabled) { border-color: var(--accent, #2563eb); color: var(--accent, #2563eb); }
+.pageJumpBtn:disabled { opacity: 0.5; cursor: default; }
