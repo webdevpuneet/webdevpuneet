@@ -327,7 +327,7 @@ export default function HtmlPlaygroundTool() {
   const [sidebarOpen,     setSidebarOpen]     = useState(true);
   const [copied,          setCopied]          = useState(false);
   const [changedLines,    setChangedLines]    = useState(new Set());
-  const [splitPct,        setSplitPct]        = useState(55); // code pane share
+  const [splitPct,        setSplitPct]        = useState(50); // code pane share
   const [challengeDone,   setChallengeDone]   = useState(false);
   const [challengeResult, setChallengeResult] = useState(null); // eslint-disable-line no-unused-vars
   const [search,          setSearch]          = useState('');
