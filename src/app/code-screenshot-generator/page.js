@@ -58,7 +58,7 @@ const seo = {
     { icon: '🗂️', title: 'Add a highlighted code example to a GitHub README or portfolio', desc: 'Use the 2× or 3× export for sharp rendering in GitHub\'s markdown preview and on portfolio sites.' },
     { icon: '🎬', title: 'Generate a code image for a YouTube thumbnail or course material', desc: 'Export at 3× scale for the highest quality. The wide padding and gradient background options match standard thumbnail aspect ratios well.' },
     { icon: '📰', title: 'Create consistent branded code visuals for a developer newsletter', desc: 'Use the same theme and gradient for every issue to create visual consistency across emails and social content.' },
-    { icon: '📖', title: 'Show API usage or CLI commands in product documentation', desc: 'A styled screenshot is faster to embed in a doc than configuring a code block plugin — and it renders consistently across every documentation platform. Generate the meta tags for that doc page with our [Meta Tag Generator](https://fwdtools.com/meta-tag-generator/).' },
+    { icon: '📖', title: 'Show API usage or CLI commands in product documentation', desc: 'A styled screenshot is faster to embed in a doc than configuring a code block plugin — and it renders consistently across every documentation platform. Generate the meta tags for that doc page with our [Meta Tag Generator](/meta-tag-generator/).' },
   ],
   howToUse: `**Step 1 — Paste your code.** Click into the "Code Input" textarea and paste any code snippet. You can also type directly. The preview updates in real time as you type.
 

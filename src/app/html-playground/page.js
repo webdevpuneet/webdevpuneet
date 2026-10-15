@@ -141,7 +141,7 @@ For longer, example-driven walkthroughs of specific HTML concepts, see the [HTML
   },
 
   features: [
-    '42 click-based lessons across 13 chapters — from HTML boilerplate to JSON-LD structured data (generate production schema with the [schema markup generator](https://fwdtools.com/schema-markup-generator))',
+    '42 click-based lessons across 13 chapters — from HTML boilerplate to JSON-LD structured data (generate production schema with the [schema markup generator](/schema-markup-generator/))',
     'Live split pane — rendered browser preview and syntax-highlighted code side by side — continue to the [CSS playground](/css-playground) and [JavaScript playground](/js-playground) when ready',
     'Click-based picker demos — no typing required to see every HTML tag in action',
     'Changed-line flash animation highlights exactly what each click modified in the code',
@@ -248,7 +248,7 @@ For longer, example-driven walkthroughs of specific HTML concepts, see the [HTML
     { label: 'CSS Playground', href: '/css-playground/', desc: 'Add styling to your HTML — learn CSS with interactive visual lessons.' },
     { label: 'JavaScript Playground', href: '/js-playground/', desc: 'Add behaviour to your HTML — 60 guided JS lessons including DOM and events.' },
     { label: 'Tailwind CSS Playground', href: '/tailwind-playground/', desc: 'Learn the utility-first CSS framework that works directly in HTML class attributes.' },
-    { label: 'SEO Checker', href: 'https://fwdtools.com/seo-checker/', desc: 'Audit your HTML meta tags, Open Graph, and structured data with a live checker.' },
+    { label: 'SEO Checker', href: '/seo-checker/', desc: 'Audit your HTML meta tags, Open Graph, and structured data with a live checker.' },
     { label: 'React Playground', href: '/react-playground/', desc: 'Learn how React components generate HTML — the natural next step after HTML and CSS.' },
   ],
 };

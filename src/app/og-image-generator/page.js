@@ -150,7 +150,7 @@ const SEO = {
       { title: 'Fill in your content', text: 'Type your page title in the Title field — this becomes the main headline. Keep it under 60 characters for best display on Twitter and LinkedIn cards. Add a Description (the supporting one-liner under the title) — 100–150 characters work best. Fill in your Site Name or URL in the site name field — this typically appears in smaller text at the bottom or side of the card. These three fields are the minimum needed to generate a useful preview card.' },
       { title: 'Set your colors and font', text: 'Click the Background Color picker to set the card background — or for the Gradient template, set both gradient Start and End colors. Click the Accent Color picker to set the color used for bars, borders, and decorative shapes. Click the Text Color picker to control the headline and body text color. Choose a Font Family from the dropdown: sans-serif (clean/modern), serif (editorial/traditional), monospace (code/technical), or Impact (bold/display). All changes update the live preview instantly — no click required.' },
       { title: 'Upload a logo or icon', text: 'Click Upload image to add your logo or icon to the card. The logo is placed in the appropriate position for the selected template — bottom-left corner for Clean, in the left panel for Split, centered for other templates. Any image format (PNG, JPEG, WebP, SVG rendered as raster) is accepted. Use a square logo or icon for best results. The logo dimensions adapt to the template layout automatically.' },
-      { title: 'Download the PNG and deploy it', text: 'When the live preview looks right, click Download PNG to save the 1200×630 image to your computer. Click Copy Image to copy the rendered canvas directly to your clipboard — paste it into Figma, Notion, Google Slides, or a chat thread. Upload the downloaded PNG to your web server or CDN (Cloudflare, AWS S3, Cloudinary), then add the og:image meta tag to your page\'s HTML <head> pointing to the hosted URL: <meta property="og:image" content="https://yoursite.com/og.png" />. Use the [Meta Tag Generator](https://fwdtools.com/meta-tag-generator) to generate the complete set of og: and twitter: tags at the same time.' },
+      { title: 'Download the PNG and deploy it', text: 'When the live preview looks right, click Download PNG to save the 1200×630 image to your computer. Click Copy Image to copy the rendered canvas directly to your clipboard — paste it into Figma, Notion, Google Slides, or a chat thread. Upload the downloaded PNG to your web server or CDN (Cloudflare, AWS S3, Cloudinary), then add the og:image meta tag to your page\'s HTML <head> pointing to the hosted URL: <meta property="og:image" content="https://yoursite.com/og.png" />. Use the [Meta Tag Generator](/meta-tag-generator/) to generate the complete set of og: and twitter: tags at the same time.' },
     ],
   },
 
@@ -171,7 +171,7 @@ const SEO = {
     {
       icon: '◑',
       title: 'Create OG preview images for blog posts and articles',
-      desc: 'Generate a unique OG image for each blog post using the Clean or Bold template. Use the post title as the card title and a one-line summary as the description. Set your brand colors and add your logo. Posts with custom OG images consistently outperform those with generic site-wide images in social feed click-through rates. Use the [Meta Tag Generator](https://fwdtools.com/meta-tag-generator) to write the full set of meta tags at the same time.',
+      desc: 'Generate a unique OG image for each blog post using the Clean or Bold template. Use the post title as the card title and a one-line summary as the description. Set your brand colors and add your logo. Posts with custom OG images consistently outperform those with generic site-wide images in social feed click-through rates. Use the [Meta Tag Generator](/meta-tag-generator/) to write the full set of meta tags at the same time.',
     },
     {
       icon: '⚡',
@@ -186,7 +186,7 @@ const SEO = {
     {
       icon: '△',
       title: 'Build social share images for marketing campaigns',
-      desc: 'Campaign landing pages, event registrations, and webinar signup pages need OG images that communicate urgency and value. The Gradient template with vibrant colors creates visual impact in a feed. Generate a set of variations by changing the gradient colors and compare — the preview updates instantly. Combine with the [Meta Tag Generator](https://fwdtools.com/meta-tag-generator) to set og:title, og:description, and og:image together.',
+      desc: 'Campaign landing pages, event registrations, and webinar signup pages need OG images that communicate urgency and value. The Gradient template with vibrant colors creates visual impact in a feed. Generate a set of variations by changing the gradient colors and compare — the preview updates instantly. Combine with the [Meta Tag Generator](/meta-tag-generator/) to set og:title, og:description, and og:image together.',
     },
     {
       icon: '◉',

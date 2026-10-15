@@ -182,7 +182,7 @@ const SEO = {
     {
       icon: '⊞',
       title: 'Generate lorem ipsum for WordPress, Webflow, and CMS editors',
-      desc: 'Enable HTML wrapping, generate your desired number of paragraphs, and paste into the WordPress editor in Code (HTML) view, a Webflow rich-text element, Squarespace page section, or any CMS field that accepts HTML. The output uses plain semantic <p> tags compatible with every CMS. To fill a multi-post archive page for a staging site, generate 5 separate batches of 3–4 paragraphs and paste one batch per post. Use our [Meta Tag Generator](https://fwdtools.com/meta-tag-generator/) to also fill placeholder meta descriptions while building out the staging environment.',
+      desc: 'Enable HTML wrapping, generate your desired number of paragraphs, and paste into the WordPress editor in Code (HTML) view, a Webflow rich-text element, Squarespace page section, or any CMS field that accepts HTML. The output uses plain semantic <p> tags compatible with every CMS. To fill a multi-post archive page for a staging site, generate 5 separate batches of 3–4 paragraphs and paste one batch per post. Use our [Meta Tag Generator](/meta-tag-generator/) to also fill placeholder meta descriptions while building out the staging environment.',
     },
     {
       icon: '⬡',

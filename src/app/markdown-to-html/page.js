@@ -183,7 +183,7 @@ const SEO = {
     {
       icon: '⇄',
       title: 'Convert Markdown to HTML for email templates',
-      desc: 'Write your email copy in Markdown for readability, then convert it here for the HTML version of your email. Click "Copy HTML" to get the fragment and paste it into your email template\'s body section. Use the Preview tab to verify the rendering looks correct for headers, bullet lists, and links. Note that email clients have limited CSS support — avoid complex tables and use inline styles in your final email template. The [Meta Tag Generator](https://fwdtools.com/meta-tag-generator/) can help structure the metadata for email landing pages.',
+      desc: 'Write your email copy in Markdown for readability, then convert it here for the HTML version of your email. Click "Copy HTML" to get the fragment and paste it into your email template\'s body section. Use the Preview tab to verify the rendering looks correct for headers, bullet lists, and links. Note that email clients have limited CSS support — avoid complex tables and use inline styles in your final email template. The [Meta Tag Generator](/meta-tag-generator/) can help structure the metadata for email landing pages.',
     },
     {
       icon: '▦',
