@@ -1,7 +1,7 @@
 const cssOnlyParallaxPerspectiveSection = {
   id: 'css-only-parallax-perspective-section',
   title: 'CSS-Only Parallax Perspective Section',
-  lastmod: '2026-09-05',
+  lastmod: '2026-10-15',
   category: 'scroll',
   cdnUrls: [],
   html: `<div class="pp-container" id="ppContainer">
@@ -37,8 +37,12 @@ const cssOnlyParallaxPerspectiveSection = {
   css: `*{box-sizing:border-box}
 body{font-family:system-ui,-apple-system,sans-serif;margin:0}
 .pp-container{
-  height:70vh;min-height:420px;overflow-y:scroll;overflow-x:hidden;
-  perspective:1px;perspective-origin:0 0;
+  /* every scene is exactly one container-height tall, so a snapped scene lines up with its layer */
+  --pp-h:max(70vh,420px);
+  height:var(--pp-h);overflow-y:scroll;overflow-x:hidden;
+  /* origin centred horizontally: with translateZ(-1px) scale(2) the layer then projects back
+     to exactly its section's width (a 0 0 origin shifted every layer a quarter-width left) */
+  perspective:1px;perspective-origin:50% 50%;
   background:#0b0d14;
   scroll-snap-type:y mandatory;
   scrollbar-width:thin;scrollbar-color:#4338ca #0b0d14;
@@ -47,7 +51,7 @@ body{font-family:system-ui,-apple-system,sans-serif;margin:0}
 .pp-container::-webkit-scrollbar-track{background:#0b0d14}
 .pp-container::-webkit-scrollbar-thumb{background:#4338ca;border-radius:99px}
 .pp-group{
-  position:relative;height:70vh;min-height:340px;
+  position:relative;height:var(--pp-h);
   display:flex;align-items:center;justify-content:center;
   transform-style:preserve-3d;
   scroll-snap-align:start;
@@ -55,16 +59,19 @@ body{font-family:system-ui,-apple-system,sans-serif;margin:0}
 .parallax-bg{
   position:absolute;inset:0;
   transform:translateZ(-1px) scale(2);
+  pointer-events:none;
   background-size:cover;background-position:center;
 }
 .pp-bg-a{background:radial-gradient(circle at 30% 30%,#4338ca,#0b0d14 70%)}
 .pp-bg-b{background:radial-gradient(circle at 70% 40%,#be185d,#0b0d14 70%)}
 .pp-bg-c{background:radial-gradient(circle at 40% 60%,#0e7490,#0b0d14 70%)}
 .pp-foreground{
-  position:relative;z-index:1;
-  text-align:center;color:#fff;padding:28px 32px;max-width:420px;
-  background:rgba(11,13,20,.4);border:1px solid rgba(255,255,255,.08);
-  border-radius:18px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  /* translateZ(0) pins the card to the scroll plane in front of the pushed-back layer.
+     No backdrop-filter: inside a preserve-3d context it makes Chromium drop the element. */
+  position:relative;z-index:1;transform:translateZ(0);
+  text-align:center;color:#fff;padding:28px 32px;max-width:420px;margin:0 16px;
+  background:rgba(11,13,20,.62);border:1px solid rgba(255,255,255,.1);
+  border-radius:18px;
   box-shadow:0 24px 60px -20px rgba(0,0,0,.6);
 }
 .pp-eyebrow{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c7cbe0;background:rgba(255,255,255,.08);padding:4px 12px;border-radius:99px;margin-bottom:14px}
@@ -72,11 +79,11 @@ body{font-family:system-ui,-apple-system,sans-serif;margin:0}
 .pp-foreground p{font-size:14px;color:#dfe1ee;margin:0;line-height:1.6}
 .pp-scrollcue{
   position:absolute;bottom:18px;left:50%;z-index:1;
-  transform:translateX(-50%);font-size:11px;font-weight:600;letter-spacing:.1em;
+  transform:translate3d(-50%,0,0);font-size:11px;font-weight:600;letter-spacing:.1em;
   text-transform:uppercase;color:rgba(255,255,255,.55);
   animation:pp-bounce 1.8s ease-in-out infinite;
 }
-@keyframes pp-bounce{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,6px)}}`,
+@keyframes pp-bounce{0%,100%{transform:translate3d(-50%,0,0)}50%{transform:translate3d(-50%,6px,0)}}`,
 
   js: `// This snippet is intentionally CSS-only for the parallax effect itself --
 // the perspective + translateZ + scale technique on .parallax-bg layers
@@ -117,7 +124,7 @@ The JS file in this snippet does no visual work at all — there is no scroll li
       'Three independently styled background scenes demonstrating the same technique',
       'Immune to scroll-jank since there is no per-frame JS recalculation at all',
       'Self-contained scrollable demo container for an isolated live preview',
-      'Frosted-glass foreground content cards readable over any background gradient',
+      'Translucent foreground content cards readable over any background gradient',
       'Fully responsive — background scale compensation keeps layers filling their section',
       'Technique portable to any scrollable container, not just full-page scroll',
     ],
