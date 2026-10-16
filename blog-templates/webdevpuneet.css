@@ -5,6 +5,7 @@
     border: 1px solid #cecece;
     background: #fafafa;
     min-height: 54px;
+	margin-bottom: 20px;
 }
 .page .post-wrap, .post-wrap {
     padding: 0 25px 25px;
