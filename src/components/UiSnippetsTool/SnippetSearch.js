@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import s from './SnippetSearch.module.css';
 
 const PAGE_SIZE = 10;
@@ -15,8 +15,8 @@ function syncSidebarQuery(value) {
   } catch {}
   window.dispatchEvent(new Event(SYNC_EVENT));
 }
-const PEEK_W = 300; // hover preview width (matches .peek)
-const PEEK_GAP = 8;
+const PEEK_W = 300; // hover preview width and max height (matches .peek)
+const PEEK_GAP = 2; // space between preview and drop-down (matches .peek)
 
 // Small search box for the preview toolbar. Focusing it opens a drop-down of
 // snippets; typing filters by title, id and category. The panel is
@@ -28,6 +28,12 @@ export default function SnippetSearch({ snippets, categoryLabels, activeId, acti
   const [hi, setHi] = useState(0);
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [peekOn, setPeekOn] = useState(false); // a row is hovered (or arrowed to)
+  const [peekY, setPeekY] = useState(0);        // preview's offset from the drop-down's top
+  // The preview stays mounted while it fades out, still showing the last snippet
+  const peekIdRef = useRef(null);
+  const peekRef = useRef(null);
+  // Glide vertically only once it is already showing, so it never slides in from a stale spot
+  const [peekGlide, setPeekGlide] = useState(false);
   const wrapRef = useRef(null);
   const inputRef = useRef(null);
   const listRef = useRef(null);
@@ -65,6 +71,25 @@ export default function SnippetSearch({ snippets, categoryLabels, activeId, acti
   useEffect(() => {
     listRef.current?.children[hi]?.scrollIntoView({ block: 'nearest' });
   }, [hi]);
+
+  // Centre the preview on the highlighted row, kept inside the window
+  function measurePeek() {
+    const row = listRef.current?.children[hi];
+    if (!row || !pos) return;
+    const r = row.getBoundingClientRect();
+    const h = peekRef.current?.offsetHeight || PEEK_W; // height follows the image, max 300
+    const y = r.top + r.height / 2 - h / 2;
+    const clamped = Math.min(Math.max(8, y), window.innerHeight - h - 8);
+    setPeekY(clamped - pos.top);
+  }
+  // Layout effect: the first visible frame is already at the right height
+  useLayoutEffect(() => { if (peekOn) measurePeek(); }, [hi, peekOn, pos]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!peekOn) { setPeekGlide(false); return; }
+    // Turn gliding on after that first placed frame has painted
+    let id = requestAnimationFrame(() => { id = requestAnimationFrame(() => setPeekGlide(true)); });
+    return () => cancelAnimationFrame(id);
+  }, [peekOn]);
 
   // Close on outside click, and on resize/scroll (the fixed coords would go stale)
   useEffect(() => {
@@ -118,6 +143,9 @@ export default function SnippetSearch({ snippets, categoryLabels, activeId, acti
     else if (e.key === 'Enter') { e.preventDefault(); go(results.items[hi]); }
   }
 
+  if (peekOn && results.items[hi]) peekIdRef.current = results.items[hi].id;
+  const peekId = peekIdRef.current;
+
   return (
     <div ref={wrapRef} className={s.wrap}>
       <svg className={s.icon} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
@@ -137,13 +165,20 @@ export default function SnippetSearch({ snippets, categoryLabels, activeId, acti
       />
       {pos && (
         <div className={s.pop} style={{ top: pos.top, left: pos.left }}>
-        {peekOn && pos.peekSide && results.items[hi] && (
-          <div className={`${s.peek} ${pos.peekSide === 'right' ? s.peekRight : ''}`} aria-hidden="true">
+        {pos.peekSide && peekId && (
+          <div
+            ref={peekRef}
+            className={`${s.peek} ${pos.peekSide === 'right' ? s.peekRight : ''} ${peekOn ? s.peekOn : ''} ${peekOn && peekGlide ? s.peekGlide : ''}`}
+            // Slides in from the drop-down's side, then follows the hovered row up and down
+            style={{ transform: `translate(${peekOn ? 0 : pos.peekSide === 'right' ? -8 : 8}px, ${peekY}px)` }}
+            aria-hidden="true"
+          >
             <div className={s.peekImg}>
               <img
-                key={results.items[hi].id}
-                src={`/images/ui-snippets/previews/${results.items[hi].id}.png`}
+                key={peekId}
+                src={`/images/ui-snippets/previews/${peekId}.png`}
                 alt=""
+                onLoad={() => { if (peekOn) measurePeek(); }} // height known now: re-centre
                 onError={e => { e.currentTarget.style.visibility = 'hidden'; }}
               />
             </div>
@@ -167,6 +202,7 @@ export default function SnippetSearch({ snippets, categoryLabels, activeId, acti
               onMouseLeave={() => setPeekOn(false)}
               // Infinite scroll: next 10 once the user nears the bottom
               onScroll={e => {
+                if (peekOn) measurePeek(); // the hovered row moved under the preview
                 const el = e.currentTarget;
                 if (hasMore && el.scrollTop + el.clientHeight >= el.scrollHeight - 40) showMore();
               }}
