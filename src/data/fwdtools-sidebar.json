@@ -817,6 +817,11 @@
           "slug": "image-color-palette",
           "name": "Image Color Palette Extractor",
           "icon": "/icons/image-color-palette.svg"
+        },
+        {
+          "slug": "social-post-templates",
+          "name": "Social Post Templates",
+          "icon": "/icons/social-post-templates.svg"
         }
       ]
     },

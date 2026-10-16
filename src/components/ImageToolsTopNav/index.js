@@ -21,6 +21,7 @@ const NAV_ITEMS = [
   { slug: 'images-to-pdf',         short: 'Images → PDF',    icon: '/icons/images-to-pdf.svg' },
   { slug: 'favicon-generator',     short: 'Favicon',         icon: '/icons/favicon-generator.svg' },
   { slug: 'og-image-generator',    short: 'OG Image',        icon: '/icons/og-image-generator.svg' },
+  { slug: 'social-post-templates', short: 'Social Posts',   icon: '/icons/social-post-templates.svg' },
   { slug: 'qr-code-generator',     short: 'QR Code',         icon: '/icons/qr-code-generator.svg' },
   { slug: 'code-screenshot-generator', short: 'Code Screenshot', icon: '/icons/code-screenshot-generator.svg' },
   { slug: 'animated-svg-icons',    short: 'SVG Icons',       icon: '/icons/animated-svg-icons.svg' },

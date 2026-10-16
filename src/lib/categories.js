@@ -361,7 +361,7 @@ If you are styling something, start with the CSS generators. If you are learning
       // most-searched image tasks
       'image-editor', 'image-compressor', 'image-background-remover', 'relight-photo', 'favicon-generator',
       // generation
-      'og-image-generator', 'code-screenshot-generator',
+      'og-image-generator', 'social-post-templates', 'code-screenshot-generator',
       // format conversion
       'image-to-svg', 'svg-to-png', 'image-to-base64',
       // OCR and color

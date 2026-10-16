@@ -1289,6 +1289,19 @@ export const TOOLS = [
     lastmod:    '2026-10-16',
     hasUpdates: false,
   },
+  {
+    slug:       'social-post-templates',
+    name:       'Social Post Templates',
+    sub:        'Instagram · Facebook · X posts',
+    desc:       '20 free HTML social post templates for Instagram, Facebook and X. Edit text, photos, colours and fonts, then download every post size as PNG or copy the HTML.',
+    icon:       '/icons/social-post-templates.svg',
+    accent:     '#6366f1',
+    category:   'design',
+    extended:   false,
+    status:     'live',
+    lastmod:    '2026-10-16',
+    hasUpdates: false,
+  },
   /* SEO tools moved from fwdtools (2026-10-15) */
   {
     slug:     'meta-tag-generator',

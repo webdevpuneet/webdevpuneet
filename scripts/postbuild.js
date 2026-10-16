@@ -5,6 +5,7 @@ import { LIVE_TOOLS } from '../src/lib/tools-registry.js';
 import { CATEGORIES } from '../src/lib/categories.js';
 import { SNIPPETS as ALL_SNIPPETS, CATEGORIES as SNIPPET_CATEGORIES } from '../src/components/UiSnippetsTool/snippets.js';
 import { publishedTags, snippetsForTag } from '../src/lib/snippet-tags.js';
+import { TEMPLATES as SOCIAL_TEMPLATES } from '../src/components/SocialPostTemplates/templates/index.js';
 
 // Exclude nofollow/test snippets (noindex: true) from sitemap + llms.txt — they only show on localhost
 const SNIPPETS = ALL_SNIPPETS.filter(sn => !sn.noindex);
@@ -202,6 +203,13 @@ async function main() {
       changefreq: 'monthly',
       priority:   0.8,
     })),
+    // Each social post template has its own editor page under the tool
+    ...SOCIAL_TEMPLATES.map(t => ({
+      loc:        `${BASE_URL}/social-post-templates/${t.id}/`,
+      lastmod:    t.updated,
+      changefreq: 'monthly',
+      priority:   0.7,
+    })),
   ];
   const toolPages = chunk(toolEntries, PAGE_SIZE);
   const toolListFiles = toolPages.map((page, i) => {
@@ -361,6 +369,9 @@ async function main() {
     }
   }
 
+  llmsTxt += `\n---\n\n## Social Post Templates\n\n`;
+  llmsTxt += `${SOCIAL_TEMPLATES.length} free HTML/CSS templates for Instagram, Facebook and X posts and Stories. Edit text, photos, colours and fonts in the browser, download PNG/JPEG in four sizes, or copy the HTML.\n\nLibrary: ${BASE_URL}/social-post-templates/\n\n`;
+  for (const t of SOCIAL_TEMPLATES) llmsTxt += `- [${t.name}](${BASE_URL}/social-post-templates/${t.id}/) : ${t.description}\n`;
   llmsTxt += `\n---\n\n## UI Snippets Components\n\n`;
   llmsTxt += `Browse and copy ${SNIPPETS.length}+ free HTML, CSS & JS components with live preview and export to HTML, JSX, or React + Tailwind CSS.\n\nLibrary: ${BASE_URL}/ui-snippets/\n\n`;
   llmsTxt += `### Categories\n\n`;
