@@ -1,307 +1,487 @@
-﻿const chipFilter = {
+const chipFilter = {
   id: 'chip-filter',
   title: 'Chip Filter',
-  lastmod: '2026-06-12',
+  lastmod: '2026-10-16',
   category: 'forms',
-  html: `<div class="page">
-  <div class="header">
-    <h1 class="heading">Component Library</h1>
-    <p class="sub">48 components across 6 categories</p>
-  </div>
-  <div class="chips" id="chips" role="group" aria-label="Filter by category">
-    <button class="chip active" data-cat="all">All <span class="chip-count" id="count-all">12</span></button>
-    <button class="chip" data-cat="layout">Layout <span class="chip-count" id="count-layout"></span></button>
-    <button class="chip" data-cat="forms">Forms <span class="chip-count" id="count-forms"></span></button>
-    <button class="chip" data-cat="data">Data <span class="chip-count" id="count-data"></span></button>
-    <button class="chip" data-cat="feedback">Feedback <span class="chip-count" id="count-feedback"></span></button>
-    <button class="chip" data-cat="nav">Navigation <span class="chip-count" id="count-nav"></span></button>
-  </div>
-  <div class="grid" id="grid" aria-live="polite"></div>
-</div>`,
-  css: `* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: system-ui, -apple-system, sans-serif; background: #f8fafc; min-height: 100vh; padding: 24px 20px; }
-
-.page { max-width: 680px; margin: 0 auto; }
-
-.header { margin-bottom: 20px; }
-.heading { font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
-.sub { font-size: 13px; color: #64748b; }
-
-.chips {
-  display: flex; flex-wrap: wrap; gap: 8px;
-  margin-bottom: 20px;
-}
-
-.chip {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 7px 14px; border-radius: 999px;
-  border: 1.5px solid #e2e8f0;
-  background: #fff; color: #64748b;
-  font-size: 13px; font-weight: 600;
-  cursor: pointer;
-  transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.1s;
-  white-space: nowrap;
-  user-select: none;
-}
-.chip:hover { border-color: #6366f1; color: #6366f1; background: #f5f3ff; }
-.chip.active { background: #6366f1; border-color: #6366f1; color: #fff; }
-
-.chip-count {
-  font-size: 10px; font-weight: 700;
-  min-width: 18px; height: 18px; padding: 0 4px;
-  border-radius: 9px;
-  background: rgba(255,255,255,0.25); color: inherit;
-  display: flex; align-items: center; justify-content: center;
-}
-.chip:not(.active) .chip-count { background: #f1f5f9; color: #94a3b8; }
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-
-.card {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 16px;
-  transition: border-color 0.15s, box-shadow 0.15s, opacity 0.2s, transform 0.2s;
-}
-.card:hover { border-color: #a5b4fc; box-shadow: 0 4px 14px rgba(99,102,241,0.1); }
-.card.hidden { opacity: 0; transform: scale(0.94); pointer-events: none; position: absolute; }
-
-.card-icon {
-  width: 38px; height: 38px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; margin-bottom: 10px;
-}
-.card-name { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 3px; }
-.card-desc { font-size: 11.5px; color: #64748b; line-height: 1.4; margin-bottom: 8px; }
-.card-tag {
-  display: inline-block;
-  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
-  padding: 2px 8px; border-radius: 4px;
-}
-.tag-layout   { background: #eff6ff; color: #3b82f6; }
-.tag-forms    { background: #f0fdf4; color: #22c55e; }
-.tag-data     { background: #fefce8; color: #eab308; }
-.tag-feedback { background: #fdf4ff; color: #a855f7; }
-.tag-nav      { background: #fff7ed; color: #f97316; }
-
-.empty { grid-column: 1/-1; text-align: center; padding: 40px; color: #94a3b8; font-size: 14px; display: none; }
-.empty.show { display: block; }`,
-  js: `const ITEMS = [
-  { name:'Bento Grid',      desc:'Responsive asymmetric grid',      cat:'layout',   icon:'⬛', bg:'#eff6ff' },
-  { name:'Masonry Layout',  desc:'Pinterest-style column layout',   cat:'layout',   icon:'🧱', bg:'#eff6ff' },
-  { name:'Dashboard Grid',  desc:'Admin panel skeleton layout',     cat:'layout',   icon:'📐', bg:'#eff6ff' },
-  { name:'Floating Label',  desc:'Animated placeholder input',      cat:'forms',    icon:'✏️',  bg:'#f0fdf4' },
-  { name:'OTP Input',       desc:'6-digit code entry field',        cat:'forms',    icon:'🔢', bg:'#f0fdf4' },
-  { name:'Tag Input',       desc:'Multi-value chip input',          cat:'forms',    icon:'🏷️',  bg:'#f0fdf4' },
-  { name:'Data Table',      desc:'Sortable & filterable table',     cat:'data',     icon:'📊', bg:'#fefce8' },
-  { name:'Donut Chart',     desc:'SVG donut with tooltip',          cat:'data',     icon:'🍩', bg:'#fefce8' },
-  { name:'Line Chart',      desc:'SVG sparkline widget',            cat:'data',     icon:'📈', bg:'#fefce8' },
-  { name:'Toast Queue',     desc:'Stacked notification toasts',     cat:'feedback', icon:'🔔', bg:'#fdf4ff' },
-  { name:'Progress Bar',    desc:'Animated step progress bar',      cat:'feedback', icon:'📶', bg:'#fdf4ff' },
-  { name:'Mega Menu',       desc:'Multi-column dropdown nav',       cat:'nav',      icon:'🗂️',  bg:'#fff7ed' },
-];
-
-const grid   = document.getElementById('grid');
-const chips  = document.querySelectorAll('.chip');
-let active   = 'all';
-
-function countByCat(cat) { return cat === 'all' ? ITEMS.length : ITEMS.filter(i => i.cat === cat).length; }
-
-function updateCounts() {
-  chips.forEach(c => {
-    const cat = c.dataset.cat;
-    const span = c.querySelector('.chip-count');
-    span.textContent = countByCat(cat);
-  });
-}
-
-function render() {
-  const shown = active === 'all' ? ITEMS : ITEMS.filter(i => i.cat === active);
-
-  grid.innerHTML = shown.map(item => \`
-    <div class="card">
-      <div class="card-icon" style="background:\${item.bg}">\${item.icon}</div>
-      <div class="card-name">\${item.name}</div>
-      <div class="card-desc">\${item.desc}</div>
-      <span class="card-tag tag-\${item.cat}">\${item.cat}</span>
+  // Hand-picked; the tag generator always uses a snippet's own tags list
+  tags: ['keyboard-navigation', 'accessibility', 'dark-mode', 'css-grid', 'css-animation'],
+  html: `<div class="cf">
+  <header class="cf-head">
+    <div>
+      <h1 class="cf-title">Component Library</h1>
+      <p class="cf-sub" id="cfSub"></p>
     </div>
-  \`).join('');
+    <label class="cf-search">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="cfSearch" type="search" placeholder="Search components" aria-label="Search components" autocomplete="off" spellcheck="false">
+    </label>
+  </header>
 
-  if (!shown.length) {
-    grid.innerHTML = '<div class="empty show">No components match this filter.</div>';
+  <div class="cf-bar">
+    <div class="cf-chips" id="cfChips" role="toolbar" aria-label="Filter by category"></div>
+    <div class="cf-mode" role="group" aria-label="Match categories">
+      <button type="button" class="cf-mode-btn" data-mode="any" aria-pressed="true" title="Show items in any selected category">Any</button>
+      <button type="button" class="cf-mode-btn" data-mode="all" aria-pressed="false" title="Show items in every selected category">All</button>
+    </div>
+  </div>
+
+  <p class="cf-status" id="cfStatus" role="status" aria-live="polite"></p>
+
+  <div class="cf-grid" id="cfGrid"></div>
+
+  <div class="cf-empty" id="cfEmpty" hidden>
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M8.5 11h5"/></svg>
+    <p>No components match these filters.</p>
+    <button type="button" class="cf-reset" id="cfReset">Clear filters</button>
+  </div>
+</div>`,
+  css: `:root {
+  --cf-bg: #f8fafc;
+  --cf-surface: #ffffff;
+  --cf-border: #e2e8f0;
+  --cf-text: #0f172a;
+  --cf-muted: #64748b;
+  --cf-soft: #f1f5f9;
+  --cf-accent: #6366f1;
+  --cf-accent-soft: #eef2ff;
+  --cf-on-accent: #ffffff;
+  --cf-ring: rgba(99, 102, 241, 0.45);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cf-bg: #0b1020;
+    --cf-surface: #121a2e;
+    --cf-border: #24304a;
+    --cf-text: #e8edf7;
+    --cf-muted: #94a3b8;
+    --cf-soft: #1a2440;
+    --cf-accent: #818cf8;
+    --cf-accent-soft: #1e2456;
+    --cf-on-accent: #0b1020;
   }
 }
 
-chips.forEach(chip => {
-  chip.addEventListener('click', () => {
-    chips.forEach(c => c.classList.remove('active'));
-    chip.classList.add('active');
-    active = chip.dataset.cat;
-    render();
+* { box-sizing: border-box; margin: 0; padding: 0; }
+[hidden] { display: none !important; }
+body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; background: var(--cf-bg); color: var(--cf-text); min-height: 100vh; padding: 24px 20px; }
+
+.cf { max-width: 760px; margin: 0 auto; }
+
+/* Header + search */
+.cf-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+.cf-title { font-size: 22px; font-weight: 800; letter-spacing: -0.4px; }
+.cf-sub { font-size: 13px; color: var(--cf-muted); margin-top: 3px; }
+.cf-search {
+  display: flex; align-items: center; gap: 8px; flex: 0 1 260px;
+  padding: 0 12px; height: 38px;
+  background: var(--cf-surface); border: 1.5px solid var(--cf-border); border-radius: 10px;
+  color: var(--cf-muted); transition: border-color 0.15s, box-shadow 0.15s;
+}
+.cf-search:focus-within { border-color: var(--cf-accent); box-shadow: 0 0 0 3px var(--cf-ring); }
+.cf-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--cf-text); font: inherit; font-size: 14px; }
+
+/* Chip bar */
+.cf-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.cf-chips { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; min-width: 0; }
+.cf-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  height: 34px; padding: 0 13px;
+  border: 1.5px solid var(--cf-border); border-radius: 999px;
+  background: var(--cf-surface); color: var(--cf-muted);
+  font: inherit; font-size: 13px; font-weight: 600; white-space: nowrap;
+  cursor: pointer; user-select: none;
+  transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.1s, opacity 0.15s;
+}
+.cf-chip:hover:not(:disabled) { border-color: var(--cf-accent); color: var(--cf-accent); }
+.cf-chip:active:not(:disabled) { transform: scale(0.96); }
+.cf-chip[aria-pressed="true"] { background: var(--cf-accent); border-color: var(--cf-accent); color: var(--cf-on-accent); }
+.cf-chip:disabled { opacity: 0.4; cursor: not-allowed; }
+.cf-chip:focus-visible, .cf-mode-btn:focus-visible, .cf-card:focus-visible, .cf-reset:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--cf-ring); }
+.cf-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.cf-chip[aria-pressed="true"] .cf-dot { background: currentColor !important; }
+.cf-count {
+  min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; background: var(--cf-soft); color: var(--cf-muted);
+  font-variant-numeric: tabular-nums;
+}
+.cf-chip[aria-pressed="true"] .cf-count { background: rgba(255, 255, 255, 0.25); color: inherit; }
+.cf-clear { border-style: dashed; }
+
+/* Any / All switch */
+.cf-mode { display: inline-flex; padding: 3px; gap: 2px; flex: none; background: var(--cf-soft); border-radius: 10px; }
+.cf-mode-btn {
+  height: 28px; padding: 0 11px; border: 0; border-radius: 7px;
+  background: transparent; color: var(--cf-muted); font: inherit; font-size: 12px; font-weight: 700; cursor: pointer;
+}
+.cf-mode-btn[aria-pressed="true"] { background: var(--cf-surface); color: var(--cf-text); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); }
+
+.cf-status { font-size: 12.5px; color: var(--cf-muted); margin: 4px 0 14px; min-height: 18px; }
+
+/* Grid + cards */
+.cf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+.cf-card {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 16px; border-radius: 14px;
+  background: var(--cf-surface); border: 1px solid var(--cf-border);
+  color: inherit; text-decoration: none;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+.cf-card:hover { border-color: var(--cf-accent); box-shadow: 0 8px 22px rgba(99, 102, 241, 0.14); transform: translateY(-2px); }
+.cf-icon { width: 40px; height: 40px; border-radius: 11px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+.cf-name { font-size: 14px; font-weight: 700; }
+.cf-desc { font-size: 12.5px; color: var(--cf-muted); line-height: 1.45; }
+.cf-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.cf-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; padding: 2px 7px; border-radius: 5px; }
+
+/* Cards fade in when shown (fallback for browsers without View Transitions) */
+.cf-in { animation: cf-in 0.28s ease-out both; }
+@keyframes cf-in { from { opacity: 0; transform: scale(0.94) translateY(6px); } }
+::view-transition-group(*) { animation-duration: 0.3s; animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); }
+
+/* Empty state */
+.cf-empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 44px 20px; color: var(--cf-muted); font-size: 14px; text-align: center; border: 1.5px dashed var(--cf-border); border-radius: 14px; }
+.cf-reset { height: 34px; padding: 0 14px; border: 0; border-radius: 9px; background: var(--cf-accent); color: var(--cf-on-accent); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+
+/* Phones: one swipeable chip row with faded edges */
+@media (max-width: 560px) {
+  .cf-search { flex-basis: 100%; }
+  .cf-bar { flex-direction: column; align-items: stretch; }
+  .cf-chips {
+    flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x proximity; padding: 2px 2px 6px;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent);
+  }
+  .cf-chips::-webkit-scrollbar { display: none; }
+  .cf-chip { scroll-snap-align: start; }
+  .cf-mode { align-self: flex-start; }
+  .cf-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::view-transition-group(*) { animation: none !important; transition: none !important; }
+}`,
+  js: `// Categories and items: chips, counts, tags and icons are all generated from this data
+var CATS = [
+  { id: 'layout',   label: 'Layout',     color: '#3b82f6' },
+  { id: 'forms',    label: 'Forms',      color: '#16a34a' },
+  { id: 'data',     label: 'Data',       color: '#ca8a04' },
+  { id: 'feedback', label: 'Feedback',   color: '#a855f7' },
+  { id: 'nav',      label: 'Navigation', color: '#f97316' }
+];
+var ICONS = {
+  layout:   '<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>',
+  forms:    '<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M7 10h6M7 14h10"/>',
+  data:     '<path d="M3 21h18M6 17v-6M11 17V6M16 17v-4M20 17V9"/>',
+  feedback: '<path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+  nav:      '<path d="M4 6h16M4 12h16M4 18h10"/>'
+};
+var ITEMS = [
+  { id: 'bento-grid',     name: 'Bento Grid',       desc: 'Responsive asymmetric card grid',      cats: ['layout'] },
+  { id: 'masonry',        name: 'Masonry Layout',   desc: 'Pinterest-style column layout',        cats: ['layout'] },
+  { id: 'dashboard',      name: 'Dashboard Shell',  desc: 'Sidebar, header and content regions',  cats: ['layout', 'nav'] },
+  { id: 'floating-label', name: 'Floating Label',   desc: 'Animated placeholder input',           cats: ['forms'] },
+  { id: 'otp-input',      name: 'OTP Input',        desc: '6-digit verification code field',      cats: ['forms', 'feedback'] },
+  { id: 'tag-input',      name: 'Tag Input',        desc: 'Multi-value chip input',               cats: ['forms'] },
+  { id: 'data-table',     name: 'Data Table',       desc: 'Sortable, filterable rows',            cats: ['data', 'forms'] },
+  { id: 'donut-chart',    name: 'Donut Chart',      desc: 'SVG donut with tooltip',               cats: ['data'] },
+  { id: 'sparkline',      name: 'Sparkline',        desc: 'Tiny inline trend chart',              cats: ['data'] },
+  { id: 'toast-queue',    name: 'Toast Queue',      desc: 'Stacked notification toasts',          cats: ['feedback'] },
+  { id: 'stepper',        name: 'Progress Stepper', desc: 'Multi-step progress indicator',        cats: ['feedback', 'nav'] },
+  { id: 'mega-menu',      name: 'Mega Menu',        desc: 'Multi-column dropdown navigation',     cats: ['nav'] }
+];
+
+var grid = document.getElementById('cfGrid');
+var chipsEl = document.getElementById('cfChips');
+var searchEl = document.getElementById('cfSearch');
+var statusEl = document.getElementById('cfStatus');
+var emptyEl = document.getElementById('cfEmpty');
+var modeBtns = document.querySelectorAll('.cf-mode-btn');
+var state = { selected: [], mode: 'any', q: '' };
+var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function catById(id) { return CATS.filter(function (c) { return c.id === id; })[0]; }
+function icon(id, size) {
+  return '<svg viewBox="0 0 24 24" width="' + size + '" height="' + size + '" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONS[id] + '</svg>';
+}
+
+document.getElementById('cfSub').textContent = ITEMS.length + ' components in ' + CATS.length + ' categories';
+
+// Cards are built once; filtering only hides/shows them, so the View Transition can animate each one
+var cards = {};
+ITEMS.forEach(function (item) {
+  var main = catById(item.cats[0]);
+  var a = document.createElement('a');
+  a.className = 'cf-card';
+  a.href = '#' + item.id;
+  a.style.viewTransitionName = 'cf-' + item.id;
+  a.innerHTML =
+    '<span class="cf-icon" style="color:' + main.color + ';background:' + main.color + '1f">' + icon(main.id, 20) + '</span>' +
+    '<span class="cf-name"></span><span class="cf-desc"></span>' +
+    '<span class="cf-tags">' + item.cats.map(function (c) {
+      var k = catById(c);
+      return '<span class="cf-tag" style="color:' + k.color + ';background:' + k.color + '1f">' + k.label + '</span>';
+    }).join('') + '</span>';
+  a.querySelector('.cf-name').textContent = item.name;
+  a.querySelector('.cf-desc').textContent = item.desc;
+  grid.appendChild(a);
+  cards[item.id] = a;
+});
+
+// Chips: "All" resets, one toggle chip per category, and "Clear" while anything is selected
+function makeChip(id, label) {
+  var b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'cf-chip';
+  b.dataset.cat = id;
+  var cat = catById(id);
+  b.innerHTML = (cat ? '<span class="cf-dot" style="background:' + cat.color + '"></span>' : '') +
+    '<span class="cf-label"></span>' + (id === 'clear' ? '' : '<span class="cf-count"></span>');
+  b.querySelector('.cf-label').textContent = label;
+  chipsEl.appendChild(b);
+  return b;
+}
+var allChip = makeChip('all', 'All');
+var catChips = CATS.map(function (c) { return makeChip(c.id, c.label); });
+var clearChip = makeChip('clear', '\\u00D7 Clear');
+clearChip.classList.add('cf-clear');
+clearChip.setAttribute('aria-label', 'Clear category filters');
+
+function matchesQuery(item, q) {
+  if (!q) return true;
+  var hay = (item.name + ' ' + item.desc + ' ' + item.cats.map(function (c) { return catById(c).label; }).join(' ')).toLowerCase();
+  return q.split(/\\s+/).every(function (w) { return hay.indexOf(w) !== -1; });
+}
+function matchesCats(item) {
+  var sel = state.selected;
+  if (!sel.length) return true;
+  var has = function (c) { return item.cats.indexOf(c) !== -1; };
+  return state.mode === 'all' ? sel.every(has) : sel.some(has);
+}
+// Faceted count: how many results this chip leads to, given the search (and, in All mode, the current selection)
+function countFor(catId, pool) {
+  return pool.filter(function (item) {
+    if (item.cats.indexOf(catId) === -1) return false;
+    if (state.mode !== 'all') return true;
+    return state.selected.every(function (s) { return item.cats.indexOf(s) !== -1; });
+  }).length;
+}
+
+function statusText(shown, total) {
+  var text = 'Showing ' + shown + ' of ' + total + ' components';
+  if (state.q.trim()) text += ' matching \\u201C' + state.q.trim() + '\\u201D';
+  if (state.selected.length) {
+    var labels = state.selected.map(function (c) { return catById(c).label; });
+    text += ' in ' + (labels.length > 1 ? labels.slice(0, -1).join(', ') + (state.mode === 'all' ? ' and ' : ' or ') + labels[labels.length - 1] : labels[0]);
+  }
+  return text;
+}
+
+function update(opts) {
+  opts = opts || {};
+  var q = state.q.trim().toLowerCase();
+  var pool = ITEMS.filter(function (i) { return matchesQuery(i, q); });
+  var shown = pool.filter(matchesCats);
+
+  allChip.setAttribute('aria-pressed', String(!state.selected.length));
+  allChip.querySelector('.cf-count').textContent = pool.length;
+  catChips.forEach(function (b, i) {
+    var id = CATS[i].id;
+    var on = state.selected.indexOf(id) !== -1;
+    var n = countFor(id, pool);
+    b.setAttribute('aria-pressed', String(on));
+    b.querySelector('.cf-count').textContent = n;
+    b.disabled = !on && n === 0; // nothing to find here
+  });
+  clearChip.hidden = !state.selected.length;
+  modeBtns.forEach(function (m) { m.setAttribute('aria-pressed', String(m.dataset.mode === state.mode)); });
+
+  var animate = opts.animate && !reduceMotion;
+  var useVT = animate && typeof document.startViewTransition === 'function';
+  var apply = function () {
+    ITEMS.forEach(function (item) {
+      var el = cards[item.id];
+      var visible = shown.indexOf(item) !== -1;
+      if (visible && el.hidden && animate && !useVT) {
+        el.classList.remove('cf-in');
+        void el.offsetWidth; // restart the fade-in
+        el.classList.add('cf-in');
+      }
+      el.hidden = !visible;
+    });
+    emptyEl.hidden = shown.length > 0;
+  };
+  if (useVT) document.startViewTransition(apply); else apply();
+
+  statusEl.textContent = statusText(shown.length, ITEMS.length);
+  if (opts.url !== false) syncUrl(opts.push);
+}
+
+// Shareable state: ?cat=forms,data&q=chart&match=all (back/forward restores it)
+function syncUrl(push) {
+  try {
+    var p = new URLSearchParams(location.search);
+    if (state.selected.length) p.set('cat', state.selected.join(',')); else p.delete('cat');
+    if (state.q.trim()) p.set('q', state.q.trim()); else p.delete('q');
+    if (state.mode === 'all') p.set('match', 'all'); else p.delete('match');
+    var qs = p.toString();
+    var url = location.pathname + (qs ? '?' + qs : '') + location.hash;
+    if (url !== location.pathname + location.search + location.hash) history[push ? 'pushState' : 'replaceState'](null, '', url);
+  } catch (err) { /* sandboxed previews can't change the URL; filtering still works */ }
+}
+function readUrl() {
+  try {
+    var p = new URLSearchParams(location.search);
+    var valid = CATS.map(function (c) { return c.id; });
+    state.selected = (p.get('cat') || '').split(',').filter(function (c) { return valid.indexOf(c) !== -1; });
+    state.q = p.get('q') || '';
+    state.mode = p.get('match') === 'all' ? 'all' : 'any';
+  } catch (err) { /* keep defaults */ }
+  searchEl.value = state.q;
+}
+
+chipsEl.addEventListener('click', function (e) {
+  var b = e.target.closest('.cf-chip');
+  if (!b || b.disabled) return;
+  var id = b.dataset.cat;
+  if (id === 'all' || id === 'clear') {
+    state.selected = [];
+  } else {
+    var k = state.selected.indexOf(id);
+    if (k === -1) state.selected.push(id); else state.selected.splice(k, 1);
+  }
+  update({ animate: true, push: true });
+  if (id === 'clear') allChip.focus();
+});
+
+// Arrow keys, Home and End move between enabled chips
+chipsEl.addEventListener('keydown', function (e) {
+  var list = Array.prototype.filter.call(chipsEl.querySelectorAll('.cf-chip'), function (b) { return !b.hidden && !b.disabled; });
+  var i = list.indexOf(document.activeElement);
+  if (i < 0) return;
+  var next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: list.length - 1 }[e.key];
+  if (next === undefined) return;
+  e.preventDefault();
+  var target = list[(next + list.length) % list.length];
+  target.focus();
+  target.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+});
+
+modeBtns.forEach(function (m) {
+  m.addEventListener('click', function () {
+    if (state.mode === m.dataset.mode) return;
+    state.mode = m.dataset.mode;
+    update({ animate: true, push: true });
   });
 });
 
-updateCounts();
-render();`,
+var searchTimer;
+searchEl.addEventListener('input', function () {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(function () { state.q = searchEl.value; update({ animate: true }); }, 120);
+});
+searchEl.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && searchEl.value) { searchEl.value = ''; state.q = ''; update({ animate: true }); }
+});
+
+document.getElementById('cfReset').addEventListener('click', function () {
+  state.selected = [];
+  state.q = '';
+  searchEl.value = '';
+  update({ animate: true, push: true });
+  searchEl.focus();
+});
+
+// Demo only: cards would link to real pages
+grid.addEventListener('click', function (e) { if (e.target.closest('.cf-card')) e.preventDefault(); });
+
+window.addEventListener('popstate', function () { readUrl(); update({ animate: true, url: false }); });
+readUrl();
+update({ url: false });`,
   seo: {
-    title: 'Chip Filter — Free HTML CSS JS Snippet',
-    description: `Pill filter chips filtering a responsive card grid by category with live count badges and animated transitions. Exports to React, Vue, Angular & Tailwind.`,
+    title: 'Chip Filter — Multi-Select Filter Chips With Live Counts',
+    description: `Multi-select filter chips with live counts, search, Any/All matching, animated View Transitions and shareable URLs. Plain HTML, CSS and JS, zero dependencies.`,
     about: {
-      title: 'Chip Filter — HTML CSS JavaScript',
-      description: `Pill-shaped filter chips that instantly filter a card grid by category. Active state, count badges, and animated cards. Zero dependencies.
+      title: 'Chip Filter — Multi-Select Filter Chips With Faceted Counts, Search and Shareable URLs',
+      description: `**Chip Filter** is a complete, production-style filter bar for any grid of items: multi-select category chips with live counts, a search box, an Any/All match switch, animated results, and filters that live in the URL so a filtered view can be shared or bookmarked. It is plain HTML, CSS and vanilla JavaScript with no dependencies, and every chip, count and card is generated from one data array.
 
-Chip filters — sometimes called filter pills or tag filters — are a core navigation pattern in component libraries, design systems, marketplaces, and content-heavy interfaces. They give users a tactile, scannable way to narrow a collection without leaving the page. This snippet builds a complete chip filter system with per-category counts, active state management, and live grid filtering using pure HTML, CSS, and vanilla JavaScript.
+Filter chips (also called filter pills or tag filters) are how component libraries, marketplaces, job boards, docs sites and product catalogues let people narrow a list without leaving the page. This snippet covers the details that simple demos skip.
 
-**Chip active state and styling**
+**Multi-select with Any or All matching**
 
-Each chip button uses \`border-radius: 999px\` to create a fully rounded pill shape regardless of text length. In the inactive state the chip has a \`1.5px solid #e2e8f0\` border on a white background with muted grey text. The \`.active\` class switches to a solid indigo fill (\`background: #6366f1\`) with white text — a single class toggle drives the full visual transition. A CSS \`transition\` on \`border-color\`, \`background\`, and \`color\` ensures the switch animates smoothly rather than snapping.
+Each category chip toggles on and off, so people can combine categories. The Any/All switch decides how they combine: **Any** shows items in at least one selected category (OR), **All** shows only items that belong to every selected category (AND). Items can carry several categories (the Data Table is both Data and Forms), so both modes give different, useful results. "All" resets the selection, and a dashed **Clear** chip appears whenever something is selected.
 
-**Count badges**
+**Faceted counts that update live**
 
-Each chip contains a \`.chip-count\` span showing how many items belong to that category. On inactive chips the badge uses a light \`#f1f5f9\` background; on the active chip it inherits white text with a semi-transparent white background (\`rgba(255,255,255,0.25)\`) to maintain legibility against the indigo fill. Counts are computed once on load by filtering the ITEMS array — this keeps the JS simple and avoids DOM queries for counting.
+Each chip's badge shows how many results it would lead to, given the current search, and in All mode, the current selection too. Type "chart" and the counts drop to match. A chip that would lead to zero results is disabled and dimmed, so people never click into a dead end. This is the "faceted search" pattern used by large stores, done in about 20 lines.
 
-**Rendering approach**
+**Search combined with the chips**
 
-Rather than toggling \`display\` or \`visibility\` on existing DOM nodes, the \`render()\` function replaces \`grid.innerHTML\` entirely with only the matching items. This is deliberately simple — for small datasets (under 200 items) it is faster and less error-prone than a dual-state approach with CSS \`hidden\` classes. For larger datasets where DOM churn is costly, a \`hidden\` class approach with \`position: absolute\` would be preferable to avoid reflow.
+The search box matches name, description and category label, word by word, and works together with the chips. Input is debounced by 120 ms so the grid doesn't flicker while typing, and Escape clears it.
 
-**Data model**
+**Animated results with View Transitions**
 
-Each item object carries \`name\`, \`desc\`, \`cat\`, \`icon\`, and \`bg\` fields. The category string on each item matches the \`data-cat\` attribute on the corresponding chip, making the filter a simple \`Array.filter()\` call: \`ITEMS.filter(i => i.cat === active)\`. Adding a new category requires only adding items with the new cat string and a matching chip button — no other logic changes.
+Cards are built once and only shown or hidden, each with its own \`view-transition-name\`. Filtering runs inside \`document.startViewTransition()\`, so in supporting browsers cards glide to their new positions and fade in and out. Other browsers get a lightweight CSS fade-in, and \`prefers-reduced-motion\` turns animation off completely.
 
-**Empty state**
+**Shareable URLs**
 
-When no items match the active filter (impossible with the default data but relevant when connecting to dynamic data), the grid renders a centred "No components match this filter" message. The empty state div is always in the DOM but hidden; \`show\` class makes it visible.
+The current filter is written to the query string (\`?cat=forms,data&q=chart&match=all\`) with \`history.pushState\` for chip changes and \`replaceState\` for typing, and \`popstate\` restores it, so the back button undoes a filter and a link reopens the exact same view.
 
-**Accessibility**
+**Accessible by default**
 
-The chip group has \`role="group"\` and \`aria-label="Filter by category"\`. The grid has \`aria-live="polite"\` so screen readers announce when the content updates after a filter change. Chip buttons are native \`<button>\` elements so they receive keyboard focus and fire on Enter/Space by default.`,
+Chips are real buttons with \`aria-pressed\`, grouped in a \`role="toolbar"\` you can move through with the arrow keys, Home and End. A \`role="status"\` line announces the result ("Showing 4 of 12 components in Data or Forms"), focus rings are visible, and the empty state offers a "Clear filters" button.
+
+**Responsive and themeable**
+
+The grid uses \`repeat(auto-fill, minmax(190px, 1fr))\`, and on phones the chips become one swipeable row with faded edges. Colours are CSS custom properties with a built-in dark theme via \`prefers-color-scheme\`, and the icons are inline SVG, so they look the same on every device.`,
     },
     howToUse: { type: 'steps', items: [
-      {
-        title: 'Click any category chip',
-        text: `The chip switches to the filled indigo active state and the card grid instantly re-renders with only matching components.`,
-      },
-      {
-        title: 'Click "All"',
-        text: `The "All" chip activates and all 12 cards are shown. The count badge on the chip shows the total item count.`,
-      },
-      {
-        title: 'Read the count badges',
-        text: `Each chip shows a small badge with the number of items in that category, so users know what to expect before filtering.`,
-      },
-      {
-        title: 'Hover a card',
-        text: `Cards show a subtle indigo border and a soft shadow lift to indicate they are interactive links in a real implementation.`,
-      },
-      {
-        title: 'Add your own items',
-        text: `Extend the ITEMS array with your own objects — each needs name, desc, cat (matching a chip data-cat), icon, and bg color.`,
-      },
-      {
-        title: 'Add a new category',
-        text: `Add a chip button with data-cat="yourcat" and add ITEMS entries with cat:"yourcat". No other code changes are required.`,
-      },
+      { title: 'Toggle categories', text: 'Click one or more category chips. Each selected chip fills with the accent colour, and the grid animates to show matching cards.' },
+      { title: 'Choose Any or All', text: 'Use the Any/All switch to show items in any selected category, or only items that are in every selected category.' },
+      { title: 'Search', text: 'Type in the search box to narrow the results further. Chip counts update as you type, and chips with no results are disabled.' },
+      { title: 'Share the view', text: 'The URL updates with your filters, so copy it to share or bookmark the exact view. The browser back button steps back through filter changes.' },
+      { title: 'Use the keyboard', text: 'Tab to the chips and use the arrow keys, Home and End to move between them, and Space or Enter to toggle.' },
+      { title: 'Plug in your data', text: 'Edit the CATS and ITEMS arrays. Each item needs an id, name, desc and a cats array. Chips, counts, tags and icons are generated automatically.' },
     ] },
     features: [
-      {
-        title: 'Pill-shaped chips',
-        text: `border-radius: 999px creates perfect pills regardless of label length. Active chips switch to solid indigo fill with a smooth CSS transition.`,
-      },
-      {
-        title: 'Count badges',
-        text: `Each chip shows the item count for its category. Inactive badges use a light background; active badges inherit white text on the indigo fill.`,
-      },
-      {
-        title: 'Live grid re-render',
-        text: `Clicking a chip replaces grid.innerHTML with only matching cards — simple, fast, and zero DOM diffing complexity for small datasets.`,
-      },
-      {
-        title: 'Empty state',
-        text: `When a filter returns no items the grid shows a clear empty-state message instead of a confusing blank area.`,
-      },
-      {
-        title: 'Category tag on cards',
-        text: `Each card has a colour-coded category badge so the category is visible after filtering (useful when items span multiple tags in future extensions).`,
-      },
-      {
-        title: 'Accessible group semantics',
-        text: `Chip container has role="group" and aria-label. The grid has aria-live="polite" so screen readers announce filter result changes.`,
-      },
-      {
-        title: 'Data-driven',
-        text: `All categories and items live in a single ITEMS array. Adding new categories requires no logic changes — only new data and a chip button.`,
-      },
-      {
-        title: 'Hover card lift',
-        text: `Cards animate with border-color and box-shadow transitions on hover, signalling interactivity without distracting from the filter flow.`,
-      },
+      { title: 'Multi-select chips', text: 'Toggle any number of categories; "All" resets and a Clear chip appears while a selection is active.' },
+      { title: 'Any / All matching', text: 'Switch between OR and AND logic for items that belong to several categories.' },
+      { title: 'Faceted live counts', text: 'Each chip shows how many results it would lead to, and chips with zero results are disabled.' },
+      { title: 'Search plus chips', text: 'Debounced, word-by-word search across name, description and category, combined with the chip filters.' },
+      { title: 'View Transitions animation', text: 'Cards glide and fade with document.startViewTransition(), with a CSS fade-in fallback and reduced-motion support.' },
+      { title: 'Shareable URL state', text: 'Filters sync to ?cat=…&q=…&match=… with pushState, and the back button restores previous filters.' },
+      { title: 'Accessible toolbar', text: 'aria-pressed chips in a role="toolbar" with arrow-key navigation, a live result announcement and visible focus rings.' },
+      { title: 'Responsive and dark mode', text: 'Auto-fill grid, swipeable chip row on phones, CSS custom properties and a prefers-color-scheme dark theme.' },
     ],
     useCases: [
-      {
-        title: 'Component libraries',
-        text: `Filter a UI kit by category — layout, forms, navigation, feedback — exactly as shown. Pair each card with a [modal](/ui-snippets/modal/) to show component details on click.`,
-      },
-      {
-        title: 'Job boards and marketplaces',
-        text: `Filter listings by role, location, or salary range. Combine with [tag input](/ui-snippets/tag-input/) to allow multi-select filtering with typed tags.`,
-      },
-      {
-        title: 'Blog and article archives',
-        text: `Filter posts by topic. Each chip represents a category; the grid shows article cards. Pair with a [search box](/ui-snippets/search-box/) for keyword + category filtering.`,
-      },
-      {
-        title: 'Product catalogues',
-        text: `Filter products by department. Each card is a [product card](/ui-snippets/product-card/) with price, image, and add-to-cart. Chip filter drives the visible subset.`,
-      },
-      {
-        title: 'Portfolio sites',
-        text: `Filter projects by skill or technology. Combine with a [masonry grid](/ui-snippets/masonry-grid/) layout so project screenshots fill space naturally.`,
-      },
-      { icon: 'CODE', title: 'Related: Hamburger Menu — CSS Only Checkbox Hack (No JavaScript)', desc: 'See the [Hamburger Menu — CSS Only Checkbox Hack (No JavaScript)](/ui-snippets/css-only-hamburger-menu-checkbox/) for a related navigation pattern worth pairing with this one.' },
+      { icon: '🧩', title: 'Design system documentation', desc: 'Let readers filter components by category and combine them with All mode, for example forms that also give feedback, while the URL keeps each filtered view linkable from docs.' },
+      { icon: '🛍', title: 'Product catalogue filters', desc: 'Use the chips for departments and the search box for product names, so the faceted counts show shoppers how many items each department has for their search before they click.' },
+      { icon: '💼', title: 'Job board listings', desc: 'Turn categories into role types or work styles like Remote and Full-time, and switch to All mode so candidates see only jobs that match every requirement they pick.' },
+      { icon: '📚', title: 'Blog and resource libraries', desc: 'Filter articles, templates or videos by topic, combined with keyword search, and share links like ?cat=css&q=grid in newsletters that open straight to the filtered list.' },
+      { icon: '🎨', title: 'Portfolio project galleries', desc: 'Tag projects with several skills and let visitors pick the ones they care about, while the View Transition animation keeps the gallery feeling polished as cards move.' },
     ],
     faqs: [
-      {
-        q: 'How do I support multi-select (multiple active chips)?',
-        a: `Change active from a string to a Set: const active = new Set(["all"]). On chip click, toggle the category in/out of the set. In render(), filter items where the set has "all" or includes item.cat. Update chip active class based on set membership.`,
-      },
-      {
-        q: 'How do I animate cards out and in when filtering?',
-        a: `Add an opacity:0 and transform:scale(0.95) state on .card before re-rendering. Use setTimeout to apply the new innerHTML after a 150ms fade-out. Then requestAnimationFrame to add an opacity:1 class on the new cards.`,
-      },
-      {
-        q: 'How do I make this work with real backend data?',
-        a: `Replace the ITEMS array with a fetch() call to your API endpoint. On page load, fetch all items once, store them in the ITEMS variable, then call updateCounts() and render(). Chip clicks just re-filter the in-memory array without additional network requests.`,
-      },
-      {
-        q: 'How do I persist the active filter in the URL?',
-        a: `On chip click, update the URL with history.pushState(null, "", "?cat=" + active). On page load, read the parameter with new URLSearchParams(location.search).get("cat") and set the initial active value before calling render().`,
-      },
-      {
-        q: 'Can I use icons instead of text labels on chips?',
-        a: `Yes — replace the button text with an SVG icon and a hidden <span> for screen readers, keeping aria-label on the button. The pill shape and count badge work identically.`,
-      },
-      {
-        q: 'Can I use this chip filter in React, Vue, or Angular?',
-        a: `Yes. Click the React, Vue, Angular, or Tailwind export button above the preview. In React, store the active category (or a Set for multi-select) in useState and toggle each chip class with a conditional className; in Vue bind :class to a reactive value with @click; in Angular use [class.active] with (click). The count-badge calculation and the filtered-list re-render are framework-agnostic, so only the event binding and class-toggling syntax differ from the vanilla version. The Tailwind export converts the pill shape, active state, and badge styling into utility classes for a Tailwind codebase.`,
-      },
+      { q: 'What is the difference between Any and All matching?', a: 'Any (OR) shows items that belong to at least one selected category, so selecting more chips shows more items. All (AND) shows only items that belong to every selected category, so selecting more chips narrows the results. All mode is useful when items carry several categories, like a component that is both Data and Forms.' },
+      { q: 'How do the chip counts work?', a: 'Each count is calculated from the items that match the current search. In All mode it also takes the current selection into account, so it shows how many results you would get by adding that chip. Chips that would give zero results are disabled, so users never land on an empty grid by accident.' },
+      { q: 'Which browsers support the View Transitions animation?', a: 'document.startViewTransition() works in current Chrome, Edge, Safari and other Chromium-based browsers. Where it is not available, cards use a short CSS fade-in instead, and the filter works the same. Users with "reduce motion" turned on get no animation at all.' },
+      { q: 'How do I connect this to real data or an API?', a: 'Fetch your items once, map each to { id, name, desc, cats }, assign the result to ITEMS, then build the cards and call update(). Filtering stays in memory, so chip clicks don\'t need extra network requests. For very large lists, filter on the server and render only the current page.' },
+      { q: 'How does the shareable URL work?', a: 'Every change writes the selected categories, search text and match mode to the query string, using pushState for chip clicks and replaceState while typing. On load, and when the user presses Back or Forward, readUrl() restores the filters from the URL. In sandboxed previews that cannot change the URL, filtering still works normally.' },
+      { q: 'Can I use this chip filter in React, Vue or Angular?', a: 'Yes. Use the React, Vue, Angular or Tailwind export above the preview as a starting point. In React, keep selected, mode and query in state and derive the visible items and counts with useMemo; in Vue use computed properties; in Angular use signals or getters. The matching and faceted-count functions are framework-agnostic and can be copied as they are.' },
     ],
     aiPrompt: {
-      paragraph: `Rather than assuming the innerHTML-replace approach in render() is obviously fine, paste this snippet's HTML, CSS, and JS into an AI coding assistant like Claude and ask it to explain exactly why replacing the entire grid's innerHTML on every chip click is a reasonable choice for this dataset size, and at what item count it would start to matter that no DOM diffing happens. The same assistant is useful for optimizing it — ask whether updateCounts() recalculating countByCat() for every chip on every render is wasteful compared to computing all category counts once in a single pass over ITEMS. It's also a good partner for extending the filter: ask it to support multiple simultaneously active chips (a Set instead of a single string), persist the active filter to the URL query string so a filtered view is shareable, or animate cards fading out and in instead of snapping when the filter changes. Treat the code less like a finished artifact and more like a starting point for a conversation.`,
-      prompt: `Build a "chip filter" for a card grid in plain HTML, CSS, and JavaScript — no framework, no library.
+      paragraph: 'Paste this snippet into an AI coding assistant like Claude and ask it to adapt the filter to your data: load items from an API, add a sort dropdown or price range next to the chips, or turn it into a React, Vue or Svelte component. It is also a good way to understand the faceted-count logic, or to discuss when to move filtering to the server for very large lists.',
+      prompt: `Build a multi-select chip filter for a card grid in plain HTML, CSS and vanilla JavaScript, with no dependencies.
 
 Requirements:
-- A row of pill-shaped filter buttons (border-radius near 999px) generated from a fixed list of categories plus an "All" option, each showing a count badge for how many items belong to that category, computed from a single JavaScript array of item objects (not hardcoded numbers).
-- Clicking a chip must mark it (and only it) as the active chip via a shared CSS class, and re-render the card grid to show only items whose category matches the clicked chip's category — with "All" showing every item.
-- The active chip's visual style must differ meaningfully from inactive chips (not just a subtle color shift) — for example a filled background versus an outlined one — and the count badge's colors must also adapt so it stays legible against both the active and inactive chip backgrounds.
-- Re-render the grid by rebuilding its contents from the filtered subset of the items array each time a chip is clicked, rather than toggling visibility classes on pre-existing card elements.
-- When a filter produces zero matching items, replace the grid contents with a clear "no items match this filter" message instead of leaving a blank area.
-- Each card must display a colored icon swatch, a name, a short description, and a small category tag whose color corresponds to that category — driven from the same per-item category field used for filtering, not a separate lookup.
-- Mark the chip container with an appropriate ARIA role for a button group and mark the grid as a live region so screen readers announce when the filtered results change.`,
+- Generate category chips from a CATS array and cards from an ITEMS array where each item has id, name, desc and a cats array (items can belong to several categories).
+- Chips are toggle buttons with aria-pressed inside a role="toolbar" with arrow-key, Home and End navigation. Include an "All" chip that resets the selection and a "Clear" chip shown only while a selection exists.
+- Add an Any/All switch: Any shows items in at least one selected category, All shows items in every selected category.
+- Add a debounced search box that matches name, description and category labels word by word, combined with the chips.
+- Show a faceted count on each chip (results it would produce given the search, and the selection in All mode) and disable chips that would give zero results.
+- Build cards once and only show or hide them; animate changes with document.startViewTransition() using a unique view-transition-name per card, with a CSS fade-in fallback and no animation under prefers-reduced-motion.
+- Sync selected categories, search and mode to the URL query string (pushState for chip changes, replaceState while typing) and restore them on load and on popstate.
+- Announce results in a role="status" line ("Showing 4 of 12 components in Data or Forms"), show an empty state with a "Clear filters" button, use a responsive auto-fill grid, a swipeable chip row on small screens, CSS custom properties and a dark theme.`,
     },
   },
 };

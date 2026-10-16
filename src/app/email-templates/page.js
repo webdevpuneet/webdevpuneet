@@ -8,6 +8,8 @@ import styles from '../tool-page.module.css';
 
 const PAGE_URL = 'https://webdevpuneet.com/email-templates/';
 const TITLE = 'Free HTML Email Templates — Responsive & Dark Mode Ready';
+// Hand-made social share image for the gallery page (public/images/email-templates.png)
+const OG_IMAGES = [{ url: 'https://webdevpuneet.com/images/email-templates.png', width: 1200, height: 630, alt: 'Free responsive HTML email templates with dark mode' }];
 const DESC = 'Free responsive HTML email templates that work in Gmail, Outlook and Apple Mail, with dark mode. Edit online, preview mobile, copy the HTML or fork to My Code.';
 
 export const metadata = {
@@ -18,8 +20,8 @@ export const metadata = {
   robots: { index: true, follow: true },
   alternates: { canonical: PAGE_URL },
   icons: { icon: '/icons/email-templates.svg', shortcut: '/icons/email-templates.svg' },
-  openGraph: { type: 'website', url: PAGE_URL, siteName: 'webdevpuneet.com', title: TITLE, description: DESC, locale: 'en_US' },
-  twitter: { card: 'summary_large_image', site: '@webdevpuneet', title: TITLE, description: DESC },
+  openGraph: { type: 'website', url: PAGE_URL, siteName: 'webdevpuneet.com', title: TITLE, description: DESC, locale: 'en_US', images: OG_IMAGES },
+  twitter: { card: 'summary_large_image', site: '@webdevpuneet', title: TITLE, description: DESC, images: [OG_IMAGES[0].url] },
 };
 
 const faqs = [

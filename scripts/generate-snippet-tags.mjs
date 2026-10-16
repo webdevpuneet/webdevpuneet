@@ -94,8 +94,11 @@ function context(sn) {
     title:  sn.title.toLowerCase(),
     raw,
     all:    (raw + '\n' + sn.title).toLowerCase(),
-    hasJs:  Boolean(sn.js && sn.js.trim()),
-    hasCdn: Boolean(sn.cdnUrls && sn.cdnUrls.length),
+    // A <script> in the HTML (e.g. an ES module import) counts as JS too, so those
+    // snippets aren't mis-tagged css-only
+    hasJs:  Boolean(sn.js && sn.js.trim()) || /<script\b/i.test(sn.html || ''),
+    // Libraries come from cdnUrls, a <script src>, or an ESM import from a CDN
+    hasCdn: Boolean(sn.cdnUrls && sn.cdnUrls.length) || /(esm\.sh|cdn\.jsdelivr\.net|unpkg\.com|cdnjs\.cloudflare\.com|skypack\.dev)/i.test(raw),
   };
 }
 
