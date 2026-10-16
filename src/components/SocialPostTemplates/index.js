@@ -44,8 +44,8 @@ function readImage(file, maxDim, mime) {
 }
 
 /* ── Gallery ─────────────────────────────────────────────────────────────────── */
-export function TemplateGallery({ compact = false, excludeId = null, limit = null }) {
-  const [cat, setCat] = useState('all');
+export function TemplateGallery({ compact = false, excludeId = null, limit = null, previews = [], initialCategory = 'all', hideControls = false, chips = true }) {
+  const [cat, setCat] = useState(initialCategory);
   const [q, setQ] = useState('');
   // /social-post-templates/#events opens with that category selected
   useEffect(() => {
@@ -64,10 +64,10 @@ export function TemplateGallery({ compact = false, excludeId = null, limit = nul
 
   return (
     <div className={compact ? s.galleryCompact : s.gallery} data-spt-gallery>
-      {!compact && (
+      {!compact && !hideControls && (
         <div className={s.galleryControls}>
           <input className={s.search} value={q} onChange={e => setQ(e.target.value)} placeholder={`Search ${TEMPLATES.length} templates…`} aria-label="Search templates" />
-          <div className={s.chips}>
+          {chips && <div className={s.chips}>
             <button type="button" className={`${s.chip} ${cat === 'all' ? s.chipActive : ''}`} onClick={() => setCat('all')}>All <span>{TEMPLATES.length}</span></button>
             {TEMPLATE_CATEGORIES.map(c => {
               const n = TEMPLATES.filter(t => t.category === c.id).length;
@@ -77,14 +77,14 @@ export function TemplateGallery({ compact = false, excludeId = null, limit = nul
                 </button>
               ) : null;
             })}
-          </div>
+          </div>}
         </div>
       )}
       {list.length === 0 ? (
         <div className={s.empty}>No templates match &ldquo;{q}&rdquo;.</div>
       ) : (
         <div className={s.grid}>
-          {list.map(t => <GalleryCard key={t.id} t={t} />)}
+          {list.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}
         </div>
       )}
     </div>
@@ -92,7 +92,7 @@ export function TemplateGallery({ compact = false, excludeId = null, limit = nul
 }
 
 /* Full gallery screen: image-tools nav, leaderboard ad, heading, then the grid */
-export function TemplateGalleryPage() {
+export function TemplateGalleryPage({ previews = [] }) {
   return (
     <div className={s.galleryPage}>
       <ImageToolsTopNav active="social-post-templates" />
@@ -104,12 +104,44 @@ export function TemplateGalleryPage() {
           photos, colours and fonts in your browser, then download every size as an image or copy the HTML.
         </p>
       </header>
-      <TemplateGallery />
+      <CategoryLinks />
+      <TemplateGallery previews={previews} chips={false} />
     </div>
   );
 }
 
-function GalleryCard({ t }) {
+/* Crawlable links to every category landing page */
+function CategoryLinks({ active = null }) {
+  return (
+    <nav className={s.catLinks} aria-label="Template categories">
+      <a href="/social-post-templates/" className={`${s.catLink} ${!active ? s.catLinkActive : ''}`}>All templates</a>
+      {TEMPLATE_CATEGORIES.map(c => (
+        <a key={c.id} href={`/social-post-templates/category/${c.id}/`} className={`${s.catLink} ${active === c.id ? s.catLinkActive : ''}`}>
+          {c.label} <span>{TEMPLATES.filter(t => t.category === c.id).length}</span>
+        </a>
+      ))}
+    </nav>
+  );
+}
+
+/* Category landing page: same shell as the gallery, filtered to one category */
+export function TemplateCategoryPage({ category, h1, lead, previews = [] }) {
+  return (
+    <div className={s.galleryPage}>
+      <ImageToolsTopNav active="social-post-templates" />
+      <PlaygroundTopAd />
+      <header className={s.galleryHead}>
+        <a href="/social-post-templates/" className={s.back}>← All social post templates</a>
+        <h1 className={s.galleryH1}>{h1}</h1>
+        <p className={s.galleryLead}>{lead}</p>
+      </header>
+      <CategoryLinks active={category} />
+      <TemplateGallery previews={previews} initialCategory={category} hideControls />
+    </div>
+  );
+}
+
+function GalleryCard({ t, preview }) {
   const ref = useRef(null);
   const [w, setW] = useState(0);
   const [visible, setVisible] = useState(false);
@@ -128,7 +160,11 @@ function GalleryCard({ t }) {
   return (
     <a className={s.card} href={`/social-post-templates/${t.id}/`}>
       <div ref={ref} className={s.cardPreview}>
-        {visible && w > 0 && <Preview template={t} state={state} maxW={w} />}
+        {preview
+          // Captured screenshot when available: much lighter than a live preview
+          // eslint-disable-next-line @next/next/no-img-element
+          ? <img className={s.cardImg} src={`/images/social-post-templates/previews/${t.id}.png`} alt={`${t.name} template preview`} loading="lazy" />
+          : visible && w > 0 && <Preview template={t} state={state} maxW={w} />}
       </div>
       <div className={s.cardBody}>
         <span className={s.cardCat}>{cat?.label}</span>
@@ -198,6 +234,7 @@ export function TemplateEditor({ id }) {
         });
       }
     } catch { /* storage blocked */ }
+    hist.current.skip = true; // the restored design is the starting point, not an undo step
     setHydrated(true);
   }, [t]);
   useEffect(() => {
@@ -217,6 +254,65 @@ export function TemplateEditor({ id }) {
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
+
+  /* Undo / redo: edits settle for 450ms before becoming one history step */
+  const hist = useRef({ past: [], future: [], committed: null, skip: false, timer: null });
+  const [, setHistTick] = useState(0);
+  useEffect(() => {
+    const h = hist.current;
+    if (!hydrated || h.skip || h.committed === null) { h.skip = false; h.committed = state; return undefined; }
+    clearTimeout(h.timer);
+    h.timer = setTimeout(() => {
+      if (h.committed === state) return;
+      h.past.push(h.committed);
+      if (h.past.length > 80) h.past.shift();
+      h.future = [];
+      h.committed = state;
+      setHistTick(n => n + 1);
+    }, 450);
+    return () => clearTimeout(h.timer);
+  }, [state, hydrated]);
+  const stateRef = useRef(state);
+  stateRef.current = state;
+  const undo = useCallback(() => {
+    const h = hist.current;
+    clearTimeout(h.timer);
+    const cur = stateRef.current;
+    // An edit still settling counts as the newest step
+    if (h.committed !== cur) { h.past.push(h.committed); h.future = []; h.committed = cur; }
+    if (!h.past.length) return;
+    h.future.push(h.committed);
+    const prev = h.past.pop();
+    h.committed = prev;
+    h.skip = true;
+    setState(prev);
+    setHistTick(n => n + 1);
+  }, []);
+  const redo = useCallback(() => {
+    const h = hist.current;
+    if (!h.future.length) return;
+    h.past.push(h.committed);
+    const next = h.future.pop();
+    h.committed = next;
+    h.skip = true;
+    setState(next);
+    setHistTick(n => n + 1);
+  }, []);
+  useEffect(() => {
+    const onKey = e => {
+      if (!(e.ctrlKey || e.metaKey)) return;
+      const el = e.composedPath?.()[0] || e.target;
+      // Leave native text undo alone in form fields and while editing text in the preview
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(el?.tagName) || el?.isContentEditable) return;
+      const k = e.key.toLowerCase();
+      if (k === 'z' && !e.shiftKey) { e.preventDefault(); undo(); }
+      else if ((k === 'z' && e.shiftKey) || k === 'y') { e.preventDefault(); redo(); }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [undo, redo]);
+  const canUndo = hist.current.past.length > 0 || (hist.current.committed !== null && hist.current.committed !== state);
+  const canRedo = hist.current.future.length > 0;
 
   const setField = useCallback((key, val) => setState(p => ({ ...p, fields: { ...p.fields, [key]: val } })), []);
   const setVar = (key, val) => setState(p => ({ ...p, vars: { ...p.vars, [key]: val } }));
@@ -328,7 +424,9 @@ export function TemplateEditor({ id }) {
               </button>
               <button type="button" className={s.miniBtn} onClick={copyHtml}>Copy HTML</button>
               <button type="button" className={s.miniBtn} onClick={downloadHtml}>Download .html</button>
-              <button type="button" className={s.miniBtn} onClick={() => setState(defaultState(t))} title="Back to the template's original text and colours">Reset</button>
+              <button type="button" className={s.miniBtn} onClick={undo} disabled={!canUndo} title="Undo (Ctrl+Z)">↶ Undo</button>
+              <button type="button" className={s.miniBtn} onClick={redo} disabled={!canRedo} title="Redo (Ctrl+Shift+Z)">↷ Redo</button>
+              <button type="button" className={s.miniBtn} onClick={() => setState(defaultState(t))} title="Back to the template's original text and colours (undo brings your edits back)">Reset</button>
             </div>
           </div>
 
@@ -423,7 +521,7 @@ export function TemplateEditor({ id }) {
           <PlaygroundTopAd />
           <div className={s.toolbar}>
             <div className={s.meta}>
-              <a className={s.metaCat} href={`/social-post-templates/#${t.category}`}>{cat?.label}</a>
+              <a className={s.metaCat} href={`/social-post-templates/category/${t.category}/`}>{cat?.label}</a>
               <span>v{t.version}</span>
               <span>Updated {t.updated}</span>
               <span>{z.w}×{z.h}</span>

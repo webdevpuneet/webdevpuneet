@@ -5,7 +5,9 @@ import { LIVE_TOOLS } from '../src/lib/tools-registry.js';
 import { CATEGORIES } from '../src/lib/categories.js';
 import { SNIPPETS as ALL_SNIPPETS, CATEGORIES as SNIPPET_CATEGORIES } from '../src/components/UiSnippetsTool/snippets.js';
 import { publishedTags, snippetsForTag } from '../src/lib/snippet-tags.js';
-import { TEMPLATES as SOCIAL_TEMPLATES } from '../src/components/SocialPostTemplates/templates/index.js';
+import { TEMPLATES as SOCIAL_TEMPLATES, TEMPLATE_CATEGORIES as SOCIAL_CATEGORIES } from '../src/components/SocialPostTemplates/templates/index.js';
+import { TEMPLATE_SEO as SOCIAL_SEO } from '../src/components/SocialPostTemplates/templates/seo-content.js';
+import { CATEGORY_SEO as SOCIAL_CATEGORY_SEO } from '../src/components/SocialPostTemplates/templates/seo-categories.js';
 
 // Exclude nofollow/test snippets (noindex: true) from sitemap + llms.txt — they only show on localhost
 const SNIPPETS = ALL_SNIPPETS.filter(sn => !sn.noindex);
@@ -203,6 +205,13 @@ async function main() {
       changefreq: 'monthly',
       priority:   0.8,
     })),
+    // Social post template category landing pages (lastmod = newest template in it)
+    ...SOCIAL_CATEGORIES.filter(c => SOCIAL_TEMPLATES.some(t => t.category === c.id)).map(c => ({
+      loc:        `${BASE_URL}/social-post-templates/category/${c.id}/`,
+      lastmod:    maxDate(SOCIAL_TEMPLATES.filter(t => t.category === c.id).map(t => t.updated)),
+      changefreq: 'monthly',
+      priority:   0.7,
+    })),
     // Each social post template has its own editor page under the tool
     ...SOCIAL_TEMPLATES.map(t => ({
       loc:        `${BASE_URL}/social-post-templates/${t.id}/`,
@@ -371,7 +380,18 @@ async function main() {
 
   llmsTxt += `\n---\n\n## Social Post Templates\n\n`;
   llmsTxt += `${SOCIAL_TEMPLATES.length} free HTML/CSS templates for Instagram, Facebook and X posts and Stories. Edit text, photos, colours and fonts in the browser, download PNG/JPEG in four sizes, or copy the HTML.\n\nLibrary: ${BASE_URL}/social-post-templates/\n\n`;
-  for (const t of SOCIAL_TEMPLATES) llmsTxt += `- [${t.name}](${BASE_URL}/social-post-templates/${t.id}/) : ${t.description}\n`;
+  llmsTxt += `Each template is real HTML/CSS (copy it, download a .html file, or fork it into My Code), is free with no account or watermark, runs entirely in the browser (photos are never uploaded), and exports 1080×1350, 1080×1080, 1080×1920 and 1600×900 from one design.\n\n`;
+  for (const c of SOCIAL_CATEGORIES) {
+    const list = SOCIAL_TEMPLATES.filter(t => t.category === c.id);
+    if (!list.length) continue;
+    const cs = SOCIAL_CATEGORY_SEO[c.id];
+    llmsTxt += `### [${cs?.h1 || c.label}](${BASE_URL}/social-post-templates/category/${c.id}/)\n\n${c.blurb}${cs?.keywords ? ` Searches: ${cs.keywords.join(', ')}.` : ''}\n\n`;
+    for (const t of list) {
+      const kw = SOCIAL_SEO[t.id]?.keywords;
+      llmsTxt += `- [${t.name}](${BASE_URL}/social-post-templates/${t.id}/) : ${t.description}${kw ? ` Good for: ${kw.join(', ')}.` : ''}\n`;
+    }
+    llmsTxt += '\n';
+  }
   llmsTxt += `\n---\n\n## UI Snippets Components\n\n`;
   llmsTxt += `Browse and copy ${SNIPPETS.length}+ free HTML, CSS & JS components with live preview and export to HTML, JSX, or React + Tailwind CSS.\n\nLibrary: ${BASE_URL}/ui-snippets/\n\n`;
   llmsTxt += `### Categories\n\n`;
