@@ -25,9 +25,11 @@ const OG_SIZE = { id: 'landscape', label: 'Open Graph', w: 1200, h: 630 };
 const exists = p => access(p).then(() => true, () => false);
 
 function page(html, css, w, h) {
-  return `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+  // The template CSS starts with its Google Fonts @import, which must be the first rule
+  // in a stylesheet or browsers ignore it; page rules go in a second <style>.
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><style>${css}</style><style>
 html,body{margin:0;padding:0;width:${w}px;height:${h}px;overflow:hidden}
-${css}</style></head><body>${html}</body></html>`;
+</style></head><body>${html}</body></html>`;
 }
 
 async function render(browserPage, t, size) {

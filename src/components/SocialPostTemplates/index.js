@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import s from './styles.module.css';
 import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import { LoadMore } from '@/components/UiSnippetsGallery';
 import { TEMPLATES, TEMPLATE_CATEGORIES, SIZES, sizeById, categoryById, templateById } from './templates/index.js';
 import { FONTS, PALETTES, parseHex } from '../OgImageGenerator/engine';
 import Preview from './Preview';
@@ -11,6 +12,7 @@ import { defaultState, renderImage, standaloneHtml, snippetParts } from './rende
 import { dbPut } from '@/lib/uiSnippetsDb';
 
 const LS_PREFIX = 'wdp-spt-v1:';
+const GALLERY_PAGE = 10; // cards per "Load more", same rhythm as the UI snippets gallery
 const fmtBytes = n => (n >= 1048576 ? `${(n / 1048576).toFixed(2)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
 const extOf = blob => (blob.type === 'image/jpeg' ? 'jpg' : blob.type === 'image/webp' ? 'webp' : 'png');
 
@@ -47,6 +49,9 @@ function readImage(file, maxDim, mime) {
 export function TemplateGallery({ compact = false, excludeId = null, limit = null, previews = [], initialCategory = 'all', hideControls = false, chips = true }) {
   const [cat, setCat] = useState(initialCategory);
   const [q, setQ] = useState('');
+  const [shownCount, setShownCount] = useState(GALLERY_PAGE);
+  // A new search or category starts again from the first page
+  useEffect(() => { setShownCount(GALLERY_PAGE); }, [cat, q]);
   // /social-post-templates/#events opens with that category selected
   useEffect(() => {
     const pick = () => { const h = window.location.hash.slice(1); if (categoryById(h)) setCat(h); };
@@ -61,6 +66,8 @@ export function TemplateGallery({ compact = false, excludeId = null, limit = nul
       .filter(t => !words.length || words.every(w => `${t.name} ${t.tags.join(' ')} ${categoryById(t.category)?.label}`.toLowerCase().includes(w)))
       .slice(0, limit || undefined);
   }, [cat, q, excludeId, limit]);
+  // Compact strips (e.g. "More templates") show their fixed `limit`; the gallery pages by 10
+  const shown = limit ? list : list.slice(0, shownCount);
 
   return (
     <div className={compact ? s.galleryCompact : s.gallery} data-spt-gallery>
@@ -84,9 +91,10 @@ export function TemplateGallery({ compact = false, excludeId = null, limit = nul
         <div className={s.empty}>No templates match &ldquo;{q}&rdquo;.</div>
       ) : (
         <div className={s.grid}>
-          {list.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}
+          {shown.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}
         </div>
       )}
+      {!limit && <LoadMore shown={shown.length} total={list.length} onLoadMore={() => setShownCount(n => n + GALLERY_PAGE)} />}
     </div>
   );
 }

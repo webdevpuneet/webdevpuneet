@@ -29,6 +29,7 @@ export const BASE_CSS = `
 .spt{--pad:calc(var(--u)*8);--pt:calc(var(--pad) + var(--safe-top,0px));--pb:calc(var(--pad) + var(--safe-bottom,0px));position:relative;overflow:hidden;box-sizing:border-box;font-family:var(--font-body);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;line-height:1.3}
 .spt *,.spt *::before,.spt *::after{box-sizing:border-box;margin:0;padding:0}
 .spt [data-edit]{white-space:pre-line;overflow-wrap:anywhere;outline:none}
+.spt [data-fit]{overflow-wrap:normal}
 .spt [data-edit]:empty{display:none}
 .spt .hl{color:var(--accent)}
 .spt [data-image]{background-size:cover;background-position:center;background-repeat:no-repeat}
