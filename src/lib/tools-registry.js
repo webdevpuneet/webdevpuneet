@@ -1279,14 +1279,14 @@ export const TOOLS = [
   {
     slug:       'og-image-generator',
     name:       'OG Image Generator',
-    sub:        'Open Graph preview cards',
-    desc:       'Generate 1200×630 Open Graph images for Twitter, Facebook, LinkedIn & Slack. 5 templates, custom colors, font, and logo upload. Download PNG free, no sign-up.',
+    sub:        'Open Graph images + social previews',
+    desc:       'Design 1200×630 Open Graph images with 14 templates, Google Fonts and live X, LinkedIn & WhatsApp previews. Batch ZIP export and Next.js code. Free, no sign-up.',
     icon:       '/icons/og-image-generator.svg',
     accent:     '#6366f1',
     category:   'seo',
     extended:   false,
     status:     'live',
-    lastmod:    '2026-05-14',
+    lastmod:    '2026-10-16',
     hasUpdates: false,
   },
   /* SEO tools moved from fwdtools (2026-10-15) */
