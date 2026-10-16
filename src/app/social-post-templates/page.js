@@ -5,12 +5,12 @@ import { TemplateGalleryPage } from '@/components/SocialPostTemplates';
 import { TEMPLATES, TEMPLATE_CATEGORIES, SIZES } from '@/components/SocialPostTemplates/templates/index.js';
 import { TEMPLATE_DIFFERENT } from '@/components/SocialPostTemplates/templates/seo-why.js';
 import { CATEGORY_SEO } from '@/components/SocialPostTemplates/templates/seo-categories.js';
-import { previewIds, hasOg, ogUrl } from '@/components/SocialPostTemplates/assets';
+import { previewIds } from '@/components/SocialPostTemplates/assets';
 import styles from '../tool-page.module.css';
 
 const PAGE_URL = 'https://webdevpuneet.com/social-post-templates/';
-// Collage from scripts/capture-template-previews.mjs, once captured
-const OG_IMAGES = hasOg('gallery') ? [{ url: ogUrl('gallery'), width: 1200, height: 630, alt: 'Free social post templates for Instagram, Facebook and X' }] : undefined;
+// Hand-made social share image for the gallery page (public/images/social-post-templates.png)
+const OG_IMAGES = [{ url: 'https://webdevpuneet.com/images/social-post-templates.png', width: 1200, height: 630, alt: 'Free social post templates for Instagram, Facebook and X' }];
 
 export const metadata = {
   title: 'Free Social Post Templates for Instagram, Facebook & X',
@@ -26,14 +26,14 @@ export const metadata = {
     title: 'Free Social Post Templates for Instagram, Facebook & X',
     description: 'Free HTML social media post templates: quotes, launches, sales, events, testimonials, carousels and Stories. Edit online, download PNG or copy the code.',
     locale: 'en_US',
-    ...(OG_IMAGES && { images: OG_IMAGES }),
+    images: OG_IMAGES,
   },
   twitter: {
     card: 'summary_large_image',
     site: '@webdevpuneet',
     title: 'Free Social Post Templates for Instagram, Facebook & X',
     description: 'Free HTML social media post templates. Edit online, download every post size as PNG or copy the code. No sign-up.',
-    ...(OG_IMAGES && { images: [OG_IMAGES[0].url] }),
+    images: [OG_IMAGES[0].url],
   },
   keywords: ['social media post templates', 'instagram post templates', 'free instagram templates', 'html social media templates', 'instagram story templates', 'canva alternative'],
 };
