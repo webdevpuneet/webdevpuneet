@@ -983,6 +983,30 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   const [htmlFlex,      setHtmlFlex]      = useState(1);
   const [cssFlex,       setCssFlex]       = useState(1);
   const [jsFlex,        setJsFlex]        = useState(1);
+  // Remember the code column width and HTML/CSS/JS panel heights the user dragged to,
+  // so the editor reopens the way they left it.
+  const layoutRestored = useRef(false);
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('uis_editor_layout') || 'null');
+      if (saved) {
+        const w = Number(saved.width);
+        if (w >= 300) setEditorWidth(Math.min(w, Math.max(300, window.innerWidth * 0.75)));
+        const ok = n => Number.isFinite(n) && n > 0;
+        if (ok(saved.htmlFlex) && ok(saved.cssFlex) && ok(saved.jsFlex)) {
+          setHtmlFlex(saved.htmlFlex); setCssFlex(saved.cssFlex); setJsFlex(saved.jsFlex);
+        }
+      }
+    } catch { /* storage blocked */ }
+    layoutRestored.current = true;
+  }, []);
+  useEffect(() => {
+    if (!layoutRestored.current) return undefined;
+    const t = setTimeout(() => {
+      try { localStorage.setItem('uis_editor_layout', JSON.stringify({ width: Math.round(editorWidth), htmlFlex, cssFlex, jsFlex })); } catch { /* storage blocked */ }
+    }, 300);
+    return () => clearTimeout(t);
+  }, [editorWidth, htmlFlex, cssFlex, jsFlex]);
   const [htmlCollapsed, setHtmlCollapsed] = useState(false);
   const [cssCollapsed,  setCssCollapsed]  = useState(false);
   const [jsCollapsed,   setJsCollapsed]   = useState(false);
@@ -991,6 +1015,13 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   // independently-toggleable HTML/CSS/JS panels as My Code — instead of
   // defaulting to a "Related" tab the reader had to click past.
   function toggleHtmlPanel() { setHtmlCollapsed(p => !p); }
+  // Opening a My Code snippet: collapse CSS/JS panels that are empty (e.g. an email
+  // forked as one HTML document) and expand those with code. Phones keep everything collapsed.
+  function fitPanelsTo(sn) {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) return;
+    setCssCollapsed(!String(sn?.css || '').trim());
+    setJsCollapsed(!String(sn?.js || '').trim());
+  }
   function toggleCssPanel()  { setCssCollapsed(p => !p); }
   function toggleJsPanel()   { setJsCollapsed(p => !p); }
   const [editorVisible, setEditorVisible] = useState(true);
@@ -1143,7 +1174,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
       if (!sn) return;
       setActiveId(sn.id); setActiveIsCustom(true);
       htmlRef.current = sn.html; cssRef.current = sn.css; jsRef.current = sn.js;
-      setHtmlCode(sn.html); setCssCode(sn.css); setJsCode(sn.js);
+      setHtmlCode(sn.html); setCssCode(sn.css); setJsCode(sn.js); fitPanelsTo(sn);
       const urls = sn.cdnUrls || []; setCdnUrls(urls); cdnUrlsRef.current = urls;
       setSrcDoc(buildSrcdoc(sn.html, sn.css, sn.js, urls));
       setSidebarTab('saved'); setShowEditor(true); setIsNewBlank(false);
@@ -1352,7 +1383,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
     setActiveId(id);
     setActiveIsCustom(isCustom);
     htmlRef.current = sn.html; cssRef.current = sn.css; jsRef.current = sn.js;
-    setHtmlCode(sn.html); setCssCode(sn.css); setJsCode(sn.js);
+    setHtmlCode(sn.html); setCssCode(sn.css); setJsCode(sn.js); fitPanelsTo(sn);
     const snUrls = sn.cdnUrls || []; setCdnUrls(snUrls); cdnUrlsRef.current = snUrls;
     setSrcDoc(buildSrcdoc(sn.html, sn.css, sn.js, snUrls));
   }
@@ -1976,7 +2007,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               onSelect={sn => {
                 htmlRef.current = sn.html; cssRef.current = sn.css; jsRef.current = sn.js;
                 setActiveId(sn.id); setActiveIsCustom(true); setIsNewBlank(false);
-                setHtmlCode(sn.html); setCssCode(sn.css); setJsCode(sn.js);
+                setHtmlCode(sn.html); setCssCode(sn.css); setJsCode(sn.js); fitPanelsTo(sn);
                 const u2 = sn.cdnUrls||[]; setCdnUrls(u2); cdnUrlsRef.current=u2;
                 setSrcDoc(buildSrcdoc(sn.html, sn.css, sn.js, u2));
                 setShowEditor(true);

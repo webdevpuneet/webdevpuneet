@@ -1302,6 +1302,19 @@ export const TOOLS = [
     lastmod:    '2026-10-16',
     hasUpdates: false,
   },
+  {
+    slug:       'email-templates',
+    name:       'Email Templates',
+    sub:        'Responsive HTML · Outlook-safe',
+    desc:       'Free responsive HTML email templates that work in Gmail, Outlook and Apple Mail, with dark mode. Edit online, preview mobile, copy the HTML or fork to My Code.',
+    icon:       '/icons/email-templates.svg',
+    accent:     '#6366f1',
+    category:   'design',
+    extended:   false,
+    status:     'live',
+    lastmod:    '2026-10-16',
+    hasUpdates: false,
+  },
   /* SEO tools moved from fwdtools (2026-10-15) */
   {
     slug:     'meta-tag-generator',

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#0f0f1a"/>
+  <!-- Envelope -->
+  <rect x="4" y="8" width="24" height="17" rx="3" fill="#6366f1"/>
+  <path d="M5 10 L16 18 L27 10" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+  <!-- Template lines peeking out -->
+  <rect x="8" y="5" width="16" height="3" rx="1.5" fill="#a5b4fc"/>
+  <!-- Code badge -->
+  <circle cx="25" cy="24" r="6" fill="#22c55e"/>
+  <path d="M23 22 l-2 2 l2 2 M27 22 l2 2 l-2 2" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

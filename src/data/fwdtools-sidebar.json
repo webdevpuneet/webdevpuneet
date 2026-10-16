@@ -822,6 +822,11 @@
           "slug": "social-post-templates",
           "name": "Social Post Templates",
           "icon": "/icons/social-post-templates.svg"
+        },
+        {
+          "slug": "email-templates",
+          "name": "Email Templates",
+          "icon": "/icons/email-templates.svg"
         }
       ]
     },

@@ -131,7 +131,7 @@
 .hexInput { flex: 1; background: transparent; border: none; color: var(--text); font-size: 12px; font-family: var(--font-mono); min-width: 0; outline: none; }
 
 .seg { display: flex; padding: 3px; gap: 3px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; }
-.segBtn { flex: 1; padding: 5px 6px; background: transparent; border: none; border-radius: 6px; color: var(--text2); font-size: 12px; font-weight: 600; font-family: var(--font-ui); cursor: pointer; }
+.segBtn { flex: 1; white-space: nowrap; padding: 5px 10px; background: transparent; border: none; border-radius: 6px; color: var(--text2); font-size: 12px; font-weight: 600; font-family: var(--font-ui); cursor: pointer; }
 .segBtnActive { background: var(--surface); color: var(--spt-accent); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); }
 .check { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text2); cursor: pointer; user-select: none; }
 .check input { accent-color: var(--spt-accent); }

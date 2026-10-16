@@ -39,6 +39,7 @@ const RAW_RELATED_TOOLS = {
   'api-mock-generator':      ['api-request-generator-tester', 'json-formatter', 'json-to-typescript', 'json-dashboard-generator', 'yaml-json-converter', 'regex-tester', 'jwt-decoder', 'hash-generator'],
   'svg-to-png':              ['image-to-svg', 'favicon-generator', 'image-compressor', 'image-to-base64', 'og-image-generator', 'animated-svg-icons', 'svg-animation-generator', 'color-palette-generator'],
   'text-case-converter':     ['word-counter', 'json-to-typescript', 'regex-tester', 'diff-checker', 'lorem-ipsum-generator', 'markdown-editor', 'html-formatter', 'sql-formatter'],
+  'email-templates':         ['social-post-templates', 'og-image-generator', 'meta-tag-generator', 'color-palette-generator', 'color-contrast-checker', 'font-pairing-tool', 'image-compressor', 'gradient-generator'],
   'social-post-templates':   ['og-image-generator', 'image-editor', 'image-compressor', 'image-background-remover', 'color-palette-generator', 'font-pairing-tool', 'gradient-generator', 'color-contrast-checker'],
   'og-image-generator':      ['aspect-ratio-calculator', 'meta-tag-generator', 'favicon-generator', 'color-palette-generator', 'gradient-generator', 'color-contrast-checker', 'font-pairing-tool', 'image-compressor'],
   'html-to-markdown':        ['markdown-to-html', 'markdown-editor', 'html-formatter', 'diff-checker', 'word-counter', 'html-to-jsx-converter', 'lorem-ipsum-generator', 'meta-tag-generator'],
