@@ -232,6 +232,12 @@ export function EmailTemplateEditor({ id }) {
   const [busy, setBusy] = useState('');
   const [origin, setOrigin] = useState('');
   const [open, setOpen] = useState(() => new Set(['inbox', 'main']));
+  const [checksOpen, setChecksOpen] = useState(true);
+  useEffect(() => { try { if (localStorage.getItem('wdp-email-checks-open') === '0') setChecksOpen(false); } catch { /* blocked */ } }, []);
+  useEffect(() => { try { localStorage.setItem('wdp-email-checks-open', checksOpen ? '1' : '0'); } catch { /* blocked */ } }, [checksOpen]);
+  const [checksHidden, setChecksHidden] = useState(false);
+  useEffect(() => { try { if (localStorage.getItem('wdp-email-checks-hidden') === '1') setChecksHidden(true); } catch { /* blocked */ } }, []);
+  const hideChecks = hidden => { setChecksHidden(hidden); try { localStorage.setItem('wdp-email-checks-hidden', hidden ? '1' : '0'); } catch { /* blocked */ } };
   const flash = useCallback(msg => { setToast(msg); setTimeout(() => setToast(''), 2600); }, []);
 
   useEffect(() => { setOrigin(window.location.origin); }, []);
@@ -670,7 +676,7 @@ export function EmailTemplateEditor({ id }) {
           </section>
         </aside>
 
-        <div className={s.main}>
+        <div className={s.main} style={{ position: 'relative' }}>
           <PlaygroundTopAd />
           <div className={s.toolbar}>
             <div className={e.toolbarLeft}>
@@ -721,11 +727,48 @@ export function EmailTemplateEditor({ id }) {
             )}
           </div>
 
-          <ul className={e.checks}>
-            {checks.length === 0
-              ? <li className={e.good}>✓ Ready to send: under Gmail&rsquo;s clipping limit, images hosted, alt text, unsubscribe link and address all set.</li>
-              : checks.map(c => <li key={c.text} className={c.level === 'bad' ? e.bad : e.warn}>{c.text}</li>)}
-          </ul>
+          {!checksHidden && <div className={e.checksBox}>
+            {(() => {
+              const bad = checks.filter(c => c.level === 'bad').length;
+              const warn = checks.length - bad;
+              const summary = checks.length === 0
+                ? '✓ Ready to send'
+                : [bad && `${bad} issue${bad > 1 ? 's' : ''}`, warn && `${warn} warning${warn > 1 ? 's' : ''}`].filter(Boolean).join(' · ');
+              return (
+                <div className={e.checksBar}>
+                  <button type="button" className={e.checksHead} onClick={() => setChecksOpen(o => !o)} aria-expanded={checksOpen}>
+                    <span className={`${e.chev} ${checksOpen ? e.chevOpen : ''}`}>›</span>
+                    <span>Pre-send checks</span>
+                    <span className={bad ? e.countBad : warn ? e.countWarn : e.countGood}>{summary}</span>
+                    <span className={e.checksToggle}>{checksOpen ? 'Collapse' : 'Expand'}</span>
+                  </button>
+                  <button type="button" className={e.checksClose} onClick={() => hideChecks(true)} aria-label="Close pre-send checks" title="Close (reopen from the button at the bottom right)">✕</button>
+                </div>
+              );
+            })()}
+            {checksOpen && (
+              <ul className={e.checks}>
+                {checks.length === 0
+                  ? <li className={e.good}>✓ Ready to send: under Gmail&rsquo;s clipping limit, images hosted, alt text, unsubscribe link and address all set.</li>
+                  : checks.map(c => <li key={c.text} className={c.level === 'bad' ? e.bad : e.warn}>{c.text}</li>)}
+              </ul>
+            )}
+          </div>}
+          {checksHidden && (() => {
+            const bad = checks.filter(c => c.level === 'bad').length;
+            const n = checks.length;
+            return (
+              <button
+                type="button"
+                className={`${e.checksFab} ${bad ? e.fabBad : n ? e.fabWarn : e.fabGood}`}
+                onClick={() => hideChecks(false)}
+                title={n ? `Show pre-send checks (${n})` : 'Show pre-send checks (all good)'}
+                aria-label={n ? `Show ${n} pre-send check${n > 1 ? 's' : ''}` : 'Show pre-send checks'}
+              >
+                {n ? <>⚠ {n}</> : '✓'}
+              </button>
+            );
+          })()}
         </div>
       </div>
       {toast && <div className={s.toast} role="status">{toast}</div>}

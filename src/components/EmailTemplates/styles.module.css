@@ -101,9 +101,8 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  border-top: 1px solid var(--border);
   background: var(--surface);
-  max-height: 30%;
+  max-height: 26vh;
   overflow: auto;
 }
 .checks li { padding: 7px 11px; border-radius: 8px; font-size: 12.5px; line-height: 1.45; }
@@ -160,3 +159,37 @@
 .uploadRow { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .uploadThumb { width: 40px; height: 28px; object-fit: cover; border-radius: 5px; border: 1px solid var(--border); background: var(--surface2, rgba(127, 127, 127, 0.12)); flex: none; }
 .uploadName { flex: 1; min-width: 0; font-size: 11.5px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Collapsible pre-send checks under the preview */
+.checksBox { border-top: 1px solid var(--border); background: var(--surface); flex: none; }
+.checksHead {
+  display: flex; align-items: center; gap: 8px; width: 100%;
+  padding: 8px 16px; background: none; border: 0; cursor: pointer;
+  font-family: var(--font-ui); font-size: 12px; font-weight: 700; color: var(--text); text-align: left;
+}
+.checksHead:hover { background: var(--surface2, rgba(127, 127, 127, 0.06)); }
+.countBad, .countWarn, .countGood { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 99px; }
+.countBad { background: rgba(239, 68, 68, 0.12); color: #b91c1c; }
+.countWarn { background: rgba(245, 158, 11, 0.14); color: #b45309; }
+.countGood { background: rgba(34, 197, 94, 0.12); color: #15803d; }
+.checksToggle { margin-left: auto; font-size: 11px; font-weight: 600; color: var(--text2); }
+.checksBox .checks { padding-top: 0; }
+
+.checksBar { display: flex; align-items: center; }
+.checksBar .checksHead { flex: 1; min-width: 0; }
+.checksClose { flex: none; width: 28px; height: 28px; margin-right: 10px; border: 0; border-radius: 7px; background: transparent; color: var(--text2); font-size: 13px; cursor: pointer; }
+.checksClose:hover { background: var(--surface2, rgba(127, 127, 127, 0.12)); color: var(--text); }
+
+/* Sticky button that brings the closed checks back (bottom right of the preview column) */
+.checksFab {
+  position: absolute; right: 14px; bottom: 14px; z-index: 5;
+  min-width: 38px; height: 32px; padding: 0 11px;
+  border: 0; border-radius: 99px; cursor: pointer;
+  font-family: var(--font-ui); font-size: 12.5px; font-weight: 800;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  transition: transform 0.15s;
+}
+.checksFab:hover { transform: translateY(-2px); }
+.fabBad { background: #dc2626; color: #fff; }
+.fabWarn { background: #f59e0b; color: #1f1300; }
+.fabGood { background: #16a34a; color: #fff; }
