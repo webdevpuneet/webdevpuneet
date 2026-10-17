@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import s from '../SocialPostTemplates/styles.module.css';
 import e from './styles.module.css';
-import us from '../UiSnippetsTool/styles.module.css';
+import { ExportMenu, ForkButton, HistoryButtons } from '@/components/ToolbarActions';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 import { EMAIL_TEMPLATES, EMAIL_CATEGORIES, emailTemplateById, emailCategoryById, defaultEmailState, FONT_STACKS } from './templates/index.js';
@@ -16,6 +16,7 @@ import { dbPut } from '@/lib/uiSnippetsDb';
 import { openForkTab } from '@/lib/open-fork-tab';
 import { putAsset, getAsset, deleteAsset, assetKeys } from './assetsDb';
 import { revealInPanel } from '@/lib/reveal-in-panel';
+import { highlightHtml } from '@/lib/highlight-html';
 import FontPicker from '@/components/FontPicker';
 import { resolveFont } from '@/lib/fonts';
 
@@ -258,52 +259,6 @@ export function EmailShot({ id }) {
   );
 }
 
-/* Toolbar "Export ▾" menu: same look as the UI Snippets export menu */
-const EXPORT_ICON = {
-  html: <svg width="16" height="18" viewBox="0 0 512 512" aria-hidden="true"><path fill="#e44d26" d="M107 457L75 96h362l-32 361-149 41z"/><path fill="#f16529" d="M256 444l120-33 27-307H256z"/><path fill="#ebebeb" d="M256 208h-62l-4-45h66v-44H144l11 127h101zm0 122l-49-13-3-36h-44l6 67 90 25z"/><path fill="#fff" d="M256 208v44h58l-6 58-52 14v46l90-25 7-77 7-60zm0-89v44h114l-4-44z"/></svg>,
-  zip: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg>,
-  file: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="M9 15l3 3 3-3"/></svg>,
-  text: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="14" y2="18"/></svg>,
-};
-const EXPORT_TINT = { html: '#e44d26', zip: '#6366f1', file: '#0ea5e9', text: '#059669' };
-
-function EmailExportMenu({ options }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef(null);
-  useEffect(() => {
-    if (!open) return undefined;
-    const onDoc = ev => { if (ref.current && !ref.current.contains(ev.target)) setOpen(false); };
-    const onKey = ev => { if (ev.key === 'Escape') setOpen(false); };
-    document.addEventListener('mousedown', onDoc);
-    document.addEventListener('keydown', onKey);
-    return () => { document.removeEventListener('mousedown', onDoc); document.removeEventListener('keydown', onKey); };
-  }, [open]);
-  return (
-    <div className={us.popoverAnchor} ref={ref}>
-      <button type="button" className={us.iconBtn} onClick={() => setOpen(v => !v)} title="Copy or download the email" aria-haspopup="true" aria-expanded={open}>
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M8 11l4 4 4-4"/><path d="M4 19h16"/></svg>
-        Export
-        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 1, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      {open && (
-        <div className={us.exportMenu} role="menu">
-          <div className={us.exportMenuHead}>Export this email as…</div>
-          {options.map(o => (
-            <button key={o.label} type="button" className={us.exportMenuItem} role="menuitem" disabled={o.disabled} onClick={() => { o.onClick(); setOpen(false); }}>
-              <span className={us.exportMenuItemIcon} style={{ background: `${EXPORT_TINT[o.icon]}1a` }}>{EXPORT_ICON[o.icon]}</span>
-              <span className={us.exportMenuItemText}>
-                <span className={us.exportMenuItemLabel}>{o.label}</span>
-                <span className={us.exportMenuItemSub}>{o.sub}</span>
-              </span>
-              <svg className={us.exportMenuItemArrow} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
 /* ── Editor ──────────────────────────────────────────────────────────────────── */
 function ColorField({ label, value, onChange }) {
   const [draft, setDraft] = useState(value);
@@ -488,6 +443,8 @@ export function EmailTemplateEditor({ id }) {
   const html = useMemo(() => t.build(exportState), [t, exportState]);
   const editHtml = useMemo(() => t.build(previewState, { edit: true }), [t, previewState]);
   const text = useMemo(() => t.text(exportState), [t, exportState]);
+  // Colour-coded HTML for the HTML tab (only worked out while that tab is open)
+  const highlightedHtml = useMemo(() => (view === 'html' ? highlightHtml(html) : ''), [view, html]);
   const bytes = useMemo(() => new Blob([html]).size, [html]);
   const liveHtml = useMemo(() => previewImages(dark ? forceDark(editHtml) : editHtml, origin), [editHtml, dark, origin]);
   // While text is being edited inside the preview, keep its document as-is (a new srcDoc
@@ -586,8 +543,19 @@ export function EmailTemplateEditor({ id }) {
 
   /* Actions */
   const copy = async (str, what, note) => {
-    try { await navigator.clipboard.writeText(str); flash(note || `${what} copied`); }
-    catch { flash('Copy blocked by the browser, so use the download button instead'); }
+    try { await navigator.clipboard.writeText(str); flash(note || `${what} copied`); return true; }
+    catch { flash('Copy blocked by the browser, so use the download button instead'); return false; }
+  };
+  // The code box's own button reads "Copied ✓" for a moment after a click
+  const [codeCopied, setCodeCopied] = useState(false);
+  const copiedTimer = useRef(null);
+  useEffect(() => () => clearTimeout(copiedTimer.current), []);
+  const copyCode = async () => {
+    const ok = await copy(view === 'html' ? html : text, view === 'html' ? 'Email HTML' : 'Plain-text version');
+    if (!ok) return;
+    setCodeCopied(true);
+    clearTimeout(copiedTimer.current);
+    copiedTimer.current = setTimeout(() => setCodeCopied(false), 1600);
   };
   const fileRef = useRef(null);
   const uploadField = useRef(null);
@@ -672,23 +640,16 @@ export function EmailTemplateEditor({ id }) {
       <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/gif,image/webp" className={s.fileInput} onChange={onUploadFile} />
       <div className={s.body}>
         <aside className={s.controls}>
-          <div className={s.panelHead}>
+          {/* Tool name stays pinned at the top of the panel; everything below scrolls */}
+          <div className={s.toolBrandBar}>
             <a href="/email-templates/" className={s.toolBrand} title="All email templates">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/icons/email-templates.svg" alt="" width={26} height={26} />
               <span>Email Templates</span>
             </a>
-            <div className={s.titleRow}>
-              <h1 className={s.title}>{t.name}</h1>
-              <span className={s.version}>v{t.version}</span>
-            </div>
-            <div className={s.miniRow}>
-              <button type="button" className={s.miniBtn} onClick={undo} disabled={!canUndo} title="Undo (Ctrl+Z)">↶ Undo</button>
-              <button type="button" className={s.miniBtn} onClick={redo} disabled={!canRedo} title="Redo (Ctrl+Shift+Z)">↷ Redo</button>
-              <button type="button" className={s.miniBtn} onClick={() => setState({ ...defaultEmailState(t), assetBase: state.assetBase || '' })} title="Back to the original (undo brings your edits back)">Reset</button>
-            </div>
           </div>
-
+          {/* Only this part scrolls, so the scrollbar starts below the pinned tool name */}
+          <div className={s.controlsScroll}>
           <BrandKitPanel
             emailMode
             onToast={flash}
@@ -798,12 +759,17 @@ export function EmailTemplateEditor({ id }) {
             </div>
             <p className={s.hint}>Any Google Font works. Web fonts show in Apple Mail and iOS Mail; Gmail and Outlook use Arial, Georgia or Courier instead.</p>
           </section>
+          </div>
         </aside>
 
         <div className={s.main} style={{ position: 'relative' }}>
           <PlaygroundTopAd />
           <div className={s.toolbar}>
             <div className={e.toolbarLeft}>
+              {/* The page's H1: template name and version lead the preview toolbar */}
+              <h1 className={s.metaName}>{t.name}</h1>
+              <span className={s.version}>v{t.version}</span>
+              <span className={s.toolbarSep} aria-hidden="true" />
               <div className={`${s.seg} ${e.toolSeg}`} role="radiogroup" aria-label="View">
                 {[['preview', 'Preview'], ['html', 'HTML'], ['text', 'Plain text']].map(([v, l]) => (
                   <button key={v} type="button" role="radio" aria-checked={view === v} className={`${s.segBtn} ${view === v ? s.segBtnActive : ''}`} onClick={() => setView(v)}>{l}</button>
@@ -821,11 +787,11 @@ export function EmailTemplateEditor({ id }) {
               )}
             </div>
             <div className={e.toolbarRight}>
-              <button type="button" className={us.iconBtn} onClick={forkToMyCode} disabled={!!busy} title="Save an editable copy of the code in My Code (opens in a new tab)">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="6" cy="5" r="2.5"/><circle cx="18" cy="5" r="2.5"/><circle cx="12" cy="19" r="2.5"/><path d="M6 7.5v2a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-2"/><line x1="12" y1="11.5" x2="12" y2="16.5"/></svg>
-                {busy === 'fork' ? 'Forking…' : 'Fork'}
-              </button>
-              <EmailExportMenu
+              <HistoryButtons onUndo={undo} onRedo={redo} onReset={() => setState({ ...defaultEmailState(t), assetBase: state.assetBase || '' })} canUndo={canUndo} canRedo={canRedo} />
+              <span className={s.toolbarSep} aria-hidden="true" />
+              <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />
+              <ExportMenu
+                head="Export this email as…"
                 options={[
                   { icon: 'html', label: 'Copy HTML', sub: 'Paste into Mailchimp, Klaviyo or your code', onClick: () => copy(html, 'Email HTML', Object.keys(uploads).length && !assetBase ? 'HTML copied. Uploaded images link to images/, so set an Image base URL or use Download ZIP.' : '') },
                   { icon: 'zip', label: busy === 'zip' ? 'Zipping…' : 'Download ZIP', sub: 'HTML, plain text and your uploaded images', onClick: downloadZip, disabled: !!busy },
@@ -847,8 +813,10 @@ export function EmailTemplateEditor({ id }) {
             )}
             {view !== 'preview' && (
               <div className={e.codeWrap}>
-                <button type="button" className={e.codeCopy} onClick={() => copy(view === 'html' ? html : text, view === 'html' ? 'Email HTML' : 'Plain-text version')}>Copy</button>
-                <pre className={e.code}><code>{view === 'html' ? html : text}</code></pre>
+                <button type="button" className={`${e.codeCopy} ${codeCopied ? e.codeCopied : ''}`} onClick={copyCode} aria-live="polite">{codeCopied ? 'Copied ✓' : 'Copy'}</button>
+                {view === 'html'
+                  ? <pre className={e.code}><code dangerouslySetInnerHTML={{ __html: highlightedHtml }} /></pre>
+                  : <pre className={e.code}><code>{text}</code></pre>}
               </div>
             )}
           </div>

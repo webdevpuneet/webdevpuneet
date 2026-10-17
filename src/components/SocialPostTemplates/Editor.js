@@ -6,9 +6,10 @@ import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { BrandKitPanel, loadKit, kitIsSet } from '@/components/BrandKit';
 import { revealInPanel } from '@/lib/reveal-in-panel';
-import { SIZES, sizeById, categoryById, templateById } from './templates/index.js';
+import { SIZES, sizeById, templateById } from './templates/index.js';
 import { PALETTES, parseHex } from '../OgImageGenerator/engine';
 import FontPicker from '@/components/FontPicker';
+import { ExportMenu, ForkButton, HistoryButtons } from '@/components/ToolbarActions';
 import Preview from './Preview';
 import { renderImage, standaloneHtml, snippetParts } from './render';
 import { dbPut } from '@/lib/uiSnippetsDb';
@@ -140,7 +141,6 @@ export default function TemplateEditor({ id }) {
   const [state, setState] = useState(() => editorDefault(t));
   const [hydrated, setHydrated] = useState(false);
   const [safe, setSafe] = useState(false);
-  const [format, setFormat] = useState('png');
   const [busy, setBusy] = useState('');
   const [toast, setToast] = useState('');
   const [includeImages, setIncludeImages] = useState(true);
@@ -151,7 +151,6 @@ export default function TemplateEditor({ id }) {
 
   const flash = useCallback(msg => { setToast(msg); setTimeout(() => setToast(''), 2600); }, []);
   const z = sizeById(state.size);
-  const cat = categoryById(t.category);
 
   /* Current slide and the flat design state the renderer works with */
   const active = Math.min(state.active, state.slides.length - 1);
@@ -337,7 +336,8 @@ export default function TemplateEditor({ id }) {
   /* Export */
   const slideName = i => `${String(i + 1).padStart(2, '0')}-${(SLIDE_NAMES[state.slides[i].tpl] || 'slide').toLowerCase()}`;
   const baseName = isCarousel ? `carousel-${slideName(active)}-${z.w}x${z.h}` : `${t.id}-${z.w}x${z.h}`;
-  const download = async () => {
+  // format: 'png' (sharpest text) or 'jpeg' (smaller for photo-heavy posts), picked in the Export menu
+  const download = async (format = 'png') => {
     setBusy('download');
     try {
       const blob = await renderImage(st, design, { format, quality: 0.92 });
@@ -346,7 +346,7 @@ export default function TemplateEditor({ id }) {
     } catch (err) { flash(`Export failed: ${err.message}`); }
     setBusy('');
   };
-  const downloadAllSizes = async () => {
+  const downloadAllSizes = async (format = 'png') => {
     setBusy('zip');
     try {
       const { default: JSZip } = await import('jszip');
@@ -355,12 +355,12 @@ export default function TemplateEditor({ id }) {
         const blob = await renderImage(st, { ...design, size: size.id }, { format, quality: 0.92 });
         zip.file(`${t.id}-${size.id}-${size.w}x${size.h}.${extOf(blob)}`, blob);
       }
-      saveBlob(await zip.generateAsync({ type: 'blob' }), `${t.id}-all-sizes.zip`);
+      saveBlob(await zip.generateAsync({ type: 'blob' }), `${t.id}-all-sizes-${format === 'jpeg' ? 'jpg' : 'png'}.zip`);
       flash(`Downloaded ${SIZES.length} sizes as a ZIP`);
     } catch (err) { flash(`Export failed: ${err.message}`); }
     setBusy('');
   };
-  const downloadAllSlides = async () => {
+  const downloadAllSlides = async (format = 'png') => {
     setBusy('zip');
     try {
       const { default: JSZip } = await import('jszip');
@@ -410,36 +410,16 @@ export default function TemplateEditor({ id }) {
       <input ref={fileRef} type="file" accept="image/*" className={s.fileInput} onChange={onFile} />
       <div className={s.body}>
         <aside className={s.controls}>
-          <div className={s.panelHead}>
+          {/* Tool name stays pinned at the top of the panel; everything below scrolls */}
+          <div className={s.toolBrandBar}>
             <a href="/social-post-templates/" className={s.toolBrand} title="All social post templates">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/icons/social-post-templates.svg" alt="" width={26} height={26} />
               <span>Social Post Templates</span>
             </a>
-            <div className={s.titleRow}>
-              <h1 className={s.title}>{isCarousel ? 'Carousel Builder' : t.name}</h1>
-              <span className={s.version}>v{t.version}</span>
-            </div>
-            <div className={s.headActions}>
-              <button type="button" className={s.primaryBtn} onClick={download} disabled={!!busy}>
-                {busy === 'download' ? 'Rendering…' : isCarousel ? `↓ Slide ${active + 1} (${format.toUpperCase()})` : `↓ Download ${format.toUpperCase()}`}
-              </button>
-              {isCarousel
-                ? <button type="button" className={s.btn} onClick={downloadAllSlides} disabled={!!busy} title="Every slide as a numbered ZIP">{busy === 'zip' ? 'Zipping…' : `All ${state.slides.length} slides (ZIP)`}</button>
-                : <button type="button" className={s.btn} onClick={downloadAllSizes} disabled={!!busy} title="Every size as a ZIP">{busy === 'zip' ? 'Zipping…' : 'All sizes (ZIP)'}</button>}
-            </div>
-            <div className={s.miniRow}>
-              <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={forkToMyCode} disabled={!!busy} title="Save this design as an editable HTML/CSS snippet in My Code">
-                {busy === 'fork' ? 'Forking…' : 'Fork to My Code'}
-              </button>
-              <button type="button" className={s.miniBtn} onClick={copyHtml}>Copy HTML</button>
-              <button type="button" className={s.miniBtn} onClick={downloadHtml}>Download .html</button>
-              <button type="button" className={s.miniBtn} onClick={undo} disabled={!canUndo} title="Undo (Ctrl+Z)">↶ Undo</button>
-              <button type="button" className={s.miniBtn} onClick={redo} disabled={!canRedo} title="Redo (Ctrl+Shift+Z)">↷ Redo</button>
-              <button type="button" className={s.miniBtn} onClick={() => setState(editorDefault(t))} title="Back to the original (undo brings your edits back)">Reset</button>
-            </div>
           </div>
-
+          {/* Only this part scrolls, so the scrollbar starts below the pinned tool name */}
+          <div className={s.controlsScroll}>
           <BrandKitPanel onApply={applyKit} onSaveFrom={kitFromDesign} onToast={flash} />
 
           {isCarousel && (
@@ -556,27 +536,22 @@ export default function TemplateEditor({ id }) {
 
           <section className={s.section}>
             <h2 className={s.sectionTitle}>Export</h2>
-            <div className={s.seg} role="radiogroup" aria-label="Image format">
-              {['png', 'jpeg'].map(f => (
-                <button key={f} type="button" role="radio" aria-checked={format === f} className={`${s.segBtn} ${format === f ? s.segBtnActive : ''}`} onClick={() => setFormat(f)}>{f.toUpperCase()}</button>
-              ))}
-            </div>
-            {isCarousel && (
-              <button type="button" className={s.btn} onClick={downloadAllSizes} disabled={!!busy}>This slide in all sizes (ZIP)</button>
-            )}
             <label className={s.check}>
               <input type="checkbox" checked={includeImages} onChange={e => setIncludeImages(e.target.checked)} />
               Include uploaded photos in the HTML and My Code fork
             </label>
-            <p className={s.hint}>PNG keeps text sharpest. JPEG is smaller for photo-heavy posts. Every image is exported at full size ({z.w}×{z.h}).</p>
+            <p className={s.hint}>Download PNG or JPEG from Export ▾ above the preview. PNG keeps text sharpest; JPEG is smaller for photo-heavy posts. Every image is exported at full size ({z.w}×{z.h}).</p>
           </section>
+          </div>
         </aside>
 
         <div className={s.main}>
           <PlaygroundTopAd />
           <div className={s.toolbar}>
             <div className={s.meta}>
-              <a className={s.metaCat} href={`/social-post-templates/category/${t.category}/`}>{cat?.label}</a>
+              {/* The page's H1: template name and version lead the preview toolbar */}
+              <h1 className={s.metaName}>{isCarousel ? 'Carousel Builder' : t.name}</h1>
+              <span className={s.version}>v{t.version}</span>
               {isCarousel
                 ? (
                   <span className={s.slideNav}>
@@ -585,15 +560,39 @@ export default function TemplateEditor({ id }) {
                     <button type="button" onClick={() => selectSlide(Math.min(state.slides.length - 1, active + 1))} disabled={active === state.slides.length - 1} aria-label="Next slide">›</button>
                   </span>
                 )
-                : <><span>v{t.version}</span><span>Updated {t.updated}</span></>}
+                : null}
               <span>{z.w}×{z.h}</span>
+              <span className={s.toolbarSep} aria-hidden="true" />
+              <HistoryButtons onUndo={undo} onRedo={redo} onReset={() => setState(editorDefault(t))} canUndo={canUndo} canRedo={canRedo} />
             </div>
-            {(state.size === 'story' || state.size === 'portrait') && (
-              <label className={s.check}>
-                <input type="checkbox" checked={safe} onChange={e => setSafe(e.target.checked)} />
-                {state.size === 'story' ? 'Story safe zones' : 'Grid crop guides'}
-              </label>
-            )}
+            <div className={s.toolbarRight}>
+              {(state.size === 'story' || state.size === 'portrait') && (
+                <label className={s.check}>
+                  <input type="checkbox" checked={safe} onChange={e => setSafe(e.target.checked)} />
+                  {state.size === 'story' ? 'Story safe zones' : 'Grid crop guides'}
+                </label>
+              )}
+              <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} title="Save this design as an editable HTML/CSS snippet in My Code (opens in a new tab)" />
+              <ExportMenu
+                head={isCarousel ? 'Export this carousel as…' : 'Export this post as…'}
+                options={[
+                  { icon: 'image', label: isCarousel ? `Slide ${active + 1} as PNG` : 'Download PNG', sub: `${z.w}×${z.h} · sharpest text`, onClick: () => download('png'), disabled: !!busy },
+                  { icon: 'image', label: isCarousel ? `Slide ${active + 1} as JPG` : 'Download JPG', sub: `${z.w}×${z.h} · smaller file for photos`, onClick: () => download('jpeg'), disabled: !!busy },
+                  ...(isCarousel
+                    ? [
+                      { icon: 'zip', label: `All ${state.slides.length} slides · PNG (ZIP)`, sub: 'Every slide, numbered in posting order', onClick: () => downloadAllSlides('png'), disabled: !!busy },
+                      { icon: 'zip', label: `All ${state.slides.length} slides · JPG (ZIP)`, sub: 'Every slide, numbered in posting order', onClick: () => downloadAllSlides('jpeg'), disabled: !!busy },
+                      { icon: 'zip', label: 'This slide in all sizes (ZIP)', sub: SIZES.map(x => `${x.w}×${x.h}`).join(' · '), onClick: () => downloadAllSizes('png'), disabled: !!busy },
+                    ]
+                    : [
+                      { icon: 'zip', label: 'All sizes · PNG (ZIP)', sub: SIZES.map(x => `${x.w}×${x.h}`).join(' · '), onClick: () => downloadAllSizes('png'), disabled: !!busy },
+                      { icon: 'zip', label: 'All sizes · JPG (ZIP)', sub: SIZES.map(x => `${x.w}×${x.h}`).join(' · '), onClick: () => downloadAllSizes('jpeg'), disabled: !!busy },
+                    ]),
+                  { icon: 'html', label: 'Copy HTML', sub: 'The design as HTML and CSS', onClick: copyHtml },
+                  { icon: 'file', label: 'Download .html', sub: 'A single self-contained HTML file', onClick: downloadHtml },
+                ]}
+              />
+            </div>
           </div>
           <div ref={stageRef} className={s.stage}>
             <Preview template={st} state={design} maxW={box.w} maxH={box.h} editable onEdit={setField} onPickImage={pickImage} onReveal={revealField} onImagePos={setImagePos}>
