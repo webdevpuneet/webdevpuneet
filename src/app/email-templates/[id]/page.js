@@ -2,8 +2,9 @@ import { notFound } from 'next/navigation';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
+import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import { EmailTemplateEditor, EmailShot } from '@/components/EmailTemplates';
-import { EMAIL_TEMPLATES, emailTemplateById, emailCategoryById } from '@/components/EmailTemplates/templates/index.js';
+import { EMAIL_TEMPLATES, emailTemplateById, emailCategoryById, relatedEmailTemplates } from '@/components/EmailTemplates/templates/index.js';
 import { EMAIL_SEO, EMAIL_DIFFERENT } from '@/components/EmailTemplates/templates/seo-content.js';
 import { emailPreviewIds, hasEmailOg, emailOgUrl, emailPreviewUrl } from '@/components/EmailTemplates/assets';
 import styles from '../../tool-page.module.css';
@@ -51,8 +52,14 @@ export default async function EmailTemplatePage({ params }) {
   const toggleable = t.groups.filter(g => g.toggle).map(g => g.label.replace(/ \(.*\)$/, '').toLowerCase());
   const hasImages = t.fields.some(f => f.upload && f.key !== 'logoUrl');
   const listJoin = a => (a.length > 1 ? `${a.slice(0, -1).join(', ')} and ${a[a.length - 1]}` : a[0] || '');
-  // Same category first, then the rest
-  const related = [...EMAIL_TEMPLATES.filter(x => x.id !== t.id && x.category === t.category), ...EMAIL_TEMPLATES.filter(x => x.id !== t.id && x.category !== t.category)].slice(0, 6);
+  // Related strip under the ad, like Related Snippets: every template in this category,
+  // the current one first and highlighted, then the closest by shared topic tags
+  const relatedAll = [t, ...relatedEmailTemplates(t).filter(x => x.category === t.category)];
+  const shots = new Set(emailPreviewIds());
+  const relatedItems = relatedAll.filter(x => shots.has(x.id)).map(x => ({
+    id: x.id, title: x.name, href: `/email-templates/${x.id}/`, img: `/images/email-templates/previews/${x.id}.png`,
+    cat: emailCategoryById(x.category)?.label, meta: `v${x.version} · Responsive · Dark mode`,
+  }));
 
   const faqs = [
     ...seo.faqs,
@@ -84,7 +91,7 @@ export default async function EmailTemplatePage({ params }) {
       label: 'Step by step',
       heading: 'How to Use',
       items: [
-        { title: 'Set the inbox details', text: 'Write the sender name, subject line and preheader. The inbox preview above the email shows how they appear in a Gmail-style list.' },
+        { title: 'Set the inbox details', text: 'Write the sender name, subject line and preheader (the preview text shown next to the subject in the inbox). The character counts show when they get too long for phones.' },
         { title: 'Edit the content', text: `Fill in the ${listJoin(contentGroups)}, or click any text in the preview to jump to its field.${toggleable.length ? ` Switch the ${listJoin(toggleable)} on or off.` : ''}` },
         { title: 'Add your brand', text: `Upload or paste your logo${hasImages ? ' and images' : ''}, set the brand colour and the light and dark palettes, pick fonts, or apply your saved brand kit.` },
         { title: 'Preview and check', text: 'Switch between desktop, mobile and dark mode, and fix anything the pre-send checks flag, such as placeholder links or missing alt text.' },
@@ -92,13 +99,6 @@ export default async function EmailTemplatePage({ params }) {
       ],
     },
     { type: 'cards', label: 'Real-world uses', heading: 'Common Use Cases', columns: 3, items: seo.useCases },
-    {
-      type: 'text',
-      label: 'Related templates',
-      heading: `More Free Email Templates Like ${t.name}`,
-      quickFacts: false,
-      text: `${related.map(x => `**[${x.name}](/email-templates/${x.id}/)**: ${x.description}`).join('\n\n')}\n\nBrowse every [${cat?.label.toLowerCase()} email template](/email-templates/category/${t.category}/) or the full [email template gallery](/email-templates/).`,
-    },
     { type: 'faq', label: 'Got questions?', heading: 'Frequently Asked Questions', items: faqs },
   ];
 
@@ -142,7 +142,20 @@ export default async function EmailTemplatePage({ params }) {
       ))}
       <div className={styles.toolSection}><EmailTemplateEditor id={t.id} /></div>
       <IndexOnly>
-        <AdSlot adFirst related={false} />
+        <AdSlot
+          adFirst
+          related={(
+            <HomeTemplatesCarousel
+              title="Related Email Templates"
+              label={`${relatedItems.length} in ${cat?.label} category`}
+              viewAllHref={`/email-templates/category/${t.category}/`}
+              items={relatedItems}
+              activeId={t.id}
+              scroll
+              flush
+            />
+          )}
+        />
         <SeoSection
           slug="email-templates"
           title={`${t.name} — Free Responsive HTML Email Template`}

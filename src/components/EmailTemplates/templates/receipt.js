@@ -13,7 +13,7 @@ export default {
   name: 'Payment Receipt Email',
   version: '1.0.0',
   category: 'transactional',
-  tags: ['receipt', 'invoice', 'billing', 'subscription', 'saas'],
+  tags: ['receipt', 'invoice', 'billing', 'payment', 'subscription', 'saas', 'ecommerce'],
   created: '2026-10-17',
   updated: '2026-10-17',
   seoTitle: 'Receipt Email Template — Free HTML Invoice & Payment Email',

@@ -18,6 +18,7 @@ import { dbGetAll as dbGetAllCustomSnippets, dbDelete as dbDeleteCustomSnippet }
 import { publishedTags, tagsForSnippetId } from '@/lib/snippet-tags';
 // Snapshot of fwdtools' sidebar groups — regenerate with scripts/sync-fwdtools-sidebar.mjs
 import FWD_SIDEBAR from '@/data/fwdtools-sidebar.json';
+import TEMPLATE_NAV from '@/data/template-nav.json';
 
 /* ─────────────────────────────────────────────────────────────
    Derived data — do not edit; edit tools-registry.js instead
@@ -334,6 +335,98 @@ function UiSnippetsGroup({ pathname, open, onToggle }) {
             </li>
           ))}
         </ul>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────
+   TemplatesGroup — Email Templates / Social Post Templates, by category.
+   Categories start collapsed; the one holding the current template opens.
+   Data: src/data/template-nav.json (scripts/generate-template-nav.mjs).
+───────────────────────────────────────────────────────────── */
+function TemplatesGroup({ label, base, icon, nav, pathname, open, onToggle }) {
+  const bodyRef = useRef(null);
+  const activeCat = nav.categories.find(c => c.items.some(t => pathname === `${base}${t.id}/`) || pathname === `${base}category/${c.id}/`)?.id;
+  const [openCats, setOpenCats] = useState(() => new Set(activeCat ? [activeCat] : []));
+  const toggleCat = id => setOpenCats(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+
+  useEffect(() => {
+    const el = bodyRef.current;
+    if (!el) return;
+    if (open) {
+      el.style.height = el.scrollHeight + 'px';
+      const t = setTimeout(() => { el.style.height = 'auto'; }, 220);
+      return () => clearTimeout(t);
+    } else {
+      el.style.height = el.scrollHeight + 'px';
+      requestAnimationFrame(() => { el.style.height = '0px'; });
+    }
+  }, [open]);
+
+  return (
+    <div className={styles.playgroundsGroup}>
+      <button
+        className={`${styles.playgroundsHeader} ${open ? styles.groupOpen : ''}`}
+        onClick={onToggle}
+        aria-expanded={open}
+      >
+        <span className={styles.railIcon}>
+          <img src={icon} alt="" width={13} height={13} />
+        </span>
+        <span className={styles.groupLabel}>{label}</span>
+        <span className={`${styles.groupCount} ${styles.playgroundsCount}`}>{nav.total}</span>
+        <svg className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`}
+          width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+        >
+          <polyline points="6,9 12,15 18,9" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
+      {/* Height is animated by the effect; children stay in the DOM so the links are crawlable */}
+      <div ref={bodyRef} className={styles.groupBody} style={{ height: open ? 'auto' : '0px' }}>
+        <ul className={`${styles.list} ${styles.compactList}`}>
+          <li className={`${styles.item} ${pathname === base ? styles.active : ''}`}>
+            <a href={base}>
+              <span className={styles.itemInner}>
+                <span className={styles.info}><span className={styles.name}>All {label.toLowerCase()}</span></span>
+              </span>
+            </a>
+          </li>
+        </ul>
+        {nav.categories.map(c => {
+          const catOpen = openCats.has(c.id);
+          return (
+            <div key={c.id} className={styles.tplCat}>
+              <button type="button" className={`${styles.tplCatHead} ${catOpen ? styles.tplCatOpen : ''}`} onClick={() => toggleCat(c.id)} aria-expanded={catOpen}>
+                <svg className={`${styles.tplCatChev} ${catOpen ? styles.tplCatChevOpen : ''}`} width="8" height="8" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <polyline points="9 6 15 12 9 18" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <span className={styles.tplCatLabel}>{c.label}</span>
+                <span className={styles.tplCatCount}>{c.items.length}</span>
+              </button>
+              {catOpen && (
+                <ul className={`${styles.list} ${styles.compactList} ${styles.tplList}`}>
+                  <li className={`${styles.item} ${pathname === `${base}category/${c.id}/` ? styles.active : ''}`}>
+                    <a href={`${base}category/${c.id}/`}>
+                      <span className={styles.itemInner}>
+                        <span className={styles.info}><span className={`${styles.name} ${styles.tplAll}`}>All {c.label}</span></span>
+                      </span>
+                    </a>
+                  </li>
+                  {c.items.map(t => (
+                    <li key={t.id} className={`${styles.item} ${pathname === `${base}${t.id}/` ? styles.active : ''}`}>
+                      <a href={`${base}${t.id}/`}>
+                        <span className={styles.itemInner}>
+                          <span className={styles.info}><span className={styles.name}>{t.name}</span></span>
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -1453,6 +1546,9 @@ export default function Sidebar() {
   const [favourites, setFavourites] = useState([]);
   const [uiSnippetsOpen,   setUiSnippetsOpen]   = useState(pathname === '/'); // home: the UI Snippets group starts expanded
   const [playgroundsOpen,  setPlaygroundsOpen]  = useState(false);
+  // Template groups start collapsed, except on their own pages
+  const [emailTplOpen,     setEmailTplOpen]     = useState(pathname.startsWith('/email-templates/'));
+  const [socialTplOpen,    setSocialTplOpen]    = useState(pathname.startsWith('/social-post-templates/'));
   const [freelancerOpen,   setFreelancerOpen]   = useState(false);
   const [mobileOpen, setMobileOpen]   = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -1785,6 +1881,24 @@ export default function Sidebar() {
                     pathname={pathname}
                     open={uiSnippetsOpen}
                     onToggle={() => setUiSnippetsOpen(v => !v)}
+                  />
+                  <TemplatesGroup
+                    label="Email Templates"
+                    base="/email-templates/"
+                    icon="/icons/email-templates.svg"
+                    nav={TEMPLATE_NAV.email}
+                    pathname={pathname}
+                    open={emailTplOpen}
+                    onToggle={() => setEmailTplOpen(v => !v)}
+                  />
+                  <TemplatesGroup
+                    label="Social Post Templates"
+                    base="/social-post-templates/"
+                    icon="/icons/social-post-templates.svg"
+                    nav={TEMPLATE_NAV.social}
+                    pathname={pathname}
+                    open={socialTplOpen}
+                    onToggle={() => setSocialTplOpen(v => !v)}
                   />
                   <PlaygroundsGroup
                     activeSlug={activeSlug}

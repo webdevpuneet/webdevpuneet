@@ -6,7 +6,7 @@ export default {
   name: 'Verify Email Address',
   version: '1.0.0',
   category: 'transactional',
-  tags: ['email-verification', 'otp-code', 'sign-up', 'transactional', 'dark-mode'],
+  tags: ['email-verification', 'otp-code', 'sign-up', 'account', 'saas', 'transactional', 'dark-mode'],
   created: '2026-10-17',
   updated: '2026-10-17',
   seoTitle: 'Email Verification Template — Free HTML Confirm Email',

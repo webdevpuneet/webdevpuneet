@@ -12,18 +12,28 @@ const PAGE_SIZE = 6;
 // preview, category, name, version). `items` comes from the server as plain data:
 // { id, title, href, img, cat, meta }.
 // Hover pan at one steady speed for every preview: the duration is the hidden height in
-// pixels divided by SCROLL_SPEED. Measured on hover (the image has loaded by then).
+// pixels divided by SCROLL_SPEED. JS measures it and only then starts the pan (data-pan),
+// so even the first hover uses the right duration; a plain :hover rule would start the
+// transition before the duration was set.
 const SCROLL_SPEED = 160; // px per second on screen
-export const scrollDuration = el => {
-  const img = el?.tagName === 'IMG' ? el : el?.querySelector('img');
-  if (!img?.naturalWidth || !img.clientWidth) return;
-  const hidden = img.clientWidth * (img.naturalHeight / img.naturalWidth) - img.clientHeight;
-  img.style.setProperty('--scroll-dur', `${Math.max(0.4, hidden / SCROLL_SPEED).toFixed(2)}s`);
+export const panStart = ev => {
+  const card = ev.currentTarget;
+  const img = card.querySelector('img');
+  if (img?.naturalWidth && img.clientWidth) {
+    const hidden = img.clientWidth * (img.naturalHeight / img.naturalWidth) - img.clientHeight;
+    img.style.setProperty('--scroll-dur', `${Math.max(0.4, hidden / SCROLL_SPEED).toFixed(2)}s`);
+  }
+  card.dataset.pan = '1';
 };
+export const panEnd = ev => { delete ev.currentTarget.dataset.pan; };
+export const panHandlers = { onMouseEnter: panStart, onMouseLeave: panEnd, onFocus: panStart, onBlur: panEnd };
 
-// `scroll`: on hover the preview pans slowly from the top of the image to the bottom
-export default function HomeTemplatesCarousel({ title, items, viewAllHref, label, scroll = false }) {
-  const [start, setStart] = useState(0);
+// `scroll`: on hover the preview pans slowly from the top of the image to the bottom.
+// `flush`: inside AdSlot's related area, which already pads the sides.
+// `activeId`: the current page's template, highlighted like the active card in Related Snippets.
+export default function HomeTemplatesCarousel({ title, items, viewAllHref, viewAllText = 'View all', label, scroll = false, flush = false, activeId = null }) {
+  const activeIdx = activeId ? items?.findIndex(it => it.id === activeId) ?? -1 : -1;
+  const [start, setStart] = useState(activeIdx > 0 ? Math.floor(activeIdx / PAGE_SIZE) * PAGE_SIZE : 0);
   if (!items?.length) return null;
 
   const total = items.length;
@@ -33,11 +43,11 @@ export default function HomeTemplatesCarousel({ title, items, viewAllHref, label
   const hasNext = start + PAGE_SIZE < total;
 
   return (
-    <section className={rs.section} aria-label={title}>
+    <section className={rs.section} style={flush ? { paddingLeft: 0, paddingRight: 0 } : undefined} aria-label={title}>
       <div className={rs.header}>
         <h2 className={rs.title}>{title}</h2>
         <span className={rs.headCount}>{label || `${total} free templates`}</span>
-        <a href={viewAllHref} className={rs.viewAll}>View all &rarr;</a>
+        <a href={viewAllHref} className={rs.viewAll}>{viewAllText} &rarr;</a>
         {total > PAGE_SIZE && (
           <div className={rs.navBtns}>
             <span className={rs.pageIndicator}>{start + 1}–{rangeEnd} of {total}</span>
@@ -52,7 +62,7 @@ export default function HomeTemplatesCarousel({ title, items, viewAllHref, label
       </div>
       <div className={hs.grid}>
         {shown.map(it => (
-          <a key={it.id} href={it.href} className={gs.card} onMouseEnter={scroll ? ev => scrollDuration(ev.currentTarget) : undefined} onFocus={scroll ? ev => scrollDuration(ev.currentTarget) : undefined}>
+          <a key={it.id} href={it.href} className={`${gs.card} ${it.id === activeId ? hs.cardActive : ''}`} aria-current={it.id === activeId ? 'page' : undefined} {...(scroll ? panHandlers : {})}>
             <div className={gs.cardPreview}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img className={`${gs.cardImg} ${scroll ? hs.scrollImg : ''}`} src={it.img} alt={`${it.title} template preview`} loading="lazy" />

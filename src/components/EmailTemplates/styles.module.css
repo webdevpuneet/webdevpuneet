@@ -129,9 +129,9 @@
 .cardPreview { height: 360px; overflow: hidden; background: #eef0f7; }
 .cardImg { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: object-position 0.6s ease; }
 /* On hover the full-length email pans slowly from top to bottom, then springs back */
-a:hover .cardImg, a:focus-visible .cardImg { object-position: center bottom; transition: object-position var(--scroll-dur, 4s) linear; }
+a[data-pan] .cardImg { object-position: center bottom; transition: object-position var(--scroll-dur, 2s) linear; }
 @media (prefers-reduced-motion: reduce) {
-  .cardImg, a:hover .cardImg { transition: none; object-position: center top; }
+  .cardImg, a[data-pan] .cardImg { transition: none; object-position: center top; }
 }
 
 @media (max-width: 860px) {
@@ -185,3 +185,12 @@ a:hover .cardImg, a:focus-visible .cardImg { object-position: center bottom; tra
 .fabBad { background: #dc2626; color: #fff; }
 .fabWarn { background: #f59e0b; color: #1f1300; }
 .fabGood { background: #16a34a; color: #fff; }
+
+/* Toolbar right: Fork + Export (UI Snippets style) */
+.toolbarRight { display: flex; align-items: center; gap: 6px; margin-left: auto; flex: none; }
+.toolbarRight button:disabled { opacity: 0.6; cursor: progress; }
+
+/* Compact toolbar switches: same 26px height as the Fork / Export buttons */
+div.toolSeg { padding: 2px; gap: 2px; border-radius: 6px; }
+div.toolSeg > button { padding: 3px 9px; font-size: 11px; border-radius: 4px; line-height: 16px; }
+label.toolCheck { font-size: 11px; gap: 5px; }

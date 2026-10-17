@@ -1,0 +1,180 @@
+{
+ "email": {
+  "total": 7,
+  "categories": [
+   {
+    "id": "onboarding",
+    "label": "Welcome & Onboarding",
+    "items": [
+     {
+      "id": "welcome",
+      "name": "Welcome Email"
+     }
+    ]
+   },
+   {
+    "id": "transactional",
+    "label": "Transactional",
+    "items": [
+     {
+      "id": "verify-email",
+      "name": "Verify Email Address"
+     },
+     {
+      "id": "password-reset",
+      "name": "Password Reset Email"
+     },
+     {
+      "id": "order-confirmation",
+      "name": "Order Confirmation Email"
+     },
+     {
+      "id": "receipt",
+      "name": "Payment Receipt Email"
+     }
+    ]
+   },
+   {
+    "id": "marketing",
+    "label": "Marketing",
+    "items": [
+     {
+      "id": "newsletter",
+      "name": "Newsletter Email"
+     },
+     {
+      "id": "black-friday-sale",
+      "name": "Black Friday Sale Email"
+     }
+    ]
+   }
+  ]
+ },
+ "social": {
+  "total": 20,
+  "categories": [
+   {
+    "id": "quotes",
+    "label": "Quotes & Tips",
+    "items": [
+     {
+      "id": "big-quote",
+      "name": "Big Quote"
+     },
+     {
+      "id": "tip-of-the-day",
+      "name": "Tip of the Day"
+     },
+     {
+      "id": "did-you-know",
+      "name": "Did You Know?"
+     },
+     {
+      "id": "code-tip",
+      "name": "Code Tip"
+     }
+    ]
+   },
+   {
+    "id": "announcements",
+    "label": "Announcements",
+    "items": [
+     {
+      "id": "product-launch",
+      "name": "Product Launch"
+     },
+     {
+      "id": "milestone",
+      "name": "Milestone"
+     },
+     {
+      "id": "hiring",
+      "name": "We’re Hiring"
+     },
+     {
+      "id": "we-are-live",
+      "name": "We’re Live"
+     }
+    ]
+   },
+   {
+    "id": "promo",
+    "label": "Promo & Sales",
+    "items": [
+     {
+      "id": "discount-badge",
+      "name": "Discount Badge"
+     },
+     {
+      "id": "holiday-sale",
+      "name": "Black Friday Sale"
+     },
+     {
+      "id": "product-spotlight",
+      "name": "Product Spotlight"
+     }
+    ]
+   },
+   {
+    "id": "events",
+    "label": "Events",
+    "items": [
+     {
+      "id": "webinar-event",
+      "name": "Webinar Event"
+     },
+     {
+      "id": "countdown",
+      "name": "Countdown"
+     }
+    ]
+   },
+   {
+    "id": "social-proof",
+    "label": "Social Proof",
+    "items": [
+     {
+      "id": "testimonial",
+      "name": "Customer Testimonial"
+     },
+     {
+      "id": "before-after",
+      "name": "Before & After"
+     }
+    ]
+   },
+   {
+    "id": "carousel",
+    "label": "Carousel Slides",
+    "items": [
+     {
+      "id": "carousel-cover",
+      "name": "Carousel Cover Slide"
+     },
+     {
+      "id": "carousel-step",
+      "name": "Carousel Step Slide"
+     },
+     {
+      "id": "carousel-save",
+      "name": "Carousel Final Slide"
+     }
+    ]
+   },
+   {
+    "id": "stories",
+    "label": "Stories",
+    "items": [
+     {
+      "id": "story-poll",
+      "name": "This or That Poll"
+     },
+     {
+      "id": "story-link",
+      "name": "New Post Link in Bio"
+     }
+    ]
+   }
+  ]
+ }
+}

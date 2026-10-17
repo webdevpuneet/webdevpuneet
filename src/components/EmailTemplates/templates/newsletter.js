@@ -17,7 +17,7 @@ export default {
   name: 'Newsletter Email',
   version: '1.0.0',
   category: 'marketing',
-  tags: ['newsletter', 'content', 'blog-digest', 'marketing', 'dark-mode'],
+  tags: ['newsletter', 'content', 'blog-digest', 'saas', 'marketing', 'dark-mode'],
   created: '2026-10-17',
   updated: '2026-10-17',
   seoTitle: 'Newsletter Email Template — Free Responsive HTML Newsletter',

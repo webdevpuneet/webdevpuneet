@@ -28,7 +28,7 @@ export const metadata = {
 const faqs = [
   { q: 'What makes an HTML email template different from a web page?', a: 'Email clients render HTML very differently from browsers. Outlook for Windows uses Microsoft Word\'s engine and ignores flexbox, grid and most modern CSS, and Gmail removes many styles. Reliable email HTML uses nested tables for layout, inline styles, absolute image URLs and Outlook-only fixes. Every template here is built that way.' },
   { q: 'Will these templates work in Outlook and Gmail?', a: 'Yes. They use a table layout, inline styles, a 600 px container with Outlook conditional comments, a VML "bulletproof" button for Outlook and an Arial override so Outlook doesn\'t fall back to Times New Roman. They are also kept well under Gmail\'s 102 KB clipping limit, and the editor warns you if you go over.' },
-  { q: 'How do I use a template with Mailchimp, Klaviyo, HubSpot or Brevo?', a: 'Edit the template, click "Copy HTML", and paste it into your platform\'s custom-HTML or "code your own" editor. Swap the unsubscribe link and the first name for your platform\'s merge tags. You can also send it from your own code (for example with Nodemailer, Resend, SendGrid or Amazon SES), using the plain-text version as the text part.' },
+  { q: 'How do I use a template with Mailchimp, Klaviyo, HubSpot or Brevo?', a: 'Edit the template, open the HTML tab and click "Copy", and paste it into your platform\'s custom-HTML or "code your own" editor. Swap the unsubscribe link and the first name for your platform\'s merge tags. You can also send it from your own code (for example with Nodemailer, Resend, SendGrid or Amazon SES), using the plain-text version as the text part.' },
   { q: 'Do the templates support dark mode?', a: 'Yes. Each template has editable light and dark palettes. Apple Mail, iOS Mail and Outlook.com use your dark colours, and the editor has a dark-mode preview so you can check contrast before sending.' },
   { q: 'What does "Fork to My Code" do?', a: 'It saves an editable copy of the email in My Code, the UI Snippets code editor, with the markup in the HTML panel and the email\'s CSS in the CSS panel. Use it to customise the code further and keep your own versions.' },
   { q: 'Are the templates free?', a: 'Yes, for personal and commercial use, with no account and no watermark. Everything runs in your browser and your edits are saved locally.' },
@@ -43,7 +43,7 @@ const SECTIONS = [
       'Responsive layouts built with tables and inline styles for real inboxes',
       'Outlook-safe "bulletproof" buttons and Outlook font fixes',
       'Editable light and dark palettes with a dark-mode preview',
-      'Desktop and mobile previews plus a Gmail-style inbox preview',
+      'Desktop, mobile and dark-mode previews, with click-to-edit text',
       'Hidden preheader text for the inbox preview line',
       'Checks for Gmail clipping, alt text, hosted images and placeholder links',
       'CAN-SPAM-ready footers with unsubscribe link and postal address',
@@ -76,7 +76,7 @@ const SECTIONS = [
 
 **Edit without touching code.** Every template exposes its content as fields: subject, preheader, headline, copy, button text and link, images, line items, social links and footer. Whole sections can be switched on and off. Change the brand colour, light and dark palettes, and heading and body fonts (with safe fallbacks).
 
-**Check before you send.** The editor shows desktop, mobile and dark-mode previews, plus an inbox preview with your sender name, subject and preheader. Live checks warn about Gmail's 102 KB clipping limit, images that aren't hosted online, missing alt text, placeholder links, and, for marketing emails, the unsubscribe link and postal address required by US CAN-SPAM.
+**Check before you send.** The editor shows desktop, mobile and dark-mode previews, and counts your subject and preheader length as you type. Live checks warn about Gmail's 102 KB clipping limit, images that aren't hosted online, missing alt text, placeholder links, and, for marketing emails, the unsubscribe link and postal address required by US CAN-SPAM.
 
 **Take the code anywhere.** Copy the HTML into Mailchimp, Klaviyo, HubSpot, Brevo, Campaign Monitor or your own sending code, download a .html file, copy the plain-text version, or fork it into [My Code](/ui-snippets/mycode/) to keep editing the markup. Designing social images too? Try [Social Post Templates](/social-post-templates/).`,
   },

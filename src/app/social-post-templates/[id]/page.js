@@ -2,7 +2,8 @@ import { notFound } from 'next/navigation';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
-import { TemplateEditor, TemplateGallery } from '@/components/SocialPostTemplates';
+import { TemplateEditor } from '@/components/SocialPostTemplates';
+import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import TemplateShot from '@/components/SocialPostTemplates/Shot';
 import { previewIds, hasOg, ogUrl, previewUrl } from '@/components/SocialPostTemplates/assets';
 import { TEMPLATES, SIZES, templateById, categoryById } from '@/components/SocialPostTemplates/templates/index.js';
@@ -10,7 +11,6 @@ import { TEMPLATE_SEO } from '@/components/SocialPostTemplates/templates/seo-con
 import { TEMPLATE_WHY, TEMPLATE_DIFFERENT } from '@/components/SocialPostTemplates/templates/seo-why.js';
 import styles from '../../tool-page.module.css';
 import snip from '../../ui-snippets/[slug]/styles.module.css';
-import local from './styles.module.css';
 
 const BASE = 'https://webdevpuneet.com/social-post-templates/';
 const AUTHOR = { '@type': 'Person', name: 'Puneet Sharma', url: 'https://www.webdevpuneet.com/' };
@@ -59,6 +59,17 @@ export default async function SocialPostTemplatePage({ params }) {
   const size = SIZES.find(z => z.id === (t.defaultSize || 'portrait')) || SIZES[0];
   const previews = previewIds();
   const hasPreview = previews.includes(t.id);
+  // Related strip under the ad, like Related Snippets: every template in this category,
+  // the current one first and highlighted, then the most shared tags
+  const tags = new Set(t.tags);
+  const others = TEMPLATES.filter(x => x.id !== t.id && x.category === t.category)
+    .map((x, i) => ({ x, i, score: x.tags.filter(tag => tags.has(tag)).length }))
+    .sort((a, b) => b.score - a.score || a.i - b.i)
+    .map(r => r.x);
+  const relatedItems = [t, ...others].filter(x => previews.includes(x.id)).map(x => ({
+    id: x.id, title: x.name, href: `/social-post-templates/${x.id}/`, img: previewUrl(x.id),
+    cat: categoryById(x.category)?.label, meta: `v${x.version} · ${SIZES.length} sizes`,
+  }));
 
   const sections = [
     { type: 'features', label: "What's included", heading: 'Features', items: seo.features },
@@ -148,14 +159,19 @@ export default async function SocialPostTemplatePage({ params }) {
       ))}
       <div className={styles.toolSection}><TemplateEditor id={t.id} /></div>
       <IndexOnly>
-        <AdSlot adFirst related={false} />
-        <section className={local.more}>
-          <div className={local.moreHead}>
-            <h2>More social post templates</h2>
-            <a href="/social-post-templates/">See all {TEMPLATES.length} →</a>
-          </div>
-          <TemplateGallery compact excludeId={t.id} limit={8} previews={previews} />
-        </section>
+        <AdSlot
+          adFirst
+          related={relatedItems.length ? (
+            <HomeTemplatesCarousel
+              title="Related Social Post Templates"
+              label={`${relatedItems.length} in ${cat.label} category`}
+              viewAllHref={`/social-post-templates/category/${t.category}/`}
+              items={relatedItems}
+              activeId={t.id}
+              flush
+            />
+          ) : false}
+        />
         <SeoSection
           slug="social-post-templates"
           title={`${t.name} — Free ${cat.label} Social Post Template`}

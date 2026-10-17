@@ -64,7 +64,8 @@ function renderInline(text) {
   if (!text) return text;
   const parts = String(text).split(/(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g);
   return parts.map((part, i) => {
-    if (part.startsWith('**') && part.endsWith('**')) return <strong key={i}>{part.slice(2, -2)}</strong>;
+    // Bold may wrap a link (**[Name](/url/)**), so its inside is rendered inline too
+    if (part.startsWith('**') && part.endsWith('**')) return <strong key={i}>{renderInline(part.slice(2, -2))}</strong>;
     if (part.startsWith('`') && part.endsWith('`')) return <code key={i} className={styles.inlineCode}>{part.slice(1, -1)}</code>;
     const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
     if (linkMatch) return <a key={i} href={linkMatch[2]} className={styles.inlineLink}>{linkMatch[1]}</a>;

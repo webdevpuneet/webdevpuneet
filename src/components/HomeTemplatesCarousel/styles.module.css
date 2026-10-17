@@ -14,7 +14,10 @@
 
 /* Tall email previews pan top -> bottom while hovered, and spring back on leave */
 .scrollImg { object-position: center top; transition: object-position 0.6s ease; }
-a:hover .scrollImg, a:focus-visible .scrollImg { object-position: center bottom; transition: object-position var(--scroll-dur, 4s) linear; }
+a[data-pan] .scrollImg { object-position: center bottom; transition: object-position var(--scroll-dur, 2s) linear; }
 @media (prefers-reduced-motion: reduce) {
-  .scrollImg, a:hover .scrollImg { transition: none; object-position: center top; }
+  .scrollImg, a[data-pan] .scrollImg { transition: none; object-position: center top; }
 }
+
+/* The template whose page this is (related strips) */
+.cardActive, .cardActive:hover { border-color: var(--accent, #6366f1); box-shadow: 0 0 0 1.5px var(--accent, #6366f1); }

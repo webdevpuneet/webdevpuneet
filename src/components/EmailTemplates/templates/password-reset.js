@@ -6,7 +6,7 @@ export default {
   name: 'Password Reset Email',
   version: '1.0.0',
   category: 'transactional',
-  tags: ['password-reset', 'security', 'transactional', 'saas', 'dark-mode'],
+  tags: ['password-reset', 'security', 'account', 'transactional', 'saas', 'dark-mode'],
   created: '2026-10-17',
   updated: '2026-10-17',
   seoTitle: 'Password Reset Email Template — Free Responsive HTML',

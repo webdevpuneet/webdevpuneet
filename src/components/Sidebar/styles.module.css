@@ -1909,3 +1909,21 @@ a.sortBtn { text-decoration: none; }
   /* The bar still runs (it drives rotation) but stays invisible. */
   .blogTickerProgress { opacity: 0; }
 }
+
+/* ── Template groups: collapsible categories inside Email / Social Post Templates ── */
+.tplCat { padding: 0 4px; }
+.tplCatHead {
+  width: 100%; display: flex; align-items: center; gap: 6px;
+  padding: 4px 7px; border: 0; border-radius: 6px; background: none; cursor: pointer;
+  color: var(--text2); font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-align: left;
+  transition: background 0.12s, color 0.12s;
+}
+.tplCatHead:hover { background: rgba(0, 0, 0, 0.05); color: var(--text); }
+.tplCatOpen { color: var(--text); }
+.tplCatChev { flex: none; color: currentColor; opacity: 0.6; transition: transform 0.15s; }
+.tplCatChevOpen { transform: rotate(90deg); }
+.tplCatLabel { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tplCatCount { flex: none; font-size: 9.5px; font-weight: 600; opacity: 0.6; }
+.tplList { padding-left: 12px; }
+.tplAll { font-weight: 600; }
+:global([data-theme="dark"]) .tplCatHead:hover { background: rgba(255, 255, 255, 0.06); }

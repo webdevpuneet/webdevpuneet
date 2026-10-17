@@ -7,7 +7,7 @@ export default {
   name: 'Welcome Email',
   version: '1.0.0',
   category: 'onboarding',
-  tags: ['welcome', 'onboarding', 'saas', 'dark-mode', 'responsive'],
+  tags: ['welcome', 'onboarding', 'sign-up', 'saas', 'dark-mode', 'responsive'],
   created: '2026-10-16',
   updated: '2026-10-16',
   seoTitle: 'Welcome Email Template — Free Responsive HTML Email',

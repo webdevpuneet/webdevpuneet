@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/generate-template-nav.mjs",
     "build": "next build",
+    "templates:nav": "node scripts/generate-template-nav.mjs",
     "postbuild": "node scripts/postbuild.js",
     "make-zip": "node scripts/make-zip.js",
     "tags": "node scripts/generate-snippet-tags.mjs",

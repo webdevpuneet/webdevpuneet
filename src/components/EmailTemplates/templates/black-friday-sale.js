@@ -16,7 +16,7 @@ export default {
   name: 'Black Friday Sale Email',
   version: '1.0.0',
   category: 'marketing',
-  tags: ['black-friday', 'cyber-monday', 'sale', 'promo-code', 'ecommerce'],
+  tags: ['black-friday', 'cyber-monday', 'sale', 'promo-code', 'ecommerce', 'store'],
   created: '2026-10-17',
   updated: '2026-10-17',
   seoTitle: 'Black Friday Email Template — Free HTML Sale & Promo Email',

@@ -15,7 +15,7 @@ export default {
   name: 'Order Confirmation Email',
   version: '1.0.0',
   category: 'transactional',
-  tags: ['order-confirmation', 'ecommerce', 'shopify', 'transactional', 'dark-mode'],
+  tags: ['order-confirmation', 'ecommerce', 'shopify', 'store', 'payment', 'transactional', 'dark-mode'],
   created: '2026-10-17',
   updated: '2026-10-17',
   seoTitle: 'Order Confirmation Email Template — Free HTML for Stores',
