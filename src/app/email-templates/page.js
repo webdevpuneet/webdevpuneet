@@ -4,6 +4,7 @@ import AdSlot from '@/components/AdSlot';
 import { EmailGalleryPage } from '@/components/EmailTemplates';
 import { EMAIL_TEMPLATES } from '@/components/EmailTemplates/templates/index.js';
 import { EMAIL_DIFFERENT } from '@/components/EmailTemplates/templates/seo-content.js';
+import { emailPreviewIds } from '@/components/EmailTemplates/assets';
 import styles from '../tool-page.module.css';
 
 const PAGE_URL = 'https://webdevpuneet.com/email-templates/';
@@ -112,7 +113,7 @@ export default function EmailTemplatesPage() {
       {[collectionSchema, faqSchema, breadcrumbSchema].map((sc, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sc) }} />
       ))}
-      <div className={`${styles.toolSection} ${styles.toolSectionGallery}`}><EmailGalleryPage /></div>
+      <div className={`${styles.toolSection} ${styles.toolSectionGallery}`}><EmailGalleryPage previews={emailPreviewIds()} /></div>
       <IndexOnly>
         <AdSlot />
         <SeoSection slug="email-templates" title="HTML Email Templates — Free, Responsive, Outlook-Safe" subtitle="Gmail · Outlook · Apple Mail · Dark mode · Copy HTML or fork to My Code" sections={SECTIONS} />

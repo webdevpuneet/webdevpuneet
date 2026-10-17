@@ -37,7 +37,7 @@ export default {
 .cs-body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:calc(var(--u)*6)}
 .cs-title{font-family:var(--font-heading);font-size:calc(var(--u)*13);line-height:1;font-weight:800;letter-spacing:-.035em}
 .cs-acts{display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*2)}
-.cs-acts span{font-size:calc(var(--u)*4);font-weight:700;padding:calc(var(--u)*3) calc(var(--u)*3.4);border-radius:calc(var(--u)*2.4);background:rgba(255,255,255,.6);border:calc(var(--u)*.35) solid var(--text)}
+.cs-acts span{font-size:calc(var(--u)*4);font-weight:700;padding:calc(var(--u)*3) calc(var(--u)*3.4);border-radius:calc(var(--u)*2.4);background:color-mix(in srgb,var(--text) 7%,transparent);border:calc(var(--u)*.35) solid var(--text)}
 .cs-foot{display:flex;align-items:center;gap:calc(var(--u)*3);padding-top:calc(var(--u)*4);border-top:calc(var(--u)*.4) solid var(--text)}
 .cs-logo{width:calc(var(--u)*11);height:calc(var(--u)*11);flex:none}
 .cs-follow{font-size:calc(var(--u)*3.4);font-weight:600}

@@ -29,7 +29,9 @@ export const escBr = s => esc(s).replace(/\r?\n/g, '<br>');
 export function safeUrl(u) {
   const v = String(u ?? '').trim();
   if (!v) return '#';
-  if (/^(https?:|mailto:|tel:|#)/i.test(v)) return v.replace(/"/g, '%22');
+  if (/^(https?:|mailto:|tel:|#|blob:)/i.test(v)) return v.replace(/"/g, '%22');
+  if (/^data:image\/(png|jpe?g|gif|webp);base64,/i.test(v)) return v; // uploads embedded for My Code
+  if (/^images\/[\w.-]+$/.test(v)) return v; // uploaded images next to the email in the ZIP download
   if (/^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(v)) return `https://${v.replace(/"/g, '%22')}`; // "yoursite.com/x" -> https://
   return '#';
 }
@@ -43,7 +45,7 @@ export function preheaderHtml(text, bg) {
 }
 
 /* Bulletproof button: VML round rect for Outlook on Windows, a styled link everywhere else */
-export function buttonHtml({ text, url, bg, color, font, width = 240, height = 50, radius = 10 }) {
+export function buttonHtml({ text, url, bg, color, font, width = 240, height = 50, radius = 10, attrs = '' }) {
   const href = safeUrl(url);
   const arc = Math.round((radius / height) * 100);
   return `<!--[if mso]>
@@ -51,7 +53,7 @@ export function buttonHtml({ text, url, bg, color, font, width = 240, height = 5
 <w:anchorlock/>
 <center style="color:${color};font-family:Arial,sans-serif;font-size:16px;font-weight:bold;">${esc(text)}</center>
 </v:roundrect>
-<![endif]--><!--[if !mso]><!-- --><a href="${href}" target="_blank" class="btn" style="background-color:${bg};border-radius:${radius}px;color:${color};display:inline-block;font-family:${font};font-size:16px;font-weight:700;line-height:${height}px;text-align:center;text-decoration:none;width:${width}px;-webkit-text-size-adjust:none;mso-hide:all;">${esc(text)}</a><!--<![endif]-->`;
+<![endif]--><!--[if !mso]><!-- --><a${attrs} href="${href}" target="_blank" class="btn" style="background-color:${bg};border-radius:${radius}px;color:${color};display:inline-block;font-family:${font};font-size:16px;font-weight:700;line-height:${height}px;text-align:center;text-decoration:none;width:${width}px;-webkit-text-size-adjust:none;mso-hide:all;">${esc(text)}</a><!--<![endif]-->`;
 }
 
 /* Turns an email into a plain-text version: shared helper for templates */

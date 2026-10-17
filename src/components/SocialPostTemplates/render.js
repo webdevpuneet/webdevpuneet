@@ -23,6 +23,35 @@ export function defaultState(t) {
   };
 }
 
+/* Carousel tokens in any text field: {n} slide number, {nn} two-digit, {total} slide count */
+export function fillTokens(text, state) {
+  const n = state.slideNo || 1, total = state.slideTotal || 1;
+  return String(text ?? '').replace(/\{nn\}/g, String(n).padStart(2, '0')).replace(/\{n\}/g, String(n)).replace(/\{total\}/g, String(total));
+}
+
+/* Photo crop: scales each photo to cover its frame times its zoom, then positions it.
+   Uses the photo's real size (stored at upload) and the frame's laid-out size, so it is
+   called after fitText (text fitting can change a frame's height). */
+export function layoutImages(root, state) {
+  root.querySelectorAll('[data-image]').forEach(el => {
+    const key = el.dataset.image;
+    const pos = state.imagePos?.[key];
+    const dims = state.imageDims?.[key];
+    if (!el.classList.contains('has-img') || el.dataset.imageFit === 'contain' || (!pos && !dims)) {
+      el.style.backgroundSize = '';
+      el.style.backgroundPosition = '';
+      return;
+    }
+    const zoom = Math.max(1, pos?.zoom || 1);
+    const bw = el.clientWidth, bh = el.clientHeight;
+    if (dims && bw && bh) {
+      const k = Math.max(bw / dims.w, bh / dims.h) * zoom;
+      el.style.backgroundSize = `${(dims.w * k).toFixed(1)}px ${(dims.h * k).toFixed(1)}px`;
+    }
+    el.style.backgroundPosition = `${pos?.x ?? 50}% ${pos?.y ?? 50}%`;
+  });
+}
+
 const usedFonts = (t, state) => [...new Set([state.fonts.heading, state.fonts.body, ...(t.extraFonts || [])])];
 
 /** Loads every Google Font the design uses. */
@@ -51,6 +80,8 @@ const EDITOR_CSS = `
 .spt [contenteditable]:hover{outline:calc(var(--u)*.35) dashed rgba(99,102,241,.75);outline-offset:calc(var(--u)*.8)}
 .spt [contenteditable]:focus{outline:calc(var(--u)*.35) solid #6366f1;outline-offset:calc(var(--u)*.8)}
 .spt [data-image].spt-pick{cursor:pointer}
+.spt [data-image].has-img.spt-pick{cursor:grab}
+.spt [data-image].has-img.spt-pick:active{cursor:grabbing}
 .spt [data-image].spt-pick:hover{outline:calc(var(--u)*.35) dashed rgba(99,102,241,.75);outline-offset:calc(-1*var(--u)*.35)}`;
 
 /** Mounts (or updates) a template in a shadow root and returns its .spt root element. */
@@ -73,7 +104,7 @@ export function mountTemplate(shadow, t, state, { editable = false } = {}) {
   const active = shadow.activeElement;
   root.querySelectorAll('[data-edit]').forEach(el => {
     if (el === active) return; // don't fight the caret while the user types in place
-    el.innerHTML = richText(state.fields[el.dataset.edit] ?? '');
+    el.innerHTML = richText(fillTokens(state.fields[el.dataset.edit] ?? '', state));
   });
   root.querySelectorAll('[data-image]').forEach(el => {
     const src = state.images[el.dataset.image];
@@ -180,6 +211,7 @@ export async function renderImage(t, state, { format = 'png', quality = 0.92 } =
   try {
     const root = mountTemplate(host.attachShadow({ mode: 'open' }), t, state);
     fitText(root);
+    layoutImages(root, state);
     const fontCss = await embeddedFontCss(usedFonts(t, state));
     const canvas = await rasterize(root, t, z, fontCss);
     return await canvasToBlob(canvas, format, quality);
@@ -199,6 +231,7 @@ export function snippetParts(t, state, { includeImages = true } = {}) {
   try {
     const root = mountTemplate(host.attachShadow({ mode: 'open' }), t, state);
     fitText(root);
+    layoutImages(root, state);
     const clone = root.cloneNode(true);
     if (!includeImages) {
       clone.querySelectorAll('[data-image]').forEach(el => { el.style.backgroundImage = ''; el.classList.remove('has-img'); });
@@ -221,6 +254,7 @@ export function standaloneHtml(t, state, { includeImages = true } = {}) {
   try {
     const root = mountTemplate(host.attachShadow({ mode: 'open' }), t, state);
     fitText(root);
+    layoutImages(root, state);
     const clone = root.cloneNode(true);
     if (!includeImages) {
       clone.querySelectorAll('[data-image]').forEach(el => { el.style.backgroundImage = ''; el.classList.remove('has-img'); });

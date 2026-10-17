@@ -5,6 +5,7 @@ import AdSlot from '@/components/AdSlot';
 import { EmailTemplateEditor, EmailShot } from '@/components/EmailTemplates';
 import { EMAIL_TEMPLATES, emailTemplateById, emailCategoryById } from '@/components/EmailTemplates/templates/index.js';
 import { EMAIL_SEO, EMAIL_DIFFERENT } from '@/components/EmailTemplates/templates/seo-content.js';
+import { emailPreviewIds, hasEmailOg, emailOgUrl, emailPreviewUrl } from '@/components/EmailTemplates/assets';
 import styles from '../../tool-page.module.css';
 import snip from '../../ui-snippets/[slug]/styles.module.css';
 
@@ -21,6 +22,8 @@ export async function generateMetadata({ params }) {
   const t = emailTemplateById(id);
   if (!t) return {};
   const url = `${BASE}${t.id}/`;
+  // Share card from scripts/capture-email-previews.mjs, once captured
+  const images = hasEmailOg(t.id) ? [{ url: emailOgUrl(t.id), width: 1200, height: 630, alt: `${t.name} — free responsive HTML email template` }] : undefined;
   return {
     title: t.seoTitle,
     description: t.seoDescription,
@@ -29,8 +32,8 @@ export async function generateMetadata({ params }) {
     robots: { index: true, follow: true },
     alternates: { canonical: url },
     icons: { icon: '/icons/email-templates.svg', shortcut: '/icons/email-templates.svg' },
-    openGraph: { type: 'website', url, siteName: 'webdevpuneet.com', title: t.seoTitle, description: t.seoDescription, locale: 'en_US' },
-    twitter: { card: 'summary_large_image', site: '@webdevpuneet', title: t.seoTitle, description: t.seoDescription },
+    openGraph: { type: 'website', url, siteName: 'webdevpuneet.com', title: t.seoTitle, description: t.seoDescription, locale: 'en_US', ...(images && { images }) },
+    twitter: { card: 'summary_large_image', site: '@webdevpuneet', title: t.seoTitle, description: t.seoDescription, ...(images && { images: [images[0].url] }) },
   };
 }
 
@@ -41,6 +44,7 @@ export default async function EmailTemplatePage({ params }) {
   const seo = EMAIL_SEO[t.id];
   const cat = emailCategoryById(t.category);
   const url = `${BASE}${t.id}/`;
+  const hasPreview = emailPreviewIds().includes(t.id);
 
   const faqs = [
     ...seo.faqs,
@@ -56,7 +60,14 @@ export default async function EmailTemplatePage({ params }) {
       heading: seo.about.title,
       text: seo.about.description,
       quickFacts: false,
-      extra: <div key="shot" className={snip.screenshotFrame}><EmailShot id={t.id} /></div>,
+      extra: (
+        <div key="shot" className={snip.screenshotFrame}>
+          {hasPreview
+            // eslint-disable-next-line @next/next/no-img-element
+            ? <img src={emailPreviewUrl(t.id)} alt={`${t.name} template: ${t.description}`} loading="lazy" className={snip.screenshotImg} />
+            : <EmailShot id={t.id} />}
+        </div>
+      ),
     },
     { type: 'cards', label: 'Why use it', heading: `Why Use the ${t.name} Template`, columns: 3, items: seo.why },
     { type: 'cards', label: 'How it’s different', heading: 'How It’s Different From Other Free Email Templates', columns: 3, items: EMAIL_DIFFERENT },
@@ -89,6 +100,7 @@ export default async function EmailTemplatePage({ params }) {
     genre: cat?.label,
     keywords: [...seo.keywords, ...t.tags].join(', '),
     isAccessibleForFree: true,
+    ...(hasPreview && { image: `https://webdevpuneet.com${emailPreviewUrl(t.id)}` }),
     author: AUTHOR,
   };
   const faqSchema = {

@@ -32,11 +32,11 @@ export default {
     { key: 'preheader', group: 'inbox', label: 'Preheader (inbox preview text)', type: 'text', value: 'Three quick steps to your first project, plus a note from our founder.' },
 
     { key: 'brandName', group: 'brand', label: 'Brand name', type: 'text', value: 'Acme' },
-    { key: 'logoUrl', group: 'brand', label: 'Logo image URL (optional)', type: 'url', value: '', hint: 'Leave empty to show the brand name as text.' },
+    { key: 'logoUrl', group: 'brand', label: 'Logo image URL (optional)', type: 'url', value: '', hint: 'Paste a hosted URL or upload a logo. Leave both empty to show the brand name as text.', upload: { name: 'logo', maxW: 480, mime: 'image/png' } },
     { key: 'logoWidth', group: 'brand', label: 'Logo width (px)', type: 'number', value: '120' },
     { key: 'headerLink', group: 'brand', label: 'Header link', type: 'url', value: 'https://yoursite.com' },
 
-    { key: 'heroUrl', group: 'hero', label: 'Hero image URL', type: 'url', value: HERO, hint: '1200×520 px works best (shown at 600×260).' },
+    { key: 'heroUrl', group: 'hero', label: 'Hero image URL', type: 'url', value: HERO, hint: 'Paste a hosted URL or upload an image. 1200×520 px works best (shown at 600×260).', upload: { name: 'hero', maxW: 1200, mime: 'image/jpeg' } },
     { key: 'heroAlt', group: 'hero', label: 'Hero alt text', type: 'text', value: 'Welcome to Acme' },
 
     { key: 'eyebrow', group: 'main', label: 'Small label', type: 'text', value: 'You’re in' },
@@ -91,23 +91,26 @@ export default {
   fonts: { heading: 'inter', body: 'system' },
 
   /** Full email HTML: tables, inline styles, Outlook (MSO) fixes, mobile and dark-mode CSS */
-  build(s) {
+  build(s, opts = {}) {
     const f = s.fields, v = s.vars, on = s.toggles;
+    // Editor only: data-field marks which field an element shows, so clicks in the preview
+    // can edit it in place or jump to its input. Exported HTML never contains these.
+    const A = key => (opts.edit ? ` data-field="${key}"` : '');
     const hf = fontStackById(s.fonts.heading), bf = fontStackById(s.fonts.body);
     const H = hf.stack.replace(/"/g, "'"), B = bf.stack.replace(/"/g, "'");
     const googles = [...new Set([hf.google, bf.google].filter(Boolean))];
     const logoW = Math.max(40, Math.min(240, parseInt(f.logoWidth, 10) || 120));
     const steps = [1, 2, 3].map(n => ({ n, title: f[`s${n}Title`], text: f[`s${n}Text`] })).filter(x => x.title || x.text);
-    const socials = [['X', f.xUrl], ['LinkedIn', f.linkedinUrl], ['Instagram', f.instagramUrl], ['YouTube', f.youtubeUrl]].filter(([, u]) => String(u || '').trim());
+    const socials = [['X', f.xUrl, 'xUrl'], ['LinkedIn', f.linkedinUrl, 'linkedinUrl'], ['Instagram', f.instagramUrl, 'instagramUrl'], ['YouTube', f.youtubeUrl, 'youtubeUrl']].filter(([, u]) => String(u || '').trim());
 
     const header = f.logoUrl
-      ? `<a href="${safeUrl(f.headerLink)}" target="_blank" style="text-decoration:none;"><img src="${safeUrl(f.logoUrl)}" width="${logoW}" alt="${esc(f.brandName)}" style="display:block;width:${logoW}px;max-width:100%;height:auto;border:0;"></a>`
-      : `<a href="${safeUrl(f.headerLink)}" target="_blank" class="t" style="font-family:${H};font-size:22px;font-weight:800;letter-spacing:-0.4px;color:${v.text};text-decoration:none;"><span style="display:inline-block;width:12px;height:12px;border-radius:4px;background:${v.brand};margin-right:8px;vertical-align:middle;"></span>${esc(f.brandName)}</a>`;
+      ? `<a href="${safeUrl(f.headerLink)}" target="_blank" style="text-decoration:none;"><img${A('logoUrl')} src="${safeUrl(f.logoUrl)}" width="${logoW}" alt="${esc(f.brandName)}" style="display:block;width:${logoW}px;max-width:100%;height:auto;border:0;"></a>`
+      : `<a href="${safeUrl(f.headerLink)}" target="_blank" class="t" style="font-family:${H};font-size:22px;font-weight:800;letter-spacing:-0.4px;color:${v.text};text-decoration:none;"><span style="display:inline-block;width:12px;height:12px;border-radius:4px;background:${v.brand};margin-right:8px;vertical-align:middle;"></span><span${A('brandName')}>${esc(f.brandName)}</span></a>`;
 
     const hero = on.showHero && f.heroUrl ? `
 <tr>
   <td class="hero" style="padding:0;">
-    <img src="${safeUrl(f.heroUrl)}" width="600" alt="${esc(f.heroAlt)}" style="display:block;width:100%;max-width:600px;height:auto;border:0;border-radius:16px 16px 0 0;">
+    <img${A('heroUrl')} src="${safeUrl(f.heroUrl)}" width="600" alt="${esc(f.heroAlt)}" style="display:block;width:100%;max-width:600px;height:auto;border:0;border-radius:16px 16px 0 0;">
   </td>
 </tr>` : '';
 
@@ -115,7 +118,7 @@ export default {
 <tr>
   <td class="px" style="padding:8px 48px 8px;">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-      <tr><td class="t" style="padding:0 0 14px;font-family:${H};font-size:18px;line-height:26px;font-weight:700;color:${v.text};">${esc(f.stepsTitle)}</td></tr>
+      <tr><td class="t" style="padding:0 0 14px;font-family:${H};font-size:18px;line-height:26px;font-weight:700;color:${v.text};"${A('stepsTitle')}>${esc(f.stepsTitle)}</td></tr>
       ${steps.map(st => `<tr>
         <td style="padding:0 0 16px;">
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -126,8 +129,8 @@ export default {
                 </tr></table>
               </td>
               <td valign="top" style="font-family:${B};">
-                <div class="t" style="font-size:16px;line-height:24px;font-weight:700;color:${v.text};">${esc(st.title)}</div>
-                <div class="m" style="font-size:15px;line-height:23px;color:${v.muted};">${esc(st.text)}</div>
+                <div class="t" style="font-size:16px;line-height:24px;font-weight:700;color:${v.text};"${A(`s${st.n}Title`)}>${esc(st.title)}</div>
+                <div class="m" style="font-size:15px;line-height:23px;color:${v.muted};"${A(`s${st.n}Text`)}>${esc(st.text)}</div>
               </td>
             </tr>
           </table>
@@ -142,9 +145,9 @@ export default {
   <td class="px" style="padding:8px 48px 40px;">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
       <tr><td class="line" style="border-top:1px solid #e2e8f0;padding:28px 0 0;font-family:${B};">
-        <p class="t" style="margin:0 0 16px;font-size:15px;line-height:24px;color:${v.text};font-style:italic;">${escBr(f.noteText)}</p>
-        <p class="t" style="margin:0;font-size:15px;line-height:22px;font-weight:700;color:${v.text};">${esc(f.noteName)}</p>
-        <p class="m" style="margin:0;font-size:14px;line-height:20px;color:${v.muted};">${esc(f.noteRole)}</p>
+        <p class="t" style="margin:0 0 16px;font-size:15px;line-height:24px;color:${v.text};font-style:italic;"${A('noteText')}>${escBr(f.noteText)}</p>
+        <p class="t" style="margin:0;font-size:15px;line-height:22px;font-weight:700;color:${v.text};"${A('noteName')}>${esc(f.noteName)}</p>
+        <p class="m" style="margin:0;font-size:14px;line-height:20px;color:${v.muted};"${A('noteRole')}>${esc(f.noteRole)}</p>
       </td></tr>
     </table>
   </td>
@@ -153,7 +156,7 @@ export default {
     const socialHtml = on.showSocial && socials.length ? `
 <tr>
   <td align="center" style="padding:0 0 14px;font-family:${B};font-size:13px;line-height:20px;">
-    ${socials.map(([label, u]) => `<a href="${safeUrl(u)}" target="_blank" style="color:${v.brand};font-weight:700;text-decoration:none;">${label}</a>`).join(' <span class="m" style="color:#94a3b8;">&nbsp;&middot;&nbsp;</span> ')}
+    ${socials.map(([label, u, key]) => `<a${A(key)} href="${safeUrl(u)}" target="_blank" style="color:${v.brand};font-weight:700;text-decoration:none;">${label}</a>`).join(' <span class="m" style="color:#94a3b8;">&nbsp;&middot;&nbsp;</span> ')}
   </td>
 </tr>` : '';
 
@@ -215,10 +218,10 @@ ${preheaderHtml(f.preheader, v.bg)}
 ${hero}
               <tr>
                 <td class="px" style="padding:${hero ? 40 : 48}px 48px 8px;font-family:${B};">
-                  ${f.eyebrow ? `<p style="margin:0 0 10px;font-family:${H};font-size:13px;line-height:18px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${v.brand};">${esc(f.eyebrow)}</p>` : ''}
-                  <h1 class="h1 t" style="margin:0 0 16px;font-family:${H};font-size:32px;line-height:40px;font-weight:800;letter-spacing:-0.6px;color:${v.text};">${esc(f.headline)}</h1>
-                  <p class="m" style="margin:0 0 28px;font-size:16px;line-height:26px;color:${v.muted};">${escBr(f.intro)}</p>
-                  ${f.ctaText ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding:0 0 32px;">${buttonHtml({ text: f.ctaText, url: f.ctaUrl, bg: v.brand, color: v.btnText, font: H })}</td></tr></table>` : ''}
+                  ${f.eyebrow ? `<p style="margin:0 0 10px;font-family:${H};font-size:13px;line-height:18px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${v.brand};"${A('eyebrow')}>${esc(f.eyebrow)}</p>` : ''}
+                  <h1 class="h1 t" style="margin:0 0 16px;font-family:${H};font-size:32px;line-height:40px;font-weight:800;letter-spacing:-0.6px;color:${v.text};"${A('headline')}>${esc(f.headline)}</h1>
+                  <p class="m" style="margin:0 0 28px;font-size:16px;line-height:26px;color:${v.muted};"${A('intro')}>${escBr(f.intro)}</p>
+                  ${f.ctaText ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding:0 0 32px;">${buttonHtml({ text: f.ctaText, url: f.ctaUrl, bg: v.brand, color: v.btnText, font: H, attrs: A('ctaText') })}</td></tr></table>` : ''}
                 </td>
               </tr>
 ${stepsHtml}
@@ -232,8 +235,8 @@ ${noteHtml}
 ${socialHtml}
               <tr>
                 <td align="center" class="m" style="font-family:${B};font-size:12px;line-height:19px;color:${v.muted};">
-                  ${f.reason ? `${esc(f.reason)}<br>` : ''}${escBr(f.address)}<br><br>
-                  <a href="${safeUrl(f.unsubscribeUrl)}" target="_blank" class="m" style="color:${v.muted};text-decoration:underline;">Unsubscribe</a>${f.prefsUrl ? ` &nbsp;&middot;&nbsp; <a href="${safeUrl(f.prefsUrl)}" target="_blank" class="m" style="color:${v.muted};text-decoration:underline;">Email preferences</a>` : ''}
+                  ${f.reason ? `<span${A('reason')}>${esc(f.reason)}</span><br>` : ''}<span${A('address')}>${escBr(f.address)}</span><br><br>
+                  <a${A('unsubscribeUrl')} href="${safeUrl(f.unsubscribeUrl)}" target="_blank" class="m" style="color:${v.muted};text-decoration:underline;">Unsubscribe</a>${f.prefsUrl ? ` &nbsp;&middot;&nbsp; <a${A('prefsUrl')} href="${safeUrl(f.prefsUrl)}" target="_blank" class="m" style="color:${v.muted};text-decoration:underline;">Email preferences</a>` : ''}
                 </td>
               </tr>
             </table>

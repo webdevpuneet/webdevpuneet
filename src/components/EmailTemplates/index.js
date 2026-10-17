@@ -4,10 +4,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import s from '../SocialPostTemplates/styles.module.css';
 import e from './styles.module.css';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
+import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 import { EMAIL_TEMPLATES, emailTemplateById, emailCategoryById, defaultEmailState, FONT_STACKS } from './templates/index.js';
 import { previewImages, forceDark } from './templates/meta.js';
-import { PALETTES, parseHex, onColor } from '../OgImageGenerator/engine';
+import { PALETTES, parseHex, onColor, FONTS } from '../OgImageGenerator/engine';
+import { BrandKitPanel, loadKit, kitIsSet } from '@/components/BrandKit';
 import { dbPut } from '@/lib/uiSnippetsDb';
+import { openForkTab } from '@/lib/open-fork-tab';
+import { putAsset, getAsset, deleteAsset, assetKeys } from './assetsDb';
+import { revealInPanel } from '@/lib/reveal-in-panel';
 
 const LS_PREFIX = 'wdp-email-v1:';
 const GMAIL_CLIP = 102 * 1024; // Gmail clips messages larger than ~102 KB
@@ -22,10 +27,43 @@ function saveBlob(blob, name) {
   setTimeout(() => URL.revokeObjectURL(url), 1500);
 }
 
+/* Uploaded email images: resized in the browser (GIFs kept as-is, so animation survives) */
+function prepareUpload(file, { maxW, mime }) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const w0 = img.naturalWidth || maxW, h0 = img.naturalHeight || maxW;
+      if (file.type === 'image/gif') { URL.revokeObjectURL(url); resolve({ blob: file, type: 'image/gif', w: w0, h: h0 }); return; }
+      const k = Math.min(1, maxW / w0);
+      const w = Math.round(w0 * k), h = Math.round(h0 * k);
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      const ctx = c.getContext('2d');
+      const type = file.type === 'image/png' || mime === 'image/png' ? 'image/png' : 'image/jpeg';
+      if (type === 'image/jpeg') { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h); } // JPEG has no transparency
+      ctx.drawImage(img, 0, 0, w, h);
+      URL.revokeObjectURL(url);
+      c.toBlob(b => (b ? resolve({ blob: b, type, w, h }) : reject(new Error('Could not process that image'))), type, 0.85);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Could not read that image')); };
+    img.src = url;
+  });
+}
+const blobToDataUrl = blob => new Promise((resolve, reject) => {
+  const fr = new FileReader();
+  fr.onload = () => resolve(fr.result);
+  fr.onerror = reject;
+  fr.readAsDataURL(blob);
+});
+const EXT = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/gif': 'gif', 'image/webp': 'webp' };
+
 /* Email preview in an iframe; grows to the email's height */
-function EmailFrame({ html, width, scale = 1, interactive = true }) {
+function EmailFrame({ html, width, scale = 1, interactive = true, onDoc }) {
   const ref = useRef(null);
   const [h, setH] = useState(900);
+  const onDocRef = useRef(onDoc);
+  onDocRef.current = onDoc;
   useEffect(() => {
     const frame = ref.current;
     if (!frame) return undefined;
@@ -36,6 +74,7 @@ function EmailFrame({ html, width, scale = 1, interactive = true }) {
       if (!doc?.documentElement) return;
       const fit = () => setH(Math.max(400, doc.documentElement.scrollHeight));
       fit();
+      onDocRef.current?.(doc);
       ro?.disconnect();
       if (typeof ResizeObserver !== 'undefined') {
         ro = new ResizeObserver(fit);
@@ -58,7 +97,7 @@ function EmailFrame({ html, width, scale = 1, interactive = true }) {
 }
 
 /* ── Gallery ─────────────────────────────────────────────────────────────────── */
-function GalleryCard({ t }) {
+function GalleryCard({ t, preview }) {
   const ref = useRef(null);
   const [w, setW] = useState(0);
   const [origin, setOrigin] = useState('');
@@ -74,7 +113,11 @@ function GalleryCard({ t }) {
   return (
     <a className={s.card} href={`/email-templates/${t.id}/`}>
       <div ref={ref} className={e.cardPreview}>
-        {w > 0 && origin && <EmailFrame html={html} width={640} scale={w / 640} interactive={false} />}
+        {preview
+          // Captured screenshot when available: lighter than a live email preview
+          // eslint-disable-next-line @next/next/no-img-element
+          ? <img className={e.cardImg} src={`/images/email-templates/previews/${t.id}.png`} alt={`${t.name} preview`} loading="lazy" />
+          : w > 0 && origin && <EmailFrame html={html} width={640} scale={w / 640} interactive={false} />}
       </div>
       <div className={s.cardBody}>
         <span className={s.cardCat}>{emailCategoryById(t.category)?.label}</span>
@@ -85,12 +128,12 @@ function GalleryCard({ t }) {
   );
 }
 
-export function EmailTemplateGallery({ excludeId = null }) {
+export function EmailTemplateGallery({ excludeId = null, previews = [] }) {
   const list = EMAIL_TEMPLATES.filter(t => t.id !== excludeId);
   return (
     <div className={s.gallery} data-spt-gallery>
       <div className={s.grid}>
-        {list.map(t => <GalleryCard key={t.id} t={t} />)}
+        {list.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}
         <div className={e.soon}>
           <strong>More templates coming</strong>
           <span>Password reset, order confirmation, newsletter, receipts and more are on the way.</span>
@@ -100,9 +143,10 @@ export function EmailTemplateGallery({ excludeId = null }) {
   );
 }
 
-export function EmailGalleryPage() {
+export function EmailGalleryPage({ previews = [] }) {
   return (
     <div className={s.galleryPage}>
+      <ImageToolsTopNav active="email-templates" />
       <PlaygroundTopAd />
       <header className={s.galleryHead}>
         <h1 className={s.galleryH1}>Email Templates</h1>
@@ -111,7 +155,7 @@ export function EmailGalleryPage() {
           Edit them in your browser, preview desktop, mobile and dark mode, then copy the HTML or fork it into My Code.
         </p>
       </header>
-      <EmailTemplateGallery />
+      <EmailTemplateGallery previews={previews} />
     </div>
   );
 }
@@ -164,6 +208,19 @@ function ColorField({ label, value, onChange }) {
   );
 }
 
+/* Brand kit -> email: brand colour (button text picked for contrast), name, hosted logo,
+   website and fonts. Fonts emails can't use fall back to Arial or Georgia stacks. */
+function withKit(prev, kit) {
+  const fontFor = fid => (FONT_STACKS.some(f => f.id === fid) ? fid : FONTS.find(f => f.id === fid)?.fallback === 'serif' ? 'georgia' : 'system');
+  const vars = { ...prev.vars, brand: kit.primary, btnText: onColor(kit.primary) };
+  if (kit.applyAllColors && kit.text) vars.text = kit.text;
+  const fields = { ...prev.fields };
+  if (kit.name) fields.brandName = kit.name;
+  if (kit.logoUrl) fields.logoUrl = kit.logoUrl;
+  if (kit.website) fields.headerLink = kit.website;
+  return { ...prev, vars, fields, fonts: { heading: fontFor(kit.headingFont), body: fontFor(kit.bodyFont) } };
+}
+
 export function EmailTemplateEditor({ id }) {
   const t = emailTemplateById(id);
   const [state, setState] = useState(() => defaultEmailState(t));
@@ -186,7 +243,13 @@ export function EmailTemplateEditor({ id }) {
       if (saved) {
         const d = defaultEmailState(t);
         const pick = (src, def) => ({ ...def, ...Object.fromEntries(Object.entries(src || {}).filter(([k]) => k in def)) });
-        setState({ fields: pick(saved.fields, d.fields), toggles: pick(saved.toggles, d.toggles), vars: pick(saved.vars, d.vars), fonts: pick(saved.fonts, d.fonts) });
+        const uploads = Object.fromEntries(Object.entries(saved.uploads || {}).filter(([k, u]) => u?.id && t.fields.some(x => x.key === k && x.upload)));
+        setState({ fields: pick(saved.fields, d.fields), toggles: pick(saved.toggles, d.toggles), vars: pick(saved.vars, d.vars), fonts: pick(saved.fonts, d.fonts), uploads, assetBase: saved.assetBase || '' });
+        const keep = new Set(Object.values(uploads).map(u => u.id));
+        assetKeys(`${t.id}:`).then(keys => keys.filter(k => !keep.has(k)).forEach(k => deleteAsset(k))).catch(() => {});
+      } else {
+        const kit = loadKit();
+        if (kit?.autoApply && kitIsSet(kit)) setState(withKit(defaultEmailState(t), kit));
       }
     } catch { /* storage blocked */ }
     hist.current.skip = true;
@@ -256,10 +319,46 @@ export function EmailTemplateEditor({ id }) {
   const canRedo = hist.current.future.length > 0;
 
   /* Output */
-  const html = useMemo(() => t.build(state), [t, state]);
-  const text = useMemo(() => t.text(state), [t, state]);
+  /* Uploaded images: blobs live in IndexedDB; previews use object URLs */
+  const uploads = state.uploads || {};
+  const [blobUrls, setBlobUrls] = useState({});
+  const blobUrlsRef = useRef(blobUrls);
+  blobUrlsRef.current = blobUrls;
+  useEffect(() => {
+    let live = true;
+    Object.values(uploads).forEach(u => {
+      if (blobUrlsRef.current[u.id]) return;
+      getAsset(u.id).then(rec => {
+        if (live && rec?.blob) setBlobUrls(m => (m[u.id] ? m : { ...m, [u.id]: URL.createObjectURL(rec.blob) }));
+      }).catch(() => {});
+    });
+    return () => { live = false; };
+  }, [uploads]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => () => Object.values(blobUrlsRef.current).forEach(u => URL.revokeObjectURL(u)), []);
+  const assetBase = String(state.assetBase || '').trim().replace(/\/+$/, '');
+  const imagePath = key => (assetBase ? `${assetBase}/${uploads[key].file}` : `images/${uploads[key].file}`);
+  const exportState = useMemo(() => {
+    const fields = { ...state.fields };
+    Object.keys(uploads).forEach(k => { fields[k] = imagePath(k); });
+    return { ...state, fields };
+  }, [state]); // eslint-disable-line react-hooks/exhaustive-deps
+  const previewState = useMemo(() => {
+    const fields = { ...state.fields };
+    Object.entries(uploads).forEach(([k, u]) => { if (blobUrls[u.id]) fields[k] = blobUrls[u.id]; });
+    return { ...state, fields };
+  }, [state, blobUrls]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const html = useMemo(() => t.build(exportState), [t, exportState]);
+  const editHtml = useMemo(() => t.build(previewState, { edit: true }), [t, previewState]);
+  const text = useMemo(() => t.text(exportState), [t, exportState]);
   const bytes = useMemo(() => new Blob([html]).size, [html]);
-  const previewHtml = useMemo(() => previewImages(dark ? forceDark(html) : html, origin), [html, dark, origin]);
+  const liveHtml = useMemo(() => previewImages(dark ? forceDark(editHtml) : editHtml, origin), [editHtml, dark, origin]);
+  // While text is being edited inside the preview, keep its document as-is (a new srcDoc
+  // would reload the frame and drop the caret); it refreshes when editing ends.
+  const [frozenHtml, setFrozenHtml] = useState(null);
+  const liveHtmlRef = useRef(liveHtml);
+  liveHtmlRef.current = liveHtml;
+  const previewHtml = frozenHtml ?? liveHtml;
 
   const setField = (key, val) => setState(p => ({ ...p, fields: { ...p.fields, [key]: val } }));
   const setToggle = (key, val) => setState(p => ({ ...p, toggles: { ...p.toggles, [key]: val } }));
@@ -268,12 +367,67 @@ export function EmailTemplateEditor({ id }) {
   const applyPalette = p => setState(prev => ({ ...prev, vars: { ...prev.vars, brand: p.accentColor, btnText: onColor(p.accentColor) } }));
   const toggleGroup = gid => setOpen(prev => { const n = new Set(prev); if (n.has(gid)) n.delete(gid); else n.add(gid); return n; });
 
+  /* Click-to-edit in the preview */
+  // Opens the field's group, scrolls its input into view and flashes it. Inputs for images
+  // and links also take focus; text being edited in the preview keeps the caret there.
+  const revealField = useCallback((key, focusInput) => {
+    const fd = t.fields.find(x => x.key === key);
+    if (!fd) return;
+    setOpen(prev => (prev.has(fd.group) ? prev : new Set(prev).add(fd.group)));
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      const input = document.getElementById(`em-${key}`);
+      if (!input) return;
+      revealInPanel(input.closest('[data-fieldwrap]') || input, e.flash);
+      if (focusInput) { input.focus({ preventScroll: true }); input.select?.(); }
+    }));
+  }, [t]);
+
+  const bindPreview = useCallback(doc => {
+    const style = doc.createElement('style');
+    style.textContent = '[data-field]{cursor:pointer}[data-field]:hover{outline:2px dashed rgba(99,102,241,.75);outline-offset:3px}[data-field][contenteditable]{outline:2px solid #6366f1 !important;outline-offset:3px;cursor:text}';
+    doc.head.appendChild(style);
+    doc.addEventListener('click', ev => {
+      if (ev.target.closest('a')) ev.preventDefault(); // links don't navigate inside the editor
+      const el = ev.target.closest('[data-field]');
+      if (!el || el.isContentEditable) return;
+      const fd = t.fields.find(x => x.key === el.dataset.field);
+      if (!fd) return;
+      if (fd.type !== 'text' && fd.type !== 'textarea') { revealField(fd.key, true); return; }
+      // Text: edit it right here in the preview
+      setFrozenHtml(cur => cur ?? liveHtmlRef.current);
+      try { el.contentEditable = 'plaintext-only'; } catch { el.contentEditable = 'true'; }
+      el.focus();
+      const range = doc.caretRangeFromPoint?.(ev.clientX, ev.clientY);
+      if (range) { const sel = doc.getSelection(); sel.removeAllRanges(); sel.addRange(range); }
+      // textContent for one-line fields (innerText would bake in CSS uppercase), innerText for multi-line
+      const read = () => (fd.type === 'textarea' ? el.innerText.replace(/\n$/, '') : el.textContent);
+      const onInput = () => setField(fd.key, read());
+      const onKey = k => { if (k.key === 'Escape' || (k.key === 'Enter' && fd.type !== 'textarea')) { k.preventDefault(); el.blur(); } };
+      const onBlur = () => {
+        el.removeEventListener('input', onInput);
+        el.removeEventListener('keydown', onKey);
+        el.removeEventListener('blur', onBlur);
+        el.removeAttribute('contenteditable');
+        setFrozenHtml(null);
+      };
+      el.addEventListener('input', onInput);
+      el.addEventListener('keydown', onKey);
+      el.addEventListener('blur', onBlur);
+      revealField(fd.key, false);
+    }, true);
+  }, [t, revealField]); // eslint-disable-line react-hooks/exhaustive-deps
+
   /* Pre-send checks */
   const f = state.fields;
   const checks = [];
   if (bytes > GMAIL_CLIP) checks.push({ level: 'bad', text: `The email is ${fmtKB(bytes)}. Gmail clips messages over 102 KB and hides the rest, including your unsubscribe link.` });
   else if (bytes > 80 * 1024) checks.push({ level: 'warn', text: `The email is ${fmtKB(bytes)}, close to Gmail’s 102 KB clipping limit.` });
+  if (Object.keys(uploads).length) {
+    if (!assetBase) checks.push({ level: 'warn', text: 'You uploaded images. Use Download ZIP (images sit next to the email in an images folder), or host them and set the Image base URL before pasting the HTML into an email service.' });
+    else if (!/^https:\/\//i.test(assetBase)) checks.push({ level: 'bad', text: 'The Image base URL must start with https:// so email clients can load your uploaded images.' });
+  }
   ['logoUrl', 'heroUrl'].forEach(k => {
+    if (uploads[k]) return; // uploaded: served from the ZIP's images folder or the base URL
     const v = String(f[k] || '').trim();
     if (!v || (k === 'heroUrl' && !state.toggles.showHero)) return;
     if (!/^https:\/\//i.test(v)) checks.push({ level: 'bad', text: `${t.fields.find(x => x.key === k)?.label.replace(/ \(optional\)/i, '')} must be a full https:// URL. Email clients can’t load local or relative images.` });
@@ -288,11 +442,64 @@ export function EmailTemplateEditor({ id }) {
   if (ph && (ph < 35 || ph > 140)) checks.push({ level: 'warn', text: `The preheader is ${ph} characters. 40 to 130 fills the inbox preview without being cut off.` });
 
   /* Actions */
-  const copy = async (str, what) => {
-    try { await navigator.clipboard.writeText(str); flash(`${what} copied`); }
+  const copy = async (str, what, note) => {
+    try { await navigator.clipboard.writeText(str); flash(note || `${what} copied`); }
     catch { flash('Copy blocked by the browser, so use the download button instead'); }
   };
+  const fileRef = useRef(null);
+  const uploadField = useRef(null);
+  const pickUpload = fd => { uploadField.current = fd; fileRef.current?.click(); };
+  const onUploadFile = async ev => {
+    const file = ev.target.files?.[0];
+    ev.target.value = '';
+    const fd = uploadField.current;
+    if (!file || !fd) return;
+    try {
+      const out = await prepareUpload(file, fd.upload);
+      const id = `${t.id}:${fd.key}:${Date.now().toString(36)}`;
+      const name = `${fd.upload.name}.${EXT[out.type] || 'png'}`;
+      await putAsset(id, { blob: out.blob, type: out.type, name, w: out.w, h: out.h, updatedAt: new Date().toISOString() });
+      setState(p => ({ ...p, uploads: { ...(p.uploads || {}), [fd.key]: { id, file: name, type: out.type, w: out.w, h: out.h, size: out.blob.size } } }));
+      flash(`Uploaded ${name} (${out.w}×${out.h}, ${fmtKB(out.blob.size)}). Saved in this browser.`);
+    } catch (err) { flash(err.message || 'Upload failed'); }
+  };
+  const removeUpload = key => setState(p => { const u = { ...(p.uploads || {}) }; delete u[key]; return { ...p, uploads: u }; });
+
+  // ZIP: the email, its plain-text version and the uploaded images, ready to extract and host
+  const downloadZip = async () => {
+    setBusy('zip');
+    try {
+      const { default: JSZip } = await import('jszip');
+      const zip = new JSZip();
+      const dir = zip.folder(`${t.id}-email`);
+      dir.file(`${t.id}.html`, html);
+      dir.file(`${t.id}.txt`, text);
+      const files = [];
+      for (const u of Object.values(uploads)) {
+        const rec = await getAsset(u.id);
+        if (rec?.blob) { dir.file(`images/${u.file}`, rec.blob); files.push(u.file); }
+      }
+      dir.file('README.txt', [
+        `${t.name} v${t.version} \u2014 https://webdevpuneet.com/email-templates/${t.id}/`,
+        '',
+        `${t.id}.html  the email (HTML)`,
+        `${t.id}.txt   plain-text version for the multipart text part`,
+        files.length ? `images/       ${files.join(', ')}` : '',
+        '',
+        files.length
+          ? (assetBase
+            ? `Image links point to ${assetBase}/. Upload the files in images/ there before sending.`
+            : 'Image links are relative (images/...). Upload the images folder to your server or email service and update the links, or set an Image base URL in the editor and export again.')
+          : 'No uploaded images: all images use the URLs set in the editor.',
+      ].filter((l, i, a) => l || a[i - 1]).join('\n'));
+      saveBlob(await zip.generateAsync({ type: 'blob' }), `${t.id}-email.zip`);
+      flash(files.length ? `Downloaded ZIP with ${files.length} image${files.length > 1 ? 's' : ''}` : 'Downloaded ZIP');
+    } catch (err) { flash(`ZIP failed: ${err.message}`); }
+    setBusy('');
+  };
+
   const forkToMyCode = async () => {
+    const tab = openForkTab();
     setBusy('fork');
     try {
       // The whole email document goes into the HTML panel as-is (head styles, Outlook
@@ -300,10 +507,18 @@ export function EmailTemplateEditor({ id }) {
       // CSS and JS stay empty, and My Code opens with those panels collapsed.
       const now = new Date().toISOString();
       const rid = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `em-${Date.now().toString(36)}`;
-      await dbPut({ id: rid, name: `${t.name} (email)`, tags: ['email'], cdnUrls: [], html, css: '', js: '', createdAt: now, updatedAt: now });
-      flash('Forked to My Code. Opening it…');
-      window.location.href = `/ui-snippets/mycode/?id=${rid}`;
-    } catch (err) { flash(`Couldn't save to My Code: ${err.message}`); setBusy(''); }
+      // Uploaded images are embedded as data URLs: My Code can't read this tool's image store
+      let forkHtml = html;
+      if (Object.keys(uploads).length) {
+        const fields = { ...state.fields };
+        for (const [k, u] of Object.entries(uploads)) { const rec = await getAsset(u.id); if (rec?.blob) fields[k] = await blobToDataUrl(rec.blob); }
+        forkHtml = t.build({ ...state, fields });
+      }
+      await dbPut({ id: rid, name: `${t.name} (email)`, tags: ['email'], cdnUrls: [], html: forkHtml, css: '', js: '', createdAt: now, updatedAt: now });
+      tab.go(rid);
+      flash('Forked to My Code. It opened in a new tab.');
+    } catch (err) { tab.cancel(); flash(`Couldn't save to My Code: ${err.message}`); }
+    setBusy('');
   };
 
   const cat = emailCategoryById(t.category);
@@ -312,28 +527,50 @@ export function EmailTemplateEditor({ id }) {
 
   return (
     <div className={s.wrap}>
+      <ImageToolsTopNav active="email-templates" />
+      <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/gif,image/webp" className={s.fileInput} onChange={onUploadFile} />
       <div className={s.body}>
         <aside className={s.controls}>
           <div className={s.panelHead}>
-            <a href="/email-templates/" className={s.back}>← All email templates</a>
+            <a href="/email-templates/" className={s.toolBrand} title="All email templates">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/icons/email-templates.svg" alt="" width={26} height={26} />
+              <span>Email Templates</span>
+            </a>
             <div className={s.titleRow}>
               <h1 className={s.title}>{t.name}</h1>
               <span className={s.version}>v{t.version}</span>
             </div>
             <div className={s.headActions}>
-              <button type="button" className={s.primaryBtn} onClick={() => copy(html, 'Email HTML')}>Copy HTML</button>
+              <button type="button" className={s.primaryBtn} onClick={() => copy(html, 'Email HTML', Object.keys(uploads).length && !assetBase ? 'HTML copied. Uploaded images link to images/, so set an Image base URL or use Download ZIP.' : '')}>Copy HTML</button>
               <button type="button" className={s.btn} onClick={forkToMyCode} disabled={!!busy} title="Save an editable copy of the code in My Code">
                 {busy === 'fork' ? 'Forking…' : 'Fork to My Code'}
               </button>
             </div>
             <div className={s.miniRow}>
+              <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={downloadZip} disabled={!!busy} title="Email HTML, plain text and uploaded images in one ZIP">{busy === 'zip' ? 'Zipping…' : 'Download ZIP'}</button>
               <button type="button" className={s.miniBtn} onClick={() => saveBlob(new Blob([html], { type: 'text/html' }), `${t.id}-email.html`)}>Download .html</button>
               <button type="button" className={s.miniBtn} onClick={() => copy(text, 'Plain-text version')}>Copy plain text</button>
               <button type="button" className={s.miniBtn} onClick={undo} disabled={!canUndo} title="Undo (Ctrl+Z)">↶ Undo</button>
               <button type="button" className={s.miniBtn} onClick={redo} disabled={!canRedo} title="Redo (Ctrl+Shift+Z)">↷ Redo</button>
-              <button type="button" className={s.miniBtn} onClick={() => setState(defaultEmailState(t))} title="Back to the original (undo brings your edits back)">Reset</button>
+              <button type="button" className={s.miniBtn} onClick={() => setState({ ...defaultEmailState(t), assetBase: state.assetBase || '' })} title="Back to the original (undo brings your edits back)">Reset</button>
             </div>
           </div>
+
+          <BrandKitPanel
+            emailMode
+            onToast={flash}
+            onApply={kit => setState(p => withKit(p, kit))}
+            onSaveFrom={() => ({
+              primary: state.vars.brand,
+              text: state.vars.text,
+              headingFont: state.fonts.heading,
+              bodyFont: state.fonts.body,
+              ...(state.fields.brandName ? { name: state.fields.brandName } : {}),
+              ...(/^https:\/\//.test(state.fields.logoUrl || '') ? { logoUrl: state.fields.logoUrl } : {}),
+              ...(state.fields.headerLink && !/yoursite\.com/.test(state.fields.headerLink) ? { website: state.fields.headerLink } : {}),
+            })}
+          />
 
           {t.groups.map(g => {
             const fields = t.fields.filter(x => x.group === g.id);
@@ -356,11 +593,25 @@ export function EmailTemplateEditor({ id }) {
                 {isOpen && (
                   <div className={`${e.groupBody} ${enabled ? '' : e.groupOff}`}>
                     {fields.map(fd => (
-                      <div key={fd.key} className={s.field}>
+                      <div key={fd.key} className={s.field} data-fieldwrap>
                         <label className={s.label} htmlFor={`em-${fd.key}`}>{fd.label}</label>
                         {fd.type === 'textarea'
                           ? <textarea id={`em-${fd.key}`} className={s.textarea} rows={3} value={f[fd.key] ?? ''} onChange={ev => setField(fd.key, ev.target.value)} />
-                          : <input id={`em-${fd.key}`} className={s.input} type={fd.type === 'number' ? 'number' : 'text'} inputMode={fd.type === 'url' ? 'url' : undefined} value={f[fd.key] ?? ''} onChange={ev => setField(fd.key, ev.target.value)} spellCheck={fd.type !== 'url'} />}
+                          : <input id={`em-${fd.key}`} className={s.input} type={fd.type === 'number' ? 'number' : 'text'} inputMode={fd.type === 'url' ? 'url' : undefined} value={uploads[fd.key] ? imagePath(fd.key) : (f[fd.key] ?? '')} onChange={ev => setField(fd.key, ev.target.value)} spellCheck={fd.type !== 'url'} disabled={!!uploads[fd.key]} title={uploads[fd.key] ? 'Using your uploaded image; remove it to paste a URL instead' : undefined} />}
+                        {fd.upload && (
+                          <div className={e.uploadRow}>
+                            {uploads[fd.key] ? (
+                              <>
+                                {blobUrls[uploads[fd.key].id] ? <img className={e.uploadThumb} src={blobUrls[uploads[fd.key].id]} alt="" /> : <span className={e.uploadThumb} />}
+                                <span className={e.uploadName}>{uploads[fd.key].file} · {uploads[fd.key].w}×{uploads[fd.key].h}</span>
+                                <button type="button" className={s.miniBtn} onClick={() => pickUpload(fd)}>Replace</button>
+                                <button type="button" className={s.miniBtn} onClick={() => removeUpload(fd.key)}>Remove</button>
+                              </>
+                            ) : (
+                              <button type="button" className={s.miniBtn} onClick={() => pickUpload(fd)}>↑ Upload image</button>
+                            )}
+                          </div>
+                        )}
                         {fd.hint && <span className={s.hint}>{fd.hint}</span>}
                         {fd.key === 'subject' && <span className={s.hint}>{(f.subject || '').length} characters (aim for under 60)</span>}
                         {fd.key === 'preheader' && <span className={s.hint}>{(f.preheader || '').length} characters (aim for 40 to 130)</span>}
@@ -371,6 +622,18 @@ export function EmailTemplateEditor({ id }) {
               </section>
             );
           })}
+
+          <section className={s.section}>
+            <h2 className={s.sectionTitle}>Image hosting</h2>
+            <div className={s.field}>
+              <label className={s.label} htmlFor="em-assetBase">Image base URL (optional)</label>
+              <input id="em-assetBase" className={s.input} inputMode="url" spellCheck={false} placeholder="https://cdn.yoursite.com/email/" value={state.assetBase || ''} onChange={ev => setState(p => ({ ...p, assetBase: ev.target.value }))} />
+              <span className={s.hint}>
+                Uploaded images are saved in this browser and packed into <strong>Download ZIP</strong> as an <code>images</code> folder.
+                Once you host them, put their folder URL here and every export links to it.
+              </span>
+            </div>
+          </section>
 
           <section className={s.section}>
             <h2 className={s.sectionTitle}>Colours</h2>
@@ -445,8 +708,9 @@ export function EmailTemplateEditor({ id }) {
                   </div>
                 </div>
                 <div className={`${e.device} ${device === 'mobile' ? e.deviceMobile : ''}`} style={{ width: frameW }}>
-                  {origin && <EmailFrame key={`${device}-${dark}`} html={previewHtml} width={frameW} />}
+                  {origin && <EmailFrame key={`${device}-${dark}`} html={previewHtml} width={frameW} onDoc={bindPreview} />}
                 </div>
+                <p className={e.stageHint}>Click any text to edit it right here · click an image or link to jump to its setting</p>
               </>
             )}
             {view !== 'preview' && (
