@@ -7,11 +7,12 @@
    are inlined and uploads are kept as data URLs. */
 
 import { BASE_CSS, sizeById, richText } from './templates/index.js';
-import { FONTS, ensureFont } from '../OgImageGenerator/engine';
 import { canvasToBlob } from '../OgImageGenerator/utils';
+import { resolveFont, fontStack as anyFontStack, ensureFont, googleCssUrl, customFontFaceCss } from '../../lib/fonts';
 
-export const fontById = id => FONTS.find(f => f.id === id) || FONTS[0];
-export const fontStack = id => { const f = fontById(id); return f.family ? `"${f.family}", ${f.fallback}` : f.stack; };
+// Built-in, any Google Font ('g:…') or an uploaded font ('c:…'): see src/lib/fonts.js
+export const fontById = resolveFont;
+export const fontStack = anyFontStack;
 
 export function defaultState(t) {
   return {
@@ -53,8 +54,14 @@ export function layoutImages(root, state) {
 }
 
 const usedFonts = (t, state) => [...new Set([state.fonts.heading, state.fonts.body, ...(t.extraFonts || [])])];
+// Fonts served by Google (built-in picks and any 'g:' font); uploaded fonts are inlined instead
+const googleFamilies = (t, state) => usedFonts(t, state).map(fontById).filter(f => f.family && f.kind !== 'custom');
+const uploadedFontCss = (t, state) => {
+  const css = customFontFaceCss(usedFonts(t, state));
+  return css ? `${css}\n\n` : '';
+};
 
-/** Loads every Google Font the design uses. */
+/** Loads every web font the design uses (Google and uploaded). */
 export function loadFonts(t, state) {
   return Promise.all(usedFonts(t, state).map(ensureFont)).then(() => (typeof document !== 'undefined' ? document.fonts.ready : null));
 }
@@ -148,14 +155,18 @@ const fontCssCache = new Map();
 function embeddedFontCss(ids) {
   return Promise.all(ids.map(id => {
     const f = fontById(id);
+    if (f.kind === 'custom') return customFontFaceCss([id]); // already a data URL
     if (!f.family) return '';
     if (!fontCssCache.has(id)) {
       fontCssCache.set(id, (async () => {
         try {
-          const css = await (await fetch(`https://fonts.googleapis.com/css2?family=${f.family.replace(/ /g, '+')}:wght@${f.weights.join(';')}&display=block`)).text();
+          const css = await (await fetch(googleCssUrl([f], 'block'))).text();
           // Latin subsets only: enough for English and most European text, and far smaller
-          const blocks = [...css.matchAll(/\/\*\s*([\w-]+)\s*\*\/\s*(@font-face\s*\{[^}]*\})/g)]
-            .filter(m => m[1] === 'latin' || m[1] === 'latin-ext').map(m => m[2]);
+          const all = [...css.matchAll(/\/\*\s*([\w-]+|\[\d+\])\s*\*\/\s*(@font-face\s*\{[^}]*\})/g)];
+          const latin = all.filter(m => m[1] === 'latin' || m[1] === 'latin-ext');
+          // Fonts without a Latin subset (e.g. Japanese or Thai families) keep every subset
+          const blocks = (latin.length ? latin : all).map(m => m[2]);
+          if (!blocks.length) blocks.push(...(css.match(/@font-face\s*\{[^}]*\}/g) || []));
           const out = await Promise.all(blocks.map(async b => {
             const u = /url\(([^)]+)\)/.exec(b);
             if (!u) return '';
@@ -220,7 +231,6 @@ export async function renderImage(t, state, { format = 'png', quality = 0.92 } =
   }
 }
 
-const googleFontsUrl = families => `https://fonts.googleapis.com/css2?${families.map(f => `family=${f.family.replace(/ /g, '+')}:wght@${f.weights.join(';')}`).join('&')}&display=swap`;
 
 /** HTML + CSS for a My Code snippet (fonts via @import, since My Code loads CDN
     URLs ending in .css as stylesheets and anything else as a script). */
@@ -237,9 +247,9 @@ export function snippetParts(t, state, { includeImages = true } = {}) {
       clone.querySelectorAll('[data-image]').forEach(el => { el.style.backgroundImage = ''; el.classList.remove('has-img'); });
     }
     const z = sizeById(state.size);
-    const families = usedFonts(t, state).map(fontById).filter(f => f.family);
+    const families = googleFamilies(t, state);
     const html = `<!-- ${t.name} v${t.version} · ${z.label} ${z.w}×${z.h} · https://webdevpuneet.com/social-post-templates/${t.id}/ -->\n${clone.outerHTML.replace(/></g, '>\n<')}\n`;
-    const css = `${families.length ? `@import url('${googleFontsUrl(families)}');\n\n` : ''}/* The post is ${z.w}×${z.h}px: the preview pane scrolls if it is narrower */\nbody{margin:0;padding:24px;min-height:100vh;display:grid;place-items:center;background:#e5e7eb;box-sizing:border-box}\n${BASE_CSS.trim()}\n\n${t.css}\n`;
+    const css = `${families.length ? `@import url('${googleCssUrl(families)}');\n\n` : ''}${uploadedFontCss(t, state)}/* The post is ${z.w}×${z.h}px: the preview pane scrolls if it is narrower */\nbody{margin:0;padding:24px;min-height:100vh;display:grid;place-items:center;background:#e5e7eb;box-sizing:border-box}\n${BASE_CSS.trim()}\n\n${t.css}\n`;
     return { html, css };
   } finally {
     host.remove();
@@ -260,9 +270,9 @@ export function standaloneHtml(t, state, { includeImages = true } = {}) {
       clone.querySelectorAll('[data-image]').forEach(el => { el.style.backgroundImage = ''; el.classList.remove('has-img'); });
     }
     const z = sizeById(state.size);
-    const families = usedFonts(t, state).map(fontById).filter(f => f.family);
+    const families = googleFamilies(t, state);
     const fontLink = families.length
-      ? `<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?${families.map(f => `family=${f.family.replace(/ /g, '+')}:wght@${f.weights.join(';')}`).join('&')}&display=swap">\n`
+      ? `<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="${googleCssUrl(families)}">\n`
       : '';
     const body = clone.outerHTML.replace(/></g, '>\n<');
     return `<!DOCTYPE html>
@@ -273,7 +283,7 @@ export function standaloneHtml(t, state, { includeImages = true } = {}) {
 <title>${t.name} — ${z.w}×${z.h}</title>
 <!-- ${t.name} v${t.version} · ${z.label} ${z.w}×${z.h} · https://webdevpuneet.com/social-post-templates/${t.id}/ -->
 ${fontLink}<style>
-body{margin:0;min-height:100vh;display:grid;place-items:center;background:#e5e7eb}
+${uploadedFontCss(t, state)}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#e5e7eb}
 ${BASE_CSS.trim()}
 ${t.css}
 </style>

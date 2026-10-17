@@ -6,7 +6,9 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import s from './styles.module.css';
-import { FONTS, parseHex } from '../OgImageGenerator/engine';
+import { parseHex } from '../OgImageGenerator/engine';
+import FontPicker from '@/components/FontPicker';
+import { fontLabel } from '@/lib/fonts';
 
 export const BRAND_KEY = 'wdp-brand-kit-v1';
 const EVENT = 'wdp-brand-kit-changed';
@@ -99,7 +101,6 @@ export function BrandKitPanel({ onApply, onSaveFrom, emailMode = false, onToast 
   const [draft, setDraft] = useState(DEFAULT_KIT);
   const fileRef = useRef(null);
   const set = (k, v) => setDraft(d => ({ ...d, [k]: v }));
-  const fontLabel = id => FONTS.find(f => f.id === id)?.label || id;
 
   const startEdit = () => { setDraft({ ...DEFAULT_KIT, ...(kit || {}) }); setEditing(true); };
   const save = () => { setKit(draft); setEditing(false); onToast?.('Brand kit saved'); };
@@ -185,9 +186,7 @@ export function BrandKitPanel({ onApply, onSaveFrom, emailMode = false, onToast 
             {[['headingFont', 'Heading font'], ['bodyFont', 'Body font']].map(([k, l]) => (
               <label key={k} className={s.field}>
                 <span>{l}</span>
-                <select value={draft[k]} onChange={e => set(k, e.target.value)}>
-                  {FONTS.map(f => <option key={f.id} value={f.id}>{f.label}</option>)}
-                </select>
+                <FontPicker label={l} value={draft[k]} onChange={fid => set(k, fid)} allowCustom={!emailMode} />
               </label>
             ))}
           </div>

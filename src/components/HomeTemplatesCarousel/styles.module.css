@@ -1,0 +1,20 @@
+/* Six gallery cards per row on desktop; narrower screens swipe the same six sideways */
+.grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
+
+@media (max-width: 1100px) {
+  .grid {
+    display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory;
+    padding-bottom: 6px; -webkit-overflow-scrolling: touch;
+  }
+  .grid > a { flex: 0 0 200px; scroll-snap-align: start; }
+}
+@media (max-width: 560px) {
+  .grid > a { flex-basis: 44vw; }
+}
+
+/* Tall email previews pan top -> bottom while hovered, and spring back on leave */
+.scrollImg { object-position: center top; transition: object-position 0.6s ease; }
+a:hover .scrollImg, a:focus-visible .scrollImg { object-position: center bottom; transition: object-position var(--scroll-dur, 4s) linear; }
+@media (prefers-reduced-motion: reduce) {
+  .scrollImg, a:hover .scrollImg { transition: none; object-position: center top; }
+}

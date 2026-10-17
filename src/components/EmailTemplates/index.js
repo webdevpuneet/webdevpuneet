@@ -7,13 +7,16 @@ import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 import { EMAIL_TEMPLATES, EMAIL_CATEGORIES, emailTemplateById, emailCategoryById, defaultEmailState, FONT_STACKS } from './templates/index.js';
 import { LoadMore } from '@/components/UiSnippetsGallery';
+import { scrollDuration } from '@/components/HomeTemplatesCarousel';
 import { previewImages, forceDark } from './templates/meta.js';
-import { PALETTES, parseHex, onColor, FONTS } from '../OgImageGenerator/engine';
+import { PALETTES, parseHex, onColor } from '../OgImageGenerator/engine';
 import { BrandKitPanel, loadKit, kitIsSet } from '@/components/BrandKit';
 import { dbPut } from '@/lib/uiSnippetsDb';
 import { openForkTab } from '@/lib/open-fork-tab';
 import { putAsset, getAsset, deleteAsset, assetKeys } from './assetsDb';
 import { revealInPanel } from '@/lib/reveal-in-panel';
+import FontPicker from '@/components/FontPicker';
+import { resolveFont } from '@/lib/fonts';
 
 const LS_PREFIX = 'wdp-email-v1:';
 const GMAIL_CLIP = 102 * 1024; // Gmail clips messages larger than ~102 KB
@@ -121,7 +124,7 @@ function GalleryCard({ t, preview }) {
         {preview
           // Captured screenshot when available: lighter than a live email preview
           // eslint-disable-next-line @next/next/no-img-element
-          ? <img className={e.cardImg} src={`/images/email-templates/previews/${t.id}.png`} alt={`${t.name} preview`} loading="lazy" />
+          ? <img className={e.cardImg} src={`/images/email-templates/previews/${t.id}.png`} alt={`${t.name} preview`} loading="lazy" onLoad={ev => scrollDuration(ev.currentTarget)} />
           : w > 0 && origin && html && <EmailFrame html={html} width={640} scale={w / 640} interactive={false} />}
       </div>
       <div className={s.cardBody}>
@@ -280,10 +283,19 @@ function ColorField({ label, value, onChange }) {
   );
 }
 
+/* Any picker font id -> an email font id: the email stacks keep their ids, other Google
+   fonts become 'g:' ids, and uploaded or system fonts fall back to Arial or Georgia */
+function toEmailFont(fid) {
+  if (FONT_STACKS.some(f => f.id === fid) || String(fid).startsWith('g:')) return fid;
+  const f = resolveFont(fid);
+  if (f.kind === 'builtin' && f.family) return `g:${f.family}|${f.weights.map(w => w / 100).join('')}|${f.fallback === 'serif' ? 'e' : f.fallback === 'monospace' ? 'm' : 's'}`;
+  return f.fallback === 'serif' || fid === 'georgia' ? 'georgia' : 'system';
+}
+
 /* Brand kit -> email: brand colour (button text picked for contrast), name, hosted logo,
    website and fonts. Fonts emails can't use fall back to Arial or Georgia stacks. */
 function withKit(prev, kit) {
-  const fontFor = fid => (FONT_STACKS.some(f => f.id === fid) ? fid : FONTS.find(f => f.id === fid)?.fallback === 'serif' ? 'georgia' : 'system');
+  const fontFor = toEmailFont;
   const vars = { ...prev.vars, brand: kit.primary, btnText: onColor(kit.primary) };
   if (kit.applyAllColors && kit.text) vars.text = kit.text;
   const fields = { ...prev.fields };
@@ -744,13 +756,11 @@ export function EmailTemplateEditor({ id }) {
               {['heading', 'body'].map(k => (
                 <div key={k} className={s.field}>
                   <label className={s.label} htmlFor={`emf-${k}`}>{k === 'heading' ? 'Headings' : 'Body text'}</label>
-                  <select id={`emf-${k}`} className={s.select} value={state.fonts[k]} onChange={ev => setState(p => ({ ...p, fonts: { ...p.fonts, [k]: ev.target.value } }))}>
-                    {FONT_STACKS.map(fs => <option key={fs.id} value={fs.id}>{fs.label}</option>)}
-                  </select>
+                  <FontPicker id={`emf-${k}`} label={k === 'heading' ? 'Heading font' : 'Body font'} allowCustom={false} value={state.fonts[k]} onChange={fid => setState(p => ({ ...p, fonts: { ...p.fonts, [k]: toEmailFont(fid) } }))} />
                 </div>
               ))}
             </div>
-            <p className={s.hint}>Web fonts show in Apple Mail and iOS Mail. Gmail and Outlook use the fallback after the arrow.</p>
+            <p className={s.hint}>Any Google Font works. Web fonts show in Apple Mail and iOS Mail; Gmail and Outlook use Arial, Georgia or Courier instead.</p>
           </section>
         </aside>
 

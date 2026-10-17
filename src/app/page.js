@@ -5,6 +5,11 @@ import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
+import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
+import { TEMPLATES as SOCIAL_TEMPLATES, SIZES as SOCIAL_SIZES, categoryById as socialCategoryById } from '@/components/SocialPostTemplates/templates/index.js';
+import { previewIds as socialPreviewIds } from '@/components/SocialPostTemplates/assets';
+import { EMAIL_TEMPLATES, emailCategoryById } from '@/components/EmailTemplates/templates/index.js';
+import { emailPreviewIds } from '@/components/EmailTemplates/assets';
 import { getLatestSnippets } from '@/lib/snippet-related';
 import { LIVE_TOOLS } from '@/lib/tools-registry';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
@@ -236,6 +241,13 @@ function ItemIcon({ d, accent }) {
 export default async function Home() {
   const blogPosts = await fetchLatestBlogPosts(6);
   const latestSnippets = getLatestSnippets(60);
+  // Template strips: only templates whose preview image is captured
+  const socialShots = new Set(socialPreviewIds());
+  const socialItems = SOCIAL_TEMPLATES.filter(t => socialShots.has(t.id))
+    .map(t => ({ id: t.id, title: t.name, href: `/social-post-templates/${t.id}/`, img: `/images/social-post-templates/previews/${t.id}.png`, cat: socialCategoryById(t.category)?.label, meta: `v${t.version} · ${SOCIAL_SIZES.length} sizes` }));
+  const emailShots = new Set(emailPreviewIds());
+  const emailItems = EMAIL_TEMPLATES.filter(t => emailShots.has(t.id))
+    .map(t => ({ id: t.id, title: t.name, href: `/email-templates/${t.id}/`, img: `/images/email-templates/previews/${t.id}.png`, cat: emailCategoryById(t.category)?.label, meta: `v${t.version} · Responsive · Dark mode` }));
   const playgroundCardTools = PLAYGROUND_CARD_SLUGS.map(slug => LIVE_TOOLS.find(t => t.slug === slug)).filter(Boolean);
   // Six for the blog fetch; the blog card lists the first four.
   const latestPosts = blogPosts.slice(0, 4);
@@ -277,6 +289,25 @@ export default async function Home() {
       {/* ── Latest UI snippets: newest six, arrows page through the rest ── */}
       <div className={styles.snippetsStrip}>
         <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} />
+      </div>
+
+      {/* ── Template libraries: social post images and HTML emails ── */}
+      <div className={styles.snippetsStrip}>
+        <HomeTemplatesCarousel
+          title="Social Post Templates"
+          label={`${SOCIAL_TEMPLATES.length} for Instagram, Facebook & X`}
+          viewAllHref="/social-post-templates/"
+          items={socialItems}
+        />
+      </div>
+      <div className={styles.snippetsStrip}>
+        <HomeTemplatesCarousel
+          title="Email Templates"
+          label={`${EMAIL_TEMPLATES.length} responsive HTML emails`}
+          viewAllHref="/email-templates/"
+          items={emailItems}
+          scroll
+        />
       </div>
 
       {/* ── Feature grid: UI Snippets / Coding Playgrounds / Developer Tools / Latest From the Blog ── */}

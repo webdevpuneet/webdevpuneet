@@ -7,7 +7,8 @@ import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { BrandKitPanel, loadKit, kitIsSet } from '@/components/BrandKit';
 import { revealInPanel } from '@/lib/reveal-in-panel';
 import { SIZES, sizeById, categoryById, templateById } from './templates/index.js';
-import { FONTS, PALETTES, parseHex } from '../OgImageGenerator/engine';
+import { PALETTES, parseHex } from '../OgImageGenerator/engine';
+import FontPicker from '@/components/FontPicker';
 import Preview from './Preview';
 import { renderImage, standaloneHtml, snippetParts } from './render';
 import { dbPut } from '@/lib/uiSnippetsDb';
@@ -547,9 +548,7 @@ export default function TemplateEditor({ id }) {
               {['heading', 'body'].map(k => (
                 <div key={k} className={s.field}>
                   <label className={s.label} htmlFor={`font-${k}`}>{k === 'heading' ? 'Heading' : 'Body'}</label>
-                  <select id={`font-${k}`} className={s.select} value={state.fonts[k]} onChange={e => setState(p => ({ ...p, fonts: { ...p.fonts, [k]: e.target.value } }))}>
-                    {FONTS.map(f => <option key={f.id} value={f.id}>{f.label}</option>)}
-                  </select>
+                  <FontPicker id={`font-${k}`} label={k === 'heading' ? 'Heading font' : 'Body font'} value={state.fonts[k]} onChange={fid => setState(p => ({ ...p, fonts: { ...p.fonts, [k]: fid } }))} />
                 </div>
               ))}
             </div>

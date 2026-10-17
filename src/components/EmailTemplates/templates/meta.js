@@ -19,7 +19,23 @@ export const FONT_STACKS = [
   { id: 'georgia',  label: 'Georgia (serif, no download)', stack: "Georgia, 'Times New Roman', Times, serif" },
   { id: 'playfair', label: 'Playfair Display → Georgia', stack: "'Playfair Display', Georgia, 'Times New Roman', serif", google: 'Playfair+Display:wght@600;700;800' },
 ];
-export const fontStackById = id => FONT_STACKS.find(f => f.id === id) || FONT_STACKS[0];
+/* Any Google Font as 'g:<Family>|<weights in hundreds>|<cat>' (same ids as src/lib/fonts.js),
+   with an Arial, Georgia or Courier fallback for Gmail and Outlook */
+const EMAIL_FALLBACK = { e: "Georgia, 'Times New Roman', serif", m: "'Courier New', Courier, monospace" };
+export function fontStackById(id) {
+  if (typeof id === 'string' && id.startsWith('g:')) {
+    const [family, weights = '4', cat = 's'] = id.slice(2).split('|');
+    const all = [...weights].map(d => Number(d) * 100);
+    const ws = all.filter(w => w >= 400 && w <= 800); // the weights emails use, to keep the download small
+    return {
+      id,
+      label: family,
+      stack: `'${family.replace(/'/g, '')}', ${EMAIL_FALLBACK[cat] || "'Segoe UI', Helvetica, Arial, sans-serif"}`,
+      google: `${family.replace(/ /g, '+')}:wght@${(ws.length ? ws : all).join(';')}`,
+    };
+  }
+  return FONT_STACKS.find(f => f.id === id) || FONT_STACKS[0];
+}
 
 /* Escapes text for HTML; newlines become <br> */
 export const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
