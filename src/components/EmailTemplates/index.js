@@ -119,12 +119,12 @@ function GalleryCard({ t, preview }) {
   }, []);
   const html = useMemo(() => (preview || !visible ? '' : previewImages(t.build(defaultEmailState(t)), origin)), [t, origin, preview, visible]);
   return (
-    <a className={s.card} href={`/email-templates/${t.id}/`}>
+    <a className={s.card} href={`/email-templates/${t.id}/`} onMouseEnter={ev => scrollDuration(ev.currentTarget)} onFocus={ev => scrollDuration(ev.currentTarget)}>
       <div ref={ref} className={e.cardPreview}>
         {preview
           // Captured screenshot when available: lighter than a live email preview
           // eslint-disable-next-line @next/next/no-img-element
-          ? <img className={e.cardImg} src={`/images/email-templates/previews/${t.id}.png`} alt={`${t.name} preview`} loading="lazy" onLoad={ev => scrollDuration(ev.currentTarget)} />
+          ? <img className={e.cardImg} src={`/images/email-templates/previews/${t.id}.png`} alt={`${t.name} preview`} loading="lazy" />
           : w > 0 && origin && html && <EmailFrame html={html} width={640} scale={w / 640} interactive={false} />}
       </div>
       <div className={s.cardBody}>

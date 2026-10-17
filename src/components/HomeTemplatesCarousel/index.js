@@ -11,10 +11,14 @@ const PAGE_SIZE = 6;
 // match "Latest UI Snippets"; the cards are the template galleries' own cards (tall
 // preview, category, name, version). `items` comes from the server as plain data:
 // { id, title, href, img, cat, meta }.
-// Scroll time grows with how much of the image is hidden, so long emails move at the same pace
-export const scrollDuration = img => {
-  const hidden = img.naturalHeight / img.naturalWidth - img.clientHeight / img.clientWidth;
-  img.style.setProperty('--scroll-dur', `${Math.max(1.5, hidden * 4.5).toFixed(1)}s`);
+// Hover pan at one steady speed for every preview: the duration is the hidden height in
+// pixels divided by SCROLL_SPEED. Measured on hover (the image has loaded by then).
+const SCROLL_SPEED = 160; // px per second on screen
+export const scrollDuration = el => {
+  const img = el?.tagName === 'IMG' ? el : el?.querySelector('img');
+  if (!img?.naturalWidth || !img.clientWidth) return;
+  const hidden = img.clientWidth * (img.naturalHeight / img.naturalWidth) - img.clientHeight;
+  img.style.setProperty('--scroll-dur', `${Math.max(0.4, hidden / SCROLL_SPEED).toFixed(2)}s`);
 };
 
 // `scroll`: on hover the preview pans slowly from the top of the image to the bottom
@@ -48,10 +52,10 @@ export default function HomeTemplatesCarousel({ title, items, viewAllHref, label
       </div>
       <div className={hs.grid}>
         {shown.map(it => (
-          <a key={it.id} href={it.href} className={gs.card}>
+          <a key={it.id} href={it.href} className={gs.card} onMouseEnter={scroll ? ev => scrollDuration(ev.currentTarget) : undefined} onFocus={scroll ? ev => scrollDuration(ev.currentTarget) : undefined}>
             <div className={gs.cardPreview}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img className={`${gs.cardImg} ${scroll ? hs.scrollImg : ''}`} src={it.img} alt={`${it.title} template preview`} loading="lazy" onLoad={scroll ? ev => scrollDuration(ev.currentTarget) : undefined} />
+              <img className={`${gs.cardImg} ${scroll ? hs.scrollImg : ''}`} src={it.img} alt={`${it.title} template preview`} loading="lazy" />
             </div>
             <div className={gs.cardBody}>
               {it.cat && <span className={gs.cardCat}>{it.cat}</span>}
