@@ -5,7 +5,8 @@ import s from '../SocialPostTemplates/styles.module.css';
 import e from './styles.module.css';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import ImageToolsTopNav from '@/components/ImageToolsTopNav';
-import { EMAIL_TEMPLATES, emailTemplateById, emailCategoryById, defaultEmailState, FONT_STACKS } from './templates/index.js';
+import { EMAIL_TEMPLATES, EMAIL_CATEGORIES, emailTemplateById, emailCategoryById, defaultEmailState, FONT_STACKS } from './templates/index.js';
+import { LoadMore } from '@/components/UiSnippetsGallery';
 import { previewImages, forceDark } from './templates/meta.js';
 import { PALETTES, parseHex, onColor, FONTS } from '../OgImageGenerator/engine';
 import { BrandKitPanel, loadKit, kitIsSet } from '@/components/BrandKit';
@@ -17,6 +18,7 @@ import { revealInPanel } from '@/lib/reveal-in-panel';
 const LS_PREFIX = 'wdp-email-v1:';
 const GMAIL_CLIP = 102 * 1024; // Gmail clips messages larger than ~102 KB
 const fmtKB = n => `${(n / 1024).toFixed(1)} KB`;
+const GALLERY_PAGE = 10; // cards per "Load more", same rhythm as the UI snippets gallery
 
 function saveBlob(blob, name) {
   const url = URL.createObjectURL(blob);
@@ -101,15 +103,18 @@ function GalleryCard({ t, preview }) {
   const ref = useRef(null);
   const [w, setW] = useState(0);
   const [origin, setOrigin] = useState('');
+  const [visible, setVisible] = useState(false);
   useEffect(() => {
     setOrigin(window.location.origin);
     const el = ref.current;
     if (!el) return undefined;
     const ro = new ResizeObserver(() => setW(el.clientWidth));
     ro.observe(el);
-    return () => ro.disconnect();
+    const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { setVisible(true); io.disconnect(); } }, { rootMargin: '300px' });
+    io.observe(el);
+    return () => { ro.disconnect(); io.disconnect(); };
   }, []);
-  const html = useMemo(() => previewImages(t.build(defaultEmailState(t)), origin), [t, origin]);
+  const html = useMemo(() => (preview || !visible ? '' : previewImages(t.build(defaultEmailState(t)), origin)), [t, origin, preview, visible]);
   return (
     <a className={s.card} href={`/email-templates/${t.id}/`}>
       <div ref={ref} className={e.cardPreview}>
@@ -117,7 +122,7 @@ function GalleryCard({ t, preview }) {
           // Captured screenshot when available: lighter than a live email preview
           // eslint-disable-next-line @next/next/no-img-element
           ? <img className={e.cardImg} src={`/images/email-templates/previews/${t.id}.png`} alt={`${t.name} preview`} loading="lazy" />
-          : w > 0 && origin && <EmailFrame html={html} width={640} scale={w / 640} interactive={false} />}
+          : w > 0 && origin && html && <EmailFrame html={html} width={640} scale={w / 640} interactive={false} />}
       </div>
       <div className={s.cardBody}>
         <span className={s.cardCat}>{emailCategoryById(t.category)?.label}</span>
@@ -128,18 +133,66 @@ function GalleryCard({ t, preview }) {
   );
 }
 
-export function EmailTemplateGallery({ excludeId = null, previews = [] }) {
-  const list = EMAIL_TEMPLATES.filter(t => t.id !== excludeId);
+export function EmailTemplateGallery({ excludeId = null, limit = null, previews = [], initialCategory = 'all', hideControls = false, chips = true }) {
+  const [cat, setCat] = useState(initialCategory);
+  const [q, setQ] = useState('');
+  const [shownCount, setShownCount] = useState(GALLERY_PAGE);
+  // A new search or category starts again from the first page
+  useEffect(() => { setShownCount(GALLERY_PAGE); }, [cat, q]);
+  const list = useMemo(() => {
+    const words = q.toLowerCase().split(/\s+/).filter(Boolean);
+    return EMAIL_TEMPLATES.filter(t => t.id !== excludeId)
+      .filter(t => cat === 'all' || t.category === cat)
+      .filter(t => !words.length || words.every(w => `${t.name} ${t.tags.join(' ')} ${emailCategoryById(t.category)?.label} ${t.description}`.toLowerCase().includes(w)))
+      .slice(0, limit || undefined);
+  }, [cat, q, excludeId, limit]);
+  // Strips with a fixed `limit` show all of it; the gallery pages by 10
+  const shown = limit ? list : list.slice(0, shownCount);
+
   return (
     <div className={s.gallery} data-spt-gallery>
-      <div className={s.grid}>
-        {list.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}
-        <div className={e.soon}>
-          <strong>More templates coming</strong>
-          <span>Password reset, order confirmation, newsletter, receipts and more are on the way.</span>
+      {!hideControls && (
+        <div className={s.galleryControls}>
+          <input className={s.search} value={q} onChange={ev => setQ(ev.target.value)} placeholder={`Search ${EMAIL_TEMPLATES.length} email templates…`} aria-label="Search email templates" />
+          {chips && <div className={s.chips}>
+            <button type="button" className={`${s.chip} ${cat === 'all' ? s.chipActive : ''}`} onClick={() => setCat('all')}>All <span>{EMAIL_TEMPLATES.length}</span></button>
+            {EMAIL_CATEGORIES.map(c => {
+              const n = EMAIL_TEMPLATES.filter(t => t.category === c.id).length;
+              return n ? (
+                <button key={c.id} type="button" className={`${s.chip} ${cat === c.id ? s.chipActive : ''}`} onClick={() => setCat(c.id)}>
+                  {c.label} <span>{n}</span>
+                </button>
+              ) : null;
+            })}
+          </div>}
         </div>
-      </div>
+      )}
+      {list.length === 0 ? (
+        <div className={s.empty}>No email templates match &ldquo;{q}&rdquo;.</div>
+      ) : (
+        <div className={s.grid}>
+          {shown.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}
+        </div>
+      )}
+      {!limit && <LoadMore shown={shown.length} total={list.length} onLoadMore={() => setShownCount(n => n + GALLERY_PAGE)} />}
     </div>
+  );
+}
+
+/* Crawlable links to every category landing page */
+function EmailCategoryLinks({ active = null }) {
+  return (
+    <nav className={s.catLinks} aria-label="Email template categories">
+      <a href="/email-templates/" className={`${s.catLink} ${!active ? s.catLinkActive : ''}`}>All templates <span>{EMAIL_TEMPLATES.length}</span></a>
+      {EMAIL_CATEGORIES.map(c => {
+        const n = EMAIL_TEMPLATES.filter(t => t.category === c.id).length;
+        return n ? (
+          <a key={c.id} href={`/email-templates/category/${c.id}/`} className={`${s.catLink} ${active === c.id ? s.catLinkActive : ''}`}>
+            {c.label} <span>{n}</span>
+          </a>
+        ) : null;
+      })}
+    </nav>
   );
 }
 
@@ -151,11 +204,30 @@ export function EmailGalleryPage({ previews = [] }) {
       <header className={s.galleryHead}>
         <h1 className={s.galleryH1}>Email Templates</h1>
         <p className={s.galleryLead}>
-          Free responsive HTML email templates that work in Gmail, Outlook and Apple Mail, with dark mode built in.
-          Edit them in your browser, preview desktop, mobile and dark mode, then copy the HTML or fork it into My Code.
+          {EMAIL_TEMPLATES.length} free responsive HTML email templates (welcome, verification, password reset, order confirmation, receipt,
+          newsletter and sale emails) that work in Gmail, Outlook and Apple Mail, with dark mode built in. Edit them in your browser,
+          then copy the HTML, download a ZIP or fork it into My Code.
         </p>
       </header>
-      <EmailTemplateGallery previews={previews} />
+      <EmailCategoryLinks />
+      <EmailTemplateGallery previews={previews} chips={false} />
+    </div>
+  );
+}
+
+/* Category landing page: same shell as the gallery, filtered to one category */
+export function EmailCategoryPage({ category, h1, lead, previews = [] }) {
+  return (
+    <div className={s.galleryPage}>
+      <ImageToolsTopNav active="email-templates" />
+      <PlaygroundTopAd />
+      <header className={s.galleryHead}>
+        <a href="/email-templates/" className={s.back}>← All email templates</a>
+        <h1 className={s.galleryH1}>{h1}</h1>
+        <p className={s.galleryLead}>{lead}</p>
+      </header>
+      <EmailCategoryLinks active={category} />
+      <EmailTemplateGallery previews={previews} initialCategory={category} hideControls />
     </div>
   );
 }
@@ -432,15 +504,21 @@ export function EmailTemplateEditor({ id }) {
     if (!assetBase) checks.push({ level: 'warn', text: 'You uploaded images. Use Download ZIP (images sit next to the email in an images folder), or host them and set the Image base URL before pasting the HTML into an email service.' });
     else if (!/^https:\/\//i.test(assetBase)) checks.push({ level: 'bad', text: 'The Image base URL must start with https:// so email clients can load your uploaded images.' });
   }
-  ['logoUrl', 'heroUrl'].forEach(k => {
-    if (uploads[k]) return; // uploaded: served from the ZIP's images folder or the base URL
+  // Every image field (the ones that accept uploads), skipped when its section is switched off
+  t.fields.filter(x => x.upload).forEach(fd => {
+    const k = fd.key;
+    const toggle = t.groups.find(g => g.id === fd.group)?.toggle;
+    if (toggle && !state.toggles[toggle]) return;
     const v = String(f[k] || '').trim();
-    if (!v || (k === 'heroUrl' && !state.toggles.showHero)) return;
-    if (!/^https:\/\//i.test(v)) checks.push({ level: 'bad', text: `${t.fields.find(x => x.key === k)?.label.replace(/ \(optional\)/i, '')} must be a full https:// URL. Email clients can’t load local or relative images.` });
+    if (!v && !uploads[k]) return;
+    const label = fd.label.replace(/ \(optional\)/i, '');
+    if (!uploads[k] && !/^https:\/\//i.test(v)) checks.push({ level: 'bad', text: `${label} must be a full https:// URL. Email clients can’t load local or relative images.` });
+    const altKey = k.replace(/Url$/, 'Alt');
+    if (altKey !== k && altKey in f && !String(f[altKey] || '').trim()) checks.push({ level: 'warn', text: `Add alt text for the ${label.replace(/ (image )?URL$/i, '').toLowerCase()} image. Many people read email with images off.` });
   });
-  if (state.toggles.showHero && f.heroUrl && !String(f.heroAlt || '').trim()) checks.push({ level: 'warn', text: 'Add alt text to the hero image. Many people read email with images off.' });
-  if (!String(f.unsubscribeUrl || '').trim()) checks.push({ level: 'bad', text: 'Add an unsubscribe link. US CAN-SPAM and Gmail/Yahoo sender rules require one in marketing email.' });
-  if (!String(f.address || '').trim()) checks.push({ level: 'bad', text: 'Add your postal address. US CAN-SPAM requires a valid physical address in commercial email.' });
+  const marketing = 'unsubscribeUrl' in f;
+  if (marketing && !String(f.unsubscribeUrl || '').trim()) checks.push({ level: 'bad', text: 'Add an unsubscribe link. US CAN-SPAM and Gmail/Yahoo sender rules require one in marketing email.' });
+  if ('address' in f && !String(f.address || '').trim()) checks.push({ level: marketing ? 'bad' : 'warn', text: marketing ? 'Add your postal address. US CAN-SPAM requires a valid physical address in commercial email.' : 'Add your company address so people can tell the email is really from you.' });
   const placeholders = t.fields.filter(x => x.type === 'url' && /yoursite\.com|yourbrand/i.test(String(f[x.key] || ''))).map(x => x.label.replace(/ \(optional\)/i, '').replace(/ URL$/, ''));
   if (placeholders.length) checks.push({ level: 'warn', text: `Replace the placeholder links: ${placeholders.join(', ')}.` });
   if ((f.subject || '').length > 60) checks.push({ level: 'warn', text: `The subject is ${f.subject.length} characters. Phones show about 35 to 60, so lead with the important words.` });
@@ -749,7 +827,7 @@ export function EmailTemplateEditor({ id }) {
             {checksOpen && (
               <ul className={e.checks}>
                 {checks.length === 0
-                  ? <li className={e.good}>✓ Ready to send: under Gmail&rsquo;s clipping limit, images hosted, alt text, unsubscribe link and address all set.</li>
+                  ? <li className={e.good}>✓ Ready to send: under Gmail&rsquo;s clipping limit, images hosted, alt text set{'unsubscribeUrl' in f ? ', unsubscribe link and address in place' : ' and sender address in place'}.</li>
                   : checks.map(c => <li key={c.text} className={c.level === 'bad' ? e.bad : e.warn}>{c.text}</li>)}
               </ul>
             )}

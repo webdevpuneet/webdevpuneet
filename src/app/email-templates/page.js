@@ -2,7 +2,7 @@ import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import { EmailGalleryPage } from '@/components/EmailTemplates';
-import { EMAIL_TEMPLATES } from '@/components/EmailTemplates/templates/index.js';
+import { EMAIL_TEMPLATES, EMAIL_CATEGORIES } from '@/components/EmailTemplates/templates/index.js';
 import { EMAIL_DIFFERENT } from '@/components/EmailTemplates/templates/seo-content.js';
 import { emailPreviewIds } from '@/components/EmailTemplates/assets';
 import styles from '../tool-page.module.css';
@@ -16,7 +16,7 @@ const DESC = 'Free responsive HTML email templates that work in Gmail, Outlook a
 export const metadata = {
   title: TITLE,
   description: DESC,
-  keywords: ['html email templates', 'free email templates', 'responsive email template', 'welcome email template', 'outlook compatible email template', 'dark mode email template'],
+  keywords: ['html email templates', 'free email templates', 'responsive email template', 'welcome email template', 'password reset email template', 'order confirmation email template', 'newsletter email template', 'black friday email template', 'outlook compatible email template', 'dark mode email template'],
   authors: [{ name: 'Puneet Sharma', url: 'https://www.webdevpuneet.com/' }],
   robots: { index: true, follow: true },
   alternates: { canonical: PAGE_URL },
@@ -49,8 +49,21 @@ const SECTIONS = [
       'CAN-SPAM-ready footers with unsubscribe link and postal address',
       'Plain-text version generated automatically',
       'Show or hide sections, change copy, links, images, colours and fonts',
+      'Upload images (kept in your browser) and download a ZIP with an images folder',
+      'Click any text in the preview to jump to its field',
+      'Apply your saved brand kit: colours, logo and fonts in one click',
       'Copy HTML, download .html, or fork into My Code',
     ],
+  },
+  {
+    type: 'text',
+    label: 'Browse by category',
+    heading: 'Email Templates for Every Stage of the Customer Journey',
+    quickFacts: false,
+    text: EMAIL_CATEGORIES.filter(c => EMAIL_TEMPLATES.some(t => t.category === c.id)).map(c => {
+      const list = EMAIL_TEMPLATES.filter(t => t.category === c.id);
+      return `**[${c.label} email templates](/email-templates/category/${c.id}/)**: ${c.blurb} Includes ${list.map(t => `[${t.name}](/email-templates/${t.id}/)`).join(', ')}.`;
+    }).join('\n\n'),
   },
   {
     type: 'text',
@@ -59,9 +72,11 @@ const SECTIONS = [
     quickFacts: false,
     text: `Most "free email templates" look great in a browser and break in Outlook. These are built the hard way, the way email actually requires: nested tables, inline styles, \`role="presentation"\` on layout tables, a fixed 600 px container wrapped in Outlook-only conditional comments, VML buttons for Outlook on Windows, and media queries for phones and dark mode.
 
-**Edit without touching code.** Every template exposes its content as fields: subject, preheader, headline, copy, button text and link, images, social links and footer. Whole sections can be switched on and off. Change the brand colour, light and dark palettes, and heading and body fonts (with safe fallbacks).
+**One library for every email you send.** Start with a [welcome email](/email-templates/welcome/) for new sign-ups, send [email verification](/email-templates/verify-email/) and [password reset](/email-templates/password-reset/) emails from your app, confirm purchases with an [order confirmation](/email-templates/order-confirmation/) and a [payment receipt](/email-templates/receipt/), and keep customers engaged with a [newsletter](/email-templates/newsletter/) and a [Black Friday sale](/email-templates/black-friday-sale/) email. They share the same structure, so your emails look consistent.
 
-**Check before you send.** The editor shows desktop, mobile and dark-mode previews, plus an inbox preview with your sender name, subject and preheader. Live checks warn about Gmail's 102 KB clipping limit, images that aren't hosted online, missing alt text, placeholder links, and the unsubscribe link and postal address required by US CAN-SPAM.
+**Edit without touching code.** Every template exposes its content as fields: subject, preheader, headline, copy, button text and link, images, line items, social links and footer. Whole sections can be switched on and off. Change the brand colour, light and dark palettes, and heading and body fonts (with safe fallbacks).
+
+**Check before you send.** The editor shows desktop, mobile and dark-mode previews, plus an inbox preview with your sender name, subject and preheader. Live checks warn about Gmail's 102 KB clipping limit, images that aren't hosted online, missing alt text, placeholder links, and, for marketing emails, the unsubscribe link and postal address required by US CAN-SPAM.
 
 **Take the code anywhere.** Copy the HTML into Mailchimp, Klaviyo, HubSpot, Brevo, Campaign Monitor or your own sending code, download a .html file, copy the plain-text version, or fork it into [My Code](/ui-snippets/mycode/) to keep editing the markup. Designing social images too? Try [Social Post Templates](/social-post-templates/).`,
   },

@@ -8,7 +8,8 @@ import { publishedTags, snippetsForTag } from '../src/lib/snippet-tags.js';
 import { TEMPLATES as SOCIAL_TEMPLATES, TEMPLATE_CATEGORIES as SOCIAL_CATEGORIES } from '../src/components/SocialPostTemplates/templates/index.js';
 import { TEMPLATE_SEO as SOCIAL_SEO } from '../src/components/SocialPostTemplates/templates/seo-content.js';
 import { CATEGORY_SEO as SOCIAL_CATEGORY_SEO } from '../src/components/SocialPostTemplates/templates/seo-categories.js';
-import { EMAIL_TEMPLATES } from '../src/components/EmailTemplates/templates/index.js';
+import { EMAIL_TEMPLATES, EMAIL_CATEGORIES } from '../src/components/EmailTemplates/templates/index.js';
+import { EMAIL_CATEGORY_SEO } from '../src/components/EmailTemplates/templates/seo-categories.js';
 import { EMAIL_SEO } from '../src/components/EmailTemplates/templates/seo-content.js';
 
 // Exclude nofollow/test snippets (noindex: true) from sitemap + llms.txt — they only show on localhost
@@ -207,6 +208,13 @@ async function main() {
       changefreq: 'monthly',
       priority:   0.8,
     })),
+    // Email template category landing pages (lastmod = newest template in it)
+    ...EMAIL_CATEGORIES.filter(c => EMAIL_TEMPLATES.some(t => t.category === c.id)).map(c => ({
+      loc:        `${BASE_URL}/email-templates/category/${c.id}/`,
+      lastmod:    maxDate(EMAIL_TEMPLATES.filter(t => t.category === c.id).map(t => t.updated)),
+      changefreq: 'monthly',
+      priority:   0.7,
+    })),
     // Each email template has its own editor page under /email-templates/
     ...EMAIL_TEMPLATES.map(t => ({
       loc:        `${BASE_URL}/email-templates/${t.id}/`,
@@ -403,9 +411,16 @@ async function main() {
   }
   llmsTxt += `\n---\n\n## Email Templates\n\n`;
   llmsTxt += `Free responsive HTML email templates built for real inboxes (Gmail, Outlook, Apple Mail): table layout, inline styles, Outlook-safe VML buttons, dark mode, hidden preheader and CAN-SPAM-ready footer. Edit online with desktop, mobile and dark previews, then copy the HTML, get a plain-text version, or fork the code into My Code.\n\nLibrary: ${BASE_URL}/email-templates/\n\n`;
-  for (const t of EMAIL_TEMPLATES) {
-    const kw = EMAIL_SEO[t.id]?.keywords;
-    llmsTxt += `- [${t.name}](${BASE_URL}/email-templates/${t.id}/) : ${t.description}${kw ? ` Good for: ${kw.join(', ')}.` : ''}\n`;
+  for (const c of EMAIL_CATEGORIES) {
+    const list = EMAIL_TEMPLATES.filter(t => t.category === c.id);
+    if (!list.length) continue;
+    const cs = EMAIL_CATEGORY_SEO[c.id];
+    llmsTxt += `### [${cs?.h1 || c.label}](${BASE_URL}/email-templates/category/${c.id}/)\n\n${c.blurb}${cs?.keywords ? ` Searches: ${cs.keywords.join(', ')}.` : ''}\n\n`;
+    for (const t of list) {
+      const kw = EMAIL_SEO[t.id]?.keywords;
+      llmsTxt += `- [${t.name}](${BASE_URL}/email-templates/${t.id}/) : ${t.description}${kw ? ` Good for: ${kw.join(', ')}.` : ''}\n`;
+    }
+    llmsTxt += '\n';
   }
   llmsTxt += `\n---\n\n## UI Snippets Components\n\n`;
   llmsTxt += `Browse and copy ${SNIPPETS.length}+ free HTML, CSS & JS components with live preview and export to HTML, JSX, or React + Tailwind CSS.\n\nLibrary: ${BASE_URL}/ui-snippets/\n\n`;

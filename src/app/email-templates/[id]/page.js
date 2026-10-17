@@ -45,6 +45,14 @@ export default async function EmailTemplatePage({ params }) {
   const cat = emailCategoryById(t.category);
   const url = `${BASE}${t.id}/`;
   const hasPreview = emailPreviewIds().includes(t.id);
+  const catUrl = `${BASE}category/${t.category}/`;
+  // Content groups this template exposes (skipping the shared inbox, brand and footer groups)
+  const contentGroups = t.groups.filter(g => !['inbox', 'brand', 'footer'].includes(g.id)).map(g => g.label.replace(/ \(.*\)$/, '').toLowerCase());
+  const toggleable = t.groups.filter(g => g.toggle).map(g => g.label.replace(/ \(.*\)$/, '').toLowerCase());
+  const hasImages = t.fields.some(f => f.upload && f.key !== 'logoUrl');
+  const listJoin = a => (a.length > 1 ? `${a.slice(0, -1).join(', ')} and ${a[a.length - 1]}` : a[0] || '');
+  // Same category first, then the rest
+  const related = [...EMAIL_TEMPLATES.filter(x => x.id !== t.id && x.category === t.category), ...EMAIL_TEMPLATES.filter(x => x.id !== t.id && x.category !== t.category)].slice(0, 6);
 
   const faqs = [
     ...seo.faqs,
@@ -77,13 +85,20 @@ export default async function EmailTemplatePage({ params }) {
       heading: 'How to Use',
       items: [
         { title: 'Set the inbox details', text: 'Write the sender name, subject line and preheader. The inbox preview above the email shows how they appear in a Gmail-style list.' },
-        { title: 'Edit the content', text: 'Change the headline, intro, button text and link, the three steps and the personal note. Switch sections on or off with the toggles.' },
-        { title: 'Add your brand', text: 'Paste your logo and hero image URLs (hosted at https://), set the brand colour and the light and dark palettes, and pick fonts.' },
-        { title: 'Preview and check', text: 'Switch between desktop, mobile and dark mode, and fix anything the pre-send checks flag, such as placeholder links or a missing address.' },
-        { title: 'Export or fork', text: 'Copy the HTML into Mailchimp, Klaviyo, HubSpot or your own code, copy the plain-text version, download the .html file, or fork it into My Code.' },
+        { title: 'Edit the content', text: `Fill in the ${listJoin(contentGroups)}, or click any text in the preview to jump to its field.${toggleable.length ? ` Switch the ${listJoin(toggleable)} on or off.` : ''}` },
+        { title: 'Add your brand', text: `Upload or paste your logo${hasImages ? ' and images' : ''}, set the brand colour and the light and dark palettes, pick fonts, or apply your saved brand kit.` },
+        { title: 'Preview and check', text: 'Switch between desktop, mobile and dark mode, and fix anything the pre-send checks flag, such as placeholder links or missing alt text.' },
+        { title: 'Export or fork', text: `Copy the HTML into ${t.category === 'transactional' ? 'Postmark, SendGrid, Amazon SES, Resend' : 'Mailchimp, Klaviyo, HubSpot, Brevo'} or your own code, copy the plain-text version, download a ZIP with images, or fork it into My Code.` },
       ],
     },
     { type: 'cards', label: 'Real-world uses', heading: 'Common Use Cases', columns: 3, items: seo.useCases },
+    {
+      type: 'text',
+      label: 'Related templates',
+      heading: `More Free Email Templates Like ${t.name}`,
+      quickFacts: false,
+      text: `${related.map(x => `**[${x.name}](/email-templates/${x.id}/)**: ${x.description}`).join('\n\n')}\n\nBrowse every [${cat?.label.toLowerCase()} email template](/email-templates/category/${t.category}/) or the full [email template gallery](/email-templates/).`,
+    },
     { type: 'faq', label: 'Got questions?', heading: 'Frequently Asked Questions', items: faqs },
   ];
 
@@ -100,6 +115,7 @@ export default async function EmailTemplatePage({ params }) {
     genre: cat?.label,
     keywords: [...seo.keywords, ...t.tags].join(', '),
     isAccessibleForFree: true,
+    isPartOf: { '@type': 'CollectionPage', name: `${cat?.label} Email Templates`, url: catUrl },
     ...(hasPreview && { image: `https://webdevpuneet.com${emailPreviewUrl(t.id)}` }),
     author: AUTHOR,
   };
@@ -114,7 +130,8 @@ export default async function EmailTemplatePage({ params }) {
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://webdevpuneet.com' },
       { '@type': 'ListItem', position: 2, name: 'Email Templates', item: BASE },
-      { '@type': 'ListItem', position: 3, name: t.name, item: url },
+      { '@type': 'ListItem', position: 3, name: cat?.label, item: catUrl },
+      { '@type': 'ListItem', position: 4, name: t.name, item: url },
     ],
   };
 
@@ -134,7 +151,7 @@ export default async function EmailTemplatePage({ params }) {
             <>
               <div className={snip.snippetTagRow}>
                 <span className={snip.snippetTagLabel}>Category</span>
-                <a href="/email-templates/" className={snip.tagChipLink}>{cat?.label}</a>
+                <a href={`/email-templates/category/${t.category}/`} className={snip.tagChipLink}>{cat?.label}</a>
               </div>
               <div className={snip.snippetTagRow}>
                 <span className={snip.snippetTagLabel}>Tags</span>
