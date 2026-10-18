@@ -2035,9 +2035,9 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             </div>
           )}
           {/* AdSense leaderboard (slot 7360198340) directly above the Preview toolbar,
-              above the preview — 970x90 / 728x90 / 468x60 / 320x50 by available width, library snippets
-              only. Collapses when unfilled (.adBar:has(ins[data-ad-status="unfilled"])). */}
-          {showEditor && !inMyCode && (
+              above the preview — 970x90 / 728x90 / 468x60 / 320x50 by available width, on library
+              snippets and My Code snippets alike. Collapses when unfilled (.adBar:has(ins[data-ad-status="unfilled"])). */}
+          {showEditor && (
             <div className={s.adBar} aria-label="Advertisement">
               {ADS_ENABLED ? <SnippetTopAd key={activeId || 'none'} /> : (
                 <div className={s.adBarSlot}>
