@@ -70,7 +70,7 @@ export default async function SocialPostTemplatePage({ params }) {
     .map(r => r.x);
   const relatedItems = [t, ...others].filter(x => previews.includes(x.id)).map(x => ({
     id: x.id, title: x.name, href: `/social-post-templates/${x.id}/`, img: previewUrl(x.id),
-    cat: categoryById(x.category)?.label, meta: `v${x.version} · ${SIZES.length} sizes`,
+    cat: categoryById(x.category)?.label, meta: `${SIZES.length} sizes`,
   }));
 
   const sections = [

@@ -207,3 +207,6 @@ label.toolCheck { font-size: 11px; gap: 5px; }
 .code :global(.hl-a) { color: #c586c0; }
 
 .codeCopy.codeCopied, .codeCopied:hover { background: #16a34a; border-color: #16a34a; color: #fff; }
+
+/* Icon-only device switch (Desktop / Mobile) */
+div.toolSeg > button.iconSeg { display: inline-flex; align-items: center; justify-content: center; padding: 3px 8px; }

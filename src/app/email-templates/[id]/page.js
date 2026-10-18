@@ -58,7 +58,7 @@ export default async function EmailTemplatePage({ params }) {
   const shots = new Set(emailPreviewIds());
   const relatedItems = relatedAll.filter(x => shots.has(x.id)).map(x => ({
     id: x.id, title: x.name, href: `/email-templates/${x.id}/`, img: `/images/email-templates/previews/${x.id}.png`,
-    cat: emailCategoryById(x.category)?.label, meta: `v${x.version} · Responsive · Dark mode`,
+    cat: emailCategoryById(x.category)?.label, meta: 'Responsive · Dark mode',
   }));
 
   const faqs = [

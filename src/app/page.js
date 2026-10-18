@@ -244,10 +244,10 @@ export default async function Home() {
   // Template strips: only templates whose preview image is captured
   const socialShots = new Set(socialPreviewIds());
   const socialItems = SOCIAL_TEMPLATES.filter(t => socialShots.has(t.id))
-    .map(t => ({ id: t.id, title: t.name, href: `/social-post-templates/${t.id}/`, img: `/images/social-post-templates/previews/${t.id}.png`, cat: socialCategoryById(t.category)?.label, meta: `v${t.version} · ${SOCIAL_SIZES.length} sizes` }));
+    .map(t => ({ id: t.id, title: t.name, href: `/social-post-templates/${t.id}/`, img: `/images/social-post-templates/previews/${t.id}.png`, cat: socialCategoryById(t.category)?.label, meta: `${SOCIAL_SIZES.length} sizes` }));
   const emailShots = new Set(emailPreviewIds());
   const emailItems = EMAIL_TEMPLATES.filter(t => emailShots.has(t.id))
-    .map(t => ({ id: t.id, title: t.name, href: `/email-templates/${t.id}/`, img: `/images/email-templates/previews/${t.id}.png`, cat: emailCategoryById(t.category)?.label, meta: `v${t.version} · Responsive · Dark mode` }));
+    .map(t => ({ id: t.id, title: t.name, href: `/email-templates/${t.id}/`, img: `/images/email-templates/previews/${t.id}.png`, cat: emailCategoryById(t.category)?.label, meta: 'Responsive · Dark mode' }));
   const playgroundCardTools = PLAYGROUND_CARD_SLUGS.map(slug => LIVE_TOOLS.find(t => t.slug === slug)).filter(Boolean);
   // Six for the blog fetch; the blog card lists the first four.
   const latestPosts = blogPosts.slice(0, 4);

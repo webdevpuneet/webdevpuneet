@@ -3,7 +3,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import s from '../SocialPostTemplates/styles.module.css';
 import e from './styles.module.css';
-import { ExportMenu, ForkButton, HistoryButtons } from '@/components/ToolbarActions';
+import { ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
+import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
+import { makeDesignStore } from '@/lib/design-store';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 import { EMAIL_TEMPLATES, EMAIL_CATEGORIES, emailTemplateById, emailCategoryById, defaultEmailState, FONT_STACKS } from './templates/index.js';
@@ -21,6 +23,8 @@ import FontPicker from '@/components/FontPicker';
 import { resolveFont } from '@/lib/fonts';
 
 const LS_PREFIX = 'wdp-email-v1:';
+// "My designs" and the autosave, in IndexedDB database `wdp-email-designs`
+const designStore = makeDesignStore('wdp-email-designs');
 const GMAIL_CLIP = 102 * 1024; // Gmail clips messages larger than ~102 KB
 const fmtKB = n => `${(n / 1024).toFixed(1)} KB`;
 const GALLERY_PAGE = 10; // cards per "Load more", same rhythm as the UI snippets gallery
@@ -132,7 +136,7 @@ function GalleryCard({ t, preview }) {
       <div className={s.cardBody}>
         <span className={s.cardCat}>{emailCategoryById(t.category)?.label}</span>
         <h3 className={s.cardTitle}>{t.name}</h3>
-        <span className={s.cardMeta}>v{t.version} · Responsive · Dark mode</span>
+        <span className={s.cardMeta}>Responsive · Dark mode</span>
       </div>
     </a>
   );
@@ -294,6 +298,14 @@ function toEmailFont(fid) {
   return f.fallback === 'serif' || fid === 'georgia' ? 'georgia' : 'system';
 }
 
+/* A saved email state brought up to date with the template (unknown keys dropped) */
+function restoreEmail(t, saved) {
+  const d = defaultEmailState(t);
+  const pick = (src, def) => ({ ...def, ...Object.fromEntries(Object.entries(src || {}).filter(([k]) => k in def)) });
+  const uploads = Object.fromEntries(Object.entries(saved?.uploads || {}).filter(([k, u]) => u?.id && t.fields.some(x => x.key === k && x.upload)));
+  return { fields: pick(saved?.fields, d.fields), toggles: pick(saved?.toggles, d.toggles), vars: pick(saved?.vars, d.vars), fonts: pick(saved?.fonts, d.fonts), uploads, assetBase: saved?.assetBase || '' };
+}
+
 /* Brand kit -> email: brand colour (button text picked for contrast), name, hosted logo,
    website and fonts. Fonts emails can't use fall back to Arial or Georgia stacks. */
 function withKit(prev, kit) {
@@ -318,44 +330,86 @@ export function EmailTemplateEditor({ id }) {
   const [busy, setBusy] = useState('');
   const [origin, setOrigin] = useState('');
   const [open, setOpen] = useState(() => new Set(['inbox', 'main']));
+  const [panelTab, setPanelTab] = useState('edit'); // left panel: 'edit' | 'designs'
+  const [designs, setDesigns] = useState([]);
+  const [currentDesign, setCurrentDesign] = useState(null); // { id, name } while editing a saved design
+  const [renaming, setRenaming] = useState(null);
+  const [designQuery, setDesignQuery] = useState('');
+  const [designScope, setDesignScope] = useState('all');
+  const [confirm, setConfirm] = useState(null);
+  const savedJson = useRef(null); // the open design as last saved or opened, to spot unsaved changes
   const [checksOpen, setChecksOpen] = useState(true);
   useEffect(() => { try { if (localStorage.getItem('wdp-email-checks-open') === '0') setChecksOpen(false); } catch { /* blocked */ } }, []);
   useEffect(() => { try { localStorage.setItem('wdp-email-checks-open', checksOpen ? '1' : '0'); } catch { /* blocked */ } }, [checksOpen]);
   const [checksHidden, setChecksHidden] = useState(false);
   useEffect(() => { try { if (localStorage.getItem('wdp-email-checks-hidden') === '1') setChecksHidden(true); } catch { /* blocked */ } }, []);
   const hideChecks = hidden => { setChecksHidden(hidden); try { localStorage.setItem('wdp-email-checks-hidden', hidden ? '1' : '0'); } catch { /* blocked */ } };
-  const flash = useCallback(msg => { setToast(msg); setTimeout(() => setToast(''), 2600); }, []);
+  const toastTimer = useRef(null);
+  const flash = useCallback(msg => {
+    setToast(msg);
+    clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToast(''), Math.min(6000, 2200 + msg.length * 25));
+  }, []);
 
   useEffect(() => { setOrigin(window.location.origin); }, []);
 
-  /* Restore / autosave */
+  /* Restore (IndexedDB autosave; older localStorage saves move over) and ?design=<id>.
+     The brand kit is only applied when the user clicks "Apply to this design". */
   useEffect(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem(LS_PREFIX + t.id) || 'null');
-      if (saved) {
-        const d = defaultEmailState(t);
-        const pick = (src, def) => ({ ...def, ...Object.fromEntries(Object.entries(src || {}).filter(([k]) => k in def)) });
-        const uploads = Object.fromEntries(Object.entries(saved.uploads || {}).filter(([k, u]) => u?.id && t.fields.some(x => x.key === k && x.upload)));
-        setState({ fields: pick(saved.fields, d.fields), toggles: pick(saved.toggles, d.toggles), vars: pick(saved.vars, d.vars), fonts: pick(saved.fonts, d.fonts), uploads, assetBase: saved.assetBase || '' });
-        const keep = new Set(Object.values(uploads).map(u => u.id));
-        assetKeys(`${t.id}:`).then(keys => keys.filter(k => !keep.has(k)).forEach(k => deleteAsset(k))).catch(() => {});
+    let live = true;
+    const wanted = new URLSearchParams(window.location.search).get('design');
+    if (wanted) window.history.replaceState(null, '', window.location.pathname);
+    (async () => {
+      let saved = await designStore.getAutosave(t.id);
+      if (!saved) {
+        try {
+          saved = JSON.parse(localStorage.getItem(LS_PREFIX + t.id) || 'null');
+          if (saved) { await designStore.putAutosave(t.id, saved); localStorage.removeItem(LS_PREFIX + t.id); }
+        } catch { /* storage blocked */ }
       }
-      // The brand kit is only applied when the user clicks "Apply to this design"
-    } catch { /* storage blocked */ }
-    hist.current.skip = true;
-    setHydrated(true);
-  }, [t]);
+      let next = saved ? restoreEmail(t, saved) : null;
+      if (wanted) {
+        const d = await designStore.getDesign(wanted).catch(() => null);
+        if (d && d.tpl === t.id) {
+          next = restoreEmail(t, d.state);
+          savedJson.current = JSON.stringify(next);
+          if (live) setCurrentDesign({ id: d.id, name: d.name });
+        }
+      }
+      // Uploaded images nobody uses any more (not this email, not a saved design) are removed
+      const all = await designStore.listDesigns();
+      const keep = new Set([next, ...all.filter(d => d.tpl === t.id).map(d => d.state)].flatMap(st => Object.values(st?.uploads || {}).map(u => u.id)));
+      assetKeys(`${t.id}:`).then(keys => keys.filter(k => !keep.has(k)).forEach(k => deleteAsset(k))).catch(() => {});
+      if (!live) return;
+      if (next) setState(next);
+      hist.current.skip = true;
+      setHydrated(true);
+    })();
+    return () => { live = false; };
+  }, [t]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!hydrated) return undefined;
-    const tm = setTimeout(() => { try { localStorage.setItem(LS_PREFIX + t.id, JSON.stringify(state)); } catch { /* full */ } }, 500);
+    const tm = setTimeout(() => {
+      designStore.putAutosave(t.id, state).catch(() => { try { localStorage.setItem(LS_PREFIX + t.id, JSON.stringify(state)); } catch { /* full */ } });
+    }, 500);
     return () => clearTimeout(tm);
   }, [state, hydrated, t.id]);
+
+  /* My designs: the list, kept fresh */
+  useEffect(() => {
+    let live = true;
+    const load = () => designStore.listDesigns().then(list => { if (live) setDesigns(list); });
+    load();
+    const off = designStore.onDesignsChange(load);
+    return () => { live = false; off(); };
+  }, []);
 
   /* Undo / redo */
   const hist = useRef({ past: [], future: [], committed: null, skip: false, timer: null });
   const [, setHistTick] = useState(0);
   const stateRef = useRef(state);
   stateRef.current = state;
+  const saveRef = useRef(null); // the latest Save handler, for Ctrl+S
   useEffect(() => {
     const h = hist.current;
     if (!hydrated || h.skip || h.committed === null) { h.skip = false; h.committed = state; return undefined; }
@@ -396,6 +450,7 @@ export function EmailTemplateEditor({ id }) {
   useEffect(() => {
     const onKey = ev => {
       if (!(ev.ctrlKey || ev.metaKey)) return;
+      if (ev.key.toLowerCase() === 's' && !ev.shiftKey && !ev.altKey) { ev.preventDefault(); saveRef.current?.(); return; }
       const el = ev.target;
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes(el?.tagName) || el?.isContentEditable) return;
       const k = ev.key.toLowerCase();
@@ -607,6 +662,87 @@ export function EmailTemplateEditor({ id }) {
     setBusy('');
   };
 
+  /* My designs: save, save as, open, duplicate, rename, delete */
+  const dirty = !!currentDesign && savedJson.current !== null && savedJson.current !== JSON.stringify(state);
+  const [justSaved, setJustSaved] = useState(false);
+  const savedTimer = useRef(null);
+  useEffect(() => () => clearTimeout(savedTimer.current), []);
+  const nextName = () => `${t.name} ${designs.filter(d => d.tpl === t.id).length + 1}`;
+  const saveNewDesign = async name => {
+    setBusy('save');
+    try {
+      const rec = await designStore.saveDesign({ name: name.trim() || t.name, tpl: t.id, state });
+      savedJson.current = JSON.stringify(state);
+      setCurrentDesign({ id: rec.id, name: rec.name });
+      flash(`Saved “${rec.name}” to My designs`);
+    } catch (err) { flash(`Couldn't save the design: ${err.message}`); }
+    setBusy('');
+  };
+  const updateCurrentDesign = async () => {
+    if (!currentDesign) return;
+    setBusy('save');
+    try {
+      const old = await designStore.getDesign(currentDesign.id);
+      await designStore.saveDesign({ ...(old || {}), id: currentDesign.id, name: currentDesign.name, tpl: t.id, state });
+      savedJson.current = JSON.stringify(state);
+      flash(`Updated “${currentDesign.name}”`);
+    } catch (err) { flash(`Couldn't save the design: ${err.message}`); }
+    setBusy('');
+  };
+  const quickSave = async () => {
+    if (busy) return;
+    if (currentDesign) await updateCurrentDesign();
+    else await saveNewDesign(nextName());
+    setJustSaved(true);
+    clearTimeout(savedTimer.current);
+    savedTimer.current = setTimeout(() => setJustSaved(false), 1600);
+  };
+  saveRef.current = quickSave;
+  const openDesign = (d, force = false) => {
+    if (currentDesign?.id === d.id && !dirty) { setPanelTab('edit'); return; }
+    if (!force && currentDesign && dirty) {
+      setConfirm({
+        title: 'Discard unsaved changes?',
+        message: `“${currentDesign.name}” has changes you haven't saved. Opening “${d.name}” replaces them in the editor.`,
+        okLabel: `Open “${d.name}”`,
+        danger: true,
+        onOk: () => openDesign(d, true),
+      });
+      return;
+    }
+    if (d.tpl !== t.id) { window.location.href = `/email-templates/${d.tpl}/?design=${encodeURIComponent(d.id)}`; return; }
+    const next = restoreEmail(t, d.state);
+    savedJson.current = JSON.stringify(next);
+    setState(next);
+    setCurrentDesign({ id: d.id, name: d.name });
+    setPanelTab('edit');
+    flash(`Opened “${d.name}”`);
+  };
+  const duplicate = async d => { const copy = await designStore.duplicateDesign(d.id); if (copy) flash(`Duplicated as “${copy.name}”`); };
+  const removeDesign = d => setConfirm({
+    title: 'Delete this design?',
+    message: `“${d.name}” will be removed from My designs in this browser. This can't be undone.`,
+    okLabel: 'Delete',
+    danger: true,
+    onOk: async () => {
+      await designStore.deleteDesign(d.id);
+      if (currentDesign?.id === d.id) setCurrentDesign(null);
+      flash(`Deleted “${d.name}”`);
+    },
+  });
+  const renameDesign = async (rid, name) => {
+    const d = await designStore.getDesign(rid);
+    if (d && name.trim()) {
+      await designStore.saveDesign({ ...d, name: name.trim() });
+      if (currentDesign?.id === rid) setCurrentDesign({ id: rid, name: name.trim() });
+    }
+    setRenaming(null);
+  };
+  const shownDesigns = designs.filter(d => {
+    const words = designQuery.toLowerCase().split(/\s+/).filter(Boolean);
+    return (designScope === 'all' || d.tpl === t.id) && words.every(w => `${d.name} ${emailTemplateById(d.tpl)?.name || d.tpl}`.toLowerCase().includes(w));
+  });
+
   const forkToMyCode = async () => {
     const tab = openForkTab();
     setBusy('fork');
@@ -647,7 +783,63 @@ export function EmailTemplateEditor({ id }) {
             </a>
           </div>
           {/* Only this part scrolls, so the scrollbar starts below the pinned tool name */}
+          <div className={s.panelTabs} role="tablist" aria-label="Panel">
+            <button type="button" role="tab" aria-selected={panelTab === 'edit'} className={panelTab === 'edit' ? s.panelTabOn : ''} onClick={() => setPanelTab('edit')}>Edit</button>
+            <button type="button" role="tab" aria-selected={panelTab === 'designs'} className={panelTab === 'designs' ? s.panelTabOn : ''} onClick={() => setPanelTab('designs')}>
+              My designs <span className={s.panelTabCount}>{designs.length}</span>
+            </button>
+          </div>
           <div className={s.controlsScroll}>
+          {panelTab === 'designs' ? (
+            <section className={s.section}>
+              {designs.length > 0 && (
+                <div className={s.designFind}>
+                  <input type="search" className={s.input} value={designQuery} onChange={ev => setDesignQuery(ev.target.value)} placeholder={`Search ${designs.length} design${designs.length > 1 ? 's' : ''}…`} aria-label="Search my designs" />
+                  <div className={s.designScope} role="radiogroup" aria-label="Show designs from">
+                    {[['all', 'All'], ['this', 'This template']].map(([v, l]) => (
+                      <button key={v} type="button" role="radio" aria-checked={designScope === v} className={designScope === v ? s.designScopeOn : ''} onClick={() => setDesignScope(v)}>
+                        {l} <span>{v === 'all' ? designs.length : designs.filter(d => d.tpl === t.id).length}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {designs.length > 0 && shownDesigns.length === 0 && (
+                <p className={s.designsEmpty}>No designs match{designQuery.trim() ? ` “${designQuery.trim()}”` : ''}{designScope === 'this' ? ' in this template' : ''}.</p>
+              )}
+              {shownDesigns.length > 0 && (
+                <ul className={`${s.designList} ${s.designListTab}`}>
+                  {shownDesigns.map(d => (
+                    <li key={d.id} className={`${s.designItem} ${currentDesign?.id === d.id ? s.designItemOn : ''}`}>
+                      <button type="button" className={s.designOpen} onClick={() => openDesign(d)} title={d.tpl === t.id ? 'Open this design' : 'Open in its template'} style={{ borderBottom: `3px solid ${d.state?.vars?.brand || '#6366f1'}` }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={`/images/email-templates/previews/${d.tpl}.png`} alt="" style={{ objectPosition: 'top' }} />
+                      </button>
+                      <span className={s.designMeta}>
+                        {renaming?.id === d.id
+                          ? (
+                            <form onSubmit={ev => { ev.preventDefault(); renameDesign(d.id, renaming.name); }}>
+                              <input className={s.designRename} value={renaming.name} onChange={ev => setRenaming({ id: d.id, name: ev.target.value })} onBlur={() => renameDesign(d.id, renaming.name)} autoFocus aria-label="New name" maxLength={60} />
+                            </form>
+                          )
+                          : <b title={d.name}>{d.name}</b>}
+                        <small>{emailTemplateById(d.tpl)?.name || d.tpl} · {String(d.state?.fields?.subject || '').slice(0, 40) || 'No subject'}</small>
+                        <span className={s.designActions}>
+                          <button type="button" onClick={() => openDesign(d)}>Open</button>
+                          <button type="button" onClick={() => duplicate(d)}>Duplicate</button>
+                          <button type="button" onClick={() => setRenaming({ id: d.id, name: d.name })}>Rename</button>
+                          <button type="button" onClick={() => removeDesign(d)} aria-label={`Delete ${d.name}`}>Delete</button>
+                        </span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {designs.length === 0 && <p className={s.designsEmpty}>No saved designs yet. Click Save in the toolbar (or press Ctrl+S) to keep this email, make variations, or come back to it on this device.</p>}
+              <p className={s.hint}>Designs are saved in this browser, uploaded images included. Open one to keep editing, or duplicate it to make a variation.</p>
+            </section>
+          ) : (
+          <>
           <BrandKitPanel
             emailMode
             onToast={flash}
@@ -757,6 +949,8 @@ export function EmailTemplateEditor({ id }) {
             </div>
             <p className={s.hint}>Any Google Font works. Web fonts show in Apple Mail and iOS Mail; Gmail and Outlook use Arial, Georgia or Courier instead.</p>
           </section>
+          </>
+          )}
           </div>
         </aside>
 
@@ -765,19 +959,23 @@ export function EmailTemplateEditor({ id }) {
           <div className={s.toolbar}>
             <div className={e.toolbarLeft}>
               {/* The page's H1: template name and version lead the preview toolbar */}
-              <h1 className={s.metaName}>{t.name}</h1>
-              <span className={s.version}>v{t.version}</span>
+              {/* The page's H1: the template name, or the saved design's name once it's saved */}
+              <h1 className={s.metaName} title={currentDesign ? `Saved design “${currentDesign.name}”` : undefined}>{currentDesign ? currentDesign.name : t.name}</h1>
+              {currentDesign && dirty && <i className={s.dirtyDot} title="Unsaved changes" aria-label="Unsaved changes" />}
               <span className={s.toolbarSep} aria-hidden="true" />
               <div className={`${s.seg} ${e.toolSeg}`} role="radiogroup" aria-label="View">
-                {[['preview', 'Preview'], ['html', 'HTML'], ['text', 'Plain text']].map(([v, l]) => (
+                {[['preview', 'Preview'], ['html', 'HTML'], ['text', 'Text']].map(([v, l]) => (
                   <button key={v} type="button" role="radio" aria-checked={view === v} className={`${s.segBtn} ${view === v ? s.segBtnActive : ''}`} onClick={() => setView(v)}>{l}</button>
                 ))}
               </div>
               {view === 'preview' && (
                 <>
                   <div className={`${s.seg} ${e.toolSeg}`} role="radiogroup" aria-label="Device">
-                    {[['desktop', 'Desktop'], ['mobile', 'Mobile']].map(([v, l]) => (
-                      <button key={v} type="button" role="radio" aria-checked={device === v} className={`${s.segBtn} ${device === v ? s.segBtnActive : ''}`} onClick={() => setDevice(v)}>{l}</button>
+                    {[
+                      ['desktop', 'Desktop', <svg key="d" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>],
+                      ['mobile', 'Mobile', <svg key="m" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>],
+                    ].map(([v, l, icon]) => (
+                      <button key={v} type="button" role="radio" aria-checked={device === v} aria-label={`${l} preview`} title={`${l} preview`} className={`${s.segBtn} ${e.iconSeg} ${device === v ? s.segBtnActive : ''}`} onClick={() => setDevice(v)}>{icon}</button>
                     ))}
                   </div>
                   <label className={`${s.check} ${e.toolCheck}`}><input type="checkbox" checked={dark} onChange={ev => setDark(ev.target.checked)} /> Dark mode</label>
@@ -786,6 +984,16 @@ export function EmailTemplateEditor({ id }) {
             </div>
             <div className={e.toolbarRight}>
               <HistoryButtons onUndo={undo} onRedo={redo} onReset={() => setState({ ...defaultEmailState(t), assetBase: state.assetBase || '' })} canUndo={canUndo} canRedo={canRedo} />
+              <SaveButton
+                onClick={quickSave}
+                busy={busy === 'save'}
+                saved={justSaved}
+                dirty={dirty}
+                disabled={!!busy}
+                title={currentDesign ? (dirty ? `Save changes to “${currentDesign.name}” (Ctrl+S)` : `“${currentDesign.name}” is saved`) : 'Save to My designs (Ctrl+S)'}
+                saveAs={{ defaultName: currentDesign ? `${currentDesign.name} (copy)` : nextName(), onSave: name => saveNewDesign(name) }}
+                menu={currentDesign ? [{ label: 'Detach', sub: `Keep editing without changing “${currentDesign.name}”`, onClick: () => { setCurrentDesign(null); flash('Detached. Save now creates a new design.'); } }] : []}
+              />
               <span className={s.toolbarSep} aria-hidden="true" />
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />
               <ExportMenu
@@ -863,6 +1071,13 @@ export function EmailTemplateEditor({ id }) {
           })()}
         </div>
       </div>
+      {confirm && (
+        <ConfirmDialog
+          {...confirm}
+          onCancel={() => setConfirm(null)}
+          onOk={() => { const go = confirm.onOk; setConfirm(null); go(); }}
+        />
+      )}
       {toast && <div className={s.toast} role="status">{toast}</div>}
     </div>
   );

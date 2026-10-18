@@ -144,7 +144,7 @@ function GalleryCard({ t, preview }) {
       <div className={s.cardBody}>
         <span className={s.cardCat}>{cat?.label}</span>
         <h3 className={s.cardTitle}>{t.name}</h3>
-        <span className={s.cardMeta}>v{t.version} · {SIZES.length} sizes</span>
+        <span className={s.cardMeta}>{SIZES.length} sizes</span>
       </div>
     </a>
   );

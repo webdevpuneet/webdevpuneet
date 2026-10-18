@@ -818,16 +818,9 @@ export default function TemplateEditor({ id }) {
           <PlaygroundTopAd />
           <div className={s.toolbar}>
             <div className={s.meta}>
-              {/* The page's H1: template name and version lead the preview toolbar */}
-              <h1 className={s.metaName}>{isCarousel ? 'Carousel Builder' : t.name}</h1>
-              <span className={s.version}>v{t.version}</span>
-              {currentDesign && (
-                <button type="button" className={s.designChip} onClick={() => setPanelTab('designs')} title={`Editing your saved design “${currentDesign.name}”. Save (Ctrl+S) updates it.`}>
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/></svg>
-                  <span>{currentDesign.name}</span>
-                  {dirty && <i className={s.dirtyDot} title="Unsaved changes" aria-label="Unsaved changes" />}
-                </button>
-              )}
+              {/* The page's H1: the template name, or the saved design's name once it's saved */}
+              <h1 className={s.metaName} title={currentDesign ? `Saved design “${currentDesign.name}”` : undefined}>{currentDesign ? currentDesign.name : (isCarousel ? 'Carousel Builder' : t.name)}</h1>
+              {currentDesign && dirty && <i className={s.dirtyDot} title="Unsaved changes" aria-label="Unsaved changes" />}
               {isCarousel
                 ? (
                   <span className={s.slideNav}>
