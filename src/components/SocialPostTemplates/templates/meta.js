@@ -1,13 +1,17 @@
 /* Shared definitions for the social post templates. Plain data only (no React, no CSS
    imports) so scripts/postbuild.js can import the registry for the sitemap. */
 
-// Post sizes for Instagram, Facebook and X (2026 recommendations).
+// Post sizes for Instagram, Facebook, X, LinkedIn and Pinterest (2026 recommendations).
 // --safe-top / --safe-bottom keep text clear of the Story header and reply bar.
+// `shape` lets a new size reuse a template's layout tweaks: the LinkedIn image gets the
+// .is-landscape rules and the Pinterest pin the .is-portrait ones (the root has both classes).
 export const SIZES = [
-  { id: 'portrait',  label: 'Portrait post',  short: '4:5',  w: 1080, h: 1350, note: 'Instagram feed (recommended), Facebook feed, X portrait' },
-  { id: 'square',    label: 'Square post',    short: '1:1',  w: 1080, h: 1080, note: 'Instagram, Facebook and X feeds' },
-  { id: 'story',     label: 'Story / Reel',   short: '9:16', w: 1080, h: 1920, note: 'Instagram and Facebook Stories, Reel covers', safeTop: 250, safeBottom: 340 },
-  { id: 'landscape', label: 'Landscape post', short: '16:9', w: 1600, h: 900,  note: 'X feed image, Facebook landscape' },
+  { id: 'portrait',  label: 'Portrait post',  short: '4:5',    w: 1080, h: 1350, note: 'Instagram feed (recommended), Facebook and LinkedIn feeds, X portrait' },
+  { id: 'square',    label: 'Square post',    short: '1:1',    w: 1080, h: 1080, note: 'Instagram, Facebook, LinkedIn and X feeds' },
+  { id: 'story',     label: 'Story / Reel',   short: '9:16',   w: 1080, h: 1920, note: 'Instagram and Facebook Stories, Reel covers', safeTop: 250, safeBottom: 340 },
+  { id: 'landscape', label: 'Landscape post', short: '16:9',   w: 1600, h: 900,  note: 'X feed image, Facebook landscape' },
+  { id: 'linkedin',  label: 'LinkedIn image', short: '1.91:1', w: 1200, h: 627,  shape: 'landscape', note: 'LinkedIn shared image and link posts, Facebook link images' },
+  { id: 'pin',       label: 'Pinterest pin',  short: '2:3',    w: 1000, h: 1500, shape: 'portrait', note: 'Pinterest standard pin (the recommended 2:3 ratio)' },
 ];
 export const sizeById = id => SIZES.find(z => z.id === id) || SIZES[0];
 
@@ -19,11 +23,12 @@ export const TEMPLATE_CATEGORIES = [
   { id: 'social-proof',  label: 'Social Proof',      blurb: 'Customer testimonials and before/after results.' },
   { id: 'carousel',      label: 'Carousel Slides',   blurb: 'Cover, step and final slides for swipeable carousel posts.' },
   { id: 'stories',       label: 'Stories',           blurb: 'Story-first designs: polls, questions and link-in-bio prompts.' },
+  { id: 'holidays',      label: 'Holidays & Seasonal', blurb: 'Halloween, Thanksgiving, Christmas and New Year posts, ready for the season.' },
 ];
 export const categoryById = id => TEMPLATE_CATEGORIES.find(c => c.id === id);
 
 /* Base CSS shared by every template. Sizes use --u (1% of the shorter side), so one
-   design scales across all four post sizes. Templates must only use self-contained
+   design scales across every post size. Templates must only use self-contained
    CSS (no external URLs) so the PNG export can embed everything. */
 export const BASE_CSS = `
 .spt{--pad:calc(var(--u)*8);--pt:calc(var(--pad) + var(--safe-top,0px));--pb:calc(var(--pad) + var(--safe-bottom,0px));position:relative;overflow:hidden;box-sizing:border-box;font-family:var(--font-body);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;line-height:1.3}

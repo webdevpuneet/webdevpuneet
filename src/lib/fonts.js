@@ -10,7 +10,7 @@
 
    resolveFont(id) always returns { id, label, family?, weights, fallback, stack?, kind }. */
 
-import { FONTS, ensureFont as ensureBuiltin } from '../components/OgImageGenerator/engine';
+import { FONTS, ensureFont as ensureBuiltin } from '../components/OgImageGenerator/engine.js';
 
 const FALLBACK = { s: 'sans-serif', e: 'serif', d: 'sans-serif', h: 'cursive', m: 'monospace' };
 export const FONT_CATEGORIES = [

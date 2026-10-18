@@ -7,7 +7,10 @@ import { mountTemplate, fitText, loadFonts, fillTokens, layoutImages } from './r
 /* Live preview of a template at its real pixel size, scaled to fit `maxW` × `maxH`.
    With `editable`, text can be edited in place (raw text with *asterisks* shows while
    focused; highlights render again on blur) and photo slots can be clicked. */
-export default function Preview({ template: t, state, maxW, maxH, editable = false, onEdit, onPickImage, onReveal, onImagePos, children }) {
+export default function Preview({ template: t, state, maxW, maxH, editable = false, onEdit, onPickImage, onReveal, onImagePos, onLayout, children }) {
+  // onLayout(root): called after every render and text fit (the quality checks measure it)
+  const onLayoutRef = useRef(onLayout);
+  onLayoutRef.current = onLayout;
   const hostRef = useRef(null);
   const shadowRef = useRef(null);
   const stateRef = useRef(state);
@@ -33,7 +36,8 @@ export default function Preview({ template: t, state, maxW, maxH, editable = fal
     const root = mountTemplate(shadowRef.current, t, state, { editable });
     fitText(root);
     layoutImages(root, state);
-  }, [t, state, editable, fontTick]);
+    onLayoutRef.current?.(root);
+  }, [t, state, editable, fontTick, maxW, maxH]);
 
   // In-place editing and photo picking (listeners live on the shadow root)
   useEffect(() => {

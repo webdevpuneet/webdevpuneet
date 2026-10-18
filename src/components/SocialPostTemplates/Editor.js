@@ -13,6 +13,11 @@ import { ExportMenu, ForkButton, HistoryButtons } from '@/components/ToolbarActi
 import Preview from './Preview';
 import { renderImage, standaloneHtml, snippetParts } from './render';
 import { dbPut } from '@/lib/uiSnippetsDb';
+import { jpegsToPdf } from '@/lib/images-to-pdf';
+import Mockup, { MOCKUPS } from './Mockup';
+import BulkCreate from './BulkCreate';
+import { runChecks } from './quality-checks';
+import { listDesigns, getDesign, saveDesign, deleteDesign, duplicateDesign, thumbFrom, onDesignsChange } from './designs';
 import { openForkTab } from '@/lib/open-fork-tab';
 
 const LS_PREFIX = 'wdp-spt-v1:';
@@ -78,9 +83,9 @@ function editorDefault(t) {
   if (CAROUSEL.includes(t.id)) {
     if (!('bg2' in vars)) vars.bg2 = CAROUSEL_BG2[t.id] || '#7c3aed';
     const slides = carouselSlides();
-    return { size: t.defaultSize || 'portrait', vars, fonts: { ...t.fonts }, slides, active: Math.max(0, slides.findIndex(x => x.tpl === t.id)) };
+    return { size: t.defaultSize || 'portrait', vars, fonts: { ...t.fonts }, slides, active: Math.max(0, slides.findIndex(x => x.tpl === t.id)), caption: '' };
   }
-  return { size: t.defaultSize || 'portrait', vars, fonts: { ...t.fonts }, slides: [newSlide(t.id)], active: 0 };
+  return { size: t.defaultSize || 'portrait', vars, fonts: { ...t.fonts }, slides: [newSlide(t.id)], active: 0, caption: '' };
 }
 
 /* Brings a saved design up to date (older saves kept fields at the top level) */
@@ -107,8 +112,12 @@ function restore(t, saved) {
     fonts: { ...d.fonts, ...(saved.fonts || {}) },
     slides,
     active: Math.min(Math.max(0, saved.active ?? d.active), slides.length - 1),
+    caption: typeof saved.caption === 'string' ? saved.caption : '',
   };
 }
+
+/* Caption limits shown under the caption box */
+const CAPTION_LIMITS = [['Instagram', 2200], ['X', 280], ['LinkedIn', 3000], ['Facebook', 63206]];
 
 function ColorField({ label, value, onChange }) {
   const [draft, setDraft] = useState(value);
@@ -145,6 +154,14 @@ export default function TemplateEditor({ id }) {
   const [toast, setToast] = useState('');
   const [includeImages, setIncludeImages] = useState(true);
   const [box, setBox] = useState({ w: 600, h: 600 });
+  const [mockup, setMockupRaw] = useState('design');
+  const [checks, setChecks] = useState([]);
+  const [checksOpen, setChecksOpen] = useState(false);
+  const [bulkOpen, setBulkOpen] = useState(false);
+  const [designs, setDesigns] = useState([]);
+  const [currentDesign, setCurrentDesign] = useState(null); // { id, name } when editing a saved design
+  const [naming, setNaming] = useState(null); // draft name while saving
+  const [renaming, setRenaming] = useState(null); // { id, name }
   const stageRef = useRef(null);
   const fileRef = useRef(null);
   const pickKey = useRef(null);
@@ -165,6 +182,13 @@ export default function TemplateEditor({ id }) {
     };
   }, [state]);
   const design = useMemo(() => designFor(active), [designFor, active]);
+  const onLayout = useCallback(root => {
+    // Measured after layout settles; only stored when the result changes
+    requestAnimationFrame(() => {
+      const next = runChecks(root, { size: sizeById(design.size), template: st, fields: design.fields, imageDims: design.imageDims, imagePos: design.imagePos });
+      setChecks(prev => (JSON.stringify(prev) === JSON.stringify(next) ? prev : next));
+    });
+  }, [design, st]);
 
   /* Restore / autosave this template's edits */
   useEffect(() => {
@@ -181,7 +205,30 @@ export default function TemplateEditor({ id }) {
     if (next) setState(next);
     hist.current.skip = true; // the restored design is the starting point, not an undo step
     setHydrated(true);
+    // /social-post-templates/<id>/?design=<designId> opens a saved design (My designs)
+    const wanted = new URLSearchParams(window.location.search).get('design');
+    if (wanted) {
+      getDesign(wanted).then(d => {
+        if (d && d.tpl === t.id) {
+          hist.current.skip = true;
+          setState(restore(t, d.state));
+          setCurrentDesign({ id: d.id, name: d.name });
+        }
+      }).catch(() => {});
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+    try { const mv = localStorage.getItem('wdp-spt-mockup'); if (MOCKUPS.some(x => x.id === mv)) setMockupRaw(mv); } catch { /* blocked */ }
   }, [t]); // eslint-disable-line react-hooks/exhaustive-deps
+  const setMockup = v => { setMockupRaw(v); try { localStorage.setItem('wdp-spt-mockup', v); } catch { /* blocked */ } };
+
+  /* My designs: the list, kept fresh across tabs of this page */
+  useEffect(() => {
+    let live = true;
+    const load = () => listDesigns().then(list => { if (live) setDesigns(list); });
+    load();
+    const off = onDesignsChange(load);
+    return () => { live = false; off(); };
+  }, []);
   useEffect(() => {
     if (!hydrated) return undefined;
     const tm = setTimeout(() => {
@@ -398,6 +445,88 @@ export default function TemplateEditor({ id }) {
   };
   const downloadHtml = () => saveBlob(new Blob([standaloneHtml(st, design, { includeImages })], { type: 'text/html' }), `${baseName}.html`);
 
+  /* Carousel (or a single post) as a PDF: LinkedIn document posts are uploaded as PDFs */
+  const downloadPdf = async () => {
+    setBusy('pdf');
+    try {
+      const count = isCarousel ? state.slides.length : 1;
+      const pages = [];
+      for (let i = 0; i < count; i++) {
+        const tt = isCarousel ? templateById(state.slides[i].tpl) : st;
+        const blob = await renderImage(tt, isCarousel ? designFor(i) : design, { format: 'jpeg', quality: 0.92 });
+        pages.push({ bytes: new Uint8Array(await blob.arrayBuffer()), w: z.w, h: z.h });
+      }
+      const pdf = jpegsToPdf(pages, { title: isCarousel ? (state.slides[0].fields.title || 'Carousel').replace(/\*/g, '') : t.name });
+      saveBlob(pdf, isCarousel ? `carousel-${count}-slides-${z.w}x${z.h}.pdf` : `${baseName}.pdf`);
+      flash(`Downloaded a ${count}-page PDF · ${fmtBytes(pdf.size)}${isCarousel ? '. Upload it to LinkedIn as a document post' : ''}`);
+    } catch (err) { flash(`PDF export failed: ${err.message}`); }
+    setBusy('');
+  };
+
+  /* My designs */
+  const myDesigns = designs;
+  const designThumb = async () => {
+    try { return await thumbFrom(await renderImage(templateById(state.slides[0].tpl) || st, designFor(0), { format: 'jpeg', quality: 0.8 })); }
+    catch { return null; }
+  };
+  const saveNewDesign = async name => {
+    setBusy('save');
+    try {
+      const rec = await saveDesign({ name: name.trim() || t.name, tpl: t.id, state, thumb: await designThumb() });
+      setCurrentDesign({ id: rec.id, name: rec.name });
+      flash(`Saved “${rec.name}” to My designs`);
+    } catch (err) { flash(`Couldn't save the design: ${err.message}`); }
+    setNaming(null);
+    setBusy('');
+  };
+  const updateCurrentDesign = async () => {
+    if (!currentDesign) return;
+    setBusy('save');
+    try {
+      const old = await getDesign(currentDesign.id);
+      await saveDesign({ ...(old || {}), id: currentDesign.id, name: currentDesign.name, tpl: t.id, state, thumb: await designThumb() });
+      flash(`Updated “${currentDesign.name}”`);
+    } catch (err) { flash(`Couldn't save the design: ${err.message}`); }
+    setBusy('');
+  };
+  const openDesign = d => {
+    if (d.tpl !== t.id) { window.location.href = `/social-post-templates/${d.tpl}/?design=${encodeURIComponent(d.id)}`; return; }
+    setState(restore(t, d.state));
+    setCurrentDesign({ id: d.id, name: d.name });
+    flash(`Opened “${d.name}”`);
+  };
+  const duplicate = async d => {
+    const copy = await duplicateDesign(d.id);
+    if (copy) flash(`Duplicated as “${copy.name}”`);
+  };
+  const removeDesign = async d => {
+    if (!window.confirm(`Delete “${d.name}” from My designs? This can't be undone.`)) return;
+    await deleteDesign(d.id);
+    if (currentDesign?.id === d.id) setCurrentDesign(null);
+  };
+  const renameDesign = async (id, name) => {
+    const d = await getDesign(id);
+    if (d && name.trim()) {
+      await saveDesign({ ...d, name: name.trim() });
+      if (currentDesign?.id === id) setCurrentDesign({ id, name: name.trim() });
+    }
+    setRenaming(null);
+  };
+  const copyCaption = async () => {
+    try { await navigator.clipboard.writeText(state.caption || ''); flash('Caption copied'); }
+    catch { flash('Copy blocked by the browser'); }
+  };
+
+  /* Profile shown in the platform mock-ups: from the brand kit when it's set */
+  const kit = typeof window !== 'undefined' ? loadKit() : null;
+  const profile = {
+    name: kit?.name || 'Your Brand',
+    handle: (kit?.handle || slide.fields.handle || '@yourbrand').replace(/^@?/, '@'),
+    logo: kit?.logo || null,
+    initial: (kit?.name || kit?.handle || 'Y').replace(/^@/, '').trim()[0]?.toUpperCase() || 'Y',
+  };
+  const bad = checks.filter(c => c.level === 'bad').length;
+
   const textFields = st.fields.filter(f => f.type !== 'image');
   const imageFields = st.fields.filter(f => f.type === 'image');
   const scaleSafe = v => `${(v / z.h) * 100}%`;
@@ -421,6 +550,61 @@ export default function TemplateEditor({ id }) {
           {/* Only this part scrolls, so the scrollbar starts below the pinned tool name */}
           <div className={s.controlsScroll}>
           <BrandKitPanel onApply={applyKit} onSaveFrom={kitFromDesign} onToast={flash} />
+
+          <section className={s.section}>
+            <h2 className={s.sectionTitle}>My designs <span className={s.sectionCount}>{myDesigns.length}</span></h2>
+            {currentDesign && (
+              <p className={s.designNow}>Editing <b>{currentDesign.name}</b></p>
+            )}
+            {naming !== null
+              ? (
+                <form className={s.designName} onSubmit={e => { e.preventDefault(); saveNewDesign(naming); }}>
+                  <input className={s.input} value={naming} onChange={e => setNaming(e.target.value)} placeholder="Design name" aria-label="Design name" autoFocus maxLength={60} />
+                  <button type="submit" className={s.miniBtn} disabled={busy === 'save'}>{busy === 'save' ? 'Saving…' : 'Save'}</button>
+                  <button type="button" className={s.miniBtn} onClick={() => setNaming(null)}>Cancel</button>
+                </form>
+              )
+              : (
+                <div className={s.miniRow}>
+                  {currentDesign && <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={updateCurrentDesign} disabled={!!busy}>Save changes</button>}
+                  <button type="button" className={currentDesign ? s.miniBtn : `${s.miniBtn} ${s.miniBtnAccent}`} onClick={() => setNaming(currentDesign ? `${currentDesign.name} (copy)` : `${isCarousel ? 'Carousel' : t.name} ${myDesigns.filter(d => d.tpl === t.id).length + 1}`)} disabled={!!busy}>
+                    {currentDesign ? 'Save as new' : '+ Save this design'}
+                  </button>
+                  {currentDesign && <button type="button" className={s.miniBtn} onClick={() => setCurrentDesign(null)} title="Keep editing without linking to the saved design">Detach</button>}
+                </div>
+              )}
+            {myDesigns.length > 0 && (
+              <ul className={s.designList}>
+                {myDesigns.slice(0, 30).map(d => (
+                  <li key={d.id} className={`${s.designItem} ${currentDesign?.id === d.id ? s.designItemOn : ''}`}>
+                    <button type="button" className={s.designOpen} onClick={() => openDesign(d)} title={d.tpl === t.id ? 'Open this design' : 'Open in its template'}>
+                      {d.thumb
+                        // eslint-disable-next-line @next/next/no-img-element
+                        ? <img src={d.thumb} alt="" />
+                        : <span className={s.designThumbEmpty} />}
+                    </button>
+                    <span className={s.designMeta}>
+                      {renaming?.id === d.id
+                        ? (
+                          <form onSubmit={e => { e.preventDefault(); renameDesign(d.id, renaming.name); }}>
+                            <input className={s.designRename} value={renaming.name} onChange={e => setRenaming({ id: d.id, name: e.target.value })} onBlur={() => renameDesign(d.id, renaming.name)} autoFocus aria-label="New name" maxLength={60} />
+                          </form>
+                        )
+                        : <b title={d.name}>{d.name}</b>}
+                      <small>{templateById(d.tpl)?.name || d.tpl} · {new Date(d.updated).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</small>
+                      <span className={s.designActions}>
+                        <button type="button" onClick={() => openDesign(d)}>Open</button>
+                        <button type="button" onClick={() => duplicate(d)}>Duplicate</button>
+                        <button type="button" onClick={() => setRenaming({ id: d.id, name: d.name })}>Rename</button>
+                        <button type="button" onClick={() => removeDesign(d)} aria-label={`Delete ${d.name}`}>Delete</button>
+                      </span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <p className={s.hint}>Designs are saved in this browser, photos included. Open one to keep editing, or duplicate it to make a variation.</p>
+          </section>
 
           {isCarousel && (
             <section className={s.section}>
@@ -476,6 +660,18 @@ export default function TemplateEditor({ id }) {
               </div>
             ))}
             <p className={s.hint}>Tip: click text in the preview to edit it there. Wrap words in *asterisks* to colour them.</p>
+          </section>
+
+          <section className={s.section}>
+            <h2 className={s.sectionTitle}>Post caption</h2>
+            <textarea className={s.textarea} rows={3} value={state.caption || ''} onChange={e => setState(p => ({ ...p, caption: e.target.value }))} placeholder="Write the caption you'll post with this image. It shows in the Instagram, X and LinkedIn mock-ups." aria-label="Post caption" />
+            <div className={s.captionMeta}>
+              {CAPTION_LIMITS.map(([name, max]) => {
+                const n = (state.caption || '').length;
+                return <span key={name} className={n > max ? s.captionOver : ''}>{name} {n.toLocaleString()}/{max.toLocaleString()}</span>;
+              })}
+              <button type="button" className={s.miniBtn} onClick={copyCaption} disabled={!state.caption}>Copy</button>
+            </div>
           </section>
 
           {imageFields.length > 0 && (
@@ -588,14 +784,51 @@ export default function TemplateEditor({ id }) {
                       { icon: 'zip', label: 'All sizes · PNG (ZIP)', sub: SIZES.map(x => `${x.w}×${x.h}`).join(' · '), onClick: () => downloadAllSizes('png'), disabled: !!busy },
                       { icon: 'zip', label: 'All sizes · JPG (ZIP)', sub: SIZES.map(x => `${x.w}×${x.h}`).join(' · '), onClick: () => downloadAllSizes('jpeg'), disabled: !!busy },
                     ]),
+                  isCarousel
+                    ? { icon: 'file', label: busy === 'pdf' ? 'Making PDF…' : `Carousel as PDF (${state.slides.length} pages)`, sub: 'Upload to LinkedIn as a document post', onClick: downloadPdf, disabled: !!busy }
+                    : { icon: 'file', label: busy === 'pdf' ? 'Making PDF…' : 'Download PDF', sub: `${z.w}×${z.h}, one page`, onClick: downloadPdf, disabled: !!busy },
+                  ...(isCarousel ? [] : [{ icon: 'text', label: 'Bulk create from CSV…', sub: 'One post per spreadsheet row, as a ZIP', onClick: () => setBulkOpen(true), disabled: !!busy }]),
                   { icon: 'html', label: 'Copy HTML', sub: 'The design as HTML and CSS', onClick: copyHtml },
                   { icon: 'file', label: 'Download .html', sub: 'A single self-contained HTML file', onClick: downloadHtml },
                 ]}
               />
             </div>
           </div>
+          <div className={s.viewBar}>
+            <div className={s.viewSeg} role="radiogroup" aria-label="Preview as">
+              {MOCKUPS.map(v => (
+                <button key={v.id} type="button" role="radio" aria-checked={mockup === v.id} className={mockup === v.id ? s.viewSegOn : ''} onClick={() => setMockup(v.id)}>{v.label}</button>
+              ))}
+            </div>
+            <button
+              type="button"
+              className={`${s.checksChip} ${bad ? s.checksBad : checks.length ? s.checksWarn : s.checksGood}`}
+              onClick={() => setChecksOpen(o => !o)}
+              aria-expanded={checksOpen}
+              disabled={!checks.length}
+              title="Quality checks: contrast, text size, safe zones, fit and photo resolution"
+            >
+              {checks.length ? `⚠ ${checks.length} check${checks.length > 1 ? 's' : ''} to review` : '✓ Quality checks passed'}
+            </button>
+          </div>
+          {checksOpen && checks.length > 0 && (
+            <ul className={s.checksList}>
+              {checks.map(c => (
+                <li key={`${c.key}|${c.text}`} className={c.level === 'bad' ? s.checkBad : s.checkWarn}>
+                  {c.key ? <button type="button" onClick={() => revealField(c.key)}>{c.text}</button> : c.text}
+                </li>
+              ))}
+            </ul>
+          )}
           <div ref={stageRef} className={s.stage}>
-            <Preview template={st} state={design} maxW={box.w} maxH={box.h} editable onEdit={setField} onPickImage={pickImage} onReveal={revealField} onImagePos={setImagePos}>
+            <Mockup
+              mode={mockup}
+              box={box}
+              size={z}
+              profile={profile}
+              caption={state.caption || ''}
+              renderPost={(mw, mh) => (
+            <Preview template={st} state={design} maxW={mw} maxH={mh} editable onEdit={setField} onPickImage={pickImage} onReveal={revealField} onImagePos={setImagePos} onLayout={onLayout}>
               {safe && state.size === 'story' && (
                 <div className={s.safe} aria-hidden="true">
                   <div className={s.safeBand} style={{ top: 0, height: scaleSafe(z.safeTop) }}><span>Profile & close buttons</span></div>
@@ -609,10 +842,13 @@ export default function TemplateEditor({ id }) {
                 </div>
               )}
             </Preview>
+              )}
+            />
           </div>
           <p className={s.stageHint}>Click any text to edit it · drag a photo to reposition it, scroll to zoom, click to replace</p>
         </div>
       </div>
+      {bulkOpen && <BulkCreate template={st} design={design} size={z} onClose={() => setBulkOpen(false)} flash={flash} />}
       {toast && <div className={s.toast} role="status">{toast}</div>}
     </div>
   );

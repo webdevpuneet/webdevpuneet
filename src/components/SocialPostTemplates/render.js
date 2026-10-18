@@ -106,7 +106,9 @@ export function mountTemplate(shadow, t, state, { editable = false } = {}) {
       root.querySelectorAll('[data-image]').forEach(el => el.classList.add('spt-pick'));
     }
   }
-  root.className = `spt is-${state.size}`;
+  // A size with a `shape` also gets that shape's class, so it reuses those layout rules
+  const sz = sizeById(state.size);
+  root.className = `spt is-${sz.id}${sz.shape ? ` is-${sz.shape}` : ''}`;
   root.setAttribute('style', Object.entries(rootVars(state)).map(([k, v]) => `${k}:${v}`).join(';'));
   const active = shadow.activeElement;
   root.querySelectorAll('[data-edit]').forEach(el => {

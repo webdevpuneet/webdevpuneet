@@ -51,7 +51,7 @@
   ]
  },
  "social": {
-  "total": 20,
+  "total": 24,
   "categories": [
    {
     "id": "quotes",
@@ -172,6 +172,28 @@
      {
       "id": "story-link",
       "name": "New Post Link in Bio"
+     }
+    ]
+   },
+   {
+    "id": "holidays",
+    "label": "Holidays & Seasonal",
+    "items": [
+     {
+      "id": "halloween-sale",
+      "name": "Halloween Sale"
+     },
+     {
+      "id": "thanksgiving",
+      "name": "Thanksgiving Thank You"
+     },
+     {
+      "id": "christmas-greeting",
+      "name": "Christmas Greeting"
+     },
+     {
+      "id": "new-year",
+      "name": "Happy New Year"
      }
     ]
    }

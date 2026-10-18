@@ -52,6 +52,8 @@ export default async function SocialPostTemplatePage({ params }) {
   const faqs = [
     ...seo.faqs,
     { q: `What sizes does the ${t.name} template export?`, a: `${SIZES.map(z => `${z.label} ${z.w}×${z.h} (${z.short}): ${z.note}`).join('. ')}. Switch sizes in the editor and the layout adapts, or click "All sizes (ZIP)" to download every size at once.` },
+    { q: 'Can I make lots of posts at once?', a: `Yes. Choose Export, then "Bulk create from CSV", and paste rows from a spreadsheet or upload a CSV whose column names match the ${t.name} fields. Every row becomes one post, and you download them all as a ZIP.` },
+    { q: 'Can I see how the post will look on Instagram or LinkedIn?', a: 'Yes. The preview switches between the plain design and mock-ups of an Instagram feed post, an Instagram Story, an X post and a LinkedIn post, using the name, handle and logo from your brand kit and the caption you type.' },
     { q: 'Can I use the HTML in my own project?', a: `Yes. "Copy HTML" and "Download .html" give you one self-contained file: the markup, all the CSS and links to the Google Fonts it uses. "Fork to My Code" saves an editable copy in the UI Snippets editor. The file records the template name and version (v${t.version}).` },
     { q: `Is the ${t.name} template free for commercial use?`, a: 'Yes. It is free for personal and commercial posts, with no sign-up and no watermark. Everything runs in your browser and nothing you type or upload is sent to a server.' },
   ];
@@ -95,11 +97,12 @@ export default async function SocialPostTemplatePage({ params }) {
       label: 'Step by step',
       heading: 'How to Use',
       items: [
-        { title: 'Pick the size', text: `Choose Portrait 4:5 (the Instagram feed default), Square, Story / Reel or Landscape 16:9 for X. ${t.name} opens at ${size.w}×${size.h}.` },
+        { title: 'Pick the size', text: `Choose Portrait 4:5 (the Instagram feed default), Square, Story / Reel, Landscape 16:9 for X, a 1200×627 LinkedIn image or a 1000×1500 Pinterest pin. ${t.name} opens at ${size.w}×${size.h}.` },
         { title: 'Edit the text', text: `Click any text in the preview, or use the fields on the left (${t.fields.filter(f => f.type !== 'image').slice(0, 4).map(f => f.label.replace(/ \(optional\)/i, '').toLowerCase()).join(', ')} and more). Wrap words in *asterisks* to colour them.` },
         ...(t.fields.some(f => f.type === 'image') ? [{ title: 'Add your images', text: `Click a photo area in the preview or use Images to upload your ${t.fields.filter(f => f.type === 'image').map(f => f.label.replace(/ \(optional\)/i, '').toLowerCase()).join(' and ')}. Images stay in your browser.` }] : []),
-        { title: 'Match your brand', text: 'Apply one of 12 palettes or set exact colours with the pickers, then choose heading and body fonts.' },
-        { title: 'Download or take the code', text: 'Download a PNG or JPEG at full size, download every size as a ZIP, copy the HTML, or fork it into My Code to keep editing.' },
+        { title: 'Match your brand', text: 'Apply your saved brand kit or one of 12 palettes, set exact colours, and choose heading and body fonts from any Google Font or your own uploaded font.' },
+        { title: 'Preview it in the feed', text: 'Switch the preview to Instagram, Story, X or LinkedIn to see the post with your name, handle and caption, and fix anything the quality checks flag.' },
+        { title: 'Download, save or bulk create', text: 'Download PNG, JPG or PDF, every size as a ZIP, or copy the HTML. Save it to My designs to reuse later, or turn a CSV into dozens of posts with Bulk create.' },
       ],
     },
     { type: 'cards', label: 'Real-world uses', heading: 'Common Use Cases', columns: 3, items: seo.useCases },

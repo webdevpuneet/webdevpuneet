@@ -77,7 +77,7 @@ The card uses a gentle CSS linear-gradient between two tints (lavender to periwi
 
 **Sizes and export**
 
-Every tip works as a 4:5 portrait post, a square, a Story and a 16:9 landscape post for X. Long tips shrink to fit. Download a PNG or JPEG, all four sizes as a ZIP, or fork the HTML into [My Code](/ui-snippets/mycode/) to reuse it elsewhere.
+Every tip works as a 4:5 portrait post, a square, a Story and a 16:9 landscape post for X. Long tips shrink to fit. Download a PNG or JPEG, every size as a ZIP, or fork the HTML into [My Code](/ui-snippets/mycode/) to reuse it elsewhere.
 
 Posting developer tips? The [Code Tip](/social-post-templates/code-tip/) template adds an editor-style code window.`,
     },
@@ -261,7 +261,7 @@ Use it with [We're Live](/social-post-templates/we-are-live/) for launch day, [C
       'Two-column layout automatically on the 16:9 landscape size',
       'Product name highlights with *asterisks*',
       'Headline and tagline shrink to fit',
-      'All four sizes; PNG, JPEG, ZIP or HTML export',
+      'Six sizes, including LinkedIn and Pinterest; PNG, JPG, ZIP or HTML export',
     ],
     useCases: [
       { icon: '🚀', title: 'SaaS and app launches', desc: 'Announce a new product with its real dashboard screenshot in the glowing frame, a one-line tagline and a "Try it free" call to action.' },
@@ -315,7 +315,7 @@ Celebrating a launch instead? See [Product Launch](/social-post-templates/produc
       'Giant single-line milestone number in Montserrat 900',
       'Kicker, unit ("happy users") and thank-you message',
       'CSS confetti in two editable colours, crisp at any size',
-      'Centred layout that adapts to all four post sizes',
+      'Centred layout that adapts to every post size',
       'Long numbers like 1,000,000 shrink to stay on one line',
       'Light mint default palette with green and amber accents',
       'Handle at the bottom so shares stay credited',
@@ -536,7 +536,7 @@ Every word is editable. Change the two lines to "CYBER / MONDAY", "HOLIDAY / SAL
 
 **Every format for the weekend**
 
-Post the 4:5 portrait version in the Instagram feed, the 9:16 version in Stories, and the 16:9 version on X. "All sizes (ZIP)" downloads all four at once, ready to schedule.
+Post the 4:5 portrait version in the Instagram feed, the 9:16 version in Stories, and the 16:9 version on X. "All sizes (ZIP)" downloads every size at once, including LinkedIn and Pinterest, ready to schedule.
 
 Need a softer, everyday sale design? Try [Discount Badge](/social-post-templates/discount-badge/). Building anticipation? Use [Countdown](/social-post-templates/countdown/) for "3 days left" posts.`,
     },
@@ -547,7 +547,7 @@ Need a softer, everyday sale design? Try [Discount Badge](/social-post-templates
       'Defaults set to the 2026 dates: Nov 27 – Nov 30',
       'Black and neon-yellow palette, editable for any holiday',
       'Accent bar along the bottom edge',
-      'All four sizes, including Story and X landscape',
+      'Six sizes, including Story, X, LinkedIn and Pinterest',
       'PNG, JPEG, ZIP or HTML export',
     ],
     useCases: [
@@ -721,7 +721,7 @@ Pair it with [We're Live](/social-post-templates/we-are-live/) for launch day, [
       'Inner and outer glow made with CSS box-shadows',
       'Deep indigo and rose default palette',
       'Change the unit to hours, spots or seats',
-      'Centred layout across all four sizes',
+      'Centred layout across every size',
       'PNG, JPEG, ZIP or HTML export',
     ],
     useCases: [
@@ -1144,5 +1144,193 @@ Promoting the same content in the feed? Use [Big Quote](/social-post-templates/b
 - Footer: a magenta pill button "Read it, link in bio ↑" and a handle.
 - At 1600×900, switch to two columns: text left, photo right. Use --u (1% of the shorter side).`,
     },
+  },
+  'halloween-sale': {
+    keywords: ['halloween sale post template', 'halloween instagram post', 'spooky sale graphic', 'halloween promo template', 'october sale social media post'],
+    about: {
+      title: 'Halloween Sale — Free Spooky Halloween Promo Post Template',
+      description: `**Halloween Sale** is a free Halloween promo template for Instagram, Facebook, X, LinkedIn and Pinterest. A glowing orange moon rises over a midnight-purple sky with bat silhouettes and a dark hill, and a horror-style headline ("Spooky Sale") sits above your deal, the sale dates and a promo code.
+
+**Ready for October 31, 2026**
+
+Halloween falls on a Saturday in 2026, so the default dates run "Oct 29 – Oct 31" to cover the last few days before the weekend. The code chip ("BOO31") is easy to copy from the image, which matters on Instagram where captions can't hold clickable links.
+
+**Pure CSS artwork, no stock photos**
+
+The moon is a radial gradient with a soft glow, the bats are CSS clip-path silhouettes, and the hill is a rounded shape along the bottom. Everything is drawn in code, so it stays sharp at every size and recolours instantly when you change the sky, horizon or moon colour.
+
+**Fonts with character**
+
+The headline uses Creepster, a dripping horror display face from Google Fonts, over a clean Inter body. Swap it for any of the 1,900+ Google Fonts in the picker, or upload your own brand font.
+
+**Every size for the campaign**
+
+Post the 4:5 version in the feed, the 9:16 version in Stories, the 1.91:1 version on LinkedIn and the 2:3 pin on Pinterest. "All sizes (ZIP)" downloads every format at once.
+
+Running a longer promotion? Pair it with [Countdown](/social-post-templates/countdown/) for "2 days left" reminders, or move straight on to [Black Friday Sale](/social-post-templates/holiday-sale/) in November.`,
+    },
+    features: [
+      'Glowing CSS moon, bat silhouettes and a dark hill: no images needed',
+      'Horror-style Creepster headline with *accent* highlights',
+      'Deal line, sale dates and a copyable promo code chip',
+      'Defaults set for Halloween 2026: Oct 29 – Oct 31',
+      'Editable sky, horizon, text and moon colours',
+      'Landscape layout moves the text left of the moon',
+      'Six sizes: feed, square, Story, X, LinkedIn and Pinterest',
+      'PNG, JPG, ZIP or HTML export, plus Fork to My Code',
+    ],
+    useCases: [
+      { icon: '🎃', title: 'Halloween weekend sale', desc: 'Announce a storewide Halloween discount for October 29 to 31, 2026, with the percentage in the deal line and a code shoppers can type at checkout.' },
+      { icon: '🍬', title: 'Candy, costume and party shops', desc: 'Promote costumes, decorations or treats in the run-up to October 31, switching the headline to "Costume Sale" or "Trick or Treat" and keeping the spooky artwork.' },
+      { icon: '☕', title: 'Seasonal menu or product drop', desc: 'Launch a pumpkin latte, limited-edition flavour or spooky-season product by changing the deal line to the product name and the dates to its availability.' },
+      { icon: '🎟', title: 'Halloween events and parties', desc: 'Invite followers to a Halloween party, haunted tour or themed workshop, using the dates line for the time and the code chip for a ticket discount.' },
+    ],
+    faqs: [
+      { q: 'When is Halloween 2026?', a: 'Halloween is on Saturday October 31, 2026. The template\'s default dates, Oct 29 – Oct 31, cover the days leading up to it.' },
+      { q: 'What size should a Halloween Instagram post be?', a: 'Use 1080×1350 (4:5) for the feed and 1080×1920 (9:16) for Stories. The template exports both, plus square, X, LinkedIn and Pinterest sizes.' },
+      { q: 'Can I change the spooky font?', a: 'Yes. The headline uses the Creepster Google Font by default; pick any Google Font in the Fonts section or upload your own .woff2, .ttf or .otf file.' },
+      { q: 'Can I reuse it after Halloween?', a: 'Change the headline and colours and it works for any night-themed promotion, from a midnight flash sale to a Friday the 13th deal.' },
+    ],
+  },
+  'thanksgiving': {
+    keywords: ['thanksgiving post template', 'thanksgiving instagram post', 'happy thanksgiving social media post', 'thank you post template', 'gratitude post template'],
+    about: {
+      title: 'Thanksgiving Thank You — Free Thanksgiving Social Post Template',
+      description: `**Thanksgiving Thank You** is a free Thanksgiving post template for brands, creators and small businesses. Autumn leaves drift around a framed card with a "Happy Thanksgiving" kicker, an elegant serif headline ("Grateful for *you*"), a short message to your customers or community and your handle.
+
+**For Thursday, November 26, 2026**
+
+Thanksgiving in the US falls on November 26 in 2026, the day before Black Friday. A simple thank-you post on Thursday builds goodwill before the sales start, and it is one of the posts followers engage with most during the holiday week.
+
+**Warm, calm and on-brand**
+
+The cream background, rust accent and amber leaves feel seasonal without being loud. The leaves are CSS shapes with a gradient and a vein line, so they recolour with the palette. The headline uses Playfair Display, with italic accent words, and the message shrinks to fit if you write more.
+
+**Not just for the US**
+
+Change the kicker to "Happy Canadian Thanksgiving" for October, "Thank you" for an anniversary, or "Happy Friendsgiving" for a team post. The design works for any gratitude message.
+
+**Every size**
+
+Download the 4:5 feed version, a 9:16 Story and the LinkedIn and Pinterest sizes in one ZIP, so the same message reaches every channel.
+
+Moving straight into the sales weekend? Follow up with [Black Friday Sale](/social-post-templates/holiday-sale/) the next morning.`,
+    },
+    features: [
+      'Framed thank-you card with an autumn-leaf border',
+      'CSS leaves with gradient and vein, recoloured by the palette',
+      'Playfair Display headline with italic accent words',
+      'Message that shrinks to fit longer notes',
+      'Your handle under a leaf-coloured rule',
+      'Cream, rust and amber palette, fully editable',
+      'Six sizes: feed, square, Story, X, LinkedIn and Pinterest',
+      'PNG, JPG, ZIP or HTML export, plus Fork to My Code',
+    ],
+    useCases: [
+      { icon: '🦃', title: 'Thanksgiving Day thank-you', desc: 'Post a warm thank-you to customers on Thursday November 26, 2026, before the Black Friday sales start, to build goodwill with your audience.' },
+      { icon: '🤝', title: 'Customer appreciation', desc: 'Thank customers, clients or members for their support this year, with a short message about what the community made possible.' },
+      { icon: '🍁', title: 'Canadian Thanksgiving', desc: 'Change the kicker to "Happy Canadian Thanksgiving" and post it on the second Monday of October for Canadian followers.' },
+      { icon: '🍽', title: 'Restaurants and cafés', desc: 'Share holiday opening hours or a Thanksgiving menu note in the message, keeping the warm autumn design your regulars recognise.' },
+    ],
+    faqs: [
+      { q: 'When is Thanksgiving 2026?', a: 'US Thanksgiving is on Thursday November 26, 2026. Canadian Thanksgiving is on Monday October 12, 2026.' },
+      { q: 'What should a Thanksgiving business post say?', a: 'Keep it short and sincere: thank your customers or community, mention what you are grateful for this year, and avoid hard selling on the day itself.' },
+      { q: 'Can I add my logo?', a: 'Your handle sits at the bottom. To use your brand fonts and colours everywhere, set them once in the Brand kit and click "Apply to this design".' },
+      { q: 'Does it work for Friendsgiving or team posts?', a: 'Yes. Change the kicker and headline to "Happy Friendsgiving" or "Thank you, team" and update the message.' },
+    ],
+  },
+  'christmas-greeting': {
+    keywords: ['christmas post template', 'merry christmas instagram post', 'holiday greeting social media template', 'christmas social media post', 'seasons greetings post'],
+    about: {
+      title: 'Christmas Greeting — Free Merry Christmas Social Post Template',
+      description: `**Christmas Greeting** is a free Christmas and holiday post template for Instagram, Facebook, X, LinkedIn and Pinterest. Snow falls over a deep evergreen background, gold and red ornaments hang from the top edge, and a flowing script "Merry Christmas" headline sits above a short holiday message, an optional offer pill and your handle.
+
+**A greeting and a notice in one**
+
+The optional offer line turns a greeting into something useful: "Free shipping until Dec 20", "Open Christmas Eve until 2 PM" or "Gift cards available online". Leave it empty and it disappears, leaving a clean greeting card.
+
+**Festive, drawn in CSS**
+
+The snow is layered radial-gradient dots, and each ornament is a string, a gold cap and a shiny bauble made from gradients and shadows. There are no images to load, so the post exports instantly at full resolution and recolours with the palette.
+
+**Script headline**
+
+The title uses Great Vibes, a classic script from Google Fonts, with the accent word on its own line. Pick a different Google Font, or upload your own, from the Fonts section.
+
+**December dates for 2026**
+
+Christmas Day 2026 is a Friday. Most carriers' last ground-shipping dates fall around December 15 to 18, so a "shipping cut-off" version of this post in mid-December is worth scheduling alongside the greeting on the 24th or 25th.
+
+Ending the year? Follow it with [Happy New Year](/social-post-templates/new-year/) on December 31.`,
+    },
+    features: [
+      'Script "Merry Christmas" headline (Great Vibes)',
+      'Falling CSS snow and hanging gold and red ornaments',
+      'Holiday message that shrinks to fit',
+      'Optional offer pill that hides when empty',
+      'Evergreen, gold and red palette, fully editable',
+      'Six sizes: feed, square, Story, X, LinkedIn and Pinterest',
+      'PNG, JPG, ZIP or HTML export',
+      'Fork to My Code to keep editing the HTML',
+    ],
+    useCases: [
+      { icon: '🎄', title: 'Christmas Day greeting', desc: 'Wish your followers a Merry Christmas on December 24 or 25, 2026 with a short thank-you message and your handle, no sales pitch needed.' },
+      { icon: '📦', title: 'Shipping cut-off reminder', desc: 'Use the offer line for "Order by Dec 18 for Christmas delivery" and post it in mid-December so gift buyers order in time.' },
+      { icon: '🕯', title: 'Holiday opening hours', desc: 'Share Christmas Eve, Christmas Day and Boxing Day hours in the message for shops, restaurants, clinics and studios.' },
+      { icon: '🎁', title: 'Gift cards and holiday offers', desc: 'Promote gift cards, free gift wrapping or a festive discount in the offer pill while keeping the warm greeting-card look.' },
+    ],
+    faqs: [
+      { q: 'When should I post a Christmas greeting?', a: 'Christmas Eve (December 24) and Christmas morning (December 25) are the most common. For shipping cut-offs, post one to two weeks earlier.' },
+      { q: 'Can I make it say Happy Holidays instead?', a: 'Yes. Edit the kicker and headline to "Happy Holidays", "Season\'s Greetings" or "Happy Hanukkah", and adjust the palette.' },
+      { q: 'Can I hide the offer line?', a: 'Yes. Clear the Offer field and the pill disappears, leaving a simple greeting.' },
+      { q: 'What size is best for a Christmas Story?', a: 'Use the 1080×1920 Story size. The layout keeps the headline and message clear of the Story header and reply bar.' },
+    ],
+  },
+  'new-year': {
+    keywords: ['happy new year post template', 'new year 2027 instagram post', 'new year social media template', 'new year greeting post', 'happy new year 2027 graphic'],
+    about: {
+      title: 'Happy New Year — Free New Year 2027 Social Post Template',
+      description: `**Happy New Year** is a free New Year 2027 post template for brands, creators and teams. A giant year in a gold gradient glows on a midnight background with CSS fireworks and confetti, a "Happy New Year" kicker above it and a short message and handle below.
+
+**2027, ready to post**
+
+The year is its own field, so the same template works every year: type "2028" next December and the post is done. The message has room for a thank-you for 2026 and a line about what is coming next, with accent highlights for the words that matter.
+
+**Fireworks made in code**
+
+Each firework is a repeating conic gradient masked into a ring, and the confetti are small rotated shapes. The gold year uses a gradient clipped to the text with a soft glow. It all scales with the post and recolours with the gold and fireworks colours.
+
+**Great for year-in-review posts**
+
+Change the message to your biggest number of the year, or follow it with [Milestone](/social-post-templates/milestone/) posts for each highlight. For January launches, pair it with [Product Launch](/social-post-templates/product-launch/).
+
+**Every size**
+
+Download the 4:5 feed post, a 9:16 Story for midnight, and LinkedIn and Pinterest sizes in one ZIP.
+
+Celebrating the season first? See [Christmas Greeting](/social-post-templates/christmas-greeting/).`,
+    },
+    features: [
+      'Giant year in a gold gradient with a soft glow',
+      'CSS fireworks (conic gradients) and confetti',
+      'Separate Year field, so it works every year',
+      'Message with *accent* highlights that shrinks to fit',
+      'Midnight, gold and violet palette, fully editable',
+      'Six sizes: feed, square, Story, X, LinkedIn and Pinterest',
+      'PNG, JPG, ZIP or HTML export',
+      'Fork to My Code to keep editing the HTML',
+    ],
+    useCases: [
+      { icon: '🎆', title: 'Midnight New Year greeting', desc: 'Schedule a Happy New Year 2027 post for midnight on December 31, 2026, with a thank-you for the year and your handle.' },
+      { icon: '📈', title: 'Year-in-review opener', desc: 'Open a year-in-review carousel or thread with the year and a one-line summary, then follow with Milestone posts for each highlight.' },
+      { icon: '🎯', title: 'Resolutions and January content', desc: 'Kick off January challenges, courses or resolution-themed content by changing the message to the challenge name and start date.' },
+      { icon: '🏷', title: 'New Year sale', desc: 'Turn the message into a New Year offer, such as 20% off annual plans, and keep the celebratory fireworks to catch attention.' },
+    ],
+    faqs: [
+      { q: 'Can I change the year?', a: 'Yes. The year is its own field, so type 2027, 2028 or any year. It stays on one line and shrinks to fit if needed.' },
+      { q: 'What should a New Year post from a business say?', a: 'Thank your customers or community for the past year and share one line about what is coming next. Keep it short so the big year stays the focus.' },
+      { q: 'Does it work as a Story?', a: 'Yes. Pick the 1080×1920 Story size; everything is centred and clear of the Story header and reply bar.' },
+      { q: 'Can I use it for Lunar New Year?', a: 'Change the kicker and year text (for example "Happy Lunar New Year" and "Year of the Horse") and switch to a red and gold palette.' },
+    ],
   },
 };

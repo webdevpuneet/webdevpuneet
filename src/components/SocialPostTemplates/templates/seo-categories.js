@@ -25,7 +25,7 @@ Pick **Big Quote** for founder, customer or podcast quotes, **Tip of the Day** f
 Used together, they form a launch-week kit with matching sizes for the Instagram feed, Stories, LinkedIn and X, and HTML you can reuse on your website or in emails.`,
     faqs: [
       { q: 'What should I post on launch day?', a: 'Post We\'re Live with one clear ask (an upvote, download or sign-up), then follow with Product Launch to show the product. Use Countdown in the days before and Milestone when results come in.' },
-      { q: 'Do these templates work on LinkedIn?', a: 'Yes. Use the 1080×1350 portrait size for LinkedIn feed posts, or the 1600×900 landscape size. We\'re Hiring is designed with LinkedIn job posts in mind.' },
+      { q: 'Do these templates work on LinkedIn?', a: 'Yes. Use the 1080×1350 portrait size for LinkedIn feed posts, or the 1200×627 LinkedIn image size. Carousels download as a PDF for LinkedIn document posts. We\'re Hiring is designed with LinkedIn job posts in mind.' },
     ],
   },
   promo: {
@@ -77,7 +77,7 @@ Use them for client feedback, G2 or App Store reviews, website redesigns, renova
 They share the same fonts and palette, start at the 1080×1350 (4:5) size that takes the most feed space, and remember your edits, so building a 7-slide carousel is a few minutes of typing and downloading.`,
     faqs: [
       { q: 'How do I make an Instagram carousel with these templates?', a: 'Make one cover, one step slide per point and a final slide, all at 1080×1350. Download each and upload them together as one post, in order. Every slide must use the same aspect ratio.' },
-      { q: 'Can I post a carousel on LinkedIn?', a: 'Yes. Export the slides, combine them into a PDF, and upload it as a document post. The 4:5 portrait and square sizes both work well.' },
+      { q: 'Can I post a carousel on LinkedIn?', a: 'Yes. Choose Export, then "Carousel as PDF", and upload the file as a LinkedIn document post. The 4:5 portrait and square sizes both work well.' },
     ],
   },
   stories: {
@@ -91,6 +91,19 @@ Every other template in the library also exports at Story size, so your feed pos
     faqs: [
       { q: 'What size is an Instagram Story?', a: 'Instagram and Facebook Stories are 1080×1920 pixels (9:16). Keep important text out of roughly the top 250 px and bottom 340 px, where the profile bar and reply field sit. These templates do that for you.' },
       { q: 'Can I add a poll or link sticker to these images?', a: 'Stickers can\'t be part of an image. Download the Story, add it in Instagram, then place the poll or link sticker where the template leaves room.' },
+    ],
+  },
+  holidays: {
+    title: 'Holiday Post Templates — Halloween, Christmas & New Year',
+    description: 'Free holiday social post templates for Halloween, Thanksgiving, Christmas and New Year 2027. Edit online, then download Story, LinkedIn and Pinterest sizes.',
+    h1: 'Holiday & Seasonal Post Templates',
+    keywords: ['holiday post templates', 'halloween post template', 'christmas instagram post template', 'thanksgiving post template', 'new year post template'],
+    intro: `The last quarter of the year is packed with moments your audience is already talking about: Halloween on October 31, Thanksgiving on November 26, Black Friday and Cyber Monday on November 27 and 30, Christmas on December 25 and New Year's Eve. Seasonal posts fit naturally into the feed and get more engagement than everyday promotions, as long as they look the part.
+
+Use **Halloween Sale** for spooky-season deals, **Thanksgiving Thank You** for a calm gratitude post before the sales start, **Christmas Greeting** for holiday wishes, shipping cut-offs and opening hours, and **Happy New Year** for a midnight 2027 post or year-in-review opener. Each is drawn entirely in CSS, with no stock photos, so it recolours to your brand, exports sharp at every size and works year after year.`,
+    faqs: [
+      { q: 'Which holiday posts should a business plan for in Q4 2026?', a: 'Halloween (Oct 31), Thanksgiving (Nov 26), Black Friday (Nov 27), Cyber Monday (Nov 30), shipping cut-offs (mid-December), Christmas (Dec 25) and New Year\'s Eve (Dec 31). This library has a template for each.' },
+      { q: 'Can I reuse these templates next year?', a: 'Yes. Dates and years are ordinary text fields, and your colours and fonts are saved in your browser, so next year each post takes a minute to update.' },
     ],
   },
 };

@@ -102,12 +102,32 @@ export const TEMPLATE_WHY = {
     { icon: '✒', title: 'Editorial, not salesy', desc: 'The serif headline and soft palette make the promo feel like content, so viewers are less likely to skip it.' },
     { icon: '▧', title: 'Your cover image, front and centre', desc: 'The photo card fills the space under the headline, so your thumbnail or featured image does the convincing.' },
   ],
+  'halloween-sale': [
+    { icon: '🎃', title: 'Seasonal posts get noticed', desc: 'Feeds fill with orange and purple in late October. A themed sale post fits the moment instead of looking like an ordinary ad.' },
+    { icon: '✎', title: 'Artwork without stock photos', desc: 'The moon, bats and hill are drawn in CSS, so there is nothing to license and it stays sharp at every size.' },
+    { icon: '⏱', title: 'Built for a short window', desc: 'Dates and a copyable code are front and centre, which suits the few days of a Halloween promotion.' },
+  ],
+  'thanksgiving': [
+    { icon: '♡', title: 'Gratitude builds goodwill', desc: 'A sincere thank-you on Thanksgiving Day earns attention before the Black Friday noise starts the next morning.' },
+    { icon: '🍁', title: 'Seasonal but calm', desc: 'Cream, rust and amber feel autumnal without shouting, so the post suits any brand, from law firms to bakeries.' },
+    { icon: '⇲', title: 'Room for a real message', desc: 'The message shrinks to fit, so you can write a genuine note instead of a one-liner.' },
+  ],
+  'christmas-greeting': [
+    { icon: '🎄', title: 'One of the year’s most-liked posts', desc: 'Holiday greetings get strong engagement because followers like and share them without feeling sold to.' },
+    { icon: '📦', title: 'Greeting plus useful notice', desc: 'The optional offer pill carries shipping cut-offs, opening hours or gift-card reminders without a second design.' },
+    { icon: '✦', title: 'Festive, drawn in code', desc: 'Snow and ornaments are pure CSS, so the post loads instantly, exports sharp and recolours to your brand.' },
+  ],
+  'new-year': [
+    { icon: '🎆', title: 'Starts the year with a moment', desc: 'A big, bright year post at midnight is a natural share and sets the tone for your January content.' },
+    { icon: '↺', title: 'Reusable every year', desc: 'The year is a separate field, so next December the post takes one edit.' },
+    { icon: '★', title: 'Pairs with year-in-review', desc: 'Use it as the opener before Milestone or carousel posts about your best moments of the year.' },
+  ],
 };
 
 export const TEMPLATE_DIFFERENT = [
   { icon: '</>', title: 'Real HTML and CSS, not a locked image', desc: 'Canva-style templates only give you an image. These are plain HTML and CSS you can copy, download as a .html file or fork into My Code, then reuse on a website, in an email or in your own design system.' },
   { icon: '◍', title: 'Private by design', desc: 'Text and photos never leave your browser. Images are drawn locally on a canvas, so client photos and unreleased product screenshots stay on your device.' },
-  { icon: '⇲', title: 'Every size from one design', desc: 'Layouts use relative units, so one design exports as an Instagram portrait post, a square, a Story and a 16:9 X post, or all four at once as a ZIP.' },
+  { icon: '⇲', title: 'Every size from one design', desc: 'Layouts use relative units, so one design exports as an Instagram portrait post, a square, a Story, a 16:9 X post, a LinkedIn image and a Pinterest pin, or all six at once as a ZIP.' },
   { icon: '✓', title: 'Free, with no account or watermark', desc: 'No sign-up, no premium-only templates, no watermark and no download limits. Edits are saved in your browser for next time.' },
   { icon: 'Aa', title: 'Text that always fits', desc: 'Long headlines shrink step by step instead of overflowing, and Story layouts keep text clear of Instagram’s buttons. Most template editors leave both to you.' },
   { icon: 'v1', title: 'Versioned templates', desc: 'Each template has a version number and an update date, and the exported HTML records which version you used, so you can tell when a design changes.' },

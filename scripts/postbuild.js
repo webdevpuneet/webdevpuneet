@@ -396,8 +396,8 @@ async function main() {
   }
 
   llmsTxt += `\n---\n\n## Social Post Templates\n\n`;
-  llmsTxt += `${SOCIAL_TEMPLATES.length} free HTML/CSS templates for Instagram, Facebook and X posts and Stories. Edit text, photos, colours and fonts in the browser, download PNG/JPEG in four sizes, or copy the HTML.\n\nLibrary: ${BASE_URL}/social-post-templates/\n\n`;
-  llmsTxt += `Each template is real HTML/CSS (copy it, download a .html file, or fork it into My Code), is free with no account or watermark, runs entirely in the browser (photos are never uploaded), and exports 1080×1350, 1080×1080, 1080×1920 and 1600×900 from one design.\n\n`;
+  llmsTxt += `${SOCIAL_TEMPLATES.length} free HTML/CSS templates for Instagram, Facebook, X, LinkedIn and Pinterest posts and Stories. Edit text, photos, colours and fonts in the browser, preview them in platform mock-ups, download PNG/JPEG in six sizes, carousels as a LinkedIn PDF, bulk-create posts from a CSV, or copy the HTML.\n\nLibrary: ${BASE_URL}/social-post-templates/\n\n`;
+  llmsTxt += `Each template is real HTML/CSS (copy it, download a .html file, or fork it into My Code), is free with no account or watermark, runs entirely in the browser (photos are never uploaded), and exports 1080×1350, 1080×1080, 1080×1920, 1600×900, LinkedIn 1200×627 and Pinterest 1000×1500 from one design.\n\n`;
   for (const c of SOCIAL_CATEGORIES) {
     const list = SOCIAL_TEMPLATES.filter(t => t.category === c.id);
     if (!list.length) continue;

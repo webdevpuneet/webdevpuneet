@@ -3,9 +3,10 @@
    AI assistants. No DOM needed; safe to import from server components. */
 
 import { BASE_CSS, SIZES, richText } from './templates/index.js';
-import { FONTS } from '../OgImageGenerator/engine.js';
+import { resolveFont } from '../../lib/fonts.js';
 
-const fontById = id => FONTS.find(f => f.id === id) || FONTS[0];
+// Built-in picks and any Google font id ('g:Family|weights|cat')
+const fontById = resolveFont;
 const stack = f => (f.family ? `"${f.family}", ${f.fallback}` : f.stack);
 
 /* `size` is optional: {id, w, h, safeTop?, safeBottom?}. Defaults to the template's opening size.
@@ -26,7 +27,7 @@ export function templateSource(t, size) {
   const body = t.html.replace(/(<([a-z0-9]+)\b[^>]*\bdata-edit="([^"]+)"[^>]*>)(<\/\2>)/gi,
     (m, open, tag, key, close) => open + richText(values[key] ?? '') + close);
   const families = fonts.filter(f => f.family);
-  const html = `<!-- ${t.name} v${t.version} · ${z.label} ${z.w}×${z.h} -->\n<div class="spt is-${z.id}" style="${vars}">\n${body}\n</div>\n`;
+  const html = `<!-- ${t.name} v${t.version} · ${z.label} ${z.w}×${z.h} -->\n<div class="spt is-${z.id}${z.shape ? ` is-${z.shape}` : ''}" style="${vars}">\n${body}\n</div>\n`;
   const css = `${families.length ? `@import url('https://fonts.googleapis.com/css2?${families.map(f => `family=${f.family.replace(/ /g, '+')}:wght@${f.weights.join(';')}`).join('&')}&display=swap');\n\n` : ''}/* Shared base (every template) */\n${BASE_CSS.trim()}\n\n/* ${t.name} */\n${t.css}\n`;
   return { html, css, size: z };
 }

@@ -2,6 +2,10 @@
    with its name, version, category, tags and dates. Plain JS so the build can import it. */
 import beforeAfter from './before-after.js';
 import bigQuote from './big-quote.js';
+import christmasGreeting from './christmas-greeting.js';
+import halloweenSale from './halloween-sale.js';
+import newYear from './new-year.js';
+import thanksgiving from './thanksgiving.js';
 import carouselCover from './carousel-cover.js';
 import carouselSave from './carousel-save.js';
 import carouselStep from './carousel-step.js';
@@ -43,6 +47,10 @@ const ORDER = [
   carouselSave,
   storyPoll,
   storyLink,
+  halloweenSale,
+  thanksgiving,
+  christmasGreeting,
+  newYear,
 ];
 
 export const TEMPLATES = ORDER;

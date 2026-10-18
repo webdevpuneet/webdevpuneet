@@ -79,7 +79,7 @@ const breadcrumbSchema = {
 const SEO = {
   about: {
     title: 'Free Social Post Templates You Can Edit, Download or Copy as HTML',
-    description: `A library of ${TEMPLATES.length} social media post templates built with plain HTML and CSS. Unlike image-only template sites, every design here is real code. Edit it in the browser and download a finished image, or copy the HTML and use it in your own system.\n\n**${TEMPLATE_CATEGORIES.length} categories.** ${TEMPLATE_CATEGORIES.map(c => `**${c.label}**: ${c.blurb.charAt(0).toLowerCase()}${c.blurb.slice(1)}`).join(' ')}\n\n**One design, every post size.** Each template is laid out in relative units, so the same design works as a 1080×1350 Instagram portrait post, a 1080×1080 square, a 1080×1920 Story and a 1600×900 landscape post for X and Facebook. Story layouts keep text out of the areas covered by Instagram’s buttons, and grid guides show how a portrait post is cropped on your profile.\n\n**Edit in place.** Click any text in the preview to change it, click a photo area to upload your own image, pick a palette or exact colours, and switch fonts. Long headlines shrink to fit instead of overflowing. Every change is saved in your browser.\n\n**Export the way you work.** Download a PNG or JPEG at full resolution, grab every size at once as a ZIP, or copy a self-contained HTML file with inline CSS and Google Fonts links. Each template has a name, a version number and an update date, so you can tell when a design changes.`,
+    description: `A library of ${TEMPLATES.length} social media post templates built with plain HTML and CSS. Unlike image-only template sites, every design here is real code. Edit it in the browser and download a finished image, or copy the HTML and use it in your own system.\n\n**${TEMPLATE_CATEGORIES.length} categories.** ${TEMPLATE_CATEGORIES.map(c => `**${c.label}**: ${c.blurb.charAt(0).toLowerCase()}${c.blurb.slice(1)}`).join(' ')}\n\n**One design, every post size.** Each template is laid out in relative units, so the same design works as a 1080×1350 Instagram portrait post, a 1080×1080 square, a 1080×1920 Story, a 1600×900 landscape post for X and Facebook, a 1200×627 LinkedIn image and a 1000×1500 Pinterest pin. Story layouts keep text out of the areas covered by Instagram’s buttons, and grid guides show how a portrait post is cropped on your profile.\n\n**Edit in place.** Click any text in the preview to change it, click a photo area to upload your own image, pick a palette or exact colours, and switch fonts. Long headlines shrink to fit instead of overflowing. Every change is saved in your browser.\n\n**Export the way you work.** Download a PNG or JPEG at full resolution, grab every size at once as a ZIP, or copy a self-contained HTML file with inline CSS and Google Fonts links. Each template has a name, a version number and an update date, so you can tell when a design changes.`,
   },
   howToUse: {
     type: 'steps',
@@ -92,7 +92,12 @@ const SEO = {
   },
   features: [
     `${TEMPLATES.length} templates in ${TEMPLATE_CATEGORIES.length} categories, each with its own name, version and update date`,
-    'Four post sizes: Instagram portrait 1080×1350, square 1080×1080, Story 1080×1920 and landscape 1600×900',
+    'Six post sizes: Instagram portrait 1080×1350, square 1080×1080, Story 1080×1920, landscape 1600×900, LinkedIn 1200×627 and Pinterest pin 1000×1500',
+    'Platform mock-ups: preview the post inside an Instagram feed, a Story, X and LinkedIn',
+    'Carousel export as a PDF for LinkedIn document posts',
+    'Bulk create: turn a CSV of quotes, tips or products into a ZIP of finished posts',
+    'My designs: save, name, duplicate and reopen your designs',
+    'Quality checks for low contrast, tiny text, Story safe zones and blurry photos',
     'In-place editing: click text or photo areas directly in the preview',
     'Photo and logo uploads that never leave your browser',
     'Colour pickers with hex input, plus 12 palettes',
@@ -142,7 +147,7 @@ export default function SocialPostTemplatesPage() {
       <div className={`${styles.toolSection} ${styles.toolSectionGallery}`}><TemplateGalleryPage previews={previewIds()} /></div>
       <IndexOnly>
         <AdSlot />
-        <SeoSection slug="social-post-templates" title="Social Post Templates — Free HTML Designs for Instagram, Facebook & X" subtitle={`${TEMPLATES.length} templates · ${TEMPLATE_CATEGORIES.length} categories · 4 post sizes · PNG, JPEG & HTML`} sections={SECTIONS} />
+        <SeoSection slug="social-post-templates" title="Social Post Templates — Free HTML Designs for Instagram, Facebook & X" subtitle={`${TEMPLATES.length} templates · ${TEMPLATE_CATEGORIES.length} categories · ${SIZES.length} post sizes · PNG, JPEG & HTML`} sections={SECTIONS} />
       </IndexOnly>
     </div>
   );
