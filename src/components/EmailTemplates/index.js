@@ -11,7 +11,7 @@ import { LoadMore } from '@/components/UiSnippetsGallery';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
 import { previewImages, forceDark } from './templates/meta.js';
 import { PALETTES, parseHex, onColor } from '../OgImageGenerator/engine';
-import { BrandKitPanel, loadKit, kitIsSet } from '@/components/BrandKit';
+import { BrandKitPanel } from '@/components/BrandKit';
 import { dbPut } from '@/lib/uiSnippetsDb';
 import { openForkTab } from '@/lib/open-fork-tab';
 import { putAsset, getAsset, deleteAsset, assetKeys } from './assetsDb';
@@ -339,10 +339,8 @@ export function EmailTemplateEditor({ id }) {
         setState({ fields: pick(saved.fields, d.fields), toggles: pick(saved.toggles, d.toggles), vars: pick(saved.vars, d.vars), fonts: pick(saved.fonts, d.fonts), uploads, assetBase: saved.assetBase || '' });
         const keep = new Set(Object.values(uploads).map(u => u.id));
         assetKeys(`${t.id}:`).then(keys => keys.filter(k => !keep.has(k)).forEach(k => deleteAsset(k))).catch(() => {});
-      } else {
-        const kit = loadKit();
-        if (kit?.autoApply && kitIsSet(kit)) setState(withKit(defaultEmailState(t), kit));
       }
+      // The brand kit is only applied when the user clicks "Apply to this design"
     } catch { /* storage blocked */ }
     hist.current.skip = true;
     setHydrated(true);

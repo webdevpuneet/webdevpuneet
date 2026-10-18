@@ -26,7 +26,6 @@ export const DEFAULT_KIT = {
   headingFont: 'inter',
   bodyFont: 'inter',
   applyAllColors: false, // also apply background and text, not just the brand colour
-  autoApply: false,      // apply to templates that haven't been edited yet
 };
 
 export function loadKit() {
@@ -152,7 +151,6 @@ export function BrandKitPanel({ onApply, onSaveFrom, emailMode = false, onToast 
             <button type="button" className={s.primary} onClick={() => { onApply(kit); onToast?.('Brand kit applied'); }}>Apply to this design</button>
             <button type="button" className={s.btn} onClick={saveFromDesign} title="Replace the kit's colours and fonts with this design's">Save from design</button>
           </div>
-          {kit.autoApply && <p className={s.hint}>Auto-apply is on: templates you haven&rsquo;t edited open in your brand.</p>}
         </>
       )}
 
@@ -191,7 +189,6 @@ export function BrandKitPanel({ onApply, onSaveFrom, emailMode = false, onToast 
             ))}
           </div>
           <label className={s.check}><input type="checkbox" checked={draft.applyAllColors} onChange={e => set('applyAllColors', e.target.checked)} /> Also apply background and text colours (not just the brand colour)</label>
-          <label className={s.check}><input type="checkbox" checked={draft.autoApply} onChange={e => set('autoApply', e.target.checked)} /> Apply automatically to templates I haven&rsquo;t edited</label>
           <div className={s.row}>
             <button type="button" className={s.primary} onClick={save}>Save kit</button>
             <button type="button" className={s.btn} onClick={() => setEditing(false)}>Cancel</button>

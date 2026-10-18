@@ -31,3 +31,11 @@
 .spacer { flex: 1; }
 .progress { width: 140px; height: 6px; border-radius: 99px; background: var(--border); overflow: hidden; }
 .progress i { display: block; height: 100%; background: #6366f1; transition: width 0.2s; }
+
+/* Confirm modal */
+.confirm { width: min(420px, 100%); gap: 8px; }
+.confirmTitle { margin: 0; font-size: 16px; font-weight: 800; }
+.confirmActions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+.danger { height: 30px; padding: 0 14px; border: 0; border-radius: 7px; background: #dc2626; color: #fff; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: var(--font-ui); }
+.danger:hover { background: #b91c1c; }
+.danger:focus-visible, .primary:focus-visible { outline: 2px solid #6366f1; outline-offset: 2px; }

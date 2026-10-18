@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import s from './styles.module.css';
 import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
-import { BrandKitPanel, loadKit, kitIsSet, useBrandKit } from '@/components/BrandKit';
+import { BrandKitPanel, useBrandKit } from '@/components/BrandKit';
 import { revealInPanel } from '@/lib/reveal-in-panel';
 import { SIZES, sizeById, templateById } from './templates/index.js';
 import { PALETTES, parseHex } from '../OgImageGenerator/engine';
@@ -16,6 +16,7 @@ import { dbPut } from '@/lib/uiSnippetsDb';
 import { jpegsToPdf } from '@/lib/images-to-pdf';
 import Mockup, { MOCKUPS } from './Mockup';
 import BulkCreate from './BulkCreate';
+import ConfirmDialog from './ConfirmDialog';
 import { runChecks } from './quality-checks';
 import { listDesigns, getDesign, saveDesign, deleteDesign, duplicateDesign, thumbFrom, onDesignsChange, getAutosave, putAutosave } from './designs';
 import { openForkTab } from '@/lib/open-fork-tab';
@@ -165,7 +166,10 @@ export default function TemplateEditor({ id }) {
   const [currentDesign, setCurrentDesign] = useState(null); // { id, name } when editing a saved design
   const [renaming, setRenaming] = useState(null); // { id, name }
   const [panelTab, setPanelTab] = useState('edit'); // left panel: 'edit' | 'designs'
+  const [designQuery, setDesignQuery] = useState('');
+  const [designScope, setDesignScope] = useState('all'); // 'all' | 'this' (this template)
   const savedJson = useRef(null); // the open design as last saved or opened, to spot unsaved changes
+  const [confirm, setConfirm] = useState(null); // { title, message, okLabel, danger, onOk }
   const stageRef = useRef(null);
   const fileRef = useRef(null);
   const pickKey = useRef(null);
@@ -215,12 +219,8 @@ export default function TemplateEditor({ id }) {
           if (saved) { await putAutosave(t.id, saved); localStorage.removeItem(LS_PREFIX + t.id); }
         } catch { /* storage blocked */ }
       }
+      // The brand kit is only applied when the user clicks "Apply to this design"
       if (saved) { try { next = restore(t, saved); } catch { next = null; } }
-      if (!next) {
-        // Untouched template: open it in the user's brand if they asked for that
-        const kit = loadKit();
-        if (kit?.autoApply && kitIsSet(kit)) next = withKit(editorDefault(t), kit);
-      }
       // /social-post-templates/<id>/?design=<designId> opens a saved design (My designs)
       if (wanted) {
         const d = await getDesign(wanted).catch(() => null);
@@ -483,8 +483,13 @@ export default function TemplateEditor({ id }) {
     setBusy('');
   };
 
-  /* My designs */
+  /* My designs (search by design or template name; All / This template) */
   const myDesigns = designs;
+  const shownDesigns = useMemo(() => {
+    const words = designQuery.toLowerCase().split(/\s+/).filter(Boolean);
+    return designs.filter(d => (designScope === 'all' || d.tpl === t.id)
+      && words.every(w => `${d.name} ${templateById(d.tpl)?.name || d.tpl}`.toLowerCase().includes(w)));
+  }, [designs, designQuery, designScope, t.id]);
   const designThumb = async () => {
     try { return await thumbFrom(await renderImage(templateById(state.slides[0].tpl) || st, designFor(0), { format: 'jpeg', quality: 0.8 })); }
     catch { return null; }
@@ -523,9 +528,18 @@ export default function TemplateEditor({ id }) {
     } catch (err) { flash(`Couldn't save the design: ${err.message}`); }
     setBusy('');
   };
-  const openDesign = d => {
+  const openDesign = (d, force = false) => {
     if (currentDesign?.id === d.id && !dirty) { setPanelTab('edit'); return; }
-    if (currentDesign && dirty && !window.confirm(`“${currentDesign.name}” has unsaved changes. Open “${d.name}” anyway? (Your changes stay in the editor's autosave until you open something else.)`)) return;
+    if (!force && currentDesign && dirty) {
+      setConfirm({
+        title: 'Discard unsaved changes?',
+        message: `“${currentDesign.name}” has changes you haven't saved. Opening “${d.name}” replaces them in the editor.`,
+        okLabel: `Open “${d.name}”`,
+        danger: true,
+        onOk: () => openDesign(d, true),
+      });
+      return;
+    }
     if (d.tpl !== t.id) { window.location.href = `/social-post-templates/${d.tpl}/?design=${encodeURIComponent(d.id)}`; return; }
     const next = restore(t, d.state);
     savedJson.current = JSON.stringify(next);
@@ -538,11 +552,17 @@ export default function TemplateEditor({ id }) {
     const copy = await duplicateDesign(d.id);
     if (copy) flash(`Duplicated as “${copy.name}”`);
   };
-  const removeDesign = async d => {
-    if (!window.confirm(`Delete “${d.name}” from My designs? This can't be undone.`)) return;
-    await deleteDesign(d.id);
-    if (currentDesign?.id === d.id) setCurrentDesign(null);
-  };
+  const removeDesign = d => setConfirm({
+    title: 'Delete this design?',
+    message: `“${d.name}” will be removed from My designs in this browser. This can't be undone.`,
+    okLabel: 'Delete',
+    danger: true,
+    onOk: async () => {
+      await deleteDesign(d.id);
+      if (currentDesign?.id === d.id) setCurrentDesign(null);
+      flash(`Deleted “${d.name}”`);
+    },
+  });
   const renameDesign = async (id, name) => {
     const d = await getDesign(id);
     if (d && name.trim()) {
@@ -598,8 +618,30 @@ export default function TemplateEditor({ id }) {
           {panelTab === 'designs' ? (
           <section className={s.section}>
             {myDesigns.length > 0 && (
+              <div className={s.designFind}>
+                <input
+                  type="search"
+                  className={s.input}
+                  value={designQuery}
+                  onChange={e => setDesignQuery(e.target.value)}
+                  placeholder={`Search ${myDesigns.length} design${myDesigns.length > 1 ? 's' : ''}…`}
+                  aria-label="Search my designs"
+                />
+                <div className={s.designScope} role="radiogroup" aria-label="Show designs from">
+                  {[['all', 'All'], ['this', 'This template']].map(([v, l]) => (
+                    <button key={v} type="button" role="radio" aria-checked={designScope === v} className={designScope === v ? s.designScopeOn : ''} onClick={() => setDesignScope(v)}>
+                      {l} <span>{v === 'all' ? myDesigns.length : myDesigns.filter(d => d.tpl === t.id).length}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+            {myDesigns.length > 0 && shownDesigns.length === 0 && (
+              <p className={s.designsEmpty}>No designs match{designQuery.trim() ? ` “${designQuery.trim()}”` : ''}{designScope === 'this' ? ' in this template' : ''}.</p>
+            )}
+            {shownDesigns.length > 0 && (
               <ul className={`${s.designList} ${s.designListTab}`}>
-                {myDesigns.map(d => (
+                {shownDesigns.map(d => (
                   <li key={d.id} className={`${s.designItem} ${currentDesign?.id === d.id ? s.designItemOn : ''}`}>
                     <button type="button" className={s.designOpen} onClick={() => openDesign(d)} title={d.tpl === t.id ? 'Open this design' : 'Open in its template'}>
                       {d.thumb
@@ -811,7 +853,6 @@ export default function TemplateEditor({ id }) {
                 }}
                 menu={[
                   ...(currentDesign ? [{ label: 'Detach', sub: `Keep editing without changing “${currentDesign.name}”`, onClick: () => { setCurrentDesign(null); flash('Detached. Save now creates a new design.'); } }] : []),
-                  { label: `My designs (${myDesigns.length})`, sub: 'Open, duplicate, rename or delete', onClick: () => setPanelTab('designs') },
                 ]}
               />
             </div>
@@ -913,6 +954,13 @@ export default function TemplateEditor({ id }) {
           <p className={s.stageHint}>Click any text to edit it · drag a photo to reposition it, scroll to zoom, click to replace</p>
         </div>
       </div>
+      {confirm && (
+        <ConfirmDialog
+          {...confirm}
+          onCancel={() => setConfirm(null)}
+          onOk={() => { const go = confirm.onOk; setConfirm(null); go(); }}
+        />
+      )}
       {bulkOpen && <BulkCreate template={st} design={design} size={z} onClose={() => setBulkOpen(false)} flash={flash} />}
       {toast && <div className={s.toast} role="status">{toast}</div>}
     </div>
