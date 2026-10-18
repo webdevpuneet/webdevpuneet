@@ -210,7 +210,8 @@ export default function ApiMockGeneratorPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><ApiMockGenerator /></div>
-      <IndexOnly><AdSlot />
+      <AdSlot />
+      <IndexOnly>
       <SeoSection heading="Free API Mock Generator — Build Fake REST APIs with Realistic JSON for Frontend Development" {...SEO} /></IndexOnly>
 
     </div>

@@ -1,5 +1,4 @@
 import SeoSection from '@/components/SeoSection';
-import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
 import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
@@ -165,13 +164,9 @@ export default function SavedSnippetsPage() {
       {/* Latest UI Snippets (same strip as the home page), right after the editor / saved snippet.
           Not wrapped in IndexOnly, so it also shows while a saved snippet (?id=) is open. */}
       <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} />
-      {/* Ad above everything below (gallery only, hidden on saved snippets). */}
-      <IndexOnly>
-        <AdSlot adFirst related={false} />
-      </IndexOnly>
-      <IndexOnly>
-        <SeoSection {...SEO} featuresAfterAbout slug="ui-snippets" title="My Code — Personal HTML CSS JS Code Space" />
-      </IndexOnly>
+      {/* Ad and the SEO content show on every URL, saved snippets (?id=) included */}
+      <AdSlot adFirst related={false} />
+      <SeoSection {...SEO} featuresAfterAbout slug="ui-snippets" title="My Code — Personal HTML CSS JS Code Space" />
     </>
   );
 }

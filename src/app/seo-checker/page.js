@@ -198,7 +198,8 @@ export default function SeoCheckerPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><SeoPlaygroundTool /></div>
-      <IndexOnly><AdSlot />
+      <AdSlot />
+      <IndexOnly>
       <SeoSection {...SEO} /></IndexOnly>
     </div>
   );

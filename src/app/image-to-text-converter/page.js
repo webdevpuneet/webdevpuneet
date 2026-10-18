@@ -209,7 +209,8 @@ export default function ImageToTextConverterPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><ImageToTextTool /></div>
-      <IndexOnly><AdSlot />
+      <AdSlot />
+      <IndexOnly>
       <SeoSection heading="Free Online Image to Text Converter — OCR Tool for Any Image" {...SEO} /></IndexOnly>
 
     </div>

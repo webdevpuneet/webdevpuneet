@@ -157,7 +157,8 @@ export default function MetaTagGeneratorPage() {
         <div className={styles.toolSection}>
           <MetaTagGeneratorTool />
         </div>
-        <IndexOnly><AdSlot />
+        <AdSlot />
+        <IndexOnly>
         <SeoSection {...seoData} /></IndexOnly>
 
       </div>

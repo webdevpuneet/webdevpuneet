@@ -231,7 +231,8 @@ export default function SqlFormatterPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><SqlFormatterTool /></div>
-      <IndexOnly><AdSlot />
+      <AdSlot />
+      <IndexOnly>
       <SeoSection heading="Free SQL Formatter Online — Beautify, Highlight & Minify SQL Queries" {...SEO} /></IndexOnly>
 
     </div>

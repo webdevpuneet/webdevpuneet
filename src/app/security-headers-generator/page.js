@@ -70,7 +70,7 @@ const SEO = {
 };
 
 export default function SecurityHeadersGeneratorPage() {
-  return <div className={styles.page}><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} /><div className={styles.toolSection}><SecurityHeadersGeneratorTool /></div><IndexOnly><AdSlot /><SeoSection {...SEO} /></IndexOnly>
+  return <div className={styles.page}><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} /><div className={styles.toolSection}><SecurityHeadersGeneratorTool /></div><AdSlot /><IndexOnly><SeoSection {...SEO} /></IndexOnly>
 
 </div>;
 }

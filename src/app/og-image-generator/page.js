@@ -227,7 +227,8 @@ export default function OgImageGeneratorPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><OgImageGenerator /></div>
-      <IndexOnly><AdSlot />
+      <AdSlot />
+      <IndexOnly>
       <SeoSection heading="Free OG Image Generator — Design, Preview and Export Open Graph Images" {...SEO} /></IndexOnly>
 
     </div>

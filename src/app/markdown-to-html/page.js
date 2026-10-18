@@ -207,7 +207,8 @@ export default function MarkdownToHtmlPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><MarkdownToHtml /></div>
-      <IndexOnly><AdSlot />
+      <AdSlot />
+      <IndexOnly>
       <SeoSection heading="Free Markdown to HTML Converter — Convert README, Docs & Blog Posts Instantly" {...SEO} /></IndexOnly>
 
     </div>

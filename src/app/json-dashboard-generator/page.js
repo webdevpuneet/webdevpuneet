@@ -190,7 +190,8 @@ export default function JsonDashboardGeneratorPage() {
         <div className={styles.toolSection}>
           <JsonDashboardGeneratorTool />
         </div>
-        <IndexOnly><AdSlot />
+        <AdSlot />
+        <IndexOnly>
         <SeoSection {...seoData} /></IndexOnly>
 
 

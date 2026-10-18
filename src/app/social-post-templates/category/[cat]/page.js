@@ -107,8 +107,8 @@ export default async function TemplateCategoryRoute({ params }) {
       <div className={`${styles.toolSection} ${styles.toolSectionGallery}`}>
         <TemplateCategoryPage category={cat} h1={c.h1} lead={lead} previews={previewIds()} />
       </div>
+      <AdSlot />
       <IndexOnly>
-        <AdSlot />
         <SeoSection slug="social-post-templates" title={c.h1} subtitle={`${list.length} templates · Instagram, Facebook & X · PNG, JPEG & HTML`} sections={sections} />
       </IndexOnly>
     </div>

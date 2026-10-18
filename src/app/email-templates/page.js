@@ -129,8 +129,8 @@ export default function EmailTemplatesPage() {
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sc) }} />
       ))}
       <div className={`${styles.toolSection} ${styles.toolSectionGallery}`}><EmailGalleryPage previews={emailPreviewIds()} /></div>
+      <AdSlot />
       <IndexOnly>
-        <AdSlot />
         <SeoSection slug="email-templates" title="HTML Email Templates — Free, Responsive, Outlook-Safe" subtitle="Gmail · Outlook · Apple Mail · Dark mode · Copy HTML or fork to My Code" sections={SECTIONS} />
       </IndexOnly>
     </div>

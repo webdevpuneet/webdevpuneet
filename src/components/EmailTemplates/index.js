@@ -410,7 +410,6 @@ export function EmailTemplateEditor({ id }) {
   useEffect(() => {
     let live = true;
     const wanted = new URLSearchParams(window.location.search).get('design');
-    if (wanted) window.history.replaceState(null, '', window.location.pathname);
     (async () => {
       let saved = await designStore.getAutosave(t.id);
       if (!saved) {
@@ -446,6 +445,14 @@ export function EmailTemplateEditor({ id }) {
     }, 500);
     return () => clearTimeout(tm);
   }, [state, hydrated, t.id]);
+
+  /* The address bar shows the open saved design (?design=<id>), so reload, bookmark
+     and a new tab reopen it in this browser; it goes back to the plain URL otherwise */
+  useEffect(() => {
+    if (!hydrated) return;
+    const url = currentDesign ? `${window.location.pathname}?design=${encodeURIComponent(currentDesign.id)}` : window.location.pathname;
+    if (window.location.pathname + window.location.search !== url) window.history.replaceState(null, '', url);
+  }, [currentDesign?.id, hydrated]); // eslint-disable-line react-hooks/exhaustive-deps
 
   /* My designs: the list, kept fresh */
   useEffect(() => {

@@ -183,8 +183,8 @@ export default function UiSnippetsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <AdSlot adFirst related={false} />
       <IndexOnly>
-        <AdSlot adFirst related={false} />
         <SeoSection {...SEO} featuresAfterAbout />
       </IndexOnly>
     </>

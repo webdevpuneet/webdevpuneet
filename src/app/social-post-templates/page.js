@@ -145,8 +145,8 @@ export default function SocialPostTemplatesPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={`${styles.toolSection} ${styles.toolSectionGallery}`}><TemplateGalleryPage previews={previewIds()} /></div>
+      <AdSlot />
       <IndexOnly>
-        <AdSlot />
         <SeoSection slug="social-post-templates" title="Social Post Templates — Free HTML Designs for Instagram, Facebook & X" subtitle={`${TEMPLATES.length} templates · ${TEMPLATE_CATEGORIES.length} categories · ${SIZES.length} post sizes · PNG, JPEG & HTML`} sections={SECTIONS} />
       </IndexOnly>
     </div>

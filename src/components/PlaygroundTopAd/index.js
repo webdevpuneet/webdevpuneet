@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ADS_ENABLED } from '@/lib/ads-config';
 import { useIsNotFound } from '@/lib/not-found-state';
-import IndexOnly from '@/components/SeoSection/IndexOnly';
 import s from './styles.module.css';
 
 /* — Playground top ad: the same leaderboard unit as the UI snippet editor (slot 7360198340),
@@ -73,10 +72,8 @@ export default function PlaygroundTopAd({ className = '', inline = false }) {
   const notFound = useIsNotFound();
   if (!ADS_ENABLED || notFound) return null;
   return (
-    <IndexOnly>
-      <div className={`${s.bar} ${inline ? s.inline : ''} ${className}`} aria-label="Advertisement">
-        <AdUnit />
-      </div>
-    </IndexOnly>
+    <div className={`${s.bar} ${inline ? s.inline : ''} ${className}`} aria-label="Advertisement">
+      <AdUnit />
+    </div>
   );
 }

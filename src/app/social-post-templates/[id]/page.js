@@ -161,8 +161,7 @@ export default async function SocialPostTemplatePage({ params }) {
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sc) }} />
       ))}
       <div className={styles.toolSection}><TemplateEditor id={t.id} /></div>
-      <IndexOnly>
-        <AdSlot
+      <AdSlot
           adFirst
           related={relatedItems.length ? (
             <HomeTemplatesCarousel
@@ -175,6 +174,7 @@ export default async function SocialPostTemplatePage({ params }) {
             />
           ) : false}
         />
+      <IndexOnly>
         <SeoSection
           slug="social-post-templates"
           title={`${t.name} — Free ${cat.label} Social Post Template`}

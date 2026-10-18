@@ -141,8 +141,7 @@ export default async function EmailTemplatePage({ params }) {
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sc) }} />
       ))}
       <div className={styles.toolSection}><EmailTemplateEditor id={t.id} /></div>
-      <IndexOnly>
-        <AdSlot
+      <AdSlot
           adFirst
           related={(
             <HomeTemplatesCarousel
@@ -156,6 +155,7 @@ export default async function EmailTemplatePage({ params }) {
             />
           )}
         />
+      <IndexOnly>
         <SeoSection
           slug="email-templates"
           title={`${t.name} — Free Responsive HTML Email Template`}

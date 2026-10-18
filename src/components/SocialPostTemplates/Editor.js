@@ -209,7 +209,6 @@ export default function TemplateEditor({ id }) {
     let live = true;
     try { const mv = localStorage.getItem('wdp-spt-mockup'); if (MOCKUPS.some(x => x.id === mv)) setMockupRaw(mv); } catch { /* blocked */ }
     const wanted = new URLSearchParams(window.location.search).get('design');
-    if (wanted) window.history.replaceState(null, '', window.location.pathname);
     (async () => {
       let next = null;
       let saved = await getAutosave(t.id);
@@ -238,6 +237,14 @@ export default function TemplateEditor({ id }) {
     return () => { live = false; };
   }, [t]); // eslint-disable-line react-hooks/exhaustive-deps
   const setMockup = v => { setMockupRaw(v); try { localStorage.setItem('wdp-spt-mockup', v); } catch { /* blocked */ } };
+
+  /* The address bar shows the open saved design (?design=<id>), so reload, bookmark
+     and a new tab reopen it in this browser; it goes back to the plain URL otherwise */
+  useEffect(() => {
+    if (!hydrated) return;
+    const url = currentDesign ? `${window.location.pathname}?design=${encodeURIComponent(currentDesign.id)}` : window.location.pathname;
+    if (window.location.pathname + window.location.search !== url) window.history.replaceState(null, '', url);
+  }, [currentDesign?.id, hydrated]); // eslint-disable-line react-hooks/exhaustive-deps
 
   /* My designs: the list, kept fresh across tabs of this page */
   useEffect(() => {

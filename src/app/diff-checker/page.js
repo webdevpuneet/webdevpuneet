@@ -147,7 +147,8 @@ export default function DiffCheckerPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><DiffCheckerTool /></div>
-      <IndexOnly><AdSlot />
+      <AdSlot />
+      <IndexOnly>
       <SeoSection heading="Free Diff Checker Online — Compare Text, Code & Files Side by Side" {...SEO} /></IndexOnly>
 
     </div>

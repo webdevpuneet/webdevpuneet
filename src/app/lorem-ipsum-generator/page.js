@@ -206,7 +206,8 @@ export default function LoremIpsumGeneratorPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><LoremIpsumGenerator /></div>
-      <IndexOnly><AdSlot />
+      <AdSlot />
+      <IndexOnly>
       <SeoSection heading="Free Lorem Ipsum Generator — Placeholder Text for Designers & Developers" {...SEO} /></IndexOnly>
 
     </div>

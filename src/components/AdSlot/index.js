@@ -4,7 +4,6 @@ import { usePathname } from 'next/navigation';
 import { ADS_ENABLED as ADS_CONFIG_ENABLED, adsAllowedOnPath } from '@/lib/ads-config';
 import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import RelatedStrip from '@/components/RelatedStrip';
-import IndexOnly from '@/components/SeoSection/IndexOnly';
 import styles from './styles.module.css';
 
 // Ads are never shown on the 404 page or on My Code.
@@ -65,10 +64,9 @@ export default function AdSlot({ contained = false, related = null, adFirst = fa
     );
   }
 
-  // Ads only belong on the canonical URL: any query string hides the ad, while
-  // Related Tools and the blog strip still render (pages keep AdSlot outside IndexOnly).
+  // Shown on every URL of the page, query strings included (?design=, ?id=, page numbers…).
   const ad = (
-    <IndexOnly>
+    <>
     <div className={contained ? styles.adWrapContained : adFirst ? styles.adWrapFull : styles.adWrap}>
       <ins
         className="adsbygoogle"
@@ -79,7 +77,7 @@ export default function AdSlot({ contained = false, related = null, adFirst = fa
         data-full-width-responsive="true"
       />
     </div>
-    </IndexOnly>
+    </>
   );
 
   // The ad leads, above the related strip (tool pages and snippet pages alike).

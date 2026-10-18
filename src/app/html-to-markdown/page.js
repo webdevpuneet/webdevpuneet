@@ -227,7 +227,8 @@ export default function HtmlToMarkdownPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className={styles.toolSection}><HtmlToMarkdown /></div>
-      <IndexOnly><AdSlot />
+      <AdSlot />
+      <IndexOnly>
       <SeoSection heading="Free HTML to Markdown Converter — Convert Web Pages, CMS Exports & Email HTML" {...SEO} /></IndexOnly>
 
     </div>

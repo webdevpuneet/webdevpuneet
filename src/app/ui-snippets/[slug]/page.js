@@ -747,8 +747,8 @@ export default async function UiSnippetSlugPage({ params }) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }} />
         {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
+        <AdSlot adFirst related={false} />
         <IndexOnly>
-          <AdSlot adFirst related={false} />
           <SeoSection
             slug={`ui-snippets/${slug}`}
             title={content.title}

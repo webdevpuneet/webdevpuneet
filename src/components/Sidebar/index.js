@@ -3,7 +3,6 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { isEmbedRoute } from '@/lib/is-embed-route';
 import { ADS_ENABLED, SIDEBAR_AD_ENABLED, adsAllowedOnPath } from '@/lib/ads-config';
-import IndexOnly from '@/components/SeoSection/IndexOnly';
 import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import styles from './styles.module.css';
@@ -1770,13 +1769,9 @@ export default function Sidebar() {
         </div>
 
         {/* Sidebar top ad. Keyed by pathname so every page mounts a fresh slot.
-            On My Code it follows the IndexOnly standard: shown on the bare
-            /ui-snippets/mycode/ page, hidden on a saved snippet (?id=…).
-            Never shown on the 404 page. */}
+            Shown on every URL (query strings included); never on the 404 page. */}
         {ADS_ENABLED && SIDEBAR_AD_ENABLED && !isNotFoundPage && !isEmbedRoute(pathname) && adsAllowedOnPath(pathname) && (
-          pathname.startsWith('/ui-snippets/mycode')
-            ? <IndexOnly><SidebarTopAd key={pathname} /></IndexOnly>
-            : <SidebarTopAd key={pathname} />
+          <SidebarTopAd key={pathname} />
         )}
 
         {/* Latest blog posts, one at a time, right under the ad. */}

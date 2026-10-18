@@ -187,7 +187,8 @@ export default function FaviconGeneratorPage() {
         <div className={styles.toolSection}>
           <FaviconGeneratorTool />
         </div>
-        <IndexOnly><AdSlot />
+        <AdSlot />
+        <IndexOnly>
         <SeoSection {...seoData} /></IndexOnly>
 
       </div>

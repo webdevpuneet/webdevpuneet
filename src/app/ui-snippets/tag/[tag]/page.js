@@ -132,8 +132,8 @@ export default async function TagPage({ params }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }} />
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
+      <AdSlot adFirst related={false} />
       <IndexOnly>
-        <AdSlot adFirst related={false} />
         <SeoSection
           slug={content.slug}
           title={content.title}

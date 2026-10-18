@@ -297,7 +297,8 @@ export default function ApiRequestGeneratorPage() {
         <div className={styles.toolSection}>
           <ApiRequestGeneratorTool />
         </div>
-        <IndexOnly><AdSlot />
+        <AdSlot />
+        <IndexOnly>
         <SeoSection {...seoData} /></IndexOnly>
       </div>
     </>
