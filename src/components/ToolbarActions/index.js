@@ -78,3 +78,73 @@ export function HistoryButtons({ onUndo, onRedo, onReset, canUndo, canRedo }) {
     </div>
   );
 }
+
+/* Save (to My designs): same compact style; shows "Saved ✓" for a moment after saving.
+   `menu`: optional [{ label, sub, onClick }] shown from a ▾ next to it (Detach, My designs…).
+   `saveAs`: optional { defaultName, onSave(name) }: adds "Save as new design", which turns the
+   dropdown into a name field with Save / Cancel. */
+export function SaveButton({ onClick, busy = false, saved = false, dirty = false, disabled = false, title = 'Save to My designs (Ctrl+S)', menu = [], saveAs = null }) {
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState(null); // null = menu, string = naming a new design
+  const ref = useRef(null);
+  useEffect(() => { if (!open) setName(null); }, [open]);
+  const items = [...(saveAs ? [{ label: 'Save as new design', sub: 'Keep this version under a new name', keepOpen: true, onClick: () => setName(saveAs.defaultName || '') }] : []), ...menu];
+  useEffect(() => {
+    if (!open) return undefined;
+    const onDoc = ev => { if (ref.current && !ref.current.contains(ev.target)) setOpen(false); };
+    const onKey = ev => { if (ev.key === 'Escape') setOpen(false); };
+    document.addEventListener('mousedown', onDoc);
+    document.addEventListener('keydown', onKey);
+    return () => { document.removeEventListener('mousedown', onDoc); document.removeEventListener('keydown', onKey); };
+  }, [open]);
+  const tint = saved ? { color: '#16a34a', borderColor: '#16a34a' } : {};
+  return (
+    <div className={us.popoverAnchor} ref={ref} style={{ display: 'flex' }}>
+      <button type="button" className={us.iconBtn} onClick={onClick} disabled={disabled} title={title} style={{ ...tint, ...(items.length ? { borderTopRightRadius: 0, borderBottomRightRadius: 0 } : {}) }}>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></svg>
+        {busy ? 'Saving…' : saved ? 'Saved ✓' : 'Save'}
+        {dirty && !busy && !saved && <span aria-label="unsaved changes" style={{ width: 6, height: 6, borderRadius: '50%', background: '#f59e0b', marginLeft: 1 }} />}
+      </button>
+      {items.length > 0 && (
+        <button type="button" className={us.iconBtn} onClick={() => setOpen(v => !v)} disabled={disabled} aria-haspopup="true" aria-expanded={open} aria-label="More save options" style={{ ...tint, padding: '0 5px', marginLeft: -1, borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}>
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }}><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+      )}
+      {open && name === null && (
+        <div className={us.exportMenu} role="menu" style={{ width: 250 }}>
+          {items.map(o => (
+            <button key={o.label} type="button" className={us.exportMenuItem} role="menuitem" onClick={() => { o.onClick(); if (!o.keepOpen) setOpen(false); }}>
+              <span className={us.exportMenuItemText}>
+                <span className={us.exportMenuItemLabel}>{o.label}</span>
+                {o.sub && <span className={us.exportMenuItemSub}>{o.sub}</span>}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
+      {open && name !== null && (
+        <form
+          className={us.exportMenu}
+          style={{ width: 260, padding: 10, gap: 8 }}
+          onSubmit={ev => { ev.preventDefault(); saveAs.onSave(name); setOpen(false); }}
+        >
+          <span className={us.exportMenuHead} style={{ margin: 0, padding: '0 2px 6px' }}>Save as new design</span>
+          <input
+            value={name}
+            onChange={ev => setName(ev.target.value)}
+            placeholder="Design name"
+            aria-label="Design name"
+            maxLength={60}
+            autoFocus
+            onFocus={ev => ev.target.select()}
+            style={{ height: 30, padding: '0 9px', border: '1px solid var(--border)', borderRadius: 7, background: 'var(--bg)', color: 'var(--text)', fontSize: 12.5, fontFamily: 'var(--font-ui)' }}
+          />
+          <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end' }}>
+            <button type="button" className={us.iconBtn} onClick={() => setName(null)}>Cancel</button>
+            <button type="submit" className={us.iconBtn} style={{ background: 'var(--accent, #6366f1)', borderColor: 'var(--accent, #6366f1)', color: '#fff' }}>Save</button>
+          </div>
+        </form>
+      )}
+    </div>
+  );
+}

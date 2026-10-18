@@ -1,26 +1,59 @@
-/* "My designs": named copies of a design, kept in this browser's IndexedDB (they can hold
-   photos, which are too big for localStorage). Record:
-   { id, name, tpl, state, thumb (small JPEG data URL), created, updated } */
+/* Social post data in this browser's IndexedDB (room for photos, unlike localStorage):
+   - designs:  "My designs", named copies of a design.
+               { id, name, tpl, state, thumb (small JPEG data URL), created, updated }
+   - autosave: what's open in each template, saved as you edit. { tpl, state, updated } */
 
 const DB = 'wdp-spt-designs';
 const STORE = 'designs';
+const AUTOSAVE = 'autosave';
 
+let dbP = null;
 function open() {
-  return new Promise((res, rej) => {
-    const req = indexedDB.open(DB, 1);
-    req.onupgradeneeded = () => req.result.createObjectStore(STORE, { keyPath: 'id' });
-    req.onsuccess = () => res(req.result);
-    req.onerror = () => rej(req.error);
-  });
+  if (!dbP) {
+    dbP = new Promise((res, rej) => {
+      const req = indexedDB.open(DB, 2);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains(STORE)) db.createObjectStore(STORE, { keyPath: 'id' });
+        if (!db.objectStoreNames.contains(AUTOSAVE)) db.createObjectStore(AUTOSAVE, { keyPath: 'tpl' });
+      };
+      req.onsuccess = () => {
+        const db = req.result;
+        // Another tab upgrading the database: let go so it isn't blocked
+        db.onversionchange = () => { db.close(); dbP = null; };
+        res(db);
+      };
+      req.onerror = () => { dbP = null; rej(req.error); };
+      req.onblocked = () => { dbP = null; rej(new Error('Storage is busy in another tab')); };
+    });
+  }
+  return dbP;
 }
-async function run(mode, fn) {
+async function run(mode, fn, store = STORE) {
   const db = await open();
   return new Promise((res, rej) => {
-    const tx = db.transaction(STORE, mode);
-    const out = fn(tx.objectStore(STORE));
+    const tx = db.transaction(store, mode);
+    const out = fn(tx.objectStore(store));
     tx.oncomplete = () => res(out?.result);
     tx.onerror = () => rej(tx.error);
   });
+}
+
+/* Ask the browser to keep this site's storage when space runs low (best effort, once) */
+let persistAsked = false;
+function askPersist() {
+  if (persistAsked) return;
+  persistAsked = true;
+  try { navigator.storage?.persist?.(); } catch { /* unsupported */ }
+}
+
+/* Autosave of the open design, per template */
+export async function getAutosave(tpl) {
+  try { return (await run('readonly', st => st.get(tpl), AUTOSAVE))?.state || null; } catch { return null; }
+}
+export async function putAutosave(tpl, state) {
+  askPersist();
+  await run('readwrite', st => st.put({ tpl, state, updated: new Date().toISOString() }), AUTOSAVE);
 }
 
 const CHANGE = 'wdp-spt-designs-change';
@@ -36,6 +69,7 @@ export async function listDesigns() {
 export const getDesign = id => run('readonly', st => st.get(id));
 
 export async function saveDesign(rec) {
+  askPersist();
   const now = new Date().toISOString();
   const full = { created: now, ...rec, id: rec.id || `d-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`, updated: now };
   await run('readwrite', st => st.put(full));

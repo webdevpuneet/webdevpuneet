@@ -36,7 +36,9 @@ function Avatar({ profile, size = 32, ring = false }) {
   );
 }
 
-const Caption = ({ text, lines = 2 }) => (text ? <p className={m.caption} style={{ WebkitLineClamp: lines }}>{text}</p> : null);
+const Caption = ({ text, lines = 2 }) => (text
+  ? <p className={m.caption} style={{ WebkitLineClamp: lines }}>{text}</p>
+  : <p className={`${m.caption} ${m.captionEmpty}`}>Your caption shows here. Write it under “Post caption” in the panel.</p>);
 
 export default function Mockup({ mode, box, size, profile, caption, renderPost }) {
   const ratio = size.h / size.w;
@@ -56,7 +58,9 @@ export default function Mockup({ mode, box, size, profile, caption, renderPost }
         <div className={m.igActions}>{I.heart}{I.comment}{I.send}<span className={m.spacer} />{I.save}</div>
         <div className={m.igMeta}>
           <b>1,248 likes</b>
-          {caption ? <p className={m.caption} style={{ WebkitLineClamp: 2 }}><b>{profile.handle}</b> {caption}</p> : null}
+          {caption
+            ? <p className={m.caption} style={{ WebkitLineClamp: 2 }}><b>{profile.handle}</b> {caption}</p>
+            : <p className={`${m.caption} ${m.captionEmpty}`}><b>{profile.handle}</b> Your caption shows here. Write it under “Post caption”.</p>}
           <span className={m.muted}>2 hours ago</span>
         </div>
       </div>

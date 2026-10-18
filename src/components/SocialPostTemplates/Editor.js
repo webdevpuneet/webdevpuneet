@@ -4,12 +4,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import s from './styles.module.css';
 import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
-import { BrandKitPanel, loadKit, kitIsSet } from '@/components/BrandKit';
+import { BrandKitPanel, loadKit, kitIsSet, useBrandKit } from '@/components/BrandKit';
 import { revealInPanel } from '@/lib/reveal-in-panel';
 import { SIZES, sizeById, templateById } from './templates/index.js';
 import { PALETTES, parseHex } from '../OgImageGenerator/engine';
 import FontPicker from '@/components/FontPicker';
-import { ExportMenu, ForkButton, HistoryButtons } from '@/components/ToolbarActions';
+import { ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
 import Preview from './Preview';
 import { renderImage, standaloneHtml, snippetParts } from './render';
 import { dbPut } from '@/lib/uiSnippetsDb';
@@ -17,7 +17,7 @@ import { jpegsToPdf } from '@/lib/images-to-pdf';
 import Mockup, { MOCKUPS } from './Mockup';
 import BulkCreate from './BulkCreate';
 import { runChecks } from './quality-checks';
-import { listDesigns, getDesign, saveDesign, deleteDesign, duplicateDesign, thumbFrom, onDesignsChange } from './designs';
+import { listDesigns, getDesign, saveDesign, deleteDesign, duplicateDesign, thumbFrom, onDesignsChange, getAutosave, putAutosave } from './designs';
 import { openForkTab } from '@/lib/open-fork-tab';
 
 const LS_PREFIX = 'wdp-spt-v1:';
@@ -116,6 +116,9 @@ function restore(t, saved) {
   };
 }
 
+/* The sizes each platform mock-up shows best (first = the one "Switch" picks) */
+const BEST_SIZES = { instagram: ['portrait', 'square'], story: ['story'], x: ['landscape', 'square', 'portrait'], linkedin: ['linkedin', 'portrait', 'square'] };
+
 /* Caption limits shown under the caption box */
 const CAPTION_LIMITS = [['Instagram', 2200], ['X', 280], ['LinkedIn', 3000], ['Facebook', 63206]];
 
@@ -160,13 +163,20 @@ export default function TemplateEditor({ id }) {
   const [bulkOpen, setBulkOpen] = useState(false);
   const [designs, setDesigns] = useState([]);
   const [currentDesign, setCurrentDesign] = useState(null); // { id, name } when editing a saved design
-  const [naming, setNaming] = useState(null); // draft name while saving
   const [renaming, setRenaming] = useState(null); // { id, name }
+  const [panelTab, setPanelTab] = useState('edit'); // left panel: 'edit' | 'designs'
+  const savedJson = useRef(null); // the open design as last saved or opened, to spot unsaved changes
   const stageRef = useRef(null);
   const fileRef = useRef(null);
   const pickKey = useRef(null);
 
-  const flash = useCallback(msg => { setToast(msg); setTimeout(() => setToast(''), 2600); }, []);
+  const toastTimer = useRef(null);
+  const flash = useCallback(msg => {
+    setToast(msg);
+    clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToast(''), Math.min(6000, 2200 + msg.length * 25));
+  }, []);
+  const [liveKit] = useBrandKit();
   const z = sizeById(state.size);
 
   /* Current slide and the flat design state the renderer works with */
@@ -190,34 +200,42 @@ export default function TemplateEditor({ id }) {
     });
   }, [design, st]);
 
-  /* Restore / autosave this template's edits */
+  /* Restore this template's edits (IndexedDB autosave; older saves in localStorage move over) */
   useEffect(() => {
-    let next = null;
-    try {
-      const saved = JSON.parse(localStorage.getItem(LS_PREFIX + t.id) || 'null');
-      if (saved) next = restore(t, saved);
-    } catch { /* storage blocked */ }
-    if (!next) {
-      // Untouched template: open it in the user's brand if they asked for that
-      const kit = loadKit();
-      if (kit?.autoApply && kitIsSet(kit)) next = withKit(editorDefault(t), kit);
-    }
-    if (next) setState(next);
-    hist.current.skip = true; // the restored design is the starting point, not an undo step
-    setHydrated(true);
-    // /social-post-templates/<id>/?design=<designId> opens a saved design (My designs)
-    const wanted = new URLSearchParams(window.location.search).get('design');
-    if (wanted) {
-      getDesign(wanted).then(d => {
-        if (d && d.tpl === t.id) {
-          hist.current.skip = true;
-          setState(restore(t, d.state));
-          setCurrentDesign({ id: d.id, name: d.name });
-        }
-      }).catch(() => {});
-      window.history.replaceState(null, '', window.location.pathname);
-    }
+    let live = true;
     try { const mv = localStorage.getItem('wdp-spt-mockup'); if (MOCKUPS.some(x => x.id === mv)) setMockupRaw(mv); } catch { /* blocked */ }
+    const wanted = new URLSearchParams(window.location.search).get('design');
+    if (wanted) window.history.replaceState(null, '', window.location.pathname);
+    (async () => {
+      let next = null;
+      let saved = await getAutosave(t.id);
+      if (!saved) {
+        try {
+          saved = JSON.parse(localStorage.getItem(LS_PREFIX + t.id) || 'null');
+          if (saved) { await putAutosave(t.id, saved); localStorage.removeItem(LS_PREFIX + t.id); }
+        } catch { /* storage blocked */ }
+      }
+      if (saved) { try { next = restore(t, saved); } catch { next = null; } }
+      if (!next) {
+        // Untouched template: open it in the user's brand if they asked for that
+        const kit = loadKit();
+        if (kit?.autoApply && kitIsSet(kit)) next = withKit(editorDefault(t), kit);
+      }
+      // /social-post-templates/<id>/?design=<designId> opens a saved design (My designs)
+      if (wanted) {
+        const d = await getDesign(wanted).catch(() => null);
+        if (d && d.tpl === t.id) {
+          next = restore(t, d.state);
+          savedJson.current = JSON.stringify(next);
+          if (live) setCurrentDesign({ id: d.id, name: d.name });
+        }
+      }
+      if (!live) return;
+      if (next) setState(next);
+      hist.current.skip = true; // the restored design is the starting point, not an undo step
+      setHydrated(true);
+    })();
+    return () => { live = false; };
   }, [t]); // eslint-disable-line react-hooks/exhaustive-deps
   const setMockup = v => { setMockupRaw(v); try { localStorage.setItem('wdp-spt-mockup', v); } catch { /* blocked */ } };
 
@@ -231,11 +249,11 @@ export default function TemplateEditor({ id }) {
   }, []);
   useEffect(() => {
     if (!hydrated) return undefined;
+    // Autosave to IndexedDB (photos included); localStorage is only a fallback if it fails
     const tm = setTimeout(() => {
-      try { localStorage.setItem(LS_PREFIX + t.id, JSON.stringify(state)); }
-      catch {
+      putAutosave(t.id, state).catch(() => {
         try { localStorage.setItem(LS_PREFIX + t.id, JSON.stringify({ ...state, slides: state.slides.map(sl => ({ ...sl, images: {}, imageDims: {}, imagePos: {} })) })); } catch { /* full */ }
-      }
+      });
     }, 500);
     return () => clearTimeout(tm);
   }, [state, hydrated, t.id]);
@@ -268,6 +286,7 @@ export default function TemplateEditor({ id }) {
   }, [state, hydrated]);
   const stateRef = useRef(state);
   stateRef.current = state;
+  const saveRef = useRef(null); // the latest Save handler, for the Ctrl+S shortcut
   const undo = useCallback(() => {
     const h = hist.current;
     clearTimeout(h.timer);
@@ -294,6 +313,7 @@ export default function TemplateEditor({ id }) {
   useEffect(() => {
     const onKey = e => {
       if (!(e.ctrlKey || e.metaKey)) return;
+      if (e.key.toLowerCase() === 's' && !e.shiftKey && !e.altKey) { e.preventDefault(); saveRef.current?.(); return; }
       const el = e.composedPath?.()[0] || e.target;
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes(el?.tagName) || el?.isContentEditable) return;
       const k = e.key.toLowerCase();
@@ -473,26 +493,45 @@ export default function TemplateEditor({ id }) {
     setBusy('save');
     try {
       const rec = await saveDesign({ name: name.trim() || t.name, tpl: t.id, state, thumb: await designThumb() });
+      savedJson.current = JSON.stringify(state);
       setCurrentDesign({ id: rec.id, name: rec.name });
       flash(`Saved “${rec.name}” to My designs`);
     } catch (err) { flash(`Couldn't save the design: ${err.message}`); }
-    setNaming(null);
     setBusy('');
   };
+  /* Toolbar Save / Ctrl+S: update the open design, or save a new one with an automatic name */
+  const [justSaved, setJustSaved] = useState(false);
+  const savedTimer = useRef(null);
+  useEffect(() => () => clearTimeout(savedTimer.current), []);
+  const quickSave = async () => {
+    if (busy) return;
+    if (currentDesign) await updateCurrentDesign();
+    else await saveNewDesign(`${isCarousel ? 'Carousel' : t.name} ${myDesigns.filter(d => d.tpl === t.id).length + 1}`);
+    setJustSaved(true);
+    clearTimeout(savedTimer.current);
+    savedTimer.current = setTimeout(() => setJustSaved(false), 1600);
+  };
+  saveRef.current = quickSave;
   const updateCurrentDesign = async () => {
     if (!currentDesign) return;
     setBusy('save');
     try {
       const old = await getDesign(currentDesign.id);
       await saveDesign({ ...(old || {}), id: currentDesign.id, name: currentDesign.name, tpl: t.id, state, thumb: await designThumb() });
+      savedJson.current = JSON.stringify(state);
       flash(`Updated “${currentDesign.name}”`);
     } catch (err) { flash(`Couldn't save the design: ${err.message}`); }
     setBusy('');
   };
   const openDesign = d => {
+    if (currentDesign?.id === d.id && !dirty) { setPanelTab('edit'); return; }
+    if (currentDesign && dirty && !window.confirm(`“${currentDesign.name}” has unsaved changes. Open “${d.name}” anyway? (Your changes stay in the editor's autosave until you open something else.)`)) return;
     if (d.tpl !== t.id) { window.location.href = `/social-post-templates/${d.tpl}/?design=${encodeURIComponent(d.id)}`; return; }
-    setState(restore(t, d.state));
+    const next = restore(t, d.state);
+    savedJson.current = JSON.stringify(next);
+    setState(next);
     setCurrentDesign({ id: d.id, name: d.name });
+    setPanelTab('edit');
     flash(`Opened “${d.name}”`);
   };
   const duplicate = async d => {
@@ -518,7 +557,8 @@ export default function TemplateEditor({ id }) {
   };
 
   /* Profile shown in the platform mock-ups: from the brand kit when it's set */
-  const kit = typeof window !== 'undefined' ? loadKit() : null;
+  const kit = liveKit;
+  const dirty = !!currentDesign && savedJson.current !== null && savedJson.current !== JSON.stringify(state);
   const profile = {
     name: kit?.name || 'Your Brand',
     handle: (kit?.handle || slide.fields.handle || '@yourbrand').replace(/^@?/, '@'),
@@ -548,34 +588,18 @@ export default function TemplateEditor({ id }) {
             </a>
           </div>
           {/* Only this part scrolls, so the scrollbar starts below the pinned tool name */}
+          <div className={s.panelTabs} role="tablist" aria-label="Panel">
+            <button type="button" role="tab" aria-selected={panelTab === 'edit'} className={panelTab === 'edit' ? s.panelTabOn : ''} onClick={() => setPanelTab('edit')}>Edit</button>
+            <button type="button" role="tab" aria-selected={panelTab === 'designs'} className={panelTab === 'designs' ? s.panelTabOn : ''} onClick={() => setPanelTab('designs')}>
+              My designs <span className={s.panelTabCount}>{myDesigns.length}</span>
+            </button>
+          </div>
           <div className={s.controlsScroll}>
-          <BrandKitPanel onApply={applyKit} onSaveFrom={kitFromDesign} onToast={flash} />
-
+          {panelTab === 'designs' ? (
           <section className={s.section}>
-            <h2 className={s.sectionTitle}>My designs <span className={s.sectionCount}>{myDesigns.length}</span></h2>
-            {currentDesign && (
-              <p className={s.designNow}>Editing <b>{currentDesign.name}</b></p>
-            )}
-            {naming !== null
-              ? (
-                <form className={s.designName} onSubmit={e => { e.preventDefault(); saveNewDesign(naming); }}>
-                  <input className={s.input} value={naming} onChange={e => setNaming(e.target.value)} placeholder="Design name" aria-label="Design name" autoFocus maxLength={60} />
-                  <button type="submit" className={s.miniBtn} disabled={busy === 'save'}>{busy === 'save' ? 'Saving…' : 'Save'}</button>
-                  <button type="button" className={s.miniBtn} onClick={() => setNaming(null)}>Cancel</button>
-                </form>
-              )
-              : (
-                <div className={s.miniRow}>
-                  {currentDesign && <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={updateCurrentDesign} disabled={!!busy}>Save changes</button>}
-                  <button type="button" className={currentDesign ? s.miniBtn : `${s.miniBtn} ${s.miniBtnAccent}`} onClick={() => setNaming(currentDesign ? `${currentDesign.name} (copy)` : `${isCarousel ? 'Carousel' : t.name} ${myDesigns.filter(d => d.tpl === t.id).length + 1}`)} disabled={!!busy}>
-                    {currentDesign ? 'Save as new' : '+ Save this design'}
-                  </button>
-                  {currentDesign && <button type="button" className={s.miniBtn} onClick={() => setCurrentDesign(null)} title="Keep editing without linking to the saved design">Detach</button>}
-                </div>
-              )}
             {myDesigns.length > 0 && (
-              <ul className={s.designList}>
-                {myDesigns.slice(0, 30).map(d => (
+              <ul className={`${s.designList} ${s.designListTab}`}>
+                {myDesigns.map(d => (
                   <li key={d.id} className={`${s.designItem} ${currentDesign?.id === d.id ? s.designItemOn : ''}`}>
                     <button type="button" className={s.designOpen} onClick={() => openDesign(d)} title={d.tpl === t.id ? 'Open this design' : 'Open in its template'}>
                       {d.thumb
@@ -603,8 +627,13 @@ export default function TemplateEditor({ id }) {
                 ))}
               </ul>
             )}
+            {myDesigns.length === 0 && <p className={s.designsEmpty}>No saved designs yet. Click Save in the toolbar (or press Ctrl+S) to keep this design, make variations, or come back to it on this device.</p>}
             <p className={s.hint}>Designs are saved in this browser, photos included. Open one to keep editing, or duplicate it to make a variation.</p>
           </section>
+          ) : (
+          <>
+          <BrandKitPanel onApply={applyKit} onSaveFrom={kitFromDesign} onToast={flash} />
+
 
           {isCarousel && (
             <section className={s.section}>
@@ -738,6 +767,8 @@ export default function TemplateEditor({ id }) {
             </label>
             <p className={s.hint}>Download PNG or JPEG from Export ▾ above the preview. PNG keeps text sharpest; JPEG is smaller for photo-heavy posts. Every image is exported at full size ({z.w}×{z.h}).</p>
           </section>
+          </>
+          )}
           </div>
         </aside>
 
@@ -748,6 +779,13 @@ export default function TemplateEditor({ id }) {
               {/* The page's H1: template name and version lead the preview toolbar */}
               <h1 className={s.metaName}>{isCarousel ? 'Carousel Builder' : t.name}</h1>
               <span className={s.version}>v{t.version}</span>
+              {currentDesign && (
+                <button type="button" className={s.designChip} onClick={() => setPanelTab('designs')} title={`Editing your saved design “${currentDesign.name}”. Save (Ctrl+S) updates it.`}>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/></svg>
+                  <span>{currentDesign.name}</span>
+                  {dirty && <i className={s.dirtyDot} title="Unsaved changes" aria-label="Unsaved changes" />}
+                </button>
+              )}
               {isCarousel
                 ? (
                   <span className={s.slideNav}>
@@ -760,6 +798,22 @@ export default function TemplateEditor({ id }) {
               <span>{z.w}×{z.h}</span>
               <span className={s.toolbarSep} aria-hidden="true" />
               <HistoryButtons onUndo={undo} onRedo={redo} onReset={() => setState(editorDefault(t))} canUndo={canUndo} canRedo={canRedo} />
+              <SaveButton
+                onClick={quickSave}
+                busy={busy === 'save'}
+                saved={justSaved}
+                disabled={!!busy}
+                dirty={dirty}
+                title={currentDesign ? (dirty ? `Save changes to “${currentDesign.name}” (Ctrl+S)` : `“${currentDesign.name}” is saved`) : 'Save to My designs (Ctrl+S)'}
+                saveAs={{
+                  defaultName: currentDesign ? `${currentDesign.name} (copy)` : `${isCarousel ? 'Carousel' : t.name} ${myDesigns.filter(d => d.tpl === t.id).length + 1}`,
+                  onSave: name => saveNewDesign(name),
+                }}
+                menu={[
+                  ...(currentDesign ? [{ label: 'Detach', sub: `Keep editing without changing “${currentDesign.name}”`, onClick: () => { setCurrentDesign(null); flash('Detached. Save now creates a new design.'); } }] : []),
+                  { label: `My designs (${myDesigns.length})`, sub: 'Open, duplicate, rename or delete', onClick: () => setPanelTab('designs') },
+                ]}
+              />
             </div>
             <div className={s.toolbarRight}>
               {(state.size === 'story' || state.size === 'portrait') && (
@@ -800,6 +854,17 @@ export default function TemplateEditor({ id }) {
                 <button key={v.id} type="button" role="radio" aria-checked={mockup === v.id} className={mockup === v.id ? s.viewSegOn : ''} onClick={() => setMockup(v.id)}>{v.label}</button>
               ))}
             </div>
+            {(() => {
+              const best = BEST_SIZES[mockup];
+              if (!best || best.includes(state.size)) return null;
+              const to = sizeById(best[0]);
+              return (
+                <span className={s.sizeHint}>
+                  {MOCKUPS.find(m => m.id === mockup)?.label} usually shows {best.map(id => sizeById(id).short).join(' or ')}
+                  <button type="button" onClick={() => setState(p => ({ ...p, size: to.id }))}>Switch to {to.label}</button>
+                </span>
+              );
+            })()}
             <button
               type="button"
               className={`${s.checksChip} ${bad ? s.checksBad : checks.length ? s.checksWarn : s.checksGood}`}

@@ -4,7 +4,7 @@
 .muted { color: #737373; font-weight: 400; }
 .spacer { flex: 1; }
 .avatar { flex: none; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; overflow: hidden; background: linear-gradient(135deg, #6366f1, #ec4899); color: #fff; font-weight: 700; }
-.avatar img { width: 100%; height: 100%; object-fit: cover; background: #fff; }
+.avatar img { width: 100%; height: 100%; object-fit: contain; padding: 12%; box-sizing: border-box; background: #fff; }
 .avatarRing { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #e1306c; margin: 2px; }
 .caption { margin: 0; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; white-space: pre-line; word-break: break-word; }
 
@@ -47,3 +47,5 @@
 .liStats { display: flex; justify-content: space-between; padding: 8px 14px; color: #666; font-size: 11.5px; border-bottom: 1px solid #e8e8e8; }
 .liActions { display: flex; justify-content: space-around; padding: 6px 4px 8px; color: #555; font-size: 12.5px; font-weight: 600; }
 .liActions span { display: inline-flex; align-items: center; gap: 5px; }
+
+.captionEmpty { color: #9ca3af; font-style: italic; }
