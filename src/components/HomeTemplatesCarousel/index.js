@@ -47,7 +47,7 @@ export default function HomeTemplatesCarousel({ title, items, viewAllHref, viewA
       <div className={rs.header}>
         <h2 className={rs.title}>{title}</h2>
         <span className={rs.headCount}>{label || `${total} free templates`}</span>
-        <a href={viewAllHref} className={rs.viewAll}>{viewAllText} &rarr;</a>
+        {viewAllHref && <a href={viewAllHref} className={rs.viewAll}>{viewAllText} &rarr;</a>}
         {total > PAGE_SIZE && (
           <div className={rs.navBtns}>
             <span className={rs.pageIndicator}>{start + 1}–{rangeEnd} of {total}</span>

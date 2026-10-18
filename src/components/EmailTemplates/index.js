@@ -5,7 +5,8 @@ import s from '../SocialPostTemplates/styles.module.css';
 import e from './styles.module.css';
 import { ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
-import { makeDesignStore } from '@/lib/design-store';
+import { emailDesignStore } from './designs';
+import SavedDesignsStrip from '@/components/SavedDesignsStrip';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 import { EMAIL_TEMPLATES, EMAIL_CATEGORIES, emailTemplateById, emailCategoryById, defaultEmailState, FONT_STACKS } from './templates/index.js';
@@ -24,7 +25,7 @@ import { resolveFont } from '@/lib/fonts';
 
 const LS_PREFIX = 'wdp-email-v1:';
 // "My designs" and the autosave, in IndexedDB database `wdp-email-designs`
-const designStore = makeDesignStore('wdp-email-designs');
+const designStore = emailDesignStore;
 const GMAIL_CLIP = 102 * 1024; // Gmail clips messages larger than ~102 KB
 const fmtKB = n => `${(n / 1024).toFixed(1)} KB`;
 const GALLERY_PAGE = 10; // cards per "Load more", same rhythm as the UI snippets gallery
@@ -142,7 +143,8 @@ function GalleryCard({ t, preview }) {
   );
 }
 
-export function EmailTemplateGallery({ excludeId = null, limit = null, previews = [], initialCategory = 'all', hideControls = false, chips = true }) {
+// savedStrip(query): the "My designs" row, shown under the search with a Templates heading
+export function EmailTemplateGallery({ excludeId = null, limit = null, previews = [], initialCategory = 'all', hideControls = false, chips = true, savedStrip = null }) {
   const [cat, setCat] = useState(initialCategory);
   const [q, setQ] = useState('');
   const [shownCount, setShownCount] = useState(GALLERY_PAGE);
@@ -176,6 +178,15 @@ export function EmailTemplateGallery({ excludeId = null, limit = null, previews 
           </div>}
         </div>
       )}
+      {savedStrip && (
+        <>
+          {savedStrip(q)}
+          <div className={s.sectionHead}>
+            <h2>All Templates</h2>
+            <span>{list.length}{list.length !== EMAIL_TEMPLATES.length ? ` of ${EMAIL_TEMPLATES.length}` : ''}</span>
+          </div>
+        </>
+      )}
       {list.length === 0 ? (
         <div className={s.empty}>No email templates match &ldquo;{q}&rdquo;.</div>
       ) : (
@@ -205,6 +216,34 @@ function EmailCategoryLinks({ active = null }) {
   );
 }
 
+/* A saved email design rendered from its template code: the real email HTML, with
+   images uploaded in the editor loaded from IndexedDB */
+function SavedEmailPreview({ design: d, width }) {
+  const t = emailTemplateById(d.tpl);
+  const [origin, setOrigin] = useState('');
+  const [urls, setUrls] = useState({});
+  useEffect(() => { setOrigin(window.location.origin); }, []);
+  useEffect(() => {
+    let live = true;
+    const made = [];
+    (async () => {
+      const out = {};
+      for (const [k, u] of Object.entries(d.state?.uploads || {})) {
+        try { const rec = await getAsset(u.id); if (rec?.blob) { const url = URL.createObjectURL(rec.blob); made.push(url); out[k] = url; } } catch { /* missing */ }
+      }
+      if (live) setUrls(out);
+    })();
+    return () => { live = false; made.forEach(u => URL.revokeObjectURL(u)); };
+  }, [d]);
+  const html = useMemo(() => {
+    if (!t || !origin) return '';
+    const st = restoreEmail(t, d.state);
+    return previewImages(t.build({ ...st, fields: { ...st.fields, ...urls } }), origin);
+  }, [t, d, urls, origin]);
+  if (!html) return null;
+  return <EmailFrame html={html} width={640} scale={width / 640} interactive={false} />;
+}
+
 export function EmailGalleryPage({ previews = [] }) {
   return (
     <div className={s.galleryPage}>
@@ -219,7 +258,20 @@ export function EmailGalleryPage({ previews = [] }) {
         </p>
       </header>
       <EmailCategoryLinks />
-      <EmailTemplateGallery previews={previews} chips={false} />
+      <EmailTemplateGallery
+        previews={previews}
+        chips={false}
+        savedStrip={q => (
+          <SavedDesignsStrip
+            store={emailDesignStore}
+            basePath="/email-templates/"
+            nameOf={id => emailTemplateById(id)?.name || id}
+            imgFor={d => `/images/email-templates/previews/${d.tpl}.png`}
+            renderPreview={(d, w) => <SavedEmailPreview design={d} width={w} />}
+            query={q}
+          />
+        )}
+      />
     </div>
   );
 }

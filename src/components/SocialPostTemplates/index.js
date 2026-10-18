@@ -5,15 +5,18 @@ import s from './styles.module.css';
 import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { LoadMore } from '@/components/UiSnippetsGallery';
-import { TEMPLATES, TEMPLATE_CATEGORIES, SIZES, categoryById } from './templates/index.js';
+import { TEMPLATES, TEMPLATE_CATEGORIES, SIZES, categoryById, templateById } from './templates/index.js';
 import Preview from './Preview';
+import SavedDesignsStrip from '@/components/SavedDesignsStrip';
+import * as socialDesigns from './designs';
 import { defaultState } from './render';
 
 const LS_PREFIX = 'wdp-spt-v1:';
 const GALLERY_PAGE = 10; // cards per "Load more", same rhythm as the UI snippets gallery
 
 /* ── Gallery ─────────────────────────────────────────────────────────────────── */
-export function TemplateGallery({ compact = false, excludeId = null, limit = null, previews = [], initialCategory = 'all', hideControls = false, chips = true }) {
+// savedStrip(query): the "My designs" row, shown under the search with a Templates heading
+export function TemplateGallery({ compact = false, excludeId = null, limit = null, previews = [], initialCategory = 'all', hideControls = false, chips = true, savedStrip = null }) {
   const [cat, setCat] = useState(initialCategory);
   const [q, setQ] = useState('');
   const [shownCount, setShownCount] = useState(GALLERY_PAGE);
@@ -54,6 +57,15 @@ export function TemplateGallery({ compact = false, excludeId = null, limit = nul
           </div>}
         </div>
       )}
+      {savedStrip && (
+        <>
+          {savedStrip(q)}
+          <div className={s.sectionHead}>
+            <h2>All Templates</h2>
+            <span>{list.length}{list.length !== TEMPLATES.length ? ` of ${TEMPLATES.length}` : ''}</span>
+          </div>
+        </>
+      )}
       {list.length === 0 ? (
         <div className={s.empty}>No templates match &ldquo;{q}&rdquo;.</div>
       ) : (
@@ -80,9 +92,42 @@ export function TemplateGalleryPage({ previews = [] }) {
         </p>
       </header>
       <CategoryLinks />
-      <TemplateGallery previews={previews} chips={false} />
+      <TemplateGallery
+        previews={previews}
+        chips={false}
+        savedStrip={q => (
+          <SavedDesignsStrip
+            store={socialDesigns}
+            basePath="/social-post-templates/"
+            nameOf={id => templateById(id)?.name || id}
+            imgFor={d => d.thumb || `/images/social-post-templates/previews/${d.tpl}.png`}
+            renderPreview={(d, w) => <SavedDesignPreview design={d} width={w} />}
+            query={q}
+          />
+        )}
+      />
     </div>
   );
+}
+
+/* A saved design drawn live from its template (first slide for carousels), fitted to a
+   4:5 card the way the gallery cards are */
+function SavedDesignPreview({ design: d, width }) {
+  const sl = d.state?.slides?.[0];
+  const tt = templateById(sl?.tpl) || templateById(d.tpl);
+  const state = useMemo(() => (sl ? {
+    size: d.state.size || 'portrait',
+    vars: d.state.vars || {},
+    fonts: d.state.fonts || tt?.fonts,
+    fields: sl.fields || {},
+    images: sl.images || {},
+    imagePos: sl.imagePos || {},
+    imageDims: sl.imageDims || {},
+    slideNo: 1,
+    slideTotal: d.state.slides.length,
+  } : null), [d, sl, tt]);
+  if (!tt || !state) return null;
+  return <Preview template={tt} state={state} maxW={width} maxH={width * 1.25} />;
 }
 
 /* Crawlable links to every category landing page */

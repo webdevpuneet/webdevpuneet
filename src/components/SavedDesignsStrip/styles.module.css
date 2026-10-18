@@ -1,0 +1,5 @@
+/* My designs on gallery pages: the gallery's own card grid, limited to one row */
+.wrap { width: 100%; box-sizing: border-box; padding-left: 0 !important; padding-right: 0 !important; margin-bottom: 10px; }
+.oneRow { grid-template-rows: auto; grid-auto-rows: 0; row-gap: 0 !important; overflow: hidden; padding-top: 4px; margin-top: -4px; }
+.toggle { margin-left: auto; padding: 0; border: 0; background: none; color: var(--accent, #6366f1); font-size: 12px; font-weight: 700; cursor: pointer; font-family: var(--font-ui); }
+.toggle:hover { text-decoration: underline; }
