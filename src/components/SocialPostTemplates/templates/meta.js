@@ -44,8 +44,23 @@ export const BASE_CSS = `
 .spt [data-fit-box]{min-height:0;overflow:hidden}
 `;
 
-/* Escapes text and turns *words* into accent highlights */
+/* Escapes text, turns *words* into accent highlights, and allows a little inline HTML:
+   <b> <strong> <i> <em> <u> <br>. Only those tags are turned back on and unclosed ones
+   are closed, so typed HTML can't break the design. */
+function balanceInline(html) {
+  const stack = [];
+  const out = html.replace(/<(\/?)(b|strong|i|em|u)>/g, (m, slash, tag) => {
+    if (!slash) { stack.push(tag); return m; }
+    const at = stack.lastIndexOf(tag);
+    if (at === -1) return '';
+    return stack.splice(at).reverse().map(x => `</${x}>`).join('');
+  });
+  return out + stack.reverse().map(x => `</${x}>`).join('');
+}
 export function richText(text) {
   const esc = String(text ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  return esc.replace(/\*([^*\n]+)\*/g, '<span class="hl">$1</span>');
+  const tags = esc
+    .replace(/&lt;br\s*\/?&gt;/gi, '<br>')
+    .replace(/&lt;(\/?)(b|strong|i|em|u)&gt;/gi, (m, slash, tag) => `<${slash}${tag.toLowerCase()}>`);
+  return balanceInline(tags).replace(/\*([^*\n]+)\*/g, '<span class="hl">$1</span>');
 }

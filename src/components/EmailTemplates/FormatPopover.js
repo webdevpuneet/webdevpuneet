@@ -8,9 +8,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import f from './format.module.css';
 
-const TAGS = { b: ['<b>', '</b>'], i: ['<i>', '</i>'], u: ['<u>', '</u>'] };
+const TAGS = { b: ['<b>', '</b>'], i: ['<i>', '</i>'], u: ['<u>', '</u>'], hl: ['*', '*'] };
 
-export default function FormatPopover({ containerRef, onChange }) {
+// tools: which buttons to show; social posts use ['b', 'i', 'u'] (no links in an image)
+export default function FormatPopover({ containerRef, onChange, tools = ['b', 'i', 'u', 'link', 'clear'] }) {
+  const has = k => tools.includes(k);
   const [pos, setPos] = useState(null); // { x, y } (fixed) while a selection is active
   const [linking, setLinking] = useState(null); // URL draft while adding a link
   const target = useRef(null); // the input / textarea with the selection
@@ -135,7 +137,7 @@ export default function FormatPopover({ containerRef, onChange }) {
   const v = el?.value || '';
   const picked = v.slice(a, b);
   const wrapped = (open, closeTag) => (v.slice(a - open.length, a) === open && v.slice(b, b + closeTag.length) === closeTag) || (picked.startsWith(open) && picked.endsWith(closeTag));
-  const on = { b: wrapped('<b>', '</b>'), i: wrapped('<i>', '</i>'), u: wrapped('<u>', '</u>'), a: (() => { const o = v.lastIndexOf('<a ', a); return (o > -1 && v.indexOf('>', o) < a && v.indexOf('</a>', o) >= b) || /<a\s/i.test(picked); })() };
+  const on = { b: wrapped('<b>', '</b>'), i: wrapped('<i>', '</i>'), u: wrapped('<u>', '</u>'), hl: wrapped('*', '*'), a: (() => { const o = v.lastIndexOf('<a ', a); return (o > -1 && v.indexOf('>', o) < a && v.indexOf('</a>', o) >= b) || /<a\s/i.test(picked); })() };
   return (
     <div ref={popRef} className={f.pop} style={{ left: pos.x, top: pos.y }} role="toolbar" aria-label="Format text" onMouseDown={ev => { if (ev.target.tagName !== 'INPUT') ev.preventDefault(); }}>
       {linking === null ? (
@@ -143,7 +145,12 @@ export default function FormatPopover({ containerRef, onChange }) {
           <button type="button" className={on.b ? f.on : ''} aria-pressed={on.b} onClick={() => wrap('b')} title="Bold (Ctrl+B)" aria-label="Bold"><b>B</b></button>
           <button type="button" className={on.i ? f.on : ''} aria-pressed={on.i} onClick={() => wrap('i')} title="Italic (Ctrl+I)" aria-label="Italic"><i style={{ fontFamily: 'Georgia, serif' }}>I</i></button>
           <button type="button" className={on.u ? f.on : ''} aria-pressed={on.u} onClick={() => wrap('u')} title="Underline (Ctrl+U)" aria-label="Underline"><u>U</u></button>
-          {on.a
+          {has('hl') && (
+            <button type="button" className={on.hl ? f.on : ''} aria-pressed={on.hl} onClick={() => wrap('hl')} title="Accent colour highlight (*text*)" aria-label="Accent highlight">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 11l-6 6v3h9l3-3"/><path d="M22 12l-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4"/></svg>
+            </button>
+          )}
+          {has('link') && (on.a
             ? (
               <button type="button" className={f.on} aria-pressed onClick={unlink} title="Remove link (keeps the text)" aria-label="Remove link">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/><path d="M3 3l18 18"/></svg>
@@ -153,11 +160,13 @@ export default function FormatPopover({ containerRef, onChange }) {
               <button type="button" onClick={() => setLinking('https://')} title="Add a link" aria-label="Link">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
               </button>
-            )}
-          <i className={f.sep} />
-          <button type="button" onClick={clear} title="Remove formatting" aria-label="Remove formatting">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/><path d="M3 3l18 18"/></svg>
-          </button>
+            ))}
+          {has('clear') && <i className={f.sep} />}
+          {has('clear') && (
+            <button type="button" onClick={clear} title="Remove formatting" aria-label="Remove formatting">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/><path d="M3 3l18 18"/></svg>
+            </button>
+          )}
         </>
       ) : (
         <form className={f.link} onSubmit={ev => { ev.preventDefault(); if (linking.trim()) wrap('a', linking.trim().replace(/"/g, '%22')); }}>

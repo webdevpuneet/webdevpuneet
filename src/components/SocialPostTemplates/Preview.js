@@ -3,6 +3,34 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { sizeById, richText } from './templates/index.js';
 import { mountTemplate, fitText, loadFonts, fillTokens, layoutImages } from './render';
+import fmt from '../EmailTemplates/format.module.css';
+
+const FMT_TAGS = { b: ['<b>', '</b>'], i: ['<i>', '</i>'], u: ['<u>', '</u>'], hl: ['*', '*'] };
+/* Text offsets of a range inside an element (textContent positions) */
+function rangeOffsets(el, r) {
+  const pre = document.createRange();
+  pre.selectNodeContents(el);
+  pre.setEnd(r.startContainer, r.startOffset);
+  const a = pre.toString().length;
+  return [a, a + r.toString().length];
+}
+/* Selects textContent positions a..b inside an element */
+function selectOffsets(el, a, b, sel) {
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  let pos = 0, start = null, end = null, n;
+  while ((n = walker.nextNode())) {
+    const len = n.nodeValue.length;
+    if (!start && a <= pos + len) start = [n, a - pos];
+    if (!end && b <= pos + len) { end = [n, b - pos]; break; }
+    pos += len;
+  }
+  if (!start || !end) return;
+  const r = document.createRange();
+  r.setStart(...start);
+  r.setEnd(...end);
+  sel.removeAllRanges();
+  sel.addRange(r);
+}
 
 /* Live preview of a template at its real pixel size, scaled to fit `maxW` × `maxH`.
    With `editable`, text can be edited in place (raw text with *asterisks* shows while
@@ -15,6 +43,52 @@ export default function Preview({ template: t, state, maxW, maxH, editable = fal
   const shadowRef = useRef(null);
   const stateRef = useRef(state);
   const [fontTick, setFontTick] = useState(0);
+  const [bar, setBar] = useState(null); // B / I / U bar over a text selection while editing in place
+
+  // Selection bar: shown over selected text inside the element being edited
+  useEffect(() => {
+    if (!editable) return undefined;
+    const update = () => {
+      const shadow = shadowRef.current;
+      if (!shadow) return;
+      const sel = shadow.getSelection?.() || document.getSelection();
+      const el = shadow.activeElement?.closest?.('[data-edit]');
+      if (!sel || !sel.rangeCount || sel.isCollapsed || !el) { setBar(null); return; }
+      const r = sel.getRangeAt(0);
+      if (!el.contains(r.startContainer) || !el.contains(r.endContainer)) { setBar(null); return; }
+      const [a, b] = rangeOffsets(el, r);
+      const raw = el.textContent;
+      const picked = raw.slice(a, b);
+      const on = Object.fromEntries(Object.entries(FMT_TAGS).map(([k, [o, c]]) => [k, (raw.slice(a - o.length, a) === o && raw.slice(b, b + c.length) === c) || (picked.startsWith(o) && picked.endsWith(c))]));
+      const rect = r.getBoundingClientRect();
+      setBar({ x: Math.max(8, Math.min(rect.left + rect.width / 2 - 50, window.innerWidth - 120)), y: Math.max(8, rect.top - 44), a, b, on });
+    };
+    document.addEventListener('selectionchange', update);
+    return () => document.removeEventListener('selectionchange', update);
+  }, [editable]);
+
+  // Wraps (or unwraps) the selection in <b>, <i> or <u>; the input event saves the field
+  const applyFmt = kind => {
+    const shadow = shadowRef.current;
+    const el = shadow?.activeElement?.closest?.('[data-edit]');
+    const sel = shadow?.getSelection?.() || document.getSelection();
+    if (!el || !sel || !bar) return;
+    const [o, c] = FMT_TAGS[kind];
+    const raw = el.textContent;
+    let { a, b } = bar;
+    const picked = raw.slice(a, b);
+    let text, selStart, selLen;
+    if (raw.slice(a - o.length, a) === o && raw.slice(b, b + c.length) === c) {
+      selectOffsets(el, a - o.length, b + c.length, sel);
+      text = picked; selStart = a - o.length; selLen = picked.length;
+    } else if (picked.startsWith(o) && picked.endsWith(c)) {
+      text = picked.slice(o.length, picked.length - c.length); selStart = a; selLen = text.length;
+    } else {
+      text = o + picked + c; selStart = a + o.length; selLen = picked.length;
+    }
+    document.execCommand('insertText', false, text);
+    selectOffsets(el, selStart, selStart + selLen, sel);
+  };
   stateRef.current = state;
 
   const z = sizeById(state.size);
@@ -49,8 +123,8 @@ export default function Preview({ template: t, state, maxW, maxH, editable = fal
       if (!el) return;
       onReveal?.(el.dataset.edit); // show the matching field on the left
       const raw = stateRef.current.fields[el.dataset.edit] ?? '';
-      // Show the *asterisks* while editing; plain text is left alone so the caret stays where clicked
-      if (raw.includes('*')) {
+      // Show the *asterisks* and <b>/<i>/<u> tags while editing; plain text is left alone so the caret stays where clicked
+      if (raw.includes('*') || raw.includes('<')) {
         el.textContent = raw;
         const range = document.createRange();
         range.selectNodeContents(el);
@@ -109,7 +183,13 @@ export default function Preview({ template: t, state, maxW, maxH, editable = fal
       const zoom = clamp(cur.zoom * (e.deltaY < 0 ? 1.08 : 1 / 1.08), 1, 4);
       onImagePos?.(key, { ...cur, zoom: Math.round(zoom * 100) / 100 });
     };
-    const onKey = e => { if (e.key === 'Escape') e.target?.blur?.(); };
+    const onKey = e => {
+      if (e.key === 'Escape') { e.target?.blur?.(); return; }
+      if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey && ['b', 'i', 'u'].includes(e.key.toLowerCase()) && editEl(e)) {
+        e.preventDefault(); // plain-text editing: the B / I / U bar wraps the selection in tags instead
+        document.querySelector('[data-spt-fmt-' + e.key.toLowerCase() + ']')?.click();
+      }
+    };
     shadow.addEventListener('focusin', onFocusIn);
     shadow.addEventListener('input', onInput);
     shadow.addEventListener('focusout', onFocusOut);
@@ -136,6 +216,16 @@ export default function Preview({ template: t, state, maxW, maxH, editable = fal
     <div style={{ position: 'relative', width: z.w * k, height: z.h * k, overflow: 'hidden', flex: 'none' }}>
       <div ref={hostRef} style={{ width: z.w, height: z.h, transform: `scale(${k})`, transformOrigin: 'top left' }} />
       {children}
+      {bar && (
+        <div className={fmt.pop} style={{ left: bar.x, top: bar.y }} role="toolbar" aria-label="Format text" onMouseDown={e => e.preventDefault()}>
+          <button type="button" className={bar.on.b ? fmt.on : ''} aria-pressed={bar.on.b} onClick={() => applyFmt('b')} title="Bold (Ctrl+B)" aria-label="Bold" data-spt-fmt-b=""><b>B</b></button>
+          <button type="button" className={bar.on.i ? fmt.on : ''} aria-pressed={bar.on.i} onClick={() => applyFmt('i')} title="Italic (Ctrl+I)" aria-label="Italic" data-spt-fmt-i=""><i style={{ fontFamily: 'Georgia, serif' }}>I</i></button>
+          <button type="button" className={bar.on.u ? fmt.on : ''} aria-pressed={bar.on.u} onClick={() => applyFmt('u')} title="Underline (Ctrl+U)" aria-label="Underline" data-spt-fmt-u=""><u>U</u></button>
+          <button type="button" className={bar.on.hl ? fmt.on : ''} aria-pressed={bar.on.hl} onClick={() => applyFmt('hl')} title="Accent colour highlight (*text*)" aria-label="Accent highlight">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 11l-6 6v3h9l3-3"/><path d="M22 12l-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4"/></svg>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

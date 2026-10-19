@@ -14,6 +14,7 @@ import { PALETTES, parseHex } from '../OgImageGenerator/engine';
 import FontPicker from '@/components/FontPicker';
 import { ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
 import Preview from './Preview';
+import FormatPopover from '@/components/EmailTemplates/FormatPopover';
 import { renderImage, standaloneHtml, snippetParts } from './render';
 import { dbPut } from '@/lib/uiSnippetsDb';
 import { jpegsToPdf } from '@/lib/images-to-pdf';
@@ -174,6 +175,7 @@ export default function TemplateEditor({ id }) {
   const savedJson = useRef(null); // the open design as last saved or opened, to spot unsaved changes
   const [confirm, setConfirm] = useState(null); // { title, message, okLabel, danger, onOk }
   const stageRef = useRef(null);
+  const controlsRef = useRef(null); // left panel (the B / I / U popover listens here)
   const fileRef = useRef(null);
   const pickKey = useRef(null);
 
@@ -645,7 +647,8 @@ export default function TemplateEditor({ id }) {
       <ImageToolsTopNav active="social-post-templates" />
       <input ref={fileRef} type="file" accept="image/*" className={s.fileInput} onChange={onFile} />
       <div className={s.body}>
-        <aside className={s.controls}>
+        <aside className={s.controls} ref={controlsRef}>
+          <FormatPopover containerRef={controlsRef} onChange={setField} tools={['b', 'i', 'u', 'hl']} />
           {/* Tool name stays pinned at the top of the panel; everything below scrolls */}
           <div className={s.toolBrandBar}>
             <a href="/social-post-templates/" className={s.toolBrand} title="All social post templates">
@@ -792,11 +795,11 @@ export default function TemplateEditor({ id }) {
               <div key={`${active}-${f.key}`} className={s.field} data-fieldwrap={f.key}>
                 <label className={s.label} htmlFor={`f-${f.key}`}>{f.label}</label>
                 {f.type === 'textarea'
-                  ? <textarea id={`f-${f.key}`} className={s.textarea} rows={f.key === 'code' ? 5 : 2} value={slide.fields[f.key] ?? ''} onChange={e => setField(f.key, e.target.value)} spellCheck={f.key !== 'code'} />
-                  : <input id={`f-${f.key}`} className={s.input} value={slide.fields[f.key] ?? ''} onChange={e => setField(f.key, e.target.value)} />}
+                  ? <textarea id={`f-${f.key}`} data-rich={f.key} className={s.textarea} rows={f.key === 'code' ? 5 : 2} value={slide.fields[f.key] ?? ''} onChange={e => setField(f.key, e.target.value)} spellCheck={f.key !== 'code'} />
+                  : <input id={`f-${f.key}`} data-rich={f.key} className={s.input} value={slide.fields[f.key] ?? ''} onChange={e => setField(f.key, e.target.value)} />}
               </div>
             ))}
-            <p className={s.hint}>Tip: click text in the preview to edit it there. Wrap words in *asterisks* to colour them.</p>
+            <p className={s.hint}>Tip: click text in the preview to edit it there. Wrap words in *asterisks* to colour them; select text for bold, italic and underline.</p>
           </section>
 
           <section className={s.section}>
