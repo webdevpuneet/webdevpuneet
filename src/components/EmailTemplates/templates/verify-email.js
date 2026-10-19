@@ -25,7 +25,7 @@ export default {
     ...brandFields(),
     { key: 'eyebrow', group: 'main', label: 'Small label', type: 'text', value: 'Almost there' },
     { key: 'headline', group: 'main', label: 'Headline', type: 'text', value: 'Confirm your email address' },
-    { key: 'intro', group: 'main', label: 'Intro', type: 'textarea', value: 'Hi Jordan, thanks for signing up. Please confirm that jordan@example.com is your email address so we can finish setting up your account.' },
+    { key: 'intro', group: 'main', label: 'Intro', type: 'textarea', value: 'Hi {{first_name}}, thanks for signing up. Please confirm that {{email}} is your email address so we can finish setting up your account.' },
     { key: 'ctaText', group: 'main', label: 'Button text', type: 'text', value: 'Verify email address' },
     { key: 'ctaUrl', group: 'main', label: 'Verification link', type: 'url', value: 'https://yoursite.com/verify?token=abc123' },
     { key: 'expiry', group: 'main', label: 'Expiry note', type: 'text', value: 'This link expires in 24 hours.' },

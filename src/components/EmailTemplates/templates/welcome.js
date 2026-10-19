@@ -1,4 +1,5 @@
 import { esc, escBr, safeUrl, preheaderHtml, buttonHtml, fontStackById, wrapText, rich, stripRich } from './meta.js';
+import { placeBlocks } from './shell.js';
 
 const HERO = 'https://webdevpuneet.com/images/email-templates/welcome-hero.png';
 
@@ -40,7 +41,7 @@ export default {
     { key: 'heroAlt', group: 'hero', label: 'Hero alt text', type: 'text', value: 'Welcome to Acme' },
 
     { key: 'eyebrow', group: 'main', label: 'Small label', type: 'text', value: 'You’re in' },
-    { key: 'headline', group: 'main', label: 'Headline', type: 'text', value: 'Welcome aboard, Jordan!' },
+    { key: 'headline', group: 'main', label: 'Headline', type: 'text', value: 'Welcome aboard, {{first_name}}!' },
     { key: 'intro', group: 'main', label: 'Intro', type: 'textarea', value: 'Thanks for joining Acme. You now have everything you need to plan, ship and report on your work in one calm place.\n\nHere’s how to get value in your first ten minutes.' },
     { key: 'ctaText', group: 'main', label: 'Button text', type: 'text', value: 'Open your dashboard' },
     { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://yoursite.com/dashboard' },
@@ -99,6 +100,7 @@ export default {
     const hf = fontStackById(s.fonts.heading), bf = fontStackById(s.fonts.body);
     const H = hf.stack.replace(/"/g, "'"), B = bf.stack.replace(/"/g, "'");
     const googles = [...new Set([hf.google, bf.google].filter(Boolean))];
+    const blockCtx = { v, H, B, blocks: Array.isArray(s.blocks) ? s.blocks : [], edit: !!opts.edit };
     const logoW = Math.max(40, Math.min(240, parseInt(f.logoWidth, 10) || 120));
     const steps = [1, 2, 3].map(n => ({ n, title: f[`s${n}Title`], text: f[`s${n}Text`] })).filter(x => x.title || x.text);
     const socials = [['X', f.xUrl, 'xUrl'], ['LinkedIn', f.linkedinUrl, 'linkedinUrl'], ['Instagram', f.instagramUrl, 'instagramUrl'], ['YouTube', f.youtubeUrl, 'youtubeUrl']].filter(([, u]) => String(u || '').trim());
@@ -215,7 +217,7 @@ ${preheaderHtml(f.preheader, v.bg)}
         <tr>
           <td>
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="card" style="background-color:${v.card};border-radius:16px;">
-${hero}
+${placeBlocks(`${hero}
               <tr>
                 <td class="px" style="padding:${hero ? 40 : 48}px 48px 8px;font-family:${B};">
                   ${f.eyebrow ? `<p style="margin:0 0 10px;font-family:${H};font-size:13px;line-height:18px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${v.brand};"${A('eyebrow')}>${rich(f.eyebrow)}</p>` : ''}
@@ -225,7 +227,7 @@ ${hero}
                 </td>
               </tr>
 ${stepsHtml}
-${noteHtml}
+${noteHtml}`, blockCtx)}
             </table>
           </td>
         </tr>

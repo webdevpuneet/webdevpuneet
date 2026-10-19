@@ -15,7 +15,7 @@ import FontPicker from '@/components/FontPicker';
 import { ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
 import Preview from './Preview';
 import FormatPopover from '@/components/EmailTemplates/FormatPopover';
-import { renderImage, standaloneHtml, snippetParts } from './render';
+import { renderImage, standaloneHtml, snippetParts, renderVideo, videoSupport } from './render';
 import { dbPut } from '@/lib/uiSnippetsDb';
 import { jpegsToPdf } from '@/lib/images-to-pdf';
 import Mockup, { MOCKUPS } from './Mockup';
@@ -88,9 +88,9 @@ function editorDefault(t) {
   if (CAROUSEL.includes(t.id)) {
     if (!('bg2' in vars)) vars.bg2 = CAROUSEL_BG2[t.id] || '#7c3aed';
     const slides = carouselSlides();
-    return { size: t.defaultSize || 'portrait', vars, fonts: { ...t.fonts }, slides, active: Math.max(0, slides.findIndex(x => x.tpl === t.id)), caption: '' };
+    return { size: t.defaultSize || 'portrait', vars, fonts: { ...t.fonts }, slides, active: Math.max(0, slides.findIndex(x => x.tpl === t.id)), caption: '', layout: { align: '', vpos: '' } };
   }
-  return { size: t.defaultSize || 'portrait', vars, fonts: { ...t.fonts }, slides: [newSlide(t.id)], active: 0, caption: '' };
+  return { size: t.defaultSize || 'portrait', vars, fonts: { ...t.fonts }, slides: [newSlide(t.id)], active: 0, caption: '', layout: { align: '', vpos: '' } };
 }
 
 /* Brings a saved design up to date (older saves kept fields at the top level) */
@@ -118,6 +118,7 @@ function restore(t, saved) {
     slides,
     active: Math.min(Math.max(0, saved.active ?? d.active), slides.length - 1),
     caption: typeof saved.caption === 'string' ? saved.caption : '',
+    layout: { align: ['left', 'center', 'right'].includes(saved.layout?.align) ? saved.layout.align : '', vpos: ['top', 'middle', 'bottom'].includes(saved.layout?.vpos) ? saved.layout.vpos : '' },
   };
 }
 
@@ -161,6 +162,11 @@ export default function TemplateEditor({ id }) {
   const [busy, setBusy] = useState('');
   const [toast, setToast] = useState('');
   const [includeImages, setIncludeImages] = useState(true);
+  const [video, setVideo] = useState({ style: 'rise', seconds: 6 }); // animated export options
+  const [videoProg, setVideoProg] = useState(null); // { phase, pct } while a video renders
+  const videoAbort = useRef(null);
+  const [canVideo, setCanVideo] = useState(null);
+  useEffect(() => { setCanVideo(videoSupport()); }, []);
   const [box, setBox] = useState({ w: 600, h: 600 });
   const [mockup, setMockupRaw] = useState('design');
   const [checks, setChecks] = useState([]);
@@ -170,6 +176,7 @@ export default function TemplateEditor({ id }) {
   const [currentDesign, setCurrentDesign] = useState(null); // { id, name } when editing a saved design
   const [renaming, setRenaming] = useState(null); // { id, name }
   const [panelTab, setPanelTab] = useState('edit'); // left panel: 'edit' | 'designs' | 'transfer'
+  const [sheetOpen, setSheetOpen] = useState(false); // phones: the panel as a bottom sheet
   const [designQuery, setDesignQuery] = useState('');
   const [designScope, setDesignScope] = useState('all'); // 'all' | 'this' (this template)
   const savedJson = useRef(null); // the open design as last saved or opened, to spot unsaved changes
@@ -195,7 +202,7 @@ export default function TemplateEditor({ id }) {
   const designFor = useCallback((i, base = state) => {
     const sl = base.slides[i];
     return {
-      size: base.size, vars: base.vars, fonts: base.fonts,
+      size: base.size, vars: base.vars, fonts: base.fonts, layout: base.layout,
       fields: sl.fields, images: sl.images || {}, imagePos: sl.imagePos || {}, imageDims: sl.imageDims || {},
       slideNo: i + 1, slideTotal: base.slides.length,
     };
@@ -343,7 +350,11 @@ export default function TemplateEditor({ id }) {
   const setField = useCallback((key, val) => updateSlide(sl => ({ ...sl, fields: { ...sl.fields, [key]: val } })), [updateSlide]);
   const setImagePos = useCallback((key, pos) => updateSlide(sl => ({ ...sl, imagePos: { ...sl.imagePos, [key]: pos } })), [updateSlide]);
   const setVar = (key, val) => setState(p => ({ ...p, vars: { ...p.vars, [key]: val } }));
-  const revealField = useCallback(key => revealInPanel(document.querySelector(`[data-fieldwrap="${key}"]`), s.flash), []);
+  const revealField = useCallback(key => {
+    // Phones: photo slots open the panel on their controls; text is edited right in the preview
+    if (st.fields.find(f => f.key === key)?.type === 'image') { setSheetOpen(true); setPanelTab('edit'); }
+    requestAnimationFrame(() => revealInPanel(document.querySelector(`[data-fieldwrap="${key}"]`), s.flash));
+  }, [st]);
   const pickImage = useCallback(key => { pickKey.current = key; fileRef.current?.click(); }, []);
   const onFile = async e => {
     const file = e.target.files?.[0];
@@ -451,6 +462,27 @@ export default function TemplateEditor({ id }) {
       saveBlob(await zip.generateAsync({ type: 'blob' }), `carousel-${state.slides.length}-slides-${z.w}x${z.h}.zip`);
       flash(`Downloaded ${state.slides.length} slides as a ZIP, numbered in posting order`);
     } catch (err) { flash(`Export failed: ${err.message}`); }
+    setBusy('');
+  };
+  /* Animated video (MP4 / WebM): the current post or slide, text and photos animating in */
+  const downloadVideo = async () => {
+    const ctrl = new AbortController();
+    videoAbort.current = ctrl;
+    setBusy('video');
+    setVideoProg({ phase: 'render', pct: 0 });
+    try {
+      const { blob, ext } = await renderVideo(st, design, {
+        seconds: video.seconds,
+        style: video.style,
+        signal: ctrl.signal,
+        onProgress: ({ phase, done, total }) => setVideoProg({ phase, pct: Math.round((done / total) * 100) }),
+      });
+      saveBlob(blob, `${baseName}-${video.seconds}s.${ext}`);
+      flash(`Downloaded a ${video.seconds}s ${ext.toUpperCase()} video · ${fmtBytes(blob.size)}${ext === 'webm' ? '. Instagram needs MP4: convert it, or use Chrome to get MP4' : ''}`);
+    } catch (err) {
+      flash(err.name === 'AbortError' ? 'Video cancelled' : `Video export failed: ${err.message}`);
+    }
+    setVideoProg(null);
     setBusy('');
   };
   const copyHtml = async () => {
@@ -647,7 +679,7 @@ export default function TemplateEditor({ id }) {
       <ImageToolsTopNav active="social-post-templates" />
       <input ref={fileRef} type="file" accept="image/*" className={s.fileInput} onChange={onFile} />
       <div className={s.body}>
-        <aside className={s.controls} ref={controlsRef}>
+        <aside className={`${s.controls} ${sheetOpen ? s.sheetOpen : ''}`} ref={controlsRef}>
           <FormatPopover containerRef={controlsRef} onChange={setField} tools={['b', 'i', 'u', 'hl']} />
           {/* Tool name stays pinned at the top of the panel; everything below scrolls */}
           <div className={s.toolBrandBar}>
@@ -658,7 +690,12 @@ export default function TemplateEditor({ id }) {
             </a>
           </div>
           {/* Only this part scrolls, so the scrollbar starts below the pinned tool name */}
-          <div className={s.panelTabs} role="tablist" aria-label="Panel">
+          {/* Phones: grab handle that opens / closes the panel as a bottom sheet */}
+          <button type="button" className={s.sheetHandle} onClick={() => setSheetOpen(o => !o)} aria-expanded={sheetOpen} aria-label={sheetOpen ? 'Close the editing panel' : 'Open the editing panel'}>
+            <i aria-hidden="true" />
+            {sheetOpen ? 'Hide panel' : 'Edit design'}
+          </button>
+          <div className={s.panelTabs} role="tablist" aria-label="Panel" onClickCapture={() => setSheetOpen(true)}>
             <button type="button" role="tab" aria-selected={panelTab === 'edit'} className={panelTab === 'edit' ? s.panelTabOn : ''} onClick={() => setPanelTab('edit')}>Edit</button>
             <button type="button" role="tab" aria-selected={panelTab === 'designs'} className={panelTab === 'designs' ? s.panelTabOn : ''} onClick={() => setPanelTab('designs')}>
               My designs <span className={s.panelTabCount}>{myDesigns.length}</span>
@@ -790,6 +827,29 @@ export default function TemplateEditor({ id }) {
           </section>
 
           <section className={s.section}>
+            <h2 className={s.sectionTitle}>Layout{isCarousel ? ' · all slides' : ''}</h2>
+            <div className={s.layoutRow}>
+              <span className={s.label}>Text</span>
+              <div className={s.seg} role="radiogroup" aria-label="Text alignment">
+                {[['', 'Auto', 'The template’s own alignment'], ['left', '⇤', 'Align left'], ['center', '↔', 'Centre'], ['right', '⇥', 'Align right']].map(([v, l, tip]) => (
+                  <button key={v || 'auto'} type="button" role="radio" aria-checked={(state.layout?.align || '') === v} title={tip} aria-label={tip} className={`${s.segBtn} ${(state.layout?.align || '') === v ? s.segBtnActive : ''}`} onClick={() => setState(p => ({ ...p, layout: { ...(p.layout || {}), align: v } }))}>{l}</button>
+                ))}
+              </div>
+            </div>
+            {st.layouts?.vpos !== false && (
+              <div className={s.layoutRow}>
+                <span className={s.label}>Position</span>
+                <div className={s.seg} role="radiogroup" aria-label="Vertical position">
+                  {[['', 'Auto'], ['top', 'Top'], ['middle', 'Middle'], ['bottom', 'Bottom']].map(([v, l]) => (
+                    <button key={v || 'auto'} type="button" role="radio" aria-checked={(state.layout?.vpos || '') === v} className={`${s.segBtn} ${(state.layout?.vpos || '') === v ? s.segBtnActive : ''}`} onClick={() => setState(p => ({ ...p, layout: { ...(p.layout || {}), vpos: v } }))}>{l}</button>
+                  ))}
+                </div>
+              </div>
+            )}
+            <p className={s.hint}>Auto keeps the template’s design. Alignment moves the text only; photos and frames stay in place.</p>
+          </section>
+
+          <section className={s.section}>
             <h2 className={s.sectionTitle}>{isCarousel ? `Text · slide ${active + 1}` : 'Text'}</h2>
             {textFields.map(f => (
               <div key={`${active}-${f.key}`} className={s.field} data-fieldwrap={f.key}>
@@ -872,6 +932,27 @@ export default function TemplateEditor({ id }) {
 
           <section className={s.section}>
             <h2 className={s.sectionTitle}>Export</h2>
+            {canVideo && (
+              <>
+                <div className={s.layoutRow}>
+                  <span className={s.label}>Animation</span>
+                  <div className={s.seg} role="radiogroup" aria-label="Animation style">
+                    {[['rise', 'Rise'], ['fade', 'Fade'], ['pop', 'Pop']].map(([v, l]) => (
+                      <button key={v} type="button" role="radio" aria-checked={video.style === v} className={`${s.segBtn} ${video.style === v ? s.segBtnActive : ''}`} onClick={() => setVideo(o => ({ ...o, style: v }))}>{l}</button>
+                    ))}
+                  </div>
+                </div>
+                <div className={s.layoutRow}>
+                  <span className={s.label}>Length</span>
+                  <div className={s.seg} role="radiogroup" aria-label="Video length">
+                    {[4, 6, 8].map(n => (
+                      <button key={n} type="button" role="radio" aria-checked={video.seconds === n} className={`${s.segBtn} ${video.seconds === n ? s.segBtnActive : ''}`} onClick={() => setVideo(o => ({ ...o, seconds: n }))}>{n}s</button>
+                    ))}
+                  </div>
+                </div>
+                <p className={s.hint}>For “Animated video” in Export ▾: text and photos animate in, then the design holds. Use the Story size for Reels and Stories.</p>
+              </>
+            )}
             <label className={s.check}>
               <input type="checkbox" checked={includeImages} onChange={e => setIncludeImages(e.target.checked)} />
               Include uploaded photos in the HTML and My Code fork
@@ -945,6 +1026,7 @@ export default function TemplateEditor({ id }) {
                     ? { icon: 'file', label: busy === 'pdf' ? 'Making PDF…' : `Carousel as PDF (${state.slides.length} pages)`, sub: 'Upload to LinkedIn as a document post', onClick: downloadPdf, disabled: !!busy }
                     : { icon: 'file', label: busy === 'pdf' ? 'Making PDF…' : 'Download PDF', sub: `${z.w}×${z.h}, one page`, onClick: downloadPdf, disabled: !!busy },
                   ...(isCarousel ? [] : [{ icon: 'text', label: 'Bulk create from CSV…', sub: 'One post per spreadsheet row, as a ZIP', onClick: () => setBulkOpen(true), disabled: !!busy }]),
+                  ...(canVideo ? [{ icon: 'video', label: `Animated video (${canVideo.ext.toUpperCase()})`, sub: `${video.seconds}s · ${video.style} animation · for Reels, Stories and feeds`, onClick: downloadVideo, disabled: !!busy }] : []),
                   { icon: 'html', label: 'Copy HTML', sub: 'The design as HTML and CSS', onClick: copyHtml },
                   { icon: 'file', label: 'Download .html', sub: 'A single self-contained HTML file', onClick: downloadHtml },
                 ]}
@@ -1022,6 +1104,13 @@ export default function TemplateEditor({ id }) {
           onCancel={() => setConfirm(null)}
           onOk={() => { const go = confirm.onOk; setConfirm(null); go(); }}
         />
+      )}
+      {videoProg && (
+        <div className={s.videoProg} role="status">
+          <span>{videoProg.phase === 'render' ? 'Rendering frames' : 'Recording video'} · {videoProg.pct}%</span>
+          <i><b style={{ width: `${videoProg.phase === 'render' ? videoProg.pct / 2 : 50 + videoProg.pct / 2}%` }} /></i>
+          <button type="button" onClick={() => videoAbort.current?.abort()}>Cancel</button>
+        </div>
       )}
       {bulkOpen && <BulkCreate template={st} design={design} size={z} onClose={() => setBulkOpen(false)} flash={flash} />}
       {toast && <div className={s.toast} role="status">{toast}</div>}

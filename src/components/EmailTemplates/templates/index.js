@@ -44,5 +44,8 @@ export function defaultEmailState(t) {
     toggles: Object.fromEntries(t.toggles.map(x => [x.key, x.value])),
     vars: Object.fromEntries(t.vars.map(x => [x.key, x.value])),
     fonts: { ...t.fonts },
+    platform: '', // merge-tag syntax for exports ('' = plain {{tokens}})
+    blocks: [], // extra sections added by the user (see BLOCK_TYPES in shell.js)
+    previewText: '', // optional inbox preview text (preheader); empty = none in the email
   };
 }

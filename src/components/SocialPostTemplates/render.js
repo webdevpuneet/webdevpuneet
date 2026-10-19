@@ -108,7 +108,8 @@ export function mountTemplate(shadow, t, state, { editable = false } = {}) {
   }
   // A size with a `shape` also gets that shape's class, so it reuses those layout rules
   const sz = sizeById(state.size);
-  root.className = `spt is-${sz.id}${sz.shape ? ` is-${sz.shape}` : ''}`;
+  const lay = state.layout || {};
+  root.className = `spt is-${sz.id}${sz.shape ? ` is-${sz.shape}` : ''}${lay.vpos ? ` v-${lay.vpos}` : ''}`;
   root.setAttribute('style', Object.entries(rootVars(state)).map(([k, v]) => `${k}:${v}`).join(';'));
   const active = shadow.activeElement;
   root.querySelectorAll('[data-edit]').forEach(el => {
@@ -120,6 +121,7 @@ export function mountTemplate(shadow, t, state, { editable = false } = {}) {
     if (src) { el.style.backgroundImage = `url("${src}")`; el.classList.add('has-img'); }
     else { el.style.backgroundImage = ''; el.classList.remove('has-img'); }
   });
+  applyTextAlign(root, lay.align || '');
   return root;
 }
 
@@ -298,4 +300,113 @@ ${body}
   } finally {
     host.remove();
   }
+}
+
+/* Layout option "text alignment": moves only text elements ([data-edit]) that sit in a
+   vertical stack (parent is a column flex box or a block), so images, photo frames and
+   footer rows keep their layout. Call after mountTemplate; '' restores the template's own. */
+const ALIGN_SELF = { left: 'flex-start', center: 'center', right: 'flex-end' };
+export function applyTextAlign(root, align) {
+  root.querySelectorAll('[data-edit]').forEach(el => {
+    el.style.removeProperty('text-align');
+    el.style.removeProperty('align-self');
+    if (!align) return;
+    const parent = el.parentElement;
+    if (!parent) return;
+    const ps = getComputedStyle(parent);
+    // Small boxes (date badges, discount circles, option cards) and grids (chips) keep their own alignment
+    if (ps.display.includes('grid') || parent.clientWidth < root.clientWidth * 0.5) return;
+    const isFlex = ps.display.includes('flex');
+    const column = isFlex && ps.flexDirection.startsWith('column');
+    if (isFlex && !column) return; // in a row (footer, chips): leave it
+    el.style.setProperty('text-align', align, 'important');
+    if (column) el.style.setProperty('align-self', ALIGN_SELF[align], 'important');
+  });
+}
+
+/* ── Animated export (Reels / Stories / feed video) ──────────────────────────────
+   Text and images animate in one after another ("rise", "fade" or "pop"), then the
+   design holds. Pass 1 renders each frame with the same SVG rasterizer as the PNG
+   export (frames after the animation settles reuse one image); pass 2 plays the
+   frames at an exact frame rate into MediaRecorder: MP4 where the browser can record
+   it (Chrome), otherwise WebM. */
+const ease = p => 1 - (1 - p) ** 3;
+const VIDEO_TYPES = ['video/mp4;codecs=avc1.42E01E', 'video/mp4;codecs=avc1', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'];
+export function videoSupport() {
+  if (typeof window === 'undefined' || typeof MediaRecorder === 'undefined' || !HTMLCanvasElement.prototype.captureStream) return null;
+  const type = VIDEO_TYPES.find(tp => MediaRecorder.isTypeSupported(tp));
+  return type ? { type, ext: type.startsWith('video/mp4') ? 'mp4' : 'webm' } : null;
+}
+
+export async function renderVideo(t, state, { seconds = 6, fps = 30, style = 'rise', onProgress, signal } = {}) {
+  const support = videoSupport();
+  if (!support) throw new Error('This browser can’t record video. Try Chrome or Edge.');
+  await loadFonts(t, state);
+  const z = sizeById(state.size);
+  const u = Math.min(z.w, z.h) / 100;
+  const host = document.createElement('div');
+  host.style.cssText = 'position:fixed;left:-30000px;top:0;pointer-events:none;';
+  document.body.appendChild(host);
+  const frames = []; // JPEG blobs
+  try {
+    const root = mountTemplate(host.attachShadow({ mode: 'open' }), t, state);
+    fitText(root);
+    layoutImages(root, state);
+    const fontCss = await embeddedFontCss(usedFonts(t, state));
+    // What animates in, in reading order: text and photo slots that are actually shown
+    const items = [...root.querySelectorAll('[data-edit], [data-image]')].filter(el => el.getClientRects().length && (el.dataset.image ? el.classList.contains('has-img') || !el.hasAttribute('data-optional') : el.textContent.trim()));
+    const base = items.map(el => ({ el, transform: el.style.transform, opacity: el.style.opacity, transition: el.style.transition }));
+    const stagger = Math.min(0.14, 1.6 / Math.max(1, items.length));
+    const dur = 0.65, lead = 0.2;
+    const settle = lead + stagger * Math.max(0, items.length - 1) + dur;
+    const total = Math.round(seconds * fps);
+    const animFrames = Math.min(total, Math.ceil(settle * fps) + 1);
+    const toJpeg = canvas => new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.92));
+    for (let f = 0; f < animFrames; f++) {
+      if (signal?.aborted) throw new DOMException('Cancelled', 'AbortError');
+      const time = f / fps;
+      items.forEach((it, i) => {
+        const p = ease(Math.max(0, Math.min(1, (time - lead - i * stagger) / dur)));
+        it.style.transition = 'none';
+        it.style.opacity = String(p);
+        const base0 = base[i].transform && base[i].transform !== 'none' ? `${base[i].transform} ` : '';
+        it.style.transform = style === 'fade' ? base[i].transform
+          : style === 'pop' ? `${base0}scale(${(0.82 + 0.18 * p).toFixed(4)})`
+          : `${base0}translateY(${((1 - p) * 5 * u).toFixed(2)}px)`;
+      });
+      frames.push(await toJpeg(await rasterize(root, t, z, fontCss)));
+      onProgress?.({ phase: 'render', done: f + 1, total: animFrames });
+    }
+    base.forEach(b => { b.el.style.transform = b.transform; b.el.style.opacity = b.opacity; b.el.style.transition = b.transition; });
+    while (frames.length < total) frames.push(frames[frames.length - 1]); // the settled design holds
+  } finally {
+    host.remove();
+  }
+
+  // Pass 2: play the frames into the recorder at an exact frame rate
+  const canvas = document.createElement('canvas');
+  canvas.width = z.w; canvas.height = z.h;
+  const ctx = canvas.getContext('2d');
+  const first = await createImageBitmap(frames[0]);
+  ctx.drawImage(first, 0, 0);
+  const stream = canvas.captureStream(fps);
+  const rec = new MediaRecorder(stream, { mimeType: support.type, videoBitsPerSecond: 10_000_000 });
+  const chunks = [];
+  rec.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
+  const stopped = new Promise(res => { rec.onstop = res; });
+  rec.start();
+  const t0 = performance.now();
+  let last = null, lastBitmap = first;
+  for (let f = 0; f < frames.length; f++) {
+    if (signal?.aborted) { rec.stop(); stream.getTracks().forEach(tr => tr.stop()); throw new DOMException('Cancelled', 'AbortError'); }
+    if (frames[f] !== last) { lastBitmap = await createImageBitmap(frames[f]); last = frames[f]; }
+    ctx.drawImage(lastBitmap, 0, 0);
+    onProgress?.({ phase: 'record', done: f + 1, total: frames.length });
+    const wait = t0 + ((f + 1) * 1000) / fps - performance.now();
+    if (wait > 0) await new Promise(r => setTimeout(r, wait));
+  }
+  rec.stop();
+  await stopped;
+  stream.getTracks().forEach(tr => tr.stop());
+  return { blob: new Blob(chunks, { type: support.type.split(';')[0] }), ext: support.ext };
 }

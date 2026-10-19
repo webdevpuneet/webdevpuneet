@@ -248,13 +248,32 @@
 .galleryLead { margin: 0; font-size: 14px; line-height: 1.6; color: var(--text2); max-width: 760px; }
 
 /* ── Responsive ────────────────────────────────────────────────────────────── */
+/* Phones and narrow tablets: the preview fills the screen and the panel is a bottom sheet
+   (closed: grab handle + tabs; open: 60% of the screen). Both editors use these rules. */
+.sheetHandle { display: none; }
 @media (max-width: 860px) {
-  .body { flex-direction: column; overflow-y: auto; }
-  .main { order: -1; flex: none; overflow: visible; }
-  .stage { min-height: 70vh; flex: none; }
-  .controls { width: 100%; border-right: none; border-top: 1px solid var(--border); overflow: visible; }
-  .controlsScroll { overflow-y: visible; }
+  .body { flex-direction: column; overflow: hidden; }
+  .main { order: 0; flex: 1; min-height: 0; overflow: hidden; }
+  .stage { min-height: 0; flex: 1; }
+  .stageHint { display: none; }
+  .toolbar { padding: 6px 10px; gap: 6px; }
+  .controls {
+    order: 1; width: 100%; flex: none; max-height: 60vh;
+    border-right: none; border-top: 1px solid var(--border);
+    border-radius: 14px 14px 0 0; box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.14);
+    transition: max-height 0.25s ease;
+  }
+  .controls:not(.sheetOpen) { max-height: 82px; }
+  .controls:not(.sheetOpen) .controlsScroll { display: none; }
+  .toolBrandBar { display: none; }
+  .controlsScroll { overflow-y: auto; }
   .panelHead { position: static; }
+  .sheetHandle {
+    display: flex; flex-direction: column; align-items: center; gap: 4px; flex: none;
+    width: 100%; padding: 6px 0 2px; border: 0; background: none; cursor: pointer;
+    color: var(--text2); font-size: 11px; font-weight: 700; font-family: var(--font-ui);
+  }
+  .sheetHandle i { width: 38px; height: 4px; border-radius: 99px; background: var(--border2, rgba(127, 127, 127, 0.4)); }
   .gallery { padding: 16px; }
   .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
 }
@@ -413,3 +432,18 @@
 .transferList { margin: 0 0 12px; padding-left: 18px; font-size: 12px; line-height: 1.7; color: var(--text2); }
 .panelTabs { overflow-x: auto; scrollbar-width: none; }
 .panelTabs button { white-space: nowrap; }
+
+/* Email merge tags: insert chips */
+.mergeChips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; }
+.mergeChips .label { margin: 0 2px 0 0; }
+
+/* Layout options (text alignment, vertical position) */
+.layoutRow { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.layoutRow .label { width: 58px; flex: none; margin: 0; }
+.layoutRow .seg { flex: 1; }
+
+/* Animated export progress */
+.videoProg { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 1200; display: flex; align-items: center; gap: 12px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); box-shadow: 0 12px 36px rgba(0, 0, 0, 0.2); font-size: 12.5px; font-weight: 600; color: var(--text); font-family: var(--font-ui); }
+.videoProg i { width: 160px; height: 6px; border-radius: 99px; background: var(--border); overflow: hidden; }
+.videoProg b { display: block; height: 100%; background: #7c3aed; transition: width 0.15s; }
+.videoProg button { height: 26px; padding: 0 10px; border: 1px solid var(--border); border-radius: 7px; background: var(--bg); color: var(--text); font-size: 12px; font-weight: 600; cursor: pointer; font-family: var(--font-ui); }

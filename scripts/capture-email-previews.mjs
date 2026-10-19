@@ -8,6 +8,7 @@ import sharp from 'sharp';
 import { mkdir, access, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { EMAIL_TEMPLATES, defaultEmailState, emailCategoryById } from '../src/components/EmailTemplates/templates/index.js';
+import { sampleMergePlain } from '../src/components/EmailTemplates/templates/meta.js';
 
 const ROOT = path.resolve('public/images/email-templates');
 const PREVIEW_DIR = path.join(ROOT, 'previews');
@@ -66,7 +67,7 @@ async function main() {
     const ogPath = path.join(OG_DIR, `${t.id}.jpg`);
     if (!FORCE && await exists(previewPath) && await exists(ogPath)) continue;
     const state = defaultEmailState(t);
-    const html = await inlineLocalImages(t.build(state));
+    const html = await inlineLocalImages(sampleMergePlain(t.build(state)));
     await page.setContent(html, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
     const shot = await page.screenshot({ fullPage: true, type: 'png' });

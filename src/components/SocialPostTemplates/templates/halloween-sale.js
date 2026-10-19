@@ -11,6 +11,7 @@ export default {
   description: 'A spooky Halloween promo: a glowing orange moon with bat silhouettes, a dripping-style headline, the deal, sale dates and a promo code on a midnight-purple sky.',
   bestFor: ['Halloween sales and flash deals (Oct 31, 2026)', 'Spooky-season product drops', 'Costume, candy and party promotions'],
   fonts: { heading: 'g:Creepster|4|d', body: 'inter' },
+  layouts: { vpos: false }, // the moon fills the top: keep the text where the design puts it
   vars: [
     { key: 'bg', label: 'Sky', value: '#1a0b2e' },
     { key: 'bg2', label: 'Horizon', value: '#4c1d95' },

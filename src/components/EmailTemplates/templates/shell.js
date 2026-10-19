@@ -2,7 +2,7 @@
    mobile + dark-mode CSS, preheader, 600px container), header, footer and common fields.
    Templates only write their card content. Plain JS so build scripts can import it. */
 
-import { esc, escBr, safeUrl, preheaderHtml, fontStackById, wrapText, rich, stripRich } from './meta.js';
+import { esc, escBr, safeUrl, preheaderHtml, fontStackById, wrapText, rich, stripRich, buttonHtml } from './meta.js';
 
 /* Fields almost every template shares */
 export const inboxFields = (subject, preheader, fromName = 'Acme') => [
@@ -51,6 +51,8 @@ export function ctx(t, s, opts = {}) {
     googles: [...new Set([hf.google, bf.google].filter(Boolean))],
     // Editor-only marker: which field an element shows (never in exported HTML)
     A: key => (opts.edit ? ` data-field="${key}"` : ''),
+    blocks: Array.isArray(s.blocks) ? s.blocks : [],
+    edit: !!opts.edit,
   };
 }
 
@@ -138,7 +140,7 @@ ${preheaderHtml(f.preheader, v.bg)}
         <tr>
           <td>
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="card" style="background-color:${v.card};border-radius:16px;">
-${card}
+${placeBlocks(card, c)}
             </table>
           </td>
         </tr>
@@ -173,3 +175,114 @@ export const textFooter = f => {
   return lines.join('\n');
 };
 export const cleanText = lines => `${lines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n`;
+
+/* ── Extra sections ("blocks") the user adds to any template ──────────────────────
+   Each block: { id, type, where: 'top' | 'bottom', ...fields }. Rendered as email-safe
+   table rows inside the card, at its start (top) or end (bottom). */
+export const BLOCK_TYPES = {
+  heading: { label: 'Heading', fields: [['text', 'Heading', 'text']], defaults: { text: 'A new section' } },
+  text: { label: 'Text', fields: [['text', 'Text', 'textarea']], defaults: { text: 'Add a paragraph here. You can use <b>bold</b>, <i>italic</i> and links.' } },
+  button: { label: 'Button', fields: [['text', 'Button text', 'text'], ['url', 'Button link', 'url'], ['align', 'Alignment', 'align']], defaults: { text: 'Learn more', url: 'https://yoursite.com', align: 'left' } },
+  image: { label: 'Image', fields: [['url', 'Image URL (https://)', 'url'], ['alt', 'Alt text', 'text'], ['link', 'Link (optional)', 'url']], defaults: { url: '', alt: '', link: '' } },
+  columns: { label: 'Two columns', fields: [['left', 'Left column', 'textarea'], ['right', 'Right column', 'textarea']], defaults: { left: '<b>Feature one</b>\nA short description of it.', right: '<b>Feature two</b>\nA short description of it.' } },
+  divider: { label: 'Divider', fields: [], defaults: {} },
+  spacer: { label: 'Spacer', fields: [['size', 'Height (px)', 'number']], defaults: { size: '24' } },
+};
+
+/* One block as a table row of the card (pad = CSS padding) */
+function blockRow({ v, H, B, edit }, b, pad) {
+  const attrs = edit ? ` data-block="${esc(b.id)}" draggable="true"` : '';
+  const row = inner => `              <tr${attrs}><td class="px" style="padding:${pad};font-family:${B};">${inner}</td></tr>`;
+  switch (b.type) {
+    case 'heading':
+      return row(`<h2 class="t" style="margin:0;font-family:${H};font-size:22px;line-height:30px;font-weight:800;letter-spacing:-0.3px;color:${v.text};">${rich(b.text)}</h2>`);
+    case 'text':
+      return row(`<p class="m" style="margin:0;font-size:16px;line-height:26px;color:${v.muted};">${escBr(b.text)}</p>`);
+    case 'button': {
+      const center = b.align === 'center';
+      return row(`<table role="presentation" cellpadding="0" cellspacing="0" border="0"${center ? ' align="center"' : ''}><tr><td>${buttonHtml({ text: b.text || 'Learn more', url: b.url, bg: v.brand, color: v.btnText, font: H })}</td></tr></table>`);
+    }
+    case 'image': {
+      const src = String(b.url || '').trim();
+      if (!src) return edit ? row(`<div style="padding:28px;border:2px dashed #cbd5e1;border-radius:12px;text-align:center;color:#64748b;font-size:14px;">Image: paste an https:// URL in the panel</div>`) : '';
+      const img = `<img src="${safeUrl(src)}" width="504" alt="${esc(b.alt)}" style="display:block;width:100%;max-width:504px;height:auto;border:0;border-radius:12px;">`;
+      return row(String(b.link || '').trim() ? `<a href="${safeUrl(b.link)}" target="_blank">${img}</a>` : img);
+    }
+    case 'columns':
+      return row(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+                  <td class="stack stack-pad m" width="50%" valign="top" style="padding:0 12px 0 0;font-size:15px;line-height:24px;color:${v.muted};">${escBr(b.left)}</td>
+                  <td class="stack m" width="50%" valign="top" style="padding:0 0 0 12px;font-size:15px;line-height:24px;color:${v.muted};">${escBr(b.right)}</td>
+                </tr></table>`);
+    case 'divider':
+      return row(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="line" style="border-top:1px solid #e2e8f0;font-size:0;line-height:0;">&nbsp;</td></tr></table>`);
+    case 'spacer': {
+      const n = Math.max(4, Math.min(160, parseInt(b.size, 10) || 24));
+      return row(`<div style="height:${n}px;line-height:${n}px;font-size:0;">&nbsp;</div>`);
+    }
+    default:
+      return '';
+  }
+}
+
+/* The card's own top-level rows (<tr> not inside a nested table) */
+export function splitRows(html) {
+  const rows = [];
+  const re = /<(\/?)(table|tr)\b[^>]*>/gi;
+  let depth = 0, start = -1, m;
+  while ((m = re.exec(html))) {
+    const close = !!m[1];
+    if (m[2].toLowerCase() === 'table') { depth += close ? -1 : 1; continue; }
+    if (depth !== 0) continue;
+    if (!close && start < 0) start = m.index;
+    else if (close && start >= 0) { rows.push(html.slice(start, re.lastIndex)); start = -1; }
+  }
+  return rows;
+}
+
+/* Slot of a block among the card's rows: 'top' = 0, 'bottom' = after the last row, or a
+   number (after that many rows) so a section can sit between two template sections */
+export function blockSlot(b, rowCount) {
+  if (b.where === 'top') return 0;
+  if (b.where === 'bottom' || b.where === undefined || b.where === null || b.where === '') return rowCount;
+  const n = parseInt(b.where, 10);
+  return Number.isFinite(n) ? Math.max(0, Math.min(rowCount, n)) : rowCount;
+}
+
+/** The card's rows with the user's blocks placed in their slots. In the editor, rows are
+    marked data-row="k" so blocks can be dragged between them in the preview. */
+export function placeBlocks(card, c) {
+  const blocks = (c.blocks || []).filter(b => BLOCK_TYPES[b.type]);
+  if (!blocks.length && !c.edit) return card;
+  const rows = splitRows(card);
+  if (!rows.length) return card;
+  const n = rows.length;
+  const bySlot = Array.from({ length: n + 1 }, () => []);
+  blocks.forEach(b => bySlot[blockSlot(b, n)].push(b));
+  const out = [];
+  for (let k = 0; k <= n; k++) {
+    bySlot[k].forEach((b, i) => {
+      const first = i === 0, last = i === bySlot[k].length - 1;
+      const pad = `${k === 0 && first ? 40 : 12}px 48px ${k === n && last ? 40 : 20}px`;
+      const html = blockRow(c, b, pad);
+      if (html) out.push(html);
+    });
+    if (k < n) out.push(c.edit ? rows[k].replace(/^<tr\b/i, `<tr data-row="${k}"`) : rows[k]);
+  }
+  return `\n${out.join('\n')}`;
+}
+
+/** Plain-text lines for the blocks placed at `where` */
+export function blocksText(blocks = [], where) {
+  // Plain text: top blocks first, every other block (between sections or at the end) last
+  return blocks.filter(b => BLOCK_TYPES[b.type] && ((b.where === 'top' || String(b.where) === '0') ? 'top' : 'bottom') === where).map(b => {
+    switch (b.type) {
+      case 'heading': return String(b.text || '').toUpperCase();
+      case 'text': return wrapText(b.text || '');
+      case 'button': return b.text ? `${b.text}: ${safeUrl(b.url)}` : '';
+      case 'image': return b.alt ? `[${b.alt}]${b.link ? ` ${safeUrl(b.link)}` : ''}` : '';
+      case 'columns': return [wrapText(b.left || ''), wrapText(b.right || '')].filter(Boolean).join('\n\n');
+      case 'divider': return '---';
+      default: return '';
+    }
+  }).filter(Boolean).join('\n\n');
+}

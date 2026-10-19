@@ -42,6 +42,9 @@ export const BASE_CSS = `
 .spt [data-image]:not(.has-img){background-image:radial-gradient(circle at 28% 24%,color-mix(in srgb,var(--accent) 55%,#fff) 0%,var(--accent) 42%,color-mix(in srgb,var(--accent) 45%,#000) 100%)}
 .spt [data-image][data-optional]:not(.has-img),.spt [data-image][data-image-fit="contain"]:not(.has-img){display:none}
 .spt [data-fit-box]{min-height:0;overflow:hidden}
+.spt.v-top [data-fit-box]{justify-content:flex-start!important}
+.spt.v-middle [data-fit-box]{justify-content:center!important}
+.spt.v-bottom [data-fit-box]{justify-content:flex-end!important}
 `;
 
 /* Escapes text, turns *words* into accent highlights, and allows a little inline HTML:

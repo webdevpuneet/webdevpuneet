@@ -396,7 +396,7 @@ async function main() {
   }
 
   llmsTxt += `\n---\n\n## Social Post Templates\n\n`;
-  llmsTxt += `${SOCIAL_TEMPLATES.length} free HTML/CSS templates for Instagram, Facebook, X, LinkedIn and Pinterest posts and Stories. Edit text, photos, colours and fonts in the browser, preview them in platform mock-ups, download PNG/JPEG in six sizes, carousels as a LinkedIn PDF, bulk-create posts from a CSV, or copy the HTML.\n\nLibrary: ${BASE_URL}/social-post-templates/\n\n`;
+  llmsTxt += `${SOCIAL_TEMPLATES.length} free HTML/CSS templates for Instagram, Facebook, X, LinkedIn and Pinterest posts and Stories. Edit text, photos, colours and fonts in the browser, preview them in platform mock-ups, download PNG/JPEG in six sizes, animated MP4 videos for Reels and Stories, carousels as a LinkedIn PDF, bulk-create posts from a CSV, or copy the HTML.\n\nLibrary: ${BASE_URL}/social-post-templates/\n\n`;
   llmsTxt += `Each template is real HTML/CSS (copy it, download a .html file, or fork it into My Code), is free with no account or watermark, runs entirely in the browser (photos are never uploaded), and exports 1080×1350, 1080×1080, 1080×1920, 1600×900, LinkedIn 1200×627 and Pinterest 1000×1500 from one design.\n\n`;
   for (const c of SOCIAL_CATEGORIES) {
     const list = SOCIAL_TEMPLATES.filter(t => t.category === c.id);
@@ -410,7 +410,7 @@ async function main() {
     llmsTxt += '\n';
   }
   llmsTxt += `\n---\n\n## Email Templates\n\n`;
-  llmsTxt += `Free responsive HTML email templates built for real inboxes (Gmail, Outlook, Apple Mail): table layout, inline styles, Outlook-safe VML buttons, dark mode, hidden preheader and CAN-SPAM-ready footer. Edit online with desktop, mobile and dark previews, then copy the HTML, get a plain-text version, or fork the code into My Code.\n\nLibrary: ${BASE_URL}/email-templates/\n\n`;
+  llmsTxt += `Free responsive HTML email templates built for real inboxes (Gmail, Outlook, Apple Mail): table layout, inline styles, Outlook-safe VML buttons, dark mode, hidden preheader and CAN-SPAM-ready footer. Edit online with desktop, mobile and dark previews, add extra sections, insert merge tags that convert to Mailchimp, Klaviyo, HubSpot or Brevo syntax on export, then copy the HTML, get a plain-text version, or fork the code into My Code.\n\nLibrary: ${BASE_URL}/email-templates/\n\n`;
   for (const c of EMAIL_CATEGORIES) {
     const list = EMAIL_TEMPLATES.filter(t => t.category === c.id);
     if (!list.length) continue;

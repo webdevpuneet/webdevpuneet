@@ -12,7 +12,7 @@ import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 import { EMAIL_TEMPLATES, EMAIL_CATEGORIES, emailTemplateById, emailCategoryById, defaultEmailState, FONT_STACKS } from './templates/index.js';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
-import { previewImages, forceDark, stripRich } from './templates/meta.js';
+import { previewImages, forceDark, stripRich, MERGE_TAGS, MERGE_PLATFORMS, MERGE_URLS, mergePlatform, applyMergeTags, sampleMergeTags, sampleMergePlain } from './templates/meta.js';
 import { PALETTES, parseHex, onColor } from '../OgImageGenerator/engine';
 import { BrandKitPanel, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
 import { exportDesigns, importDesigns, blobToDataUrl as fileToDataUrl, dataUrlToBlob } from '@/lib/design-transfer';
@@ -21,6 +21,7 @@ import { openForkTab } from '@/lib/open-fork-tab';
 import { putAsset, getAsset, deleteAsset, assetKeys } from './assetsDb';
 import { revealInPanel } from '@/lib/reveal-in-panel';
 import FormatPopover from './FormatPopover';
+import { BLOCK_TYPES, blocksText, blockSlot } from './templates/shell.js';
 import { highlightHtml } from '@/lib/highlight-html';
 import FontPicker from '@/components/FontPicker';
 import { resolveFont } from '@/lib/fonts';
@@ -126,7 +127,7 @@ function GalleryCard({ t, preview }) {
     io.observe(el);
     return () => { ro.disconnect(); io.disconnect(); };
   }, []);
-  const html = useMemo(() => (preview || !visible ? '' : previewImages(t.build(defaultEmailState(t)), origin)), [t, origin, preview, visible]);
+  const html = useMemo(() => (preview || !visible ? '' : previewImages(sampleMergePlain(t.build(defaultEmailState(t))), origin)), [t, origin, preview, visible]);
   return (
     <a className={s.card} href={`/email-templates/${t.id}/`} {...panHandlers}>
       <div ref={ref} className={e.cardPreview}>
@@ -240,7 +241,7 @@ function SavedEmailPreview({ design: d, width }) {
   const html = useMemo(() => {
     if (!t || !origin) return '';
     const st = restoreEmail(t, d.state);
-    return previewImages(t.build({ ...st, fields: { ...st.fields, ...urls } }), origin);
+    return previewImages(sampleMergePlain(t.build({ ...st, fields: { ...st.fields, ...urls } })), origin);
   }, [t, d, urls, origin]);
   if (!html) return null;
   return <EmailFrame html={html} width={640} scale={width / 640} interactive={false} />;
@@ -309,7 +310,7 @@ export function EmailShot({ id }) {
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
-  const html = useMemo(() => previewImages(t.build(defaultEmailState(t)), origin), [t, origin]);
+  const html = useMemo(() => previewImages(sampleMergePlain(t.build(defaultEmailState(t))), origin), [t, origin]);
   return (
     <div ref={ref} style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
       {w > 0 && origin && <EmailFrame html={html} width={640} scale={w / 640} interactive={false} />}
@@ -360,6 +361,7 @@ function domToRich(node, multiline) {
   node.childNodes.forEach(n => {
     if (n.nodeType === 3) { out += n.nodeValue; return; }
     if (n.nodeType !== 1 || n.hasAttribute?.('data-wdp-bar')) return;
+    if (n.dataset?.merge) { out += `{{${n.dataset.merge}}}`; return; } // a merge-tag chip stays a token
     const tag = n.tagName.toLowerCase();
     if (tag === 'br') { out += multiline ? '\n' : ' '; return; }
     const inner = domToRich(n, multiline);
@@ -371,12 +373,18 @@ function domToRich(node, multiline) {
   return out;
 }
 
+/* Small badges for the extra section types */
+const BLOCK_ICONS = { heading: 'H', text: '¶', button: '▭', image: '▣', columns: '▥', divider: '—', spacer: '↕' };
+
 /* A saved email state brought up to date with the template (unknown keys dropped) */
 function restoreEmail(t, saved) {
   const d = defaultEmailState(t);
   const pick = (src, def) => ({ ...def, ...Object.fromEntries(Object.entries(src || {}).filter(([k]) => k in def)) });
-  const uploads = Object.fromEntries(Object.entries(saved?.uploads || {}).filter(([k, u]) => u?.id && t.fields.some(x => x.key === k && x.upload)));
-  return { fields: pick(saved?.fields, d.fields), toggles: pick(saved?.toggles, d.toggles), vars: pick(saved?.vars, d.vars), fonts: pick(saved?.fonts, d.fonts), uploads, assetBase: saved?.assetBase || '' };
+  const blockIds = new Set((Array.isArray(saved?.blocks) ? saved.blocks : []).map(b => `blk:${b?.id}`));
+  const uploads = Object.fromEntries(Object.entries(saved?.uploads || {}).filter(([k, u]) => u?.id && (t.fields.some(x => x.key === k && x.upload) || blockIds.has(k))));
+  return { fields: pick(saved?.fields, d.fields), toggles: pick(saved?.toggles, d.toggles), vars: pick(saved?.vars, d.vars), fonts: pick(saved?.fonts, d.fonts), uploads, assetBase: saved?.assetBase || '', platform: MERGE_PLATFORMS.some(p => p.id === saved?.platform) ? saved.platform : '',
+    previewText: typeof saved?.previewText === 'string' ? saved.previewText : '',
+    blocks: Array.isArray(saved?.blocks) ? saved.blocks.filter(b => b && BLOCK_TYPES[b.type] && b.id).map(b => ({ ...BLOCK_TYPES[b.type].defaults, ...b, where: b.where === 'top' || b.where === 'bottom' ? b.where : (Number.isFinite(parseInt(b.where, 10)) ? parseInt(b.where, 10) : 'bottom') })) : [] };
 }
 
 /* Brand kit -> email: brand colour (button text picked for contrast), name, hosted logo,
@@ -404,6 +412,7 @@ export function EmailTemplateEditor({ id }) {
   const [origin, setOrigin] = useState('');
   const [open, setOpen] = useState(() => new Set(['inbox', 'main']));
   const [panelTab, setPanelTab] = useState('edit'); // left panel: 'edit' | 'designs' | 'transfer'
+  const [sheetOpen, setSheetOpen] = useState(false); // phones: the panel as a bottom sheet
   const [designs, setDesigns] = useState([]);
   const [currentDesign, setCurrentDesign] = useState(null); // { id, name } while editing a saved design
   const [renaming, setRenaming] = useState(null);
@@ -564,20 +573,44 @@ export function EmailTemplateEditor({ id }) {
   const imagePath = key => (assetBase ? `${assetBase}/${uploads[key].file}` : `images/${uploads[key].file}`);
   const exportState = useMemo(() => {
     const fields = { ...state.fields };
-    Object.keys(uploads).forEach(k => { fields[k] = imagePath(k); });
-    return { ...state, fields };
+    Object.keys(uploads).forEach(k => { if (!k.startsWith('blk:')) fields[k] = imagePath(k); });
+    fields.preheader = state.previewText || ''; // optional; empty = no preheader (no stale sample text)
+    const blocks = (state.blocks || []).map(b => (uploads[`blk:${b.id}`] ? { ...b, url: imagePath(`blk:${b.id}`) } : b));
+    // With a platform chosen, empty or placeholder unsubscribe / preferences links become its tags
+    if (mergePlatform(state.platform).unsubscribe) {
+      Object.entries(MERGE_URLS).forEach(([k, url]) => {
+        if (k in fields && (!String(fields[k] || '').trim() || /yoursite\.com|yourbrand/i.test(fields[k]))) fields[k] = url;
+      });
+    }
+    return { ...state, fields, blocks };
   }, [state]); // eslint-disable-line react-hooks/exhaustive-deps
   const previewState = useMemo(() => {
     const fields = { ...state.fields };
-    Object.entries(uploads).forEach(([k, u]) => { if (blobUrls[u.id]) fields[k] = blobUrls[u.id]; });
-    return { ...state, fields };
+    Object.entries(uploads).forEach(([k, u]) => { if (blobUrls[u.id] && !k.startsWith('blk:')) fields[k] = blobUrls[u.id]; });
+    const blocks = (state.blocks || []).map(b => { const u = uploads[`blk:${b.id}`]; return u && blobUrls[u.id] ? { ...b, url: blobUrls[u.id] } : b; });
+    return { ...state, fields, blocks };
   }, [state, blobUrls]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const html = useMemo(() => t.build(exportState), [t, exportState]);
-  const editHtml = useMemo(() => t.build(previewState, { edit: true }), [t, previewState]);
+  // Exports use the chosen platform's merge tags; the preview shows tokens as sample values
+  const html = useMemo(() => applyMergeTags(t.build(exportState), state.platform), [t, exportState, state.platform]);
+  const editHtml = useMemo(() => sampleMergeTags(t.build(previewState, { edit: true })), [t, previewState]);
   // Plain-text version: inline formatting (<b>, links…) turned back into plain text
-  const text = useMemo(() => stripRich(t.text(exportState)), [t, exportState]);
+  const text = useMemo(() => {
+    let body = t.text(exportState);
+    const top = blocksText(state.blocks, 'top'), bottom = blocksText(state.blocks, 'bottom');
+    if (bottom) { const at = body.lastIndexOf('\n---'); body = at > -1 ? `${body.slice(0, at)}\n${bottom}\n${body.slice(at)}` : `${body}\n${bottom}\n`; }
+    if (top) body = `${top}\n\n${body}`;
+    return applyMergeTags(stripRich(body), state.platform);
+  }, [t, exportState, state.platform, state.blocks]);
   // Colour-coded HTML for the HTML tab (only worked out while that tab is open)
+  // The card's own sections, labelled by their first words (Position menu for extra sections)
+  const rowLabels = useMemo(() => {
+    if (typeof DOMParser === 'undefined') return [];
+    try {
+      const doc = new DOMParser().parseFromString(editHtml, 'text/html');
+      return [...doc.querySelectorAll('[data-row]')].map(r => (r.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 34) || (r.querySelector('img') ? 'Image' : 'Section'));
+    } catch { return []; }
+  }, [editHtml]);
   const highlightedHtml = useMemo(() => (view === 'html' ? highlightHtml(html) : ''), [view, html]);
   const bytes = useMemo(() => new Blob([html]).size, [html]);
   const liveHtml = useMemo(() => previewImages(dark ? forceDark(editHtml) : editHtml, origin), [editHtml, dark, origin]);
@@ -590,6 +623,51 @@ export function EmailTemplateEditor({ id }) {
 
   const setField = (key, val) => setState(p => ({ ...p, fields: { ...p.fields, [key]: val } }));
   const controlsRef = useRef(null); // left panel (the formatting popover listens here)
+  /* Extra sections */
+  const newBlockId = () => `b${Date.now().toString(36)}${Math.random().toString(36).slice(2, 5)}`;
+  const addBlock = type => setState(p => ({ ...p, blocks: [...(p.blocks || []), { id: newBlockId(), type, where: 'bottom', ...BLOCK_TYPES[type].defaults }] }));
+  const updateBlock = (id, patch) => setState(p => ({ ...p, blocks: (p.blocks || []).map(b => (b.id === id ? { ...b, ...patch } : b)) }));
+  const moveBlockToSlot = (id, slot, rowCount) => setState(p => {
+    const list = [...(p.blocks || [])];
+    const i = list.findIndex(b => b.id === id);
+    if (i < 0) return p;
+    const [b] = list.splice(i, 1);
+    list.push({ ...b, where: slot <= 0 ? 'top' : slot >= rowCount ? 'bottom' : slot });
+    return { ...p, blocks: list };
+  });
+  const moveBlockRef = useRef(null);
+  moveBlockRef.current = moveBlockToSlot;
+  const removeBlock = id => setState(p => {
+    const u = { ...(p.uploads || {}) };
+    delete u[`blk:${id}`];
+    return { ...p, uploads: u, blocks: (p.blocks || []).filter(b => b.id !== id) };
+  });
+  // Field keys from rich inputs: template fields, or "blk:<id>:<prop>" for a block's text
+  const setAnyField = (key, val) => {
+    if (String(key).startsWith('blk:')) { const [, id, prop] = key.split(':'); updateBlock(id, { [prop]: val }); }
+    else if (key === 'previewText') setState(p => ({ ...p, previewText: val }));
+    else setField(key, val);
+  };
+  const [addOpen, setAddOpen] = useState(false);
+  const [foldedBlocks, setFoldedBlocks] = useState(() => new Set()); // sections collapsed to one line
+  const toggleFold = id => setFoldedBlocks(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const lastRichField = useRef(null); // the text field merge-tag chips insert into
+  useEffect(() => {
+    const root = controlsRef.current;
+    if (!root) return undefined;
+    const onFocus = ev => { if (ev.target?.dataset?.rich) lastRichField.current = ev.target; };
+    root.addEventListener('focusin', onFocus);
+    return () => root.removeEventListener('focusin', onFocus);
+  }, []);
+  const insertMergeTag = key => {
+    const el = lastRichField.current;
+    if (!el || !el.isConnected) { flash('Click into a text field first, then pick a merge tag to insert it there.'); return; }
+    const token = `{{${key}}}`;
+    const a = el.selectionStart ?? el.value.length, b = el.selectionEnd ?? a;
+    const next = el.value.slice(0, a) + token + el.value.slice(b);
+    setAnyField(el.dataset.rich, next);
+    requestAnimationFrame(() => { try { el.focus(); el.setSelectionRange(a + token.length, a + token.length); } catch { /* gone */ } });
+  };
   const setToggle = (key, val) => setState(p => ({ ...p, toggles: { ...p.toggles, [key]: val } }));
   const setVar = (key, val) => setState(p => ({ ...p, vars: { ...p.vars, [key]: val } }));
   // Palettes set the brand colour and a readable button text colour for it
@@ -602,6 +680,8 @@ export function EmailTemplateEditor({ id }) {
   const revealField = useCallback((key, focusInput) => {
     const fd = t.fields.find(x => x.key === key);
     if (!fd) return;
+    // Phones: open the panel for fields edited there (images, links); text is edited in the preview
+    if (focusInput) { setSheetOpen(true); setPanelTab('edit'); }
     setOpen(prev => (prev.has(fd.group) ? prev : new Set(prev).add(fd.group)));
     requestAnimationFrame(() => requestAnimationFrame(() => {
       const input = document.getElementById(`em-${key}`);
@@ -615,8 +695,63 @@ export function EmailTemplateEditor({ id }) {
     const style = doc.createElement('style');
     style.textContent = '[data-field]{cursor:pointer}[data-field]:hover{outline:2px dashed rgba(99,102,241,.75);outline-offset:3px}[data-field][contenteditable]{outline:2px solid #6366f1 !important;outline-offset:3px;cursor:text}';
     doc.head.appendChild(style);
+    // Extra sections can be dragged between the template's sections
+    const dragCss = doc.createElement('style');
+    dragCss.textContent = '[data-block]{cursor:grab}[data-block]:hover{outline:2px dashed rgba(124,58,237,.7);outline-offset:-2px}[data-block].wdp-dragging{opacity:.35}';
+    doc.head.appendChild(dragCss);
+    let dragId = null, dropSlot = null;
+    const line = doc.createElement('div');
+    line.style.cssText = 'position:absolute;left:0;right:0;height:4px;margin-top:-2px;border-radius:4px;background:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.2);pointer-events:none;display:none;z-index:2147483646;';
+    doc.body.appendChild(line);
+    const slotAt = y => {
+      const rows = [...doc.querySelectorAll('[data-row]')];
+      if (!rows.length) return null;
+      let k = 0;
+      rows.forEach((r, i) => { const rc = r.getBoundingClientRect(); if (y > rc.top + rc.height / 2) k = i + 1; });
+      const ref = k < rows.length ? rows[k].getBoundingClientRect().top : rows[rows.length - 1].getBoundingClientRect().bottom;
+      const card = rows[0].closest('table').getBoundingClientRect();
+      return { k, n: rows.length, y: ref + doc.defaultView.scrollY, left: card.left, width: card.width };
+    };
+    doc.addEventListener('dragstart', d => {
+      const b = d.target.closest?.('[data-block]');
+      if (!b) return;
+      dragId = b.dataset.block;
+      d.dataTransfer.effectAllowed = 'move';
+      try { d.dataTransfer.setData('text/plain', dragId); } catch { /* old engines */ }
+      b.classList.add('wdp-dragging');
+    });
+    doc.addEventListener('dragover', d => {
+      if (!dragId) return;
+      d.preventDefault();
+      const at = slotAt(d.clientY);
+      if (!at) return;
+      dropSlot = at;
+      Object.assign(line.style, { display: 'block', top: `${at.y}px`, left: `${at.left}px`, width: `${at.width}px`, right: 'auto' });
+    });
+    const endDrag = () => {
+      line.style.display = 'none';
+      doc.querySelectorAll('.wdp-dragging').forEach(x => x.classList.remove('wdp-dragging'));
+      doc.__wdpDragged = !!dragId;
+      setTimeout(() => { doc.__wdpDragged = false; }, 50);
+      dragId = null;
+      dropSlot = null;
+    };
+    doc.addEventListener('drop', d => {
+      if (!dragId || !dropSlot) return;
+      d.preventDefault();
+      moveBlockRef.current?.(dragId, dropSlot.k, dropSlot.n);
+      endDrag();
+    });
+    doc.addEventListener('dragend', endDrag);
     doc.addEventListener('click', ev => {
       if (ev.target.closest('a')) ev.preventDefault(); // links don't navigate inside the editor
+      const blk = ev.target.closest('[data-block]');
+      if (blk && !ev.target.closest('[data-field]') && !doc.__wdpDragged) {
+        setSheetOpen(true);
+        setPanelTab('edit');
+        requestAnimationFrame(() => revealInPanel(document.getElementById(`blk-${blk.dataset.block}`), e.flash));
+        return;
+      }
       const el = ev.target.closest('[data-field]');
       if (!el || el.isContentEditable) return;
       const fd = t.fields.find(x => x.key === el.dataset.field);
@@ -761,14 +896,26 @@ export function EmailTemplateEditor({ id }) {
     const altKey = k.replace(/Url$/, 'Alt');
     if (altKey !== k && altKey in f && !String(f[altKey] || '').trim()) checks.push({ level: 'warn', text: `Add alt text for the ${label.replace(/ (image )?URL$/i, '').toLowerCase()} image. Many people read email with images off.` });
   });
+  // Extra sections: hosted images with alt text, real links
+  (state.blocks || []).forEach((b, i) => {
+    const n = `${BLOCK_TYPES[b.type]?.label || 'Section'} (extra section ${i + 1})`;
+    const uploaded = !!uploads[`blk:${b.id}`];
+    if (b.type === 'image' && uploaded && !String(b.alt || '').trim()) checks.push({ level: 'warn', text: `${n}: add alt text. Many people read email with images off.` });
+    if (b.type === 'image' && !uploaded && String(b.url || '').trim()) {
+      if (!/^https:\/\//i.test(b.url)) checks.push({ level: 'bad', text: `${n}: the image must be a full https:// URL.` });
+      if (!String(b.alt || '').trim()) checks.push({ level: 'warn', text: `${n}: add alt text. Many people read email with images off.` });
+    }
+    const link = b.type === 'button' ? b.url : b.type === 'image' ? b.link : '';
+    if (/yoursite\.com|yourbrand/i.test(String(link || ''))) checks.push({ level: 'warn', text: `${n}: replace the placeholder link.` });
+  });
+  const pvLen = (state.previewText || '').trim().length;
+  if (pvLen && (pvLen < 35 || pvLen > 140)) checks.push({ level: 'warn', text: `The inbox preview text is ${pvLen} characters. 40 to 130 fills the preview line without being cut off.` });
   const marketing = 'unsubscribeUrl' in f;
-  if (marketing && !String(f.unsubscribeUrl || '').trim()) checks.push({ level: 'bad', text: 'Add an unsubscribe link. US CAN-SPAM and Gmail/Yahoo sender rules require one in marketing email.' });
+  if (marketing && !String(f.unsubscribeUrl || '').trim() && !mergePlatform(state.platform).unsubscribe) checks.push({ level: 'bad', text: 'Add an unsubscribe link. US CAN-SPAM and Gmail/Yahoo sender rules require one in marketing email.' });
   if ('address' in f && !String(f.address || '').trim()) checks.push({ level: marketing ? 'bad' : 'warn', text: marketing ? 'Add your postal address. US CAN-SPAM requires a valid physical address in commercial email.' : 'Add your company address so people can tell the email is really from you.' });
-  const placeholders = t.fields.filter(x => x.type === 'url' && /yoursite\.com|yourbrand/i.test(String(f[x.key] || ''))).map(x => x.label.replace(/ \(optional\)/i, '').replace(/ URL$/, ''));
+  const mergeHandles = k => !!mergePlatform(state.platform).unsubscribe && k in MERGE_URLS;
+  const placeholders = t.fields.filter(x => x.type === 'url' && !mergeHandles(x.key) && /yoursite\.com|yourbrand/i.test(String(f[x.key] || ''))).map(x => x.label.replace(/ \(optional\)/i, '').replace(/ URL$/, ''));
   if (placeholders.length) checks.push({ level: 'warn', text: `Replace the placeholder links: ${placeholders.join(', ')}.` });
-  if ((f.subject || '').length > 60) checks.push({ level: 'warn', text: `The subject is ${f.subject.length} characters. Phones show about 35 to 60, so lead with the important words.` });
-  const ph = (f.preheader || '').length;
-  if (ph && (ph < 35 || ph > 140)) checks.push({ level: 'warn', text: `The preheader is ${ph} characters. 40 to 130 fills the inbox preview without being cut off.` });
 
   /* Actions */
   const copy = async (str, what, note) => {
@@ -985,9 +1132,11 @@ export function EmailTemplateEditor({ id }) {
       // Uploaded images are embedded as data URLs: My Code can't read this tool's image store
       let forkHtml = html;
       if (Object.keys(uploads).length) {
-        const fields = { ...state.fields };
-        for (const [k, u] of Object.entries(uploads)) { const rec = await getAsset(u.id); if (rec?.blob) fields[k] = await blobToDataUrl(rec.blob); }
-        forkHtml = t.build({ ...state, fields });
+        const fields = { ...exportState.fields }; // keeps merge-tag unsubscribe links
+        const blockUrls = {};
+        for (const [k, u] of Object.entries(uploads)) { const rec = await getAsset(u.id); if (rec?.blob) { const url = await blobToDataUrl(rec.blob); if (k.startsWith('blk:')) blockUrls[k] = url; else fields[k] = url; } }
+        const blocks = (exportState.blocks || []).map(b => (blockUrls[`blk:${b.id}`] ? { ...b, url: blockUrls[`blk:${b.id}`] } : b));
+        forkHtml = applyMergeTags(t.build({ ...exportState, fields, blocks }), state.platform);
       }
       await dbPut({ id: rid, name: `${t.name} (email)`, tags: ['email'], cdnUrls: [], html: forkHtml, css: '', js: '', createdAt: now, updatedAt: now });
       tab.go(rid);
@@ -1003,8 +1152,8 @@ export function EmailTemplateEditor({ id }) {
       <ImageToolsTopNav active="email-templates" />
       <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/gif,image/webp" className={s.fileInput} onChange={onUploadFile} />
       <div className={s.body}>
-        <aside className={s.controls} ref={controlsRef}>
-          <FormatPopover containerRef={controlsRef} onChange={setField} />
+        <aside className={`${s.controls} ${sheetOpen ? s.sheetOpen : ''}`} ref={controlsRef}>
+          <FormatPopover containerRef={controlsRef} onChange={setAnyField} />
           {/* Tool name stays pinned at the top of the panel; everything below scrolls */}
           <div className={s.toolBrandBar}>
             <a href="/email-templates/" className={s.toolBrand} title="All email templates">
@@ -1014,7 +1163,12 @@ export function EmailTemplateEditor({ id }) {
             </a>
           </div>
           {/* Only this part scrolls, so the scrollbar starts below the pinned tool name */}
-          <div className={s.panelTabs} role="tablist" aria-label="Panel">
+          {/* Phones: grab handle that opens / closes the panel as a bottom sheet */}
+          <button type="button" className={s.sheetHandle} onClick={() => setSheetOpen(o => !o)} aria-expanded={sheetOpen} aria-label={sheetOpen ? 'Close the editing panel' : 'Open the editing panel'}>
+            <i aria-hidden="true" />
+            {sheetOpen ? 'Hide panel' : 'Edit email'}
+          </button>
+          <div className={s.panelTabs} role="tablist" aria-label="Panel" onClickCapture={() => setSheetOpen(true)}>
             <button type="button" role="tab" aria-selected={panelTab === 'edit'} className={panelTab === 'edit' ? s.panelTabOn : ''} onClick={() => setPanelTab('edit')}>Edit</button>
             <button type="button" role="tab" aria-selected={panelTab === 'designs'} className={panelTab === 'designs' ? s.panelTabOn : ''} onClick={() => setPanelTab('designs')}>
               My designs <span className={s.panelTabCount}>{designs.length}</span>
@@ -1105,7 +1259,45 @@ export function EmailTemplateEditor({ id }) {
             })}
           />
 
-          {t.groups.map(g => {
+          <section className={s.section}>
+            <h2 className={s.sectionTitle}>Inbox preview text</h2>
+            <input
+              id="em-previewText"
+              data-rich="previewText"
+              className={s.input}
+              value={state.previewText || ''}
+              onChange={ev => setState(p => ({ ...p, previewText: ev.target.value }))}
+              placeholder="Optional: the grey line shown after the subject"
+              aria-label="Inbox preview text"
+              maxLength={200}
+            />
+            <p className={s.hint}>
+              {(state.previewText || '').trim()
+                ? `${(state.previewText || '').trim().length} characters (aim for 40 to 130). Merge tags work here too.`
+                : 'Leave empty and inboxes show the first words of the email instead.'}
+            </p>
+          </section>
+
+          <section className={s.section}>
+            <h2 className={s.sectionTitle}>Merge tags</h2>
+            <label className={s.label} htmlFor="em-platform">Email platform</label>
+            <select id="em-platform" className={s.select} value={state.platform || ''} onChange={ev => setState(p => ({ ...p, platform: ev.target.value }))}>
+              {MERGE_PLATFORMS.map(p => <option key={p.id} value={p.id}>{p.label}</option>)}
+            </select>
+            <p className={s.hint}>
+              {state.platform
+                ? <>Copy HTML and downloads use {mergePlatform(state.platform).label} tags: first name becomes <code>{mergePlatform(state.platform).tags.first_name}</code>, and placeholder unsubscribe / preferences links become <code>{mergePlatform(state.platform).unsubscribe}</code> and <code>{mergePlatform(state.platform).prefs}</code>.</>
+                : <>Exports keep <code>{'{{first_name}}'}</code> style tokens. Pick your email platform to get its own merge tags and unsubscribe link automatically.</>}
+            </p>
+            <div className={s.mergeChips}>
+              <span className={s.label}>Insert</span>
+              {MERGE_TAGS.map(m => (
+                <button key={m.key} type="button" className={s.miniBtn} onMouseDown={ev => ev.preventDefault()} onClick={() => insertMergeTag(m.key)} title={`Insert {{${m.key}}} where the cursor is (preview shows “${m.sample}”)`}>+ {m.label}</button>
+              ))}
+            </div>
+          </section>
+
+          {t.groups.filter(g => g.id !== 'inbox').map(g => {
             const fields = t.fields.filter(x => x.group === g.id);
             const isOpen = open.has(g.id);
             const enabled = !g.toggle || state.toggles[g.toggle];
@@ -1185,6 +1377,105 @@ export function EmailTemplateEditor({ id }) {
             <div className={s.colorGrid}>
               {t.vars.filter(v => v.group === 'dark').map(v => <ColorField key={v.key} label={v.label} value={state.vars[v.key]} onChange={val => setVar(v.key, val)} />)}
             </div>
+          </section>
+
+          <section className={s.section}>
+            <h2 className={s.sectionTitle}>Extra sections <span className={s.sectionCount}>{(state.blocks || []).length}</span></h2>
+            {(state.blocks || []).map(b => {
+              const def = BLOCK_TYPES[b.type];
+              const folded = foldedBlocks.has(b.id);
+              const upKey = `blk:${b.id}`;
+              const up = b.type === 'image' ? uploads[upKey] : null;
+              const summary = String(b.text || b.left || b.alt || (up ? up.file : b.url) || (b.type === 'spacer' ? `${b.size || 24}px` : '')).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+              const slot = blockSlot(b, rowLabels.length);
+              return (
+                <div key={b.id} id={`blk-${b.id}`} className={`${e.block} ${folded ? e.blockFolded : ''}`}>
+                  <div className={e.blockHead}>
+                    <button type="button" className={e.blockToggle} onClick={() => toggleFold(b.id)} aria-expanded={!folded} title={folded ? 'Show settings' : 'Hide settings'}>
+                      <span className={e.blockIcon} aria-hidden="true">{BLOCK_ICONS[b.type]}</span>
+                      <span className={e.blockTitle}>
+                        <b>{def.label}</b>
+                        {summary && <small>{summary.slice(0, 42)}</small>}
+                      </span>
+                      <span className={`${e.blockChev} ${folded ? '' : e.blockChevOpen}`} aria-hidden="true">›</span>
+                    </button>
+                    <button type="button" className={e.blockRemove} onClick={() => removeBlock(b.id)} aria-label={`Remove ${def.label}`} title="Remove this section">✕</button>
+                  </div>
+                  {!folded && (
+                    <div className={e.blockBody}>
+                      <div className={e.blockField}>
+                        <label className={e.blockLabel} htmlFor={`blk-${b.id}-where`}>Position</label>
+                        <select
+                          id={`blk-${b.id}-where`}
+                          className={s.select}
+                          title="Where this section sits (or drag it in the preview)"
+                          value={slot === 0 ? 'top' : slot >= rowLabels.length ? 'bottom' : String(slot)}
+                          onChange={ev => { const v = ev.target.value; updateBlock(b.id, { where: v === 'top' || v === 'bottom' ? v : parseInt(v, 10) }); }}
+                        >
+                          <option value="top">Top of email</option>
+                          {rowLabels.slice(0, -1).map((label, k) => <option key={k} value={String(k + 1)}>After: {label}</option>)}
+                          <option value="bottom">Bottom of email</option>
+                        </select>
+                      </div>
+                      {def.fields.map(([key, label, type]) => (
+                        <div key={key} className={type === 'align' ? e.blockInline : e.blockField}>
+                          <label className={e.blockLabel} htmlFor={`blk-${b.id}-${key}`}>{label}</label>
+                          {type === 'textarea' && <textarea id={`blk-${b.id}-${key}`} data-rich={`blk:${b.id}:${key}`} className={s.textarea} rows={3} value={b[key] ?? ''} onChange={ev => updateBlock(b.id, { [key]: ev.target.value })} />}
+                          {type === 'text' && <input id={`blk-${b.id}-${key}`} data-rich={`blk:${b.id}:${key}`} className={s.input} value={b[key] ?? ''} onChange={ev => updateBlock(b.id, { [key]: ev.target.value })} />}
+                          {(type === 'url' || type === 'number') && (
+                            <input
+                              id={`blk-${b.id}-${key}`}
+                              className={s.input}
+                              type={type === 'number' ? 'number' : 'text'}
+                              inputMode={type === 'url' ? 'url' : 'numeric'}
+                              placeholder={type === 'url' ? 'https://' : undefined}
+                              value={up && key === 'url' ? (assetBase ? `${assetBase}/${up.file}` : `images/${up.file}`) : (b[key] ?? '')}
+                              onChange={ev => updateBlock(b.id, { [key]: ev.target.value })}
+                              spellCheck={false}
+                              disabled={!!(up && key === 'url')}
+                              title={up && key === 'url' ? 'Using your uploaded image; remove it to paste a URL instead' : undefined}
+                            />
+                          )}
+                          {b.type === 'image' && key === 'url' && (
+                            <div className={e.uploadRow}>
+                              {up ? (
+                                <>
+                                  {blobUrls[up.id] ? <img className={e.uploadThumb} src={blobUrls[up.id]} alt="" /> : <span className={e.uploadThumb} />}
+                                  <span className={e.uploadName}>{up.file} · {up.w}×{up.h}</span>
+                                  <button type="button" className={s.miniBtn} onClick={() => pickUpload({ key: upKey, upload: { name: `section-${b.id}`, maxW: 1200, mime: 'image/jpeg' } })}>Replace</button>
+                                  <button type="button" className={s.miniBtn} onClick={() => removeUpload(upKey)}>Remove</button>
+                                </>
+                              ) : (
+                                <button type="button" className={s.miniBtn} onClick={() => pickUpload({ key: upKey, upload: { name: `section-${b.id}`, maxW: 1200, mime: 'image/jpeg' } })}>↑ Upload image</button>
+                              )}
+                            </div>
+                          )}
+                          {type === 'align' && (
+                            <div className={`${s.seg} ${e.blockSeg}`} role="radiogroup" aria-label={label}>
+                              {[['left', 'Left'], ['center', 'Centre']].map(([v, l]) => (
+                                <button key={v} type="button" role="radio" aria-checked={(b[key] || 'left') === v} className={`${s.segBtn} ${(b[key] || 'left') === v ? s.segBtnActive : ''}`} onClick={() => updateBlock(b.id, { [key]: v })}>{l}</button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                      {!def.fields.length && <p className={s.hint}>No settings: drag it in the preview or pick a position.</p>}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+            <div className={e.addBlock}>
+              <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={() => setAddOpen(o => !o)} aria-expanded={addOpen}>+ Add a section</button>
+              {addOpen && (
+                <div className={e.addMenu}>
+                  {Object.entries(BLOCK_TYPES).map(([type, def]) => (
+                    <button key={type} type="button" className={s.miniBtn} onClick={() => { addBlock(type); setAddOpen(false); }}>{def.label}</button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <p className={s.hint}>Add headings, text, buttons, images, two columns, dividers or spacing anywhere in the email: pick a position, or drag a section in the preview. They’re saved with your design and included in every export.</p>
           </section>
 
           <section className={s.section}>

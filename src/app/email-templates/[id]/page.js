@@ -91,7 +91,7 @@ export default async function EmailTemplatePage({ params }) {
       label: 'Step by step',
       heading: 'How to Use',
       items: [
-        { title: 'Set the inbox details', text: 'Write the sender name, subject line and preheader (the preview text shown next to the subject in the inbox). The character counts show when they get too long for phones.' },
+        { title: 'Pick your email platform', text: 'Choose Mailchimp, Klaviyo, HubSpot or Brevo under Merge tags so first names and unsubscribe links export in its syntax, or keep plain {{first_name}} tokens.' },
         { title: 'Edit the content', text: `Fill in the ${listJoin(contentGroups)}, or click any text in the preview to jump to its field.${toggleable.length ? ` Switch the ${listJoin(toggleable)} on or off.` : ''}` },
         { title: 'Add your brand', text: `Upload or paste your logo${hasImages ? ' and images' : ''}, set the brand colour and the light and dark palettes, pick fonts, or apply your saved brand kit.` },
         { title: 'Preview and check', text: 'Switch between desktop, mobile and dark mode, and fix anything the pre-send checks flag, such as placeholder links or missing alt text.' },

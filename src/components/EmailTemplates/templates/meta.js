@@ -91,6 +91,7 @@ export const PREHEADER_FILL = '&#8199;&#65279;&#847; '.repeat(45);
 
 /* Builds the hidden preheader block */
 export function preheaderHtml(text, bg) {
+  if (!String(text ?? '').trim()) return ''; // no preheader: inboxes show the email's opening text
   return `<div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;color:${bg};">${esc(stripRich(text))}${PREHEADER_FILL}</div>`;
 }
 
@@ -128,4 +129,50 @@ export function previewImages(html, origin) {
 /* Preview helper: force the dark-mode media query on, to preview dark mode in any browser */
 export function forceDark(html) {
   return html.replace(/@media \(prefers-color-scheme: ?dark\)/g, '@media all').replace(/<body /, '<body data-ogsc ');
+}
+
+/* ── Merge tags ──────────────────────────────────────────────────────────────────
+   Templates use universal tokens ({{first_name}} …). The editor shows them as sample
+   values; Copy HTML / downloads turn them into the chosen platform's own syntax, and
+   placeholder unsubscribe / preferences links into the platform's tags. */
+export const MERGE_TAGS = [
+  { key: 'first_name', label: 'First name', sample: 'Jordan' },
+  { key: 'last_name', label: 'Last name', sample: 'Lee' },
+  { key: 'email', label: 'Email', sample: 'jordan@example.com' },
+];
+export const MERGE_PLATFORMS = [
+  { id: '', label: 'Plain tokens', note: 'Keeps {{first_name}} style tokens to replace in your own code.' },
+  { id: 'mailchimp', label: 'Mailchimp', tags: { first_name: '*|FNAME|*', last_name: '*|LNAME|*', email: '*|EMAIL|*' }, unsubscribe: '*|UNSUB|*', prefs: '*|UPDATE_PROFILE|*' },
+  { id: 'klaviyo', label: 'Klaviyo', tags: { first_name: "{{ first_name|default:'there' }}", last_name: '{{ last_name }}', email: '{{ email }}' }, unsubscribe: '{% unsubscribe_url %}', prefs: '{% manage_preferences_url %}' },
+  { id: 'hubspot', label: 'HubSpot', tags: { first_name: '{{ contact.firstname }}', last_name: '{{ contact.lastname }}', email: '{{ contact.email }}' }, unsubscribe: '{{ unsubscribe_link_all }}', prefs: '{{ unsubscribe_link }}' },
+  { id: 'brevo', label: 'Brevo', tags: { first_name: '{{ contact.FIRSTNAME }}', last_name: '{{ contact.LASTNAME }}', email: '{{ contact.EMAIL }}' }, unsubscribe: '{{ unsubscribe }}', prefs: '{{ update_profile }}' },
+];
+export const mergePlatform = id => MERGE_PLATFORMS.find(p => p.id === id) || MERGE_PLATFORMS[0];
+/* Stand-in links the export swaps for the platform's unsubscribe / preferences tags */
+export const MERGE_URLS = { unsubscribeUrl: 'https://merge.tag/unsubscribe', prefsUrl: 'https://merge.tag/preferences' };
+const TOKEN_RE = /\{\{\s*(first_name|last_name|email)\s*\}\}/g;
+
+/** Export: tokens and stand-in links -> the platform's syntax (plain tokens when none) */
+export function applyMergeTags(str, platformId) {
+  const p = mergePlatform(platformId);
+  let out = String(str ?? '');
+  if (p.tags) out = out.replace(TOKEN_RE, (m, k) => p.tags[k] || m);
+  if (p.unsubscribe) out = out.split(MERGE_URLS.unsubscribeUrl).join(p.unsubscribe);
+  if (p.prefs) out = out.split(MERGE_URLS.prefsUrl).join(p.prefs);
+  return out;
+}
+/** Preview: tokens shown as sample values in a soft chip (kept as tokens when edited in place) */
+export function sampleMergeTags(html) {
+  const chip = (m, k) => {
+    const t = MERGE_TAGS.find(x => x.key === k);
+    return `<span data-merge="${k}" contenteditable="false" title="Merge tag: ${t ? t.label : k}" style="background:rgba(99,102,241,.14);border-radius:3px;padding:0 2px;">${t ? t.sample : k}</span>`;
+  };
+  // Only in text between tags (never inside attributes such as alt="…"); not in <title>
+  return String(html ?? '')
+    .replace(/(<title>[\s\S]*?<\/title>)|>([^<]+)</g, (m, title, txt) => (title ? title.replace(TOKEN_RE, (x, k) => MERGE_TAGS.find(y => y.key === k)?.sample || k) : `>${txt.replace(TOKEN_RE, chip)}<`))
+    .replace(/(alt|title)="([^"]*)"/g, (m, attr, v) => `${attr}="${v.replace(TOKEN_RE, (x, k) => MERGE_TAGS.find(y => y.key === k)?.sample || k)}"`);
+}
+/** Gallery cards, previews and captured images: tokens shown as plain sample values */
+export function sampleMergePlain(html) {
+  return String(html ?? '').replace(TOKEN_RE, (m, k) => MERGE_TAGS.find(x => x.key === k)?.sample || k);
 }
