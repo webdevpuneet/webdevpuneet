@@ -511,8 +511,10 @@ async function main() {
   toolListFiles.forEach(f => console.log(`  │    └─ ${f}`));
   console.log('  ├─ sitemap-images.xml');
   imageListFiles.forEach(f => console.log(`  │    └─ ${f}`));
-  console.log('  └─ sitemap-ui-snippets.xml');
-  snippetListFiles.forEach(f => console.log(`       └─ ${f}`));
+  console.log('  ├─ sitemap-ui-snippets.xml');
+  snippetListFiles.forEach(f => console.log(`  │    └─ ${f}`));
+  console.log('  ├─ sitemap-email-templates.xml');
+  console.log('  └─ sitemap-social-post-templates.xml');
 }
 
 main().catch(err => { console.error(err); process.exit(1); });
