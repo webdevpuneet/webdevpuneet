@@ -2,7 +2,7 @@
 import Script from 'next/script';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { ADS_ENABLED, adsAllowedOnPath } from '@/lib/ads-config';
+import { ADS_ENABLED, adsAllowedOnPath, noAutoAdsOnPath } from '@/lib/ads-config';
 import { useIsNotFound } from '@/lib/not-found-state';
 import { isEmbedRoute } from '@/lib/is-embed-route';
 
@@ -19,9 +19,14 @@ export default function AdSenseScript() {
     return () => clearTimeout(id);
   }, []);
 
+  // My Code: flag the page so globals.css hides auto-placed ads (they break the editor)
+  useEffect(() => {
+    document.documentElement.classList.toggle('no-auto-ads', noAutoAdsOnPath(pathname));
+  }, [pathname]);
+
   // Never load AdSense on an embed page — it's meant to be dropped into a
   // third-party iframe (WordPress, etc.) and must show nothing but the
-  // snippet preview, with zero ad scripts or requests. Same for the 404 page and My Code.
+  // snippet preview, with zero ad scripts or requests. Same for the 404 page.
   if (!ADS_ENABLED || !ready || isNotFoundPage || isEmbedRoute(pathname) || !adsAllowedOnPath(pathname)) return null;
 
   return (

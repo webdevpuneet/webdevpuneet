@@ -281,3 +281,8 @@ body:has([data-not-found-page]) :has(> ins.adsbygoogle) {
 /* Google's documented way to hide AdSense slots that got no ad. Wrappers collapse
    via :has() rules in their own CSS modules. */
 ins.adsbygoogle[data-ad-status="unfilled"] { display: none !important; }
+
+/* My Code (html.no-auto-ads): AdSense auto-placed ads would push into the code editor and
+   collapse its height, so they're hidden there; our own ad units are unaffected. */
+html.no-auto-ads .google-auto-placed,
+html.no-auto-ads ins.adsbygoogle[data-ad-format="autorelaxed"] { display: none !important; }
