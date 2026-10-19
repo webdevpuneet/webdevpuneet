@@ -255,8 +255,8 @@ export function EmailGalleryPage({ previews = [] }) {
       <header className={s.galleryHead}>
         <h1 className={s.galleryH1}>Email Templates</h1>
         <p className={s.galleryLead}>
-          {EMAIL_TEMPLATES.length} free responsive HTML email templates (welcome, verification, password reset, order confirmation, receipt,
-          newsletter and sale emails) that work in Gmail, Outlook and Apple Mail, with dark mode built in. Edit them in your browser,
+          {EMAIL_TEMPLATES.length} free responsive HTML email templates (onboarding, account, receipts, abandoned cart, shipping, newsletters,
+          sales, webinars and holiday emails) that work in Gmail, Outlook and Apple Mail, with dark mode built in. Edit them in your browser,
           then copy the HTML, download a ZIP or fork it into My Code.
         </p>
       </header>

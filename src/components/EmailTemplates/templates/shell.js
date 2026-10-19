@@ -286,3 +286,47 @@ export function blocksText(blocks = [], where) {
     }
   }).filter(Boolean).join('\n\n');
 }
+
+/* ── Pieces several templates share ─────────────────────────────────────────────── */
+export const IMG = name => `https://webdevpuneet.com/images/email-templates/${name}`;
+
+export const socialFields = ({ x = 'https://x.com/yourbrand', linkedin = 'https://www.linkedin.com/company/yourbrand', instagram = 'https://www.instagram.com/yourbrand', youtube = '' } = {}) => [
+  { key: 'xUrl', group: 'social', label: 'X (Twitter) URL', type: 'url', value: x },
+  { key: 'linkedinUrl', group: 'social', label: 'LinkedIn URL', type: 'url', value: linkedin },
+  { key: 'instagramUrl', group: 'social', label: 'Instagram URL', type: 'url', value: instagram },
+  { key: 'youtubeUrl', group: 'social', label: 'YouTube URL', type: 'url', value: youtube },
+];
+export const socialList = f => [['X', f.xUrl, 'xUrl'], ['LinkedIn', f.linkedinUrl, 'linkedinUrl'], ['Instagram', f.instagramUrl, 'instagramUrl'], ['YouTube', f.youtubeUrl, 'youtubeUrl']].filter(([, u]) => String(u || '').trim());
+/** Social links as a footer row (empty when switched off or no links) */
+export function socialRowHtml({ f, v, B, A, on }, toggle = 'showSocial') {
+  const list = socialList(f);
+  if (!on[toggle] || !list.length) return '';
+  return `
+              <tr>
+                <td align="center" style="padding:0 0 14px;font-family:${B};font-size:13px;line-height:20px;">
+                  ${list.map(([label, u, key]) => `<a${A(key)} href="${safeUrl(u)}" target="_blank" style="color:${v.brand};font-weight:700;text-decoration:none;">${label}</a>`).join(' <span class="m" style="color:#94a3b8;">&nbsp;&middot;&nbsp;</span> ')}
+                </td>
+              </tr>`;
+}
+export const socialText = (f, on, toggle = 'showSocial') => (on[toggle] ? socialList(f).map(([l, u]) => `${l}: ${safeUrl(u)}`).join('\n') : '');
+
+/** Bulletproof button in its own table (left or centred) */
+export const buttonRow = ({ v, H, A }, key, text, url, { align = 'left', pad = '0 0 24px', width, height } = {}) => (text
+  ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0"${align === 'center' ? ' align="center"' : ''}><tr><td style="padding:${pad};">${buttonHtml({ text, url, bg: v.brand, color: v.btnText, font: H, attrs: A(key), ...(width ? { width } : {}), ...(height ? { height } : {}) })}</td></tr></table>`
+  : '');
+
+/** Label / value rows in a soft box (order details, event details, request details) */
+export function detailsBoxHtml({ v, B, A }, rows) {
+  const list = rows.filter(([, val]) => String(val || '').trim());
+  if (!list.length) return '';
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="soft" style="background:#f8fafc;border-radius:12px;">
+                    <tr><td style="padding:10px 20px;">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                        ${list.map(([label, val, key]) => `<tr>
+                          <td class="m" width="38%" valign="top" style="padding:8px 12px 8px 0;font-family:${B};font-size:14px;line-height:21px;color:${v.muted};">${label}</td>
+                          <td class="t"${A(key)} valign="top" style="padding:8px 0;font-family:${B};font-size:14px;line-height:21px;font-weight:600;color:${v.text};">${rich(val)}</td>
+                        </tr>`).join('\n                        ')}
+                      </table>
+                    </td></tr>
+                  </table>`;
+}

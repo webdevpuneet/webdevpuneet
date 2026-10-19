@@ -4,9 +4,11 @@
    fallbacks (Outlook on Windows ignores web fonts and flexbox/grid entirely). */
 
 export const EMAIL_CATEGORIES = [
-  { id: 'onboarding',    label: 'Welcome & Onboarding', blurb: 'Welcome emails and onboarding steps that turn sign-ups into active users.' },
-  { id: 'transactional', label: 'Transactional',        blurb: 'Receipts, password resets, verifications and shipping updates.' },
-  { id: 'marketing',     label: 'Marketing',            blurb: 'Newsletters, launches, sales and event invitations.' },
+  { id: 'onboarding',    label: 'Onboarding & Lifecycle', blurb: 'Welcome emails, onboarding steps and trial-ending reminders that turn sign-ups into paying, active users.' },
+  { id: 'transactional', label: 'Transactional',          blurb: 'Account and billing emails people wait for: verification, password reset, magic sign-in links and receipts.' },
+  { id: 'ecommerce',     label: 'E-commerce',             blurb: 'Store emails from cart to doorstep: abandoned cart, order confirmation, shipping updates and review requests.' },
+  { id: 'marketing',     label: 'Marketing',              blurb: 'Newsletters, product updates, sales, last-chance reminders and webinar invitations.' },
+  { id: 'holidays',      label: 'Holidays & Seasonal',    blurb: 'Holiday gift guides and season’s greetings for Christmas, the holidays and the New Year.' },
 ];
 export const emailCategoryById = id => EMAIL_CATEGORIES.find(c => c.id === id);
 

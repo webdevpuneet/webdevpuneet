@@ -131,6 +131,36 @@ function urlset(entries) {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${items}\n</urlset>`;
 }
 
+/** Build a <urlset> of pages that may carry <image:image> entries (template libraries) */
+function pageImageUrlset(entries) {
+  const items = entries.map(({ loc, lastmod, changefreq, priority, images = [] }) => {
+    const parts = [`\t\t<loc>${loc}</loc>`];
+    if (lastmod)   parts.push(`\t\t<lastmod>${lastmod}</lastmod>`);
+    if (changefreq) parts.push(`\t\t<changefreq>${changefreq}</changefreq>`);
+    if (priority !== undefined) parts.push(`\t\t<priority>${priority.toFixed(1)}</priority>`);
+    for (const img of images) {
+      const ip = [`\t\t\t<image:loc>${img.loc}</image:loc>`];
+      if (img.title)   ip.push(`\t\t\t<image:title>${esc(img.title)}</image:title>`);
+      if (img.caption) ip.push(`\t\t\t<image:caption>${esc(img.caption)}</image:caption>`);
+      parts.push(`\t\t<image:image>\n${ip.join('\n')}\n\t\t</image:image>`);
+    }
+    return `\t<url>\n${parts.join('\n')}\n\t</url>`;
+  }).join('\n');
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
+    '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
+    items,
+    '</urlset>',
+  ].join('\n');
+}
+
+/** Which captured preview images exist for a template library (public/images/<dir>/previews) */
+const previewSet = dir => {
+  try { return new Set(fs.readdirSync(path.join('public/images', dir, 'previews')).map(f => f.replace(/\.png$/, ''))); }
+  catch { return new Set(); }
+};
+
 /** Build an image <urlset> string */
 function imageUrlset(entries) {
   const items = entries.map(({ loc, images }) => {
@@ -208,34 +238,6 @@ async function main() {
       changefreq: 'monthly',
       priority:   0.8,
     })),
-    // Email template category landing pages (lastmod = newest template in it)
-    ...EMAIL_CATEGORIES.filter(c => EMAIL_TEMPLATES.some(t => t.category === c.id)).map(c => ({
-      loc:        `${BASE_URL}/email-templates/category/${c.id}/`,
-      lastmod:    maxDate(EMAIL_TEMPLATES.filter(t => t.category === c.id).map(t => t.updated)),
-      changefreq: 'monthly',
-      priority:   0.7,
-    })),
-    // Each email template has its own editor page under /email-templates/
-    ...EMAIL_TEMPLATES.map(t => ({
-      loc:        `${BASE_URL}/email-templates/${t.id}/`,
-      lastmod:    t.updated,
-      changefreq: 'monthly',
-      priority:   0.7,
-    })),
-    // Social post template category landing pages (lastmod = newest template in it)
-    ...SOCIAL_CATEGORIES.filter(c => SOCIAL_TEMPLATES.some(t => t.category === c.id)).map(c => ({
-      loc:        `${BASE_URL}/social-post-templates/category/${c.id}/`,
-      lastmod:    maxDate(SOCIAL_TEMPLATES.filter(t => t.category === c.id).map(t => t.updated)),
-      changefreq: 'monthly',
-      priority:   0.7,
-    })),
-    // Each social post template has its own editor page under the tool
-    ...SOCIAL_TEMPLATES.map(t => ({
-      loc:        `${BASE_URL}/social-post-templates/${t.id}/`,
-      lastmod:    t.updated,
-      changefreq: 'monthly',
-      priority:   0.7,
-    })),
   ];
   const toolPages = chunk(toolEntries, PAGE_SIZE);
   const toolListFiles = toolPages.map((page, i) => {
@@ -248,6 +250,49 @@ async function main() {
     toolListFiles.map(f => ({ loc: `${BASE_URL}/${f}`, lastmod: toolsMaxLastmod }))
   ));
   console.log(`sitemap-tools.xml -> ${toolListFiles.length} list file(s), ${toolEntries.length} URLs`);
+
+  /* ── 3b. sitemap-email-templates.xml + sitemap-social-post-templates.xml ───── */
+  // Each template library gets its own sitemap: category landing pages (lastmod = newest
+  // template in it) and every template's editor page, with its captured preview image.
+  const emailShots = previewSet('email-templates');
+  const emailEntries = [
+    ...EMAIL_CATEGORIES.filter(c => EMAIL_TEMPLATES.some(t => t.category === c.id)).map(c => ({
+      loc:        `${BASE_URL}/email-templates/category/${c.id}/`,
+      lastmod:    maxDate(EMAIL_TEMPLATES.filter(t => t.category === c.id).map(t => t.updated)),
+      changefreq: 'monthly',
+      priority:   0.7,
+    })),
+    ...EMAIL_TEMPLATES.map(t => ({
+      loc:        `${BASE_URL}/email-templates/${t.id}/`,
+      lastmod:    t.updated,
+      changefreq: 'monthly',
+      priority:   0.7,
+      images:     emailShots.has(t.id) ? [{ loc: `${BASE_URL}/images/email-templates/previews/${t.id}.png`, title: `${t.name} — free HTML email template`, caption: t.description }] : [],
+    })),
+  ];
+  const emailMaxLastmod = maxDate(emailEntries.map(e => e.lastmod));
+  write('sitemap-email-templates.xml', pageImageUrlset(emailEntries));
+  console.log(`sitemap-email-templates.xml -> ${emailEntries.length} URLs`);
+
+  const socialShots = previewSet('social-post-templates');
+  const socialEntries = [
+    ...SOCIAL_CATEGORIES.filter(c => SOCIAL_TEMPLATES.some(t => t.category === c.id)).map(c => ({
+      loc:        `${BASE_URL}/social-post-templates/category/${c.id}/`,
+      lastmod:    maxDate(SOCIAL_TEMPLATES.filter(t => t.category === c.id).map(t => t.updated)),
+      changefreq: 'monthly',
+      priority:   0.7,
+    })),
+    ...SOCIAL_TEMPLATES.map(t => ({
+      loc:        `${BASE_URL}/social-post-templates/${t.id}/`,
+      lastmod:    t.updated,
+      changefreq: 'monthly',
+      priority:   0.7,
+      images:     socialShots.has(t.id) ? [{ loc: `${BASE_URL}/images/social-post-templates/previews/${t.id}.png`, title: `${t.name} — free social media post template`, caption: t.description }] : [],
+    })),
+  ];
+  const socialMaxLastmod = maxDate(socialEntries.map(e => e.lastmod));
+  write('sitemap-social-post-templates.xml', pageImageUrlset(socialEntries));
+  console.log(`sitemap-social-post-templates.xml -> ${socialEntries.length} URLs`);
 
   /* ── 4. sitemap-images-listN.xml + sitemap-images.xml (sub-index) ────────── */
   // Collect image entries: tool pages + category pages that have a matching PNG
@@ -355,9 +400,11 @@ async function main() {
     { loc: `${BASE_URL}/sitemap-tools.xml`,         lastmod: toolsMaxLastmod },
     { loc: `${BASE_URL}/sitemap-images.xml`,        lastmod: imagesMaxLastmod },
     { loc: `${BASE_URL}/sitemap-ui-snippets.xml`,   lastmod: snippetsMaxLastmod },
+    { loc: `${BASE_URL}/sitemap-email-templates.xml`,         lastmod: emailMaxLastmod },
+    { loc: `${BASE_URL}/sitemap-social-post-templates.xml`,   lastmod: socialMaxLastmod },
   ];
   write('sitemap.xml', sitemapIndex(masterEntries));
-  console.log('sitemap.xml (index) -> 4 sub-sitemaps registered');
+  console.log(`sitemap.xml (index) -> ${masterEntries.length} sub-sitemaps registered`);
 
 
   /* ── 7. .htaccess ──────────────────────────────────────────────────────── */

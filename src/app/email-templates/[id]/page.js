@@ -95,7 +95,7 @@ export default async function EmailTemplatePage({ params }) {
         { title: 'Edit the content', text: `Fill in the ${listJoin(contentGroups)}, or click any text in the preview to jump to its field.${toggleable.length ? ` Switch the ${listJoin(toggleable)} on or off.` : ''}` },
         { title: 'Add your brand', text: `Upload or paste your logo${hasImages ? ' and images' : ''}, set the brand colour and the light and dark palettes, pick fonts, or apply your saved brand kit.` },
         { title: 'Preview and check', text: 'Switch between desktop, mobile and dark mode, and fix anything the pre-send checks flag, such as placeholder links or missing alt text.' },
-        { title: 'Export or fork', text: `Copy the HTML into ${t.category === 'transactional' ? 'Postmark, SendGrid, Amazon SES, Resend' : 'Mailchimp, Klaviyo, HubSpot, Brevo'} or your own code, copy the plain-text version, download a ZIP with images, or fork it into My Code.` },
+        { title: 'Export or fork', text: `Copy the HTML into ${t.category === 'transactional' ? 'Postmark, SendGrid, Amazon SES, Resend' : t.category === 'ecommerce' ? 'Shopify, Klaviyo, Omnisend, Postmark' : 'Mailchimp, Klaviyo, HubSpot, Brevo'} or your own code, copy the plain-text version, download a ZIP with images, or fork it into My Code.` },
       ],
     },
     { type: 'cards', label: 'Real-world uses', heading: 'Common Use Cases', columns: 3, items: seo.useCases },

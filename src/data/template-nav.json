@@ -1,14 +1,18 @@
 {
  "email": {
-  "total": 7,
+  "total": 17,
   "categories": [
    {
     "id": "onboarding",
-    "label": "Welcome & Onboarding",
+    "label": "Onboarding & Lifecycle",
     "items": [
      {
       "id": "welcome",
       "name": "Welcome Email"
+     },
+     {
+      "id": "trial-ending",
+      "name": "Trial Ending Email"
      }
     ]
    },
@@ -25,12 +29,34 @@
       "name": "Password Reset Email"
      },
      {
-      "id": "order-confirmation",
-      "name": "Order Confirmation Email"
+      "id": "magic-link",
+      "name": "Magic Link Sign-in Email"
      },
      {
       "id": "receipt",
       "name": "Payment Receipt Email"
+     }
+    ]
+   },
+   {
+    "id": "ecommerce",
+    "label": "E-commerce",
+    "items": [
+     {
+      "id": "abandoned-cart",
+      "name": "Abandoned Cart Email"
+     },
+     {
+      "id": "order-confirmation",
+      "name": "Order Confirmation Email"
+     },
+     {
+      "id": "shipping-confirmation",
+      "name": "Shipping Confirmation Email"
+     },
+     {
+      "id": "review-request",
+      "name": "Review Request Email"
      }
     ]
    },
@@ -43,8 +69,34 @@
       "name": "Newsletter Email"
      },
      {
+      "id": "product-update",
+      "name": "Product Update Email"
+     },
+     {
+      "id": "webinar-invitation",
+      "name": "Webinar Invitation Email"
+     },
+     {
       "id": "black-friday-sale",
       "name": "Black Friday Sale Email"
+     },
+     {
+      "id": "last-chance-sale",
+      "name": "Last Chance Sale Email"
+     }
+    ]
+   },
+   {
+    "id": "holidays",
+    "label": "Holidays & Seasonal",
+    "items": [
+     {
+      "id": "holiday-gift-guide",
+      "name": "Holiday Gift Guide Email"
+     },
+     {
+      "id": "holiday-greetings",
+      "name": "Holiday Greetings Email"
      }
     ]
    }

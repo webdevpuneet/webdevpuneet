@@ -393,6 +393,506 @@ Edit everything in the browser, then paste the HTML into Klaviyo, Mailchimp, Sho
       { q: 'Does a sale email need an unsubscribe link?', a: 'Yes. Sale and promotional emails are commercial email, so US CAN-SPAM requires a working unsubscribe link and your postal address, and Gmail and Yahoo require one-click unsubscribe for bulk senders.' },
     ],
   },
+
+  'abandoned-cart': {
+    keywords: ['abandoned cart email template', 'cart abandonment email', 'abandoned cart email example', 'shopify abandoned cart email', 'cart recovery email template'],
+    about: {
+      title: 'Abandoned Cart Email — Free HTML Cart Recovery Email Template',
+      description: `**Abandoned Cart Email** is a free, responsive HTML template for winning back shoppers who added products to their cart and left without paying. Around seven in ten online carts are abandoned, and a well-timed reminder is one of the highest-earning emails an online store can send, often recovering a meaningful share of those sales automatically.
+
+**What's in the email**
+
+A friendly "you left something behind" headline with the shopper's first name, a short reassuring intro, up to three cart items with product photos, details and prices, and a bold "Return to your cart" button. Below it you can add a discount code in a dashed coupon box, three reassurance points such as free shipping, free returns and secure checkout, and a help line that invites a reply.
+
+**Built for real inboxes**
+
+The layout uses nested tables and inline styles, so product rows, photos and prices line up in Gmail, Apple Mail and Outlook on Windows. The button is a "bulletproof" VML button for Outlook and a styled link everywhere else, and it stretches to full width on phones, where most cart reminders are opened. A dark palette, a hidden preheader and a plain-text version are included.
+
+**Use it with any store**
+
+Copy the HTML into Shopify Email, Klaviyo, Omnisend, Mailchimp or WooCommerce and replace the sample items with your platform's cart variables, or loop over the item row in your own code. Pick your platform under Merge tags and first names and the unsubscribe link convert automatically. Need the follow-up emails too? Pair it with the [Order Confirmation](/email-templates/order-confirmation/) and [Shipping Confirmation](/email-templates/shipping-confirmation/) templates.`,
+    },
+    features: [
+      'Up to three cart items with product photo, details and price',
+      'Bulletproof "Return to your cart" button that works in Outlook',
+      'Optional discount code in a dashed coupon box with an expiry note',
+      'Three reassurance points: shipping, returns and secure checkout',
+      'Personalised headline with a first-name merge tag',
+      'Responsive layout: full-width button and tidy rows on phones',
+      'Light and dark palettes, both editable',
+      'Unsubscribe link and postal address for CAN-SPAM',
+      'Plain-text version generated automatically',
+      'Upload product photos or paste your store image URLs',
+    ],
+    why: [
+      { icon: '💸', title: 'Recover lost sales', desc: 'Most shoppers who abandon a cart were interested. A reminder with their actual items brings a share of them back without any extra ad spend.' },
+      { icon: '🛒', title: 'Shows exactly what they left', desc: 'Product photos and prices remind people why they wanted the item in the first place, which works far better than a generic "come back" message.' },
+      { icon: '⚙', title: 'Coded for every inbox', desc: 'Tables, inline styles and an Outlook-safe button keep the product rows and the call to action intact in Gmail, Apple Mail and Outlook.' },
+    ],
+    useCases: [
+      { icon: '⏱', title: 'First reminder after one hour', desc: 'Send the template without the discount about an hour after checkout is abandoned, so the reminder arrives while the shopper still remembers browsing your store.' },
+      { icon: '🏷', title: 'Second email with a discount', desc: 'Switch on the discount box for a follow-up the next day, with a code such as COMEBACK10 that expires in 48 hours to give hesitant shoppers a nudge.' },
+      { icon: '🎁', title: 'Holiday season cart reminders', desc: 'During Black Friday and December, change the intro to mention low stock and shipping cut-offs, since shoppers compare stores and leave carts more often then.' },
+      { icon: '📦', title: 'Browse abandonment emails', desc: 'Reuse the layout for shoppers who viewed products without adding them to the cart: change the headline to "Still thinking about these?" and link to the product pages.' },
+    ],
+    faqs: [
+      { q: 'When should I send an abandoned cart email?', a: 'A common sequence is three emails: the first about one hour after the cart is abandoned, a second around 24 hours later, and a third after 48 to 72 hours. Many stores add a discount only in the second or third email so they don\'t train shoppers to abandon carts on purpose.' },
+      { q: 'Should an abandoned cart email include a discount?', a: 'Not always. The first reminder often works without one. Use the optional discount box in a later email, keep the code short-lived, and test whether the extra sales are worth the margin you give away.' },
+      { q: 'How do I use this template in Shopify or Klaviyo?', a: 'Edit the template, open the Export menu and copy the HTML. In Klaviyo, create an HTML template and use it in your abandoned cart flow, replacing the sample items with the event\'s product variables. In Shopify, paste it into the abandoned checkout notification and swap the items for Liquid variables.' },
+      { q: 'Does an abandoned cart email need an unsubscribe link?', a: 'Yes. Cart reminders promote a purchase, so they are treated as commercial email under US CAN-SPAM and need a working unsubscribe link and your postal address. Both are already in the footer.' },
+      { q: 'Can I show more than three products?', a: 'The editor shows up to three, which covers most carts. To list every item, fork the template to My Code or copy the HTML and repeat the product row inside your platform\'s loop.' },
+    ],
+  },
+
+  'shipping-confirmation': {
+    keywords: ['shipping confirmation email template', 'order shipped email template', 'shipping notification email', 'tracking email template', 'shopify shipping confirmation email'],
+    about: {
+      title: 'Shipping Confirmation Email — Free HTML Order Shipped Template',
+      description: `**Shipping Confirmation Email** is a free, responsive HTML template for telling customers their order is on its way. After the order confirmation, the "your order has shipped" email is the one customers look for most, and they often open it several times while they wait, which makes clear tracking information essential.
+
+**What's in the email**
+
+A cheerful headline with the customer's first name, a short intro, and a four-step delivery progress bar (ordered, shipped, out for delivery, delivered) that you set to the current step. A details box shows the order number, carrier, tracking number and estimated delivery date, followed by a "Track your package" button, the items in the parcel with quantities and the shipping address. Each section can be switched off.
+
+**A progress bar that works in email**
+
+Email clients don't support modern CSS, so the progress bar is built from table cells with background colours, which display reliably in Gmail, Apple Mail, Yahoo and Outlook on Windows. The tracking button is an Outlook-safe "bulletproof" button that goes full width on phones. A dark palette, hidden preheader and plain-text version are included.
+
+**Send it from your store**
+
+Copy the HTML into Shopify's shipping confirmation notification, WooCommerce, Klaviyo, Postmark or your own code and swap the sample values for your platform's variables. Use the same template for "out for delivery" and "delivered" updates by changing the step and the headline. It pairs with the [Order Confirmation](/email-templates/order-confirmation/) and [Review Request](/email-templates/review-request/) templates for a complete post-purchase flow.`,
+    },
+    features: [
+      'Four-step delivery progress bar built with email-safe tables',
+      'Order number, carrier, tracking number and delivery date box',
+      'Bulletproof "Track your package" button for Outlook and Gmail',
+      'Items in the shipment with quantities',
+      'Shipping address with name and multi-line address',
+      'Set the current step from 1 (ordered) to 4 (delivered)',
+      'Show or hide the progress bar, items and address',
+      'Light and dark palettes, both editable',
+      'Transactional footer without marketing content',
+      'Plain-text version with the tracking link',
+    ],
+    why: [
+      { icon: '📦', title: 'Fewer "where is my order?" emails', desc: 'Clear tracking details and a progress bar answer the question before customers contact support, which saves your team time every day.' },
+      { icon: '👀', title: 'One of your most-opened emails', desc: 'Customers check shipping emails again and again. A branded, tidy email builds trust at the moment they are waiting for your product.' },
+      { icon: '⚙', title: 'Works in every inbox', desc: 'The progress bar and button use tables and inline styles, so they hold up in Outlook on Windows as well as Gmail and Apple Mail.' },
+    ],
+    useCases: [
+      { icon: '🚚', title: 'Order shipped notification', desc: 'Send it the moment a shipping label is created, with the carrier, tracking number and a button that opens the carrier\'s tracking page or your own branded tracking page.' },
+      { icon: '🏠', title: 'Out for delivery update', desc: 'Set the progress bar to step 3, change the headline to "Arriving today" and remind the customer that someone may need to be home to sign for the parcel.' },
+      { icon: '✅', title: 'Delivered confirmation', desc: 'Set the progress bar to step 4, thank the customer and link to your returns page or the Review Request email, so the post-purchase flow keeps going.' },
+      { icon: '✂', title: 'Split shipments', desc: 'When an order ships in several parcels, send one email per package and use the items section to list only the products that are in that parcel.' },
+    ],
+    faqs: [
+      { q: 'What should a shipping confirmation email include?', a: 'The order number, the carrier, the tracking number with a tracking link, the estimated delivery date, what is in the package and where it is going. This template includes all of them, plus a progress bar showing how far the order has got.' },
+      { q: 'How do I use it in Shopify?', a: 'In Shopify admin go to Settings, then Notifications, then Shipping confirmation, replace the code with this HTML and swap the sample values for Shopify\'s Liquid variables, such as the tracking number and tracking URL of the fulfillment.' },
+      { q: 'Is a shipping confirmation email transactional?', a: 'Yes. It is sent because of a purchase the customer made, so under US CAN-SPAM it doesn\'t need an unsubscribe link. Keep promotions out, or keep them very small, so it stays transactional.' },
+      { q: 'How does the progress bar work in Outlook?', a: 'It is four table cells with background colours and labels, not CSS gradients or flexbox, so Outlook\'s Word-based renderer shows it correctly. Set the current step in the Delivery progress section.' },
+      { q: 'Can I link to my own tracking page?', a: 'Yes. Paste any https:// link into the tracking link field: the carrier\'s page, a branded tracking page from AfterShip or Route, or your own order page.' },
+    ],
+  },
+
+  'last-chance-sale': {
+    keywords: ['last chance email template', 'cyber monday email template', 'final hours sale email', 'sale ending email template', 'urgency email template'],
+    about: {
+      title: 'Last Chance Sale Email — Free Cyber Monday & Final Hours Template',
+      description: `**Last Chance Sale Email** is a free, responsive HTML template for the final hours of a sale: Cyber Monday, the end of a Black Friday weekend, a flash sale or the last day of a seasonal promotion. "Last chance" emails are often among the highest-earning sends of a campaign, because they reach the people who meant to buy and simply hadn't yet.
+
+**What's in the email**
+
+An urgent coloured banner across the top ("Final hours · Sale ends tonight"), a bold headline, a short personal intro, and three countdown-style boxes for the numbers that matter, such as hours left, the discount and free shipping. Below them sit a promo code in a dashed box, a large "Shop before it ends" button, three reasons to buy today and the fine print. Every section can be switched off.
+
+**Urgency without broken images**
+
+The countdown boxes are real text in table cells, so they show even when images are blocked, and they work in Outlook, Gmail and Apple Mail. If you want a live ticking timer, replace a box with an image from a countdown timer service. The button is Outlook-safe and full width on phones, and the template includes a dark palette and a plain-text version.
+
+**Part of a sale sequence**
+
+Send it after the [Black Friday Sale](/email-templates/black-friday-sale/) email as the final reminder: Black Friday 2026 is November 27 and Cyber Monday is November 30. Copy the HTML into Klaviyo, Mailchimp, Shopify Email or Omnisend, and the unsubscribe link converts to your platform's tag automatically.`,
+    },
+    features: [
+      'Urgent top banner with the deadline',
+      'Three countdown-style boxes for hours left, discount or perks',
+      'Promo code in a dashed coupon box',
+      'Large bulletproof "Shop before it ends" button',
+      'Three "why shop today" reasons with check marks',
+      'Fine print for offer terms and exclusions',
+      'Show or hide the banner, boxes, code and reasons',
+      'Light and dark palettes, both editable',
+      'Unsubscribe link and postal address for CAN-SPAM',
+      'Plain-text version generated automatically',
+    ],
+    why: [
+      { icon: '⏰', title: 'Urgency that converts', desc: 'A clear deadline gives people who were "going to buy later" a reason to act now, which is why final-hours emails often outperform launch emails.' },
+      { icon: '🔢', title: 'Numbers people scan first', desc: 'Big countdown boxes put the hours left and the discount where the eye lands first, so the message gets through even in a quick glance.' },
+      { icon: '🖼', title: 'No images required', desc: 'The banner, boxes and code are real text, so the urgency still shows when images are off, and nothing breaks in Outlook.' },
+    ],
+    useCases: [
+      { icon: '💻', title: 'Cyber Monday last call', desc: 'Send on the afternoon of Cyber Monday, November 30, 2026, with "Ends at midnight" in the banner, the hours left in the first box and your Cyber Monday code.' },
+      { icon: '🖤', title: 'End of a Black Friday weekend', desc: 'Close out a Black Friday sale on Sunday evening, reminding subscribers who opened the launch email but didn\'t buy that prices go back up tomorrow.' },
+      { icon: '⚡', title: 'Flash sale reminder', desc: 'For a 24 or 48-hour flash sale, send the launch email in the morning and this template a few hours before the end, with stock levels in one of the boxes.' },
+      { icon: '🎟', title: 'Early-bird pricing deadline', desc: 'Use it for conferences, courses or software launches: show the days left at the early-bird price, the saving and the number of seats remaining.' },
+    ],
+    faqs: [
+      { q: 'When should I send a last chance email?', a: 'On the last day of the sale, usually in the afternoon or early evening of the deadline day, so people still have hours to act. For Cyber Monday 2026 that means Monday, November 30. Many brands send a second, shorter reminder a few hours before midnight.' },
+      { q: 'Can I add a live countdown timer?', a: 'Yes. Live timers are animated images generated by a countdown service. Create one for your deadline, then add it with an Image section or replace a countdown box. The text boxes in this template are a reliable fallback because they always show.' },
+      { q: 'How is this different from the Black Friday template?', a: 'The Black Friday template is built for the launch, with a hero image and product picks. This one is built for the deadline, with an urgent banner, countdown boxes and reasons to buy today. Use them together as a sequence.' },
+      { q: 'Does a last chance email need an unsubscribe link?', a: 'Yes. Sale emails are commercial email, so US CAN-SPAM requires a working unsubscribe link and your postal address, and Gmail and Yahoo require one-click unsubscribe for bulk senders. Both are already in the footer.' },
+      { q: 'How do I use it in Klaviyo or Mailchimp?', a: 'Pick your platform under Merge tags, then copy the HTML from the Export menu. In Klaviyo or Mailchimp create a custom HTML template and paste it in. First names and the unsubscribe link are converted to the platform\'s syntax automatically.' },
+    ],
+  },
+
+  'holiday-gift-guide': {
+    keywords: ['holiday gift guide email template', 'christmas email template', 'gift guide email', 'holiday product email template', 'christmas newsletter template'],
+    about: {
+      title: 'Holiday Gift Guide Email — Free Christmas Product Grid Template',
+      description: `**Holiday Gift Guide Email** is a free, responsive HTML template for showing off your best gifts during the holiday shopping season. Gift guides are among the most clicked emails of December, because shoppers actively want ideas, and a well-organised grid of products helps them choose quickly.
+
+**What's in the email**
+
+A festive hero image, a warm headline and intro, then a 2×2 grid of gifts, each with a photo, a short tag such as "Bestseller" or "Under $25", the product name and price, all linked to the product page. A shipping cut-off banner tells shoppers the last day to order for delivery before Christmas, followed by a "Shop all gifts" button and social links.
+
+**A product grid that holds together**
+
+Two-column layouts are where many email templates break. This grid is built with nested tables, so it stays aligned in Outlook on Windows and Gmail, and it stacks into one column on phones so photos stay large and easy to tap. Images are real https links with alt text, so the product names and prices still show when images are off. A dark palette and a plain-text version are included.
+
+**Make it yours**
+
+Upload your own product photos or paste the image URLs from your store, change the tags, prices and links, and swap the colours for your brand. Copy the HTML into Klaviyo, Mailchimp, Shopify Email or Omnisend. Pair it with the [Holiday Greetings](/email-templates/holiday-greetings/) email for the end of the season and the [Last Chance Sale](/email-templates/last-chance-sale/) template for shipping deadlines.`,
+    },
+    features: [
+      'Festive hero image with a link to the gift guide',
+      '2×2 product grid with photos, tags, names and prices',
+      'Grid stacks to one column on phones',
+      'Shipping cut-off banner for "order by" dates',
+      'Bulletproof "Shop all gifts" button',
+      'Upload product photos or paste hosted image URLs',
+      'Social links in the footer',
+      'Warm holiday palette plus an editable dark palette',
+      'Unsubscribe link and postal address for CAN-SPAM',
+      'Plain-text version listing every gift and link',
+    ],
+    why: [
+      { icon: '🎁', title: 'Shoppers want ideas', desc: 'In December people actively look for gift inspiration. A curated guide answers "what should I buy?" and sends them straight to product pages.' },
+      { icon: '🗂', title: 'Easy to scan', desc: 'Tags like "Under $25" and "For coffee lovers" let readers jump to the right gift for each person on their list in seconds.' },
+      { icon: '📱', title: 'Built for phones', desc: 'The grid stacks into one column on small screens, so product photos stay big and buttons stay easy to tap.' },
+    ],
+    useCases: [
+      { icon: '🎄', title: 'Christmas gift guide', desc: 'Send in late November or early December with your four best gifts, a "Bestseller" tag on the top product and the shipping cut-off date for delivery before Christmas.' },
+      { icon: '💲', title: 'Gifts by budget', desc: 'Send a series of guides such as "Gifts under $25" and "Gifts under $50", using the tags for price bands and linking the button to a filtered collection page.' },
+      { icon: '👥', title: 'Gifts by recipient', desc: 'Create versions for "For her", "For him", "For the host" or "For coffee lovers", each with four hand-picked products and a matching collection link.' },
+      { icon: '💝', title: 'Valentine\'s and Mother\'s Day', desc: 'Reuse the layout after the holidays by changing the hero, colours and products for Valentine\'s Day, Mother\'s Day or Father\'s Day gift guides.' },
+    ],
+    faqs: [
+      { q: 'When should I send a holiday gift guide email?', a: 'Many stores send the first gift guide in mid to late November, around Black Friday, and follow up in early December. Always include your shipping cut-off date, because it creates urgency and reduces "will it arrive in time?" questions.' },
+      { q: 'What size should the product images be?', a: 'Square images of at least 480 × 480 px look sharp on retina screens; they are shown at about 244 px wide. Keep each file small, under about 100 KB, so the email loads quickly. You can upload photos here and the tool resizes them.' },
+      { q: 'Will the 2×2 grid work in Outlook?', a: 'Yes. The grid uses nested tables and fixed widths instead of CSS grid or flexbox, which Outlook ignores. On phones a media query stacks the products into one column.' },
+      { q: 'Can I show more than four products?', a: 'Use Extra sections to add images and text below the grid, or fork the template to My Code and repeat the grid row for as many products as you like.' },
+      { q: 'Does a gift guide email need an unsubscribe link?', a: 'Yes. It promotes products, so it is commercial email under US CAN-SPAM and needs a working unsubscribe link and your postal address. Both are already in the footer.' },
+    ],
+  },
+
+  'holiday-greetings': {
+    keywords: ['holiday greetings email template', 'christmas email template', 'season\'s greetings email', 'happy new year email template', 'holiday card email template'],
+    about: {
+      title: 'Holiday Greetings Email — Free Christmas & New Year Email Template',
+      description: `**Holiday Greetings Email** is a free, responsive HTML template for sending season's greetings to your customers, clients and subscribers at Christmas, over the holidays or for the New Year. It's the warmest email many brands send all year: a thank-you that strengthens relationships without the hard sell.
+
+**What's in the email**
+
+A festive hero image (or your own team photo), a "Season's greetings" label, a personal headline with the recipient's first name, and a heartfelt message with a signed sign-off from your team. You can add an optional thank-you offer in a dashed box with its own button, and your holiday opening hours, so customers know when you're closed and when orders will ship. Social links sit in the footer.
+
+**Elegant on every screen**
+
+A serif heading and body font give the email a classic, card-like feel, with safe Georgia fallbacks for Gmail and Outlook. The layout uses tables and inline styles, so it looks the same in Outlook on Windows, Gmail and Apple Mail, and the button is Outlook-safe. A deep green dark palette is included, along with a plain-text version.
+
+**More than Christmas**
+
+Change the image, colours and wording for Hanukkah, Diwali, Lunar New Year, Thanksgiving or a "happy new year" message. Copy the HTML into Mailchimp, Klaviyo, HubSpot or Brevo. For holiday sales, pair it with the [Holiday Gift Guide](/email-templates/holiday-gift-guide/) template.`,
+    },
+    features: [
+      'Festive hero image, or upload your own team photo',
+      'Personal headline with a first-name merge tag',
+      'Heartfelt message with a signed team sign-off',
+      'Optional thank-you offer with its own button',
+      'Holiday opening hours section',
+      'Classic serif fonts with safe Georgia fallbacks',
+      'Social links in the footer',
+      'Green holiday palette plus an editable dark palette',
+      'Unsubscribe link and postal address for CAN-SPAM',
+      'Plain-text version generated automatically',
+    ],
+    why: [
+      { icon: '💌', title: 'Strengthens relationships', desc: 'A sincere thank-you at the end of the year reminds customers there are real people behind your brand, which builds loyalty for the year ahead.' },
+      { icon: '📅', title: 'Answers practical questions', desc: 'Holiday hours and shipping dates in the same email cut down on support questions during your busiest, most short-staffed weeks.' },
+      { icon: '🎨', title: 'Looks like a card, works like email', desc: 'A classic serif design feels like a greeting card, while tables and inline styles keep it intact in Outlook, Gmail and Apple Mail.' },
+    ],
+    useCases: [
+      { icon: '🎄', title: 'Christmas card to customers', desc: 'Send a warm thank-you a week before Christmas with a team photo as the hero, a message about your year and a signed sign-off from the founders or the whole team.' },
+      { icon: '🎆', title: 'Happy New Year email', desc: 'Change the headline to "Happy New Year", look back at a highlight of the year in the message, and share what is coming next in a sentence or two.' },
+      { icon: '🙏', title: 'Thank-you offer for loyal customers', desc: 'Switch on the offer box with a code valid until early January, so the greeting doubles as a gentle reason to come back after the holidays.' },
+      { icon: '🏢', title: 'Agency or B2B client greetings', desc: 'Turn the offer off, add your office closure dates in the holiday hours, and send a professional season\'s greetings to clients and partners.' },
+    ],
+    faqs: [
+      { q: 'When should I send a holiday greetings email?', a: 'One to two weeks before Christmas works well, before inboxes fill with last-minute sales. A New Year version can go out on December 31 or in the first days of January.' },
+      { q: 'Should a holiday greeting include a discount?', a: 'It is optional. Many brands keep the greeting purely as a thank-you; others add a small gift code. Use the Thank-you offer switch to add or remove it without changing the rest of the email.' },
+      { q: 'Can I use it for other holidays?', a: 'Yes. Change the hero image, colours, label and message for Hanukkah, Diwali, Lunar New Year, Eid, Thanksgiving or any celebration that matters to your audience.' },
+      { q: 'Will the serif fonts show in Gmail and Outlook?', a: 'Playfair Display loads in Apple Mail and iOS Mail. Gmail and Outlook use Georgia instead, which is a classic serif installed on almost every computer, so the card-like look is kept.' },
+      { q: 'Does a greetings email need an unsubscribe link?', a: 'Yes, if you send it to a marketing list. It promotes your brand, so it counts as commercial email under US CAN-SPAM. The unsubscribe link and postal address are already in the footer.' },
+    ],
+  },
+
+  'review-request': {
+    keywords: ['review request email template', 'product review email template', 'customer feedback email template', 'ask for review email', 'star rating email template'],
+    about: {
+      title: 'Review Request Email — Free HTML Product Review & Star Rating Template',
+      description: `**Review Request Email** is a free, responsive HTML template for asking customers to review a product after it arrives. Reviews are some of the strongest sales tools a store has, and most customers are happy to leave one when they're asked at the right moment and it takes only a tap.
+
+**What's in the email**
+
+The product photo, name and delivery date at the top, so customers instantly know which order you mean, then a friendly "How are you liking it?" headline with their first name and a short intro. A row of five clickable stars lets them rate in one tap: each star links to your review page with its rating added to the link. Below that sit a "Write a review" button, an optional thank-you reward and a note inviting them to reply if something went wrong.
+
+**One-tap stars that work in email**
+
+Email can't run JavaScript, so interactive rating widgets don't work. Instead each star is a normal link, such as \`…&rating=4\`, which your review page or platform reads to pre-select the rating. The stars are text characters, not images, so they show even when images are off, and they work in Gmail, Apple Mail and Outlook. The button is Outlook-safe, and a dark palette and plain-text version are included.
+
+**Use it with your review platform**
+
+Point the links at Judge.me, Yotpo, Okendo, Trustpilot, Google reviews or your own review form, then copy the HTML into Klaviyo, Shopify Email or Mailchimp. Send it after the [Shipping Confirmation](/email-templates/shipping-confirmation/) email once the order has been delivered.`,
+    },
+    features: [
+      'Product photo, name and delivery details at the top',
+      'Five one-tap star links that pass the rating to your review page',
+      'Text-based stars that show even when images are off',
+      'Bulletproof "Write a review" button for Outlook',
+      'Optional thank-you reward line',
+      'Reply-to-us note for unhappy customers',
+      'Editable star colour plus light and dark palettes',
+      'Responsive, centred layout for phones',
+      'Unsubscribe link and postal address',
+      'Plain-text version with a link for each rating',
+    ],
+    why: [
+      { icon: '⭐', title: 'More reviews, less effort', desc: 'A one-tap star row removes friction: customers rate with a single click, and your review page opens with the rating already chosen.' },
+      { icon: '🛍', title: 'Reviews sell products', desc: 'Shoppers trust other customers. More reviews on your product pages mean more confidence for the next buyer and better conversion.' },
+      { icon: '🛟', title: 'Catch problems early', desc: 'The note invites unhappy customers to reply first, so you can fix an issue privately before it turns into a public one-star review.' },
+    ],
+    useCases: [
+      { icon: '📦', title: 'Post-delivery review request', desc: 'Send it five to ten days after delivery, once the customer has had time to use the product, with the product photo and the date it arrived.' },
+      { icon: '🔁', title: 'Review reminder', desc: 'Send a shorter follow-up a week later to customers who did not leave a review, with the reward switched on to give them an extra reason.' },
+      { icon: '🧑‍💼', title: 'Service or course feedback', desc: 'For services, apps or courses, replace the product with your logo or course image and ask how the experience was, linking the stars to a feedback form.' },
+      { icon: '📍', title: 'Google review request', desc: 'Local businesses can point every star at their Google review link, asking happy customers for a public review after a visit or appointment.' },
+    ],
+    faqs: [
+      { q: 'When should I ask for a review?', a: 'After the customer has had time to use the product, usually five to fourteen days after delivery depending on what you sell. Asking too early, before the parcel arrives, is one of the most common reasons review emails are ignored.' },
+      { q: 'How do the clickable stars work?', a: 'Each star is a link made from the rating link you enter plus its number, for example https://yoursite.com/review?order=10482&rating=5. Your review page or platform reads the rating from the link and pre-selects it.' },
+      { q: 'Can I offer a discount for a review?', a: 'You can thank customers with a reward, but rules on incentivised reviews differ by platform and country. Many platforms require you to reward any honest review, not only positive ones, and some require the review to be marked as incentivised. Check your platform\'s policy.' },
+      { q: 'Which review platforms does it work with?', a: 'Any platform that gives you a review link: Judge.me, Yotpo, Okendo, Stamped, Trustpilot, Google reviews or your own form. Paste the link into the rating link and button fields.' },
+      { q: 'Does a review request need an unsubscribe link?', a: 'It is safest to include one. Review requests can be seen as commercial email, especially with a reward, so the footer includes an unsubscribe link and your postal address.' },
+    ],
+  },
+
+  'magic-link': {
+    keywords: ['magic link email template', 'passwordless login email', 'login code email template', 'sign in email template', 'otp email template'],
+    about: {
+      title: 'Magic Link Email — Free Passwordless Sign-in & Login Code Template',
+      description: `**Magic Link Sign-in Email** is a free, responsive HTML template for passwordless login. Instead of typing a password, users enter their email address and receive a link that signs them in with one click, often with a short one-time code for signing in on a different device. It's the login method behind Slack, Notion, Medium and many modern apps.
+
+**What's in the email**
+
+A key badge, a clear "Your sign-in link is here" headline, an intro that names the account the link is for, and a large "Sign in" button. Under it, a short expiry note, an optional six-digit login code in a large monospace box, optional request details (device, location and time), a copyable fallback link and a security note telling people what to do if they didn't ask to sign in.
+
+**Designed for trust and deliverability**
+
+Sign-in emails have to arrive fast and look legitimate. This template keeps marketing out, shows exactly which address and device the request came from, and prints the full link as text for clients that block buttons. The layout uses tables and inline styles, the button is Outlook-safe, and a dark palette and plain-text version are included, which also helps spam filters.
+
+**Works with your auth provider**
+
+Copy the HTML into Supabase, Firebase Authentication, Auth0, Clerk, Stytch, Magic or your own Node, Laravel or Django code, and swap the link and code for your provider's variables. For account setup and recovery, see the [Verify Email](/email-templates/verify-email/) and [Password Reset](/email-templates/password-reset/) templates.`,
+    },
+    features: [
+      'One-click "Sign in" button that works in Outlook',
+      'Optional six-digit login code in a large monospace box',
+      'Short expiry note: one use, minutes not days',
+      'Optional request details: device, location and time',
+      'Copyable fallback link for clients that block buttons',
+      'Security note for requests the user didn\'t make',
+      'Shows the account email with a merge tag',
+      'Light and dark palettes, both editable',
+      'Transactional footer without marketing content',
+      'Plain-text version with the link and code',
+    ],
+    why: [
+      { icon: '🔑', title: 'No passwords to forget', desc: 'Magic links remove password resets and weak passwords. Users sign in with the inbox they already trust, which is simpler and often safer.' },
+      { icon: '📱', title: 'Works across devices', desc: 'The optional code lets people who read email on their phone sign in on a laptop, which a link alone can\'t do.' },
+      { icon: '🛡', title: 'Looks legitimate', desc: 'Request details and a clear security note help users trust real sign-in emails and spot suspicious ones they didn\'t request.' },
+    ],
+    useCases: [
+      { icon: '🚀', title: 'Passwordless SaaS login', desc: 'Use it as the only sign-in method for your app: users enter their email, get the link and land in their dashboard without ever creating a password.' },
+      { icon: '🔢', title: 'Email one-time code (OTP)', desc: 'Turn the button off and keep the code to send a six-digit verification code for two-step login, checkout confirmation or sensitive account changes.' },
+      { icon: '🧪', title: 'Supabase or Firebase custom template', desc: 'Replace the default magic link email in Supabase or Firebase with this branded version, swapping in the provider\'s confirmation URL and token variables.' },
+      { icon: '🛒', title: 'Guest checkout sign-in', desc: 'Let returning shoppers access their orders without an account by emailing a magic link to their order history, valid for a few minutes.' },
+    ],
+    faqs: [
+      { q: 'What is a magic link email?', a: 'A sign-in email containing a unique, short-lived link. Clicking it proves the user owns the email address and signs them in without a password. Most providers also offer a one-time code as an alternative.' },
+      { q: 'How long should a magic link stay valid?', a: 'Keep it short: 10 to 15 minutes is common, and the link should stop working after one use. Put the same time in the expiry note so users know to act quickly.' },
+      { q: 'How do I use it with Supabase?', a: 'In the Supabase dashboard open Authentication, then Email Templates, then Magic Link, and paste the HTML. Replace the sign-in link with {{ .ConfirmationURL }} and the code with {{ .Token }}. Other providers have similar variables.' },
+      { q: 'Should I include both a link and a code?', a: 'Including both covers more situations. The link is fastest on the same device; the code helps when someone opens the email on their phone but is signing in on a computer. Switch the code off if your provider only sends links.' },
+      { q: 'Does a sign-in email need an unsubscribe link?', a: 'No. It is a transactional email the user requested, so US CAN-SPAM\'s unsubscribe rule doesn\'t apply, and users should always receive it. Keep promotions out so it stays transactional.' },
+    ],
+  },
+
+  'trial-ending': {
+    keywords: ['trial ending email template', 'trial expiration email', 'free trial ending email', 'saas upgrade email template', 'trial conversion email'],
+    about: {
+      title: 'Trial Ending Email — Free SaaS Trial Expiration & Upgrade Template',
+      description: `**Trial Ending Email** is a free, responsive HTML template for the most important email in a SaaS trial: the reminder that it's about to end. Sent a few days before expiry, it turns engaged trial users into paying customers by showing what they've already built and making the upgrade one click away.
+
+**What's in the email**
+
+A "Your trial ends in 3 days" pill, a headline about keeping everything they've built, and a short intro with the end date. Three usage stats show the value they've already got (projects created, teammates invited, hours saved), followed by a plan card with the plan name, price, billing period and four key features with check marks. An "Upgrade" button, a "Compare all plans" link and a reassuring note about what happens to their data finish the email, signed by a real person.
+
+**Built to convert, coded for inboxes**
+
+Personal usage numbers are more persuasive than a generic feature list, and a reassuring "your data is safe" note lowers the pressure that makes people walk away. The stats, plan card and button are built with tables and inline styles, so they hold their shape in Outlook on Windows, Gmail and Apple Mail, and the button goes full width on phones. A dark palette and plain-text version are included.
+
+**Part of your lifecycle emails**
+
+Fill the stats from your product data with merge tags in Customer.io, Intercom, HubSpot, Loops or your own code. It follows the [Welcome Email](/email-templates/welcome/) in an onboarding sequence; after upgrade, send a [Payment Receipt](/email-templates/receipt/).`,
+    },
+    features: [
+      '"Trial ends in X days" pill to set the deadline',
+      'Three usage stats showing the value already delivered',
+      'Plan card with name, price, billing period and four features',
+      'Bulletproof "Upgrade" button plus a compare-plans link',
+      'Reassuring note about data and the free plan',
+      'Founder or team sign-off for a personal touch',
+      'Show or hide the stats and plan card',
+      'Light and dark palettes, both editable',
+      'Unsubscribe link and postal address',
+      'Plain-text version generated automatically',
+    ],
+    why: [
+      { icon: '📈', title: 'Your biggest conversion moment', desc: 'The days before a trial ends are when users decide whether to pay. A clear, personal reminder at that moment can make a real difference to trial conversion.' },
+      { icon: '📊', title: 'Shows value, not features', desc: 'Usage stats remind people what they\'ve already achieved, which is more persuasive than a list of features they may never use.' },
+      { icon: '🤝', title: 'Lowers the pressure', desc: 'Explaining what happens to their data and offering a free plan removes the fear of losing work, which keeps users around even if they don\'t upgrade today.' },
+    ],
+    useCases: [
+      { icon: '⏳', title: 'Three days before the trial ends', desc: 'Send the main reminder three days before expiry with the user\'s real stats, the plan that matches their usage and a direct link to the upgrade page.' },
+      { icon: '🔚', title: 'Trial ends today', desc: 'Send a shorter final reminder on the last day: change the pill to "Your trial ends today", keep the plan card and remove the stats to focus on the button.' },
+      { icon: '🔁', title: 'Trial ended win-back', desc: 'A week after the trial ends, change the headline to "Your projects are still here" and offer a limited discount or a trial extension in the plan card.' },
+      { icon: '⬆', title: 'Free to paid upgrade nudge', desc: 'Send it to free-plan users who reach a usage limit, using the stats to show how close they are and the plan card to show what upgrading unlocks.' },
+    ],
+    faqs: [
+      { q: 'When should I send a trial ending email?', a: 'Most SaaS teams send one reminder three to seven days before the trial ends and a final one on the last day. If your trial needs a card up front, also tell users when they will be charged.' },
+      { q: 'How do I fill in the usage stats automatically?', a: 'Replace the sample numbers with your email platform\'s variables, such as {{ customer.projects_count }} in Customer.io or a property in HubSpot or Intercom. If you send from your own code, insert the values when you build the email.' },
+      { q: 'What should a trial ending email include?', a: 'The end date, what the user has achieved, the plan and price that fits them, one clear upgrade button, and what happens if they don\'t upgrade. This template includes all of them.' },
+      { q: 'Is a trial ending email transactional or marketing?', a: 'It is usually treated as marketing, because its main purpose is to sell a subscription, so it includes an unsubscribe link. A pure billing notice, such as "your card will be charged on Friday", is transactional.' },
+      { q: 'Will the plan card look right in Outlook?', a: 'Yes. The card is a table with a coloured border, and the features are simple paragraphs with check marks, which Outlook\'s Word-based renderer handles reliably. Rounded corners are square in Outlook for Windows, which doesn\'t affect the layout.' },
+    ],
+  },
+
+  'product-update': {
+    keywords: ['product update email template', 'feature announcement email template', 'new feature email', 'saas product update email', 'changelog email template'],
+    about: {
+      title: 'Product Update Email — Free Feature Announcement Email Template',
+      description: `**Product Update Email** is a free, responsive HTML template for announcing new features, releases and improvements to your users. Good product update emails bring people back into your app to try what's new, and they show that your product keeps getting better, which helps retention.
+
+**What's in the email**
+
+A header with your logo and a "Product update · October 2026" label, a feature image or screenshot, a "New" badge and headline, and a short intro that explains the problem the feature solves. Three highlights with icons, titles and one-line descriptions explain what it does, followed by a "Try it" button. An "Also new this month" box lists smaller improvements and links to your full changelog, and social links sit in the footer.
+
+**Clear hierarchy that survives every inbox**
+
+One big feature, three highlights and one button keep readers focused on a single action, while the changelog box covers the rest without clutter. The layout is built with tables and inline styles, the button is Outlook-safe, and the feature image has alt text for readers with images off. A dark palette and plain-text version are included.
+
+**Send it from anywhere**
+
+Copy the HTML into Mailchimp, HubSpot, Brevo, Customer.io, Loops or Intercom, or send it from your own code. Use it monthly as a release roundup, or for a single big launch. For regular content, see the [Newsletter](/email-templates/newsletter/) template, and for live demos of a new feature, the [Webinar Invitation](/email-templates/webinar-invitation/).`,
+    },
+    features: [
+      'Header label for the update name and month',
+      'Feature image or screenshot with alt text',
+      '"New" badge and headline for the main feature',
+      'Three highlights with emoji icons, titles and text',
+      'Bulletproof "Try it" button for Outlook',
+      '"Also new" changelog box with a full changelog link',
+      'Social links in the footer',
+      'Light and dark palettes, both editable',
+      'Unsubscribe link and postal address',
+      'Plain-text version generated automatically',
+    ],
+    why: [
+      { icon: '🚀', title: 'Drives feature adoption', desc: 'Users can\'t benefit from features they don\'t know about. A focused announcement with one button brings people back to try what you built.' },
+      { icon: '🔄', title: 'Shows momentum', desc: 'Regular updates prove the product is actively improving, which reassures paying customers and makes free users more likely to upgrade.' },
+      { icon: '🧭', title: 'One clear action', desc: 'One headline feature, three highlights and one button keep the email skimmable, while smaller changes go in a tidy changelog box.' },
+    ],
+    useCases: [
+      { icon: '✨', title: 'Major feature launch', desc: 'Announce a big new feature with a screenshot, three highlights explaining what it does and a button that opens it directly inside the app.' },
+      { icon: '🗓', title: 'Monthly release roundup', desc: 'Send a "What\'s new in October" email with the biggest change as the headline and three or four smaller improvements in the "Also new" box.' },
+      { icon: '🛠', title: 'Feature requested by customers', desc: 'Tell users "You asked, we built it" in the intro, credit the feedback that shaped the feature and link to a short help article or video.' },
+      { icon: '📱', title: 'New app or integration', desc: 'Announce a mobile app or integration with a store badge or partner logo as the image and highlights for setup, sync and notifications.' },
+    ],
+    faqs: [
+      { q: 'How often should I send product update emails?', a: 'Monthly works for most SaaS products, with a separate email for major launches. Too many updates train users to ignore them, so combine small changes into a roundup.' },
+      { q: 'What makes a good feature announcement email?', a: 'Lead with the problem the feature solves, show it in an image, explain it in three short points and give one button to try it. Keep everything else in a short changelog list.' },
+      { q: 'Should product updates go to all users?', a: 'Send them to users who opted in to product news. Updates promote your product, so they count as marketing email and need an unsubscribe link, which is already in the footer.' },
+      { q: 'Can I use a GIF instead of a still image?', a: 'Yes. Upload an animated GIF or paste its URL in the feature image field. Keep it under about 1 MB, and remember Outlook on Windows shows only the first frame, so make that frame meaningful.' },
+      { q: 'How do I send it from HubSpot or Mailchimp?', a: 'Pick your platform under Merge tags, then copy the HTML from the Export menu. In HubSpot create a custom-coded email or template; in Mailchimp choose "Code your own" and paste it in.' },
+    ],
+  },
+
+  'webinar-invitation': {
+    keywords: ['webinar invitation email template', 'event invitation email template', 'webinar email template', 'virtual event invite email', 'webinar registration email'],
+    about: {
+      title: 'Webinar Invitation Email — Free HTML Event Invite Template',
+      description: `**Webinar Invitation Email** is a free, responsive HTML template for inviting people to a webinar, live demo, workshop or virtual event. A good invitation tells readers in seconds what they'll learn, when it happens and how to register, and makes saving the date effortless.
+
+**What's in the email**
+
+A "Free live webinar" label, the session title as the headline and a short promise of what people will take away. A details box lists the date, time (with time zones), length and where it happens, followed by a "Save my seat" button and an "Add to Google Calendar" link. A numbered three-point agenda, two hosts with initials avatars and roles, and a note that the recording will be sent to everyone who registers finish the email.
+
+**No images needed**
+
+Avatars are initials in coloured circles and every detail is real text, so the invitation looks complete even with images turned off and stays light, well under Gmail's clipping limit. The layout uses tables and inline styles, the button is Outlook-safe, and the hosts stack on phones. A dark palette and plain-text version are included.
+
+**Promote it everywhere**
+
+Link the button to Zoom, Livestorm, GoTo Webinar, Riverside or your own landing page, and copy the HTML into HubSpot, Mailchimp, Brevo or Customer.io. Use it for the invitation, then resend it as a reminder the day before. For launch announcements, pair it with the [Product Update](/email-templates/product-update/) template.`,
+    },
+    features: [
+      'Details box with date, time zones, length and platform',
+      'Bulletproof "Save my seat" registration button',
+      '"Add to Google Calendar" link (or a hosted .ics file)',
+      'Numbered three-point agenda',
+      'Two hosts with initials avatars and roles',
+      'Recording note for people who can\'t attend live',
+      'No images required: everything is real text',
+      'Light and dark palettes, both editable',
+      'Unsubscribe link and postal address',
+      'Plain-text version with every detail and link',
+    ],
+    why: [
+      { icon: '📅', title: 'Answers "when?" instantly', desc: 'Date, time zones and length sit in one box near the top, so readers can decide in seconds whether they can attend.' },
+      { icon: '🎯', title: 'Sells the outcome', desc: 'A headline promise and a three-point agenda explain what people will learn, which is what persuades them to register.' },
+      { icon: '🎥', title: 'Wins registrations from no-shows', desc: 'The recording note gets busy people to register anyway, growing your list and giving you a reason to follow up.' },
+    ],
+    useCases: [
+      { icon: '🎓', title: 'Educational webinar', desc: 'Invite your list to a practical session, list three things attendees will learn in the agenda, and link the button to your Zoom or Livestorm registration page.' },
+      { icon: '🖥', title: 'Live product demo', desc: 'Invite trial users and leads to a live demo of a new feature, with a product manager and a customer as the two hosts and a live Q&A in the length line.' },
+      { icon: '🔔', title: 'Reminder the day before', desc: 'Resend to registrants with the subject "Tomorrow:", the button changed to "Join the webinar" and the calendar link kept, so they don\'t forget.' },
+      { icon: '🏢', title: 'In-person event or meetup', desc: 'Change "Where" to the venue address, swap the calendar link for a map link and use the agenda for the evening\'s schedule.' },
+    ],
+    faqs: [
+      { q: 'When should I send a webinar invitation?', a: 'Send the first invitation one to two weeks before the event, a reminder a few days before, and a final reminder on the day or an hour before. Registrations often peak in the last few days.' },
+      { q: 'How do I create an "Add to calendar" link?', a: 'For Google Calendar, use a link like https://calendar.google.com/calendar/render?action=TEMPLATE&text=Title&dates=20261112T160000Z/20261112T164500Z, with times in UTC. For Outlook and Apple Calendar, host an .ics file and link to it instead.' },
+      { q: 'Should I list times in several time zones?', a: 'Yes, if your audience is international. Give the time in your main audience\'s zone first and one or two others, such as "11:00 AM ET · 4:00 PM GMT".' },
+      { q: 'Can I add speaker photos?', a: 'The template uses initials avatars so it works without images. To use photos, fork it to My Code and replace the initials cell with an image tag, or add an Image section with a photo of your hosts.' },
+      { q: 'Does a webinar invitation need an unsubscribe link?', a: 'Yes. Event invitations sent to a marketing list are commercial email under US CAN-SPAM, so they need an unsubscribe link and your postal address. Both are already in the footer.' },
+    ],
+  },
 };
 
 export const EMAIL_DIFFERENT = [

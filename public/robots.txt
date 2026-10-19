@@ -7,3 +7,5 @@ Disallow: /ui-snippets/*/embed/
 Disallow: /*?page=
 Sitemap: https://webdevpuneet.com/sitemap.xml
 Sitemap: https://webdevpuneet.com/sitemap-ui-snippets.xml
+Sitemap: https://webdevpuneet.com/sitemap-email-templates.xml
+Sitemap: https://webdevpuneet.com/sitemap-social-post-templates.xml
