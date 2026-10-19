@@ -441,6 +441,11 @@
 .layoutRow { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 .layoutRow .label { width: 58px; flex: none; margin: 0; }
 .layoutRow .seg { flex: 1; }
+/* Video options: compact segments sized to their content */
+.videoRow { margin-bottom: 6px; }
+.videoRow .label { width: 74px; }
+.layoutRow .segSm { flex: none; padding: 2px; gap: 2px; border-radius: 7px; }
+.segSm .segBtn { flex: none; min-width: 42px; padding: 3px 9px; font-size: 11.5px; border-radius: 5px; }
 
 /* Animated export progress */
 .videoProg { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 1200; display: flex; align-items: center; gap: 12px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); box-shadow: 0 12px 36px rgba(0, 0, 0, 0.2); font-size: 12.5px; font-weight: 600; color: var(--text); font-family: var(--font-ui); }

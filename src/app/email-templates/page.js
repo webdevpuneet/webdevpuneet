@@ -11,7 +11,7 @@ const PAGE_URL = 'https://webdevpuneet.com/email-templates/';
 const TITLE = 'Free HTML Email Templates — Responsive & Dark Mode Ready';
 // Hand-made social share image for the gallery page (public/images/email-templates.png)
 const OG_IMAGES = [{ url: 'https://webdevpuneet.com/images/email-templates.png', width: 1200, height: 630, alt: 'Free responsive HTML email templates with dark mode' }];
-const DESC = 'Free responsive HTML email templates that work in Gmail, Outlook and Apple Mail, with dark mode. Edit online, preview mobile, copy the HTML or fork to My Code.';
+const DESC = 'Free responsive HTML email templates for Gmail, Outlook and Apple Mail, with dark mode. Add merge tags, extra sections and your brand, then export the HTML.';
 
 export const metadata = {
   title: TITLE,
@@ -28,10 +28,13 @@ export const metadata = {
 const faqs = [
   { q: 'What makes an HTML email template different from a web page?', a: 'Email clients render HTML very differently from browsers. Outlook for Windows uses Microsoft Word\'s engine and ignores flexbox, grid and most modern CSS, and Gmail removes many styles. Reliable email HTML uses nested tables for layout, inline styles, absolute image URLs and Outlook-only fixes. Every template here is built that way.' },
   { q: 'Will these templates work in Outlook and Gmail?', a: 'Yes. They use a table layout, inline styles, a 600 px container with Outlook conditional comments, a VML "bulletproof" button for Outlook and an Arial override so Outlook doesn\'t fall back to Times New Roman. They are also kept well under Gmail\'s 102 KB clipping limit, and the editor warns you if you go over.' },
-  { q: 'How do I use a template with Mailchimp, Klaviyo, HubSpot or Brevo?', a: 'Edit the template, open the HTML tab and click "Copy", and paste it into your platform\'s custom-HTML or "code your own" editor. Swap the unsubscribe link and the first name for your platform\'s merge tags. You can also send it from your own code (for example with Nodemailer, Resend, SendGrid or Amazon SES), using the plain-text version as the text part.' },
+  { q: 'How do I use a template with Mailchimp, Klaviyo, HubSpot or Brevo?', a: 'Pick your platform under Merge tags first. First names, last names, emails and the unsubscribe and preferences links are then written in that platform\'s syntax, for example *|FNAME|* for Mailchimp or {{ contact.firstname }} for HubSpot. Then open Export in the toolbar, copy the HTML and paste it into your platform\'s custom-HTML or "code your own" editor. To send it from your own code (Nodemailer, Resend, SendGrid, Amazon SES), keep the plain {{first_name}} tokens and use the plain-text version as the text part.' },
+  { q: 'Can I add my own sections to a template?', a: 'Yes. Under Extra sections you can add headings, text, buttons, images, two-column blocks, dividers and spacing. Drop them between any of the template\'s own sections from the Position menu, or drag them in the preview. Image sections take a URL or an upload. Extra sections are saved with your design and included in the HTML, the plain-text version and every export.' },
+  { q: 'Can I use bold text, links or my own HTML?', a: 'Yes. Select text in a field and a small toolbar offers bold, italic, underline and links, with a button to remove a link. You can also type simple inline HTML (b, strong, i, em, u, br and a href). Anything else is stripped and unclosed tags are closed, so the email stays valid in every client.' },
+  { q: 'Can I save several versions of an email?', a: 'Yes. Save keeps your design under a name in My designs, Save as makes a copy, and the My designs tab lets you search, reopen, rename and delete them. Saved designs also appear live at the top of this gallery. Everything is stored in your browser\'s IndexedDB, and the Import / Export tab downloads a backup file you can restore on another browser or computer, including uploaded images and your brand kit.' },
   { q: 'Do the templates support dark mode?', a: 'Yes. Each template has editable light and dark palettes. Apple Mail, iOS Mail and Outlook.com use your dark colours, and the editor has a dark-mode preview so you can check contrast before sending.' },
-  { q: 'What does "Fork to My Code" do?', a: 'It saves an editable copy of the email in My Code, the UI Snippets code editor, with the markup in the HTML panel and the email\'s CSS in the CSS panel. Use it to customise the code further and keep your own versions.' },
-  { q: 'Are the templates free?', a: 'Yes, for personal and commercial use, with no account and no watermark. Everything runs in your browser and your edits are saved locally.' },
+  { q: 'What does "Fork to My Code" do?', a: 'It saves an editable copy of the email in My Code, the UI Snippets code editor, with the markup in the HTML panel and the email\'s CSS in the CSS panel. Uploaded images are embedded so the copy works on its own. Use it to customise the code further and keep your own versions.' },
+  { q: 'Are the templates free?', a: 'Yes, for personal and commercial use, with no account and no watermark. Everything runs in your browser: your edits, designs and uploaded images stay on your device.' },
 ];
 
 const SECTIONS = [
@@ -42,20 +45,21 @@ const SECTIONS = [
     items: [
       'Responsive layouts built with tables and inline styles for real inboxes',
       'Outlook-safe "bulletproof" buttons and Outlook font fixes',
-      'Editable light and dark palettes with a dark-mode preview',
-      'Desktop, mobile and dark-mode previews, with click-to-edit text',
-      'Hidden preheader text for the inbox preview line',
-      'Checks for Gmail clipping, alt text, hosted images and placeholder links',
-      'CAN-SPAM-ready footers with unsubscribe link and postal address',
-      'Plain-text version generated automatically',
-      'Show or hide sections, change copy, links, images, colours and fonts',
-      'Upload images (kept in your browser) and download a ZIP with an images folder',
       'Merge tags in one click for Mailchimp, Klaviyo, HubSpot and Brevo, including unsubscribe links',
-      'Add extra sections: headings, text, buttons, images, two columns, dividers and spacing',
+      'Extra sections (headings, text, buttons, images, two columns, dividers, spacing) you can drag anywhere',
       'Bold, italic, underline and links from a selection toolbar, plus safe inline HTML',
-      'Click any text in the preview to jump to its field',
-      'Apply your saved brand kit: colours, logo and fonts in one click',
-      'Copy HTML, download .html, or fork into My Code',
+      'Optional inbox preview text (hidden preheader) for the line after the subject',
+      'Desktop, mobile and dark-mode previews; click any text to jump to its field',
+      'Editable light and dark palettes, a brand colour and every Google Font, with safe fallbacks',
+      'Upload images (kept in your browser) and download a ZIP with an images folder',
+      'Pre-send checks for Gmail clipping, alt text, hosted images, placeholder links and unsubscribe links',
+      'CAN-SPAM-ready footers with unsubscribe link and postal address',
+      'Plain-text version generated automatically, extra sections included',
+      'My designs: Save, Save as, rename and search your saved emails, shown live in the gallery',
+      'Import / Export backup file with your designs, uploaded images and brand kit',
+      'Apply your saved brand kit (colours, logo and fonts) when you choose to',
+      'Export menu: copy colour-coded HTML or plain text, download .html or ZIP, or fork into My Code',
+      'Works on phones: the editor opens as a bottom sheet over the preview',
     ],
   },
   {
@@ -77,11 +81,17 @@ const SECTIONS = [
 
 **One library for every email you send.** Start with a [welcome email](/email-templates/welcome/) for new sign-ups, send [email verification](/email-templates/verify-email/) and [password reset](/email-templates/password-reset/) emails from your app, confirm purchases with an [order confirmation](/email-templates/order-confirmation/) and a [payment receipt](/email-templates/receipt/), and keep customers engaged with a [newsletter](/email-templates/newsletter/) and a [Black Friday sale](/email-templates/black-friday-sale/) email. They share the same structure, so your emails look consistent.
 
-**Edit without touching code.** Every template exposes its content as fields: subject, preheader, headline, copy, button text and link, images, line items, social links and footer. Whole sections can be switched on and off. Change the brand colour, light and dark palettes, and heading and body fonts (with safe fallbacks).
+**Edit without touching code.** Every template exposes its content as fields: headline, copy, button text and link, images, line items, social links and footer. Click any text in the preview to jump to its field, select words to make them bold, italic, underlined or a link, and switch whole sections on and off. Change the brand colour, the light and dark palettes, and the heading and body fonts, chosen from the full Google Fonts library with safe fallbacks.
 
-**Check before you send.** The editor shows desktop, mobile and dark-mode previews, and counts your subject and preheader length as you type. Live checks warn about Gmail's 102 KB clipping limit, images that aren't hosted online, missing alt text, placeholder links, and, for marketing emails, the unsubscribe link and postal address required by US CAN-SPAM.
+**Make it yours.** Add extra sections (headings, text, buttons, images, two-column blocks, dividers and spacing) and place them between any of the template's own sections, or drag them in the preview. Upload your logo and images: they stay in your browser and export as a ZIP with an images folder, or point to your own image host. An optional inbox preview text sets the grey line that follows the subject in most inboxes.
 
-**Take the code anywhere.** Copy the HTML into Mailchimp, Klaviyo, HubSpot, Brevo, Campaign Monitor or your own sending code, download a .html file, copy the plain-text version, or fork it into [My Code](/ui-snippets/mycode/) to keep editing the markup. Designing social images too? Try [Social Post Templates](/social-post-templates/).`,
+**Ready for your email platform.** Pick Mailchimp, Klaviyo, HubSpot or Brevo and first names, emails and the unsubscribe and preferences links are written in that platform's merge-tag syntax. Keep the plain tokens if you send from your own code.
+
+**Check before you send.** The editor shows desktop, mobile and dark-mode previews. Live checks warn about Gmail's 102 KB clipping limit, images that aren't hosted online, missing alt text, placeholder links, and, for marketing emails, the unsubscribe link and postal address required by US CAN-SPAM.
+
+**Save, back up and reuse.** Save designs under a name, make copies with Save as, and find them again in the My designs tab or live at the top of this gallery. They are kept in your browser's IndexedDB, and the Import / Export tab downloads a backup with your images and brand kit that you can restore anywhere.
+
+**Take the code anywhere.** From the Export menu, copy the HTML into Mailchimp, Klaviyo, HubSpot, Brevo, Campaign Monitor or your own sending code, download a .html file or a ZIP, copy the plain-text version, or fork it into [My Code](/ui-snippets/mycode/) to keep editing the markup. Designing social images too? Try [Social Post Templates](/social-post-templates/).`,
   },
   { type: 'cards', label: 'How it’s different', heading: 'How These Email Templates Are Different', columns: 3, items: EMAIL_DIFFERENT },
   {
@@ -89,11 +99,11 @@ const SECTIONS = [
     label: 'Step by step',
     heading: 'How to Use',
     items: [
-      { title: 'Pick a template', text: 'Open a template from the gallery. Your edits are saved in your browser as you go.' },
-      { title: 'Write the email', text: 'Fill in the subject, preheader, headline, copy and button. Switch sections on or off and paste in your logo and image URLs.' },
-      { title: 'Style it', text: 'Set the brand colour and the light and dark palettes, and choose heading and body fonts.' },
+      { title: 'Pick a template and platform', text: 'Open a template from the gallery and choose your email platform under Merge tags. Your edits autosave in your browser as you go.' },
+      { title: 'Write the email', text: 'Fill in the headline, copy and button, or click text in the preview. Select words to format them, switch sections on or off, and add extra sections where you need them.' },
+      { title: 'Style it', text: 'Upload your logo and images, set the brand colour and the light and dark palettes, choose fonts, or apply your brand kit.' },
       { title: 'Preview and check', text: 'Switch between desktop, mobile and dark mode, and fix anything the pre-send checks flag.' },
-      { title: 'Export', text: 'Copy the HTML into your email service, download it, copy the plain-text version, or fork it into My Code.' },
+      { title: 'Save and export', text: 'Save it to My designs, then use Export to copy the HTML or plain text, download a .html file or ZIP, or fork it into My Code.' },
     ],
   },
   { type: 'faq', label: 'Got questions?', heading: 'Frequently Asked Questions', items: faqs },
@@ -134,7 +144,7 @@ export default function EmailTemplatesPage() {
       <div className={`${styles.toolSection} ${styles.toolSectionGallery}`}><EmailGalleryPage previews={emailPreviewIds()} /></div>
       <AdSlot />
       <IndexOnly>
-        <SeoSection slug="email-templates" title="HTML Email Templates — Free, Responsive, Outlook-Safe" subtitle="Gmail · Outlook · Apple Mail · Dark mode · Copy HTML or fork to My Code" sections={SECTIONS} />
+        <SeoSection slug="email-templates" title="HTML Email Templates — Free, Responsive, Outlook-Safe" subtitle="Gmail · Outlook · Apple Mail · Dark mode · Merge tags · Extra sections · Export HTML" sections={SECTIONS} />
       </IndexOnly>
     </div>
   );

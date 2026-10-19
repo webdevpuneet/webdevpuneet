@@ -934,17 +934,17 @@ export default function TemplateEditor({ id }) {
             <h2 className={s.sectionTitle}>Export</h2>
             {canVideo && (
               <>
-                <div className={s.layoutRow}>
+                <div className={`${s.layoutRow} ${s.videoRow}`}>
                   <span className={s.label}>Animation</span>
-                  <div className={s.seg} role="radiogroup" aria-label="Animation style">
+                  <div className={`${s.seg} ${s.segSm}`} role="radiogroup" aria-label="Animation style">
                     {[['rise', 'Rise'], ['fade', 'Fade'], ['pop', 'Pop']].map(([v, l]) => (
                       <button key={v} type="button" role="radio" aria-checked={video.style === v} className={`${s.segBtn} ${video.style === v ? s.segBtnActive : ''}`} onClick={() => setVideo(o => ({ ...o, style: v }))}>{l}</button>
                     ))}
                   </div>
                 </div>
-                <div className={s.layoutRow}>
+                <div className={`${s.layoutRow} ${s.videoRow}`}>
                   <span className={s.label}>Length</span>
-                  <div className={s.seg} role="radiogroup" aria-label="Video length">
+                  <div className={`${s.seg} ${s.segSm}`} role="radiogroup" aria-label="Video length">
                     {[4, 6, 8].map(n => (
                       <button key={n} type="button" role="radio" aria-checked={video.seconds === n} className={`${s.segBtn} ${video.seconds === n ? s.segBtnActive : ''}`} onClick={() => setVideo(o => ({ ...o, seconds: n }))}>{n}s</button>
                     ))}
