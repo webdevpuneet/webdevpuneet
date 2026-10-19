@@ -26,6 +26,7 @@ import {
 } from '@/lib/snippet-exporters';
 import { navStart } from '@/lib/navStart';
 import GistSyncButton from '@/components/GistSyncButton';
+import { ADS_ENABLED } from '@/lib/ads-config';
 import ExportTester from './ExportTester';
 import EmbedModal from './EmbedModal';
 import SnippetSearch from './SnippetSearch';
@@ -499,6 +500,66 @@ function buildSrcdocSimple(html, css, js, cdnUrls = []) {
 }
 
 const SAVED_PER_PAGE = 9;
+
+/* — Snippet top ad: AdSense unit (slot 7360198340) above the preview, library snippets only (not My Code).
+   The size follows the space actually available above the preview (sidebar and code
+   column eat into the viewport, so screen width alone would be wrong):
+     970x90 large leaderboard → 728x90 leaderboard → 468x60 banner (tablet) → 320x50 mobile.
+   Each size is a FIXED slot. Do NOT use data-ad-format="horizontal"/"auto" or
+   data-full-width-responsive here: AdSense then rewrites every ancestor's inline style to
+   `height:auto !important; min-height:0 !important` (and the section to 100vh), which
+   collapses the whole editor/preview. The size is picked ONCE per snippet view (the parent
+   keys this by snippet id): later resizes never re-request an ad, because AdSense policy
+   forbids refreshing ads without new content or a user action. The loader is site-wide. — */
+const TOP_AD_SIZES = [
+  { w: 970, h: 90 },
+  { w: 728, h: 90 },
+  { w: 468, h: 60 },
+  { w: 320, h: 50 },
+];
+function TopAdIns({ w, h }) {
+  useEffect(() => {
+    const id = setTimeout(() => {
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (_) {}
+    }, 300);
+    return () => clearTimeout(id);
+  }, []);
+  return (
+    <ins
+      className="adsbygoogle"
+      style={{ display: 'inline-block', width: `${w}px`, height: `${h}px` }}
+      data-ad-client="ca-pub-2762737943861458"
+      data-ad-slot="7360198340"
+    />
+  );
+}
+function SnippetTopAd() {
+  const boxRef = useRef(null);
+  const [size, setSize] = useState(null);
+  useEffect(() => {
+    const strip = boxRef.current?.parentElement;
+    if (!strip) return;
+    const pick = () => {
+      // A strip collapsed by the unfilled-ad rule (display:none) measures 0 wide; ignore it so
+      // the size is never dropped (that would un-collapse, re-request and collapse again).
+      if (strip.offsetParent === null || strip.clientWidth === 0) return;
+      const cs = getComputedStyle(strip);
+      const avail = strip.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      const next = TOP_AD_SIZES.find(z => z.w <= avail) || null;
+      setSize(prev => prev ?? next);
+    };
+    pick();
+    if (typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(pick);
+    ro.observe(strip);
+    return () => ro.disconnect();
+  }, []);
+  return (
+    <div ref={boxRef} className={s.adBarUnit} style={size ? { width: size.w, height: size.h } : undefined}>
+      {size && <TopAdIns key={size.w} w={size.w} h={size.h} />}
+    </div>
+  );
+}
 
 function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, onCreateNew, onExploreLibrary, onDelete }) {
   const router = useRouter();
@@ -1968,6 +2029,20 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               <EditorPanel lang="html" code={htmlCode} highlight={highlightHTML} onChange={onHtml} onReset={resetHtml} collapsed={htmlCollapsed} onToggle={toggleHtmlPanel} className={sidebarTab === 'saved' ? s.panelTopBorder : ''} />
               <EditorPanel lang="css"  code={cssCode}  highlight={highlightCSS}  onChange={onCss}  onReset={resetCss}  collapsed={cssCollapsed}  onToggle={toggleCssPanel} headerExtra={cssHeaderExtra} />
               <EditorPanel lang="js"   code={jsCode}   highlight={highlightJS}   onChange={onJs}   onReset={resetJs}   collapsed={jsCollapsed}   onToggle={toggleJsPanel} headerExtra={jsHeaderExtra} />
+            </div>
+          )}
+          {/* AdSense leaderboard (slot 7360198340) directly above the Preview toolbar, 970x90 /
+              728x90 / 468x60 / 320x50 by available width. Library snippets only: My Code snippets
+              and the My Code gallery have no leaderboard. Collapses when unfilled
+              (.adBar:has(ins[data-ad-status="unfilled"])). */}
+          {showEditor && !activeIsCustom && (
+            <div className={s.adBar} aria-label="Advertisement">
+              {ADS_ENABLED ? <SnippetTopAd key={activeId || 'none'} /> : (
+                <div className={s.adBarSlot}>
+                  <span className={s.adBarLabel}>Ad space</span>
+                  <span className={s.adBarSize}>728 × 90</span>
+                </div>
+              )}
             </div>
           )}
           {showEditor && <div className={s.previewHeader}>

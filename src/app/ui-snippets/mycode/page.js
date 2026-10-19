@@ -161,11 +161,9 @@ export default function SavedSnippetsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      {/* Latest UI Snippets (same strip as the home page), right after the editor / saved snippet.
-          Not wrapped in IndexOnly, so it also shows while a saved snippet (?id=) is open. */}
-      <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} />
-      {/* Ad and the SEO content show on every URL, saved snippets (?id=) included */}
-      <AdSlot adFirst related={false} />
+      {/* Ad first, then Latest UI Snippets (same strip as the home page) below it. Like the
+          SEO content, both show on every URL, saved snippets (?id=) included. */}
+      <AdSlot adFirst related={<HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} flush />} />
       <SeoSection {...SEO} featuresAfterAbout slug="ui-snippets" title="My Code — Personal HTML CSS JS Code Space" />
     </>
   );
