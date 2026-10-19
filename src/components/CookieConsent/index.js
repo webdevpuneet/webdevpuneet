@@ -111,8 +111,8 @@ export default function CookieConsent() {
 
           {/* Notice copy + policy links */}
           <p id="cc-desc" className={styles.desc}>
-            We use cookies for analytics and advertising — they keep webdevpuneet.com fast,
-            relevant, and free for everyone. By continuing to use this site, you agree
+            We use cookies for analytics (Google Analytics and Microsoft Clarity) and
+            advertising — they keep webdevpuneet.com fast, relevant, and free for everyone. By continuing to use this site, you agree
             to our{' '}
             <a className={styles.link} href="/terms/">Terms of Use</a> and{' '}
             <a className={styles.link} href="/privacy-policy/">Privacy Policy</a>.

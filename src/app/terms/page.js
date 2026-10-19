@@ -13,7 +13,7 @@ export default function Terms() {
     <div className={styles.page}>
       <div className={styles.inner}>
         <h1 className={styles.title}>Terms &amp; Conditions</h1>
-        <p className={styles.updated}>Last updated: July 2, 2026</p>
+        <p className={styles.updated}>Last updated: October 19, 2026</p>
 
         <section className={styles.section}>
           <h2>1. Acceptance of Terms</h2>
@@ -67,7 +67,7 @@ export default function Terms() {
 
         <section className={styles.section}>
           <h2>8. Data & Privacy</h2>
-          <p>We do not collect, store, or transmit content you enter into our tools — all processing happens locally in your browser. Certain tools may store data in your browser's localStorage or IndexedDB, or offer an optional sync to a third-party service using credentials you control. Please refer to our <a href="/privacy-policy/">Privacy Policy</a> for full details on cookies, analytics, advertising, and your privacy rights under GDPR and CCPA.</p>
+          <p>We do not collect, store, or transmit content you enter into our tools — all processing happens locally in your browser. Certain tools may store data in your browser's localStorage or IndexedDB, or offer an optional sync to a third-party service using credentials you control. We use Google Analytics and Microsoft Clarity (heatmaps and session replays) to understand how the Service is used, and Google AdSense to show ads. Please refer to our <a href="/privacy-policy/">Privacy Policy</a> for full details on cookies, analytics, advertising, and your privacy rights under GDPR and CCPA.</p>
         </section>
 
         <section className={styles.section}>

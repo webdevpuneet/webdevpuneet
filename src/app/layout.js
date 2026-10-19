@@ -7,6 +7,7 @@ import ShareThisWidget from '@/components/ShareThisWidget';
 import styles from './layout.module.css';
 import AdSenseScript from '@/components/AdSenseScript';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import MicrosoftClarity from '@/components/MicrosoftClarity';
 
 export const metadata = {
   title: {
@@ -79,6 +80,7 @@ export default function RootLayout({ children }) {
         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();` }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
         <GoogleAnalytics />
+        <MicrosoftClarity />
         <RouteLoader />
         <div className={styles.appLayout}>
           <Sidebar />

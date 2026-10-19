@@ -389,7 +389,13 @@ export async function renderVideo(t, state, { seconds = 6, fps = 30, style = 'ri
   const ctx = canvas.getContext('2d');
   const first = await createImageBitmap(frames[0]);
   ctx.drawImage(first, 0, 0);
-  const stream = canvas.captureStream(fps);
+  // captureStream(0) + requestFrame(): every drawn frame is pushed to the recorder explicitly.
+  // With captureStream(fps) Chrome only emits a frame when it repaints, and an off-screen
+  // canvas (or a background tab) may never repaint, so the video froze on the first frame.
+  const stream = canvas.captureStream(0);
+  const track = stream.getVideoTracks()[0];
+  const push = () => { if (track?.requestFrame) track.requestFrame(); };
+  push();
   const rec = new MediaRecorder(stream, { mimeType: support.type, videoBitsPerSecond: 10_000_000 });
   const chunks = [];
   rec.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
@@ -401,6 +407,7 @@ export async function renderVideo(t, state, { seconds = 6, fps = 30, style = 'ri
     if (signal?.aborted) { rec.stop(); stream.getTracks().forEach(tr => tr.stop()); throw new DOMException('Cancelled', 'AbortError'); }
     if (frames[f] !== last) { lastBitmap = await createImageBitmap(frames[f]); last = frames[f]; }
     ctx.drawImage(lastBitmap, 0, 0);
+    push();
     onProgress?.({ phase: 'record', done: f + 1, total: frames.length });
     const wait = t0 + ((f + 1) * 1000) / fps - performance.now();
     if (wait > 0) await new Promise(r => setTimeout(r, wait));
