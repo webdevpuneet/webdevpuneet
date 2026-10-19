@@ -168,7 +168,7 @@ export default function TemplateEditor({ id }) {
   const [designs, setDesigns] = useState([]);
   const [currentDesign, setCurrentDesign] = useState(null); // { id, name } when editing a saved design
   const [renaming, setRenaming] = useState(null); // { id, name }
-  const [panelTab, setPanelTab] = useState('edit'); // left panel: 'edit' | 'designs'
+  const [panelTab, setPanelTab] = useState('edit'); // left panel: 'edit' | 'designs' | 'transfer'
   const [designQuery, setDesignQuery] = useState('');
   const [designScope, setDesignScope] = useState('all'); // 'all' | 'this' (this template)
   const savedJson = useRef(null); // the open design as last saved or opened, to spot unsaved changes
@@ -660,9 +660,28 @@ export default function TemplateEditor({ id }) {
             <button type="button" role="tab" aria-selected={panelTab === 'designs'} className={panelTab === 'designs' ? s.panelTabOn : ''} onClick={() => setPanelTab('designs')}>
               My designs <span className={s.panelTabCount}>{myDesigns.length}</span>
             </button>
+            <button type="button" role="tab" aria-selected={panelTab === 'transfer'} className={panelTab === 'transfer' ? s.panelTabOn : ''} onClick={() => setPanelTab('transfer')}>Import / Export</button>
           </div>
           <div className={s.controlsScroll}>
-          {panelTab === 'designs' ? (
+          {panelTab === 'transfer' ? (
+            <section className={s.section}>
+              <h2 className={s.sectionTitle}>Export</h2>
+              <p className={s.transferText}>Download all {myDesigns.length} saved design{myDesigns.length === 1 ? '' : 's'} as one backup file. Keep it safe, or import it in another browser or on another device.</p>
+              <ul className={s.transferList}>
+                <li>Every design in My designs, with its photos and crop</li>
+                <li>Uploaded fonts your designs use, so they look right anywhere</li>
+                <li>Your brand kit, if you’ve set one</li>
+              </ul>
+              <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={exportAll} disabled={!!busy || !myDesigns.length}>{busy === 'export' ? 'Exporting…' : '⤓ Export designs'}</button>
+              {!myDesigns.length && <p className={s.hint}>Nothing to export yet. Save a design first (Save in the toolbar, or Ctrl+S).</p>}
+
+              <h2 className={s.sectionTitle} style={{ marginTop: 22 }}>Import</h2>
+              <p className={s.transferText}>Add designs from a backup file. Nothing you already have is changed: designs you have are skipped, and a different design with the same id comes in as a copy.</p>
+              <button type="button" className={s.miniBtn} onClick={() => importRef.current?.click()} disabled={!!busy}>{busy === 'import' ? 'Importing…' : '⤒ Choose a backup file (.json)'}</button>
+              <input ref={importRef} type="file" accept=".json,application/json" hidden onChange={ev => { const f = ev.target.files?.[0]; ev.target.value = ''; importFile(f); }} />
+              <p className={s.hint}>Designs are stored only in this browser. Export regularly so clearing site data or switching devices never loses your work.</p>
+            </section>
+          ) : panelTab === 'designs' ? (
           <section className={s.section}>
             {myDesigns.length > 0 && (
               <div className={s.designFind}>
@@ -716,11 +735,6 @@ export default function TemplateEditor({ id }) {
                 ))}
               </ul>
             )}
-              <div className={s.designTransfer}>
-                <button type="button" className={s.miniBtn} onClick={exportAll} disabled={!!busy || !myDesigns.length} title="Download all your designs as one backup file">{busy === 'export' ? 'Exporting…' : '⤓ Export designs'}</button>
-                <button type="button" className={s.miniBtn} onClick={() => importRef.current?.click()} disabled={!!busy} title="Add designs from a backup file">{busy === 'import' ? 'Importing…' : '⤒ Import'}</button>
-                <input ref={importRef} type="file" accept=".json,application/json" hidden onChange={ev => { const f = ev.target.files?.[0]; ev.target.value = ''; importFile(f); }} />
-              </div>
             {myDesigns.length === 0 && <p className={s.designsEmpty}>No saved designs yet. Click Save in the toolbar (or press Ctrl+S) to keep this design, make variations, or come back to it on this device.</p>}
             <p className={s.hint}>Designs are saved in this browser, photos included. Open one to keep editing, or duplicate it to make a variation.</p>
           </section>

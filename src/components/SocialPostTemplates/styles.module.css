@@ -407,3 +407,9 @@
 
 /* My designs: export / import backup */
 .designTransfer { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--border); }
+
+/* Import / Export tab */
+.transferText { margin: 0 0 8px; font-size: 12.5px; line-height: 1.55; color: var(--text2); }
+.transferList { margin: 0 0 12px; padding-left: 18px; font-size: 12px; line-height: 1.7; color: var(--text2); }
+.panelTabs { overflow-x: auto; scrollbar-width: none; }
+.panelTabs button { white-space: nowrap; }

@@ -383,7 +383,7 @@ export function EmailTemplateEditor({ id }) {
   const [busy, setBusy] = useState('');
   const [origin, setOrigin] = useState('');
   const [open, setOpen] = useState(() => new Set(['inbox', 'main']));
-  const [panelTab, setPanelTab] = useState('edit'); // left panel: 'edit' | 'designs'
+  const [panelTab, setPanelTab] = useState('edit'); // left panel: 'edit' | 'designs' | 'transfer'
   const [designs, setDesigns] = useState([]);
   const [currentDesign, setCurrentDesign] = useState(null); // { id, name } while editing a saved design
   const [renaming, setRenaming] = useState(null);
@@ -902,9 +902,28 @@ export function EmailTemplateEditor({ id }) {
             <button type="button" role="tab" aria-selected={panelTab === 'designs'} className={panelTab === 'designs' ? s.panelTabOn : ''} onClick={() => setPanelTab('designs')}>
               My designs <span className={s.panelTabCount}>{designs.length}</span>
             </button>
+            <button type="button" role="tab" aria-selected={panelTab === 'transfer'} className={panelTab === 'transfer' ? s.panelTabOn : ''} onClick={() => setPanelTab('transfer')}>Import / Export</button>
           </div>
           <div className={s.controlsScroll}>
-          {panelTab === 'designs' ? (
+          {panelTab === 'transfer' ? (
+            <section className={s.section}>
+              <h2 className={s.sectionTitle}>Export</h2>
+              <p className={s.transferText}>Download all {designs.length} saved design{designs.length === 1 ? '' : 's'} as one backup file. Keep it safe, or import it in another browser or on another device.</p>
+              <ul className={s.transferList}>
+                <li>Every design in My designs (text, colours, fonts and sections)</li>
+                <li>Images you uploaded into your emails</li>
+                <li>Your brand kit, if you’ve set one</li>
+              </ul>
+              <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={exportAll} disabled={!!busy || !designs.length}>{busy === 'export' ? 'Exporting…' : '⤓ Export designs'}</button>
+              {!designs.length && <p className={s.hint}>Nothing to export yet. Save a design first (Save in the toolbar, or Ctrl+S).</p>}
+
+              <h2 className={s.sectionTitle} style={{ marginTop: 22 }}>Import</h2>
+              <p className={s.transferText}>Add designs from a backup file. Nothing you already have is changed: designs you have are skipped, and a different design with the same id comes in as a copy.</p>
+              <button type="button" className={s.miniBtn} onClick={() => importRef.current?.click()} disabled={!!busy}>{busy === 'import' ? 'Importing…' : '⤒ Choose a backup file (.json)'}</button>
+              <input ref={importRef} type="file" accept=".json,application/json" hidden onChange={ev => { const f = ev.target.files?.[0]; ev.target.value = ''; importFile(f); }} />
+              <p className={s.hint}>Designs are stored only in this browser. Export regularly so clearing site data or switching devices never loses your work.</p>
+            </section>
+          ) : panelTab === 'designs' ? (
             <section className={s.section}>
               {designs.length > 0 && (
                 <div className={s.designFind}>
@@ -949,11 +968,6 @@ export function EmailTemplateEditor({ id }) {
                   ))}
                 </ul>
               )}
-              <div className={s.designTransfer}>
-                <button type="button" className={s.miniBtn} onClick={exportAll} disabled={!!busy || !designs.length} title="Download all your designs as one backup file">{busy === 'export' ? 'Exporting…' : '⤓ Export designs'}</button>
-                <button type="button" className={s.miniBtn} onClick={() => importRef.current?.click()} disabled={!!busy} title="Add designs from a backup file">{busy === 'import' ? 'Importing…' : '⤒ Import'}</button>
-                <input ref={importRef} type="file" accept=".json,application/json" hidden onChange={ev => { const f = ev.target.files?.[0]; ev.target.value = ''; importFile(f); }} />
-              </div>
               {designs.length === 0 && <p className={s.designsEmpty}>No saved designs yet. Click Save in the toolbar (or press Ctrl+S) to keep this email, make variations, or come back to it on this device.</p>}
               <p className={s.hint}>Designs are saved in this browser, uploaded images included. Open one to keep editing, or duplicate it to make a variation.</p>
             </section>
