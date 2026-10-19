@@ -126,6 +126,30 @@ export async function removeCustomFont(id) {
   window.dispatchEvent(new Event(CHANGE));
 }
 
+/* Backup / restore of uploaded fonts (My designs export): records carry the file as a data URL */
+export async function exportCustomFonts(ids) {
+  await loadCustomFonts();
+  return ids.map(id => custom.get(id)).filter(Boolean)
+    .map(f => ({ id: f.id, name: f.name, family: f.family, ext: f.ext, size: f.size, data: f.dataUrl }));
+}
+/** Restores fonts from an export; existing ids are kept as they are. Returns how many were added. */
+export async function importCustomFonts(records = []) {
+  await loadCustomFonts();
+  let added = 0;
+  for (const r of records) {
+    if (!r?.id || !String(r.id).startsWith('c:') || custom.has(r.id) || !CUSTOM_FONT_EXT.includes(r.ext) || !String(r.data || '').startsWith('data:')) continue;
+    try {
+      const blob = await (await fetch(r.data)).blob();
+      const rec = { id: r.id, name: r.name || 'Custom font', family: r.family || r.name || 'Custom font', ext: r.ext, size: blob.size, blob: new Blob([blob], { type: MIME[r.ext] }) };
+      await register(rec);
+      try { await dbRun('readwrite', st => st.put(rec)); } catch { /* storage blocked */ }
+      added++;
+    } catch { /* unreadable font: skip */ }
+  }
+  if (added) window.dispatchEvent(new Event(CHANGE));
+  return added;
+}
+
 /** @font-face rules for uploaded fonts, with the file inlined (for exports) */
 export function customFontFaceCss(ids) {
   return ids.map(id => custom.get(id)).filter(Boolean)

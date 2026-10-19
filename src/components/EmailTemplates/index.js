@@ -14,7 +14,8 @@ import { LoadMore } from '@/components/UiSnippetsGallery';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
 import { previewImages, forceDark } from './templates/meta.js';
 import { PALETTES, parseHex, onColor } from '../OgImageGenerator/engine';
-import { BrandKitPanel } from '@/components/BrandKit';
+import { BrandKitPanel, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
+import { exportDesigns, importDesigns, blobToDataUrl as fileToDataUrl, dataUrlToBlob } from '@/lib/design-transfer';
 import { dbPut } from '@/lib/uiSnippetsDb';
 import { openForkTab } from '@/lib/open-fork-tab';
 import { putAsset, getAsset, deleteAsset, assetKeys } from './assetsDb';
@@ -797,6 +798,60 @@ export function EmailTemplateEditor({ id }) {
     }
     setRenaming(null);
   };
+  /* Export / import My designs (backup file, uploaded images included) */
+  const importRef = useRef(null);
+  const exportAll = async () => {
+    setBusy('export');
+    try {
+      const kitNow = loadKit();
+      const r = await exportDesigns({
+        tool: 'email-templates',
+        store: designStore,
+        getAssets: async ds => {
+          const ids = [...new Set(ds.flatMap(d => Object.values(d.state?.uploads || {}).map(u => u.id)))];
+          const out = [];
+          for (const key of ids) {
+            const rec = await getAsset(key).catch(() => null);
+            if (rec?.blob) out.push({ key, data: await fileToDataUrl(rec.blob), type: rec.type, name: rec.name, w: rec.w, h: rec.h });
+          }
+          return out;
+        },
+        brandKit: kitIsSet(kitNow) ? kitNow : undefined,
+      });
+      flash(`Exported ${r.count} design${r.count === 1 ? '' : 's'} (${(r.bytes / 1024 / 1024).toFixed(2)} MB). Keep the file as a backup or import it in another browser.`);
+    } catch (err) { flash(`Export failed: ${err.message}`); }
+    setBusy('');
+  };
+  const importFile = async file => {
+    if (!file) return;
+    setBusy('import');
+    try {
+      const r = await importDesigns(file, {
+        tool: 'email-templates',
+        store: designStore,
+        knownTemplate: id => !!emailTemplateById(id),
+        putAssets: async assets => {
+          let n = 0;
+          for (const a of assets) {
+            if (!a?.key || !String(a.data || '').startsWith('data:')) continue;
+            if (await getAsset(a.key).catch(() => null)) continue;
+            await putAsset(a.key, { blob: await dataUrlToBlob(a.data), type: a.type, name: a.name, w: a.w, h: a.h, updatedAt: new Date().toISOString() });
+            n++;
+          }
+          return n;
+        },
+        applyKit: k => { if (kitIsSet(loadKit())) return false; saveKit(k); return true; },
+      });
+    const parts = [];
+    if (r.added) parts.push(`${r.added} design${r.added > 1 ? 's' : ''} added`);
+    if (r.copies) parts.push(`${r.copies} added as copies`);
+    if (r.skipped) parts.push(`${r.skipped} already here`);
+    if (r.assets) parts.push(`${r.assets} image(s) added`);
+    if (r.kit) parts.push('brand kit restored');
+    flash(parts.length ? `Imported: ${parts.join(', ')}` : 'Nothing new to import');
+    } catch (err) { flash(err.message); }
+    setBusy('');
+  };
   const shownDesigns = designs.filter(d => {
     const words = designQuery.toLowerCase().split(/\s+/).filter(Boolean);
     return (designScope === 'all' || d.tpl === t.id) && words.every(w => `${d.name} ${emailTemplateById(d.tpl)?.name || d.tpl}`.toLowerCase().includes(w));
@@ -894,6 +949,11 @@ export function EmailTemplateEditor({ id }) {
                   ))}
                 </ul>
               )}
+              <div className={s.designTransfer}>
+                <button type="button" className={s.miniBtn} onClick={exportAll} disabled={!!busy || !designs.length} title="Download all your designs as one backup file">{busy === 'export' ? 'Exporting…' : '⤓ Export designs'}</button>
+                <button type="button" className={s.miniBtn} onClick={() => importRef.current?.click()} disabled={!!busy} title="Add designs from a backup file">{busy === 'import' ? 'Importing…' : '⤒ Import'}</button>
+                <input ref={importRef} type="file" accept=".json,application/json" hidden onChange={ev => { const f = ev.target.files?.[0]; ev.target.value = ''; importFile(f); }} />
+              </div>
               {designs.length === 0 && <p className={s.designsEmpty}>No saved designs yet. Click Save in the toolbar (or press Ctrl+S) to keep this email, make variations, or come back to it on this device.</p>}
               <p className={s.hint}>Designs are saved in this browser, uploaded images included. Open one to keep editing, or duplicate it to make a variation.</p>
             </section>

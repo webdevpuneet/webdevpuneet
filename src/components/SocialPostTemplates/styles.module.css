@@ -404,3 +404,6 @@
 .sectionHead { display: flex; align-items: baseline; gap: 8px; margin: 6px 0 12px; }
 .sectionHead h2 { margin: 0; font-size: 16px; font-weight: 800; letter-spacing: -0.2px; color: var(--text); }
 .sectionHead span { font-size: 12px; color: var(--text2); }
+
+/* My designs: export / import backup */
+.designTransfer { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--border); }

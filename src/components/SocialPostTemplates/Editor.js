@@ -4,7 +4,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import s from './styles.module.css';
 import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
-import { BrandKitPanel, useBrandKit } from '@/components/BrandKit';
+import { BrandKitPanel, useBrandKit, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
+import { exportDesigns, importDesigns } from '@/lib/design-transfer';
+import { exportCustomFonts, importCustomFonts } from '@/lib/fonts';
+import * as designStore from './designs';
 import { revealInPanel } from '@/lib/reveal-in-panel';
 import { SIZES, sizeById, templateById } from './templates/index.js';
 import { PALETTES, parseHex } from '../OgImageGenerator/engine';
@@ -578,6 +581,43 @@ export default function TemplateEditor({ id }) {
     }
     setRenaming(null);
   };
+  /* Export / import My designs (backup file, photos and uploaded fonts included) */
+  const importRef = useRef(null);
+  const exportAll = async () => {
+    setBusy('export');
+    try {
+      const kitNow = loadKit();
+      const r = await exportDesigns({
+        tool: 'social-post-templates',
+        store: designStore,
+        getFonts: ds => exportCustomFonts([...new Set(ds.flatMap(d => [d.state?.fonts?.heading, d.state?.fonts?.body]).filter(id => String(id || '').startsWith('c:')))]),
+        brandKit: kitIsSet(kitNow) ? kitNow : undefined,
+      });
+      flash(`Exported ${r.count} design${r.count === 1 ? '' : 's'} (${fmtBytes(r.bytes)}). Keep the file as a backup or import it in another browser.`);
+    } catch (err) { flash(`Export failed: ${err.message}`); }
+    setBusy('');
+  };
+  const importFile = async file => {
+    if (!file) return;
+    setBusy('import');
+    try {
+      const r = await importDesigns(file, {
+        tool: 'social-post-templates',
+        store: designStore,
+        knownTemplate: id => !!templateById(id),
+        putFonts: importCustomFonts,
+        applyKit: k => { if (kitIsSet(loadKit())) return false; saveKit(k); return true; },
+      });
+    const parts = [];
+    if (r.added) parts.push(`${r.added} design${r.added > 1 ? 's' : ''} added`);
+    if (r.copies) parts.push(`${r.copies} added as copies`);
+    if (r.skipped) parts.push(`${r.skipped} already here`);
+    if (r.fonts) parts.push(`${r.fonts} font(s) added`);
+    if (r.kit) parts.push('brand kit restored');
+    flash(parts.length ? `Imported: ${parts.join(', ')}` : 'Nothing new to import');
+    } catch (err) { flash(err.message); }
+    setBusy('');
+  };
   const copyCaption = async () => {
     try { await navigator.clipboard.writeText(state.caption || ''); flash('Caption copied'); }
     catch { flash('Copy blocked by the browser'); }
@@ -676,6 +716,11 @@ export default function TemplateEditor({ id }) {
                 ))}
               </ul>
             )}
+              <div className={s.designTransfer}>
+                <button type="button" className={s.miniBtn} onClick={exportAll} disabled={!!busy || !myDesigns.length} title="Download all your designs as one backup file">{busy === 'export' ? 'Exporting…' : '⤓ Export designs'}</button>
+                <button type="button" className={s.miniBtn} onClick={() => importRef.current?.click()} disabled={!!busy} title="Add designs from a backup file">{busy === 'import' ? 'Importing…' : '⤒ Import'}</button>
+                <input ref={importRef} type="file" accept=".json,application/json" hidden onChange={ev => { const f = ev.target.files?.[0]; ev.target.value = ''; importFile(f); }} />
+              </div>
             {myDesigns.length === 0 && <p className={s.designsEmpty}>No saved designs yet. Click Save in the toolbar (or press Ctrl+S) to keep this design, make variations, or come back to it on this device.</p>}
             <p className={s.hint}>Designs are saved in this browser, photos included. Open one to keep editing, or duplicate it to make a variation.</p>
           </section>
