@@ -104,7 +104,7 @@ export function buttonHtml({ text, url, bg, color, font, width = 240, height = 5
 <w:anchorlock/>
 <center style="color:${color};font-family:Arial,sans-serif;font-size:16px;font-weight:bold;">${esc(stripRich(text))}</center>
 </v:roundrect>
-<![endif]--><!--[if !mso]><!-- --><a${attrs} href="${href}" target="_blank" class="btn" style="background-color:${bg};border-radius:${radius}px;color:${color};display:inline-block;font-family:${font};font-size:16px;font-weight:700;line-height:${height}px;text-align:center;text-decoration:none;width:${width}px;-webkit-text-size-adjust:none;mso-hide:all;">${esc(stripRich(text))}</a><!--<![endif]-->`;
+<![endif]--><!--[if !mso]><!-- --><a${attrs} href="${href}" target="_blank" class="btn" style="background-color:${bg};border-radius:${radius}px;color:${color};display:inline-block;font-family:${font};font-size:16px;font-weight:700;line-height:${height}px;text-align:center;text-decoration:none;min-width:${width}px;max-width:100%;padding:0 24px;box-sizing:border-box;-webkit-text-size-adjust:none;mso-hide:all;">${esc(stripRich(text))}</a><!--<![endif]-->`;
 }
 
 /* Turns an email into a plain-text version: shared helper for templates */

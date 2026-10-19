@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './styles.module.css';
 import CssToolsTopNav from '@/components/CssToolsTopNav';
 
-import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 
 // CSS viewport sizes (screen size in CSS px, as reported by the browser) of current devices.
 // Landscape is one click away with Rotate, so only portrait / native orientation is listed.
@@ -988,7 +987,6 @@ function ResponsivePreviewInner() {
   return (
     <div className={styles.wrap}>
       <CssToolsTopNav active="responsive-preview-tool" />
-      <PlaygroundTopAd />
       {/* Single header row: source + address bar, then grouped controls */}
       <div className={styles.header}>
         <div className={styles.headerLeft}>
