@@ -1,4 +1,4 @@
-import { esc, escBr, safeUrl, buttonHtml, wrapText } from './meta.js';
+import { esc, escBr, safeUrl, buttonHtml, wrapText, rich } from './meta.js';
 import { inboxFields, brandFields, footerFields, DEFAULT_VARS, ctx, emailShell, textFooter, cleanText } from './shell.js';
 
 const LINES = [1, 2, 3];
@@ -62,8 +62,8 @@ export default {
     const card = `
               <tr>
                 <td class="px" align="center" style="padding:40px 48px 28px;font-family:${B};text-align:center;">
-                  ${f.label ? `<p class="m"${A('label')} style="margin:0 0 8px;font-size:14px;line-height:20px;color:${v.muted};">${esc(f.label)}</p>` : ''}
-                  <p class="t"${A('amount')} style="margin:0 0 4px;font-family:${H};font-size:44px;line-height:52px;font-weight:800;letter-spacing:-1px;color:${v.text};">${esc(f.amount)}</p>
+                  ${f.label ? `<p class="m"${A('label')} style="margin:0 0 8px;font-size:14px;line-height:20px;color:${v.muted};">${rich(f.label)}</p>` : ''}
+                  <p class="t"${A('amount')} style="margin:0 0 4px;font-family:${H};font-size:44px;line-height:52px;font-weight:800;letter-spacing:-1px;color:${v.text};">${rich(f.amount)}</p>
                   <p style="margin:0;"><span style="display:inline-block;padding:4px 12px;border-radius:99px;background:#dcfce7;color:#15803d;font-family:${H};font-size:12px;line-height:18px;font-weight:700;">&#10003; Paid</span></p>
                 </td>
               </tr>
@@ -73,7 +73,7 @@ export default {
                     <tr>
                       ${meta.map(([l, x, k]) => `<td class="stack stack-pad" valign="top" style="padding:16px 18px;font-family:${B};font-size:12px;line-height:18px;">
                         <span class="m" style="color:${v.muted};text-transform:uppercase;letter-spacing:1px;font-weight:700;">${l}</span><br>
-                        <span class="t"${A(k)} style="font-size:14px;line-height:22px;font-weight:600;color:${v.text};">${esc(x)}</span>
+                        <span class="t"${A(k)} style="font-size:14px;line-height:22px;font-weight:600;color:${v.text};">${rich(x)}</span>
                       </td>`).join('\n                      ')}
                     </tr>
                   </table>
@@ -84,16 +84,16 @@ export default {
                   <p class="t" style="margin:0 0 4px;font-family:${H};font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:${v.text};">Summary</p>
                   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                     ${ls.map(l => `<tr>
-                      <td class="line m"${A(`line${l.n}Desc`)} style="padding:12px 0;border-bottom:1px solid #e2e8f0;font-family:${B};font-size:14px;line-height:21px;color:${v.muted};">${esc(l.desc)}</td>
-                      <td class="line t" align="right" valign="top"${A(`line${l.n}Amount`)} style="padding:12px 0 12px 12px;border-bottom:1px solid #e2e8f0;font-family:${B};font-size:14px;line-height:21px;font-weight:600;color:${v.text};white-space:nowrap;">${esc(l.amount)}</td>
+                      <td class="line m"${A(`line${l.n}Desc`)} style="padding:12px 0;border-bottom:1px solid #e2e8f0;font-family:${B};font-size:14px;line-height:21px;color:${v.muted};">${rich(l.desc)}</td>
+                      <td class="line t" align="right" valign="top"${A(`line${l.n}Amount`)} style="padding:12px 0 12px 12px;border-bottom:1px solid #e2e8f0;font-family:${B};font-size:14px;line-height:21px;font-weight:600;color:${v.text};white-space:nowrap;">${rich(l.amount)}</td>
                     </tr>`).join('\n                    ')}
                     ${f.tax ? `<tr>
                       <td class="line m" style="padding:12px 0;border-bottom:1px solid #e2e8f0;font-family:${B};font-size:14px;line-height:21px;color:${v.muted};">Tax</td>
-                      <td class="line t" align="right"${A('tax')} style="padding:12px 0 12px 12px;border-bottom:1px solid #e2e8f0;font-family:${B};font-size:14px;line-height:21px;font-weight:600;color:${v.text};">${esc(f.tax)}</td>
+                      <td class="line t" align="right"${A('tax')} style="padding:12px 0 12px 12px;border-bottom:1px solid #e2e8f0;font-family:${B};font-size:14px;line-height:21px;font-weight:600;color:${v.text};">${rich(f.tax)}</td>
                     </tr>` : ''}
                     ${f.total ? `<tr>
                       <td class="t" style="padding:14px 0 0;font-family:${H};font-size:17px;line-height:22px;font-weight:800;color:${v.text};">Amount paid</td>
-                      <td class="t" align="right"${A('total')} style="padding:14px 0 0 12px;font-family:${H};font-size:17px;line-height:22px;font-weight:800;color:${v.text};">${esc(f.total)}</td>
+                      <td class="t" align="right"${A('total')} style="padding:14px 0 0 12px;font-family:${H};font-size:17px;line-height:22px;font-weight:800;color:${v.text};">${rich(f.total)}</td>
                     </tr>` : ''}
                   </table>
                 </td>
@@ -101,14 +101,14 @@ export default {
               ${on.showBilling ? `<tr>
                 <td class="px" style="padding:28px 48px 0;font-family:${B};font-size:14px;line-height:22px;">
                   <p class="t" style="margin:0 0 6px;font-family:${H};font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:${v.text};">Billed to</p>
-                  <p class="m" style="margin:0;color:${v.muted};"><span class="t"${A('billName')} style="color:${v.text};font-weight:600;">${esc(f.billName)}</span><br><span${A('billEmail')}>${esc(f.billEmail)}</span><br><span${A('billAddress')}>${escBr(f.billAddress)}</span></p>
+                  <p class="m" style="margin:0;color:${v.muted};"><span class="t"${A('billName')} style="color:${v.text};font-weight:600;">${rich(f.billName)}</span><br><span${A('billEmail')}>${rich(f.billEmail)}</span><br><span${A('billAddress')}>${escBr(f.billAddress)}</span></p>
                 </td>
               </tr>` : ''}
               <tr>
                 <td class="px" style="padding:30px 48px 40px;font-family:${B};">
                   ${f.ctaText ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding:0 0 24px;">${buttonHtml({ text: f.ctaText, url: f.ctaUrl, bg: v.brand, color: v.btnText, font: H, width: 260, attrs: A('ctaText') })}</td></tr></table>` : ''}
                   ${f.note ? `<p class="m"${A('note')} style="margin:0 0 12px;font-size:14px;line-height:22px;color:${v.muted};">${escBr(f.note)}</p>` : ''}
-                  ${f.supportLine ? `<p class="m"${A('supportLine')} style="margin:0;font-size:14px;line-height:22px;color:${v.muted};">${esc(f.supportLine)}</p>` : ''}
+                  ${f.supportLine ? `<p class="m"${A('supportLine')} style="margin:0;font-size:14px;line-height:22px;color:${v.muted};">${rich(f.supportLine)}</p>` : ''}
                 </td>
               </tr>`;
     return emailShell(c, { card });

@@ -12,7 +12,7 @@ import ImageToolsTopNav from '@/components/ImageToolsTopNav';
 import { EMAIL_TEMPLATES, EMAIL_CATEGORIES, emailTemplateById, emailCategoryById, defaultEmailState, FONT_STACKS } from './templates/index.js';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
-import { previewImages, forceDark } from './templates/meta.js';
+import { previewImages, forceDark, stripRich } from './templates/meta.js';
 import { PALETTES, parseHex, onColor } from '../OgImageGenerator/engine';
 import { BrandKitPanel, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
 import { exportDesigns, importDesigns, blobToDataUrl as fileToDataUrl, dataUrlToBlob } from '@/lib/design-transfer';
@@ -20,6 +20,7 @@ import { dbPut } from '@/lib/uiSnippetsDb';
 import { openForkTab } from '@/lib/open-fork-tab';
 import { putAsset, getAsset, deleteAsset, assetKeys } from './assetsDb';
 import { revealInPanel } from '@/lib/reveal-in-panel';
+import FormatPopover from './FormatPopover';
 import { highlightHtml } from '@/lib/highlight-html';
 import FontPicker from '@/components/FontPicker';
 import { resolveFont } from '@/lib/fonts';
@@ -351,6 +352,25 @@ function toEmailFont(fid) {
   return f.fallback === 'serif' || fid === 'georgia' ? 'georgia' : 'system';
 }
 
+/* Edited preview text -> field value: text plus only the inline tags templates allow
+   (<b> <i> <u> <a href>); everything else becomes plain text, blocks become new lines */
+const RICH_MAP = { b: 'b', strong: 'b', i: 'i', em: 'i', u: 'u' };
+function domToRich(node, multiline) {
+  let out = '';
+  node.childNodes.forEach(n => {
+    if (n.nodeType === 3) { out += n.nodeValue; return; }
+    if (n.nodeType !== 1 || n.hasAttribute?.('data-wdp-bar')) return;
+    const tag = n.tagName.toLowerCase();
+    if (tag === 'br') { out += multiline ? '\n' : ' '; return; }
+    const inner = domToRich(n, multiline);
+    if (RICH_MAP[tag]) out += inner ? `<${RICH_MAP[tag]}>${inner}</${RICH_MAP[tag]}>` : '';
+    else if (tag === 'a') out += `<a href="${(n.getAttribute('href') || '#').replace(/"/g, '%22')}">${inner}</a>`;
+    else if (tag === 'div' || tag === 'p') out += (out && multiline && !out.endsWith('\n') ? '\n' : (out && !multiline ? ' ' : '')) + inner;
+    else out += inner;
+  });
+  return out;
+}
+
 /* A saved email state brought up to date with the template (unknown keys dropped) */
 function restoreEmail(t, saved) {
   const d = defaultEmailState(t);
@@ -555,7 +575,8 @@ export function EmailTemplateEditor({ id }) {
 
   const html = useMemo(() => t.build(exportState), [t, exportState]);
   const editHtml = useMemo(() => t.build(previewState, { edit: true }), [t, previewState]);
-  const text = useMemo(() => t.text(exportState), [t, exportState]);
+  // Plain-text version: inline formatting (<b>, links…) turned back into plain text
+  const text = useMemo(() => stripRich(t.text(exportState)), [t, exportState]);
   // Colour-coded HTML for the HTML tab (only worked out while that tab is open)
   const highlightedHtml = useMemo(() => (view === 'html' ? highlightHtml(html) : ''), [view, html]);
   const bytes = useMemo(() => new Blob([html]).size, [html]);
@@ -568,6 +589,7 @@ export function EmailTemplateEditor({ id }) {
   const previewHtml = frozenHtml ?? liveHtml;
 
   const setField = (key, val) => setState(p => ({ ...p, fields: { ...p.fields, [key]: val } }));
+  const controlsRef = useRef(null); // left panel (the formatting popover listens here)
   const setToggle = (key, val) => setState(p => ({ ...p, toggles: { ...p.toggles, [key]: val } }));
   const setVar = (key, val) => setState(p => ({ ...p, vars: { ...p.vars, [key]: val } }));
   // Palettes set the brand colour and a readable button text colour for it
@@ -600,26 +622,120 @@ export function EmailTemplateEditor({ id }) {
       const fd = t.fields.find(x => x.key === el.dataset.field);
       if (!fd) return;
       if (fd.type !== 'text' && fd.type !== 'textarea') { revealField(fd.key, true); return; }
-      // Text: edit it right here in the preview
+      // Text: edit it right here in the preview. Rich editing (bold, italic, underline,
+      // links), saved back as the inline HTML the templates allow.
       setFrozenHtml(cur => cur ?? liveHtmlRef.current);
-      try { el.contentEditable = 'plaintext-only'; } catch { el.contentEditable = 'true'; }
+      el.contentEditable = 'true';
+      try { doc.execCommand('styleWithCSS', false, false); } catch { /* old engines */ }
       el.focus();
       const range = doc.caretRangeFromPoint?.(ev.clientX, ev.clientY);
       if (range) { const sel = doc.getSelection(); sel.removeAllRanges(); sel.addRange(range); }
-      // textContent for one-line fields (innerText would bake in CSS uppercase), innerText for multi-line
-      const read = () => (fd.type === 'textarea' ? el.innerText.replace(/\n$/, '') : el.textContent);
+      const multi = fd.type === 'textarea';
+      const read = () => domToRich(el, multi).replace(/\n+$/, '');
       const onInput = () => setField(fd.key, read());
-      const onKey = k => { if (k.key === 'Escape' || (k.key === 'Enter' && fd.type !== 'textarea')) { k.preventDefault(); el.blur(); } };
-      const onBlur = () => {
+      const onPaste = p => { p.preventDefault(); doc.execCommand('insertText', false, p.clipboardData.getData('text/plain')); };
+
+      // Selection bar (lives in the preview document while editing)
+      const bar = doc.createElement('div');
+      bar.setAttribute('data-wdp-bar', '');
+      bar.style.cssText = 'position:absolute;z-index:2147483647;display:none;align-items:center;gap:2px;padding:3px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;box-shadow:0 8px 24px rgba(15,23,42,.14);font:14px/1 -apple-system,Segoe UI,Arial,sans-serif;';
+      const btn = 'display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;padding:0 6px;border:0;border-radius:6px;background:none;color:#4b5563;cursor:pointer;font-size:14px;';
+      const ICON = {
+        link: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>',
+        unlink: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/><path d="M3 3l18 18"/></svg>',
+        clear: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/><path d="M3 3l18 18"/></svg>',
+        ok: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>',
+      };
+      const barCss = doc.createElement('style');
+      barCss.textContent = '[data-wdp-bar] svg{pointer-events:none;display:block}[data-wdp-bar] button:hover{background:#f3f4f6 !important;color:#111827 !important}[data-wdp-bar] button[aria-pressed="true"]{background:#eef2ff !important;color:#4f46e5 !important}';
+      doc.head.appendChild(barCss);
+      const tools = `<button type="button" data-cmd="bold" title="Bold (Ctrl+B)" style="${btn}"><b>B</b></button><button type="button" data-cmd="italic" title="Italic (Ctrl+I)" style="${btn}"><i style="font-family:Georgia,serif">I</i></button><button type="button" data-cmd="underline" title="Underline (Ctrl+U)" style="${btn}"><u>U</u></button><button type="button" data-cmd="link" title="Add a link" style="${btn}">${ICON.link}</button><span style="width:1px;height:18px;margin:0 3px;background:#e5e7eb"></span><button type="button" data-cmd="removeFormat" title="Remove formatting" style="${btn}">${ICON.clear}</button>`;
+      bar.innerHTML = tools;
+      doc.body.appendChild(bar);
+      let saved = null;
+      const place = () => {
+        const sel = doc.getSelection();
+        if (bar.dataset.linking) return;
+        if (!sel.rangeCount || sel.isCollapsed || !el.contains(sel.anchorNode)) { bar.style.display = 'none'; return; }
+        const r = sel.getRangeAt(0).getBoundingClientRect();
+        const win = doc.defaultView;
+        // Selected state for formats already applied to the selection
+        bar.querySelectorAll('[data-cmd]').forEach(bt => {
+          const cmd = bt.dataset.cmd;
+          let pressed = false;
+          if (cmd === 'bold' || cmd === 'italic' || cmd === 'underline') { try { pressed = doc.queryCommandState(cmd); } catch { pressed = false; } }
+          if (cmd === 'link') {
+            pressed = !!(sel.anchorNode?.parentElement?.closest('a') && el.contains(sel.anchorNode));
+            bt.title = pressed ? 'Remove link (keeps the text)' : 'Add a link';
+            bt.innerHTML = pressed ? ICON.unlink : ICON.link;
+          }
+          bt.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+        });
+        bar.style.display = 'flex';
+        bar.style.left = `${Math.max(4, r.left + win.scrollX)}px`;
+        bar.style.top = `${Math.max(4, r.top + win.scrollY - 40)}px`;
+      };
+      const finishLink = url => {
+        delete bar.dataset.linking;
+        bar.innerHTML = tools;
+        el.focus();
+        if (saved) { const sel = doc.getSelection(); sel.removeAllRanges(); sel.addRange(saved); }
+        if (url) doc.execCommand('createLink', false, url.replace(/"/g, '%22'));
+        onInput();
+        place();
+      };
+      bar.addEventListener('mousedown', m => { if (m.target.tagName !== 'INPUT') m.preventDefault(); });
+      const bt0 = c => c.target.closest('[data-cmd]');
+      bar.addEventListener('click', c => {
+        const cmd = c.target.closest('[data-cmd]')?.dataset.cmd;
+        if (!cmd) return;
+        if (cmd === 'link' && bt0(c)?.getAttribute('aria-pressed') === 'true') {
+          // Already a link: remove it (select the whole link first so all of it goes)
+          const sel = doc.getSelection();
+          const a = sel.anchorNode?.parentElement?.closest('a');
+          if (a && el.contains(a)) { const r = doc.createRange(); r.selectNodeContents(a); sel.removeAllRanges(); sel.addRange(r); }
+          doc.execCommand('unlink');
+          onInput();
+          place();
+          return;
+        }
+        if (cmd === 'link') {
+          const sel = doc.getSelection();
+          saved = sel.rangeCount ? sel.getRangeAt(0).cloneRange() : null;
+          bar.dataset.linking = '1';
+          bar.innerHTML = `<input type="url" placeholder="https://…" value="https://" style="width:190px;height:26px;padding:0 8px;border:1px solid #d1d5db;border-radius:5px;font:12px Arial,sans-serif;outline:none"><button type="button" data-ok title="Add link" style="${btn}">${ICON.ok}</button>`;
+          const input = bar.querySelector('input');
+          input.focus(); input.select();
+          input.addEventListener('keydown', k => { if (k.key === 'Enter') { k.preventDefault(); finishLink(input.value.trim()); } if (k.key === 'Escape') finishLink(''); });
+          bar.querySelector('[data-ok]').addEventListener('click', () => finishLink(input.value.trim()));
+          return;
+        }
+        doc.execCommand(cmd);
+        if (cmd === 'removeFormat') doc.execCommand('unlink');
+        onInput();
+        place();
+      });
+      doc.addEventListener('selectionchange', place);
+
+      const onKey = k => {
+        if (k.key === 'Escape' || (k.key === 'Enter' && !multi)) { k.preventDefault(); el.blur(); }
+      };
+      const onBlur = b => {
+        if (bar.contains(b.relatedTarget) || bar.dataset.linking) return; // typing a link URL
         el.removeEventListener('input', onInput);
         el.removeEventListener('keydown', onKey);
         el.removeEventListener('blur', onBlur);
+        el.removeEventListener('paste', onPaste);
+        doc.removeEventListener('selectionchange', place);
+        bar.remove();
+        barCss.remove();
         el.removeAttribute('contenteditable');
         setFrozenHtml(null);
       };
       el.addEventListener('input', onInput);
       el.addEventListener('keydown', onKey);
       el.addEventListener('blur', onBlur);
+      el.addEventListener('paste', onPaste);
       revealField(fd.key, false);
     }, true);
   }, [t, revealField]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -887,7 +1003,8 @@ export function EmailTemplateEditor({ id }) {
       <ImageToolsTopNav active="email-templates" />
       <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/gif,image/webp" className={s.fileInput} onChange={onUploadFile} />
       <div className={s.body}>
-        <aside className={s.controls}>
+        <aside className={s.controls} ref={controlsRef}>
+          <FormatPopover containerRef={controlsRef} onChange={setField} />
           {/* Tool name stays pinned at the top of the panel; everything below scrolls */}
           <div className={s.toolBrandBar}>
             <a href="/email-templates/" className={s.toolBrand} title="All email templates">
@@ -1012,8 +1129,8 @@ export function EmailTemplateEditor({ id }) {
                       <div key={fd.key} className={s.field} data-fieldwrap>
                         <label className={s.label} htmlFor={`em-${fd.key}`}>{fd.label}</label>
                         {fd.type === 'textarea'
-                          ? <textarea id={`em-${fd.key}`} className={s.textarea} rows={3} value={f[fd.key] ?? ''} onChange={ev => setField(fd.key, ev.target.value)} />
-                          : <input id={`em-${fd.key}`} className={s.input} type={fd.type === 'number' ? 'number' : 'text'} inputMode={fd.type === 'url' ? 'url' : undefined} value={uploads[fd.key] ? imagePath(fd.key) : (f[fd.key] ?? '')} onChange={ev => setField(fd.key, ev.target.value)} spellCheck={fd.type !== 'url'} disabled={!!uploads[fd.key]} title={uploads[fd.key] ? 'Using your uploaded image; remove it to paste a URL instead' : undefined} />}
+                          ? <textarea id={`em-${fd.key}`} data-rich={fd.key} className={s.textarea} rows={3} value={f[fd.key] ?? ''} onChange={ev => setField(fd.key, ev.target.value)} />
+                          : <input id={`em-${fd.key}`} data-rich={fd.type === 'text' ? fd.key : undefined} className={s.input} type={fd.type === 'number' ? 'number' : 'text'} inputMode={fd.type === 'url' ? 'url' : undefined} value={uploads[fd.key] ? imagePath(fd.key) : (f[fd.key] ?? '')} onChange={ev => setField(fd.key, ev.target.value)} spellCheck={fd.type !== 'url'} disabled={!!uploads[fd.key]} title={uploads[fd.key] ? 'Using your uploaded image; remove it to paste a URL instead' : undefined} />}
                         {fd.upload && (
                           <div className={e.uploadRow}>
                             {uploads[fd.key] ? (

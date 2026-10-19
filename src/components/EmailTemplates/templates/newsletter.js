@@ -1,4 +1,4 @@
-import { esc, escBr, safeUrl, buttonHtml, wrapText } from './meta.js';
+import { esc, escBr, safeUrl, buttonHtml, wrapText, rich } from './meta.js';
 import { inboxFields, brandFields, footerFields, DEFAULT_VARS, ctx, emailShell, headerHtml, footerHtml, textFooter, cleanText } from './shell.js';
 
 const FEATURE_IMG = 'https://webdevpuneet.com/images/email-templates/newsletter-feature.png';
@@ -75,14 +75,14 @@ export default {
     const socials = socialList(f);
     const header = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
             <td valign="middle">${headerHtml(c)}</td>
-            <td align="right" valign="middle" class="m" style="font-family:${B};font-size:12px;line-height:18px;color:${v.muted};">${f.issue ? `<span${A('issue')}>${esc(f.issue)}</span>` : ''}${f.webUrl ? `${f.issue ? '<br>' : ''}<a${A('webUrl')} href="${safeUrl(f.webUrl)}" target="_blank" class="m" style="color:${v.muted};text-decoration:underline;">View in browser</a>` : ''}</td>
+            <td align="right" valign="middle" class="m" style="font-family:${B};font-size:12px;line-height:18px;color:${v.muted};">${f.issue ? `<span${A('issue')}>${rich(f.issue)}</span>` : ''}${f.webUrl ? `${f.issue ? '<br>' : ''}<a${A('webUrl')} href="${safeUrl(f.webUrl)}" target="_blank" class="m" style="color:${v.muted};text-decoration:underline;">View in browser</a>` : ''}</td>
           </tr></table>`;
     const feature = on.showFeature ? `
               ${f.imageUrl ? `<tr><td style="padding:0;font-size:0;line-height:0;"><a href="${safeUrl(f.featureUrl)}" target="_blank"><img${A('imageUrl')} src="${safeUrl(f.imageUrl)}" width="600" alt="${esc(f.imageAlt)}" style="display:block;width:100%;max-width:600px;height:auto;border:0;border-radius:16px 16px 0 0;"></a></td></tr>` : ''}
               <tr>
                 <td class="px" style="padding:${f.imageUrl ? 32 : 44}px 48px 8px;font-family:${B};">
-                  ${f.featureTag ? `<p${A('featureTag')} style="margin:0 0 10px;font-family:${B};font-size:12px;line-height:18px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${v.brand};">${esc(f.featureTag)}</p>` : ''}
-                  <h1 class="h1 t"${A('featureTitle')} style="margin:0 0 14px;font-family:${H};font-size:30px;line-height:38px;font-weight:700;color:${v.text};"><a href="${safeUrl(f.featureUrl)}" target="_blank" class="t" style="color:${v.text};text-decoration:none;">${esc(f.featureTitle)}</a></h1>
+                  ${f.featureTag ? `<p${A('featureTag')} style="margin:0 0 10px;font-family:${B};font-size:12px;line-height:18px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${v.brand};">${rich(f.featureTag)}</p>` : ''}
+                  <h1 class="h1 t"${A('featureTitle')} style="margin:0 0 14px;font-family:${H};font-size:30px;line-height:38px;font-weight:700;color:${v.text};"><a href="${safeUrl(f.featureUrl)}" target="_blank" class="t" style="color:${v.text};text-decoration:none;">${rich(f.featureTitle)}</a></h1>
                   ${f.featureBlurb ? `<p class="m"${A('featureBlurb')} style="margin:0 0 22px;font-size:16px;line-height:26px;color:${v.muted};">${escBr(f.featureBlurb)}</p>` : ''}
                   ${f.featureCta ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding:0 0 28px;">${buttonHtml({ text: f.featureCta, url: f.featureUrl, bg: v.brand, color: v.btnText, font: B, width: 200, height: 46, attrs: A('featureCta') })}</td></tr></table>` : ''}
                 </td>
@@ -92,7 +92,7 @@ export default {
               <tr>
                 <td class="px" style="padding:${on.showFeature ? '0 48px 8px' : '44px 48px 8px'};font-family:${B};">
                   ${on.showFeature ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="line" style="border-top:1px solid #e2e8f0;padding:28px 0 0;font-size:0;line-height:0;">&nbsp;</td></tr></table>` : ''}
-                  ${f.greeting ? `<p class="t"${A('greeting')} style="margin:0 0 10px;font-size:16px;line-height:26px;font-weight:600;color:${v.text};">${esc(f.greeting)}</p>` : ''}
+                  ${f.greeting ? `<p class="t"${A('greeting')} style="margin:0 0 10px;font-size:16px;line-height:26px;font-weight:600;color:${v.text};">${rich(f.greeting)}</p>` : ''}
                   ${f.intro ? `<p class="m"${A('intro')} style="margin:0 0 24px;font-size:16px;line-height:26px;color:${v.muted};">${escBr(f.intro)}</p>` : ''}
                 </td>
               </tr>
@@ -101,8 +101,8 @@ export default {
                   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
                     <td width="4" style="width:4px;background:${v.brand};border-radius:4px;font-size:0;line-height:0;">&nbsp;</td>
                     <td style="padding:2px 0 2px 18px;">
-                      ${x.tag ? `<p class="m"${A(`s${x.n}Tag`)} style="margin:0 0 4px;font-size:12px;line-height:18px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:${v.muted};">${esc(x.tag)}</p>` : ''}
-                      <p style="margin:0 0 6px;font-family:${H};font-size:20px;line-height:27px;font-weight:700;"><a${A(`s${x.n}Title`)} href="${safeUrl(x.url)}" target="_blank" class="t" style="color:${v.text};text-decoration:none;">${esc(x.title)}</a></p>
+                      ${x.tag ? `<p class="m"${A(`s${x.n}Tag`)} style="margin:0 0 4px;font-size:12px;line-height:18px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:${v.muted};">${rich(x.tag)}</p>` : ''}
+                      <p style="margin:0 0 6px;font-family:${H};font-size:20px;line-height:27px;font-weight:700;"><a${A(`s${x.n}Title`)} href="${safeUrl(x.url)}" target="_blank" class="t" style="color:${v.text};text-decoration:none;">${rich(x.title)}</a></p>
                       ${x.blurb ? `<p class="m"${A(`s${x.n}Blurb`)} style="margin:0 0 6px;font-size:15px;line-height:24px;color:${v.muted};">${escBr(x.blurb)}</p>` : ''}
                       <a${A(`s${x.n}Url`)} href="${safeUrl(x.url)}" target="_blank" style="font-size:14px;line-height:22px;font-weight:700;color:${v.brand};text-decoration:none;">Read more &rarr;</a>
                     </td>
@@ -113,7 +113,7 @@ export default {
                 <td class="px" style="padding:6px 48px 26px;">
                   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="soft" style="background:#fff7ed;border-radius:12px;">
                     <tr><td style="padding:20px 22px;font-family:${B};">
-                      ${f.tipTitle ? `<p class="t"${A('tipTitle')} style="margin:0 0 6px;font-family:${B};font-size:15px;line-height:22px;font-weight:800;color:${v.text};">${esc(f.tipTitle)}</p>` : ''}
+                      ${f.tipTitle ? `<p class="t"${A('tipTitle')} style="margin:0 0 6px;font-family:${B};font-size:15px;line-height:22px;font-weight:800;color:${v.text};">${rich(f.tipTitle)}</p>` : ''}
                       <p class="m"${A('tipText')} style="margin:0;font-size:15px;line-height:24px;color:${v.muted};">${escBr(f.tipText)}</p>
                     </td></tr>
                   </table>

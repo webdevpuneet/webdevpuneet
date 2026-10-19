@@ -37,9 +37,43 @@ export function fontStackById(id) {
   return FONT_STACKS.find(f => f.id === id) || FONT_STACKS[0];
 }
 
-/* Escapes text for HTML; newlines become <br> */
+/* Escapes text for HTML (attributes, <title>, the preheader) */
 export const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-export const escBr = s => esc(s).replace(/\r?\n/g, '<br>');
+
+/* Text content may use a little inline HTML: <b> <strong> <i> <em> <u> <br> and <a href="…">.
+   Everything is escaped first and only those tags are turned back on (links through
+   safeUrl), and unclosed tags are closed, so typed HTML can't break the email. */
+const INLINE_TAGS = ['b', 'strong', 'i', 'em', 'u'];
+const unesc = s => s.replace(/&quot;/g, '"').replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/g, '&');
+function balanceInline(html) {
+  const stack = [];
+  const out = html.replace(/<(\/?)(b|strong|i|em|u|a)\b[^>]*>/g, (m, slash, tag) => {
+    if (!slash) { stack.push(tag); return m; }
+    const at = stack.lastIndexOf(tag);
+    if (at === -1) return ''; // a stray closing tag
+    return stack.splice(at).reverse().map(x => `</${x}>`).join('');
+  });
+  return out + stack.reverse().map(x => `</${x}>`).join('');
+}
+export function rich(s) {
+  let out = esc(s);
+  out = out.replace(/&lt;br\s*\/?&gt;/gi, '<br>');
+  out = out.replace(/&lt;a\s+href=(?:&quot;|')(.*?)(?:&quot;|')\s*&gt;/gi,
+    (m, href) => `<a href="${safeUrl(unesc(href)).replace(/&/g, '&amp;')}" target="_blank" style="color:inherit;text-decoration:underline;">`);
+  out = out.replace(/&lt;\/a&gt;/gi, '</a>');
+  out = out.replace(/&lt;(\/?)(b|strong|i|em|u)&gt;/gi, (m, slash, tag) => `<${slash}${tag.toLowerCase()}>`);
+  return balanceInline(out);
+}
+/* Rich text where newlines also become <br> */
+export const escBr = s => rich(String(s ?? '').replace(/\r?\n/g, '<br>'));
+
+/* Plain-text version of rich text: tags removed, links kept as "label (url)" */
+export function stripRich(s) {
+  return String(s ?? '')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<a\s+href=["']([^"']*)["']\s*>([\s\S]*?)<\/a>/gi, (m, href, label) => (label.trim() && label.trim() !== href ? `${label} (${href})` : href))
+    .replace(new RegExp(`</?(${INLINE_TAGS.join('|')}|a)\\b[^>]*>`, 'gi'), '');
+}
 
 /* Only http(s), mailto and tel links (and # as a placeholder) make it into the email */
 export function safeUrl(u) {
@@ -57,7 +91,7 @@ export const PREHEADER_FILL = '&#8199;&#65279;&#847; '.repeat(45);
 
 /* Builds the hidden preheader block */
 export function preheaderHtml(text, bg) {
-  return `<div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;color:${bg};">${esc(text)}${PREHEADER_FILL}</div>`;
+  return `<div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;color:${bg};">${esc(stripRich(text))}${PREHEADER_FILL}</div>`;
 }
 
 /* Bulletproof button: VML round rect for Outlook on Windows, a styled link everywhere else */
@@ -67,9 +101,9 @@ export function buttonHtml({ text, url, bg, color, font, width = 240, height = 5
   return `<!--[if mso]>
 <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${href}" style="height:${height}px;v-text-anchor:middle;width:${width}px;" arcsize="${arc}%" stroke="f" fillcolor="${bg}">
 <w:anchorlock/>
-<center style="color:${color};font-family:Arial,sans-serif;font-size:16px;font-weight:bold;">${esc(text)}</center>
+<center style="color:${color};font-family:Arial,sans-serif;font-size:16px;font-weight:bold;">${esc(stripRich(text))}</center>
 </v:roundrect>
-<![endif]--><!--[if !mso]><!-- --><a${attrs} href="${href}" target="_blank" class="btn" style="background-color:${bg};border-radius:${radius}px;color:${color};display:inline-block;font-family:${font};font-size:16px;font-weight:700;line-height:${height}px;text-align:center;text-decoration:none;width:${width}px;-webkit-text-size-adjust:none;mso-hide:all;">${esc(text)}</a><!--<![endif]-->`;
+<![endif]--><!--[if !mso]><!-- --><a${attrs} href="${href}" target="_blank" class="btn" style="background-color:${bg};border-radius:${radius}px;color:${color};display:inline-block;font-family:${font};font-size:16px;font-weight:700;line-height:${height}px;text-align:center;text-decoration:none;width:${width}px;-webkit-text-size-adjust:none;mso-hide:all;">${esc(stripRich(text))}</a><!--<![endif]-->`;
 }
 
 /* Turns an email into a plain-text version: shared helper for templates */

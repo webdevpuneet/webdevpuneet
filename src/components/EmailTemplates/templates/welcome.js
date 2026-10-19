@@ -1,4 +1,4 @@
-import { esc, escBr, safeUrl, preheaderHtml, buttonHtml, fontStackById, wrapText } from './meta.js';
+import { esc, escBr, safeUrl, preheaderHtml, buttonHtml, fontStackById, wrapText, rich, stripRich } from './meta.js';
 
 const HERO = 'https://webdevpuneet.com/images/email-templates/welcome-hero.png';
 
@@ -105,7 +105,7 @@ export default {
 
     const header = f.logoUrl
       ? `<a href="${safeUrl(f.headerLink)}" target="_blank" style="text-decoration:none;"><img${A('logoUrl')} src="${safeUrl(f.logoUrl)}" width="${logoW}" alt="${esc(f.brandName)}" style="display:block;width:${logoW}px;max-width:100%;height:auto;border:0;"></a>`
-      : `<a href="${safeUrl(f.headerLink)}" target="_blank" class="t" style="font-family:${H};font-size:22px;font-weight:800;letter-spacing:-0.4px;color:${v.text};text-decoration:none;"><span style="display:inline-block;width:12px;height:12px;border-radius:4px;background:${v.brand};margin-right:8px;vertical-align:middle;"></span><span${A('brandName')}>${esc(f.brandName)}</span></a>`;
+      : `<a href="${safeUrl(f.headerLink)}" target="_blank" class="t" style="font-family:${H};font-size:22px;font-weight:800;letter-spacing:-0.4px;color:${v.text};text-decoration:none;"><span style="display:inline-block;width:12px;height:12px;border-radius:4px;background:${v.brand};margin-right:8px;vertical-align:middle;"></span><span${A('brandName')}>${rich(f.brandName)}</span></a>`;
 
     const hero = on.showHero && f.heroUrl ? `
 <tr>
@@ -118,7 +118,7 @@ export default {
 <tr>
   <td class="px" style="padding:8px 48px 8px;">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-      <tr><td class="t" style="padding:0 0 14px;font-family:${H};font-size:18px;line-height:26px;font-weight:700;color:${v.text};"${A('stepsTitle')}>${esc(f.stepsTitle)}</td></tr>
+      <tr><td class="t" style="padding:0 0 14px;font-family:${H};font-size:18px;line-height:26px;font-weight:700;color:${v.text};"${A('stepsTitle')}>${rich(f.stepsTitle)}</td></tr>
       ${steps.map(st => `<tr>
         <td style="padding:0 0 16px;">
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -129,8 +129,8 @@ export default {
                 </tr></table>
               </td>
               <td valign="top" style="font-family:${B};">
-                <div class="t" style="font-size:16px;line-height:24px;font-weight:700;color:${v.text};"${A(`s${st.n}Title`)}>${esc(st.title)}</div>
-                <div class="m" style="font-size:15px;line-height:23px;color:${v.muted};"${A(`s${st.n}Text`)}>${esc(st.text)}</div>
+                <div class="t" style="font-size:16px;line-height:24px;font-weight:700;color:${v.text};"${A(`s${st.n}Title`)}>${rich(st.title)}</div>
+                <div class="m" style="font-size:15px;line-height:23px;color:${v.muted};"${A(`s${st.n}Text`)}>${rich(st.text)}</div>
               </td>
             </tr>
           </table>
@@ -146,8 +146,8 @@ export default {
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
       <tr><td class="line" style="border-top:1px solid #e2e8f0;padding:28px 0 0;font-family:${B};">
         <p class="t" style="margin:0 0 16px;font-size:15px;line-height:24px;color:${v.text};font-style:italic;"${A('noteText')}>${escBr(f.noteText)}</p>
-        <p class="t" style="margin:0;font-size:15px;line-height:22px;font-weight:700;color:${v.text};"${A('noteName')}>${esc(f.noteName)}</p>
-        <p class="m" style="margin:0;font-size:14px;line-height:20px;color:${v.muted};"${A('noteRole')}>${esc(f.noteRole)}</p>
+        <p class="t" style="margin:0;font-size:15px;line-height:22px;font-weight:700;color:${v.text};"${A('noteName')}>${rich(f.noteName)}</p>
+        <p class="m" style="margin:0;font-size:14px;line-height:20px;color:${v.muted};"${A('noteRole')}>${rich(f.noteRole)}</p>
       </td></tr>
     </table>
   </td>
@@ -170,7 +170,7 @@ export default {
 <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
 <meta name="color-scheme" content="light dark">
 <meta name="supported-color-schemes" content="light dark">
-<title>${esc(f.subject)}</title>
+<title>${esc(stripRich(f.subject))}</title>
 <!--[if mso]>
 <noscript><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
 <style>td,th,div,p,a,h1,h2,h3,span{font-family:Arial,Helvetica,sans-serif !important;}</style>
@@ -218,8 +218,8 @@ ${preheaderHtml(f.preheader, v.bg)}
 ${hero}
               <tr>
                 <td class="px" style="padding:${hero ? 40 : 48}px 48px 8px;font-family:${B};">
-                  ${f.eyebrow ? `<p style="margin:0 0 10px;font-family:${H};font-size:13px;line-height:18px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${v.brand};"${A('eyebrow')}>${esc(f.eyebrow)}</p>` : ''}
-                  <h1 class="h1 t" style="margin:0 0 16px;font-family:${H};font-size:32px;line-height:40px;font-weight:800;letter-spacing:-0.6px;color:${v.text};"${A('headline')}>${esc(f.headline)}</h1>
+                  ${f.eyebrow ? `<p style="margin:0 0 10px;font-family:${H};font-size:13px;line-height:18px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${v.brand};"${A('eyebrow')}>${rich(f.eyebrow)}</p>` : ''}
+                  <h1 class="h1 t" style="margin:0 0 16px;font-family:${H};font-size:32px;line-height:40px;font-weight:800;letter-spacing:-0.6px;color:${v.text};"${A('headline')}>${rich(f.headline)}</h1>
                   <p class="m" style="margin:0 0 28px;font-size:16px;line-height:26px;color:${v.muted};"${A('intro')}>${escBr(f.intro)}</p>
                   ${f.ctaText ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding:0 0 32px;">${buttonHtml({ text: f.ctaText, url: f.ctaUrl, bg: v.brand, color: v.btnText, font: H, attrs: A('ctaText') })}</td></tr></table>` : ''}
                 </td>
@@ -235,7 +235,7 @@ ${noteHtml}
 ${socialHtml}
               <tr>
                 <td align="center" class="m" style="font-family:${B};font-size:12px;line-height:19px;color:${v.muted};">
-                  ${f.reason ? `<span${A('reason')}>${esc(f.reason)}</span><br>` : ''}<span${A('address')}>${escBr(f.address)}</span><br><br>
+                  ${f.reason ? `<span${A('reason')}>${rich(f.reason)}</span><br>` : ''}<span${A('address')}>${escBr(f.address)}</span><br><br>
                   <a${A('unsubscribeUrl')} href="${safeUrl(f.unsubscribeUrl)}" target="_blank" class="m" style="color:${v.muted};text-decoration:underline;">Unsubscribe</a>${f.prefsUrl ? ` &nbsp;&middot;&nbsp; <a${A('prefsUrl')} href="${safeUrl(f.prefsUrl)}" target="_blank" class="m" style="color:${v.muted};text-decoration:underline;">Email preferences</a>` : ''}
                 </td>
               </tr>

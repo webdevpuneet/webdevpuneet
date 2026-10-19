@@ -1,4 +1,4 @@
-import { esc, safeUrl, buttonHtml, wrapText } from './meta.js';
+import { esc, safeUrl, buttonHtml, wrapText, rich } from './meta.js';
 import { inboxFields, brandFields, footerFields, DEFAULT_VARS, ctx, emailShell, eyebrowHtml, h1Html, pHtml, textFooter, cleanText } from './shell.js';
 
 export default {
@@ -52,14 +52,14 @@ export default {
                   ${h1Html(c, 'headline', f.headline)}
                   ${pHtml(c, 'intro', f.intro, 'margin:0 0 28px;')}
                   ${f.ctaText ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center"><tr><td style="padding:0 0 16px;">${buttonHtml({ text: f.ctaText, url: f.ctaUrl, bg: v.brand, color: v.btnText, font: H, width: 260, attrs: A('ctaText') })}</td></tr></table>` : ''}
-                  ${f.expiry ? `<p class="m"${A('expiry')} style="margin:0 0 28px;font-size:14px;line-height:21px;color:${v.muted};">${esc(f.expiry)}</p>` : ''}
+                  ${f.expiry ? `<p class="m"${A('expiry')} style="margin:0 0 28px;font-size:14px;line-height:21px;color:${v.muted};">${rich(f.expiry)}</p>` : ''}
                 </td>
               </tr>
               ${on.showCode && f.code ? `<tr>
                 <td class="px" align="center" style="padding:0 48px 28px;font-family:${B};text-align:center;">
-                  ${f.codeLabel ? `<p class="m"${A('codeLabel')} style="margin:0 0 10px;font-size:14px;line-height:20px;color:${v.muted};">${esc(f.codeLabel)}</p>` : ''}
+                  ${f.codeLabel ? `<p class="m"${A('codeLabel')} style="margin:0 0 10px;font-size:14px;line-height:20px;color:${v.muted};">${rich(f.codeLabel)}</p>` : ''}
                   <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center"><tr>
-                    <td class="soft t"${A('code')} style="padding:14px 28px;border-radius:12px;background:#f1f5f9;border:1px dashed #cbd5e1;font-family:'Courier New',Courier,monospace;font-size:30px;line-height:36px;font-weight:700;letter-spacing:6px;color:${v.text};">${esc(f.code)}</td>
+                    <td class="soft t"${A('code')} style="padding:14px 28px;border-radius:12px;background:#f1f5f9;border:1px dashed #cbd5e1;font-family:'Courier New',Courier,monospace;font-size:30px;line-height:36px;font-weight:700;letter-spacing:6px;color:${v.text};">${rich(f.code)}</td>
                   </tr></table>
                 </td>
               </tr>` : ''}
@@ -67,8 +67,8 @@ export default {
                 <td class="px" style="padding:0 48px 40px;font-family:${B};">
                   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="line" style="border-top:1px solid #e2e8f0;padding:22px 0 0;">
                     <p class="m" style="margin:0 0 8px;font-size:13px;line-height:19px;color:${v.muted};">Button not working? Paste this link into your browser:</p>
-                    <p style="margin:0 0 16px;font-size:13px;line-height:19px;word-break:break-all;"><a href="${safeUrl(f.ctaUrl)}" target="_blank" style="color:${v.brand};text-decoration:underline;">${esc(f.ctaUrl)}</a></p>
-                    ${f.note ? `<p class="m"${A('note')} style="margin:0;font-size:14px;line-height:22px;color:${v.muted};">${esc(f.note)}</p>` : ''}
+                    <p style="margin:0 0 16px;font-size:13px;line-height:19px;word-break:break-all;"><a href="${safeUrl(f.ctaUrl)}" target="_blank" style="color:${v.brand};text-decoration:underline;">${rich(f.ctaUrl)}</a></p>
+                    ${f.note ? `<p class="m"${A('note')} style="margin:0;font-size:14px;line-height:22px;color:${v.muted};">${rich(f.note)}</p>` : ''}
                   </td></tr></table>
                 </td>
               </tr>`;

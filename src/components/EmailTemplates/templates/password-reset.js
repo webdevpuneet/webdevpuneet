@@ -1,4 +1,4 @@
-import { esc, escBr, safeUrl, buttonHtml, wrapText } from './meta.js';
+import { esc, escBr, safeUrl, buttonHtml, wrapText, rich } from './meta.js';
 import { inboxFields, brandFields, footerFields, DEFAULT_VARS, ctx, emailShell, eyebrowHtml, h1Html, pHtml, textFooter, cleanText } from './shell.js';
 
 export default {
@@ -58,18 +58,18 @@ export default {
                   ${eyebrowHtml(c, 'eyebrow', f.eyebrow)}
                   ${h1Html(c, 'headline', f.headline)}
                   ${pHtml(c, 'intro', f.intro, 'margin:0 0 6px;')}
-                  <p class="t"${A('account')} style="margin:0 0 28px;font-family:${B};font-size:16px;line-height:24px;font-weight:700;color:${v.text};">${esc(f.account)}</p>
+                  <p class="t"${A('account')} style="margin:0 0 28px;font-family:${B};font-size:16px;line-height:24px;font-weight:700;color:${v.text};">${rich(f.account)}</p>
                   ${f.ctaText ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding:0 0 18px;">${buttonHtml({ text: f.ctaText, url: f.ctaUrl, bg: v.brand, color: v.btnText, font: H, attrs: A('ctaText') })}</td></tr></table>` : ''}
-                  ${f.expiry ? `<p class="m"${A('expiry')} style="margin:0 0 24px;font-size:14px;line-height:21px;color:${v.muted};">&#9201; ${esc(f.expiry)}</p>` : ''}
-                  ${f.fallbackLabel ? `<p class="m"${A('fallbackLabel')} style="margin:0 0 6px;font-size:13px;line-height:19px;color:${v.muted};">${esc(f.fallbackLabel)}</p>
-                  <p style="margin:0 0 28px;font-size:13px;line-height:19px;word-break:break-all;"><a href="${safeUrl(f.ctaUrl)}" target="_blank" style="color:${v.brand};text-decoration:underline;">${esc(f.ctaUrl)}</a></p>` : ''}
+                  ${f.expiry ? `<p class="m"${A('expiry')} style="margin:0 0 24px;font-size:14px;line-height:21px;color:${v.muted};">&#9201; ${rich(f.expiry)}</p>` : ''}
+                  ${f.fallbackLabel ? `<p class="m"${A('fallbackLabel')} style="margin:0 0 6px;font-size:13px;line-height:19px;color:${v.muted};">${rich(f.fallbackLabel)}</p>
+                  <p style="margin:0 0 28px;font-size:13px;line-height:19px;word-break:break-all;"><a href="${safeUrl(f.ctaUrl)}" target="_blank" style="color:${v.brand};text-decoration:underline;">${rich(f.ctaUrl)}</a></p>` : ''}
                 </td>
               </tr>
               ${on.showDetails && details.length ? `<tr>
                 <td class="px" style="padding:0 48px 24px;">
                   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="soft" style="background:#f8fafc;border-radius:12px;">
                     <tr><td style="padding:16px 20px 6px;font-family:${H};font-size:13px;font-weight:700;color:${v.text};" class="t">Request details</td></tr>
-                    ${details.map(([label, val, key]) => `<tr><td style="padding:2px 20px;font-family:${B};font-size:14px;line-height:22px;"><span class="m" style="color:${v.muted};display:inline-block;width:80px;">${label}</span><span class="t"${A(key)} style="color:${v.text};">${esc(val)}</span></td></tr>`).join('\n                    ')}
+                    ${details.map(([label, val, key]) => `<tr><td style="padding:2px 20px;font-family:${B};font-size:14px;line-height:22px;"><span class="m" style="color:${v.muted};display:inline-block;width:80px;">${label}</span><span class="t"${A(key)} style="color:${v.text};">${rich(val)}</span></td></tr>`).join('\n                    ')}
                     <tr><td style="height:14px;font-size:0;line-height:0;">&nbsp;</td></tr>
                   </table>
                 </td>
@@ -78,7 +78,7 @@ export default {
                 <td class="px" style="padding:4px 48px 40px;font-family:${B};">
                   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="line" style="border-top:1px solid #e2e8f0;padding:24px 0 0;">
                     ${f.ignore ? `<p class="m"${A('ignore')} style="margin:0 0 12px;font-size:14px;line-height:22px;color:${v.muted};">${escBr(f.ignore)}</p>` : ''}
-                    ${f.supportText ? `<p class="m" style="margin:0;font-size:14px;line-height:22px;color:${v.muted};"><span${A('supportText')}>${esc(f.supportText)}</span> <a${A('supportUrl')} href="${safeUrl(f.supportUrl)}" target="_blank" style="color:${v.brand};font-weight:700;text-decoration:none;">Get help &rarr;</a></p>` : ''}
+                    ${f.supportText ? `<p class="m" style="margin:0;font-size:14px;line-height:22px;color:${v.muted};"><span${A('supportText')}>${rich(f.supportText)}</span> <a${A('supportUrl')} href="${safeUrl(f.supportUrl)}" target="_blank" style="color:${v.brand};font-weight:700;text-decoration:none;">Get help &rarr;</a></p>` : ''}
                   </td></tr></table>
                 </td>
               </tr>`;

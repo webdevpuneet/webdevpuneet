@@ -2,7 +2,7 @@
    mobile + dark-mode CSS, preheader, 600px container), header, footer and common fields.
    Templates only write their card content. Plain JS so build scripts can import it. */
 
-import { esc, escBr, safeUrl, preheaderHtml, fontStackById, wrapText } from './meta.js';
+import { esc, escBr, safeUrl, preheaderHtml, fontStackById, wrapText, rich, stripRich } from './meta.js';
 
 /* Fields almost every template shares */
 export const inboxFields = (subject, preheader, fromName = 'Acme') => [
@@ -58,7 +58,7 @@ export function headerHtml({ f, v, H, A }) {
   const logoW = Math.max(40, Math.min(240, parseInt(f.logoWidth, 10) || 120));
   return f.logoUrl
     ? `<a href="${safeUrl(f.headerLink)}" target="_blank" style="text-decoration:none;"><img${A('logoUrl')} src="${safeUrl(f.logoUrl)}" width="${logoW}" alt="${esc(f.brandName)}" style="display:block;width:${logoW}px;max-width:100%;height:auto;border:0;"></a>`
-    : `<a href="${safeUrl(f.headerLink)}" target="_blank" class="t" style="font-family:${H};font-size:22px;font-weight:800;letter-spacing:-0.4px;color:${v.text};text-decoration:none;"><span style="display:inline-block;width:12px;height:12px;border-radius:4px;background:${v.brand};margin-right:8px;vertical-align:middle;"></span><span${A('brandName')}>${esc(f.brandName)}</span></a>`;
+    : `<a href="${safeUrl(f.headerLink)}" target="_blank" class="t" style="font-family:${H};font-size:22px;font-weight:800;letter-spacing:-0.4px;color:${v.text};text-decoration:none;"><span style="display:inline-block;width:12px;height:12px;border-radius:4px;background:${v.brand};margin-right:8px;vertical-align:middle;"></span><span${A('brandName')}>${rich(f.brandName)}</span></a>`;
 }
 
 export function footerHtml({ f, v, B, A }, { socials = '' } = {}) {
@@ -69,7 +69,7 @@ export function footerHtml({ f, v, B, A }, { socials = '' } = {}) {
   return `${socials}
               <tr>
                 <td align="center" class="m" style="font-family:${B};font-size:12px;line-height:19px;color:${v.muted};">
-                  ${f.reason ? `<span${A('reason')}>${esc(f.reason)}</span><br>` : ''}<span${A('address')}>${escBr(f.address)}</span>${links.length ? `<br><br>${links.join(' &nbsp;&middot;&nbsp; ')}` : ''}
+                  ${f.reason ? `<span${A('reason')}>${rich(f.reason)}</span><br>` : ''}<span${A('address')}>${escBr(f.address)}</span>${links.length ? `<br><br>${links.join(' &nbsp;&middot;&nbsp; ')}` : ''}
                 </td>
               </tr>`;
 }
@@ -87,7 +87,7 @@ export function emailShell(c, { card, header = headerHtml(c), footer = footerHtm
 <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
 <meta name="color-scheme" content="light dark">
 <meta name="supported-color-schemes" content="light dark">
-<title>${esc(f.subject)}</title>
+<title>${esc(stripRich(f.subject))}</title>
 <!--[if mso]>
 <noscript><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
 <style>td,th,div,p,a,h1,h2,h3,span{font-family:Arial,Helvetica,sans-serif !important;}</style>
@@ -160,8 +160,8 @@ ${footer}
 }
 
 /* Small shared pieces */
-export const eyebrowHtml = ({ H, v, A }, key, text) => (text ? `<p${A(key)} style="margin:0 0 10px;font-family:${H};font-size:13px;line-height:18px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${v.brand};">${esc(text)}</p>` : '');
-export const h1Html = ({ H, v, A }, key, text) => `<h1 class="h1 t"${A(key)} style="margin:0 0 16px;font-family:${H};font-size:30px;line-height:38px;font-weight:800;letter-spacing:-0.6px;color:${v.text};">${esc(text)}</h1>`;
+export const eyebrowHtml = ({ H, v, A }, key, text) => (text ? `<p${A(key)} style="margin:0 0 10px;font-family:${H};font-size:13px;line-height:18px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${v.brand};">${rich(text)}</p>` : '');
+export const h1Html = ({ H, v, A }, key, text) => `<h1 class="h1 t"${A(key)} style="margin:0 0 16px;font-family:${H};font-size:30px;line-height:38px;font-weight:800;letter-spacing:-0.6px;color:${v.text};">${rich(text)}</h1>`;
 export const pHtml = ({ B, v, A }, key, text, extra = '') => (text ? `<p class="m"${A(key)} style="margin:0 0 20px;font-family:${B};font-size:16px;line-height:26px;color:${v.muted};${extra}">${escBr(text)}</p>` : '');
 export const textFooter = f => {
   const lines = ['---'];

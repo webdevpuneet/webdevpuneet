@@ -1,4 +1,4 @@
-import { esc, escBr, safeUrl, buttonHtml, wrapText } from './meta.js';
+import { esc, escBr, safeUrl, buttonHtml, wrapText, rich } from './meta.js';
 import { inboxFields, brandFields, footerFields, DEFAULT_VARS, ctx, emailShell, eyebrowHtml, h1Html, pHtml, textFooter, cleanText } from './shell.js';
 
 const ITEMS = [1, 2, 3];
@@ -68,7 +68,7 @@ export default {
     const totals = [['Subtotal', f.subtotal, 'subtotal'], ['Discount', f.discount, 'discount'], ['Shipping', f.shippingCost, 'shippingCost'], ['Tax', f.tax, 'tax']].filter(([, x]) => String(x || '').trim());
     const row = (label, val, key, strong) => `<tr>
                       <td class="${strong ? 't' : 'm'}" style="padding:${strong ? '12px 0 0' : '3px 0'};font-family:${strong ? H : B};font-size:${strong ? 17 : 14}px;line-height:22px;font-weight:${strong ? 800 : 400};color:${strong ? v.text : v.muted};">${label}</td>
-                      <td align="right" class="t"${A(key)} style="padding:${strong ? '12px 0 0' : '3px 0'};font-family:${strong ? H : B};font-size:${strong ? 17 : 14}px;line-height:22px;font-weight:${strong ? 800 : 600};color:${v.text};">${esc(val)}</td>
+                      <td align="right" class="t"${A(key)} style="padding:${strong ? '12px 0 0' : '3px 0'};font-family:${strong ? H : B};font-size:${strong ? 17 : 14}px;line-height:22px;font-weight:${strong ? 800 : 600};color:${v.text};">${rich(val)}</td>
                     </tr>`;
     const card = `
               <tr>
@@ -80,11 +80,11 @@ export default {
                     <tr>
                       <td class="stack stack-pad" width="50%" style="padding:16px 20px;font-family:${B};font-size:13px;line-height:20px;">
                         <span class="m" style="color:${v.muted};">Order number</span><br>
-                        <span class="t"${A('orderNumber')} style="font-family:${H};font-size:16px;font-weight:700;color:${v.text};">${esc(f.orderNumber)}</span>
+                        <span class="t"${A('orderNumber')} style="font-family:${H};font-size:16px;font-weight:700;color:${v.text};">${rich(f.orderNumber)}</span>
                       </td>
                       <td class="stack stack-pad" width="50%" style="padding:16px 20px;font-family:${B};font-size:13px;line-height:20px;">
                         <span class="m" style="color:${v.muted};">Order date</span><br>
-                        <span class="t"${A('orderDate')} style="font-family:${H};font-size:16px;font-weight:700;color:${v.text};">${esc(f.orderDate)}</span>
+                        <span class="t"${A('orderDate')} style="font-family:${H};font-size:16px;font-weight:700;color:${v.text};">${rich(f.orderDate)}</span>
                       </td>
                     </tr>
                   </table>
@@ -95,10 +95,10 @@ export default {
                   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                     ${list.map(i => `<tr>
                       <td class="line" style="padding:14px 0;border-bottom:1px solid #e2e8f0;font-family:${B};">
-                        <span class="t"${A(`item${i.n}Name`)} style="display:block;font-size:15px;line-height:22px;font-weight:700;color:${v.text};">${esc(i.name)}</span>
-                        <span class="m" style="display:block;font-size:13px;line-height:20px;color:${v.muted};">${i.meta ? `<span${A(`item${i.n}Meta`)}>${esc(i.meta)}</span> &middot; ` : ''}Qty <span${A(`item${i.n}Qty`)}>${esc(i.qty || '1')}</span></span>
+                        <span class="t"${A(`item${i.n}Name`)} style="display:block;font-size:15px;line-height:22px;font-weight:700;color:${v.text};">${rich(i.name)}</span>
+                        <span class="m" style="display:block;font-size:13px;line-height:20px;color:${v.muted};">${i.meta ? `<span${A(`item${i.n}Meta`)}>${rich(i.meta)}</span> &middot; ` : ''}Qty <span${A(`item${i.n}Qty`)}>${rich(i.qty || '1')}</span></span>
                       </td>
-                      <td class="line t" align="right" valign="top"${A(`item${i.n}Price`)} style="padding:14px 0 14px 12px;border-bottom:1px solid #e2e8f0;font-family:${B};font-size:15px;line-height:22px;font-weight:700;color:${v.text};white-space:nowrap;">${esc(i.price)}</td>
+                      <td class="line t" align="right" valign="top"${A(`item${i.n}Price`)} style="padding:14px 0 14px 12px;border-bottom:1px solid #e2e8f0;font-family:${B};font-size:15px;line-height:22px;font-weight:700;color:${v.text};white-space:nowrap;">${rich(i.price)}</td>
                     </tr>`).join('\n                    ')}
                   </table>
                 </td>
@@ -108,7 +108,7 @@ export default {
                   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                     ${totals.map(([l, x, k]) => row(l, x, k)).join('\n                    ')}
                     ${f.total ? row('Total', f.total, 'total', true) : ''}
-                    ${f.payment ? `<tr><td colspan="2" class="m"${A('payment')} style="padding:6px 0 0;font-family:${B};font-size:13px;line-height:20px;color:${v.muted};">Paid with ${esc(f.payment)}</td></tr>` : ''}
+                    ${f.payment ? `<tr><td colspan="2" class="m"${A('payment')} style="padding:6px 0 0;font-family:${B};font-size:13px;line-height:20px;color:${v.muted};">Paid with ${rich(f.payment)}</td></tr>` : ''}
                   </table>
                 </td>
               </tr>
@@ -118,11 +118,11 @@ export default {
                     <tr>
                       <td class="stack stack-pad" width="50%" valign="top" style="padding:0 12px 0 0;font-family:${B};font-size:14px;line-height:22px;">
                         <p class="t" style="margin:0 0 6px;font-family:${H};font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:${v.text};">Shipping to</p>
-                        <p class="m" style="margin:0;color:${v.muted};"><span class="t"${A('shipName')} style="color:${v.text};font-weight:600;">${esc(f.shipName)}</span><br><span${A('shipAddress')}>${escBr(f.shipAddress)}</span></p>
+                        <p class="m" style="margin:0;color:${v.muted};"><span class="t"${A('shipName')} style="color:${v.text};font-weight:600;">${rich(f.shipName)}</span><br><span${A('shipAddress')}>${escBr(f.shipAddress)}</span></p>
                       </td>
                       <td class="stack stack-pad" width="50%" valign="top" style="padding:0 0 0 12px;font-family:${B};font-size:14px;line-height:22px;">
                         <p class="t" style="margin:0 0 6px;font-family:${H};font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:${v.text};">Delivery</p>
-                        <p class="m" style="margin:0;color:${v.muted};"><span${A('shipMethod')}>${esc(f.shipMethod)}</span><br>Estimated: <span class="t"${A('delivery')} style="color:${v.text};font-weight:600;">${esc(f.delivery)}</span></p>
+                        <p class="m" style="margin:0;color:${v.muted};"><span${A('shipMethod')}>${rich(f.shipMethod)}</span><br>Estimated: <span class="t"${A('delivery')} style="color:${v.text};font-weight:600;">${rich(f.delivery)}</span></p>
                       </td>
                     </tr>
                   </table>
