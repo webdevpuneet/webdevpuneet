@@ -142,6 +142,49 @@ BEHAVIORS.marquee = {
 })();`,
 };
 
+BEHAVIORS.accordion = {
+  /* Expanding questions. Markup: a [data-accordion] list of <details class="st-acc"> with a
+     <summary> and an answer in .st-acc-a. Base: native details/summary (works without JS,
+     find-in-page opens answers, all text stays in the HTML for search engines).
+     With GSAP: answers open and close with a height tween. data-accordion="single" keeps
+     one open at a time; add "first" to open the first question on load. */
+  plugins: [],
+  js: `(function () {
+  var G = window.gsap;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var anim = G && !reduce;
+  document.querySelectorAll('.st [data-accordion]').forEach(function (list) {
+    var mode = list.getAttribute('data-accordion') || '';
+    var items = Array.prototype.slice.call(list.querySelectorAll('details'));
+    var body = function (d) { return d.querySelector('.st-acc-a'); };
+    var close = function (d) {
+      if (!d.open || d.classList.contains('is-closing')) return;
+      if (!anim) { d.open = false; return; }
+      d.classList.add('is-closing');
+      G.to(body(d), { height: 0, duration: 0.32, ease: 'power2.inOut', onComplete: function () {
+        d.open = false; d.classList.remove('is-closing'); G.set(body(d), { clearProps: 'height' });
+      } });
+    };
+    var open = function (d) {
+      d.open = true;
+      if (!anim) return;
+      var b = body(d);
+      G.fromTo(b, { height: 0 }, { height: 'auto', duration: 0.4, ease: 'power2.out', clearProps: 'height' });
+      G.fromTo(b.children, { y: -8, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, delay: 0.06, ease: 'power2.out', clearProps: 'transform,opacity' });
+    };
+    items.forEach(function (d) {
+      d.querySelector('summary').addEventListener('click', function (e) {
+        e.preventDefault();
+        if (d.open && !d.classList.contains('is-closing')) { close(d); return; }
+        if (/single/.test(mode)) items.forEach(function (o) { if (o !== d) close(o); });
+        open(d);
+      });
+    });
+    if (/first/.test(mode) && items[0]) items[0].open = true;
+  });
+})();`,
+};
+
 /** GSAP plugins a template's behaviours need */
 export const behaviorPlugins = t => [...new Set((t.behaviors || []).flatMap(b => BEHAVIORS[b]?.plugins || []))];
 /** The behaviours' scripts for a template ('' when it has none) */

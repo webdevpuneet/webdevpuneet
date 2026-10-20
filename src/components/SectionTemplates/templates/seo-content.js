@@ -1069,6 +1069,186 @@ Upload the customer's photo (resized in your browser), set the company name, and
 - GSAP: SplitText line reveal on the quote and staggered entrance with ScrollTrigger, respecting prefers-reduced-motion.`,
     },
   },
+
+  'faq-accordion': {
+    keywords: ['faq section template', 'faq accordion html css', 'accordion faq javascript', 'faq section with schema', 'details summary accordion'],
+    about: {
+      title: 'FAQ Accordion — Free Animated FAQ Section Template',
+      description: `**FAQ Accordion** is the FAQ section most websites need: a centred heading and intro, a single column of questions that expand to show their answers, and a contact line for anyone still unsure. The first question starts open, and opening another closes the previous one, so the list always stays tidy.
+
+**Built on native HTML**
+
+Every question is a real \`<details>\` and \`<summary>\` element. That means it works with no JavaScript at all, keyboard users can tab through and press Enter or Space, the browser's find-in-page opens matching answers, and every answer is in the HTML, where search engines can read it.
+
+**Smooth with GSAP**
+
+With GSAP loaded, answers open with a smooth height animation and their text slides in, while the plus icon rotates into a minus. Closing animates too. People who prefer reduced motion get instant open and close.
+
+**FAQPage schema included**
+
+The exported HTML page includes FAQPage structured data (JSON-LD) built from your questions and answers, ready for Google's FAQ rich results and for AI assistants that read structured data.
+
+**Edit and export**
+
+Add up to fifteen questions, reorder them so the most common come first, and edit or switch off the contact line. Export HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/).`,
+    },
+    features: [
+      'Single-column accordion on native details/summary',
+      'One question open at a time; the first opens on load',
+      'GSAP height animation and rotating plus/minus icon',
+      'Works without JavaScript; keyboard and find-in-page friendly',
+      'FAQPage JSON-LD built from your questions in the HTML export',
+      'Up to 15 questions: add, duplicate, reorder, remove',
+      'Contact line with its own link, switchable',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '?', title: 'Answers objections', desc: 'A good FAQ handles the doubts that stop people signing up, right where they have them.' },
+      { icon: '⌘', title: 'Accessible by default', desc: 'Native details/summary gives keyboard support, screen-reader semantics and find-in-page for free.' },
+      { icon: '⭐', title: 'Search-friendly', desc: 'All answers stay in the HTML, and FAQPage schema helps search engines and AI understand them.' },
+    ],
+    useCases: [
+      { icon: '💳', title: 'Under a pricing table', desc: 'Answer questions about trials, plan changes, refunds and discounts right below your plans, where hesitation is highest.' },
+      { icon: '🚀', title: 'Landing page closer', desc: 'End a landing page with the six questions prospects ask most, followed by a link to talk to your team.' },
+      { icon: '🛟', title: 'Help-centre topic page', desc: 'Group questions about one topic, such as billing or accounts, on its own help page with the schema included.' },
+      { icon: '🎟️', title: 'Event or course page', desc: 'Cover dates, refunds, recordings and certificates so attendees don’t need to email you before registering.' },
+    ],
+    faqs: [
+      { q: 'Does the accordion work without JavaScript?', a: 'Yes. Each question is a native details/summary element, so it opens and closes in every browser without any script. GSAP only adds the smooth animation and the one-at-a-time behaviour.' },
+      { q: 'Is FAQ schema included?', a: 'Yes. The exported HTML page includes FAQPage JSON-LD generated from your questions and answers. For React or Vue, add the same JSON-LD to your page head with your framework’s head manager.' },
+      { q: 'Can several answers be open at once?', a: 'In this section, opening a question closes the previous one. For multiple open answers, use the Split FAQ With Contact Card, or remove "single" from the data-accordion attribute in the exported code.' },
+      { q: 'Is it accessible?', a: 'Yes. Summary elements are focusable and toggle with Enter or Space, screen readers announce them as expandable, and animation is skipped for people who prefer reduced motion.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the FAQ: add a search box that filters questions, group questions under category tabs, or generate questions from your support tickets.',
+      prompt: `Create an FAQ section in HTML, CSS and JavaScript.
+
+- Centred header with eyebrow, heading with a highlighted phrase and intro.
+- A single column (max 820px) of native <details> elements; each <summary> holds the question and a round plus icon that becomes a minus when open; answers in a div below.
+- JavaScript with GSAP: intercept summary clicks to animate the answer height from 0 to auto and back, keep one question open at a time and open the first on load; skip animation for prefers-reduced-motion and work without GSAP.
+- Add FAQPage JSON-LD generated from the questions, and a contact line with a link under the list.`,
+    },
+  },
+
+  'faq-split': {
+    keywords: ['faq section with contact', 'two column faq section', 'faq page template html', 'support faq section', 'sticky faq sidebar'],
+    about: {
+      title: 'Split FAQ With Contact Card — Free Two-Column FAQ Template',
+      description: `**Split FAQ With Contact Card** pairs your questions with a clear way to get help. On the left, a heading, intro and a support card with an icon, a short message and a contact button stay in view as visitors scroll; on the right, an accordion of questions opens smoothly, and several answers can be open at once.
+
+**Turns questions into conversations**
+
+Visitors who can't find their answer are one click from your support team, without scrolling back up. Point the button to a contact form, a chat, an email address or a booking page, and switch the card off if you don't need it.
+
+**Native, animated, indexable**
+
+Questions use native details/summary, so they work without JavaScript and every answer stays in the HTML. GSAP animates the height of each answer and rotates the plus icon; reduced-motion users get instant changes. The exported HTML page includes FAQPage schema built from your questions.
+
+**Responsive layout**
+
+On wide screens the left column is sticky; on tablets and phones the columns stack, with the support card moving below the heading. Choose the card's icon from 60 Lucide icons.
+
+**Export it**
+
+Download HTML or a ZIP, copy a React or Vue component, or fork it into [My Code](/ui-snippets/mycode/). For a centred layout, see the [FAQ Accordion](/website-section-templates/faq-accordion/).`,
+    },
+    features: [
+      'Two columns: sticky heading and support card beside the questions',
+      'Support card with icon, title, text and button (switchable)',
+      'Accordion where several answers can be open at once',
+      'Native details/summary with GSAP height animation',
+      'FAQPage JSON-LD in the HTML export',
+      'Up to 15 questions: add, duplicate, reorder, remove',
+      'Stacks on tablets and phones',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '☎', title: 'Help is always visible', desc: 'The sticky support card stays beside the questions, so the next step is never out of reach.' },
+      { icon: '⇆', title: 'Reads like a help page', desc: 'Two columns separate "who to ask" from "what people ask", which suits support and service pages.' },
+      { icon: '⭐', title: 'Rich-result ready', desc: 'FAQPage schema in the export helps search engines show your answers directly.' },
+    ],
+    useCases: [
+      { icon: '🛒', title: 'Shop shipping and returns', desc: 'Answer delivery, returns and payment questions on product or checkout pages, with a button to contact customer service.' },
+      { icon: '🛟', title: 'Support page', desc: 'Put the most common support questions on the right and a "Chat with us" card on the left that opens your help desk.' },
+      { icon: '🏠', title: 'Service business', desc: 'Plumbers, clinics or studios can answer pricing, availability and process questions with a "Book a call" card.' },
+      { icon: '🧑‍💻', title: 'SaaS onboarding help', desc: 'Cover account setup, integrations and billing, with the card linking to your documentation or a live chat.' },
+    ],
+    faqs: [
+      { q: 'Can I keep several answers open?', a: 'Yes. In this section each question opens and closes on its own, so visitors can compare answers. The FAQ Accordion section opens one at a time instead.' },
+      { q: 'Does the left column stay on screen?', a: 'On wide screens, yes: it uses position: sticky so the heading and support card stay visible while the questions scroll. On narrow screens the columns stack normally.' },
+      { q: 'Where can the contact button link?', a: 'Anywhere: a contact page, a mailto: address, a tel: number, a chat widget page or a booking tool such as Calendly.' },
+      { q: 'Is FAQ schema included?', a: 'Yes. The exported HTML page includes FAQPage JSON-LD built from your questions and answers.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the split FAQ: add a search field above the questions, show question categories as tabs, or embed a contact form in the card.',
+      prompt: `Create a two-column FAQ section in HTML, CSS and JavaScript.
+
+- Left (sticky): eyebrow, heading, intro and a support card with an icon tile, title, text and a button.
+- Right: native <details>/<summary> questions with a round plus/minus icon; answers animate open and closed with GSAP (height 0 ↔ auto), several can be open at once; no animation for prefers-reduced-motion.
+- Container queries stack the columns below 860px.
+- Include FAQPage JSON-LD built from the questions.`,
+    },
+  },
+
+  'faq-grid': {
+    keywords: ['faq grid section', 'faq two column grid', 'faq cards html css', 'questions and answers section', 'faq section dark'],
+    about: {
+      title: 'FAQ Grid — Free Two-Column Questions and Answers Section',
+      description: `**FAQ Grid** shows every answer at once. Questions and answers sit in a two-column grid of cards, each with a small question-mark badge, the question in bold and a short answer underneath, so visitors scan the whole page without clicking anything. It works best when answers are a sentence or two.
+
+**Nothing hidden**
+
+Unlike an accordion, a grid puts every answer in front of the reader, which suits short, important facts such as limits, pricing details, data location or compatibility. The markup is a description list (dt for questions, dd for answers), which is the semantic HTML for question-and-answer pairs.
+
+**Ready for search**
+
+All answers are visible on the page, and the exported HTML includes FAQPage JSON-LD generated from them, so search engines and AI assistants can understand and quote your answers.
+
+**Edit and animate**
+
+Add up to twelve questions and reorder them. It ships in a dark navy and sky-blue theme that suits developer products, and you can switch to any preset or your brand kit. The heading reveals with SplitText and the cards stagger in on scroll; the grid becomes one column on phones.
+
+**Export it**
+
+Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). For longer answers, use the [FAQ Accordion](/website-section-templates/faq-accordion/).`,
+    },
+    features: [
+      'Questions and answers always visible in a two-column grid',
+      'Question-mark badge and bold question on every card',
+      'Semantic description list (dt / dd)',
+      'FAQPage JSON-LD in the HTML export',
+      'Up to 12 questions: add, duplicate, reorder, remove',
+      'Dark developer-style theme; any preset or brand kit',
+      'One column on phones; GSAP heading and card entrance',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '👀', title: 'Every answer seen', desc: 'No clicks needed, so important details like limits and pricing are read by everyone.' },
+      { icon: '⚡', title: 'Fast to scan', desc: 'Short answers in a grid let visitors find what they need in seconds.' },
+      { icon: '⭐', title: 'Great for search', desc: 'Visible answers plus FAQPage schema give search engines and AI clear, quotable content.' },
+    ],
+    useCases: [
+      { icon: '🧑‍💻', title: 'API and developer docs', desc: 'Answer questions about rate limits, SDKs, regions and self-hosting on your developer landing page.' },
+      { icon: '💳', title: 'Pricing details', desc: 'Show billing facts such as currencies, invoices, taxes and cancellations beside your pricing table.' },
+      { icon: '📦', title: 'Product specifications', desc: 'Cover compatibility, warranty, dimensions and delivery as short question-and-answer cards on a product page.' },
+      { icon: '🏫', title: 'Admissions or enrolment', desc: 'List key facts about deadlines, fees, requirements and start dates for a course or school page.' },
+    ],
+    faqs: [
+      { q: 'When should I use a grid instead of an accordion?', a: 'Use a grid when answers are short (one or two sentences) and you want all of them read. Use an accordion when answers are longer or you have many questions.' },
+      { q: 'Is the markup semantic?', a: 'Yes. Questions and answers are a description list, with dt for each question and dd for each answer, which screen readers and search engines understand as pairs.' },
+      { q: 'Is FAQ schema included?', a: 'Yes. The exported HTML page includes FAQPage JSON-LD generated from your questions and answers.' },
+      { q: 'Can I use a light theme?', a: 'Yes. Pick a light colour preset or apply your brand kit; the cards, badges and text colours all follow the theme.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the FAQ grid: add category headings, link answers to documentation pages, or generate the questions from your product docs.',
+      prompt: `Create an FAQ grid section in HTML and CSS.
+
+- Dark navy background, centred header with eyebrow and a heading with one highlighted phrase.
+- A two-column grid built as a description list: each card holds a dt with a small "?" badge and the question in bold, and a dd with a short answer.
+- Container queries switch to one column below 720px; CSS custom properties for the theme.
+- Include FAQPage JSON-LD and a GSAP entrance (SplitText heading, staggered cards) that respects prefers-reduced-motion.`,
+    },
+  },
 };
 
 export const SECTION_DIFFERENT = [

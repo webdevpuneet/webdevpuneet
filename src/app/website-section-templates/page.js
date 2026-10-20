@@ -65,7 +65,7 @@ const SECTIONS = [
     text: SECTION_CATEGORIES.filter(c => SECTION_TEMPLATES.some(t => t.category === c.id)).map(c => {
       const list = SECTION_TEMPLATES.filter(t => t.category === c.id);
       return `**[${c.label} section templates](/website-section-templates/category/${c.id}/)**: ${c.blurb} Includes ${list.map(t => `[${t.name}](/website-section-templates/${t.id}/)`).join(', ')}.`;
-    }).join('\n\n') + '\n\nNavbar, FAQ, call-to-action, stats, team, contact, blog and footer sections are being added next, all built on the same theme so they combine into complete pages.',
+    }).join('\n\n') + '\n\nNavbar, call-to-action, stats, team, contact, blog and footer sections are being added next, all built on the same theme so they combine into complete pages.',
   },
   {
     type: 'text',
@@ -135,7 +135,7 @@ export default function WebsiteSectionTemplatesPage() {
       <div className={`${styles.toolSection} ${styles.toolSectionGallery}`}><SectionGalleryPage previews={sectionPreviewIds()} /></div>
       <AdSlot />
       <IndexOnly>
-        <SeoSection slug="website-section-templates" title="Website Section Templates — Free, Editable, Animated" subtitle="Hero, features, pricing & testimonial sections · Shared theme · GSAP + SplitText animation · Container queries · HTML, React & Vue" sections={SECTIONS} />
+        <SeoSection slug="website-section-templates" title="Website Section Templates — Free, Editable, Animated" subtitle="Hero, features, pricing, testimonial & FAQ sections · Shared theme · GSAP + SplitText animation · Container queries · HTML, React & Vue" sections={SECTIONS} />
       </IndexOnly>
     </div>
   );

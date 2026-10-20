@@ -332,7 +332,7 @@
   ]
  },
  "section": {
-  "total": 18,
+  "total": 21,
   "categories": [
    {
     "id": "hero",
@@ -427,6 +427,24 @@
      {
       "id": "testimonial-spotlight",
       "name": "Testimonial Spotlight"
+     }
+    ]
+   },
+   {
+    "id": "faq",
+    "label": "FAQ",
+    "items": [
+     {
+      "id": "faq-accordion",
+      "name": "FAQ Accordion"
+     },
+     {
+      "id": "faq-split",
+      "name": "Split FAQ With Contact Card"
+     },
+     {
+      "id": "faq-grid",
+      "name": "FAQ Grid"
      }
     ]
    }

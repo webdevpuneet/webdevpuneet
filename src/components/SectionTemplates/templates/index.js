@@ -19,6 +19,9 @@ import testimonialsGrid from './testimonials-grid.js';
 import testimonialsCarousel from './testimonials-carousel.js';
 import testimonialsMarquee from './testimonials-marquee.js';
 import testimonialSpotlight from './testimonial-spotlight.js';
+import faqAccordion from './faq-accordion.js';
+import faqSplit from './faq-split.js';
+import faqGrid from './faq-grid.js';
 import { DEFAULT_THEME, DEFAULT_MOTION } from './meta.js';
 
 export { SECTION_CATEGORIES, sectionCategoryById, DEFAULT_THEME, THEME_PRESETS, THEME_COLORS, THEME_KEYS, BASE_CSS, IMG, MOTION_PRESETS, MOTION_SPEEDS, TEXT_EFFECTS, DEFAULT_MOTION, GSAP_CDN, GSAP_VERSION } from './meta.js';
@@ -43,6 +46,9 @@ export const SECTION_TEMPLATES = [
   testimonialsCarousel,
   testimonialsMarquee,
   testimonialSpotlight,
+  faqAccordion,
+  faqSplit,
+  faqGrid,
 ];
 export const sectionTemplateById = id => SECTION_TEMPLATES.find(t => t.id === id);
 

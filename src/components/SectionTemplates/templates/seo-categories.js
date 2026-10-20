@@ -65,4 +65,20 @@ Every section stores testimonials as an editable list with quotes, names, roles,
       { q: 'Are carousels and marquees accessible?', a: 'These are. Both are built on normal scrollable rows, label their regions, hide duplicated content from screen readers and stop animating for people who prefer reduced motion.' },
     ],
   },
+  faq: {
+    title: 'FAQ Section Templates — Free Accordion HTML, React & Vue',
+    description: 'Free FAQ section templates: an animated accordion, a two-column FAQ with a contact card and an open Q&A grid, all with FAQPage schema. Edit online, export code.',
+    h1: 'FAQ Section Templates',
+    keywords: ['faq section template', 'faq accordion html css', 'faq schema', 'frequently asked questions section', 'faq page template'],
+    intro: `An FAQ section answers the questions that would otherwise stop someone from signing up, buying or getting in touch. It also helps search: clear questions with direct answers are exactly what search engines and AI assistants look for.
+
+The **[FAQ Accordion](/website-section-templates/faq-accordion/)** is a centred list where one answer opens at a time, the most common layout on landing and pricing pages. The **[Split FAQ With Contact Card](/website-section-templates/faq-split/)** puts a sticky support card beside the questions, ideal for help and service pages. The **[FAQ Grid](/website-section-templates/faq-grid/)** shows every short answer at once in a two-column grid.
+
+The accordions are built on native details/summary, so they work without JavaScript and keep every answer in the HTML, with smooth GSAP animation on top. Every FAQ section adds FAQPage structured data (JSON-LD) to its HTML export, generated from your questions.`,
+    faqs: [
+      { q: 'Does an FAQ section help SEO?', a: 'It can. Clear question headings with direct answers match how people search, the answers give search engines and AI assistants quotable content, and FAQPage structured data describes them explicitly. Keep answers genuinely useful rather than stuffed with keywords.' },
+      { q: 'Accordion or open list?', a: 'Use an accordion for longer answers or many questions, so the page stays short. Use an open grid when answers are a sentence or two and you want every one read.' },
+      { q: 'Are hidden accordion answers indexed?', a: 'Yes. With details/summary the answers are in the HTML from the start, just collapsed, so search engines can read them.' },
+    ],
+  },
 };

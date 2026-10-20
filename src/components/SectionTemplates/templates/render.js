@@ -268,6 +268,13 @@ export const sectionCss = (t, state, { fontFaces = '' } = {}) => [fontFaces, the
  * @param extraHead  extra tags for the head (the editor preview adds its helpers)
  * @param motion     include the GSAP animation runtime (off for static screenshots)
  */
+/** Structured data a section provides for search engines (template `schema(state)`), as a
+    <script type="application/ld+json"> tag ('' when none) */
+export function schemaTag(t, state) {
+  const data = typeof t.schema === 'function' ? t.schema(state) : null;
+  return data ? `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>\n` : '';
+}
+
 export function documentHtml(t, state, { imageSrc, clean = true, fontFaces = '', extraHead = '', title, motion = true } = {}) {
   const gf = googleFontsUrl(t, state);
   return `<!DOCTYPE html>
@@ -277,7 +284,7 @@ export function documentHtml(t, state, { imageSrc, clean = true, fontFaces = '',
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title || t.name)}</title>
 <!-- ${t.name} v${t.version} · https://webdevpuneet.com/website-section-templates/${t.id}/ -->
-${gf ? `<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="${gf}" rel="stylesheet">\n` : ''}<style>
+${gf ? `<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="${gf}" rel="stylesheet">\n` : ''}${clean ? schemaTag(t, state) : ''}<style>
 body{margin:0}
 ${sectionCss(t, state, { fontFaces })}
 </style>${extraHead}
