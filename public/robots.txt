@@ -10,3 +10,4 @@ Sitemap: https://webdevpuneet.com/sitemap-ui-snippets.xml
 Sitemap: https://webdevpuneet.com/sitemap-email-templates.xml
 Sitemap: https://webdevpuneet.com/sitemap-social-post-templates.xml
 Sitemap: https://webdevpuneet.com/sitemap-website-section-templates.xml
+Sitemap: https://webdevpuneet.com/sitemap-website-templates.xml

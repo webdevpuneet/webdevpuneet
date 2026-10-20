@@ -14,6 +14,7 @@ import { EMAIL_SEO } from '../src/components/EmailTemplates/templates/seo-conten
 import { SECTION_TEMPLATES, SECTION_CATEGORIES } from '../src/components/SectionTemplates/templates/index.js';
 import { SECTION_SEO } from '../src/components/SectionTemplates/templates/seo-content.js';
 import { SECTION_CATEGORY_SEO } from '../src/components/SectionTemplates/templates/seo-categories.js';
+import { WEBSITE_TEMPLATES } from '../src/components/SectionTemplates/templates/starters.js';
 
 // Exclude nofollow/test snippets (noindex: true) from sitemap + llms.txt — they only show on localhost
 const SNIPPETS = ALL_SNIPPETS.filter(sn => !sn.noindex);
@@ -318,6 +319,22 @@ async function main() {
   write('sitemap-website-section-templates.xml', pageImageUrlset(sectionEntries));
   console.log(`sitemap-website-section-templates.xml -> ${sectionEntries.length} URLs`);
 
+  // Website templates (Website Builder starters): the gallery and every template page,
+  // each with its full-page preview image
+  const TPL_LASTMOD = '2026-10-21';
+  const websiteTemplateEntries = [
+    { loc: `${BASE_URL}/website-builder/templates/`, lastmod: TPL_LASTMOD, changefreq: 'weekly', priority: 0.8 },
+    ...WEBSITE_TEMPLATES.map(t => ({
+      loc:        `${BASE_URL}/website-builder/templates/${t.id}/`,
+      lastmod:    TPL_LASTMOD,
+      changefreq: 'monthly',
+      priority:   0.7,
+      images:     [{ loc: `${BASE_URL}/images/website-templates/full/${t.id}.jpg`, title: `${t.name} — free website template`, caption: t.blurb }],
+    })),
+  ];
+  write('sitemap-website-templates.xml', pageImageUrlset(websiteTemplateEntries));
+  console.log(`sitemap-website-templates.xml -> ${websiteTemplateEntries.length} URLs`);
+
   /* ── 4. sitemap-images-listN.xml + sitemap-images.xml (sub-index) ────────── */
   // Collect image entries: tool pages + category pages that have a matching PNG
   const imageEntries = [];
@@ -427,6 +444,7 @@ async function main() {
     { loc: `${BASE_URL}/sitemap-email-templates.xml`,         lastmod: emailMaxLastmod },
     { loc: `${BASE_URL}/sitemap-social-post-templates.xml`,   lastmod: socialMaxLastmod },
     { loc: `${BASE_URL}/sitemap-website-section-templates.xml`, lastmod: sectionMaxLastmod },
+    { loc: `${BASE_URL}/sitemap-website-templates.xml`,       lastmod: TPL_LASTMOD },
   ];
   write('sitemap.xml', sitemapIndex(masterEntries));
   console.log(`sitemap.xml (index) -> ${masterEntries.length} sub-sitemaps registered`);
@@ -507,6 +525,12 @@ async function main() {
     }
     llmsTxt += '\n';
   }
+  llmsTxt += `\n---\n\n## Website Templates\n\n`;
+  llmsTxt += `Free one-page website templates with real content for each industry, built from the section library and opened in the free Website Builder (${BASE_URL}/website-builder/), where everything is editable without code and the page exports as clean HTML or a ZIP.\n\nGallery: ${BASE_URL}/website-builder/templates/\n\n`;
+  for (const t of WEBSITE_TEMPLATES) {
+    llmsTxt += `- [${t.name}](${BASE_URL}/website-builder/templates/${t.id}/) (${t.industry}) : ${t.blurb} Good for: ${t.bestFor.join(', ')}.\n`;
+  }
+  llmsTxt += '\n';
   llmsTxt += `\n---\n\n## UI Snippets Components\n\n`;
   llmsTxt += `Browse and copy ${SNIPPETS.length}+ free HTML, CSS & JS components with live preview and export to HTML, JSX, or React + Tailwind CSS.\n\nLibrary: ${BASE_URL}/ui-snippets/\n\n`;
   llmsTxt += `### Categories\n\n`;
@@ -553,7 +577,8 @@ async function main() {
   snippetListFiles.forEach(f => console.log(`  │    └─ ${f}`));
   console.log('  ├─ sitemap-email-templates.xml');
   console.log('  ├─ sitemap-social-post-templates.xml');
-  console.log('  └─ sitemap-website-section-templates.xml');
+  console.log('  ├─ sitemap-website-section-templates.xml');
+  console.log('  └─ sitemap-website-templates.xml');
 }
 
 main().catch(err => { console.error(err); process.exit(1); });

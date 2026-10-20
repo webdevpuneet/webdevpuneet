@@ -237,6 +237,25 @@ export default function WebsiteBuilder() {
         if (d && live) { const p = restorePage(d.state); setPageRaw(p); savedJson.current = JSON.stringify(p); setCurrent({ id: d.id, name: d.name }); done = true; }
       }
       if (!done) { const auto = await store.getAutosave(AUTOSAVE).catch(() => null); if (auto && live) setPageRaw(restorePage(auto)); }
+      // ?starter=<id> from a website template page: open that template. The current page,
+      // if it has sections and isn't saved, is kept in My pages first so nothing is lost.
+      const starterId = new URLSearchParams(window.location.search).get('starter');
+      if (live && starterId && STARTERS.some(x => x.id === starterId)) {
+        const auto = await store.getAutosave(AUTOSAVE).catch(() => null);
+        const prev = auto ? restorePage(auto) : null;
+        let kept = '';
+        if (!done && prev?.sections?.length) {
+          const rec = await store.saveDesign({ name: `${prev.name} (autosaved)`, tpl: 'page', state: prev }).catch(() => null);
+          if (rec) kept = ` Your previous page was saved to My pages as “${rec.name}”.`;
+        }
+        const next = pageFromStarter(starterId);
+        if (live) {
+          setPageRaw(next);
+          setCurrent(null); savedJson.current = null;
+          setToast(`Opened the ${next.name} template. Click any section to edit it.${kept}`);
+          window.history.replaceState(null, '', window.location.pathname);
+        }
+      }
       // "Add to Website Builder" from a section editor: append that section to the page
       if (live && new URLSearchParams(window.location.search).get('add')) {
         let incoming = null;
@@ -628,10 +647,14 @@ export default function WebsiteBuilder() {
                   <h2 className={s.sectionTitle}>Sections {page.sections.length > 0 && <span style={{ opacity: 0.6, fontWeight: 500 }}>({page.sections.length})</span>}</h2>
                   {page.sections.length === 0 && !adding && (
                     <>
-                      <p className={s.hint}>Start from a ready-made page, or add sections one by one.</p>
+                      <p className={s.hint}>Start from a template, or add sections one by one. <a href="/website-builder/templates/" target="_blank" rel="noopener">Browse all templates ↗</a></p>
                       <div className={b.starters}>
                         {STARTERS.map(st => (
-                          <button key={st.id} type="button" className={b.starter} onClick={() => startFrom(st.id)}><b>{st.name}</b><small>{st.blurb}</small></button>
+                          <button key={st.id} type="button" className={b.starter} onClick={() => startFrom(st.id)} title={st.blurb}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={`/images/website-templates/thumb/${st.id}.jpg`} alt="" loading="lazy" />
+                            <b>{st.name}</b><small>{st.industry} · {st.sections.length} sections</small>
+                          </button>
                         ))}
                       </div>
                     </>

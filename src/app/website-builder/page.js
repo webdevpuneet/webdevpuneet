@@ -27,7 +27,7 @@ export const metadata = {
 
 const faqs = [
   { q: 'Is this website builder really free?', a: `Yes. Every feature is free: all ${N} sections, the themes, GSAP animation, saving pages and exporting HTML. There is no account, no watermark and no limit on pages. Your work is saved in your own browser.` },
-  { q: 'How does the website builder work?', a: 'Start from a ready-made page (SaaS, agency, app, portfolio or launch) or an empty page, then add sections such as a navbar, hero, features, pricing, testimonials, FAQ, call to action and footer. Click any section to edit its text, images and links, reorder or duplicate sections, and set colours, fonts and animation once for the whole page.' },
+  { q: 'How does the website builder work?', a: 'Start from one of the website templates (SaaS, app, agency, portfolio, restaurant, real estate, gym, clinic, event, nonprofit and more) or an empty page, then add sections such as a navbar, hero, features, pricing, testimonials, FAQ, call to action and footer. Click any section to edit its text, images and links, reorder or duplicate sections, and set colours, fonts and animation once for the whole page.' },
   { q: 'Can I export my website?', a: 'Yes. Download the page as one HTML file with your images embedded, or as a ZIP with index.html and an images folder. Upload it to any static host such as Netlify, Vercel, Cloudflare Pages, GitHub Pages or your own server; there is no lock-in.' },
   { q: 'Is the exported code clean?', a: 'Yes. It is semantic HTML with one style sheet built on CSS custom properties, responsive container queries and small, dependency-light scripts for interactive parts. Animations use GSAP from a CDN. FAQ and blog sections include structured data for search engines.' },
   { q: 'Do I need to know how to code?', a: 'No. Everything is edited with forms in the side panel: text, links, images, lists of cards and toggles. Developers can still open the exported HTML and change anything.' },
@@ -42,7 +42,7 @@ const SECTIONS = [
     heading: 'Features',
     items: [
       `${N} professionally designed sections in ${CATS} categories: navbars, heroes, features, pricing, testimonials, FAQ, CTA, stats, team, contact, blog and footers`,
-      `${STARTERS.length} starter pages: SaaS landing page, agency, mobile app, portfolio and launch/waitlist`,
+      `${STARTERS.length} website templates with real content: SaaS, app, agency, portfolio, restaurant, real estate, gym, dental clinic, local services, online course, coach, event, nonprofit and more`,
       'Add, reorder, duplicate and remove sections; click any section in the preview to edit it',
       'One theme for the whole page: colour presets, exact colours, any Google Font or your own font, radius and width',
       'GSAP animation built in: entrance effects, SplitText headline reveals, counters, marquees and more',
@@ -61,7 +61,7 @@ const SECTIONS = [
     quickFacts: false,
     text: `Most website builders keep your site on their platform. This one gives it to you. You build a page from professionally designed sections, set one theme for the whole page, and download clean HTML you can host anywhere: Netlify, Vercel, Cloudflare Pages, GitHub Pages or your own server.
 
-**Built from sections.** Every page is a stack of sections from the [Website Section Templates](/website-section-templates/) library: a [navbar](/website-section-templates/category/navbar/), a [hero](/website-section-templates/category/hero/), [features](/website-section-templates/category/features/), [pricing](/website-section-templates/category/pricing/), [testimonials](/website-section-templates/category/testimonials/), an [FAQ](/website-section-templates/category/faq/), a [call to action](/website-section-templates/category/cta/) and a [footer](/website-section-templates/category/footer/), plus [stats and logos](/website-section-templates/category/stats/), [team](/website-section-templates/category/team/), [contact](/website-section-templates/category/contact/) and [blog](/website-section-templates/category/blog/) sections. Start from a ready-made page or an empty one, add what you need and reorder freely.
+**Built from sections.** Every page is a stack of sections from the [Website Section Templates](/website-section-templates/) library: a [navbar](/website-section-templates/category/navbar/), a [hero](/website-section-templates/category/hero/), [features](/website-section-templates/category/features/), [pricing](/website-section-templates/category/pricing/), [testimonials](/website-section-templates/category/testimonials/), an [FAQ](/website-section-templates/category/faq/), a [call to action](/website-section-templates/category/cta/) and a [footer](/website-section-templates/category/footer/), plus [stats and logos](/website-section-templates/category/stats/), [team](/website-section-templates/category/team/), [contact](/website-section-templates/category/contact/) and [blog](/website-section-templates/category/blog/) sections. Start from one of the free [website templates](/website-builder/templates/) or an empty page, add what you need and drag sections to reorder them.
 
 **One theme, one website.** Colours, fonts, corner radius and content width are set once for the whole page as CSS custom properties, so any mix of sections looks like it was designed together. Apply your saved brand kit in one click, or choose any Google Font or your own uploaded font.
 
@@ -76,7 +76,7 @@ const SECTIONS = [
     label: 'Step by step',
     heading: 'How to Build a Website',
     items: [
-      { title: 'Start a page', text: 'Pick a starter page (SaaS, agency, app, portfolio or launch) or begin with an empty page.' },
+      { title: 'Start a page', text: 'Pick one of the website templates (restaurant, real estate, gym, SaaS, portfolio and more) or begin with an empty page.' },
       { title: 'Add and arrange sections', text: 'Add a navbar, hero, features, pricing, testimonials, FAQ, CTA and footer, then reorder, duplicate or remove them.' },
       { title: 'Edit the content', text: 'Click a section to change its text, links, images and lists of cards; upload your own images and logo.' },
       { title: 'Set the theme', text: 'Choose colours, fonts, corner radius, content width and animation once for the whole page, or apply your brand kit.' },
@@ -130,7 +130,7 @@ export default function WebsiteBuilderPage() {
       <div className={styles.toolSection}><WebsiteBuilder /></div>
       <AdSlot />
       <IndexOnly>
-        <SeoSection slug="website-builder" title="Free Website Builder — Build a Page From Sections, Export HTML" subtitle={`${N} sections · ${STARTERS.length} starter pages · One theme · GSAP animation · Export HTML or ZIP`} sections={SECTIONS} />
+        <SeoSection slug="website-builder" title="Free Website Builder — Build a Page From Sections, Export HTML" subtitle={`${N} sections · ${STARTERS.length} website templates · One theme · GSAP animation · Export HTML or ZIP`} sections={SECTIONS} />
       </IndexOnly>
     </div>
   );

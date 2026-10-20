@@ -77,7 +77,7 @@
   <div class="callout">
     <strong>Current step:</strong> Phase 2 — Section catalogue. Phase 2 catalogue complete: all 12 categories have sections (2.1–2.11).<br>
     <strong>Status:</strong> 44 sections (3 navbar, 4 footer, 3 team, 3 contact, 3 blog, 5 hero, 5 features, 4 pricing, 4 testimonials, 3 FAQ, 4 CTA, 3 stats &amp; logos). Deployed 2026-10-20 up to 87b4b36 (28 sections; zip uploaded, server-side extraction is a manual step); Navbar, Footer, Team, Contact and Blog steps built locally, not committed. Last push: 87b4b36 (CTA + Stats steps). Own sitemap <code>sitemap-website-section-templates.xml</code> (categories + every section with preview images), listed in sitemap.xml and robots.txt. User review is still open.<br>
-    <strong>Next action:</strong> user tests <code>/website-builder/</code> locally → commit, push, deploy. Then Phase 3 polish (drag-and-drop reorder with GSAP Draggable + Flip, section anchors, per-section overrides) and Phase 4: more starter pages as SEO landing pages (<code>/website-builder/templates/&lt;id&gt;/</code>).</div>
+    <strong>Next action:</strong> deploy (Phase 4 included) and check the live pages. Then per-section style overrides (dark section on a light page, spacing, backgrounds), more templates, ScrollSmoother page setting, and Phase 3b scroll animation builder.</div>
   <p class="muted">Rule for every session: read this section first, work from the first unchecked item, then update the checklists, the decisions table and the change log before finishing.</p>
 </section>
 
@@ -182,10 +182,13 @@
   },
 }</pre>
 
-  <div class="phase"><h3>Phase 4 — Website templates</h3><span class="pill todo">To do</span></div>
+  <div class="phase"><h3>Phase 4 — Website templates</h3><span class="pill done">15 built</span></div>
   <ul class="checklist">
-    <li><span class="pill todo">To do</span><div>Presets = saved page stacks with sample content: SaaS landing, agency, portfolio, restaurant, real estate, event, coach, local business.</div></li>
-    <li><span class="pill todo">To do</span><div>Each preset gets its own SEO page (<code>/website-templates/&lt;id&gt;/</code>) that opens in the page builder.</div></li>
+    <li><span class="pill done">Done</span><div><strong>4.1 Templates</strong> (<code>templates/starters.js</code> → <code>WEBSITE_TEMPLATES</code>): 15 one-page websites with real industry copy, own theme + font pair and per-section content overrides <code>[tpl, { fields, lists, toggles }]</code> applied by <code>pageFromStarter</code>: SaaS, mobile app, launch/waitlist, agency, portfolio, photographer, restaurant, real estate, gym, dental clinic, local service, online course, coach, event, nonprofit. All override keys validated against the section templates.</div></li>
+    <li><span class="pill done">Done</span><div><strong>4.2 Art + images</strong>: <code>scripts/make-template-art.cjs</code> (restaurant, real-estate, fitness, event, nature hero backgrounds; course player and booking calendar UIs); <code>scripts/capture-website-templates.mjs</code> → <code>public/images/website-templates/{full,thumb,og}/&lt;id&gt;.jpg</code>.</div></li>
+    <li><span class="pill done">Done</span><div><strong>4.3 SEO pages</strong>: <code>/website-builder/templates/</code> (gallery grouped by industry, CollectionPage + FAQ + Breadcrumb) and <code>/website-builder/templates/&lt;id&gt;/</code> (full-page scrolling preview, sections list linking to section pages, details with fonts/colours, related templates, CreativeWork + FAQ + Breadcrumb). Own sitemap <code>sitemap-website-templates.xml</code> (16 URLs with images), robots.txt, llms.txt section.</div></li>
+    <li><span class="pill done">Done</span><div><strong>4.4 Builder hook-up</strong>: <code>/website-builder/?starter=&lt;id&gt;</code> opens a template (the previous unsaved page is kept in My pages first); starter picker shows thumbnails; links to the gallery from the builder and its page.</div></li>
+    <li><span class="pill todo">To do</span><div>More templates (wedding, hotel, law firm, salon, church, podcast, e-commerce product, school…) and industry-specific sections (menus, property listings, class timetables).</div></li>
   </ul>
 
   <div class="phase"><h3>Phase 5 — Multi-page sites</h3><span class="pill todo">To do</span></div>
@@ -435,6 +438,7 @@
       <tr><td>2026-10-20</td><td>Pushed 87b4b36 and deployed (build + 337.7 MB zip upload OK). 2.8 done: <code>menu</code> behaviour (mobile menu, focus trap, Esc, dismiss, sticky + hide on scroll), nav parts, <code>previewMinHeight</code> (editor room + placeholder page in captures), 3 navbars with SEO, the Navbar category page and previews. Sitemap: 39 URLs (8 categories + 31 sections).</td></tr>
       <tr><td>2026-10-20</td><td>2.9 done: <code>data-links</code> + links field, <code>totop</code> behaviour, social icons (70 total), 4 footers with SEO, the Footer category page and previews. Sitemap: 44 URLs (9 categories + 35 sections).</td></tr>
       <tr><td>2026-10-20</td><td>2.10–2.11 done: 3 Team, 3 Contact, 3 Blog sections; <code>form</code> + <code>hoverpreview</code> behaviours, <code>ST_PREVIEW</code> flag, blog schema, blog covers. Phase 2 catalogue complete: 44 sections, 12 categories. Library page subtitle now counts sections dynamically. Sitemap: 56 URLs (12 categories + 44 sections).</td></tr>
+      <tr><td>2026-10-21</td><td>Pushed 02a76d9 (builder polish). Phase 4 done: 15 website templates with real content (10 new industries), 7 new artworks, template images, gallery + 15 SEO template pages, own sitemap, llms.txt, builder <code>?starter=</code> with safe backup of the previous page, thumbnail starter picker.</td></tr>
       <tr><td>2026-10-20</td><td>Pushed 0fa7f5c (Website Builder). Deploy attempt hung at "next build" startup twice (after the PC woke from hibernate; no output dir created); stopped at the user's request, nothing uploaded. All dev servers stopped. 3.5 polish built: drag-and-drop reorder (Draggable + Flip), section anchors, "+ Add to page" from section editors, undo/redo shortcuts inside the preview. Not committed yet.</td></tr>
       <tr><td>2026-10-20</td><td>Pushed 2f31bbb (catalogue). Phase 3 built: page engine, shared panels (editor refactored onto them), Website Builder at /website-builder/ with 5 starters, saving, backups and HTML/ZIP export; registry, top nav, related tools, share image. Not committed yet.</td></tr>
     </tbody>

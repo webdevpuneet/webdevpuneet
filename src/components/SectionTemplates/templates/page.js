@@ -10,7 +10,8 @@
    one GSAP include with the union of plugins, one motion runtime (it already animates
    every .st on the page) and all sections' structured data. */
 
-import { sectionTemplateById, defaultSectionState, restoreSectionState } from './index.js';
+import { sectionTemplateById, defaultSectionState, restoreSectionState, listItem } from './index.js';
+import { WEBSITE_TEMPLATES, websiteTemplateById } from './starters.js';
 import { DEFAULT_THEME, DEFAULT_MOTION, BASE_CSS, esc, gsapCdn, THEME_PRESETS, THEME_COLORS } from './meta.js';
 import { BEHAVIORS } from './behaviors.js';
 import { themeCss, googleFontsUrl, fillHtml, motionScript, motionPlugins, schemaTag } from './render.js';
@@ -42,30 +43,35 @@ export function newPageSection(tplId, sections = []) {
   return t ? { uid: newUid(), tpl: tplId, anchor: defaultAnchor(tplId, sections), state: defaultSectionState(t) } : null;
 }
 
-/* Starter pages: ready-made section stacks with a theme (the seed of website templates).
-   Every section starts with its template's default content. */
-export const STARTERS = [
-  { id: 'saas', name: 'SaaS landing page', blurb: 'Navbar, split hero, logos, features, testimonials, pricing, FAQ, CTA and footer.', preset: 'indigo', fonts: { heading: 'jakarta', body: 'inter' },
-    sections: ['navbar-simple', 'saas-split-hero', 'logo-cloud', 'features-icon-grid', 'features-alternating', 'testimonials-grid', 'pricing-three-tier', 'faq-accordion', 'cta-gradient-banner', 'footer-columns'] },
-  { id: 'agency', name: 'Agency / studio', blurb: 'Floating navbar, dark hero, bento features, team carousel, case study, journal and big footer.', preset: 'midnight', fonts: { heading: 'jakarta', body: 'inter' },
-    sections: ['navbar-floating', 'centered-gradient-hero', 'features-bento', 'stats-counters', 'team-carousel', 'testimonial-spotlight', 'blog-list', 'footer-giant'] },
-  { id: 'app', name: 'Mobile app', blurb: 'App hero with store buttons, features with phone, how it works, reviews, download CTA and FAQ.', preset: 'ocean', fonts: { heading: 'jakarta', body: 'inter' },
-    sections: ['navbar-simple', 'app-product-hero', 'features-split-image', 'features-steps', 'testimonials-marquee', 'cta-split-image', 'faq-split', 'footer-minimal'] },
-  { id: 'portfolio', name: 'Personal portfolio', blurb: 'Portfolio hero, services, client reviews, journal and a contact form.', preset: 'sand', fonts: { heading: 'jakarta', body: 'inter' },
-    sections: ['navbar-floating', 'portfolio-hero', 'features-icon-grid', 'testimonials-carousel', 'blog-cards', 'contact-split-form', 'footer-minimal'] },
-  { id: 'launch', name: 'Launch / waitlist', blurb: 'Announcement bar, gradient hero, bento features, newsletter sign-up and footer.', preset: 'rose', fonts: { heading: 'jakarta', body: 'inter' },
-    sections: ['navbar-announcement', 'centered-gradient-hero', 'features-bento', 'cta-newsletter', 'footer-newsletter'] },
-];
+/* Starter pages = the website templates (templates/starters.js): each is a stack of
+   sections with a theme, fonts and real content for its industry. */
+export const STARTERS = WEBSITE_TEMPLATES;
 
-/** A new page built from a starter */
+/** Apply a template's content overrides ({ fields, lists, toggles }) to a section state */
+function withOverrides(t, state, o = {}) {
+  const next = { ...state, fields: { ...state.fields, ...(o.fields || {}) }, toggles: { ...state.toggles, ...(o.toggles || {}) }, lists: { ...state.lists } };
+  for (const [key, items] of Object.entries(o.lists || {})) {
+    const l = (t.lists || []).find(x => x.key === key);
+    if (l && Array.isArray(items)) next.lists[key] = items.map((v, i) => listItem(l, v, `o${i}`));
+  }
+  return next;
+}
+
+/** A new page built from a website template */
 export function pageFromStarter(starterId) {
-  const st = STARTERS.find(x => x.id === starterId);
+  const st = websiteTemplateById(starterId);
   if (!st) return emptyPage();
-  const preset = THEME_PRESETS.find(p => p.id === st.preset);
   const page = emptyPage(st.name);
+  const preset = st.preset && THEME_PRESETS.find(p => p.id === st.preset);
   if (preset) page.theme = { ...page.theme, ...Object.fromEntries(THEME_COLORS.map(c => [c.key, preset[c.key]])) };
-  page.fonts = { ...page.fonts, ...st.fonts };
-  for (const id of st.sections) { const sec = newPageSection(id, page.sections); if (sec) page.sections.push(sec); }
+  if (st.theme) page.theme = { ...page.theme, ...st.theme };
+  page.fonts = { ...page.fonts, ...(st.fonts || {}) };
+  for (const [id, o] of st.sections) {
+    const sec = newPageSection(id, page.sections);
+    if (!sec) continue;
+    sec.state = withOverrides(sectionTemplateById(id), sec.state, o);
+    page.sections.push(sec);
+  }
   return page;
 }
 
