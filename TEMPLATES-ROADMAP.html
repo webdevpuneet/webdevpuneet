@@ -77,7 +77,7 @@
   <div class="callout">
     <strong>Current step:</strong> Phase 2 — Section catalogue. Phase 2 catalogue complete: all 12 categories have sections (2.1–2.11).<br>
     <strong>Status:</strong> 44 sections (3 navbar, 4 footer, 3 team, 3 contact, 3 blog, 5 hero, 5 features, 4 pricing, 4 testimonials, 3 FAQ, 4 CTA, 3 stats &amp; logos). Deployed 2026-10-20 up to 87b4b36 (28 sections; zip uploaded, server-side extraction is a manual step); Navbar, Footer, Team, Contact and Blog steps built locally, not committed. Last push: 87b4b36 (CTA + Stats steps). Own sitemap <code>sitemap-website-section-templates.xml</code> (categories + every section with preview images), listed in sitemap.xml and robots.txt. User review is still open.<br>
-    <strong>Next action:</strong> user review of Phase 2 → commit, push, deploy. Then <strong>Phase 3: page builder</strong> (stack navbar + sections + footer on one page with one theme, shared GSAP runtime, export a full page). Optional Phase 2 polish: per-field text effects, click-to-edit in the preview.</div>
+    <strong>Next action:</strong> user tests <code>/website-builder/</code> locally → commit, push, deploy. Then Phase 3 polish (drag-and-drop reorder with GSAP Draggable + Flip, section anchors, per-section overrides) and Phase 4: more starter pages as SEO landing pages (<code>/website-builder/templates/&lt;id&gt;/</code>).</div>
   <p class="muted">Rule for every session: read this section first, work from the first unchecked item, then update the checklists, the decisions table and the change log before finishing.</p>
 </section>
 
@@ -147,13 +147,16 @@
     <li><span class="pill todo">To do</span><div>Cross-links: related UI Snippets ↔ section templates.</div></li>
   </ul>
 
-  <div class="phase"><h3>Phase 3 — Page builder</h3><span class="pill todo">To do</span></div>
+  <div class="phase"><h3>Phase 3 — Website Builder (<code>/website-builder/</code>)</h3><span class="pill doing">Built (3.1–3.4)</span></div>
   <ul class="checklist">
-    <li><span class="pill todo">To do</span><div>Page = ordered list of section instances <code>{ tpl, state }</code> + one shared theme. Add, remove, reorder (drag), duplicate sections.</div></li>
-    <li><span class="pill todo">To do</span><div>Export whole page: single HTML, ZIP with images/fonts, React page component.</div></li>
-    <li><span class="pill todo">To do</span><div>Saved pages in IndexedDB (<code>pages</code> store), included in backup export/import.</div></li>
-    <li><span class="pill todo">To do</span><div>Shared motion runtime: one GSAP + ScrollTrigger include per page, one trigger per section, page-level motion default with per-section override, "replay all" in the builder.</div></li>
-    <li><span class="pill todo">To do</span><div>Page-level GSAP features: ScrollSmoother smooth scroll + parallax (page setting), ScrollToPlugin anchor navigation, Draggable + Inertia carousels (testimonials, logos, gallery); plugins loaded once per page via <code>gsapCdn()</code> and wired into every export.</div></li>
+    <li><span class="pill done">Done</span><div><strong>3.1 Page engine</strong> (<code>templates/page.js</code>): page = <code>{ name, theme, fonts, motion, sections: [{ uid, tpl, state }] }</code>; the page's theme/fonts/motion override every section's. <code>pageDocumentHtml</code>: theme + BASE_CSS once, each template's CSS once, each behaviour script once, one GSAP include with the union of plugins, one motion runtime, all sections' JSON-LD; sections carry <code>data-uid</code>. <code>restorePage</code> drops unknown templates. Verified on a 10-section page (sticky navbar across the page, pricing toggle, no errors).</div></li>
+    <li><span class="pill done">Done</span><div><strong>3.2 Shared panels</strong>: <code>SectionTemplates/panels.js</code> (ContentPanel: groups, fields, toggles, lists, uploads; ThemePanel: presets, colours, fonts, radius, width, animation; ColorField, IconPicker, withKit) and <code>upload.js</code> (prepareUpload, saveBlob, EXT, previewImages). The section editor now uses them, so both tools share one implementation.</div></li>
+    <li><span class="pill done">Done</span><div><strong>3.3 Builder UI</strong> (<code>components/WebsiteBuilder</code>): tabs Page / Theme / My pages / Backup; section list with thumbnails, ↑ ↓, duplicate, remove; "Add section" picker by category (inserts below the selected section); click a section in the preview to edit it; ContentPanel per section (uploads keyed <code>page:&lt;uid&gt;:…</code>); one ThemePanel + brand kit for the page; live preview iframe at device width with kept scroll position and selection outline; undo/redo; autosave; My pages (IndexedDB <code>wdp-website-pages</code>, tpl "page"); backup export/import (tool <code>website-builder</code>); export one HTML (images embedded), ZIP (index.html + images/ + README) or copy HTML.</div></li>
+    <li><span class="pill done">Done</span><div><strong>3.4 Starters + site wiring</strong>: 5 starter pages (SaaS, agency, app, portfolio, launch) via <code>STARTERS</code> / <code>pageFromStarter</code>, all rendered and checked; route page with SEO (SoftwareApplication, FAQ, Breadcrumb), share image (<code>scripts/capture-website-builder-og.mjs</code>), icon, tools registry, top nav (after Website Sections), related tools, cross-links from the section library and llms.txt.</div></li>
+    <li><span class="pill todo">To do</span><div>Drag-and-drop reordering (GSAP Draggable + Flip) in the section list and the preview; keyboard reorder already works via ↑ ↓.</div></li>
+    <li><span class="pill todo">To do</span><div>Per-section overrides (e.g. a dark section on a light page) and per-section anchor ids (#features) for navbar links.</div></li>
+    <li><span class="pill todo">To do</span><div>Page-level GSAP features: ScrollSmoother smooth scroll + parallax (page setting), ScrollToPlugin anchor navigation.</div></li>
+    <li><span class="pill todo">To do</span><div>"Add to Website Builder" button in the section editor; React/Next.js page export.</div></li>
   </ul>
 
   <div class="phase"><h3>Phase 3b — Scroll animation builder</h3><span class="pill todo">To do</span></div>
@@ -407,6 +410,7 @@
       <tr><td>2026-10-20</td><td>GSAP (+ ScrollTrigger) is an integral motion layer for sections, the page builder and website templates; other JS libraries may be added only when GSAP has no equivalent (superseded by the all-plugins decision below), always pinned from cdnjs and included in exports.</td><td>User request; animation is a big part of modern sites and GSAP is the industry standard. Markers + one runtime keep templates simple and stackable.</td></tr>
       <tr><td>2026-10-20</td><td>Use all GSAP plugins (SplitText, TextPlugin, ScrambleText, Flip, Draggable/Inertia, DrawSVG, MorphSVG, MotionPath, ScrollSmoother, Observer, custom eases, physics) to make the platform rich in text and element animation. Upgraded GSAP 3.12.5 → 3.15.0; GSAP plugins preferred over other libraries (e.g. ScrollSmoother over Lenis, Draggable over Swiper).</td><td>User request. All plugins have been free since 3.13 and are on cdnjs; one library and one runtime keeps exports small and consistent.</td></tr>
       <tr><td>2026-10-20</td><td>The builder will let users create scroll-based section animations (scrub, pin, keyframe tracks, effect presets) visually — Phase 3b.</td><td>User request; scroll-driven motion is a standout feature most free builders lack. Stored as JSON + one runtime so every export keeps working.</td></tr>
+      <tr><td>2026-10-20</td><td>The page builder is its own tool at <code>/website-builder/</code> (user's choice), separate from the section library URL.</td><td>Targets "website builder" searches and reads as a product in its own right.</td></tr>
       <tr><td>2026-10-20</td><td>URL: <code>/website-section-templates/</code> (user's choice). Code lives in <code>components/SectionTemplates</code>; images in <code>public/images/section-templates/</code>.</td><td>Says exactly what it is and targets "website section templates" searches.</td></tr>
     </tbody>
   </table>
@@ -431,6 +435,7 @@
       <tr><td>2026-10-20</td><td>Pushed 87b4b36 and deployed (build + 337.7 MB zip upload OK). 2.8 done: <code>menu</code> behaviour (mobile menu, focus trap, Esc, dismiss, sticky + hide on scroll), nav parts, <code>previewMinHeight</code> (editor room + placeholder page in captures), 3 navbars with SEO, the Navbar category page and previews. Sitemap: 39 URLs (8 categories + 31 sections).</td></tr>
       <tr><td>2026-10-20</td><td>2.9 done: <code>data-links</code> + links field, <code>totop</code> behaviour, social icons (70 total), 4 footers with SEO, the Footer category page and previews. Sitemap: 44 URLs (9 categories + 35 sections).</td></tr>
       <tr><td>2026-10-20</td><td>2.10–2.11 done: 3 Team, 3 Contact, 3 Blog sections; <code>form</code> + <code>hoverpreview</code> behaviours, <code>ST_PREVIEW</code> flag, blog schema, blog covers. Phase 2 catalogue complete: 44 sections, 12 categories. Library page subtitle now counts sections dynamically. Sitemap: 56 URLs (12 categories + 44 sections).</td></tr>
+      <tr><td>2026-10-20</td><td>Pushed 2f31bbb (catalogue). Phase 3 built: page engine, shared panels (editor refactored onto them), Website Builder at /website-builder/ with 5 starters, saving, backups and HTML/ZIP export; registry, top nav, related tools, share image. Not committed yet.</td></tr>
     </tbody>
   </table>
 </section>

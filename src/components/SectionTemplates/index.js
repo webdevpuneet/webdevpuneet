@@ -11,8 +11,6 @@ import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
 import { BrandKitPanel, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
-import FontPicker from '@/components/FontPicker';
-import { parseHex, onColor } from '../OgImageGenerator/engine';
 import { exportDesigns, importDesigns, blobToDataUrl, dataUrlToBlob } from '@/lib/design-transfer';
 import { loadCustomFonts, onFontsChange, customFontFaceCss, exportCustomFonts, importCustomFonts } from '@/lib/fonts';
 import { dbPut } from '@/lib/uiSnippetsDb';
@@ -21,11 +19,12 @@ import { highlightHtml } from '@/lib/highlight-html';
 import { toReactComponent, toVueSfc } from '@/lib/snippet-exporters';
 import {
   SECTION_TEMPLATES, SECTION_CATEGORIES, sectionTemplateById, sectionCategoryById,
-  defaultSectionState, restoreSectionState, THEME_PRESETS, THEME_COLORS, MOTION_PRESETS, MOTION_SPEEDS, TEXT_EFFECTS,
-  ICONS, ICON_IDS, iconSvg, listItem, newItemId, listImageKey,
+  defaultSectionState, restoreSectionState,
 } from './templates/index.js';
+import { ContentPanel, ThemePanel, withKit } from './panels';
 import { documentHtml, sectionCss, sectionMarkup, snippetParts, customFontIds, sectionScript, sectionCdn } from './templates/render.js';
 import { sectionDesignStore as designStore, putAsset, getAsset } from './storage';
+import { saveBlob, prepareUpload, EXT, previewImages } from './upload';
 
 const TOOL = 'website-section-templates';
 const BASE = `/${TOOL}/`;
@@ -35,52 +34,7 @@ const DEVICES = [
   { id: 'tablet', label: 'Tablet', w: 820, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2" /><path d="M11 18h2" /></svg> },
   { id: 'mobile', label: 'Mobile', w: 390, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2" /><path d="M11 18h2" /></svg> },
 ];
-const RADII = [['0', 'Square'], ['8', 'Soft'], ['14', 'Rounded'], ['24', 'Extra'], ['999', 'Pill']];
-const WIDTHS = ['1080', '1200', '1320', '1440'];
 
-/* Images on this site load from the local server while you edit (so new art shows before a deploy) */
-const previewImages = (html, origin) => (origin ? html.replace(/https:\/\/webdevpuneet\.com\/images\//g, `${origin}/images/`) : html);
-
-function saveBlob(blob, name) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = name;
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1500);
-}
-
-/* Uploaded images are resized in the browser (GIFs and SVGs are kept as they are) */
-function prepareUpload(file, { maxW = 1600, mime = 'image/jpeg' } = {}) {
-  return new Promise((resolve, reject) => {
-    if (file.type === 'image/svg+xml' || file.type === 'image/gif') {
-      const img = new Image();
-      const url = URL.createObjectURL(file);
-      img.onload = () => { URL.revokeObjectURL(url); resolve({ blob: file, type: file.type, w: img.naturalWidth || 0, h: img.naturalHeight || 0 }); };
-      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Could not read that image')); };
-      img.src = url;
-      return;
-    }
-    const url = URL.createObjectURL(file);
-    const img = new Image();
-    img.onload = () => {
-      const k = Math.min(1, maxW / (img.naturalWidth || maxW));
-      const w = Math.round(img.naturalWidth * k), h = Math.round(img.naturalHeight * k);
-      const c = document.createElement('canvas');
-      c.width = w; c.height = h;
-      const ctx = c.getContext('2d');
-      // Keep PNG transparency (cut-out phones, logos); photos become JPEG
-      const type = file.type === 'image/png' || file.type === 'image/webp' || mime === 'image/png' ? 'image/png' : 'image/jpeg';
-      if (type === 'image/jpeg') { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h); }
-      ctx.drawImage(img, 0, 0, w, h);
-      URL.revokeObjectURL(url);
-      c.toBlob(b => (b ? resolve({ blob: b, type, w, h }) : reject(new Error('Could not process that image'))), type, 0.86);
-    };
-    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Could not read that image')); };
-    img.src = url;
-  });
-}
-const EXT = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/gif': 'gif', 'image/webp': 'webp', 'image/svg+xml': 'svg' };
 
 /* ── Preview frame: an iframe at a real device width, scaled to fit, growing to the section's height ── */
 function SectionFrame({ html, width, scale = 1, interactive = true }) {
@@ -278,61 +232,6 @@ export function SectionCategoryPage({ category, h1, lead, previews = [] }) {
 }
 
 /* ── Editor ──────────────────────────────────────────────────────────────────── */
-function ColorField({ label, value, onChange }) {
-  const [draft, setDraft] = useState(value);
-  useEffect(() => { setDraft(value); }, [value]);
-  const rgb = parseHex(value);
-  const six = rgb ? `#${rgb.map(v => v.toString(16).padStart(2, '0')).join('')}` : '#000000';
-  return (
-    <div className={s.colorField}>
-      <label className={s.label}>{label}</label>
-      <div className={s.colorInput}>
-        <span className={s.colorSwatch} style={{ background: six }} />
-        <input type="color" className={s.colorPicker} value={six} onChange={ev => onChange(ev.target.value)} aria-label={`${label} colour picker`} />
-        <input
-          className={s.hexInput}
-          value={draft}
-          maxLength={7}
-          spellCheck={false}
-          aria-label={`${label} hex value`}
-          onChange={ev => { const v = ev.target.value.trim(); setDraft(v); if (parseHex(v)) onChange(v.startsWith('#') ? v : `#${v}`); }}
-          onBlur={() => setDraft(value)}
-        />
-      </div>
-    </div>
-  );
-}
-
-/* Icon field: the current icon, and a grid of every icon to choose from */
-function IconPicker({ id, value, onChange }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className={x.iconPick}>
-      <button id={id} type="button" className={x.iconCurrent} onClick={() => setOpen(o => !o)} aria-expanded={open}>
-        <span dangerouslySetInnerHTML={{ __html: iconSvg(value, 18) }} />
-        {ICONS[value]?.[0] || 'Choose an icon'} <span aria-hidden="true">▾</span>
-      </button>
-      {open && (
-        <div className={x.iconGrid} role="listbox" aria-label="Icons">
-          {ICON_IDS.map(ic => (
-            <button key={ic} type="button" role="option" aria-selected={value === ic} title={ICONS[ic][0]} className={`${x.iconOpt} ${value === ic ? x.iconOptOn : ''}`} onClick={() => { onChange(ic); setOpen(false); }}>
-              <span dangerouslySetInnerHTML={{ __html: iconSvg(ic, 18) }} />
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-/* Brand kit -> section theme: brand colour (button text picked for contrast), fonts and,
-   when the kit says so, background and text colours too */
-function withKit(prev, kit) {
-  const theme = { ...prev.theme, brand: kit.primary, brandText: onColor(kit.primary) };
-  if (kit.applyAllColors) { if (kit.bg) theme.bg = kit.bg; if (kit.text) theme.text = kit.text; }
-  return { ...prev, theme, fonts: { heading: kit.headingFont || prev.fonts.heading, body: kit.bodyFont || prev.fonts.body } };
-}
-
 export function SectionTemplateEditor({ id }) {
   const t = sectionTemplateById(id);
   const [state, setStateRaw] = useState(() => defaultSectionState(t));
@@ -341,8 +240,6 @@ export function SectionTemplateEditor({ id }) {
   const [view, setView] = useState('preview'); // preview | html | css
   const [panelTab, setPanelTab] = useState('edit');
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [open, setOpen] = useState(() => new Set(t.groups.slice(0, 2).map(g => g.id)));
-  const [openItem, setOpenItem] = useState(null); // the list item whose fields are showing
   const [origin, setOrigin] = useState('');
   const [toast, setToast] = useState('');
   const [busy, setBusy] = useState('');
@@ -490,47 +387,6 @@ export function SectionTemplateEditor({ id }) {
     return () => window.removeEventListener('keydown', onKey);
   }, [undo, redo]);
 
-  const f = state.fields;
-  const setField = (key, value) => setState(p => ({ ...p, fields: { ...p.fields, [key]: value } }));
-  const setToggle = (key, value) => setState(p => ({ ...p, toggles: { ...p.toggles, [key]: value } }));
-  const setTheme = (key, value) => setState(p => ({ ...p, theme: { ...p.theme, [key]: value } }));
-  const setMotion = (key, value) => { setState(p => ({ ...p, motion: { ...p.motion, [key]: value } })); setPlaying(n => n + 1); };
-  const toggleGroup = gid => setOpen(prev => { const n = new Set(prev); if (n.has(gid)) n.delete(gid); else n.add(gid); return n; });
-
-  /* Repeatable lists: add, edit, duplicate, reorder and remove items */
-  const setList = (key, fn) => setState(p => ({ ...p, lists: { ...p.lists, [key]: fn(p.lists?.[key] || []) } }));
-  const setItemField = (lk, iid, fk, v) => setList(lk, items => items.map(it => (it._id === iid ? { ...it, [fk]: v } : it)));
-  const addItem = l => {
-    const it = listItem(l, l.blank || {});
-    setList(l.key, items => (items.length >= (l.max || 24) ? items : [...items, it]));
-    setOpenItem(it._id);
-  };
-  const duplicateItem = (l, it) => {
-    const copy = { ...it, _id: newItemId() };
-    setState(p => {
-      const items = p.lists?.[l.key] || [];
-      if (items.length >= (l.max || 24)) return p;
-      const at = items.findIndex(x2 => x2._id === it._id);
-      const ups = { ...(p.uploads || {}) };
-      // The copy shows the same uploaded images (the stored image is shared, not duplicated)
-      for (const fd of l.fields) { const u = ups[listImageKey(l.key, it._id, fd.key)]; if (u) ups[listImageKey(l.key, copy._id, fd.key)] = u; }
-      return { ...p, uploads: ups, lists: { ...p.lists, [l.key]: [...items.slice(0, at + 1), copy, ...items.slice(at + 1)] } };
-    });
-    setOpenItem(copy._id);
-  };
-  const moveItem = (l, idx, dir) => setList(l.key, items => {
-    const to = idx + dir;
-    if (to < 0 || to >= items.length) return items;
-    const next = [...items];
-    [next[idx], next[to]] = [next[to], next[idx]];
-    return next;
-  });
-  const removeItem = (l, it) => setState(p => {
-    const items = p.lists?.[l.key] || [];
-    if (items.length <= (l.min ?? 1)) return p;
-    const ups = Object.fromEntries(Object.entries(p.uploads || {}).filter(([k]) => !k.startsWith(`${l.key}.${it._id}.`)));
-    return { ...p, uploads: ups, lists: { ...p.lists, [l.key]: items.filter(x2 => x2._id !== it._id) } };
-  });
 
   /* Images: preview uses object URLs; exports use data URLs or images/<file> */
   const previewSrc = useCallback(key => (uploads[key] ? blobUrls[uploads[key].id] || '' : ''), [uploads, blobUrls]);
@@ -574,7 +430,6 @@ export function SectionTemplateEditor({ id }) {
       flash(`Uploaded ${file.name} (${out.w}×${out.h}). Saved in this browser.`);
     } catch (err) { flash(err.message || 'Upload failed'); }
   };
-  const removeUpload = key => setState(p => { const u = { ...(p.uploads || {}) }; delete u[key]; return { ...p, uploads: u }; });
 
   /* Copy / download */
   const copy = async (str, note) => {
@@ -770,37 +625,6 @@ export function SectionTemplateEditor({ id }) {
     setBusy('');
   };
 
-  /* One editing control, for a section field or a list item's field.
-     ukey = where an uploaded image is stored in state.uploads */
-  const renderField = (fd, value, onChange, ukey, id) => {
-    const up = fd.type === 'image' ? uploads[ukey] : null;
-    return (
-      <div key={id} className={s.field}>
-        <label className={s.label} htmlFor={id}>{fd.label}</label>
-        {fd.type === 'icon' ? <IconPicker id={id} value={value} onChange={onChange} />
-          : fd.type === 'textarea' || fd.type === 'lines' || fd.type === 'links'
-            ? <textarea id={id} className={s.textarea} rows={fd.type === 'textarea' ? 3 : 5} spellCheck={fd.type !== 'links'} value={value ?? ''} onChange={ev => onChange(ev.target.value)} />
-            : <input id={id} className={s.input} type="text" inputMode={fd.type === 'url' || fd.type === 'image' ? 'url' : undefined} spellCheck={fd.type === 'text'} value={up ? `images/${up.file}` : (value ?? '')} disabled={!!up} title={up ? 'Using your uploaded image; remove it to paste a URL instead' : undefined} onChange={ev => onChange(ev.target.value)} />}
-        {fd.type === 'image' && (
-          <div className={x.uploadRow}>
-            {up ? (
-              <>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                {blobUrls[up.id] ? <img className={x.uploadThumb} src={blobUrls[up.id]} alt="" /> : <span className={x.uploadThumb} />}
-                <span className={x.uploadName}>{up.file} · {up.w}×{up.h}</span>
-                <button type="button" className={s.miniBtn} onClick={() => pickUpload(fd, ukey)}>Replace</button>
-                <button type="button" className={s.miniBtn} onClick={() => removeUpload(ukey)}>Remove</button>
-              </>
-            ) : (
-              <button type="button" className={s.miniBtn} onClick={() => pickUpload(fd, ukey)}>↑ Upload image</button>
-            )}
-          </div>
-        )}
-        {(fd.hint || fd.type === 'lines' || fd.type === 'links') && <span className={s.hint}>{fd.hint || (fd.type === 'links' ? 'One link per line: Label | URL' : 'One item per line.')}</span>}
-      </div>
-    );
-  };
-
   const dev = DEVICES.find(d => d.id === device) || DEVICES[0];
   const scale = stageW ? Math.min(1, (stageW - 36) / dev.w) : 0;
   const copyCode = async () => {
@@ -904,135 +728,17 @@ export function SectionTemplateEditor({ id }) {
                   onSaveFrom={() => ({ primary: state.theme.brand, bg: state.theme.bg, text: state.theme.text, headingFont: state.fonts.heading, bodyFont: state.fonts.body })}
                 />
 
-                {t.groups.map(g => {
-                  const fields = t.fields.filter(fd => fd.group === g.id);
-                  const isOpen = open.has(g.id);
-                  const enabled = !g.toggle || state.toggles[g.toggle];
-                  return (
-                    <section key={g.id} className={s.section}>
-                      <div className={x.groupHead}>
-                        <button type="button" className={x.groupBtn} onClick={() => toggleGroup(g.id)} aria-expanded={isOpen}>
-                          <span className={`${x.chev} ${isOpen ? x.chevOpen : ''}`}>›</span>
-                          <h2 className={s.sectionTitle}>{g.label}</h2>
-                        </button>
-                        {g.toggle && (
-                          <label className={x.switch} title={enabled ? 'Shown in the section' : 'Hidden from the section'}>
-                            <input type="checkbox" checked={!!state.toggles[g.toggle]} onChange={ev => setToggle(g.toggle, ev.target.checked)} aria-label={`Show ${g.label}`} />
-                            <span />
-                          </label>
-                        )}
-                      </div>
-                      {isOpen && (
-                        <div className={`${x.groupBody} ${enabled ? '' : x.groupOff}`}>
-                          {fields.map(fd => renderField(fd, f[fd.key], v => setField(fd.key, v), fd.key, `st-${fd.key}`))}
-                          {(t.lists || []).filter(l => l.group === g.id).map(l => {
-                            const items = state.lists?.[l.key] || [];
-                            return (
-                              <div key={l.key} className={x.items}>
-                                {items.map((it, i) => {
-                                  const on = openItem === it._id;
-                                  const name = String(it[l.titleKey] ?? '').replace(/\*/g, '').trim();
-                                  return (
-                                    <div key={it._id} className={`${x.item} ${on ? x.itemOpen : ''}`}>
-                                      <div className={x.itemHead}>
-                                        <button type="button" className={x.itemToggle} onClick={() => setOpenItem(on ? null : it._id)} aria-expanded={on}>
-                                          <span className={`${x.chev} ${on ? x.chevOpen : ''}`}>›</span>
-                                          <span className={x.itemNum}>{i + 1}</span>
-                                          <span>{name || `${l.itemLabel} ${i + 1}`}</span>
-                                        </button>
-                                        <button type="button" className={x.itemBtn} onClick={() => moveItem(l, i, -1)} disabled={i === 0} title="Move up" aria-label={`Move ${l.itemLabel.toLowerCase()} ${i + 1} up`}>↑</button>
-                                        <button type="button" className={x.itemBtn} onClick={() => moveItem(l, i, 1)} disabled={i === items.length - 1} title="Move down" aria-label={`Move ${l.itemLabel.toLowerCase()} ${i + 1} down`}>↓</button>
-                                        <button type="button" className={x.itemBtn} onClick={() => duplicateItem(l, it)} disabled={items.length >= (l.max || 24)} title="Duplicate" aria-label={`Duplicate ${l.itemLabel.toLowerCase()} ${i + 1}`}>⧉</button>
-                                        <button type="button" className={x.itemBtn} onClick={() => removeItem(l, it)} disabled={items.length <= (l.min ?? 1)} title="Remove" aria-label={`Remove ${l.itemLabel.toLowerCase()} ${i + 1}`}>✕</button>
-                                      </div>
-                                      {on && (
-                                        <div className={x.itemBody}>
-                                          {l.fields.map(fd => renderField(fd, it[fd.key], v => setItemField(l.key, it._id, fd.key, v), listImageKey(l.key, it._id, fd.key), `st-${l.key}-${it._id}-${fd.key}`))}
-                                        </div>
-                                      )}
-                                    </div>
-                                  );
-                                })}
-                                <button type="button" className={`${s.miniBtn} ${x.addItem}`} onClick={() => addItem(l)} disabled={items.length >= (l.max || 24)}>+ Add {l.itemLabel.toLowerCase()}</button>
-                                {items.length >= (l.max || 24) && <span className={s.hint}>Up to {l.max} {l.label.toLowerCase()}.</span>}
-                              </div>
-                            );
-                          })}
-                          {g.id === t.groups[0].id && <span className={s.hint}>Tip: wrap words in *asterisks* to colour them with the brand colour.</span>}
-                        </div>
-                      )}
-                    </section>
-                  );
-                })}
+                <ContentPanel t={t} state={state} setState={setState} blobUrls={blobUrls} onPickUpload={pickUpload} />
 
-                <section className={s.section}>
-                  <h2 className={s.sectionTitle}>Colours</h2>
-                  <div className={x.presetGrid}>
-                    {THEME_PRESETS.map(p => (
-                      <button key={p.id} type="button" className={x.preset} title={`${p.label} colours`} onClick={() => setState(prev => ({ ...prev, theme: { ...prev.theme, ...Object.fromEntries(THEME_COLORS.map(c => [c.key, p[c.key]])) } }))}>
-                        <span className={x.presetSwatch}><i style={{ background: p.bg }} /><i style={{ background: p.brand }} /><i style={{ background: p.text }} /></span>
-                        {p.label}
-                      </button>
-                    ))}
-                  </div>
-                  <div className={s.colorGrid}>
-                    {THEME_COLORS.map(c => <ColorField key={c.key} label={c.label} value={state.theme[c.key]} onChange={v => setTheme(c.key, v)} />)}
-                  </div>
-                </section>
-
-                <section className={s.section}>
-                  <h2 className={s.sectionTitle}>Fonts</h2>
-                  {['heading', 'body'].map(k => (
-                    <div key={k} className={s.field}>
-                      <label className={s.label} htmlFor={`stf-${k}`}>{k === 'heading' ? 'Headings' : 'Body text'}</label>
-                      <FontPicker id={`stf-${k}`} label={k === 'heading' ? 'Heading font' : 'Body font'} allowCustom value={state.fonts[k]} onChange={fid => setState(p => ({ ...p, fonts: { ...p.fonts, [k]: fid } }))} />
-                    </div>
-                  ))}
-                  <p className={s.hint}>Any Google Font, or upload your own (WOFF2, WOFF, TTF or OTF). Uploaded fonts are embedded in your exports and included in backups.</p>
-                </section>
-
-                <section className={s.section}>
-                  <h2 className={s.sectionTitle}>Shape &amp; width</h2>
-                  <div className={s.field}>
-                    <span className={s.label}>Corner radius</span>
-                    <div className={s.seg} role="radiogroup" aria-label="Corner radius">
-                      {RADII.map(([v, l]) => <button key={v} type="button" role="radio" aria-checked={String(state.theme.radius) === v} className={`${s.segBtn} ${String(state.theme.radius) === v ? s.segBtnActive : ''}`} onClick={() => setTheme('radius', v)}>{l}</button>)}
-                    </div>
-                  </div>
-                  <div className={s.field}>
-                    <span className={s.label}>Content width</span>
-                    <div className={s.seg} role="radiogroup" aria-label="Content width">
-                      {WIDTHS.map(v => <button key={v} type="button" role="radio" aria-checked={String(state.theme.maxWidth) === v} className={`${s.segBtn} ${String(state.theme.maxWidth) === v ? s.segBtnActive : ''}`} onClick={() => setTheme('maxWidth', v)}>{v}px</button>)}
-                    </div>
-                  </div>
-                </section>
-
-                <section className={s.section}>
-                  <h2 className={s.sectionTitle}>Animation</h2>
-                  <div className={s.field}>
-                    <span className={s.label}>Entrance effect</span>
-                    <div className={s.seg} role="radiogroup" aria-label="Entrance effect">
-                      {MOTION_PRESETS.map(p => <button key={p.id} type="button" role="radio" aria-checked={state.motion?.preset === p.id} className={`${s.segBtn} ${state.motion?.preset === p.id ? s.segBtnActive : ''}`} onClick={() => setMotion('preset', p.id)}>{p.label}</button>)}
-                    </div>
-                  </div>
-                  {state.motion?.preset !== 'none' && /data-anim-text/.test(t.html) && (
-                    <div className={s.field}>
-                      <span className={s.label}>Headline text effect</span>
-                      <div className={s.seg} role="radiogroup" aria-label="Headline text effect">
-                        {TEXT_EFFECTS.map(e => <button key={e.id} type="button" role="radio" aria-checked={(state.motion?.text || 'none') === e.id} className={`${s.segBtn} ${(state.motion?.text || 'none') === e.id ? s.segBtnActive : ''}`} onClick={() => setMotion('text', e.id)}>{e.label}</button>)}
-                      </div>
-                    </div>
-                  )}
-                  {state.motion?.preset !== 'none' && (
-                    <div className={s.field}>
-                      <span className={s.label}>Speed</span>
-                      <div className={s.seg} role="radiogroup" aria-label="Animation speed">
-                        {MOTION_SPEEDS.map(([v, l]) => <button key={v} type="button" role="radio" aria-checked={String(state.motion?.speed) === v} className={`${s.segBtn} ${String(state.motion?.speed) === v ? s.segBtnActive : ''}`} onClick={() => setMotion('speed', v)}>{l}</button>)}
-                      </div>
-                    </div>
-                  )}
-                  <p className={s.hint}>Powered by GSAP, ScrollTrigger and SplitText: the section animates in once when it scrolls into view. Exports include it, content stays visible without JavaScript, and it switches off for people who prefer reduced motion.</p>
-                </section>
+                <ThemePanel
+                  value={{ theme: state.theme, fonts: state.fonts, motion: state.motion }}
+                  showTextEffect={/data-anim-text/.test(t.html)}
+                  onChange={v => {
+                    const motionChanged = JSON.stringify(v.motion) !== JSON.stringify(state.motion);
+                    setState(p => ({ ...p, theme: v.theme, fonts: v.fonts, motion: v.motion }));
+                    if (motionChanged) setPlaying(n => n + 1);
+                  }}
+                />
               </>
             )}
           </div>

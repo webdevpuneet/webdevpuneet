@@ -1328,6 +1328,19 @@ export const TOOLS = [
     lastmod:    '2026-10-20',
     hasUpdates: false,
   },
+  {
+    slug:       'website-builder',
+    name:       'Website Builder',
+    sub:        'Sections · One theme · Export HTML',
+    desc:       'Free website builder: stack navbars, heroes, pricing, FAQ and footers into one page with one theme and GSAP animation, then export clean HTML. No sign-up.',
+    icon:       '/icons/website-builder.svg',
+    accent:     '#4f46e5',
+    category:   'design',
+    extended:   false,
+    status:     'live',
+    lastmod:    '2026-10-20',
+    hasUpdates: false,
+  },
   /* SEO tools moved from fwdtools (2026-10-15) */
   {
     slug:     'meta-tag-generator',

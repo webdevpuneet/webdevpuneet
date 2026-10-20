@@ -28,7 +28,7 @@ export const metadata = {
 const faqs = [
   { q: 'What are website section templates?', a: 'Ready-made, complete page blocks (hero, features, pricing, testimonials, FAQ, footer and more) that you customise in the browser and add to your site. Each one is responsive, animated with GSAP and exports as HTML and CSS, a ZIP, a React component or a Vue component.' },
   { q: 'How are these different from UI component libraries?', a: 'Component libraries give you code to copy and edit by hand. These sections are editable templates: change the text, links, images, colours, fonts, radius and animation in a visual panel, preview desktop, tablet and mobile, then export. Need individual components instead? Browse UI Snippets.' },
-  { q: 'Will the sections look consistent together?', a: 'Yes. Every section reads the same theme tokens (brand, background, surface, text and muted colours, heading and body fonts, corner radius and content width) as CSS custom properties, so any combination looks like one website. A page builder that stacks sections is on the way.' },
+  { q: 'Will the sections look consistent together?', a: 'Yes. Every section reads the same theme tokens (brand, background, surface, text and muted colours, heading and body fonts, corner radius and content width) as CSS custom properties, so any combination looks like one website. The free Website Builder stacks them into complete pages with one shared theme.' },
   { q: 'How do the animations work?', a: 'Sections animate in with GSAP and ScrollTrigger once they scroll into view. Headlines can reveal word by word, line by line or letter by letter with GSAP SplitText. You can pick the effects and speed, or turn animation off. Content stays visible without JavaScript and animations are skipped for people who prefer reduced motion.' },
   { q: 'Can I upload my own images and fonts?', a: 'Yes. Images are resized in your browser and saved in IndexedDB; fonts can be any Google Font or your own WOFF2, WOFF, TTF or OTF file. Exports include them: the single HTML file embeds them, and the ZIP puts images in an images folder.' },
   { q: 'Will I lose my work?', a: 'No. Edits autosave in your browser, Save keeps named designs in My designs, and the Import / Export tab downloads one backup file with your designs, uploaded images, uploaded fonts and brand kit that you can restore in any browser.' },
@@ -65,7 +65,7 @@ const SECTIONS = [
     text: SECTION_CATEGORIES.filter(c => SECTION_TEMPLATES.some(t => t.category === c.id)).map(c => {
       const list = SECTION_TEMPLATES.filter(t => t.category === c.id);
       return `**[${c.label} section templates](/website-section-templates/category/${c.id}/)**: ${c.blurb} Includes ${list.map(t => `[${t.name}](/website-section-templates/${t.id}/)`).join(', ')}.`;
-    }).join('\n\n') + '\n\nEvery section is built on the same theme, so any combination looks like one website. A page builder that stacks a navbar, sections and a footer into a complete page is coming next.',
+    }).join('\n\n') + '\n\nEvery section is built on the same theme, so any combination looks like one website. Want a whole page? The free [Website Builder](/website-builder/) stacks a navbar, any of these sections and a footer into one page with one theme, and exports it as HTML.',
   },
   {
     type: 'text',

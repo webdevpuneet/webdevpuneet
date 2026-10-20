@@ -17,6 +17,7 @@ const TOOLS = {
   'social-post-templates': { file: 'social-post', label: 'social post', page: 'Social Post Templates' },
   'email-templates': { file: 'email', label: 'email', page: 'Email Templates' },
   'website-section-templates': { file: 'website-section', label: 'website section', page: 'Website Section Templates' },
+  'website-builder': { file: 'website-page', label: 'website page', page: 'the Website Builder' },
 };
 const toolInfo = tool => TOOLS[tool] || { file: tool, label: tool, page: tool };
 

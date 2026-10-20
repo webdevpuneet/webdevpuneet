@@ -1,0 +1,49 @@
+/* Website Builder: section list, section picker and the page preview */
+
+.pageName { width: 100%; }
+
+.list { list-style: none; display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; }
+.row { display: flex; align-items: center; gap: 4px; padding: 6px 6px 6px 8px; border: 1px solid rgba(127, 127, 127, 0.28); border-radius: 10px; background: rgba(127, 127, 127, 0.04); }
+.rowOn { border-color: #4f46e5; background: rgba(79, 70, 229, 0.08); }
+.rowMain { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; padding: 0; border: 0; background: none; color: inherit; text-align: left; cursor: pointer; }
+.thumb { flex: none; width: 56px; height: 34px; border-radius: 6px; object-fit: cover; object-position: top; background: #e2e8f0; border: 1px solid rgba(127, 127, 127, 0.25); }
+.rowText { min-width: 0; display: flex; flex-direction: column; }
+.rowText b { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rowText small { font-size: 11.5px; opacity: 0.65; }
+.rowBtn { flex: none; display: inline-grid; place-items: center; width: 26px; height: 26px; border: 0; border-radius: 6px; background: none; color: inherit; opacity: 0.6; cursor: pointer; font-size: 13px; }
+.rowBtn:hover:not(:disabled) { opacity: 1; background: rgba(127, 127, 127, 0.14); }
+.rowBtn:disabled { opacity: 0.2; cursor: default; }
+
+.addBtn { width: 100%; margin-top: 10px; padding: 10px; border: 1.5px dashed rgba(79, 70, 229, 0.55); border-radius: 10px; background: rgba(79, 70, 229, 0.05); color: #4f46e5; font-weight: 700; font-size: 13.5px; cursor: pointer; }
+.addBtn:hover { background: rgba(79, 70, 229, 0.12); }
+
+.picker { display: flex; flex-direction: column; gap: 10px; }
+.pickerHead { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.cats { display: flex; flex-wrap: wrap; gap: 4px; }
+.cat { padding: 4px 9px; border: 1px solid rgba(127, 127, 127, 0.3); border-radius: 999px; background: none; color: inherit; font-size: 12px; cursor: pointer; }
+.catOn { border-color: #4f46e5; background: #4f46e5; color: #fff; }
+.pickGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.pick { display: flex; flex-direction: column; gap: 4px; padding: 5px; border: 1px solid rgba(127, 127, 127, 0.28); border-radius: 9px; background: none; color: inherit; cursor: pointer; text-align: left; }
+.pick:hover { border-color: #4f46e5; }
+.pick img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border-radius: 6px; background: #e2e8f0; }
+.pick span { font-size: 11.5px; font-weight: 600; line-height: 1.25; }
+
+.starters { display: grid; gap: 8px; }
+.starter { display: flex; flex-direction: column; gap: 3px; padding: 10px 12px; border: 1px solid rgba(127, 127, 127, 0.28); border-radius: 10px; background: none; color: inherit; text-align: left; cursor: pointer; }
+.starter:hover { border-color: #4f46e5; background: rgba(79, 70, 229, 0.06); }
+.starter b { font-size: 13.5px; }
+.starter small { font-size: 12px; opacity: 0.7; line-height: 1.4; }
+
+.editHead { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.back { padding: 4px 8px; border: 0; border-radius: 6px; background: rgba(127, 127, 127, 0.12); color: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; }
+.back:hover { background: rgba(127, 127, 127, 0.2); }
+.editTitle { min-width: 0; display: flex; flex-direction: column; }
+.editTitle b { font-size: 14px; }
+.editTitle small { font-size: 12px; opacity: 0.65; }
+
+.stage { flex: 1; min-height: 0; display: flex; justify-content: center; padding: 16px; background: repeating-conic-gradient(rgba(127, 127, 127, 0.06) 0% 25%, transparent 0% 50%) 0 0 / 22px 22px; overflow: hidden; }
+.frameBox { position: relative; flex: none; overflow: hidden; border-radius: 10px; background: #fff; box-shadow: 0 10px 40px -12px rgba(15, 23, 42, 0.35); }
+.frame { display: block; border: 0; transform-origin: top left; background: #fff; }
+.empty { align-self: center; max-width: 420px; text-align: center; padding: 24px; opacity: 0.8; }
+.empty h2 { font-size: 20px; margin: 0 0 8px; }
+.empty p { margin: 0; font-size: 14px; line-height: 1.6; }
