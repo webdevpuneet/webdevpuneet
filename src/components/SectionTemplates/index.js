@@ -722,7 +722,7 @@ export function SectionTemplateEditor({ id }) {
             <a href={BASE} className={s.toolBrand} title="All website section templates">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/icons/website-section-templates.svg" alt="" width={26} height={26} />
-              <span>Section Templates</span>
+              <span>Website Sections</span>
             </a>
           </div>
           <button type="button" className={s.sheetHandle} onClick={() => setSheetOpen(o => !o)} aria-expanded={sheetOpen} aria-label={sheetOpen ? 'Close the editing panel' : 'Open the editing panel'}>
