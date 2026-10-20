@@ -213,7 +213,7 @@ function buildSrcdoc(html, css, js, cdnUrls = []) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 ${cdnTags}
-<style>*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif}${css}</style>
+<style>*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif}</style><style>${css}</style>
 </head>
 <body>
 ${CONSOLE_INTERCEPTOR}
@@ -496,7 +496,7 @@ function buildSrcdocSimple(html, css, js, cdnUrls = []) {
       : `<script src="${u.trim()}"><\/script>`
   ).join('\n');
   const hasBabel = cdnUrls.some(u => /babel/i.test(u));
-  return `<!DOCTYPE html><html><head><meta charset="UTF-8">${cdnTags}<style>*{box-sizing:border-box}::-webkit-scrollbar{display:none}*{scrollbar-width:none}body{margin:0;font-family:system-ui,sans-serif}${css}</style></head><body>${html}${js ? `<script${hasBabel ? ' type="text/babel" data-presets="react,env"' : ''}>${js}<\/script>` : ''}<script>document.addEventListener('click',function(e){var a=e.target.closest('a');if(a&&(a.getAttribute('href')==='#'||a.getAttribute('href')==='javascript:void(0)')){e.preventDefault();}});<\/script></body></html>`;
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8">${cdnTags}<style>*{box-sizing:border-box}::-webkit-scrollbar{display:none}*{scrollbar-width:none}body{margin:0;font-family:system-ui,sans-serif}</style><style>${css}</style></head><body>${html}${js ? `<script${hasBabel ? ' type="text/babel" data-presets="react,env"' : ''}>${js}<\/script>` : ''}<script>document.addEventListener('click',function(e){var a=e.target.closest('a');if(a&&(a.getAttribute('href')==='#'||a.getAttribute('href')==='javascript:void(0)')){e.preventDefault();}});<\/script></body></html>`;
 }
 
 const SAVED_PER_PAGE = 9;

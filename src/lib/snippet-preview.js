@@ -27,5 +27,5 @@ export const CONSOLE_BRIDGE = `<script>(function(){
 export function buildPreviewSrcdoc(html, css, js, useTailwind = false, cdnUrls = []) {
   const twScript = useTailwind ? '<script src="https://cdn.tailwindcss.com"><\/script>' : '';
   const cdn = cdnTagsHtml(cdnUrls, '');
-  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">${CONSOLE_BRIDGE}${twScript}${cdn}<style>*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:#fff}${css}</style></head><body>${html}${js ? `<script>${js}<\/script>` : ''}</body></html>`;
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">${CONSOLE_BRIDGE}${twScript}${cdn}<style>*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:#fff}</style><style>${css}</style></head><body>${html}${js ? `<script>${js}<\/script>` : ''}</body></html>`;
 }

@@ -158,7 +158,7 @@ function buildVuePreview(sfcCode, cdnUrls = []) {
 ${CONSOLE_BRIDGE}
 <script src="https://unpkg.com/vue@3.5.13/dist/vue.global.prod.js" onerror="window.__cdnFail='Vue'"><\/script>
 ${cdn}
-<style>*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:#fff}#app{display:contents}${PREVIEW_ERR_CSS}${style}</style>
+<style>*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:#fff}#app{display:contents}${PREVIEW_ERR_CSS}</style><style>${style}</style>
 </head><body>
 <div id="app"></div>
 <script type="text/plain" id="__tmpl">${tmpl}</script>
