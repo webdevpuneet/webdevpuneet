@@ -1,6 +1,6 @@
 {
  "email": {
-  "total": 22,
+  "total": 27,
   "categories": [
    {
     "id": "onboarding",
@@ -25,6 +25,10 @@
      {
       "id": "nps-survey",
       "name": "NPS Survey Email"
+     },
+     {
+      "id": "subscription-cancelled",
+      "name": "Subscription Cancellation Email"
      }
     ]
    },
@@ -43,6 +47,10 @@
      {
       "id": "magic-link",
       "name": "Magic Link Sign-in Email"
+     },
+     {
+      "id": "security-alert",
+      "name": "New Sign-in Security Alert"
      },
      {
       "id": "receipt",
@@ -67,12 +75,20 @@
       "name": "Abandoned Cart Email"
      },
      {
+      "id": "back-in-stock",
+      "name": "Back in Stock Email"
+     },
+     {
       "id": "order-confirmation",
       "name": "Order Confirmation Email"
      },
      {
       "id": "shipping-confirmation",
       "name": "Shipping Confirmation Email"
+     },
+     {
+      "id": "refund-confirmation",
+      "name": "Refund Confirmation Email"
      },
      {
       "id": "review-request",
@@ -95,6 +111,10 @@
      {
       "id": "webinar-invitation",
       "name": "Webinar Invitation Email"
+     },
+     {
+      "id": "refer-a-friend",
+      "name": "Refer a Friend Email"
      },
      {
       "id": "black-friday-sale",
@@ -123,7 +143,7 @@
   ]
  },
  "social": {
-  "total": 29,
+  "total": 34,
   "categories": [
    {
     "id": "quotes",
@@ -152,6 +172,14 @@
      {
       "id": "big-stat",
       "name": "Big Stat"
+     },
+     {
+      "id": "numbered-list",
+      "name": "Numbered List Post"
+     },
+     {
+      "id": "qa-post",
+      "name": "Q&A Post"
      }
     ]
    },
@@ -204,6 +232,14 @@
      {
       "id": "giveaway",
       "name": "Giveaway Contest"
+     },
+     {
+      "id": "us-vs-them",
+      "name": "Us vs Them Comparison"
+     },
+     {
+      "id": "just-listed",
+      "name": "Just Listed (Real Estate)"
      }
     ]
    },
@@ -218,6 +254,10 @@
      {
       "id": "countdown",
       "name": "Countdown"
+     },
+     {
+      "id": "event-recap",
+      "name": "Event Recap"
      }
     ]
    },

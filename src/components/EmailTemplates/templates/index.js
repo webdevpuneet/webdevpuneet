@@ -23,14 +23,19 @@ import reEngagement from './re-engagement.js';
 import appointmentReminder from './appointment-reminder.js';
 import birthdayEmail from './birthday-email.js';
 import npsSurvey from './nps-survey.js';
+import backInStock from './back-in-stock.js';
+import refundConfirmation from './refund-confirmation.js';
+import securityAlert from './security-alert.js';
+import referAFriend from './refer-a-friend.js';
+import subscriptionCancelled from './subscription-cancelled.js';
 
 export { EMAIL_CATEGORIES, emailCategoryById, FONT_STACKS, fontStackById } from './meta.js';
 
 export const EMAIL_TEMPLATES = [
-  welcome, trialEnding, reEngagement, birthdayEmail, npsSurvey,
-  verifyEmail, passwordReset, magicLink, receipt, paymentReminder, appointmentReminder,
-  abandonedCart, orderConfirmation, shippingConfirmation, reviewRequest,
-  newsletter, productUpdate, webinarInvitation, blackFridaySale, lastChanceSale,
+  welcome, trialEnding, reEngagement, birthdayEmail, npsSurvey, subscriptionCancelled,
+  verifyEmail, passwordReset, magicLink, securityAlert, receipt, paymentReminder, appointmentReminder,
+  abandonedCart, backInStock, orderConfirmation, shippingConfirmation, refundConfirmation, reviewRequest,
+  newsletter, productUpdate, webinarInvitation, referAFriend, blackFridaySale, lastChanceSale,
   holidayGiftGuide, holidayGreetings,
 ];
 export const emailTemplateById = id => EMAIL_TEMPLATES.find(t => t.id === id);

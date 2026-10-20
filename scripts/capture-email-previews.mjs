@@ -32,8 +32,55 @@ async function inlineLocalImages(html) {
   return html;
 }
 
+/* Greedy word wrap by an estimated character budget (bold Segoe UI is ~0.58em per
+   character on average). Long words are kept whole. */
+function wrapWords(text, maxChars) {
+  const lines = [];
+  for (const word of text.split(/\s+/).filter(Boolean)) {
+    const last = lines[lines.length - 1];
+    if (last && (last + ' ' + word).length <= maxChars) lines[lines.length - 1] = last + ' ' + word;
+    else lines.push(word);
+  }
+  return lines;
+}
+
+// The title column ends before the email mockup (which starts at x = 660)
+const TITLE_X = 72;
+const TITLE_W = 560;
+
+/* Picks the largest title size whose lines fit TITLE_W and whose whole text block
+   (label, title, "Email Template", subtitle, client pills) fits above the URL line. */
+function titleLayout(title) {
+  for (const size of [64, 58, 52, 48, 44, 40]) {
+    const maxChars = Math.floor(TITLE_W / (size * 0.58));
+    const lines = [...wrapWords(title, maxChars), 'Email Template'];
+    if (lines.some(l => l.length > maxChars)) continue;
+    const lineH = Math.round(size * 1.08);
+    const first = 150 + 22 + Math.round(size * 0.92);
+    const last = first + lineH * (lines.length - 1);
+    const sub = last + 58;
+    const pills = sub + 44;
+    if (pills + 40 <= 520) return { size, lines, lineH, first, sub, pills };
+  }
+  const size = 40;
+  return { size, lines: [title, 'Email Template'], lineH: 44, first: 210, sub: 310, pills: 354 };
+}
+
+// Relative luminance of a #rrggbb colour (0 = black, 1 = white)
+function luminance(hex) {
+  const m = /^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i.exec(String(hex || ''));
+  if (!m) return 1;
+  const [r, g, b] = m.slice(1).map(x => { const c = parseInt(x, 16) / 255; return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
 function ogCard(t, brand) {
   const cat = emailCategoryById(t.category)?.label || 'Email';
+  // Dark brand colours can't be read on the dark card, so the label falls back to light grey
+  const labelColor = luminance(brand) < 0.12 ? '#cbd5e1' : brand;
+  const title = t.name.replace(/ Email$/, '').replace(/ Email \(/, ' (');
+  const L = titleLayout(title);
+  const titleSvg = L.lines.map((line, i) => `<text x="${TITLE_X}" y="${L.first + i * L.lineH}" font-family="Segoe UI, Arial, sans-serif" font-size="${L.size}" font-weight="800" fill="#ffffff">${esc(line)}</text>`).join('\n  ');
   return Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
@@ -43,16 +90,15 @@ function ogCard(t, brand) {
   </defs>
   <rect width="1200" height="630" fill="url(#g)"/>
   <rect width="1200" height="630" fill="url(#glow)"/>
-  <text x="72" y="150" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="3" fill="${brand}">${esc(cat.toUpperCase())} EMAIL</text>
-  <text x="72" y="230" font-family="Segoe UI, Arial, sans-serif" font-size="64" font-weight="800" fill="#ffffff">${esc(t.name.replace(/ Email$/, ''))}</text>
-  <text x="72" y="300" font-family="Segoe UI, Arial, sans-serif" font-size="64" font-weight="800" fill="#ffffff">Email Template</text>
-  <text x="72" y="360" font-family="Segoe UI, Arial, sans-serif" font-size="26" fill="#cbd5e1">Free responsive HTML · dark mode</text>
+  <text x="${TITLE_X}" y="150" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="3" fill="${labelColor}">${esc(cat.toUpperCase())} EMAIL</text>
+  ${titleSvg}
+  <text x="${TITLE_X}" y="${L.sub}" font-family="Segoe UI, Arial, sans-serif" font-size="26" fill="#cbd5e1">Free responsive HTML · dark mode</text>
   <g font-family="Segoe UI, Arial, sans-serif" font-size="19" font-weight="600" fill="#e2e8f0">
-    <rect x="72" y="410" width="104" height="40" rx="20" fill="#ffffff" fill-opacity="0.1"/><text x="124" y="437" text-anchor="middle">Gmail</text>
-    <rect x="188" y="410" width="116" height="40" rx="20" fill="#ffffff" fill-opacity="0.1"/><text x="246" y="437" text-anchor="middle">Outlook</text>
-    <rect x="316" y="410" width="140" height="40" rx="20" fill="#ffffff" fill-opacity="0.1"/><text x="386" y="437" text-anchor="middle">Apple Mail</text>
+    <rect x="72" y="${L.pills}" width="104" height="40" rx="20" fill="#ffffff" fill-opacity="0.1"/><text x="124" y="${L.pills + 27}" text-anchor="middle">Gmail</text>
+    <rect x="188" y="${L.pills}" width="116" height="40" rx="20" fill="#ffffff" fill-opacity="0.1"/><text x="246" y="${L.pills + 27}" text-anchor="middle">Outlook</text>
+    <rect x="316" y="${L.pills}" width="140" height="40" rx="20" fill="#ffffff" fill-opacity="0.1"/><text x="386" y="${L.pills + 27}" text-anchor="middle">Apple Mail</text>
   </g>
-  <text x="72" y="560" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" fill="#94a3b8">webdevpuneet.com/email-templates</text>
+  <text x="${TITLE_X}" y="560" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" fill="#94a3b8">webdevpuneet.com/email-templates</text>
 </svg>`);
 }
 

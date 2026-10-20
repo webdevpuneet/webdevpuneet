@@ -1143,6 +1143,260 @@ Use it with Delighted, Typeform, SurveyMonkey, Hotjar, Qualtrics, Google Forms o
       { q: 'Does an NPS survey email need an unsubscribe link?', a: 'It is safest to include one, especially if you survey customers regularly, so the footer has an unsubscribe link and your postal address.' },
     ],
   },
+
+  'back-in-stock': {
+    keywords: ['back in stock email template', 'restock notification email', 'back in stock alert email', 'waitlist email template', 'shopify back in stock email'],
+    about: {
+      title: 'Back in Stock Email — Free Restock Notification Email Template',
+      description: `**Back in Stock Email** is a free, responsive HTML template for telling waitlist shoppers that a sold-out product is available again. Back-in-stock alerts go to people who have already said they want the item, which is why they convert so well: the shopper only needs to click and buy.
+
+**What's in the email**
+
+A "You asked, it's back" label and a personal headline, a short intro, then a product card with a "Back in stock" badge, a large product photo, the product name, variant and price, and an optional low-stock line such as "only a few left in this color". A big "Shop now" button links straight to the product page, and a closing note explains that stock goes to whoever checks out first.
+
+**Honest urgency that works**
+
+Restocked items often sell out again quickly, so a truthful low-stock line gives shoppers a real reason to act now. Keep it accurate: if stock isn't limited, leave the line empty and it disappears. The product photo links to the product page too, so every part of the card is clickable.
+
+**Works with your store**
+
+Copy the HTML into Klaviyo, Shopify Email, Omnisend, Mailchimp or a back-in-stock app such as Back in Stock or Notify Me, and replace the sample product with your platform's product variables. It's built with tables and inline styles, with an Outlook-safe button, a dark palette and a plain-text version. Because it's a promotional email, the footer includes an unsubscribe link and postal address. For carts left behind, use the [Abandoned Cart](/email-templates/abandoned-cart/) template.`,
+    },
+    features: [
+      '"Back in stock" badge on a highlighted product card',
+      'Large product photo linked to the product page',
+      'Product name, variant and price',
+      'Optional low-stock urgency line; hidden when empty',
+      'Big bulletproof "Shop now" button',
+      'Personal headline with a first-name merge tag',
+      'Light and dark palettes, both editable',
+      'Unsubscribe link and postal address for CAN-SPAM',
+      'Plain-text version generated automatically',
+      'Upload the product photo or paste your store image URL',
+    ],
+    why: [
+      { icon: '🔔', title: 'Shoppers asked for it', desc: 'Waitlist subscribers already want the product, so a restock alert is one of the easiest emails to convert.' },
+      { icon: '⏳', title: 'Real urgency', desc: 'An honest low-stock line tells shoppers why to buy now, without fake countdowns.' },
+      { icon: '🖼', title: 'The product is the hero', desc: 'A large photo, name and price in one card make it obvious what is back and what it costs.' },
+    ],
+    useCases: [
+      { icon: '👟', title: 'Sold-out bestseller restock', desc: 'Email everyone on the waitlist the moment a popular size or color returns, with a low-stock line because it sold out quickly last time.' },
+      { icon: '🎧', title: 'Pre-order and new batch arrivals', desc: 'Tell shoppers who registered interest that a new production batch has arrived, with the product photo and a direct link to buy.' },
+      { icon: '🎟', title: 'Tickets and limited releases', desc: 'Let people know when extra tickets, seats or a limited drop become available, using the stock note for the number left.' },
+      { icon: '📚', title: 'Digital and course re-openings', desc: 'Announce that enrolment for a course or a sold-out digital product has reopened, changing the badge to "Enrolment open".' },
+    ],
+    faqs: [
+      { q: 'What is a back in stock email?', a: 'An automated email sent to shoppers who asked to be notified when a sold-out product becomes available again. Because they already want the item, these emails usually convert far better than regular campaigns.' },
+      { q: 'How do I send back in stock emails in Shopify or Klaviyo?', a: 'Use Klaviyo\'s back-in-stock flow or a Shopify app that collects waitlist sign-ups. Copy this template\'s HTML into the flow\'s custom HTML email and replace the product name, image, price and link with the platform\'s variables.' },
+      { q: 'Should I send to everyone on the waitlist at once?', a: 'If stock is limited, some stores send in batches so the first group can buy before everyone else, which avoids people clicking through to an item that sold out again.' },
+      { q: 'Does a back in stock email need an unsubscribe link?', a: 'Yes. It promotes a product, so it is commercial email under US CAN-SPAM and needs an unsubscribe link and postal address. Both are in the footer.' },
+      { q: 'Can I add more than one product?', a: 'The template features one product, which works best for a single restock. For several, use Extra sections to add images and buttons, or fork it to My Code and repeat the product card.' },
+    ],
+  },
+
+  'refund-confirmation': {
+    keywords: ['refund confirmation email template', 'refund processed email', 'refund email template', 'return and refund email', 'refund notification email'],
+    about: {
+      title: 'Refund Confirmation Email — Free Refund Processed Email Template',
+      description: `**Refund Confirmation Email** is a free, responsive HTML template for confirming that a refund has been issued. After a return or cancellation, customers want two answers: how much is coming back and when it will arrive. This template answers both at a glance, which reduces "where is my refund?" support tickets and leaves customers with a good last impression.
+
+**What's in the email**
+
+A green check badge and a "Refund processed" label, a reassuring headline with the customer's first name, the amount refunded in large type, and a details box with the original order number, the refund reference, the card or payment method it's going back to and the processing date. A short note explains how long refunds take to appear, followed by the items returned, a "View refund details" button and a support note.
+
+**Built to prevent follow-up questions**
+
+Most refund questions come from timing: banks can take 5 to 10 business days to show a refund. Saying so clearly, and including a refund reference customers can quote, stops many tickets before they start. The tone is warm and simple, because a smooth refund is often what makes a customer willing to buy again.
+
+**Works with your store**
+
+Copy the HTML into Shopify's refund notification, WooCommerce, Stripe, Postmark or your own order system and swap the sample values for your platform's refund variables. It's transactional, so it doesn't need an unsubscribe link. It completes the post-purchase set alongside the [Order Confirmation](/email-templates/order-confirmation/) and [Shipping Confirmation](/email-templates/shipping-confirmation/) templates.`,
+    },
+    features: [
+      'Green check badge and "Refund processed" label',
+      'Amount refunded in large type',
+      'Order number, refund reference, payment method and date',
+      'Clear note on how long refunds take to arrive',
+      'Optional list of items returned',
+      'Bulletproof "View refund details" button',
+      'Support note asking for the refund reference',
+      'Light and dark palettes, both editable',
+      'Transactional footer without marketing content',
+      'Plain-text version with every detail',
+    ],
+    why: [
+      { icon: '✅', title: 'Instant reassurance', desc: 'A check mark, the amount and the timing tell customers their money is on the way before they read the details.' },
+      { icon: '🎫', title: 'Fewer support tickets', desc: 'Clear timing and a refund reference answer the questions customers would otherwise email you about.' },
+      { icon: '🔁', title: 'A good last impression', desc: 'A smooth, friendly refund experience is often what makes a customer willing to buy from you again.' },
+    ],
+    useCases: [
+      { icon: '📦', title: 'Online store returns', desc: 'Send it when a returned parcel is checked and refunded, listing the items returned and the card the money is going back to.' },
+      { icon: '❌', title: 'Cancelled orders', desc: 'Confirm the refund for an order cancelled before shipping, changing the intro to explain that the order was cancelled at the customer\'s request.' },
+      { icon: '☁️', title: 'Subscription and SaaS refunds', desc: 'Confirm a refunded subscription charge with the plan in the items list and the billing period in the processed-on field.' },
+      { icon: '🎟', title: 'Event and booking refunds', desc: 'Refund cancelled tickets or bookings, with the event or appointment listed as the item and a note about any fees that are not refundable.' },
+    ],
+    faqs: [
+      { q: 'What should a refund confirmation email include?', a: 'The amount refunded, the order it relates to, a refund reference, where the money is going, when it was processed and how long it usually takes to arrive, plus a way to contact support. This template includes all of them.' },
+      { q: 'How long do refunds take to appear?', a: 'It depends on the bank and payment method, but card refunds commonly take 5 to 10 business days. Put your typical timing in the arrival note so customers know when to expect it.' },
+      { q: 'Is a refund confirmation a transactional email?', a: 'Yes. It relates to a purchase and refund the customer made, so it does not need an unsubscribe link under US CAN-SPAM. Keep marketing out so it stays transactional.' },
+      { q: 'Can I use it in Shopify?', a: 'Yes. In Shopify admin go to Settings, then Notifications, then the refund notification, replace the code with this HTML and swap the sample values for Shopify\'s Liquid variables.' },
+      { q: 'Should I include a discount to win the customer back?', a: 'Usually not in the refund email itself, which should stay transactional and reassuring. Send a separate follow-up, such as the Re-engagement template, a few weeks later if appropriate.' },
+    ],
+  },
+
+  'security-alert': {
+    keywords: ['new sign in email template', 'security alert email template', 'login alert email', 'new device login email', 'suspicious login email template'],
+    about: {
+      title: 'New Sign-in Security Alert — Free Login Alert Email Template',
+      description: `**New Sign-in Security Alert** is a free, responsive HTML template for telling users their account was accessed from a new device or location. Login alerts are a standard security practice for apps, SaaS products, banks and marketplaces: they let people spot account takeovers early, often before any damage is done.
+
+**Calm, clear and actionable**
+
+The email opens with a shield badge and a plain headline, "New sign-in to your account", then shows exactly what happened in a details box: the device, browser or app, approximate location, IP address and time. Two short lines handle both cases without alarm: if it was you, there's nothing to do; if it wasn't, one button secures the account. A short list of security tips closes the email.
+
+**Designed to be trusted**
+
+Security emails are a favourite target for phishing, so this template follows the habits that make real alerts recognisable: it names the account with the user's email address, shows specific details instead of vague warnings, avoids attachments, and reminds users that you will never ask for their password by email or phone. Make sure the button links only to your own domain.
+
+**Works with your auth stack**
+
+Copy the HTML into Auth0, Clerk, Supabase, Firebase, Stytch or your own backend and fill the details from the sign-in event (user agent, IP geolocation and timestamp). It's transactional, so no unsubscribe link is needed. Pair it with [Magic Link Sign-in](/email-templates/magic-link/), [Password Reset](/email-templates/password-reset/) and [Verify Email](/email-templates/verify-email/) for a complete set of account emails.`,
+    },
+    features: [
+      'Shield badge and "New sign-in" headline',
+      'Device, browser, location, IP address and time',
+      '"If this was you" reassurance line',
+      '"If this wasn\'t you" warning with a clear next step',
+      'Bulletproof "Secure my account" button',
+      'Optional security tips list',
+      'Names the account with an email merge tag',
+      'Light and dark palettes, both editable',
+      'Transactional footer without marketing content',
+      'Plain-text version with every sign-in detail',
+    ],
+    why: [
+      { icon: '🛡', title: 'Stops takeovers early', desc: 'Users who see an unfamiliar sign-in can secure their account within minutes, often before anything is changed.' },
+      { icon: '🔍', title: 'Specific, not scary', desc: 'Exact device, location and time details let people decide quickly whether it was them, without panic.' },
+      { icon: '✔', title: 'Looks legitimate', desc: 'Naming the account and reminding users you never ask for passwords helps them tell real alerts from phishing.' },
+    ],
+    useCases: [
+      { icon: '💻', title: 'New device sign-in alerts', desc: 'Send it automatically whenever an account is accessed from a browser or device you have not seen before, with the details from the login event.' },
+      { icon: '🌍', title: 'Unusual location warnings', desc: 'Trigger it when a sign-in comes from a new country or region, changing the headline to "Sign-in from a new location".' },
+      { icon: '🔑', title: 'Account change notifications', desc: 'Reuse the layout for password changes, new two-factor devices or email address changes, so users always know when their account changes.' },
+      { icon: '🏦', title: 'Fintech and marketplace security', desc: 'Banks, wallets and marketplaces can use it to meet customer expectations for security alerts, with the tips tailored to their product.' },
+    ],
+    faqs: [
+      { q: 'What should a new sign-in alert email include?', a: 'Which account was accessed, the device or browser, the approximate location, the time and ideally the IP address, a clear "if this was you, do nothing" line and a single button to secure the account if it was not.' },
+      { q: 'How do I get the location and device details?', a: 'Read the user agent from the sign-in request for the device and browser, look up the IP address with a geolocation service for an approximate city and country, and record the timestamp in the user\'s time zone.' },
+      { q: 'How do I stop alerts looking like phishing?', a: 'Send from your normal domain with SPF, DKIM and DMARC set up, name the account, show specific details, never ask for a password in the email and only link to your own domain.' },
+      { q: 'Does a security alert need an unsubscribe link?', a: 'No. It is a transactional security notice about the user\'s account, so CAN-SPAM\'s unsubscribe rule does not apply, and users should keep receiving it.' },
+      { q: 'Should every sign-in trigger an alert?', a: 'No. Alert on new devices, browsers or locations; alerting on every sign-in trains users to ignore the emails.' },
+    ],
+  },
+
+  'refer-a-friend': {
+    keywords: ['referral email template', 'refer a friend email template', 'give get referral email', 'referral program email', 'customer referral email'],
+    about: {
+      title: 'Refer a Friend Email — Free Referral Program Email Template',
+      description: `**Refer a Friend Email** is a free, responsive HTML template for promoting a referral programme. Referred customers tend to trust a brand faster and stay longer, because a friend vouched for it, which makes "give and get" programmes one of the most cost-effective ways to grow.
+
+**The double-sided offer, front and centre**
+
+A gift icon and a "Give $20, get $20" headline make the deal clear instantly. Two reward cards spell it out: what the friend gets and what the customer gets. Below, the customer's personal referral link sits in a copy-friendly box, with a big "Share your link" button and an optional tracker line ("You've referred 2 friends and earned $40") that rewards people who have already shared.
+
+**Simple steps and clear terms**
+
+A numbered "How it works" section explains the programme in three short steps, and a terms line covers the rules: minimum order, when credit is added and that credit can't be exchanged for cash. Clear terms build trust and prevent disputes later.
+
+**Works with any referral tool**
+
+Copy the HTML into Klaviyo, Mailchimp, HubSpot or Customer.io, and fill the referral link and tracker from a referral platform such as ReferralCandy, Friendbuy, Rewardful or your own system. Built with tables and inline styles, an Outlook-safe button, a dark palette and a plain-text version, and the footer has the unsubscribe link and postal address that marketing email needs. Send it after a happy moment, such as a delivered order or a 5-star [Review Request](/email-templates/review-request/), or a high [NPS Survey](/email-templates/nps-survey/) score.`,
+    },
+    features: [
+      '"Give $X, get $X" headline with a gift icon',
+      'Two reward cards: what the friend gets and what you get',
+      'Personal referral link in a copy-friendly box',
+      'Bulletproof "Share your link" button',
+      'Optional referral tracker line',
+      'Three-step "How it works" section',
+      'Terms line for minimum order and credit rules',
+      'Light and dark palettes, both editable',
+      'Unsubscribe link and postal address for CAN-SPAM',
+      'Plain-text version with the referral link',
+    ],
+    why: [
+      { icon: '🤝', title: 'Growth through trust', desc: 'People trust recommendations from friends more than ads, so referred customers often buy sooner and stay longer.' },
+      { icon: '🎁', title: 'A clear deal', desc: 'Two reward cards make the "give and get" offer obvious in seconds, which is what gets people to share.' },
+      { icon: '🔗', title: 'Sharing is one click away', desc: 'The personal link is shown in full and the button goes straight to sharing, so nothing stands between intent and action.' },
+    ],
+    useCases: [
+      { icon: '🛍', title: 'E-commerce give-and-get programme', desc: 'Offer $20 off a friend\'s first order and $20 credit for the customer, and send the email a few days after a delivered order.' },
+      { icon: '☁️', title: 'SaaS referral credits', desc: 'Reward users with a free month for every friend who subscribes, with the tracker showing months earned so far.' },
+      { icon: '⭐', title: 'After a 5-star review or high NPS score', desc: 'Send it to customers who just left a great review or a 9–10 NPS score, the moment they are most likely to recommend you.' },
+      { icon: '🏋️', title: 'Memberships and local businesses', desc: 'Gyms, salons and clubs can offer a free class or visit for the friend and a reward for the member who refers them.' },
+    ],
+    faqs: [
+      { q: 'What makes a good referral email?', a: 'A clear double-sided offer, the customer\'s personal link, one button to share, short steps and simple terms. Sending it at a happy moment, such as after a delivery or a great review, makes a big difference.' },
+      { q: 'When should I send a referral email?', a: 'After a customer has had a good experience, for example a few days after delivery, after a high NPS score or a positive review, or when they hit a milestone in your product.' },
+      { q: 'How do I add each customer\'s referral link?', a: 'Use your referral platform\'s merge variable in the link field and the button, for example a personalised URL from ReferralCandy, Friendbuy or Rewardful, or generate the link in your own code.' },
+      { q: 'Does a referral email need an unsubscribe link?', a: 'Yes. It promotes your business, so it is commercial email under US CAN-SPAM and needs an unsubscribe link and postal address. Both are in the footer.' },
+      { q: 'Should I include terms in the email?', a: 'Include a short summary, such as the minimum order and when rewards are added, and link to the full terms. Clear rules prevent disputes and build trust.' },
+    ],
+  },
+
+  'subscription-cancelled': {
+    keywords: ['cancellation email template', 'subscription cancellation email', 'sorry to see you go email', 'cancellation confirmation email', 'churn email template'],
+    about: {
+      title: 'Subscription Cancellation Email — Free "Sorry to See You Go" Template',
+      description: `**Subscription Cancellation Email** is a free, responsive HTML template for confirming a cancellation gracefully. How you handle a cancellation shapes whether a customer comes back later and what they tell others, so this template confirms everything clearly, leaves the door open and learns from the exit without guilt-tripping anyone.
+
+**Clear confirmation first**
+
+A "Cancellation confirmed" label and a warm headline sit above a details box with the plan, the date access ends and what happens to their data. The first line confirms they won't be charged again, the most important thing a cancelling customer wants to hear. A "Reactivate my subscription" button is there for anyone who changes their mind.
+
+**A respectful win-back offer**
+
+The optional offer box suggests a pause instead, a popular alternative for people who are leaving for a season rather than for good, or a comeback discount if they return within 30 days. It's one short box, not a barrier: the cancellation is already done, and the email respects that.
+
+**Learn why they left in one click**
+
+The exit question lists four common reasons as one-click answers. Each links to your survey address with a short reason code (for example \`…reason=too-expensive\`), so you can track churn reasons without asking people to fill in a form. A personal sign-off from the founder invites a reply for anything more.
+
+**Works with your billing tool**
+
+Copy the HTML into Stripe, Chargebee, Recurly, Paddle or your own billing emails and swap the sample values for your variables. It confirms an account change, so it's transactional and doesn't need an unsubscribe link. If they come back later, the [Re-engagement](/email-templates/re-engagement/) template is a good next step.`,
+    },
+    features: [
+      '"Cancellation confirmed" label and a warm headline',
+      'Plan, access end date and data retention details',
+      'Clear "you won\'t be charged again" confirmation',
+      'Bulletproof "Reactivate my subscription" button',
+      'Optional pause or comeback offer box',
+      'One-click exit question with four reasons',
+      'Personal founder sign-off inviting replies',
+      'Light and dark palettes, both editable',
+      'Transactional footer without marketing content',
+      'Plain-text version with a link for each reason',
+    ],
+    why: [
+      { icon: '🤝', title: 'Leaves a good last impression', desc: 'A clear, kind confirmation makes customers far more likely to return later and to speak well of you.' },
+      { icon: '⏸', title: 'Saves some customers', desc: 'A pause option or comeback offer gives people who are leaving temporarily an easy way to stay.' },
+      { icon: '📊', title: 'Explains your churn', desc: 'One-click exit reasons show why people leave, the data you need to fix pricing, features or onboarding.' },
+    ],
+    useCases: [
+      { icon: '☁️', title: 'SaaS subscription cancellation', desc: 'Confirm the cancellation with the plan, the date access ends and how long data is kept, and offer a pause instead of leaving.' },
+      { icon: '📦', title: 'Subscription box cancellation', desc: 'Confirm that no more boxes will ship, show the final delivery date and offer to skip a month instead of cancelling.' },
+      { icon: '🎓', title: 'Membership and course plans', desc: 'Confirm when member access ends, remind them their progress is saved, and offer a discount to return within 30 days.' },
+      { icon: '📰', title: 'Paid newsletter and media subscriptions', desc: 'Confirm the end of a paid subscription, offer to keep them on the free tier, and ask why they left with one click.' },
+    ],
+    faqs: [
+      { q: 'What should a cancellation email include?', a: 'Confirmation that the subscription is cancelled and they will not be charged again, the date access ends, what happens to their data, a way to reactivate, and optionally a pause or comeback offer and a short exit question.' },
+      { q: 'Should I try to win the customer back in the cancellation email?', a: 'Gently. A single offer, such as a pause or a discount for returning, can save some customers, but the cancellation must already be done and the email should never make it harder to leave.' },
+      { q: 'How does the one-click exit question work?', a: 'Each answer links to your survey address with a short reason code added, for example …reason=too-expensive. Your survey tool or a small landing page records the answer and can ask an optional follow-up.' },
+      { q: 'Is a cancellation email transactional?', a: 'Yes. It confirms a change to the customer\'s account, so it does not need an unsubscribe link under US CAN-SPAM. Keep the offer short so the email stays mainly transactional.' },
+      { q: 'Can I use it with Stripe or Chargebee?', a: 'Yes. Copy the HTML into your billing tool\'s custom cancellation email, or send it from a webhook such as Stripe\'s customer.subscription.deleted event, and replace the sample values with the subscription data.' },
+    ],
+  },
 };
 
 export const EMAIL_DIFFERENT = [

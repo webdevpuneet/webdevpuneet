@@ -29,6 +29,11 @@ import meetTheTeam from './meet-the-team.js';
 import mythVsFact from './myth-vs-fact.js';
 import bigStat from './big-stat.js';
 import comingSoon from './coming-soon.js';
+import numberedList from './numbered-list.js';
+import qaPost from './qa-post.js';
+import usVsThem from './us-vs-them.js';
+import justListed from './just-listed.js';
+import eventRecap from './event-recap.js';
 export { SIZES, sizeById, TEMPLATE_CATEGORIES, categoryById, BASE_CSS, richText } from './meta.js';
 
 const ORDER = [
@@ -38,6 +43,8 @@ const ORDER = [
   codeTip,
   mythVsFact,
   bigStat,
+  numberedList,
+  qaPost,
   productLaunch,
   milestone,
   hiring,
@@ -48,8 +55,11 @@ const ORDER = [
   holidaySale,
   productSpotlight,
   giveaway,
+  usVsThem,
+  justListed,
   webinarEvent,
   countdown,
+  eventRecap,
   testimonial,
   beforeAfter,
   carouselCover,

@@ -1600,4 +1600,265 @@ Post it a week or two before launch, follow with the [Countdown](/social-post-te
 - Centre everything, and size it with a CSS variable --u equal to 1% of the shorter side.`,
     },
   },
+
+  'numbered-list': {
+    keywords: ['list post template', 'listicle post template instagram', 'tips post template', '5 tips instagram post', 'numbered list social media post'],
+    about: {
+      title: 'Numbered List Post — Free "5 Tips" Listicle Template for Instagram & LinkedIn',
+      description: `**Numbered List Post** is a free listicle template for the posts people save most: "5 ways to…", "3 mistakes to avoid", "7 tools I use". A small topic label and a bold headline sit above up to five numbered points with large accent numerals, a "save this" prompt and your handle.
+
+**Why list posts work**
+
+Lists promise a specific, skimmable payoff before anyone reads a word, which is why "X tips" posts are among the most saved and shared formats on Instagram and LinkedIn. Numbered points also make it easy for people to reference them in comments ("number 3 changed everything"), and a clear save prompt nudges the save, which platforms treat as a strong signal.
+
+**Flexible length, consistent design**
+
+Write three, four or five points: any empty point hides itself and the rest spread to fill the space, so a "3 mistakes" post looks just as finished as a "5 tips" post. Long points shrink step by step until they fit. Wrap a word in the headline in *asterisks* to colour it, such as "opened" in "5 ways to get your emails opened".
+
+**Every size from one design**
+
+On the 4:5 feed size the list sits under the headline. On 16:9 for X and LinkedIn the headline moves into a left column and the list fills the right. The Story size gives each point more room. For longer lists, turn each point into its own slide with the [Carousel Step Slide](/social-post-templates/carousel-step/), or pair the post with [Tip of the Day](/social-post-templates/tip-of-the-day/) for a daily series.`,
+    },
+    features: [
+      'Bold headline with *asterisk* highlights and a topic label',
+      'Up to five numbered points with large accent numerals',
+      'Empty points hide automatically for 3- or 4-item lists',
+      'Long points shrink to fit instead of overflowing',
+      '"Save this" prompt and handle in the footer',
+      'Two-column layout on 16:9 for X and LinkedIn',
+      'Works in Story, square, portrait and Pinterest sizes',
+      'Export PNG, JPEG, PDF, animated video or HTML',
+    ],
+    useCases: [
+      { icon: '💡', title: '"5 tips" educational posts', desc: 'Share five practical tips from your field, such as writing, fitness or finance, as a single save-worthy post with a clear topic label and your handle.' },
+      { icon: '⚠️', title: '"3 mistakes to avoid" posts', desc: 'Delete the last two points and list three common mistakes, a format that hooks people who worry they are making them.' },
+      { icon: '🧰', title: 'Tool and resource round-ups', desc: 'List your favourite tools, books or apps for a task, then link them in the caption or a link-in-bio page.' },
+      { icon: '✅', title: 'Checklists and quick how-tos', desc: 'Turn a process into five clear steps, like a launch checklist or a morning routine, that followers screenshot and come back to.' },
+    ],
+    faqs: [
+      { q: 'How do I make a list post for Instagram?', a: 'Open the Numbered List Post template, write a headline such as "5 ways to…", fill in up to five points and add your handle. Keep the 1080×1350 portrait size for the feed and download the PNG.' },
+      { q: 'Can I make a list with only three points?', a: 'Yes. Leave points four and five empty and they disappear; the remaining points spread out to fill the space.' },
+      { q: 'How many points should a list post have?', a: 'Three to five is the sweet spot for a single image: enough to feel valuable, short enough to read on a phone. For longer lists, use a carousel with one point per slide.' },
+      { q: 'Does it work on LinkedIn?', a: 'Yes. Use the 1080×1350 portrait size in the LinkedIn feed, or the 1200×627 LinkedIn image size, where the headline and list sit side by side.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Numbered List Post HTML and CSS: write ten list-post ideas for your niche, turn it into a component that takes an array of points, or make a carousel version.',
+      prompt: `Create a 1080×1350 numbered list ("5 tips") social media post in plain HTML and CSS.
+
+- Warm pale-yellow background with a soft gold glow in the top-right.
+- A small gold pill label, then a large bold headline with one highlighted word.
+- Five list items, each with a large gold two-digit number (01–05) and a bold point, separated by thin lines; hide items whose text is empty.
+- A footer with a "Save this for later" prompt on the left and the handle on the right.
+- Size everything with a CSS variable --u equal to 1% of the shorter side.`,
+    },
+  },
+
+  'qa-post': {
+    keywords: ['q&a post template', 'faq post template instagram', 'you asked we answered post', 'ask me anything post template', 'question and answer social media post'],
+    about: {
+      title: 'Q&A Post — Free "You Asked, We Answered" FAQ Post Template',
+      description: `**Q&A Post** is a free social media template that turns a follower's question into content. Styled like a chat, it shows the question in a bubble with who asked it, your answer in a larger accent-coloured bubble with your avatar initial, a "drop your question in the comments" prompt and your handle.
+
+**Your best content is in your DMs**
+
+The questions customers and followers ask you are exactly what other people are searching for. Answering them publicly builds trust, saves you from repeating yourself in DMs, and gives you a steady stream of content ideas. A recognisable "You asked, we answered" series also invites more questions, which feeds the next post.
+
+**Designed like a conversation**
+
+The chat-bubble layout reads instantly as a question and an answer, even before anyone reads the words. The question is set in a bold heading font, the answer in a comfortable reading size, and both shrink automatically if your text is long. Wrap the most important part of the answer in *asterisks* to highlight it. Credit the person who asked ("@sam.designs asked") to make followers feel heard, or change it to "A customer asked" for privacy.
+
+**Ready for every network**
+
+The dark default palette stands out in light feeds, and the question bubble colour is its own setting. It exports as an Instagram portrait or square post, a Story, a 16:9 X post or a LinkedIn image. For myths people believe, use [Myth vs Fact](/social-post-templates/myth-vs-fact/); for a list of answers, try the [Numbered List Post](/social-post-templates/numbered-list/).`,
+    },
+    features: [
+      'Chat-style question bubble with "asked by" credit',
+      'Larger accent answer bubble with an avatar initial',
+      'Question and answer shrink to fit long text',
+      '*Asterisk* highlights for the key part of the answer',
+      'Separate question bubble colour plus background, text and accent',
+      'Call-to-action line inviting new questions',
+      'Works in portrait, square, Story, 16:9 and LinkedIn sizes',
+      'Export PNG, JPEG, PDF, animated video or HTML',
+    ],
+    useCases: [
+      { icon: '💬', title: 'Weekly "you asked" series', desc: 'Pick one question from your DMs or comments each week and answer it in a consistent design, building a series followers look forward to.' },
+      { icon: '❓', title: 'Product FAQs', desc: 'Answer the questions customers ask before buying, such as shipping times or compatibility, so they see the answer in their feed before they need to ask.' },
+      { icon: '🎙', title: 'AMA and live session recaps', desc: 'After an Instagram Live or AMA, turn the best questions into posts so people who missed it still get the value.' },
+      { icon: '🧑‍🏫', title: 'Expert and creator advice', desc: 'Coaches, consultants and creators can answer common questions in their field to show their expertise, build trust and attract new clients.' },
+    ],
+    faqs: [
+      { q: 'How do I make a Q&A post for Instagram?', a: 'Open the Q&A Post template, type the question and who asked it, write your answer and set your avatar initial. Keep the 1080×1350 portrait size or switch to Story, then download the PNG.' },
+      { q: 'Should I name the person who asked?', a: 'Only with their permission. Crediting them makes followers feel heard and encourages more questions; otherwise change the line to "A customer asked" or "You asked".' },
+      { q: 'What if my answer is long?', a: 'The answer shrinks automatically to fit its bubble. For readability, keep it to two or three sentences and put the full answer in your caption.' },
+      { q: 'Can I use it as a Story question response?', a: 'Yes. Switch to the Story / Reel size; the bubbles stack with room above and below for Instagram\'s Story buttons.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Q&A Post HTML and CSS: draft concise answers to your top customer questions, turn it into a component with question and answer props, or add a second Q&A pair.',
+      prompt: `Create a 1080×1350 "You asked, we answered" social media post in plain HTML and CSS.
+
+- Dark charcoal background with a soft indigo glow in the bottom-left.
+- An indigo headline label "You asked, we answered".
+- A question in a dark grey chat bubble aligned left (rounded, with a smaller bottom-left corner), with a small "@name asked" line above it.
+- An answer in a larger indigo-tinted bubble aligned right, with a round indigo avatar showing an initial.
+- A footer with a "Drop your question in the comments" prompt and the handle.
+- Size everything with a CSS variable --u equal to 1% of the shorter side.`,
+    },
+  },
+
+  'us-vs-them': {
+    keywords: ['comparison post template', 'us vs them post template', 'competitor comparison social post', 'versus post template instagram', 'old way vs new way post'],
+    about: {
+      title: 'Us vs Them Comparison — Free Comparison Post Template for Instagram & LinkedIn',
+      description: `**Us vs Them Comparison** is a free social media template for showing why customers choose you. A bold headline ("Why teams switch to Acme") sits above two columns: a muted "Other tools" column with four cross-marked drawbacks and a highlighted column for your brand with four tick-marked benefits, separated by a "VS" badge, with a call to action and your handle underneath.
+
+**Why comparison posts convert**
+
+People considering a purchase are already comparing options. A side-by-side post answers "why you and not them?" in a few seconds, which makes it one of the most effective formats for SaaS, agencies, coaches and product brands. It's equally useful as an "old way vs new way" post that compares a frustrating habit with the better approach your product enables.
+
+**Clear at a glance**
+
+The visual hierarchy does the persuading: the competitor column is greyed out, while your column is white, outlined in your accent colour and lifted with a soft glow. Crosses and ticks in coloured circles make each row readable without colour alone. Leave any row empty and it disappears, so you can compare three points instead of four.
+
+**Keep it fair**
+
+Comparisons work best when they're accurate and specific: "one flat price" beats vague claims, and naming a generic "other tools" column keeps it about your benefits rather than attacking a competitor. On the Story size the columns stack vertically; on 16:9 for X and LinkedIn they stay side by side. Pair it with [Customer Testimonial](/social-post-templates/testimonial/) to back the claims with a real review, or [Before & After](/social-post-templates/before-after/) for visual results.`,
+    },
+    features: [
+      'Headline with *asterisk* highlights for your brand name',
+      'Muted "others" column with four cross-marked points',
+      'Highlighted brand column with four tick-marked points',
+      '"VS" badge between the columns',
+      'Empty rows hide automatically',
+      'Columns stack vertically on the Story size',
+      'Call-to-action line and handle in the footer',
+      'Export PNG, JPEG, PDF, animated video or HTML',
+    ],
+    useCases: [
+      { icon: '☁️', title: 'SaaS "why switch" posts', desc: 'Compare pricing, setup time, support and features with typical alternatives, and link to a free trial in the call-to-action line.' },
+      { icon: '🔄', title: '"Old way vs new way" posts', desc: 'Contrast a painful manual process with the better way your product or method enables, such as spreadsheets versus a dashboard.' },
+      { icon: '🧑‍💼', title: 'Agency and freelancer positioning', desc: 'Show what clients get with you versus a typical agency, like direct access to the expert, fixed pricing and faster turnaround.' },
+      { icon: '🥗', title: 'Product and ingredient comparisons', desc: 'Food, beauty and wellness brands can compare their ingredients or materials with typical products, keeping each claim short and accurate.' },
+    ],
+    faqs: [
+      { q: 'How do I make a comparison post for Instagram?', a: 'Open the Us vs Them Comparison template, write a headline, fill in up to four points for each column and add a call to action. Keep the 1080×1350 portrait size or switch to Story, then download the PNG.' },
+      { q: 'Should I name a competitor?', a: 'It is usually safer to use a generic label such as "Other tools" or "The old way" and focus on your own benefits. If you name a competitor, make sure every claim is accurate and up to date.' },
+      { q: 'Can I compare fewer than four points?', a: 'Yes. Leave a row empty in both columns and it disappears, so you can compare two or three points.' },
+      { q: 'Does it work as a Story?', a: 'Yes. On the 1080×1920 Story size the two columns stack vertically with the VS badge between them.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Us vs Them Comparison HTML and CSS: write honest comparison points for your product, turn it into a component that takes two arrays, or make a carousel that compares one feature per slide.',
+      prompt: `Create a 1080×1350 "us vs them" comparison social post in plain HTML and CSS.
+
+- Light grey background and a large bold centred headline with the brand name in blue.
+- Two equal columns: a muted grey "Other tools" card with four rows, each with a red cross in a pale red circle, and a white card outlined in blue with a soft blue glow, four rows with white ticks in blue circles.
+- A round dark "VS" badge centred between the columns, with enough gap that it never overlaps the text.
+- A footer with a call to action and the handle.
+- Size everything with a CSS variable --u equal to 1% of the shorter side, and stack the columns on a 1080×1920 Story.`,
+    },
+  },
+
+  'just-listed': {
+    keywords: ['just listed instagram post template', 'real estate social media post template', 'just listed post template', 'realtor instagram post template', 'open house post template'],
+    about: {
+      title: 'Just Listed — Free Real Estate Instagram Post Template for Realtors',
+      description: `**Just Listed (Real Estate)** is a free social media post template for real estate agents, brokerages and property managers. A large property photo with a "Just listed" ribbon fills the top of the post, and a clean information panel below shows the asking price, the address, a beds / baths / square feet row, an optional open-house line and the agent's name, photo and contact details.
+
+**Built for how buyers browse**
+
+Buyers scroll quickly and decide in seconds, so the photo does the selling and the price is the biggest piece of text. The specs sit in tidy pills that are easy to scan on a phone, and the open-house line stands out in the accent colour. An elegant serif price and warm neutral palette suit most brokerages, and every colour can be changed to match your brand.
+
+**One template, every listing moment**
+
+Change the ribbon text to reuse the design for the whole listing journey: "Just listed", "Open house", "Price reduced", "Under contract" and "Just sold". Upload the property photo straight from your computer; it's cropped to fill the frame, you can drag to choose the best part of the shot, and it never leaves your browser. The agent photo is optional and disappears when empty.
+
+**Ready for every platform**
+
+Export the 4:5 portrait post for Instagram and Facebook, a 9:16 Story with a taller photo, a 16:9 version for X and Facebook with the photo on the left and the details on the right, or a 2:3 Pinterest pin for property boards. Pair it with [Countdown](/social-post-templates/countdown/) for an open-house countdown and [Customer Testimonial](/social-post-templates/testimonial/) for client reviews.`,
+    },
+    features: [
+      'Large property photo with a "Just listed" ribbon',
+      'Asking price in an elegant serif heading',
+      'Address and beds / baths / square feet pills',
+      'Optional open-house line in the accent colour',
+      'Agent name, contact and optional round photo',
+      'Ribbon text changes for open house, price reduced or just sold',
+      'Photo-left, details-right layout on 16:9',
+      'Export PNG, JPEG, PDF, animated video or HTML',
+    ],
+    useCases: [
+      { icon: '🏡', title: 'New listing announcements', desc: 'Post every new listing with its best exterior photo, price and key specs the day it goes live, with your contact details on the image itself.' },
+      { icon: '🗝', title: 'Open house promotion', desc: 'Change the ribbon to "Open house", fill in the date and time line and post it a few days before, then share the Story version on the morning.' },
+      { icon: '📉', title: 'Price reduced posts', desc: 'Re-promote a listing with a "Price reduced" ribbon and the new price, a quick way to bring back buyers who looked before.' },
+      { icon: '🎉', title: 'Just sold celebrations', desc: 'Change the ribbon to "Just sold" to celebrate a closing, show proof of results and attract new sellers in the same neighbourhood.' },
+    ],
+    faqs: [
+      { q: 'How do I make a "just listed" post for Instagram?', a: 'Open the Just Listed template, upload the property photo, and fill in the price, address, beds, baths, square feet and your contact details. Keep the 1080×1350 portrait size for the feed or switch to Story, then download the PNG.' },
+      { q: 'Can I use it for "just sold" or "open house" posts?', a: 'Yes. Change the ribbon text to "Just sold", "Open house", "Price reduced" or "Under contract", and use the open-house line for dates and times.' },
+      { q: 'What photo works best?', a: 'A bright, horizontal exterior or main-living-area photo at least 1600 px wide. You can drag the photo to choose which part shows in the frame.' },
+      { q: 'Are my listing photos uploaded anywhere?', a: 'No. Photos are processed in your browser and saved only on your device, which keeps client and listing photos private.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Just Listed HTML and CSS: write listing captions and hashtags, turn it into a component fed from your MLS data, or generate a "just sold" version for every closing.',
+      prompt: `Create a 1080×1350 "Just listed" real estate social post in plain HTML and CSS.
+
+- The top 60% is a property photo (cover-cropped) with a dark orange "JUST LISTED" ribbon in the top-left.
+- Below it, on an off-white panel: the price in a large serif font with an orange open-house line beside it, the two-line address, and three outlined pills for beds, baths and square feet.
+- A footer row separated by a thin line, with an optional round agent photo, the agent name and contact details.
+- Size everything with a CSS variable --u equal to 1% of the shorter side; on a 1600×900 size, put the photo on the left and the details on the right.`,
+    },
+  },
+
+  'event-recap': {
+    keywords: ['event recap post template', 'thats a wrap post template', 'conference recap social media post', 'event thank you post template', 'event highlights instagram post'],
+    about: {
+      title: 'Event Recap — Free "That\'s a Wrap" Event Recap Post Template',
+      description: `**Event Recap** is a free social media template for the post that goes out after your event: a "That's a wrap!" label, the event name, a collage of three photos, three highlight numbers and a thank-you line to everyone who made it happen.
+
+**Keep the momentum after the event**
+
+The day after an event, attendees are sharing their own photos and tagging you. A recap post joins that conversation, thanks speakers and sponsors publicly, and shows people who missed it what they missed, which is the best promotion for next year's tickets. Big numbers such as "1,200 attendees" and "36 talks" make the event feel substantial at a glance.
+
+**Photo collage without a design tool**
+
+Upload three photos (one large, two smaller) straight from your computer, and drag each to choose the best crop. Until you add photos, the slots show soft accent-coloured gradients, so the layout always looks finished. The stats are three editable number-and-label pairs, so they work for any event: attendees, talks, workshops, cities, countries or cups of coffee.
+
+**Every size from one design**
+
+On the 4:5 feed size the photos sit between the headline and the stats. On 16:9 for X and LinkedIn the photos move to the right with the headline and stats stacked on the left, a great fit for LinkedIn, where event recaps get strong engagement. Wrap part of the event name in *asterisks* to colour it, like the year. Promote your next event with [Webinar Event](/social-post-templates/webinar-event/) and [Countdown](/social-post-templates/countdown/).`,
+    },
+    features: [
+      '"That\'s a wrap" label and event name with *asterisk* highlights',
+      'Three-photo collage with one large and two small photos',
+      'Drag-to-reposition photo crops, processed in your browser',
+      'Gradient placeholders so the post looks finished before photos',
+      'Three editable highlight stats',
+      'Thank-you line and handle in the footer',
+      'Photos-right layout on 16:9 for X and LinkedIn',
+      'Export PNG, JPEG, PDF, animated video or HTML',
+    ],
+    useCases: [
+      { icon: '🎤', title: 'Conference and summit recaps', desc: 'Share the best stage, crowd and networking photos with attendee and talk numbers, and thank your speakers and sponsors by tagging them.' },
+      { icon: '🍕', title: 'Meetup and community events', desc: 'Recap a local meetup with photos of the room and the number of people who came, an easy way to grow the next one.' },
+      { icon: '🛠', title: 'Workshops and webinars', desc: 'After a workshop or webinar, share the number of attendees and lessons, and link the recording in the caption for those who missed it.' },
+      { icon: '🥂', title: 'Launch parties and company events', desc: 'Celebrate a launch party, offsite or anniversary with team photos and fun stats, great content for your company LinkedIn page.' },
+    ],
+    faqs: [
+      { q: 'How do I make an event recap post?', a: 'Open the Event Recap template, type the event name, upload three photos, fill in three highlight stats and write a thank-you line. Keep the 1080×1350 portrait size or switch to the LinkedIn size, then download the PNG.' },
+      { q: 'When should I post an event recap?', a: 'Within one or two days of the event, while attendees are still posting about it and the photos are fresh. Tag speakers and sponsors in the caption so they can reshare it.' },
+      { q: 'What stats should I include?', a: 'Pick three numbers that make the event feel big or special, such as attendees, talks, workshops, countries represented or funds raised. Keep the labels short.' },
+      { q: 'What if I only have one good photo?', a: 'Use it in the large slot. The two small slots show soft gradients when empty, or you can add close-up shots such as the stage, the venue or the swag.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Event Recap HTML and CSS: write a recap caption that thanks speakers and sponsors, turn it into a component that takes photos and stats, or make a carousel with one highlight per slide.',
+      prompt: `Create a 1080×1350 "That's a wrap!" event recap social post in plain HTML and CSS.
+
+- Very dark navy background with a pink glow in the top-right.
+- A small pink uppercase "That's a wrap!" label and the event name in a large bold font with the year in pink.
+- A photo collage: one tall photo on the left and two stacked photos on the right, with rounded corners and gradient placeholders.
+- Three stat cards in a row with large pink numbers and small labels.
+- A footer with a thank-you line on the left and the handle on the right.
+- Size everything with a CSS variable --u equal to 1% of the shorter side.`,
+    },
+  },
 };

@@ -148,6 +148,32 @@ export const TEMPLATE_WHY = {
     { icon: '◌', title: 'Reveal-proof by design', desc: 'Your photo is shown blurred, so you can tease the real product without giving the surprise away.' },
     { icon: '📅', title: 'The date is the hero', desc: 'The launch date sits in a bright pill and the call to action tells people how not to miss it.' },
   ],
+
+  'numbered-list': [
+    { icon: '🔖', title: 'Made to be saved', desc: 'A specific "5 tips" promise is easy to scan and worth keeping, which is why list posts are among the most saved formats.' },
+    { icon: '⇅', title: 'Any length from 3 to 5', desc: 'Empty points hide themselves, so a three-mistake post looks as finished as a five-tip post.' },
+    { icon: '#', title: 'Easy to talk about', desc: 'Numbered points let people reference them in comments, which keeps the conversation going under your post.' },
+  ],
+  'qa-post': [
+    { icon: '💬', title: 'Content from real questions', desc: 'Your DMs and comments are full of questions other people are searching for. Answering them publicly builds trust and saves time.' },
+    { icon: '◐', title: 'Reads as a conversation', desc: 'Chat bubbles show a question and an answer before anyone reads a word, so the post is instantly clear.' },
+    { icon: '↻', title: 'Invites the next question', desc: 'A recognisable series and a "drop your question" prompt keep new questions, and new content, coming in.' },
+  ],
+  'us-vs-them': [
+    { icon: '⚖', title: 'Answers "why you?"', desc: 'Buyers are already comparing options. A side-by-side post makes your advantages clear in seconds.' },
+    { icon: '✓', title: 'Hierarchy does the selling', desc: 'A greyed-out column next to your highlighted one guides the eye, with ticks and crosses that read without colour.' },
+    { icon: '⇲', title: 'Flexible rows', desc: 'Compare two, three or four points: empty rows disappear and the columns stay balanced.' },
+  ],
+  'just-listed': [
+    { icon: '🏡', title: 'The photo sells the home', desc: 'A large property photo and a big price match how buyers scroll and decide in seconds.' },
+    { icon: '🔁', title: 'One design for every stage', desc: 'Change the ribbon for open house, price reduced, under contract and just sold posts without a new design.' },
+    { icon: '☎', title: 'Contact details on the image', desc: 'Your name and number stay on the post when it is shared or screenshotted, so leads can always reach you.' },
+  ],
+  'event-recap': [
+    { icon: '🎉', title: 'Keeps the buzz going', desc: 'A recap joins the conversation while attendees are still posting, and shows people what they missed.' },
+    { icon: '📸', title: 'A collage without a design tool', desc: 'Drop in three photos and drag to crop. Gradient placeholders keep it looking finished in the meantime.' },
+    { icon: '📈', title: 'Numbers that sell next year', desc: 'Big attendee and talk counts make the event feel substantial, which is the best promotion for the next edition.' },
+  ],
 };
 
 export const TEMPLATE_DIFFERENT = [

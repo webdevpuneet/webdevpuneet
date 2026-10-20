@@ -6,10 +6,10 @@ export const CATEGORY_SEO = {
     title: 'Quote & Tip Post Templates — Free for Instagram, X & FB',
     description: 'Free quote, tip, fun fact, myth vs fact and statistic post templates for Instagram, LinkedIn and X. Edit the text, download every size as PNG or copy the HTML.',
     h1: 'Quote, Tip & Fact Post Templates',
-    keywords: ['instagram quote post templates', 'tip of the day templates', 'fun fact post templates', 'educational post templates', 'myth vs fact post template', 'statistic post template'],
+    keywords: ['instagram quote post templates', 'tip of the day templates', 'fun fact post templates', 'educational post templates', 'myth vs fact post template', 'statistic post template', 'list post template', 'q&a post template'],
     intro: `Quote cards, daily tips and "did you know?" facts are some of the most saved and shared posts on Instagram, LinkedIn and X. They are quick to read, easy to make into a series, and they keep your handle attached when they are reshared. These templates give each format a clear hierarchy, with the quote, tip or fact as the hero, text that shrinks to fit, and a footer for your name or handle.
 
-Pick **Big Quote** for founder, customer or podcast quotes, **Tip of the Day** for a numbered tip series, **Did You Know?** for statistics and trivia with a source line, **Code Tip** for developer snippets in an editor-style window, **Myth vs Fact** to bust a common misconception with a sourced fact, and **Big Stat** to turn one statistic into a giant glowing number with a bar chart. All of them export in every size and as HTML.`,
+Pick **Big Quote** for founder, customer or podcast quotes, **Tip of the Day** for a numbered tip series, **Did You Know?** for statistics and trivia with a source line, **Code Tip** for developer snippets in an editor-style window, **Myth vs Fact** to bust a common misconception with a sourced fact, **Big Stat** to turn one statistic into a giant glowing number with a bar chart, **Numbered List Post** for save-worthy "5 tips" listicles, and **Q&A Post** to answer follower questions in a chat-style layout. All of them export in every size and as HTML.`,
     faqs: [
       { q: 'Which template is best for a quote post?', a: 'Use Big Quote for quotes with an author: it has an oversized quote mark, a serif quote and an author footer with an optional photo. For tips, use Tip of the Day; for facts with a source, use Did You Know?.' },
       { q: 'Can I make a daily series with these templates?', a: 'Yes. Your colours, fonts and logo are saved in your browser for each template, so each new post only needs new text. Tip of the Day also has a tip number for numbered series.' },
@@ -32,8 +32,8 @@ Used together, they form a launch-week kit with matching sizes for the Instagram
     title: 'Sale & Promo Post Templates — Free Black Friday & Discount',
     description: 'Free sale and promo post templates: discount badges, Black Friday sales, product spotlights and Instagram giveaway posts. Edit online, download or copy HTML.',
     h1: 'Sale & Promo Post Templates',
-    keywords: ['sale post template', 'black friday post template', 'discount post template', 'product post template instagram', 'instagram giveaway post template'],
-    intro: `Promotional posts need to communicate the offer in under a second. These templates are built around that: **Discount Badge** puts the percentage in a tilted sticker badge with a coupon-style code chip, **Black Friday Sale** uses huge outlined and filled type for Black Friday (November 27, 2026) and Cyber Monday (November 30, 2026), **Product Spotlight** lets a product photo sell with a clean card for the name, price and shop button, and **Giveaway Contest** lays out the prize, three entry steps, the deadline and the rules line Instagram expects.
+    keywords: ['sale post template', 'black friday post template', 'discount post template', 'product post template instagram', 'instagram giveaway post template', 'comparison post template', 'just listed post template'],
+    intro: `Promotional posts need to communicate the offer in under a second. These templates are built around that: **Discount Badge** puts the percentage in a tilted sticker badge with a coupon-style code chip, **Black Friday Sale** uses huge outlined and filled type for Black Friday (November 27, 2026) and Cyber Monday (November 30, 2026), **Product Spotlight** lets a product photo sell with a clean card for the name, price and shop button, **Giveaway Contest** lays out the prize, three entry steps, the deadline and the rules line Instagram expects, **Us vs Them Comparison** shows why customers choose you, and **Just Listed** gives real estate agents a listing post with price, specs and contact details.
 
 Every design includes urgency (end dates, sale dates) and a clear next step, and exports in feed, Story and X sizes, so one campaign covers every placement. Product photos stay in your browser.`,
     faqs: [
@@ -43,10 +43,10 @@ Every design includes urgency (end dates, sale dates) and a clear next step, and
   },
   events: {
     title: 'Event & Webinar Post Templates — Free Countdown Designs',
-    description: 'Free event post templates: webinar promos with a date block and speaker photo, plus countdown posts for launches and deadlines. Download PNG sizes or copy HTML.',
+    description: 'Free event post templates: webinar promos with a date block and speaker photo, countdown posts and event recap posts with photos and stats. Download PNG.',
     h1: 'Event & Webinar Post Templates',
-    keywords: ['webinar post template', 'event promotion post', 'countdown post template', 'days left post'],
-    intro: `Event posts have one job: get people to register and show up. **Webinar Event** leads with a calendar-style date block, gives the talk title room, and puts a speaker photo next to the "Register free" button, with space for ET and PT times for US audiences. **Countdown** turns a deadline into urgency with a giant number in a glowing ring, ideal for a 7, 3 and 1 day reminder sequence.
+    keywords: ['webinar post template', 'event promotion post', 'countdown post template', 'days left post', 'event recap post template'],
+    intro: `Event posts have one job: get people to register and show up. **Webinar Event** leads with a calendar-style date block, gives the talk title room, and puts a speaker photo next to the "Register free" button, with space for ET and PT times for US audiences. **Countdown** turns a deadline into urgency with a giant number in a glowing ring, ideal for a 7, 3 and 1 day reminder sequence. After the event, **Event Recap** shares a three-photo collage, highlight numbers and a thank-you line.
 
 Both templates work for virtual webinars, workshops, meetups, conference talks, early-bird deadlines and product launches, in feed, Story and X sizes.`,
     faqs: [
