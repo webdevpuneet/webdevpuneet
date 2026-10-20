@@ -1,8 +1,10 @@
 import styles from './styles.module.css';
+import { CLARITY_ENABLED, STATCOUNTER_ENABLED, ANALYTICS_NAMES, joinNames } from '@/lib/tracking-config';
 
 export const metadata = {
   title: 'Privacy Policy — Cookies, AdSense & Your Rights | webdevpuneet.com',
-  description: 'Privacy Policy for webdevpuneet.com: client-side processing, cookies, Google AdSense, Google Analytics, Microsoft Clarity and your GDPR and CCPA rights.',
+  // Lists the analytics services that are switched on (src/lib/tracking-config.js)
+  description: `Privacy Policy for webdevpuneet.com: client-side processing, cookies, Google AdSense, ${joinNames(ANALYTICS_NAMES)} and your GDPR and CCPA rights.`,
   alternates: { canonical: 'https://webdevpuneet.com/privacy-policy/' },
   robots: { index: true, follow: true },
 };
@@ -13,7 +15,7 @@ export default function PrivacyPolicy() {
     <div className={styles.page}>
       <div className={styles.inner}>
         <h1 className={styles.title}>Privacy Policy</h1>
-        <p className={styles.updated}>Last updated: October 19, 2026</p>
+        <p className={styles.updated}>Last updated: October 20, 2026</p>
 
         <section className={styles.section}>
           <h2>1. Introduction & Acceptance</h2>
@@ -57,12 +59,18 @@ export default function PrivacyPolicy() {
                   <td>Google Analytics</td>
                   <td>Opt out via the Google Analytics opt-out add-on below</td>
                 </tr>
-                <tr>
+                {CLARITY_ENABLED && <tr>
                   <td>Analytics (behaviour)</td>
                   <td>Heatmaps and session replays that show how pages are used (clicks, scrolling, mouse movement) so we can find and fix usability problems</td>
                   <td>Microsoft Clarity (cookies such as _clck and _clsk)</td>
                   <td>Block or clear cookies in your browser; see the Microsoft Clarity section below</td>
-                </tr>
+                </tr>}
+                {STATCOUNTER_ENABLED && <tr>
+                  <td>Analytics (visits)</td>
+                  <td>Counts visits and page views and tells new visitors from returning ones (pages viewed, referring site, browser, device and general location)</td>
+                  <td>Statcounter (a first-party cookie such as sc_is_visitor_unique)</td>
+                  <td>Block or clear cookies in your browser; see the Statcounter section below</td>
+                </tr>}
                 <tr>
                   <td>Advertising</td>
                   <td>Ad delivery, frequency capping, and personalization based on browsing activity, including the DART cookie and similar identifiers</td>
@@ -88,7 +96,8 @@ export default function PrivacyPolicy() {
             <li><strong>Browser controls:</strong> Every modern browser lets you block, delete, or limit cookies through its settings menu, including blocking third-party cookies entirely.</li>
             <li><strong>Google Ads Settings:</strong> Manage or disable personalized advertising at <a href="https://adssettings.google.com/" target="_blank" rel="noopener noreferrer">adssettings.google.com</a>.</li>
             <li><strong>Google Analytics opt-out:</strong> Install the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Google Analytics Opt-out Browser Add-on</a> to prevent your data from being used by Google Analytics on any site, including this one.</li>
-            <li><strong>Microsoft Clarity:</strong> Blocking or clearing cookies for clarity.ms and webdevpuneet.com in your browser stops Clarity from linking your visits; content blockers that block clarity.ms stop it from loading entirely.</li>
+            {CLARITY_ENABLED && <li><strong>Microsoft Clarity:</strong> Blocking or clearing cookies for clarity.ms and webdevpuneet.com in your browser stops Clarity from linking your visits; content blockers that block clarity.ms stop it from loading entirely.</li>}
+            {STATCOUNTER_ENABLED && <li><strong>Statcounter:</strong> Blocking or clearing cookies for webdevpuneet.com stops Statcounter from recognising returning visits; content blockers that block statcounter.com stop it from loading entirely.</li>}
             <li><strong>Industry opt-out tools:</strong> <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">aboutads.info</a> and <a href="https://www.youronlinechoices.eu/" target="_blank" rel="noopener noreferrer">youronlinechoices.eu</a> let you opt out of interest-based advertising from many providers at once.</li>
             <li><strong>Global Privacy Control (GPC):</strong> We honor GPC browser signals as a valid opt-out-of-sale/sharing request from California residents where legally required.</li>
           </ul>
@@ -98,7 +107,8 @@ export default function PrivacyPolicy() {
         <section className={styles.section}>
           <h2>6. Analytics</h2>
           <p>We use <strong>Google Analytics 4</strong> to collect anonymous, aggregated usage data — such as page views, session duration, and general geographic region — to understand which tools are most used and to improve the site. Google Analytics does not identify individual users to us. You can opt out at any time using the tools listed in Section 5.</p>
-          <p>We also use <strong>Microsoft Clarity</strong> to understand how visitors use the site, through heatmaps and session replays of clicks, scrolling and mouse movement. Clarity masks text you type into fields by default, and we do not use it to identify you. Tool input is processed in your browser and is never sent to our servers. Clarity data is processed by Microsoft under the <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener noreferrer">Microsoft Privacy Statement</a>; see also <a href="https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-data" target="_blank" rel="noopener noreferrer">what data Clarity collects</a>.</p>
+          {CLARITY_ENABLED && <p>We also use <strong>Microsoft Clarity</strong> to understand how visitors use the site, through heatmaps and session replays of clicks, scrolling and mouse movement. Clarity masks text you type into fields by default, and we do not use it to identify you. Tool input is processed in your browser and is never sent to our servers. Clarity data is processed by Microsoft under the <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener noreferrer">Microsoft Privacy Statement</a>; see also <a href="https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-data" target="_blank" rel="noopener noreferrer">what data Clarity collects</a>.</p>}
+          {STATCOUNTER_ENABLED && <p>We also use <strong>Statcounter</strong>, an invisible visitor counter, to measure visits and page views. For each page view it records details such as your IP address, the page and the site you came from, your browser, operating system and screen size, and your approximate location, and it sets a cookie to tell new visitors from returning ones. It does not see anything you type into our tools. Statcounter data is processed by Statcounter (StatCounter Ltd, Ireland) under its <a href="https://statcounter.com/about/legal/" target="_blank" rel="noopener noreferrer">privacy policy and legal terms</a>.</p>}
         </section>
 
         <section className={styles.section}>
@@ -136,7 +146,8 @@ export default function PrivacyPolicy() {
           <ul>
             <li><strong>Google AdSense</strong> — display advertising; see <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google's Privacy Policy</a></li>
             <li><strong>Google Analytics</strong> — anonymous traffic analytics</li>
-            <li><strong>Microsoft Clarity</strong> — heatmaps and session replays for usability analysis; see the <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener noreferrer">Microsoft Privacy Statement</a></li>
+            {CLARITY_ENABLED && <li><strong>Microsoft Clarity</strong> — heatmaps and session replays for usability analysis; see the <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener noreferrer">Microsoft Privacy Statement</a></li>}
+            {STATCOUNTER_ENABLED && <li><strong>Statcounter</strong> — visit and page-view counting; see <a href="https://statcounter.com/about/legal/" target="_blank" rel="noopener noreferrer">Statcounter's legal and privacy information</a></li>}
             <li><strong>Google Fonts</strong> — font delivery (your IP address may be logged by Google when a font loads)</li>
             <li><strong>GitHub (optional, tool-specific)</strong> — some tools offer an optional sync feature to your own GitHub Gist using a token you generate and control; this connection is made directly from your browser to GitHub, and is entirely optional</li>
           </ul>
@@ -144,12 +155,12 @@ export default function PrivacyPolicy() {
 
         <section className={styles.section}>
           <h2>10. Data Retention & Deletion</h2>
-          <p>We do not retain any tool input on our servers because we never receive it. Data stored in your browser's localStorage or IndexedDB persists until you clear it yourself or clear your browser's site data. Data you optionally sync to your own GitHub Gist is retained under your GitHub account and subject to GitHub's own policies — you can delete it at any time from your GitHub account. Analytics and advertising cookie data is retained by Google according to Google's own retention schedules, described in Google's Privacy Policy. Microsoft Clarity keeps session data according to Microsoft's retention schedule for Clarity.</p>
+          <p>We do not retain any tool input on our servers because we never receive it. Data stored in your browser's localStorage or IndexedDB persists until you clear it yourself or clear your browser's site data. Data you optionally sync to your own GitHub Gist is retained under your GitHub account and subject to GitHub's own policies — you can delete it at any time from your GitHub account. Analytics and advertising cookie data is retained by Google according to Google's own retention schedules, described in Google's Privacy Policy.{CLARITY_ENABLED && ' Microsoft Clarity keeps session data according to Microsoft\'s retention schedule for Clarity.'}{STATCOUNTER_ENABLED && ' Statcounter keeps visit logs according to its own retention rules for our account.'}</p>
         </section>
 
         <section className={styles.section}>
           <h2>11. International Data Transfers</h2>
-          <p>Because we hold no server-side account data, there is no cross-border transfer of user-submitted content by us. However, Google Analytics, Google AdSense and Microsoft Clarity may process cookie and log data on servers located outside your country, including in the United States, under their own data transfer safeguards (such as Standard Contractual Clauses where applicable).</p>
+          <p>Because we hold no server-side account data, there is no cross-border transfer of user-submitted content by us. However, {joinNames([...ANALYTICS_NAMES, 'Google AdSense'])} may process cookie and log data on servers located outside your country, including in the United States, under their own data transfer safeguards (such as Standard Contractual Clauses where applicable).</p>
         </section>
 
         <section className={styles.section}>

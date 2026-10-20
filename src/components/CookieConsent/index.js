@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 import styles from './styles.module.css';
 import { isEmbedRoute } from '@/lib/is-embed-route';
+import { ANALYTICS_NAMES, joinNames } from '@/lib/tracking-config';
 
 // Notice-only banner: cookies/ads/analytics are always on (Consent Mode
 // defaults to 'granted' in the root layout) and continued use of the site
@@ -121,7 +122,7 @@ export default function CookieConsent() {
 
           {/* Notice copy + policy links */}
           <p id="cc-desc" className={styles.desc}>
-            We use cookies for analytics (Google Analytics and Microsoft Clarity) and
+            We use cookies for analytics ({joinNames(ANALYTICS_NAMES)}) and
             advertising — they keep webdevpuneet.com fast, relevant, and free for everyone. By continuing to use this site, you agree
             to our{' '}
             <a className={styles.link} href="/terms/">Terms of Use</a> and{' '}

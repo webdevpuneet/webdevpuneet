@@ -8,6 +8,8 @@ import styles from './layout.module.css';
 import AdSenseScript from '@/components/AdSenseScript';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import MicrosoftClarity from '@/components/MicrosoftClarity';
+import Statcounter from '@/components/Statcounter';
+import { CLARITY_ENABLED, STATCOUNTER_ENABLED } from '@/lib/tracking-config';
 
 export const metadata = {
   title: {
@@ -80,7 +82,8 @@ export default function RootLayout({ children }) {
         <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();` }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
         <GoogleAnalytics />
-        <MicrosoftClarity />
+        {CLARITY_ENABLED && <MicrosoftClarity />}
+        {STATCOUNTER_ENABLED && <Statcounter />}
         <RouteLoader />
         <div className={styles.appLayout}>
           <Sidebar />
