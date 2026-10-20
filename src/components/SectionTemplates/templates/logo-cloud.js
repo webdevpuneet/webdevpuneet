@@ -13,6 +13,7 @@ export default {
   description: 'A slim “Trusted by” strip: a short line of text above a row of customer logos that scrolls endlessly with soft fades at both edges and pauses on hover. Logos are grey until hovered. Upload real logos, or use the built-in icon-and-name marks until you have them.',
   bestFor: ['Directly under a hero section', 'Showing customers, partners or press', 'Integrations and “works with” lists'],
   behaviors: ['marquee'],
+  anchor: '', // a logo strip is rarely a navbar destination
 
   groups: [
     { id: 'header', label: 'Text' },

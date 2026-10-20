@@ -20,10 +20,26 @@ export const newUid = () => `s${Date.now().toString(36)}${Math.random().toString
 /** A new, empty page */
 export const emptyPage = (name = 'Untitled page') => ({ name, theme: { ...DEFAULT_THEME }, fonts: { heading: 'jakarta', body: 'inter' }, motion: { ...DEFAULT_MOTION }, sections: [] });
 
-/** A section instance for a page (default content of its template) */
-export function newPageSection(tplId) {
+/* Section anchors: an optional id per section so navbar links like #pricing scroll to it.
+   New sections get a default from their category (unique on the page). */
+const ANCHOR_FOR = { features: 'features', pricing: 'pricing', testimonials: 'customers', faq: 'faq', contact: 'contact', blog: 'blog', team: 'team', stats: 'results', cta: 'get-started' };
+/** A URL-safe anchor id ('' when empty) */
+export const cleanAnchor = v => String(v || '').toLowerCase().trim().replace(/[^a-z0-9-_]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+/** The default anchor for a template on a page ('' for navbars, heroes and footers) */
+export function defaultAnchor(tplId, sections = []) {
   const t = sectionTemplateById(tplId);
-  return t ? { uid: newUid(), tpl: tplId, state: defaultSectionState(t) } : null;
+  const base = t?.anchor ?? ANCHOR_FOR[t?.category]; // a template can set its own (or '' for none)
+  if (!base) return '';
+  const used = new Set(sections.map(s => s.anchor).filter(Boolean));
+  let a = base, n = 2;
+  while (used.has(a)) a = `${base}-${n++}`;
+  return a;
+}
+
+/** A section instance for a page (default content of its template) */
+export function newPageSection(tplId, sections = []) {
+  const t = sectionTemplateById(tplId);
+  return t ? { uid: newUid(), tpl: tplId, anchor: defaultAnchor(tplId, sections), state: defaultSectionState(t) } : null;
 }
 
 /* Starter pages: ready-made section stacks with a theme (the seed of website templates).
@@ -49,7 +65,7 @@ export function pageFromStarter(starterId) {
   const page = emptyPage(st.name);
   if (preset) page.theme = { ...page.theme, ...Object.fromEntries(THEME_COLORS.map(c => [c.key, preset[c.key]])) };
   page.fonts = { ...page.fonts, ...st.fonts };
-  page.sections = st.sections.map(newPageSection).filter(Boolean);
+  for (const id of st.sections) { const sec = newPageSection(id, page.sections); if (sec) page.sections.push(sec); }
   return page;
 }
 
@@ -63,7 +79,7 @@ export function restorePage(saved) {
     fonts: { ...base.fonts, ...(p.fonts || {}) },
     motion: { ...base.motion, ...(p.motion || {}) },
     sections: (Array.isArray(p.sections) ? p.sections : [])
-      .map(s => { const t = sectionTemplateById(s?.tpl); return t ? { uid: s.uid || newUid(), tpl: t.id, state: restoreSectionState(t, s.state) } : null; })
+      .map(s => { const t = sectionTemplateById(s?.tpl); return t ? { uid: s.uid || newUid(), tpl: t.id, anchor: cleanAnchor(s.anchor), state: restoreSectionState(t, s.state) } : null; })
       .filter(Boolean),
   };
 }
@@ -88,7 +104,8 @@ export function pageMarkup(page, { imageSrc, clean = true } = {}) {
     const t = sectionTemplateById(s.tpl);
     if (!t) return '';
     const src = imageSrc ? k => imageSrc(s.uid, k) : undefined;
-    return `<section class="st st-${t.id}" data-uid="${esc(s.uid)}">\n${fillHtml(t, sectionOnPage(page, s), { imageSrc: src, clean })}\n</section>`;
+    const id = cleanAnchor(s.anchor);
+    return `<section${id ? ` id="${id}"` : ''} class="st st-${t.id}" data-uid="${esc(s.uid)}">\n${fillHtml(t, sectionOnPage(page, s), { imageSrc: src, clean })}\n</section>`;
   }).join('\n');
 }
 
@@ -129,6 +146,8 @@ export function pageDocumentHtml(page, { imageSrc, clean = true, fontFaces = '',
 ${description ? `<meta name="description" content="${esc(description)}">\n` : ''}<!-- Built with the free Website Builder · https://webdevpuneet.com/website-builder/ -->
 ${gf ? `<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="${gf}" rel="stylesheet">\n` : ''}${clean ? pageSchema(page) : ''}<style>
 body{margin:0;background:${page.theme?.bg || '#fff'}}
+html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 ${pageCss(page, { fontFaces })}
 </style>${extraHead}
 </head>

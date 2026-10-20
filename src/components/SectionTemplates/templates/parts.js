@@ -78,8 +78,9 @@ export const navLinkFields = () => [
 ];
 
 export const DEMO_LINKS = [
-  { label: 'Product', url: '#product' }, { label: 'Features', url: '#features' }, { label: 'Pricing', url: '#pricing' },
-  { label: 'Customers', url: '#customers' }, { label: 'Blog', url: '/blog/' },
+  // Anchors match the Website Builder's default section ids (features, pricing, customers, faq)
+  { label: 'Features', url: '#features' }, { label: 'Pricing', url: '#pricing' },
+  { label: 'Customers', url: '#customers' }, { label: 'FAQ', url: '#faq' }, { label: 'Blog', url: '/blog/' },
 ];
 
 /* ── Footer ────────────────────────────────────────────────────────────────── */

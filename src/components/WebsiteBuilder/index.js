@@ -7,7 +7,7 @@
    Pages are saved in this browser (IndexedDB `wdp-website-pages`, record tpl "page");
    uploaded images go to the section asset store with keys `page:<uid>:<field>:<id>`. */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import s from '../SocialPostTemplates/styles.module.css';
 import b from './styles.module.css';
 import { ExportMenu, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
@@ -18,7 +18,13 @@ import { makeDesignStore } from '@/lib/design-store';
 import { exportDesigns, importDesigns, blobToDataUrl, dataUrlToBlob } from '@/lib/design-transfer';
 import { loadCustomFonts, onFontsChange, customFontFaceCss, exportCustomFonts, importCustomFonts } from '@/lib/fonts';
 import { SECTION_TEMPLATES, SECTION_CATEGORIES, sectionTemplateById, sectionCategoryById } from '@/components/SectionTemplates/templates/index.js';
-import { emptyPage, newPageSection, newUid, restorePage, pageDocumentHtml, STARTERS, pageFromStarter } from '@/components/SectionTemplates/templates/page.js';
+import { emptyPage, newPageSection, newUid, restorePage, pageDocumentHtml, STARTERS, pageFromStarter, cleanAnchor, defaultAnchor } from '@/components/SectionTemplates/templates/page.js';
+import { restoreSectionState } from '@/components/SectionTemplates/templates/index.js';
+import { gsap } from 'gsap';
+import { Draggable } from 'gsap/Draggable';
+import { Flip } from 'gsap/Flip';
+
+if (typeof window !== 'undefined') gsap.registerPlugin(Draggable, Flip);
 import { ContentPanel, ThemePanel, withKit } from '@/components/SectionTemplates/panels';
 import { putAsset, getAsset } from '@/components/SectionTemplates/storage';
 import { saveBlob, prepareUpload, EXT, previewImages } from '@/components/SectionTemplates/upload';
@@ -26,6 +32,8 @@ import { saveBlob, prepareUpload, EXT, previewImages } from '@/components/Sectio
 const TOOL = 'website-builder';
 const store = makeDesignStore('wdp-website-pages');
 const AUTOSAVE = 'page';
+/* A section sent from a section editor ("Add to Website Builder"): { tpl, state, at } */
+export const INCOMING_KEY = 'wdp-wb-incoming';
 const DEVICES = [
   { id: 'desktop', label: 'Desktop', w: 1280, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2" /><path d="M8 21h8M12 17v4" /></svg> },
   { id: 'tablet', label: 'Tablet', w: 820, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2" /><path d="M11 18h2" /></svg> },
@@ -37,7 +45,7 @@ const SELECT_CSS = 'section[data-uid]{cursor:pointer}section[data-uid].wb-on{out
 
 /* The live page: an iframe at the device width, scaled to fit the stage, keeping its
    scroll position across updates. Clicking a section selects it. */
-function PageFrame({ html, width, height, scale, selected, onSelect }) {
+function PageFrame({ html, width, height, scale, selected, onSelect, onKey }) {
   const ref = useRef(null);
   const scrollY = useRef(0);
   useEffect(() => {
@@ -50,11 +58,19 @@ function PageFrame({ html, width, height, scale, selected, onSelect }) {
       win.scrollTo(0, scrollY.current);
       win.addEventListener('scroll', () => { scrollY.current = win.scrollY; }, { passive: true });
       doc.addEventListener('click', ev => {
-        if (ev.target.closest?.('a')) ev.preventDefault();
+        const a = ev.target.closest?.('a');
+        if (a) {
+          ev.preventDefault();
+          // In-page links (#pricing) scroll the preview to that section
+          const href = a.getAttribute('href') || '';
+          if (href.length > 1 && href.startsWith('#')) { doc.getElementById(href.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+        }
         const sec = ev.target.closest?.('section[data-uid]');
         if (sec) onSelect(sec.getAttribute('data-uid'));
       });
       doc.addEventListener('submit', ev => ev.preventDefault());
+      // Undo / redo / save shortcuts keep working while the preview has focus
+      doc.addEventListener('keydown', ev => onKey?.(ev));
       doc.querySelectorAll('section[data-uid]').forEach(el => el.classList.toggle('wb-on', el.getAttribute('data-uid') === selected));
     };
     frame.addEventListener('load', onLoad);
@@ -75,6 +91,83 @@ function PageFrame({ html, width, height, scale, selected, onSelect }) {
     <div className={b.frameBox} style={{ width: width * scale, height: height * scale }}>
       <iframe ref={ref} title="Page preview" srcDoc={html} className={b.frame} style={{ width, height, transform: scale !== 1 ? `scale(${scale})` : undefined }} />
     </div>
+  );
+}
+
+/* The page's sections as a list. Drag a row by its handle (GSAP Draggable): the other
+   rows slide out of the way, and on release everything Flips into the new order.
+   The ↑ ↓ buttons do the same from the keyboard. */
+function SectionList({ sections, selected, onOpen, onMove, onReorder, onDuplicate, onRemove }) {
+  const listRef = useRef(null);
+  const flipState = useRef(null);
+  const order = sections.map(x => x.uid).join('|');
+
+  // After a drop has re-rendered the list in its new order, animate from where rows were
+  useLayoutEffect(() => {
+    if (!flipState.current) return;
+    Flip.from(flipState.current, { duration: 0.35, ease: 'power3.out' });
+    flipState.current = null;
+  }, [order]);
+
+  useEffect(() => {
+    const list = listRef.current;
+    if (!list) return undefined;
+    const rows = Array.from(list.children);
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const drags = rows.map((row, i) => Draggable.create(row, {
+      type: 'y',
+      trigger: row.querySelector('[data-handle]'),
+      zIndexBoost: true,
+      onPress() {
+        this.mids = rows.map(r => { const rr = r.getBoundingClientRect(); return rr.top + rr.height / 2; });
+        this.step = row.offsetHeight + 6;
+        this.to = i;
+        row.classList.add(b.rowDragging);
+      },
+      onDrag() {
+        const mid = this.mids[i] + this.y;
+        let to = 0;
+        this.mids.forEach((m, j) => { if (j !== i && m < mid) to++; });
+        if (to === this.to) return;
+        this.to = to;
+        rows.forEach((r, j) => {
+          if (j === i) return;
+          const shift = i < to && j > i && j <= to ? -this.step : to < i && j >= to && j < i ? this.step : 0;
+          gsap.to(r, { y: shift, duration: reduce ? 0 : 0.2, ease: 'power2.out', overwrite: true });
+        });
+      },
+      onRelease() {
+        row.classList.remove(b.rowDragging);
+        const to = this.to ?? i;
+        if (to === i) { gsap.to(rows, { y: 0, duration: reduce ? 0 : 0.25, ease: 'power3.out', overwrite: true }); return; }
+        flipState.current = reduce ? null : Flip.getState(rows);
+        gsap.set(rows, { y: 0 });
+        onReorder(i, to);
+      },
+    })[0]);
+    return () => drags.forEach(d => d.kill());
+  }, [order]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return (
+    <ol className={b.list} ref={listRef}>
+      {sections.map((x, i) => {
+        const t = sectionTemplateById(x.tpl);
+        return (
+          <li key={x.uid} className={`${b.row} ${selected === x.uid ? b.rowOn : ''}`}>
+            <span className={b.handle} data-handle title="Drag to reorder" aria-hidden="true">⠿</span>
+            <button type="button" className={b.rowMain} onClick={() => onOpen(x.uid)} title="Edit this section">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img className={b.thumb} src={previewOf(x.tpl)} alt="" loading="lazy" draggable="false" />
+              <span className={b.rowText}><b>{t?.name}</b><small>{sectionCategoryById(t?.category)?.label}{x.anchor ? ` · #${x.anchor}` : ''}</small></span>
+            </button>
+            <button type="button" className={b.rowBtn} onClick={() => onMove(x.uid, -1)} disabled={i === 0} title="Move up" aria-label={`Move ${t?.name} up`}>↑</button>
+            <button type="button" className={b.rowBtn} onClick={() => onMove(x.uid, 1)} disabled={i === sections.length - 1} title="Move down" aria-label={`Move ${t?.name} down`}>↓</button>
+            <button type="button" className={b.rowBtn} onClick={() => onDuplicate(x.uid)} title="Duplicate" aria-label={`Duplicate ${t?.name}`}>⧉</button>
+            <button type="button" className={b.rowBtn} onClick={() => onRemove(x.uid)} title="Remove" aria-label={`Remove ${t?.name}`}>✕</button>
+          </li>
+        );
+      })}
+    </ol>
   );
 }
 
@@ -144,6 +237,21 @@ export default function WebsiteBuilder() {
         if (d && live) { const p = restorePage(d.state); setPageRaw(p); savedJson.current = JSON.stringify(p); setCurrent({ id: d.id, name: d.name }); done = true; }
       }
       if (!done) { const auto = await store.getAutosave(AUTOSAVE).catch(() => null); if (auto && live) setPageRaw(restorePage(auto)); }
+      // "Add to Website Builder" from a section editor: append that section to the page
+      if (live && new URLSearchParams(window.location.search).get('add')) {
+        let incoming = null;
+        try { incoming = JSON.parse(localStorage.getItem(INCOMING_KEY) || 'null'); localStorage.removeItem(INCOMING_KEY); } catch { /* storage blocked */ }
+        const t = incoming && Date.now() - (incoming.at || 0) < 10 * 60 * 1000 ? sectionTemplateById(incoming.tpl) : null;
+        if (t) {
+          setPageRaw(p => {
+            const sec = { uid: newUid(), tpl: t.id, anchor: defaultAnchor(t.id, p.sections), state: restoreSectionState(t, incoming.state) };
+            setSelected(sec.uid);
+            return { ...p, sections: [...p.sections, sec] };
+          });
+          setToast(`Added your ${t.name} to the page. It now uses the page’s theme; change colours and fonts in the Theme tab.`);
+        }
+        window.history.replaceState(null, '', window.location.pathname);
+      }
       if (live) setHydrated(true);
     })();
     return () => { live = false; };
@@ -169,19 +277,21 @@ export default function WebsiteBuilder() {
     return () => ro.disconnect();
   }, []);
 
-  /* Keyboard: Ctrl+S saves, Ctrl+Z / Ctrl+Y outside text fields */
+  /* Keyboard: Ctrl+S saves; Ctrl+Z undoes, Ctrl+Y / Ctrl+Shift+Z redoes (outside text
+     fields, where the browser's own text undo applies). Also wired into the preview iframe. */
   const saveRef = useRef(null);
+  const onKey = useCallback(ev => {
+    if (!(ev.ctrlKey || ev.metaKey)) return;
+    const k = ev.key.toLowerCase();
+    if (k === 's') { ev.preventDefault(); saveRef.current?.(); return; }
+    const active = ev.target?.ownerDocument?.activeElement || document.activeElement;
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(active?.tagName || '')) return;
+    if (k === 'z' && !ev.shiftKey) { ev.preventDefault(); undo(); } else if (k === 'y' || (k === 'z' && ev.shiftKey)) { ev.preventDefault(); redo(); }
+  }, [undo, redo]);
   useEffect(() => {
-    const onKey = ev => {
-      if (!(ev.ctrlKey || ev.metaKey)) return;
-      const k = ev.key.toLowerCase();
-      if (k === 's') { ev.preventDefault(); saveRef.current?.(); return; }
-      if (/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || '')) return;
-      if (k === 'z' && !ev.shiftKey) { ev.preventDefault(); undo(); } else if (k === 'y' || (k === 'z' && ev.shiftKey)) { ev.preventDefault(); redo(); }
-    };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [undo, redo]);
+  }, [onKey]);
 
   /* Uploaded images across every section: object URLs for the preview */
   const allUploads = useMemo(() => page.sections.flatMap(sec => Object.entries(sec.state.uploads || {}).map(([k, u]) => ({ uid: sec.uid, k, ...u }))), [page.sections]);
@@ -216,7 +326,7 @@ export default function WebsiteBuilder() {
     sections: p.sections.map(x => (x.uid === uid ? { ...x, state: typeof next === 'function' ? next(x.state) : next } : x)),
   })), [setPage]);
   const addSection = tplId => {
-    const sec = newPageSection(tplId);
+    const sec = newPageSection(tplId, page.sections);
     if (!sec) return;
     setPage(p => {
       const at = selected ? p.sections.findIndex(x => x.uid === selected) : -1;
@@ -235,10 +345,18 @@ export default function WebsiteBuilder() {
     [list[i], list[to]] = [list[to], list[i]];
     return { ...p, sections: list };
   });
+  const reorderSection = (from, to) => setPage(p => {
+    if (from === to || from < 0 || to < 0 || from >= p.sections.length || to >= p.sections.length) return p;
+    const list = [...p.sections];
+    const [moved] = list.splice(from, 1);
+    list.splice(to, 0, moved);
+    return { ...p, sections: list };
+  });
   const duplicateSection = uid => setPage(p => {
     const i = p.sections.findIndex(x => x.uid === uid);
     if (i < 0) return p;
-    const copy = { ...p.sections[i], uid: newUid(), state: JSON.parse(JSON.stringify(p.sections[i].state)) };
+    // The copy gets no anchor (ids must be unique on the page); set one in its settings
+    const copy = { ...p.sections[i], uid: newUid(), anchor: '', state: JSON.parse(JSON.stringify(p.sections[i].state)) };
     const list = [...p.sections];
     list.splice(i + 1, 0, copy);
     return { ...p, sections: list };
@@ -470,6 +588,24 @@ export default function WebsiteBuilder() {
                     <button type="button" className={b.back} onClick={() => setEditing(null)}>← Sections</button>
                     <span className={b.editTitle}><b>{editTpl.name}</b><small>{sectionCategoryById(editTpl.category)?.label} · theme and animation are set for the whole page</small></span>
                   </div>
+                  <div className={s.field} style={{ marginTop: 12 }}>
+                    <label className={s.label} htmlFor="wb-anchor">Section link (anchor)</label>
+                    <div className={b.anchorRow}>
+                      <span aria-hidden="true">#</span>
+                      <input
+                        id="wb-anchor"
+                        className={s.input}
+                        value={editSec.anchor || ''}
+                        placeholder="e.g. pricing"
+                        maxLength={40}
+                        spellCheck={false}
+                        onChange={ev => setPage(p => ({ ...p, sections: p.sections.map(x => (x.uid === editSec.uid ? { ...x, anchor: cleanAnchor(ev.target.value) } : x)) }))}
+                      />
+                    </div>
+                    {editSec.anchor && page.sections.some(x => x.uid !== editSec.uid && x.anchor === editSec.anchor)
+                      ? <span className={s.hint} style={{ color: '#dc2626' }}>Another section already uses #{editSec.anchor}. Anchors must be unique.</span>
+                      : <span className={s.hint}>Navbar and button links to <b>#{editSec.anchor || 'anchor'}</b> scroll to this section. Leave empty for none.</span>}
+                  </div>
                 </section>
                 <ContentPanel
                   key={editSec.uid}
@@ -500,24 +636,15 @@ export default function WebsiteBuilder() {
                       </div>
                     </>
                   )}
-                  <ol className={b.list}>
-                    {page.sections.map((x, i) => {
-                      const t = sectionTemplateById(x.tpl);
-                      return (
-                        <li key={x.uid} className={`${b.row} ${selected === x.uid ? b.rowOn : ''}`}>
-                          <button type="button" className={b.rowMain} onClick={() => openSection(x.uid)} title="Edit this section">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img className={b.thumb} src={previewOf(x.tpl)} alt="" loading="lazy" />
-                            <span className={b.rowText}><b>{t?.name}</b><small>{sectionCategoryById(t?.category)?.label}</small></span>
-                          </button>
-                          <button type="button" className={b.rowBtn} onClick={() => moveSection(x.uid, -1)} disabled={i === 0} title="Move up" aria-label={`Move ${t?.name} up`}>↑</button>
-                          <button type="button" className={b.rowBtn} onClick={() => moveSection(x.uid, 1)} disabled={i === page.sections.length - 1} title="Move down" aria-label={`Move ${t?.name} down`}>↓</button>
-                          <button type="button" className={b.rowBtn} onClick={() => duplicateSection(x.uid)} title="Duplicate" aria-label={`Duplicate ${t?.name}`}>⧉</button>
-                          <button type="button" className={b.rowBtn} onClick={() => removeSection(x.uid)} title="Remove" aria-label={`Remove ${t?.name}`}>✕</button>
-                        </li>
-                      );
-                    })}
-                  </ol>
+                  <SectionList
+                    sections={page.sections}
+                    selected={selected}
+                    onOpen={openSection}
+                    onMove={moveSection}
+                    onReorder={reorderSection}
+                    onDuplicate={duplicateSection}
+                    onRemove={removeSection}
+                  />
                   {!adding && <button type="button" className={b.addBtn} onClick={() => setAdding(true)}>+ Add section{selected ? ' below the selected one' : ''}</button>}
                 </section>
                 {adding && (
@@ -623,7 +750,8 @@ export default function WebsiteBuilder() {
               )}
             </div>
             <div className={s.toolbarRight} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <HistoryButtons onUndo={undo} onRedo={redo} onReset={() => setPage(emptyPage())} canUndo={past.current.length > 0} canRedo={future.current.length > 0} />
+              {/* Reset clears the page; it is one undo step, so Ctrl+Z brings everything back */}
+              <HistoryButtons onUndo={undo} onRedo={redo} onReset={() => { setPage(emptyPage()); setSelected(null); setEditing(null); flash('Page cleared. Press Undo (Ctrl+Z) to bring it back.'); }} canUndo={past.current.length > 0} canRedo={future.current.length > 0} />
               <SaveButton
                 onClick={quickSave}
                 busy={busy === 'save'}
@@ -653,7 +781,7 @@ export default function WebsiteBuilder() {
                 <p>Pick a starter page or add sections from the panel: navbars, heroes, features, pricing, testimonials, FAQ, CTA, footers and more. They all share one theme, so the page always looks like one website.</p>
               </div>
             ) : origin && scale > 0 && (
-              <PageFrame key={device} html={previewHtml} width={dev.w} height={frameH} scale={scale} selected={selected} onSelect={openSection} />
+              <PageFrame key={device} html={previewHtml} width={dev.w} height={frameH} scale={scale} selected={selected} onSelect={openSection} onKey={onKey} />
             )}
           </div>
         </div>

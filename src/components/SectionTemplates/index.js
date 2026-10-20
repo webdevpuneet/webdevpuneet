@@ -479,6 +479,14 @@ export function SectionTemplateEditor({ id }) {
     const code = kind === 'react' ? toReactComponent(parts) : toVueSfc(parts);
     await copy(code, `${kind === 'react' ? 'React' : 'Vue'} component copied.${hasUploads ? ' Uploaded images point to images/, so put them there (Download ZIP gives you the files).' : ''}`);
   };
+  /* Send this section (content, lists and uploaded images) to the Website Builder, which
+     appends it to the page being built. Key shared with components/WebsiteBuilder. */
+  const addToBuilder = () => {
+    try { localStorage.setItem('wdp-wb-incoming', JSON.stringify({ tpl: t.id, state, at: Date.now() })); }
+    catch { flash('Your browser blocked storage, so the section couldn’t be sent to the Website Builder.'); return; }
+    window.open('/website-builder/?add=1', '_blank', 'noopener');
+    flash('Opened the Website Builder with this section added to your page.');
+  };
   const forkToMyCode = async () => {
     const tab = openForkTab();
     setBusy('fork');
@@ -780,6 +788,7 @@ export function SectionTemplateEditor({ id }) {
                 menu={currentDesign ? [{ label: 'Detach', sub: `Keep editing without changing “${currentDesign.name}”`, onClick: () => { setCurrentDesign(null); savedJson.current = null; flash('Detached. Save now creates a new design.'); } }] : []}
               />
               <span className={s.toolbarSep} aria-hidden="true" />
+              <button type="button" className={s.miniBtn} onClick={addToBuilder} title="Add this section to a full page in the Website Builder">+ Add to page</button>
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />
               <ExportMenu
                 head="Export this section as…"
