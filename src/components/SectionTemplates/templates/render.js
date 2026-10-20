@@ -14,6 +14,7 @@
      data-optional     on data-image / data-bg: removed instead of a placeholder when empty
      data-icon="key"   empty element, filled with the icon's inline SVG (templates/icons.js)
      data-lines="key"  empty <ul>/<ol>, one <li> per non-empty line of the field
+     data-links="key"  empty <ul>/<ol>, one <li><a> per line written "Label | URL"
      data-set="attr:key;attr:key"  sets attributes from fields (e.g. a form's action, an
                        input's name and placeholder); href/src/action go through safeUrl
      data-list="key"   repeatable items: the element's first child is the item template,
@@ -122,7 +123,7 @@ export function fillHtml(t, state, { imageSrc, clean = false } = {}) {
       src: k => (imageSrc ? imageSrc(`${key}.${it._id}.${k}`) : '') || String(it[k] ?? '').trim(),
     })
       // Mark item bindings as done, so the section-level pass never refills an empty one
-      .replace(/\sdata-(edit|href|image|bg|icon|lines|set|show-if|hide-if|optional)(?==|[\s>])/g, ' data-i-$1')).join('\n');
+      .replace(/\sdata-(edit|href|image|bg|icon|lines|links|set|show-if|hide-if|optional)(?==|[\s>])/g, ' data-i-$1')).join('\n');
     const open = html.slice(m.index, b.openEnd).replace(/\sdata-list="/, ' data-list-done="');
     html = html.slice(0, m.index) + open + (rendered ? `\n${rendered}\n` : '') + html.slice(b.closeStart);
     from = m.index + open.length;
@@ -134,7 +135,7 @@ export function fillHtml(t, state, { imageSrc, clean = false } = {}) {
     src: key => (imageSrc ? imageSrc(key, fieldOf(key)) : '') || String(f[key] ?? '').trim(),
   });
 
-  if (clean) html = html.replace(/\s+data-(i-)?(edit|href|image|bg|icon|lines|set|show-if|hide-if|show|optional|list-done)(="[^"]*")?/g, '');
+  if (clean) html = html.replace(/\s+data-(i-)?(edit|href|image|bg|icon|lines|links|set|show-if|hide-if|show|optional|list-done)(="[^"]*")?/g, '');
   else html = html.replace(/\sdata-list-done="/g, ' data-list="');
   return html.trim();
 }
@@ -188,6 +189,14 @@ function fillFragment(html, f, { src }) {
   html = html.replace(/<(ul|ol)\b([^>]*\bdata-lines="([^"]+)"[^>]*)>\s*<\/\1>/gi, (m, tag, attrs, key) => {
     const lines = String(f[key] ?? '').split(/\r?\n/).map(l => l.trim()).filter(Boolean);
     return `<${tag}${attrs}>${lines.map(l => `<li>${richText(l)}</li>`).join('')}</${tag}>`;
+  });
+  // Link lists: one "Label | URL" per line (URL optional)
+  html = html.replace(/<(ul|ol)\b([^>]*\bdata-links="([^"]+)"[^>]*)>\s*<\/\1>/gi, (m, tag, attrs, key) => {
+    const items = String(f[key] ?? '').split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(l => {
+      const at = l.lastIndexOf('|');
+      return at < 0 ? [l, '#'] : [l.slice(0, at).trim(), l.slice(at + 1).trim() || '#'];
+    });
+    return `<${tag}${attrs}>${items.map(([label, url]) => `<li><a href="${esc(safeUrl(url))}">${richText(label)}</a></li>`).join('')}</${tag}>`;
   });
   return html;
 }

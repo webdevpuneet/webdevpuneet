@@ -270,6 +270,189 @@ BEHAVIORS.counter = {
 })();`,
 };
 
+BEHAVIORS.menu = {
+  /* Navigation bars.
+     Mobile menu: a [data-menu-toggle] button (aria-expanded) opens the [data-menu] panel.
+     The script adds .has-menu to the section (CSS only hides the panel on small widths
+     once JS is running, so without JS the links simply show). Open/close animate with
+     GSAP; [data-menu-item] children stagger in. Esc closes and returns focus to the
+     button, Tab is kept inside the open menu, clicking outside or on a link closes it.
+     Sticky header: a [data-sticky-flag] element (switched by a toggle) makes the section
+     sticky via CSS; .is-scrolled is added after 8px. With [data-hide-flag] too, the bar
+     slides away on scroll down and comes back on scroll up.
+     Dismiss: [data-dismiss] collapses its closest [data-dismissable] (announcement bars). */
+  plugins: [],
+  js: `(function () {
+  var G = window.gsap;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var anim = G && !reduce;
+  document.querySelectorAll('.st').forEach(function (sec) {
+    var btn = sec.querySelector('[data-menu-toggle]');
+    var panel = sec.querySelector('[data-menu]');
+    if (btn && panel) {
+      sec.classList.add('has-menu');
+      var isOpen = false;
+      var mobile = function () { return getComputedStyle(btn).display !== 'none'; };
+      // The toggle and the panel's controls, in document order (the toggle may come after the panel)
+      var focusables = function () {
+        return Array.prototype.filter.call(sec.querySelectorAll('a[href], button'), function (el) { return el === btn || panel.contains(el); });
+      };
+      var open = function () {
+        isOpen = true;
+        sec.classList.add('menu-open');
+        btn.setAttribute('aria-expanded', 'true');
+        if (anim) {
+          G.fromTo(panel, { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 0.35, ease: 'power3.out', clearProps: 'transform,opacity' });
+          G.fromTo(panel.querySelectorAll('[data-menu-item]'), { opacity: 0, y: -8 }, { opacity: 1, y: 0, duration: 0.3, stagger: 0.04, delay: 0.05, ease: 'power2.out', clearProps: 'transform,opacity' });
+        }
+        var first = panel.querySelector('a[href], button');
+        if (first) first.focus();
+      };
+      var close = function (returnFocus) {
+        if (!isOpen) return;
+        isOpen = false;
+        btn.setAttribute('aria-expanded', 'false');
+        var done = function () { sec.classList.remove('menu-open'); };
+        if (anim) G.to(panel, { opacity: 0, y: -8, duration: 0.2, ease: 'power2.in', onComplete: function () { done(); G.set(panel, { clearProps: 'transform,opacity' }); } });
+        else done();
+        if (returnFocus) btn.focus();
+      };
+      btn.addEventListener('click', function () { if (isOpen) close(false); else open(); });
+      document.addEventListener('keydown', function (e) {
+        if (!isOpen) return;
+        if (e.key === 'Escape') { close(true); return; }
+        if (e.key === 'Tab') {
+          var f = focusables(), first = f[0], last = f[f.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      });
+      document.addEventListener('click', function (e) { if (isOpen && !sec.contains(e.target)) close(false); });
+      panel.addEventListener('click', function (e) { if (e.target.closest('a')) close(false); });
+      window.addEventListener('resize', function () { if (isOpen && !mobile()) close(false); });
+    }
+    sec.querySelectorAll('[data-dismiss]').forEach(function (x) {
+      x.addEventListener('click', function () {
+        var box = x.closest('[data-dismissable]');
+        if (!box) return;
+        if (anim) G.to(box, { height: 0, opacity: 0, paddingTop: 0, paddingBottom: 0, duration: 0.35, ease: 'power2.inOut', onComplete: function () { box.remove(); } });
+        else box.remove();
+      });
+    });
+    if (sec.querySelector('[data-sticky-flag]')) {
+      var hideOn = !!sec.querySelector('[data-hide-flag]');
+      var last = window.scrollY, hidden = false;
+      var onScroll = function () {
+        var y = window.scrollY;
+        sec.classList.toggle('is-scrolled', y > 8);
+        if (hideOn && !sec.classList.contains('menu-open')) {
+          var down = y > last && y > 120;
+          if (down !== hidden) {
+            hidden = down;
+            if (anim) G.to(sec, { yPercent: down ? -100 : 0, duration: 0.35, ease: 'power2.out' });
+            else sec.style.transform = down ? 'translateY(-100%)' : '';
+          }
+        }
+        last = y;
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+  });
+})();`,
+};
+
+BEHAVIORS.totop = {
+  /* "Back to top" links: [data-totop] scrolls smoothly to the top with GSAP ScrollToPlugin
+     (native smooth scrolling without it, an instant jump for reduced motion). The link's
+     href="#" means it still works without JavaScript. */
+  plugins: ['ScrollToPlugin'],
+  js: `(function () {
+  var G = window.gsap;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (G && window.ScrollToPlugin) G.registerPlugin(ScrollToPlugin);
+  document.querySelectorAll('.st [data-totop]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (G && window.ScrollToPlugin && !reduce) G.to(window, { scrollTo: 0, duration: 1, ease: 'power3.inOut' });
+      else window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    });
+  });
+})();`,
+};
+
+BEHAVIORS.form = {
+  /* Contact forms. Markup: <form data-form> with an action URL (Formspree, Basin,
+     Getform or your own endpoint), a [data-form-success] message and a [data-form-error]
+     message (both hidden). With JavaScript the form is sent with fetch (Accept: JSON);
+     on success the fields fade out and the success message animates in, on failure the
+     error message shows. Without JavaScript it is a normal form post. In the editor
+     preview (window.ST_PREVIEW) nothing is sent: success is simulated. */
+  plugins: [],
+  js: `(function () {
+  var G = window.gsap;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.st form[data-form]').forEach(function (form) {
+    var ok = form.querySelector('[data-form-success]');
+    var bad = form.querySelector('[data-form-error]');
+    var btn = form.querySelector('[type="submit"]');
+    var done = function () {
+      var fields = form.querySelectorAll('[data-form-fields]');
+      var show = function () {
+        Array.prototype.forEach.call(fields, function (f) { f.hidden = true; });
+        if (ok) { ok.hidden = false; ok.focus && ok.focus(); if (G && !reduce) G.from(ok, { y: 16, opacity: 0, duration: 0.5, ease: 'power3.out', clearProps: 'transform,opacity' }); }
+      };
+      if (G && !reduce && fields.length) G.to(fields, { opacity: 0, y: -10, duration: 0.25, onComplete: show }); else show();
+    };
+    form.addEventListener('submit', function (e) {
+      if (!window.fetch) return;
+      e.preventDefault();
+      if (bad) bad.hidden = true;
+      if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true'); }
+      var finish = function () { if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy'); } };
+      if (window.ST_PREVIEW) { setTimeout(function () { finish(); done(); }, 600); return; }
+      fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+        .then(function (r) { finish(); if (r.ok) done(); else if (bad) bad.hidden = false; })
+        .catch(function () { finish(); if (bad) bad.hidden = false; });
+    });
+  });
+})();`,
+};
+
+BEHAVIORS.hoverpreview = {
+  /* Editorial lists: hovering a [data-preview] row shows its image ([data-preview-img]
+     inside the row) in a floating card that follows the cursor (GSAP quickTo). Desktop
+     pointers only; the image stays hidden (and the list stays a plain list) otherwise. */
+  plugins: [],
+  js: `(function () {
+  var G = window.gsap;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+  if (!G || reduce || !fine) return;
+  document.querySelectorAll('.st').forEach(function (sec) {
+    var rows = sec.querySelectorAll('[data-preview]');
+    if (!rows.length) return;
+    var card = document.createElement('div');
+    card.className = 'st-hover-card';
+    card.setAttribute('aria-hidden', 'true');
+    sec.appendChild(card);
+    G.set(card, { xPercent: -50, yPercent: -50, scale: 0.6, opacity: 0 });
+    var x = G.quickTo(card, 'x', { duration: 0.45, ease: 'power3.out' });
+    var y = G.quickTo(card, 'y', { duration: 0.45, ease: 'power3.out' });
+    sec.addEventListener('pointermove', function (e) { var r = sec.getBoundingClientRect(); x(e.clientX - r.left); y(e.clientY - r.top); });
+    Array.prototype.forEach.call(rows, function (row) {
+      var img = row.querySelector('[data-preview-img]');
+      row.addEventListener('pointerenter', function () {
+        if (!img || !img.getAttribute('src')) return;
+        card.style.backgroundImage = 'url("' + img.getAttribute('src').replace(/"/g, '%22') + '")';
+        G.to(card, { opacity: 1, scale: 1, rotate: -4, duration: 0.35, ease: 'power3.out', overwrite: 'auto' });
+      });
+      row.addEventListener('pointerleave', function () { G.to(card, { opacity: 0, scale: 0.6, rotate: 0, duration: 0.3, ease: 'power2.in', overwrite: 'auto' }); });
+    });
+  });
+})();`,
+};
+
 /** GSAP plugins a template's behaviours need */
 export const behaviorPlugins = t => [...new Set((t.behaviors || []).flatMap(b => BEHAVIORS[b]?.plugins || []))];
 /** The behaviours' scripts for a template ('' when it has none) */

@@ -332,7 +332,7 @@
   ]
  },
  "section": {
-  "total": 28,
+  "total": 44,
   "categories": [
    {
     "id": "hero",
@@ -357,6 +357,24 @@
      {
       "id": "portfolio-hero",
       "name": "Personal Portfolio Hero"
+     }
+    ]
+   },
+   {
+    "id": "navbar",
+    "label": "Navbar",
+    "items": [
+     {
+      "id": "navbar-simple",
+      "name": "Simple Sticky Navbar"
+     },
+     {
+      "id": "navbar-floating",
+      "name": "Floating Pill Navbar"
+     },
+     {
+      "id": "navbar-announcement",
+      "name": "Navbar With Announcement Bar"
      }
     ]
    },
@@ -485,6 +503,82 @@
      {
       "id": "stats-dark-split",
       "name": "Stats With Logos (Dark)"
+     }
+    ]
+   },
+   {
+    "id": "team",
+    "label": "Team",
+    "items": [
+     {
+      "id": "team-grid",
+      "name": "Team Grid"
+     },
+     {
+      "id": "team-carousel",
+      "name": "Team Carousel"
+     },
+     {
+      "id": "team-hiring",
+      "name": "Team With Hiring CTA"
+     }
+    ]
+   },
+   {
+    "id": "contact",
+    "label": "Contact",
+    "items": [
+     {
+      "id": "contact-split-form",
+      "name": "Contact Form With Details"
+     },
+     {
+      "id": "contact-cards",
+      "name": "Contact Options Cards"
+     },
+     {
+      "id": "contact-map",
+      "name": "Contact With Map"
+     }
+    ]
+   },
+   {
+    "id": "blog",
+    "label": "Blog",
+    "items": [
+     {
+      "id": "blog-cards",
+      "name": "Blog Post Cards"
+     },
+     {
+      "id": "blog-featured",
+      "name": "Featured Post With List"
+     },
+     {
+      "id": "blog-list",
+      "name": "Editorial Post List"
+     }
+    ]
+   },
+   {
+    "id": "footer",
+    "label": "Footer",
+    "items": [
+     {
+      "id": "footer-columns",
+      "name": "Multi-Column Footer"
+     },
+     {
+      "id": "footer-giant",
+      "name": "Big Wordmark Footer"
+     },
+     {
+      "id": "footer-newsletter",
+      "name": "Footer With Newsletter"
+     },
+     {
+      "id": "footer-minimal",
+      "name": "Minimal Footer"
      }
     ]
    }

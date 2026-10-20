@@ -543,7 +543,9 @@ export function SectionTemplateEditor({ id }) {
   const fontFaces = useMemo(() => (fontTick >= 0 ? customFontFaceCss(customFontIds(t, state)) : ''), [t, state, fontTick]);
 
   const previewHtml = useMemo(
-    () => previewImages(documentHtml(t, state, { imageSrc: previewSrc, clean: false, fontFaces, motion: playing > 0 }), origin),
+    // Navbars get room below them in the preview, so their menus have space to open
+    // ST_PREVIEW: forms simulate success instead of sending anything
+    () => previewImages(documentHtml(t, state, { imageSrc: previewSrc, clean: false, fontFaces, motion: playing > 0, extraHead: `<script>window.ST_PREVIEW=true</script>${t.previewMinHeight ? `<style>body{min-height:${t.previewMinHeight}px;background:#f1f5f9}</style>` : ''}` }), origin),
     [t, state, previewSrc, fontFaces, origin, playing],
   );
   // Any edit other than the animation settings stops the replay, so typing never re-runs it
@@ -776,8 +778,8 @@ export function SectionTemplateEditor({ id }) {
       <div key={id} className={s.field}>
         <label className={s.label} htmlFor={id}>{fd.label}</label>
         {fd.type === 'icon' ? <IconPicker id={id} value={value} onChange={onChange} />
-          : fd.type === 'textarea' || fd.type === 'lines'
-            ? <textarea id={id} className={s.textarea} rows={fd.type === 'lines' ? 4 : 3} value={value ?? ''} onChange={ev => onChange(ev.target.value)} />
+          : fd.type === 'textarea' || fd.type === 'lines' || fd.type === 'links'
+            ? <textarea id={id} className={s.textarea} rows={fd.type === 'textarea' ? 3 : 5} spellCheck={fd.type !== 'links'} value={value ?? ''} onChange={ev => onChange(ev.target.value)} />
             : <input id={id} className={s.input} type="text" inputMode={fd.type === 'url' || fd.type === 'image' ? 'url' : undefined} spellCheck={fd.type === 'text'} value={up ? `images/${up.file}` : (value ?? '')} disabled={!!up} title={up ? 'Using your uploaded image; remove it to paste a URL instead' : undefined} onChange={ev => onChange(ev.target.value)} />}
         {fd.type === 'image' && (
           <div className={x.uploadRow}>
@@ -794,7 +796,7 @@ export function SectionTemplateEditor({ id }) {
             )}
           </div>
         )}
-        {(fd.hint || fd.type === 'lines') && <span className={s.hint}>{fd.hint || 'One item per line.'}</span>}
+        {(fd.hint || fd.type === 'lines' || fd.type === 'links') && <span className={s.hint}>{fd.hint || (fd.type === 'links' ? 'One link per line: Label | URL' : 'One item per line.')}</span>}
       </div>
     );
   };

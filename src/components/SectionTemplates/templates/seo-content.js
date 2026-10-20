@@ -1665,6 +1665,972 @@ Download HTML or a ZIP, copy a React or Vue component, or fork into [My Code](/u
 - Container queries stack the columns below 860px.`,
     },
   },
+
+  'navbar-simple': {
+    keywords: ['responsive navbar html css', 'navbar template', 'sticky header css', 'mobile menu hamburger javascript', 'website header template'],
+    about: {
+      title: 'Simple Sticky Navbar — Free Responsive Header Template',
+      description: `**Simple Sticky Navbar** is a clean, dependable site header: your logo on the left, navigation links in the middle, and a log-in link with a call-to-action button on the right. It sticks to the top of the page with a frosted-glass blur, picks up a soft shadow once the visitor scrolls, and on small screens folds the links into a hamburger menu.
+
+**A mobile menu done properly**
+
+The hamburger turns into an X and opens a dropdown card where the links slide in one after another (GSAP). Pressing Esc closes it and returns focus to the button, Tab stays inside the open menu, and tapping outside or on a link closes it. Screen readers get the menu state (aria-expanded) and labels you can edit. Without JavaScript, the links simply show under the logo.
+
+**Sticky, or hide on scroll**
+
+Two switches control the behaviour: Sticky header keeps the bar at the top, and Hide on scroll down slides it away while reading and brings it back as soon as the visitor scrolls up, giving more room on small screens.
+
+**Your logo and links**
+
+Use the built-in icon-and-name mark or upload your logo (SVG or PNG). Links are an editable list of up to eight; reorder them and point them at page anchors or other pages. Leave the log-in text empty to hide it.
+
+**Export it**
+
+Download HTML, a ZIP, React or Vue (the menu script included), or fork into [My Code](/ui-snippets/mycode/). Put it above any [hero section](/website-section-templates/category/hero/) in the library and they share one theme.`,
+    },
+    features: [
+      'Logo, links, log-in link and CTA button in one bar',
+      'Sticky with a frosted-glass blur and a shadow on scroll',
+      'Optional hide-on-scroll-down, show-on-scroll-up',
+      'Hamburger menu that animates open with GSAP',
+      'Esc to close, focus trap, aria-expanded and editable labels',
+      'Links show without JavaScript',
+      'Upload a logo or use the icon + name mark',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '☰', title: 'Accessible menu', desc: 'Keyboard, screen-reader and focus handling are built in, which most navbar snippets skip.' },
+      { icon: '📌', title: 'Always within reach', desc: 'A sticky header keeps your main call to action one click away on long pages.' },
+      { icon: '↕', title: 'Gets out of the way', desc: 'Hide-on-scroll gives readers the whole screen and brings the menu back when they need it.' },
+    ],
+    useCases: [
+      { icon: '🚀', title: 'SaaS website header', desc: 'Link to Product, Features, Pricing and Blog, with "Log in" for customers and "Start free trial" for everyone else.' },
+      { icon: '🏢', title: 'Business or agency site', desc: 'Use Services, Work, About and Contact as links, and point the button to a booking page.' },
+      { icon: '📄', title: 'Single-page landing site', desc: 'Point links at section anchors (#features, #pricing) so the menu scrolls visitors around one long page.' },
+      { icon: '📚', title: 'Docs or blog', desc: 'Turn on hide-on-scroll so long articles get the full screen while the menu stays one scroll-up away.' },
+    ],
+    faqs: [
+      { q: 'Is the mobile menu accessible?', a: 'Yes. The toggle is a real button with aria-expanded and an editable label, Esc closes the menu and returns focus to the button, Tab is kept inside the open menu, and the links work without JavaScript.' },
+      { q: 'How do I make the navbar sticky?', a: 'Switch on Sticky header. The section uses position: sticky at the top of the page and gets a shadow after you scroll. Turn on Hide on scroll down as well to slide it away while scrolling down.' },
+      { q: 'Can I use my own logo?', a: 'Yes. Upload an SVG or transparent PNG in the Logo group; it replaces the icon-and-name mark. Keep it around 32 px tall.' },
+      { q: 'Where should I put the navbar in my page?', a: 'At the very top of the body, before your hero. Because it is sticky, it should be a direct child of the body (not inside another wrapper with overflow hidden).' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the navbar: add dropdown sub-menus, highlight the current page, or add a dark-mode toggle button.',
+      prompt: `Create a responsive sticky navbar in HTML, CSS and JavaScript.
+
+- Logo on the left, links in the middle, a "Log in" link and a filled CTA button on the right; translucent background with backdrop-filter blur and a bottom border; sticky at the top with a shadow after scrolling.
+- Below 900px (container query), hide the links behind a hamburger button that turns into an X; the menu opens as a dropdown card with links stacked and the CTA full width.
+- JavaScript: toggle aria-expanded, animate open/close and stagger the links with GSAP, close on Esc (return focus), outside click and link click, trap Tab inside the open menu, and close on resize to desktop. Without JS the links stay visible.
+- Optional hide-on-scroll-down / show-on-scroll-up.`,
+    },
+  },
+
+  'navbar-floating': {
+    keywords: ['floating navbar css', 'pill navbar template', 'glassmorphism navbar', 'fullscreen mobile menu', 'modern navbar html css'],
+    about: {
+      title: 'Floating Pill Navbar — Free Glass Header With Full-Screen Menu',
+      description: `**Floating Pill Navbar** is the modern header you see on AI, design and developer product sites: a dark, frosted-glass pill that floats a little below the top of the page, with your logo, centred links and a bright button. It looks especially good over dark or image-heavy hero sections.
+
+**A full-screen mobile menu**
+
+On small screens the hamburger opens a full-screen overlay with large, bold links that stagger in with GSAP, plus a big call-to-action button. Esc closes it and returns focus, Tab stays inside, and tapping a link closes it, so it behaves like a native app menu.
+
+**Glass, in pure CSS**
+
+The pill uses backdrop-filter blur over a translucent surface colour from your theme, with a soft shadow. Change the surface and brand colours, or apply your brand kit, and the pill, links and button all follow. Upload your logo or use the icon-and-name mark.
+
+**Sticky by default**
+
+The bar stays in view as visitors scroll, and you can switch on hide-on-scroll-down for long pages. Without JavaScript, the links simply show inside the pill.
+
+**Export it**
+
+Download HTML, a ZIP, React or Vue with the menu script included, or fork into [My Code](/ui-snippets/mycode/). Pair it with the dark [Centred Gradient Hero](/website-section-templates/centered-gradient-hero/) for a complete AI-product header.`,
+    },
+    features: [
+      'Floating dark glass pill with logo, centred links and CTA',
+      'Full-screen mobile menu with large staggered links (GSAP)',
+      'Esc to close, focus trap and aria-expanded',
+      'Backdrop-filter blur over a theme-coloured surface',
+      'Sticky by default; optional hide on scroll down',
+      'Upload a logo or use the icon + name mark',
+      'Links show without JavaScript',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '◍', title: 'Feels premium', desc: 'A floating glass pill instantly reads as modern and polished, especially over dark heroes.' },
+      { icon: '⛶', title: 'App-like mobile menu', desc: 'A full-screen menu with big links is easy to tap and makes small screens feel spacious.' },
+      { icon: '⌨', title: 'Accessible', desc: 'The overlay menu handles focus, Esc and screen readers, not just the animation.' },
+    ],
+    useCases: [
+      { icon: '🤖', title: 'AI product website', desc: 'Float it over a dark gradient hero with links to Product, Features, Pricing and Docs and a "Get started" button.' },
+      { icon: '🎨', title: 'Design studio or portfolio', desc: 'Use Work, Services, About and Contact links, with the full-screen menu showcasing your bold typography on phones.' },
+      { icon: '🧑‍💻', title: 'Developer tool', desc: 'Link to Docs, Changelog, Pricing and GitHub, and send the button to sign-up.' },
+      { icon: '🎟️', title: 'Event or launch page', desc: 'Keep a floating "Get tickets" button visible as visitors scroll through the agenda and speakers.' },
+    ],
+    faqs: [
+      { q: 'How is the glass effect made?', a: 'With backdrop-filter: blur() on a translucent background mixed from the theme’s surface colour, plus a thin border and a soft shadow. Browsers without backdrop-filter show the solid colour.' },
+      { q: 'How does the full-screen menu work?', a: 'On small widths the navigation becomes a fixed overlay covering the screen. The menu script toggles it, GSAP fades it in and staggers the links, and Esc, link clicks or the X close it.' },
+      { q: 'Will it work on a light page?', a: 'Yes. It is designed to float over any page; on light pages the dark pill stands out, or switch to a light surface colour for a lighter pill.' },
+      { q: 'Can I add more links?', a: 'Up to six fit comfortably in the pill on desktop. The full-screen mobile menu can hold all of them easily.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the floating navbar: add a search command palette, show the current section while scrolling, or make the pill shrink on scroll.',
+      prompt: `Create a floating pill navbar in HTML, CSS and JavaScript.
+
+- A sticky section with a centred, max 1040px rounded pill: dark translucent background with backdrop-filter blur, thin border and shadow; logo left, links centred, a rounded CTA button right.
+- Below 860px: hide links behind a round hamburger; open a full-screen fixed overlay with large bold links and a big CTA, links staggered in with GSAP.
+- Menu script: aria-expanded, Esc to close (return focus), trap Tab, close on link click and on resize to desktop; links visible without JS.
+- Note: remove backdrop-filter on the pill while the overlay is open so the fixed overlay covers the viewport.`,
+    },
+  },
+
+  'navbar-announcement': {
+    keywords: ['announcement bar html css', 'navbar with announcement bar', 'top banner header template', 'dismissible banner', 'ecommerce header template'],
+    about: {
+      title: 'Navbar With Announcement Bar — Free Header Template',
+      description: `**Navbar With Announcement Bar** combines the two things most store and SaaS headers need: a slim bar across the top for news, offers and launches, and a full navigation bar underneath. The announcement has its own link and a close button that collapses it smoothly with GSAP, and the navbar has your logo and links on the left with sign-in and a call to action on the right.
+
+**Announce anything**
+
+Use the bar for a sale ("30% off yearly plans until 31 May"), a launch, a webinar or a changelog update. Emoji work fine. Switch the whole bar off when there's nothing to announce, or let visitors dismiss it themselves.
+
+**Navbar that adapts**
+
+On desktop, links sit next to the logo for a compact, store-style layout. On phones they fold into an animated hamburger menu with the sign-in link and a full-width button at the bottom, with Esc to close, a focus trap and aria-expanded built in. Without JavaScript the links simply show.
+
+**Sticky options**
+
+Keep the header stuck to the top, and optionally hide it while scrolling down and show it on the way back up. The warm cream theme with a raspberry accent suits fashion and lifestyle shops; switch presets or apply your brand kit.
+
+**Export it**
+
+Download HTML, a ZIP, React or Vue with the menu and dismiss scripts included, or fork into [My Code](/ui-snippets/mycode/). For a simpler header, see the [Simple Sticky Navbar](/website-section-templates/navbar-simple/).`,
+    },
+    features: [
+      'Announcement bar with text, link and close button',
+      'Dismiss collapses the bar smoothly (GSAP); bar can be switched off',
+      'Navbar with logo and links left, sign-in and CTA right',
+      'Animated hamburger menu with Esc, focus trap and aria-expanded',
+      'Sticky header with optional hide on scroll down',
+      'Upload a logo or use the icon + name mark',
+      'Links show without JavaScript',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '📣', title: 'Prime real estate', desc: 'The very top of the page is the first thing every visitor sees, which makes it perfect for offers and news.' },
+      { icon: '✕', title: 'Respectful', desc: 'Visitors can dismiss the announcement, and it collapses smoothly instead of jumping.' },
+      { icon: '🛍', title: 'Store-ready layout', desc: 'Links beside the logo and a strong button suit shops with several categories.' },
+    ],
+    useCases: [
+      { icon: '🏷️', title: 'Sale or discount', desc: 'Announce "Free shipping this weekend" or a seasonal sale with a link straight to the offer.' },
+      { icon: '🚀', title: 'Product launch', desc: 'Point the bar to your launch post or Product Hunt page while the launch is live.' },
+      { icon: '🎙️', title: 'Webinar or event', desc: 'Promote an upcoming webinar with the date in the text and a registration link.' },
+      { icon: '🛠️', title: 'Status or changelog', desc: 'Share a new release or scheduled maintenance notice with a link to details.' },
+    ],
+    faqs: [
+      { q: 'Can visitors close the announcement?', a: 'Yes. The × button collapses the bar with a smooth GSAP animation and removes it. It reappears on the next page load; to remember the choice, store it in localStorage in your exported code.' },
+      { q: 'Can I turn the announcement bar off?', a: 'Yes. Switch the Announcement bar group off and only the navbar remains.' },
+      { q: 'Is the close button accessible?', a: 'Yes. It is a real button with an editable screen-reader label such as "Dismiss announcement".' },
+      { q: 'How does it look on phones?', a: 'The announcement text wraps to the left of the close button, and the navbar shows the logo and a hamburger that opens the links, sign-in link and button.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the header: remember dismissal in localStorage, rotate several announcements, or add a cart icon with an item count.',
+      prompt: `Create a site header with an announcement bar in HTML, CSS and JavaScript.
+
+- Top: a dark slim bar with centred announcement text, an underlined link and a close button on the right; clicking close animates the bar's height to 0 with GSAP and removes it.
+- Below: a navbar with logo and links on the left, a "Sign in" link and filled button on the right.
+- Below 900px: links, sign-in and button move into a hamburger dropdown with aria-expanded, Esc to close, focus trap and staggered GSAP entrance; links visible without JS.
+- Optional sticky header with hide-on-scroll-down.`,
+    },
+  },
+
+  'footer-columns': {
+    keywords: ['footer template html css', 'website footer template', 'multi column footer', 'footer with social icons', 'responsive footer'],
+    about: {
+      title: 'Multi-Column Footer — Free Website Footer Template',
+      description: `**Multi-Column Footer** is the classic footer that tidily holds everything a site needs at the bottom of every page: your logo with a one-line description and social icons on the left, up to five columns of links on the right, and a bottom bar with the copyright notice, legal links and a back-to-top button.
+
+**Columns that are easy to edit**
+
+Each column is an item in a list with a title and its links, written one per line as \`Label | URL\` (for example \`Pricing | /pricing/\`). Add, reorder or remove whole columns, and the grid reflows from four columns to two on phones. Links are checked before use, so unsafe URLs never make it into the page.
+
+**Social icons included**
+
+Pick icons for X (Twitter), LinkedIn, GitHub, YouTube, Instagram, Facebook, Dribbble or Figma, each with a screen-reader label and link, or switch the social row off.
+
+**Smooth back to top**
+
+The back-to-top button scrolls smoothly to the top of the page with GSAP's ScrollToPlugin; without JavaScript it's still a normal link to the top, and for reduced-motion users it jumps instantly. Leave its text empty to hide it.
+
+**Export it**
+
+Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). It shares the theme with the [navbars](/website-section-templates/category/navbar/) and every other section, so a whole page looks consistent.`,
+    },
+    features: [
+      'Logo, tagline and social icons beside link columns',
+      'Up to 5 link columns, each written as "Label | URL" lines',
+      'Social icons: X, LinkedIn, GitHub, YouTube, Instagram and more',
+      'Bottom bar with copyright, legal links and back to top',
+      'Back to top scrolls smoothly with GSAP ScrollToPlugin',
+      'Unsafe link URLs replaced automatically',
+      'Columns reflow to two on phones',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '🗺', title: 'A sitemap for people', desc: 'Grouped link columns help visitors (and search engines) find every important page.' },
+      { icon: '✎', title: 'Fast to edit', desc: 'Writing links as "Label | URL" lines is quicker than filling in dozens of separate fields.' },
+      { icon: '↑', title: 'Small touches', desc: 'A smooth back-to-top button and hover states make the footer feel finished.' },
+    ],
+    useCases: [
+      { icon: '🚀', title: 'SaaS website', desc: 'Organise Product, Company and Resources columns with links to features, pricing, careers, docs and status.' },
+      { icon: '🏢', title: 'Company site', desc: 'List services, locations, about and contact pages, with legal links for privacy and terms.' },
+      { icon: '🛍️', title: 'Online store', desc: 'Use Shop, Help and About columns for categories, shipping, returns and your story.' },
+      { icon: '📚', title: 'Documentation or blog', desc: 'Link to popular guides, categories and community pages from every article.' },
+    ],
+    faqs: [
+      { q: 'How do I add links to a column?', a: 'Write one link per line as Label | URL, for example Pricing | /pricing/. A line without a URL links to #. Add whole columns with + Add column.' },
+      { q: 'Can I add more social networks?', a: 'Yes. Add a social link and choose its icon: X (Twitter), LinkedIn, GitHub, YouTube, Instagram, Facebook, Dribbble or Figma. Each has a label for screen readers.' },
+      { q: 'How does back to top work?', a: 'It is a link to the top of the page. With JavaScript, GSAP ScrollToPlugin scrolls there smoothly; with reduced motion it jumps instantly.' },
+      { q: 'Is the footer accessible?', a: 'Yes. It uses a footer element, each column is a labelled nav, social icon links have text labels, and all links are real anchors.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the footer: add a language selector, a newsletter field, or app store badges under the logo.',
+      prompt: `Create a responsive multi-column website footer in HTML, CSS and JavaScript.
+
+- Left: logo, a one-line tagline and a row of square social icon links (with aria-labels).
+- Right: three or four link columns, each a nav with an uppercase title and a list of links.
+- Bottom bar under a divider: copyright on the left, legal links and a pill "Back to top ↑" button on the right.
+- Container queries: stack the two halves below 820px and use two link columns below 520px.
+- JavaScript: the back-to-top link scrolls smoothly with GSAP ScrollToPlugin (instant for reduced motion).`,
+    },
+  },
+
+  'footer-giant': {
+    keywords: ['big text footer', 'giant wordmark footer', 'agency footer template', 'dark footer html css', 'footer call to action'],
+    about: {
+      title: 'Big Wordmark Footer — Free Giant Text Footer Template',
+      description: `**Big Wordmark Footer** ends your site with a statement. At the top, a closing call to action ("Have a project in mind? Let's talk.") with a button and your email; in the middle, a row of links and round social icons; and at the bottom, your brand name set as a giant wordmark across the full width of the page, fading softly toward the bottom.
+
+**A reveal to remember**
+
+The wordmark is animated with GSAP SplitText: as the footer scrolls into view it rises in word by word, line by line, letter by letter or with a blur, depending on the text effect you pick in the Animation panel. It's also hidden from screen readers (it repeats your brand name), so it never gets in the way.
+
+**Sized to fit**
+
+The wordmark scales with the width of the section using container query units, so it fills the footer on any screen without overflowing. Short names of up to about ten letters work best.
+
+**Dark and bold**
+
+It ships in near-black with an orange accent, a favourite for studios and agencies, and every colour comes from the shared theme. Write links one per line as \`Label | URL\`, add social icons for Instagram, Dribbble, LinkedIn and more, and set the copyright and legal links.
+
+**Export it**
+
+Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). For a conventional sitemap footer, see the [Multi-Column Footer](/website-section-templates/footer-columns/).`,
+    },
+    features: [
+      'Closing call to action with button and email line',
+      'Links row and round social icons',
+      'Giant full-width brand wordmark with a soft fade',
+      'Wordmark revealed with GSAP SplitText (pick the text effect)',
+      'Wordmark scales with container query units, no overflow',
+      'Copyright and legal links bar',
+      'Dark theme; any preset or brand kit',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: 'A', title: 'Memorable ending', desc: 'A huge wordmark leaves a strong brand impression just as visitors decide what to do next.' },
+      { icon: '✦', title: 'Motion with purpose', desc: 'The SplitText reveal rewards scrolling to the end without distracting from the call to action.' },
+      { icon: '→', title: 'One last ask', desc: 'The closing heading and button catch visitors who scrolled the whole page.' },
+    ],
+    useCases: [
+      { icon: '🎨', title: 'Design studio', desc: 'End your portfolio with "Have a project in mind?", a start-a-project button and your studio name in giant type.' },
+      { icon: '🧑‍💻', title: 'Freelancer or creator', desc: 'Use your own name as the wordmark and link to your work, writing and socials.' },
+      { icon: '🚀', title: 'Product launch site', desc: 'Close the launch page with a sign-up call to action and the product name as a bold sign-off.' },
+      { icon: '🎟️', title: 'Event website', desc: 'Show the event name huge at the bottom with a "Get tickets" button above it.' },
+    ],
+    faqs: [
+      { q: 'How big is the wordmark?', a: 'It scales with the width of the section (about 15% of it per character height) so it fills the width without overflowing. Shorter names, up to about ten letters, look best.' },
+      { q: 'How is the wordmark animated?', a: 'With GSAP SplitText: it is marked for the headline text effect, so it rises in by words, lines or letters, or blurs in, when the footer scrolls into view. Pick the effect in the Animation panel.' },
+      { q: 'Is the giant text read by screen readers?', a: 'No. It is decorative and hidden with aria-hidden, because it repeats the brand name that is already in the page.' },
+      { q: 'Can I use a light theme?', a: 'Yes. Pick a light colour preset or your brand kit; the wordmark uses the text colour with a fade, so it works on light backgrounds too.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the big footer: make the wordmark react to the mouse, use an outlined text style, or add a live local time for your studio.',
+      prompt: `Create a dark footer with a giant wordmark in HTML, CSS and JavaScript.
+
+- Top: a large heading with one highlighted phrase and a pill button with an email line beside it; a divider.
+- Middle: a row of links and round social icon buttons.
+- Bottom: the brand name as a huge single-line wordmark (font-size in cqi so it fills the width), faded toward the bottom with a CSS mask, aria-hidden; then copyright and legal links.
+- GSAP SplitText reveals the wordmark by characters when it scrolls into view; respect prefers-reduced-motion.`,
+    },
+  },
+
+  'footer-newsletter': {
+    keywords: ['footer with newsletter', 'newsletter footer template', 'footer email signup html', 'footer subscribe form', 'dark footer template'],
+    about: {
+      title: 'Footer With Newsletter — Free Footer Signup Template',
+      description: `**Footer With Newsletter** turns the bottom of every page into a sign-up opportunity. On the left: your logo, a short title and pitch ("Get the weekly digest") and an email form; on the right: columns of links; underneath: social icons, the copyright notice and legal links.
+
+**A working sign-up form**
+
+The form posts directly to your email service. Paste the form action URL from Mailchimp, Kit (ConvertKit), Buttondown, Brevo or your own endpoint, and set the email field name your service expects. The URL is checked before use, and the input has the right email type, autocomplete and required attributes. In the editor the form never submits, so you can try it safely.
+
+**Links and socials**
+
+Up to four link columns, each written one link per line as \`Label | URL\`, plus social icons for X, LinkedIn, GitHub, YouTube, Instagram and more. On phones the form stacks and the link columns sit two by two.
+
+**Deep navy theme**
+
+It ships in a deep navy with a sky-blue accent, which works for media sites, SaaS and stores, and every colour is a theme token you can change with presets or your brand kit.
+
+**Export it**
+
+Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). For a full-width sign-up section elsewhere on the page, see the [Newsletter Signup CTA](/website-section-templates/cta-newsletter/).`,
+    },
+    features: [
+      'Newsletter title, pitch and email form beside link columns',
+      'Form posts to Mailchimp, Kit, Buttondown or any form URL',
+      'Configurable email field name; URLs checked before use',
+      'Up to 4 link columns as "Label | URL" lines',
+      'Social icons, copyright and legal links',
+      'Form stacks and columns go two by two on phones',
+      'Deep navy theme; any preset or brand kit',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '✉', title: 'Sign-ups on every page', desc: 'The footer appears everywhere, so every reader who reaches the end can join your list.' },
+      { icon: '⚙', title: 'Works with your provider', desc: 'Paste a form URL and field name; no plugin or script is needed to collect emails.' },
+      { icon: '🗂', title: 'Everything in one place', desc: 'Newsletter, navigation, socials and legal links in one tidy footer.' },
+    ],
+    useCases: [
+      { icon: '📰', title: 'Blog or media site', desc: 'Grow your newsletter from every article with a weekly digest sign-up in the footer.' },
+      { icon: '🛍️', title: 'Online store', desc: 'Offer early access to sales for subscribers, with Shop, Help and About link columns.' },
+      { icon: '🚀', title: 'SaaS product updates', desc: 'Let customers and prospects subscribe to product news and changelog emails.' },
+      { icon: '🎙️', title: 'Podcast website', desc: 'Collect listener emails for new-episode alerts alongside links to episodes and platforms.' },
+    ],
+    faqs: [
+      { q: 'How do I connect the form?', a: 'Copy the form action URL from your email service’s embed code into Form URL and set Email field name (for example EMAIL for Mailchimp, email_address for Kit). The exported form posts sign-ups straight to your list.' },
+      { q: 'Will the form submit in the editor?', a: 'No. Submissions are blocked in the preview so you can test the layout. The exported page submits normally.' },
+      { q: 'How do I edit the link columns?', a: 'Each column has a title and a links box where you write one link per line as Label | URL. Add, reorder or remove columns in the panel.' },
+      { q: 'Is it responsive?', a: 'Yes. On narrow widths the newsletter block sits above the links, the form stacks with a full-width button, and link columns go two by two.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the footer: submit the form with fetch and show a thank-you message, add a cookie settings link, or add a currency and language picker.',
+      prompt: `Create a dark website footer with a newsletter form in HTML and CSS.
+
+- Left: logo, a small heading, a short pitch and an email form (input type="email" required autocomplete="email" with aria-label, and a button) that posts to a configurable action URL.
+- Right: three link columns, each a nav with an uppercase title and a list of links.
+- Bottom bar under a divider: social icon links, copyright and legal links.
+- Container queries stack the halves below 820px and stack the form below 520px; CSS custom properties for the theme.`,
+    },
+  },
+
+  'footer-minimal': {
+    keywords: ['minimal footer template', 'simple footer html css', 'one line footer', 'small website footer', 'landing page footer'],
+    about: {
+      title: 'Minimal Footer — Free Simple One-Row Footer Template',
+      description: `**Minimal Footer** is a small, tidy footer for sites that don't need a sitemap at the bottom: your logo on the left, a single row of links in the middle, social icons on the right, and a thin divider with the copyright line underneath. It's ideal for landing pages, portfolios and apps with only a few pages.
+
+**Quick to set up**
+
+Write the links one per line as \`Label | URL\`. Page anchors such as #features and #pricing work well on one-page sites. Add up to six social icons (X, LinkedIn, GitHub, YouTube, Instagram, Dribbble and more) or switch them off, and upload your logo or use the icon-and-name mark.
+
+**Centred on phones**
+
+On narrow screens the logo, links and icons stack and centre, so the footer stays balanced on every device. Link URLs are checked before use, and social links carry labels for screen readers.
+
+**Light and calm**
+
+A white background with a teal accent keeps it unobtrusive; switch the colours with any preset or your brand kit to match the rest of your page.
+
+**Export it**
+
+Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). For more links and a back-to-top button, use the [Multi-Column Footer](/website-section-templates/footer-columns/).`,
+    },
+    features: [
+      'Logo, a row of links and social icons on one line',
+      'Copyright line under a thin divider',
+      'Links written as "Label | URL" lines (anchors work)',
+      'Up to 6 social icons with screen-reader labels',
+      'Stacks and centres on phones',
+      'Upload a logo or use the icon + name mark',
+      'Light theme; any preset or brand kit',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '➖', title: 'Just enough', desc: 'Small sites only need a few links; a compact footer ends the page cleanly.' },
+      { icon: '⚓', title: 'Great for one-pagers', desc: 'Anchor links let visitors jump back to any section of a single long page.' },
+      { icon: '◐', title: 'Matches the page', desc: 'Shares the theme with every section, so it never looks bolted on.' },
+    ],
+    useCases: [
+      { icon: '📄', title: 'Landing page', desc: 'Link to #features, #pricing and #faq plus your privacy policy at the bottom of a single-page site.' },
+      { icon: '🧑‍🎨', title: 'Portfolio', desc: 'Show your name, links to work and contact, and icons for Dribbble, Instagram and LinkedIn.' },
+      { icon: '📱', title: 'App website', desc: 'Add support, privacy and terms links required by app stores, in a tidy single row.' },
+      { icon: '⏳', title: 'Coming-soon page', desc: 'Keep a minimal footer with social links while the full site is being built.' },
+    ],
+    faqs: [
+      { q: 'How many links fit?', a: 'Five or six fit comfortably in one row on desktop; more will wrap neatly. For many links, use the Multi-Column Footer.' },
+      { q: 'Can I link to sections on the same page?', a: 'Yes. Use anchors like Features | #features; the matching section needs an id of features.' },
+      { q: 'How does it look on mobile?', a: 'The logo, links and icons stack and centre, with the copyright line below.' },
+      { q: 'Can I remove the social icons?', a: 'Yes. Switch the Social links group off.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the minimal footer: add a theme toggle, a "made with" badge, or a tiny email sign-up field.',
+      prompt: `Create a minimal one-row website footer in HTML and CSS.
+
+- One row: logo on the left, a list of 5 inline links in the middle, social icon links (with aria-labels) on the right, then a thin divider and a centred copyright line.
+- Container queries: below 760px stack and centre everything.
+- CSS custom properties for colours, fonts and radius.`,
+    },
+  },
+
+  'team-grid': {
+    keywords: ['team section template', 'meet the team html css', 'team members grid', 'about us team section', 'team cards with social links'],
+    about: {
+      title: 'Team Grid — Free Meet the Team Section Template',
+      description: `**Team Grid** introduces the people behind your company: a centred heading and intro, then a grid of cards with each person's photo, name, role and a one-line bio. Hover a card and its photo zooms gently while LinkedIn and X icons slide up over it; on touch screens the icons are always visible.
+
+**People as a list**
+
+Add up to twelve team members, reorder them (founders first, or alphabetical) and duplicate a card to add the next person quickly. Leave a bio or social link empty and it disappears. Upload real photos, which are resized in your browser and kept on your device, or start with the illustrated placeholders.
+
+**Responsive grid**
+
+Four columns on desktop, three on small laptops and two on phones, using container queries so the grid fits wherever you place it. Photos are cropped to neat squares with your theme's corner radius.
+
+**Animated with GSAP**
+
+The heading reveals with a SplitText effect and the cards stagger in as the section scrolls into view, with reduced-motion support.
+
+**Export it**
+
+Download HTML, a ZIP with your photos, React or Vue, or fork into [My Code](/ui-snippets/mycode/). For a larger team, try the [Team Carousel](/website-section-templates/team-carousel/).`,
+    },
+    features: [
+      'Grid of member cards: photo, name, role and short bio',
+      'LinkedIn and X icons slide over the photo on hover',
+      'Icons always visible on touch screens',
+      'Up to 12 members: add, duplicate, reorder, remove',
+      'Upload photos or use illustrated placeholders',
+      'Four, three or two columns by width',
+      'SplitText heading and staggered card entrance',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '🙂', title: 'Faces build trust', desc: 'Seeing the real people behind a product makes a company feel approachable and credible.' },
+      { icon: '🔗', title: 'Easy to connect', desc: 'Social links on each card let partners and candidates reach the right person.' },
+      { icon: '✦', title: 'Small delights', desc: 'Photo zoom and sliding icons make browsing the team feel polished.' },
+    ],
+    useCases: [
+      { icon: '🏢', title: 'About page', desc: 'Introduce founders and key team members with roles and a line about what each of them cares about.' },
+      { icon: '🎨', title: 'Agency team page', desc: 'Show the designers, developers and strategists clients will work with, with links to their profiles.' },
+      { icon: '🚀', title: 'Startup homepage', desc: 'Build trust with investors and early users by showing the small team behind the product.' },
+      { icon: '🏫', title: 'School or course staff', desc: 'Present instructors with their subjects and short bios so students know who will teach them.' },
+    ],
+    faqs: [
+      { q: 'How many team members can I show?', a: 'Up to twelve. The grid shows four per row on desktop and two on phones; for larger teams, the Team Carousel holds sixteen in one scrolling row.' },
+      { q: 'Can I add other social links?', a: 'The cards include LinkedIn and X. After exporting you can add more links in the same style, such as GitHub or Dribbble, using any SVG icon.' },
+      { q: 'What photo size should I use?', a: 'Square photos of at least 400×400 px. Uploads are resized in your browser and cropped to squares automatically.' },
+      { q: 'Do the social icons work on phones?', a: 'Yes. On touch screens, where hover isn’t available, the icons are always visible on the photo.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the team grid: add a click-to-open bio modal, filter by department, or pull members from a JSON file.',
+      prompt: `Create a "Meet the team" section in HTML and CSS.
+
+- Centred header with eyebrow, heading and intro, then a 4-column grid of member cards: square photo with rounded corners, name, role in the brand colour and a short bio.
+- On hover the photo zooms slightly and round LinkedIn and X icon buttons slide up from the bottom-left of the photo; on touch devices (hover: none) they are always visible.
+- Container queries: 3 columns below 960px, 2 below 700px. CSS custom properties for the theme.`,
+    },
+  },
+
+  'team-carousel': {
+    keywords: ['team carousel html css', 'team slider template', 'draggable team section', 'portrait cards slider', 'creative team section'],
+    about: {
+      title: 'Team Carousel — Free Draggable Team Slider Template',
+      description: `**Team Carousel** shows your people as tall portrait cards in a row you can drag, swipe or step through. Each card has a full-bleed photo with the person's name and role over a soft gradient, and a heading with round arrow buttons sits above the row. It suits creative teams, studios and larger teams that don't fit one grid row.
+
+**Drag with momentum**
+
+On desktop, drag the row with the mouse and it glides and snaps to the nearest card (GSAP Draggable on a proxy plus InertiaPlugin); the arrows ease from card to card with ScrollToPlugin and disable at the ends. On phones it's native swiping with scroll-snap, and without JavaScript it's still a scrollable row.
+
+**Up to sixteen people**
+
+Add, reorder and remove people, upload portrait photos (cropped to tall 3:4 cards), and optionally link each name to a profile page. The dark theme with a yellow accent is easy to restyle with presets or your brand kit.
+
+**Accessible and animated**
+
+The row is a labelled, focusable region and the arrows have screen-reader labels you can edit. The heading reveals with SplitText and the cards stagger in on scroll.
+
+**Export it**
+
+Download HTML, a ZIP, React or Vue with the carousel script, or fork into [My Code](/ui-snippets/mycode/). For a static layout, see the [Team Grid](/website-section-templates/team-grid/).`,
+    },
+    features: [
+      'Tall portrait cards with name and role over a gradient',
+      'Drag with momentum and snap (GSAP Draggable + Inertia)',
+      'Arrow buttons with eased scrolling; disabled at the ends',
+      'Native swipe and scroll-snap on touch; works without JS',
+      'Up to 16 people, with optional profile links',
+      'Labelled, focusable row and editable arrow labels',
+      'Dark theme with a bright accent',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '⇆', title: 'Fits bigger teams', desc: 'A scrolling row shows many people without a long grid pushing the page down.' },
+      { icon: '🖼', title: 'Portrait-first', desc: 'Tall, full-bleed photos give each person presence, ideal for creative teams.' },
+      { icon: '✋', title: 'Fun to explore', desc: 'Momentum dragging invites visitors to browse the whole team.' },
+    ],
+    useCases: [
+      { icon: '🎨', title: 'Studio or agency', desc: 'Showcase the creative team with striking portraits and link each name to a personal profile or portfolio.' },
+      { icon: '🎤', title: 'Conference speakers', desc: 'Use it as a speaker line-up with names and talk topics in the role line.' },
+      { icon: '🎓', title: 'Instructors or coaches', desc: 'Present mentors in a row that visitors can swipe through on their phones.' },
+      { icon: '🏢', title: 'Leadership team', desc: 'Show department heads with their titles, linking to longer bios.' },
+    ],
+    faqs: [
+      { q: 'How does dragging work?', a: 'On devices with a mouse, GSAP Draggable tracks an invisible proxy and moves the row’s native scroll position, with InertiaPlugin momentum and snapping to cards. Touch devices use normal swiping with CSS scroll-snap.' },
+      { q: 'What photo shape works best?', a: 'Portrait photos; cards are cropped to 3:4. Faces near the top or centre of the image work best because the name sits over the bottom.' },
+      { q: 'Can names link to profile pages?', a: 'Yes. Add a profile link to a person and their name becomes a link; leave it empty for plain text.' },
+      { q: 'Does it work without JavaScript?', a: 'Yes. The cards sit in a horizontally scrollable row, so visitors can still scroll through them.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the team carousel: flip cards to show a bio on click, add an autoplay mode, or show each person’s favourite tool.',
+      prompt: `Create a team carousel section in HTML, CSS and JavaScript.
+
+- Header with eyebrow, heading and intro on the left and two round arrow buttons on the right.
+- A horizontally scrollable list of tall 3:4 portrait cards; each card has a full-bleed photo with the name and role over a dark gradient at the bottom.
+- JavaScript with GSAP: drag the row with Draggable on an invisible proxy mapped to scrollLeft, InertiaPlugin momentum, snap to cards; arrows scroll card by card with ScrollToPlugin and disable at the ends.
+- Native scroll-snap for touch; respect prefers-reduced-motion.`,
+    },
+  },
+
+  'team-hiring': {
+    keywords: ['careers section template', 'we are hiring section', 'jobs section html css', 'team and culture section', 'open positions list'],
+    about: {
+      title: 'Team With Hiring CTA — Free Careers Section Template',
+      description: `**Team With Hiring CTA** combines culture and recruiting in one section. On the left: a heading, a few lines about how your team works and a playful mosaic of round team photos ending with a "+32" bubble. On the right: a "We're hiring" card with a pulsing dot, a short list of perks, your open roles (each linking to its job page) and a button to the full careers page.
+
+**Roles in seconds**
+
+Write open roles one per line as \`Role · Location | URL\`, for example \`Backend Engineer · Europe | /careers/backend/\`. Each becomes a row with a sliding arrow. Perks are typed one per line with check marks. Switch the whole hiring card off when you're not recruiting.
+
+**Faces of the team**
+
+Add up to twelve photos; each person's name becomes the photo's alt text. The "more" bubble shows how many others are on the team, or leave it empty to hide it.
+
+**Responsive and animated**
+
+On tablets and phones the hiring card moves below the team. The heading reveals with GSAP SplitText, the faces fade in and the card rises into place on scroll.
+
+**Export it**
+
+Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). Pair it with the [Team Grid](/website-section-templates/team-grid/) on your about page.`,
+    },
+    features: [
+      'Team photo mosaic with a “+ more” bubble',
+      '“We’re hiring” card with pulsing dot, perks and open roles',
+      'Roles written as “Role · Location | URL” lines',
+      'Perks as a checklist; hiring card can be switched off',
+      'Names used as photo alt text',
+      'Card moves below the team on narrow widths',
+      'SplitText heading and rising card on scroll',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '🤝', title: 'Culture plus action', desc: 'Candidates see the people they would work with and the jobs they can apply for in one place.' },
+      { icon: '⚡', title: 'Quick to update', desc: 'Adding or closing a role is a one-line change.' },
+      { icon: '●', title: 'Signals momentum', desc: 'A live “we’re hiring” card tells every visitor the company is growing.' },
+    ],
+    useCases: [
+      { icon: '💼', title: 'Careers page header', desc: 'Open your careers page with the team mosaic, your best perks and links to every open role.' },
+      { icon: '🏢', title: 'About page', desc: 'End the about page with a recruiting card so interested readers can apply straight away.' },
+      { icon: '🚀', title: 'Startup homepage', desc: 'Recruit early hires by showing the founding team and two or three key roles.' },
+      { icon: '🌍', title: 'Remote company', desc: 'Highlight remote-friendly perks and list roles by region or time zone.' },
+    ],
+    faqs: [
+      { q: 'How do I add open roles?', a: 'Write one role per line as Role · Location | URL, for example Product Designer · Remote | /careers/designer/. Each line becomes a linked row with an arrow.' },
+      { q: 'Can I hide the hiring card?', a: 'Yes. Switch the Hiring card group off and only the team section remains.' },
+      { q: 'How many photos can I show?', a: 'Up to twelve, plus an optional “+N” bubble for the rest of the team.' },
+      { q: 'Should I link to a jobs board?', a: 'Any URL works: your own careers pages, or job posts on Ashby, Greenhouse, Lever, Workable or LinkedIn.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the careers section: load roles from your ATS API, filter by department, or add salary ranges to each role.',
+      prompt: `Create a team and careers section in HTML and CSS.
+
+- Left: eyebrow, heading with a highlighted phrase, short text and a wrapping row of round team photos (with white rings) ending in a "+32" bubble.
+- Right: a "We're hiring" card with a pulsing green dot, a checklist of perks, a list of open roles as full-width links with arrows that slide on hover, and a button.
+- Container queries stack the columns below 860px.
+- GSAP: SplitText heading, faces fading in and the card rising on scroll, respecting prefers-reduced-motion.`,
+    },
+  },
+
+  'contact-split-form': {
+    keywords: ['contact form section', 'contact us template html', 'formspree contact form', 'contact page template', 'contact form with details'],
+    about: {
+      title: 'Contact Form With Details — Free Contact Us Section Template',
+      description: `**Contact Form With Details** is a complete "Contact us" section: on the left, a heading, a short message and the ways people can reach you (email, phone, address and office hours, each with an icon and link); on the right, a contact form in a card with name, email and message fields.
+
+**A form that actually sends**
+
+Paste your form endpoint from Formspree, Basin, Getform or your own server, and the exported form works immediately. With JavaScript it sends in the background, the fields fade away and an animated thank-you message appears; if sending fails, an error message asks the visitor to try again, and their message is kept. Without JavaScript it's a normal form post. A hidden honeypot field helps block spam bots.
+
+**Safe to try in the editor**
+
+In the preview the form never sends anything: submitting simulates success so you can see the whole flow. Every label, the button, the note and the success and error messages are editable.
+
+**Contact details as a list**
+
+Add up to six contact methods with icons from the built-in set, and link them with mailto:, tel: or a map link. Leave the link empty for plain text such as opening hours.
+
+**Export it**
+
+Download HTML, a ZIP, React or Vue with the form script, or fork into [My Code](/ui-snippets/mycode/). For a location-focused page, see [Contact With Map](/website-section-templates/contact-map/).`,
+    },
+    features: [
+      'Contact details with icons beside a form card',
+      'Working form: Formspree, Basin, Getform or any endpoint',
+      'Sends in the background with animated success and error states',
+      'Normal form post without JavaScript; honeypot anti-spam field',
+      'Preview simulates success; nothing is sent from the editor',
+      'Editable labels, button, note and messages',
+      'Proper autocomplete, required fields and accessible labels',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '✉', title: 'Real enquiries', desc: 'Visitors can reach you without leaving the page or opening an email app.' },
+      { icon: '✔', title: 'Clear feedback', desc: 'An animated thank-you message confirms the message arrived, and errors never lose what was typed.' },
+      { icon: '☎', title: 'Every channel', desc: 'Email, phone, address and hours sit beside the form for people who prefer them.' },
+    ],
+    useCases: [
+      { icon: '🎨', title: 'Agency enquiries', desc: 'Collect project briefs with a form that goes straight to your inbox through Formspree.' },
+      { icon: '🏢', title: 'Business contact page', desc: 'List phone, email and opening hours next to a form for general questions.' },
+      { icon: '🧑‍💻', title: 'Freelancer website', desc: 'Let potential clients describe their project and promise a reply within a day.' },
+      { icon: '🛟', title: 'Support requests', desc: 'Change the labels to collect support questions and route them to your help desk email.' },
+    ],
+    faqs: [
+      { q: 'How do I make the form send emails?', a: 'Create a free form on Formspree, Basin or Getform, copy its endpoint URL into Form URL, and export. Submissions are emailed to you. Your own server endpoint works too; the fields are name, email and message.' },
+      { q: 'What happens after someone submits?', a: 'With JavaScript, the form is sent in the background; on success the fields fade out and the thank-you message animates in, and on failure an error message appears with the typed message intact.' },
+      { q: 'Will submissions be sent while I edit?', a: 'No. In the editor preview the form simulates success and nothing is sent.' },
+      { q: 'Does it protect against spam?', a: 'It includes a hidden honeypot field named _gotcha, which Formspree and similar services use to discard bot submissions. Add a CAPTCHA from your provider for extra protection.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the contact form: add a budget dropdown, a file upload, or route messages to different emails by topic.',
+      prompt: `Create a contact section with a working form in HTML, CSS and JavaScript.
+
+- Left: eyebrow, heading, intro and a list of contact methods (icon tile, small label, linked value).
+- Right: a card with a form posting to a Formspree URL: name and email side by side, message textarea, hidden _gotcha honeypot, submit button and a note; plus hidden success and error messages.
+- JavaScript: on submit, send with fetch (FormData, Accept: application/json), show an animated success state with GSAP or an error message; keep a normal form post as the fallback.
+- Container queries stack the columns below 860px.`,
+    },
+  },
+
+  'contact-cards': {
+    keywords: ['contact options section', 'sales and support contact', 'contact cards html css', 'help center contact section', 'contact us page design'],
+    about: {
+      title: 'Contact Options Cards — Free Sales and Support Section Template',
+      description: `**Contact Options Cards** sends each visitor to the right team. Under a "How can we help?" heading, cards for sales, support, partnerships and press each have an icon, a short description, a response-time note with a green "online" dot and a link, such as a booking page, help centre or email address.
+
+**Fewer misrouted messages**
+
+Separating sales from support means prospects reach someone who can talk pricing and customers reach someone who can fix problems, and both know how quickly they'll hear back.
+
+**Flexible options**
+
+Add up to six cards and reorder them. Each card's link can be a page, a mailto: address or a chat link, and long email addresses wrap neatly. Leave the note empty to hide it. Choose icons from the built-in set.
+
+**Dark and calm**
+
+It ships in a deep teal-black with a mint accent; cards lift and highlight on hover. Switch presets or apply your brand kit to match your site. The heading reveals with GSAP SplitText and the cards stagger in on scroll.
+
+**Export it**
+
+Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). Pair it with a form from [Contact Form With Details](/website-section-templates/contact-split-form/).`,
+    },
+    features: [
+      'Cards for sales, support, partnerships, press or any team',
+      'Icon, description, response-time note and link per card',
+      'Links to pages, mailto: or chat; long emails wrap',
+      'Up to 6 cards: add, duplicate, reorder, remove',
+      'Green “online” dot on response-time notes',
+      'Cards lift and highlight on hover',
+      'Dark theme; any preset or brand kit',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '🧭', title: 'Right team, first time', desc: 'Visitors choose the team that fits, so they get the right answer faster.' },
+      { icon: '⏱', title: 'Sets expectations', desc: 'Response-time notes tell people when to expect a reply.' },
+      { icon: '⚙', title: 'No form needed', desc: 'Each card links to the tool that team already uses: a booking page, help centre or inbox.' },
+    ],
+    useCases: [
+      { icon: '🚀', title: 'SaaS contact page', desc: 'Offer "Book a demo" for sales, "Open help centre" for support and a partnerships email.' },
+      { icon: '🏢', title: 'Company with departments', desc: 'Route visitors to HR, sales, billing and media relations from one page.' },
+      { icon: '📰', title: 'Press and media', desc: 'Give journalists a direct press contact and a link to your press kit.' },
+      { icon: '🛟', title: 'Help page header', desc: 'Start a help page with options for docs, community forum, email support and status.' },
+    ],
+    faqs: [
+      { q: 'Can each card link somewhere different?', a: 'Yes. Each card has its own link text and URL: a page, a mailto: address, a tel: number or a chat link.' },
+      { q: 'How many options can I show?', a: 'Up to six. Three or four usually works best; the grid wraps automatically.' },
+      { q: 'Can I remove the response-time note?', a: 'Yes. Leave the note empty and it disappears, including the green dot.' },
+      { q: 'Can I use a light theme?', a: 'Yes. Choose a light colour preset or apply your brand kit; the cards and accents follow the theme.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the contact cards: show live support status from an API, open a chat widget from the support card, or add office time zones.',
+      prompt: `Create a "How can we help?" contact options section in HTML and CSS.
+
+- Dark background, centred header with eyebrow, heading and intro.
+- A responsive grid of cards (auto-fit, min 230px): icon tile, title, description, a small note with a green dot (e.g. "Replies within 2 hours") and a link with an arrow at the bottom separated by a thin border.
+- Cards lift and get a brand-coloured border on hover. CSS custom properties for the theme.`,
+    },
+  },
+
+  'contact-map': {
+    keywords: ['contact section with map', 'location section html', 'embed map website template', 'office locations section', 'openstreetmap embed'],
+    about: {
+      title: 'Contact With Map — Free Location and Offices Section Template',
+      description: `**Contact With Map** helps people find you in person: a heading and short message, a set of location cards with the name, address, opening hours, phone and email, and a large embedded map beside them. It suits shops, restaurants, clinics, studios and companies with offices.
+
+**Any map, no API key**
+
+By default it uses an OpenStreetMap embed, which needs no account or key. To show your own location, use Share → HTML on openstreetmap.org, or Share → Embed a map in Google Maps, and paste the link from the src attribute. The map has an editable title for screen readers and loads lazily, so it doesn't slow the page down.
+
+**Up to four locations**
+
+Each location has a name, a multi-line address (marked up with the address element), optional opening hours, and phone and email with their own tel: and mailto: links. Leave any of them empty to hide it.
+
+**Responsive and animated**
+
+On tablets and phones the map moves below the locations at a comfortable height. The heading reveals with GSAP SplitText, the location cards stagger in and the map rises into view.
+
+**Export it**
+
+Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). Add a form with [Contact Form With Details](/website-section-templates/contact-split-form/).`,
+    },
+    features: [
+      'Embedded map beside location cards',
+      'OpenStreetMap by default (no API key); Google Maps embeds work too',
+      'Up to 4 locations: address, hours, phone and email',
+      'Semantic address element; tel: and mailto: links',
+      'Lazy-loaded map with a screen-reader title',
+      'Map moves below the locations on phones',
+      'SplitText heading, staggered cards and rising map',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '📍', title: 'Easy to find', desc: 'A map next to the address answers “where exactly are you?” instantly.' },
+      { icon: '🔑', title: 'No API key', desc: 'OpenStreetMap embeds work out of the box, with no account or billing.' },
+      { icon: '🏢', title: 'Multiple locations', desc: 'Show several offices or branches side by side with their own details.' },
+    ],
+    useCases: [
+      { icon: '☕', title: 'Café or restaurant', desc: 'Show your address, opening hours and phone number for bookings next to a map.' },
+      { icon: '🏥', title: 'Clinic or practice', desc: 'Help patients find the entrance with the address, hours and phone in one place.' },
+      { icon: '🛍️', title: 'Shop with branches', desc: 'List each store with its hours, phone and email, and centre the map on your main shop.' },
+      { icon: '🏢', title: 'Company offices', desc: 'Show headquarters and regional offices with local contact details.' },
+    ],
+    faqs: [
+      { q: 'How do I show my own location on the map?', a: 'On openstreetmap.org, find your address, click Share, choose HTML and copy the link inside src="…". In Google Maps use Share → Embed a map and copy the src link. Paste it into Map embed URL.' },
+      { q: 'Do I need a Google Maps API key?', a: 'No. Both the OpenStreetMap embed and Google’s “Embed a map” links work without an API key.' },
+      { q: 'How many locations can I list?', a: 'Up to four. The map shows one area, so centre it on your main location and list the others with their addresses.' },
+      { q: 'Is the map accessible?', a: 'The map iframe has an editable title for screen readers, and every address, phone number and email is also written out as text.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the location section: switch the map when a location card is clicked, add directions links, or show live opening status.',
+      prompt: `Create a contact section with a map in HTML and CSS.
+
+- Left: eyebrow, heading, intro and a grid of location cards (name, multi-line address in an address element, opening hours, phone and email links).
+- Right: a large rounded embedded map (iframe with an OpenStreetMap embed URL, title, loading="lazy").
+- Container queries stack the columns below 860px with the map at 320px tall.
+- GSAP: SplitText heading, staggered cards and a rising map with ScrollTrigger, respecting prefers-reduced-motion.`,
+    },
+  },
+
+  'blog-cards': {
+    keywords: ['blog section template', 'latest posts section html', 'blog card grid css', 'blog post cards', 'news section template'],
+    about: {
+      title: 'Blog Post Cards — Free Latest Posts Section Template',
+      description: `**Blog Post Cards** is the "Latest from the blog" section for homepages and blog index pages: a heading with a "View all posts" link, then a grid of cards with a cover image, category tag, date and read time, title, short excerpt and the author's photo and name.
+
+**Feels alive**
+
+Covers zoom gently and titles get an animated underline when you hover a card. The heading reveals with GSAP SplitText and the cards stagger in as they scroll into view, with reduced-motion support.
+
+**Posts as a list**
+
+Add up to nine posts, reorder them and duplicate one to start the next. Upload cover images (resized in your browser) or use the included abstract covers, and leave the category, date, read time, excerpt or author empty to hide them.
+
+**Search-friendly**
+
+The exported page includes an ItemList of BlogPosting structured data (JSON-LD) built from your posts, so search engines and AI assistants understand the list of articles.
+
+**Export it**
+
+Download HTML, a ZIP with your covers, React or Vue, or fork into [My Code](/ui-snippets/mycode/). For a magazine layout with one big story, see [Featured Post With List](/website-section-templates/blog-featured/).`,
+    },
+    features: [
+      'Post cards: cover, category, date, read time, title, excerpt, author',
+      'View-all link beside the heading',
+      'Cover zoom and animated title underline on hover',
+      'Up to 9 posts: add, duplicate, reorder, remove',
+      'BlogPosting ItemList JSON-LD in the export',
+      'Three, two or one columns by width',
+      'SplitText heading and staggered entrance',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '📰', title: 'Shows you’re active', desc: 'Fresh posts on the homepage prove the company is alive and shipping.' },
+      { icon: '🔍', title: 'Helps SEO', desc: 'Internal links to articles plus BlogPosting schema help search engines discover your content.' },
+      { icon: '👀', title: 'Scannable', desc: 'Covers, categories and read times let readers pick what interests them.' },
+    ],
+    useCases: [
+      { icon: '🏠', title: 'Homepage latest posts', desc: 'Show the three newest articles near the end of your homepage with a link to the full blog.' },
+      { icon: '📚', title: 'Resource hub', desc: 'Present guides, case studies and templates as cards with category tags.' },
+      { icon: '📣', title: 'Company news', desc: 'Share announcements, product updates and press with dates and authors.' },
+      { icon: '🎓', title: 'Course or learning site', desc: 'List recent lessons or tutorials with read times and instructors.' },
+    ],
+    faqs: [
+      { q: 'Can I connect it to my blog automatically?', a: 'The section is static HTML. After exporting, you can render the cards from your CMS (WordPress, Ghost, Sanity, Markdown) by looping over posts in your framework, using the same markup and CSS.' },
+      { q: 'Is structured data included?', a: 'Yes. The exported HTML includes an ItemList of BlogPosting JSON-LD with each post’s headline, description, URL, image and author.' },
+      { q: 'What cover size should I use?', a: 'About 1200×750 px (16:10). Covers are cropped to that shape in the cards.' },
+      { q: 'How many posts can I show?', a: 'Up to nine. Three is typical for a homepage; six or nine work for a blog index.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the blog cards: render them from a WordPress or Ghost API, add pagination, or add category filter buttons.',
+      prompt: `Create a "Latest from the blog" section in HTML and CSS.
+
+- Header with eyebrow and heading on the left and a "View all posts →" link on the right.
+- A 3-column grid of post cards: 16:10 cover image (zooms on hover), a meta line with a category pill, date and read time, a title with an animated underline on hover, an excerpt and an author row with a round photo.
+- Container queries: 2 columns below 960px, 1 below 620px.
+- Include an ItemList of BlogPosting JSON-LD for the posts.`,
+    },
+  },
+
+  'blog-featured': {
+    keywords: ['featured post section', 'magazine layout html css', 'blog homepage template', 'featured article layout', 'news layout template'],
+    about: {
+      title: 'Featured Post With List — Free Magazine Blog Section Template',
+      description: `**Featured Post With List** gives your blog a magazine front page. One featured story takes the left side with a large cover, a category label, date, big headline, excerpt, author and a "Read the report →" link; the right side lists recent posts with small thumbnails, categories, dates and read times.
+
+**Hierarchy that guides readers**
+
+The big story gets attention first, while the list shows there's plenty more to read. Hovering zooms covers and turns titles to your brand colour.
+
+**Edit the featured story and the list**
+
+The featured post has its own fields: cover, category, date, title, excerpt, author, link and link text. The recent posts are a list of up to six that you can reorder. Upload covers or use the included abstract artwork.
+
+**Structured data included**
+
+The exported page includes an ItemList of BlogPosting JSON-LD covering the featured post and the recent posts.
+
+**Responsive and animated**
+
+On tablets and phones the list moves below the featured story. The heading reveals with SplitText, the featured story rises into view and the list items stagger in.
+
+**Export it**
+
+Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). For an even grid, use [Blog Post Cards](/website-section-templates/blog-cards/).`,
+    },
+    features: [
+      'Large featured post beside a list of recent posts',
+      'Featured: cover, category, date, title, excerpt, author, link',
+      'Recent posts with thumbnails, categories, dates and read times',
+      'Up to 6 recent posts: add, duplicate, reorder, remove',
+      'Hover zoom on covers and brand-coloured titles',
+      'BlogPosting ItemList JSON-LD in the export',
+      'Stacks on tablets and phones',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '📰', title: 'Front-page feel', desc: 'A lead story with a list beside it reads like a magazine and keeps readers exploring.' },
+      { icon: '⭐', title: 'Promote what matters', desc: 'Put your best report, launch or guide in the featured spot.' },
+      { icon: '🔍', title: 'Search-friendly', desc: 'BlogPosting schema and internal links help your articles get found.' },
+    ],
+    useCases: [
+      { icon: '📊', title: 'Report or research launch', desc: 'Feature a new industry report with recent articles alongside it.' },
+      { icon: '🗞️', title: 'Newsroom', desc: 'Lead with the biggest announcement and list recent press releases.' },
+      { icon: '✍️', title: 'Blog front page', desc: 'Highlight an editor’s pick above the latest posts.' },
+      { icon: '📬', title: 'Newsletter archive', desc: 'Feature the latest issue and list previous issues with dates.' },
+    ],
+    faqs: [
+      { q: 'How do I change the featured post?', a: 'Edit the Featured post group: cover, category, date, title, excerpt, author, link and the read-link text. It is separate from the recent posts list.' },
+      { q: 'Is structured data included?', a: 'Yes. The exported HTML includes an ItemList of BlogPosting JSON-LD with the featured post first, then the recent posts.' },
+      { q: 'How many recent posts can I list?', a: 'Up to six. Four balances well with the featured story on desktop.' },
+      { q: 'How does it look on mobile?', a: 'The featured story comes first at full width, followed by the list of recent posts with small thumbnails.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the magazine layout: rotate featured posts automatically, add a category navigation bar, or load posts from your CMS.',
+      prompt: `Create a magazine-style blog section in HTML and CSS.
+
+- Left-aligned header with eyebrow and heading.
+- Two columns: a featured article (large 16:10 cover, uppercase category in the brand colour, date, big headline, excerpt, author and a "Read →" link) and a list of four recent posts (120px thumbnail, category, date, title, read time) separated by thin lines.
+- Covers zoom on hover; container queries stack the columns below 860px.
+- Include an ItemList of BlogPosting JSON-LD.`,
+    },
+  },
+
+  'blog-list': {
+    keywords: ['blog list template', 'editorial post list', 'hover image follow cursor', 'minimal blog section', 'gsap hover preview'],
+    about: {
+      title: 'Editorial Post List — Free Blog List With Hover Image Template',
+      description: `**Editorial Post List** presents articles the way design studios and writers do: a clean list of wide rows with the date, category, a large title and a round arrow. On desktop, hovering a row reveals that post's cover in a tilted card that follows the cursor, a signature interaction built with GSAP quickTo.
+
+**Interaction with restraint**
+
+Rows slide slightly and their titles turn your brand colour on hover, the arrow rotates and fills, and the floating cover eases in and out. The effect only runs on devices with a mouse and is skipped for reduced motion; on phones it's a fast, clean list with no images to download until needed.
+
+**Posts as a list**
+
+Add up to twelve posts and reorder them. Each post's cover powers its hover preview (leave it empty for no preview), and the date, category and title are all editable. A "View all" link sits beside the heading.
+
+**Structured data included**
+
+The exported page includes an ItemList of BlogPosting JSON-LD built from your posts, helping search engines understand the list.
+
+**Dark and editorial**
+
+It ships in near-black with a lime accent; switch presets or apply your brand kit.
+
+**Export it**
+
+Download HTML, a ZIP, React or Vue with the hover script, or fork into [My Code](/ui-snippets/mycode/). For image-first cards, see [Blog Post Cards](/website-section-templates/blog-cards/).`,
+    },
+    features: [
+      'Wide rows with date, category, large title and arrow',
+      'Cover image follows the cursor on hover (GSAP quickTo)',
+      'Row slide, colour change and rotating arrow on hover',
+      'Desktop-only effect; off for reduced motion',
+      'Up to 12 posts: add, duplicate, reorder, remove',
+      'BlogPosting ItemList JSON-LD in the export',
+      'Compact stacked rows on phones',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '✦', title: 'Memorable interaction', desc: 'The cursor-following cover is a signature detail of award-winning studio sites.' },
+      { icon: '📖', title: 'Typography first', desc: 'Large titles in a clean list put the writing, not the thumbnails, in front.' },
+      { icon: '⚡', title: 'Light on phones', desc: 'Covers only load for the hover preview, so the mobile list stays fast.' },
+    ],
+    useCases: [
+      { icon: '🎨', title: 'Studio journal', desc: 'List case studies and articles with a cover preview that follows the cursor.' },
+      { icon: '✍️', title: 'Personal blog', desc: 'Present essays as large titles with dates and topics for a timeless, editorial feel.' },
+      { icon: '📰', title: 'Press list', desc: 'Show press coverage with the publication as the category and the outlet’s image as the preview.' },
+      { icon: '🛠️', title: 'Changelog', desc: 'List releases by date with a screenshot that previews each update on hover.' },
+    ],
+    faqs: [
+      { q: 'How does the hover image work?', a: 'A small script creates one floating card in the section. When you hover a row, it shows that post’s cover and GSAP quickTo smoothly moves the card to follow the cursor; it fades out when you leave the row.' },
+      { q: 'Does it work on phones?', a: 'Yes, as a clean list. The hover preview only runs on devices with a mouse, so phones get a fast list without the effect.' },
+      { q: 'Can I turn off the preview for a post?', a: 'Yes. Leave that post’s cover image empty and no preview appears for it.' },
+      { q: 'Is structured data included?', a: 'Yes. The exported HTML includes an ItemList of BlogPosting JSON-LD for the posts.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the editorial list: use a video preview instead of an image, add year groupings, or filter by category.',
+      prompt: `Create an editorial blog list in HTML, CSS and JavaScript.
+
+- Dark background; header with eyebrow, heading and a "View all" link.
+- A list of wide rows separated by thin lines; each row is a link with date, uppercase category, a large title and a round arrow button; on hover the row slides right, the title turns the brand colour and the arrow rotates and fills.
+- JavaScript with GSAP: create one floating 16:10 card in the section; on row hover set its background to the row's cover image, fade/scale it in with a slight rotation and follow the cursor with gsap.quickTo. Desktop pointers only; respect prefers-reduced-motion.
+- Include an ItemList of BlogPosting JSON-LD.`,
+    },
+  },
 };
 
 export const SECTION_DIFFERENT = [

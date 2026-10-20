@@ -29,6 +29,22 @@ import ctaStrip from './cta-strip.js';
 import statsCounters from './stats-counters.js';
 import logoCloud from './logo-cloud.js';
 import statsDarkSplit from './stats-dark-split.js';
+import navbarSimple from './navbar-simple.js';
+import navbarFloating from './navbar-floating.js';
+import navbarAnnouncement from './navbar-announcement.js';
+import footerColumns from './footer-columns.js';
+import footerGiant from './footer-giant.js';
+import footerNewsletter from './footer-newsletter.js';
+import footerMinimal from './footer-minimal.js';
+import teamGrid from './team-grid.js';
+import teamCarousel from './team-carousel.js';
+import teamHiring from './team-hiring.js';
+import contactSplitForm from './contact-split-form.js';
+import contactCards from './contact-cards.js';
+import contactMap from './contact-map.js';
+import blogCards from './blog-cards.js';
+import blogFeatured from './blog-featured.js';
+import blogList from './blog-list.js';
 import { DEFAULT_THEME, DEFAULT_MOTION } from './meta.js';
 
 export { SECTION_CATEGORIES, sectionCategoryById, DEFAULT_THEME, THEME_PRESETS, THEME_COLORS, THEME_KEYS, BASE_CSS, IMG, MOTION_PRESETS, MOTION_SPEEDS, TEXT_EFFECTS, DEFAULT_MOTION, GSAP_CDN, GSAP_VERSION } from './meta.js';
@@ -63,6 +79,22 @@ export const SECTION_TEMPLATES = [
   statsCounters,
   logoCloud,
   statsDarkSplit,
+  navbarSimple,
+  navbarFloating,
+  navbarAnnouncement,
+  footerColumns,
+  footerGiant,
+  footerNewsletter,
+  footerMinimal,
+  teamGrid,
+  teamCarousel,
+  teamHiring,
+  contactSplitForm,
+  contactCards,
+  contactMap,
+  blogCards,
+  blogFeatured,
+  blogList,
 ];
 export const sectionTemplateById = id => SECTION_TEMPLATES.find(t => t.id === id);
 

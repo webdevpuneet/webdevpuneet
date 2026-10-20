@@ -113,4 +113,84 @@ The counters keep any format ($2.5M, 99.9%, 4.9/5) and leave the real values in 
       { q: 'Do I need permission to show customer logos?', a: 'Usually yes. Check your customer agreements or ask before showing a company’s logo. The built-in wordmarks keep the section looking finished in the meantime.' },
     ],
   },
+  navbar: {
+    title: 'Navbar Templates — Free Responsive Header HTML, React & Vue',
+    description: 'Free responsive navbar templates: a sticky header, a floating glass pill and a header with an announcement bar, each with an accessible animated mobile menu.',
+    h1: 'Navbar Templates',
+    keywords: ['navbar template', 'responsive navbar html css', 'sticky header', 'mobile menu', 'website header'],
+    intro: `The navbar is on every page, so it has to be clear, fast and work perfectly on phones. These headers handle the hard parts for you: a mobile menu that's accessible, a sticky bar that can get out of the way, and a layout that adapts to any number of links.
+
+The **[Simple Sticky Navbar](/website-section-templates/navbar-simple/)** is a clean, frosted header with links, log-in and a CTA. The **[Floating Pill Navbar](/website-section-templates/navbar-floating/)** hovers over the page as a dark glass pill and opens a full-screen menu on phones. The **[Navbar With Announcement Bar](/website-section-templates/navbar-announcement/)** adds a dismissible bar on top for sales, launches and news.
+
+Every mobile menu opens with GSAP, closes on Esc, keeps keyboard focus inside while open, announces its state to screen readers and shows the links even without JavaScript. Switch the sticky header and hide-on-scroll options on or off, upload your logo, and export to HTML, React or Vue.`,
+    faqs: [
+      { q: 'What makes a navbar accessible?', a: 'A real button for the mobile menu with aria-expanded and a label, keyboard support (Tab, Enter, Esc), focus moving into the menu when it opens and back to the button when it closes, and links that still work without JavaScript. These navbars do all of that.' },
+      { q: 'Should my header be sticky?', a: 'For most marketing sites, yes: it keeps navigation and the main button in reach. On long reading pages, the hide-on-scroll option gives readers more space and brings the header back when they scroll up.' },
+      { q: 'How many links should a navbar have?', a: 'Four to six top-level links is ideal. Put secondary pages in the footer, and keep one clear call-to-action button on the right.' },
+    ],
+  },
+  footer: {
+    title: 'Footer Templates — Free Website Footer HTML, React & Vue',
+    description: 'Free website footer templates: multi-column sitemap footer, giant wordmark footer, footer with newsletter signup and a minimal one-row footer. Free to use.',
+    h1: 'Footer Templates',
+    keywords: ['footer template', 'website footer html css', 'footer with newsletter', 'minimal footer', 'responsive footer'],
+    intro: `The footer is the last thing on every page: it helps visitors find what they missed, builds trust with legal and contact links, and gives one more chance to sign up or get in touch.
+
+The **[Multi-Column Footer](/website-section-templates/footer-columns/)** is the classic sitemap footer with link columns, social icons and a smooth back-to-top button. The **[Big Wordmark Footer](/website-section-templates/footer-giant/)** ends with a closing call to action and your brand name in giant type, revealed with GSAP SplitText. The **[Footer With Newsletter](/website-section-templates/footer-newsletter/)** adds a working email sign-up form, and the **[Minimal Footer](/website-section-templates/footer-minimal/)** keeps it to one tidy row.
+
+Links are written one per line as "Label | URL", so even big footers are quick to edit, and unsafe URLs are replaced automatically. Social icons cover X, LinkedIn, GitHub, YouTube, Instagram, Facebook, Dribbble and Figma. Every footer shares the theme with the navbars and sections above it and exports to HTML, React or Vue.`,
+    faqs: [
+      { q: 'What should a website footer include?', a: 'Your logo, the most useful links (product, company, help), contact or social links, the copyright notice and legal links such as privacy and terms. Optionally a newsletter sign-up or a closing call to action.' },
+      { q: 'Do footer links help SEO?', a: 'They help visitors and search engines discover your important pages from every page of the site. Keep them focused on genuinely useful pages rather than long lists of keywords.' },
+      { q: 'How do I edit footer links quickly?', a: 'In these footers, each links box takes one link per line as Label | URL, for example Pricing | /pricing/. Columns themselves can be added, reordered and removed.' },
+    ],
+  },
+  team: {
+    title: 'Team Section Templates — Free Meet the Team HTML & React',
+    description: 'Free team section templates: a meet-the-team grid with hover social links, a draggable team carousel and a team section with a hiring card. GSAP animated.',
+    h1: 'Team Section Templates',
+    keywords: ['team section template', 'meet the team html css', 'team carousel', 'careers section', 'about us team'],
+    intro: `People buy from people. A team section puts faces and names to your company, which builds trust with customers, partners and future hires.
+
+The **[Team Grid](/website-section-templates/team-grid/)** shows members as cards with photos, roles, bios and social links that slide in on hover. The **[Team Carousel](/website-section-templates/team-carousel/)** presents tall portrait cards in a row you can drag with momentum, ideal for larger or creative teams. The **[Team With Hiring CTA](/website-section-templates/team-hiring/)** pairs a mosaic of team photos with a "We're hiring" card listing perks and open roles.
+
+Team members are editable lists: add, reorder and remove people, and upload photos (resized in your browser) or start with the illustrated placeholders. Every section shares the library's theme, animates with GSAP and exports to HTML, React or Vue.`,
+    faqs: [
+      { q: 'What should a team section include?', a: 'A photo, name and role for each person, ideally with a short line about them and a link to their profile. For companies that are hiring, a link to open roles turns interest into applications.' },
+      { q: 'Should I show the whole team?', a: 'For small teams, yes. For larger ones, show leadership or a representative group, use a carousel, or link to a full team page.' },
+      { q: 'Can I use illustrations instead of photos?', a: 'Yes. The sections ship with illustrated avatars, and any square or portrait image works, including illustrations or brand-styled portraits.' },
+    ],
+  },
+  contact: {
+    title: 'Contact Section Templates — Free Contact Form HTML & React',
+    description: 'Free contact section templates: a working contact form that sends to Formspree or any endpoint, contact cards for sales and support, and a map of offices.',
+    h1: 'Contact Section Templates',
+    keywords: ['contact section template', 'contact form html', 'contact us page', 'formspree form', 'contact with map'],
+    intro: `A contact section turns interest into conversations. It should make the next step obvious, set expectations about replies, and work reliably.
+
+**[Contact Form With Details](/website-section-templates/contact-split-form/)** pairs your email, phone, address and hours with a working form that sends to Formspree, Basin, Getform or your own endpoint, with animated success and error states. **[Contact Options Cards](/website-section-templates/contact-cards/)** route visitors to sales, support, partnerships or press with response times. **[Contact With Map](/website-section-templates/contact-map/)** shows your locations beside an embedded OpenStreetMap or Google Map, with no API key needed.
+
+Forms send in the background with JavaScript and fall back to a normal post without it; in the editor they simulate success so nothing is sent while you design. Every section shares the library's theme and exports to HTML, React or Vue.`,
+    faqs: [
+      { q: 'How do I make a contact form send emails without a backend?', a: 'Use a form service such as Formspree, Basin or Getform: create a form, copy its endpoint URL into the section’s Form URL, and submissions are emailed to you.' },
+      { q: 'Do I need an API key for the map?', a: 'No. OpenStreetMap embeds and Google Maps “Embed a map” links both work without an API key.' },
+      { q: 'How do I reduce spam?', a: 'The form includes a hidden honeypot field (_gotcha) that services like Formspree use to discard bots. Most services also offer CAPTCHA or spam filtering.' },
+    ],
+  },
+  blog: {
+    title: 'Blog Section Templates — Free Latest Posts HTML & React',
+    description: 'Free blog section templates: latest post cards, a magazine-style featured post with list, and an editorial list with a cursor-following cover. With schema.',
+    h1: 'Blog Section Templates',
+    keywords: ['blog section template', 'latest posts section', 'blog card grid', 'magazine layout', 'editorial blog list'],
+    intro: `A blog section brings your latest writing onto the homepage and other pages, showing visitors that the company is active and giving search engines internal links to your articles.
+
+**[Blog Post Cards](/website-section-templates/blog-cards/)** shows recent posts as cards with covers, categories, dates, read times and authors. **[Featured Post With List](/website-section-templates/blog-featured/)** gives one story the front page beside a list of recent posts, like a magazine. The **[Editorial Post List](/website-section-templates/blog-list/)** presents posts as large typographic rows, with a cover image that follows the cursor on hover.
+
+Posts are editable lists with covers (upload your own or use the included abstract artwork), and every blog section adds an ItemList of BlogPosting structured data to its HTML export. Everything shares the library's theme, animates with GSAP and exports to HTML, React or Vue.`,
+    faqs: [
+      { q: 'Can these sections pull posts from my CMS?', a: 'They export as static HTML and CSS. To make them dynamic, render the same markup from WordPress, Ghost, Sanity, Markdown or any CMS in your framework of choice.' },
+      { q: 'Is structured data included?', a: 'Yes. Each blog section’s HTML export includes an ItemList of BlogPosting JSON-LD with headlines, descriptions, URLs, images and authors.' },
+      { q: 'How many posts should a homepage show?', a: 'Three is the most common: enough to show activity without competing with the rest of the page. Link to the full blog for more.' },
+    ],
+  },
 };

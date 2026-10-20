@@ -18,6 +18,10 @@ const ICONS = [
   ['circle-check', 'Check'], ['wallet', 'Wallet'], ['credit-card', 'Payments'], ['shopping-cart', 'Cart'], ['truck', 'Delivery'],
   ['gift', 'Gift'], ['leaf', 'Eco'], ['infinity', 'Unlimited'], ['wand-sparkles', 'Magic'], ['lightbulb', 'Idea'],
   ['graduation-cap', 'Learning'], ['briefcase', 'Business'], ['building-2', 'Company'], ['house', 'Home'], ['coffee', 'Coffee'],
+  ['arrow-up', 'Arrow up'], ['send', 'Send'],
+  // Social networks (Lucide's brand icons; check each brand's guidelines for official logos)
+  ['github', 'GitHub'], ['linkedin', 'LinkedIn'], ['twitter', 'X / Twitter'], ['instagram', 'Instagram'],
+  ['youtube', 'YouTube'], ['facebook', 'Facebook'], ['dribbble', 'Dribbble'], ['figma', 'Figma'],
 ];
 
 const out = [];
