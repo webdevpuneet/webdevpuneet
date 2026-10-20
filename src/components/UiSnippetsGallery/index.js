@@ -13,26 +13,16 @@ import s from './styles.module.css';
 const PER_PAGE = 9;
 
 // Same localStorage keys the Sidebar's own Library tab reads/writes (see
-// src/components/Sidebar/index.js) — using identical keys is what makes the
-// two independent search/category/tag states (this gallery page's and the
-// persistent sidebar's) actually the same shared state instead of two
-// separate ones that happen to look similar. The sidebar never remounts on
+// src/components/Sidebar/index.js) for the category and tag, so the two chip
+// UIs show the same selection. Search is NOT shared: the sidebar's search box
+// and this page's search box filter independently. The sidebar never remounts on
 // a client-side navigation (it lives in the root layout, outside the page
 // content), so a plain localStorage write alone wouldn't reach it while
 // already on screen — a custom event on `window` is what makes the sidebar
 // react live, in the same tab, the instant either side changes.
-const LIB_QUERY_KEY = 'uis_sidebar_query';
 const LIB_CATEGORY_KEY = 'uis_sidebar_category';
 const LIB_TAG_KEY = 'uis_sidebar_tag';
 const SYNC_EVENT = 'uis-filters-changed';
-
-function syncSearchToSidebar(value) {
-  try {
-    if (value) localStorage.setItem(LIB_QUERY_KEY, value);
-    else localStorage.removeItem(LIB_QUERY_KEY);
-  } catch {}
-  window.dispatchEvent(new Event(SYNC_EVENT));
-}
 
 // Tags big enough to have their own page, largest first — the same set the
 // /ui-snippets/tag/ routes are generated from, so a chip never links to a 404.
@@ -141,11 +131,7 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
   // falling back to whatever the sidebar last had saved, so arriving here
   // from a plain (query-less) link still picks up an in-progress sidebar
   // search instead of starting blank.
-  const [search, setSearch] = useState(() => {
-    const fromUrl = searchParams.get('q');
-    if (fromUrl) return fromUrl;
-    try { return localStorage.getItem(LIB_QUERY_KEY) || ''; } catch { return ''; }
-  });
+  const [search, setSearch] = useState(() => searchParams.get('q') || '');
   const [category, setCategory] = useState(initialCategory);
   // How many pages are loaded, minus one: "Load more" appends the next page
   // below the current cards. Seeded from ?page=N (1-based) so an old paged link
@@ -211,21 +197,6 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
     window.dispatchEvent(new Event(SYNC_EVENT));
   }, [initialCategory, initialTag]);
 
-  // Live search sync FROM the sidebar: typing in the sidebar's own search box
-  // doesn't navigate or remount this component, so this listens for the same
-  // sync event to pick up that change without a reload — the mirror image of
-  // syncSearchToSidebar below, which pushes this page's own typing outward.
-  useEffect(() => {
-    function onSync() {
-      try {
-        const saved = localStorage.getItem(LIB_QUERY_KEY) || '';
-        setSearch(current => (current === saved ? current : saved));
-      } catch {}
-    }
-    window.addEventListener(SYNC_EVENT, onSync);
-    return () => window.removeEventListener(SYNC_EVENT, onSync);
-  }, []);
-
   // On a tag page the tag is the filter — the category chips below stay as
   // navigation to the category pages rather than narrowing the tag further.
   const filtered = useMemo(() => {
@@ -260,7 +231,6 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
     setSearch(value);
     setPage(0);
     syncToUrl({ page: 0, q: value });
-    syncSearchToSidebar(value);
   }
 
   return (
@@ -283,7 +253,7 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
               onChange={handleSearch}
             />
             {search && (
-              <button className={s.clearBtn} onClick={() => { setSearch(''); setPage(0); syncToUrl({ page: 0, q: '' }); syncSearchToSidebar(''); }} aria-label="Clear search">
+              <button className={s.clearBtn} onClick={() => { setSearch(''); setPage(0); syncToUrl({ page: 0, q: '' }); }} aria-label="Clear search">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
             )}

@@ -8,7 +8,7 @@ import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import { emailDesignStore } from './designs';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
-import ImageToolsTopNav from '@/components/ImageToolsTopNav';
+import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { EMAIL_TEMPLATES, EMAIL_CATEGORIES, emailTemplateById, emailCategoryById, defaultEmailState, FONT_STACKS } from './templates/index.js';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
@@ -250,7 +250,7 @@ function SavedEmailPreview({ design: d, width }) {
 export function EmailGalleryPage({ previews = [] }) {
   return (
     <div className={s.galleryPage}>
-      <ImageToolsTopNav active="email-templates" />
+      <PlaygroundTopNav active="email-templates" />
       <PlaygroundTopAd />
       <header className={s.galleryHead}>
         <h1 className={s.galleryH1}>Email Templates</h1>
@@ -283,7 +283,7 @@ export function EmailGalleryPage({ previews = [] }) {
 export function EmailCategoryPage({ category, h1, lead, previews = [] }) {
   return (
     <div className={s.galleryPage}>
-      <ImageToolsTopNav active="email-templates" />
+      <PlaygroundTopNav active="email-templates" />
       <PlaygroundTopAd />
       <header className={s.galleryHead}>
         <a href="/email-templates/" className={s.back}>← All email templates</a>
@@ -1149,7 +1149,7 @@ export function EmailTemplateEditor({ id }) {
 
   return (
     <div className={s.wrap}>
-      <ImageToolsTopNav active="email-templates" />
+      <PlaygroundTopNav active="email-templates" />
       <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/gif,image/webp" className={s.fileInput} onChange={onUploadFile} />
       <div className={s.body}>
         <aside className={`${s.controls} ${sheetOpen ? s.sheetOpen : ''}`} ref={controlsRef}>

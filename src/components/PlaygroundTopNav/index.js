@@ -6,6 +6,8 @@ import { LIVE_TOOLS } from '@/lib/tools-registry';
 
 const NAV_ITEMS = [
   { slug: 'ui-snippets',                 short: 'UI Snippets',  icon: '/icons/ui-snippets.svg' },
+  { slug: 'email-templates',             short: 'Email Templates', icon: '/icons/email-templates.svg' },
+  { slug: 'social-post-templates',       short: 'Social Posts', icon: '/icons/social-post-templates.svg' },
   { slug: 'ai-prompt-studio',            short: 'AI Prompts',   icon: '/icons/ai-prompt-studio.svg' },
   { slug: 'html-playground',             short: 'HTML',         icon: '/icons/html-playground.svg' },
   { slug: 'css-playground',              short: 'CSS',          icon: '/icons/css-playground.svg' },
@@ -71,7 +73,7 @@ export default function PlaygroundTopNav({ active }) {
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
       )}
-      <nav className={styles.nav} ref={scrollRef} aria-label="Coding playgrounds">
+      <nav className={styles.nav} ref={scrollRef} aria-label="UI snippets, templates and coding playgrounds">
         {NAV_ITEMS.filter(item => LIVE_TOOLS.some(t => t.slug === item.slug)).map(item => (
           <a
             key={item.slug}

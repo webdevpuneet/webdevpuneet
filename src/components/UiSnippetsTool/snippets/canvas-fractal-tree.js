@@ -1,7 +1,7 @@
 const canvasFractalTree = {
   id: 'canvas-fractal-tree',
   title: 'Canvas Fractal Tree Generator',
-  lastmod: '2026-08-24',
+  lastmod: '2026-10-20',
   category: 'animations',
   cdnUrls: [],
   html: `<div class="ft-wrap">
@@ -16,6 +16,7 @@ const canvasFractalTree = {
       <label>Branch angle <span id="ftAngleVal">26°</span></label>
       <input type="range" id="ftAngle" min="10" max="55" value="26" step="1" />
     </div>
+    <button type="button" id="ftNew" class="ft-btn">New tree</button>
     <p class="ft-hint">Move the cursor left/right to sway the tree like wind.</p>
   </div>
 </div>`,
@@ -28,6 +29,9 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0a0f0a;color:#e6
 .ft-tag{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#86efac;background:rgba(134,239,172,.1);border:1px solid rgba(134,239,172,.3);padding:4px 10px;border-radius:99px}
 .ft-row{display:flex;align-items:center;gap:8px;font-size:12px;color:#c4dcc4}
 .ft-row input{accent-color:#4ade80}
+.ft-btn{align-self:flex-start;font:inherit;font-size:12px;font-weight:700;color:#0b1a0f;background:#4ade80;border:0;border-radius:8px;padding:6px 12px;cursor:pointer}
+.ft-btn:hover{background:#86efac}
+.ft-btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .ft-hint{font-size:12px;color:#7fa688;flex:1 1 200px}`,
 
   js: `const canvas = document.getElementById('ftCanvas');
@@ -37,9 +41,25 @@ const angleSlider = document.getElementById('ftAngle');
 const depthVal = document.getElementById('ftDepthVal');
 const angleVal = document.getElementById('ftAngleVal');
 
+const newBtn = document.getElementById('ftNew');
+
 let width, height, dpr;
 let sway = 0;
 let targetSway = 0;
+
+// Seeded random numbers: every frame replays the same sequence, so the tree keeps
+// its shape while it sways. Math.random() here would grow a new tree 60 times a
+// second, which made the old version flicker. "New tree" just picks a new seed.
+let seed = 1;
+let rand;
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
 
 function resize() {
   dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -54,13 +74,15 @@ canvas.addEventListener('mousemove', e => {
   const rect = canvas.getBoundingClientRect();
   const nx = (e.clientX - rect.left) / rect.width; // 0..1
   targetSway = (nx - 0.5) * 0.5; // radians of extra lean
+  animate();
 });
-canvas.addEventListener('mouseleave', () => { targetSway = 0; });
+canvas.addEventListener('mouseleave', () => { targetSway = 0; animate(); });
 canvas.addEventListener('touchmove', e => {
   const rect = canvas.getBoundingClientRect();
   const t = e.touches[0];
   const nx = (t.clientX - rect.left) / rect.width;
   targetSway = (nx - 0.5) * 0.5;
+  animate();
 }, { passive: true });
 
 // Recursive branch drawing: each call draws one segment, then recurses
@@ -88,17 +110,18 @@ function branch(x, y, len, angle, depth, maxDepth, spreadRad) {
 
   if (depth <= 2) {
     ctx.beginPath();
-    ctx.fillStyle = 'hsla(' + (95 + Math.random() * 40) + ',65%,55%,0.85)';
-    ctx.arc(x2, y2, 3 + Math.random() * 2.5, 0, Math.PI * 2);
+    ctx.fillStyle = 'hsla(' + (95 + rand() * 40) + ',65%,55%,0.85)';
+    ctx.arc(x2, y2, 3 + rand() * 2.5, 0, Math.PI * 2);
     ctx.fill();
   }
 
-  const shrink = 0.72 + Math.random() * 0.06;
-  branch(x2, y2, len * shrink, a - spreadRad * (0.8 + Math.random() * 0.4), depth - 1, maxDepth, spreadRad);
-  branch(x2, y2, len * shrink, a + spreadRad * (0.8 + Math.random() * 0.4), depth - 1, maxDepth, spreadRad);
+  const shrink = 0.72 + rand() * 0.06;
+  branch(x2, y2, len * shrink, a - spreadRad * (0.8 + rand() * 0.4), depth - 1, maxDepth, spreadRad);
+  branch(x2, y2, len * shrink, a + spreadRad * (0.8 + rand() * 0.4), depth - 1, maxDepth, spreadRad);
 }
 
 function render() {
+  rand = mulberry32(seed); // same seed every frame = same tree
   ctx.clearRect(0, 0, width, height);
   const depth = parseInt(depthSlider.value, 10);
   const spreadDeg = parseInt(angleSlider.value, 10);
@@ -109,19 +132,36 @@ function render() {
   branch(width / 2, height - 6, startLen, -Math.PI / 2, depth, depth, spreadRad);
 }
 
-let lastSeed = 0;
-function tick() {
-  sway += (targetSway - sway) * 0.06;
+// A slow, gentle breeze: two soft sine waves (about 9 s and 5 s long) add a tiny
+// lean on top of the cursor's, so the tree is never quite still. Turned off for
+// people who prefer reduced motion; then it only moves while it eases to the cursor.
+const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+function breeze(t) {
+  if (calm.matches) return 0;
+  return Math.sin(t / 1400) * 0.035 + Math.sin(t / 820 + 1.3) * 0.012;
+}
+
+let running = false;
+function tick(t) {
+  sway += (targetSway + breeze(t) - sway) * 0.06;
   render();
+  if (!calm.matches || Math.abs(targetSway - sway) > 0.0005) requestAnimationFrame(tick);
+  else { sway = targetSway; render(); running = false; }
+}
+function animate() {
+  if (running) return;
+  running = true;
   requestAnimationFrame(tick);
 }
 
+newBtn.addEventListener('click', () => { seed = (Math.random() * 2 ** 31) | 0; render(); });
 depthSlider.addEventListener('input', render);
 angleSlider.addEventListener('input', render);
 window.addEventListener('resize', () => { resize(); render(); });
 
 resize();
-requestAnimationFrame(tick);`,
+render();
+animate(); // start the breeze`,
 
   seo: {
     title: 'Canvas Fractal Tree Generator — Free Recursive Branching Snippet',
@@ -140,7 +180,7 @@ Every call to \`branch()\` draws exactly one line segment from a starting point 
 
 **Randomized shrink and spread avoid mechanical symmetry**
 
-If every branch shrank by exactly the same factor and split at exactly the same angle, the tree would look like a rigid, obviously-generated diagram. Small per-branch randomization on both the length-shrink factor and the spread angle (\`0.8 + Math.random() * 0.4\`) breaks that symmetry just enough to read as organic rather than mathematical, without changing the underlying recursive structure at all.
+If every branch shrank by exactly the same factor and split at exactly the same angle, the tree would look like a rigid, obviously-generated diagram. Small per-branch randomization on both the length-shrink factor and the spread angle (\`0.8 + rand() * 0.4\`) breaks that symmetry just enough to read as organic rather than mathematical, without changing the underlying recursive structure at all. The random numbers come from a small seeded generator (mulberry32) that restarts from the same seed on every frame, so the tree keeps exactly the same shape while it sways in the wind instead of regrowing 60 times a second; the **New tree** button simply picks a new seed.
 
 **Depth-based rendering, not a separate pass**
 

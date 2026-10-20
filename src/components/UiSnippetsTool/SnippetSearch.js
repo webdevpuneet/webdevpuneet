@@ -4,16 +4,15 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import s from './SnippetSearch.module.css';
 
 const PAGE_SIZE = 10;
-// Same key + event the gallery uses to drive the sidebar's library search
-const LIB_QUERY_KEY = 'uis_sidebar_query';
-const SYNC_EVENT = 'uis-filters-changed';
+// This box keeps its own saved query, separate from the sidebar's library search
+// and the gallery's search: each one filters on its own.
+const QUERY_KEY = 'uis_toolbar_query';
 
-function syncSidebarQuery(value) {
+function saveQuery(value) {
   try {
-    if (value) localStorage.setItem(LIB_QUERY_KEY, value);
-    else localStorage.removeItem(LIB_QUERY_KEY);
+    if (value) localStorage.setItem(QUERY_KEY, value);
+    else localStorage.removeItem(QUERY_KEY);
   } catch {}
-  window.dispatchEvent(new Event(SYNC_EVENT));
 }
 const PEEK_W = 300; // hover preview width and max height (matches .peek)
 const PEEK_GAP = 2; // space between preview and drop-down (matches .peek)
@@ -56,15 +55,9 @@ export default function SnippetSearch({ snippets, categoryLabels, activeId, acti
 
   useEffect(() => { setHi(0); setLimit(PAGE_SIZE); listRef.current?.scrollTo(0, 0); }, [query]);
 
-  // Shares the sidebar's saved query: restored after navigation (each snippet is a
-  // full page load) and kept in step when the sidebar or gallery search changes.
+  // Restore this box's own query after navigation (each snippet is a full page load)
   useEffect(() => {
-    const load = () => {
-      try { setQuery(localStorage.getItem(LIB_QUERY_KEY) || ''); } catch {}
-    };
-    load();
-    window.addEventListener(SYNC_EVENT, load);
-    return () => window.removeEventListener(SYNC_EVENT, load);
+    try { setQuery(localStorage.getItem(QUERY_KEY) || ''); } catch {}
   }, []);
 
   // Keep the highlighted row in view while arrowing through the list
@@ -158,7 +151,7 @@ export default function SnippetSearch({ snippets, categoryLabels, activeId, acti
         aria-label="Search UI snippets"
         aria-expanded={!!pos}
         aria-haspopup="listbox"
-        onChange={e => { setQuery(e.target.value); syncSidebarQuery(e.target.value); if (!pos) open(); }}
+        onChange={e => { setQuery(e.target.value); saveQuery(e.target.value); if (!pos) open(); }}
         onFocus={open}
         onClick={() => { if (!pos) open(); }}
         onKeyDown={onKeyDown}

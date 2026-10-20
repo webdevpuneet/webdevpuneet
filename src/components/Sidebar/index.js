@@ -346,9 +346,8 @@ function UiSnippetsGroup({ pathname, open, onToggle }) {
 ───────────────────────────────────────────────────────────── */
 function TemplatesGroup({ label, base, icon, nav, pathname, open, onToggle }) {
   const bodyRef = useRef(null);
+  // The category a template page belongs to is highlighted too
   const activeCat = nav.categories.find(c => c.items.some(t => pathname === `${base}${t.id}/`) || pathname === `${base}category/${c.id}/`)?.id;
-  const [openCats, setOpenCats] = useState(() => new Set(activeCat ? [activeCat] : []));
-  const toggleCat = id => setOpenCats(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
 
   useEffect(() => {
     const el = bodyRef.current;
@@ -383,49 +382,27 @@ function TemplatesGroup({ label, base, icon, nav, pathname, open, onToggle }) {
       </button>
       {/* Height is animated by the effect; children stay in the DOM so the links are crawlable */}
       <div ref={bodyRef} className={styles.groupBody} style={{ height: open ? 'auto' : '0px' }}>
+        {/* Categories only, one per row; the category pages list their templates */}
         <ul className={`${styles.list} ${styles.compactList}`}>
           <li className={`${styles.item} ${pathname === base ? styles.active : ''}`}>
             <a href={base}>
               <span className={styles.itemInner}>
                 <span className={styles.info}><span className={styles.name}>All {label.toLowerCase()}</span></span>
+                <span className={styles.tplCatCount}>{nav.total}</span>
               </span>
             </a>
           </li>
+          {nav.categories.map(c => (
+            <li key={c.id} className={`${styles.item} ${activeCat === c.id ? styles.active : ''}`}>
+              <a href={`${base}category/${c.id}/`}>
+                <span className={styles.itemInner}>
+                  <span className={styles.info}><span className={styles.name}>{c.label}</span></span>
+                  <span className={styles.tplCatCount}>{c.items.length}</span>
+                </span>
+              </a>
+            </li>
+          ))}
         </ul>
-        {nav.categories.map(c => {
-          const catOpen = openCats.has(c.id);
-          return (
-            <div key={c.id} className={styles.tplCat}>
-              <button type="button" className={`${styles.tplCatHead} ${catOpen ? styles.tplCatOpen : ''}`} onClick={() => toggleCat(c.id)} aria-expanded={catOpen}>
-                <svg className={`${styles.tplCatChev} ${catOpen ? styles.tplCatChevOpen : ''}`} width="8" height="8" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <polyline points="9 6 15 12 9 18" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <span className={styles.tplCatLabel}>{c.label}</span>
-                <span className={styles.tplCatCount}>{c.items.length}</span>
-              </button>
-              {catOpen && (
-                <ul className={`${styles.list} ${styles.compactList} ${styles.tplList}`}>
-                  <li className={`${styles.item} ${pathname === `${base}category/${c.id}/` ? styles.active : ''}`}>
-                    <a href={`${base}category/${c.id}/`}>
-                      <span className={styles.itemInner}>
-                        <span className={styles.info}><span className={`${styles.name} ${styles.tplAll}`}>All {c.label}</span></span>
-                      </span>
-                    </a>
-                  </li>
-                  {c.items.map(t => (
-                    <li key={t.id} className={`${styles.item} ${pathname === `${base}${t.id}/` ? styles.active : ''}`}>
-                      <a href={`${base}${t.id}/`}>
-                        <span className={styles.itemInner}>
-                          <span className={styles.info}><span className={styles.name}>{t.name}</span></span>
-                        </span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          );
-        })}
       </div>
     </div>
   );

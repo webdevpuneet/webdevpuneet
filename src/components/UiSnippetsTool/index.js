@@ -36,6 +36,8 @@ const SNIPPET_BY_ID = new Map(SNIPPETS.map(sn => [sn.id, sn]));
 
 /* — Gist sync ----------------------------------------------------------------- */
 const LS_DELETED     = 'uis_deleted_ids'; // { [id]: isoTimestamp }
+const CODE_HIDDEN_KEY = 'uis_code_hidden'; // '1' while the user has the code panel collapsed
+const codeHiddenPref = () => { try { return localStorage.getItem(CODE_HIDDEN_KEY) === '1'; } catch { return false; } };
 
 function trackDeletion(id) {
   try {
@@ -994,6 +996,8 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           setHtmlFlex(saved.htmlFlex); setCssFlex(saved.cssFlex); setJsFlex(saved.jsFlex);
         }
       }
+      // A code panel the user collapsed stays collapsed on the next page load
+      if (codeHiddenPref()) setEditorVisible(false);
     } catch { /* storage blocked */ }
     layoutRestored.current = true;
   }, []);
@@ -1022,6 +1026,15 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   function toggleCssPanel()  { setCssCollapsed(p => !p); }
   function toggleJsPanel()   { setJsCollapsed(p => !p); }
   const [editorVisible, setEditorVisible] = useState(true);
+  // The user's own collapse / expand of the code panel is remembered across page loads.
+  // Maximize and the automatic tablet collapse don't change it.
+  function showCode(visible) {
+    setEditorVisible(visible);
+    try {
+      if (visible) localStorage.removeItem(CODE_HIDDEN_KEY);
+      else localStorage.setItem(CODE_HIDDEN_KEY, '1');
+    } catch { /* storage blocked */ }
+  }
   const [showEditor,    setShowEditor]    = useState(initialView === 'saved' ? false : !isHome);
   const [previewMode,   setPreviewMode]   = useState('desktop'); // 'mobile'|'tablet'|'desktop'
   const [isMobile,      setIsMobile]      = useState(false);
@@ -1590,7 +1603,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
       setIsMaximized(true);
       try { window.dispatchEvent(new CustomEvent('sidebar-collapse-request', { detail: true })); } catch {}
     } else {
-      setEditorVisible(true);
+      setEditorVisible(!codeHiddenPref());
       setIsMaximized(false);
       try { window.dispatchEvent(new CustomEvent('sidebar-collapse-request', { detail: false })); } catch {}
     }
@@ -1609,9 +1622,9 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
       // Measure from whichever side the editor is docked to.
       const editorPx = codeRight ? rect.right - ev.clientX : ev.clientX - rect.left;
       if (editorPx < 300) {
-        setEditorVisible(false);
+        showCode(false);
       } else {
-        setEditorVisible(true);
+        showCode(true);
         setEditorWidth(Math.min(avail * 0.75, editorPx));
       }
     }
@@ -1912,7 +1925,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
           {headerInCode && (
             <button
               className={s.codeCollapseBtn}
-              onClick={() => setEditorVisible(false)}
+              onClick={() => showCode(false)}
               title="Collapse code panel"
               aria-label="Collapse code panel"
             >
@@ -1971,7 +1984,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
         {!isMobile && showEditor && (
           <>
             {!editorVisible && (
-              <button className={s.editorTab} onClick={() => setEditorVisible(true)} title="Show code editor">
+              <button className={s.editorTab} onClick={() => showCode(true)} title="Show code editor">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points={codeRight ? '15 18 9 12 15 6' : '9 18 15 12 9 6'}/></svg>
                 <span className={s.editorTabLabel}>Code</span>
               </button>

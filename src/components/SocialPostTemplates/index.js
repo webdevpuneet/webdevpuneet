@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import s from './styles.module.css';
-import ImageToolsTopNav from '@/components/ImageToolsTopNav';
+import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import { TEMPLATES, TEMPLATE_CATEGORIES, SIZES, categoryById, templateById } from './templates/index.js';
@@ -82,7 +82,7 @@ export function TemplateGallery({ compact = false, excludeId = null, limit = nul
 export function TemplateGalleryPage({ previews = [] }) {
   return (
     <div className={s.galleryPage}>
-      <ImageToolsTopNav active="social-post-templates" />
+      <PlaygroundTopNav active="social-post-templates" />
       <PlaygroundTopAd />
       <header className={s.galleryHead}>
         <h1 className={s.galleryH1}>Social Post Templates</h1>
@@ -148,7 +148,7 @@ function CategoryLinks({ active = null }) {
 export function TemplateCategoryPage({ category, h1, lead, previews = [] }) {
   return (
     <div className={s.galleryPage}>
-      <ImageToolsTopNav active="social-post-templates" />
+      <PlaygroundTopNav active="social-post-templates" />
       <PlaygroundTopAd />
       <header className={s.galleryHead}>
         <a href="/social-post-templates/" className={s.back}>← All social post templates</a>

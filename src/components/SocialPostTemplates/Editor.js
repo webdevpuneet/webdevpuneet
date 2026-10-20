@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import s from './styles.module.css';
-import ImageToolsTopNav from '@/components/ImageToolsTopNav';
+import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { BrandKitPanel, useBrandKit, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
 import { exportDesigns, importDesigns } from '@/lib/design-transfer';
@@ -676,7 +676,7 @@ export default function TemplateEditor({ id }) {
 
   return (
     <div className={s.wrap}>
-      <ImageToolsTopNav active="social-post-templates" />
+      <PlaygroundTopNav active="social-post-templates" />
       <input ref={fileRef} type="file" accept="image/*" className={s.fileInput} onChange={onFile} />
       <div className={s.body}>
         <aside className={`${s.controls} ${sheetOpen ? s.sheetOpen : ''}`} ref={controlsRef}>
