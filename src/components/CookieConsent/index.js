@@ -15,6 +15,8 @@ const STORAGE_KEY = 'fwd-cookie-consent';
 // "Cookies" pill after this long. Folding away is NOT a choice - nothing is
 // saved, and the pill reopens the banner.
 const AUTO_COLLAPSE_MS = 10000;
+// Once it has folded itself away, later pages start as the pill (until "Got it")
+const COLLAPSED_KEY = 'fwd-cookie-collapsed';
 
 // Cookie glyph reused by both the banner header and the floating button.
 function CookieIcon({ size = 22 }) {
@@ -45,7 +47,13 @@ export default function CookieConsent() {
     setMounted(true);
     let saved = null;
     try { saved = localStorage.getItem(STORAGE_KEY); } catch (_) {}
-    if (!saved) { setOpen(true); setUndecided(true); }
+    if (!saved) {
+      let collapsed = false;
+      try { collapsed = localStorage.getItem(COLLAPSED_KEY) === '1'; } catch (_) {}
+      setUndecided(true);
+      if (collapsed) setPill(true);
+      else setOpen(true);
+    }
 
     const reopen = () => setOpen(true);
     window.addEventListener('open-cookie-settings', reopen);
@@ -66,6 +74,7 @@ export default function CookieConsent() {
     const t = setTimeout(() => {
       setShown(false);
       setTimeout(() => { setOpen(false); setPill(true); }, 450);   // after the slide-out
+      try { localStorage.setItem(COLLAPSED_KEY, '1'); } catch (_) {}
     }, AUTO_COLLAPSE_MS);
     return () => clearTimeout(t);
   }, [open, shown, undecided, paused]);
@@ -75,6 +84,7 @@ export default function CookieConsent() {
   const acknowledge = useCallback(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ choice: 'acknowledged', ts: Date.now() }));
+      localStorage.removeItem(COLLAPSED_KEY);
       window.dispatchEvent(new CustomEvent('fwd-consent-changed', { detail: { choice: 'acknowledged' } }));
     } catch (_) {}
 
