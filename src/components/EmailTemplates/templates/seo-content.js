@@ -893,6 +893,256 @@ Link the button to Zoom, Livestorm, GoTo Webinar, Riverside or your own landing 
       { q: 'Does a webinar invitation need an unsubscribe link?', a: 'Yes. Event invitations sent to a marketing list are commercial email under US CAN-SPAM, so they need an unsubscribe link and your postal address. Both are already in the footer.' },
     ],
   },
+
+  'payment-reminder': {
+    keywords: ['payment reminder email template', 'invoice reminder email', 'overdue invoice email template', 'friendly payment reminder email', 'invoice due email template'],
+    about: {
+      title: 'Payment Reminder Email — Free Invoice Reminder Email Template',
+      description: `**Payment Reminder Email** is a free, responsive HTML template for politely chasing an unpaid invoice. It's built for freelancers, agencies, consultants and SaaS billing teams who want to get paid on time without sounding pushy: a status pill such as "Due in 3 days" or "Overdue by 7 days", a clear headline, the amount due in large type, the invoice details, a "Pay invoice" button, a link to the PDF, optional bank-transfer details and an "already paid?" note.
+
+**Polite, clear and easy to pay**
+
+Most late payments aren't refusals: the invoice got buried or the client couldn't find how to pay. That's why this template puts the amount and due date first and makes paying one click. A friendly tone works best for the first reminders, so the default copy is warm and the closing note offers help if anything on the invoice looks wrong. For later reminders, change the status pill and headline to be firmer while keeping the same layout.
+
+**Everything the client needs in one place**
+
+A details box lists the invoice number, what it's for, the issue date and the due date. The amount sits above it at 38 px so it's impossible to miss. If clients pay by bank transfer, switch on the bank details section, set in a monospaced font so account numbers are easy to copy correctly. The invoice PDF link sits under the button.
+
+**Works with your invoicing tool**
+
+Copy the HTML into Stripe, QuickBooks, FreshBooks, Xero, Zoho Invoice or your own billing code and replace the sample values with your tool's invoice variables. It's transactional, so it doesn't need an unsubscribe link. Send it a few days before the due date, on the due date and after it, and pair it with the [Payment Receipt](/email-templates/receipt/) once the money arrives.`,
+    },
+    features: [
+      'Status pill for "due soon" or "overdue" reminders',
+      'Amount due in large type above the invoice details',
+      'Invoice number, project, issue date and due date box',
+      'Bulletproof "Pay invoice" button for Outlook and Gmail',
+      'Link to the invoice PDF',
+      'Optional bank-transfer details in a copy-friendly monospaced font',
+      '"Already paid?" note and a signed closing line',
+      'Light and dark palettes, both editable',
+      'Transactional footer without marketing content',
+      'Plain-text version with the amount and payment link',
+    ],
+    why: [
+      { icon: '💵', title: 'Get paid faster', desc: 'A clear amount, due date and one-click payment link remove the most common reasons invoices are paid late.' },
+      { icon: '🤝', title: 'Firm but friendly', desc: 'Warm default copy keeps the client relationship intact, while the status pill makes the deadline unmistakable.' },
+      { icon: '🔁', title: 'One layout for every reminder', desc: 'Change the pill and headline for the before, on and after due-date emails without redesigning anything.' },
+    ],
+    useCases: [
+      { icon: '📅', title: 'Reminder before the due date', desc: 'Send it three to five days before an invoice is due with "Due in 3 days" in the pill, so clients can schedule the payment before it becomes late.' },
+      { icon: '⚠️', title: 'Overdue invoice follow-up', desc: 'Change the pill to "Overdue by 7 days" and the headline to a firmer but polite line, and keep the payment link and bank details front and centre.' },
+      { icon: '🧑‍💻', title: 'Freelancer and agency invoices', desc: 'Sign it with your own name and studio, mention the project in the details box, and offer to resend the invoice if the client cannot find it.' },
+      { icon: '☁️', title: 'SaaS failed or upcoming payment', desc: 'Use it for annual renewals or failed card payments, with the button linking to the billing page where customers can update their card.' },
+    ],
+    faqs: [
+      { q: 'How do I write a polite payment reminder email?', a: 'Lead with a friendly greeting, name the invoice, amount and due date, make paying one click, and offer help if anything looks wrong. Avoid blame: most late payments are simply forgotten. This template follows that structure, and the copy is fully editable.' },
+      { q: 'When should I send payment reminders?', a: 'A common schedule is a reminder a few days before the due date, one on the due date, and follow-ups at 7, 14 and 30 days overdue, getting gradually firmer. Change the status pill and headline for each stage.' },
+      { q: 'What subject line should I use?', a: 'Be clear and specific, for example "Reminder: invoice INV-1042 is due on October 23" or "Invoice INV-1042 is now 7 days overdue". Clear subjects get opened and are easy to find later.' },
+      { q: 'Does a payment reminder need an unsubscribe link?', a: 'No. It concerns an existing transaction, so it is transactional email under US CAN-SPAM. Keep promotions out so it stays transactional.' },
+      { q: 'Can I use it with Stripe, QuickBooks or FreshBooks?', a: 'Yes. Copy the HTML from the Export menu into your invoicing tool\'s custom email template, or send it from your own code, and replace the sample amount, dates and links with your tool\'s invoice variables.' },
+    ],
+  },
+
+  're-engagement': {
+    keywords: ['re-engagement email template', 'we miss you email template', 'win back email template', 'inactive customer email', 'reactivation email template'],
+    about: {
+      title: 'Re-engagement Email — Free "We Miss You" Win-Back Email Template',
+      description: `**Re-engagement Email (We Miss You)** is a free, responsive HTML template for winning back inactive customers and subscribers. It combines the three things that make win-back emails work: a warm "We miss you" headline, a short list of what's new since their last visit, and a reason to return now, here a comeback discount code. One clear button brings them back.
+
+**Honest list hygiene built in**
+
+Re-engagement emails do two jobs: they win some people back, and they find the people who will never return. Sending to inactive addresses hurts your sender reputation and deliverability with Gmail and Yahoo, so the template ends with an honest "stay or go" section: people can click "Yes, keep me subscribed", and you can stop emailing anyone who doesn't. That keeps your list healthy and your open rates honest.
+
+**What's new, not just "come back"**
+
+A plain "we miss you" rarely works on its own. Three short items with icons show what has changed (new features, new products, new content), which gives lapsed users a genuine reason to look again. The optional comeback code in a dashed box adds a time-limited incentive for customers who need a nudge.
+
+**Ready for your email platform**
+
+Built with tables and inline styles, an Outlook-safe button, a dark palette and a plain-text version. Copy it into Klaviyo, Mailchimp, HubSpot, Customer.io or Braze and trigger it for people who haven't opened, clicked, logged in or bought in 60 to 180 days, depending on your business. It's marketing email, so the footer has an unsubscribe link and postal address. For subscribers who stay, follow up with your [Newsletter](/email-templates/newsletter/) or a [Product Update](/email-templates/product-update/).`,
+    },
+    features: [
+      'Warm "We miss you" headline with a first-name merge tag',
+      'Three "what\'s new" items with icons, titles and text',
+      'Optional comeback discount code in a dashed box',
+      'One centred, bulletproof call-to-action button',
+      '"Stay or go" section with a keep-me-subscribed link',
+      'Helps you clean inactive contacts from your list',
+      'Light and dark palettes, both editable',
+      'Unsubscribe link and postal address for CAN-SPAM',
+      'Plain-text version generated automatically',
+      'Show or hide the offer and the stay-or-go section',
+    ],
+    why: [
+      { icon: '💌', title: 'Cheaper than finding new customers', desc: 'Winning back someone who already knows you usually costs far less than acquiring a new customer, and a single email can do it.' },
+      { icon: '🧹', title: 'Keeps your list healthy', desc: 'The stay-or-go choice shows who still wants your emails, so you can remove inactive contacts and protect your deliverability.' },
+      { icon: '✨', title: 'Gives a real reason to return', desc: 'Showing what\'s new since their last visit works better than a plain "come back", and the optional code adds urgency.' },
+    ],
+    useCases: [
+      { icon: '😴', title: 'Inactive SaaS users', desc: 'Send it to users who have not logged in for 60 days, listing the features shipped since they left and linking straight to the dashboard.' },
+      { icon: '🛍', title: 'Lapsed shoppers', desc: 'Win back customers who have not ordered in six months with new arrivals in the "what\'s new" list and a 20% comeback code valid for two weeks.' },
+      { icon: '📭', title: 'Unengaged newsletter subscribers', desc: 'Ask subscribers who have not opened in 90 days whether they still want your emails, and remove anyone who does not click "keep me subscribed".' },
+      { icon: '🏋️', title: 'Memberships and subscriptions', desc: 'Gyms, apps and clubs can invite cancelled or paused members back with what has improved and a free week or discounted first month.' },
+    ],
+    faqs: [
+      { q: 'What is a re-engagement email?', a: 'An email sent to customers or subscribers who have stopped opening, clicking, logging in or buying, aimed at winning them back or confirming they no longer want your emails. It is also called a win-back or "we miss you" email.' },
+      { q: 'When should I send a re-engagement email?', a: 'It depends on your buying cycle. Many SaaS products use 30 to 60 days without a login, stores 90 to 180 days without a purchase, and newsletters 90 days without an open. Send a short sequence of two or three emails, then remove people who do not respond.' },
+      { q: 'What should a win-back email include?', a: 'A personal headline, what has changed since they left, an optional incentive, one clear button, and an easy way to stay subscribed or leave. This template includes all of them.' },
+      { q: 'Should I remove people who don\'t re-engage?', a: 'Usually yes. Continuing to email inactive addresses lowers your engagement rates and can hurt deliverability with Gmail and Yahoo. Removing or suppressing them keeps your sender reputation healthy.' },
+      { q: 'Does a re-engagement email need an unsubscribe link?', a: 'Yes. It is a marketing email under US CAN-SPAM, so it needs a working unsubscribe link and your postal address. Both are already in the footer.' },
+    ],
+  },
+
+  'appointment-reminder': {
+    keywords: ['appointment reminder email template', 'appointment confirmation email', 'booking reminder email template', 'patient appointment reminder email', 'reduce no-shows email'],
+    about: {
+      title: 'Appointment Reminder Email — Free Booking Reminder Email Template',
+      description: `**Appointment Reminder Email** is a free, responsive HTML template for reminding clients and patients about upcoming bookings. It's designed for clinics, dentists, salons, spas, consultants, coaches, tutors and any service business that loses money when people don't show up. Reminders are one of the simplest ways to reduce no-shows, and making it easy to confirm or reschedule is what makes them work.
+
+**Every detail at a glance**
+
+A personal headline ("See you tomorrow, Jordan") sits above a details box with the service, who the appointment is with, the date, the time and length, and the address, plus a "Get directions" link to Google Maps. The details use small icons and a two-column layout, so people can scan them on a phone while they're on the way.
+
+**Confirm, reschedule or cancel in one tap**
+
+A large "Confirm appointment" button sits under the details, with "Reschedule", "Cancel" and "Add to calendar" links beside it. Letting people reschedule easily is better than a no-show: you can offer the time slot to someone else. A short "Before your visit" checklist covers arrival time and what to bring, and the cancellation policy closes the email.
+
+**Works with your booking system**
+
+The template is built with tables and inline styles, with an Outlook-safe button, a dark palette and a plain-text version. Copy it into your booking or practice-management software (Acuity, Calendly, SimplePractice, Square Appointments, Mindbody or your own system) and replace the sample values with its booking variables. It's transactional, so no unsubscribe link is needed. Send it 24 to 48 hours before the appointment, and use the [Webinar Invitation](/email-templates/webinar-invitation/) template for online events.`,
+    },
+    features: [
+      'Personal headline with the client\'s first name',
+      'Details box with service, provider, date, time and address',
+      '"Get directions" link to Google Maps',
+      'Bulletproof "Confirm appointment" button',
+      'Reschedule, Cancel and Add to calendar links',
+      '"Before your visit" checklist with check marks',
+      'Cancellation policy and phone number',
+      'Light and dark palettes, both editable',
+      'Transactional footer without marketing content',
+      'Plain-text version with every detail and link',
+    ],
+    why: [
+      { icon: '📉', title: 'Fewer no-shows', desc: 'A timely reminder with one-tap confirm and reschedule links is one of the simplest, most effective ways to cut missed appointments.' },
+      { icon: '🗓', title: 'Easy to act on', desc: 'Confirm, reschedule, cancel and add-to-calendar are all in one place, so clients do not need to call you.' },
+      { icon: '🧾', title: 'Arrive prepared', desc: 'The checklist and directions mean clients arrive on time with what they need, which keeps your schedule running smoothly.' },
+    ],
+    useCases: [
+      { icon: '🦷', title: 'Dental and medical practices', desc: 'Remind patients 48 hours ahead with the dentist\'s name, the clinic address and a checklist to bring insurance details and arrive ten minutes early.' },
+      { icon: '💇', title: 'Salons, spas and beauty', desc: 'Confirm hair, nail or massage bookings with the stylist\'s name, the service length and a cancellation policy that protects your time slots.' },
+      { icon: '💼', title: 'Consultants and coaches', desc: 'Remind clients of calls or sessions, change the location to a video link and use the checklist for what to prepare before the meeting.' },
+      { icon: '🔧', title: 'Home services and repairs', desc: 'Tell customers when a technician will arrive, with the time window in the time field and the address shown so they can check it is correct.' },
+    ],
+    faqs: [
+      { q: 'When should I send an appointment reminder email?', a: 'Most businesses send one 24 to 48 hours before the appointment, and some add a second reminder two hours before by SMS. For appointments booked weeks ahead, a reminder a week before also helps.' },
+      { q: 'What should an appointment reminder include?', a: 'The service, who it is with, the date, time and length, the address or video link, a way to confirm, reschedule or cancel, and your cancellation policy. This template includes all of them.' },
+      { q: 'Do appointment reminders reduce no-shows?', a: 'Yes. Reminders are one of the most widely recommended ways to reduce missed appointments, especially when they make confirming or rescheduling easy, so the slot can be reused instead of left empty.' },
+      { q: 'Is an appointment reminder a transactional email?', a: 'Yes. It relates to a booking the customer made, so it does not need an unsubscribe link under US CAN-SPAM. Keep marketing out so it stays transactional.' },
+      { q: 'Can I add the appointment to Google Calendar?', a: 'Yes. Paste a Google Calendar "TEMPLATE" link with the date and time, or a link to a hosted .ics file for Outlook and Apple Calendar, into the add-to-calendar field.' },
+    ],
+  },
+
+  'birthday-email': {
+    keywords: ['birthday email template', 'happy birthday email to customers', 'birthday coupon email', 'birthday discount email template', 'birthday email marketing'],
+    about: {
+      title: 'Birthday Email — Free Birthday Coupon Email Template for Customers',
+      description: `**Birthday Email** is a free, responsive HTML template for wishing customers, members and subscribers a happy birthday, with a gift that brings them back. Birthday emails are one of the best-performing automated emails in email marketing because they're personal, expected and genuinely welcome, so they tend to see much higher opens and clicks than ordinary campaigns.
+
+**Festive without being cluttered**
+
+A confetti-and-cake hero image sets the mood, followed by an "It's your day" label, a big "Happy birthday, Jordan!" headline with a first-name merge tag and a short, warm message. The gift sits in its own bordered box: a label, the offer as a headline ("20% off anything"), the code in a dashed coupon and an expiry note. A "Claim your gift" button and a signed note finish the email.
+
+**A gift that drives action**
+
+A birthday discount or free gift gives the email a reason to act on, and a limited validity, such as 14 days or the birthday month, creates gentle urgency without feeling pushy. Switch the gift section off to send a pure greeting, or replace the code with a free item, double loyalty points or a free month.
+
+**Set it and forget it**
+
+Collect birthdays at sign-up, then set up a date-based automation in Klaviyo, Mailchimp, Shopify Email, HubSpot, Brevo or Omnisend that sends this email on the birthday or a few days before. The template is built with tables and inline styles, with an Outlook-safe button, a dark palette and a plain-text version. It's marketing email, so the footer includes an unsubscribe link and postal address. For seasonal greetings, see [Holiday Greetings](/email-templates/holiday-greetings/).`,
+    },
+    features: [
+      'Confetti, balloons and cake hero image, or upload your own',
+      '"Happy birthday" headline with a first-name merge tag',
+      'Gift box with label, offer headline, code and expiry',
+      'Bulletproof "Claim your gift" button',
+      'Signed closing note from your team',
+      'Social links in the footer',
+      'Pink celebration palette plus an editable dark palette',
+      'Unsubscribe link and postal address for CAN-SPAM',
+      'Plain-text version generated automatically',
+      'Show or hide the hero, gift and social sections',
+    ],
+    why: [
+      { icon: '🎂', title: 'One of the best-performing automations', desc: 'Birthday emails are personal and welcome, so they get far more attention than regular campaigns and earn revenue on autopilot.' },
+      { icon: '🎁', title: 'A reason to come back', desc: 'A time-limited gift turns a nice greeting into a visit or purchase, while still feeling like a present, not an ad.' },
+      { icon: '♾', title: 'Set up once', desc: 'Connect it to a date-based automation and it sends itself to every customer on their birthday, every year.' },
+    ],
+    useCases: [
+      { icon: '🛍', title: 'Online store birthday discount', desc: 'Send customers 20% off anything on their birthday, valid for 14 days, with the code in the gift box and the button linking to your bestsellers.' },
+      { icon: '☕', title: 'Restaurant or café birthday treat', desc: 'Offer a free dessert or drink on their birthday week, replacing the code with "Show this email in store" in the gift box.' },
+      { icon: '⭐', title: 'Loyalty programme reward', desc: 'Give members double points or a free item for their birthday month, with the gift headline describing the reward and a link to their account.' },
+      { icon: '💻', title: 'SaaS and app birthday greeting', desc: 'Wish users a happy birthday with a free month or upgrade, a simple way to make a software product feel more personal.' },
+    ],
+    faqs: [
+      { q: 'What should a birthday email to customers say?', a: 'Keep it short and personal: use their name, wish them a happy birthday, thank them for being a customer and offer a gift with a clear way to claim it. This template follows that structure.' },
+      { q: 'When should I send a birthday email?', a: 'On the morning of their birthday works well, or a few days before if the gift is meant to be used on the day. Give the gift a validity of one to two weeks or the whole birthday month.' },
+      { q: 'How do I collect customer birthdays?', a: 'Add an optional birthday field (month and day are enough) to your sign-up form, account page or loyalty programme, and explain that it is for a birthday gift. Store it in your email platform as a date property.' },
+      { q: 'How do I automate birthday emails in Klaviyo or Mailchimp?', a: 'Copy the HTML from the Export menu into a custom HTML template, then create a date-based flow or automation triggered by the birthday property. Pick your platform under Merge tags so the first name converts automatically.' },
+      { q: 'Does a birthday email need an unsubscribe link?', a: 'Yes. It promotes your business with an offer, so it is commercial email under US CAN-SPAM and needs an unsubscribe link and your postal address. Both are in the footer.' },
+    ],
+  },
+
+  'nps-survey': {
+    keywords: ['nps survey email template', 'customer feedback email template', 'net promoter score email', 'survey email template', 'customer satisfaction survey email'],
+    about: {
+      title: 'NPS Survey Email — Free Net Promoter Score Feedback Email Template',
+      description: `**NPS Survey Email** is a free, responsive HTML template for measuring Net Promoter Score (NPS) right inside the inbox. It asks the classic question, "How likely are you to recommend us to a friend or colleague?", with a row of eleven clickable scores from 0 to 10. One click records the answer, which is why one-question, in-email surveys get far more responses than a link to a long form.
+
+**One click from the inbox**
+
+Email can't run forms reliably, so each number is a normal link: the score is added to the end of your survey link, for example \`…&score=9\`, and your survey tool or landing page records it and can ask a follow-up question. Scores 0 to 6 have a light red tint, 7 and 8 amber and 9 and 10 green, a subtle nod to how NPS groups detractors, passives and promoters, with "Not at all likely" and "Extremely likely" labels under the ends of the scale.
+
+**How NPS works**
+
+Net Promoter Score is the percentage of promoters (9–10) minus the percentage of detractors (0–6), giving a number from −100 to 100. It's one of the most widely used customer loyalty metrics, and tracking it over time shows whether customer experience is improving. The optional "Share detailed feedback" button lets people who want to say more go straight to a longer form.
+
+**Works with your survey tool**
+
+Use it with Delighted, Typeform, SurveyMonkey, Hotjar, Qualtrics, Google Forms or your own endpoint, and send it from Customer.io, HubSpot, Intercom, Klaviyo or your own code. Built with tables and inline styles, an Outlook-safe button, a dark palette and a plain-text version that lists a link for each score. Send it after a customer has had time to experience your product, for example 30 to 90 days after sign-up, and use the [Review Request](/email-templates/review-request/) template for product reviews.`,
+    },
+    features: [
+      'Classic NPS question as the headline',
+      'Eleven one-click scores from 0 to 10',
+      'Score added to your survey link automatically',
+      'Subtle detractor, passive and promoter tints',
+      '"Not at all likely" and "Extremely likely" labels',
+      'Time estimate to boost response rates',
+      'Optional "Share detailed feedback" button',
+      'Signed thank-you note from a real person',
+      'Light and dark palettes, both editable',
+      'Plain-text version with a link for every score',
+    ],
+    why: [
+      { icon: '☝', title: 'Answer in one click', desc: 'People can respond without leaving their inbox, which gets far more answers than asking them to open a long survey.' },
+      { icon: '📈', title: 'Track loyalty over time', desc: 'NPS is a widely used loyalty metric, so regular surveys show whether your product and service are getting better.' },
+      { icon: '🔎', title: 'Find problems early', desc: 'Low scores flag unhappy customers before they leave, and the reply-to note gives them an easy way to tell you why.' },
+    ],
+    useCases: [
+      { icon: '☁️', title: 'SaaS relationship NPS', desc: 'Survey active users every quarter to track loyalty over time, linking the scores to your survey tool and following up personally with detractors.' },
+      { icon: '📦', title: 'Post-purchase satisfaction', desc: 'Ask customers how likely they are to recommend your store a week after delivery, then send promoters a review request or referral offer.' },
+      { icon: '🎧', title: 'After a support conversation', desc: 'Change the question to "How satisfied were you with our support?" and send it when a ticket closes to measure your support quality.' },
+      { icon: '🎓', title: 'Courses, events and memberships', desc: 'Survey attendees after a course or event to learn what to improve, with the detailed feedback button linking to a short form.' },
+    ],
+    faqs: [
+      { q: 'What is an NPS survey email?', a: 'An email that asks one question, how likely the customer is to recommend you on a scale of 0 to 10, so you can calculate your Net Promoter Score. The best NPS emails let people answer with one click from the inbox.' },
+      { q: 'How is NPS calculated?', a: 'Subtract the percentage of detractors (scores 0 to 6) from the percentage of promoters (scores 9 and 10). Passives (7 and 8) count toward the total responses but not either group. The result ranges from −100 to 100.' },
+      { q: 'How do the clickable scores work?', a: 'Each number links to your survey link with the score added at the end, for example https://yoursite.com/survey?score=9. Your survey tool or landing page reads the score, records it and can ask an optional follow-up question.' },
+      { q: 'When should I send an NPS survey?', a: 'After customers have had enough time to form an opinion, such as 30 to 90 days after sign-up or a week after delivery, and then every few months. Avoid surveying the same person too often.' },
+      { q: 'Does an NPS survey email need an unsubscribe link?', a: 'It is safest to include one, especially if you survey customers regularly, so the footer has an unsubscribe link and your postal address.' },
+    ],
+  },
 };
 
 export const EMAIL_DIFFERENT = [

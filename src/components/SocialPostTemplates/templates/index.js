@@ -24,6 +24,11 @@ import testimonial from './testimonial.js';
 import tipOfTheDay from './tip-of-the-day.js';
 import weAreLive from './we-are-live.js';
 import webinarEvent from './webinar-event.js';
+import giveaway from './giveaway.js';
+import meetTheTeam from './meet-the-team.js';
+import mythVsFact from './myth-vs-fact.js';
+import bigStat from './big-stat.js';
+import comingSoon from './coming-soon.js';
 export { SIZES, sizeById, TEMPLATE_CATEGORIES, categoryById, BASE_CSS, richText } from './meta.js';
 
 const ORDER = [
@@ -31,13 +36,18 @@ const ORDER = [
   tipOfTheDay,
   didYouKnow,
   codeTip,
+  mythVsFact,
+  bigStat,
   productLaunch,
   milestone,
   hiring,
   weAreLive,
+  meetTheTeam,
+  comingSoon,
   discountBadge,
   holidaySale,
   productSpotlight,
+  giveaway,
   webinarEvent,
   countdown,
   testimonial,

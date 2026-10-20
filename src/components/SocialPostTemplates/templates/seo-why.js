@@ -122,6 +122,32 @@ export const TEMPLATE_WHY = {
     { icon: '↺', title: 'Reusable every year', desc: 'The year is a separate field, so next December the post takes one edit.' },
     { icon: '★', title: 'Pairs with year-in-review', desc: 'Use it as the opener before Milestone or carousel posts about your best moments of the year.' },
   ],
+
+  'giveaway': [
+    { icon: '🎁', title: 'Grows reach fast', desc: 'Giveaways turn likes, saves and friend tags into new followers, which makes them one of the quickest ways to reach people beyond your audience.' },
+    { icon: '①', title: 'Entry steps at a glance', desc: 'Numbered steps in their own panel mean people know exactly how to enter, so fewer entries are lost to confusion.' },
+    { icon: '§', title: 'Room for the rules', desc: 'A dedicated rules line covers eligibility and the "not affiliated with Instagram" note that Instagram\'s promotion guidelines expect.' },
+  ],
+  'meet-the-team': [
+    { icon: '👋', title: 'People trust people', desc: 'Faces behind a brand build more trust than product shots, which is why team and behind-the-scenes posts are a staple on LinkedIn and Instagram.' },
+    { icon: '◎', title: 'Mixed photos look matched', desc: 'Round crops with an accent ring make headshots taken on different phones look like one consistent set.' },
+    { icon: '↻', title: 'Easy to run as a series', desc: 'Swap three names and photos each week to introduce every team, with colours and layout staying the same.' },
+  ],
+  'myth-vs-fact': [
+    { icon: '✓', title: 'Saved and shared', desc: 'Correcting a myth people believe is useful and surprising, the combination that gets educational posts saved and sent to friends.' },
+    { icon: '◐', title: 'Clear for everyone', desc: 'Icons and a strikethrough back up the red and green colours, so the meaning is clear for colour-blind readers too.' },
+    { icon: '§', title: 'Credible with a source', desc: 'A dedicated source line keeps facts trustworthy, which matters to readers, journalists and AI assistants alike.' },
+  ],
+  'big-stat': [
+    { icon: '%', title: 'One number stops the scroll', desc: 'A single giant statistic is readable at a glance on a phone, unlike a crowded infographic that needs to be zoomed.' },
+    { icon: '▬', title: 'A chart that fits your data', desc: 'The bar fills to the value you type, and hides itself for numbers that aren\'t percentages.' },
+    { icon: '💬', title: 'Starts conversations', desc: 'A surprising, sourced number is easy to quote and react to, which is why data posts do well for LinkedIn thought leadership.' },
+  ],
+  'coming-soon': [
+    { icon: '👀', title: 'Builds anticipation', desc: 'A teaser gives followers a reason to watch for your launch, so the launch-day post lands with an audience already waiting.' },
+    { icon: '◌', title: 'Reveal-proof by design', desc: 'Your photo is shown blurred, so you can tease the real product without giving the surprise away.' },
+    { icon: '📅', title: 'The date is the hero', desc: 'The launch date sits in a bright pill and the call to action tells people how not to miss it.' },
+  ],
 };
 
 export const TEMPLATE_DIFFERENT = [

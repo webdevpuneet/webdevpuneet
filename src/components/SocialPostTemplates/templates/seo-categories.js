@@ -4,12 +4,12 @@
 export const CATEGORY_SEO = {
   quotes: {
     title: 'Quote & Tip Post Templates — Free for Instagram, X & FB',
-    description: 'Free quote, tip of the day, fun fact and code tip post templates for Instagram, Facebook and X. Edit the text, download every size as PNG or copy the HTML.',
+    description: 'Free quote, tip, fun fact, myth vs fact and statistic post templates for Instagram, LinkedIn and X. Edit the text, download every size as PNG or copy the HTML.',
     h1: 'Quote, Tip & Fact Post Templates',
-    keywords: ['instagram quote post templates', 'tip of the day templates', 'fun fact post templates', 'educational post templates'],
+    keywords: ['instagram quote post templates', 'tip of the day templates', 'fun fact post templates', 'educational post templates', 'myth vs fact post template', 'statistic post template'],
     intro: `Quote cards, daily tips and "did you know?" facts are some of the most saved and shared posts on Instagram, LinkedIn and X. They are quick to read, easy to make into a series, and they keep your handle attached when they are reshared. These templates give each format a clear hierarchy, with the quote, tip or fact as the hero, text that shrinks to fit, and a footer for your name or handle.
 
-Pick **Big Quote** for founder, customer or podcast quotes, **Tip of the Day** for a numbered tip series, **Did You Know?** for statistics and trivia with a source line, and **Code Tip** for developer snippets in an editor-style window. All of them export in four sizes and as HTML.`,
+Pick **Big Quote** for founder, customer or podcast quotes, **Tip of the Day** for a numbered tip series, **Did You Know?** for statistics and trivia with a source line, **Code Tip** for developer snippets in an editor-style window, **Myth vs Fact** to bust a common misconception with a sourced fact, and **Big Stat** to turn one statistic into a giant glowing number with a bar chart. All of them export in every size and as HTML.`,
     faqs: [
       { q: 'Which template is best for a quote post?', a: 'Use Big Quote for quotes with an author: it has an oversized quote mark, a serif quote and an author footer with an optional photo. For tips, use Tip of the Day; for facts with a source, use Did You Know?.' },
       { q: 'Can I make a daily series with these templates?', a: 'Yes. Your colours, fonts and logo are saved in your browser for each template, so each new post only needs new text. Tip of the Day also has a tip number for numbered series.' },
@@ -17,10 +17,10 @@ Pick **Big Quote** for founder, customer or podcast quotes, **Tip of the Day** f
   },
   announcements: {
     title: 'Announcement Post Templates — Launch, Hiring & Milestone',
-    description: 'Free announcement post templates for product launches, milestones, hiring and launch day. Edit online, download Instagram, Facebook and X sizes or copy HTML.',
+    description: 'Free announcement post templates: product launch, coming soon teaser, milestone, hiring and meet the team posts. Edit online, download every size or copy HTML.',
     h1: 'Announcement Post Templates',
-    keywords: ['product launch post template', 'hiring post template', 'milestone post template', 'launch day announcement'],
-    intro: `Announcements are the posts that move a business forward: a new product, a funding milestone, an open role or launch day. These templates make each moment look deliberate. **Product Launch** puts your real screenshot in a glowing frame, **We're Live** shouts launch day in huge condensed type, **Milestone** celebrates a big number with confetti and a thank-you line, and **We're Hiring** lays out role, location and contract type the way candidates scan for them.
+    keywords: ['product launch post template', 'hiring post template', 'milestone post template', 'launch day announcement', 'meet the team post template', 'coming soon post template'],
+    intro: `Announcements are the posts that move a business forward: a new product, a funding milestone, an open role or launch day. These templates make each moment look deliberate. **Product Launch** puts your real screenshot in a glowing frame, **We're Live** shouts launch day in huge condensed type, **Milestone** celebrates a big number with confetti and a thank-you line, **We're Hiring** lays out role, location and contract type the way candidates scan for them, **Meet the Team** introduces the people behind your brand with three photo cards, and **Coming Soon Teaser** builds anticipation with a blurred mystery image and the launch date.
 
 Used together, they form a launch-week kit with matching sizes for the Instagram feed, Stories, LinkedIn and X, and HTML you can reuse on your website or in emails.`,
     faqs: [
@@ -30,10 +30,10 @@ Used together, they form a launch-week kit with matching sizes for the Instagram
   },
   promo: {
     title: 'Sale & Promo Post Templates — Free Black Friday & Discount',
-    description: 'Free sale post templates: discount badges, Black Friday and Cyber Monday sales and product spotlights for Instagram, Facebook and X. Edit, download, copy HTML.',
+    description: 'Free sale and promo post templates: discount badges, Black Friday sales, product spotlights and Instagram giveaway posts. Edit online, download or copy HTML.',
     h1: 'Sale & Promo Post Templates',
-    keywords: ['sale post template', 'black friday post template', 'discount post template', 'product post template instagram'],
-    intro: `Promotional posts need to communicate the offer in under a second. These templates are built around that: **Discount Badge** puts the percentage in a tilted sticker badge with a coupon-style code chip, **Black Friday Sale** uses huge outlined and filled type for Black Friday (November 27, 2026) and Cyber Monday (November 30, 2026), and **Product Spotlight** lets a product photo sell with a clean card for the name, price and shop button.
+    keywords: ['sale post template', 'black friday post template', 'discount post template', 'product post template instagram', 'instagram giveaway post template'],
+    intro: `Promotional posts need to communicate the offer in under a second. These templates are built around that: **Discount Badge** puts the percentage in a tilted sticker badge with a coupon-style code chip, **Black Friday Sale** uses huge outlined and filled type for Black Friday (November 27, 2026) and Cyber Monday (November 30, 2026), **Product Spotlight** lets a product photo sell with a clean card for the name, price and shop button, and **Giveaway Contest** lays out the prize, three entry steps, the deadline and the rules line Instagram expects.
 
 Every design includes urgency (end dates, sale dates) and a clear next step, and exports in feed, Story and X sizes, so one campaign covers every placement. Product photos stay in your browser.`,
     faqs: [

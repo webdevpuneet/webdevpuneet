@@ -16,9 +16,9 @@ export const SIZES = [
 export const sizeById = id => SIZES.find(z => z.id === id) || SIZES[0];
 
 export const TEMPLATE_CATEGORIES = [
-  { id: 'quotes',        label: 'Quotes & Tips',     blurb: 'Quote cards, daily tips and fact posts that people save and share.' },
-  { id: 'announcements', label: 'Announcements',     blurb: 'Launches, milestones, hiring posts and "we’re live" moments.' },
-  { id: 'promo',         label: 'Promo & Sales',     blurb: 'Discount badges, holiday sales and product spotlights.' },
+  { id: 'quotes',        label: 'Quotes & Tips',     blurb: 'Quote cards, daily tips, fact, myth vs fact and statistic posts that people save and share.' },
+  { id: 'announcements', label: 'Announcements',     blurb: 'Launches, coming-soon teasers, milestones, hiring, meet-the-team and "we’re live" posts.' },
+  { id: 'promo',         label: 'Promo & Sales',     blurb: 'Discount badges, holiday sales, product spotlights and giveaway contests.' },
   { id: 'events',        label: 'Events',            blurb: 'Webinar, meetup and countdown posts with a clear date.' },
   { id: 'social-proof',  label: 'Social Proof',      blurb: 'Customer testimonials and before/after results.' },
   { id: 'carousel',      label: 'Carousel Slides',   blurb: 'Cover, step and final slides for swipeable carousel posts.' },

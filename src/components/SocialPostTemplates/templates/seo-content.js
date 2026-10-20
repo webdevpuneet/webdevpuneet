@@ -1333,4 +1333,271 @@ Celebrating the season first? See [Christmas Greeting](/social-post-templates/ch
       { q: 'Can I use it for Lunar New Year?', a: 'Change the kicker and year text (for example "Happy Lunar New Year" and "Year of the Horse") and switch to a red and gold palette.' },
     ],
   },
+
+  'giveaway': {
+    keywords: ['instagram giveaway post template', 'giveaway post template', 'contest post template', 'social media giveaway template', 'giveaway announcement post'],
+    about: {
+      title: 'Giveaway Contest — Free Instagram Giveaway Post Template',
+      description: `**Giveaway Contest** is a free Instagram giveaway post template that turns a contest into a post people understand in two seconds: a tilted "Giveaway" badge, the prize as a huge headline, an optional photo of the prize, three numbered "how to enter" steps, the deadline and a short rules line. It works for Instagram, Facebook, LinkedIn, X and Pinterest from one design.
+
+**Why giveaways need a clear layout**
+
+Giveaways are one of the fastest ways to grow followers and reach, but only if people instantly see what they can win and what to do. That is why the prize is the biggest thing on the post and the entry steps sit in their own numbered panel. Wrap words in *asterisks* to colour them, for example the prize value, so the most exciting part pops.
+
+**Rules that keep you compliant**
+
+Instagram's promotion guidelines ask you to include official rules and to say that the promotion isn't sponsored, endorsed or administered by Instagram. The template has a dedicated rules line for that, plus a deadline line for the end date and when the winner is announced. Keep the full terms in your caption or on a landing page and use the line for the short version.
+
+**Made for every placement**
+
+The design is drawn with CSS: the confetti, the badge and the glowing background need no images. Add a photo of the prize and it appears in a tilted frame next to the headline. Switch to the Story size and the layout stacks with the photo larger, or to 16:9 for X and LinkedIn, where the steps move into a second column. Download PNG or JPEG, export a short animated video for Reels, or copy the HTML.
+
+Celebrating a follower milestone? Pair it with the [Milestone](/social-post-templates/milestone/) post, and promote the launch with [Coming Soon Teaser](/social-post-templates/coming-soon/).`,
+    },
+    features: [
+      'Tilted "Giveaway" badge and the prize as a huge headline',
+      'Optional prize photo in a tilted frame; hidden when empty',
+      'Three numbered "how to enter" steps in their own panel',
+      'Deadline line for the end date and winner announcement',
+      'Rules line for eligibility and the "not affiliated with Instagram" note',
+      'Confetti and glow background drawn in CSS, no images needed',
+      'Story, square, 16:9 and Pinterest layouts adapt automatically',
+      'Export PNG, JPEG, animated video or HTML',
+    ],
+    useCases: [
+      { icon: '🎁', title: 'Follower milestone giveaway', desc: 'Celebrate 10K followers with a prize for your community, three simple entry steps and a clear end date, then announce the winner with the Milestone template.' },
+      { icon: '🤝', title: 'Brand collaboration contest', desc: 'Run a joint giveaway with a partner brand: ask entrants to follow both accounts in the steps and tag the partner in the caption so both audiences grow.' },
+      { icon: '🚀', title: 'Product launch giveaway', desc: 'Give away the first units of a new product, with its photo in the frame, to build buzz in the week before launch and collect early reviews.' },
+      { icon: '☕', title: 'Local business promotion', desc: 'Cafés, salons and gyms can offer a free month or gift card and ask locals to tag friends, a cheap way to reach new people nearby.' },
+    ],
+    faqs: [
+      { q: 'How do I make an Instagram giveaway post?', a: 'Open the Giveaway Contest template, type the prize and the three entry steps, set the deadline and rules line, and optionally upload a photo of the prize. Keep the 1080×1350 portrait size for the feed or switch to Story, then download the PNG. Everything runs in your browser.' },
+      { q: 'What should an Instagram giveaway post include?', a: 'The prize, how to enter, the end date, when the winner is announced, who can enter, and a statement that the giveaway is not sponsored, endorsed or administered by Instagram. The template has a place for each, and the full rules can go in your caption.' },
+      { q: 'What are good giveaway entry steps?', a: 'Keep it to three simple actions, such as follow the account, like or save the post, and tag one or two friends. Instagram\'s guidelines don\'t allow asking people to tag themselves in content they don\'t appear in, so ask them to tag friends in the comments instead.' },
+      { q: 'Can I make a giveaway Reel or Story?', a: 'Yes. Switch the size to Story / Reel (1080×1920) and the layout stacks with a larger prize photo. Use Animated video in the Export menu to get a short MP4 for Reels.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Giveaway Contest HTML and CSS: write the caption and full rules for your prize, turn it into a React component with prize and steps props, or create a winner-announcement version.',
+      prompt: `Create a 1080×1350 Instagram giveaway post in plain HTML and CSS.
+
+- Deep purple background with soft pink and yellow glows and small confetti dots drawn with CSS radial-gradients.
+- A tilted yellow "GIVEAWAY" pill badge, then the prize as a huge bold headline (e.g. "Win a $250 gift card") with the amount in yellow.
+- An optional prize photo in a tilted rounded frame beside the headline.
+- A translucent panel titled "How to enter" with three numbered steps in yellow circles.
+- A footer with the deadline, a small rules line ("Not sponsored by or affiliated with Instagram") and the handle on the right.
+- Size everything with a CSS variable --u equal to 1% of the shorter side.`,
+    },
+  },
+
+  'meet-the-team': {
+    keywords: ['meet the team post template', 'meet the team instagram post', 'team introduction post', 'employee spotlight post template', 'linkedin team post template'],
+    about: {
+      title: 'Meet the Team — Free Team Introduction Post Template for Instagram & LinkedIn',
+      description: `**Meet the Team** is a free social media post template for introducing the people behind your brand. It has a "Behind the scenes" label, a big "Meet the team" headline, a short intro, and three member cards with round photos, names and roles, finished with your handle.
+
+**Why team posts work**
+
+People follow people. Posts that show the faces behind a business consistently feel more trustworthy than product posts, and behind-the-scenes and employee content is one of the content types brands lean on most on LinkedIn and Instagram. A tidy, consistent team post makes it easy to run a regular series, introducing one department or one new hire at a time.
+
+**Photos that look consistent**
+
+Each photo sits in a circle with a white gap and an accent ring, so headshots taken on different phones still look like a set. Upload photos straight from your computer; they're cropped to the circle, you can drag to reposition faces, and they never leave your browser. Until you add photos, the circles show a soft accent gradient, so the layout still looks finished.
+
+**One design, every size**
+
+On the 4:5 feed size the three cards sit side by side. On the 9:16 Story size they stack into a list with the photo on the left, and on 16:9 for X and LinkedIn the headline moves into a left column. Names and roles wrap neatly, and *asterisks* colour any word in the headline. Download PNG or JPEG, a PDF, a short animated video or the HTML.
+
+Hiring as well? Follow up with the [We're Hiring](/social-post-templates/hiring/) post, or share a customer's view with [Customer Testimonial](/social-post-templates/testimonial/).`,
+    },
+    features: [
+      '"Meet the team" headline with a behind-the-scenes label and intro',
+      'Three member cards with round photos, names and roles',
+      'Accent ring around every photo so mixed headshots match',
+      'Drag-to-reposition photo crops, processed only in your browser',
+      'Gradient placeholders so the post looks finished before photos',
+      'Cards stack into a list on the Story size',
+      'Two-column layout on 16:9 for X and LinkedIn',
+      'Export PNG, JPEG, PDF, animated video or HTML',
+    ],
+    useCases: [
+      { icon: '👋', title: 'Introduce your founders', desc: 'Show the people who started the company with their roles and a short line about why they built it, a strong first post for a new account or rebrand.' },
+      { icon: '🆕', title: 'New hire welcome', desc: 'Welcome new teammates publicly: put the new hire in the middle card, change the headline to "Welcome to the team" and tag them on LinkedIn.' },
+      { icon: '🏢', title: 'Department spotlight series', desc: 'Introduce one team each week, such as support, design or engineering, keeping colours fixed so the series looks consistent on your grid.' },
+      { icon: '🎨', title: 'Agency and studio about-us post', desc: 'Freelance collectives and agencies can show who clients will work with, which builds trust before a sales call or proposal.' },
+    ],
+    faqs: [
+      { q: 'How do I make a "meet the team" post for Instagram?', a: 'Open the Meet the Team template, change the headline and intro, then upload a photo and type the name and role for each of the three people. Keep the 1080×1350 portrait size for the feed or switch to Story, and download the PNG.' },
+      { q: 'Can I show more than three people?', a: 'The template shows three, which stays readable on a phone. For bigger teams, make a series of posts or a carousel, or fork the template to My Code and add more cards to the grid.' },
+      { q: 'Does it work for LinkedIn?', a: 'Yes. Use the 1080×1350 portrait size for LinkedIn feed posts or the 1200×627 LinkedIn image size, where the headline moves to a left column and the three cards sit on the right.' },
+      { q: 'Are my team photos uploaded anywhere?', a: 'No. Photos are processed in your browser and saved on your device only. They are never uploaded to our servers.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Meet the Team HTML and CSS: write short bios for each person, turn it into a React component that maps over a team array, or add a fourth card and a "We\'re hiring" footer.',
+      prompt: `Create a 1080×1350 "Meet the team" social media post in plain HTML and CSS.
+
+- Warm off-white background with a soft orange glow in the top-right corner.
+- A small uppercase "Behind the scenes" label, a large bold "Meet the team" headline with "team" in orange, and a one-line intro.
+- Three equal white cards in a row, each with a round photo (white gap plus an orange ring), the name in bold and the role underneath.
+- The handle aligned bottom-right.
+- Size everything with a CSS variable --u equal to 1% of the shorter side, and stack the cards into a list on a 1080×1920 Story.`,
+    },
+  },
+
+  'myth-vs-fact': {
+    keywords: ['myth vs fact post template', 'myth vs fact instagram post', 'myth busting post template', 'educational social media post template', 'fact vs fiction post'],
+    about: {
+      title: 'Myth vs Fact — Free Myth-Busting Post Template for Instagram & LinkedIn',
+      description: `**Myth vs Fact** is a free educational post template that corrects a common misconception. A topic pill and a "Myth vs Fact" headline sit above two panels: the myth in red, crossed out, with an ✕ badge, and the fact in green with a ✓ badge. A source line and your handle finish the post.
+
+**Why myth-busting posts perform**
+
+Myth vs fact posts are a staple of educational accounts in health, finance, fitness, marketing and tech, and they're sold as dedicated template packs for a reason: they combine a hook people recognise ("I believed that") with something useful they want to save or send to a friend. The format also positions you as the expert who knows the real answer.
+
+**Built for clarity**
+
+The two panels use colour, icons and a strikethrough, so the post still reads correctly for people who are colour-blind. The fact panel gets more room because it carries the real message, and long facts shrink automatically to fit. Wrap words in *asterisks* to highlight the key part of the fact. The myth and fact colours are separate settings, so you can match your brand while keeping the contrast.
+
+**Credible by default**
+
+A dedicated source line under the panels makes it easy to cite the study, report or guideline behind your fact, which matters more than ever now that AI assistants and readers both look for sources. On 16:9 the panels sit side by side for X and LinkedIn, and on the Story size the fact panel grows taller.
+
+For single facts, see [Did You Know?](/social-post-templates/did-you-know/); for numbers, try [Big Stat](/social-post-templates/big-stat/); and turn a series of myths into a [carousel](/social-post-templates/carousel-cover/).`,
+    },
+    features: [
+      'Myth panel in red with an ✕ badge and strikethrough text',
+      'Fact panel in green with a ✓ badge and more room',
+      'Separate myth and fact colours, plus background and text',
+      'Topic pill and editable "Myth" and "Fact" labels',
+      'Source line for citing the study or report',
+      'Long facts shrink automatically to fit',
+      'Side-by-side panels on 16:9 for X and LinkedIn',
+      'Export PNG, JPEG, PDF, animated video or HTML',
+    ],
+    useCases: [
+      { icon: '🩺', title: 'Health and fitness myths', desc: 'Correct common beliefs about diet, sleep or training with a clear fact and a cited source, a format followers save and share with friends.' },
+      { icon: '💰', title: 'Personal finance education', desc: 'Bust money myths such as "renting is throwing money away" with a short, balanced fact, ideal for financial advisers and fintech brands.' },
+      { icon: '💻', title: 'Tech and marketing myths', desc: 'Answer misconceptions your customers have about your industry, from SEO to email marketing, and build authority on LinkedIn.' },
+      { icon: '🛍', title: 'Product misconceptions', desc: 'Clear up a myth about your own product, such as "it\'s only for big teams", with the fact and a link in your caption.' },
+    ],
+    faqs: [
+      { q: 'How do I make a myth vs fact post?', a: 'Open the Myth vs Fact template, set the topic, type the myth and the fact that corrects it, and add a source. Choose a size such as 1080×1350 for Instagram and LinkedIn and download the PNG.' },
+      { q: 'Can I make a myth vs fact carousel?', a: 'Yes. Make one post per myth with the same colours, download each as a PNG, and upload them together as an Instagram carousel or a LinkedIn PDF. Use the Carousel templates for a cover slide.' },
+      { q: 'Should I cite a source?', a: 'Yes, whenever the fact is a claim or statistic. A source makes the post more credible and more likely to be shared, and the template has a dedicated source line under the panels.' },
+      { q: 'Can I change the red and green colours?', a: 'Yes. Myth colour and Fact colour are separate settings. The ✕, ✓ icons and the strikethrough keep the meaning clear for colour-blind readers whatever colours you choose.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Myth vs Fact HTML and CSS: research and write ten myths with sourced facts for your niche, turn it into a React component, or build a carousel version with a cover slide.',
+      prompt: `Create a 1080×1350 "Myth vs Fact" educational social post in plain HTML and CSS.
+
+- Light background, a small topic pill and a bold "Myth vs Fact" headline.
+- Two stacked panels: the myth in a pale red panel with a red left border, an ✕ badge and strikethrough text; the fact in a pale green panel with a green border, a ✓ badge and more height.
+- A footer with a source line on the left and the handle on the right.
+- Size everything with a CSS variable --u equal to 1% of the shorter side, and place the panels side by side on a 1600×900 landscape size.`,
+    },
+  },
+
+  'big-stat': {
+    keywords: ['statistic post template', 'stat post instagram', 'data social media post template', 'infographic post template', 'linkedin statistic post'],
+    about: {
+      title: 'Big Stat — Free Statistic Post Template for LinkedIn & Instagram',
+      description: `**Big Stat** is a free statistic post template built around one striking number. A giant glowing figure in the accent colour sits above a sentence that explains it, a slim bar chart visualises the share, a context line says why it matters, and a source line and handle finish the post on a dark, subtly gridded background.
+
+**One number beats a busy infographic**
+
+On a phone, a single big number stops the scroll far better than a crowded chart. Data posts are a favourite format for LinkedIn thought leadership, report launches and B2B marketing, because a surprising statistic is easy to quote, comment on and share, and a cited number is exactly the kind of fact AI assistants and journalists pick up.
+
+**A chart that follows your data**
+
+The bar under the number is driven by its own field: type a value from 0 to 100 and the fill matches, or leave it empty to hide the bar for numbers that aren't percentages, such as "$4.2M" or "3×". Wrap words in *asterisks* to colour the key part of the explanation, like "abandoned".
+
+**Credible and reusable**
+
+A dedicated source line keeps the post honest and trustworthy. The default example uses Baymard Institute's well-known finding that around 70% of online carts are abandoned. Keep the colours and fonts fixed and only change the number and sentence, and you have a recognisable "by the numbers" series across Instagram, LinkedIn and X.
+
+For a fact without a big number, use [Did You Know?](/social-post-templates/did-you-know/); to correct a misconception, use [Myth vs Fact](/social-post-templates/myth-vs-fact/).`,
+    },
+    features: [
+      'Giant glowing statistic in the accent colour',
+      'Explanation sentence with *asterisk* highlights',
+      'Bar chart driven by a 0–100 field, hidden when empty',
+      'Context line explaining why the number matters',
+      'Source line for the study, report or survey',
+      'Dark gridded background with a soft accent glow',
+      'Scales to Story, square, 16:9 and LinkedIn sizes',
+      'Export PNG, JPEG, PDF, animated video or HTML',
+    ],
+    useCases: [
+      { icon: '📊', title: 'Research and survey highlights', desc: 'Turn the headline finding of your report or customer survey into a post, with the number up front and a link to the full report in your caption.' },
+      { icon: '💼', title: 'LinkedIn thought leadership', desc: 'Open a LinkedIn post with an industry statistic and your take on it, a format that reliably starts discussion in the comments.' },
+      { icon: '🏆', title: 'Customer results and case studies', desc: 'Show a result such as "38% faster checkout" from a case study, with the customer named in the context line and the bar showing the improvement.' },
+      { icon: '🗓', title: '"By the numbers" series', desc: 'Share one number a week about your industry or company, keeping the design fixed so followers recognise the series instantly.' },
+    ],
+    faqs: [
+      { q: 'How do I make a statistic post for LinkedIn?', a: 'Open the Big Stat template, type the number, what it means and the source, and set the bar fill if it is a percentage. Use the 1080×1350 portrait size for the LinkedIn feed or 1200×627 for a link-style image, and download the PNG.' },
+      { q: 'What if my number is not a percentage?', a: 'Clear the Bar fill field and the bar disappears. The big number accepts any text, such as "$4.2M", "3×" or "12,000".' },
+      { q: 'Should I always add a source?', a: 'Yes. A source makes a statistic credible and shareable, and readers are rightly sceptical of uncited numbers. Name the organisation and the study or year.' },
+      { q: 'Can I animate the statistic?', a: 'Yes. Use Animated video in the Export menu to get a short MP4 where the number and text animate in, which works well for Reels and LinkedIn video posts.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Big Stat HTML and CSS: find well-sourced statistics for your industry, add a count-up animation, or turn it into a component that takes a number, label and source.',
+      prompt: `Create a 1080×1350 statistic social post in plain HTML and CSS.
+
+- Dark navy background with faint horizontal grid lines and a cyan glow in the top-left.
+- A small uppercase "By the numbers" label, then a giant glowing cyan number (e.g. "70%").
+- A bold sentence explaining the number with one highlighted word, a slim rounded progress bar filled to the percentage, and a lighter context line.
+- A footer with a source on the left and the handle on the right, above a thin divider.
+- Size everything with a CSS variable --u equal to 1% of the shorter side.`,
+    },
+  },
+
+  'coming-soon': {
+    keywords: ['coming soon post template', 'coming soon instagram post', 'launch teaser post template', 'product launch teaser', 'stay tuned post template'],
+    about: {
+      title: 'Coming Soon Teaser — Free Coming Soon Post Template for Instagram',
+      description: `**Coming Soon Teaser** is a free pre-launch post template that builds anticipation before you reveal something new. A huge outlined "Coming soon" headline sits over a blurred mystery image, with a short teaser line, the launch date in a bright pill and a "turn on post notifications" call to action.
+
+**Tease, don't tell**
+
+The best teaser posts give away just enough to make people curious. That's why the image is blurred on purpose: upload a photo of the product, the new store or the app screen, and it shows as a soft, mysterious glow rather than a full reveal. Without a photo, the background shows abstract accent-coloured light, so the post works even before you have final images.
+
+**Typography that stops the scroll**
+
+The headline uses outlined, condensed capitals that read clearly against the dark background, while the teaser line underneath can highlight a word with *asterisks*. The launch date sits in a solid accent-coloured pill, the single most important detail, and the call to action tells followers exactly how not to miss the launch.
+
+**Part of a launch campaign**
+
+Post it a week or two before launch, follow with the [Countdown](/social-post-templates/countdown/) post as the date gets closer, announce the day with [We're Live](/social-post-templates/we-are-live/), and show the product with [Product Launch](/social-post-templates/product-launch/). Every size, from Story to Pinterest, comes from one design, and you can export a short animated video for Reels.`,
+    },
+    features: [
+      'Huge outlined "Coming soon" headline in condensed capitals',
+      'Mystery image shown blurred, or abstract light without one',
+      'Teaser line with *asterisk* highlights',
+      'Launch date in a solid accent-coloured pill',
+      'Call-to-action line, such as turning on notifications',
+      'Dark vignette that keeps text readable over any photo',
+      'Works in Story, square, 16:9, LinkedIn and Pinterest sizes',
+      'Export PNG, JPEG, animated video or HTML',
+    ],
+    useCases: [
+      { icon: '📦', title: 'Product or collection teaser', desc: 'Show a blurred photo of a new product or collection two weeks before launch, with the release date and a prompt to turn on notifications.' },
+      { icon: '🏪', title: 'New store or location opening', desc: 'Tease a new shop, café or office with a blurred photo of the space and the opening date, then reveal it on opening day.' },
+      { icon: '📱', title: 'App or feature pre-launch', desc: 'Build a waitlist by teasing an app screenshot, with the call to action pointing to a sign-up link in your bio.' },
+      { icon: '🎤', title: 'Event or announcement reveal', desc: 'Hint at a speaker lineup, collaboration or big announcement with the date set, then follow with the full reveal post.' },
+    ],
+    faqs: [
+      { q: 'How do I make a "coming soon" post for Instagram?', a: 'Open the Coming Soon Teaser template, write a short teaser, set the launch date and call to action, and optionally upload a photo, which is shown blurred. Download the 1080×1350 portrait post or the 1080×1920 Story.' },
+      { q: 'When should I post a coming soon teaser?', a: 'One to two weeks before launch works well, followed by a countdown post in the final days and a launch-day post. Teasing too far ahead can lose people\'s attention.' },
+      { q: 'Why is my image blurred?', a: 'On purpose: teasers work by hiding the full reveal. The image shows as a soft glow behind the text. For a clear product shot, use the Product Launch or Product Spotlight template on launch day.' },
+      { q: 'Can I make it a Reel?', a: 'Yes. Switch to the Story / Reel size and use Animated video in the Export menu to get a short MP4 where the headline and date animate in.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Coming Soon Teaser HTML and CSS: write a week of teaser captions, add a live countdown for your website, or make a matching reveal post.',
+      prompt: `Create a 1080×1350 "Coming soon" teaser social post in plain HTML and CSS.
+
+- Near-black background with a heavily blurred image (or abstract lime and violet light) behind a dark radial vignette.
+- A small lime uppercase label, then a huge outlined "COMING SOON" headline (transparent fill, white text stroke) in a condensed font.
+- A bold teaser line with one highlighted phrase, then the launch date in a solid lime pill, a "Turn on post notifications" line and the handle.
+- Centre everything, and size it with a CSS variable --u equal to 1% of the shorter side.`,
+    },
+  },
 };

@@ -121,6 +121,14 @@ export function mountTemplate(shadow, t, state, { editable = false } = {}) {
     if (src) { el.style.backgroundImage = `url("${src}")`; el.classList.add('has-img'); }
     else { el.style.backgroundImage = ''; el.classList.remove('has-img'); }
   });
+  // Bars driven by a number field (0-100): sets --bar, e.g. the Big Stat chart width.
+  // An empty or invalid value hides the bar.
+  root.querySelectorAll('[data-bar]').forEach(el => {
+    const n = parseFloat(String(state.fields[el.dataset.bar] ?? '').replace(/[^\d.]/g, ''));
+    const ok = Number.isFinite(n);
+    el.style.setProperty('--bar', ok ? `${Math.max(0, Math.min(100, n))}%` : '0%');
+    el.parentElement?.toggleAttribute('hidden', !ok);
+  });
   applyTextAlign(root, lay.align || '');
   return root;
 }

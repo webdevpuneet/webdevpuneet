@@ -1,6 +1,6 @@
 {
  "email": {
-  "total": 17,
+  "total": 22,
   "categories": [
    {
     "id": "onboarding",
@@ -13,6 +13,18 @@
      {
       "id": "trial-ending",
       "name": "Trial Ending Email"
+     },
+     {
+      "id": "re-engagement",
+      "name": "Re-engagement Email (We Miss You)"
+     },
+     {
+      "id": "birthday-email",
+      "name": "Birthday Email"
+     },
+     {
+      "id": "nps-survey",
+      "name": "NPS Survey Email"
      }
     ]
    },
@@ -35,6 +47,14 @@
      {
       "id": "receipt",
       "name": "Payment Receipt Email"
+     },
+     {
+      "id": "payment-reminder",
+      "name": "Payment Reminder Email"
+     },
+     {
+      "id": "appointment-reminder",
+      "name": "Appointment Reminder Email"
      }
     ]
    },
@@ -103,7 +123,7 @@
   ]
  },
  "social": {
-  "total": 24,
+  "total": 29,
   "categories": [
    {
     "id": "quotes",
@@ -124,6 +144,14 @@
      {
       "id": "code-tip",
       "name": "Code Tip"
+     },
+     {
+      "id": "myth-vs-fact",
+      "name": "Myth vs Fact"
+     },
+     {
+      "id": "big-stat",
+      "name": "Big Stat"
      }
     ]
    },
@@ -146,6 +174,14 @@
      {
       "id": "we-are-live",
       "name": "We’re Live"
+     },
+     {
+      "id": "meet-the-team",
+      "name": "Meet the Team"
+     },
+     {
+      "id": "coming-soon",
+      "name": "Coming Soon Teaser"
      }
     ]
    },
@@ -164,6 +200,10 @@
      {
       "id": "product-spotlight",
       "name": "Product Spotlight"
+     },
+     {
+      "id": "giveaway",
+      "name": "Giveaway Contest"
      }
     ]
    },

@@ -18,12 +18,17 @@ import magicLink from './magic-link.js';
 import trialEnding from './trial-ending.js';
 import productUpdate from './product-update.js';
 import webinarInvitation from './webinar-invitation.js';
+import paymentReminder from './payment-reminder.js';
+import reEngagement from './re-engagement.js';
+import appointmentReminder from './appointment-reminder.js';
+import birthdayEmail from './birthday-email.js';
+import npsSurvey from './nps-survey.js';
 
 export { EMAIL_CATEGORIES, emailCategoryById, FONT_STACKS, fontStackById } from './meta.js';
 
 export const EMAIL_TEMPLATES = [
-  welcome, trialEnding,
-  verifyEmail, passwordReset, magicLink, receipt,
+  welcome, trialEnding, reEngagement, birthdayEmail, npsSurvey,
+  verifyEmail, passwordReset, magicLink, receipt, paymentReminder, appointmentReminder,
   abandonedCart, orderConfirmation, shippingConfirmation, reviewRequest,
   newsletter, productUpdate, webinarInvitation, blackFridaySale, lastChanceSale,
   holidayGiftGuide, holidayGreetings,
