@@ -1,4 +1,4 @@
-/* Export / import of "My designs" (Social Post Templates and Email Templates).
+/* Export / import of "My designs" (Social Post, Email and Website Section Templates).
 
    The export is one JSON file a person can keep as a backup or move to another browser
    or device:
@@ -11,6 +11,14 @@
    skipped, and a different design that happens to share an id comes in as a copy. */
 
 const FORMAT = 'wdp-designs';
+
+/* Each tool's backup file name prefix and how it is named in messages */
+const TOOLS = {
+  'social-post-templates': { file: 'social-post', label: 'social post', page: 'Social Post Templates' },
+  'email-templates': { file: 'email', label: 'email', page: 'Email Templates' },
+  'website-section-templates': { file: 'website-section', label: 'website section', page: 'Website Section Templates' },
+};
+const toolInfo = tool => TOOLS[tool] || { file: tool, label: tool, page: tool };
 
 const blobToDataUrl = blob => new Promise((res, rej) => {
   const fr = new FileReader();
@@ -30,7 +38,7 @@ function download(blob, name) {
 }
 
 /**
- * @param tool         'social-post-templates' | 'email-templates'
+ * @param tool         'social-post-templates' | 'email-templates' | 'website-section-templates'
  * @param store        design store (src/lib/design-store.js)
  * @param getAssets    optional async (designs) => [{ key, data, type, name, w, h }]
  * @param getFonts     optional async (designs) => [font records]
@@ -53,7 +61,7 @@ export async function exportDesigns({ tool, store, getAssets, getFonts, brandKit
   if (brandKit) payload.brandKit = brandKit;
   const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
   const day = new Date().toISOString().slice(0, 10);
-  download(blob, `${tool === 'email-templates' ? 'email' : 'social-post'}-designs-${day}.json`);
+  download(blob, `${toolInfo(tool).file}-designs-${day}.json`);
   return { count: designs.length, bytes: blob.size };
 }
 
@@ -73,7 +81,7 @@ export async function importDesigns(file, { tool, store, knownTemplate, putAsset
   catch { throw new Error('That file isn’t a designs export (it couldn’t be read as JSON).'); }
   if (data?.format !== FORMAT || !Array.isArray(data.designs)) throw new Error('That file isn’t a designs export from this site.');
   if (data.tool !== tool) {
-    throw new Error(`That file has ${data.tool === 'email-templates' ? 'email' : 'social post'} designs. Import it in ${data.tool === 'email-templates' ? 'Email Templates' : 'Social Post Templates'} instead.`);
+    throw new Error(`That file has ${toolInfo(data.tool).label} designs. Import it in ${toolInfo(data.tool).page} instead.`);
   }
 
   // Images and fonts first, so imported designs open complete

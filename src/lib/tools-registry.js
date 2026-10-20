@@ -1315,6 +1315,19 @@ export const TOOLS = [
     lastmod:    '2026-10-16',
     hasUpdates: false,
   },
+  {
+    slug:       'website-section-templates',
+    name:       'Website Section Templates',
+    sub:        'Hero sections · GSAP · HTML, React & Vue',
+    desc:       'Free editable website section templates with a shared theme and GSAP animation. Change text, images, colours and fonts, then export HTML, React or Vue.',
+    icon:       '/icons/website-section-templates.svg',
+    accent:     '#4f46e5',
+    category:   'design',
+    extended:   false,
+    status:     'live',
+    lastmod:    '2026-10-20',
+    hasUpdates: false,
+  },
   /* SEO tools moved from fwdtools (2026-10-15) */
   {
     slug:     'meta-tag-generator',

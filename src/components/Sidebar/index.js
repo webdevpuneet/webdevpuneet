@@ -1525,6 +1525,7 @@ export default function Sidebar() {
   // Template groups start collapsed, except on their own pages
   const [emailTplOpen,     setEmailTplOpen]     = useState(pathname.startsWith('/email-templates/'));
   const [socialTplOpen,    setSocialTplOpen]    = useState(pathname.startsWith('/social-post-templates/'));
+  const [sectionTplOpen,   setSectionTplOpen]   = useState(pathname.startsWith('/website-section-templates/'));
   const [freelancerOpen,   setFreelancerOpen]   = useState(false);
   const [mobileOpen, setMobileOpen]   = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -1871,6 +1872,15 @@ export default function Sidebar() {
                     pathname={pathname}
                     open={socialTplOpen}
                     onToggle={() => setSocialTplOpen(v => !v)}
+                  />
+                  <TemplatesGroup
+                    label="Website Section Templates"
+                    base="/website-section-templates/"
+                    icon="/icons/website-section-templates.svg"
+                    nav={TEMPLATE_NAV.section}
+                    pathname={pathname}
+                    open={sectionTplOpen}
+                    onToggle={() => setSectionTplOpen(v => !v)}
                   />
                   <PlaygroundsGroup
                     activeSlug={activeSlug}

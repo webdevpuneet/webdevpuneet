@@ -330,5 +330,36 @@
     ]
    }
   ]
+ },
+ "section": {
+  "total": 5,
+  "categories": [
+   {
+    "id": "hero",
+    "label": "Hero",
+    "items": [
+     {
+      "id": "saas-split-hero",
+      "name": "SaaS Split Hero"
+     },
+     {
+      "id": "centered-gradient-hero",
+      "name": "Centred Gradient Hero"
+     },
+     {
+      "id": "image-background-hero",
+      "name": "Image Background Hero"
+     },
+     {
+      "id": "app-product-hero",
+      "name": "App Product Hero"
+     },
+     {
+      "id": "portfolio-hero",
+      "name": "Personal Portfolio Hero"
+     }
+    ]
+   }
+  ]
  }
 }

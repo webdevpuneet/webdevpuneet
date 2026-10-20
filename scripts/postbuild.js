@@ -11,6 +11,9 @@ import { CATEGORY_SEO as SOCIAL_CATEGORY_SEO } from '../src/components/SocialPos
 import { EMAIL_TEMPLATES, EMAIL_CATEGORIES } from '../src/components/EmailTemplates/templates/index.js';
 import { EMAIL_CATEGORY_SEO } from '../src/components/EmailTemplates/templates/seo-categories.js';
 import { EMAIL_SEO } from '../src/components/EmailTemplates/templates/seo-content.js';
+import { SECTION_TEMPLATES, SECTION_CATEGORIES } from '../src/components/SectionTemplates/templates/index.js';
+import { SECTION_SEO } from '../src/components/SectionTemplates/templates/seo-content.js';
+import { SECTION_CATEGORY_SEO } from '../src/components/SectionTemplates/templates/seo-categories.js';
 
 // Exclude nofollow/test snippets (noindex: true) from sitemap + llms.txt — they only show on localhost
 const SNIPPETS = ALL_SNIPPETS.filter(sn => !sn.noindex);
@@ -294,6 +297,27 @@ async function main() {
   write('sitemap-social-post-templates.xml', pageImageUrlset(socialEntries));
   console.log(`sitemap-social-post-templates.xml -> ${socialEntries.length} URLs`);
 
+  // Website section templates: images live in public/images/section-templates/
+  const sectionShots = previewSet('section-templates');
+  const sectionEntries = [
+    ...SECTION_CATEGORIES.filter(c => SECTION_CATEGORY_SEO[c.id] && SECTION_TEMPLATES.some(t => t.category === c.id)).map(c => ({
+      loc:        `${BASE_URL}/website-section-templates/category/${c.id}/`,
+      lastmod:    maxDate(SECTION_TEMPLATES.filter(t => t.category === c.id).map(t => t.updated)),
+      changefreq: 'monthly',
+      priority:   0.7,
+    })),
+    ...SECTION_TEMPLATES.map(t => ({
+      loc:        `${BASE_URL}/website-section-templates/${t.id}/`,
+      lastmod:    t.updated,
+      changefreq: 'monthly',
+      priority:   0.7,
+      images:     sectionShots.has(t.id) ? [{ loc: `${BASE_URL}/images/section-templates/previews/${t.id}.png`, title: `${t.name} — free website section template`, caption: t.description }] : [],
+    })),
+  ];
+  const sectionMaxLastmod = maxDate(sectionEntries.map(e => e.lastmod));
+  write('sitemap-website-section-templates.xml', pageImageUrlset(sectionEntries));
+  console.log(`sitemap-website-section-templates.xml -> ${sectionEntries.length} URLs`);
+
   /* ── 4. sitemap-images-listN.xml + sitemap-images.xml (sub-index) ────────── */
   // Collect image entries: tool pages + category pages that have a matching PNG
   const imageEntries = [];
@@ -402,6 +426,7 @@ async function main() {
     { loc: `${BASE_URL}/sitemap-ui-snippets.xml`,   lastmod: snippetsMaxLastmod },
     { loc: `${BASE_URL}/sitemap-email-templates.xml`,         lastmod: emailMaxLastmod },
     { loc: `${BASE_URL}/sitemap-social-post-templates.xml`,   lastmod: socialMaxLastmod },
+    { loc: `${BASE_URL}/sitemap-website-section-templates.xml`, lastmod: sectionMaxLastmod },
   ];
   write('sitemap.xml', sitemapIndex(masterEntries));
   console.log(`sitemap.xml (index) -> ${masterEntries.length} sub-sitemaps registered`);
@@ -469,6 +494,19 @@ async function main() {
     }
     llmsTxt += '\n';
   }
+  llmsTxt += `\n---\n\n## Website Section Templates\n\n`;
+  llmsTxt += `Free editable website section templates (hero sections first; navbar, features, pricing, testimonials, FAQ, CTA and footer to follow). Every section shares one theme of CSS custom properties (brand, background, surface, text, muted, fonts, radius, width), is responsive through CSS container queries, and animates in with GSAP + ScrollTrigger (fade up, fade, slide, zoom; content stays visible without JavaScript and respects reduced motion). Edit text, links, images, colours and fonts in the browser, upload images and custom fonts (stored locally in IndexedDB, with a backup export/import), then export a single HTML file, a ZIP with images, a React component or a Vue component, or fork it into My Code.\n\nLibrary: ${BASE_URL}/website-section-templates/\n\n`;
+  for (const c of SECTION_CATEGORIES) {
+    const list = SECTION_TEMPLATES.filter(t => t.category === c.id);
+    if (!list.length) continue;
+    const cs = SECTION_CATEGORY_SEO[c.id];
+    llmsTxt += `### [${cs?.h1 || c.label}](${BASE_URL}/website-section-templates/category/${c.id}/)\n\n${c.blurb}${cs?.keywords ? ` Searches: ${cs.keywords.join(', ')}.` : ''}\n\n`;
+    for (const t of list) {
+      const kw = SECTION_SEO[t.id]?.keywords;
+      llmsTxt += `- [${t.name}](${BASE_URL}/website-section-templates/${t.id}/) : ${t.description}${kw ? ` Good for: ${kw.join(', ')}.` : ''}\n`;
+    }
+    llmsTxt += '\n';
+  }
   llmsTxt += `\n---\n\n## UI Snippets Components\n\n`;
   llmsTxt += `Browse and copy ${SNIPPETS.length}+ free HTML, CSS & JS components with live preview and export to HTML, JSX, or React + Tailwind CSS.\n\nLibrary: ${BASE_URL}/ui-snippets/\n\n`;
   llmsTxt += `### Categories\n\n`;
@@ -514,7 +552,8 @@ async function main() {
   console.log('  ├─ sitemap-ui-snippets.xml');
   snippetListFiles.forEach(f => console.log(`  │    └─ ${f}`));
   console.log('  ├─ sitemap-email-templates.xml');
-  console.log('  └─ sitemap-social-post-templates.xml');
+  console.log('  ├─ sitemap-social-post-templates.xml');
+  console.log('  └─ sitemap-website-section-templates.xml');
 }
 
 main().catch(err => { console.error(err); process.exit(1); });

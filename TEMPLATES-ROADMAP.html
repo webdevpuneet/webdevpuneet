@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Section & Website Templates — Roadmap</title>
+<style>
+  :root {
+    --bg: #f7f7f4; --card: #ffffff; --text: #1c1b18; --muted: #6b675d; --line: #e4e0d5;
+    --accent: #0f766e; --accent-soft: #e6f4f1; --done: #15803d; --doing: #b45309; --todo: #64748b; --code: #f1efe8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #14130f; --card: #1d1c18; --text: #ecebe4; --muted: #a8a397; --line: #34322b; --accent: #5eead4; --accent-soft: #10302c; --done: #4ade80; --doing: #fbbf24; --todo: #94a3b8; --code: #2a2822; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
+  header h1 { font-size: 30px; line-height: 1.2; margin: 0 0 6px; }
+  header p { margin: 0; color: var(--muted); }
+  nav.toc { margin: 22px 0 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+  nav.toc a { font-size: 13px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 99px; color: var(--text); text-decoration: none; background: var(--card); }
+  nav.toc a:hover { border-color: var(--accent); }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; margin: 18px 0; }
+  h2 { font-size: 21px; margin: 0 0 12px; }
+  h3 { font-size: 16px; margin: 20px 0 8px; }
+  p { margin: 0 0 10px; }
+  ul, ol { margin: 0 0 10px; padding-left: 22px; }
+  li { margin: 3px 0; }
+  code { background: var(--code); padding: 1px 6px; border-radius: 5px; font-size: 13.5px; }
+  pre { background: var(--code); padding: 12px 14px; border-radius: 10px; overflow-x: auto; font-size: 13px; line-height: 1.5; }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; margin: 6px 0 10px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .pill { display: inline-block; font-size: 11.5px; font-weight: 700; padding: 2px 9px; border-radius: 99px; letter-spacing: .03em; white-space: nowrap; }
+  .done { background: color-mix(in srgb, var(--done) 16%, transparent); color: var(--done); }
+  .doing { background: color-mix(in srgb, var(--doing) 18%, transparent); color: var(--doing); }
+  .todo { background: color-mix(in srgb, var(--todo) 16%, transparent); color: var(--todo); }
+  .callout { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: 12px 16px; border-radius: 8px; margin: 10px 0; }
+  .next { border: 2px solid var(--accent); }
+  .muted { color: var(--muted); font-size: 14px; }
+  .phase { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .phase h3 { margin: 0; }
+  .checklist { list-style: none; padding: 0; }
+  .checklist li { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; border-bottom: 1px dashed var(--line); }
+  .checklist li:last-child { border-bottom: 0; }
+  .checklist .pill { flex: none; margin-top: 2px; min-width: 64px; text-align: center; }
+  @media (max-width: 640px) { .wrap { padding: 20px 14px 60px; } section { padding: 18px 16px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Section &amp; Website Templates — Roadmap</h1>
+  <p>The living plan for webdevpuneet.com's next template library. <strong>Update this file every time we work on it</strong>: tick steps, add decisions and log what changed.</p>
+  <p class="muted">Created 2026-10-20 · Last updated 2026-10-20 · Owner: Puneet · File: <code>webdevpuneet/TEMPLATES-ROADMAP.html</code></p>
+</header>
+
+<nav class="toc" aria-label="Contents">
+  <a href="#now">▶ Where we are</a>
+  <a href="#vision">Vision</a>
+  <a href="#principles">Principles</a>
+  <a href="#phases">Phases &amp; steps</a>
+  <a href="#architecture">Architecture</a>
+  <a href="#motion">Motion &amp; GSAP</a>
+  <a href="#data">Data &amp; storage</a>
+  <a href="#seo">SEO &amp; AI strategy</a>
+  <a href="#catalog">Section catalogue</a>
+  <a href="#checklist">New-template checklist</a>
+  <a href="#decisions">Decisions</a>
+  <a href="#log">Change log</a>
+</nav>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="now" class="next">
+  <h2>▶ Where we are right now</h2>
+  <div class="callout">
+    <strong>Current step:</strong> Phase 1 — Section template engine + first 5 hero sections.<br>
+    <strong>Status:</strong> items 1.1–1.9 done (engine, GSAP motion, pages, site wiring, 5 heroes); built locally, not deployed. Only 1.10 (user review) is left.<br>
+    <strong>Next action:</strong> the user reviews <code>/website-section-templates/</code> locally; then roll out the next categories (Phase 2).
+  </div>
+  <p class="muted">Rule for every session: read this section first, work from the first unchecked item, then update the checklists, the decisions table and the change log before finishing.</p>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="vision">
+  <h2>Vision</h2>
+  <p>A <strong>free, editable website-building library</strong> that grows in three layers, each feeding the next:</p>
+  <ol>
+    <li><strong>Visual assets</strong> (done): Email Templates (27) and Social Post Templates (34).</li>
+    <li><strong>Section Templates</strong>: complete, responsive page blocks (hero, features, pricing…) that people customise in the browser (text, images, brand colours, fonts) and export as HTML/CSS, a ZIP, React or Vue.</li>
+    <li><strong>Website Templates</strong>: full pages and sites built by <em>stacking sections</em> in a page builder. A website template is a saved stack of sections with sample content, so every new section makes the website templates better.</li>
+  </ol>
+  <p>Users find us through Google and AI assistants, use everything free with no account, and never lose work: designs, images and fonts live in their browser (IndexedDB) and can be exported to a backup file and imported anywhere.</p>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="principles">
+  <h2>Principles (non-negotiable)</h2>
+  <ul>
+    <li><strong>Editable, not just copyable.</strong> Every section has fields, image slots, toggles and theme tokens. This is what separates it from the UI Snippets library.</li>
+    <li><strong>One shared theme.</strong> All sections read the same design tokens (colours, fonts, radius, width), so any combination looks like one website. This is the foundation of the page builder.</li>
+    <li><strong>Responsive by container, not viewport.</strong> Sections use CSS container queries, so they adapt correctly in the editor preview, the page builder and the user's own site.</li>
+    <li><strong>Never lose user data.</strong> Autosave, My designs, uploaded images and custom fonts in IndexedDB; one-file backup export and import that never overwrites.</li>
+    <li><strong>Private.</strong> Everything runs in the browser; nothing is uploaded.</li>
+    <li><strong>Free forever, no watermark.</strong></li>
+    <li><strong>SEO on every page.</strong> Same depth as the email and social templates: title 50–60 chars, description 150–160, keywords, long About, features, why, use cases (4 × 18–42 words), FAQs, schema, sitemaps, llms.txt.</li>
+    <li><strong>Reuse before writing new code</strong> (see Architecture). No builds or dev servers to test; the user tests locally.</li>
+  </ul>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="phases">
+  <h2>Phases &amp; steps</h2>
+
+  <div class="phase"><h3>Phase 1 — Section template engine + 5 heroes</h3><span class="pill doing">In progress</span></div>
+  <ul class="checklist">
+    <li><span class="pill done">Done</span><div><strong>1.1 Data model &amp; theme tokens</strong>: section template shape, <code>SECTION_CATEGORIES</code>, <code>DEFAULT_THEME</code>, theme presets, scoped base CSS with container queries.</div></li>
+    <li><span class="pill done">Done</span><div><strong>1.2 Renderer</strong>: fills fields, links, toggles and images into the section HTML; builds the preview document and the standalone export document (HTML + CSS + font links).</div></li>
+    <li><span class="pill done">Done</span><div><strong>1.3 Storage</strong>: designs + autosave in IndexedDB <code>wdp-section-designs</code>; uploaded images as Blobs in <code>wdp_section_assets</code>; custom fonts via the shared <code>wdp-fonts</code> store.</div></li>
+    <li><span class="pill done">Done</span><div><strong>1.4 Editor</strong>: content fields grouped by section part, image upload (resized in the browser), link fields, show/hide toggles, theme colours + presets, heading/body fonts (Google + uploaded), corner radius and content width, brand kit, undo/redo, desktop / tablet / mobile preview, Preview / HTML / CSS views. Dark looks come from theme presets (e.g. Midnight).</div></li>
+    <li><span class="pill done">Done</span><div><strong>1.4b Motion (GSAP)</strong>: Animation panel (effect: none / fade up / fade / slide / zoom; speed: fast / normal / slow), ▶ Play animation in the preview, GSAP + ScrollTrigger runtime added to every export (HTML, ZIP, React, Vue, Fork). See <a href="#motion">Motion &amp; JS libraries</a>.</div></li>
+    <li><span class="pill done">Done</span><div><strong>1.5 Export</strong>: Copy HTML, Download .html (images inlined), Download ZIP (index.html, images/, README), React and Vue components via <code>lib/snippet-exporters.js</code>, Fork to My Code.</div></li>
+    <li><span class="pill done">Done</span><div><strong>1.6 My designs &amp; backup</strong>: Save / Save as / Detach, My designs tab (search, open, duplicate, rename, delete), Import / Export tab using <code>lib/design-transfer.js</code> (designs + images + fonts + brand kit).</div></li>
+    <li><span class="pill done">Done</span><div><strong>1.7 Pages &amp; SEO</strong>: <code>/website-section-templates/</code> gallery, <code>/website-section-templates/category/&lt;id&gt;/</code>, <code>/website-section-templates/&lt;id&gt;/</code> editor pages with full SEO content, FAQ + CreativeWork + Breadcrumb schema.</div></li>
+    <li><span class="pill done">Done</span><div><strong>1.8 Site wiring</strong>: tools registry, top nav (next to Email/Social), sidebar group, template-nav generator, sitemap <code>sitemap-website-section-templates.xml</code>, llms.txt section, robots.txt, preview/OG capture script.</div></li>
+    <li><span class="pill done">Done</span><div><strong>1.9 First 5 hero sections</strong>: SaaS split hero, centred gradient hero, image background hero, app product hero, personal / portfolio hero.</div></li>
+    <li><span class="pill todo">To do</span><div><strong>1.10 User review &amp; fixes</strong>: user tests locally; fix issues; then deploy.</div></li>
+  </ul>
+
+  <div class="phase"><h3>Phase 2 — Section catalogue (~40 sections)</h3><span class="pill todo">To do</span></div>
+  <ul class="checklist">
+    <li><span class="pill todo">To do</span><div>Navbar (3), Features (5), Pricing (4), Testimonials (4), FAQ (3), CTA (4), Stats &amp; logos (3), Team (3), Contact (3), Blog grid (3), Footer (4). Research search demand per category first.</div></li>
+    <li><span class="pill todo">To do</span><div>Interactive parts (mobile menu toggle, FAQ accordion, pricing monthly/yearly switch) with tiny, dependency-free JS included in exports.</div></li>
+    <li><span class="pill todo">To do</span><div>Click-to-edit text directly in the preview (as in the email editor).</div></li>
+    <li><span class="pill todo">To do</span><div>Tailwind export (via <code>toTailwindComponent</code>) once its output is verified on sections.</div></li>
+    <li><span class="pill todo">To do</span><div>Cross-links: related UI Snippets ↔ section templates.</div></li>
+  </ul>
+
+  <div class="phase"><h3>Phase 3 — Page builder</h3><span class="pill todo">To do</span></div>
+  <ul class="checklist">
+    <li><span class="pill todo">To do</span><div>Page = ordered list of section instances <code>{ tpl, state }</code> + one shared theme. Add, remove, reorder (drag), duplicate sections.</div></li>
+    <li><span class="pill todo">To do</span><div>Export whole page: single HTML, ZIP with images/fonts, React page component.</div></li>
+    <li><span class="pill todo">To do</span><div>Saved pages in IndexedDB (<code>pages</code> store), included in backup export/import.</div></li>
+    <li><span class="pill todo">To do</span><div>Shared motion runtime: one GSAP + ScrollTrigger include per page, one trigger per section, page-level motion default with per-section override, "replay all" in the builder.</div></li>
+    <li><span class="pill todo">To do</span><div>Page-level GSAP features: ScrollSmoother smooth scroll + parallax (page setting), ScrollToPlugin anchor navigation, Draggable + Inertia carousels (testimonials, logos, gallery); plugins loaded once per page via <code>gsapCdn()</code> and wired into every export.</div></li>
+  </ul>
+
+  <div class="phase"><h3>Phase 3b — Scroll animation builder</h3><span class="pill todo">To do</span></div>
+  <p class="muted">Goal: users design scroll-driven animations visually (no code), on top of the entrance presets. <strong>Built entirely on GSAP</strong>: each section's animation is a GSAP timeline driven by ScrollTrigger (<code>scrub</code>, <code>pin</code>, <code>start</code>/<code>end</code>), with <code>gsap.matchMedia</code> for per-device rules. Every GSAP plugin is available (see <a href="#motion">Motion &amp; JS libraries</a>). Exported with every format.</p>
+  <ul class="checklist">
+    <li><span class="pill todo">To do</span><div><strong>Animation targets</strong>: give every animatable element a stable id (<code>data-anim-id</code>) so users can pick it by clicking it in the preview or from a layer list.</div></li>
+    <li><span class="pill todo">To do</span><div><strong>Section scroll settings</strong>: trigger start / end (e.g. "top 80%" → "bottom top"), mode (play once, play and reverse, scrub to scroll), pin the section while it animates, pin length.</div></li>
+    <li><span class="pill todo">To do</span><div><strong>Tracks &amp; keyframes</strong>: per element, animate transform (x, y, scale, rotate), opacity, clip-path reveal, blur and colour between keyframes placed on a 0–100% scroll progress bar, with an easing per segment.</div></li>
+    <li><span class="pill todo">To do</span><div><strong>Effect presets</strong>: parallax image, pinned image sequence / scroll story, text line reveal, number counters (stats), horizontal scroll gallery, sticky split (text scrolls, image stays), progress bar. Presets create editable tracks.</div></li>
+    <li><span class="pill todo">To do</span><div><strong>Timeline UI</strong>: a timeline panel under the preview with a scroll scrubber, so users can drag through the animation without scrolling; markers toggle; per-device on/off (e.g. simpler on mobile via <code>gsap.matchMedia</code>).</div></li>
+    <li><span class="pill todo">To do</span><div><strong>Page level</strong>: animations spanning sections (scroll story across the page), ScrollSmoother smooth-scroll option (native ScrollTrigger sync), <code>ScrollTrigger.refresh()</code> after reorder / image load.</div></li>
+    <li><span class="pill todo">To do</span><div><strong>Data &amp; export</strong>: stored as plain JSON in state (<code>motion.scroll</code>, below); one generic runtime turns it into GSAP timelines, so HTML / ZIP / React / Vue / Fork all work and backups carry it. Reduced motion and no-JS still show the finished, static layout.</div></li>
+  </ul>
+<pre>motion: {
+  preset, speed,                         // entrance (Phase 1)
+  scroll: {
+    start: 'top 80%', end: 'bottom top',
+    mode: 'scrub' | 'once' | 'reverse',  pin: false, pinLength: '100%',
+    tracks: [{ target: 'hero-image', keys: [
+      { at: 0,   y: 80, scale: .9, opacity: 0, ease: 'power2.out' },
+      { at: 100, y: 0,  scale: 1,  opacity: 1 } ] }],
+    devices: { mobile: true },
+  },
+}</pre>
+
+  <div class="phase"><h3>Phase 4 — Website templates</h3><span class="pill todo">To do</span></div>
+  <ul class="checklist">
+    <li><span class="pill todo">To do</span><div>Presets = saved page stacks with sample content: SaaS landing, agency, portfolio, restaurant, real estate, event, coach, local business.</div></li>
+    <li><span class="pill todo">To do</span><div>Each preset gets its own SEO page (<code>/website-templates/&lt;id&gt;/</code>) that opens in the page builder.</div></li>
+  </ul>
+
+  <div class="phase"><h3>Phase 5 — Multi-page sites</h3><span class="pill todo">To do</span></div>
+  <ul class="checklist">
+    <li><span class="pill todo">To do</span><div>Several pages per site (home, about, pricing, contact) sharing navbar/footer and theme; export as a static-site ZIP.</div></li>
+  </ul>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="architecture">
+  <h2>Architecture</h2>
+  <h3>Where things live</h3>
+  <table>
+    <thead><tr><th>Path</th><th>What</th></tr></thead>
+    <tbody>
+      <tr><td><code>src/components/SectionTemplates/templates/meta.js</code></td><td>Categories, theme tokens, theme presets, base CSS, rich-text and escaping helpers.</td></tr>
+      <tr><td><code>src/components/SectionTemplates/templates/&lt;id&gt;.js</code></td><td>One file per section: metadata, fields, toggles, <code>html</code> and <code>css</code>.</td></tr>
+      <tr><td><code>src/components/SectionTemplates/templates/index.js</code></td><td>Registry (<code>SECTION_TEMPLATES</code>), <code>defaultSectionState()</code>, related sections.</td></tr>
+      <tr><td><code>src/components/SectionTemplates/templates/seo-content.js</code>, <code>seo-categories.js</code></td><td>Hand-written SEO per section and per category.</td></tr>
+      <tr><td><code>src/components/SectionTemplates/render.js</code></td><td>State → HTML/CSS; preview document; export document; ZIP; framework exports.</td></tr>
+      <tr><td><code>src/components/SectionTemplates/storage.js</code></td><td>Design store + image asset store (IndexedDB).</td></tr>
+      <tr><td><code>src/components/SectionTemplates/index.js</code></td><td>Gallery, category page, editor (client components).</td></tr>
+      <tr><td><code>src/app/website-section-templates/…</code></td><td>Routes: gallery, <code>[id]</code>, <code>category/[cat]</code>, with metadata + SEO sections.</td></tr>
+      <tr><td><code>scripts/capture-section-previews.mjs</code></td><td>Renders each section (Playwright) → <code>public/images/website-section-templates/previews/&lt;id&gt;.png</code> and <code>og/&lt;id&gt;.jpg</code>.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Reused from the existing tools</h3>
+  <ul>
+    <li><code>lib/design-store.js</code> — designs + autosave per tool.</li>
+    <li><code>lib/design-transfer.js</code> — backup export/import (generalised to any tool label).</li>
+    <li><code>lib/fonts.js</code> + <code>components/FontPicker</code> — Google Fonts and uploaded fonts (<code>c:</code> ids, stored in <code>wdp-fonts</code>).</li>
+    <li><code>components/BrandKit</code> — shared brand kit (name, logo, colours, fonts).</li>
+    <li><code>components/ToolbarActions</code> — Save / Export menu / Fork / Undo-Redo buttons.</li>
+    <li><code>components/SavedDesignsStrip</code> — "My designs" row on the gallery.</li>
+    <li><code>lib/snippet-exporters.js</code> — React / Vue / Tailwind conversion.</li>
+    <li>Social template styles (<code>SocialPostTemplates/styles.module.css</code>) for the editor panel, as the email editor does.</li>
+  </ul>
+
+  <h3>Section template shape</h3>
+<pre>{
+  id, name, version, category, tags, created, updated,
+  seoTitle, seoDescription, description, bestFor: [..],
+  groups:  [{ id, label, toggle? }],
+  fields:  [{ key, group, label, type: 'text'|'textarea'|'url'|'image', value, hint?, upload? }],
+  toggles: [{ key, label, value }],
+  theme:   { …overrides of DEFAULT_THEME },      // the section's own default look
+  html: `…data-edit="key" data-href="key" data-image="key" data-show="toggle"…`,
+  css:  `.hx-… { … var(--st-brand) … @container st (max-width: 720px) { … } }`,
+}</pre>
+
+  <h3>Bindings in section HTML</h3>
+  <table>
+    <tbody>
+      <tr><td><code>data-edit="key"</code></td><td>Text field (rich text: <code>*accent*</code>, &lt;b&gt;, &lt;i&gt;, &lt;br&gt;, links).</td></tr>
+      <tr><td><code>data-href="key"</code></td><td>Link field on an <code>&lt;a&gt;</code> (http/https/mailto/tel/# only).</td></tr>
+      <tr><td><code>data-image="key"</code></td><td>Image field on an <code>&lt;img&gt;</code> (src set from upload or URL; placeholder when empty).</td></tr>
+      <tr><td><code>data-show="toggle"</code></td><td>Element removed when the toggle is off.</td></tr>
+      <tr><td><code>data-show-if="key"</code></td><td>Element removed when that field is empty (e.g. an optional second button).</td></tr>
+      <tr><td><code>data-bg="key"</code></td><td>Background image from an image field.</td></tr>
+      <tr><td><code>data-optional</code></td><td>On an <code>&lt;img data-image&gt;</code>: removed when empty instead of showing a placeholder.</td></tr>
+      <tr><td><code>data-anim="item"</code> / <code>"media"</code></td><td>Motion marker: text/buttons animate in a stagger (<code>item</code>); images/mockups use the media variant. Kept in exports (not stripped by <code>clean</code>).</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="motion">
+  <h2>Motion &amp; JS libraries (GSAP is integral)</h2>
+  <p>Animation is part of every section, not an add-on. Every new section, page-builder feature and website template must be designed with GSAP in mind and stay compatible with it.</p>
+  <h3>How it works now</h3>
+  <ul>
+    <li><strong>Library:</strong> GSAP <code>3.15.0</code> (all plugins free since 3.13) from cdnjs. <code>GSAP_VERSION</code>, <code>GSAP_PLUGINS</code> (all 19 plugins, cdnjs-verified) and <code>gsapCdn(plugins)</code> live in <code>templates/meta.js</code>; <code>GSAP_CDN</code> = core + ScrollTrigger. Versions are pinned; bump in one place.</li>
+    <li><strong>Plugin loading:</strong> each section / effect declares the plugins it needs; exports load only those via <code>gsapCdn()</code> (core + ScrollTrigger always, dependencies such as CustomEase added automatically), so pages stay light.</li>
+    <li><strong>Markers:</strong> sections mark elements with <code>data-anim="item"</code> or <code>data-anim="media"</code>. Templates never contain their own animation code.</li>
+    <li><strong>Presets:</strong> <code>MOTION_PRESETS</code> (none, fade-up, fade, slide, zoom) each give "from" vars for items and media; <code>MOTION_SPEEDS</code> scale duration. State: <code>motion: { preset, speed }</code>.</li>
+    <li><strong>Runtime:</strong> <code>motionScript(state)</code> in <code>render.js</code> builds a small script: one ScrollTrigger per section, plays once at ~80% viewport, <code>gsap.from()</code> with stagger.</li>
+    <li><strong>Progressive enhancement:</strong> content is visible by default; without JavaScript or when GSAP fails to load nothing is hidden. <code>prefers-reduced-motion</code> skips animation.</li>
+    <li><strong>Editor:</strong> the preview is still while editing; ▶ Play animation replays it. Thumbnails, gallery cards and captured previews render with <code>motion: false</code>.</li>
+    <li><strong>Exports:</strong> HTML/ZIP get the CDN <code>&lt;script&gt;</code> tags + runtime (<code>motionTags</code>); React/Vue get the runtime in an effect/mounted hook with the CDN URLs listed (<code>snippetParts.cdnUrls</code>); Fork to My Code adds GSAP as a CDN link.</li>
+  </ul>
+  <h3>Rules for compatibility</h3>
+  <ol>
+    <li>Animate with transforms and opacity only (no layout properties), so container queries and the builder are unaffected.</li>
+    <li>Scope every selector to the section root; never animate globally or use IDs.</li>
+    <li>One ScrollTrigger per section; the page builder includes GSAP once and runs each section's setup, so stacking sections never loads GSAP twice.</li>
+    <li>Kill and re-create triggers on re-render (builder reorder, React unmount) to avoid leaks.</li>
+    <li>Animations must not hide content that is needed for SEO or screenshots.</li>
+  </ol>
+  <h3>Every GSAP plugin, and what we use it for</h3>
+  <p>The platform is built to be rich in text and element animation. All GSAP plugins are in scope; each becomes editor presets that users can customise without code.</p>
+  <table>
+    <thead><tr><th>Plugin</th><th>Text / element effects we build with it</th><th>When</th></tr></thead>
+    <tbody>
+      <tr><td>ScrollTrigger</td><td>Entrance on scroll, scrub, pin, parallax, scroll stories, horizontal galleries, progress bars</td><td>Now; scrub/pin in 3b</td></tr>
+      <tr><td>SplitText</td><td>Headline reveals by character / word / line, masked line reveals, staggered wave, typewriter-style fades</td><td>Phase 2 (hero headlines first)</td></tr>
+      <tr><td>TextPlugin</td><td>Typing / rotating words ("We build <em>websites | apps | brands</em>")</td><td>Phase 2</td></tr>
+      <tr><td>ScrambleTextPlugin</td><td>Decode / scramble text effects for tech and agency sections</td><td>Phase 2</td></tr>
+      <tr><td>ScrollSmoother</td><td>Smooth scroll + data-speed parallax as a page setting (instead of Lenis)</td><td>Phase 3</td></tr>
+      <tr><td>ScrollToPlugin</td><td>Smooth anchor navigation from navbars / "back to top"</td><td>Phase 2 navbar</td></tr>
+      <tr><td>Observer</td><td>Wheel / swipe driven full-screen section slides</td><td>Phase 3b</td></tr>
+      <tr><td>Flip</td><td>Animated layout changes: filtering galleries, pricing monthly/yearly toggle, tab switches, expanding cards</td><td>Phase 2</td></tr>
+      <tr><td>Draggable + InertiaPlugin</td><td>Drag-to-scroll carousels and logo strips with momentum; before/after sliders</td><td>Phase 2 (instead of Swiper)</td></tr>
+      <tr><td>DrawSVGPlugin</td><td>Line-drawing icons, underlines, signatures, path-progress timelines</td><td>Phase 2</td></tr>
+      <tr><td>MorphSVGPlugin</td><td>Shape morphs: blobs behind hero images, icon morphs, section dividers</td><td>Phase 2</td></tr>
+      <tr><td>MotionPathPlugin</td><td>Elements moving along a path (process steps, flight/route visuals)</td><td>Phase 3b</td></tr>
+      <tr><td>CustomEase / CustomBounce / CustomWiggle / EasePack</td><td>Brand-specific easing curves in the timeline editor; bounce and wiggle attention effects on buttons</td><td>Phase 3b (curve editor)</td></tr>
+      <tr><td>Physics2D / PhysicsProps</td><td>Confetti, falling particles, playful 404 / launch sections</td><td>Phase 2+</td></tr>
+    </tbody>
+  </table>
+  <p class="muted">Not used in exports: GSDevTools, MotionPathHelper (editor/debug only, maybe in the timeline UI), PixiPlugin and EaselPlugin (canvas libraries we don't use), CSSRulePlugin (deprecated). Non-GSAP libraries are only added when GSAP has no equivalent.</p>
+  <h3>Text animation layer (planned)</h3>
+  <ul>
+    <li>New marker <code>data-anim-text="key"</code> on headings / paragraphs; the editor offers a "Text effect" per text field: split by chars / words / lines, reveal style (fade, rise, mask, blur, scramble, type), stagger and trigger (load, scroll, scrub).</li>
+    <li>SplitText runs with <code>autoSplit</code> + <code>mask</code> so lines re-split on resize and fonts load; text stays real, selectable and indexable (SplitText adds <code>aria-label</code>).</li>
+    <li>Rich text (<code>*accent*</code>, bold, links) keeps working inside split text; accent words can get their own effect.</li>
+  </ul>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="data">
+  <h2>Data &amp; storage (users never lose work)</h2>
+  <table>
+    <thead><tr><th>Store</th><th>Holds</th></tr></thead>
+    <tbody>
+      <tr><td>IndexedDB <code>wdp-section-designs</code> → <code>designs</code></td><td>My designs: <code>{ id, name, tpl, state, created, updated }</code></td></tr>
+      <tr><td>IndexedDB <code>wdp-section-designs</code> → <code>autosave</code></td><td>Latest edits per section template.</td></tr>
+      <tr><td>IndexedDB <code>wdp_section_assets</code> → <code>images</code></td><td>Uploaded images as Blobs, key <code>&lt;tpl&gt;:&lt;field&gt;:&lt;uploadId&gt;</code>; state stores <code>uploads[field] = { id, file, w, h }</code>.</td></tr>
+      <tr><td>IndexedDB <code>wdp-fonts</code> (shared)</td><td>Uploaded fonts, referenced as <code>c:&lt;id&gt;</code> font ids.</td></tr>
+      <tr><td>localStorage <code>wdp-brand-kit-v1</code> (shared)</td><td>Brand kit.</td></tr>
+    </tbody>
+  </table>
+  <h3>State shape</h3>
+<pre>{
+  fields:  { key: value },
+  toggles: { key: bool },
+  theme:   { brand, brandText, bg, surface, text, muted, radius, maxWidth },
+  fonts:   { heading, body },          // font ids (built-in, g:…, c:…)
+  motion:  { preset, speed },          // GSAP: none | fade-up | fade | slide | zoom; 0.7 | 1 | 1.4
+  uploads: { field: { id, file, w, h } },
+}</pre>
+  <h3>Backup file</h3>
+  <p><code>{ format: 'wdp-designs', version: 1, tool: 'section-templates', designs, assets (images as data URLs), fonts (uploaded fonts used), brandKit }</code>. Import never overwrites: same design → skipped, same id but different → imported as a copy.</p>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="seo">
+  <h2>SEO &amp; AI strategy</h2>
+  <ul>
+    <li><strong>Search intents to win:</strong> "hero section template html css", "tailwind hero section", "landing page hero examples", "pricing section template", "responsive footer html css", "free landing page template", "website section templates".</li>
+    <li><strong>Page types:</strong> library (<code>/website-section-templates/</code>), category pages (one per section type), one page per section, later one page per website template.</li>
+    <li><strong>On every section page:</strong> title 50–60 / description 150–160 chars, 5 keywords, About (220–320 words, explains the design and how it's built), 8–10 features, 3 why cards, 4 use cases (18–42 words), 4–5 question-style FAQs, AI prompt, CreativeWork + FAQPage + BreadcrumbList schema, preview image + OG image.</li>
+    <li><strong>For AI assistants:</strong> self-contained FAQ answers, clear factual descriptions of what each section contains, llms.txt entries, sitemaps with images, and the "How it's different" list.</li>
+    <li><strong>Internal links:</strong> sections ↔ related sections ↔ UI Snippets ↔ email/social templates for the same brand kit.</li>
+    <li><strong>Avoid cannibalising UI Snippets:</strong> section pages target "template / section" intents and link to the matching snippet categories.</li>
+  </ul>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="catalog">
+  <h2>Section catalogue</h2>
+  <table>
+    <thead><tr><th>Category</th><th>Sections</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Hero</td><td>SaaS Split Hero · Centred Gradient Hero · Image Background Hero · App Product Hero · Personal Portfolio Hero</td><td><span class="pill done">5 built</span></td></tr>
+      <tr><td>Navbar</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
+      <tr><td>Features</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
+      <tr><td>Pricing</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
+      <tr><td>Testimonials</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
+      <tr><td>FAQ</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
+      <tr><td>Call to action</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
+      <tr><td>Stats &amp; logos</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
+      <tr><td>Team</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
+      <tr><td>Contact</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
+      <tr><td>Blog grid</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
+      <tr><td>Footer</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="checklist">
+  <h2>Checklist for every new section</h2>
+  <ol>
+    <li>Create <code>templates/&lt;id&gt;.js</code> (fields, toggles, theme, html, css with container queries; check a light and a dark preset).</li>
+    <li>Add <code>data-anim="item"</code> / <code>"media"</code> markers and check every motion preset plays well (and that the section looks complete with motion off).</li>
+    <li>Register in <code>templates/index.js</code>.</li>
+    <li>Add SEO entry in <code>seo-content.js</code> (all fields, lengths checked) and update the category intro in <code>seo-categories.js</code>.</li>
+    <li>Run <code>node scripts/capture-section-previews.mjs &lt;id&gt;</code> and review the preview + OG image.</li>
+    <li>Run <code>node scripts/generate-template-nav.mjs</code> (sidebar).</li>
+    <li>Update this roadmap: catalogue row, checklist, change log.</li>
+  </ol>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="decisions">
+  <h2>Decisions</h2>
+  <table>
+    <thead><tr><th>Date</th><th>Decision</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>2026-10-20</td><td>Section templates are editable templates (fields, images, theme), not another snippet list.</td><td>UI Snippets already covers copy-paste components; editing + branding is the gap.</td></tr>
+      <tr><td>2026-10-20</td><td>Website templates = presets of a page builder that stacks sections.</td><td>One system to maintain; every new section improves every website template.</td></tr>
+      <tr><td>2026-10-20</td><td>Shared theme tokens as CSS custom properties (<code>--st-*</code>).</td><td>Lets any mix of sections look like one site; makes the page builder possible.</td></tr>
+      <tr><td>2026-10-20</td><td>Container queries (<code>container: st / inline-size</code>) instead of media queries.</td><td>Sections respond to their own width in the editor, builder and user sites alike.</td></tr>
+      <tr><td>2026-10-20</td><td>Uploaded images stored as Blobs in a separate asset store (email approach), not data URLs in state (social approach).</td><td>Hero photos are large; keeps designs light and autosave fast.</td></tr>
+      <tr><td>2026-10-20</td><td>GSAP (+ ScrollTrigger) is an integral motion layer for sections, the page builder and website templates; other JS libraries may be added only when GSAP has no equivalent (superseded by the all-plugins decision below), always pinned from cdnjs and included in exports.</td><td>User request; animation is a big part of modern sites and GSAP is the industry standard. Markers + one runtime keep templates simple and stackable.</td></tr>
+      <tr><td>2026-10-20</td><td>Use all GSAP plugins (SplitText, TextPlugin, ScrambleText, Flip, Draggable/Inertia, DrawSVG, MorphSVG, MotionPath, ScrollSmoother, Observer, custom eases, physics) to make the platform rich in text and element animation. Upgraded GSAP 3.12.5 → 3.15.0; GSAP plugins preferred over other libraries (e.g. ScrollSmoother over Lenis, Draggable over Swiper).</td><td>User request. All plugins have been free since 3.13 and are on cdnjs; one library and one runtime keeps exports small and consistent.</td></tr>
+      <tr><td>2026-10-20</td><td>The builder will let users create scroll-based section animations (scrub, pin, keyframe tracks, effect presets) visually — Phase 3b.</td><td>User request; scroll-driven motion is a standout feature most free builders lack. Stored as JSON + one runtime so every export keeps working.</td></tr>
+      <tr><td>2026-10-20</td><td>URL: <code>/website-section-templates/</code> (user's choice). Code lives in <code>components/SectionTemplates</code>; images in <code>public/images/section-templates/</code>.</td><td>Says exactly what it is and targets "website section templates" searches.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="log">
+  <h2>Change log</h2>
+  <table>
+    <thead><tr><th>Date</th><th>What changed</th></tr></thead>
+    <tbody>
+      <tr><td>2026-10-20</td><td>Roadmap created. Phase 1 built: section template engine (data model, renderer, storage, editor, exports, My designs, backup import/export), pages with SEO, site wiring and 5 hero sections. Not deployed.</td></tr>
+      <tr><td>2026-10-20</td><td>GSAP motion layer added (presets, speeds, Play animation, motion in all exports) and documented in "Motion &amp; JS libraries". Route pages written (library, category, editor), plus wiring: registry, top nav "Sections", sidebar group, template-nav <code>section</code> key, postbuild sitemap + llms.txt, robots.txt, icon. Previews + OG images captured. Awaiting user test.</td></tr>
+      <tr><td>2026-10-20</td><td>Added Phase 3b "Scroll animation builder" (targets, scroll settings, keyframe tracks, effect presets, timeline UI, page-level scroll, data model) and its decision.</td></tr>
+      <tr><td>2026-10-20</td><td>All GSAP plugins adopted: GSAP upgraded to 3.15.0, <code>GSAP_PLUGINS</code> + <code>gsapCdn()</code> added to meta.js (all 20 cdnjs files verified 200), 5 heroes re-verified headless on 3.15.0. Roadmap: plugin-by-plugin usage table and planned text animation layer.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</div>
+</body>
+</html>
