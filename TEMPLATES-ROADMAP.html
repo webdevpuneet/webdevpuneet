@@ -75,9 +75,9 @@
 <section id="now" class="next">
   <h2>▶ Where we are right now</h2>
   <div class="callout">
-    <strong>Current step:</strong> Phase 1 — Section template engine + first 5 hero sections.<br>
-    <strong>Status:</strong> items 1.1–1.9 done (engine, GSAP motion, pages, site wiring, 5 heroes); built locally, not deployed. Only 1.10 (user review) is left.<br>
-    <strong>Next action:</strong> the user reviews <code>/website-section-templates/</code> locally; then roll out the next categories (Phase 2).
+    <strong>Current step:</strong> Phase 2 — Section catalogue. 2.1–2.4 built (engine, 5 Features, 4 Pricing, 4 Testimonials).<br>
+    <strong>Status:</strong> 18 sections (5 hero, 5 features, 4 pricing, 4 testimonials), built locally and not deployed. Own sitemap <code>sitemap-website-section-templates.xml</code> (categories + every section with preview images), listed in sitemap.xml and robots.txt. User review is still open.<br>
+    <strong>Next action:</strong> 2.5 FAQ (3) with an <code>accordion</code> behaviour (GSAP height tween, native <code>&lt;details&gt;</code> fallback) and FAQPage schema in exports. Then CTA (4) and Stats &amp; logos (3), which can reuse <code>marquee</code> for logo strips.
   </div>
   <p class="muted">Rule for every session: read this section first, work from the first unchecked item, then update the checklists, the decisions table and the change log before finishing.</p>
 </section>
@@ -128,9 +128,14 @@
     <li><span class="pill todo">To do</span><div><strong>1.10 User review &amp; fixes</strong>: user tests locally; fix issues; then deploy.</div></li>
   </ul>
 
-  <div class="phase"><h3>Phase 2 — Section catalogue (~40 sections)</h3><span class="pill todo">To do</span></div>
+  <div class="phase"><h3>Phase 2 — Section catalogue (~40 sections)</h3><span class="pill doing">In progress</span></div>
   <ul class="checklist">
-    <li><span class="pill todo">To do</span><div>Navbar (3), Features (5), Pricing (4), Testimonials (4), FAQ (3), CTA (4), Stats &amp; logos (3), Team (3), Contact (3), Blog grid (3), Footer (4). Research search demand per category first.</div></li>
+    <li><span class="pill done">Done</span><div><strong>2.1 Engine for repeatable content</strong>: <code>t.lists</code> (add / duplicate / reorder / remove items, min/max, stable item ids, per-item image uploads keyed <code>list.itemId.field</code>), <code>data-list</code>, <code>data-icon</code> + 60 Lucide icons (<code>templates/icons.js</code>, regenerate with <code>scripts/build-section-icons.mjs</code>), <code>data-lines</code> bullet lists, field types <code>icon</code> and <code>lines</code>, shared <code>.st-head</code> / <code>.st-h2</code> / <code>.st-icon</code> styles.</div></li>
+    <li><span class="pill done">Done</span><div><strong>2.1b SplitText headline effects</strong>: <code>data-anim-text</code> marker and <code>motion.text</code> (Words rise, Line reveal, Letters, Blur in), SplitText loaded only when used (<code>motionPlugins</code> / <code>motionCdn</code>), splits after fonts load, adds aria-label. Fork to My Code now includes GSAP + the runtime (it used to drop them).</div></li>
+    <li><span class="pill done">Done</span><div><strong>2.2 Features (5)</strong>: Icon Grid, Split With Image, Bento Grid, Alternating Rows, How It Works Steps, plus SEO content, Features category page, previews/OG and 3 new artworks.</div></li>
+    <li><span class="pill done">Done</span><div><strong>2.3 Behaviours layer + Pricing (4)</strong>: <code>templates/behaviors.js</code>, where a template lists <code>behaviors: ['billing']</code> and gets a small script plus its GSAP plugins in every export (HTML, ZIP, React, Vue, Fork), independent of the entrance-motion setting (<code>sectionScript</code> / <code>sectionCdn</code> / <code>sectionScriptTags</code> in render.js). <code>billing</code> = monthly/yearly switch (aria-pressed, <code>.is-yearly</code> class, GSAP Flip pill, rolling prices; works without GSAP). Shared <code>BILLING_HTML</code> / <code>BILLING_CSS</code> / <code>billingFields()</code>, <code>.st-checks</code> in BASE_CSS, new <code>data-hide-if</code> binding, list items can read section fields. Sections: Three-Tier, Dark Glow, Single Plan, List Rows, plus SEO, Pricing category page and previews. Toggle verified headless in all 4 (both directions, motion on/off, no errors).</div></li>
+    <li><span class="pill done">Done</span><div><strong>2.4 Testimonials (4)</strong>: behaviours <code>carousel</code> (native scroll-snap row; desktop drag via GSAP Draggable on an invisible proxy mapped to scrollLeft, because Draggable's own <code>scrollLeft</code> type wraps the slides and breaks the flex row; Inertia momentum; snap to cards; ScrollToPlugin arrows that disable at the ends) and <code>marquee</code> (clones items once with aria-hidden, GSAP xPercent loop, hover/focus eases timeScale to 0, reduced motion = no clones and a hand-scrollable row). Shared <code>parts.js</code> (stars, person row, <code>quoteFields()</code>), 8 illustrated avatars. Sections: Testimonial Wall (masonry), Carousel, Marquee (two lists), Spotlight (big quote with SplitText + stats list). Plus SEO, the Testimonials category page and previews. Verified headless: arrows, drag snap, loop, hover pause, reduced motion.</div></li>
+    <li><span class="pill todo">To do</span><div>Remaining: FAQ (3), CTA (4), Stats &amp; logos (3), Navbar (3), Team (3), Contact (3), Blog grid (3), Footer (4). Research search demand per category first.</div></li>
     <li><span class="pill todo">To do</span><div>Interactive parts (mobile menu toggle, FAQ accordion, pricing monthly/yearly switch) with tiny, dependency-free JS included in exports.</div></li>
     <li><span class="pill todo">To do</span><div>Click-to-edit text directly in the preview (as in the email editor).</div></li>
     <li><span class="pill todo">To do</span><div>Tailwind export (via <code>toTailwindComponent</code>) once its output is verified on sections.</div></li>
@@ -234,6 +239,12 @@
       <tr><td><code>data-show-if="key"</code></td><td>Element removed when that field is empty (e.g. an optional second button).</td></tr>
       <tr><td><code>data-bg="key"</code></td><td>Background image from an image field.</td></tr>
       <tr><td><code>data-optional</code></td><td>On an <code>&lt;img data-image&gt;</code>: removed when empty instead of showing a placeholder.</td></tr>
+      <tr><td><code>data-list="key"</code></td><td>Repeatable items from <code>t.lists</code>: the element's first child is the item template, rendered once per item; bindings inside read the item's own fields (they're renamed <code>data-i-*</code> after filling).</td></tr>
+      <tr><td><code>data-hide-if="key"</code></td><td>Element removed when that field is NOT empty (a default suffix replaced by a plan's own price note).</td></tr>
+      <tr><td><code>behaviors: [...]</code> (template)</td><td>Interactive scripts from <code>behaviors.js</code> (now: <code>billing</code>, <code>carousel</code> with <code>[data-carousel]</code> / <code>-prev</code> / <code>-next</code>, <code>marquee</code> with <code>[data-marquee]</code> / <code>="reverse"</code> / <code>data-speed</code>; next: <code>accordion</code>, <code>menu</code>, <code>tabs</code>, <code>counter</code>). Markup uses <code>data-billing</code> buttons, <code>.st-bill-pill</code>, <code>.st-pm</code> / <code>.st-py</code>.</td></tr>
+      <tr><td><code>data-icon="key"</code></td><td>Empty element filled with an inline SVG icon (<code>icon</code> field, ids from <code>icons.js</code>).</td></tr>
+      <tr><td><code>data-lines="key"</code></td><td>Empty <code>&lt;ul&gt;</code>/<code>&lt;ol&gt;</code>: one <code>&lt;li&gt;</code> per non-empty line (<code>lines</code> field).</td></tr>
+      <tr><td><code>data-anim-text</code></td><td>Heading animated with the SplitText text effect (<code>motion.text</code>); kept in exports.</td></tr>
       <tr><td><code>data-anim="item"</code> / <code>"media"</code></td><td>Motion marker: text/buttons animate in a stagger (<code>item</code>); images/mockups use the media variant. Kept in exports (not stripped by <code>clean</code>).</td></tr>
     </tbody>
   </table>
@@ -284,9 +295,10 @@
     </tbody>
   </table>
   <p class="muted">Not used in exports: GSDevTools, MotionPathHelper (editor/debug only, maybe in the timeline UI), PixiPlugin and EaselPlugin (canvas libraries we don't use), CSSRulePlugin (deprecated). Non-GSAP libraries are only added when GSAP has no equivalent.</p>
-  <h3>Text animation layer (planned)</h3>
+  <h3>Text animation layer</h3>
   <ul>
-    <li>New marker <code>data-anim-text="key"</code> on headings / paragraphs; the editor offers a "Text effect" per text field: split by chars / words / lines, reveal style (fade, rise, mask, blur, scramble, type), stagger and trigger (load, scroll, scrub).</li>
+    <li><span class="pill done">Done</span> Section-level headline effect: <code>data-anim-text</code> on the main heading, <code>motion.text</code> = rise / lines / chars / blur (<code>TEXT_EFFECTS</code> in meta.js), SplitText with masks, split after <code>document.fonts.ready</code>; verified headless (pieces split, aria-label set, all visible at end).</li>
+    <li><span class="pill todo">Next</span> Per-field text effects: <code>data-anim-text="key"</code> on headings / paragraphs; the editor offers a "Text effect" per text field: split by chars / words / lines, reveal style (fade, rise, mask, blur, scramble, type), stagger and trigger (load, scroll, scrub).</li>
     <li>SplitText runs with <code>autoSplit</code> + <code>mask</code> so lines re-split on resize and fonts load; text stays real, selectable and indexable (SplitText adds <code>aria-label</code>).</li>
     <li>Rich text (<code>*accent*</code>, bold, links) keeps working inside split text; accent words can get their own effect.</li>
   </ul>
@@ -311,8 +323,9 @@
   toggles: { key: bool },
   theme:   { brand, brandText, bg, surface, text, muted, radius, maxWidth },
   fonts:   { heading, body },          // font ids (built-in, g:…, c:…)
-  motion:  { preset, speed },          // GSAP: none | fade-up | fade | slide | zoom; 0.7 | 1 | 1.4
-  uploads: { field: { id, file, w, h } },
+  lists:   { key: [{ _id, ...itemFields }] },  // repeatable cards / rows / steps
+  motion:  { preset, speed, text },    // GSAP: none | fade-up | fade | slide | zoom; 0.7 | 1 | 1.4; text: none | rise | lines | chars | blur
+  uploads: { field | 'list.itemId.field': { id, file, w, h } },
 }</pre>
   <h3>Backup file</h3>
   <p><code>{ format: 'wdp-designs', version: 1, tool: 'section-templates', designs, assets (images as data URLs), fonts (uploaded fonts used), brandKit }</code>. Import never overwrites: same design → skipped, same id but different → imported as a copy.</p>
@@ -339,9 +352,9 @@
     <tbody>
       <tr><td>Hero</td><td>SaaS Split Hero · Centred Gradient Hero · Image Background Hero · App Product Hero · Personal Portfolio Hero</td><td><span class="pill done">5 built</span></td></tr>
       <tr><td>Navbar</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
-      <tr><td>Features</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
-      <tr><td>Pricing</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
-      <tr><td>Testimonials</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
+      <tr><td>Features</td><td>Icon Grid Features · Split Features With Image · Bento Grid Features · Alternating Feature Rows · How It Works Steps</td><td><span class="pill done">5 built</span></td></tr>
+      <tr><td>Pricing</td><td>Three-Tier Pricing · Dark Glow Pricing · Single Plan Pricing · Pricing List Rows</td><td><span class="pill done">4 built</span></td></tr>
+      <tr><td>Testimonials</td><td>Testimonial Wall · Testimonial Carousel · Testimonial Marquee · Testimonial Spotlight</td><td><span class="pill done">4 built</span></td></tr>
       <tr><td>FAQ</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
       <tr><td>Call to action</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
       <tr><td>Stats &amp; logos</td><td>—</td><td><span class="pill todo">Phase 2</span></td></tr>
@@ -358,7 +371,11 @@
   <h2>Checklist for every new section</h2>
   <ol>
     <li>Create <code>templates/&lt;id&gt;.js</code> (fields, toggles, theme, html, css with container queries; check a light and a dark preset).</li>
-    <li>Add <code>data-anim="item"</code> / <code>"media"</code> markers and check every motion preset plays well (and that the section looks complete with motion off).</li>
+    <li>Add <code>data-anim="item"</code> / <code>"media"</code> markers and <code>data-anim-text</code> on the main heading; check every motion preset and text effect (and that the section looks complete with motion off).</li>
+    <li>Repeating content (cards, plans, rows, steps) goes in <code>lists</code> with min/max and sensible defaults; icons via an <code>icon</code> field; bullet points via a <code>lines</code> field. Default art: generate with sharp (no text in images).</li>
+    <li>SEO: <code>seoTitle</code> 50–60 and <code>seoDescription</code> 150–160 characters (check with node before saving).</li>
+    <li>Interactive parts (switches, accordions, carousels) go in <code>behaviors.js</code>, never inline in a template: plain JS first, GSAP plugin animation on top, reduced-motion respected, scoped to each <code>.st</code>. Test clicks headless before calling it done.</li>
+    <li>Re-capturing an existing preview needs <code>--force</code>: <code>node scripts/capture-section-previews.mjs --force &lt;id&gt;</code>.</li>
     <li>Register in <code>templates/index.js</code>.</li>
     <li>Add SEO entry in <code>seo-content.js</code> (all fields, lengths checked) and update the category intro in <code>seo-categories.js</code>.</li>
     <li>Run <code>node scripts/capture-section-previews.mjs &lt;id&gt;</code> and review the preview + OG image.</li>
@@ -396,6 +413,9 @@
       <tr><td>2026-10-20</td><td>GSAP motion layer added (presets, speeds, Play animation, motion in all exports) and documented in "Motion &amp; JS libraries". Route pages written (library, category, editor), plus wiring: registry, top nav "Sections", sidebar group, template-nav <code>section</code> key, postbuild sitemap + llms.txt, robots.txt, icon. Previews + OG images captured. Awaiting user test.</td></tr>
       <tr><td>2026-10-20</td><td>Added Phase 3b "Scroll animation builder" (targets, scroll settings, keyframe tracks, effect presets, timeline UI, page-level scroll, data model) and its decision.</td></tr>
       <tr><td>2026-10-20</td><td>All GSAP plugins adopted: GSAP upgraded to 3.15.0, <code>GSAP_PLUGINS</code> + <code>gsapCdn()</code> added to meta.js (all 20 cdnjs files verified 200), 5 heroes re-verified headless on 3.15.0. Roadmap: plugin-by-plugin usage table and planned text animation layer.</td></tr>
+      <tr><td>2026-10-20</td><td>Phase 2 started. Engine: repeatable lists with editor UI (add / duplicate / reorder / remove, per-item uploads), icon picker with 60 Lucide icons, <code>data-icon</code> / <code>data-lines</code> / <code>data-list</code> bindings, SplitText headline effects (4 styles, default "Words rise", heroes included), Fork to My Code now carries GSAP. 5 Features sections + SEO + Features category page + previews/OG + 3 artworks. Fixed: all 10 seoDescriptions were 154–172 chars, now 150–160. Top nav label "Website Sections", placed after UI Snippets.</td></tr>
+      <tr><td>2026-10-20</td><td>2.3 done: behaviours layer (<code>behaviors.js</code>; scripts and plugins exported independently of entrance motion), <code>billing</code> behaviour with GSAP Flip, <code>data-hide-if</code>, item scope falls back to section fields, <code>.st-checks</code>. 4 Pricing sections with SEO, Pricing category page and previews. Fixed card button alignment (fixed description and price heights) and row column alignment.</td></tr>
+      <tr><td>2026-10-20</td><td>2.4 done: <code>carousel</code> + <code>marquee</code> behaviours, <code>parts.js</code>, 8 avatars, 4 Testimonials sections with SEO, the Testimonials category page and previews. Bug caught in testing: Draggable <code>type:'scrollLeft'</code> wraps the children, so switched to the proxy pattern. Fixed spotlight stats on mobile. Confirmed for the user: website section templates have their own sitemap (like social and email): <code>sitemap-website-section-templates.xml</code>, now 22 URLs (4 categories + 18 sections).</td></tr>
     </tbody>
   </table>
 </section>

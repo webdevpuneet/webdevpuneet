@@ -9,7 +9,7 @@ export default {
   created: '2026-10-20',
   updated: '2026-10-20',
   seoTitle: 'Portfolio Hero Section Template — Free Personal Website Hero',
-  seoDescription: 'Free portfolio hero section for freelancers and developers: photo, "available for work" badge, intro, two buttons and social links. Edit online, export HTML, React or Vue.',
+  seoDescription: 'Free portfolio hero for freelancers and developers: photo, "available for work" badge, intro, two buttons and social links. Edit online, export HTML or React.',
   description: 'A personal website hero for designers, developers and freelancers: an "available for work" badge with a live dot, a friendly "Hi, I\'m…" headline, a short bio, buttons for your work and contact, social links, and your photo in an organic blob frame.',
   bestFor: ['Developer and designer portfolios', 'Freelancer and consultant websites', 'Personal brand and creator homepages'],
 
@@ -49,7 +49,7 @@ export default {
   <div class="pf-copy">
     <span class="pf-status" data-anim="item" data-show="showStatus"><i aria-hidden="true"></i><span data-edit="status"></span></span>
     <p class="pf-hello" data-anim="item" data-edit="hello"></p>
-    <h1 class="pf-title" data-anim="item" data-edit="headline"></h1>
+    <h1 class="pf-title" data-anim="item" data-anim-text data-edit="headline"></h1>
     <p class="st-lead" data-anim="item" data-edit="lead"></p>
     <div class="st-btns" data-anim="item">
       <a class="st-btn" data-href="cta1Url"><span data-edit="cta1"></span></a>

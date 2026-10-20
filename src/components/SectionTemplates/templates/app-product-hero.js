@@ -9,7 +9,7 @@ export default {
   created: '2026-10-20',
   updated: '2026-10-20',
   seoTitle: 'Mobile App Hero Section Template — Free App Landing Hero',
-  seoDescription: 'Free mobile app hero section template with App Store and Google Play buttons, rating, phone mockup and floating cards. Edit online, export HTML, React or Vue.',
+  seoDescription: 'Free mobile app hero section with App Store and Google Play buttons, rating, phone mockup and floating cards. Edit it online, then export HTML, React or Vue.',
   description: 'A mobile app landing hero: a headline and supporting text, App Store and Google Play download buttons, a star rating line, and a phone screenshot with two floating highlight cards, on a soft gradient background.',
   bestFor: ['Mobile app landing pages', 'Fintech, health and productivity apps', 'App launch and pre-registration pages'],
 
@@ -46,7 +46,7 @@ export default {
   html: `<div class="ap st-wrap">
   <div class="ap-copy">
     <span class="st-eyebrow" data-anim="item" data-edit="eyebrow"></span>
-    <h1 class="ap-title" data-anim="item" data-edit="headline"></h1>
+    <h1 class="ap-title" data-anim="item" data-anim-text data-edit="headline"></h1>
     <p class="st-lead" data-anim="item" data-edit="lead"></p>
     <div class="ap-stores" data-anim="item">
       <a class="ap-store" data-href="iosUrl"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.2 1-4 2.5-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-1-2.5-4M14 5.4c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4"/></svg><span data-edit="iosLabel"></span></a>

@@ -9,7 +9,7 @@ export default {
   created: '2026-10-20',
   updated: '2026-10-20',
   seoTitle: 'Centered Hero Section Template — Free Gradient Hero HTML',
-  seoDescription: 'Free centered hero section template with glowing gradient background, eyebrow, big headline, two buttons, a note and a wide product image. Export HTML, React or Vue.',
+  seoDescription: 'Free centred hero section with a glowing gradient background, eyebrow, big headline, two buttons and a wide product image. Edit online; export HTML, React, Vue.',
   description: 'A centred, dark landing page hero with soft glowing gradients drawn in CSS: a small eyebrow, a large headline, supporting text, two buttons, a reassurance note and an optional wide product screenshot that rises from the bottom of the section.',
   bestFor: ['Product launches and SaaS homepages', 'AI and developer tool landing pages', 'Dark-themed, high-impact first screens'],
 
@@ -37,7 +37,7 @@ export default {
   html: `<div class="cg-glow" aria-hidden="true"></div>
 <div class="cg st-wrap">
   <span class="st-eyebrow cg-eyebrow" data-anim="item" data-edit="eyebrow"></span>
-  <h1 class="cg-title" data-anim="item" data-edit="headline"></h1>
+  <h1 class="cg-title" data-anim="item" data-anim-text data-edit="headline"></h1>
   <p class="st-lead cg-lead" data-anim="item" data-edit="lead"></p>
   <div class="st-btns cg-btns" data-anim="item">
     <a class="st-btn" data-href="cta1Url"><span data-edit="cta1"></span></a>

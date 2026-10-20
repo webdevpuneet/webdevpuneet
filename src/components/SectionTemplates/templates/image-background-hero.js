@@ -9,7 +9,7 @@ export default {
   created: '2026-10-20',
   updated: '2026-10-20',
   seoTitle: 'Hero Section With Background Image — Free HTML CSS Template',
-  seoDescription: 'Free hero section with a full-width background image, dark overlay, headline, two buttons and a stats row. Upload your photo, edit online, export HTML, React or Vue.',
+  seoDescription: 'Free hero section with a full-width background image, dark overlay, headline, two buttons and a stats row. Upload a photo, edit online, export HTML, React, Vue.',
   description: 'A full-width hero with your photo as the background, a dark gradient overlay that keeps text readable, a small label, a large white headline, supporting text, two buttons and an optional row of three stats along the bottom.',
   bestFor: ['Travel, hospitality and real estate sites', 'Agencies, studios and photographers', 'Events, non-profits and local businesses'],
 
@@ -44,7 +44,7 @@ export default {
 <div class="ib st-wrap">
   <div class="ib-copy">
     <span class="st-eyebrow ib-eyebrow" data-anim="item" data-edit="eyebrow"></span>
-    <h1 class="ib-title" data-anim="item" data-edit="headline"></h1>
+    <h1 class="ib-title" data-anim="item" data-anim-text data-edit="headline"></h1>
     <p class="st-lead ib-lead" data-anim="item" data-edit="lead"></p>
     <div class="st-btns" data-anim="item">
       <a class="st-btn" data-href="cta1Url"><span data-edit="cta1"></span></a>

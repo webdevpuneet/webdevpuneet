@@ -71,3 +71,27 @@
 
 .cardPreview { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #f1f5f9; }
 .cardImg { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+
+/* Repeatable items (feature cards, plans, steps …) */
+.items { display: flex; flex-direction: column; gap: 8px; }
+.item { border: 1px solid rgba(127, 127, 127, 0.28); border-radius: 10px; background: rgba(127, 127, 127, 0.04); }
+.itemOpen { border-color: rgba(79, 70, 229, 0.55); }
+.itemHead { display: flex; align-items: center; gap: 4px; padding: 6px 6px 6px 10px; }
+.itemToggle { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; padding: 2px 0; border: 0; background: none; color: inherit; cursor: pointer; text-align: left; font-size: 13px; font-weight: 600; }
+.itemToggle > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.itemNum { flex: none; display: inline-grid; place-items: center; min-width: 20px; height: 20px; border-radius: 6px; background: rgba(79, 70, 229, 0.12); color: #4f46e5; font-size: 11px; font-weight: 800; }
+.itemBtn { flex: none; display: inline-grid; place-items: center; width: 26px; height: 26px; border: 0; border-radius: 6px; background: none; color: inherit; opacity: 0.6; cursor: pointer; font-size: 13px; }
+.itemBtn:hover:not(:disabled) { opacity: 1; background: rgba(127, 127, 127, 0.14); }
+.itemBtn:disabled { opacity: 0.2; cursor: default; }
+.itemBody { display: flex; flex-direction: column; gap: 12px; padding: 4px 12px 14px; }
+.addItem { align-self: flex-start; }
+
+/* Icon picker */
+.iconPick { display: flex; flex-direction: column; gap: 8px; }
+.iconCurrent { display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; padding: 6px 12px 6px 8px; border: 1px solid rgba(127, 127, 127, 0.35); border-radius: 8px; background: none; color: inherit; cursor: pointer; font-size: 13px; }
+.iconCurrent:hover { border-color: #4f46e5; }
+.iconGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(34px, 1fr)); gap: 4px; padding: 6px; border: 1px solid rgba(127, 127, 127, 0.25); border-radius: 8px; max-height: 210px; overflow: auto; }
+.iconOpt { display: grid; place-items: center; aspect-ratio: 1; border: 1px solid transparent; border-radius: 7px; background: none; color: inherit; cursor: pointer; }
+.iconOpt:hover { background: rgba(127, 127, 127, 0.14); }
+.iconOptOn { border-color: #4f46e5; color: #4f46e5; background: rgba(79, 70, 229, 0.1); }
+.iconOpt svg, .iconCurrent svg { display: block; }

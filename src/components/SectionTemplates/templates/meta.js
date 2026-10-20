@@ -92,7 +92,16 @@ export const MOTION_PRESETS = [
   { id: 'zoom',    label: 'Zoom',     item: { y: 16, opacity: 0 },            media: { scale: 0.9, opacity: 0 } },
 ];
 export const MOTION_SPEEDS = [['0.7', 'Fast'], ['1', 'Normal'], ['1.4', 'Slow']];
-export const DEFAULT_MOTION = { preset: 'fade-up', speed: '1' };
+/* Headline text effects (GSAP SplitText) for elements marked data-anim-text.
+   split: SplitText type · part: which pieces animate · mask: clip pieces so they rise into view */
+export const TEXT_EFFECTS = [
+  { id: 'none',  label: 'None' },
+  { id: 'rise',  label: 'Words rise',  split: 'words',       part: 'words', mask: 'words', from: { yPercent: 110 },                          stagger: 0.06, duration: 0.8 },
+  { id: 'lines', label: 'Line reveal', split: 'lines',       part: 'lines', mask: 'lines', from: { yPercent: 105 },                          stagger: 0.12, duration: 0.9 },
+  { id: 'chars', label: 'Letters',     split: 'words,chars', part: 'chars',               from: { opacity: 0, y: 14, rotate: 6 },           stagger: 0.016, duration: 0.5 },
+  { id: 'blur',  label: 'Blur in',     split: 'words',       part: 'words',               from: { opacity: 0, y: 10, filter: 'blur(10px)' }, stagger: 0.05, duration: 0.8 },
+];
+export const DEFAULT_MOTION = { preset: 'fade-up', speed: '1', text: 'rise' };
 
 /* Images that ship with the templates (hosted on the site, so exports work anywhere) */
 export const IMG = name => `https://webdevpuneet.com/images/section-templates/${name}`;
@@ -139,7 +148,7 @@ export const BASE_CSS = `.st{--st-pad:clamp(20px,5cqi,56px);container:st/inline-
 :where(.st a){color:inherit}
 :where(.st h1,.st h2,.st h3){font-family:var(--st-font-heading);line-height:1.08;letter-spacing:-.025em;font-weight:800;color:var(--st-text)}
 .st .hl{color:var(--st-brand)}
-.st [data-edit]:empty{display:none}
+.st [data-edit]:empty,.st [data-i-edit]:empty{display:none}
 .st-wrap{width:100%;max-width:calc(var(--st-max) * 1px);margin:0 auto;padding-left:var(--st-pad);padding-right:var(--st-pad)}
 .st-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--st-brand)}
 .st-pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:color-mix(in srgb,var(--st-brand) 12%,transparent);color:var(--st-brand);font-size:13.5px;font-weight:700}
@@ -150,4 +159,14 @@ export const BASE_CSS = `.st{--st-pad:clamp(20px,5cqi,56px);container:st/inline-
 .st-btn--ghost{background:transparent;color:var(--st-text);border-color:color-mix(in srgb,var(--st-text) 22%,transparent)}
 .st-btn--ghost:hover{box-shadow:none;border-color:var(--st-text)}
 .st-lead{font-size:clamp(17px,1.2cqi + 12px,20px);line-height:1.65;color:var(--st-muted)}
+.st-head{display:flex;flex-direction:column;align-items:center;gap:14px;max-width:46em;margin:0 auto clamp(36px,5cqi,64px);text-align:center}
+.st-head--left{align-items:flex-start;margin-left:0;text-align:left}
+.st-h2{font-size:clamp(30px,2.6cqi + 16px,48px)}
+.st-icon{display:inline-grid;place-items:center;flex:none;width:48px;height:48px;border-radius:calc(var(--st-radius) * .85px);background:color-mix(in srgb,var(--st-brand) 12%,transparent);color:var(--st-brand)}
+.st-icon svg{width:24px;height:24px}
+.st-icon:empty{display:none}
+.st-checks{list-style:none;display:flex;flex-direction:column;gap:11px}
+.st-checks li{position:relative;padding-left:30px;font-size:15.5px;line-height:1.5}
+.st-checks li::before{content:"";position:absolute;left:0;top:.12em;width:20px;height:20px;border-radius:50%;background:color-mix(in srgb,var(--st-brand) 15%,transparent)}
+.st-checks li::after{content:"";position:absolute;left:5px;top:calc(.12em + 5px);width:10px;height:10px;background:var(--st-brand);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat}
 @media (prefers-reduced-motion:reduce){.st *{transition:none!important;animation:none!important}}`;

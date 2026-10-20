@@ -17,4 +17,52 @@ These hero sections cover the most common patterns: the **[SaaS Split Hero](/web
       { q: 'Can I use these hero sections in React, Next.js or Vue?', a: 'Yes. Every section exports as a React component (JSX with its CSS) or a Vue single-file component, and the GSAP animation is included. You can also download plain HTML and CSS.' },
     ],
   },
+  features: {
+    title: 'Features Section Templates — Free HTML, React & Vue',
+    description: 'Free features section templates: icon grids, bento grids, zig-zag rows, split image layouts and how-it-works steps. Edit online, animate with GSAP, export code.',
+    h1: 'Features Section Templates',
+    keywords: ['features section template', 'feature section html css', 'bento grid section', 'how it works section', 'landing page features'],
+    intro: `After the hero, the features section does the explaining: what your product does, why it matters and how it works. The right layout depends on how much you need to say.
+
+For a quick overview, the **[Icon Grid Features](/website-section-templates/features-icon-grid/)** puts six benefits in scannable cards, and the **[Bento Grid Features](/website-section-templates/features-bento/)** does the same in a modern mosaic with one large tile for your headline feature. To go deeper, **[Split Features With Image](/website-section-templates/features-split-image/)** pairs a point list with a screenshot, and **[Alternating Feature Rows](/website-section-templates/features-alternating/)** gives every feature its own zig-zag row. To explain a process, **[How It Works Steps](/website-section-templates/features-steps/)** shows numbered steps with a sign-up button.
+
+Cards, rows and steps are editable lists: add, duplicate, reorder and remove them, and pick icons from 60 Lucide line icons. Every section shares the library's theme, adapts with container queries and animates with GSAP (SplitText headline reveals and staggered entrances). Export HTML, a ZIP, React or Vue.`,
+    faqs: [
+      { q: 'What should a features section include?', a: 'A short heading that states the overall benefit, then three to six features, each with a clear title and one or two sentences about why it matters. Icons or screenshots make each point easier to scan, and a link or button gives interested visitors somewhere to go next.' },
+      { q: 'How many features should I show?', a: 'Three to six works best in a grid or bento layout. If you have more, group them, or use alternating rows to cover the most important few in depth and link to a full features page for the rest.' },
+      { q: 'Which layout should I choose?', a: 'Use an icon grid or bento grid for an overview, a split section or alternating rows for depth with screenshots, and a numbered steps section to explain how something works. Many pages use two: an overview grid followed by a few detailed rows.' },
+    ],
+  },
+  pricing: {
+    title: 'Pricing Section Templates — Free HTML, React & Vue Tables',
+    description: 'Free pricing section templates: three-tier tables, dark glowing cards, single-plan pricing and package rows with a GSAP monthly/yearly toggle. Export the code.',
+    h1: 'Pricing Section Templates',
+    keywords: ['pricing section template', 'pricing table html css', 'monthly yearly toggle', 'saas pricing page', 'pricing cards'],
+    intro: `The pricing section is where interest turns into a decision, so it has to be clear: what each option costs, what it includes and which one to pick. These pricing sections cover the common cases.
+
+The **[Three-Tier Pricing](/website-section-templates/pricing-three-tier/)** table is the SaaS standard, with a highlighted "Most popular" plan. **[Dark Glow Pricing](/website-section-templates/pricing-dark-glow/)** does the same on a dark theme with a glowing gradient border for AI and developer products. **[Single Plan Pricing](/website-section-templates/pricing-single-plan/)** presents one price with an everything-included list and a guarantee, and **[Pricing List Rows](/website-section-templates/pricing-rows/)** lays plans and service packages out as rows with room for detail.
+
+Every one has a working monthly/yearly switch: the pill slides with GSAP Flip, the prices roll over, it's accessible and it works in HTML, React and Vue exports. Plans are editable lists with price notes for free, custom and one-off prices, and every section shares the library's theme.`,
+    faqs: [
+      { q: 'How many pricing plans should I show?', a: 'Three is the most common: it gives a clear entry option, a recommended middle plan and a premium tier. Use one plan if your product is simple, and rows if you have five or more packages.' },
+      { q: 'Should I offer monthly and yearly pricing?', a: 'If you sell subscriptions, usually yes. A yearly option with a visible saving (such as "Save 20%") improves cash flow and retention; the switch lets visitors compare without doubling the number of cards.' },
+      { q: 'Does the monthly/yearly toggle need a framework?', a: 'No. It is a few lines of plain JavaScript that toggle a class and show the right prices, plus an optional GSAP Flip animation. It works in plain HTML, React and Vue exports.' },
+    ],
+  },
+  testimonials: {
+    title: 'Testimonials Section Templates — Free HTML, React & Vue',
+    description: 'Free testimonials section templates: a masonry review wall, a draggable GSAP carousel, an infinite marquee and a featured quote with stats. Free to use.',
+    h1: 'Testimonials Section Templates',
+    keywords: ['testimonials section template', 'testimonial slider html css', 'customer reviews section', 'testimonial carousel', 'wall of love'],
+    intro: `Testimonials answer the question every visitor has before they sign up or buy: do people like me actually get value from this? The best layout depends on how many quotes you have and how much attention you want them to get.
+
+With lots of short quotes, the **[Testimonial Wall](/website-section-templates/testimonials-grid/)** shows them all at once in a masonry layout, and the **[Testimonial Marquee](/website-section-templates/testimonials-marquee/)** keeps two rows gliding past endlessly. To save space, the **[Testimonial Carousel](/website-section-templates/testimonials-carousel/)** lets visitors drag or swipe through cards with momentum. And when one customer story says it all, the **[Testimonial Spotlight](/website-section-templates/testimonial-spotlight/)** gives it a big animated quote with result stats.
+
+Every section stores testimonials as an editable list with quotes, names, roles, optional photos and star ratings. The interactions are built with GSAP (Draggable, Inertia, ScrollTo and an endless loop) on top of plain scrolling, so they stay accessible and work in HTML, React and Vue exports.`,
+    faqs: [
+      { q: 'What makes a good testimonial?', a: 'A specific result in the customer’s own words, their full name, role and company, and ideally a photo. "We cut reporting time by two thirds" persuades far more than "Great product!".' },
+      { q: 'How many testimonials should I show?', a: 'Three to six is enough for most landing pages. Use a wall or marquee to show many at once, a carousel when space is tight, or one spotlight quote for a strong case study.' },
+      { q: 'Are carousels and marquees accessible?', a: 'These are. Both are built on normal scrollable rows, label their regions, hide duplicated content from screen readers and stop animating for people who prefer reduced motion.' },
+    ],
+  },
 };

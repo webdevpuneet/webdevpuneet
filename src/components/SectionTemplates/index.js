@@ -21,9 +21,10 @@ import { highlightHtml } from '@/lib/highlight-html';
 import { toReactComponent, toVueSfc } from '@/lib/snippet-exporters';
 import {
   SECTION_TEMPLATES, SECTION_CATEGORIES, sectionTemplateById, sectionCategoryById,
-  defaultSectionState, restoreSectionState, THEME_PRESETS, THEME_COLORS, MOTION_PRESETS, MOTION_SPEEDS,
+  defaultSectionState, restoreSectionState, THEME_PRESETS, THEME_COLORS, MOTION_PRESETS, MOTION_SPEEDS, TEXT_EFFECTS,
+  ICONS, ICON_IDS, iconSvg, listItem, newItemId, listImageKey,
 } from './templates/index.js';
-import { documentHtml, sectionCss, sectionMarkup, snippetParts, customFontIds } from './templates/render.js';
+import { documentHtml, sectionCss, sectionMarkup, snippetParts, customFontIds, sectionScript, sectionCdn } from './templates/render.js';
 import { sectionDesignStore as designStore, putAsset, getAsset } from './storage';
 
 const TOOL = 'website-section-templates';
@@ -300,6 +301,28 @@ function ColorField({ label, value, onChange }) {
   );
 }
 
+/* Icon field: the current icon, and a grid of every icon to choose from */
+function IconPicker({ id, value, onChange }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className={x.iconPick}>
+      <button id={id} type="button" className={x.iconCurrent} onClick={() => setOpen(o => !o)} aria-expanded={open}>
+        <span dangerouslySetInnerHTML={{ __html: iconSvg(value, 18) }} />
+        {ICONS[value]?.[0] || 'Choose an icon'} <span aria-hidden="true">▾</span>
+      </button>
+      {open && (
+        <div className={x.iconGrid} role="listbox" aria-label="Icons">
+          {ICON_IDS.map(ic => (
+            <button key={ic} type="button" role="option" aria-selected={value === ic} title={ICONS[ic][0]} className={`${x.iconOpt} ${value === ic ? x.iconOptOn : ''}`} onClick={() => { onChange(ic); setOpen(false); }}>
+              <span dangerouslySetInnerHTML={{ __html: iconSvg(ic, 18) }} />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* Brand kit -> section theme: brand colour (button text picked for contrast), fonts and,
    when the kit says so, background and text colours too */
 function withKit(prev, kit) {
@@ -317,6 +340,7 @@ export function SectionTemplateEditor({ id }) {
   const [panelTab, setPanelTab] = useState('edit');
   const [sheetOpen, setSheetOpen] = useState(false);
   const [open, setOpen] = useState(() => new Set(t.groups.slice(0, 2).map(g => g.id)));
+  const [openItem, setOpenItem] = useState(null); // the list item whose fields are showing
   const [origin, setOrigin] = useState('');
   const [toast, setToast] = useState('');
   const [busy, setBusy] = useState('');
@@ -471,6 +495,41 @@ export function SectionTemplateEditor({ id }) {
   const setMotion = (key, value) => { setState(p => ({ ...p, motion: { ...p.motion, [key]: value } })); setPlaying(n => n + 1); };
   const toggleGroup = gid => setOpen(prev => { const n = new Set(prev); if (n.has(gid)) n.delete(gid); else n.add(gid); return n; });
 
+  /* Repeatable lists: add, edit, duplicate, reorder and remove items */
+  const setList = (key, fn) => setState(p => ({ ...p, lists: { ...p.lists, [key]: fn(p.lists?.[key] || []) } }));
+  const setItemField = (lk, iid, fk, v) => setList(lk, items => items.map(it => (it._id === iid ? { ...it, [fk]: v } : it)));
+  const addItem = l => {
+    const it = listItem(l, l.blank || {});
+    setList(l.key, items => (items.length >= (l.max || 24) ? items : [...items, it]));
+    setOpenItem(it._id);
+  };
+  const duplicateItem = (l, it) => {
+    const copy = { ...it, _id: newItemId() };
+    setState(p => {
+      const items = p.lists?.[l.key] || [];
+      if (items.length >= (l.max || 24)) return p;
+      const at = items.findIndex(x2 => x2._id === it._id);
+      const ups = { ...(p.uploads || {}) };
+      // The copy shows the same uploaded images (the stored image is shared, not duplicated)
+      for (const fd of l.fields) { const u = ups[listImageKey(l.key, it._id, fd.key)]; if (u) ups[listImageKey(l.key, copy._id, fd.key)] = u; }
+      return { ...p, uploads: ups, lists: { ...p.lists, [l.key]: [...items.slice(0, at + 1), copy, ...items.slice(at + 1)] } };
+    });
+    setOpenItem(copy._id);
+  };
+  const moveItem = (l, idx, dir) => setList(l.key, items => {
+    const to = idx + dir;
+    if (to < 0 || to >= items.length) return items;
+    const next = [...items];
+    [next[idx], next[to]] = [next[to], next[idx]];
+    return next;
+  });
+  const removeItem = (l, it) => setState(p => {
+    const items = p.lists?.[l.key] || [];
+    if (items.length <= (l.min ?? 1)) return p;
+    const ups = Object.fromEntries(Object.entries(p.uploads || {}).filter(([k]) => !k.startsWith(`${l.key}.${it._id}.`)));
+    return { ...p, uploads: ups, lists: { ...p.lists, [l.key]: items.filter(x2 => x2._id !== it._id) } };
+  });
+
   /* Images: preview uses object URLs; exports use data URLs or images/<file> */
   const previewSrc = useCallback(key => (uploads[key] ? blobUrls[uploads[key].id] || '' : ''), [uploads, blobUrls]);
   const dataUrls = async () => {
@@ -493,20 +552,21 @@ export function SectionTemplateEditor({ id }) {
   const highlighted = useMemo(() => (view === 'html' ? highlightHtml(codeHtml) : ''), [view, codeHtml]);
 
   /* Uploads */
-  const pickUpload = fd => { uploadTarget.current = fd; fileRef.current?.click(); };
+  // ukey: where the upload is stored in state.uploads (the field key, or list.item.field)
+  const pickUpload = (fd, ukey = fd.key) => { uploadTarget.current = { fd, ukey }; fileRef.current?.click(); };
   const onUploadFile = async ev => {
     const file = ev.target.files?.[0];
     ev.target.value = '';
-    const fd = uploadTarget.current;
+    const { fd, ukey } = uploadTarget.current || {};
     if (!file || !fd) return;
     if (!/^image\//.test(file.type)) { flash('Choose an image file (PNG, JPG, WebP, GIF or SVG).'); return; }
     try {
       const out = await prepareUpload(file, fd.upload || {});
       const uid = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-      const key = `${t.id}:${fd.key}:${uid}`;
+      const key = `${t.id}:${ukey}:${uid}`;
       const name = `${fd.upload?.name || fd.key}-${uid}.${EXT[out.type] || 'png'}`;
       await putAsset(key, { blob: out.blob, type: out.type, file: name, name, w: out.w, h: out.h, updatedAt: new Date().toISOString() });
-      setState(p => ({ ...p, uploads: { ...p.uploads, [fd.key]: { id: key, file: name, w: out.w, h: out.h } } }));
+      setState(p => ({ ...p, uploads: { ...p.uploads, [ukey]: { id: key, file: name, w: out.w, h: out.h } } }));
       flash(`Uploaded ${file.name} (${out.w}×${out.h}). Saved in this browser.`);
     } catch (err) { flash(err.message || 'Upload failed'); }
   };
@@ -572,10 +632,10 @@ export function SectionTemplateEditor({ id }) {
         id: rid,
         name: `${t.name} (section)`,
         tags: ['section'],
-        cdnUrls: gf ? [gf] : [],
+        cdnUrls: [...(gf ? [gf] : []), ...sectionCdn(t, state)],
         html: sectionMarkup(t, state, { imageSrc: k => urls[k] || '', clean: true }),
         css: sectionCss(t, state, { fontFaces }),
-        js: '',
+        js: sectionScript(t, state),
         createdAt: now,
         updatedAt: now,
       });
@@ -706,6 +766,37 @@ export function SectionTemplateEditor({ id }) {
     setBusy('');
   };
 
+  /* One editing control, for a section field or a list item's field.
+     ukey = where an uploaded image is stored in state.uploads */
+  const renderField = (fd, value, onChange, ukey, id) => {
+    const up = fd.type === 'image' ? uploads[ukey] : null;
+    return (
+      <div key={id} className={s.field}>
+        <label className={s.label} htmlFor={id}>{fd.label}</label>
+        {fd.type === 'icon' ? <IconPicker id={id} value={value} onChange={onChange} />
+          : fd.type === 'textarea' || fd.type === 'lines'
+            ? <textarea id={id} className={s.textarea} rows={fd.type === 'lines' ? 4 : 3} value={value ?? ''} onChange={ev => onChange(ev.target.value)} />
+            : <input id={id} className={s.input} type="text" inputMode={fd.type === 'url' || fd.type === 'image' ? 'url' : undefined} spellCheck={fd.type === 'text'} value={up ? `images/${up.file}` : (value ?? '')} disabled={!!up} title={up ? 'Using your uploaded image; remove it to paste a URL instead' : undefined} onChange={ev => onChange(ev.target.value)} />}
+        {fd.type === 'image' && (
+          <div className={x.uploadRow}>
+            {up ? (
+              <>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                {blobUrls[up.id] ? <img className={x.uploadThumb} src={blobUrls[up.id]} alt="" /> : <span className={x.uploadThumb} />}
+                <span className={x.uploadName}>{up.file} · {up.w}×{up.h}</span>
+                <button type="button" className={s.miniBtn} onClick={() => pickUpload(fd, ukey)}>Replace</button>
+                <button type="button" className={s.miniBtn} onClick={() => removeUpload(ukey)}>Remove</button>
+              </>
+            ) : (
+              <button type="button" className={s.miniBtn} onClick={() => pickUpload(fd, ukey)}>↑ Upload image</button>
+            )}
+          </div>
+        )}
+        {(fd.hint || fd.type === 'lines') && <span className={s.hint}>{fd.hint || 'One item per line.'}</span>}
+      </div>
+    );
+  };
+
   const dev = DEVICES.find(d => d.id === device) || DEVICES[0];
   const scale = stageW ? Math.min(1, (stageW - 36) / dev.w) : 0;
   const copyCode = async () => {
@@ -829,30 +920,40 @@ export function SectionTemplateEditor({ id }) {
                       </div>
                       {isOpen && (
                         <div className={`${x.groupBody} ${enabled ? '' : x.groupOff}`}>
-                          {fields.map(fd => (
-                            <div key={fd.key} className={s.field}>
-                              <label className={s.label} htmlFor={`st-${fd.key}`}>{fd.label}</label>
-                              {fd.type === 'textarea'
-                                ? <textarea id={`st-${fd.key}`} className={s.textarea} rows={3} value={f[fd.key] ?? ''} onChange={ev => setField(fd.key, ev.target.value)} />
-                                : <input id={`st-${fd.key}`} className={s.input} type="text" inputMode={fd.type === 'url' || fd.type === 'image' ? 'url' : undefined} spellCheck={fd.type === 'text' || fd.type === 'textarea'} value={uploads[fd.key] ? `images/${uploads[fd.key].file}` : (f[fd.key] ?? '')} disabled={!!uploads[fd.key]} title={uploads[fd.key] ? 'Using your uploaded image; remove it to paste a URL instead' : undefined} onChange={ev => setField(fd.key, ev.target.value)} />}
-                              {fd.type === 'image' && (
-                                <div className={x.uploadRow}>
-                                  {uploads[fd.key] ? (
-                                    <>
-                                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                                      {blobUrls[uploads[fd.key].id] ? <img className={x.uploadThumb} src={blobUrls[uploads[fd.key].id]} alt="" /> : <span className={x.uploadThumb} />}
-                                      <span className={x.uploadName}>{uploads[fd.key].file} · {uploads[fd.key].w}×{uploads[fd.key].h}</span>
-                                      <button type="button" className={s.miniBtn} onClick={() => pickUpload(fd)}>Replace</button>
-                                      <button type="button" className={s.miniBtn} onClick={() => removeUpload(fd.key)}>Remove</button>
-                                    </>
-                                  ) : (
-                                    <button type="button" className={s.miniBtn} onClick={() => pickUpload(fd)}>↑ Upload image</button>
-                                  )}
-                                </div>
-                              )}
-                              {fd.hint && <span className={s.hint}>{fd.hint}</span>}
-                            </div>
-                          ))}
+                          {fields.map(fd => renderField(fd, f[fd.key], v => setField(fd.key, v), fd.key, `st-${fd.key}`))}
+                          {(t.lists || []).filter(l => l.group === g.id).map(l => {
+                            const items = state.lists?.[l.key] || [];
+                            return (
+                              <div key={l.key} className={x.items}>
+                                {items.map((it, i) => {
+                                  const on = openItem === it._id;
+                                  const name = String(it[l.titleKey] ?? '').replace(/\*/g, '').trim();
+                                  return (
+                                    <div key={it._id} className={`${x.item} ${on ? x.itemOpen : ''}`}>
+                                      <div className={x.itemHead}>
+                                        <button type="button" className={x.itemToggle} onClick={() => setOpenItem(on ? null : it._id)} aria-expanded={on}>
+                                          <span className={`${x.chev} ${on ? x.chevOpen : ''}`}>›</span>
+                                          <span className={x.itemNum}>{i + 1}</span>
+                                          <span>{name || `${l.itemLabel} ${i + 1}`}</span>
+                                        </button>
+                                        <button type="button" className={x.itemBtn} onClick={() => moveItem(l, i, -1)} disabled={i === 0} title="Move up" aria-label={`Move ${l.itemLabel.toLowerCase()} ${i + 1} up`}>↑</button>
+                                        <button type="button" className={x.itemBtn} onClick={() => moveItem(l, i, 1)} disabled={i === items.length - 1} title="Move down" aria-label={`Move ${l.itemLabel.toLowerCase()} ${i + 1} down`}>↓</button>
+                                        <button type="button" className={x.itemBtn} onClick={() => duplicateItem(l, it)} disabled={items.length >= (l.max || 24)} title="Duplicate" aria-label={`Duplicate ${l.itemLabel.toLowerCase()} ${i + 1}`}>⧉</button>
+                                        <button type="button" className={x.itemBtn} onClick={() => removeItem(l, it)} disabled={items.length <= (l.min ?? 1)} title="Remove" aria-label={`Remove ${l.itemLabel.toLowerCase()} ${i + 1}`}>✕</button>
+                                      </div>
+                                      {on && (
+                                        <div className={x.itemBody}>
+                                          {l.fields.map(fd => renderField(fd, it[fd.key], v => setItemField(l.key, it._id, fd.key, v), listImageKey(l.key, it._id, fd.key), `st-${l.key}-${it._id}-${fd.key}`))}
+                                        </div>
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                                <button type="button" className={`${s.miniBtn} ${x.addItem}`} onClick={() => addItem(l)} disabled={items.length >= (l.max || 24)}>+ Add {l.itemLabel.toLowerCase()}</button>
+                                {items.length >= (l.max || 24) && <span className={s.hint}>Up to {l.max} {l.label.toLowerCase()}.</span>}
+                              </div>
+                            );
+                          })}
                           {g.id === t.groups[0].id && <span className={s.hint}>Tip: wrap words in *asterisks* to colour them with the brand colour.</span>}
                         </div>
                       )}
@@ -910,6 +1011,14 @@ export function SectionTemplateEditor({ id }) {
                       {MOTION_PRESETS.map(p => <button key={p.id} type="button" role="radio" aria-checked={state.motion?.preset === p.id} className={`${s.segBtn} ${state.motion?.preset === p.id ? s.segBtnActive : ''}`} onClick={() => setMotion('preset', p.id)}>{p.label}</button>)}
                     </div>
                   </div>
+                  {state.motion?.preset !== 'none' && /data-anim-text/.test(t.html) && (
+                    <div className={s.field}>
+                      <span className={s.label}>Headline text effect</span>
+                      <div className={s.seg} role="radiogroup" aria-label="Headline text effect">
+                        {TEXT_EFFECTS.map(e => <button key={e.id} type="button" role="radio" aria-checked={(state.motion?.text || 'none') === e.id} className={`${s.segBtn} ${(state.motion?.text || 'none') === e.id ? s.segBtnActive : ''}`} onClick={() => setMotion('text', e.id)}>{e.label}</button>)}
+                      </div>
+                    </div>
+                  )}
                   {state.motion?.preset !== 'none' && (
                     <div className={s.field}>
                       <span className={s.label}>Speed</span>
@@ -918,7 +1027,7 @@ export function SectionTemplateEditor({ id }) {
                       </div>
                     </div>
                   )}
-                  <p className={s.hint}>Powered by GSAP and ScrollTrigger: the section animates in once when it scrolls into view. Exports include it, content stays visible without JavaScript, and it switches off for people who prefer reduced motion.</p>
+                  <p className={s.hint}>Powered by GSAP, ScrollTrigger and SplitText: the section animates in once when it scrolls into view. Exports include it, content stays visible without JavaScript, and it switches off for people who prefer reduced motion.</p>
                 </section>
               </>
             )}

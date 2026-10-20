@@ -9,9 +9,19 @@
      data-bg="key"     element gets a background-image from an image field
      data-show="key"   element is removed when that toggle is off
      data-show-if="key" element is removed when that field is empty (optional buttons)
-     data-optional     on data-image / data-bg: removed instead of a placeholder when empty */
+     data-hide-if="key" element is removed when that field is NOT empty (e.g. a default
+                       price suffix that a plan's own note replaces)
+     data-optional     on data-image / data-bg: removed instead of a placeholder when empty
+     data-icon="key"   empty element, filled with the icon's inline SVG (templates/icons.js)
+     data-lines="key"  empty <ul>/<ol>, one <li> per non-empty line of the field
+     data-list="key"   repeatable items: the element's first child is the item template,
+                       rendered once per item in state.lists[key]; bindings inside it read
+                       the item's own fields
+     data-anim-text    a heading the GSAP SplitText text effect animates (motion.text) */
 
-import { DEFAULT_THEME, BASE_CSS, richText, esc, safeUrl, MOTION_PRESETS, DEFAULT_MOTION, GSAP_CDN } from './meta.js';
+import { DEFAULT_THEME, BASE_CSS, richText, esc, safeUrl, MOTION_PRESETS, DEFAULT_MOTION, TEXT_EFFECTS, gsapCdn } from './meta.js';
+import { iconSvg } from './icons.js';
+import { behaviorPlugins, behaviorScript } from './behaviors.js';
 import { resolveFont, googleCssUrl } from '../../../lib/fonts.js';
 
 /* Neutral placeholder for an empty image slot (keeps the layout's shape) */
@@ -21,21 +31,28 @@ export const PLACEHOLDER_IMG = `data:image/svg+xml;base64,${typeof btoa === 'fun
 
 const VOID = new Set(['img', 'br', 'hr', 'input', 'meta', 'link', 'source']);
 
-/* Removes the element whose opening tag starts at `start` (nesting-aware for same-name tags) */
-function removeElementAt(html, start) {
+/* Where the element whose opening tag starts at `start` ends (nesting-aware for same-name
+   tags): { openEnd, closeStart, end } */
+function elementBounds(html, start) {
   const open = /^<([a-z0-9]+)\b[^>]*>/i.exec(html.slice(start));
-  if (!open) return html;
+  if (!open) return null;
   const tag = open[1].toLowerCase();
-  const afterOpen = start + open[0].length;
-  if (VOID.has(tag) || open[0].endsWith('/>')) return html.slice(0, start) + html.slice(afterOpen);
+  const openEnd = start + open[0].length;
+  if (VOID.has(tag) || open[0].endsWith('/>')) return { openEnd, closeStart: openEnd, end: openEnd };
   const re = new RegExp(`<(/?)${tag}\\b[^>]*>`, 'gi');
-  re.lastIndex = afterOpen;
+  re.lastIndex = openEnd;
   let depth = 1, m;
   while ((m = re.exec(html))) {
     depth += m[1] ? -1 : 1;
-    if (depth === 0) return html.slice(0, start) + html.slice(re.lastIndex);
+    if (depth === 0) return { openEnd, closeStart: m.index, end: re.lastIndex };
   }
-  return html.slice(0, start);
+  return { openEnd, closeStart: html.length, end: html.length };
+}
+
+/* Removes the element whose opening tag starts at `start` */
+function removeElementAt(html, start) {
+  const b = elementBounds(html, start);
+  return b ? html.slice(0, start) + html.slice(b.end) : html;
 }
 
 /* Removes every element whose opening tag matches `test(attrs)` */
@@ -82,17 +99,49 @@ export const customFontIds = (t, state) => [...new Set(Object.values(fontsOf(t, 
  * @param edit      keep data-edit markers for click-to-edit (editor preview)
  */
 export function fillHtml(t, state, { imageSrc, clean = false } = {}) {
-  const f = state.fields || {}, on = state.toggles || {};
-  const fieldOf = key => t.fields.find(x => x.key === key);
-  const src = key => {
-    const own = imageSrc ? imageSrc(key, fieldOf(key)) : '';
-    return own || String(f[key] ?? '').trim();
-  };
+  const lists = state.lists || {};
   let html = t.html;
 
-  // Toggles: drop switched-off parts (and empty optional images)
-  html = removeWhere(html, /data-show="/, tag => on[attr(tag, 'data-show')] === false);
+  // Toggles first, so switched-off lists are not rendered at all
+  html = removeWhere(html, /data-show="/, tag => (state.toggles || {})[attr(tag, 'data-show')] === false);
+
+  // Repeatable lists: the first child element is the item template
+  const listRe = /<[a-z0-9]+\b[^>]*\bdata-list="([^"]+)"[^>]*>/gi;
+  for (let m, from = 0; (listRe.lastIndex = from, m = listRe.exec(html));) {
+    const key = m[1];
+    const b = elementBounds(html, m.index);
+    const inner = html.slice(b.openEnd, b.closeStart);
+    const first = inner.search(/<[a-z]/i);
+    const ib = first < 0 ? null : elementBounds(inner, first);
+    const itemTpl = ib ? inner.slice(first, ib.end) : '';
+    const items = Array.isArray(lists[key]) ? lists[key] : [];
+    // An item reads its own fields first, then the section's (e.g. a shared price suffix)
+    const rendered = items.map(it => fillFragment(itemTpl, { ...(state.fields || {}), ...it }, {
+      src: k => (imageSrc ? imageSrc(`${key}.${it._id}.${k}`) : '') || String(it[k] ?? '').trim(),
+    })
+      // Mark item bindings as done, so the section-level pass never refills an empty one
+      .replace(/\sdata-(edit|href|image|bg|icon|lines|show-if|hide-if|optional)(?==|[\s>])/g, ' data-i-$1')).join('\n');
+    const open = html.slice(m.index, b.openEnd).replace(/\sdata-list="/, ' data-list-done="');
+    html = html.slice(0, m.index) + open + (rendered ? `\n${rendered}\n` : '') + html.slice(b.closeStart);
+    from = m.index + open.length;
+  }
+
+  const f = state.fields || {};
+  const fieldOf = key => t.fields.find(x => x.key === key);
+  html = fillFragment(html, f, {
+    src: key => (imageSrc ? imageSrc(key, fieldOf(key)) : '') || String(f[key] ?? '').trim(),
+  });
+
+  if (clean) html = html.replace(/\s+data-(i-)?(edit|href|image|bg|icon|lines|show-if|hide-if|show|optional|list-done)(="[^"]*")?/g, '');
+  else html = html.replace(/\sdata-list-done="/g, ' data-list="');
+  return html.trim();
+}
+
+/* Fills every binding in a piece of HTML from one set of values (the section's fields, or
+   one list item's fields). `src(key)` gives an image field's URL (upload or typed). */
+function fillFragment(html, f, { src }) {
   html = removeWhere(html, /data-show-if="/, tag => !String(f[attr(tag, 'data-show-if')] ?? '').trim());
+  html = removeWhere(html, /data-hide-if="/, tag => !!String(f[attr(tag, 'data-hide-if')] ?? '').trim());
   html = removeWhere(html, /data-optional/, tag => {
     const key = attr(tag, 'data-image') || attr(tag, 'data-bg');
     return key ? !src(key) : false;
@@ -118,13 +167,36 @@ export function fillHtml(t, state, { imageSrc, clean = false } = {}) {
     const styled = /\sstyle="/.test(attrs) ? attrs.replace(/\sstyle="([^"]*)"/, (s, v) => ` style="${v};${css}"`) : `${attrs} style="${css}"`;
     return `<${tag}${styled}>`;
   });
-
-  if (clean) html = html.replace(/\s+data-(edit|href|image|bg|show-if|show|optional)(="[^"]*")?/g, '');
-  return html.trim();
+  // Icons
+  html = html.replace(/<([a-z0-9]+)\b([^>]*\bdata-icon="([^"]+)"[^>]*)>\s*<\/\1>/gi,
+    (m, tag, attrs, key) => `<${tag}${attrs}>${iconSvg(f[key])}</${tag}>`);
+  // Bullet lines
+  html = html.replace(/<(ul|ol)\b([^>]*\bdata-lines="([^"]+)"[^>]*)>\s*<\/\1>/gi, (m, tag, attrs, key) => {
+    const lines = String(f[key] ?? '').split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    return `<${tag}${attrs}>${lines.map(l => `<li>${richText(l)}</li>`).join('')}</${tag}>`;
+  });
+  return html;
 }
 
 /* ── Motion (GSAP + ScrollTrigger) ──────────────────────────────────────────── */
 export const motionOf = state => ({ ...DEFAULT_MOTION, ...(state?.motion || {}) });
+
+/** The animation script for a section's [data-anim] elements ('' when motion is off).
+    Content is visible without it: the hidden "from" state is only applied by GSAP. */
+const textEffectOf = m => {
+  const e = TEXT_EFFECTS.find(x => x.id === m.text);
+  return e && e.split ? e : null;
+};
+
+/** GSAP plugins the section's motion needs (ScrollTrigger is always loaded) */
+export function motionPlugins(state) {
+  const m = motionOf(state);
+  const p = MOTION_PRESETS.find(x => x.id === m.preset);
+  if (!p || !p.item) return [];
+  return textEffectOf(m) ? ['SplitText'] : [];
+}
+/** CDN script URLs for the motion runtime ([] when motion is off) */
+export const motionCdn = state => (motionScript(state) ? gsapCdn(motionPlugins(state)) : []);
 
 /** The animation script for a section's [data-anim] elements ('' when motion is off).
     Content is visible without it: the hidden "from" state is only applied by GSAP. */
@@ -135,27 +207,52 @@ export function motionScript(state) {
   const sp = Math.max(0.4, Math.min(2, parseFloat(m.speed) || 1));
   const item = JSON.stringify({ ...p.item, stagger: +(0.09 * sp).toFixed(3), clearProps: 'transform,opacity' });
   const media = JSON.stringify({ ...p.media, duration: +(1.1 * sp).toFixed(2), clearProps: 'transform,opacity' });
+  const te = textEffectOf(m);
+  const text = te ? JSON.stringify({ split: te.split, part: te.part, mask: te.mask || false, vars: { ...te.from, stagger: +(te.stagger * sp).toFixed(3), duration: +(te.duration * sp).toFixed(2) } }) : 'null';
   return `(function () {
   if (!window.gsap) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
-  document.querySelectorAll('.st').forEach(function (section) {
-    var items = section.querySelectorAll('[data-anim="item"]');
-    var media = section.querySelectorAll('[data-anim="media"]');
-    var tl = gsap.timeline({
-      defaults: { ease: 'power3.out', duration: ${(0.8 * sp).toFixed(2)} },
-      scrollTrigger: window.ScrollTrigger ? { trigger: section, start: 'top 80%', once: true } : undefined
+  var TEXT = window.SplitText ? ${text} : null;
+  if (TEXT) gsap.registerPlugin(SplitText);
+  function run() {
+    document.querySelectorAll('.st').forEach(function (section) {
+      var heads = TEXT ? section.querySelectorAll('[data-anim-text]') : [];
+      var items = section.querySelectorAll(heads.length ? '[data-anim="item"]:not([data-anim-text])' : '[data-anim="item"]');
+      var media = section.querySelectorAll('[data-anim="media"]');
+      var tl = gsap.timeline({
+        defaults: { ease: 'power3.out', duration: ${(0.8 * sp).toFixed(2)} },
+        scrollTrigger: window.ScrollTrigger ? { trigger: section, start: 'top 80%', once: true } : undefined
+      });
+      Array.prototype.forEach.call(heads, function (el, i) {
+        var opts = { type: TEXT.split };
+        if (TEXT.mask) opts.mask = TEXT.mask;
+        var parts = SplitText.create(el, opts)[TEXT.part];
+        tl.from(parts, Object.assign({}, TEXT.vars), i ? '<0.1' : 0);
+      });
+      if (items.length) tl.from(items, ${item}, heads.length ? '<0.2' : 0);
+      if (media.length) tl.from(media, ${media}, items.length || heads.length ? '<0.15' : 0);
     });
-    if (items.length) tl.from(items, ${item});
-    if (media.length) tl.from(media, ${media}, items.length ? '<0.15' : 0);
-  });
+  }
+  // Split text only after the fonts load, so lines break where they finally will
+  if (TEXT && document.fonts && document.fonts.ready) document.fonts.ready.then(run); else run();
 })();`;
 }
-/** <script> tags for the motion runtime ('' when motion is off) */
-export function motionTags(state) {
-  const js = motionScript(state);
+/** Every script a section runs: its behaviours (always) and the motion runtime (when on) */
+export function sectionScript(t, state, { motion = true } = {}) {
+  return [behaviorScript(t), motion ? motionScript(state) : ''].filter(Boolean).join('\n');
+}
+/** CDN URLs those scripts need ([] when there are none) */
+export function sectionCdn(t, state, { motion = true } = {}) {
+  const anim = motion && motionScript(state);
+  const plugins = [...behaviorPlugins(t), ...(anim ? motionPlugins(state) : [])];
+  return anim || behaviorScript(t) ? gsapCdn(plugins) : [];
+}
+/** <script> tags for a section's GSAP libraries, behaviours and motion ('' when none) */
+export function sectionScriptTags(t, state, opts) {
+  const js = sectionScript(t, state, opts);
   if (!js) return '';
-  const libs = GSAP_CDN.map(u => `<script src="${u}"></script>`).join('\n');
+  const libs = sectionCdn(t, state, opts).map(u => `<script src="${u}"></script>`).join('\n');
   return `${libs}\n<script>\n${js}\n</script>\n`;
 }
 
@@ -187,7 +284,7 @@ ${sectionCss(t, state, { fontFaces })}
 </head>
 <body>
 ${sectionMarkup(t, state, { imageSrc, clean })}
-${motion ? motionTags(state) : ''}</body>
+${sectionScriptTags(t, state, { motion })}</body>
 </html>
 `;
 }
@@ -200,7 +297,7 @@ export function snippetParts(t, state, { imageSrc, fontFaces = '' } = {}) {
     title: t.name.replace(/[^\w ]/g, ''),
     html: sectionMarkup(t, state, { imageSrc, clean: true }),
     css: `${gf ? `@import url('${gf}');\n` : ''}${sectionCss(t, state, { fontFaces })}`,
-    js: motionScript(state),
-    cdnUrls: motionScript(state) ? [...GSAP_CDN] : [],
+    js: sectionScript(t, state),
+    cdnUrls: sectionCdn(t, state),
   };
 }

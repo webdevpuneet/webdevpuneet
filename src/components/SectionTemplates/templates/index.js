@@ -6,9 +6,23 @@ import centeredGradientHero from './centered-gradient-hero.js';
 import imageBackgroundHero from './image-background-hero.js';
 import appProductHero from './app-product-hero.js';
 import portfolioHero from './portfolio-hero.js';
+import featuresIconGrid from './features-icon-grid.js';
+import featuresSplitImage from './features-split-image.js';
+import featuresBento from './features-bento.js';
+import featuresAlternating from './features-alternating.js';
+import featuresSteps from './features-steps.js';
+import pricingThreeTier from './pricing-three-tier.js';
+import pricingDarkGlow from './pricing-dark-glow.js';
+import pricingSinglePlan from './pricing-single-plan.js';
+import pricingRows from './pricing-rows.js';
+import testimonialsGrid from './testimonials-grid.js';
+import testimonialsCarousel from './testimonials-carousel.js';
+import testimonialsMarquee from './testimonials-marquee.js';
+import testimonialSpotlight from './testimonial-spotlight.js';
 import { DEFAULT_THEME, DEFAULT_MOTION } from './meta.js';
 
-export { SECTION_CATEGORIES, sectionCategoryById, DEFAULT_THEME, THEME_PRESETS, THEME_COLORS, THEME_KEYS, BASE_CSS, IMG, MOTION_PRESETS, MOTION_SPEEDS, DEFAULT_MOTION, GSAP_CDN, GSAP_VERSION } from './meta.js';
+export { SECTION_CATEGORIES, sectionCategoryById, DEFAULT_THEME, THEME_PRESETS, THEME_COLORS, THEME_KEYS, BASE_CSS, IMG, MOTION_PRESETS, MOTION_SPEEDS, TEXT_EFFECTS, DEFAULT_MOTION, GSAP_CDN, GSAP_VERSION } from './meta.js';
+export { ICONS, ICON_IDS, iconSvg } from './icons.js';
 
 export const SECTION_TEMPLATES = [
   saasSplitHero,
@@ -16,12 +30,39 @@ export const SECTION_TEMPLATES = [
   imageBackgroundHero,
   appProductHero,
   portfolioHero,
+  featuresIconGrid,
+  featuresSplitImage,
+  featuresBento,
+  featuresAlternating,
+  featuresSteps,
+  pricingThreeTier,
+  pricingDarkGlow,
+  pricingSinglePlan,
+  pricingRows,
+  testimonialsGrid,
+  testimonialsCarousel,
+  testimonialsMarquee,
+  testimonialSpotlight,
 ];
 export const sectionTemplateById = id => SECTION_TEMPLATES.find(t => t.id === id);
+
+/* Repeatable lists (t.lists): each item is { _id, ...its fields }. _id keeps uploads tied
+   to the right item when items are added, removed or reordered. */
+export const newItemId = () => `i${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+/** A list item with every field of the list (missing ones from the list's blank item) */
+export function listItem(list, values = {}, id) {
+  const item = { _id: id || values._id || newItemId() };
+  for (const fd of list.fields) item[fd.key] = values[fd.key] ?? fd.value ?? '';
+  return item;
+}
+const defaultLists = t => Object.fromEntries((t.lists || []).map(l => [l.key, l.value.map((v, i) => listItem(l, v, `d${i}`))]));
+/** Upload keys an image can live under: section image fields, and `${list}.${itemId}.${field}` */
+export const listImageKey = (listKey, itemId, fieldKey) => `${listKey}.${itemId}.${fieldKey}`;
 
 /** Default editor state for a section */
 export function defaultSectionState(t) {
   return {
+    lists: defaultLists(t),
     fields: Object.fromEntries(t.fields.map(f => [f.key, f.value ?? ''])),
     toggles: Object.fromEntries((t.toggles || []).map(x => [x.key, x.value])),
     theme: { ...DEFAULT_THEME, ...(t.theme || {}) },
@@ -35,9 +76,19 @@ export function defaultSectionState(t) {
 export function restoreSectionState(t, saved) {
   const d = defaultSectionState(t);
   const pick = (src, def) => ({ ...def, ...Object.fromEntries(Object.entries(src || {}).filter(([k]) => k in def)) });
+  const lists = {};
+  for (const l of t.lists || []) {
+    const items = Array.isArray(saved?.lists?.[l.key]) ? saved.lists[l.key] : null;
+    lists[l.key] = items ? items.slice(0, l.max || 24).map(it => listItem(l, it)) : d.lists[l.key];
+  }
   const imageKeys = new Set(t.fields.filter(f => f.type === 'image').map(f => f.key));
+  for (const l of t.lists || []) {
+    const imgs = l.fields.filter(fd => fd.type === 'image');
+    for (const it of lists[l.key]) for (const fd of imgs) imageKeys.add(listImageKey(l.key, it._id, fd.key));
+  }
   const uploads = Object.fromEntries(Object.entries(saved?.uploads || {}).filter(([k, u]) => imageKeys.has(k) && u?.id));
   return {
+    lists,
     fields: pick(saved?.fields, d.fields),
     toggles: pick(saved?.toggles, d.toggles),
     theme: pick(saved?.theme, d.theme),

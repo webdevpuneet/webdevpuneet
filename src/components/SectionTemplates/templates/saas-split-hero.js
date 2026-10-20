@@ -9,7 +9,7 @@ export default {
   created: '2026-10-20',
   updated: '2026-10-20',
   seoTitle: 'SaaS Hero Section Template — Free HTML & CSS Split Hero',
-  seoDescription: 'Free SaaS hero section template: announcement badge, headline, two buttons, social proof and a framed product screenshot. Edit online, export HTML, React or Vue.',
+  seoDescription: 'Free SaaS hero section: announcement badge, headline, two buttons, social proof and a framed product screenshot. Edit it online, then export HTML, React or Vue.',
   description: 'A two-column SaaS landing page hero: an announcement badge linking to news, a bold headline with a highlighted phrase, supporting text, primary and secondary buttons, a social-proof line and a product screenshot in a glowing frame. It stacks on narrow screens.',
   bestFor: ['SaaS and startup landing pages', 'Product launch and waitlist pages', 'Software homepages with a dashboard screenshot'],
 
@@ -43,7 +43,7 @@ export default {
   html: `<div class="sh st-wrap">
   <div class="sh-copy">
     <a class="st-pill sh-badge" data-anim="item" data-href="badgeUrl" data-show="showBadge"><span data-edit="badge"></span></a>
-    <h1 class="sh-title" data-anim="item" data-edit="headline"></h1>
+    <h1 class="sh-title" data-anim="item" data-anim-text data-edit="headline"></h1>
     <p class="st-lead sh-lead" data-anim="item" data-edit="lead"></p>
     <div class="st-btns" data-anim="item">
       <a class="st-btn" data-href="cta1Url"><span data-edit="cta1"></span></a>

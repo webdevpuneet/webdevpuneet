@@ -332,7 +332,7 @@
   ]
  },
  "section": {
-  "total": 5,
+  "total": 18,
   "categories": [
    {
     "id": "hero",
@@ -357,6 +357,76 @@
      {
       "id": "portfolio-hero",
       "name": "Personal Portfolio Hero"
+     }
+    ]
+   },
+   {
+    "id": "features",
+    "label": "Features",
+    "items": [
+     {
+      "id": "features-icon-grid",
+      "name": "Icon Grid Features"
+     },
+     {
+      "id": "features-split-image",
+      "name": "Split Features With Image"
+     },
+     {
+      "id": "features-bento",
+      "name": "Bento Grid Features"
+     },
+     {
+      "id": "features-alternating",
+      "name": "Alternating Feature Rows"
+     },
+     {
+      "id": "features-steps",
+      "name": "How It Works Steps"
+     }
+    ]
+   },
+   {
+    "id": "pricing",
+    "label": "Pricing",
+    "items": [
+     {
+      "id": "pricing-three-tier",
+      "name": "Three-Tier Pricing"
+     },
+     {
+      "id": "pricing-dark-glow",
+      "name": "Dark Glow Pricing"
+     },
+     {
+      "id": "pricing-single-plan",
+      "name": "Single Plan Pricing"
+     },
+     {
+      "id": "pricing-rows",
+      "name": "Pricing List Rows"
+     }
+    ]
+   },
+   {
+    "id": "testimonials",
+    "label": "Testimonials",
+    "items": [
+     {
+      "id": "testimonials-grid",
+      "name": "Testimonial Wall"
+     },
+     {
+      "id": "testimonials-carousel",
+      "name": "Testimonial Carousel"
+     },
+     {
+      "id": "testimonials-marquee",
+      "name": "Testimonial Marquee"
+     },
+     {
+      "id": "testimonial-spotlight",
+      "name": "Testimonial Spotlight"
      }
     ]
    }
