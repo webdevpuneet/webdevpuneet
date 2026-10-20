@@ -5,7 +5,10 @@
    Rules (see TEMPLATES-ROADMAP.html → Motion & JS libraries):
    - Work without GSAP: the plain state change always happens; GSAP only animates it.
    - Skip animation for prefers-reduced-motion.
-   - Scope everything to each `.st` section; never use ids. */
+   - Scope everything to each `.st` section; never use ids.
+   - Autonomous animations (counter, marquee) also stop when window.ST_STILL is set:
+     static renders (previews, thumbnails, the editor while editing) set it, while
+     interactions (billing, accordion, carousel, spotlight, magnetic) keep working. */
 
 export const BEHAVIORS = {
   /* Monthly / yearly switch for pricing sections.
@@ -118,7 +121,7 @@ BEHAVIORS.marquee = {
   js: `(function () {
   var G = window.gsap;
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!G || reduce) return;
+  if (!G || reduce || window.ST_STILL) return;
   document.querySelectorAll('.st [data-marquee]').forEach(function (track) {
     var items = Array.prototype.slice.call(track.children);
     if (!items.length) return;
@@ -181,6 +184,88 @@ BEHAVIORS.accordion = {
       });
     });
     if (/first/.test(mode) && items[0]) items[0].open = true;
+  });
+})();`,
+};
+
+BEHAVIORS.spotlight = {
+  /* A soft glow that follows the pointer. Elements with [data-spotlight] get the CSS
+     variables --mx / --my (percent), eased with GSAP; CSS draws the glow with them
+     (default 50% 50%, so it simply sits in the middle without JS or on touch screens). */
+  plugins: [],
+  js: `(function () {
+  var G = window.gsap;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+  if (!G || reduce || !fine) return;
+  document.querySelectorAll('.st [data-spotlight]').forEach(function (el) {
+    el.addEventListener('pointermove', function (e) {
+      var r = el.getBoundingClientRect();
+      G.to(el, { '--mx': ((e.clientX - r.left) / r.width * 100) + '%', '--my': ((e.clientY - r.top) / r.height * 100) + '%', duration: 0.6, ease: 'power3.out', overwrite: 'auto' });
+    });
+    el.addEventListener('pointerleave', function () {
+      G.to(el, { '--mx': '50%', '--my': '50%', duration: 1, ease: 'power3.out', overwrite: 'auto' });
+    });
+  });
+})();`,
+};
+
+BEHAVIORS.magnetic = {
+  /* Buttons marked [data-magnetic] drift a little toward the pointer and spring back
+     (GSAP quickTo). Desktop pointers only; off for reduced motion. */
+  plugins: [],
+  js: `(function () {
+  var G = window.gsap;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+  if (!G || reduce || !fine) return;
+  document.querySelectorAll('.st [data-magnetic]').forEach(function (el) {
+    var x = G.quickTo(el, 'x', { duration: 0.5, ease: 'power3.out' });
+    var y = G.quickTo(el, 'y', { duration: 0.5, ease: 'power3.out' });
+    el.addEventListener('pointermove', function (e) {
+      var r = el.getBoundingClientRect();
+      x((e.clientX - r.left - r.width / 2) * 0.3);
+      y((e.clientY - r.top - r.height / 2) * 0.4);
+    });
+    el.addEventListener('pointerleave', function () { x(0); y(0); });
+  });
+})();`,
+};
+
+BEHAVIORS.counter = {
+  /* Numbers that count up once when they scroll into view. Markup: [data-count] elements
+     whose text is the final value, e.g. "12,000+", "$2.5M", "99.9%", "4.9/5". The first
+     number is animated from 0 and its prefix, suffix, thousands commas and decimals are
+     kept. The HTML always holds the final value (search engines, no JS, reduced motion). */
+  plugins: [],
+  js: `(function () {
+  var G = window.gsap;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!G || reduce || window.ST_STILL) return;
+  if (window.ScrollTrigger) G.registerPlugin(ScrollTrigger);
+  document.querySelectorAll('.st [data-count]').forEach(function (el) {
+    var text = el.textContent;
+    var m = text.match(/\\d[\\d,]*(\\.\\d+)?/);
+    if (!m) return;
+    var raw = m[0];
+    var dec = m[1] ? m[1].length - 1 : 0;
+    var commas = raw.indexOf(',') > -1;
+    var target = parseFloat(raw.replace(/,/g, ''));
+    var pre = text.slice(0, m.index), post = text.slice(m.index + raw.length);
+    var fmt = function (v) {
+      var s = v.toFixed(dec);
+      if (commas) { var p = s.split('.'); p[0] = p[0].replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); s = p.join('.'); }
+      return pre + s + post;
+    };
+    el.setAttribute('aria-label', text.trim());
+    var o = { v: 0 };
+    // The real value stays in place until the count starts (it starts from 0 on enter)
+    G.fromTo(o, { v: 0 }, {
+      v: target, duration: 2, ease: 'power2.out', immediateRender: false,
+      scrollTrigger: window.ScrollTrigger ? { trigger: el, start: 'top 90%', once: true } : undefined,
+      onUpdate: function () { el.textContent = fmt(o.v); },
+      onComplete: function () { el.textContent = text; }
+    });
   });
 })();`,
 };

@@ -14,6 +14,8 @@
      data-optional     on data-image / data-bg: removed instead of a placeholder when empty
      data-icon="key"   empty element, filled with the icon's inline SVG (templates/icons.js)
      data-lines="key"  empty <ul>/<ol>, one <li> per non-empty line of the field
+     data-set="attr:key;attr:key"  sets attributes from fields (e.g. a form's action, an
+                       input's name and placeholder); href/src/action go through safeUrl
      data-list="key"   repeatable items: the element's first child is the item template,
                        rendered once per item in state.lists[key]; bindings inside it read
                        the item's own fields
@@ -120,7 +122,7 @@ export function fillHtml(t, state, { imageSrc, clean = false } = {}) {
       src: k => (imageSrc ? imageSrc(`${key}.${it._id}.${k}`) : '') || String(it[k] ?? '').trim(),
     })
       // Mark item bindings as done, so the section-level pass never refills an empty one
-      .replace(/\sdata-(edit|href|image|bg|icon|lines|show-if|hide-if|optional)(?==|[\s>])/g, ' data-i-$1')).join('\n');
+      .replace(/\sdata-(edit|href|image|bg|icon|lines|set|show-if|hide-if|optional)(?==|[\s>])/g, ' data-i-$1')).join('\n');
     const open = html.slice(m.index, b.openEnd).replace(/\sdata-list="/, ' data-list-done="');
     html = html.slice(0, m.index) + open + (rendered ? `\n${rendered}\n` : '') + html.slice(b.closeStart);
     from = m.index + open.length;
@@ -132,7 +134,7 @@ export function fillHtml(t, state, { imageSrc, clean = false } = {}) {
     src: key => (imageSrc ? imageSrc(key, fieldOf(key)) : '') || String(f[key] ?? '').trim(),
   });
 
-  if (clean) html = html.replace(/\s+data-(i-)?(edit|href|image|bg|icon|lines|show-if|hide-if|show|optional|list-done)(="[^"]*")?/g, '');
+  if (clean) html = html.replace(/\s+data-(i-)?(edit|href|image|bg|icon|lines|set|show-if|hide-if|show|optional|list-done)(="[^"]*")?/g, '');
   else html = html.replace(/\sdata-list-done="/g, ' data-list="');
   return html.trim();
 }
@@ -166,6 +168,18 @@ function fillFragment(html, f, { src }) {
     const css = `background-image:url('${(url ? safeUrl(url) : PLACEHOLDER_IMG).replace(/'/g, '%27')}')`;
     const styled = /\sstyle="/.test(attrs) ? attrs.replace(/\sstyle="([^"]*)"/, (s, v) => ` style="${v};${css}"`) : `${attrs} style="${css}"`;
     return `<${tag}${styled}>`;
+  });
+  // Attributes: data-set="attr:key;attr:key" (URL attributes go through safeUrl)
+  html = html.replace(/<([a-z0-9]+)\b([^>]*\bdata-set="([^"]+)"[^>]*)>/gi, (m, tag, attrs, spec) => {
+    let out = attrs;
+    for (const pair of spec.split(';')) {
+      const [name, key] = pair.split(':').map(x => x.trim());
+      if (!/^[a-z][a-z0-9-]*$/i.test(name || '') || !key || /^on/i.test(name)) continue;
+      const raw = String(f[key] ?? '');
+      const val = /^(href|src|action|formaction)$/i.test(name) ? safeUrl(raw) : raw;
+      out = out.replace(new RegExp(`\\s${name}="[^"]*"`, 'i'), '') + ` ${name}="${esc(val)}"`;
+    }
+    return `<${tag}${out}>`;
   });
   // Icons
   html = html.replace(/<([a-z0-9]+)\b([^>]*\bdata-icon="([^"]+)"[^>]*)>\s*<\/\1>/gi,
@@ -240,7 +254,9 @@ export function motionScript(state) {
 }
 /** Every script a section runs: its behaviours (always) and the motion runtime (when on) */
 export function sectionScript(t, state, { motion = true } = {}) {
-  return [behaviorScript(t), motion ? motionScript(state) : ''].filter(Boolean).join('\n');
+  const behaviors = behaviorScript(t);
+  // Static renders: behaviours skip autonomous animation (counters, marquees)
+  return [behaviors && !motion ? 'window.ST_STILL = true;' : '', behaviors, motion ? motionScript(state) : ''].filter(Boolean).join('\n');
 }
 /** CDN URLs those scripts need ([] when there are none) */
 export function sectionCdn(t, state, { motion = true } = {}) {

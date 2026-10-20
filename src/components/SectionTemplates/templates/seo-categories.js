@@ -81,4 +81,36 @@ The accordions are built on native details/summary, so they work without JavaScr
       { q: 'Are hidden accordion answers indexed?', a: 'Yes. With details/summary the answers are in the HTML from the start, just collapsed, so search engines can read them.' },
     ],
   },
+  cta: {
+    title: 'Call to Action Section Templates — Free CTA HTML & React',
+    description: 'Free call to action section templates: a gradient banner with a cursor glow, an app download card, a newsletter signup form and a CTA strip. Edit, then export.',
+    h1: 'Call to Action Section Templates',
+    keywords: ['call to action section', 'cta section template', 'cta banner html css', 'newsletter signup section', 'app download section'],
+    intro: `A call-to-action section gives visitors who are ready a clear next step: sign up, download, subscribe or get in touch. It usually sits at the end of a page, and shorter versions work well between sections.
+
+The **[Gradient CTA Banner](/website-section-templates/cta-gradient-banner/)** is a bold closing panel with a glow that follows the cursor and magnetic buttons. The **[Split CTA With Image](/website-section-templates/cta-split-image/)** pairs download buttons with a phone or product image on a dark card. The **[Newsletter Signup CTA](/website-section-templates/cta-newsletter/)** is a working email form that posts to Mailchimp, Kit or any service, and the **[CTA Strip](/website-section-templates/cta-strip/)** is a slim band you can repeat between sections.
+
+Every section shares the library's theme, animates with GSAP (SplitText headings, a pointer spotlight and magnetic buttons on desktop) and exports to HTML, React or Vue with its scripts included.`,
+    faqs: [
+      { q: 'What makes a good call to action?', a: 'One clear action, a heading that states the benefit, a specific button label such as "Start free trial" rather than "Submit", and a short note that removes risk, like "No credit card required".' },
+      { q: 'Where should a CTA section go?', a: 'At the end of every landing page, and as a smaller strip after key sections such as features or testimonials, so people can act as soon as they are convinced.' },
+      { q: 'Can the newsletter form send to my email service?', a: 'Yes. Paste your service’s form action URL and field name, and the exported form posts sign-ups directly to it.' },
+    ],
+  },
+  stats: {
+    title: 'Stats & Logo Section Templates — Free Counters, Logo Cloud',
+    description: 'Free stats and logo section templates: animated number counters, a scrolling "trusted by" logo cloud and a dark stats block with logos. GSAP animated; free.',
+    h1: 'Stats & Logo Section Templates',
+    keywords: ['stats section template', 'animated counter', 'logo cloud section', 'trusted by logos', 'metrics section'],
+    intro: `Numbers and logos are the quickest kind of social proof: "12,000+ teams" and a row of familiar company names tell visitors your product is real and widely used before they read anything else.
+
+**[Animated Stats Counters](/website-section-templates/stats-counters/)** shows up to six key figures that count up as they scroll into view. The **[Scrolling Logo Cloud](/website-section-templates/logo-cloud/)** is a slim "Trusted by" strip of customer logos that loops endlessly and pauses on hover. **[Stats With Logos](/website-section-templates/stats-dark-split/)** combines both on a dark background: a heading and button, four counting stat cards with icons, and a logo row.
+
+The counters keep any format ($2.5M, 99.9%, 4.9/5) and leave the real values in the HTML for search engines. Logos start as icon-and-name wordmarks and can be replaced with uploaded SVG or PNG files. Everything animates with GSAP, respects reduced motion and exports to HTML, React or Vue.`,
+    faqs: [
+      { q: 'Where should stats and logos go on a page?', a: 'Directly under the hero is the most common place, because it backs up the headline immediately. Stats also work well near pricing, and logos near the final call to action.' },
+      { q: 'Are animated counters bad for SEO?', a: 'Not these. The final numbers are in the HTML; the count-up only runs in the browser when the numbers come into view, then restores the exact text.' },
+      { q: 'Do I need permission to show customer logos?', a: 'Usually yes. Check your customer agreements or ask before showing a company’s logo. The built-in wordmarks keep the section looking finished in the meantime.' },
+    ],
+  },
 };

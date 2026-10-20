@@ -99,6 +99,8 @@ function SectionFrame({ html, width, scale = 1, interactive = true }) {
       if (typeof ResizeObserver !== 'undefined') { ro = new ResizeObserver(fit); ro.observe(doc.documentElement); }
       // Links inside the preview never navigate away from the editor
       doc.addEventListener('click', ev => { if (ev.target.closest?.('a')) ev.preventDefault(); });
+      // Forms (newsletter sign-ups) never submit from the preview
+      doc.addEventListener('submit', ev => ev.preventDefault());
     };
     frame.addEventListener('load', measure);
     return () => { frame.removeEventListener('load', measure); ro?.disconnect(); };

@@ -332,7 +332,7 @@
   ]
  },
  "section": {
-  "total": 21,
+  "total": 28,
   "categories": [
    {
     "id": "hero",
@@ -445,6 +445,46 @@
      {
       "id": "faq-grid",
       "name": "FAQ Grid"
+     }
+    ]
+   },
+   {
+    "id": "cta",
+    "label": "Call to action",
+    "items": [
+     {
+      "id": "cta-gradient-banner",
+      "name": "Gradient CTA Banner"
+     },
+     {
+      "id": "cta-split-image",
+      "name": "Split CTA With Image"
+     },
+     {
+      "id": "cta-newsletter",
+      "name": "Newsletter Signup CTA"
+     },
+     {
+      "id": "cta-strip",
+      "name": "CTA Strip"
+     }
+    ]
+   },
+   {
+    "id": "stats",
+    "label": "Stats & logos",
+    "items": [
+     {
+      "id": "stats-counters",
+      "name": "Animated Stats Counters"
+     },
+     {
+      "id": "logo-cloud",
+      "name": "Scrolling Logo Cloud"
+     },
+     {
+      "id": "stats-dark-split",
+      "name": "Stats With Logos (Dark)"
      }
     ]
    }

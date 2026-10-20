@@ -29,6 +29,34 @@ export const quoteFields = ({ avatar = true } = {}) => [
 
 export const avatar = n => IMG(`avatar-${n}.jpg`);
 
+/* ── Logos ─────────────────────────────────────────────────────────────────── */
+/* A customer logo: an uploaded logo image, or (when there is none) an icon + name
+   wordmark, so the section looks finished before real logos are added. */
+export const LOGO_HTML = `<li class="st-logo">
+        <img class="st-logo-img" data-image="logo" data-optional alt="" loading="lazy">
+        <span class="st-logo-mark" data-hide-if="logo"><span class="st-logo-icon" data-icon="icon"></span><span data-edit="name"></span></span>
+      </li>`;
+
+export const LOGO_CSS = `.st-logo{display:flex;align-items:center;justify-content:center;flex:none}
+.st-logo-img{height:30px;width:auto;max-width:150px;object-fit:contain;filter:grayscale(1);opacity:.7;transition:filter .3s ease,opacity .3s ease}
+.st-logo:hover .st-logo-img{filter:none;opacity:1}
+.st-logo-mark{display:inline-flex;align-items:center;gap:8px;color:var(--st-muted);font:800 21px/1 var(--st-font-heading);letter-spacing:-.03em;white-space:nowrap;opacity:.8;transition:color .3s ease,opacity .3s ease}
+.st-logo:hover .st-logo-mark{color:var(--st-text);opacity:1}
+.st-logo-icon svg{width:24px;height:24px;display:block}`;
+
+export const logoFields = () => [
+  { key: 'name', label: 'Company name', type: 'text', value: 'Company' },
+  { key: 'icon', label: 'Icon (used without a logo image)', type: 'icon', value: 'sparkles' },
+  { key: 'logo', label: 'Logo image (optional)', type: 'image', value: '', hint: 'An SVG or transparent PNG, ideally one colour. Replaces the icon + name.', upload: { name: 'logo', maxW: 400, mime: 'image/png' } },
+  { key: 'logoAlt', label: 'Logo alt text', type: 'text', value: '' },
+];
+
+export const DEMO_LOGOS = [
+  { name: 'Northwind', icon: 'globe' }, { name: 'Lumen', icon: 'lightbulb' }, { name: 'Quill', icon: 'pen-tool' },
+  { name: 'Brightpath', icon: 'rocket' }, { name: 'Kestrel', icon: 'zap' }, { name: 'Orbit', icon: 'target' },
+  { name: 'Tidewater', icon: 'leaf' }, { name: 'Fernhill', icon: 'layers' },
+];
+
 /* ── FAQ ───────────────────────────────────────────────────────────────────── */
 /* One question as native details/summary (the accordion behaviour animates it) */
 export const ACC_ITEM_HTML = `<details class="st-acc" data-anim="item">

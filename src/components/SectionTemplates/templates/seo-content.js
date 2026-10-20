@@ -1249,6 +1249,422 @@ Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/)
 - Include FAQPage JSON-LD and a GSAP entrance (SplitText heading, staggered cards) that respects prefers-reduced-motion.`,
     },
   },
+
+  'cta-gradient-banner': {
+    keywords: ['call to action section', 'cta banner html css', 'cta section template', 'gradient cta', 'magnetic button gsap'],
+    about: {
+      title: 'Gradient CTA Banner — Free Call to Action Section Template',
+      description: `**Gradient CTA Banner** is a closing call to action that's hard to scroll past: a rounded panel in a rich brand gradient with a faint grid texture, a big centred heading, a line of supporting text, two buttons and a reassurance note such as "No credit card required".
+
+**Small details that feel alive**
+
+A soft glow inside the panel follows the visitor's cursor, eased with GSAP, and the buttons are magnetic: they drift slightly toward the pointer and spring back when it leaves. Both effects run only on devices with a mouse and switch off for people who prefer reduced motion. On touch screens the glow simply sits in the middle.
+
+**Your brand, automatically**
+
+The gradient, glow and buttons are all mixed from your brand colour, so the banner matches any theme preset or brand kit. The primary button is inverted (white on brand) so it stands out, and leaving the second button empty hides it.
+
+**Animated entrance**
+
+The heading reveals with GSAP SplitText and the text and buttons follow as the banner scrolls into view.
+
+**Export it**
+
+Download HTML or a ZIP, copy a React or Vue component (the spotlight and magnetic scripts included), or fork into [My Code](/ui-snippets/mycode/). For a smaller prompt between sections, see the [CTA Strip](/website-section-templates/cta-strip/).`,
+    },
+    features: [
+      'Rounded gradient banner mixed from your brand colour',
+      'Cursor-following glow (GSAP spotlight) and grid texture',
+      'Magnetic buttons that drift toward the pointer',
+      'Centred heading, supporting text and reassurance note',
+      'Optional second button that hides when empty',
+      'Effects off on touch screens and for reduced motion',
+      'SplitText heading reveal on scroll',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '◎', title: 'A clear final step', desc: 'A big, focused banner gives visitors who scrolled to the end one obvious thing to do next.' },
+      { icon: '✦', title: 'Delightful, not distracting', desc: 'A gentle glow and magnetic buttons reward attention without competing with the message.' },
+      { icon: '◐', title: 'Always on brand', desc: 'Every colour is derived from your brand, so it fits any theme without manual tweaking.' },
+    ],
+    useCases: [
+      { icon: '🏁', title: 'End of a landing page', desc: 'Repeat your main offer just above the footer, with a free-trial button and a "Talk to sales" option.' },
+      { icon: '🚀', title: 'Launch announcement', desc: 'Promote a new product or feature with a bold heading and a button to the launch page or waitlist.' },
+      { icon: '📚', title: 'After a blog post', desc: 'Turn readers into users with a short pitch and a sign-up button at the end of your best articles.' },
+      { icon: '🎟️', title: 'Event registration', desc: 'Close an event page with the date in the note and a "Reserve your seat" button.' },
+    ],
+    faqs: [
+      { q: 'How does the cursor glow work?', a: 'The banner draws a radial gradient positioned with two CSS variables. A small script updates them from the pointer position and GSAP eases the change, so the glow trails the cursor smoothly.' },
+      { q: 'What are magnetic buttons?', a: 'Buttons that move slightly toward the pointer while it is over them, using GSAP quickTo, and spring back when it leaves. It makes the main action feel responsive and inviting.' },
+      { q: 'Do the effects work on phones?', a: 'They are desktop-only on purpose: on touch screens the glow stays centred and the buttons stay still. Everything else, including the entrance animation, works everywhere.' },
+      { q: 'Can I change the gradient?', a: 'The gradient runs from your brand colour to a darker mix of it. Change the brand colour in Colours, or edit the .cb background in the exported CSS for a custom gradient.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the CTA banner: add an email field instead of buttons, show customer logos under the note, or add a countdown for a launch offer.',
+      prompt: `Create a call-to-action banner section in HTML, CSS and JavaScript.
+
+- A rounded panel with a gradient from the brand colour to a darker shade, a faint grid texture masked to the centre and a radial glow positioned by CSS variables --mx and --my.
+- Centred white heading, supporting text, a white primary button, an outlined secondary button and a small note.
+- JavaScript with GSAP: update --mx/--my from the pointer with eased tweens, and make the buttons magnetic with gsap.quickTo (x/y toward the pointer, back to 0 on leave). Desktop pointers only; respect prefers-reduced-motion.`,
+    },
+  },
+
+  'cta-split-image': {
+    keywords: ['app download cta section', 'cta with image html css', 'split call to action', 'mobile app promo section', 'dark cta section'],
+    about: {
+      title: 'Split CTA With Image — Free App Download Call to Action Template',
+      description: `**Split CTA With Image** is a dark call-to-action card built for app downloads and product sign-ups. On the left: an eyebrow, a heading with a highlighted phrase, a short checklist of benefits and two buttons. On the right: a phone screen or product shot that rises from the bottom edge of the card, under a soft glow in your brand colour.
+
+**Show the product, then ask**
+
+Seeing the app right next to the download buttons makes the decision easier. Upload your own screenshot (PNGs keep their transparency) and it's resized in your browser; the drop shadow and edge-cropping work with any phone or product image.
+
+**Store-ready buttons**
+
+The two buttons default to "Download for iPhone" and "Get it on Android", so you can link them straight to your App Store and Google Play pages, or change them to "Start free" and "Book a demo" for a web product. Both buttons are magnetic on desktop.
+
+**Responsive and animated**
+
+On phones the image moves under the text and shrinks to fit. With GSAP, the heading reveals word by word, the checklist and buttons follow, and the image rises in as the card scrolls into view.
+
+**Export it**
+
+Download HTML or a ZIP with your image, copy a React or Vue component, or fork into [My Code](/ui-snippets/mycode/). For a hero-sized app layout, see the [App Product Hero](/website-section-templates/app-product-hero/).`,
+    },
+    features: [
+      'Dark card with copy on the left and an image rising from the edge',
+      'Heading with *highlight*, eyebrow and benefits checklist',
+      'Two buttons for App Store / Google Play or any links',
+      'Upload a phone screen or product shot (transparency kept)',
+      'Brand-coloured glow; magnetic buttons on desktop',
+      'Stacks on phones with the image below the text',
+      'SplitText heading and rising image on scroll',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '📱', title: 'Product beside the ask', desc: 'Visitors see what they are getting right next to the button that gets it.' },
+      { icon: '☑', title: 'Reasons in a glance', desc: 'Three short checklist benefits answer "why download?" before the click.' },
+      { icon: '◐', title: 'Stands out on light pages', desc: 'A dark card with a glowing accent breaks the rhythm of a light page and draws the eye.' },
+    ],
+    useCases: [
+      { icon: '📲', title: 'App download prompt', desc: 'Place it at the end of your app’s website with iPhone and Android buttons and a screenshot of the home screen.' },
+      { icon: '💻', title: 'SaaS sign-up', desc: 'Swap the phone for a dashboard screenshot and the buttons for "Start free trial" and "Book a demo".' },
+      { icon: '🆕', title: 'New feature promo', desc: 'Announce a feature with its screenshot, three benefits and a button to try it.' },
+      { icon: '🎧', title: 'Podcast or newsletter app', desc: 'Show your listening or reading app with links to the stores and a checklist of what subscribers get.' },
+    ],
+    faqs: [
+      { q: 'What image works best?', a: 'A tall PNG with a transparent background, such as a phone mockup, about 720×1440 px. The image is cropped at the bottom edge of the card, which looks natural for phones.' },
+      { q: 'Can I use official App Store badges?', a: 'Yes. After exporting, replace the two buttons with Apple’s and Google’s official badge images and links, following their brand guidelines.' },
+      { q: 'How does it look on mobile?', a: 'The card stacks: copy and buttons first, then the image, shrunk to about 70% of the width and still rising from the bottom edge.' },
+      { q: 'Can I use a light theme?', a: 'The card uses the theme’s surface colour as its background, so choosing a light preset gives a light card; adjust the text colours in the exported CSS if needed.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the split CTA: add a QR code for downloading on desktop, show app ratings under the buttons, or swap the image for an autoplaying demo video.',
+      prompt: `Create an app download call-to-action section in HTML and CSS.
+
+- A dark rounded card in two columns: left with an eyebrow, a heading with one highlighted phrase in a lime brand colour, a three-item checklist and two buttons (filled and outlined); right with a phone screenshot aligned to the bottom edge, overflowing it slightly, with a drop shadow.
+- A soft radial glow in the brand colour in the top-right corner.
+- Container queries stack the columns below 760px.
+- GSAP: SplitText heading, staggered copy and a rising image with ScrollTrigger; magnetic buttons on desktop; respect prefers-reduced-motion.`,
+    },
+  },
+
+  'cta-newsletter': {
+    keywords: ['newsletter signup section', 'email subscribe form html css', 'newsletter cta template', 'mailchimp signup form html', 'email capture section'],
+    about: {
+      title: 'Newsletter Signup CTA — Free Email Subscribe Section Template',
+      description: `**Newsletter Signup CTA** turns readers into subscribers. A centred card holds an icon, a heading about what subscribers get, a short pitch, an email field and subscribe button side by side, and a line of social proof with a privacy note.
+
+**A real, working form**
+
+Unlike many templates, this isn't just a picture of a form. Paste the form action URL from your email service (Mailchimp, Kit/ConvertKit, Buttondown, Brevo or your own endpoint), set the field name it expects (for example EMAIL for Mailchimp), and the exported page posts sign-ups straight to it. The URL is checked before it's used, and the email field has proper type, autocomplete and required attributes.
+
+**Friendly on every screen**
+
+On desktop the input and button share one rounded bar that glows in your brand colour when focused. On phones they stack into a full-width field and button that are easy to tap.
+
+**Edit and animate**
+
+Change the icon, heading, pitch, placeholder, button text, subscriber count and note. The heading reveals with GSAP SplitText as the card scrolls into view. In the editor the form never submits, so you can try it safely.
+
+**Export it**
+
+Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). Pair it with an email from the [Email Templates](/email-templates/) library, such as the welcome email.`,
+    },
+    features: [
+      'Working email form that posts to any service’s form URL',
+      'Configurable field name for Mailchimp, Kit, Buttondown and others',
+      'Input and button in one bar with a brand-coloured focus glow',
+      'Stacks into full-width field and button on phones',
+      'Icon, heading, pitch, subscriber count and privacy note',
+      'Proper email type, autocomplete and required attributes',
+      'URLs checked before use; forms never submit in the editor',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '✉', title: 'Own your audience', desc: 'An email list is the one channel you control, and this section makes joining it effortless.' },
+      { icon: '⚙', title: 'Works with your provider', desc: 'Post to any email service by pasting its form URL and field name; no plugin needed.' },
+      { icon: '👥', title: 'Proof builds sign-ups', desc: 'A subscriber count next to the form reassures people that the newsletter is worth it.' },
+    ],
+    useCases: [
+      { icon: '📝', title: 'Blog and newsletter', desc: 'Place it after articles and on your homepage to grow your list, with your weekly topic in the heading.' },
+      { icon: '⏳', title: 'Product waitlist', desc: 'Change the button to "Join the waitlist" and post sign-ups to your waitlist tool before launch.' },
+      { icon: '🎓', title: 'Free course or lead magnet', desc: 'Offer a free email course or download in exchange for an email address, delivered by your email service.' },
+      { icon: '🛍️', title: 'Store discount sign-up', desc: 'Promise 10% off the first order to new subscribers and connect the form to your shop’s email platform.' },
+    ],
+    faqs: [
+      { q: 'How do I connect the form to Mailchimp?', a: 'In Mailchimp, open your audience’s embedded form code and copy the form’s action URL into Form URL, and set Email field name to EMAIL. Sign-ups will go straight to your audience.' },
+      { q: 'Does it work with Kit (ConvertKit) or Buttondown?', a: 'Yes. Copy the action URL from the service’s HTML form embed and use the field name it expects, such as email_address for Kit or email for Buttondown.' },
+      { q: 'Will the form submit while I edit?', a: 'No. In the editor preview submissions are blocked so you can try the form safely. The exported page submits normally.' },
+      { q: 'Is it accessible?', a: 'The email input has a label from the placeholder (aria-label), type="email", autocomplete="email" and required, and the button is a real submit button.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the newsletter section: submit with fetch and show a thank-you message, add a first-name field, or add a hidden honeypot field against spam.',
+      prompt: `Create a newsletter signup section in HTML and CSS.
+
+- A centred card with a round icon, a heading with a highlighted phrase, a short pitch, a form with an email input and subscribe button inside one rounded bar (with a brand-coloured focus ring), and a line with the subscriber count and a privacy note.
+- The form posts to a configurable action URL; the input has type="email", required, autocomplete="email" and an aria-label.
+- Container queries stack the input and button below 520px.
+- CSS custom properties for the theme and a GSAP SplitText heading reveal that respects prefers-reduced-motion.`,
+    },
+  },
+
+  'cta-strip': {
+    keywords: ['cta strip', 'inline call to action', 'cta bar html css', 'small cta section', 'call to action band'],
+    about: {
+      title: 'CTA Strip — Free Inline Call to Action Section Template',
+      description: `**CTA Strip** is a compact call to action for the middle of a page: a softly tinted band with a bold icon, a one-line heading and a short sentence on the left, and two buttons on the right. It invites action without the full-screen interruption of a big banner, so you can use it between sections, above the footer or at the end of articles.
+
+**Quick to adapt**
+
+Pick the icon from 60 Lucide line icons, write a heading such as "Start your free 14-day trial", and link the two buttons. Leave the second button empty to show only one. The border and background are tinted from your brand colour.
+
+**Feels responsive**
+
+On desktop the buttons are magnetic, drifting slightly toward the cursor (GSAP quickTo). The heading and buttons fade in as the strip scrolls into view. On phones the content stacks and the buttons share the full width.
+
+**Use it often**
+
+Because it's small, you can repeat it on long pages and documentation without overwhelming readers; every instance shares the same theme as the rest of your sections.
+
+**Export it**
+
+Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). For a bigger closing moment, use the [Gradient CTA Banner](/website-section-templates/cta-gradient-banner/).`,
+    },
+    features: [
+      'Slim tinted band: icon, heading and text beside two buttons',
+      'Pick the icon from 60 Lucide line icons',
+      'Optional second button that hides when empty',
+      'Magnetic buttons on desktop (GSAP quickTo)',
+      'Fade-in entrance on scroll',
+      'Stacks on phones with full-width buttons',
+      'Brand-tinted border and background from the theme',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '➖', title: 'Light-touch prompt', desc: 'Asks for action without breaking the flow of the page around it.' },
+      { icon: '↺', title: 'Repeatable', desc: 'Small enough to use several times on long pages, docs and blog posts.' },
+      { icon: '◐', title: 'Consistent', desc: 'Shares the theme with every other section, so it always looks like part of the page.' },
+    ],
+    useCases: [
+      { icon: '📄', title: 'Between landing page sections', desc: 'Place it after features or testimonials to give convinced visitors an early way to sign up.' },
+      { icon: '📚', title: 'Documentation pages', desc: 'Add "Ready to try it? Get an API key" at the end of each guide, linking to sign-up and the dashboard.' },
+      { icon: '✍️', title: 'Blog posts', desc: 'End articles with a relevant offer, like a free template or trial, in one tidy band.' },
+      { icon: '🦶', title: 'Above the footer', desc: 'Put it at the bottom of every page as a consistent last call to action.' },
+    ],
+    faqs: [
+      { q: 'When should I use a strip instead of a banner?', a: 'Use the strip between sections or on content pages where a big banner would interrupt reading, and a banner as the main closing CTA of a landing page.' },
+      { q: 'Can I show just one button?', a: 'Yes. Leave the secondary button text empty and it is removed.' },
+      { q: 'What does "magnetic" mean?', a: 'On devices with a mouse, the buttons move slightly toward the cursor and spring back when it leaves, using GSAP. It is off on touch screens and for reduced motion.' },
+      { q: 'How does it look on phones?', a: 'The icon, heading and text stack, and the two buttons sit side by side across the full width.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the CTA strip: make it dismissible and remember that with localStorage, turn it into a sticky bottom bar, or add an email field.',
+      prompt: `Create a compact call-to-action strip in HTML, CSS and JavaScript.
+
+- A rounded band with a pale brand-tinted background and border: on the left a 54px icon tile in the brand colour, a one-line heading and a short sentence; on the right a filled and an outlined button.
+- Container queries stack it below 640px with full-width buttons.
+- GSAP: fade the content in on scroll and make the buttons magnetic with quickTo on desktop pointers; respect prefers-reduced-motion.`,
+    },
+  },
+
+  'stats-counters': {
+    keywords: ['stats section template', 'animated counter html css', 'number counter on scroll', 'statistics section', 'count up animation gsap'],
+    about: {
+      title: 'Animated Stats Counters — Free Stats Section Template',
+      description: `**Animated Stats Counters** turns your key numbers into a moment: a row of big figures that count up from zero as the section scrolls into view, each with a label and a short note, under an optional centred heading. Numbers like "12,000+ teams" and "99.99% uptime" are some of the fastest ways to show scale and reliability.
+
+**Counts any format**
+
+Type the number exactly as you want it shown, such as $2.5M, 12,000+, 99.99%, 4.9/5 or 3.4×, and the counter keeps the prefix, suffix, thousands commas and decimal places while it counts. When it finishes, the original text is restored exactly.
+
+**Real numbers for everyone**
+
+The HTML always contains the final values, so search engines, screen readers and visitors without JavaScript see the real figures. The count runs once with GSAP and ScrollTrigger, only when each number scrolls into view, and never for people who prefer reduced motion.
+
+**Edit and style**
+
+Add up to six stats, reorder them and add optional notes. The numbers use a subtle text gradient from your text colour to your brand colour, with tabular figures so they don't jiggle while counting. On phones the stats sit in a two-by-two grid.
+
+**Export it**
+
+Download HTML or a ZIP, copy a React or Vue component, or fork into [My Code](/ui-snippets/mycode/). For stats with icons and logos on a dark background, see [Stats With Logos](/website-section-templates/stats-dark-split/).`,
+    },
+    features: [
+      'Numbers count up from zero when scrolled into view (GSAP + ScrollTrigger)',
+      'Keeps prefixes, suffixes, commas and decimals: $2.5M, 12,000+, 99.9%',
+      'Final values always in the HTML for SEO, screen readers and no-JS',
+      'Up to 6 stats with label and optional note',
+      'Gradient number styling with tabular figures',
+      'Two-by-two grid on phones; heading can be switched off',
+      'No animation for reduced motion',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '#', title: 'Numbers persuade', desc: 'Concrete figures show scale and results faster than any paragraph of copy.' },
+      { icon: '↗', title: 'Motion draws the eye', desc: 'Counting up as the section appears makes visitors stop and read the numbers.' },
+      { icon: '✓', title: 'Honest HTML', desc: 'The real values are always in the page, so nothing depends on the animation.' },
+    ],
+    useCases: [
+      { icon: '🚀', title: 'Under the hero', desc: 'Back up your headline with customers, countries and uptime right below the hero section.' },
+      { icon: '🏢', title: 'About page milestones', desc: 'Show founding year, team size, customers served and offices as a "by the numbers" row.' },
+      { icon: '🌱', title: 'Impact report', desc: 'Non-profits and B2B brands can show trees planted, money raised or hours saved with notes for context.' },
+      { icon: '📈', title: 'Investor or press page', desc: 'Highlight revenue growth, users and retention in a clean row of figures.' },
+    ],
+    faqs: [
+      { q: 'Which number formats are supported?', a: 'Any text with a number in it: prefixes like $ or €, suffixes like +, %, M, k, × or /5, thousands separators with commas and any number of decimal places. The first number in the text is animated and everything around it stays.' },
+      { q: 'Will search engines see the real numbers?', a: 'Yes. The HTML contains the final values; the count-up only changes them briefly in the browser when the section scrolls into view, then restores the exact original text.' },
+      { q: 'Does it count every time I scroll past?', a: 'No, once per page load, when each number first comes into view. It never runs for people who prefer reduced motion.' },
+      { q: 'How many stats can I show?', a: 'Up to six. Three or four read best in one row; on phones they wrap into two columns.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the stats section: pull live numbers from an API, add small trend arrows, or add an icon above each number.',
+      prompt: `Create an animated stats section in HTML, CSS and JavaScript.
+
+- Optional centred header, then a row of four stats in a rounded panel with thin dividers; each has a big number, a bold label and a small note, built as a description list.
+- The HTML contains the final values (e.g. "12,000+", "$2.5M", "99.99%", "4.9/5").
+- JavaScript with GSAP + ScrollTrigger: when each number enters the viewport, count the first number in its text from 0 to its value, keeping prefix, suffix, commas and decimals; restore the exact text at the end; skip for prefers-reduced-motion.
+- Container queries: two columns below 720px.`,
+    },
+  },
+
+  'logo-cloud': {
+    keywords: ['logo cloud section', 'trusted by logos section', 'logo marquee html css', 'customer logos strip', 'scrolling logos'],
+    about: {
+      title: 'Scrolling Logo Cloud — Free Trusted By Logo Strip Template',
+      description: `**Scrolling Logo Cloud** is the "Trusted by" strip you see under almost every SaaS hero: a short line of text above a row of customer logos that scrolls endlessly, with soft fades at both edges. Hovering slows it to a stop, and logos change from grey to full colour on hover.
+
+**Looks finished before you have logos**
+
+Every logo starts as a clean wordmark (one of 60 icons plus the company name in your heading font), so the section looks right while you collect real logos. Upload an SVG or transparent PNG for any company and it replaces the wordmark automatically.
+
+**Seamless and respectful**
+
+The strip loops with GSAP without jumps, duplicate logos are hidden from screen readers, and visitors who prefer reduced motion get a still row they can scroll by hand. Up to sixteen logos fit in the loop.
+
+**Edit and theme**
+
+Write your own line above the logos (wrap the number in *asterisks* to highlight it) and reorder logos to put your best-known customers first. Colours come from the shared theme, so it sits naturally under any hero in the library.
+
+**Export it**
+
+Download HTML or a ZIP with your logo files, copy a React or Vue component, or fork into [My Code](/ui-snippets/mycode/). For a static logo row with numbers, see [Stats With Logos](/website-section-templates/stats-dark-split/).`,
+    },
+    features: [
+      'Endless scrolling logo strip with faded edges (GSAP)',
+      'Hover or focus eases the strip to a stop',
+      'Grey logos that turn full colour on hover',
+      'Icon + name wordmarks until you upload real logos',
+      'Upload SVG or PNG logos (resized in your browser)',
+      'Up to 16 logos; duplicates hidden from screen readers',
+      'Reduced motion: a still, hand-scrollable row',
+      'Export HTML, a ZIP with logos, React or Vue',
+    ],
+    why: [
+      { icon: '🏢', title: 'Borrowed credibility', desc: 'Recognisable customer logos tell visitors that companies like theirs already trust you.' },
+      { icon: '∞', title: 'Fits many logos', desc: 'A moving strip shows a dozen or more logos in one slim row.' },
+      { icon: '✎', title: 'Ready before your logos are', desc: 'Built-in wordmarks keep the design finished while you gather permission and files.' },
+    ],
+    useCases: [
+      { icon: '🚀', title: 'Under a SaaS hero', desc: 'Place it straight after the hero with "Trusted by 2,000+ teams" and your best-known customer logos.' },
+      { icon: '🔌', title: 'Integrations strip', desc: 'Change the line to "Works with your favourite tools" and show the apps you integrate with.' },
+      { icon: '📰', title: 'As seen in', desc: 'Show press and podcast logos with "As featured in" to borrow media credibility.' },
+      { icon: '🤝', title: 'Partners and sponsors', desc: 'Event and community sites can thank sponsors with a moving strip of their logos.' },
+    ],
+    faqs: [
+      { q: 'Can I use my customers’ logos?', a: 'Only with permission. Many companies allow logo use for customers, but check your contracts or ask; until then, the built-in wordmarks keep the section looking finished.' },
+      { q: 'What logo files work best?', a: 'SVG or transparent PNG files of the one-colour logo, about 30 px tall when displayed. The section shows them in grey and in full colour on hover.' },
+      { q: 'Can I stop it scrolling?', a: 'Visitors can hover or focus the strip to stop it. People who prefer reduced motion get a still row. In exported code you can also change the data-speed value.' },
+      { q: 'How many logos can I add?', a: 'Between three and sixteen. Eight to twelve gives the smoothest-looking loop.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the logo cloud: add a second row in the opposite direction, link each logo to a case study, or show a tooltip with the customer’s quote on hover.',
+      prompt: `Create a "Trusted by" logo strip in HTML, CSS and JavaScript.
+
+- A centred line of muted text with one highlighted phrase, then a full-width row of grey logos (img, or an inline SVG icon + company name wordmark) with faded edges using a CSS mask; logos turn full colour on hover.
+- JavaScript with GSAP: clone the logos once (aria-hidden), loop the row by -50% with ease none and repeat -1, and ease timeScale to 0 on hover/focus. Skip for prefers-reduced-motion and let the row scroll by hand.`,
+    },
+  },
+
+  'stats-dark-split': {
+    keywords: ['stats section dark', 'metrics section with logos', 'results section html css', 'stat cards with icons', 'counter section template'],
+    about: {
+      title: 'Stats With Logos (Dark) — Free Results Section Template',
+      description: `**Stats With Logos** packs your strongest proof into one dark section: a heading, short text and a button on the left; four stat cards with icons on the right whose numbers count up as they scroll into view; and a row of customer logos underneath. It answers "does this work?" and "who uses it?" at the same time.
+
+**Counting stat cards**
+
+Each card has an icon (from 60 Lucide icons), a big number and a label. Numbers count from zero with GSAP when they appear, keeping formats like $2.5M, 3.4× or 96%, and the real values are always in the HTML. Below-the-fold cards keep their real values until they're reached.
+
+**Logos that work without files**
+
+Customer logos start as clean icon-and-name wordmarks and can be replaced with uploaded SVG or PNG logos at any time; uploaded logos are lightened to suit the dark background. Switch the logo row off, or change its "Powering teams at" title.
+
+**Dark, glowing, on brand**
+
+A navy background with a cyan glow suits enterprise and technical products, and every colour is a theme token, so presets and your brand kit restyle it instantly. On tablets the columns stack; on small phones the cards go single-column.
+
+**Export it**
+
+Download HTML or a ZIP, copy a React or Vue component, or fork into [My Code](/ui-snippets/mycode/). For a light, minimal version, see [Animated Stats Counters](/website-section-templates/stats-counters/).`,
+    },
+    features: [
+      'Heading, text and button beside four stat cards',
+      'Stat cards with icons and count-up numbers (GSAP + ScrollTrigger)',
+      'Formats kept while counting: $2.5M, 3.4×, 96%',
+      'Customer logo row with wordmarks or uploaded logos',
+      'Logo row and button can be switched off',
+      'Dark theme with a brand-coloured glow',
+      'Stacks on tablets; single-column cards on small phones',
+      'Export HTML, a ZIP, React or Vue',
+    ],
+    why: [
+      { icon: '📊', title: 'Proof and scale together', desc: 'Results and recognisable customers in one block make a convincing case quickly.' },
+      { icon: '↗', title: 'Numbers that land', desc: 'Count-up animation draws attention to each figure as it appears.' },
+      { icon: '🌙', title: 'Enterprise feel', desc: 'A dark, glowing section adds weight and contrast to a light landing page.' },
+    ],
+    useCases: [
+      { icon: '🏢', title: 'B2B landing page', desc: 'Show time saved, cost reduced and adoption rate next to the logos of well-known customers.' },
+      { icon: '💼', title: 'Sales and enterprise page', desc: 'Pair hard ROI numbers with a "Read customer stories" button for buyers who need evidence.' },
+      { icon: '📣', title: 'Annual results', desc: 'Present a year in numbers with four headline figures and the partners who made it happen.' },
+      { icon: '🧑‍💻', title: 'Developer platform', desc: 'Show API calls served, uptime, response time and the companies building on your platform.' },
+    ],
+    faqs: [
+      { q: 'Do the numbers count on every device?', a: 'Yes, on any device with JavaScript, once per page load as they come into view. People who prefer reduced motion see the final values straight away.' },
+      { q: 'Can I add my real customer logos?', a: 'Yes. Upload an SVG or transparent PNG for each logo; it replaces the icon-and-name wordmark and is shown in a light grey that suits the dark background.' },
+      { q: 'Can I use a light theme?', a: 'Yes. Choose a light colour preset or apply your brand kit; the cards, glow and text all follow the theme colours.' },
+      { q: 'How many stats can I show?', a: 'Up to four, in a two-by-two grid. For more, use Animated Stats Counters, which fits six.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the dark stats section: add sparkline charts to each card, link stats to case studies, or switch the logos for a scrolling marquee.',
+      prompt: `Create a dark results section in HTML, CSS and JavaScript.
+
+- Navy background with a soft cyan radial glow; left column with eyebrow, heading with a highlighted phrase, text and a button; right column with a 2×2 grid of stat cards (icon tile, big number, label).
+- Below, a divider, a small uppercase title and a centred, wrapping row of grey logo wordmarks.
+- GSAP + ScrollTrigger: count each number up from 0 when it enters the viewport, keeping prefixes and suffixes, without changing the HTML values until it starts; respect prefers-reduced-motion.
+- Container queries stack the columns below 860px.`,
+    },
+  },
 };
 
 export const SECTION_DIFFERENT = [
