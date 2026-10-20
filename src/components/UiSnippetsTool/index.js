@@ -2032,10 +2032,10 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             </div>
           )}
           {/* AdSense leaderboard (slot 7360198340) directly above the Preview toolbar, 970x90 /
-              728x90 / 468x60 / 320x50 by available width. Library snippets only: My Code snippets
-              and the My Code gallery have no leaderboard. Collapses when unfilled
-              (.adBar:has(ins[data-ad-status="unfilled"])). */}
-          {showEditor && !activeIsCustom && (
+              728x90 / 468x60 / 320x50 by available width. Library snippets only: My Code snippets,
+              a new snippet being created and the My Code gallery have no leaderboard. Collapses
+              when unfilled (.adBar:has(ins[data-ad-status="unfilled"])). */}
+          {showEditor && !inMyCode && (
             <div className={s.adBar} aria-label="Advertisement">
               {ADS_ENABLED ? <SnippetTopAd key={activeId || 'none'} /> : (
                 <div className={s.adBarSlot}>
