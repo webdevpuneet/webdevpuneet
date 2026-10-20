@@ -40,8 +40,15 @@ function winscp(commands, label) {
 
 /* ── 1. Build ─────────────────────────────────────────────────────────────── */
 // npm is npm.cmd on Windows, so it needs a shell — hence execSync, not execFileSync.
-console.log('→ Building...');
-execSync('npm run build', { stdio: 'inherit' });
+// DEPLOY_SKIP_BUILD=1 resumes after a build that finished but whose postbuild step failed
+// (the static export is still in NEXT_DIST_DIR): run only postbuild, then zip and upload.
+if (process.env.DEPLOY_SKIP_BUILD) {
+  console.log('→ Skipping build (DEPLOY_SKIP_BUILD), running postbuild only...');
+  execSync('node scripts/postbuild.js', { stdio: 'inherit' });
+} else {
+  console.log('→ Building...');
+  execSync('npm run build', { stdio: 'inherit' });
+}
 
 /* ── 2. Zip ───────────────────────────────────────────────────────────────── */
 console.log('→ Zipping...');

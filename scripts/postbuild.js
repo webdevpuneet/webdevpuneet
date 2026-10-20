@@ -210,9 +210,24 @@ async function main() {
   /* ── 1. Build output → out/ ──────────────────────────────────────────────── */
   if (DIST_DIR && path.resolve(DIST_DIR) !== path.resolve('out')) {
     if (!fs.existsSync(path.join(DIST_DIR, 'index.html'))) throw new Error(`No static export found in ${DIST_DIR}/`);
-    if (fs.existsSync('out')) fs.rmSync('out', { recursive: true });
-    fs.renameSync(DIST_DIR, 'out');
-    console.log(`✓ Moved ${DIST_DIR}/ → out/`);
+    if (fs.existsSync('out')) fs.rmSync('out', { recursive: true, maxRetries: 5, retryDelay: 500 });
+    // On Windows the rename can fail with EPERM while antivirus or a file watcher still
+    // holds files in the fresh build folder: retry for a few seconds, then copy instead.
+    let moved = false;
+    for (let attempt = 1; attempt <= 6 && !moved; attempt++) {
+      try { fs.renameSync(DIST_DIR, 'out'); moved = true; }
+      catch (err) {
+        if (!['EPERM', 'EBUSY', 'EACCES'].includes(err.code)) throw err;
+        console.log(`  rename blocked (${err.code}), retrying in ${attempt}s…`);
+        Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, attempt * 1000);
+      }
+    }
+    if (!moved) {
+      console.log('  rename still blocked, copying instead…');
+      fs.cpSync(DIST_DIR, 'out', { recursive: true });
+      try { fs.rmSync(DIST_DIR, { recursive: true, maxRetries: 5, retryDelay: 500 }); } catch { console.log(`  (left ${DIST_DIR}/ in place; delete it later)`); }
+    }
+    console.log(`✓ Moved ${DIST_DIR}/ → out/${moved ? '' : ' (copied)'}`);
   }
   if (!fs.existsSync(path.join('out', 'index.html'))) throw new Error('No static export found in out/');
 
