@@ -798,7 +798,7 @@ export function SectionTemplateEditor({ id }) {
                 </div>
               )}
               {view === 'preview' && state.motion?.preset !== 'none' && (
-                <button type="button" className={s.miniBtn} onClick={() => setPlaying(n => n + 1)} title="Replay the GSAP entrance animation in the preview">▶ Play animation</button>
+                <button type="button" className={`${s.miniBtn} ${x.toolBtn}`} onClick={() => setPlaying(n => n + 1)} title="Replay the GSAP entrance animation in the preview">▶ Play animation</button>
               )}
             </div>
             <div className={s.toolbarRight} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -814,7 +814,7 @@ export function SectionTemplateEditor({ id }) {
                 menu={currentDesign ? [{ label: 'Detach', sub: `Keep editing without changing “${currentDesign.name}”`, onClick: () => { setCurrentDesign(null); savedJson.current = null; flash('Detached. Save now creates a new design.'); } }] : []}
               />
               <span className={s.toolbarSep} aria-hidden="true" />
-              <button type="button" className={s.miniBtn} onClick={addToBuilder} title="Add this section to a full page in the Website Builder">+ Add to page</button>
+              <button type="button" className={`${s.miniBtn} ${x.toolBtn}`} onClick={addToBuilder} title="Add this section to a full page in the Website Builder">+ Add to page</button>
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />
               <ExportMenu
                 head="Export this section as…"

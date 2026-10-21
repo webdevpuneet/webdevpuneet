@@ -10,6 +10,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import s from '../SocialPostTemplates/styles.module.css';
 import b from './styles.module.css';
+import x from '../SectionTemplates/styles.module.css';
 import { ExportMenu, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
@@ -793,13 +794,13 @@ export default function WebsiteBuilder() {
               <h1 className={s.metaName} title={page.name}>{page.name}</h1>
               {current && dirty && <i className={s.dirtyDot} title="Unsaved changes" aria-label="Unsaved changes" />}
               <span className={s.toolbarSep} aria-hidden="true" />
-              <div className={s.seg} role="radiogroup" aria-label="Device">
+              <div className={`${s.seg} ${x.toolSeg}`} role="radiogroup" aria-label="Device">
                 {DEVICES.map(d => (
-                  <button key={d.id} type="button" role="radio" aria-checked={device === d.id} aria-label={`${d.label} preview (${d.w}px)`} title={`${d.label} · ${d.w}px`} className={`${s.segBtn} ${device === d.id ? s.segBtnActive : ''}`} onClick={() => setDevice(d.id)}>{d.icon}</button>
+                  <button key={d.id} type="button" role="radio" aria-checked={device === d.id} aria-label={`${d.label} preview (${d.w}px)`} title={`${d.label} · ${d.w}px`} className={`${s.segBtn} ${x.iconSeg} ${device === d.id ? s.segBtnActive : ''}`} onClick={() => setDevice(d.id)}>{d.icon}</button>
                 ))}
               </div>
               {page.motion?.preset !== 'none' && page.sections.length > 0 && (
-                <button type="button" className={s.miniBtn} onClick={() => setPlaying(n => n + 1)} title="Replay the page’s GSAP animations">▶ Play animation</button>
+                <button type="button" className={`${s.miniBtn} ${x.toolBtn}`} onClick={() => setPlaying(n => n + 1)} title="Replay the page’s GSAP animations">▶ Play animation</button>
               )}
             </div>
             <div className={s.toolbarRight} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
