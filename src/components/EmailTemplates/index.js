@@ -31,7 +31,7 @@ const LS_PREFIX = 'wdp-email-v1:';
 const designStore = emailDesignStore;
 const GMAIL_CLIP = 102 * 1024; // Gmail clips messages larger than ~102 KB
 const fmtKB = n => `${(n / 1024).toFixed(1)} KB`;
-const GALLERY_PAGE = 10; // cards per "Load more", same rhythm as the UI snippets gallery
+const GALLERY_PAGE = 10; // cards per "Load more": 2 rows of 5
 
 function saveBlob(blob, name) {
   const url = URL.createObjectURL(blob);
@@ -193,7 +193,7 @@ export function EmailTemplateGallery({ excludeId = null, limit = null, previews 
       {list.length === 0 ? (
         <div className={s.empty}>No email templates match &ldquo;{q}&rdquo;.</div>
       ) : (
-        <div className={`${s.grid} ${s.grid4}`}>
+        <div className={`${s.grid} ${s.grid5}`}>
           {shown.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}
         </div>
       )}
@@ -249,7 +249,7 @@ function SavedEmailPreview({ design: d, width }) {
 
 export function EmailGalleryPage({ previews = [] }) {
   return (
-    <div className={s.galleryPage}>
+    <div className={`${s.galleryPage} ${s.galleryFull}`}>
       <PlaygroundTopNav active="email-templates" />
       <PlaygroundTopAd />
       <header className={s.galleryHead}>
@@ -266,7 +266,7 @@ export function EmailGalleryPage({ previews = [] }) {
         chips={false}
         savedStrip={q => (
           <SavedDesignsStrip
-            maxFour
+            gridClass={s.grid5}
             store={emailDesignStore}
             basePath="/email-templates/"
             nameOf={id => emailTemplateById(id)?.name || id}
@@ -283,7 +283,7 @@ export function EmailGalleryPage({ previews = [] }) {
 /* Category landing page: same shell as the gallery, filtered to one category */
 export function EmailCategoryPage({ category, h1, lead, previews = [] }) {
   return (
-    <div className={s.galleryPage}>
+    <div className={`${s.galleryPage} ${s.galleryFull}`}>
       <PlaygroundTopNav active="email-templates" />
       <PlaygroundTopAd />
       <header className={s.galleryHead}>

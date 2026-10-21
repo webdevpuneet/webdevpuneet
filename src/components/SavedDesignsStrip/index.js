@@ -1,9 +1,9 @@
 'use client';
 
-/* "My designs" strip for a template gallery page: every design saved in this browser
-   (IndexedDB), newest first, in a single horizontal row of compact cards that scrolls
-   sideways. Each card opens the design in its editor. Renders nothing until something
-   is saved. */
+/* "My designs" strip for a template gallery page: the designs saved in this browser
+   (IndexedDB), newest first, in the gallery's own card grid. One row at first; Load more adds
+   a row at a time (only the cards shown are rendered, so live previews stay cheap). Each card
+   opens the design in its editor. Renders nothing until something is saved. */
 
 import { useEffect, useRef, useState } from 'react';
 import rs from '../UiSnippetsTool/RelatedCarousel.module.css';
@@ -11,6 +11,7 @@ import gs from '../SocialPostTemplates/styles.module.css';
 import hs from '../HomeTemplatesCarousel/styles.module.css';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
 import st from './styles.module.css';
+import { LoadMore } from '@/components/UiSnippetsGallery';
 
 const fmtDate = iso => new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 
@@ -40,9 +41,11 @@ function LiveBox({ children, className }) {
 }
 
 // maxFour: at most 4 cards per row, matching galleries that use the grid4 layout
-export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, renderPreview = null, scroll = false, query = '', maxFour = false }) {
+// gridClass: any other column class from the gallery stylesheet (e.g. grid5 for social posts)
+// previewClass: the card's preview box (default: the gallery's portrait box; sections pass 16:10)
+export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, renderPreview = null, scroll = false, query = '', maxFour = false, gridClass = '', previewClass = '' }) {
   const [designs, setDesigns] = useState(null);
-  const [expanded, setExpanded] = useState(false);
+  const [rows, setRows] = useState(1);
   const [cols, setCols] = useState(0); // cards that fit one row of the gallery grid
   const rowRef = useRef(null);
   useEffect(() => {
@@ -64,25 +67,25 @@ export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, ren
   const words = query.toLowerCase().split(/\s+/).filter(Boolean);
   const shown = designs.filter(d => words.every(w => `${d.name} ${nameOf(d.tpl)}`.toLowerCase().includes(w)));
   if (!shown.length) return null;
+  // One row per step (the grid's column count, measured; 4 until it is known)
+  const perRow = cols || 4;
+  const visible = shown.slice(0, perRow * rows);
 
   return (
     <section className={`${rs.section} ${st.wrap}`} aria-label="My designs">
       <div className={rs.header}>
         <h2 className={rs.title}>My designs</h2>
         <span className={rs.headCount}>{words.length ? `${shown.length} of ${designs.length} match` : `${designs.length} saved in this browser`}</span>
-        {cols > 0 && shown.length > cols && (
-          <button type="button" className={st.toggle} onClick={() => setExpanded(v => !v)}>{expanded ? 'Show one row' : `Show all ${shown.length}`}</button>
-        )}
       </div>
-      {/* Same column grid as "All Templates", so the cards line up; one row unless expanded */}
-      <div ref={rowRef} className={`${gs.grid} ${maxFour ? gs.grid4 : ''} ${expanded ? '' : st.oneRow}`}>
-        {shown.map(d => (
+      {/* Same column grid as "All Templates", so the cards line up */}
+      <div ref={rowRef} className={`${gs.grid} ${maxFour ? gs.grid4 : ''} ${gridClass}`}>
+        {visible.map(d => (
           <a key={d.id} href={`${basePath}${d.tpl}/?design=${encodeURIComponent(d.id)}`} className={gs.card} title={`Open “${d.name}”`} {...(scroll && !renderPreview ? panHandlers : {})}>
             {renderPreview
               // The design itself, rendered live from its template code
-              ? <LiveBox className={gs.cardPreview}>{w => renderPreview(d, w)}</LiveBox>
+              ? <LiveBox className={previewClass || gs.cardPreview}>{w => renderPreview(d, w)}</LiveBox>
               : (
-                <div className={gs.cardPreview}>
+                <div className={previewClass || gs.cardPreview}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img className={`${gs.cardImg} ${scroll ? hs.scrollImg : ''}`} src={imgFor(d)} alt={`${d.name} preview`} loading="lazy" />
                 </div>
@@ -95,6 +98,7 @@ export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, ren
           </a>
         ))}
       </div>
+      <LoadMore shown={visible.length} total={shown.length} onLoadMore={() => setRows(r => r + 1)} />
     </section>
   );
 }

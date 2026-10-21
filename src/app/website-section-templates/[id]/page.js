@@ -147,7 +147,8 @@ export default async function WebsiteSectionTemplatePage({ params }) {
             viewAllHref={`/website-section-templates/category/${t.category}/`}
             items={relatedItems}
             activeId={t.id}
-            scroll
+            wide
+            cols={5}
             flush
           />
         )}

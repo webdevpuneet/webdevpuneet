@@ -7,30 +7,125 @@
    Old builder links pointed at /website-builder/?page=…, ?starter=… and ?add=1 (saved pages,
    the section editor's "Add to page", backups); they are forwarded to the editor unchanged. */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import s from '../SocialPostTemplates/styles.module.css';
 import x from '../SectionTemplates/styles.module.css';
+import { LoadMore } from '@/components/UiSnippetsGallery';
 import { makeDesignStore } from '@/lib/design-store';
-import { sectionTemplateById } from '@/components/SectionTemplates/templates/index.js';
+import { restorePage, pageDocumentHtml } from '@/components/SectionTemplates/templates/page.js';
+import { getAsset } from '@/components/SectionTemplates/storage';
+import { previewImages } from '@/components/SectionTemplates/upload';
 
 export const EDITOR = '/website-builder/editor/';
 const store = makeDesignStore('wdp-website-pages');
 
-/* A page's card image: its hero (else its first section that isn't a navbar) */
-function coverOf(page) {
-  const secs = (page?.sections || []).map(o => sectionTemplateById(o.tpl)).filter(Boolean);
-  const t = secs.find(o => o.category === 'hero') || secs.find(o => o.category !== 'navbar') || secs[0];
-  return t ? `/images/section-templates/previews/${t.id}.png` : null;
-}
+/* Hover: the page scrolls from top to bottom at the same steady speed as
+   the template cards (160px a second), then springs back on leave */
+const SCROLL_SPEED = 160;
+const panIn = ev => {
+  const box = ev.currentTarget.querySelector('[data-stack]');
+  const inner = box?.firstElementChild;
+  if (!inner) return;
+  const hidden = inner.scrollHeight - box.clientHeight;
+  if (hidden <= 0) return;
+  inner.style.transition = `transform ${Math.max(0.4, hidden / SCROLL_SPEED).toFixed(2)}s linear`;
+  inner.style.transform = `translateY(-${hidden}px)`;
+};
+const panOut = ev => {
+  const inner = ev.currentTarget.querySelector('[data-stack]')?.firstElementChild;
+  if (!inner) return;
+  inner.style.transition = 'transform .6s ease';
+  inner.style.transform = 'translateY(0)';
+};
+const reduced = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+const panProps = { onMouseEnter: e => { if (!reduced()) panIn(e); }, onMouseLeave: panOut, onFocus: e => { if (!reduced()) panIn(e); }, onBlur: panOut };
+
 const when = iso => { try { return new Date(iso).toLocaleDateString(undefined, { day: 'numeric', month: 'short' }); } catch { return ''; } };
 
-function PageCard({ href, page, cat, title, meta }) {
-  const cover = coverOf(page);
+/* The page itself, rendered live (its text, uploaded images, theme and fonts) at desktop
+   width and scaled down to the card. Rendered only once the card reaches the viewport, with
+   scripts off (sections are designed to show all their content without JavaScript). */
+const PAGE_W = 1280;
+function LivePage({ page }) {
+  const boxRef = useRef(null);
+  const [scale, setScale] = useState(0);
+  const [h, setH] = useState(0);
+  const [urls, setUrls] = useState({});
+  const [origin, setOrigin] = useState('');
+  useEffect(() => {
+    setOrigin(window.location.origin);
+    const el = boxRef.current;
+    if (!el) return undefined;
+    const ro = new ResizeObserver(() => setScale(el.clientWidth / PAGE_W));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  // Uploaded images: object URLs from the builder's asset store
+  useEffect(() => {
+    let live = true;
+    const made = [];
+    (async () => {
+      const out = {};
+      for (const sec of page?.sections || []) {
+        for (const [k, u] of Object.entries(sec.state?.uploads || {})) {
+          try { const rec = await getAsset(u.id); if (rec?.blob) { const url = URL.createObjectURL(rec.blob); made.push(url); out[`${sec.uid}|${k}`] = url; } } catch { /* missing */ }
+        }
+      }
+      if (live) setUrls(out);
+    })();
+    return () => { live = false; made.forEach(u => URL.revokeObjectURL(u)); };
+  }, [page]);
+  const html = useMemo(() => {
+    if (!origin || !page) return '';
+    try {
+      return previewImages(pageDocumentHtml(restorePage(page), { imageSrc: (uid, k) => urls[`${uid}|${k}`] || '', motion: false }), origin);
+    } catch { return ''; }
+  }, [page, urls, origin]);
+  // The page's height, kept up to date as its fonts and images load
+  const roRef = useRef(null);
+  useEffect(() => () => roRef.current?.disconnect(), []);
+  const onLoad = ev => {
+    const root = ev.currentTarget.contentDocument?.documentElement;
+    if (!root) return;
+    const fit = () => setH(root.scrollHeight);
+    fit();
+    roRef.current?.disconnect();
+    roRef.current = new ResizeObserver(fit);
+    roRef.current.observe(root);
+  };
   return (
-    <a className={s.card} href={href}>
-      <div className={x.cardPreview}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        {cover && <img className={x.cardImg} src={cover} alt="" loading="lazy" />}
+    <div ref={boxRef} style={{ height: h && scale ? h * scale : '100%', position: 'relative' }}>
+      {html && scale > 0 && (
+        <iframe
+          title="Page preview"
+          srcDoc={html}
+          sandbox="allow-same-origin"
+          tabIndex={-1}
+          aria-hidden="true"
+          loading="lazy"
+          onLoad={onLoad}
+          style={{ width: PAGE_W, height: h || 2000, border: 0, display: 'block', transform: `scale(${scale})`, transformOrigin: 'top left', pointerEvents: 'none', background: '#fff' }}
+        />
+      )}
+    </div>
+  );
+}
+
+function PageCard({ href, page, cat, title, meta }) {
+  // Rendered only when the card reaches the viewport (a page is a full HTML document)
+  const ref = useRef(null);
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === 'undefined') { setShow(true); return undefined; }
+    const io = new IntersectionObserver(en => { if (en.some(e => e.isIntersecting)) { setShow(true); io.disconnect(); } }, { rootMargin: '100px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <a ref={ref} className={s.card} href={href} {...panProps}>
+      <div className={s.cardPreview} data-stack="">
+        <div className={x.pageStack}>{show && <LivePage page={page} />}</div>
       </div>
       <div className={s.cardBody}>
         <span className={s.cardCat}>{cat}</span>
@@ -41,9 +136,16 @@ function PageCard({ href, page, cat, title, meta }) {
   );
 }
 
-export default function StartCards({ max = 6 }) {
+/* "Your pages": the blank card plus FIRST of the visitor's pages (autosave first, then My pages,
+   newest first) fill one row of 5; Load more adds MORE (another full row). Live page previews
+   render only for the cards shown. */
+const FIRST = 4;
+const MORE = 5;
+
+export default function StartCards() {
   const [auto, setAuto] = useState(null);
   const [pages, setPages] = useState([]);
+  const [count, setCount] = useState(FIRST);
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
@@ -56,20 +158,31 @@ export default function StartCards({ max = 6 }) {
     return () => { live = false; off?.(); };
   }, []);
 
+  const items = [
+    ...(auto ? [{ key: 'auto', href: EDITOR, page: auto, cat: 'Autosaved', title: 'Continue editing', meta: `${auto.name || 'Your page'} · ${auto.sections.length} sections` }] : []),
+    ...pages.map(d => ({ key: d.id, href: `${EDITOR}?page=${encodeURIComponent(d.id)}`, page: d.state, cat: 'My pages', title: d.name, meta: `${d.state?.sections?.length || 0} sections · ${when(d.updated)}` })),
+  ];
+  const total = items.length;
+  const shown = items.slice(0, count);
+
   return (
     <>
-      <a className={`${s.card} ${x.cardBlank}`} href={`${EDITOR}?starter=blank`}>
-        <div className={x.blankArt} aria-hidden="true">+</div>
-        <div className={s.cardBody}>
-          <span className={s.cardCat}>Blank page</span>
-          <h3 className={s.cardTitle}>Start from scratch</h3>
-          <span className={s.cardMeta}>Add sections one by one from the library</span>
-        </div>
-      </a>
-      {auto && <PageCard href={EDITOR} page={auto} cat="Autosaved" title="Continue editing" meta={`${auto.name || 'Your page'} · ${auto.sections.length} sections`} />}
-      {pages.slice(0, max).map(d => (
-        <PageCard key={d.id} href={`${EDITOR}?page=${encodeURIComponent(d.id)}`} page={d.state} cat="My pages" title={d.name} meta={`${d.state?.sections?.length || 0} sections · ${when(d.updated)}`} />
-      ))}
+      <div className={s.sectionHead}>
+        <h2>Your pages</h2>
+        {total > 0 && <span>{total}</span>}
+      </div>
+      <div className={`${s.grid} ${s.grid5}`}>
+        <a className={`${s.card} ${x.cardBlank}`} href={`${EDITOR}?starter=blank`}>
+          <div className={s.cardPreview}><div className={x.blankArt} aria-hidden="true">+</div></div>
+          <div className={s.cardBody}>
+            <span className={s.cardCat}>Blank page</span>
+            <h3 className={s.cardTitle}>Start from scratch</h3>
+            <span className={s.cardMeta}>Add sections one by one from the library</span>
+          </div>
+        </a>
+        {shown.map(it => <PageCard key={it.key} href={it.href} page={it.page} cat={it.cat} title={it.title} meta={it.meta} />)}
+      </div>
+      <LoadMore shown={shown.length} total={total} onLoadMore={() => setCount(n => n + MORE)} />
     </>
   );
 }

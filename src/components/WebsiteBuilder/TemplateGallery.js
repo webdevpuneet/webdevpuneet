@@ -5,16 +5,25 @@
    continue, My pages), then every website template, filterable by industry. Every template
    card is in the server-rendered HTML (the filters only hide cards). */
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { LoadMore } from '@/components/UiSnippetsGallery';
 import s from '../SocialPostTemplates/styles.module.css';
 import x from '../SectionTemplates/styles.module.css';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import StartCards, { EDITOR } from './StartCards';
+import InViewImg from '@/components/InViewImg';
+import { panHandlers } from '@/components/HomeTemplatesCarousel';
+import hs from '@/components/HomeTemplatesCarousel/styles.module.css';
+
+const PAGE = 10; // 2 rows of 5
 
 export default function TemplateGallery({ templates, industries }) {
   const [ind, setInd] = useState('all');
   const [q, setQ] = useState('');
+  // 10 cards at first (2 rows of 5), then 10 more per Load more; a new filter starts over
+  const [shownCount, setShownCount] = useState(PAGE);
+  useEffect(() => { setShownCount(PAGE); }, [ind, q]);
   const list = useMemo(() => {
     const words = q.toLowerCase().split(/\s+/).filter(Boolean);
     return templates
@@ -23,7 +32,7 @@ export default function TemplateGallery({ templates, industries }) {
   }, [templates, ind, q]);
 
   return (
-    <div className={s.galleryPage}>
+    <div className={`${s.galleryPage} ${s.galleryFull}`}>
       <PlaygroundTopNav active="website-builder" />
       <PlaygroundTopAd />
       <header className={s.galleryHead}>
@@ -47,8 +56,7 @@ export default function TemplateGallery({ templates, industries }) {
           <input className={s.search} value={q} onChange={ev => setQ(ev.target.value)} placeholder={`Search ${templates.length} website templates…`} aria-label="Search website templates" />
         </div>
 
-        <div className={s.sectionHead}><h2>Your pages</h2></div>
-        <div className={`${s.grid} ${s.grid4}`}><StartCards /></div>
+        <StartCards />
 
         <div className={s.sectionHead}>
           <h2>{ind === 'all' ? 'All Templates' : `${ind} Templates`}</h2>
@@ -57,12 +65,12 @@ export default function TemplateGallery({ templates, industries }) {
         {list.length === 0
           ? <div className={s.empty}>No website templates match &ldquo;{q}&rdquo;. <a href={`${EDITOR}?starter=blank`}>Start from scratch</a> instead.</div>
           : (
-            <div className={`${s.grid} ${s.grid4}`}>
-              {list.map(t => (
-                <a key={t.id} className={s.card} href={`/website-builder/templates/${t.id}/`} title={t.blurb}>
-                  <div className={x.cardPreview}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img className={x.cardImg} src={`/images/website-templates/thumb/${t.id}.jpg`} alt={`${t.name} template preview`} loading="lazy" />
+            <div className={`${s.grid} ${s.grid5}`}>
+              {list.slice(0, shownCount).map(t => (
+                // Tall card with the whole page: the preview scrolls top to bottom while hovered
+                <a key={t.id} className={s.card} href={`/website-builder/templates/${t.id}/`} title={t.blurb} {...panHandlers}>
+                  <div className={s.cardPreview}>
+                    <InViewImg className={`${s.cardImg} ${hs.scrollImg}`} src={`/images/website-templates/full/${t.id}.jpg`} alt={`${t.name} template preview`} />
                   </div>
                   <div className={s.cardBody}>
                     <span className={s.cardCat}>{t.industry}</span>
@@ -73,6 +81,7 @@ export default function TemplateGallery({ templates, industries }) {
               ))}
             </div>
           )}
+        <LoadMore shown={Math.min(shownCount, list.length)} total={list.length} onLoadMore={() => setShownCount(n => n + PAGE)} />
       </div>
     </div>
   );

@@ -11,6 +11,7 @@
    every .st on the page) and all sections' structured data. */
 
 import { sectionTemplateById, defaultSectionState, restoreSectionState, listItem } from './index.js';
+import { formatHtml } from './format.js';
 import { WEBSITE_TEMPLATES, websiteTemplateById } from './starters.js';
 import { DEFAULT_THEME, DEFAULT_MOTION, BASE_CSS, esc, gsapCdn, THEME_PRESETS, THEME_COLORS } from './meta.js';
 import { BEHAVIORS } from './behaviors.js';
@@ -143,7 +144,7 @@ export function pageDocumentHtml(page, { imageSrc, clean = true, fontFaces = '',
   const gf = googleFontsUrl(THEME_HOLDER, { fonts: page.fonts });
   const js = pageScript(page, { motion });
   const libs = js ? pageCdn(page, { motion }).map(u => `<script src="${u}"></script>`).join('\n') : '';
-  return `<!DOCTYPE html>
+  const doc = `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -162,4 +163,6 @@ ${pageMarkup(page, { imageSrc, clean })}
 ${js ? `${libs}\n<script>\n${js}\n</script>\n` : ''}</body>
 </html>
 `;
+  // Exports are indented like hand-written HTML (the builder preview isn't, it's never read)
+  return clean ? formatHtml(doc) : doc;
 }

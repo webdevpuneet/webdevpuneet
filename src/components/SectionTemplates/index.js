@@ -29,7 +29,7 @@ import { saveBlob, prepareUpload, EXT, previewImages, localizeImages } from './u
 
 const TOOL = 'website-section-templates';
 const BASE = `/${TOOL}/`;
-const GALLERY_PAGE = 12;
+const GALLERY_PAGE = 10; // 2 rows of 5
 const DEVICES = [
   { id: 'desktop', label: 'Desktop', w: 1280, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2" /><path d="M8 21h8M12 17v4" /></svg> },
   { id: 'tablet', label: 'Tablet', w: 820, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2" /><path d="M11 18h2" /></svg> },
@@ -143,7 +143,7 @@ export function SectionTemplateGallery({ excludeId = null, limit = null, preview
       )}
       {list.length === 0
         ? <div className={s.empty}>No section templates match &ldquo;{q}&rdquo;.</div>
-        : <div className={`${s.grid} ${s.grid4}`}>{shown.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}</div>}
+        : <div className={`${s.grid} ${s.grid5}`}>{shown.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}</div>}
       {!limit && <LoadMore shown={shown.length} total={list.length} onLoadMore={() => setShownCount(n => n + GALLERY_PAGE)} />}
     </div>
   );
@@ -191,7 +191,7 @@ function SavedSectionPreview({ design: d, width }) {
 
 export function SectionGalleryPage({ previews = [] }) {
   return (
-    <div className={s.galleryPage}>
+    <div className={`${s.galleryPage} ${s.galleryFull}`}>
       <PlaygroundTopNav active={TOOL} />
       <PlaygroundTopAd />
       <header className={s.galleryHead}>
@@ -206,7 +206,8 @@ export function SectionGalleryPage({ previews = [] }) {
         previews={previews}
         savedStrip={q => (
           <SavedDesignsStrip
-            maxFour
+            gridClass={s.grid5}
+            previewClass={x.cardPreview}
             store={designStore}
             basePath={BASE}
             nameOf={id => sectionTemplateById(id)?.name || id}
@@ -222,7 +223,7 @@ export function SectionGalleryPage({ previews = [] }) {
 
 export function SectionCategoryPage({ category, h1, lead, previews = [] }) {
   return (
-    <div className={s.galleryPage}>
+    <div className={`${s.galleryPage} ${s.galleryFull}`}>
       <PlaygroundTopNav active={TOOL} />
       <PlaygroundTopAd />
       <header className={s.galleryHead}>
@@ -431,7 +432,6 @@ export function SectionTemplateEditor({ id }) {
   const stillJson = JSON.stringify({ ...state, motion: null });
   useEffect(() => { setPlaying(0); }, [stillJson]);
   const codeHtml = useMemo(() => documentHtml(t, state, { imageSrc: relativeSrc, fontFaces: fontFaces ? '/* + your uploaded fonts (inlined on export) */' : '' }), [t, state, fontFaces]); // eslint-disable-line react-hooks/exhaustive-deps
-  const codeCss = useMemo(() => sectionCss(t, state), [t, state]);
   const highlighted = useMemo(() => (view === 'html' ? highlightHtml(codeHtml) : ''), [view, codeHtml]);
 
   /* Uploads */
@@ -662,7 +662,7 @@ export function SectionTemplateEditor({ id }) {
   const dev = DEVICES.find(d => d.id === device) || DEVICES[0];
   const scale = stageW ? Math.min(1, (stageW - 36) / dev.w) : 0;
   const copyCode = async () => {
-    if (await copy(view === 'css' ? codeCss : codeHtml, view === 'css' ? 'CSS copied' : 'HTML copied')) { setCodeCopied(true); setTimeout(() => setCodeCopied(false), 1400); }
+    if (await copy(codeHtml, 'HTML copied')) { setCodeCopied(true); setTimeout(() => setCodeCopied(false), 1400); }
   };
 
   return (
@@ -786,7 +786,7 @@ export function SectionTemplateEditor({ id }) {
               {currentDesign && dirty && <i className={s.dirtyDot} title="Unsaved changes" aria-label="Unsaved changes" />}
               <span className={s.toolbarSep} aria-hidden="true" />
               <div className={`${s.seg} ${x.toolSeg}`} role="radiogroup" aria-label="View">
-                {[['preview', 'Preview'], ['html', 'HTML'], ['css', 'CSS']].map(([v, l]) => (
+                {[['preview', 'Preview'], ['html', 'HTML']].map(([v, l]) => (
                   <button key={v} type="button" role="radio" aria-checked={view === v} className={`${s.segBtn} ${view === v ? s.segBtnActive : ''}`} onClick={() => setView(v)}>{l}</button>
                 ))}
               </div>
@@ -798,7 +798,7 @@ export function SectionTemplateEditor({ id }) {
                 </div>
               )}
               {view === 'preview' && state.motion?.preset !== 'none' && (
-                <button type="button" className={`${s.miniBtn} ${x.toolBtn}`} onClick={() => setPlaying(n => n + 1)} title="Replay the GSAP entrance animation in the preview">▶ Play animation</button>
+                <button type="button" className={`${s.miniBtn} ${x.toolBtn}`} onClick={() => setPlaying(n => n + 1)} title="Play animation">▶ Play</button>
               )}
             </div>
             <div className={s.toolbarRight} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -842,9 +842,7 @@ export function SectionTemplateEditor({ id }) {
             ) : (
               <div className={x.codeWrap}>
                 <button type="button" className={x.codeCopy} onClick={copyCode} aria-live="polite">{codeCopied ? 'Copied ✓' : 'Copy'}</button>
-                {view === 'html'
-                  ? <pre className={x.code}><code dangerouslySetInnerHTML={{ __html: highlighted }} /></pre>
-                  : <pre className={x.code}><code>{codeCss}</code></pre>}
+                <pre className={x.code}><code dangerouslySetInnerHTML={{ __html: highlighted }} /></pre>
               </div>
             )}
           </div>

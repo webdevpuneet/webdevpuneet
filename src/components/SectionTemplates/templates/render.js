@@ -24,6 +24,7 @@
 
 import { DEFAULT_THEME, BASE_CSS, richText, esc, safeUrl, MOTION_PRESETS, DEFAULT_MOTION, TEXT_EFFECTS, gsapCdn } from './meta.js';
 import { iconSvg } from './icons.js';
+import { formatHtml } from './format.js';
 import { behaviorPlugins, behaviorScript } from './behaviors.js';
 import { resolveFont, googleCssUrl } from '../../../lib/fonts.js';
 
@@ -304,7 +305,7 @@ export function schemaTag(t, state) {
 
 export function documentHtml(t, state, { imageSrc, clean = true, fontFaces = '', extraHead = '', title, motion = true } = {}) {
   const gf = googleFontsUrl(t, state);
-  return `<!DOCTYPE html>
+  const doc = `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -321,6 +322,8 @@ ${sectionMarkup(t, state, { imageSrc, clean })}
 ${sectionScriptTags(t, state, { motion })}</body>
 </html>
 `;
+  // Exports and the code view are indented like hand-written HTML (the preview isn't, it's never read)
+  return clean ? formatHtml(doc) : doc;
 }
 
 /** { title, html, css, js } for lib/snippet-exporters.js (React, Vue, Tailwind) */

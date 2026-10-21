@@ -153,7 +153,7 @@ export default function WebsiteBuilderPage() {
       <div className={`${styles.toolSection} ${styles.toolSectionGallery}`}>
         <TemplateGallery templates={STARTERS.map(t => ({ id: t.id, name: t.name, industry: t.industry, blurb: t.blurb, n: t.sections.length }))} industries={TEMPLATE_INDUSTRIES} />
       </div>
-      <AdSlot />
+      <AdSlot related={false} />
       <IndexOnly>
         <SeoSection slug="website-builder" title="Free Website Builder &amp; Templates — Build a Page, Export HTML" subtitle={`${N} sections · ${STARTERS.length} website templates · One theme · GSAP animation · Export HTML or ZIP`} sections={SECTIONS} />
       </IndexOnly>

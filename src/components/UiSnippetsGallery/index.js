@@ -10,7 +10,7 @@ import { publishedTags, tagsForSnippetId, TAG_BY_ID } from '@/lib/snippet-tags';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import s from './styles.module.css';
 
-const PER_PAGE = 9;
+const PER_PAGE = 12; // 3 rows of 4
 
 // Same localStorage keys the Sidebar's own Library tab reads/writes (see
 // src/components/Sidebar/index.js) for the category and tag, so the two chip

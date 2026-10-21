@@ -12,7 +12,7 @@ import * as socialDesigns from './designs';
 import { defaultState } from './render';
 
 const LS_PREFIX = 'wdp-spt-v1:';
-const GALLERY_PAGE = 10; // cards per "Load more", same rhythm as the UI snippets gallery
+const GALLERY_PAGE = 10; // cards per "Load more": 2 rows of 5
 
 /* ── Gallery ─────────────────────────────────────────────────────────────────── */
 // savedStrip(query): the "My designs" row, shown under the search with a Templates heading
@@ -69,7 +69,7 @@ export function TemplateGallery({ compact = false, excludeId = null, limit = nul
       {list.length === 0 ? (
         <div className={s.empty}>No templates match &ldquo;{q}&rdquo;.</div>
       ) : (
-        <div className={s.grid}>
+        <div className={`${s.grid} ${s.grid5}`}>
           {shown.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}
         </div>
       )}
@@ -81,7 +81,7 @@ export function TemplateGallery({ compact = false, excludeId = null, limit = nul
 /* Full gallery screen: image-tools nav, leaderboard ad, heading, then the grid */
 export function TemplateGalleryPage({ previews = [] }) {
   return (
-    <div className={s.galleryPage}>
+    <div className={`${s.galleryPage} ${s.galleryFull}`}>
       <PlaygroundTopNav active="social-post-templates" />
       <PlaygroundTopAd />
       <header className={s.galleryHead}>
@@ -97,6 +97,7 @@ export function TemplateGalleryPage({ previews = [] }) {
         chips={false}
         savedStrip={q => (
           <SavedDesignsStrip
+            gridClass={s.grid5}
             store={socialDesigns}
             basePath="/social-post-templates/"
             nameOf={id => templateById(id)?.name || id}
@@ -147,7 +148,7 @@ function CategoryLinks({ active = null }) {
 /* Category landing page: same shell as the gallery, filtered to one category */
 export function TemplateCategoryPage({ category, h1, lead, previews = [] }) {
   return (
-    <div className={s.galleryPage}>
+    <div className={`${s.galleryPage} ${s.galleryFull}`}>
       <PlaygroundTopNav active="social-post-templates" />
       <PlaygroundTopAd />
       <header className={s.galleryHead}>

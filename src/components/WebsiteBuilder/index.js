@@ -800,7 +800,7 @@ export default function WebsiteBuilder() {
                 ))}
               </div>
               {page.motion?.preset !== 'none' && page.sections.length > 0 && (
-                <button type="button" className={`${s.miniBtn} ${x.toolBtn}`} onClick={() => setPlaying(n => n + 1)} title="Replay the page’s GSAP animations">▶ Play animation</button>
+                <button type="button" className={`${s.miniBtn} ${x.toolBtn}`} onClick={() => setPlaying(n => n + 1)} title="Play animation">▶ Play</button>
               )}
             </div>
             <div className={s.toolbarRight} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>

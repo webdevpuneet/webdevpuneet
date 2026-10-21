@@ -119,7 +119,7 @@ export default async function SectionCategoryRoute({ params }) {
       <div className={`${styles.toolSection} ${styles.toolSectionGallery}`}>
         <SectionCategoryPage category={cat} h1={c.h1} lead={lead} previews={sectionPreviewIds()} />
       </div>
-      <AdSlot />
+      <AdSlot related={false} />
       <IndexOnly>
         <SeoSection slug="website-section-templates" title={c.h1} subtitle={`${n} section${n > 1 ? 's' : ''} · Responsive · GSAP animation · HTML, React & Vue`} sections={sections} />
       </IndexOnly>

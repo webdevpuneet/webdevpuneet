@@ -501,7 +501,7 @@ function buildSrcdocSimple(html, css, js, cdnUrls = []) {
   return `<!DOCTYPE html><html><head><meta charset="UTF-8">${cdnTags}<style>*{box-sizing:border-box}::-webkit-scrollbar{display:none}*{scrollbar-width:none}body{margin:0;font-family:system-ui,sans-serif}</style><style>${css}</style></head><body>${html}${js ? `<script${hasBabel ? ' type="text/babel" data-presets="react,env"' : ''}>${js}<\/script>` : ''}<script>document.addEventListener('click',function(e){var a=e.target.closest('a');if(a&&(a.getAttribute('href')==='#'||a.getAttribute('href')==='javascript:void(0)')){e.preventDefault();}});<\/script></body></html>`;
 }
 
-const SAVED_PER_PAGE = 9;
+const SAVED_PER_PAGE = 12; // 3 rows of 4
 
 /* — Snippet top ad: AdSense unit (slot 7360198340) above the preview, library snippets only (not My Code).
    The size follows the space actually available above the preview (sidebar and code

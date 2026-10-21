@@ -455,3 +455,7 @@
 
 /* At most 4 cards per row (email and section galleries: wide previews stay readable) */
 .grid4 { grid-template-columns: repeat(auto-fill, minmax(max(220px, calc((100% - 3 * 18px) / 4)), 1fr)); }
+/* Full-width gallery (like UI Snippets): no 1280px cap on the header, chips and grid */
+.galleryFull .galleryHead, .galleryFull .catLinks, .galleryFull .gallery { max-width: none; }
+/* At most 5 cards per row (social posts: portrait cards) */
+.grid5 { grid-template-columns: repeat(auto-fill, minmax(max(200px, calc((100% - 4 * 18px) / 5)), 1fr)); }
