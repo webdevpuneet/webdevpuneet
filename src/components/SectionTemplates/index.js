@@ -143,7 +143,7 @@ export function SectionTemplateGallery({ excludeId = null, limit = null, preview
       )}
       {list.length === 0
         ? <div className={s.empty}>No section templates match &ldquo;{q}&rdquo;.</div>
-        : <div className={`${s.grid} ${x.grid4}`}>{shown.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}</div>}
+        : <div className={`${s.grid} ${s.grid4}`}>{shown.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}</div>}
       {!limit && <LoadMore shown={shown.length} total={list.length} onLoadMore={() => setShownCount(n => n + GALLERY_PAGE)} />}
     </div>
   );

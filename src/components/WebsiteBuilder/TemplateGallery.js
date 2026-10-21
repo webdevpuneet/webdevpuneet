@@ -48,7 +48,7 @@ export default function TemplateGallery({ templates, industries }) {
         </div>
 
         <div className={s.sectionHead}><h2>Your pages</h2></div>
-        <div className={`${s.grid} ${x.grid4}`}><StartCards /></div>
+        <div className={`${s.grid} ${s.grid4}`}><StartCards /></div>
 
         <div className={s.sectionHead}>
           <h2>{ind === 'all' ? 'All Templates' : `${ind} Templates`}</h2>
@@ -57,7 +57,7 @@ export default function TemplateGallery({ templates, industries }) {
         {list.length === 0
           ? <div className={s.empty}>No website templates match &ldquo;{q}&rdquo;. <a href={`${EDITOR}?starter=blank`}>Start from scratch</a> instead.</div>
           : (
-            <div className={`${s.grid} ${x.grid4}`}>
+            <div className={`${s.grid} ${s.grid4}`}>
               {list.map(t => (
                 <a key={t.id} className={s.card} href={`/website-builder/templates/${t.id}/`} title={t.blurb}>
                   <div className={x.cardPreview}>

@@ -112,8 +112,6 @@
 .segSm { flex-wrap: wrap; gap: 2px; }
 .segSm > button { padding: 4px 6px; font-size: 11px; letter-spacing: -0.01em; }
 
-/* Gallery cards: at most 4 per row (sections are wide, so previews stay readable) */
-.grid4 { grid-template-columns: repeat(auto-fill, minmax(max(240px, calc((100% - 3 * 18px) / 4)), 1fr)); }
 
 /* Gallery filter chips rendered as buttons (same look as the category link chips) */
 .chipBtn { cursor: pointer; font-family: inherit; line-height: inherit; }
