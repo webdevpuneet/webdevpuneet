@@ -165,6 +165,7 @@
     <li><span class="pill done">Done</span><div><strong>Icon sets</strong> in the icon picker (see Icons below) and a <strong>Show brand icon</strong> switch (new <code>switch</code> field type bound to a toggle, in the shared brand fields: 3 navbars, 3 footers).</div></li>
     <li><span class="pill todo">To do</span><div>React / Next.js page export from the builder.</div></li>
     <li><span class="pill todo">To do</span><div><strong>SVG artwork layer</strong>: a small library of theme-aware backgrounds and decorations (waves, blobs, grids, dots, gradients, section dividers) a section can switch on, plus uploading or pasting your own SVG as an artwork field. Rules in "SVG artwork" under Architecture.</div></li>
+    <li><span class="pill todo">To do</span><div><strong>Email icons</strong>: social icons (and other icons) in Email Template footers and blocks, as hosted PNGs rendered from the open-source sets (inline SVG does not work in email clients). See "Icons" under Architecture.</div></li>
   </ul>
 
   <div class="phase"><h3>Phase 3b — Scroll animation builder</h3><span class="pill todo">To do</span></div>
@@ -289,6 +290,7 @@
     <li>A picked icon is stored in the section state as <code>svg|name|w|h|&lt;url-encoded markup&gt;</code> (<code>templates/icon-lib.js</code>: <code>encodeIcon</code> / <code>decodeIcon</code> / <code>iconSvgAny</code>), so saved designs and all exports work offline. The network is only needed while browsing a set.</li>
     <li>The markup passes a strict whitelist (<code>safeBody</code>: shapes, groups, defs, gradients; no scripts, <code>href</code>, <code>style</code>, event attributes), so an edited backup file cannot inject code. Anything that fails renders as no icon.</li>
     <li>Fill-based icons rely on <code>fill="currentColor"</code> on the wrapper; stroke sets carry their own stroke attributes in the body. Colour comes from CSS (<code>currentColor</code>).</li>
+    <li><strong>Email Templates can use the same icons</strong>, for example social icons in footers (today the footer social row is text links: <code>socialRowHtml</code> in <code>EmailTemplates/templates/shell.js</code>). One constraint differs from the web templates: <strong>email clients (Gmail, Outlook and others) do not render inline SVG</strong>, and many block SVG images. So an email icon must be a small <strong>PNG hosted at an https URL</strong> (the existing <code>https://webdevpuneet.com/images/email-templates/</code> pattern), 2× resolution, with <code>width</code>/<code>height</code> and <code>alt</code> text, wrapped in the link. The icon is picked from the same open-source sets and rendered to PNG in the browser (canvas) in the brand colour, then included like any uploaded email image. Plan: social icon style option (text / icons), colour from the email's brand or footer text colour, and the ZIP export carries the PNGs.</li>
     <li>Icons can be used wherever a template has an <code>icon</code> field (brand mark, feature and step cards, list items). To offer an icon in a new place, add an <code>icon</code> field and a <code>data-icon</code> element; the picker, storage and exports need no changes.</li>
   </ul>
 
@@ -466,6 +468,7 @@
       <tr><td>2026-10-20</td><td>The page builder is its own tool at <code>/website-builder/</code> (user's choice), separate from the section library URL.</td><td>Targets "website builder" searches and reads as a product in its own right.</td></tr>
       <tr><td>2026-10-20</td><td>URL: <code>/website-section-templates/</code> (user's choice). Code lives in <code>components/SectionTemplates</code>; images in <code>public/images/section-templates/</code>.</td><td>Says exactly what it is and targets "website section templates" searches.</td></tr>
           <tr><td>2026-10-21</td><td>SVG artwork may be used anywhere in the templates (backgrounds, decorations, dividers, masks). Inline SVG or CSS data URIs, theme variables or <code>currentColor</code> for colour, decorative by default, sanitised when user supplied. An artwork library and field are planned in Phase 3.</td><td>Its colours can change with the theme (brand, surface, text, dark mode), so one artwork fits every preset. Also small, sharp at any size, and keeps exports to a single file.</td></tr>
+      <tr><td>2026-10-21</td><td>Email Templates may use the open-source icons (social icons in footers first), exported as PNG images, never inline SVG.</td><td>Gmail, Outlook and other clients strip or block inline SVG; a hosted PNG with width, height and alt is the only reliable way.</td></tr>
 </tbody>
   </table>
 </section>
@@ -497,6 +500,7 @@
       <tr><td>2026-10-21</td><td>Readable exports: <code>templates/format.js</code> (formatHtml re-indents only existing line breaks, so rendering is unchanged — checked on all 44 sections + 15 templates; formatCss one declaration per line). documentHtml / pageDocumentHtml format when clean (exports, code view). Section editor: CSS tab removed (the HTML view includes the CSS); Play button shortened to ▶ Play (title "Play animation") in both editors. Galleries: full width, 4–5 per row; builder landing has tall hover-scroll template cards and live-rendered Your pages with Load more.</td></tr>
       <tr><td>2026-10-21</td><td>Builder and section editor: Fork to My Code, Add to page dropdown (new or saved page), export menus reduced to ZIP / React ZIP / Vue ZIP with icons, flicker-free double-buffered preview and scroll restore, uploaded-images gallery across Website Sections / Builder / Email / Social, Show brand icon switch, logo gap, and six open-source icon sets (Lucide, Tabler, Heroicons, Remix, Phosphor, Brand logos) with self-contained stored icons. Not run or deployed (user tests).</td></tr>
       <tr><td>2026-10-21</td><td>Documented SVG artwork (backgrounds, decorations, dividers, masks): principle, conventions under Architecture, a planned artwork library and field in Phase 3, and a decision. Documentation only; nothing built.</td></tr>
+      <tr><td>2026-10-21</td><td>Documented email icons (social icons in email footers) as planned work, with the PNG-not-SVG constraint for email clients. Documentation only; nothing built.</td></tr>
     </tbody>
   </table>
 </section>
