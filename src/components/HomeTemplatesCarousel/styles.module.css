@@ -21,3 +21,16 @@ a[data-pan] .scrollImg { object-position: center bottom; transition: object-posi
 
 /* The template whose page this is (related strips) */
 .cardActive, .cardActive:hover { border-color: var(--accent, #6366f1); box-shadow: 0 0 0 1.5px var(--accent, #6366f1); }
+
+/* wide: landscape previews (website sections), four 16:10 cards per row */
+.gridWide { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.previewWide { aspect-ratio: 16 / 10; }
+@media (max-width: 1100px) {
+  .gridWide > a { flex-basis: 300px; }
+}
+@media (max-width: 560px) {
+  .gridWide > a { flex-basis: 78vw; }
+}
+
+/* cols: a set number of cards per row (desktop grid only; narrow screens still swipe) */
+.grid[style*="--home-cols"] { grid-template-columns: repeat(var(--home-cols), minmax(0, 1fr)); }

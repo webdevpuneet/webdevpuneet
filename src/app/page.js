@@ -6,10 +6,14 @@ import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
 import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
+import InViewImg from '@/components/InViewImg';
 import { TEMPLATES as SOCIAL_TEMPLATES, SIZES as SOCIAL_SIZES, categoryById as socialCategoryById } from '@/components/SocialPostTemplates/templates/index.js';
 import { previewIds as socialPreviewIds } from '@/components/SocialPostTemplates/assets';
 import { EMAIL_TEMPLATES, emailCategoryById } from '@/components/EmailTemplates/templates/index.js';
 import { emailPreviewIds } from '@/components/EmailTemplates/assets';
+import { SECTION_TEMPLATES, sectionCategoryById } from '@/components/SectionTemplates/templates/index.js';
+import { sectionPreviewIds } from '@/components/SectionTemplates/assets';
+import { WEBSITE_TEMPLATES } from '@/components/SectionTemplates/templates/starters.js';
 import { getLatestSnippets } from '@/lib/snippet-related';
 import { LIVE_TOOLS } from '@/lib/tools-registry';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
@@ -248,6 +252,12 @@ export default async function Home() {
   const emailShots = new Set(emailPreviewIds());
   const emailItems = EMAIL_TEMPLATES.filter(t => emailShots.has(t.id))
     .map(t => ({ id: t.id, title: t.name, href: `/email-templates/${t.id}/`, img: `/images/email-templates/previews/${t.id}.png`, cat: emailCategoryById(t.category)?.label, meta: 'Responsive · Dark mode' }));
+  // Website templates: tall full-page shots that pan on hover; sections: landscape previews
+  const websiteItems = WEBSITE_TEMPLATES
+    .map(t => ({ id: t.id, title: t.name, href: `/website-builder/templates/${t.id}/`, img: `/images/website-templates/full/${t.id}.jpg`, cat: t.industry, meta: `${t.sections.length} sections · Export HTML` }));
+  const sectionShots = new Set(sectionPreviewIds());
+  const sectionItems = SECTION_TEMPLATES.filter(t => sectionShots.has(t.id))
+    .map(t => ({ id: t.id, title: t.name, href: `/website-section-templates/${t.id}/`, img: `/images/section-templates/previews/${t.id}.png`, cat: sectionCategoryById(t.category)?.label, meta: 'Responsive · HTML, React & Vue' }));
   const playgroundCardTools = PLAYGROUND_CARD_SLUGS.map(slug => LIVE_TOOLS.find(t => t.slug === slug)).filter(Boolean);
   // Six for the blog fetch; the blog card lists the first four.
   const latestPosts = blogPosts.slice(0, 4);
@@ -291,7 +301,25 @@ export default async function Home() {
         <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} />
       </div>
 
-      {/* ── Template libraries: social post images and HTML emails ── */}
+      {/* ── Template libraries: website templates and sections, social post images, HTML emails ── */}
+      <div className={styles.snippetsStrip}>
+        <HomeTemplatesCarousel
+          title="Website Templates"
+          label={`${WEBSITE_TEMPLATES.length} one-page websites, edit and export HTML`}
+          viewAllHref="/website-builder/"
+          items={websiteItems}
+          scroll
+        />
+      </div>
+      <div className={styles.snippetsStrip}>
+        <HomeTemplatesCarousel
+          title="Website Section Templates"
+          label={`${SECTION_TEMPLATES.length} heroes, pricing, FAQ, footers and more`}
+          viewAllHref="/website-section-templates/"
+          items={sectionItems}
+          wide
+        />
+      </div>
       <div className={styles.snippetsStrip}>
         <HomeTemplatesCarousel
           title="Social Post Templates"
@@ -416,7 +444,7 @@ export default async function Home() {
             {latestPosts.map(post => (
               <a key={post.href} href={post.href} target="_blank" rel="noopener noreferrer" className={styles.featureBlogItem}>
                 {post.thumb
-                  ? <img className={styles.featureBlogThumb} src={post.thumb} alt="" loading="lazy" />
+                  ? <InViewImg className={styles.featureBlogThumb} src={post.thumb} alt="" />
                   : <span className={styles.featureBlogThumbFallback} aria-hidden="true">{'</>'}</span>}
                 <span className={styles.featureItemBody}>
                   <span className={styles.featureBlogTitle}>{post.title}</span>

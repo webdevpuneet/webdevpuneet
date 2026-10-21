@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
+import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import { WEBSITE_TEMPLATES, websiteTemplateById } from '@/components/SectionTemplates/templates/starters.js';
 import { sectionTemplateById, sectionCategoryById, THEME_PRESETS } from '@/components/SectionTemplates/templates/index.js';
 import { resolveFont } from '@/lib/fonts';
@@ -44,7 +45,7 @@ export default async function WebsiteTemplatePage({ params }) {
   const theme = themeOf(t);
   const fonts = [resolveFont(t.fonts?.heading).label, resolveFont(t.fonts?.body).label];
   const parts = t.sections.map(([sid]) => sectionTemplateById(sid)).filter(Boolean);
-  const related = [...WEBSITE_TEMPLATES.filter(x => x.id !== t.id && x.industry === t.industry), ...WEBSITE_TEMPLATES.filter(x => x.id !== t.id && x.industry !== t.industry)].slice(0, 3);
+  const related = [...WEBSITE_TEMPLATES.filter(x => x.id !== t.id && x.industry === t.industry), ...WEBSITE_TEMPLATES.filter(x => x.id !== t.id && x.industry !== t.industry)];
   const useUrl = `/website-builder/editor/?starter=${t.id}`;
   const nameLower = t.name.replace(/ (Website|Landing Page)$/, '').toLowerCase();
 
@@ -151,22 +152,20 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
             <a className={st.btn} href={useUrl} style={{ justifyContent: 'center' }}>Use this template</a>
           </aside>
         </div>
-        <section className={st.related}>
-          <h2 className={st.groupTitle}>More templates</h2>
-          <ul className={st.grid}>
-            {related.map(r => (
-              <li key={r.id}>
-                <a className={st.card} href={`/website-builder/templates/${r.id}/`}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img className={st.cardImg} src={`/images/website-templates/thumb/${r.id}.jpg`} alt={`${r.name} template preview`} loading="lazy" width="640" height="400" />
-                  <span className={st.cardBody}><b>{r.name}</b><span>{r.blurb}</span></span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
+        {/* Same strip as the home page: full-page shots that scroll on hover */}
+        <div className={st.related}>
+          <HomeTemplatesCarousel
+            title="More Templates"
+            label={`${related.length} more one-page websites`}
+            viewAllHref="/website-builder/"
+            items={related.map(r => ({ id: r.id, title: r.name, href: `/website-builder/templates/${r.id}/`, img: `/images/website-templates/full/${r.id}.jpg`, cat: r.industry, meta: `${r.sections.length} sections · Export HTML` }))}
+            scroll
+            cols={4}
+            flush
+          />
+        </div>
       </div>
-      <AdSlot />
+      <AdSlot related={false} />
       <IndexOnly>
         <SeoSection slug="website-builder" title={`${t.name} Template — Free, Editable, Export HTML`} subtitle={`${t.industry} · ${parts.length} sections · ${fonts[0]} + ${fonts[1]} · Responsive · GSAP animation`} sections={SECTIONS} />
       </IndexOnly>

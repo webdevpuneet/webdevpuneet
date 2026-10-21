@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import InViewImg from '../InViewImg';
 import rs from '../UiSnippetsTool/RelatedCarousel.module.css';
 import gs from '../SocialPostTemplates/styles.module.css';
 import hs from './styles.module.css';
 
-const PAGE_SIZE = 6;
+const PAGE = 6;
+const WIDE_PAGE_SIZE = 4;
 
 // Home page strips for Social Post Templates and Email Templates. The header and arrows
 // match "Latest UI Snippets"; the cards are the template galleries' own cards (tall
@@ -31,7 +33,10 @@ export const panHandlers = { onMouseEnter: panStart, onMouseLeave: panEnd, onFoc
 // `scroll`: on hover the preview pans slowly from the top of the image to the bottom.
 // `flush`: inside AdSlot's related area, which already pads the sides.
 // `activeId`: the current page's template, highlighted like the active card in Related Snippets.
-export default function HomeTemplatesCarousel({ title, items, viewAllHref, viewAllText = 'View all', label, scroll = false, flush = false, activeId = null }) {
+// `wide`: landscape previews (website sections): four 16:10 cards per row instead of six portrait.
+// `cols`: cards per row (and per page) for portrait cards, e.g. 4 on a template page.
+export default function HomeTemplatesCarousel({ title, items, viewAllHref, viewAllText = 'View all', label, scroll = false, flush = false, activeId = null, wide = false, cols = null }) {
+  const PAGE_SIZE = cols || (wide ? WIDE_PAGE_SIZE : PAGE);
   const activeIdx = activeId ? items?.findIndex(it => it.id === activeId) ?? -1 : -1;
   const [start, setStart] = useState(activeIdx > 0 ? Math.floor(activeIdx / PAGE_SIZE) * PAGE_SIZE : 0);
   if (!items?.length) return null;
@@ -60,12 +65,12 @@ export default function HomeTemplatesCarousel({ title, items, viewAllHref, viewA
           </div>
         )}
       </div>
-      <div className={hs.grid}>
+      <div className={`${hs.grid} ${wide ? hs.gridWide : ''}`} style={cols ? { '--home-cols': cols } : undefined}>
         {shown.map(it => (
           <a key={it.id} href={it.href} className={`${gs.card} ${it.id === activeId ? hs.cardActive : ''}`} aria-current={it.id === activeId ? 'page' : undefined} {...(scroll ? panHandlers : {})}>
-            <div className={gs.cardPreview}>
+            <div className={`${gs.cardPreview} ${wide ? hs.previewWide : ''}`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img className={`${gs.cardImg} ${scroll ? hs.scrollImg : ''}`} src={it.img} alt={`${it.title} template preview`} loading="lazy" />
+              <InViewImg className={`${gs.cardImg} ${scroll ? hs.scrollImg : ''}`} src={it.img} alt={`${it.title} template preview`} />
             </div>
             <div className={gs.cardBody}>
               {it.cat && <span className={gs.cardCat}>{it.cat}</span>}
