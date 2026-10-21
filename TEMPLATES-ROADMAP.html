@@ -156,7 +156,12 @@
     <li><span class="pill done">Done</span><div><strong>3.5 Polish</strong>: drag-and-drop reordering in the section list (GSAP Draggable by a handle, other rows slide aside, Flip into the new order; ↑ ↓ still for keyboard); section anchors (<code>section.anchor</code> → <code>id</code>, defaults per category with dedupe, template override <code>anchor: ''</code>, editable "#anchor" field with duplicate warning, smooth scroll + scroll-margin for sticky navbars, demo navbar links now #features / #pricing / #customers / #faq); anchor links scroll inside the preview; "+ Add to page" in every section editor (localStorage hand-off <code>wdp-wb-incoming</code> → <code>/website-builder/?add=1</code> appends it); undo/redo shortcuts also work while the preview iframe has focus, Reset is one undoable step.</div></li>
     <li><span class="pill todo">To do</span><div>Per-section overrides (e.g. a dark section on a light page, spacing, background image).</div></li>
     <li><span class="pill todo">To do</span><div>Page-level GSAP features: ScrollSmoother smooth scroll + parallax (page setting), ScrollToPlugin anchor navigation.</div></li>
-    <li><span class="pill done">Done</span><div>"+ Add to page" in the section editor (opens <code>/website-builder/editor/?add=1</code>).</div></li>
+    <li><span class="pill done">Done</span><div>"+ Add to page" in the section editor is now a dropdown: <strong>New page</strong> (<code>?add=1&amp;starter=blank</code>) or any saved page (<code>?add=1&amp;page=&lt;id&gt;</code>, appended at the end, not auto-saved). The editor reads the <code>add</code> flag before the starter branch clears the URL.</div></li>
+    <li><span class="pill done">Done</span><div><strong>Fork to My Code</strong> in the builder (whole page as one snippet tagged <code>page</code>, opens a new tab) and in the section editor (tag <code>section</code>). On localhost, production image URLs are rewritten to the local origin because <code>/images/section-templates/</code> is not deployed yet.</div></li>
+    <li><span class="pill done">Done</span><div><strong>Export menus</strong> (section editor and builder): Download ZIP (<code>index.html</code> + <code>assets/</code>), Download React ZIP (<code>&lt;Name&gt;.jsx</code> + <code>assets/</code>), Download Vue ZIP (<code>.vue</code> + <code>assets/</code>), with HTML / React / Vue icons. Copy HTML, Download .html and the copy-component buttons were removed. One <code>downloadFrameworkZip(kind)</code> in each editor.</div></li>
+    <li><span class="pill done">Done</span><div><strong>Preview without flicker</strong>: <code>PageFrame</code> double-buffers two iframes (an edit loads into the hidden one, restores the scroll, then swaps). A unique trailing comment forces a reload even for identical html, otherwise no <code>load</code> event fires and the swap never happens. Smooth scroll is switched off for the restore so it does not glide.</div></li>
+    <li><span class="pill done">Done</span><div><strong>Uploaded-images gallery</strong> on every image upload field in Website Sections, Website Builder, Email Templates and Social Posts (<code>components/ImageLibrary</code>, <code>lib/image-library.js</code>, IndexedDB <code>wdp_image_library</code>). Uploads are added as they happen; older ones are read (read-only, only if the database exists) from <code>wdp_section_assets</code> and <code>wdp_email_assets</code>. Each tool resizes a reused image to its own field and keeps its own copy (email deletes unused assets by prefix, so sharing a key would break). Social images are only found once uploaded after this. No delete yet (saved pages may use an image).</div></li>
+    <li><span class="pill done">Done</span><div><strong>Icon sets</strong> in the icon picker (see Icons below) and a <strong>Show brand icon</strong> switch (new <code>switch</code> field type bound to a toggle, in the shared brand fields: 3 navbars, 3 footers).</div></li>
     <li><span class="pill todo">To do</span><div>React / Next.js page export from the builder.</div></li>
   </ul>
 
@@ -258,12 +263,32 @@
       <tr><td><code>data-accordion</code></td><td>Accordion list of <code>details.st-acc</code>; values <code>single</code> and <code>first</code>.</td></tr>
       <tr><td><code>data-hide-if="key"</code></td><td>Element removed when that field is NOT empty (a default suffix replaced by a plan's own price note).</td></tr>
       <tr><td><code>behaviors: [...]</code> (template)</td><td>Interactive scripts from <code>behaviors.js</code> (now: <code>billing</code>, <code>carousel</code> with <code>[data-carousel]</code> / <code>-prev</code> / <code>-next</code>, <code>marquee</code> with <code>[data-marquee]</code> / <code>="reverse"</code> / <code>data-speed</code>; next: <code>accordion</code>, <code>menu</code>, <code>tabs</code>, <code>counter</code>). Markup uses <code>data-billing</code> buttons, <code>.st-bill-pill</code>, <code>.st-pm</code> / <code>.st-py</code>.</td></tr>
-      <tr><td><code>data-icon="key"</code></td><td>Empty element filled with an inline SVG icon (<code>icon</code> field, ids from <code>icons.js</code>).</td></tr>
+      <tr><td><code>data-icon="key"</code></td><td>Empty element filled with an inline SVG icon (<code>icon</code> field). The value is a curated id from <code>icons.js</code> (<code>zap</code>) or a self-contained <code>svg|name|w|h|markup</code> id from an open-source set (see Icons below).</td></tr>
       <tr><td><code>data-lines="key"</code></td><td>Empty <code>&lt;ul&gt;</code>/<code>&lt;ol&gt;</code>: one <code>&lt;li&gt;</code> per non-empty line (<code>lines</code> field).</td></tr>
       <tr><td><code>data-anim-text</code></td><td>Heading animated with the SplitText text effect (<code>motion.text</code>); kept in exports.</td></tr>
       <tr><td><code>data-anim="item"</code> / <code>"media"</code></td><td>Motion marker: text/buttons animate in a stagger (<code>item</code>); images/mockups use the media variant. Kept in exports (not stripped by <code>clean</code>).</td></tr>
     </tbody>
   </table>
+
+  <h3>Icons</h3>
+  <p>Icon fields use <code>IconPicker</code> (<code>panels.js</code>). <strong>Essentials</strong> is the curated Lucide set in <code>templates/icons.js</code> (generated by <code>scripts/build-section-icons.mjs</code>; ids like <code>zap</code>). The other tabs browse whole open-source sets loaded on demand from <code>cdn.jsdelivr.net/npm/@iconify-json/&lt;prefix&gt;/icons.json</code> (<code>SectionTemplates/icon-sets.js</code>):</p>
+  <table>
+    <thead><tr><th>Tab</th><th>Prefix</th><th>Icons</th><th>Licence</th></tr></thead>
+    <tbody>
+      <tr><td>Lucide</td><td><code>lucide</code></td><td>~1,900</td><td>ISC</td></tr>
+      <tr><td>Tabler</td><td><code>tabler</code></td><td>~6,200</td><td>MIT</td></tr>
+      <tr><td>Heroicons</td><td><code>heroicons</code></td><td>~1,300</td><td>MIT</td></tr>
+      <tr><td>Remix</td><td><code>ri</code></td><td>~3,200</td><td>Apache 2.0</td></tr>
+      <tr><td>Phosphor</td><td><code>ph</code></td><td>regular weight only</td><td>MIT</td></tr>
+      <tr><td>Brand logos</td><td><code>simple-icons</code></td><td>~3,400</td><td>CC0 (logos are trademarks of their owners)</td></tr>
+    </tbody>
+  </table>
+  <ul>
+    <li>A picked icon is stored in the section state as <code>svg|name|w|h|&lt;url-encoded markup&gt;</code> (<code>templates/icon-lib.js</code>: <code>encodeIcon</code> / <code>decodeIcon</code> / <code>iconSvgAny</code>), so saved designs and all exports work offline. The network is only needed while browsing a set.</li>
+    <li>The markup passes a strict whitelist (<code>safeBody</code>: shapes, groups, defs, gradients; no scripts, <code>href</code>, <code>style</code>, event attributes), so an edited backup file cannot inject code. Anything that fails renders as no icon.</li>
+    <li>Fill-based icons rely on <code>fill="currentColor"</code> on the wrapper; stroke sets carry their own stroke attributes in the body. Colour comes from CSS (<code>currentColor</code>).</li>
+    <li>Icons can be used wherever a template has an <code>icon</code> field (brand mark, feature and step cards, list items). To offer an icon in a new place, add an <code>icon</code> field and a <code>data-icon</code> element; the picker, storage and exports need no changes.</li>
+  </ul>
 </section>
 
 <!-- ───────────────────────────────────────────── -->
@@ -445,6 +470,7 @@
       <tr><td>2026-10-21</td><td>Placeholder site is now <code>webdevpuneet.com</code> everywhere (was yoursite.com; email placeholder checks match both). ZIP exports (section editor and builder) put every image, uploads and default/remote ones, in <code>assets/</code> and rewrite the HTML to match. Click-to-edit in both previews (<code>inline-edit.js</code>): text is typed in place, other bound elements (images, icons, lists, links) open and flash their input; list items carry <code>data-item</code> in the preview only. Selection popover while editing: bold (hidden on already-bold text), italic, underline, brand colour (<code>*word*</code>), clear formatting.</td></tr>
       <tr><td>2026-10-21</td><td>URLs restructured: <code>/website-builder/</code> is now the landing page (templates first: Start from scratch, Continue editing, My pages, then all templates by industry, plus the builder + template SEO content and schemas). The builder moved to <code>/website-builder/editor/</code> (noindex, follow; <code>?starter=blank</code> added). <code>/website-builder/templates/</code> 301s to <code>/website-builder/</code> (.htaccess) and left the sitemap; template pages stay at <code>/website-builder/templates/&lt;id&gt;/</code>. Old <code>/website-builder/?page|starter|add</code> links forward to the editor (StartCards.js). Section library OG image, gallery max 4 per row, boxed SEO blocks.</td></tr>
       <tr><td>2026-10-21</td><td>Readable exports: <code>templates/format.js</code> (formatHtml re-indents only existing line breaks, so rendering is unchanged — checked on all 44 sections + 15 templates; formatCss one declaration per line). documentHtml / pageDocumentHtml format when clean (exports, code view). Section editor: CSS tab removed (the HTML view includes the CSS); Play button shortened to ▶ Play (title "Play animation") in both editors. Galleries: full width, 4–5 per row; builder landing has tall hover-scroll template cards and live-rendered Your pages with Load more.</td></tr>
+      <tr><td>2026-10-21</td><td>Builder and section editor: Fork to My Code, Add to page dropdown (new or saved page), export menus reduced to ZIP / React ZIP / Vue ZIP with icons, flicker-free double-buffered preview and scroll restore, uploaded-images gallery across Website Sections / Builder / Email / Social, Show brand icon switch, logo gap, and six open-source icon sets (Lucide, Tabler, Heroicons, Remix, Phosphor, Brand logos) with self-contained stored icons. Not run or deployed (user tests).</td></tr>
     </tbody>
   </table>
 </section>
