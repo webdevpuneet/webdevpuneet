@@ -35,7 +35,8 @@ export const panHandlers = { onMouseEnter: panStart, onMouseLeave: panEnd, onFoc
 // `activeId`: the current page's template, highlighted like the active card in Related Snippets.
 // `wide`: landscape previews (website sections): four 16:10 cards per row instead of six portrait.
 // `cols`: cards per row (and per page) for portrait cards, e.g. 4 on a template page.
-export default function HomeTemplatesCarousel({ title, items, viewAllHref, viewAllText = 'View all', label, scroll = false, flush = false, activeId = null, wide = false, cols = null }) {
+// `compact`: the Latest UI Snippets card (short thumbnail, title only), six per row.
+export default function HomeTemplatesCarousel({ title, items, viewAllHref, viewAllText = 'View all', label, scroll = false, flush = false, activeId = null, wide = false, cols = null, compact = false }) {
   const PAGE_SIZE = cols || (wide ? WIDE_PAGE_SIZE : PAGE);
   const activeIdx = activeId ? items?.findIndex(it => it.id === activeId) ?? -1 : -1;
   const [start, setStart] = useState(activeIdx > 0 ? Math.floor(activeIdx / PAGE_SIZE) * PAGE_SIZE : 0);
@@ -65,6 +66,16 @@ export default function HomeTemplatesCarousel({ title, items, viewAllHref, viewA
           </div>
         )}
       </div>
+      {compact ? (
+        <div className={`${rs.track} ${rs.trackThree}`}>
+          {shown.map(it => (
+            <a key={it.id} href={it.href} className={`${rs.card} ${it.id === activeId ? rs.cardActive : ''}`} aria-current={it.id === activeId ? 'page' : undefined}>
+              <InViewImg className={rs.thumb} src={it.img} alt={it.title} />
+              <h3 className={rs.cardTitle}>{it.title}</h3>
+            </a>
+          ))}
+        </div>
+      ) : (
       <div className={`${hs.grid} ${wide ? hs.gridWide : ''}`} style={cols ? { '--home-cols': cols } : undefined}>
         {shown.map(it => (
           <a key={it.id} href={it.href} className={`${gs.card} ${it.id === activeId ? hs.cardActive : ''}`} aria-current={it.id === activeId ? 'page' : undefined} {...(scroll ? panHandlers : {})}>
@@ -80,6 +91,7 @@ export default function HomeTemplatesCarousel({ title, items, viewAllHref, viewA
           </a>
         ))}
       </div>
+      )}
     </section>
   );
 }

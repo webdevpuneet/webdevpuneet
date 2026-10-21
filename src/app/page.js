@@ -22,16 +22,21 @@ import styles from './page.module.css';
 // Coding playgrounds (lesson-based editors) vs. everything else that is a tool.
 const PLAYGROUND_COUNT = LIVE_TOOLS.filter(t => t.slug.endsWith('-playground')).length;
 const TOOL_COUNT = LIVE_TOOLS.filter(t => t.slug !== 'ui-snippets' && !t.slug.endsWith('-playground')).length;
+// Template libraries: website templates (Website Builder), website sections, emails, social posts
+const TEMPLATE_COUNT = WEBSITE_TEMPLATES.length + SECTION_TEMPLATES.length + EMAIL_TEMPLATES.length + SOCIAL_TEMPLATES.length;
+const HOME_TITLE = 'Free UI Snippets, Templates, Coding Playgrounds & Dev Tools';
+const HOME_OG_TITLE = 'UI Snippets, Templates, Playgrounds & Dev Tools — All Free';
 
-const META_DESCRIPTION = `${SNIPPET_COUNT}+ copy-paste UI snippets, ${PLAYGROUND_COUNT} coding playgrounds with lessons and ${TOOL_COUNT} free developer tools for HTML, CSS, JS, React and more. No signup, all in-browser.`;
+const META_DESCRIPTION = `${SNIPPET_COUNT}+ UI snippets, ${TEMPLATE_COUNT} website, email & social templates, a website builder, ${PLAYGROUND_COUNT} coding playgrounds and ${TOOL_COUNT} free dev tools. No signup, all in your browser.`;
 
 export const metadata = {
-  title: 'Free UI Snippets, Coding Playgrounds & Developer Tools',
+  title: HOME_TITLE,
   description: META_DESCRIPTION,
   keywords: [
     'ui snippets', 'html css js snippets', 'copy paste ui components', 'learn to code online free',
     'coding playground', 'html playground', 'css playground', 'javascript playground', 'react playground',
     'free developer tools', 'css generators', 'online code editor', 'frontend developer tools',
+    'free website builder', 'free website templates', 'website section templates', 'html email templates', 'social media post templates',
   ],
   authors: [{ name: 'Puneet Sharma', url: 'https://www.webdevpuneet.com/' }],
   robots: { index: true, follow: true },
@@ -40,7 +45,7 @@ export const metadata = {
     type: 'website',
     url: 'https://webdevpuneet.com',
     siteName: 'webdevpuneet.com',
-    title: 'UI Snippets, Coding Playgrounds & Dev Tools — All Free',
+    title: HOME_OG_TITLE,
     description: META_DESCRIPTION,
     images: [{ url: 'https://webdevpuneet.com/images/dev-tools.png', width: 1200, height: 640, alt: 'webdevpuneet.com — UI snippets, coding playgrounds and developer tools' }],
     locale: 'en_US',
@@ -49,7 +54,7 @@ export const metadata = {
     card: 'summary_large_image',
     site: '@webdevpuneet',
     creator: '@webdevpuneet',
-    title: 'UI Snippets, Coding Playgrounds & Dev Tools — All Free',
+    title: HOME_OG_TITLE,
     description: META_DESCRIPTION,
     images: ['https://webdevpuneet.com/images/dev-tools.png'],
   },
@@ -64,7 +69,7 @@ const websiteSchema = {
       name: 'webdevpuneet.com',
       url: 'https://webdevpuneet.com',
       inLanguage: 'en',
-      description: `${SNIPPET_COUNT}+ copy-paste UI snippets (HTML, CSS and JavaScript components), ${PLAYGROUND_COUNT} interactive coding playgrounds with structured lessons, and ${TOOL_COUNT} free developer tools including CSS generators, code formatters and converters. Free, no signup, runs entirely in your browser.`,
+      description: `${SNIPPET_COUNT}+ copy-paste UI snippets (HTML, CSS and JavaScript components), ${TEMPLATE_COUNT} editable templates (website templates with a free website builder, website sections, HTML emails and social media posts), ${PLAYGROUND_COUNT} interactive coding playgrounds with structured lessons, and ${TOOL_COUNT} free developer tools including CSS generators, code formatters and converters. Free, no signup, runs entirely in your browser.`,
       publisher: { '@id': 'https://webdevpuneet.com/#organization' },
       potentialAction: {
         '@type': 'SearchAction',
@@ -86,9 +91,9 @@ const websiteSchema = {
 const itemListSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  name: 'UI Snippets, Coding Playgrounds and Developer Tools',
+  name: 'UI Snippets, Templates, Coding Playgrounds and Developer Tools',
   url: 'https://webdevpuneet.com',
-  description: 'Free copy-paste UI snippets, browser-based coding playgrounds and developer tools on webdevpuneet.com.',
+  description: 'Free copy-paste UI snippets, editable website, email and social templates, a website builder, browser-based coding playgrounds and developer tools on webdevpuneet.com.',
   itemListElement: LIVE_TOOLS.map((t, i) => ({
     '@type': 'ListItem',
     position: i + 1,
@@ -102,15 +107,23 @@ const itemListSchema = {
 const FAQS = [
   {
     q: 'What is webdevpuneet.com?',
-    a: `webdevpuneet.com is a free website for frontend developers and people learning to code. It brings together ${SNIPPET_COUNT}+ copy-paste UI snippets, ${PLAYGROUND_COUNT} interactive coding playgrounds with structured lessons, ${TOOL_COUNT} developer tools such as CSS generators, code formatters and converters, a personal online code editor called My Code, and a blog of tutorials with live demos. Everything runs in your browser with no account.`,
+    a: `webdevpuneet.com is a free website for frontend developers and people learning to code. It brings together ${SNIPPET_COUNT}+ copy-paste UI snippets, ${TEMPLATE_COUNT} editable website, email and social templates with a free website builder, ${PLAYGROUND_COUNT} interactive coding playgrounds with structured lessons, ${TOOL_COUNT} developer tools such as CSS generators, code formatters and converters, a personal online code editor called My Code, and a blog of tutorials with live demos. Everything runs in your browser with no account.`,
   },
   {
     q: 'Is everything on webdevpuneet.com free?',
-    a: 'Yes. Every snippet, playground, lesson and tool is completely free, with no account, no subscription, no trial and no usage limits. Code you copy or generate is yours to use in personal and commercial projects.',
+    a: 'Yes. Every snippet, template, playground, lesson and tool is completely free, with no account, no subscription, no trial and no usage limits. Code you copy or generate is yours to use in personal and commercial projects.',
   },
   {
     q: 'What are the UI snippets?',
     a: `${SNIPPET_COUNT}+ ready-to-use HTML, CSS and JavaScript components — buttons, cards, hero sections, navigation, modals, forms, loaders, animations, layouts, tables, dashboards, games and more. Each one has a live preview, an editable code editor, full source code on its page, and one-click export to React (JSX), React + Tailwind, a standalone Tailwind HTML file, a Vue 3 single-file component or an Angular component. Browse them by category or tag, or search the whole library.`,
+  },
+  {
+    q: 'What templates are available?',
+    a: `${TEMPLATE_COUNT} free, editable templates: ${WEBSITE_TEMPLATES.length} one-page website templates for SaaS, restaurants, real estate, gyms, clinics, events and more; ${SECTION_TEMPLATES.length} website section templates (navbars, heroes, features, pricing, testimonials, FAQ, footers) animated with GSAP; ${EMAIL_TEMPLATES.length} responsive HTML email templates tested for Gmail, Outlook and Apple Mail; and ${SOCIAL_TEMPLATES.length} social media post templates for Instagram, Facebook, X and LinkedIn. You edit each one in the browser and export HTML, React or Vue code, or PNG and JPG images.`,
+  },
+  {
+    q: 'Can I build a whole website here?',
+    a: 'Yes. The free Website Builder stacks navbars, heroes, features, pricing, testimonials, FAQ and footers into one page with a shared theme and GSAP animation. Start from a website template or from scratch, click any text in the preview to edit it, then export clean HTML or a ZIP with every image and host it anywhere.',
   },
   {
     q: 'Which languages and frameworks can I learn here?',
@@ -149,7 +162,7 @@ const faqSchema = {
 };
 
 /* ── Page content ── */
-const ABOUT = `**webdevpuneet.com** is a free home for frontend developers and anyone learning to code. In one place you get **${SNIPPET_COUNT}+ copy-paste UI snippets**, **${PLAYGROUND_COUNT} interactive coding playgrounds** with structured lessons, **${TOOL_COUNT} free developer tools**, a personal online code editor and a blog of practical tutorials. Everything runs in your browser: there is nothing to install, no account to create, and your code never leaves your device.
+const ABOUT = `**webdevpuneet.com** is a free home for frontend developers and anyone learning to code. In one place you get **${SNIPPET_COUNT}+ copy-paste UI snippets**, **${TEMPLATE_COUNT} editable templates** with a free website builder, **${PLAYGROUND_COUNT} interactive coding playgrounds** with structured lessons, **${TOOL_COUNT} free developer tools**, a personal online code editor and a blog of practical tutorials. Everything runs in your browser: there is nothing to install, no account to create, and your code never leaves your device.
 
 Use it when you need a component today, when you are learning a language or framework, or when you want a quick tool to generate, format or convert code. Each part of the site is described below.
 
@@ -158,6 +171,12 @@ Use it when you need a component today, when you are learning a language or fram
 The [UI Snippets library](/ui-snippets/) is a collection of ready-to-use interface components written in plain HTML, CSS and vanilla JavaScript — **buttons, cards, hero sections, navigation, modals, forms, loaders, animations, layouts, tables, dashboards, games** and much more. Every snippet opens in a live editor where you can change the HTML, CSS and JS and see the preview update as you type, check it at mobile, tablet and desktop widths, and copy it in one click.
 
 Because projects use different stacks, every snippet also **exports to React (JSX), React + Tailwind CSS, a standalone Tailwind HTML file, a Vue 3 single-file component and an Angular standalone component**, and a built-in export tester renders each version live so you can confirm it works before you download it. Each snippet has its own page with the full source code, a screenshot, how it works and FAQs. Browse by category or tag, or search all ${SNIPPET_COUNT}+ from the box at the top of this page.
+
+### Templates and a free Website Builder
+
+Four template libraries cover the rest of a project, and every template is edited in the browser with no code. The [Website Builder](/website-builder/) starts from one of **${WEBSITE_TEMPLATES.length} one-page website templates** (SaaS, app, agency, portfolio, restaurant, real estate, gym, clinic, course, event, nonprofit and more) or a blank page; you click any text in the preview to change it, set one theme for the whole page and export clean HTML or a ZIP. Its building blocks are the **${SECTION_TEMPLATES.length} [website section templates](/website-section-templates/)** (navbars, heroes, features, pricing, testimonials, FAQ, calls to action, team, contact, blog and footers), animated with GSAP and exportable on their own as HTML, React or Vue.
+
+For marketing there are **${EMAIL_TEMPLATES.length} [HTML email templates](/email-templates/)**, responsive and tested for Gmail, Outlook, Apple Mail and dark mode, and **${SOCIAL_TEMPLATES.length} [social media post templates](/social-post-templates/)** for Instagram, Facebook, X and LinkedIn that download as PNG or JPG. Your designs, images and fonts are saved in your browser, with a one-file backup to move them between devices.
 
 ### Learn to code: ${PLAYGROUND_COUNT} interactive playgrounds
 
@@ -185,6 +204,9 @@ const AT_A_GLANCE = {
   columns: ['Section', 'What you get', 'Start here'],
   rows: [
     ['**UI Snippets**', `${SNIPPET_COUNT}+ HTML/CSS/JS components with live editor and export to React, Tailwind, Vue and Angular`, '[Browse snippets](/ui-snippets/)'],
+    ['**Website Builder**', `${WEBSITE_TEMPLATES.length} website templates or a blank page; edit in place and export HTML`, '[Build a website](/website-builder/)'],
+    ['**Website Sections**', `${SECTION_TEMPLATES.length} navbars, heroes, pricing, FAQ, footers and more, animated with GSAP`, '[Browse sections](/website-section-templates/)'],
+    ['**Email & Social Templates**', `${EMAIL_TEMPLATES.length} responsive HTML emails and ${SOCIAL_TEMPLATES.length} social post designs`, '[Email templates](/email-templates/) · [Social posts](/social-post-templates/)'],
     ['**Learn to Code**', `${PLAYGROUND_COUNT} playgrounds with structured lessons, frontend to backend`, '[Pick a playground](/learn-to-code/)'],
     ['**Developer Tools**', `${TOOL_COUNT} CSS generators, builders, formatters, converters and testers`, '[See all tools](/tools/)'],
     ['**CSS Tools**', 'Visual generators for layout, effects, color and animation', '[CSS Tools](/css-tools/)'],
@@ -196,6 +218,7 @@ const AT_A_GLANCE = {
 const STEPS = [
   { title: 'Search or browse', text: `Type what you need — "card", "modal", "flexbox", "json" — into the search box at the top of this page to search snippets, playgrounds and tools at once, or browse the categories and tags.` },
   { title: 'Grab a component', text: 'Open a UI snippet, tweak the HTML, CSS and JS in the live editor, then copy it or export it to React, Tailwind, Vue or Angular.' },
+  { title: 'Build a page from a template', text: 'Open a website, email or social post template, change the text, images, colours and fonts, then export HTML, React or Vue, or download an image.' },
   { title: 'Learn something new', text: 'Open a playground and follow its lessons in order. Edit the code, watch the preview, and come back later — your progress is saved.' },
   { title: 'Generate code with a tool', text: 'Use a CSS generator or builder to design visually, then copy production-ready CSS, Tailwind or a framework component.' },
   { title: 'Keep it in My Code', text: 'Save snippets you edit, or use Fork & Edit, to keep building in your own browser-based code editor.' },
@@ -211,7 +234,7 @@ const USE_CASES = [
 ];
 
 const SECTIONS = [
-  { type: 'text', label: 'About the site', heading: 'Free UI Snippets, Coding Playgrounds and Developer Tools — All in Your Browser', text: ABOUT },
+  { type: 'text', label: 'About the site', heading: 'Free UI Snippets, Templates, Coding Playgrounds and Developer Tools — All in Your Browser', text: ABOUT },
   { type: 'table', label: 'At a glance', heading: 'What You Can Do Here', ...AT_A_GLANCE },
   { type: 'steps', label: 'Get started', heading: 'How to Use webdevpuneet.com', items: STEPS },
   { type: 'cards', label: 'Who it is for', heading: 'Built for Developers and Learners', columns: 3, items: USE_CASES },
@@ -278,7 +301,7 @@ export default async function Home() {
           <div className={styles.heroTextCol}>
             <div className={styles.heroBadge}>
               <span className={styles.heroBadgeDot} />
-              {SNIPPET_COUNT}+ UI snippets &bull; {PLAYGROUND_COUNT} playgrounds &bull; {TOOL_COUNT} tools &bull; 100% free &bull; No signup required
+              {SNIPPET_COUNT}+ UI snippets &bull; {TEMPLATE_COUNT} templates &bull; {PLAYGROUND_COUNT} playgrounds &bull; {TOOL_COUNT} tools &bull; 100% free &bull; No signup required
             </div>
             <h1 className={styles.title}>
               Build UIs &amp; <span className={styles.titleGrad}>Learn to Code</span>
@@ -293,7 +316,7 @@ export default async function Home() {
           <div className={styles.heroProfileCol}>
             <ProfileHeroCard />
           </div>
-          <p className={styles.subtitleSeo}>{SNIPPET_COUNT}+ copy-paste UI snippets — cards, heroes, navbars, modals, forms, loaders and animations — plus {PLAYGROUND_COUNT} learn-to-code playgrounds for HTML, CSS, JavaScript, TypeScript, React, Vue, Angular, Next.js, Tailwind, SQL, Python and more, and {TOOL_COUNT} free developer tools. Live preview, structured lessons, nothing to install and no account needed.</p>
+          <p className={styles.subtitleSeo}>{SNIPPET_COUNT}+ copy-paste UI snippets — cards, heroes, navbars, modals, forms, loaders and animations — {TEMPLATE_COUNT} editable website, email and social templates with a free website builder, {PLAYGROUND_COUNT} learn-to-code playgrounds for HTML, CSS, JavaScript, TypeScript, React, Vue, Angular, Next.js, Tailwind, SQL, Python and more, and {TOOL_COUNT} free developer tools. Live preview, structured lessons, nothing to install and no account needed.</p>
         </div>
 
       {/* ── Latest UI snippets: newest six, arrows page through the rest ── */}
@@ -304,20 +327,20 @@ export default async function Home() {
       {/* ── Template libraries: website templates and sections, social post images, HTML emails ── */}
       <div className={styles.snippetsStrip}>
         <HomeTemplatesCarousel
+          title="Website Section Templates"
+          label={`${SECTION_TEMPLATES.length} heroes, pricing, FAQ, footers and more`}
+          viewAllHref="/website-section-templates/"
+          items={sectionItems}
+          compact
+        />
+      </div>
+      <div className={styles.snippetsStrip}>
+        <HomeTemplatesCarousel
           title="Website Templates"
           label={`${WEBSITE_TEMPLATES.length} one-page websites, edit and export HTML`}
           viewAllHref="/website-builder/"
           items={websiteItems}
           scroll
-        />
-      </div>
-      <div className={styles.snippetsStrip}>
-        <HomeTemplatesCarousel
-          title="Website Section Templates"
-          label={`${SECTION_TEMPLATES.length} heroes, pricing, FAQ, footers and more`}
-          viewAllHref="/website-section-templates/"
-          items={sectionItems}
-          wide
         />
       </div>
       <div className={styles.snippetsStrip}>
