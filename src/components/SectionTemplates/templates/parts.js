@@ -92,7 +92,8 @@ export const SOCIAL_HTML = `<ul class="st-socials" data-list="socials">
 export const SOCIAL_CSS = `.st-socials{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
 .st-social{display:grid;place-items:center;width:40px;height:40px;border-radius:calc(var(--st-radius) * .7px);color:var(--st-muted);background:color-mix(in srgb,var(--st-text) 6%,transparent);transition:color .2s ease,background .2s ease,transform .2s ease}
 .st-social:hover{color:var(--st-btn-text);background:var(--st-brand);transform:translateY(-2px)}
-.st-social svg{width:19px;height:19px}`;
+.st-social > span{display:block;line-height:0}
+.st-social svg{display:block;width:19px;height:19px}`;
 
 export const socialFields = () => [
   { key: 'icon', label: 'Icon', type: 'icon', value: 'github' },
