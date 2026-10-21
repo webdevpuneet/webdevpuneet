@@ -1,14 +1,17 @@
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
-import WebsiteBuilder from '@/components/WebsiteBuilder';
+import TemplateGallery from '@/components/WebsiteBuilder/TemplateGallery';
 import { SECTION_TEMPLATES, SECTION_CATEGORIES } from '@/components/SectionTemplates/templates/index.js';
-import { STARTERS } from '@/components/SectionTemplates/templates/page.js';
+import { WEBSITE_TEMPLATES as STARTERS, TEMPLATE_INDUSTRIES } from '@/components/SectionTemplates/templates/starters.js';
 import styles from '../tool-page.module.css';
 
+/* /website-builder/: the landing page. Website templates first (plus "Start from scratch"
+   and the visitor's saved pages), then the SEO content. The builder itself lives at
+   /website-builder/editor/; the old /website-builder/templates/ 301s here (.htaccess). */
 const PAGE_URL = 'https://webdevpuneet.com/website-builder/';
-const TITLE = 'Free Website Builder — Build From Sections, Export HTML';
-const DESC = 'Free website builder: stack navbars, heroes, pricing, FAQ and footers into one page with one theme and GSAP animation, then export clean HTML. No sign-up.';
+const TITLE = 'Free Website Builder & Templates — Edit Online, Export HTML';
+const DESC = `Free website builder with ${STARTERS.length} ready-made templates for SaaS, restaurants, gyms, clinics, events and more. Edit text, images and colours, then export clean HTML.`;
 const OG = 'https://webdevpuneet.com/images/website-builder.png';
 const N = SECTION_TEMPLATES.length;
 const CATS = SECTION_CATEGORIES.filter(c => SECTION_TEMPLATES.some(t => t.category === c.id)).length;
@@ -16,7 +19,7 @@ const CATS = SECTION_CATEGORIES.filter(c => SECTION_TEMPLATES.some(t => t.catego
 export const metadata = {
   title: TITLE,
   description: DESC,
-  keywords: ['free website builder', 'landing page builder', 'html website builder', 'no code website builder', 'website builder export html', 'static site builder', 'page builder'],
+  keywords: ['free website builder', 'free website templates', 'landing page builder', 'html website templates', 'landing page templates', 'no code website builder', 'website builder export html', 'business website templates'],
   authors: [{ name: 'Puneet Sharma', url: 'https://www.webdevpuneet.com/' }],
   robots: { index: true, follow: true },
   alternates: { canonical: PAGE_URL },
@@ -28,7 +31,8 @@ export const metadata = {
 const faqs = [
   { q: 'Is this website builder really free?', a: `Yes. Every feature is free: all ${N} sections, the themes, GSAP animation, saving pages and exporting HTML. There is no account, no watermark and no limit on pages. Your work is saved in your own browser.` },
   { q: 'How does the website builder work?', a: 'Start from one of the website templates (SaaS, app, agency, portfolio, restaurant, real estate, gym, clinic, event, nonprofit and more) or an empty page, then add sections such as a navbar, hero, features, pricing, testimonials, FAQ, call to action and footer. Click any section to edit its text, images and links, reorder or duplicate sections, and set colours, fonts and animation once for the whole page.' },
-  { q: 'Can I export my website?', a: 'Yes. Download the page as one HTML file with your images embedded, or as a ZIP with index.html and an images folder. Upload it to any static host such as Netlify, Vercel, Cloudflare Pages, GitHub Pages or your own server; there is no lock-in.' },
+  { q: 'How do I use a website template?', a: 'Click a template above to see the whole page, then click “Use this template”. It opens in the builder, where you change the text, images, colours and fonts, add or remove sections, and export the finished page. Or choose “Start from scratch” for an empty page.' },
+  { q: 'Can I export my website?', a: 'Yes. Download the page as one HTML file with your images embedded, or as a ZIP with index.html and an assets folder holding every image. Upload it to any static host such as Netlify, Vercel, Cloudflare Pages, GitHub Pages or your own server; there is no lock-in.' },
   { q: 'Is the exported code clean?', a: 'Yes. It is semantic HTML with one style sheet built on CSS custom properties, responsive container queries and small, dependency-light scripts for interactive parts. Animations use GSAP from a CDN. FAQ and blog sections include structured data for search engines.' },
   { q: 'Do I need to know how to code?', a: 'No. Everything is edited with forms in the side panel: text, links, images, lists of cards and toggles. Developers can still open the exported HTML and change anything.' },
   { q: 'Will my pages be saved?', a: 'The current page autosaves in your browser. Save named pages to My pages, and use Backup to download a file with all your pages, uploaded images, fonts and brand kit, which you can import in any browser.' },
@@ -49,7 +53,7 @@ const SECTIONS = [
       'Working interactions: mobile menus, pricing toggles, accordions, carousels and contact forms',
       'Upload your own images and logos (resized in your browser)',
       'Preview on desktop, tablet and mobile',
-      'Export one HTML file or a ZIP with an images folder; host it anywhere',
+      'Export one HTML file or a ZIP with an assets folder of every image; host it anywhere',
       'Autosave, My pages, undo/redo and a one-file backup',
       'Free, private and no sign-up',
     ],
@@ -70,6 +74,17 @@ const SECTIONS = [
 **Interactions that work.** Mobile menus with focus handling, pricing toggles, FAQ accordions, testimonial carousels and contact forms that send to Formspree or your own endpoint all work in the exported page, with no framework required.
 
 **Private by design.** Your pages, uploaded images and fonts are stored in your own browser. Nothing is uploaded to our servers, and a one-file backup moves everything to another device.`,
+  },
+  {
+    type: 'text',
+    label: 'About these templates',
+    heading: 'Website Templates You Can Actually Edit',
+    quickFacts: false,
+    text: `Each template is a complete, one-page website for a real kind of business, written with real content, not lorem ipsum: a restaurant with set menus and opening hours, an estate agency with valuations and agents, a gym with memberships, a clinic with treatments and booking, a conference with speakers and tickets, and more.
+
+Open any template in the builder and everything is editable without code: text, images, links, lists of cards, colours, fonts and animation. Add sections from the [Website Section Templates](/website-section-templates/) library, reorder them by dragging, and export clean HTML you can host anywhere.
+
+Every template is responsive, animated with GSAP (entrance effects, text reveals, counters and carousels), accessible, and free for commercial use.`,
   },
   {
     type: 'steps',
@@ -111,6 +126,14 @@ const appSchema = {
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
   author: { '@type': 'Person', name: 'Puneet Sharma', url: 'https://www.webdevpuneet.com/' },
 };
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Free Website Templates',
+  url: PAGE_URL,
+  description: DESC,
+  mainEntity: { '@type': 'ItemList', numberOfItems: STARTERS.length, itemListElement: STARTERS.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name, url: `${PAGE_URL}templates/${t.id}/` })) },
+};
 const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
@@ -124,13 +147,15 @@ const breadcrumbSchema = {
 export default function WebsiteBuilderPage() {
   return (
     <div className={styles.page}>
-      {[appSchema, faqSchema, breadcrumbSchema].map((sc, i) => (
+      {[appSchema, collectionSchema, faqSchema, breadcrumbSchema].map((sc, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sc) }} />
       ))}
-      <div className={styles.toolSection}><WebsiteBuilder /></div>
+      <div className={`${styles.toolSection} ${styles.toolSectionGallery}`}>
+        <TemplateGallery templates={STARTERS.map(t => ({ id: t.id, name: t.name, industry: t.industry, blurb: t.blurb, n: t.sections.length }))} industries={TEMPLATE_INDUSTRIES} />
+      </div>
       <AdSlot />
       <IndexOnly>
-        <SeoSection slug="website-builder" title="Free Website Builder — Build a Page From Sections, Export HTML" subtitle={`${N} sections · ${STARTERS.length} website templates · One theme · GSAP animation · Export HTML or ZIP`} sections={SECTIONS} />
+        <SeoSection slug="website-builder" title="Free Website Builder &amp; Templates — Build a Page, Export HTML" subtitle={`${N} sections · ${STARTERS.length} website templates · One theme · GSAP animation · Export HTML or ZIP`} sections={SECTIONS} />
       </IndexOnly>
     </div>
   );

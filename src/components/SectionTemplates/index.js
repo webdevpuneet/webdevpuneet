@@ -143,7 +143,7 @@ export function SectionTemplateGallery({ excludeId = null, limit = null, preview
       )}
       {list.length === 0
         ? <div className={s.empty}>No section templates match &ldquo;{q}&rdquo;.</div>
-        : <div className={s.grid}>{shown.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}</div>}
+        : <div className={`${s.grid} ${x.grid4}`}>{shown.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}</div>}
       {!limit && <LoadMore shown={shown.length} total={list.length} onLoadMore={() => setShownCount(n => n + GALLERY_PAGE)} />}
     </div>
   );
@@ -197,7 +197,7 @@ export function SectionGalleryPage({ previews = [] }) {
       <header className={s.galleryHead}>
         <h1 className={s.galleryH1}>Website Section Templates</h1>
         <p className={s.galleryLead}>
-          {SECTION_TEMPLATES.length} free, editable website sections (hero sections first, with features, pricing, testimonials, FAQ and footers on the way).
+          {SECTION_TEMPLATES.length} free, editable website sections: heroes, navbars, features, pricing, testimonials, FAQ, calls to action, team, contact, blog and footers.
           Change the text, upload your images, set your brand colours and fonts, preview desktop, tablet and mobile, then export HTML and CSS, a ZIP, React or Vue.
         </p>
       </header>
@@ -206,6 +206,7 @@ export function SectionGalleryPage({ previews = [] }) {
         previews={previews}
         savedStrip={q => (
           <SavedDesignsStrip
+            maxFour
             store={designStore}
             basePath={BASE}
             nameOf={id => sectionTemplateById(id)?.name || id}
@@ -509,7 +510,7 @@ export function SectionTemplateEditor({ id }) {
   const addToBuilder = () => {
     try { localStorage.setItem('wdp-wb-incoming', JSON.stringify({ tpl: t.id, state, at: Date.now() })); }
     catch { flash('Your browser blocked storage, so the section couldn’t be sent to the Website Builder.'); return; }
-    window.open('/website-builder/?add=1', '_blank', 'noopener');
+    window.open('/website-builder/editor/?add=1', '_blank', 'noopener');
     flash('Opened the Website Builder with this section added to your page.');
   };
   const forkToMyCode = async () => {

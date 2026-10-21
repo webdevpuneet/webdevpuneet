@@ -1,6 +1,6 @@
 'use client';
 
-/* Website Builder (/website-builder/): stack navbars, sections and footers from the
+/* Website Builder (/website-builder/editor/; /website-builder/ is the template gallery): stack navbars, sections and footers from the
    Website Section Templates library into one page with one theme, edit every section in
    place, preview it on any device and export the whole page.
 
@@ -242,10 +242,12 @@ export default function WebsiteBuilder() {
         if (d && live) { const p = restorePage(d.state); setPageRaw(p); savedJson.current = JSON.stringify(p); setCurrent({ id: d.id, name: d.name }); done = true; }
       }
       if (!done) { const auto = await store.getAutosave(AUTOSAVE).catch(() => null); if (auto && live) setPageRaw(restorePage(auto)); }
-      // ?starter=<id> from a website template page: open that template. The current page,
-      // if it has sections and isn't saved, is kept in My pages first so nothing is lost.
+      // ?starter=<id> from a website template page (or ?starter=blank, "Start from scratch"
+      // on /website-builder/): open that template. The current page, if it has sections and
+      // isn't saved, is kept in My pages first so nothing is lost.
       const starterId = new URLSearchParams(window.location.search).get('starter');
-      if (live && starterId && STARTERS.some(x => x.id === starterId)) {
+      const blank = starterId === 'blank';
+      if (live && starterId && (blank || STARTERS.some(x => x.id === starterId))) {
         const auto = await store.getAutosave(AUTOSAVE).catch(() => null);
         const prev = auto ? restorePage(auto) : null;
         let kept = '';
@@ -253,11 +255,11 @@ export default function WebsiteBuilder() {
           const rec = await store.saveDesign({ name: `${prev.name} (autosaved)`, tpl: 'page', state: prev }).catch(() => null);
           if (rec) kept = ` Your previous page was saved to My pages as “${rec.name}”.`;
         }
-        const next = pageFromStarter(starterId);
+        const next = blank ? emptyPage() : pageFromStarter(starterId);
         if (live) {
           setPageRaw(next);
           setCurrent(null); savedJson.current = null;
-          setToast(`Opened the ${next.name} template. Click any section to edit it.${kept}`);
+          setToast(blank ? `New empty page. Add a navbar, hero and more from the list.${kept}` : `Opened the ${next.name} template. Click any section to edit it.${kept}`);
           window.history.replaceState(null, '', window.location.pathname);
         }
       }
@@ -675,7 +677,7 @@ export default function WebsiteBuilder() {
                   <h2 className={s.sectionTitle}>Sections {page.sections.length > 0 && <span style={{ opacity: 0.6, fontWeight: 500 }}>({page.sections.length})</span>}</h2>
                   {page.sections.length === 0 && !adding && (
                     <>
-                      <p className={s.hint}>Start from a template, or add sections one by one. <a href="/website-builder/templates/" target="_blank" rel="noopener">Browse all templates ↗</a></p>
+                      <p className={s.hint}>Start from a template, or add sections one by one. <a href="/website-builder/" target="_blank" rel="noopener">Browse all templates ↗</a></p>
                       <div className={b.starters}>
                         {STARTERS.map(st => (
                           <button key={st.id} type="button" className={b.starter} onClick={() => startFrom(st.id)} title={st.blurb}>

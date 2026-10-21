@@ -193,7 +193,7 @@ export function EmailTemplateGallery({ excludeId = null, limit = null, previews 
       {list.length === 0 ? (
         <div className={s.empty}>No email templates match &ldquo;{q}&rdquo;.</div>
       ) : (
-        <div className={s.grid}>
+        <div className={`${s.grid} ${s.grid4}`}>
           {shown.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}
         </div>
       )}
@@ -266,6 +266,7 @@ export function EmailGalleryPage({ previews = [] }) {
         chips={false}
         savedStrip={q => (
           <SavedDesignsStrip
+            maxFour
             store={emailDesignStore}
             basePath="/email-templates/"
             nameOf={id => emailTemplateById(id)?.name || id}

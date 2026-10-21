@@ -39,7 +39,8 @@ function LiveBox({ children, className }) {
   return <div ref={ref} className={className} style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>{w > 0 && seen ? children(w) : null}</div>;
 }
 
-export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, renderPreview = null, scroll = false, query = '' }) {
+// maxFour: at most 4 cards per row, matching galleries that use the grid4 layout
+export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, renderPreview = null, scroll = false, query = '', maxFour = false }) {
   const [designs, setDesigns] = useState(null);
   const [expanded, setExpanded] = useState(false);
   const [cols, setCols] = useState(0); // cards that fit one row of the gallery grid
@@ -74,7 +75,7 @@ export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, ren
         )}
       </div>
       {/* Same column grid as "All Templates", so the cards line up; one row unless expanded */}
-      <div ref={rowRef} className={`${gs.grid} ${expanded ? '' : st.oneRow}`}>
+      <div ref={rowRef} className={`${gs.grid} ${maxFour ? gs.grid4 : ''} ${expanded ? '' : st.oneRow}`}>
         {shown.map(d => (
           <a key={d.id} href={`${basePath}${d.tpl}/?design=${encodeURIComponent(d.id)}`} className={gs.card} title={`Open “${d.name}”`} {...(scroll && !renderPreview ? panHandlers : {})}>
             {renderPreview

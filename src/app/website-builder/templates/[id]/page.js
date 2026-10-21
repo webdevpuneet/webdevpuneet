@@ -45,7 +45,7 @@ export default async function WebsiteTemplatePage({ params }) {
   const fonts = [resolveFont(t.fonts?.heading).label, resolveFont(t.fonts?.body).label];
   const parts = t.sections.map(([sid]) => sectionTemplateById(sid)).filter(Boolean);
   const related = [...WEBSITE_TEMPLATES.filter(x => x.id !== t.id && x.industry === t.industry), ...WEBSITE_TEMPLATES.filter(x => x.id !== t.id && x.industry !== t.industry)].slice(0, 3);
-  const useUrl = `/website-builder/?starter=${t.id}`;
+  const useUrl = `/website-builder/editor/?starter=${t.id}`;
   const nameLower = t.name.replace(/ (Website|Landing Page)$/, '').toLowerCase();
 
   const faqs = [
@@ -65,7 +65,7 @@ export default async function WebsiteTemplatePage({ params }) {
       quickFacts: false,
       text: `${t.intro}
 
-It's built from ${parts.length} sections of the [Website Section Templates](/website-section-templates/) library and opens in the free [Website Builder](/website-builder/), where you can change every word and image, swap sections, set your own colours and fonts and export the finished page as clean HTML. The page is responsive, accessible and animated with GSAP, with content that stays visible without JavaScript.
+It's built from ${parts.length} sections of the [Website Section Templates](/website-section-templates/) library and opens in the free [Website Builder](/website-builder/editor/?starter=${t.id}), where you can change every word and image, swap sections, set your own colours and fonts and export the finished page as clean HTML. The page is responsive, accessible and animated with GSAP, with content that stays visible without JavaScript.
 
 The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour theme suited to ${nameLower} websites; switch to any Google Font, upload your own, or apply your brand kit in one click.`,
     },
@@ -98,7 +98,7 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
       isAccessibleForFree: true,
       license: 'Free for personal and commercial use',
       author: { '@type': 'Person', name: 'Puneet Sharma', url: 'https://www.webdevpuneet.com/' },
-      isPartOf: { '@type': 'CollectionPage', name: 'Free Website Templates', url: BASE },
+      isPartOf: { '@type': 'CollectionPage', name: 'Free Website Templates', url: 'https://webdevpuneet.com/website-builder/' },
     },
     { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
     {
@@ -107,8 +107,7 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://webdevpuneet.com' },
         { '@type': 'ListItem', position: 2, name: 'Website Builder', item: 'https://webdevpuneet.com/website-builder/' },
-        { '@type': 'ListItem', position: 3, name: 'Templates', item: BASE },
-        { '@type': 'ListItem', position: 4, name: t.name, item: url },
+        { '@type': 'ListItem', position: 3, name: t.name, item: url },
       ],
     },
   ];
@@ -117,12 +116,12 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
     <div>
       {schemas.map((sc, i) => <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sc) }} />)}
       <div className={st.wrap}>
-        <nav className={st.crumbs} aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/website-builder/">Website Builder</a> / <a href="/website-builder/templates/">Templates</a> / <span>{t.name}</span></nav>
+        <nav className={st.crumbs} aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/website-builder/">Website Builder</a> / <span>{t.name}</span></nav>
         <h1 className={st.h1}>{t.name} Template</h1>
         <p className={st.lead}>{t.intro}</p>
         <div className={st.actions}>
           <a className={st.btn} href={useUrl}>Use this template, free</a>
-          <a className={`${st.btn} ${st.btnGhost}`} href="/website-builder/templates/">All templates</a>
+          <a className={`${st.btn} ${st.btnGhost}`} href="/website-builder/">All templates</a>
         </div>
         <div className={st.split}>
           <div className={st.browser}>

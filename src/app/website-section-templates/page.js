@@ -4,14 +4,14 @@ import AdSlot from '@/components/AdSlot';
 import { SectionGalleryPage } from '@/components/SectionTemplates';
 import { SECTION_TEMPLATES, SECTION_CATEGORIES } from '@/components/SectionTemplates/templates/index.js';
 import { SECTION_DIFFERENT } from '@/components/SectionTemplates/templates/seo-content.js';
-import { sectionPreviewIds, hasSectionOg, sectionOgUrl } from '@/components/SectionTemplates/assets';
+import { sectionPreviewIds } from '@/components/SectionTemplates/assets';
 import styles from '../tool-page.module.css';
 
 const PAGE_URL = 'https://webdevpuneet.com/website-section-templates/';
 const TITLE = 'Website Section Templates — Free HTML, React & Vue Blocks';
 const DESC = 'Free editable website section templates: hero sections and more, with GSAP animation. Change text, images, colours and fonts, then export HTML, React or Vue.';
-const first = SECTION_TEMPLATES[0];
-const OG_IMAGES = first && hasSectionOg(first.id) ? [{ url: sectionOgUrl(first.id), width: 1200, height: 630, alt: 'Free website section templates' }] : undefined;
+// Own share image: scripts/capture-section-templates-og.mjs
+const OG_IMAGES = [{ url: 'https://webdevpuneet.com/images/section-templates/og/website-section-templates.jpg', width: 1200, height: 630, alt: `Website Section Templates: ${SECTION_TEMPLATES.length} free, editable sections animated with GSAP` }];
 
 export const metadata = {
   title: TITLE,
@@ -60,6 +60,7 @@ const SECTIONS = [
   {
     type: 'text',
     label: 'Browse by category',
+    boxed: true,
     heading: 'Sections for Every Part of a Website',
     quickFacts: false,
     text: SECTION_CATEGORIES.filter(c => SECTION_TEMPLATES.some(t => t.category === c.id)).map(c => {

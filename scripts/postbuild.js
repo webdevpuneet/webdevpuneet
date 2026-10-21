@@ -334,11 +334,11 @@ async function main() {
   write('sitemap-website-section-templates.xml', pageImageUrlset(sectionEntries));
   console.log(`sitemap-website-section-templates.xml -> ${sectionEntries.length} URLs`);
 
-  // Website templates (Website Builder starters): the gallery and every template page,
+  // Website templates (Website Builder starters): every template page,
   // each with its full-page preview image
   const TPL_LASTMOD = '2026-10-21';
   const websiteTemplateEntries = [
-    { loc: `${BASE_URL}/website-builder/templates/`, lastmod: TPL_LASTMOD, changefreq: 'weekly', priority: 0.8 },
+    // (the gallery is /website-builder/ itself, listed with the tools; /templates/ 301s there)
     ...WEBSITE_TEMPLATES.map(t => ({
       loc:        `${BASE_URL}/website-builder/templates/${t.id}/`,
       lastmod:    TPL_LASTMOD,

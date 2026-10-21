@@ -1,4 +1,4 @@
-// Images for the website templates (/website-builder/templates/):
+// Images for the website templates (/website-builder/ gallery and /website-builder/templates/<id>/):
 //   full/<id>.jpg    the whole page at desktop width (900px wide), for the template page
 //   thumb/<id>.jpg   the top of the page (640×400), for cards
 //   og/<id>.jpg      the top of the page in a browser frame (1200×630), for sharing

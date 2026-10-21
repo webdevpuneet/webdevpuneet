@@ -452,3 +452,6 @@
 .videoProg i { width: 160px; height: 6px; border-radius: 99px; background: var(--border); overflow: hidden; }
 .videoProg b { display: block; height: 100%; background: #7c3aed; transition: width 0.15s; }
 .videoProg button { height: 26px; padding: 0 10px; border: 1px solid var(--border); border-radius: 7px; background: var(--bg); color: var(--text); font-size: 12px; font-weight: 600; cursor: pointer; font-family: var(--font-ui); }
+
+/* At most 4 cards per row (email and section galleries: wide previews stay readable) */
+.grid4 { grid-template-columns: repeat(auto-fill, minmax(max(220px, calc((100% - 3 * 18px) / 4)), 1fr)); }
