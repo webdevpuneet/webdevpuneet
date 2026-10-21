@@ -49,6 +49,7 @@ import { DEFAULT_THEME, DEFAULT_MOTION } from './meta.js';
 
 export { SECTION_CATEGORIES, sectionCategoryById, DEFAULT_THEME, THEME_PRESETS, THEME_COLORS, THEME_KEYS, BASE_CSS, IMG, MOTION_PRESETS, MOTION_SPEEDS, TEXT_EFFECTS, DEFAULT_MOTION, GSAP_CDN, GSAP_VERSION } from './meta.js';
 export { ICONS, ICON_IDS, iconSvg } from './icons.js';
+export { iconSvgAny, iconLabelAny, encodeIcon, decodeIcon } from './icon-lib.js';
 
 export const SECTION_TEMPLATES = [
   saasSplitHero,

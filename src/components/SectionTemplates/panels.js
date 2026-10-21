@@ -14,10 +14,11 @@ import FontPicker from '@/components/FontPicker';
 import { revealInPanel } from '@/lib/reveal-in-panel';
 import ImageLibraryPicker from '@/components/ImageLibrary';
 import { putAsset } from './storage';
+import { ICON_SETS, loadIconSet } from './icon-sets';
 import { parseHex, onColor } from '../OgImageGenerator/engine';
 import {
   THEME_PRESETS, THEME_COLORS, MOTION_PRESETS, MOTION_SPEEDS, TEXT_EFFECTS,
-  ICONS, ICON_IDS, iconSvg, listItem, newItemId, listImageKey,
+  ICONS, ICON_IDS, iconSvgAny, iconLabelAny, encodeIcon, listItem, newItemId, listImageKey,
 } from './templates/index.js';
 
 export const RADII = [['0', 'Square'], ['8', 'Soft'], ['14', 'Rounded'], ['24', 'Extra'], ['999', 'Pill']];
@@ -48,23 +49,68 @@ export function ColorField({ label, value, onChange }) {
   );
 }
 
-/* Icon field: the current icon, and a grid of every icon to choose from */
+/* Icon field: the current icon, and a grid to choose from. "Essentials" is the curated set;
+   the other tabs browse the open-source sets (loaded when opened). A chosen icon is stored in
+   full in the design, so it keeps working offline. */
+const ICON_PAGE = 150;
 export function IconPicker({ id, value, onChange }) {
   const [open, setOpen] = useState(false);
+  const [tab, setTab] = useState('essentials');
+  const [q, setQ] = useState('');
+  const [list, setList] = useState(null); // null = loading, 'error', or the icons
+  const [shown, setShown] = useState(ICON_PAGE);
+  useEffect(() => {
+    if (!open || tab === 'essentials') return undefined;
+    let live = true;
+    setList(null);
+    loadIconSet(tab).then(l => { if (live) setList(l); }).catch(() => { if (live) setList('error'); });
+    return () => { live = false; };
+  }, [open, tab]);
+  useEffect(() => { setShown(ICON_PAGE); }, [tab, q]);
+  const set = ICON_SETS.find(o => o.id === tab);
+  const term = q.trim().toLowerCase();
+  const found = Array.isArray(list) ? (term ? list.filter(ic => ic.name.includes(term)) : list) : [];
+  const pickEssential = ic => { onChange(ic); setOpen(false); };
+  const pickRemote = ic => { onChange(encodeIcon(ic.name, ic.w, ic.h, ic.body)); setOpen(false); };
   return (
     <div className={x.iconPick}>
       <button id={id} type="button" className={x.iconCurrent} onClick={() => setOpen(o => !o)} aria-expanded={open}>
-        <span dangerouslySetInnerHTML={{ __html: iconSvg(value, 18) }} />
-        {ICONS[value]?.[0] || 'Choose an icon'} <span aria-hidden="true">▾</span>
+        <span dangerouslySetInnerHTML={{ __html: iconSvgAny(value, 18) }} />
+        {iconLabelAny(value) || 'Choose an icon'} <span aria-hidden="true">▾</span>
       </button>
       {open && (
-        <div className={x.iconGrid} role="listbox" aria-label="Icons">
-          {ICON_IDS.map(ic => (
-            <button key={ic} type="button" role="option" aria-selected={value === ic} title={ICONS[ic][0]} className={`${x.iconOpt} ${value === ic ? x.iconOptOn : ''}`} onClick={() => { onChange(ic); setOpen(false); }}>
-              <span dangerouslySetInnerHTML={{ __html: iconSvg(ic, 18) }} />
-            </button>
-          ))}
-        </div>
+        <>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }} role="tablist" aria-label="Icon sets">
+            {[{ id: 'essentials', label: 'Essentials' }, ...ICON_SETS].map(o => (
+              <button key={o.id} type="button" role="tab" aria-selected={tab === o.id} className={s.miniBtn} style={tab === o.id ? { borderColor: '#4f46e5', color: '#4f46e5' } : undefined} onClick={() => setTab(o.id)}>{o.label}</button>
+            ))}
+          </div>
+          {tab !== 'essentials' && <input className={s.input} type="search" placeholder={`Search ${set?.label || ''} icons`} value={q} onChange={ev => setQ(ev.target.value)} aria-label="Search icons" />}
+          {tab === 'essentials' ? (
+            <div className={x.iconGrid} role="listbox" aria-label="Icons">
+              {ICON_IDS.map(ic => (
+                <button key={ic} type="button" role="option" aria-selected={value === ic} title={ICONS[ic][0]} className={`${x.iconOpt} ${value === ic ? x.iconOptOn : ''}`} onClick={() => pickEssential(ic)}>
+                  <span dangerouslySetInnerHTML={{ __html: iconSvgAny(ic, 18) }} />
+                </button>
+              ))}
+            </div>
+          ) : list === null ? <span className={s.hint}>Loading {set?.label} icons…</span>
+            : list === 'error' ? <span className={s.hint}>Could not load this icon set. Check your connection and try again.</span>
+              : !found.length ? <span className={s.hint}>No icons match “{q}”.</span>
+                : (
+                  <>
+                    <div className={x.iconGrid} role="listbox" aria-label={`${set?.label} icons`}>
+                      {found.slice(0, shown).map(ic => (
+                        <button key={ic.name} type="button" role="option" aria-selected={false} title={ic.name} className={x.iconOpt} onClick={() => pickRemote(ic)}>
+                          <span dangerouslySetInnerHTML={{ __html: iconSvgAny(encodeIcon(ic.name, ic.w, ic.h, ic.body), 18) }} />
+                        </button>
+                      ))}
+                    </div>
+                    {found.length > shown && <button type="button" className={s.miniBtn} style={{ alignSelf: 'flex-start' }} onClick={() => setShown(n => n + ICON_PAGE)}>Show more ({found.length - shown} left)</button>}
+                  </>
+                )}
+          {set && <span className={s.hint}>{set.label} · {set.license} · <a href={set.url} target="_blank" rel="noopener noreferrer">{set.url.replace('https://', '')}</a></span>}
+        </>
       )}
     </div>
   );

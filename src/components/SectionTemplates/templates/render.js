@@ -23,7 +23,7 @@
      data-anim-text    a heading the GSAP SplitText text effect animates (motion.text) */
 
 import { DEFAULT_THEME, BASE_CSS, richText, esc, safeUrl, MOTION_PRESETS, DEFAULT_MOTION, TEXT_EFFECTS, gsapCdn } from './meta.js';
-import { iconSvg } from './icons.js';
+import { iconSvgAny as iconSvg } from './icon-lib.js';
 import { formatHtml } from './format.js';
 import { behaviorPlugins, behaviorScript } from './behaviors.js';
 import { resolveFont, googleCssUrl } from '../../../lib/fonts.js';
