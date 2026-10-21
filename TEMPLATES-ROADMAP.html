@@ -101,7 +101,7 @@
     <li><strong>One shared theme.</strong> All sections read the same design tokens (colours, fonts, radius, width), so any combination looks like one website. This is the foundation of the page builder.</li>
     <li><strong>Responsive by container, not viewport.</strong> Sections use CSS container queries, so they adapt correctly in the editor preview, the page builder and the user's own site.</li>
     <li><strong>Never lose user data.</strong> Autosave, My designs, uploaded images and custom fonts in IndexedDB; one-file backup export and import that never overwrites.</li>
-    <li><strong>SVG artwork is welcome wherever it helps.</strong> Backgrounds, dividers, blobs, patterns, shapes and other decoration can be SVG (inline or as a CSS data URI). It stays tiny, scales to any size and takes the theme colours through <code>currentColor</code> / CSS variables (see "SVG artwork" in Architecture).</li>
+    <li><strong>SVG artwork is welcome wherever it helps.</strong> Backgrounds, dividers, blobs, patterns, shapes and other decoration can be SVG (inline or as a CSS data URI). The main reason: <strong>its colours can change</strong>. One artwork recolours with the brand colour, the surface colour or a dark background, so it fits every theme and preset, where a PNG or JPG would need a new file per colour. It also stays tiny and scales to any size (see "SVG artwork" in Architecture).</li>
     <li><strong>Private.</strong> Everything runs in the browser; nothing is uploaded.</li>
     <li><strong>Free forever, no watermark.</strong></li>
     <li><strong>SEO on every page.</strong> Same depth as the email and social templates: title 50–60 chars, description 150–160, keywords, long About, features, why, use cases (4 × 18–42 words), FAQs, schema, sitemaps, llms.txt.</li>
@@ -293,7 +293,7 @@
   </ul>
 
   <h3>SVG artwork</h3>
-  <p>SVG can be used anywhere a template needs graphics that are not photos. Already in use: the checkmark masks in <code>.st-checks</code> (<code>meta.js</code>), the icons, and decorative shapes in a few sections. The conventions below keep every new use consistent, exportable and safe.</p>
+  <p>SVG can be used anywhere a template needs graphics that are not photos. The reason to prefer it is that <strong>its colours can change with the theme</strong>: the same shape follows the brand colour, the section background, the text colour and dark mode through CSS variables and <code>currentColor</code>, with no extra files. Already in use: the checkmark masks in <code>.st-checks</code> (<code>meta.js</code>), the icons, and decorative shapes in a few sections. The conventions below keep every new use consistent, exportable and safe.</p>
   <table>
     <thead><tr><th>Use</th><th>How</th></tr></thead>
     <tbody>
@@ -465,7 +465,7 @@
       <tr><td>2026-10-20</td><td>The builder will let users create scroll-based section animations (scrub, pin, keyframe tracks, effect presets) visually — Phase 3b.</td><td>User request; scroll-driven motion is a standout feature most free builders lack. Stored as JSON + one runtime so every export keeps working.</td></tr>
       <tr><td>2026-10-20</td><td>The page builder is its own tool at <code>/website-builder/</code> (user's choice), separate from the section library URL.</td><td>Targets "website builder" searches and reads as a product in its own right.</td></tr>
       <tr><td>2026-10-20</td><td>URL: <code>/website-section-templates/</code> (user's choice). Code lives in <code>components/SectionTemplates</code>; images in <code>public/images/section-templates/</code>.</td><td>Says exactly what it is and targets "website section templates" searches.</td></tr>
-          <tr><td>2026-10-21</td><td>SVG artwork may be used anywhere in the templates (backgrounds, decorations, dividers, masks). Inline SVG or CSS data URIs, theme variables or <code>currentColor</code> for colour, decorative by default, sanitised when user supplied. An artwork library and field are planned in Phase 3.</td><td>Small, sharp at any size and re-colourable by the theme; keeps exports to a single file.</td></tr>
+          <tr><td>2026-10-21</td><td>SVG artwork may be used anywhere in the templates (backgrounds, decorations, dividers, masks). Inline SVG or CSS data URIs, theme variables or <code>currentColor</code> for colour, decorative by default, sanitised when user supplied. An artwork library and field are planned in Phase 3.</td><td>Its colours can change with the theme (brand, surface, text, dark mode), so one artwork fits every preset. Also small, sharp at any size, and keeps exports to a single file.</td></tr>
 </tbody>
   </table>
 </section>
