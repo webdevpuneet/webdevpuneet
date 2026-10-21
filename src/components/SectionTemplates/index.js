@@ -521,13 +521,17 @@ export function SectionTemplateEditor({ id }) {
       const now = new Date().toISOString();
       const rid = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `st-${Date.now().toString(36)}`;
       const gf = documentHtml(t, state).match(/<link href="(https:\/\/fonts\.googleapis\.com[^"]+)"/)?.[1];
+      /* On localhost the production image URLs aren't live yet, so point them at this origin */
+      const local = /^(localhost|127\.0\.0\.1)$/.test(location.hostname)
+        ? s => s.split('https://webdevpuneet.com/images/').join(`${location.origin}/images/`)
+        : s => s;
       await dbPut({
         id: rid,
         name: `${t.name} (section)`,
         tags: ['section'],
         cdnUrls: [...(gf ? [gf] : []), ...sectionCdn(t, state)],
-        html: sectionMarkup(t, state, { imageSrc: k => urls[k] || '', clean: true }),
-        css: sectionCss(t, state, { fontFaces }),
+        html: local(sectionMarkup(t, state, { imageSrc: k => urls[k] || '', clean: true })),
+        css: local(sectionCss(t, state, { fontFaces })),
         js: sectionScript(t, state),
         createdAt: now,
         updatedAt: now,
