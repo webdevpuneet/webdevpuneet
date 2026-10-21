@@ -579,7 +579,7 @@ export function EmailTemplateEditor({ id }) {
     // With a platform chosen, empty or placeholder unsubscribe / preferences links become its tags
     if (mergePlatform(state.platform).unsubscribe) {
       Object.entries(MERGE_URLS).forEach(([k, url]) => {
-        if (k in fields && (!String(fields[k] || '').trim() || /yoursite\.com|yourbrand/i.test(fields[k]))) fields[k] = url;
+        if (k in fields && (!String(fields[k] || '').trim() || /webdevpuneet\.com|yoursite\.com|yourbrand/i.test(fields[k]))) fields[k] = url;
       });
     }
     return { ...state, fields, blocks };
@@ -906,7 +906,7 @@ export function EmailTemplateEditor({ id }) {
       if (!String(b.alt || '').trim()) checks.push({ level: 'warn', text: `${n}: add alt text. Many people read email with images off.` });
     }
     const link = b.type === 'button' ? b.url : b.type === 'image' ? b.link : '';
-    if (/yoursite\.com|yourbrand/i.test(String(link || ''))) checks.push({ level: 'warn', text: `${n}: replace the placeholder link.` });
+    if (/webdevpuneet\.com|yoursite\.com|yourbrand/i.test(String(link || ''))) checks.push({ level: 'warn', text: `${n}: replace the placeholder link.` });
   });
   const pvLen = (state.previewText || '').trim().length;
   if (pvLen && (pvLen < 35 || pvLen > 140)) checks.push({ level: 'warn', text: `The inbox preview text is ${pvLen} characters. 40 to 130 fills the preview line without being cut off.` });
@@ -914,7 +914,7 @@ export function EmailTemplateEditor({ id }) {
   if (marketing && !String(f.unsubscribeUrl || '').trim() && !mergePlatform(state.platform).unsubscribe) checks.push({ level: 'bad', text: 'Add an unsubscribe link. US CAN-SPAM and Gmail/Yahoo sender rules require one in marketing email.' });
   if ('address' in f && !String(f.address || '').trim()) checks.push({ level: marketing ? 'bad' : 'warn', text: marketing ? 'Add your postal address. US CAN-SPAM requires a valid physical address in commercial email.' : 'Add your company address so people can tell the email is really from you.' });
   const mergeHandles = k => !!mergePlatform(state.platform).unsubscribe && k in MERGE_URLS;
-  const placeholders = t.fields.filter(x => x.type === 'url' && !mergeHandles(x.key) && /yoursite\.com|yourbrand/i.test(String(f[x.key] || ''))).map(x => x.label.replace(/ \(optional\)/i, '').replace(/ URL$/, ''));
+  const placeholders = t.fields.filter(x => x.type === 'url' && !mergeHandles(x.key) && /webdevpuneet\.com|yoursite\.com|yourbrand/i.test(String(f[x.key] || ''))).map(x => x.label.replace(/ \(optional\)/i, '').replace(/ URL$/, ''));
   if (placeholders.length) checks.push({ level: 'warn', text: `Replace the placeholder links: ${placeholders.join(', ')}.` });
 
   /* Actions */
@@ -1255,7 +1255,7 @@ export function EmailTemplateEditor({ id }) {
               bodyFont: state.fonts.body,
               ...(state.fields.brandName ? { name: state.fields.brandName } : {}),
               ...(/^https:\/\//.test(state.fields.logoUrl || '') ? { logoUrl: state.fields.logoUrl } : {}),
-              ...(state.fields.headerLink && !/yoursite\.com/.test(state.fields.headerLink) ? { website: state.fields.headerLink } : {}),
+              ...(state.fields.headerLink && !/webdevpuneet\.com|yoursite\.com/.test(state.fields.headerLink) ? { website: state.fields.headerLink } : {}),
             })}
           />
 
@@ -1352,7 +1352,7 @@ export function EmailTemplateEditor({ id }) {
             <h2 className={s.sectionTitle}>Image hosting</h2>
             <div className={s.field}>
               <label className={s.label} htmlFor="em-assetBase">Image base URL (optional)</label>
-              <input id="em-assetBase" className={s.input} inputMode="url" spellCheck={false} placeholder="https://cdn.yoursite.com/email/" value={state.assetBase || ''} onChange={ev => setState(p => ({ ...p, assetBase: ev.target.value }))} />
+              <input id="em-assetBase" className={s.input} inputMode="url" spellCheck={false} placeholder="https://cdn.webdevpuneet.com/email/" value={state.assetBase || ''} onChange={ev => setState(p => ({ ...p, assetBase: ev.target.value }))} />
               <span className={s.hint}>
                 Uploaded images are saved in this browser and packed into <strong>Download ZIP</strong> as an <code>images</code> folder.
                 Once you host them, put their folder URL here and every export links to it.

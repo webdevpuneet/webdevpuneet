@@ -24,7 +24,7 @@ export default {
     ...brandFields(),
     { key: 'nlTitle', group: 'form', label: 'Title', type: 'text', value: 'Get the weekly digest' },
     { key: 'nlText', group: 'form', label: 'Text (optional)', type: 'textarea', value: 'Product news, guides and one good idea every Friday. No spam, ever.' },
-    { key: 'formAction', group: 'form', label: 'Form URL (action)', type: 'url', value: 'https://yoursite.com/subscribe', hint: 'Paste the form action URL from Mailchimp, Kit (ConvertKit), Buttondown, Brevo or your own endpoint.' },
+    { key: 'formAction', group: 'form', label: 'Form URL (action)', type: 'url', value: 'https://webdevpuneet.com/subscribe', hint: 'Paste the form action URL from Mailchimp, Kit (ConvertKit), Buttondown, Brevo or your own endpoint.' },
     { key: 'inputName', group: 'form', label: 'Email field name', type: 'text', value: 'email', hint: 'e.g. EMAIL for Mailchimp, email_address for Kit.' },
     { key: 'placeholder', group: 'form', label: 'Placeholder', type: 'text', value: 'Your email address' },
     { key: 'button', group: 'form', label: 'Button text', type: 'text', value: 'Subscribe' },

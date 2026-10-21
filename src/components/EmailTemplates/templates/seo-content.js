@@ -687,7 +687,7 @@ Point the links at Judge.me, Yotpo, Okendo, Trustpilot, Google reviews or your o
     ],
     faqs: [
       { q: 'When should I ask for a review?', a: 'After the customer has had time to use the product, usually five to fourteen days after delivery depending on what you sell. Asking too early, before the parcel arrives, is one of the most common reasons review emails are ignored.' },
-      { q: 'How do the clickable stars work?', a: 'Each star is a link made from the rating link you enter plus its number, for example https://yoursite.com/review?order=10482&rating=5. Your review page or platform reads the rating from the link and pre-selects it.' },
+      { q: 'How do the clickable stars work?', a: 'Each star is a link made from the rating link you enter plus its number, for example https://webdevpuneet.com/review?order=10482&rating=5. Your review page or platform reads the rating from the link and pre-selects it.' },
       { q: 'Can I offer a discount for a review?', a: 'You can thank customers with a reward, but rules on incentivised reviews differ by platform and country. Many platforms require you to reward any honest review, not only positive ones, and some require the review to be marked as incentivised. Check your platform\'s policy.' },
       { q: 'Which review platforms does it work with?', a: 'Any platform that gives you a review link: Judge.me, Yotpo, Okendo, Stamped, Trustpilot, Google reviews or your own form. Paste the link into the rating link and button fields.' },
       { q: 'Does a review request need an unsubscribe link?', a: 'It is safest to include one. Review requests can be seen as commercial email, especially with a reward, so the footer includes an unsubscribe link and your postal address.' },
@@ -1138,7 +1138,7 @@ Use it with Delighted, Typeform, SurveyMonkey, Hotjar, Qualtrics, Google Forms o
     faqs: [
       { q: 'What is an NPS survey email?', a: 'An email that asks one question, how likely the customer is to recommend you on a scale of 0 to 10, so you can calculate your Net Promoter Score. The best NPS emails let people answer with one click from the inbox.' },
       { q: 'How is NPS calculated?', a: 'Subtract the percentage of detractors (scores 0 to 6) from the percentage of promoters (scores 9 and 10). Passives (7 and 8) count toward the total responses but not either group. The result ranges from −100 to 100.' },
-      { q: 'How do the clickable scores work?', a: 'Each number links to your survey link with the score added at the end, for example https://yoursite.com/survey?score=9. Your survey tool or landing page reads the score, records it and can ask an optional follow-up question.' },
+      { q: 'How do the clickable scores work?', a: 'Each number links to your survey link with the score added at the end, for example https://webdevpuneet.com/survey?score=9. Your survey tool or landing page reads the score, records it and can ask an optional follow-up question.' },
       { q: 'When should I send an NPS survey?', a: 'After customers have had enough time to form an opinion, such as 30 to 90 days after sign-up or a week after delivery, and then every few months. Avoid surveying the same person too often.' },
       { q: 'Does an NPS survey email need an unsubscribe link?', a: 'It is safest to include one, especially if you survey customers regularly, so the footer has an unsubscribe link and your postal address.' },
     ],

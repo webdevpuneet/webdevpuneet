@@ -38,7 +38,7 @@ export default {
     { key: 'tracking', group: 'main', label: 'Tracking number', type: 'text', value: '1Z 999 AA1 01 2345 6784' },
     { key: 'delivery', group: 'main', label: 'Estimated delivery', type: 'text', value: 'Friday, October 23' },
     { key: 'ctaText', group: 'main', label: 'Button text', type: 'text', value: 'Track your package' },
-    { key: 'ctaUrl', group: 'main', label: 'Tracking link', type: 'url', value: 'https://yoursite.com/track/10482' },
+    { key: 'ctaUrl', group: 'main', label: 'Tracking link', type: 'url', value: 'https://webdevpuneet.com/track/10482' },
     { key: 'currentStage', group: 'progress', label: 'Current step (1 to 4)', type: 'number', value: '2', hint: '1 = ordered, 2 = shipped, 3 = out for delivery, 4 = delivered.' },
     { key: 'stage1', group: 'progress', label: 'Step 1 label', type: 'text', value: 'Ordered' },
     { key: 'stage2', group: 'progress', label: 'Step 2 label', type: 'text', value: 'Shipped' },

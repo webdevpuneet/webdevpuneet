@@ -84,7 +84,7 @@ export function safeUrl(u) {
   if (/^(https?:|mailto:|tel:|#|blob:)/i.test(v)) return v.replace(/"/g, '%22');
   if (/^data:image\/(png|jpe?g|gif|webp);base64,/i.test(v)) return v; // uploads embedded for My Code
   if (/^images\/[\w.-]+$/.test(v)) return v; // uploaded images next to the email in the ZIP download
-  if (/^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(v)) return `https://${v.replace(/"/g, '%22')}`; // "yoursite.com/x" -> https://
+  if (/^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(v)) return `https://${v.replace(/"/g, '%22')}`; // "webdevpuneet.com/x" -> https://
   return '#';
 }
 

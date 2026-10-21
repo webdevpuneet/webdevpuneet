@@ -24,7 +24,7 @@ export default {
     { key: 'heading', group: 'header', label: 'Heading', type: 'textarea', value: 'See every project *at a glance*' },
     { key: 'lead', group: 'header', label: 'Intro text (optional)', type: 'textarea', value: 'Dashboards that build themselves from the work your team is already doing, so status meetings get shorter.' },
     { key: 'cta', group: 'button', label: 'Button text', type: 'text', value: 'Explore reporting' },
-    { key: 'ctaUrl', group: 'button', label: 'Button link', type: 'url', value: 'https://yoursite.com/reporting' },
+    { key: 'ctaUrl', group: 'button', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/reporting' },
     { key: 'image', group: 'media', label: 'Image', type: 'image', value: IMG('feature-analytics.png'), hint: 'A screenshot or illustration, about 1200×900 px.', upload: { name: 'feature', maxW: 1600, mime: 'image/png' } },
     { key: 'imageAlt', group: 'media', label: 'Image alt text', type: 'text', value: 'Analytics dashboard with a rising line chart and four KPI tiles' },
   ],

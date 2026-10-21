@@ -36,7 +36,7 @@ export default {
       { key: 'yearly', label: 'Yearly price (per month)', type: 'text', value: '$790' },
       { key: 'priceNote', label: 'Price note (optional)', type: 'text', value: '', hint: 'Replaces the /month suffix, e.g. "one-off" or "per project".' },
       { key: 'cta', label: 'Button text', type: 'text', value: 'Choose' },
-      { key: 'ctaUrl', label: 'Button link', type: 'url', value: 'https://yoursite.com/contact' },
+      { key: 'ctaUrl', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/contact' },
     ],
     value: [
       { name: 'Launch', desc: 'A focused landing page to validate your idea.', chips: 'One-page site\nCopywriting\n2 revision rounds', monthly: '$1,900', yearly: '$1,900', priceNote: 'one-off', cta: 'Book a call' },

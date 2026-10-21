@@ -7,7 +7,7 @@ const storyFields = (n, tag, title, blurb) => [
   { key: `s${n}Tag`, group: 'stories', label: `Story ${n} tag`, type: 'text', value: tag },
   { key: `s${n}Title`, group: 'stories', label: `Story ${n} title`, type: 'text', value: title },
   { key: `s${n}Blurb`, group: 'stories', label: `Story ${n} summary`, type: 'textarea', value: blurb },
-  { key: `s${n}Url`, group: 'stories', label: `Story ${n} link`, type: 'url', value: `https://yoursite.com/blog/story-${n}` },
+  { key: `s${n}Url`, group: 'stories', label: `Story ${n} link`, type: 'url', value: `https://webdevpuneet.com/blog/story-${n}` },
 ];
 const stories = f => STORIES.map(n => ({ n, tag: f[`s${n}Tag`], title: f[`s${n}Title`], blurb: f[`s${n}Blurb`], url: f[`s${n}Url`] })).filter(x => String(x.title || '').trim());
 const socialList = f => [['X', f.xUrl, 'xUrl'], ['LinkedIn', f.linkedinUrl, 'linkedinUrl'], ['Instagram', f.instagramUrl, 'instagramUrl'], ['YouTube', f.youtubeUrl, 'youtubeUrl']].filter(([, u]) => String(u || '').trim());
@@ -38,7 +38,7 @@ export default {
     ...inboxFields('The Acme Weekly #42: shipping faster with smaller PRs', 'This week: smaller pull requests, a new dashboard and one tip that saves an hour a week.', 'Acme Weekly'),
     ...brandFields(),
     { key: 'issue', group: 'brand', label: 'Issue label', type: 'text', value: 'Issue #42 · October 17, 2026' },
-    { key: 'webUrl', group: 'brand', label: '"View in browser" link (optional)', type: 'url', value: 'https://yoursite.com/newsletter/42' },
+    { key: 'webUrl', group: 'brand', label: '"View in browser" link (optional)', type: 'url', value: 'https://webdevpuneet.com/newsletter/42' },
     { key: 'greeting', group: 'intro', label: 'Greeting', type: 'text', value: 'Hi there,' },
     { key: 'intro', group: 'intro', label: 'Intro', type: 'textarea', value: 'This week we’re looking at why small pull requests ship faster, what changed in our new dashboard, and a keyboard shortcut you’ll use every day. Grab a coffee, it’s a five-minute read.' },
     { key: 'imageUrl', group: 'feature', label: 'Featured image URL', type: 'url', value: FEATURE_IMG, hint: 'Paste a hosted URL or upload an image. 1200×600 px works best.', upload: { name: 'feature', maxW: 1200, mime: 'image/jpeg' } },
@@ -47,7 +47,7 @@ export default {
     { key: 'featureTitle', group: 'feature', label: 'Title', type: 'text', value: 'Why small pull requests ship twice as fast' },
     { key: 'featureBlurb', group: 'feature', label: 'Summary', type: 'textarea', value: 'We tracked 1,200 pull requests over six months. The ones under 200 lines were reviewed in hours, not days, and caused fewer incidents. Here’s how our team changed the way we split work.' },
     { key: 'featureCta', group: 'feature', label: 'Button text', type: 'text', value: 'Read the story' },
-    { key: 'featureUrl', group: 'feature', label: 'Button link', type: 'url', value: 'https://yoursite.com/blog/small-prs' },
+    { key: 'featureUrl', group: 'feature', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/blog/small-prs' },
     ...storyFields(1, 'Product', 'The new dashboard is here', 'Custom widgets, saved views and a dark theme. See what’s new and how to turn it on for your team.'),
     ...storyFields(2, 'Guide', 'Writing release notes people read', 'A simple four-part template for release notes that customers actually open, with real examples.'),
     ...storyFields(3, 'Community', 'Meet this month’s featured maker', 'How a two-person studio in Austin uses Acme to run client projects without a project manager.'),

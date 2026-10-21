@@ -37,7 +37,7 @@ export default {
     { key: 'item2', group: 'items', label: 'Item 2', type: 'text', value: 'Ceramic Pour-Over Set · Matte white · $48.00' },
     { key: 'item3', group: 'items', label: 'Item 3', type: 'text', value: '' },
     { key: 'ctaText', group: 'main', label: 'Button text', type: 'text', value: 'View refund details' },
-    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://yoursite.com/account/orders/10482' },
+    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/account/orders/10482' },
     { key: 'note', group: 'main', label: 'Closing note', type: 'textarea', value: 'Don’t see it after 10 business days? Check with your bank first, then reply to this email with your refund reference and we’ll look into it.' },
     ...footerFields({ reason: 'You’re receiving this because you requested a refund from Acme Store.' }),
   ],

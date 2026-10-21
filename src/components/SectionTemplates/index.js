@@ -22,9 +22,10 @@ import {
   defaultSectionState, restoreSectionState,
 } from './templates/index.js';
 import { ContentPanel, ThemePanel, withKit } from './panels';
+import { bindInlineEdit, fieldOfTarget, useFrozenPreview } from './inline-edit';
 import { documentHtml, sectionCss, sectionMarkup, snippetParts, customFontIds, sectionScript, sectionCdn } from './templates/render.js';
 import { sectionDesignStore as designStore, putAsset, getAsset } from './storage';
-import { saveBlob, prepareUpload, EXT, previewImages } from './upload';
+import { saveBlob, prepareUpload, EXT, previewImages, localizeImages } from './upload';
 
 const TOOL = 'website-section-templates';
 const BASE = `/${TOOL}/`;
@@ -37,7 +38,9 @@ const DEVICES = [
 
 
 /* ── Preview frame: an iframe at a real device width, scaled to fit, growing to the section's height ── */
-function SectionFrame({ html, width, scale = 1, interactive = true }) {
+function SectionFrame({ html, width, scale = 1, interactive = true, onDoc }) {
+  const onDocRef = useRef(onDoc);
+  onDocRef.current = onDoc;
   const ref = useRef(null);
   const [h, setH] = useState(600);
   useEffect(() => {
@@ -55,6 +58,7 @@ function SectionFrame({ html, width, scale = 1, interactive = true }) {
       doc.addEventListener('click', ev => { if (ev.target.closest?.('a')) ev.preventDefault(); });
       // Forms (newsletter sign-ups) never submit from the preview
       doc.addEventListener('submit', ev => ev.preventDefault());
+      onDocRef.current?.(doc);
     };
     frame.addEventListener('load', measure);
     return () => { frame.removeEventListener('load', measure); ro?.disconnect(); };
@@ -396,6 +400,7 @@ export function SectionTemplateEditor({ id }) {
     return out;
   };
   const relativeSrc = key => (uploads[key] ? `images/${uploads[key].file}` : '');
+  const zipSrc = key => (uploads[key] ? `assets/${uploads[key].file}` : '');
   const fontFaces = useMemo(() => (fontTick >= 0 ? customFontFaceCss(customFontIds(t, state)) : ''), [t, state, fontTick]);
 
   const previewHtml = useMemo(
@@ -404,6 +409,23 @@ export function SectionTemplateEditor({ id }) {
     () => previewImages(documentHtml(t, state, { imageSrc: previewSrc, clean: false, fontFaces, motion: playing > 0, extraHead: `<script>window.ST_PREVIEW=true</script>${t.previewMinHeight ? `<style>body{min-height:${t.previewMinHeight}px;background:#f1f5f9}</style>` : ''}` }), origin),
     [t, state, previewSrc, fontFaces, origin, playing],
   );
+  /* Click-to-edit: text is typed right in the preview, any other bound element points to its
+     input in the panel. The preview doesn't reload while text is being edited in it. */
+  const [shownHtml, editStart, editEnd] = useFrozenPreview(previewHtml);
+  const [reveal, setReveal] = useState(null);
+  const onPreviewDoc = useCallback(doc => bindInlineEdit(doc, {
+    resolve: tg => fieldOfTarget(t, tg),
+    onInput: (tg, v) => setState(p => (tg.list
+      ? { ...p, lists: { ...p.lists, [tg.list]: (p.lists?.[tg.list] || []).map(it => (it._id === tg.item ? { ...it, [tg.key]: v } : it)) } }
+      : { ...p, fields: { ...p.fields, [tg.key]: v } })),
+    onReveal: (tg, focus) => {
+      setPanelTab('edit');
+      if (focus) setSheetOpen(true);
+      setReveal({ ...tg, focus, n: Date.now() });
+    },
+    onStart: editStart,
+    onEnd: editEnd,
+  }), [t, setState, editStart, editEnd]);
   // Any edit other than the animation settings stops the replay, so typing never re-runs it
   const stillJson = JSON.stringify({ ...state, motion: null });
   useEffect(() => { setPlaying(0); }, [stillJson]);
@@ -457,20 +479,23 @@ export function SectionTemplateEditor({ id }) {
       const { default: JSZip } = await import('jszip');
       const zip = new JSZip();
       const dir = zip.folder(fileBase);
-      dir.file('index.html', documentHtml(t, state, { imageSrc: relativeSrc, fontFaces }));
-      const files = [];
-      for (const u of Object.values(uploads)) { const rec = await getAsset(u.id).catch(() => null); if (rec?.blob) { dir.file(`images/${u.file}`, rec.blob); files.push(u.file); } }
+      const taken = new Set();
+      for (const u of Object.values(uploads)) { const rec = await getAsset(u.id).catch(() => null); if (rec?.blob && !taken.has(u.file)) { dir.file(`assets/${u.file}`, rec.blob); taken.add(u.file); } }
+      const { html, missed } = await localizeImages(documentHtml(t, state, { imageSrc: zipSrc, fontFaces }), dir, taken);
+      dir.file('index.html', html);
+      const files = [...taken];
       dir.file('README.txt', [
         `${t.name} v${t.version} — https://webdevpuneet.com${BASE}${t.id}/`,
         '',
         'index.html   the section as a complete page (HTML with the CSS in a <style> tag)',
-        files.length ? `images/      your uploaded images: ${files.join(', ')}` : '',
+        files.length ? `assets/      every image the section uses: ${files.join(', ')}` : '',
+        missed ? `             ${missed} image${missed > 1 ? 's' : ''} could not be downloaded and still load from their original URL.` : '',
         '',
         'To use it on your site, copy the <section class="st …"> element and the CSS into your page.',
         'Every colour, font and size is a CSS variable at the top of the CSS (--st-brand, --st-font-heading …).',
       ].filter((l, i, a) => l || a[i - 1]).join('\n'));
       saveBlob(await zip.generateAsync({ type: 'blob' }), `${fileBase}.zip`);
-      flash(files.length ? `Downloaded ZIP with ${files.length} image${files.length > 1 ? 's' : ''}.` : 'Downloaded ZIP.');
+      flash(`Downloaded ZIP${files.length ? ` with ${files.length} image${files.length > 1 ? 's' : ''} in assets/` : ''}${missed ? ` (${missed} kept as links)` : ''}.`);
     } catch (err) { flash(`ZIP failed: ${err.message}`); }
     setBusy('');
   };
@@ -736,7 +761,7 @@ export function SectionTemplateEditor({ id }) {
                   onSaveFrom={() => ({ primary: state.theme.brand, bg: state.theme.bg, text: state.theme.text, headingFont: state.fonts.heading, bodyFont: state.fonts.body })}
                 />
 
-                <ContentPanel t={t} state={state} setState={setState} blobUrls={blobUrls} onPickUpload={pickUpload} />
+                <ContentPanel t={t} state={state} setState={setState} blobUrls={blobUrls} onPickUpload={pickUpload} reveal={reveal} />
 
                 <ThemePanel
                   value={{ theme: state.theme, fonts: state.fonts, motion: state.motion }}
@@ -795,7 +820,7 @@ export function SectionTemplateEditor({ id }) {
                 options={[
                   { icon: 'html', label: 'Copy HTML', sub: 'One file: HTML + CSS, images embedded', onClick: copyHtml, disabled: !!busy },
                   { icon: 'file', label: 'Download .html', sub: 'A single page that works offline', onClick: downloadHtml, disabled: !!busy },
-                  { icon: 'zip', label: busy === 'zip' ? 'Zipping…' : 'Download ZIP', sub: 'index.html plus your images folder', onClick: downloadZip, disabled: !!busy },
+                  { icon: 'zip', label: busy === 'zip' ? 'Zipping…' : 'Download ZIP', sub: 'index.html plus an assets folder with every image', onClick: downloadZip, disabled: !!busy },
                   { icon: 'react', label: 'Copy React component', sub: 'JSX with the CSS included', onClick: () => copyFramework('react') },
                   { icon: 'vue', label: 'Copy Vue component', sub: 'Single-file component (.vue)', onClick: () => copyFramework('vue') },
                 ]}
@@ -808,7 +833,7 @@ export function SectionTemplateEditor({ id }) {
               <>
                 {origin && scale > 0 && (
                   <div className={x.frameOuter} style={{ width: dev.w * scale }}>
-                    <div className={x.frameBox}><SectionFrame key={`${device}-${playing}`} html={previewHtml} width={dev.w} scale={scale} /></div>
+                    <div className={x.frameBox}><SectionFrame key={`${device}-${playing}`} html={shownHtml} width={dev.w} scale={scale} onDoc={onPreviewDoc} /></div>
                   </div>
                 )}
                 <p className={x.stageHint}>{dev.label} · {dev.w}px{scale < 1 ? ` · shown at ${Math.round(scale * 100)}%` : ''} · edit the text, images and colours in the panel</p>

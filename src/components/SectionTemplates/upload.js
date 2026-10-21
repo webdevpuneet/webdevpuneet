@@ -44,3 +44,34 @@ export const EXT = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/gif': 'gif'
 
 /* Images on this site load from the local server while you edit (so new art shows before a deploy) */
 export const previewImages = (html, origin) => (origin ? html.replace(/https:\/\/webdevpuneet\.com\/images\//g, `${origin}/images/`) : html);
+
+/* ZIP export: copy every remote image the HTML uses (src="https://…" and url('https://…'))
+   into dir/assets/ and point the HTML at the copies, so the download works offline. Our own
+   images are fetched same-origin; an image whose host blocks cross-origin reads keeps its URL.
+   `taken` holds file names already in assets/ (uploads). Returns { html, added, missed }. */
+export async function localizeImages(html, dir, taken = new Set()) {
+  const remote = new Set();
+  html.replace(/\bsrc="(https?:\/\/[^"]+)"|url\('(https?:\/\/[^']+)'\)/g, (m, a, b) => { remote.add(a || b); return m; });
+  let added = 0, missed = 0;
+  for (const url of remote) {
+    try {
+      const u = new URL(url.replace(/&amp;/g, '&'));
+      const own = /(^|\.)webdevpuneet\.com$/.test(u.hostname) || u.origin === location.origin;
+      const res = await fetch(own ? u.pathname : u.href, own ? undefined : { mode: 'cors' });
+      if (!res.ok) throw new Error(String(res.status));
+      const blob = await res.blob();
+      if (!/^image\//.test(blob.type)) throw new Error('not an image');
+      const base = (u.pathname.split('/').pop() || 'image').replace(/[^\w.-]+/g, '-');
+      const dot = base.lastIndexOf('.');
+      const stem = dot > 0 ? base.slice(0, dot) : base;
+      const ext = dot > 0 ? base.slice(dot) : `.${EXT[blob.type] || 'png'}`;
+      let file = `${stem}${ext}`;
+      for (let n = 2; taken.has(file); n++) file = `${stem}-${n}${ext}`;
+      taken.add(file);
+      dir.file(`assets/${file}`, blob);
+      html = html.split(url).join(`assets/${file}`);
+      added++;
+    } catch { missed++; }
+  }
+  return { html, added, missed };
+}

@@ -30,7 +30,7 @@ export default {
     fields: [
       { key: 'icon', label: 'Icon', type: 'icon', value: 'mail' },
       { key: 'label', label: 'Label', type: 'text', value: 'Email' },
-      { key: 'value', label: 'Value', type: 'text', value: 'hello@yoursite.com' },
+      { key: 'value', label: 'Value', type: 'text', value: 'hello@webdevpuneet.com' },
       { key: 'url', label: 'Link (optional)', type: 'url', value: '', hint: 'mailto:, tel: or a map / chat link.' },
     ],
     value: [

@@ -35,7 +35,7 @@ export default {
     { key: 'code', group: 'gift', label: 'Code', type: 'text', value: 'BDAY20' },
     { key: 'expiry', group: 'gift', label: 'Expiry note', type: 'text', value: 'Valid for 14 days. One use per customer.' },
     { key: 'ctaText', group: 'main', label: 'Button text', type: 'text', value: 'Claim your gift' },
-    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://yoursite.com/birthday' },
+    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/birthday' },
     { key: 'signoff', group: 'main', label: 'Sign-off', type: 'text', value: 'Have a great day,' },
     { key: 'signName', group: 'main', label: 'Signed by', type: 'text', value: 'The Acme team' },
     ...socialFields({ linkedin: '' }),

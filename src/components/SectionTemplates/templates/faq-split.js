@@ -28,7 +28,7 @@ export default {
     { key: 'cardTitle', group: 'contact', label: 'Title', type: 'text', value: 'Still need help?' },
     { key: 'cardText', group: 'contact', label: 'Text', type: 'textarea', value: 'Chat with a real person on our support team, Monday to Friday.' },
     { key: 'cardCta', group: 'contact', label: 'Button text', type: 'text', value: 'Contact support' },
-    { key: 'cardUrl', group: 'contact', label: 'Button link', type: 'url', value: 'https://yoursite.com/support' },
+    { key: 'cardUrl', group: 'contact', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/support' },
   ],
   lists: [{
     key: 'faqs', group: 'items', label: 'Questions', itemLabel: 'Question', titleKey: 'q', min: 1, max: 15,

@@ -27,7 +27,7 @@ export default {
     { key: 'headline', group: 'main', label: 'Headline', type: 'text', value: 'Confirm your email address' },
     { key: 'intro', group: 'main', label: 'Intro', type: 'textarea', value: 'Hi {{first_name}}, thanks for signing up. Please confirm that {{email}} is your email address so we can finish setting up your account.' },
     { key: 'ctaText', group: 'main', label: 'Button text', type: 'text', value: 'Verify email address' },
-    { key: 'ctaUrl', group: 'main', label: 'Verification link', type: 'url', value: 'https://yoursite.com/verify?token=abc123' },
+    { key: 'ctaUrl', group: 'main', label: 'Verification link', type: 'url', value: 'https://webdevpuneet.com/verify?token=abc123' },
     { key: 'expiry', group: 'main', label: 'Expiry note', type: 'text', value: 'This link expires in 24 hours.' },
     { key: 'codeLabel', group: 'code', label: 'Code label', type: 'text', value: 'Or enter this code in the app:' },
     { key: 'code', group: 'code', label: 'Code', type: 'text', value: '482 913' },

@@ -23,9 +23,9 @@ export default {
   fields: [
     ...brandFields(),
     { key: 'login', group: 'actions', label: 'Secondary link (optional)', type: 'text', value: 'Log in' },
-    { key: 'loginUrl', group: 'actions', label: 'Secondary link URL', type: 'url', value: 'https://yoursite.com/login' },
+    { key: 'loginUrl', group: 'actions', label: 'Secondary link URL', type: 'url', value: 'https://webdevpuneet.com/login' },
     { key: 'cta', group: 'actions', label: 'Button text', type: 'text', value: 'Start free trial' },
-    { key: 'ctaUrl', group: 'actions', label: 'Button link', type: 'url', value: 'https://yoursite.com/signup' },
+    { key: 'ctaUrl', group: 'actions', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/signup' },
     { key: 'menuLabel', group: 'actions', label: 'Menu button label (screen readers)', type: 'text', value: 'Open menu' },
     { key: 'navLabel', group: 'actions', label: 'Navigation label (screen readers)', type: 'text', value: 'Main' },
   ],

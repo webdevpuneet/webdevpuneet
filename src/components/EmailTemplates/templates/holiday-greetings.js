@@ -36,7 +36,7 @@ export default {
     { key: 'offerTitle', group: 'offer', label: 'Offer headline', type: 'text', value: 'A little gift from us' },
     { key: 'offerText', group: 'offer', label: 'Offer text', type: 'textarea', value: 'Enjoy 20% off anything with code THANKYOU20, valid until January 5.' },
     { key: 'ctaText', group: 'offer', label: 'Button text', type: 'text', value: 'Treat yourself' },
-    { key: 'ctaUrl', group: 'offer', label: 'Button link', type: 'url', value: 'https://yoursite.com/shop' },
+    { key: 'ctaUrl', group: 'offer', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/shop' },
     { key: 'hoursTitle', group: 'hours', label: 'Section title', type: 'text', value: 'Holiday hours' },
     { key: 'hours', group: 'hours', label: 'Hours (one per line)', type: 'textarea', value: 'Dec 24–26: closed\nDec 31: open until 2 PM\nJan 1: closed\nOrders placed while we’re away ship on January 2.' },
     ...socialFields({ youtube: '' }),

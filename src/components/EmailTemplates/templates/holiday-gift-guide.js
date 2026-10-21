@@ -7,7 +7,7 @@ const giftFields = (n, name, price, tag, img) => [
   { key: `g${n}Name`, group: 'gifts', label: `Gift ${n} name`, type: 'text', value: name },
   { key: `g${n}Price`, group: 'gifts', label: `Gift ${n} price`, type: 'text', value: price },
   { key: `g${n}Tag`, group: 'gifts', label: `Gift ${n} tag (optional)`, type: 'text', value: tag },
-  { key: `g${n}Url`, group: 'gifts', label: `Gift ${n} link`, type: 'url', value: `https://yoursite.com/products/gift-${n}` },
+  { key: `g${n}Url`, group: 'gifts', label: `Gift ${n} link`, type: 'url', value: `https://webdevpuneet.com/products/gift-${n}` },
 ];
 const gifts = f => GIFTS.map(n => ({ n, img: f[`g${n}Img`], name: f[`g${n}Name`], price: f[`g${n}Price`], tag: f[`g${n}Tag`], url: f[`g${n}Url`] })).filter(g => String(g.name || '').trim());
 
@@ -46,7 +46,7 @@ export default {
     ...giftFields(3, 'Amber Glow Candle', '$24', 'Under $25', IMG('product-candle.png')),
     ...giftFields(4, 'Studio Wireless Headphones', '$129', 'Big gift', IMG('product-headphones.png')),
     { key: 'ctaText', group: 'main', label: 'Button text', type: 'text', value: 'Shop all gifts' },
-    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://yoursite.com/gift-guide' },
+    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/gift-guide' },
     { key: 'cutoff', group: 'cutoff', label: 'Cut-off text', type: 'text', value: 'Order by December 18 for delivery before Christmas' },
     { key: 'cutoffNote', group: 'cutoff', label: 'Cut-off note', type: 'text', value: 'Free gift wrapping on every order' },
     ...socialFields({ youtube: '' }),

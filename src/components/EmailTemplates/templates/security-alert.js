@@ -35,7 +35,7 @@ export default {
     { key: 'okText', group: 'main', label: '"This was me" text', type: 'textarea', value: 'If this was you, you can ignore this email. There’s nothing else you need to do.' },
     { key: 'warnText', group: 'main', label: '"Not me" text', type: 'textarea', value: 'If this wasn’t you, secure your account now: we’ll sign out every device and help you set a new password.' },
     { key: 'ctaText', group: 'main', label: 'Button text', type: 'text', value: 'Secure my account' },
-    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://yoursite.com/account/security' },
+    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/account/security' },
     { key: 'tipsTitle', group: 'tips', label: 'Section title', type: 'text', value: 'Keep your account safe' },
     { key: 'tip1', group: 'tips', label: 'Tip 1', type: 'text', value: 'Turn on two-factor authentication' },
     { key: 'tip2', group: 'tips', label: 'Tip 2', type: 'text', value: 'Use a unique password you don’t use anywhere else' },

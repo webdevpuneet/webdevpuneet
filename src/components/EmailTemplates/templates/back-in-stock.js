@@ -33,7 +33,7 @@ export default {
     { key: 'price', group: 'product', label: 'Price', type: 'text', value: '$129.00' },
     { key: 'stockNote', group: 'product', label: 'Stock note (optional)', type: 'text', value: 'Limited stock: only a few left in this color' },
     { key: 'ctaText', group: 'main', label: 'Button text', type: 'text', value: 'Shop now' },
-    { key: 'ctaUrl', group: 'main', label: 'Product link', type: 'url', value: 'https://yoursite.com/products/studio-wireless-headphones' },
+    { key: 'ctaUrl', group: 'main', label: 'Product link', type: 'url', value: 'https://webdevpuneet.com/products/studio-wireless-headphones' },
     { key: 'note', group: 'main', label: 'Closing note', type: 'textarea', value: 'We don’t hold items in carts, so stock goes to whoever checks out first. Questions about this product? Just reply to this email.' },
     ...footerFields({ marketing: true, reason: 'You’re receiving this because you asked to be notified when this item was back in stock.' }),
   ],

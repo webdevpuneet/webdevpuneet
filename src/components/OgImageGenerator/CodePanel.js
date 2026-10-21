@@ -6,7 +6,7 @@ import { FONTS, plainText, rgba } from './engine';
 import { formatOf } from './utils';
 
 const attr = v => String(v || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-const domainOf = site => (site || 'yoursite.com').trim().replace(/^https?:\/\//, '').replace(/\/.*$/, '') || 'yoursite.com';
+const domainOf = site => (site || 'webdevpuneet.com').trim().replace(/^https?:\/\//, '').replace(/\/.*$/, '') || 'webdevpuneet.com';
 
 // "Build *beautiful* images" -> [{ text, hi }] per word, for the JSX output
 function titleWords(title) {

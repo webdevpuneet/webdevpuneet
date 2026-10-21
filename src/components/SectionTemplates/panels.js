@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import s from '../SocialPostTemplates/styles.module.css';
 import x from './styles.module.css';
 import FontPicker from '@/components/FontPicker';
+import { revealInPanel } from '@/lib/reveal-in-panel';
 import { parseHex, onColor } from '../OgImageGenerator/engine';
 import {
   THEME_PRESETS, THEME_COLORS, MOTION_PRESETS, MOTION_SPEEDS, TEXT_EFFECTS,
@@ -83,10 +84,30 @@ export function withKit(prev, kit) {
  * @param blobUrls   upload id -> object URL (thumbnails)
  * @param onPickUpload (fieldDef, ukey) open the file picker for that image
  * @param idPrefix   unique prefix for input ids (the builder shows several sections)
+ * @param reveal     { key, list, item, focus, n } from a click in the preview: opens that
+ *                   field's group (and list item), scrolls its input into view and flashes it
  */
-export function ContentPanel({ t, state, setState, blobUrls = {}, onPickUpload, idPrefix = 'st', openFirst = 2 }) {
+export function ContentPanel({ t, state, setState, blobUrls = {}, onPickUpload, idPrefix = 'st', openFirst = 2, reveal }) {
   const [open, setOpen] = useState(() => new Set(t.groups.slice(0, openFirst).map(g => g.id)));
   const [openItem, setOpenItem] = useState(null);
+
+  useEffect(() => {
+    if (!reveal?.key) return undefined;
+    const l = reveal.list ? (t.lists || []).find(o => o.key === reveal.list) : null;
+    const gid = l ? l.group : t.fields.find(o => o.key === reveal.key)?.group;
+    if (!gid) return undefined;
+    setOpen(prev => (prev.has(gid) ? prev : new Set(prev).add(gid)));
+    if (l) setOpenItem(reveal.item);
+    const id = l ? `${idPrefix}-${l.key}-${reveal.item}-${reveal.key}` : `${idPrefix}-${reveal.key}`;
+    let r2 = 0;
+    const r1 = requestAnimationFrame(() => { r2 = requestAnimationFrame(() => {
+      const input = document.getElementById(id);
+      if (!input) return;
+      revealInPanel(input.closest('[data-fieldwrap]') || input, x.flash);
+      if (reveal.focus) { input.focus({ preventScroll: true }); input.select?.(); }
+    }); });
+    return () => { cancelAnimationFrame(r1); cancelAnimationFrame(r2); };
+  }, [reveal]); // eslint-disable-line react-hooks/exhaustive-deps
   const uploads = state.uploads || {};
   const f = state.fields || {};
   const toggleGroup = gid => setOpen(prev => { const n = new Set(prev); if (n.has(gid)) n.delete(gid); else n.add(gid); return n; });
@@ -133,7 +154,7 @@ export function ContentPanel({ t, state, setState, blobUrls = {}, onPickUpload, 
   const renderField = (fd, value, onChange, ukey, id) => {
     const up = fd.type === 'image' ? uploads[ukey] : null;
     return (
-      <div key={id} className={s.field}>
+      <div key={id} className={s.field} data-fieldwrap="">
         <label className={s.label} htmlFor={id}>{fd.label}</label>
         {fd.type === 'icon' ? <IconPicker id={id} value={value} onChange={onChange} />
           : fd.type === 'textarea' || fd.type === 'lines' || fd.type === 'links'
@@ -284,14 +305,14 @@ export function ThemePanel({ value, onChange, showTextEffect = true, idPrefix = 
         <h2 className={s.sectionTitle}>Animation</h2>
         <div className={s.field}>
           <span className={s.label}>Entrance effect</span>
-          <div className={s.seg} role="radiogroup" aria-label="Entrance effect">
+          <div className={`${s.seg} ${x.segSm}`} role="radiogroup" aria-label="Entrance effect">
             {MOTION_PRESETS.map(p => <button key={p.id} type="button" role="radio" aria-checked={motion.preset === p.id} className={`${s.segBtn} ${motion.preset === p.id ? s.segBtnActive : ''}`} onClick={() => setMotion('preset', p.id)}>{p.label}</button>)}
           </div>
         </div>
         {motion.preset !== 'none' && showTextEffect && (
           <div className={s.field}>
             <span className={s.label}>Headline text effect</span>
-            <div className={s.seg} role="radiogroup" aria-label="Headline text effect">
+            <div className={`${s.seg} ${x.segSm}`} role="radiogroup" aria-label="Headline text effect">
               {TEXT_EFFECTS.map(e => <button key={e.id} type="button" role="radio" aria-checked={(motion.text || 'none') === e.id} className={`${s.segBtn} ${(motion.text || 'none') === e.id ? s.segBtnActive : ''}`} onClick={() => setMotion('text', e.id)}>{e.label}</button>)}
             </div>
           </div>
@@ -299,7 +320,7 @@ export function ThemePanel({ value, onChange, showTextEffect = true, idPrefix = 
         {motion.preset !== 'none' && (
           <div className={s.field}>
             <span className={s.label}>Speed</span>
-            <div className={s.seg} role="radiogroup" aria-label="Animation speed">
+            <div className={`${s.seg} ${x.segSm}`} role="radiogroup" aria-label="Animation speed">
               {MOTION_SPEEDS.map(([v, l]) => <button key={v} type="button" role="radio" aria-checked={String(motion.speed) === v} className={`${s.segBtn} ${String(motion.speed) === v ? s.segBtnActive : ''}`} onClick={() => setMotion('speed', v)}>{l}</button>)}
             </div>
           </div>

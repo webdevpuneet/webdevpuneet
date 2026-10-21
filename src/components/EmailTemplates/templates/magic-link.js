@@ -28,7 +28,7 @@ export default {
     { key: 'headline', group: 'main', label: 'Headline', type: 'text', value: 'Your sign-in link is here' },
     { key: 'intro', group: 'main', label: 'Intro', type: 'textarea', value: 'Hi {{first_name}}, click the button below to sign in to Acme as {{email}}. No password needed.' },
     { key: 'ctaText', group: 'main', label: 'Button text', type: 'text', value: 'Sign in to Acme' },
-    { key: 'ctaUrl', group: 'main', label: 'Sign-in link', type: 'url', value: 'https://yoursite.com/auth/magic?token=abc123' },
+    { key: 'ctaUrl', group: 'main', label: 'Sign-in link', type: 'url', value: 'https://webdevpuneet.com/auth/magic?token=abc123' },
     { key: 'expiry', group: 'main', label: 'Expiry note', type: 'text', value: 'This link expires in 15 minutes and can only be used once.' },
     { key: 'codeLabel', group: 'code', label: 'Code label', type: 'text', value: 'Signing in on another device? Enter this code:' },
     { key: 'code', group: 'code', label: 'Code', type: 'text', value: '739 204' },

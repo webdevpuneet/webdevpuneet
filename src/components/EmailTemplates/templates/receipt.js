@@ -37,7 +37,7 @@ export default {
     { key: 'invoiceNo', group: 'main', label: 'Invoice number', type: 'text', value: 'INV-2026-0418' },
     { key: 'card', group: 'main', label: 'Payment method', type: 'text', value: 'Visa •••• 4242' },
     { key: 'ctaText', group: 'main', label: 'Button text', type: 'text', value: 'Download invoice (PDF)' },
-    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://yoursite.com/billing/invoices/INV-2026-0418.pdf' },
+    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/billing/invoices/INV-2026-0418.pdf' },
     ...lineFields(1, 'Acme Pro plan · monthly (Oct 17 – Nov 16, 2026)', '$49.00'),
     ...lineFields(2, 'Extra seats × 1', '$5.00'),
     ...lineFields(3, '', ''),

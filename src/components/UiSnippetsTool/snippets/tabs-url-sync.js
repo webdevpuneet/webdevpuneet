@@ -88,7 +88,7 @@ readHashAndActivate();`,
     description: 'A tab bar whose active tab syncs to location.hash so refreshes, shared links, and browser back/forward buttons all land on the right panel. Vanilla JS, no router needed.',
     about: {
       title: 'Tabs with URL Sync — HTML, CSS & JavaScript Hash-Based Tab State',
-      description: `Ordinary tab bars lose their state on refresh — click "Pricing", hit F5, and you're back on the first tab. This snippet fixes that by storing the active tab in the URL hash (\`location.hash\`), so the browser itself remembers which tab was open. Refreshing, bookmarking, or sending a colleague a link to \`yoursite.com/page#pricing\` all open the correct panel.
+      description: `Ordinary tab bars lose their state on refresh — click "Pricing", hit F5, and you're back on the first tab. This snippet fixes that by storing the active tab in the URL hash (\`location.hash\`), so the browser itself remembers which tab was open. Refreshing, bookmarking, or sending a colleague a link to \`webdevpuneet.com/page#pricing\` all open the correct panel.
 
 **How the hash becomes the source of truth**
 

@@ -14,16 +14,16 @@ export const brandFields = () => [
   { key: 'brandName', group: 'brand', label: 'Brand name', type: 'text', value: 'Acme' },
   { key: 'logoUrl', group: 'brand', label: 'Logo image URL (optional)', type: 'url', value: '', hint: 'Paste a hosted URL or upload a logo. Leave both empty to show the brand name as text.', upload: { name: 'logo', maxW: 480, mime: 'image/png' } },
   { key: 'logoWidth', group: 'brand', label: 'Logo width (px)', type: 'number', value: '120' },
-  { key: 'headerLink', group: 'brand', label: 'Header link', type: 'url', value: 'https://yoursite.com' },
+  { key: 'headerLink', group: 'brand', label: 'Header link', type: 'url', value: 'https://webdevpuneet.com' },
 ];
 export const footerFields = ({ marketing = false, reason }) => [
   { key: 'address', group: 'footer', label: 'Company postal address', type: 'textarea', value: 'Acme Inc., 548 Market St #12345, San Francisco, CA 94104, USA', hint: marketing ? 'US CAN-SPAM requires a valid postal address in commercial email.' : 'Recommended in every email so recipients can identify the sender.' },
   { key: 'reason', group: 'footer', label: 'Why they got this email', type: 'text', value: reason },
   ...(marketing ? [
-    { key: 'unsubscribeUrl', group: 'footer', label: 'Unsubscribe link', type: 'url', value: 'https://yoursite.com/unsubscribe', hint: 'Required in marketing email. Most email services replace it with a merge tag, e.g. *|UNSUB|*.' },
-    { key: 'prefsUrl', group: 'footer', label: 'Email preferences link (optional)', type: 'url', value: 'https://yoursite.com/settings/email' },
+    { key: 'unsubscribeUrl', group: 'footer', label: 'Unsubscribe link', type: 'url', value: 'https://webdevpuneet.com/unsubscribe', hint: 'Required in marketing email. Most email services replace it with a merge tag, e.g. *|UNSUB|*.' },
+    { key: 'prefsUrl', group: 'footer', label: 'Email preferences link (optional)', type: 'url', value: 'https://webdevpuneet.com/settings/email' },
   ] : [
-    { key: 'helpUrl', group: 'footer', label: 'Help centre link (optional)', type: 'url', value: 'https://yoursite.com/help' },
+    { key: 'helpUrl', group: 'footer', label: 'Help centre link (optional)', type: 'url', value: 'https://webdevpuneet.com/help' },
   ]),
 ];
 
@@ -182,7 +182,7 @@ export const cleanText = lines => `${lines.join('\n').replace(/\n{3,}/g, '\n\n')
 export const BLOCK_TYPES = {
   heading: { label: 'Heading', fields: [['text', 'Heading', 'text']], defaults: { text: 'A new section' } },
   text: { label: 'Text', fields: [['text', 'Text', 'textarea']], defaults: { text: 'Add a paragraph here. You can use <b>bold</b>, <i>italic</i> and links.' } },
-  button: { label: 'Button', fields: [['text', 'Button text', 'text'], ['url', 'Button link', 'url'], ['align', 'Alignment', 'align']], defaults: { text: 'Learn more', url: 'https://yoursite.com', align: 'left' } },
+  button: { label: 'Button', fields: [['text', 'Button text', 'text'], ['url', 'Button link', 'url'], ['align', 'Alignment', 'align']], defaults: { text: 'Learn more', url: 'https://webdevpuneet.com', align: 'left' } },
   image: { label: 'Image', fields: [['url', 'Image URL (https://)', 'url'], ['alt', 'Alt text', 'text'], ['link', 'Link (optional)', 'url']], defaults: { url: '', alt: '', link: '' } },
   columns: { label: 'Two columns', fields: [['left', 'Left column', 'textarea'], ['right', 'Right column', 'textarea']], defaults: { left: '<b>Feature one</b>\nA short description of it.', right: '<b>Feature two</b>\nA short description of it.' } },
   divider: { label: 'Divider', fields: [], defaults: {} },

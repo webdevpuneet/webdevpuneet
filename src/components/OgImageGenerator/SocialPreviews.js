@@ -5,7 +5,7 @@ import s from './styles.module.css';
 /* Approximate link cards from each platform, so crops and text fit can be checked
    before publishing. Platforms change their layouts; these follow late-2026 designs. */
 export default function SocialPreviews({ src, title, description, site, accent }) {
-  const domain = (site || 'yoursite.com').trim().replace(/^https?:\/\//, '').replace(/\/.*$/, '') || 'yoursite.com';
+  const domain = (site || 'webdevpuneet.com').trim().replace(/^https?:\/\//, '').replace(/\/.*$/, '') || 'webdevpuneet.com';
   const desc = (description || '').replace(/\*/g, '');
   if (!src) return <div className={s.mockEmpty}>Rendering previews…</div>;
 

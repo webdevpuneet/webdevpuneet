@@ -32,7 +32,7 @@ export default {
       { key: 'phone', label: 'Phone (optional)', type: 'text', value: '' },
       { key: 'phoneUrl', label: 'Phone link', type: 'url', value: '', hint: 'e.g. tel:+442079460958' },
       { key: 'email', label: 'Email (optional)', type: 'text', value: '' },
-      { key: 'emailUrl', label: 'Email link', type: 'url', value: '', hint: 'e.g. mailto:hello@yoursite.com' },
+      { key: 'emailUrl', label: 'Email link', type: 'url', value: '', hint: 'e.g. mailto:hello@webdevpuneet.com' },
     ],
     value: [
       { city: 'London studio', address: '12 Clerkenwell Road\nLondon EC1M 5PQ', hours: 'Mon–Sat, 9am–6pm', phone: '+44 20 7946 0958', phoneUrl: 'tel:+442079460958', email: 'london@northstar.studio', emailUrl: 'mailto:london@northstar.studio' },

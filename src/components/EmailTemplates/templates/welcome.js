@@ -35,7 +35,7 @@ export default {
     { key: 'brandName', group: 'brand', label: 'Brand name', type: 'text', value: 'Acme' },
     { key: 'logoUrl', group: 'brand', label: 'Logo image URL (optional)', type: 'url', value: '', hint: 'Paste a hosted URL or upload a logo. Leave both empty to show the brand name as text.', upload: { name: 'logo', maxW: 480, mime: 'image/png' } },
     { key: 'logoWidth', group: 'brand', label: 'Logo width (px)', type: 'number', value: '120' },
-    { key: 'headerLink', group: 'brand', label: 'Header link', type: 'url', value: 'https://yoursite.com' },
+    { key: 'headerLink', group: 'brand', label: 'Header link', type: 'url', value: 'https://webdevpuneet.com' },
 
     { key: 'heroUrl', group: 'hero', label: 'Hero image URL', type: 'url', value: HERO, hint: 'Paste a hosted URL or upload an image. 1200×520 px works best (shown at 600×260).', upload: { name: 'hero', maxW: 1200, mime: 'image/jpeg' } },
     { key: 'heroAlt', group: 'hero', label: 'Hero alt text', type: 'text', value: 'Welcome to Acme' },
@@ -44,7 +44,7 @@ export default {
     { key: 'headline', group: 'main', label: 'Headline', type: 'text', value: 'Welcome aboard, {{first_name}}!' },
     { key: 'intro', group: 'main', label: 'Intro', type: 'textarea', value: 'Thanks for joining Acme. You now have everything you need to plan, ship and report on your work in one calm place.\n\nHere’s how to get value in your first ten minutes.' },
     { key: 'ctaText', group: 'main', label: 'Button text', type: 'text', value: 'Open your dashboard' },
-    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://yoursite.com/dashboard' },
+    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/dashboard' },
 
     { key: 'stepsTitle', group: 'steps', label: 'Steps heading', type: 'text', value: 'Get started in 3 steps' },
     { key: 's1Title', group: 'steps', label: 'Step 1 title', type: 'text', value: 'Create your first project' },
@@ -65,8 +65,8 @@ export default {
 
     { key: 'address', group: 'footer', label: 'Company postal address', type: 'textarea', value: 'Acme Inc., 548 Market St #12345, San Francisco, CA 94104, USA', hint: 'US CAN-SPAM requires a valid postal address in commercial email.' },
     { key: 'reason', group: 'footer', label: 'Why they got this email', type: 'text', value: 'You’re receiving this email because you created an Acme account.' },
-    { key: 'unsubscribeUrl', group: 'footer', label: 'Unsubscribe link', type: 'url', value: 'https://yoursite.com/unsubscribe', hint: 'Most email services replace this with their own merge tag, e.g. *|UNSUB|*.' },
-    { key: 'prefsUrl', group: 'footer', label: 'Email preferences link (optional)', type: 'url', value: 'https://yoursite.com/settings/email' },
+    { key: 'unsubscribeUrl', group: 'footer', label: 'Unsubscribe link', type: 'url', value: 'https://webdevpuneet.com/unsubscribe', hint: 'Most email services replace this with their own merge tag, e.g. *|UNSUB|*.' },
+    { key: 'prefsUrl', group: 'footer', label: 'Email preferences link (optional)', type: 'url', value: 'https://webdevpuneet.com/settings/email' },
   ],
 
   toggles: [

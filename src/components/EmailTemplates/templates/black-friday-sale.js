@@ -7,7 +7,7 @@ const pickFields = (n, name, was, now) => [
   { key: `p${n}Name`, group: 'picks', label: `Pick ${n} name`, type: 'text', value: name },
   { key: `p${n}Was`, group: 'picks', label: `Pick ${n} regular price`, type: 'text', value: was },
   { key: `p${n}Now`, group: 'picks', label: `Pick ${n} sale price`, type: 'text', value: now },
-  { key: `p${n}Url`, group: 'picks', label: `Pick ${n} link`, type: 'url', value: `https://yoursite.com/products/pick-${n}` },
+  { key: `p${n}Url`, group: 'picks', label: `Pick ${n} link`, type: 'url', value: `https://webdevpuneet.com/products/pick-${n}` },
 ];
 const picks = f => PICKS.map(n => ({ n, name: f[`p${n}Name`], was: f[`p${n}Was`], now: f[`p${n}Now`], url: f[`p${n}Url`] })).filter(p => String(p.name || '').trim());
 
@@ -44,11 +44,11 @@ export default {
     { key: 'code', group: 'code', label: 'Promo code', type: 'text', value: 'BLACKFRIDAY40' },
     { key: 'deadline', group: 'main', label: 'Deadline line', type: 'text', value: 'Ends Monday, November 30 at 11:59 PM ET' },
     { key: 'ctaText', group: 'main', label: 'Button text', type: 'text', value: 'Shop the sale' },
-    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://yoursite.com/sale' },
+    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/sale' },
     { key: 'picksTitle', group: 'picks', label: 'Section title', type: 'text', value: 'Most-loved picks' },
     ...pickFields(1, 'Everyday Canvas Tote', '$48', '$28.80'),
     ...pickFields(2, 'Ceramic Pour-Over Set', '$42', '$25.20'),
-    { key: 'fineprint', group: 'main', label: 'Fine print', type: 'textarea', value: 'Offer valid Nov 27–30, 2026 on full-price items at yoursite.com. Can’t be combined with other offers. Excludes gift cards.' },
+    { key: 'fineprint', group: 'main', label: 'Fine print', type: 'textarea', value: 'Offer valid Nov 27–30, 2026 on full-price items at webdevpuneet.com. Can’t be combined with other offers. Excludes gift cards.' },
     ...footerFields({ marketing: true, reason: 'You’re receiving this because you signed up for emails from Acme Store.' }),
   ],
   toggles: [

@@ -44,10 +44,10 @@ export default {
     { key: 'code', group: 'offer', label: 'Code', type: 'text', value: 'WELCOMEBACK20' },
     { key: 'offerNote', group: 'offer', label: 'Offer note', type: 'text', value: 'Valid for 14 days on any plan or order.' },
     { key: 'ctaText', group: 'main', label: 'Button text', type: 'text', value: 'See what’s new' },
-    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://yoursite.com/whats-new' },
+    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/whats-new' },
     { key: 'optoutText', group: 'optout', label: 'Text', type: 'textarea', value: 'Not interested anymore? No hard feelings. If we don’t hear from you, we’ll stop sending emails in 30 days to keep your inbox tidy.' },
     { key: 'stayText', group: 'optout', label: '"Stay" link text', type: 'text', value: 'Yes, keep me subscribed' },
-    { key: 'stayUrl', group: 'optout', label: '"Stay" link', type: 'url', value: 'https://yoursite.com/subscriptions/stay' },
+    { key: 'stayUrl', group: 'optout', label: '"Stay" link', type: 'url', value: 'https://webdevpuneet.com/subscriptions/stay' },
     ...footerFields({ marketing: true, reason: 'You’re receiving this because you have an Acme account or subscribed to our emails.' }),
   ],
   toggles: [

@@ -39,7 +39,7 @@ export default {
     { key: 'duration', group: 'details', label: 'Length', type: 'text', value: '45 minutes + live Q&A' },
     { key: 'where', group: 'details', label: 'Where', type: 'text', value: 'Online, on Zoom (link after you register)' },
     { key: 'ctaText', group: 'main', label: 'Button text', type: 'text', value: 'Save my seat' },
-    { key: 'ctaUrl', group: 'main', label: 'Registration link', type: 'url', value: 'https://yoursite.com/webinars/release-cycle' },
+    { key: 'ctaUrl', group: 'main', label: 'Registration link', type: 'url', value: 'https://webdevpuneet.com/webinars/release-cycle' },
     { key: 'calText', group: 'details', label: 'Calendar link text (optional)', type: 'text', value: 'Add to Google Calendar' },
     { key: 'calUrl', group: 'details', label: 'Calendar link', type: 'url', value: 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=How+to+cut+your+release+cycle+in+half&dates=20261112T160000Z/20261112T164500Z', hint: 'A Google Calendar "TEMPLATE" link or a hosted .ics file both work.' },
     { key: 'agendaTitle', group: 'agenda', label: 'Section title', type: 'text', value: 'What you’ll learn' },

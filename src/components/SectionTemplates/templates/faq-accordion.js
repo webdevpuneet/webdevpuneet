@@ -26,7 +26,7 @@ export default {
     { key: 'lead', group: 'header', label: 'Intro text (optional)', type: 'textarea', value: 'Everything you need to know about plans, billing and getting started.' },
     { key: 'contactText', group: 'contact', label: 'Text', type: 'text', value: 'Still have a question?' },
     { key: 'contactLink', group: 'contact', label: 'Link text', type: 'text', value: 'Talk to our team' },
-    { key: 'contactUrl', group: 'contact', label: 'Link', type: 'url', value: 'mailto:hello@yoursite.com' },
+    { key: 'contactUrl', group: 'contact', label: 'Link', type: 'url', value: 'mailto:hello@webdevpuneet.com' },
   ],
   lists: [{
     key: 'faqs', group: 'items', label: 'Questions', itemLabel: 'Question', titleKey: 'q', min: 1, max: 15,

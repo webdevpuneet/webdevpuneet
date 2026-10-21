@@ -19,7 +19,7 @@ const DEFAULTS = {
   eyebrow: 'Tutorial',
   title: 'Build *beautiful* Open Graph images in seconds',
   description: 'Pick a template, add your title and brand colours, then download a 1200×630 image for every link you share.',
-  site: 'yoursite.com',
+  site: 'webdevpuneet.com',
   author: '',
   authorMeta: '',
   headingFont: 'inter',
@@ -458,7 +458,7 @@ export default function OgImageGenerator() {
             </div>
             <div className={s.field}>
               <label className={s.label} htmlFor="og-site">Site name / URL</label>
-              <input id="og-site" className={s.input} value={opts.site} onChange={e => set('site', e.target.value)} placeholder="yoursite.com" maxLength={60} />
+              <input id="og-site" className={s.input} value={opts.site} onChange={e => set('site', e.target.value)} placeholder="webdevpuneet.com" maxLength={60} />
             </div>
             <div className={s.twoCol}>
               <div className={s.field}>

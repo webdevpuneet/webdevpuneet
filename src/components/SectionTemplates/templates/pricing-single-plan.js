@@ -31,7 +31,7 @@ export default {
     { key: 'monthly', group: 'card', label: 'Monthly price', type: 'text', value: '$12' },
     { key: 'yearly', group: 'card', label: 'Yearly price (per month)', type: 'text', value: '$9' },
     { key: 'cta', group: 'card', label: 'Button text', type: 'text', value: 'Get instant access' },
-    { key: 'ctaUrl', group: 'card', label: 'Button link', type: 'url', value: 'https://yoursite.com/checkout' },
+    { key: 'ctaUrl', group: 'card', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/checkout' },
     { key: 'guarantee', group: 'card', label: 'Guarantee line (optional)', type: 'text', value: '30-day money-back guarantee. Cancel any time.' },
     ...billingFields(),
   ],

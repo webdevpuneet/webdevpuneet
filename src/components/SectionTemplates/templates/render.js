@@ -123,7 +123,9 @@ export function fillHtml(t, state, { imageSrc, clean = false } = {}) {
       src: k => (imageSrc ? imageSrc(`${key}.${it._id}.${k}`) : '') || String(it[k] ?? '').trim(),
     })
       // Mark item bindings as done, so the section-level pass never refills an empty one
-      .replace(/\sdata-(edit|href|image|bg|icon|lines|links|set|show-if|hide-if|optional)(?==|[\s>])/g, ' data-i-$1')).join('\n');
+      .replace(/\sdata-(edit|href|image|bg|icon|lines|links|set|show-if|hide-if|optional)(?==|[\s>])/g, ' data-i-$1')
+      // Editor preview: the item's root says which item it is (click-to-edit)
+      .replace(/^(\s*<[a-z0-9]+)/i, clean ? '$1' : `$1 data-item="${esc(key)}.${esc(it._id)}"`)).join('\n');
     const open = html.slice(m.index, b.openEnd).replace(/\sdata-list="/, ' data-list-done="');
     html = html.slice(0, m.index) + open + (rendered ? `\n${rendered}\n` : '') + html.slice(b.closeStart);
     from = m.index + open.length;
@@ -135,7 +137,7 @@ export function fillHtml(t, state, { imageSrc, clean = false } = {}) {
     src: key => (imageSrc ? imageSrc(key, fieldOf(key)) : '') || String(f[key] ?? '').trim(),
   });
 
-  if (clean) html = html.replace(/\s+data-(i-)?(edit|href|image|bg|icon|lines|links|set|show-if|hide-if|show|optional|list-done)(="[^"]*")?/g, '');
+  if (clean) html = html.replace(/\s+data-(i-)?(edit|href|image|bg|icon|lines|links|set|show-if|hide-if|show|optional|list-done|item)(="[^"]*")?/g, '');
   else html = html.replace(/\sdata-list-done="/g, ' data-list="');
   return html.trim();
 }

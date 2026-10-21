@@ -12,7 +12,7 @@ const heroLiveDemoInput = {
     <input type="text" id="ldiInput" class="ldi-input" placeholder="e.g. 10 Tips for a Faster Morning Routine" maxlength="90" autocomplete="off">
 
     <div class="ldi-out">
-      <span class="ldi-out-label">yoursite.com/blog/</span>
+      <span class="ldi-out-label">webdevpuneet.com/blog/</span>
       <span class="ldi-out-slug" id="ldiSlug">your-post-title</span>
     </div>
 

@@ -38,7 +38,7 @@ export default {
     { key: 'headline', group: 'main', label: 'Headline', type: 'text', value: 'You left something behind, {{first_name}}' },
     { key: 'intro', group: 'main', label: 'Intro', type: 'textarea', value: 'Good news: we saved your cart. The items below are still available, but popular sizes tend to sell out, so don’t wait too long.' },
     { key: 'ctaText', group: 'main', label: 'Button text', type: 'text', value: 'Return to your cart' },
-    { key: 'ctaUrl', group: 'main', label: 'Cart link', type: 'url', value: 'https://yoursite.com/cart' },
+    { key: 'ctaUrl', group: 'main', label: 'Cart link', type: 'url', value: 'https://webdevpuneet.com/cart' },
     ...itemFields(1, 'Everyday Canvas Tote', 'Color: Sand · Qty 1', '$48.00', IMG('product-tote.png')),
     ...itemFields(2, 'Merino Crew Socks (3-pack)', 'Size: M · Qty 1', '$18.00', IMG('product-socks.png')),
     ...itemFields(3, '', '', '', ''),

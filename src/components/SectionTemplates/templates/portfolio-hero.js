@@ -28,7 +28,7 @@ export default {
     { key: 'cta1', group: 'buttons', label: 'Primary button', type: 'text', value: 'See my work' },
     { key: 'cta1Url', group: 'buttons', label: 'Primary button link', type: 'url', value: '#work' },
     { key: 'cta2', group: 'buttons', label: 'Secondary button (optional)', type: 'text', value: 'Get in touch' },
-    { key: 'cta2Url', group: 'buttons', label: 'Secondary button link', type: 'url', value: 'mailto:hello@yoursite.com' },
+    { key: 'cta2Url', group: 'buttons', label: 'Secondary button link', type: 'url', value: 'mailto:hello@webdevpuneet.com' },
     { key: 'link1', group: 'social', label: 'Link 1 text', type: 'text', value: 'GitHub' },
     { key: 'link1Url', group: 'social', label: 'Link 1 URL', type: 'url', value: 'https://github.com/yourname' },
     { key: 'link2', group: 'social', label: 'Link 2 text', type: 'text', value: 'LinkedIn' },

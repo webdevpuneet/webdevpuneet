@@ -20,7 +20,7 @@ export default {
     { key: 'heading', group: 'main', label: 'Heading', type: 'textarea', value: 'Get *one useful idea* every week' },
     { key: 'lead', group: 'main', label: 'Supporting text (optional)', type: 'textarea', value: 'Short, practical tips on design and building products. No spam, unsubscribe in one click.' },
     { key: 'proof', group: 'main', label: 'Social proof (optional)', type: 'text', value: 'Join 25,000+ readers' },
-    { key: 'formAction', group: 'form', label: 'Form URL (action)', type: 'url', value: 'https://yoursite.com/subscribe', hint: 'Paste the form action URL from Mailchimp, ConvertKit (Kit), Buttondown, Brevo or your own endpoint.' },
+    { key: 'formAction', group: 'form', label: 'Form URL (action)', type: 'url', value: 'https://webdevpuneet.com/subscribe', hint: 'Paste the form action URL from Mailchimp, ConvertKit (Kit), Buttondown, Brevo or your own endpoint.' },
     { key: 'inputName', group: 'form', label: 'Email field name', type: 'text', value: 'email', hint: 'The name your service expects, e.g. EMAIL for Mailchimp or email_address for Kit.' },
     { key: 'placeholder', group: 'form', label: 'Placeholder', type: 'text', value: 'you@example.com' },
     { key: 'button', group: 'form', label: 'Button text', type: 'text', value: 'Subscribe' },

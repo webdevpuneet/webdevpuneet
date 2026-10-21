@@ -33,7 +33,7 @@ export default {
       { icon: 'zap', title: 'Lightning fast', text: 'Pages load in under a second and every action feels instant, even with thousands of tasks.' },
       { icon: 'workflow', title: 'Automations', text: 'Move cards, assign owners and send updates automatically when work changes state.' },
       { icon: 'chart-column', title: 'Live reports', text: 'Progress, velocity and workload charts update in real time, ready to share with stakeholders.' },
-      { icon: 'puzzle', title: '100+ integrations', text: 'Connect GitHub, Slack, Figma and the rest of your stack in a couple of clicks.', link: 'See integrations', url: 'https://yoursite.com/integrations' },
+      { icon: 'puzzle', title: '100+ integrations', text: 'Connect GitHub, Slack, Figma and the rest of your stack in a couple of clicks.', link: 'See integrations', url: 'https://webdevpuneet.com/integrations' },
       { icon: 'shield-check', title: 'Secure by default', text: 'SSO, audit logs and encryption at rest and in transit on every plan.' },
       { icon: 'headphones', title: 'Human support', text: 'Real people answer within hours, with onboarding help for every new team.' },
     ],

@@ -27,7 +27,7 @@ export default {
     { key: 'name', group: 'person', label: 'Name', type: 'text', value: 'Aisha Bello' },
     { key: 'role', group: 'person', label: 'Role', type: 'text', value: 'Operations Director, Northwind' },
     { key: 'link', group: 'link', label: 'Link text (optional)', type: 'text', value: 'Read the full case study' },
-    { key: 'linkUrl', group: 'link', label: 'Link', type: 'url', value: 'https://yoursite.com/customers/northwind' },
+    { key: 'linkUrl', group: 'link', label: 'Link', type: 'url', value: 'https://webdevpuneet.com/customers/northwind' },
   ],
   lists: [{
     key: 'stats', group: 'items', label: 'Results', itemLabel: 'Result', titleKey: 'value', min: 1, max: 4,

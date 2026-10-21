@@ -26,8 +26,9 @@ import { Flip } from 'gsap/Flip';
 
 if (typeof window !== 'undefined') gsap.registerPlugin(Draggable, Flip);
 import { ContentPanel, ThemePanel, withKit } from '@/components/SectionTemplates/panels';
+import { bindInlineEdit, fieldOfTarget, useFrozenPreview } from '@/components/SectionTemplates/inline-edit';
 import { putAsset, getAsset } from '@/components/SectionTemplates/storage';
-import { saveBlob, prepareUpload, EXT, previewImages } from '@/components/SectionTemplates/upload';
+import { saveBlob, prepareUpload, EXT, previewImages, localizeImages } from '@/components/SectionTemplates/upload';
 
 const TOOL = 'website-builder';
 const store = makeDesignStore('wdp-website-pages');
@@ -45,8 +46,10 @@ const SELECT_CSS = 'section[data-uid]{cursor:pointer}section[data-uid].wb-on{out
 
 /* The live page: an iframe at the device width, scaled to fit the stage, keeping its
    scroll position across updates. Clicking a section selects it. */
-function PageFrame({ html, width, height, scale, selected, onSelect, onKey }) {
+function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDoc }) {
   const ref = useRef(null);
+  const onDocRef = useRef(onDoc);
+  onDocRef.current = onDoc;
   const scrollY = useRef(0);
   useEffect(() => {
     const frame = ref.current;
@@ -61,9 +64,10 @@ function PageFrame({ html, width, height, scale, selected, onSelect, onKey }) {
         const a = ev.target.closest?.('a');
         if (a) {
           ev.preventDefault();
-          // In-page links (#pricing) scroll the preview to that section
+          // In-page links (#pricing) scroll the preview to that section (not buttons, whose
+          // clicks edit their text or point to their link field)
           const href = a.getAttribute('href') || '';
-          if (href.length > 1 && href.startsWith('#')) { doc.getElementById(href.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+          if (href.length > 1 && href.startsWith('#') && !ev.target.closest('[data-st-editing],[data-href],[data-i-href]')) { doc.getElementById(href.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
         }
         const sec = ev.target.closest?.('section[data-uid]');
         if (sec) onSelect(sec.getAttribute('data-uid'));
@@ -71,6 +75,7 @@ function PageFrame({ html, width, height, scale, selected, onSelect, onKey }) {
       doc.addEventListener('submit', ev => ev.preventDefault());
       // Undo / redo / save shortcuts keep working while the preview has focus
       doc.addEventListener('keydown', ev => onKey?.(ev));
+      onDocRef.current?.(doc);
       doc.querySelectorAll('section[data-uid]').forEach(el => el.classList.toggle('wb-on', el.getAttribute('data-uid') === selected));
     };
     frame.addEventListener('load', onLoad);
@@ -304,7 +309,7 @@ export default function WebsiteBuilder() {
     const k = ev.key.toLowerCase();
     if (k === 's') { ev.preventDefault(); saveRef.current?.(); return; }
     const active = ev.target?.ownerDocument?.activeElement || document.activeElement;
-    if (/^(INPUT|TEXTAREA|SELECT)$/.test(active?.tagName || '')) return;
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(active?.tagName || '') || active?.isContentEditable) return;
     if (k === 'z' && !ev.shiftKey) { ev.preventDefault(); undo(); } else if (k === 'y' || (k === 'z' && ev.shiftKey)) { ev.preventDefault(); redo(); }
   }, [undo, redo]);
   useEffect(() => {
@@ -330,7 +335,7 @@ export default function WebsiteBuilder() {
   }, [uploadIds]); // eslint-disable-line react-hooks/exhaustive-deps
   const uploadOf = (uid, k) => page.sections.find(x => x.uid === uid)?.state.uploads?.[k];
   const previewSrc = (uid, k) => { const u = uploadOf(uid, k); return u ? blobUrls[u.id] || '' : ''; };
-  const relativeSrc = (uid, k) => { const u = uploadOf(uid, k); return u ? `images/${u.file}` : ''; };
+  const relativeSrc = (uid, k) => { const u = uploadOf(uid, k); return u ? `assets/${u.file}` : ''; };
   const dataUrls = async () => {
     const out = {};
     for (const u of allUploads) { const rec = await getAsset(u.id).catch(() => null); if (rec?.blob) out[`${u.uid}|${u.k}`] = await blobToDataUrl(rec.blob); }
@@ -417,6 +422,24 @@ export default function WebsiteBuilder() {
     imageSrc: previewSrc, clean: false, fontFaces, motion: playing > 0,
     extraHead: `<script>window.ST_PREVIEW=true</script><style>${SELECT_CSS}</style>`,
   }), origin), [page, blobUrls, fontFaces, origin, playing]); // eslint-disable-line react-hooks/exhaustive-deps
+  /* Click-to-edit: text is typed right in the page preview, any other bound element opens
+     its section and points to its input. The preview doesn't reload while text is edited. */
+  const [shownHtml, editStart, editEnd] = useFrozenPreview(previewHtml);
+  const [reveal, setReveal] = useState(null);
+  const sectionsRef = useRef(page.sections);
+  sectionsRef.current = page.sections;
+  const onPreviewDoc = useCallback(doc => bindInlineEdit(doc, {
+    resolve: tg => {
+      const sec = tg?.uid && sectionsRef.current.find(o => o.uid === tg.uid);
+      return sec ? fieldOfTarget(sectionTemplateById(sec.tpl), tg) : null;
+    },
+    onInput: (tg, v) => setSectionState(tg.uid, p => (tg.list
+      ? { ...p, lists: { ...p.lists, [tg.list]: (p.lists?.[tg.list] || []).map(it => (it._id === tg.item ? { ...it, [tg.key]: v } : it)) } }
+      : { ...p, fields: { ...p.fields, [tg.key]: v } })),
+    onReveal: (tg, focus) => { setReveal({ ...tg, focus, n: Date.now() }); openSection(tg.uid); },
+    onStart: editStart,
+    onEnd: editEnd,
+  }), [editStart, editEnd]); // eslint-disable-line react-hooks/exhaustive-deps
   const stillJson = JSON.stringify({ ...page, motion: null });
   useEffect(() => { setPlaying(0); }, [stillJson]);
   const dev = DEVICES.find(d => d.id === device) || DEVICES[0];
@@ -445,24 +468,28 @@ export default function WebsiteBuilder() {
       const { default: JSZip } = await import('jszip');
       const zip = new JSZip();
       const dir = zip.folder(fileBase);
-      dir.file('index.html', pageDocumentHtml(page, { imageSrc: relativeSrc, fontFaces }));
+      let html = pageDocumentHtml(page, { imageSrc: relativeSrc, fontFaces });
       const seen = new Set();
       for (const u of allUploads) {
         if (seen.has(u.file)) continue;
         const rec = await getAsset(u.id).catch(() => null);
-        if (rec?.blob) { dir.file(`images/${u.file}`, rec.blob); seen.add(u.file); }
+        if (rec?.blob) { dir.file(`assets/${u.file}`, rec.blob); seen.add(u.file); }
       }
+      let missed;
+      ({ html, missed } = await localizeImages(html, dir, seen));
+      dir.file('index.html', html);
       dir.file('README.txt', [
         `${page.name}: built with the free Website Builder, https://webdevpuneet.com/website-builder/`,
         '',
         'index.html   the complete page (HTML with the CSS in a <style> tag)',
-        seen.size ? `images/      your uploaded images (${seen.size})` : '',
+        seen.size ? `assets/      every image the page uses (${seen.size})` : '',
+        missed ? `             ${missed} image${missed > 1 ? 's' : ''} could not be downloaded and still load from their original URL.` : '',
         '',
         'Upload the folder to any static host (Netlify, Vercel, GitHub Pages, Cloudflare Pages) or open index.html.',
         'Every colour, font and size is a CSS variable at the top of the CSS (--st-brand, --st-font-heading …).',
       ].filter(Boolean).join('\n'));
       saveBlob(await zip.generateAsync({ type: 'blob' }), `${fileBase}.zip`);
-      flash(seen.size ? `Downloaded ZIP with ${seen.size} image${seen.size > 1 ? 's' : ''}.` : 'Downloaded ZIP.');
+      flash(`Downloaded ZIP${seen.size ? ` with ${seen.size} image${seen.size > 1 ? 's' : ''} in assets/` : ''}${missed ? ` (${missed} kept as links)` : ''}.`);
     } catch (err) { flash(`ZIP failed: ${err.message}`); }
     setBusy('');
   };
@@ -634,6 +661,7 @@ export default function WebsiteBuilder() {
                   blobUrls={blobUrls}
                   onPickUpload={(fd, ukey) => pickUpload(editSec.uid, fd, ukey)}
                   idPrefix={`wb-${editSec.uid}`}
+                  reveal={reveal?.uid === editSec.uid ? reveal : null}
                 />
               </>
             ) : tab === 'page' ? (
@@ -790,7 +818,7 @@ export default function WebsiteBuilder() {
                 head="Export this page as…"
                 options={[
                   { icon: 'file', label: busy === 'html' ? 'Preparing…' : 'Download .html', sub: 'One file, images embedded, works offline', onClick: downloadHtml, disabled: !!busy || !page.sections.length },
-                  { icon: 'zip', label: busy === 'zip' ? 'Zipping…' : 'Download ZIP', sub: 'index.html plus your images folder', onClick: downloadZip, disabled: !!busy || !page.sections.length },
+                  { icon: 'zip', label: busy === 'zip' ? 'Zipping…' : 'Download ZIP', sub: 'index.html plus an assets folder with every image', onClick: downloadZip, disabled: !!busy || !page.sections.length },
                   { icon: 'html', label: 'Copy HTML', sub: 'The whole page, CSS included', onClick: copyHtml, disabled: !!busy || !page.sections.length },
                 ]}
               />
@@ -804,7 +832,7 @@ export default function WebsiteBuilder() {
                 <p>Pick a starter page or add sections from the panel: navbars, heroes, features, pricing, testimonials, FAQ, CTA, footers and more. They all share one theme, so the page always looks like one website.</p>
               </div>
             ) : origin && scale > 0 && (
-              <PageFrame key={device} html={previewHtml} width={dev.w} height={frameH} scale={scale} selected={selected} onSelect={openSection} onKey={onKey} />
+              <PageFrame key={device} html={shownHtml} width={dev.w} height={frameH} scale={scale} selected={selected} onSelect={openSection} onKey={onKey} onDoc={onPreviewDoc} />
             )}
           </div>
         </div>

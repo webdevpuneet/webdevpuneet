@@ -361,7 +361,7 @@ A thick accent-coloured border, drawn as a CSS border on the whole post, frames 
 
 **Clear call to action**
 
-The apply button is a solid accent block with your careers URL ("Apply → yoursite.com/careers"). Because Instagram captions don't allow clickable links, put the URL right in the image and in your bio.
+The apply button is a solid accent block with your careers URL ("Apply → webdevpuneet.com/careers"). Because Instagram captions don't allow clickable links, put the URL right in the image and in your bio.
 
 **Optional logo**
 

@@ -116,7 +116,7 @@ export const columnFields = () => [
 export const DEMO_COLUMNS = [
   { title: 'Product', links: 'Features | /features/\nPricing | /pricing/\nIntegrations | /integrations/\nChangelog | /changelog/' },
   { title: 'Company', links: 'About | /about/\nCareers | /careers/\nCustomers | /customers/\nContact | /contact/' },
-  { title: 'Resources', links: 'Blog | /blog/\nGuides | /guides/\nHelp centre | /help/\nStatus | https://status.yoursite.com' },
+  { title: 'Resources', links: 'Blog | /blog/\nGuides | /guides/\nHelp centre | /help/\nStatus | https://status.webdevpuneet.com' },
 ];
 
 /* ── Contact form ──────────────────────────────────────────────────────────── */

@@ -22,7 +22,7 @@ export default {
     { key: 'chip1', label: 'Detail 1', type: 'text', value: 'Remote · US' },
     { key: 'chip2', label: 'Detail 2', type: 'text', value: 'Full-time' },
     { key: 'chip3', label: 'Detail 3', type: 'text', value: 'React · TypeScript' },
-    { key: 'apply', label: 'Apply link', type: 'text', value: 'Apply → yoursite.com/careers' },
+    { key: 'apply', label: 'Apply link', type: 'text', value: 'Apply → webdevpuneet.com/careers' },
     { key: 'logo', label: 'Logo (optional)', type: 'image', fit: 'contain' },
   ],
   html: `<div class="h">

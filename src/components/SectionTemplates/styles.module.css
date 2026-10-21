@@ -95,3 +95,14 @@
 .iconOpt:hover { background: rgba(127, 127, 127, 0.14); }
 .iconOptOn { border-color: #4f46e5; color: #4f46e5; background: rgba(79, 70, 229, 0.1); }
 .iconOpt svg, .iconCurrent svg { display: block; }
+
+/* A field pointed to from the preview (click-to-edit) */
+.flash { animation: st-flash 1.3s ease; border-radius: 8px; }
+@keyframes st-flash {
+  0%, 35% { background: rgba(99, 102, 241, 0.16); box-shadow: 0 0 0 6px rgba(99, 102, 241, 0.16); }
+  100% { background: transparent; box-shadow: 0 0 0 6px transparent; }
+}
+
+/* Compact segmented choices (animation: five options fit the panel width) */
+.segSm { flex-wrap: wrap; gap: 2px; }
+.segSm > button { padding: 4px 6px; font-size: 11px; letter-spacing: -0.01em; }

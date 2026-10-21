@@ -40,7 +40,7 @@ export default {
     { key: 'orderNumber', group: 'main', label: 'Order number', type: 'text', value: '#10482' },
     { key: 'orderDate', group: 'main', label: 'Order date', type: 'text', value: 'October 17, 2026' },
     { key: 'ctaText', group: 'main', label: 'Button text', type: 'text', value: 'View your order' },
-    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://yoursite.com/account/orders/10482' },
+    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/account/orders/10482' },
     ...itemFields(1, 'Everyday Canvas Tote', 'Color: Sand · One size', '1', '$48.00'),
     ...itemFields(2, 'Merino Crew Socks (3-pack)', 'Size: M', '2', '$36.00'),
     ...itemFields(3, 'Ceramic Pour-Over Set', 'Color: Matte white', '1', '$42.00'),

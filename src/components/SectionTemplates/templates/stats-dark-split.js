@@ -24,7 +24,7 @@ export default {
     { key: 'heading', group: 'main', label: 'Heading', type: 'textarea', value: 'Numbers our customers *actually see*' },
     { key: 'lead', group: 'main', label: 'Supporting text (optional)', type: 'textarea', value: 'Teams switch for the speed and stay for the results. These are averages across customers in their first year.' },
     { key: 'cta', group: 'main', label: 'Button text (optional)', type: 'text', value: 'Read customer stories' },
-    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://yoursite.com/customers' },
+    { key: 'ctaUrl', group: 'main', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/customers' },
     { key: 'logosTitle', group: 'logos', label: 'Line above the logos (optional)', type: 'text', value: 'Powering teams at' },
   ],
   lists: [

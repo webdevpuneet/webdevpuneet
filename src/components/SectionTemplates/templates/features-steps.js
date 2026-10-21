@@ -21,7 +21,7 @@ export default {
     { key: 'heading', group: 'header', label: 'Heading', type: 'textarea', value: 'Up and running in *three simple steps*' },
     { key: 'lead', group: 'header', label: 'Intro text (optional)', type: 'textarea', value: 'No setup calls, no migrations to plan. Most teams are working in their new workspace the same afternoon.' },
     { key: 'cta', group: 'button', label: 'Button text', type: 'text', value: 'Get started free' },
-    { key: 'ctaUrl', group: 'button', label: 'Button link', type: 'url', value: 'https://yoursite.com/signup' },
+    { key: 'ctaUrl', group: 'button', label: 'Button link', type: 'url', value: 'https://webdevpuneet.com/signup' },
     { key: 'note', group: 'button', label: 'Note under the button (optional)', type: 'text', value: 'Free for teams up to 10 people' },
   ],
   lists: [{
