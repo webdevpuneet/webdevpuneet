@@ -101,6 +101,7 @@
     <li><strong>One shared theme.</strong> All sections read the same design tokens (colours, fonts, radius, width), so any combination looks like one website. This is the foundation of the page builder.</li>
     <li><strong>Responsive by container, not viewport.</strong> Sections use CSS container queries, so they adapt correctly in the editor preview, the page builder and the user's own site.</li>
     <li><strong>Never lose user data.</strong> Autosave, My designs, uploaded images and custom fonts in IndexedDB; one-file backup export and import that never overwrites.</li>
+    <li><strong>SVG artwork is welcome wherever it helps.</strong> Backgrounds, dividers, blobs, patterns, shapes and other decoration can be SVG (inline or as a CSS data URI). It stays tiny, scales to any size and takes the theme colours through <code>currentColor</code> / CSS variables (see "SVG artwork" in Architecture).</li>
     <li><strong>Private.</strong> Everything runs in the browser; nothing is uploaded.</li>
     <li><strong>Free forever, no watermark.</strong></li>
     <li><strong>SEO on every page.</strong> Same depth as the email and social templates: title 50–60 chars, description 150–160, keywords, long About, features, why, use cases (4 × 18–42 words), FAQs, schema, sitemaps, llms.txt.</li>
@@ -163,6 +164,7 @@
     <li><span class="pill done">Done</span><div><strong>Uploaded-images gallery</strong> on every image upload field in Website Sections, Website Builder, Email Templates and Social Posts (<code>components/ImageLibrary</code>, <code>lib/image-library.js</code>, IndexedDB <code>wdp_image_library</code>). Uploads are added as they happen; older ones are read (read-only, only if the database exists) from <code>wdp_section_assets</code> and <code>wdp_email_assets</code>. Each tool resizes a reused image to its own field and keeps its own copy (email deletes unused assets by prefix, so sharing a key would break). Social images are only found once uploaded after this. No delete yet (saved pages may use an image).</div></li>
     <li><span class="pill done">Done</span><div><strong>Icon sets</strong> in the icon picker (see Icons below) and a <strong>Show brand icon</strong> switch (new <code>switch</code> field type bound to a toggle, in the shared brand fields: 3 navbars, 3 footers).</div></li>
     <li><span class="pill todo">To do</span><div>React / Next.js page export from the builder.</div></li>
+    <li><span class="pill todo">To do</span><div><strong>SVG artwork layer</strong>: a small library of theme-aware backgrounds and decorations (waves, blobs, grids, dots, gradients, section dividers) a section can switch on, plus uploading or pasting your own SVG as an artwork field. Rules in "SVG artwork" under Architecture.</div></li>
   </ul>
 
   <div class="phase"><h3>Phase 3b — Scroll animation builder</h3><span class="pill todo">To do</span></div>
@@ -288,6 +290,28 @@
     <li>The markup passes a strict whitelist (<code>safeBody</code>: shapes, groups, defs, gradients; no scripts, <code>href</code>, <code>style</code>, event attributes), so an edited backup file cannot inject code. Anything that fails renders as no icon.</li>
     <li>Fill-based icons rely on <code>fill="currentColor"</code> on the wrapper; stroke sets carry their own stroke attributes in the body. Colour comes from CSS (<code>currentColor</code>).</li>
     <li>Icons can be used wherever a template has an <code>icon</code> field (brand mark, feature and step cards, list items). To offer an icon in a new place, add an <code>icon</code> field and a <code>data-icon</code> element; the picker, storage and exports need no changes.</li>
+  </ul>
+
+  <h3>SVG artwork</h3>
+  <p>SVG can be used anywhere a template needs graphics that are not photos. Already in use: the checkmark masks in <code>.st-checks</code> (<code>meta.js</code>), the icons, and decorative shapes in a few sections. The conventions below keep every new use consistent, exportable and safe.</p>
+  <table>
+    <thead><tr><th>Use</th><th>How</th></tr></thead>
+    <tbody>
+      <tr><td>Backgrounds and patterns (dots, grids, waves, blobs, gradients)</td><td>CSS <code>background-image:url("data:image/svg+xml,…")</code> in the template CSS, or an inline <code>&lt;svg aria-hidden="true"&gt;</code> positioned behind the content. Colours come from theme variables, not hard-coded hex, so the artwork follows the theme.</td></tr>
+      <tr><td>Decorations (shapes, rings, sparkles, underlines, arrows)</td><td>Absolutely positioned inline SVG with <code>pointer-events:none</code> and <code>aria-hidden="true"</code>. Use <code>fill="currentColor"</code> or <code>stroke="currentColor"</code> and set <code>color</code> in CSS.</td></tr>
+      <tr><td>Section dividers (curves, slants, waves)</td><td>Inline SVG at the section edge, <code>preserveAspectRatio="none"</code>, filled with the next section's background variable.</td></tr>
+      <tr><td>Masks and shapes for images (blobs, arches)</td><td>CSS <code>mask-image</code> or <code>clip-path</code> with an SVG data URI (as the portfolio hero blob uses border-radius shapes today).</td></tr>
+      <tr><td>Your own artwork (planned)</td><td>An <code>artwork</code> field: upload or paste an SVG, sanitised with the same whitelist as icons (<code>safeBody</code> in <code>icon-lib.js</code>), stored inside the design so exports work offline.</td></tr>
+    </tbody>
+  </table>
+  <ul>
+    <li><strong>Theme-aware:</strong> never hard-code brand colours in artwork; use <code>var(--st-brand)</code>, <code>var(--st-surface)</code>, <code>color-mix()</code> or <code>currentColor</code>.</li>
+    <li><strong>Decorative by default:</strong> <code>aria-hidden="true"</code> and no text inside; meaningful graphics get a <code>role="img"</code> and a label.</li>
+    <li><strong>Cheap and responsive:</strong> keep each file small (a few hundred bytes to a few KB), use <code>viewBox</code>, size with CSS, and use container-query units like the rest of the section.</li>
+    <li><strong>Safe:</strong> uploaded or pasted SVG is never rendered as-is: whitelist the shapes, strip scripts, <code>href</code>, <code>style</code> and event attributes; or load it only as an <code>&lt;img&gt;</code>/CSS background, which cannot run scripts.</li>
+    <li><strong>Exports:</strong> inline SVG and CSS data URIs travel inside the single HTML, React and Vue exports with no extra files; SVG files from the user go in <code>assets/</code> like other images.</li>
+    <li><strong>Motion:</strong> artwork can animate with GSAP (MorphSVG, DrawSVG, MotionPath are among the adopted plugins) or plain CSS keyframes, honouring <code>prefers-reduced-motion</code>.</li>
+    <li><strong>Sources:</strong> hand-made, generated by script (like <code>scripts/make-template-art.cjs</code>), or from sources whose licence allows free use. Record the source and licence next to any third-party artwork.</li>
   </ul>
 </section>
 
@@ -441,7 +465,8 @@
       <tr><td>2026-10-20</td><td>The builder will let users create scroll-based section animations (scrub, pin, keyframe tracks, effect presets) visually — Phase 3b.</td><td>User request; scroll-driven motion is a standout feature most free builders lack. Stored as JSON + one runtime so every export keeps working.</td></tr>
       <tr><td>2026-10-20</td><td>The page builder is its own tool at <code>/website-builder/</code> (user's choice), separate from the section library URL.</td><td>Targets "website builder" searches and reads as a product in its own right.</td></tr>
       <tr><td>2026-10-20</td><td>URL: <code>/website-section-templates/</code> (user's choice). Code lives in <code>components/SectionTemplates</code>; images in <code>public/images/section-templates/</code>.</td><td>Says exactly what it is and targets "website section templates" searches.</td></tr>
-    </tbody>
+          <tr><td>2026-10-21</td><td>SVG artwork may be used anywhere in the templates (backgrounds, decorations, dividers, masks). Inline SVG or CSS data URIs, theme variables or <code>currentColor</code> for colour, decorative by default, sanitised when user supplied. An artwork library and field are planned in Phase 3.</td><td>Small, sharp at any size and re-colourable by the theme; keeps exports to a single file.</td></tr>
+</tbody>
   </table>
 </section>
 
@@ -471,6 +496,7 @@
       <tr><td>2026-10-21</td><td>URLs restructured: <code>/website-builder/</code> is now the landing page (templates first: Start from scratch, Continue editing, My pages, then all templates by industry, plus the builder + template SEO content and schemas). The builder moved to <code>/website-builder/editor/</code> (noindex, follow; <code>?starter=blank</code> added). <code>/website-builder/templates/</code> 301s to <code>/website-builder/</code> (.htaccess) and left the sitemap; template pages stay at <code>/website-builder/templates/&lt;id&gt;/</code>. Old <code>/website-builder/?page|starter|add</code> links forward to the editor (StartCards.js). Section library OG image, gallery max 4 per row, boxed SEO blocks.</td></tr>
       <tr><td>2026-10-21</td><td>Readable exports: <code>templates/format.js</code> (formatHtml re-indents only existing line breaks, so rendering is unchanged — checked on all 44 sections + 15 templates; formatCss one declaration per line). documentHtml / pageDocumentHtml format when clean (exports, code view). Section editor: CSS tab removed (the HTML view includes the CSS); Play button shortened to ▶ Play (title "Play animation") in both editors. Galleries: full width, 4–5 per row; builder landing has tall hover-scroll template cards and live-rendered Your pages with Load more.</td></tr>
       <tr><td>2026-10-21</td><td>Builder and section editor: Fork to My Code, Add to page dropdown (new or saved page), export menus reduced to ZIP / React ZIP / Vue ZIP with icons, flicker-free double-buffered preview and scroll restore, uploaded-images gallery across Website Sections / Builder / Email / Social, Show brand icon switch, logo gap, and six open-source icon sets (Lucide, Tabler, Heroicons, Remix, Phosphor, Brand logos) with self-contained stored icons. Not run or deployed (user tests).</td></tr>
+      <tr><td>2026-10-21</td><td>Documented SVG artwork (backgrounds, decorations, dividers, masks): principle, conventions under Architecture, a planned artwork library and field in Phase 3, and a decision. Documentation only; nothing built.</td></tr>
     </tbody>
   </table>
 </section>
