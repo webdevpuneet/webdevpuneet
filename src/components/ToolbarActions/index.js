@@ -9,13 +9,15 @@ import us from '../UiSnippetsTool/styles.module.css';
 
 const EXPORT_ICON = {
   html: <svg width="16" height="18" viewBox="0 0 512 512" aria-hidden="true"><path fill="#e44d26" d="M107 457L75 96h362l-32 361-149 41z"/><path fill="#f16529" d="M256 444l120-33 27-307H256z"/><path fill="#ebebeb" d="M256 208h-62l-4-45h66v-44H144l11 127h101zm0 122l-49-13-3-36h-44l6 67 90 25z"/><path fill="#fff" d="M256 208v44h58l-6 58-52 14v46l90-25 7-77 7-60zm0-89v44h114l-4-44z"/></svg>,
+  react: <svg width="17" height="17" viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="50" cy="50" rx="10" ry="10" fill="#61dafb"/><ellipse cx="50" cy="50" rx="46" ry="18" fill="none" stroke="#61dafb" strokeWidth="5"/><ellipse cx="50" cy="50" rx="46" ry="18" fill="none" stroke="#61dafb" strokeWidth="5" transform="rotate(60 50 50)"/><ellipse cx="50" cy="50" rx="46" ry="18" fill="none" stroke="#61dafb" strokeWidth="5" transform="rotate(120 50 50)"/></svg>,
+  vue: <svg width="17" height="15" viewBox="0 0 261.76 226.69" aria-hidden="true"><path d="M161.096 0l-30.225 52.351L100.647 0H0l130.871 226.69L261.742 0z" fill="#41b883"/><path d="M161.096 0l-30.225 52.351L100.647 0H52.346l78.525 136.01L209.397 0z" fill="#34495e"/></svg>,
   zip: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg>,
   file: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="M9 15l3 3 3-3"/></svg>,
   video: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="5" width="14" height="14" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg>,
   image: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#db2777" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>,
   text: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="14" y2="18"/></svg>,
 };
-const EXPORT_TINT = { html: '#e44d26', zip: '#6366f1', file: '#0ea5e9', text: '#059669', image: '#db2777', video: '#7c3aed' };
+const EXPORT_TINT = { react: '#61dafb', vue: '#41b883', html: '#e44d26', zip: '#6366f1', file: '#0ea5e9', text: '#059669', image: '#db2777', video: '#7c3aed' };
 
 export function ExportMenu({ options, head = 'Export as…', title = 'Copy or download' }) {
   const [open, setOpen] = useState(false);
@@ -48,6 +50,57 @@ export function ExportMenu({ options, head = 'Export as…', title = 'Copy or do
               <svg className={us.exportMenuItemArrow} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
             </button>
           ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* "+ Add to page" dropdown: a new page, or one of the saved pages.
+   loadPages(): Promise<[{ id, name, updated }]>, onPick(pageId | null): null means a new page. */
+export function AddToPageMenu({ loadPages, onPick, title = 'Add this section to a page in the Website Builder' }) {
+  const [open, setOpen] = useState(false);
+  const [pages, setPages] = useState(null);
+  const ref = useRef(null);
+  useEffect(() => {
+    if (!open) return undefined;
+    let live = true;
+    Promise.resolve(loadPages()).then(p => { if (live) setPages(p || []); }).catch(() => { if (live) setPages([]); });
+    const onDoc = ev => { if (ref.current && !ref.current.contains(ev.target)) setOpen(false); };
+    const onKey = ev => { if (ev.key === 'Escape') setOpen(false); };
+    document.addEventListener('mousedown', onDoc);
+    document.addEventListener('keydown', onKey);
+    return () => { live = false; document.removeEventListener('mousedown', onDoc); document.removeEventListener('keydown', onKey); };
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
+  const pick = id => { setOpen(false); onPick(id); };
+  return (
+    <div className={us.popoverAnchor} ref={ref}>
+      <button type="button" className={us.iconBtn} onClick={() => setOpen(v => !v)} title={title} aria-haspopup="true" aria-expanded={open}>
+        + Add to page
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 1, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      {open && (
+        <div className={us.exportMenu} role="menu" style={{ width: 270 }}>
+          <div className={us.exportMenuHead}>Add this section to…</div>
+          <button type="button" className={us.exportMenuItem} role="menuitem" onClick={() => pick(null)}>
+            <span className={us.exportMenuItemText}>
+              <span className={us.exportMenuItemLabel}>+ New page</span>
+              <span className={us.exportMenuItemSub}>Start an empty page with this section</span>
+            </span>
+          </button>
+          <div className={us.exportMenuHead} style={{ marginTop: 6 }}>Your pages</div>
+          <div style={{ maxHeight: 220, overflowY: 'auto' }}>
+            {pages === null && <div className={us.exportMenuItemSub} style={{ padding: '6px 10px' }}>Loading…</div>}
+            {pages && !pages.length && <div className={us.exportMenuItemSub} style={{ padding: '6px 10px' }}>No saved pages yet. Save a page in the Website Builder and it will show here.</div>}
+            {(pages || []).map(d => (
+              <button key={d.id} type="button" className={us.exportMenuItem} role="menuitem" onClick={() => pick(d.id)}>
+                <span className={us.exportMenuItemText}>
+                  <span className={us.exportMenuItemLabel}>{d.name}</span>
+                  <span className={us.exportMenuItemSub}>Edited {new Date(d.updated).toLocaleDateString()}</span>
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </div>

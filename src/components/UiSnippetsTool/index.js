@@ -765,7 +765,7 @@ function SavedGallery({ snippets, loaded, activeId, activeIsCustom, onSelect, on
             onMouseEnter={e => { setHoverId(sn.id); e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 24px rgba(0,0,0,0.1)'; }}
             onMouseLeave={e => { setHoverId(null); e.currentTarget.style.borderColor = sn.id === activeId && activeIsCustom ? 'var(--accent)' : 'var(--border)'; e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = ''; }}
           >
-            <div style={{ position: 'relative', height: 160, overflow: 'hidden', background: '#fff' }}>
+            <div style={{ position: 'relative', height: 240, overflow: 'hidden', background: '#fff' }}>
               <iframe
                 srcDoc={buildSrcdocSimple(sn.html || '', sn.css || '', sn.js || '', sn.cdnUrls || [])}
                 title={sn.name}

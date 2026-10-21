@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import s from '../SocialPostTemplates/styles.module.css';
 import x from './styles.module.css';
-import { ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
+import { AddToPageMenu, ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
@@ -13,10 +13,11 @@ import { panHandlers } from '@/components/HomeTemplatesCarousel';
 import { BrandKitPanel, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
 import { exportDesigns, importDesigns, blobToDataUrl, dataUrlToBlob } from '@/lib/design-transfer';
 import { loadCustomFonts, onFontsChange, customFontFaceCss, exportCustomFonts, importCustomFonts } from '@/lib/fonts';
+import { makeDesignStore } from '@/lib/design-store';
 import { dbPut } from '@/lib/uiSnippetsDb';
 import { openForkTab } from '@/lib/open-fork-tab';
 import { highlightHtml } from '@/lib/highlight-html';
-import { toReactComponent, toVueSfc } from '@/lib/snippet-exporters';
+import { toReactComponent, toVueSfc, componentName } from '@/lib/snippet-exporters';
 import {
   SECTION_TEMPLATES, SECTION_CATEGORIES, sectionTemplateById, sectionCategoryById,
   defaultSectionState, restoreSectionState,
@@ -459,21 +460,7 @@ export function SectionTemplateEditor({ id }) {
     try { await navigator.clipboard.writeText(str); flash(note); return true; }
     catch { flash('Copy was blocked by the browser, so use a download option instead'); return false; }
   };
-  const hasUploads = Object.keys(uploads).length > 0;
   const fileBase = t.id;
-  const copyHtml = async () => {
-    setBusy('copy');
-    const urls = await dataUrls();
-    await copy(documentHtml(t, state, { imageSrc: k => urls[k] || '', fontFaces }), hasUploads ? 'HTML copied, with your uploaded images embedded.' : 'HTML copied: one file with the CSS included.');
-    setBusy('');
-  };
-  const downloadHtml = async () => {
-    setBusy('html');
-    const urls = await dataUrls();
-    saveBlob(new Blob([documentHtml(t, state, { imageSrc: k => urls[k] || '', fontFaces })], { type: 'text/html' }), `${fileBase}.html`);
-    flash('Downloaded a single HTML file that works offline.');
-    setBusy('');
-  };
   const downloadZip = async () => {
     setBusy('zip');
     try {
@@ -500,18 +487,42 @@ export function SectionTemplateEditor({ id }) {
     } catch (err) { flash(`ZIP failed: ${err.message}`); }
     setBusy('');
   };
-  const copyFramework = async kind => {
-    const parts = snippetParts(t, state, { imageSrc: relativeSrc, fontFaces });
-    const code = kind === 'react' ? toReactComponent(parts) : toVueSfc(parts);
-    await copy(code, `${kind === 'react' ? 'React' : 'Vue'} component copied.${hasUploads ? ' Uploaded images point to images/, so put them there (Download ZIP gives you the files).' : ''}`);
+  const downloadFrameworkZip = async kind => {
+    const react = kind === 'react';
+    setBusy(`${kind}zip`);
+    try {
+      const { default: JSZip } = await import('jszip');
+      const zip = new JSZip();
+      const dir = zip.folder(`${fileBase}-${kind}`);
+      const taken = new Set();
+      for (const u of Object.values(uploads)) { const rec = await getAsset(u.id).catch(() => null); if (rec?.blob && !taken.has(u.file)) { dir.file(`assets/${u.file}`, rec.blob); taken.add(u.file); } }
+      const parts = snippetParts(t, state, { imageSrc: zipSrc, fontFaces });
+      const a = await localizeImages(parts.html, dir, taken);
+      const b = await localizeImages(parts.css, dir, taken);
+      const name = componentName(parts);
+      const out = { ...parts, html: a.html, css: b.html };
+      dir.file(react ? `${name}.jsx` : `${name}.vue`, react ? toReactComponent(out) : toVueSfc(out));
+      const missed = a.missed + b.missed;
+      dir.file('README.txt', [
+        `${t.name} v${t.version} as a ${react ? 'React' : 'Vue'} component: https://webdevpuneet.com${BASE}${t.id}/`,
+        '',
+        react ? `${name}.jsx   the component (JSX with the CSS included)` : `${name}.vue   the single-file component (template, script and CSS)`,
+        taken.size ? `assets/        every image it uses (${taken.size}). Copy this folder into your public/ folder so /assets/... resolves.` : '',
+        missed ? `${missed} image${missed > 1 ? 's' : ''} could not be downloaded and still load from their original URL.` : '',
+      ].filter(Boolean).join('\n'));
+      saveBlob(await zip.generateAsync({ type: 'blob' }), `${fileBase}-${kind}.zip`);
+      flash(`Downloaded ${react ? 'React' : 'Vue'} ZIP${taken.size ? ` with ${taken.size} image${taken.size > 1 ? 's' : ''} in assets/` : ''}.`);
+    } catch (err) { flash(`ZIP failed: ${err.message}`); }
+    setBusy('');
   };
   /* Send this section (content, lists and uploaded images) to the Website Builder, which
      appends it to the page being built. Key shared with components/WebsiteBuilder. */
-  const addToBuilder = () => {
+  const loadBuilderPages = () => makeDesignStore('wdp-website-pages').listDesigns();
+  const addToBuilder = pageId => {
     try { localStorage.setItem('wdp-wb-incoming', JSON.stringify({ tpl: t.id, state, at: Date.now() })); }
     catch { flash('Your browser blocked storage, so the section couldn’t be sent to the Website Builder.'); return; }
-    window.open('/website-builder/editor/?add=1', '_blank', 'noopener');
-    flash('Opened the Website Builder with this section added to your page.');
+    window.open(`/website-builder/editor/?add=1&${pageId ? `page=${encodeURIComponent(pageId)}` : 'starter=blank'}`, '_blank', 'noopener');
+    flash(pageId ? 'Opened your page in the Website Builder with this section added.' : 'Opened a new page in the Website Builder with this section added.');
   };
   const forkToMyCode = async () => {
     const tab = openForkTab();
@@ -818,16 +829,14 @@ export function SectionTemplateEditor({ id }) {
                 menu={currentDesign ? [{ label: 'Detach', sub: `Keep editing without changing “${currentDesign.name}”`, onClick: () => { setCurrentDesign(null); savedJson.current = null; flash('Detached. Save now creates a new design.'); } }] : []}
               />
               <span className={s.toolbarSep} aria-hidden="true" />
-              <button type="button" className={`${s.miniBtn} ${x.toolBtn}`} onClick={addToBuilder} title="Add this section to a full page in the Website Builder">+ Add to page</button>
+              <AddToPageMenu loadPages={loadBuilderPages} onPick={addToBuilder} />
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy} />
               <ExportMenu
                 head="Export this section as…"
                 options={[
-                  { icon: 'html', label: 'Copy HTML', sub: 'One file: HTML + CSS, images embedded', onClick: copyHtml, disabled: !!busy },
-                  { icon: 'file', label: 'Download .html', sub: 'A single page that works offline', onClick: downloadHtml, disabled: !!busy },
-                  { icon: 'zip', label: busy === 'zip' ? 'Zipping…' : 'Download ZIP', sub: 'index.html plus an assets folder with every image', onClick: downloadZip, disabled: !!busy },
-                  { icon: 'react', label: 'Copy React component', sub: 'JSX with the CSS included', onClick: () => copyFramework('react') },
-                  { icon: 'vue', label: 'Copy Vue component', sub: 'Single-file component (.vue)', onClick: () => copyFramework('vue') },
+                  { icon: 'html', label: busy === 'zip' ? 'Zipping…' : 'Download ZIP', sub: 'index.html plus an assets folder with every image', onClick: downloadZip, disabled: !!busy },
+                  { icon: 'react', label: busy === 'reactzip' ? 'Zipping…' : 'Download React ZIP', sub: 'The .jsx component plus an assets folder with every image', onClick: () => downloadFrameworkZip('react'), disabled: !!busy },
+                  { icon: 'vue', label: busy === 'vuezip' ? 'Zipping…' : 'Download Vue ZIP', sub: 'The .vue component plus an assets folder with every image', onClick: () => downloadFrameworkZip('vue'), disabled: !!busy },
                 ]}
               />
             </div>

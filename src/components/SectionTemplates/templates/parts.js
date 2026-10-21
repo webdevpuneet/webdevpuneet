@@ -33,12 +33,13 @@ export const avatar = n => IMG(`avatar-${n}.jpg`);
 /* Brand: an uploaded logo image, or an icon + name mark */
 export const BRAND_HTML = `<a class="st-brand" data-href="logoUrl">
       <img class="st-brand-img" data-image="logoImage" data-optional alt="" height="32">
-      <span class="st-brand-mark" data-hide-if="logoImage"><span class="st-brand-icon" data-icon="logoIcon"></span><span data-edit="logoText"></span></span>
+      <span class="st-brand-mark" data-hide-if="logoImage"><span class="st-brand-icon" data-icon="logoIcon" data-show="showLogoIcon"></span><span data-edit="logoText"></span></span>
     </a>`;
 
 export const brandFields = (group = 'brand') => [
   { key: 'logoText', group, label: 'Brand name', type: 'text', value: 'Acme' },
-  { key: 'logoIcon', group, label: 'Brand icon (used without a logo image)', type: 'icon', value: 'layers' },
+  { key: 'showLogoIcon', group, label: 'Show brand icon', type: 'switch', toggle: 'showLogoIcon' },
+  { key: 'logoIcon', group, label: 'Brand icon', type: 'icon', value: 'layers' },
   { key: 'logoImage', group, label: 'Logo image (optional)', type: 'image', value: '', hint: 'An SVG or transparent PNG about 32 px tall. Replaces the icon + name.', upload: { name: 'logo', maxW: 480, mime: 'image/png' } },
   { key: 'logoImageAlt', group, label: 'Logo alt text', type: 'text', value: '' },
   { key: 'logoUrl', group, label: 'Logo link', type: 'url', value: '/' },
@@ -55,7 +56,7 @@ export const navToggles = () => [
   { key: 'hideOnScroll', label: 'Hide on scroll down', value: false },
 ];
 
-export const BRAND_CSS = `.st-brand{display:inline-flex;align-items:center;flex:none;text-decoration:none;color:var(--st-text)}
+export const BRAND_CSS = `.st-brand{display:inline-flex;align-items:center;gap:10px;flex:none;text-decoration:none;color:var(--st-text)}
 .st-brand-img{height:32px;width:auto;max-width:180px;object-fit:contain}
 .st-brand-mark{display:inline-flex;align-items:center;gap:10px;font:800 21px/1 var(--st-font-heading);letter-spacing:-.03em}
 .st-brand-icon{display:grid;place-items:center;width:34px;height:34px;border-radius:calc(var(--st-radius) * .7px);background:var(--st-brand);color:var(--st-btn-text)}

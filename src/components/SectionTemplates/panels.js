@@ -152,6 +152,18 @@ export function ContentPanel({ t, state, setState, blobUrls = {}, onPickUpload, 
 
   /* One editing control. ukey = where an uploaded image is stored in state.uploads */
   const renderField = (fd, value, onChange, ukey, id) => {
+    if (fd.type === 'switch') {
+      const on = state.toggles?.[fd.toggle] !== false;
+      return (
+        <div key={id} className={s.field} data-fieldwrap="" style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <label className={s.label} htmlFor={id} style={{ margin: 0 }}>{fd.label}</label>
+          <label className={x.switch} title={on ? 'Shown in the section' : 'Hidden from the section'}>
+            <input id={id} type="checkbox" checked={on} onChange={ev => setToggle(fd.toggle, ev.target.checked)} />
+            <span />
+          </label>
+        </div>
+      );
+    }
     const up = fd.type === 'image' ? uploads[ukey] : null;
     return (
       <div key={id} className={s.field} data-fieldwrap="">

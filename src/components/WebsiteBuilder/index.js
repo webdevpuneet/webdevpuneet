@@ -12,6 +12,7 @@ import s from '../SocialPostTemplates/styles.module.css';
 import b from './styles.module.css';
 import x from '../SectionTemplates/styles.module.css';
 import { ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
+import { toReactComponent, toVueSfc, componentName } from '@/lib/snippet-exporters';
 import { dbPut } from '@/lib/uiSnippetsDb';
 import { openForkTab } from '@/lib/open-fork-tab';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
@@ -238,6 +239,7 @@ export default function WebsiteBuilder() {
     setOrigin(window.location.origin);
     let live = true;
     (async () => {
+      const wantsAdd = !!new URLSearchParams(window.location.search).get('add'); // the starter branch below clears the URL
       const id = new URLSearchParams(window.location.search).get('page');
       let done = false;
       if (id) {
@@ -267,7 +269,7 @@ export default function WebsiteBuilder() {
         }
       }
       // "Add to Website Builder" from a section editor: append that section to the page
-      if (live && new URLSearchParams(window.location.search).get('add')) {
+      if (live && wantsAdd) {
         let incoming = null;
         try { incoming = JSON.parse(localStorage.getItem(INCOMING_KEY) || 'null'); localStorage.removeItem(INCOMING_KEY); } catch { /* storage blocked */ }
         const t = incoming && Date.now() - (incoming.at || 0) < 10 * 60 * 1000 ? sectionTemplateById(incoming.tpl) : null;
@@ -453,20 +455,6 @@ export default function WebsiteBuilder() {
 
   /* Export */
   const fileBase = slugify(page.name);
-  const downloadHtml = async () => {
-    setBusy('html');
-    const urls = await dataUrls();
-    saveBlob(new Blob([pageDocumentHtml(page, { imageSrc: (uid, k) => urls[`${uid}|${k}`] || '', fontFaces })], { type: 'text/html' }), `${fileBase}.html`);
-    flash('Downloaded your page as one HTML file (images embedded).');
-    setBusy('');
-  };
-  const copyHtml = async () => {
-    setBusy('copy');
-    const urls = await dataUrls();
-    try { await navigator.clipboard.writeText(pageDocumentHtml(page, { imageSrc: (uid, k) => urls[`${uid}|${k}`] || '', fontFaces })); flash('Page HTML copied.'); }
-    catch { flash('Copy was blocked by the browser, so use Download instead.'); }
-    setBusy('');
-  };
   /* Fork: the whole page as one editable snippet in My Code (opens in a new tab) */
   const forkToMyCode = async () => {
     const tab = openForkTab();
@@ -497,6 +485,50 @@ ${pageCss(page, { fontFaces })}`),
       tab.go(rid);
       flash('Forked to My Code. It opened in a new tab.');
     } catch (err) { tab.cancel(); flash(`Couldn't save to My Code: ${err.message}`); }
+    setBusy('');
+  };
+  const pageParts = imageSrc => {
+    const gf = pageDocumentHtml(page, { fontFaces }).match(/<link href="(https:\/\/fonts\.googleapis\.com[^"]+)"/)?.[1];
+    const js = pageScript(page);
+    return {
+      id: fileBase,
+      title: page.name || 'My website',
+      html: pageMarkup(page, { imageSrc, clean: true }),
+      css: `${gf ? `@import url('${gf}');\n` : ''}body{margin:0;background:${page.theme?.bg || '#fff'}}\nhtml{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}\n${pageCss(page, { fontFaces })}`,
+      js: js || '',
+      cdnUrls: js ? pageCdn(page) : [],
+    };
+  };
+  const downloadFrameworkZip = async kind => {
+    const react = kind === 'react';
+    setBusy(`${kind}zip`);
+    try {
+      const { default: JSZip } = await import('jszip');
+      const zip = new JSZip();
+      const dir = zip.folder(`${fileBase}-${kind}`);
+      const seen = new Set();
+      for (const u of allUploads) {
+        if (seen.has(u.file)) continue;
+        const rec = await getAsset(u.id).catch(() => null);
+        if (rec?.blob) { dir.file(`assets/${u.file}`, rec.blob); seen.add(u.file); }
+      }
+      const parts = pageParts(relativeSrc);
+      const a = await localizeImages(parts.html, dir, seen);
+      const c = await localizeImages(parts.css, dir, seen);
+      const name = componentName(parts);
+      const out = { ...parts, html: a.html, css: c.html };
+      dir.file(react ? `${name}.jsx` : `${name}.vue`, react ? toReactComponent(out) : toVueSfc(out));
+      const missed = a.missed + c.missed;
+      dir.file('README.txt', [
+        `${page.name} as a ${react ? 'React' : 'Vue'} component: built with the free Website Builder, https://webdevpuneet.com/website-builder/`,
+        '',
+        react ? `${name}.jsx   the component (JSX with the CSS included)` : `${name}.vue   the single-file component (template, script and CSS)`,
+        seen.size ? `assets/        every image the page uses (${seen.size}). Copy this folder into your public/ folder so /assets/... resolves.` : '',
+        missed ? `${missed} image${missed > 1 ? 's' : ''} could not be downloaded and still load from their original URL.` : '',
+      ].filter(Boolean).join('\n'));
+      saveBlob(await zip.generateAsync({ type: 'blob' }), `${fileBase}-${kind}.zip`);
+      flash(`Downloaded ${react ? 'React' : 'Vue'} ZIP${seen.size ? ` with ${seen.size} image${seen.size > 1 ? 's' : ''} in assets/` : ''}.`);
+    } catch (err) { flash(`ZIP failed: ${err.message}`); }
     setBusy('');
   };
   const downloadZip = async () => {
@@ -851,15 +883,15 @@ ${pageCss(page, { fontFaces })}`),
                 menu={current ? [{ label: 'Detach', sub: `Keep editing without changing “${current.name}”`, onClick: () => { setCurrent(null); savedJson.current = null; flash('Detached. Save now creates a new page.'); } }] : []}
               />
               <span className={s.toolbarSep} aria-hidden="true" />
+              <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy || !page.sections.length} />
               <ExportMenu
                 head="Export this page as…"
                 options={[
-                  { icon: 'file', label: busy === 'html' ? 'Preparing…' : 'Download .html', sub: 'One file, images embedded, works offline', onClick: downloadHtml, disabled: !!busy || !page.sections.length },
-                  { icon: 'zip', label: busy === 'zip' ? 'Zipping…' : 'Download ZIP', sub: 'index.html plus an assets folder with every image', onClick: downloadZip, disabled: !!busy || !page.sections.length },
-                  { icon: 'html', label: 'Copy HTML', sub: 'The whole page, CSS included', onClick: copyHtml, disabled: !!busy || !page.sections.length },
+                  { icon: 'html', label: busy === 'zip' ? 'Zipping…' : 'Download ZIP', sub: 'index.html plus an assets folder with every image', onClick: downloadZip, disabled: !!busy || !page.sections.length },
+                  { icon: 'react', label: busy === 'reactzip' ? 'Zipping…' : 'Download React ZIP', sub: 'The .jsx component plus an assets folder with every image', onClick: () => downloadFrameworkZip('react'), disabled: !!busy || !page.sections.length },
+                  { icon: 'vue', label: busy === 'vuezip' ? 'Zipping…' : 'Download Vue ZIP', sub: 'The .vue component plus an assets folder with every image', onClick: () => downloadFrameworkZip('vue'), disabled: !!busy || !page.sections.length },
                 ]}
               />
-              <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy || !page.sections.length} />
             </div>
           </div>
 
