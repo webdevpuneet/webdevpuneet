@@ -11,7 +11,9 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import s from '../SocialPostTemplates/styles.module.css';
 import b from './styles.module.css';
 import x from '../SectionTemplates/styles.module.css';
-import { ExportMenu, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
+import { ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
+import { dbPut } from '@/lib/uiSnippetsDb';
+import { openForkTab } from '@/lib/open-fork-tab';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import { BrandKitPanel, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
@@ -19,7 +21,7 @@ import { makeDesignStore } from '@/lib/design-store';
 import { exportDesigns, importDesigns, blobToDataUrl, dataUrlToBlob } from '@/lib/design-transfer';
 import { loadCustomFonts, onFontsChange, customFontFaceCss, exportCustomFonts, importCustomFonts } from '@/lib/fonts';
 import { SECTION_TEMPLATES, SECTION_CATEGORIES, sectionTemplateById, sectionCategoryById } from '@/components/SectionTemplates/templates/index.js';
-import { emptyPage, newPageSection, newUid, restorePage, pageDocumentHtml, STARTERS, pageFromStarter, cleanAnchor, defaultAnchor } from '@/components/SectionTemplates/templates/page.js';
+import { pageCss, pageMarkup, pageScript, pageCdn, emptyPage, newPageSection, newUid, restorePage, pageDocumentHtml, STARTERS, pageFromStarter, cleanAnchor, defaultAnchor } from '@/components/SectionTemplates/templates/page.js';
 import { restoreSectionState } from '@/components/SectionTemplates/templates/index.js';
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
@@ -465,6 +467,38 @@ export default function WebsiteBuilder() {
     catch { flash('Copy was blocked by the browser, so use Download instead.'); }
     setBusy('');
   };
+  /* Fork: the whole page as one editable snippet in My Code (opens in a new tab) */
+  const forkToMyCode = async () => {
+    const tab = openForkTab();
+    setBusy('fork');
+    try {
+      const urls = await dataUrls();
+      const now = new Date().toISOString();
+      const rid = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `wb-${Date.now().toString(36)}`;
+      const gf = pageDocumentHtml(page, { fontFaces }).match(/<link href="(https:\/\/fonts\.googleapis\.com[^"]+)"/)?.[1];
+      /* On localhost the production image URLs aren't live yet, so point them at this origin */
+      const local = /^(localhost|127\.0\.0\.1)$/.test(location.hostname)
+        ? str => str.split('https://webdevpuneet.com/images/').join(`${location.origin}/images/`)
+        : str => str;
+      const js = pageScript(page);
+      await dbPut({
+        id: rid,
+        name: `${page.name || 'My website'} (page)`,
+        tags: ['page'],
+        cdnUrls: [...(gf ? [gf] : []), ...(js ? pageCdn(page) : [])],
+        html: local(pageMarkup(page, { imageSrc: (uid, k) => urls[`${uid}|${k}`] || '', clean: true })),
+        css: local(`body{margin:0;background:${page.theme?.bg || '#fff'}}
+html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
+${pageCss(page, { fontFaces })}`),
+        js: js || '',
+        createdAt: now,
+        updatedAt: now,
+      });
+      tab.go(rid);
+      flash('Forked to My Code. It opened in a new tab.');
+    } catch (err) { tab.cancel(); flash(`Couldn't save to My Code: ${err.message}`); }
+    setBusy('');
+  };
   const downloadZip = async () => {
     setBusy('zip');
     try {
@@ -825,6 +859,7 @@ export default function WebsiteBuilder() {
                   { icon: 'html', label: 'Copy HTML', sub: 'The whole page, CSS included', onClick: copyHtml, disabled: !!busy || !page.sections.length },
                 ]}
               />
+              <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy || !page.sections.length} />
             </div>
           </div>
 
