@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { LIVE_TOOLS } from '@/lib/tools-registry';
 import { setNotFound } from '@/lib/not-found-state';
 import HeroSnippetPreview from '@/components/HeroSnippetPreview';
+import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import styles from './not-found.module.css';
 
 const POPULAR = [
@@ -37,7 +38,10 @@ export default function NotFound() {
     : null;
 
   return (
-    <div className={styles.page} data-not-found-page>
+    <div className={styles.shell}>
+      {/* The same tabs as the tool pages: UI Snippets, Website Sections, Website Builder, Email Templates… */}
+      <PlaygroundTopNav />
+      <div className={styles.page} data-not-found-page>
       <div className={styles.inner}>
         <div className={styles.code}>404</div>
         <h1 className={styles.title}>Page not found</h1>
@@ -74,7 +78,7 @@ export default function NotFound() {
           </div>
         ) : (
           <>
-            <HeroSnippetPreview pageSize={4} columns={2} />
+            <HeroSnippetPreview pageSize={8} columns={4} />
 
             <p className={styles.sectionLabel}>Learn to code</p>
             <div className={styles.learnGrid}>
@@ -101,6 +105,7 @@ export default function NotFound() {
         )}
 
         <a href="/" className={styles.homeLink}>← Back to home</a>
+      </div>
       </div>
     </div>
   );
