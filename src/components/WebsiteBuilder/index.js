@@ -51,54 +51,97 @@ const SELECT_CSS = 'section[data-uid]{cursor:pointer}section[data-uid].wb-on{out
 /* The live page: an iframe at the device width, scaled to fit the stage, keeping its
    scroll position across updates. Clicking a section selects it. */
 function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDoc }) {
-  const ref = useRef(null);
+  /* Two stacked frames (double buffering): an edit loads the new page into the hidden frame,
+     restores the scroll position there, and only then swaps it in. The visible frame is never
+     blanked or sent back to the top, so editing doesn't flicker. */
+  const refs = [useRef(null), useRef(null)];
+  const [docs, setDocs] = useState([html, '']);
+  const [front, setFront] = useState(0);
+  const frontRef = useRef(0);
+  const pending = useRef(-1);
+  const seq = useRef(0);
+  const lastHtml = useRef(html);
   const onDocRef = useRef(onDoc);
   onDocRef.current = onDoc;
+  const selRef = useRef(selected);
+  selRef.current = selected;
+  const cb = useRef({});
+  cb.current = { onSelect, onKey };
   const scrollY = useRef(0);
+
   useEffect(() => {
-    const frame = ref.current;
-    if (!frame) return undefined;
-    const onLoad = () => {
-      const doc = frame.contentDocument;
-      if (!doc) return;
-      const win = frame.contentWindow;
-      win.scrollTo(0, scrollY.current);
-      win.addEventListener('scroll', () => { scrollY.current = win.scrollY; }, { passive: true });
-      doc.addEventListener('click', ev => {
-        const a = ev.target.closest?.('a');
-        if (a) {
-          ev.preventDefault();
-          // In-page links (#pricing) scroll the preview to that section (not buttons, whose
-          // clicks edit their text or point to their link field)
-          const href = a.getAttribute('href') || '';
-          if (href.length > 1 && href.startsWith('#') && !ev.target.closest('[data-st-editing],[data-href],[data-i-href]')) { doc.getElementById(href.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
-        }
-        const sec = ev.target.closest?.('section[data-uid]');
-        if (sec) onSelect(sec.getAttribute('data-uid'));
-      });
-      doc.addEventListener('submit', ev => ev.preventDefault());
-      // Undo / redo / save shortcuts keep working while the preview has focus
-      doc.addEventListener('keydown', ev => onKey?.(ev));
-      onDocRef.current?.(doc);
-      doc.querySelectorAll('section[data-uid]').forEach(el => el.classList.toggle('wb-on', el.getAttribute('data-uid') === selected));
-    };
-    frame.addEventListener('load', onLoad);
-    return () => frame.removeEventListener('load', onLoad);
-  }, [html]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (html === lastHtml.current) return;
+    lastHtml.current = html;
+    const back = 1 - frontRef.current;
+    pending.current = back;
+    // A unique trailer forces a reload even when this frame already holds identical html (e.g.
+    // toggling something off and on), otherwise no load event fires and the swap never happens
+    seq.current += 1;
+    setDocs(d => { const n = [...d]; n[back] = `${html}<!--${seq.current}-->`; return n; });
+  }, [html]);
+
+  const onLoad = i => {
+    const frame = refs[i].current;
+    const doc = frame?.contentDocument;
+    if (!doc || !doc.body || !doc.body.firstChild) return; // the empty hidden frame
+    const win = frame.contentWindow;
+    // The page has smooth scrolling, so restoring the position would visibly glide
+    const root = doc.documentElement;
+    root.style.scrollBehavior = 'auto';
+    win.scrollTo(0, scrollY.current);
+    root.style.scrollBehavior = '';
+    win.addEventListener('scroll', () => { if (frontRef.current === i) scrollY.current = win.scrollY; }, { passive: true });
+    doc.addEventListener('click', ev => {
+      const a = ev.target.closest?.('a');
+      if (a) {
+        ev.preventDefault();
+        // In-page links (#pricing) scroll the preview to that section (not buttons, whose
+        // clicks edit their text or point to their link field)
+        const href = a.getAttribute('href') || '';
+        if (href.length > 1 && href.startsWith('#') && !ev.target.closest('[data-st-editing],[data-href],[data-i-href]')) { doc.getElementById(href.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+      }
+      const sec = ev.target.closest?.('section[data-uid]');
+      if (sec) cb.current.onSelect(sec.getAttribute('data-uid'));
+    });
+    doc.addEventListener('submit', ev => ev.preventDefault());
+    // Undo / redo / save shortcuts keep working while the preview has focus
+    doc.addEventListener('keydown', ev => cb.current.onKey?.(ev));
+    doc.querySelectorAll('section[data-uid]').forEach(el => el.classList.toggle('wb-on', el.getAttribute('data-uid') === selRef.current));
+    onDocRef.current?.(doc);
+    if (pending.current === i) {
+      pending.current = -1;
+      frontRef.current = i;
+      setFront(i);
+    }
+  };
+
   // Selection changes only move the outline (no reload) and bring the section into view
   useEffect(() => {
-    const doc = ref.current?.contentDocument;
+    const frame = refs[frontRef.current].current;
+    const doc = frame?.contentDocument;
     if (!doc) return;
     let target = null;
     doc.querySelectorAll('section[data-uid]').forEach(el => { const on = el.getAttribute('data-uid') === selected; el.classList.toggle('wb-on', on); if (on) target = el; });
     if (target) {
       const r = target.getBoundingClientRect();
-      if (r.top < 0 || r.top > ref.current.contentWindow.innerHeight * 0.6) target.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      if (r.top < 0 || r.top > frame.contentWindow.innerHeight * 0.6) target.scrollIntoView({ block: 'start', behavior: 'smooth' });
     }
-  }, [selected]);
+  }, [selected]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div className={b.frameBox} style={{ width: width * scale, height: height * scale }}>
-      <iframe ref={ref} title="Page preview" srcDoc={html} className={b.frame} style={{ width, height, transform: scale !== 1 ? `scale(${scale})` : undefined }} />
+      {[0, 1].map(i => (
+        <iframe
+          key={i}
+          ref={refs[i]}
+          title={i === front ? 'Page preview' : 'Page preview (loading)'}
+          aria-hidden={i === front ? undefined : true}
+          tabIndex={i === front ? undefined : -1}
+          srcDoc={docs[i]}
+          onLoad={() => onLoad(i)}
+          className={b.frame}
+          style={{ width, height, transform: scale !== 1 ? `scale(${scale})` : undefined, ...(i === 1 ? { position: 'absolute', top: 0, left: 0 } : null), visibility: i === front ? 'visible' : 'hidden', pointerEvents: i === front ? undefined : 'none' }}
+        />
+      ))}
     </div>
   );
 }
