@@ -15,6 +15,7 @@ import { exportDesigns, importDesigns, blobToDataUrl, dataUrlToBlob } from '@/li
 import { loadCustomFonts, onFontsChange, customFontFaceCss, exportCustomFonts, importCustomFonts } from '@/lib/fonts';
 import { makeDesignStore } from '@/lib/design-store';
 import { dbPut } from '@/lib/uiSnippetsDb';
+import { addToLibrary } from '@/lib/image-library';
 import { openForkTab } from '@/lib/open-fork-tab';
 import { highlightHtml } from '@/lib/highlight-html';
 import { toReactComponent, toVueSfc, componentName } from '@/lib/snippet-exporters';
@@ -450,6 +451,7 @@ export function SectionTemplateEditor({ id }) {
       const key = `${t.id}:${ukey}:${uid}`;
       const name = `${fd.upload?.name || fd.key}-${uid}.${EXT[out.type] || 'png'}`;
       await putAsset(key, { blob: out.blob, type: out.type, file: name, name, w: out.w, h: out.h, updatedAt: new Date().toISOString() });
+      addToLibrary(out.blob, { file: name, w: out.w, h: out.h });
       setState(p => ({ ...p, uploads: { ...p.uploads, [ukey]: { id: key, file: name, w: out.w, h: out.h } } }));
       flash(`Uploaded ${file.name} (${out.w}×${out.h}). Saved in this browser.`);
     } catch (err) { flash(err.message || 'Upload failed'); }

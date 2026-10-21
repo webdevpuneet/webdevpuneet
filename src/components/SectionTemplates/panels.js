@@ -12,6 +12,8 @@ import s from '../SocialPostTemplates/styles.module.css';
 import x from './styles.module.css';
 import FontPicker from '@/components/FontPicker';
 import { revealInPanel } from '@/lib/reveal-in-panel';
+import ImageLibraryPicker from '@/components/ImageLibrary';
+import { putAsset } from './storage';
 import { parseHex, onColor } from '../OgImageGenerator/engine';
 import {
   THEME_PRESETS, THEME_COLORS, MOTION_PRESETS, MOTION_SPEEDS, TEXT_EFFECTS,
@@ -113,6 +115,22 @@ export function ContentPanel({ t, state, setState, blobUrls = {}, onPickUpload, 
   const toggleGroup = gid => setOpen(prev => { const n = new Set(prev); if (n.has(gid)) n.delete(gid); else n.add(gid); return n; });
   const setField = (key, value) => setState(p => ({ ...p, fields: { ...p.fields, [key]: value } }));
   const setToggle = (key, value) => setState(p => ({ ...p, toggles: { ...p.toggles, [key]: value } }));
+  /* Reuse an image from the shared gallery. One already in this tool's store is used as is;
+     any other is copied into it (once) so it behaves like an upload. */
+  const applyLibraryImage = async (key, item) => {
+    let rec;
+    if (item.origin === 'section') rec = { id: item.key, file: item.file, w: item.w, h: item.h };
+    else {
+      const id = `lib:${item.sig}`;
+      const ext = (item.file.match(/\.(\w+)$/)?.[1] || item.type.split('/')[1] || 'png').replace('jpeg', 'jpg');
+      const stem = item.file.replace(/\.\w+$/, '').replace(/[^\w-]+/g, '-').slice(0, 40) || 'image';
+      const hash = Array.from(item.sig).reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7).toString(36);
+      const file = `${stem}-${hash}.${ext}`;
+      await putAsset(id, { blob: item.blob, type: item.type, file, name: file, w: item.w, h: item.h, updatedAt: new Date().toISOString() });
+      rec = { id, file, w: item.w, h: item.h };
+    }
+    setState(p => ({ ...p, uploads: { ...(p.uploads || {}), [key]: rec } }));
+  };
   const removeUpload = key => setState(p => { const u = { ...(p.uploads || {}) }; delete u[key]; return { ...p, uploads: u }; });
 
   /* Repeatable lists: add, edit, duplicate, reorder and remove items */
@@ -185,6 +203,7 @@ export function ContentPanel({ t, state, setState, blobUrls = {}, onPickUpload, 
             ) : (
               <button type="button" className={s.miniBtn} onClick={() => onPickUpload(fd, ukey)}>↑ Upload image</button>
             )}
+            <ImageLibraryPicker onPick={item => applyLibraryImage(ukey, item)} />
           </div>
         )}
         {(fd.hint || fd.type === 'lines' || fd.type === 'links') && <span className={s.hint}>{fd.hint || (fd.type === 'links' ? 'One link per line: Label | URL' : 'One item per line.')}</span>}

@@ -24,6 +24,8 @@ import FormatPopover from './FormatPopover';
 import { BLOCK_TYPES, blocksText, blockSlot, COLUMN_FIELDS, columnCount, upgradeColumns } from './templates/shell.js';
 import { highlightHtml } from '@/lib/highlight-html';
 import FontPicker from '@/components/FontPicker';
+import ImageLibraryPicker from '@/components/ImageLibrary';
+import { addToLibrary } from '@/lib/image-library';
 import { resolveFont } from '@/lib/fonts';
 
 const LS_PREFIX = 'wdp-email-v1:';
@@ -963,20 +965,26 @@ export function EmailTemplateEditor({ id }) {
   const fileRef = useRef(null);
   const uploadField = useRef(null);
   const pickUpload = fd => { uploadField.current = fd; fileRef.current?.click(); };
-  const onUploadFile = async ev => {
-    const file = ev.target.files?.[0];
-    ev.target.value = '';
-    const fd = uploadField.current;
-    if (!file || !fd) return;
+  /* Resize a picked or reused image to the field's size and store it for this template */
+  const storeUpload = async (file, fd) => {
     try {
       const out = await prepareUpload(file, fd.upload);
       const id = `${t.id}:${fd.key}:${Date.now().toString(36)}`;
       const name = `${fd.upload.name}.${EXT[out.type] || 'png'}`;
       await putAsset(id, { blob: out.blob, type: out.type, name, w: out.w, h: out.h, updatedAt: new Date().toISOString() });
+      addToLibrary(out.blob, { file: name, w: out.w, h: out.h });
       setState(p => ({ ...p, uploads: { ...(p.uploads || {}), [fd.key]: { id, file: name, type: out.type, w: out.w, h: out.h, size: out.blob.size } } }));
-      flash(`Uploaded ${name} (${out.w}×${out.h}, ${fmtKB(out.blob.size)}). Saved in this browser.`);
+      flash(`Using ${name} (${out.w}×${out.h}, ${fmtKB(out.blob.size)}). Saved in this browser.`);
     } catch (err) { flash(err.message || 'Upload failed'); }
   };
+  const onUploadFile = async ev => {
+    const file = ev.target.files?.[0];
+    ev.target.value = '';
+    const fd = uploadField.current;
+    if (!file || !fd) return;
+    await storeUpload(file, fd);
+  };
+  const reuseLibraryImage = (fd, item) => storeUpload(new File([item.blob], item.file, { type: item.type }), fd);
   const removeUpload = key => setState(p => { const u = { ...(p.uploads || {}) }; delete u[key]; return { ...p, uploads: u }; });
 
   // ZIP: the email, its plain-text version and the uploaded images, ready to extract and host
@@ -1362,7 +1370,8 @@ export function EmailTemplateEditor({ id }) {
                             ) : (
                               <button type="button" className={s.miniBtn} onClick={() => pickUpload(fd)}>↑ Upload image</button>
                             )}
-                          </div>
+                          <ImageLibraryPicker onPick={item => reuseLibraryImage(fd, item)} />
+</div>
                         )}
                         {fd.hint && <span className={s.hint}>{fd.hint}</span>}
                         {fd.key === 'subject' && <span className={s.hint}>{(f.subject || '').length} characters (aim for under 60)</span>}
@@ -1475,7 +1484,8 @@ export function EmailTemplateEditor({ id }) {
                               ) : (
                                 <button type="button" className={s.miniBtn} onClick={() => pickUpload({ key: upKey, upload: { name: `section-${b.id}`, maxW: 1200, mime: 'image/jpeg' } })}>↑ Upload image</button>
                               )}
-                            </div>
+                            <ImageLibraryPicker onPick={item => reuseLibraryImage({ key: upKey, upload: { name: `section-${b.id}`, maxW: 1200, mime: 'image/jpeg' } }, item)} />
+</div>
                           )}
                           {type === 'align' && (
                             <div className={`${s.seg} ${e.blockSeg}`} role="radiogroup" aria-label={label}>
@@ -1536,7 +1546,8 @@ export function EmailTemplateEditor({ id }) {
                                           ) : (
                                             <button type="button" className={s.miniBtn} onClick={() => pickUpload({ key: ckey, upload: { name: `section-${b.id}-c${k}`, maxW: 800, mime: 'image/jpeg' } })}>↑ Upload image</button>
                                           )}
-                                        </div>
+                                        <ImageLibraryPicker onPick={item => reuseLibraryImage({ key: ckey, upload: { name: `section-${b.id}-c${k}`, maxW: 800, mime: 'image/jpeg' } }, item)} />
+</div>
                                       )}
                                     </div>
                                   );

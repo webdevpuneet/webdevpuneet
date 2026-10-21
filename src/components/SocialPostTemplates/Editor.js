@@ -24,6 +24,8 @@ import ConfirmDialog from './ConfirmDialog';
 import { runChecks } from './quality-checks';
 import { listDesigns, getDesign, saveDesign, deleteDesign, duplicateDesign, thumbFrom, onDesignsChange, getAutosave, putAutosave } from './designs';
 import { openForkTab } from '@/lib/open-fork-tab';
+import ImageLibraryPicker from '@/components/ImageLibrary';
+import { addToLibrary } from '@/lib/image-library';
 
 const LS_PREFIX = 'wdp-spt-v1:';
 const fmtBytes = n => (n >= 1048576 ? `${(n / 1048576).toFixed(2)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
@@ -361,10 +363,14 @@ export default function TemplateEditor({ id }) {
     e.target.value = '';
     const key = pickKey.current;
     if (!file || !key) return;
+    await applyImageFile(file, key, true);
+  };
+  const applyImageFile = async (file, key, fromUpload = false) => {
     const field = st.fields.find(f => f.key === key);
     const contain = field?.fit === 'contain';
     try {
       const { data, dims } = await readImage(file, contain ? 600 : 1600, contain ? 'image/png' : 'image/jpeg');
+      if (fromUpload) fetch(data).then(r => r.blob()).then(blob => addToLibrary(blob, { file: file.name, w: dims.w, h: dims.h })).catch(() => {});
       updateSlide(sl => {
         const imagePos = { ...sl.imagePos };
         delete imagePos[key]; // a new photo starts centred
@@ -372,6 +378,7 @@ export default function TemplateEditor({ id }) {
       });
     } catch (err) { flash(err.message); }
   };
+  const reuseLibraryImage = (key, item) => applyImageFile(new File([item.blob], item.file, { type: item.type }), key);
   const removeImage = key => updateSlide(sl => {
     const strip = o => { const n = { ...o }; delete n[key]; return n; };
     return { ...sl, images: strip(sl.images), imagePos: strip(sl.imagePos), imageDims: strip(sl.imageDims) };
@@ -889,6 +896,7 @@ export default function TemplateEditor({ id }) {
                       <button type="button" className={s.miniBtn} onClick={() => pickImage(f.key)}>{src ? 'Replace' : 'Upload'}</button>
                       {src && <button type="button" className={s.miniBtn} onClick={() => removeImage(f.key)}>Remove</button>}
                     </div>
+                    <div className={s.cropRow} style={{ flexWrap: 'wrap' }}><ImageLibraryPicker onPick={item => reuseLibraryImage(f.key, item)} /></div>
                     {croppable && (
                       <div className={s.cropRow}>
                         <label className={s.cropLabel} htmlFor={`zoom-${f.key}`}>Zoom</label>

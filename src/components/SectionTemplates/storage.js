@@ -31,3 +31,4 @@ function run(mode, fn) {
 export const putAsset = (key, record) => run('readwrite', store => store.put(record, key));
 export const getAsset = key => run('readonly', store => store.get(key));
 export const deleteAsset = key => run('readwrite', store => store.delete(key));
+

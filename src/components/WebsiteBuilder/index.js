@@ -32,6 +32,7 @@ if (typeof window !== 'undefined') gsap.registerPlugin(Draggable, Flip);
 import { ContentPanel, ThemePanel, withKit } from '@/components/SectionTemplates/panels';
 import { bindInlineEdit, fieldOfTarget, useFrozenPreview } from '@/components/SectionTemplates/inline-edit';
 import { putAsset, getAsset } from '@/components/SectionTemplates/storage';
+import { addToLibrary } from '@/lib/image-library';
 import { saveBlob, prepareUpload, EXT, previewImages, localizeImages } from '@/components/SectionTemplates/upload';
 
 const TOOL = 'website-builder';
@@ -462,6 +463,7 @@ export default function WebsiteBuilder() {
       const key = `page:${uid}:${ukey}:${rid}`;
       const name = `${fd.upload?.name || fd.key}-${rid}.${EXT[out.type] || 'png'}`;
       await putAsset(key, { blob: out.blob, type: out.type, file: name, name, w: out.w, h: out.h, updatedAt: new Date().toISOString() });
+      addToLibrary(out.blob, { file: name, w: out.w, h: out.h });
       setSectionState(uid, st => ({ ...st, uploads: { ...st.uploads, [ukey]: { id: key, file: name, w: out.w, h: out.h } } }));
       flash(`Uploaded ${file.name} (${out.w}×${out.h}). Saved in this browser.`);
     } catch (err) { flash(err.message || 'Upload failed'); }
