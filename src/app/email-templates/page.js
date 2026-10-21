@@ -65,6 +65,7 @@ const SECTIONS = [
   {
     type: 'text',
     label: 'Browse by category',
+    boxed: true,
     heading: 'Email Templates for Every Stage of the Customer Journey',
     quickFacts: false,
     text: EMAIL_CATEGORIES.filter(c => EMAIL_TEMPLATES.some(t => t.category === c.id)).map(c => {

@@ -21,7 +21,7 @@ import { openForkTab } from '@/lib/open-fork-tab';
 import { putAsset, getAsset, deleteAsset, assetKeys } from './assetsDb';
 import { revealInPanel } from '@/lib/reveal-in-panel';
 import FormatPopover from './FormatPopover';
-import { BLOCK_TYPES, blocksText, blockSlot } from './templates/shell.js';
+import { BLOCK_TYPES, blocksText, blockSlot, COLUMN_FIELDS, columnCount, upgradeColumns } from './templates/shell.js';
 import { highlightHtml } from '@/lib/highlight-html';
 import FontPicker from '@/components/FontPicker';
 import { resolveFont } from '@/lib/fonts';
@@ -374,6 +374,23 @@ function domToRich(node, multiline) {
   return out;
 }
 
+/* Blocks with their uploaded images swapped in: blk:<id> is an image block's picture,
+   blk:<id>:c<n> a column's. srcFor(key) gives the URL to use, or '' to keep the block's own. */
+function withBlockImages(blocks, srcFor) {
+  return (blocks || []).map(b => {
+    let out = b;
+    const own = srcFor(`blk:${b.id}`);
+    if (own) out = { ...out, url: own };
+    if (b.type === 'columns') {
+      for (let n = 1; n <= columnCount(b); n++) {
+        const u = srcFor(`blk:${b.id}:c${n}`);
+        if (u) out = { ...out, [`c${n}Image`]: u };
+      }
+    }
+    return out;
+  });
+}
+
 /* Small badges for the extra section types */
 const BLOCK_ICONS = { heading: 'H', text: '¶', button: '▭', image: '▣', columns: '▥', divider: '—', spacer: '↕' };
 
@@ -382,10 +399,10 @@ function restoreEmail(t, saved) {
   const d = defaultEmailState(t);
   const pick = (src, def) => ({ ...def, ...Object.fromEntries(Object.entries(src || {}).filter(([k]) => k in def)) });
   const blockIds = new Set((Array.isArray(saved?.blocks) ? saved.blocks : []).map(b => `blk:${b?.id}`));
-  const uploads = Object.fromEntries(Object.entries(saved?.uploads || {}).filter(([k, u]) => u?.id && (t.fields.some(x => x.key === k && x.upload) || blockIds.has(k))));
+  const uploads = Object.fromEntries(Object.entries(saved?.uploads || {}).filter(([k, u]) => u?.id && (t.fields.some(x => x.key === k && x.upload) || blockIds.has(k.split(':').slice(0, 2).join(':')))));
   return { fields: pick(saved?.fields, d.fields), toggles: pick(saved?.toggles, d.toggles), vars: pick(saved?.vars, d.vars), fonts: pick(saved?.fonts, d.fonts), uploads, assetBase: saved?.assetBase || '', platform: MERGE_PLATFORMS.some(p => p.id === saved?.platform) ? saved.platform : '',
     previewText: typeof saved?.previewText === 'string' ? saved.previewText : '',
-    blocks: Array.isArray(saved?.blocks) ? saved.blocks.filter(b => b && BLOCK_TYPES[b.type] && b.id).map(b => ({ ...BLOCK_TYPES[b.type].defaults, ...b, where: b.where === 'top' || b.where === 'bottom' ? b.where : (Number.isFinite(parseInt(b.where, 10)) ? parseInt(b.where, 10) : 'bottom') })) : [] };
+    blocks: Array.isArray(saved?.blocks) ? saved.blocks.filter(b => b && BLOCK_TYPES[b.type] && b.id).map(upgradeColumns).map(b => ({ ...BLOCK_TYPES[b.type].defaults, ...b, where: b.where === 'top' || b.where === 'bottom' ? b.where : (Number.isFinite(parseInt(b.where, 10)) ? parseInt(b.where, 10) : 'bottom') })) : [] };
 }
 
 /* Brand kit -> email: brand colour (button text picked for contrast), name, hosted logo,
@@ -576,7 +593,7 @@ export function EmailTemplateEditor({ id }) {
     const fields = { ...state.fields };
     Object.keys(uploads).forEach(k => { if (!k.startsWith('blk:')) fields[k] = imagePath(k); });
     fields.preheader = state.previewText || ''; // optional; empty = no preheader (no stale sample text)
-    const blocks = (state.blocks || []).map(b => (uploads[`blk:${b.id}`] ? { ...b, url: imagePath(`blk:${b.id}`) } : b));
+    const blocks = withBlockImages(state.blocks, k => (uploads[k] ? imagePath(k) : ''));
     // With a platform chosen, empty or placeholder unsubscribe / preferences links become its tags
     if (mergePlatform(state.platform).unsubscribe) {
       Object.entries(MERGE_URLS).forEach(([k, url]) => {
@@ -588,7 +605,7 @@ export function EmailTemplateEditor({ id }) {
   const previewState = useMemo(() => {
     const fields = { ...state.fields };
     Object.entries(uploads).forEach(([k, u]) => { if (blobUrls[u.id] && !k.startsWith('blk:')) fields[k] = blobUrls[u.id]; });
-    const blocks = (state.blocks || []).map(b => { const u = uploads[`blk:${b.id}`]; return u && blobUrls[u.id] ? { ...b, url: blobUrls[u.id] } : b; });
+    const blocks = withBlockImages(state.blocks, k => (uploads[k] && blobUrls[uploads[k].id]) || '');
     return { ...state, fields, blocks };
   }, [state, blobUrls]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -640,7 +657,7 @@ export function EmailTemplateEditor({ id }) {
   moveBlockRef.current = moveBlockToSlot;
   const removeBlock = id => setState(p => {
     const u = { ...(p.uploads || {}) };
-    delete u[`blk:${id}`];
+    Object.keys(u).forEach(k => { if (k === `blk:${id}` || k.startsWith(`blk:${id}:`)) delete u[k]; });
     return { ...p, uploads: u, blocks: (p.blocks || []).filter(b => b.id !== id) };
   });
   // Field keys from rich inputs: template fields, or "blk:<id>:<prop>" for a block's text
@@ -906,6 +923,15 @@ export function EmailTemplateEditor({ id }) {
       if (!/^https:\/\//i.test(b.url)) checks.push({ level: 'bad', text: `${n}: the image must be a full https:// URL.` });
       if (!String(b.alt || '').trim()) checks.push({ level: 'warn', text: `${n}: add alt text. Many people read email with images off.` });
     }
+    if (b.type === 'columns') {
+      for (let k = 1; k <= columnCount(b); k++) {
+        const up = !!uploads[`blk:${b.id}:c${k}`];
+        const src = String(b[`c${k}Image`] || '').trim();
+        if (!up && src && !/^https:\/\//i.test(src)) checks.push({ level: 'bad', text: `${n}, column ${k}: the image must be a full https:// URL.` });
+        if ((up || src) && !String(b[`c${k}Alt`] || '').trim()) checks.push({ level: 'warn', text: `${n}, column ${k}: add alt text for the image.` });
+        if (String(b[`c${k}Btn`] || '').trim() && /webdevpuneet\.com|yoursite\.com|yourbrand/i.test(String(b[`c${k}Url`] || ''))) checks.push({ level: 'warn', text: `${n}, column ${k}: replace the placeholder button link.` });
+      }
+    }
     const link = b.type === 'button' ? b.url : b.type === 'image' ? b.link : '';
     if (/webdevpuneet\.com|yoursite\.com|yourbrand/i.test(String(link || ''))) checks.push({ level: 'warn', text: `${n}: replace the placeholder link.` });
   });
@@ -1136,7 +1162,7 @@ export function EmailTemplateEditor({ id }) {
         const fields = { ...exportState.fields }; // keeps merge-tag unsubscribe links
         const blockUrls = {};
         for (const [k, u] of Object.entries(uploads)) { const rec = await getAsset(u.id); if (rec?.blob) { const url = await blobToDataUrl(rec.blob); if (k.startsWith('blk:')) blockUrls[k] = url; else fields[k] = url; } }
-        const blocks = (exportState.blocks || []).map(b => (blockUrls[`blk:${b.id}`] ? { ...b, url: blockUrls[`blk:${b.id}`] } : b));
+        const blocks = withBlockImages(exportState.blocks, k => blockUrls[k] || '');
         forkHtml = applyMergeTags(t.build({ ...exportState, fields, blocks }), state.platform);
       }
       await dbPut({ id: rid, name: `${t.name} (email)`, tags: ['email'], cdnUrls: [], html: forkHtml, css: '', js: '', createdAt: now, updatedAt: now });
@@ -1387,7 +1413,7 @@ export function EmailTemplateEditor({ id }) {
               const folded = foldedBlocks.has(b.id);
               const upKey = `blk:${b.id}`;
               const up = b.type === 'image' ? uploads[upKey] : null;
-              const summary = String(b.text || b.left || b.alt || (up ? up.file : b.url) || (b.type === 'spacer' ? `${b.size || 24}px` : '')).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+              const summary = String(b.type === 'columns' ? `${columnCount(b)} columns · ${Array.from({ length: columnCount(b) }, (_, k) => b[`c${k + 1}Title`]).filter(Boolean).join(', ')}` : (b.text || b.alt || (up ? up.file : b.url) || (b.type === 'spacer' ? `${b.size || 24}px` : ''))).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
               const slot = blockSlot(b, rowLabels.length);
               return (
                 <div key={b.id} id={`blk-${b.id}`} className={`${e.block} ${folded ? e.blockFolded : ''}`}>
@@ -1460,7 +1486,68 @@ export function EmailTemplateEditor({ id }) {
                           )}
                         </div>
                       ))}
-                      {!def.fields.length && <p className={s.hint}>No settings: drag it in the preview or pick a position.</p>}
+                      {b.type === 'columns' && (
+                        <>
+                          <div className={e.blockInline}>
+                            <span className={e.blockLabel}>Columns</span>
+                            <div className={`${s.seg} ${e.blockSeg}`} role="radiogroup" aria-label="Number of columns">
+                              {[2, 3, 4].map(c => (
+                                <button key={c} type="button" role="radio" aria-checked={columnCount(b) === c} className={`${s.segBtn} ${columnCount(b) === c ? s.segBtnActive : ''}`} onClick={() => updateBlock(b.id, { count: c })}>{c}</button>
+                              ))}
+                            </div>
+                          </div>
+                          {Array.from({ length: columnCount(b) }, (_, i) => {
+                            const k = i + 1;
+                            const ckey = `blk:${b.id}:c${k}`;
+                            const cup = uploads[ckey];
+                            return (
+                              <fieldset key={k} className={e.colBox}>
+                                <legend className={e.colLegend}>Column {k}</legend>
+                                {COLUMN_FIELDS.map(([suffix, label, type]) => {
+                                  const key = `c${k}${suffix}`;
+                                  const id = `blk-${b.id}-${key}`;
+                                  return (
+                                    <div key={key} className={e.blockField}>
+                                      <label className={e.blockLabel} htmlFor={id}>{label}</label>
+                                      {type === 'textarea' && <textarea id={id} data-rich={`blk:${b.id}:${key}`} className={s.textarea} rows={2} value={b[key] ?? ''} onChange={ev => updateBlock(b.id, { [key]: ev.target.value })} />}
+                                      {type === 'text' && <input id={id} data-rich={suffix === 'Title' ? `blk:${b.id}:${key}` : undefined} className={s.input} value={b[key] ?? ''} onChange={ev => updateBlock(b.id, { [key]: ev.target.value })} />}
+                                      {type === 'url' && (
+                                        <input
+                                          id={id}
+                                          className={s.input}
+                                          inputMode="url"
+                                          placeholder="https://"
+                                          spellCheck={false}
+                                          value={cup && suffix === 'Image' ? (assetBase ? `${assetBase}/${cup.file}` : `images/${cup.file}`) : (b[key] ?? '')}
+                                          disabled={!!(cup && suffix === 'Image')}
+                                          title={cup && suffix === 'Image' ? 'Using your uploaded image; remove it to paste a URL instead' : undefined}
+                                          onChange={ev => updateBlock(b.id, { [key]: ev.target.value })}
+                                        />
+                                      )}
+                                      {suffix === 'Image' && (
+                                        <div className={e.uploadRow}>
+                                          {cup ? (
+                                            <>
+                                              {blobUrls[cup.id] ? <img className={e.uploadThumb} src={blobUrls[cup.id]} alt="" /> : <span className={e.uploadThumb} />}
+                                              <span className={e.uploadName}>{cup.file} · {cup.w}×{cup.h}</span>
+                                              <button type="button" className={s.miniBtn} onClick={() => pickUpload({ key: ckey, upload: { name: `section-${b.id}-c${k}`, maxW: 800, mime: 'image/jpeg' } })}>Replace</button>
+                                              <button type="button" className={s.miniBtn} onClick={() => removeUpload(ckey)}>Remove</button>
+                                            </>
+                                          ) : (
+                                            <button type="button" className={s.miniBtn} onClick={() => pickUpload({ key: ckey, upload: { name: `section-${b.id}-c${k}`, maxW: 800, mime: 'image/jpeg' } })}>↑ Upload image</button>
+                                          )}
+                                        </div>
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                              </fieldset>
+                            );
+                          })}
+                          <p className={s.hint}>Columns sit side by side and stack on phones. Leave a field empty to leave it out.</p>
+                        </>
+                      )}
+                      {!def.fields.length && !def.custom && <p className={s.hint}>No settings: drag it in the preview or pick a position.</p>}
                     </div>
                   )}
                 </div>
@@ -1476,7 +1563,7 @@ export function EmailTemplateEditor({ id }) {
                 </div>
               )}
             </div>
-            <p className={s.hint}>Add headings, text, buttons, images, two columns, dividers or spacing anywhere in the email: pick a position, or drag a section in the preview. They’re saved with your design and included in every export.</p>
+            <p className={s.hint}>Add headings, text, buttons, images, columns (2 to 4, each with an image, text and a button), dividers or spacing anywhere in the email: pick a position, or drag a section in the preview. They’re saved with your design and included in every export.</p>
           </section>
 
           <section className={s.section}>

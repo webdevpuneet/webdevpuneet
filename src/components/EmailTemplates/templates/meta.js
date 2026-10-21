@@ -98,15 +98,15 @@ export function preheaderHtml(text, bg) {
 }
 
 /* Bulletproof button: VML round rect for Outlook on Windows, a styled link everywhere else */
-export function buttonHtml({ text, url, bg, color, font, width = 240, height = 50, radius = 10, attrs = '' }) {
+export function buttonHtml({ text, url, bg, color, font, width = 240, height = 50, radius = 10, attrs = '', fontSize = 16, padX = 24 }) {
   const href = safeUrl(url);
   const arc = Math.round((radius / height) * 100);
   return `<!--[if mso]>
 <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${href}" style="height:${height}px;v-text-anchor:middle;width:${width}px;" arcsize="${arc}%" stroke="f" fillcolor="${bg}">
 <w:anchorlock/>
-<center style="color:${color};font-family:Arial,sans-serif;font-size:16px;font-weight:bold;">${esc(stripRich(text))}</center>
+<center style="color:${color};font-family:Arial,sans-serif;font-size:${fontSize}px;font-weight:bold;">${esc(stripRich(text))}</center>
 </v:roundrect>
-<![endif]--><!--[if !mso]><!-- --><a${attrs} href="${href}" target="_blank" class="btn" style="background-color:${bg};border-radius:${radius}px;color:${color};display:inline-block;font-family:${font};font-size:16px;font-weight:700;line-height:${height}px;text-align:center;text-decoration:none;min-width:${width}px;max-width:100%;padding:0 24px;box-sizing:border-box;-webkit-text-size-adjust:none;mso-hide:all;">${esc(stripRich(text))}</a><!--<![endif]-->`;
+<![endif]--><!--[if !mso]><!-- --><a${attrs} href="${href}" target="_blank" class="btn" style="background-color:${bg};border-radius:${radius}px;color:${color};display:inline-block;font-family:${font};font-size:${fontSize}px;font-weight:700;line-height:${height}px;text-align:center;text-decoration:none;min-width:${width}px;max-width:100%;padding:0 ${padX}px;box-sizing:border-box;-webkit-text-size-adjust:none;mso-hide:all;">${esc(stripRich(text))}</a><!--<![endif]-->`;
 }
 
 /* Turns an email into a plain-text version: shared helper for templates */

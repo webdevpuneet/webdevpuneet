@@ -109,6 +109,8 @@ ${googles.length ? `<!--[if !mso]><!--><link href="https://fonts.googleapis.com/
     .btn{width:100% !important;}
     .stack{display:block !important;width:100% !important;}
     .stack-pad{padding:0 0 16px !important;}
+    .stack-end{padding:0 !important;}
+    .stack-img{max-width:100% !important;}
 ${extraCss}
   }
   @media (prefers-color-scheme: dark){
@@ -179,12 +181,39 @@ export const cleanText = lines => `${lines.join('\n').replace(/\n{3,}/g, '\n\n')
 /* ── Extra sections ("blocks") the user adds to any template ──────────────────────
    Each block: { id, type, where: 'top' | 'bottom', ...fields }. Rendered as email-safe
    table rows inside the card, at its start (top) or end (bottom). */
+export const MAX_COLUMNS = 4;
+/* One column's settings, as [suffix, label, type]: stored on the block as c1Image, c1Title … */
+export const COLUMN_FIELDS = [
+  ['Image', 'Image URL (https://)', 'url'],
+  ['Alt', 'Image alt text', 'text'],
+  ['Title', 'Title', 'text'],
+  ['Text', 'Text', 'textarea'],
+  ['Btn', 'Button text (optional)', 'text'],
+  ['Url', 'Button link (also links the image)', 'url'],
+];
+const DEMO_COLS = [['Fast setup', 'Get going in minutes with a guided start.'], ['Smart reports', 'See what changed this week at a glance.'], ['Team spaces', 'Keep every project and file in one place.'], ['Always on', 'Support from real people, every day.']];
+function columnDefaults() {
+  const d = { count: 3 };
+  for (let n = 1; n <= MAX_COLUMNS; n++) Object.assign(d, { [`c${n}Image`]: '', [`c${n}Alt`]: '', [`c${n}Title`]: DEMO_COLS[n - 1][0], [`c${n}Text`]: DEMO_COLS[n - 1][1], [`c${n}Btn`]: '', [`c${n}Url`]: '' });
+  return d;
+}
+/** A columns block's column count (2–4) */
+export const columnCount = b => Math.max(2, Math.min(MAX_COLUMNS, parseInt(b.count, 10) || 2));
+/** Old "Two columns" blocks ({ left, right } rich text) as a 2-column block */
+export function upgradeColumns(b) {
+  if (b.type !== 'columns' || !('left' in b || 'right' in b) || 'count' in b) return b;
+  const { left, right, ...rest } = b;
+  return { ...columnDefaults(), ...rest, count: 2, c1Title: '', c1Text: left || '', c2Title: '', c2Text: right || '' };
+}
+
 export const BLOCK_TYPES = {
   heading: { label: 'Heading', fields: [['text', 'Heading', 'text']], defaults: { text: 'A new section' } },
   text: { label: 'Text', fields: [['text', 'Text', 'textarea']], defaults: { text: 'Add a paragraph here. You can use <b>bold</b>, <i>italic</i> and links.' } },
   button: { label: 'Button', fields: [['text', 'Button text', 'text'], ['url', 'Button link', 'url'], ['align', 'Alignment', 'align']], defaults: { text: 'Learn more', url: 'https://webdevpuneet.com', align: 'left' } },
   image: { label: 'Image', fields: [['url', 'Image URL (https://)', 'url'], ['alt', 'Alt text', 'text'], ['link', 'Link (optional)', 'url']], defaults: { url: '', alt: '', link: '' } },
-  columns: { label: 'Two columns', fields: [['left', 'Left column', 'textarea'], ['right', 'Right column', 'textarea']], defaults: { left: '<b>Feature one</b>\nA short description of it.', right: '<b>Feature two</b>\nA short description of it.' } },
+  // Columns: 2–4 side by side (stacked on phones), each with an optional image, title, text and
+  // button. Edited with its own panel (see COLUMN_FIELDS); fields c<n><Field> for n = 1..4.
+  columns: { label: 'Columns', fields: [], custom: true, defaults: columnDefaults() },
   divider: { label: 'Divider', fields: [], defaults: {} },
   spacer: { label: 'Spacer', fields: [['size', 'Height (px)', 'number']], defaults: { size: '24' } },
 };
@@ -208,11 +237,31 @@ function blockRow({ v, H, B, edit }, b, pad) {
       const img = `<img src="${safeUrl(src)}" width="504" alt="${esc(b.alt)}" style="display:block;width:100%;max-width:504px;height:auto;border:0;border-radius:12px;">`;
       return row(String(b.link || '').trim() ? `<a href="${safeUrl(b.link)}" target="_blank">${img}</a>` : img);
     }
-    case 'columns':
+    case 'columns': {
+      // Card content is 504px wide; columns share it with a 16px gutter. On phones every cell
+      // stacks to full width (.stack), with space under all but the last (.stack-pad / .stack-end).
+      const n = columnCount(b), G = 16;
+      const colW = Math.floor((504 - G * (n - 1)) / n);
+      const small = n >= 3;
+      const gap = h => `<div style="height:${h}px;line-height:${h}px;font-size:0;">&nbsp;</div>`;
+      const cells = Array.from({ length: n }, (_, i) => {
+        const c = k => String(b[`c${i + 1}${k}`] ?? '');
+        const src = c('Image').trim(), url = c('Url').trim(), btn = c('Btn').trim();
+        const parts = [];
+        if (src) {
+          const img = `<img class="stack-img" src="${safeUrl(src)}" width="${colW}" alt="${esc(c('Alt'))}" style="display:block;width:100%;max-width:${colW}px;height:auto;border:0;border-radius:10px;">`;
+          parts.push(url ? `<a href="${safeUrl(url)}" target="_blank">${img}</a>` : img, gap(14));
+        }
+        if (c('Title').trim()) parts.push(`<h3 class="t" style="margin:0 0 6px;font-family:${H};font-size:${small ? 16 : 18}px;line-height:24px;font-weight:800;color:${v.text};">${rich(c('Title'))}</h3>`);
+        if (c('Text').trim()) parts.push(`<p class="m" style="margin:0;font-size:${small ? 14 : 15}px;line-height:22px;color:${v.muted};">${escBr(c('Text'))}</p>`);
+        if (btn) parts.push(gap(14), buttonHtml({ text: btn, url, bg: v.brand, color: v.btnText, font: H, width: Math.min(colW, small ? colW : 180), height: small ? 38 : 44, radius: 8, fontSize: small ? 14 : 15, padX: small ? 12 : 20 }));
+        const padL = i ? G / 2 : 0, padR = i < n - 1 ? G / 2 : 0;
+        return `<td class="stack ${i < n - 1 ? 'stack-pad' : 'stack-end'}" width="${Math.floor(100 / n)}%" valign="top" style="padding:0 ${padR}px 0 ${padL}px;font-family:${B};">${parts.join('')}</td>`;
+      });
       return row(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-                  <td class="stack stack-pad m" width="50%" valign="top" style="padding:0 12px 0 0;font-size:15px;line-height:24px;color:${v.muted};">${escBr(b.left)}</td>
-                  <td class="stack m" width="50%" valign="top" style="padding:0 0 0 12px;font-size:15px;line-height:24px;color:${v.muted};">${escBr(b.right)}</td>
+                  ${cells.join('\n                  ')}
                 </tr></table>`);
+    }
     case 'divider':
       return row(`<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="line" style="border-top:1px solid #e2e8f0;font-size:0;line-height:0;">&nbsp;</td></tr></table>`);
     case 'spacer': {
@@ -280,7 +329,10 @@ export function blocksText(blocks = [], where) {
       case 'text': return wrapText(b.text || '');
       case 'button': return b.text ? `${b.text}: ${safeUrl(b.url)}` : '';
       case 'image': return b.alt ? `[${b.alt}]${b.link ? ` ${safeUrl(b.link)}` : ''}` : '';
-      case 'columns': return [wrapText(b.left || ''), wrapText(b.right || '')].filter(Boolean).join('\n\n');
+      case 'columns': return Array.from({ length: columnCount(b) }, (_, i) => {
+        const c = k => String(b[`c${i + 1}${k}`] ?? '').trim();
+        return [c('Title') ? stripRich(c('Title')).toUpperCase() : '', c('Text') ? wrapText(stripRich(c('Text'))) : '', c('Btn') ? `${stripRich(c('Btn'))}: ${safeUrl(c('Url'))}` : ''].filter(Boolean).join('\n');
+      }).filter(Boolean).join('\n\n');
       case 'divider': return '---';
       default: return '';
     }

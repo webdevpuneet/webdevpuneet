@@ -190,6 +190,10 @@ ${googles.length ? `<!--[if !mso]><!--><link href="https://fonts.googleapis.com/
     .px{padding-left:24px !important;padding-right:24px !important;}
     .h1{font-size:28px !important;line-height:34px !important;}
     .btn{width:100% !important;}
+    .stack{display:block !important;width:100% !important;}
+    .stack-pad{padding:0 0 16px !important;}
+    .stack-end{padding:0 !important;}
+    .stack-img{max-width:100% !important;}
   }
   @media (prefers-color-scheme: dark){
     .bg{background-color:${v.darkBg} !important;}
