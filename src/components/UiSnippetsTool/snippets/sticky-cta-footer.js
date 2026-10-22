@@ -13,13 +13,13 @@ const stickyCtaFooter = {
     <div class="sc-spacer"></div>
   </div>
 
-  <div class="sc-bar" id="scBar" aria-hidden="true">
+  <div class="sc-bar" id="scBar" role="region" aria-label="Start your free trial" aria-hidden="true" inert>
     <div class="sc-bar-text">
       <strong>Start your free trial</strong>
       <span>No card required · cancel anytime</span>
     </div>
     <div class="sc-bar-actions">
-      <button type="button" class="sc-ghost" id="scDismiss">Maybe later</button>
+      <button type="button" class="sc-ghost" id="scDismiss" aria-label="Maybe later"><span class="sc-ghost-text">Maybe later</span><span class="sc-ghost-x" aria-hidden="true">&times;</span></button>
       <button type="button" class="sc-primary">Get started</button>
     </div>
   </div>
@@ -34,16 +34,20 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#0b0d16;color:#e8
 .sc-content p{color:#9298ad;font-size:16px;line-height:1.6;margin-top:12px}
 .sc-spacer{height:60vh}
 
-.sc-bar{position:fixed;left:50%;bottom:18px;transform:translate(-50%,140%);width:min(680px,calc(100% - 28px));display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 18px;background:rgba(20,22,34,.82);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.1);border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.45);transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .3s;opacity:0}
-.sc-bar.is-shown{transform:translate(-50%,0);opacity:1}
+.sc-bar{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translate(-50%,140%);width:min(680px,calc(100% - 28px));display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 18px;background:rgba(20,22,34,.82);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.1);border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.45);transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .3s,visibility 0s linear .45s;opacity:0;visibility:hidden}
+.sc-bar.is-shown{transform:translate(-50%,0);opacity:1;visibility:visible;transition-delay:0s}
 .sc-bar.is-dismissed{transform:translate(-50%,140%);opacity:0;pointer-events:none}
 .sc-bar-text{display:flex;flex-direction:column;gap:2px;min-width:0}
 .sc-bar-text strong{font-size:15px}
 .sc-bar-text span{font-size:12px;color:#8b91a6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sc-bar-actions{display:flex;gap:8px;flex-shrink:0}
+.sc-ghost-x{display:none;font-size:20px;line-height:1}
+.sc-ghost:hover,.sc-ghost:focus-visible{color:#e8eaf2}
+.sc-primary:focus-visible,.sc-ghost:focus-visible{outline:2px solid #a5b4fc;outline-offset:2px}
 .sc-ghost{background:none;border:0;color:#9298ad;font-family:inherit;font-size:13px;font-weight:600;padding:9px 12px;border-radius:9px;cursor:pointer}
 .sc-primary{background:linear-gradient(120deg,#6366f1,#8b5cf6);border:0;color:#fff;font-family:inherit;font-size:14px;font-weight:700;padding:10px 18px;border-radius:10px;cursor:pointer;white-space:nowrap}
-@media(max-width:520px){.sc-bar-text span{display:none}.sc-ghost{display:none}}`,
+@media(max-width:520px){.sc-bar-text span{display:none}.sc-ghost-text{display:none}.sc-ghost-x{display:inline}.sc-ghost{padding:6px 10px}}
+@media(prefers-reduced-motion:reduce){.sc-bar{transition:opacity .2s,visibility 0s}}`,
 
   js: `var bar = document.getElementById('scBar');
 var dismissed = false;
@@ -51,7 +55,11 @@ var SHOW_AFTER = 320; // px scrolled before the bar appears
 
 function update() {
   if (dismissed) return;
-  bar.classList.toggle('is-shown', window.scrollY > SHOW_AFTER);
+  var show = window.scrollY > SHOW_AFTER;
+  bar.classList.toggle('is-shown', show);
+  // Hidden bars must not be reachable by keyboard or screen readers
+  bar.toggleAttribute('inert', !show);
+  bar.setAttribute('aria-hidden', String(!show));
 }
 
 // rAF-throttle the scroll handler so it does at most one update per frame.
@@ -60,12 +68,14 @@ window.addEventListener('scroll', function () {
   if (ticking) return;
   ticking = true;
   requestAnimationFrame(function () { update(); ticking = false; });
-});
+}, { passive: true });
 
 document.getElementById('scDismiss').addEventListener('click', function () {
   dismissed = true;
   bar.classList.remove('is-shown');
   bar.classList.add('is-dismissed');
+  bar.setAttribute('inert', '');
+  bar.setAttribute('aria-hidden', 'true');
 });
 
 update();`,
@@ -95,14 +105,14 @@ A "Maybe later" button sets a \`dismissed\` flag and adds an \`is-dismissed\` cl
 
 **Responsive content**
 
-The bar holds a headline, a supporting line, and two actions. On narrow screens a media query drops the secondary text and the ghost button so the primary action always fits, and the supporting line truncates with an ellipsis rather than wrapping. This keeps the bar a single tidy row at every width.
+The bar holds a headline, a supporting line, and two actions. On narrow screens a media query drops the supporting line and shrinks "Maybe later" to a compact × so the primary action always fits and the bar can still be dismissed on a phone. This keeps the bar a single tidy row at every width.
 
 **Customizing it**
 
 Change the scroll threshold, the bar copy, or the gradient on the primary button; persist the dismissal to storage; or trigger the reveal from an \`IntersectionObserver\` on the hero instead of a pixel value. Pair it with an [announcement bar](/ui-snippets/announcement-bar/) at the top, an [exit intent popup](/ui-snippets/exit-intent-popup/), or a [cookie banner](/ui-snippets/cookie-banner/).`,
     },
     howToUse: { type: 'steps', items: [
-      { title: 'Paste HTML, CSS, and JS', text: `A tall page renders with no bar visible.` },
+      { title: 'Paste HTML, CSS, and JS', text: `A tall page renders with no bar visible, and the hidden bar is skipped by keyboard and screen readers (inert + aria-hidden).` },
       { title: 'Scroll down', text: `Past the hero, the CTA bar slides up.` },
       { title: 'Scroll back to top', text: `The bar tucks away again.` },
       { title: 'Click Maybe later', text: `The bar dismisses and stays hidden.` },
@@ -115,7 +125,7 @@ Change the scroll threshold, the bar copy, or the gradient on the primary button
       { title: 'Compositor animation', text: `Only transform and opacity move.` },
       { title: 'Glass bar', text: `backdrop-filter blur over translucency.` },
       { title: 'Dismissable', text: `Stays gone for the session once closed.` },
-      { title: 'Responsive row', text: `Drops secondary content on small screens.` },
+      { title: 'Responsive row', text: `Drops the supporting line and keeps a compact × on phones.` },
       { title: 'Non-blocking', text: `No modal overlay or scroll lock.` },
       { title: 'Storage-ready', text: `Dismissal flag is easy to persist.` },
     ],
