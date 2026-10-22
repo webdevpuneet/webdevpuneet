@@ -1899,6 +1899,19 @@ export default function Sidebar() {
                       />
                     </div>
                   ))}
+                  <div className={styles.categories}>
+                    {CATEGORIES.filter(cat => cat.id !== 'css' && cat.id !== 'pdf').map(cat => (
+                      <CategoryGroup
+                        key={cat.id}
+                        category={cat}
+                        open={openIds.has(cat.id)}
+                        onToggle={() => toggleCategory(cat.id)}
+                        activeSlug={activeSlug}
+                        query=""
+                      />
+                    ))}
+                  </div>
+                  {/* Freelance and PDF Tools sit at the bottom of the list */}
                   {FREELANCER_TOOLS_SIDEBAR.length > 0 && (
                     <FreelancerGroup
                       activeSlug={activeSlug}
@@ -1907,7 +1920,7 @@ export default function Sidebar() {
                     />
                   )}
                   <div className={styles.categories}>
-                    {CATEGORIES.filter(cat => cat.id !== 'css').map(cat => (
+                    {CATEGORIES.filter(cat => cat.id === 'pdf').map(cat => (
                       <CategoryGroup
                         key={cat.id}
                         category={cat}
