@@ -10,7 +10,6 @@ const NAV_ITEMS = [
   { slug: 'website-builder',             short: 'Website Builder', icon: '/icons/website-builder.svg' },
   { slug: 'email-templates',             short: 'Email Templates', icon: '/icons/email-templates.svg' },
   { slug: 'social-post-templates',       short: 'Social Posts', icon: '/icons/social-post-templates.svg' },
-  { slug: 'ai-prompt-studio',            short: 'AI Prompts',   icon: '/icons/ai-prompt-studio.svg' },
   { slug: 'html-playground',             short: 'HTML',         icon: '/icons/html-playground.svg' },
   { slug: 'css-playground',              short: 'CSS',          icon: '/icons/css-playground.svg' },
   { slug: 'js-playground',               short: 'JavaScript',   icon: '/icons/js-playground.svg' },
@@ -36,6 +35,7 @@ const NAV_ITEMS = [
   { slug: 'firebase-playground',         short: 'Firebase',     icon: '/icons/firebase-playground.svg' },
   { slug: 'rest-api-builder-playground', short: 'REST API',     icon: '/icons/rest-api-builder-playground.svg' },
   { slug: 'redis-playground',            short: 'Redis',        icon: '/icons/redis-playground.svg' },
+  { slug: 'ai-prompt-studio',            short: 'AI Prompts',   icon: '/icons/ai-prompt-studio.svg' },
 ];
 
 export default function PlaygroundTopNav({ active }) {

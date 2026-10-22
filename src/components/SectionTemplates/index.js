@@ -31,7 +31,7 @@ import { saveBlob, prepareUpload, EXT, previewImages, localizeImages } from './u
 
 const TOOL = 'website-section-templates';
 const BASE = `/${TOOL}/`;
-const GALLERY_PAGE = 10; // 2 rows of 5
+const GALLERY_PAGE = 8; // 2 rows of 4
 const DEVICES = [
   { id: 'desktop', label: 'Desktop', w: 1280, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2" /><path d="M8 21h8M12 17v4" /></svg> },
   { id: 'tablet', label: 'Tablet', w: 820, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2" /><path d="M11 18h2" /></svg> },
@@ -52,7 +52,7 @@ function SectionFrame({ html, width, scale = 1, interactive = true, onDoc }) {
     const measure = () => {
       const doc = frame.contentDocument;
       if (!doc?.documentElement) return;
-      const fit = () => setH(Math.max(200, doc.documentElement.scrollHeight));
+      const fit = () => setH(Math.max(200, Math.ceil(Math.max(doc.documentElement.scrollHeight, doc.body?.scrollHeight || 0))));
       fit();
       ro?.disconnect();
       if (typeof ResizeObserver !== 'undefined') { ro = new ResizeObserver(fit); ro.observe(doc.documentElement); }
@@ -71,7 +71,8 @@ function SectionFrame({ html, width, scale = 1, interactive = true, onDoc }) {
         ref={ref}
         title="Section preview"
         srcDoc={html}
-        style={{ width, height: h, border: 0, display: 'block', transform: scale !== 1 ? `scale(${scale})` : undefined, transformOrigin: 'top left', pointerEvents: interactive ? 'auto' : 'none', background: '#fff' }}
+        scrolling="no"
+        style={{ width, height: h, border: 0, overflow: 'hidden', display: 'block', transform: scale !== 1 ? `scale(${scale})` : undefined, transformOrigin: 'top left', pointerEvents: interactive ? 'auto' : 'none', background: '#fff' }}
       />
     </div>
   );
@@ -145,7 +146,7 @@ export function SectionTemplateGallery({ excludeId = null, limit = null, preview
       )}
       {list.length === 0
         ? <div className={s.empty}>No section templates match &ldquo;{q}&rdquo;.</div>
-        : <div className={`${s.grid} ${s.grid5}`}>{shown.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}</div>}
+        : <div className={`${s.grid} ${s.grid4}`}>{shown.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}</div>}
       {!limit && <LoadMore shown={shown.length} total={list.length} onLoadMore={() => setShownCount(n => n + GALLERY_PAGE)} />}
     </div>
   );
@@ -208,7 +209,7 @@ export function SectionGalleryPage({ previews = [] }) {
         previews={previews}
         savedStrip={q => (
           <SavedDesignsStrip
-            gridClass={s.grid5}
+            gridClass={s.grid4}
             previewClass={x.cardPreview}
             store={designStore}
             basePath={BASE}

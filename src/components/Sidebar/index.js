@@ -1926,18 +1926,20 @@ export default function Sidebar() {
         )}
 
         <div className={styles.sidebarBottom}>
+          <ThemeToggle />
+          <CookieSettingsButton />
           <a
-            href="https://www.webdevpuneet.com/"
+            className={styles.followBtn}
+            href="https://x.com/webdevpuneet"
             target="_blank"
             rel="noopener noreferrer"
-            className={styles.hireLine}
-            title="Hire Puneet Sharma - UI Engineer (10 yrs exp)"
-            aria-label="Hire Puneet Sharma - UI Engineer (10 yrs exp)"
+            title="Follow @webdevpuneet on X"
+            aria-label="Follow @webdevpuneet on X"
           >
-            <span className={styles.hireLineStatus} aria-hidden="true">
-              <span className={styles.hireLineDot} />
-            </span>
-            <span className={styles.hireLineText}>Hire Me</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+            <span>Follow</span>
           </a>
           <a
             className={styles.supportHeartBtn}
@@ -1954,20 +1956,18 @@ export default function Sidebar() {
               Please consider donating $5 if this site has helped you — thank you!
             </span>
           </a>
-          <ThemeToggle />
-          <CookieSettingsButton />
           <a
-            className={styles.followBtn}
-            href="https://x.com/webdevpuneet"
+            href="https://www.webdevpuneet.com/"
             target="_blank"
             rel="noopener noreferrer"
-            title="Follow @webdevpuneet on X"
-            aria-label="Follow @webdevpuneet on X"
+            className={styles.hireLine}
+            title="Hire Puneet Sharma - UI Engineer (10 yrs exp)"
+            aria-label="Hire Puneet Sharma - UI Engineer (10 yrs exp)"
           >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-            </svg>
-            <span>Follow</span>
+            <span className={styles.hireLineStatus} aria-hidden="true">
+              <span className={styles.hireLineDot} />
+            </span>
+            <span className={styles.hireLineText}>Hire Me</span>
           </a>
         </div>
       </aside>
