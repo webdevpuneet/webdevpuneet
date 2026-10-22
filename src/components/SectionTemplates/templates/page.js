@@ -15,6 +15,7 @@ import { formatHtml } from './format.js';
 import { WEBSITE_TEMPLATES, websiteTemplateById } from './starters.js';
 import { DEFAULT_THEME, DEFAULT_MOTION, BASE_CSS, esc, gsapCdn, THEME_PRESETS, THEME_COLORS, scaleCss, scaleOf, scaleLengths, SPACE_UNITS } from './meta.js';
 import { BEHAVIORS } from './behaviors.js';
+import { cleanScroll, scrollAttr, SCROLL_RUNTIME } from './scroll.js';
 import { themeCss, googleFontsUrl, fillHtml, motionScript, motionPlugins, schemaTag } from './render.js';
 
 export const newUid = () => `s${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
@@ -184,7 +185,8 @@ export function restorePage(saved) {
         const t = sectionTemplateById(s?.tpl);
         if (!t) return null;
         const style = cleanSectionStyle(s.style);
-        return { uid: s.uid || newUid(), tpl: t.id, anchor: cleanAnchor(s.anchor), state: restoreSectionState(t, s.state), ...(style ? { style } : {}) };
+        const scroll = cleanScroll(s.scroll);
+        return { uid: s.uid || newUid(), tpl: t.id, anchor: cleanAnchor(s.anchor), state: restoreSectionState(t, s.state), ...(style ? { style } : {}), ...(scroll ? { scroll } : {}) };
       })
       .filter(Boolean),
   };
@@ -213,22 +215,108 @@ export function pageMarkup(page, { imageSrc, clean = true } = {}) {
     const src = imageSrc ? k => imageSrc(s.uid, k) : undefined;
     const id = cleanAnchor(s.anchor);
     const css = sectionStyleCss(page, s, imageSrc);
-    return `<section${id ? ` id="${id}"` : ''} class="st st-${t.id}"${css ? ` style="${esc(css)}"` : ''} data-uid="${esc(s.uid)}">\n${fillHtml(t, sectionOnPage(page, s), { imageSrc: src, clean })}\n</section>`;
+    const sc = scrollAttr(s);
+    return `<section${id ? ` id="${id}"` : ''} class="st st-${t.id}"${css ? ` style="${esc(css)}"` : ''}${sc ? ` data-scroll="${esc(sc)}"` : ''} data-uid="${esc(s.uid)}">\n${fillHtml(t, sectionOnPage(page, s), { imageSrc: src, clean })}\n</section>`;
   }).join('\n');
 }
 
-/** Scripts for the page: each behaviour once, then the motion runtime once */
+/* ── Page scroll effects (Theme tab → Animation, Website Builder only) ──────────────
+   smooth    ScrollSmoother on desktop-sized screens with a mouse (touch keeps native
+             scrolling, and the full-screen mobile menus never show there). The script wraps
+             the sections in #smooth-wrapper / #smooth-content at run time, so the exported
+             markup is unchanged and works without JavaScript. Leading sticky headers stay
+             outside the wrapper, so they still stick and their menus work; the content gets
+             their height as top padding. #anchor links scroll smoothly below the header.
+   parallax  Backgrounds drift slower than the page (ScrollTrigger scrub): [data-bg] photo
+             layers (image hero) and per-section background images, which move to their own
+             layer inside the section so the content never shifts. Works with or without smooth.
+   Both run only with motion (exports, ▶ Play) and are off for reduced motion. */
+const scrollOn = page => !!(page.motion?.smooth || page.motion?.parallax);
+
+export function scrollScript(m = {}) {
+  return `(function () {
+  if (!window.gsap || !window.ScrollTrigger) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  gsap.registerPlugin(ScrollTrigger);
+  var scrub = function (el, sec, from, to) {
+    gsap.fromTo(el, { yPercent: from }, { yPercent: to, ease: 'none', scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: true } });
+  };
+  if (${!!m.parallax}) {
+    document.querySelectorAll('.st [data-bg]').forEach(function (el) {
+      gsap.set(el, { scale: 1.2 });
+      scrub(el, el.closest('.st'), -7, 7);
+    });
+    document.querySelectorAll('.st').forEach(function (sec) {
+      var bg = sec.style.backgroundImage;
+      if (!bg || bg === 'none') return;
+      var layer = document.createElement('div');
+      layer.setAttribute('aria-hidden', 'true');
+      layer.style.cssText = 'position:absolute;left:0;right:0;top:-16%;bottom:-16%;z-index:-1;pointer-events:none;background-size:cover;background-position:center';
+      layer.style.backgroundImage = bg;
+      sec.style.backgroundImage = 'none';
+      sec.style.isolation = 'isolate';
+      sec.insertBefore(layer, sec.firstChild);
+      scrub(layer, sec, -9, 9);
+    });
+  }
+  if (${!!m.smooth} && window.ScrollSmoother) {
+    gsap.registerPlugin(ScrollSmoother);
+    gsap.matchMedia().add('(min-width: 1024px) and (pointer: fine)', function () {
+      var all = Array.prototype.filter.call(document.body.children, function (el) { return el.classList && el.classList.contains('st'); });
+      var head = [];
+      while (head.length < all.length && all[head.length].querySelector('[data-sticky-flag]')) head.push(all[head.length]);
+      var rest = all.slice(head.length);
+      if (!rest.length) return;
+      var wrap = document.createElement('div'), content = document.createElement('div');
+      wrap.id = 'smooth-wrapper'; content.id = 'smooth-content';
+      wrap.appendChild(content);
+      rest[0].parentNode.insertBefore(wrap, rest[0]);
+      rest.forEach(function (el) { content.appendChild(el); });
+      var headH = function () { return head.reduce(function (h, el) { return h + el.offsetHeight; }, 0); };
+      var pad = function () { content.style.paddingTop = head.length ? headH() + 'px' : ''; };
+      pad();
+      var ro = window.ResizeObserver && head.length ? new ResizeObserver(pad) : null;
+      head.forEach(function (el) { if (ro) ro.observe(el); });
+      var root = document.documentElement, was = root.style.scrollBehavior;
+      root.style.scrollBehavior = 'auto';
+      var smoother = ScrollSmoother.create({ wrapper: wrap, content: content, smooth: 1.1, smoothTouch: false });
+      ScrollTrigger.refresh();
+      var onClick = function (e) {
+        var a = e.target.closest && e.target.closest('a[href^="#"]');
+        var t = a && a.getAttribute('href').length > 1 && document.getElementById(a.getAttribute('href').slice(1));
+        if (!t || !content.contains(t)) return;
+        e.preventDefault();
+        smoother.scrollTo(t, true, 'top ' + headH() + 'px');
+      };
+      document.addEventListener('click', onClick);
+      return function () {
+        document.removeEventListener('click', onClick);
+        if (ro) ro.disconnect();
+        smoother.kill();
+        rest.forEach(function (el) { wrap.parentNode.insertBefore(el, wrap); });
+        wrap.remove();
+        root.style.scrollBehavior = was;
+      };
+    });
+  }
+})();`;
+}
+
+/** Scripts for the page: each behaviour once, then the motion runtime once, then the page
+    scroll effects */
 export function pageScript(page, { motion = true } = {}) {
   const names = [...new Set(pageTemplates(page).flatMap(t => t.behaviors || []))];
   const behaviors = names.map(n => BEHAVIORS[n]?.js).filter(Boolean).join('\n');
   const anim = motion && page.sections.length ? motionScript({ motion: page.motion }) : '';
-  return [behaviors && !motion ? 'window.ST_STILL = true;' : '', behaviors, anim].filter(Boolean).join('\n');
+  const scroll = motion && page.sections.length && scrollOn(page) ? scrollScript(page.motion) : '';
+  const scrollAnims = motion && page.sections.some(s => s.scroll) ? SCROLL_RUNTIME : ''; // per-section scroll animations (scroll.js)
+  return [behaviors && !motion ? 'window.ST_STILL = true;' : '', behaviors, anim, scroll, scrollAnims].filter(Boolean).join('\n');
 }
 
 /** GSAP CDN URLs the page needs ([] when it has no scripts) */
 export function pageCdn(page, { motion = true } = {}) {
   const names = [...new Set(pageTemplates(page).flatMap(t => t.behaviors || []))];
-  const plugins = [...names.flatMap(n => BEHAVIORS[n]?.plugins || []), ...(motion ? motionPlugins({ motion: page.motion }) : [])];
+  const plugins = [...names.flatMap(n => BEHAVIORS[n]?.plugins || []), ...(motion ? motionPlugins({ motion: page.motion }) : []), ...(motion && page.motion?.smooth ? ['ScrollSmoother'] : [])];
   return pageScript(page, { motion }) ? gsapCdn([...new Set(plugins)]) : [];
 }
 

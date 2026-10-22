@@ -44,6 +44,7 @@ import { Flip } from 'gsap/Flip';
 
 if (typeof window !== 'undefined') gsap.registerPlugin(Draggable, Flip);
 import { ContentPanel, ThemePanel, ColorField, withKit } from '@/components/SectionTemplates/panels';
+import { SCROLL_PRESETS, SCROLL_STARTS, SCROLL_MODES, SCROLL_PIN_LENGTHS, scrollPresetById, scrollFromPreset, scrollSummary, cleanScroll } from '@/components/SectionTemplates/templates/scroll.js';
 import { bindInlineEdit, fieldOfTarget, useFrozenPreview } from '@/components/SectionTemplates/inline-edit';
 import { putAsset, getAsset } from '@/components/SectionTemplates/storage';
 import { addToLibrary } from '@/lib/image-library';
@@ -299,6 +300,48 @@ function SectionStylePanel({ sec, tpl, theme, bgUrl, onChange, onPickBg, onRemov
   );
 }
 
+/* Scroll animation for one section (templates/scroll.js): pick an effect, then when it starts,
+   how it plays and whether the section pins. Keyframes come from the effect for now. */
+function ScrollAnimPanel({ sec, onChange, onPreview }) {
+  const sc = sec.scroll;
+  const seg = (label, value, options, onPick) => (
+    <div className={s.field}>
+      <span className={s.label}>{label}</span>
+      <div className={`${s.seg} ${x.segSm}`} role="radiogroup" aria-label={label}>
+        {options.map(([v, l]) => <button key={v} type="button" role="radio" aria-checked={value === v} className={`${s.segBtn} ${value === v ? s.segBtnActive : ''}`} onClick={() => onPick(v)}>{l}</button>)}
+      </div>
+    </div>
+  );
+  const preset = sc && scrollPresetById(sc.preset);
+  return (
+    <section className={s.section}>
+      <div className={b.styleHead}>
+        <h2 className={s.sectionTitle} style={{ margin: 0 }}>Scroll animation</h2>
+        {sc && <button type="button" className={b.linkBtn} onClick={onPreview}>▶ Preview</button>}
+      </div>
+      <div className={s.field} style={{ marginTop: 8 }}>
+        <label className={s.label} htmlFor={`sa-${sec.uid}`}>Effect</label>
+        <select id={`sa-${sec.uid}`} className={s.input} value={sc?.preset || (sc ? 'custom' : '')} onChange={ev => onChange(ev.target.value ? scrollFromPreset(ev.target.value) : null)}>
+          <option value="">None (entrance animation only)</option>
+          {SCROLL_PRESETS.map(p => <option key={p.id} value={p.id}>{p.label}</option>)}
+          {sc && !preset && <option value="custom">Custom</option>}
+        </select>
+        <span className={s.hint}>{preset ? preset.note : 'Scroll-driven motion for this section, made with GSAP ScrollTrigger. It replaces the entrance animation here.'}</span>
+      </div>
+      {sc && (
+        <>
+          <p className={b.scrollSummary}>{scrollSummary(sc)}</p>
+          {!sc.pin && seg('Starts', sc.start, SCROLL_STARTS, v => onChange({ ...sc, start: v }))}
+          {seg('Plays', sc.mode, SCROLL_MODES, v => onChange({ ...sc, mode: v }))}
+          <label className={b.check} style={{ marginTop: 4 }}><input type="checkbox" checked={sc.pin} onChange={ev => onChange({ ...sc, pin: ev.target.checked, ...(ev.target.checked ? { start: 'top top', mode: 'scrub' } : {}) })} /> Pin the section while it animates</label>
+          {sc.pin && seg('Pin for', sc.pinLength, SCROLL_PIN_LENGTHS, v => onChange({ ...sc, pinLength: v }))}
+          <p className={s.hint}>Press ▶ Preview (or ▶ Play) to scroll through it. Exports include it; people who prefer reduced motion see the section without it. A keyframe editor is coming next.</p>
+        </>
+      )}
+    </section>
+  );
+}
+
 export default function WebsiteBuilder() {
   const [site, setSiteRaw] = useState(emptySite);
   const [pageId, setPageIdRaw] = useState(null); // the page being edited (null = home)
@@ -515,6 +558,16 @@ export default function WebsiteBuilder() {
       return style ? { ...rest, style } : rest;
     }),
   })), [setPage]);
+  /** Set (or with null, remove) one section's scroll animation */
+  const setSectionScroll = useCallback((uid, value) => setPage(p => ({
+    ...p,
+    sections: p.sections.map(x => {
+      if (x.uid !== uid) return x;
+      const scroll = value ? cleanScroll(value) : undefined;
+      const { scroll: _old, ...rest } = x;
+      return scroll ? { ...rest, scroll } : rest;
+    }),
+  })), [setPage]);
   const addSection = tplId => {
     const sec = newPageSection(tplId, page.sections);
     if (!sec) return;
@@ -669,7 +722,8 @@ export default function WebsiteBuilder() {
     onStart: editStart,
     onEnd: editEnd,
   }), [editStart, editEnd]); // eslint-disable-line react-hooks/exhaustive-deps
-  const stillJson = JSON.stringify({ ...site, motion: null, p: activePage.id });
+  // Content changes stop ▶ Play; motion and scroll-animation changes replay it instead
+  const stillJson = JSON.stringify({ ...site, motion: null, p: activePage.id }, (key, v) => (key === 'scroll' ? undefined : v));
   useEffect(() => { setPlaying(0); }, [stillJson]);
   const dev = DEVICES.find(d => d.id === device) || DEVICES[0];
   const scale = stage.w ? Math.min(1, (stage.w - 32) / dev.w) : 0;
@@ -972,6 +1026,11 @@ ${pageCss(shown, { fontFaces })}`),
                   onPickBg={() => pickUpload(editSec.uid, { key: 'background', upload: { name: 'background', maxW: 2400 } }, BG_KEY)}
                   onRemoveBg={() => setSectionStyle(editSec.uid, { bg: null, overlay: null })}
                 />
+                <ScrollAnimPanel
+                  sec={editSec}
+                  onChange={v => { setSectionScroll(editSec.uid, v); if (v) setPlaying(n => n + 1); }}
+                  onPreview={() => setPlaying(n => n + 1)}
+                />
                 <ContentPanel
                   key={editSec.uid}
                   t={editTpl}
@@ -1147,6 +1206,7 @@ ${pageCss(shown, { fontFaces })}`),
                   value={{ theme: page.theme, fonts: page.fonts, motion: page.motion }}
                   showTextEffect={hasTextEffect}
                   idPrefix="wbt"
+                  pageScroll
                   motionHint="One GSAP setting for the whole page: every section animates in as it scrolls into view. Exports include it, content stays visible without JavaScript, and it switches off for people who prefer reduced motion."
                   onChange={v => {
                     const motionChanged = JSON.stringify(v.motion) !== JSON.stringify(page.motion);

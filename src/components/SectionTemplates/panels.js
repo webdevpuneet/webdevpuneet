@@ -365,7 +365,7 @@ function SizesSection({ theme, onChange }) {
  * @param showTextEffect  show the headline text effect choice
  * @param idPrefix   unique prefix for input ids
  */
-export function ThemePanel({ value, onChange, showTextEffect = true, idPrefix = 'stf', motionHint }) {
+export function ThemePanel({ value, onChange, showTextEffect = true, idPrefix = 'stf', motionHint, pageScroll = false }) {
   const { theme, fonts, motion = {} } = value;
   const setTheme = (key, v) => onChange({ ...value, theme: { ...theme, [key]: v } });
   const setMotion = (key, v) => onChange({ ...value, motion: { ...motion, [key]: v } });
@@ -440,6 +440,23 @@ export function ThemePanel({ value, onChange, showTextEffect = true, idPrefix = 
           </div>
         )}
         <p className={s.hint}>{motionHint || 'Powered by GSAP, ScrollTrigger and SplitText: the section animates in once when it scrolls into view. Exports include it, content stays visible without JavaScript, and it switches off for people who prefer reduced motion.'}</p>
+        {pageScroll && (
+          <>
+            {[
+              ['smooth', 'Smooth scrolling', 'GSAP ScrollSmoother on desktop with a mouse; phones keep native scrolling.'],
+              ['parallax', 'Parallax backgrounds', 'Background photos drift slower than the page.'],
+            ].map(([k, l, h]) => (
+              <div key={k} className={s.field} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginTop: 10 }}>
+                <label className={s.label} htmlFor={`${idPrefix}-${k}`} style={{ margin: 0 }}>{l}<span className={s.hint} style={{ display: 'block', textTransform: 'none', letterSpacing: 0, fontWeight: 400 }}>{h}</span></label>
+                <label className={x.switch}>
+                  <input id={`${idPrefix}-${k}`} type="checkbox" checked={!!motion[k]} onChange={ev => setMotion(k, ev.target.checked)} />
+                  <span />
+                </label>
+              </div>
+            ))}
+            <p className={s.hint}>Press ▶ Play to try them in the preview; they are always on in your exports.</p>
+          </>
+        )}
       </section>
     </>
   );

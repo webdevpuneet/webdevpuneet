@@ -224,7 +224,8 @@ export function motionPlugins(state) {
 /** CDN script URLs for the motion runtime ([] when motion is off) */
 export const motionCdn = state => (motionScript(state) ? gsapCdn(motionPlugins(state)) : []);
 
-/** The animation script for a section's [data-anim] elements ('' when motion is off).
+/** The animation script for a section's [data-anim] elements (sections with a scroll
+    animation, data-scroll in the Website Builder, are skipped: they run that instead) ('' when motion is off).
     Content is visible without it: the hidden "from" state is only applied by GSAP. */
 export function motionScript(state) {
   const m = motionOf(state);
@@ -242,7 +243,7 @@ export function motionScript(state) {
   var TEXT = window.SplitText ? ${text} : null;
   if (TEXT) gsap.registerPlugin(SplitText);
   function run() {
-    document.querySelectorAll('.st').forEach(function (section) {
+    document.querySelectorAll('.st:not([data-scroll])').forEach(function (section) {
       var heads = TEXT ? section.querySelectorAll('[data-anim-text]') : [];
       var items = section.querySelectorAll(heads.length ? '[data-anim="item"]:not([data-anim-text])' : '[data-anim="item"]');
       var media = section.querySelectorAll('[data-anim="media"]');
