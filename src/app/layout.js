@@ -75,6 +75,7 @@ export default function RootLayout({ children }) {
         */}
         <script dangerouslySetInnerHTML={{ __html: `(function(){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('consent','default',{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'});})();` }} />
         <meta name="yandex-verification" content="01596500f0ee9b03" />
+        <meta name="yandex-verification" content="194d6f96fd8997fc" />
         <AdSenseScript />
       </head>
       <body>
