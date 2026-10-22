@@ -35,6 +35,7 @@ const NAV_ITEMS = [
   { slug: 'firebase-playground',         short: 'Firebase',     icon: '/icons/firebase-playground.svg' },
   { slug: 'rest-api-builder-playground', short: 'REST API',     icon: '/icons/rest-api-builder-playground.svg' },
   { slug: 'redis-playground',            short: 'Redis',        icon: '/icons/redis-playground.svg' },
+  { slug: 'database-schema-designer',    short: 'DB Schema',    icon: '/icons/database-schema-designer.svg' },
   { slug: 'ai-prompt-studio',            short: 'AI Prompts',   icon: '/icons/ai-prompt-studio.svg' },
 ];
 

@@ -84,7 +84,7 @@ Both the App Store and Google Play badges are inline SVG glyphs plus text inside
 
 **A QR code with zero image requests and zero library**
 
-The "QR code" is a fixed \`display: grid\` of 8×8 cells, and fifteen of those cells are explicit \`<span>\` elements positioned by \`grid-area\` coordinates to look like a scan pattern. It is not a real, scannable QR code — generating one that actually encodes a URL needs either a server-rendered image or a QR-generation library (see the [QR Code Generator](https://fwdtools.com/qr-code-generator/) tool for that). What this snippet demonstrates is the zero-dependency way to get QR-code *styling* into a footer instantly: no image asset, no network request, and the pattern recolors with a single CSS variable if you retheme the footer. Swap in a real generated QR image once you have an actual App Store / Play Store link to encode.
+The "QR code" is a fixed \`display: grid\` of 8×8 cells, and fifteen of those cells are explicit \`<span>\` elements positioned by \`grid-area\` coordinates to look like a scan pattern. It is not a real, scannable QR code — generating one that actually encodes a URL needs either a server-rendered image or a QR-generation library (see the [QR Code Generator](/qr-code-generator/) tool for that). What this snippet demonstrates is the zero-dependency way to get QR-code *styling* into a footer instantly: no image asset, no network request, and the pattern recolors with a single CSS variable if you retheme the footer. Swap in a real generated QR image once you have an actual App Store / Play Store link to encode.
 
 **Two distinct rows, two distinct jobs**
 

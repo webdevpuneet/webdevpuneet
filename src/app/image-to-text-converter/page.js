@@ -170,7 +170,7 @@ const SEO = {
     {
       icon: '◉',
       title: 'Extract text from screenshots',
-      desc: 'Take a screenshot of an error message, a terms-and-conditions page, a chat window, or any on-screen text. Paste it directly into the tool (Ctrl+V) and get the text in seconds — no more retyping. This is the fastest way to quote text from a PDF viewer, video subtitle, or locked document. Once extracted, run it through the [Word Counter](https://fwdtools.com/word-counter) to check length or the [Diff Checker](/diff-checker) to compare versions.',
+      desc: 'Take a screenshot of an error message, a terms-and-conditions page, a chat window, or any on-screen text. Paste it directly into the tool (Ctrl+V) and get the text in seconds — no more retyping. This is the fastest way to quote text from a PDF viewer, video subtitle, or locked document. Once extracted, run it through the [Word Counter](/word-counter/) to check length or the [Diff Checker](/diff-checker) to compare versions.',
     },
     {
       icon: '▦',

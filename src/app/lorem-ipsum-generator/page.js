@@ -167,7 +167,7 @@ const SEO = {
     {
       icon: '◑',
       title: 'Fill Figma and Sketch mockups with lorem ipsum placeholder text',
-      desc: 'Generate 3–5 lorem ipsum paragraphs and paste them into Figma text layers to simulate how a real article or blog post will flow across your layout. Adjust the words-per-sentence range to match the reading level of your target audience — short sentences for consumer apps, longer for editorial or documentation sites. Enable HTML wrapping if you are copying the text into a Figma prototype that renders HTML. Use the [Word Counter](https://fwdtools.com/word-counter/) afterward to verify the approximate reading time matches your design requirements.',
+      desc: 'Generate 3–5 lorem ipsum paragraphs and paste them into Figma text layers to simulate how a real article or blog post will flow across your layout. Adjust the words-per-sentence range to match the reading level of your target audience — short sentences for consumer apps, longer for editorial or documentation sites. Enable HTML wrapping if you are copying the text into a Figma prototype that renders HTML. Use the [Word Counter](/word-counter/) afterward to verify the approximate reading time matches your design requirements.',
     },
     {
       icon: '⚡',

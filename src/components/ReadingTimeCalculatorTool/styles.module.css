@@ -1,0 +1,35 @@
+.wrap { background: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; }
+.header { padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-shrink: 0; flex-wrap: wrap; }
+.titleRow { display: flex; align-items: center; gap: 10px; }
+.logoIcon { display: block; flex-shrink: 0; }
+.title { font-size: 16px; font-weight: 500; }
+.accent { color: #fb923c; }
+.sub { font-size: 12px; color: var(--text3); }
+.body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; flex: 1; min-height: 0; overflow: hidden; }
+.inputPanel { display: flex; flex-direction: column; border-right: 1px solid var(--border); overflow: hidden; }
+.textarea { flex: 1; background: var(--bg); border: none; outline: none; padding: 16px; font-size: 14px; color: var(--text); line-height: 1.7; resize: none; font-family: inherit; overflow: auto; }
+.wordBar { display: flex; gap: 16px; padding: 8px 16px; border-top: 1px solid var(--border); background: var(--surface); font-size: 12px; color: var(--text3); }
+.results { padding: 16px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; flex: 1; min-height: 0; }
+.empty { display: flex; align-items: center; justify-content: center; color: var(--text3); font-size: 14px; padding: 40px; }
+.readTimes { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.timeCard { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px; text-align: center; }
+.timeCardHi { border-color: #f59e0b44; background: #f59e0b11; }
+.timeVal { font-size: 22px; font-weight: 800; color: var(--text); }
+.timeCardHi .timeVal { color: #f59e0b; }
+.timeLabel { font-size: 11px; font-weight: 600; color: var(--text); margin-top: 2px; }
+.timeSpeed { font-size: 10px; color: var(--text3); }
+.scoresGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.scoreCard { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px; text-align: center; }
+.scoreNum { font-size: 28px; font-weight: 800; color: var(--text); }
+.scoreLabel { font-size: 12px; font-weight: 600; color: var(--text); margin-top: 2px; }
+.scoreTag { font-size: 11px; font-weight: 600; border: 1px solid; border-radius: 99px; padding: 2px 10px; display: inline-block; margin: 4px 0; }
+.scoreNote { font-size: 10px; color: var(--text3); }
+.statsGrid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px; text-align: center; }
+.statVal { font-size: 16px; font-weight: 700; color: var(--text); }
+.statLabel { font-size: 10px; color: var(--text3); margin-top: 2px; text-transform: uppercase; letter-spacing: .03em; }
+.fleschBar { display: flex; flex-direction: column; gap: 4px; }
+.fleschTrack { height: 8px; background: linear-gradient(to right, #ef4444, #f59e0b 50%, #10b981); border-radius: 4px; position: relative; }
+.fleschFill { height: 100%; border-radius: 4px; }
+.fleschTicks { display: flex; justify-content: space-between; font-size: 10px; color: var(--text3); }
+@media (max-width: 700px) { .body { grid-template-columns: 1fr; } .inputPanel { border-right: none; border-bottom: 1px solid var(--border); } .readTimes,.scoresGrid,.statsGrid { grid-template-columns: 1fr 1fr; } }

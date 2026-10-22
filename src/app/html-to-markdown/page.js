@@ -198,7 +198,7 @@ const SEO = {
     {
       icon: '💬',
       title: 'Extract content from email templates to Markdown',
-      desc: 'View the source of a marketing email or newsletter and paste the HTML body here. The converter discards layout tables, inline styles, and tracking pixels — keeping headings, paragraphs, links, and images as clean Markdown. This is useful when repurposing newsletter content as a blog post, archiving email campaigns in a Markdown-based notes system, or extracting copy from an HTML email template into a content brief. Use [Word Counter](https://fwdtools.com/word-counter/) on the output to check the extracted word count.',
+      desc: 'View the source of a marketing email or newsletter and paste the HTML body here. The converter discards layout tables, inline styles, and tracking pixels — keeping headings, paragraphs, links, and images as clean Markdown. This is useful when repurposing newsletter content as a blog post, archiving email campaigns in a Markdown-based notes system, or extracting copy from an HTML email template into a content brief. Use [Word Counter](/word-counter/) on the output to check the extracted word count.',
     },
     {
       icon: '📚',

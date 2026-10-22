@@ -173,7 +173,7 @@ const SEO = {
     {
       icon: '✦',
       title: 'Convert Markdown blog posts to HTML for WordPress and CMS',
-      desc: 'Write your blog post in Markdown in any text editor or notes app, then paste it here to get clean semantic HTML. Copy the fragment and paste into WordPress in HTML view, Ghost\'s HTML card, Webflow\'s embed block, or any headless CMS that accepts HTML. The output uses standard tags (<h1>–<h6>, <p>, <ul>, <ol>, <blockquote>, <pre><code>) compatible with every CMS styling system. Check the [Word Counter](https://fwdtools.com/word-counter/) for reading time and keyword density before publishing.',
+      desc: 'Write your blog post in Markdown in any text editor or notes app, then paste it here to get clean semantic HTML. Copy the fragment and paste into WordPress in HTML view, Ghost\'s HTML card, Webflow\'s embed block, or any headless CMS that accepts HTML. The output uses standard tags (<h1>–<h6>, <p>, <ul>, <ol>, <blockquote>, <pre><code>) compatible with every CMS styling system. Check the [Word Counter](/word-counter/) for reading time and keyword density before publishing.',
     },
     {
       icon: '⚡',
