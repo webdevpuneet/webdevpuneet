@@ -1,0 +1,214 @@
+{
+ "maze-runner-game": {
+  "id": "maze-runner-game",
+  "hash": "86381cbcdec6",
+  "testedAt": "2026-10-22T04:35:08.763Z",
+  "errors": [],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "dead": [],
+  "blocked": [],
+  "changed": [
+   "button.btn \"New maze\""
+  ],
+  "controls": 1,
+  "blank": false,
+  "visibleEls": 356,
+  "brokenImages": [],
+  "imgNoAlt": 0,
+  "unnamedButtons": [],
+  "unlabeledInputs": [],
+  "smallText": 2,
+  "lowContrast": [
+   "span.stat-label \"TIME\" 2.5:1",
+   "span.stat-label \"MOVES\" 2.5:1",
+   "p.hint-text \"Use Arrow keys or WASD to move · reach t\" 2.6:1"
+  ],
+  "animated": true,
+  "ignoredEls": 1,
+  "interactionsInconclusive": false,
+  "unclear": [],
+  "keyboardResponds": true,
+  "mobileOverflow": 0,
+  "mobileWidest": "",
+  "smallTargets": 0,
+  "noFocusStyles": true,
+  "noReducedMotion": true,
+  "usesDialogs": false,
+  "consoleLog": false,
+  "ms": 7733,
+  "findings": [
+   {
+    "sev": "warn",
+    "area": "look",
+    "msg": "Low-contrast text: span.stat-label \"TIME\" 2.5:1; span.stat-label \"MOVES\" 2.5:1; p.hint-text \"Use Arrow keys or WASD to move · reach t\" 2.6:1"
+   },
+   {
+    "sev": "info",
+    "area": "improve",
+    "msg": "No :focus / :focus-visible styles in the CSS (keyboard users can’t see focus)"
+   },
+   {
+    "sev": "info",
+    "area": "improve",
+    "msg": "Animates but has no prefers-reduced-motion fallback"
+   }
+  ],
+  "verdict": "warn"
+ },
+ "sticky-cta-footer": {
+  "id": "sticky-cta-footer",
+  "hash": "e9d475e0b758",
+  "testedAt": "2026-10-22T04:35:08.760Z",
+  "errors": [],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "dead": [],
+  "blocked": [],
+  "changed": [],
+  "controls": 0,
+  "blank": false,
+  "visibleEls": 8,
+  "brokenImages": [],
+  "imgNoAlt": 0,
+  "unnamedButtons": [],
+  "unlabeledInputs": [],
+  "smallText": 0,
+  "lowContrast": [],
+  "animated": false,
+  "interactionsInconclusive": false,
+  "unclear": [],
+  "scrollResponds": true,
+  "mobileOverflow": 0,
+  "mobileWidest": "",
+  "smallTargets": 0,
+  "noFocusStyles": false,
+  "noReducedMotion": false,
+  "usesDialogs": false,
+  "consoleLog": false,
+  "ms": 5003,
+  "findings": [],
+  "verdict": "clean"
+ },
+ "matter-js-ball-pit-hero": {
+  "id": "matter-js-ball-pit-hero",
+  "hash": "7796b20256f0",
+  "testedAt": "2026-10-22T04:35:08.763Z",
+  "errors": [],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "dead": [],
+  "blocked": [],
+  "changed": [],
+  "controls": 2,
+  "blank": false,
+  "visibleEls": 10,
+  "brokenImages": [],
+  "imgNoAlt": 0,
+  "unnamedButtons": [],
+  "unlabeledInputs": [],
+  "smallText": 0,
+  "lowContrast": [],
+  "animated": true,
+  "ignoredEls": 1,
+  "interactionsInconclusive": false,
+  "unclear": [
+   "a.bp-btn \"Shake it up\"",
+   "a.bp-btn \"Flip gravity\""
+  ],
+  "mobileOverflow": 0,
+  "mobileWidest": "",
+  "smallTargets": 0,
+  "noFocusStyles": false,
+  "noReducedMotion": false,
+  "usesDialogs": false,
+  "consoleLog": false,
+  "ms": 7132,
+  "findings": [
+   {
+    "sev": "info",
+    "area": "functionality",
+    "msg": "2 controls showed no change outside the animating parts (their effect may be inside the animation, check by hand): a.bp-btn \"Shake it up\", a.bp-btn \"Flip gravity\""
+   }
+  ],
+  "verdict": "clean"
+ },
+ "quick-math-game": {
+  "id": "quick-math-game",
+  "hash": "67cd838b040d",
+  "testedAt": "2026-10-22T04:39:22.712Z",
+  "errors": [],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "dead": [],
+  "blocked": [],
+  "changed": [
+   "input[number].answer-input \"?\""
+  ],
+  "controls": 2,
+  "blank": false,
+  "visibleEls": 27,
+  "brokenImages": [],
+  "imgNoAlt": 0,
+  "unnamedButtons": [],
+  "unlabeledInputs": [
+   "input[number].answer-input \"?\""
+  ],
+  "smallText": 3,
+  "lowContrast": [
+   "div.best-badge \"Best: 0\" 4.0:1",
+   "span.stat-label \"SCORE\" 2.5:1",
+   "span.stat-label \"CORRECT\" 2.5:1",
+   "span.stat-label \"WRONG\" 2.5:1",
+   "p.hint-text \"Press Enter or click Submit — a new prob\" 2.6:1"
+  ],
+  "animated": true,
+  "ignoredEls": 2,
+  "interactionsInconclusive": false,
+  "unclear": [
+   "button.btn \"Submit\""
+  ],
+  "keyboardResponds": false,
+  "mobileOverflow": 12,
+  "mobileWidest": "button.btn (79px)",
+  "smallTargets": 0,
+  "noFocusStyles": false,
+  "noReducedMotion": true,
+  "usesDialogs": false,
+  "consoleLog": false,
+  "ms": 8181,
+  "findings": [
+   {
+    "sev": "info",
+    "area": "functionality",
+    "msg": "1 controls showed no change outside the animating parts (their effect may be inside the animation, check by hand): button.btn \"Submit\""
+   },
+   {
+    "sev": "warn",
+    "area": "functionality",
+    "msg": "Arrow keys / Space / Enter changed nothing (check the keyboard controls)"
+   },
+   {
+    "sev": "warn",
+    "area": "look",
+    "msg": "Scrolls sideways on a 390px phone by 12px (widest: button.btn (79px))"
+   },
+   {
+    "sev": "warn",
+    "area": "look",
+    "msg": "Low-contrast text: div.best-badge \"Best: 0\" 4.0:1; span.stat-label \"SCORE\" 2.5:1; span.stat-label \"CORRECT\" 2.5:1; span.stat-label \"WRONG\" 2.5:1; p.hint-text \"Press Enter or click Submit — a new prob\" 2.6:1"
+   },
+   {
+    "sev": "warn",
+    "area": "a11y",
+    "msg": "Inputs with no label: input[number].answer-input \"?\""
+   },
+   {
+    "sev": "info",
+    "area": "improve",
+    "msg": "Animates but has no prefers-reduced-motion fallback"
+   }
+  ],
+  "verdict": "warn"
+ }
+}

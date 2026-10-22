@@ -1,0 +1,47 @@
+{
+ "log": [
+  {
+   "date": "2026-10-22",
+   "note": "Tracker set up: automated runner (scripts/snippet-qa.mjs) + this page. Trial run on 4 snippets. Fixed maze-runner-game (inverted walls, marker offset) and sticky-cta-footer (a11y, mobile dismiss, safe area) earlier today."
+  },
+  {
+   "date": "2026-10-22",
+   "note": "Added SEO content checks for all 2063 snippets (title/description length, thin About, few steps/FAQs/use cases, broken snippet links, write-ups naming code that doesn't exist). First count: 1395 snippets with SEO issues, mostly descriptions over 160 and titles over 60 chars."
+  }
+ ],
+ "items": {
+  "maze-runner-game": {
+   "status": "fixed",
+   "func": {
+    "result": "pass",
+    "note": "Maze generation, wall collision, timer and win all correct."
+   },
+   "look": {
+    "result": "pass",
+    "note": "Walls were drawn inverted (thick where open) and markers sat ~3px off; both fixed."
+   },
+   "improve": [
+    "Stat labels and hint text are low contrast (2.5:1)",
+    "Add :focus-visible styles and a prefers-reduced-motion fallback for the marker slide"
+   ],
+   "reviewedAt": "2026-10-22",
+   "fixedAt": "2026-10-22"
+  },
+  "sticky-cta-footer": {
+   "status": "fixed",
+   "func": {
+    "result": "pass",
+    "note": "Reveal after 320px, hide at top, dismiss all work."
+   },
+   "look": {
+    "result": "pass",
+    "note": "Glass bar; now clears the iPhone home indicator."
+   },
+   "improve": [
+    "Was: hidden bar stayed keyboard-focusable and phones had no way to dismiss it (fixed: inert + compact ×)"
+   ],
+   "reviewedAt": "2026-10-22",
+   "fixedAt": "2026-10-22"
+  }
+ }
+}
