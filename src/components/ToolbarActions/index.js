@@ -58,6 +58,10 @@ export function ExportMenu({ options, head = 'Export as…', title = 'Copy or do
 
 /* "+ Add to page" dropdown: a new page, or one of the saved pages.
    loadPages(): Promise<[{ id, name, updated }]>, onPick(pageId | null): null means a new page. */
+/* "+ Add to page": loadPages() resolves to saved websites
+   [{ id, name, updated, pages: [{ id, name, file }] }]; onPick(siteId, pageId) with
+   (null, null) for a new website and pageId null for a one-page site. Multi-page websites
+   list each page under the site's name, so it's clear where the section goes. */
 export function AddToPageMenu({ loadPages, onPick, title = 'Add this section to a page in the Website Builder' }) {
   const [open, setOpen] = useState(false);
   const [pages, setPages] = useState(null);
@@ -72,7 +76,8 @@ export function AddToPageMenu({ loadPages, onPick, title = 'Add this section to 
     document.addEventListener('keydown', onKey);
     return () => { live = false; document.removeEventListener('mousedown', onDoc); document.removeEventListener('keydown', onKey); };
   }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
-  const pick = id => { setOpen(false); onPick(id); };
+  const pick = (id, pageId = null) => { setOpen(false); onPick(id, pageId); };
+  const when = d => (d.updated ? `Edited ${new Date(d.updated).toLocaleDateString()}` : '');
   return (
     <div className={us.popoverAnchor} ref={ref}>
       <button type="button" className={us.iconBtn} onClick={() => setOpen(v => !v)} title={title} aria-haspopup="true" aria-expanded={open}>
@@ -80,26 +85,42 @@ export function AddToPageMenu({ loadPages, onPick, title = 'Add this section to 
         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 1, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
       {open && (
-        <div className={us.exportMenu} role="menu" style={{ width: 270 }}>
+        <div className={us.exportMenu} role="menu" style={{ width: 300 }}>
           <div className={us.exportMenuHead}>Add this section to…</div>
           <button type="button" className={us.exportMenuItem} role="menuitem" onClick={() => pick(null)}>
             <span className={us.exportMenuItemText}>
-              <span className={us.exportMenuItemLabel}>+ New page</span>
-              <span className={us.exportMenuItemSub}>Start an empty page with this section</span>
+              <span className={us.exportMenuItemLabel}>+ New website</span>
+              <span className={us.exportMenuItemSub}>Start an empty one-page website with this section</span>
             </span>
           </button>
-          <div className={us.exportMenuHead} style={{ marginTop: 6 }}>Your pages</div>
-          <div style={{ maxHeight: 220, overflowY: 'auto' }}>
+          <div className={us.exportMenuHead} style={{ marginTop: 6 }}>Your websites</div>
+          <div style={{ maxHeight: 300, overflowY: 'auto' }}>
             {pages === null && <div className={us.exportMenuItemSub} style={{ padding: '6px 10px' }}>Loading…</div>}
-            {pages && !pages.length && <div className={us.exportMenuItemSub} style={{ padding: '6px 10px' }}>No saved pages yet. Save a page in the Website Builder and it will show here.</div>}
-            {(pages || []).map(d => (
-              <button key={d.id} type="button" className={us.exportMenuItem} role="menuitem" onClick={() => pick(d.id)}>
+            {pages && !pages.length && <div className={us.exportMenuItemSub} style={{ padding: '6px 10px' }}>No saved websites yet. Save one in the Website Builder and it will show here.</div>}
+            {(pages || []).map(d => (d.pages?.length > 1 ? (
+              // Multi-page website: its name, then one row per page
+              <div key={d.id} role="group" aria-label={`${d.name}, ${d.pages.length} pages`} style={{ padding: '4px 0', borderTop: '1px solid var(--border, rgba(127,127,127,.2))' }}>
+                <div className={us.exportMenuItemText} style={{ padding: '6px 10px 2px' }}>
+                  <span className={us.exportMenuItemLabel}>{d.name}</span>
+                  <span className={us.exportMenuItemSub}>Multi-page website · {d.pages.length} pages · {when(d)}</span>
+                </div>
+                {d.pages.map((p, i) => (
+                  <button key={p.id} type="button" className={us.exportMenuItem} role="menuitem" onClick={() => pick(d.id, p.id)} style={{ paddingLeft: 22 }} aria-label={`Add to the ${p.name} page of ${d.name}`}>
+                    <span className={us.exportMenuItemText}>
+                      <span className={us.exportMenuItemLabel}>{i === 0 ? '⌂' : '▤'} {p.name}</span>
+                      <span className={us.exportMenuItemSub}>{p.file}{i === 0 ? ' · home page' : ''}</span>
+                    </span>
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <button key={d.id} type="button" className={us.exportMenuItem} role="menuitem" onClick={() => pick(d.id)} style={{ borderTop: '1px solid var(--border, rgba(127,127,127,.2))' }}>
                 <span className={us.exportMenuItemText}>
                   <span className={us.exportMenuItemLabel}>{d.name}</span>
-                  <span className={us.exportMenuItemSub}>Edited {new Date(d.updated).toLocaleDateString()}</span>
+                  <span className={us.exportMenuItemSub}>One page · {when(d)}</span>
                 </span>
               </button>
-            ))}
+            )))}
           </div>
         </div>
       )}

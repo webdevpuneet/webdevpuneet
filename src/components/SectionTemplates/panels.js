@@ -445,6 +445,7 @@ export function ThemePanel({ value, onChange, showTextEffect = true, idPrefix = 
             {[
               ['smooth', 'Smooth scrolling', 'GSAP ScrollSmoother on desktop with a mouse; phones keep native scrolling.'],
               ['parallax', 'Parallax backgrounds', 'Background photos drift slower than the page.'],
+              ['progress', 'Reading progress bar', 'A thin bar in your brand colour shows how far down the page the reader is.'],
             ].map(([k, l, h]) => (
               <div key={k} className={s.field} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginTop: 10 }}>
                 <label className={s.label} htmlFor={`${idPrefix}-${k}`} style={{ margin: 0 }}>{l}<span className={s.hint} style={{ display: 'block', textTransform: 'none', letterSpacing: 0, fontWeight: 400 }}>{h}</span></label>

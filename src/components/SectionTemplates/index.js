@@ -520,12 +520,18 @@ export function SectionTemplateEditor({ id }) {
   };
   /* Send this section (content, lists and uploaded images) to the Website Builder, which
      appends it to the page being built. Key shared with components/WebsiteBuilder. */
-  const loadBuilderPages = () => makeDesignStore('wdp-website-pages').listDesigns();
-  const addToBuilder = pageId => {
+  // Saved websites with their pages (older single-page records count as one page)
+  const loadBuilderPages = () => makeDesignStore('wdp-website-pages').listDesigns().then(list => list.map(d => ({
+    id: d.id, name: d.name, updated: d.updated,
+    pages: d.state?.kind === 'site' && Array.isArray(d.state.pages)
+      ? d.state.pages.map((p, i) => ({ id: p.id, name: p.name || (i ? 'Page' : 'Home'), file: i === 0 ? 'index.html' : `${p.slug || 'page'}.html` }))
+      : [{ id: null, name: 'Home', file: 'index.html' }],
+  })));
+  const addToBuilder = (siteId, pageId) => {
     try { localStorage.setItem('wdp-wb-incoming', JSON.stringify({ tpl: t.id, state, at: Date.now() })); }
     catch { flash('Your browser blocked storage, so the section couldn’t be sent to the Website Builder.'); return; }
-    window.open(`/website-builder/editor/?add=1&${pageId ? `page=${encodeURIComponent(pageId)}` : 'starter=blank'}`, '_blank', 'noopener');
-    flash(pageId ? 'Opened your page in the Website Builder with this section added.' : 'Opened a new page in the Website Builder with this section added.');
+    window.open(`/website-builder/editor/?add=1&${siteId ? `page=${encodeURIComponent(siteId)}${pageId ? `&to=${encodeURIComponent(pageId)}` : ''}` : 'starter=blank'}`, '_blank', 'noopener');
+    flash(siteId ? 'Opened your website in the Website Builder with this section added.' : 'Opened a new website in the Website Builder with this section added.');
   };
   const forkToMyCode = async () => {
     const tab = openForkTab();

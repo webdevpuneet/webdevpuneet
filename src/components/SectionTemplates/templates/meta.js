@@ -152,8 +152,8 @@ export const TEXT_EFFECTS = [
   { id: 'chars', label: 'Letters',     split: 'words,chars', part: 'chars',               from: { opacity: 0, y: 14, rotate: 6 },           stagger: 0.016, duration: 0.5 },
   { id: 'blur',  label: 'Blur in',     split: 'words',       part: 'words',               from: { opacity: 0, y: 10, filter: 'blur(10px)' }, stagger: 0.05, duration: 0.8 },
 ];
-// smooth / parallax are page settings (Website Builder): ScrollSmoother and background parallax
-export const DEFAULT_MOTION = { preset: 'fade-up', speed: '1', text: 'rise', smooth: false, parallax: false };
+// smooth / parallax / progress are page settings (Website Builder): ScrollSmoother, background parallax, reading progress bar
+export const DEFAULT_MOTION = { preset: 'fade-up', speed: '1', text: 'rise', smooth: false, parallax: false, progress: false };
 
 /* Images that ship with the templates (hosted on the site, so exports work anywhere) */
 export const IMG = name => `https://webdevpuneet.com/images/section-templates/${name}`;

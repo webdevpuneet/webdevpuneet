@@ -44,7 +44,10 @@ import { Flip } from 'gsap/Flip';
 
 if (typeof window !== 'undefined') gsap.registerPlugin(Draggable, Flip);
 import { ContentPanel, ThemePanel, ColorField, withKit } from '@/components/SectionTemplates/panels';
-import { SCROLL_PRESETS, SCROLL_STARTS, SCROLL_MODES, SCROLL_PIN_LENGTHS, scrollPresetById, scrollFromPreset, scrollSummary, cleanScroll } from '@/components/SectionTemplates/templates/scroll.js';
+import {
+  SCROLL_PRESETS, SCROLL_STARTS, SCROLL_MODES, SCROLL_PIN_LENGTHS, SCROLL_TARGETS, SCROLL_EASES, KEY_FIELDS, REVEALS,
+  scrollPresetById, scrollFromPreset, scrollSummary, cleanScroll, addTrack, removeTrack, setTrack, addKey, removeKey, setKey, trackLabel,
+} from '@/components/SectionTemplates/templates/scroll.js';
 import { bindInlineEdit, fieldOfTarget, useFrozenPreview } from '@/components/SectionTemplates/inline-edit';
 import { putAsset, getAsset } from '@/components/SectionTemplates/storage';
 import { addToLibrary } from '@/lib/image-library';
@@ -62,7 +65,23 @@ const DEVICES = [
 ];
 const previewOf = id => `/images/section-templates/previews/${id}.png`;
 const slugify = v => String(v || 'my-website').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'my-website';
-const SELECT_CSS = 'section[data-uid]{cursor:pointer}section[data-uid].wb-on{outline:3px solid #6366f1;outline-offset:-3px}section[data-uid]:hover:not(.wb-on){outline:2px dashed rgba(99,102,241,.6);outline-offset:-2px}';
+const SELECT_CSS = 'section[data-uid]{cursor:pointer}section[data-uid].wb-on{outline:3px solid #6366f1;outline-offset:-3px}section[data-uid]:hover:not(.wb-on){outline:2px dashed rgba(99,102,241,.6);outline-offset:-2px}'
+  // Element picker (scroll animation targets): hovered elements of the edited section light up
+  + '.wb-picking section.wb-on *:hover{outline:2px solid #f59e0b!important;outline-offset:2px;cursor:crosshair!important}';
+
+/* The picked element as { sel: '.class', i, n }: the nearest element with a usable class inside
+   the section, its index among the section's elements with that class, and how many there are
+   (classes are kept in exports, editor attributes are not) */
+function describePick(target, section) {
+  const ok = c => /^[A-Za-z_][\w-]{0,60}$/.test(c) && !/^(wb-|st-inline|is-)/.test(c);
+  for (let el = target; el && el !== section; el = el.parentElement) {
+    const cls = [...(el.classList || [])].find(ok);
+    if (!cls) continue;
+    const all = [...section.querySelectorAll(`.${cls}`)];
+    return { sel: `.${cls}`, i: all.indexOf(el), n: all.length };
+  }
+  return null;
+}
 /* A link to another page of the site (about.html, index.html#pricing) */
 const PAGE_LINK = /^([\w-]+\.html)(?:#([\w-]*))?$/i;
 /* Every section of a saved record (a site, or an older single page) */
@@ -300,9 +319,143 @@ function SectionStylePanel({ sec, tpl, theme, bgUrl, onChange, onPickBg, onRemov
   );
 }
 
+/* A number input that commits only valid numbers (or empty = unset), so "-" or "0." can be
+   typed without the value jumping */
+function NumField({ id, value, step, onCommit }) {
+  const [draft, setDraft] = useState(value ?? '');
+  useEffect(() => { setDraft(value ?? ''); }, [value]);
+  return (
+    <input
+      id={id} className={s.input} type="text" inputMode="decimal" value={draft} placeholder="—"
+      onChange={ev => { const v = ev.target.value; setDraft(v); if (v === '' || Number.isFinite(Number(v))) onCommit(v === '' ? '' : Number(v)); }}
+      onBlur={() => setDraft(value ?? '')}
+      onKeyDown={ev => {
+        if (ev.key !== 'ArrowUp' && ev.key !== 'ArrowDown') return;
+        ev.preventDefault();
+        const n = +((Number(draft) || 0) + (ev.key === 'ArrowUp' ? step : -step)).toFixed(3);
+        setDraft(String(n)); onCommit(n);
+      }}
+    />
+  );
+}
+
+/* Keyframes of a scroll animation: one bar per track (target) with a dot per key; the
+   selected key's position, values and ease are edited below. Any edit makes it Custom. */
+function KeyframeEditor({ sc, uid, onChange, hasNumbers, onPick, picking }) {
+  const [sel, setSel] = useState({ t: 0, k: 0 });
+  if (!sc.tracks.length) {
+    return (
+      <div className={b.kf}>
+        <span className={s.label}>Keyframes</span>
+        <button type="button" className={s.miniBtn} onClick={() => onChange(addTrack(sc, 'items'))}>+ Animate the text too</button>
+      </div>
+    );
+  }
+  const ti = Math.min(sel.t, sc.tracks.length - 1);
+  const track = sc.tracks[ti];
+  const ki = Math.min(sel.k, track.keys.length - 1);
+  const key = track.keys[ki];
+  const used = new Set(sc.tracks.map(t => t.target));
+  // Role targets ("Picked element" is added with the picker; Numbers only where the section has them)
+  const roles = SCROLL_TARGETS.filter(o => o.id !== 'el' && (o.id !== 'numbers' || hasNumbers));
+  const free = roles.filter(t => !used.has(t.id));
+  const id = p => `kf-${uid}-${p}`;
+  return (
+    <div className={b.kf}>
+      <span className={s.label}>Keyframes</span>
+      {sc.tracks.map((t, i) => (
+        <div key={`${t.target}-${t.sel || ''}-${i}`} className={`${b.kfTrack} ${i === ti ? b.kfTrackOn : ''}`}>
+          <div className={b.kfHead}>
+            {t.target === 'el' ? (
+              <>
+                <span className={b.kfPicked} title={t.sel}>{trackLabel(t)}</span>
+                <select className={b.kfTarget} value={t.i >= 0 ? 'one' : 'all'} aria-label="Which elements" onChange={ev => onChange(setTrack(sc, i, { i: ev.target.value === 'all' ? -1 : Math.max(0, t.pickedI ?? 0) }))}>
+                  <option value="one">Only this one</option>
+                  <option value="all">All like it</option>
+                </select>
+              </>
+            ) : t.target === 'numbers' ? (
+              <span className={b.kfPicked}>Numbers (count)</span>
+            ) : (
+              <select className={b.kfTarget} value={t.target} aria-label="Animates" onChange={ev => onChange(setTrack(sc, i, { target: ev.target.value }))}>
+                {roles.filter(o => o.id !== 'numbers' && (o.id === t.target || !used.has(o.id))).map(o => <option key={o.id} value={o.id}>{o.label}</option>)}
+              </select>
+            )}
+            {(t.target === 'items') && (
+              <select className={b.kfTarget} value={String(t.stagger || 0)} aria-label="One after another" title="One after another" onChange={ev => onChange(setTrack(sc, i, { stagger: Number(ev.target.value) }))}>
+                {[[0, 'Together'], [0.04, 'Stagger S'], [0.08, 'Stagger M'], [0.15, 'Stagger L']].map(([v, l]) => <option key={v} value={String(v)}>{l}</option>)}
+              </select>
+            )}
+            <button type="button" className={b.rowBtn} title="Add a keyframe" aria-label="Add a keyframe" onClick={() => { const r = addKey(sc, i); onChange(r.scroll); setSel({ t: i, k: r.key }); }}>＋</button>
+            <button type="button" className={b.rowBtn} title="Remove this track" aria-label="Remove this track" onClick={() => { onChange(removeTrack(sc, i)); setSel({ t: 0, k: 0 }); }}>✕</button>
+          </div>
+          <div className={b.kfBar} aria-label={`${SCROLL_TARGETS.find(o => o.id === t.target)?.label} keyframes`}>
+            {t.keys.map((kk, j) => (
+              <button
+                key={j} type="button"
+                className={`${b.kfDot} ${i === ti && j === ki ? b.kfDotOn : ''}`}
+                style={{ left: `${kk.at}%` }}
+                title={`${kk.at}%`}
+                aria-label={`Keyframe at ${kk.at}%`}
+                onClick={() => setSel({ t: i, k: j })}
+              />
+            ))}
+          </div>
+        </div>
+      ))}
+      <div className={b.addRow}>
+        {free.length > 0 && (
+          <select className={`${s.input} ${b.kfAdd}`} value="" aria-label="Add a track" onChange={ev => { if (!ev.target.value) return; const n = addTrack(sc, ev.target.value); onChange(n); setSel({ t: n.tracks.length - 1, k: 0 }); }}>
+            <option value="">+ Animate another part…</option>
+            {free.map(o => <option key={o.id} value={o.id}>{o.label}</option>)}
+          </select>
+        )}
+        <button type="button" className={`${s.miniBtn} ${picking ? s.miniBtnAccent : ''}`} onClick={() => onPick(r => { const n = addTrack(sc, 'el', { sel: r.sel, i: r.i }); onChange(n); setSel({ t: n.tracks.length - 1, k: 0 }); })} title="Click any element of this section in the preview to animate it">{picking ? 'Click it in the preview…' : '🎯 Pick an element'}</button>
+      </div>
+      {key && (
+        <div className={b.kfKey}>
+          <div className={b.kfKeyHead}>
+            <b>{trackLabel(track)} · keyframe {ki + 1} of {track.keys.length}</b>
+            {track.keys.length > 2 && <button type="button" className={b.linkBtn} onClick={() => { onChange(removeKey(sc, ti, ki)); setSel({ t: ti, k: Math.max(0, ki - 1) }); }}>Delete keyframe</button>}
+          </div>
+          <div className={s.field}>
+            <label className={s.label} htmlFor={id('at')}>Position <span className={b.count}>{key.at}% of the scroll</span></label>
+            <input id={id('at')} type="range" min={0} max={100} step={1} value={key.at} className={b.kfRange}
+              onChange={ev => { const at = Number(ev.target.value); const n = setKey(sc, ti, ki, { at }); onChange(n); setSel({ t: ti, k: n.tracks[ti].keys.findIndex(o => o.at === at) }); }} />
+          </div>
+          <div className={b.kfGrid}>
+            {(track.count ? [{ prop: 'count', label: 'Counted', unit: '0 = zero, 1 = full', step: 0.1 }] : KEY_FIELDS).map(f => (
+              <div key={f.prop} className={s.field}>
+                <label className={s.label} htmlFor={id(f.prop)}>{f.label} <span className={b.count}>{f.unit}</span></label>
+                <NumField id={id(f.prop)} value={key[f.prop]} step={f.step} onCommit={v => onChange(setKey(sc, ti, ki, { [f.prop]: v }))} />
+              </div>
+            ))}
+          </div>
+          <div className={b.kfGrid}>
+            {!track.count && <div className={s.field}>
+              <label className={s.label} htmlFor={id('clip')}>Reveal</label>
+              <select id={id('clip')} className={s.input} value={key.clip || ''} onChange={ev => onChange(setKey(sc, ti, ki, { clip: ev.target.value }))}>
+                {REVEALS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+              </select>
+            </div>}
+            <div className={s.field}>
+              <label className={s.label} htmlFor={id('ease')}>Ease to next</label>
+              <select id={id('ease')} className={s.input} value={key.ease || ''} disabled={ki === track.keys.length - 1} onChange={ev => onChange(setKey(sc, ti, ki, { ease: ev.target.value }))}>
+                <option value="">{sc.mode === 'scrub' ? 'Linear (default)' : 'Smooth (default)'}</option>
+                {SCROLL_EASES.map(e => <option key={e} value={e}>{e}</option>)}
+              </select>
+            </div>
+          </div>
+          <p className={s.hint}>Empty fields keep the element as designed at this point. Use ↑ ↓ in a field to nudge the value.</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* Scroll animation for one section (templates/scroll.js): pick an effect, then when it starts,
-   how it plays and whether the section pins. Keyframes come from the effect for now. */
-function ScrollAnimPanel({ sec, onChange, onPreview }) {
+   how it plays, whether the section pins, and its keyframes. */
+function ScrollAnimPanel({ sec, onChange, onPreview, hasNumbers, hasMedia, laterSections = [], onPick, picking }) {
   const sc = sec.scroll;
   const seg = (label, value, options, onPick) => (
     <div className={s.field}>
@@ -323,7 +476,7 @@ function ScrollAnimPanel({ sec, onChange, onPreview }) {
         <label className={s.label} htmlFor={`sa-${sec.uid}`}>Effect</label>
         <select id={`sa-${sec.uid}`} className={s.input} value={sc?.preset || (sc ? 'custom' : '')} onChange={ev => onChange(ev.target.value ? scrollFromPreset(ev.target.value) : null)}>
           <option value="">None (entrance animation only)</option>
-          {SCROLL_PRESETS.map(p => <option key={p.id} value={p.id}>{p.label}</option>)}
+          {SCROLL_PRESETS.filter(p => (p.needs !== 'numbers' || hasNumbers) && (p.needs !== 'media' || hasMedia)).map(p => <option key={p.id} value={p.id}>{p.label}</option>)}
           {sc && !preset && <option value="custom">Custom</option>}
         </select>
         <span className={s.hint}>{preset ? preset.note : 'Scroll-driven motion for this section, made with GSAP ScrollTrigger. It replaces the entrance animation here.'}</span>
@@ -335,7 +488,21 @@ function ScrollAnimPanel({ sec, onChange, onPreview }) {
           {seg('Plays', sc.mode, SCROLL_MODES, v => onChange({ ...sc, mode: v }))}
           <label className={b.check} style={{ marginTop: 4 }}><input type="checkbox" checked={sc.pin} onChange={ev => onChange({ ...sc, pin: ev.target.checked, ...(ev.target.checked ? { start: 'top top', mode: 'scrub' } : {}) })} /> Pin the section while it animates</label>
           {sc.pin && seg('Pin for', sc.pinLength, SCROLL_PIN_LENGTHS, v => onChange({ ...sc, pinLength: v }))}
-          <p className={s.hint}>Press ▶ Preview (or ▶ Play) to scroll through it. Exports include it; people who prefer reduced motion see the section without it. A keyframe editor is coming next.</p>
+          <label className={b.check} style={{ marginTop: 4 }}><input type="checkbox" checked={!!sc.desktopOnly} onChange={ev => onChange({ ...sc, desktopOnly: ev.target.checked })} /> Larger screens only (off on phones)</label>
+          {hasMedia && <label className={b.check} style={{ marginTop: 4 }}><input type="checkbox" checked={!!sc.stickMedia} onChange={ev => onChange({ ...sc, stickMedia: ev.target.checked })} /> Sticky image (the text scrolls past it)</label>}
+          {laterSections.length > 0 && (
+            <div className={s.field} style={{ marginTop: 6 }}>
+              <label className={s.label} htmlFor={`sa-until-${sec.uid}`}>Lasts until the end of</label>
+              <select id={`sa-until-${sec.uid}`} className={s.input} value={sc.until || ''} onChange={ev => onChange({ ...sc, until: ev.target.value || undefined })}>
+                <option value="">This section</option>
+                {laterSections.map(o => <option key={o.uid} value={o.uid}>{o.name}</option>)}
+              </select>
+              <span className={s.hint}>Stretch the animation over the following sections, e.g. a pinned background that the next sections scroll over.</span>
+            </div>
+          )}
+          {sc.pin && sc.until && <label className={b.check} style={{ marginTop: 4 }}><input type="checkbox" checked={!!sc.overlap} onChange={ev => onChange({ ...sc, overlap: ev.target.checked })} /> Later sections scroll over it</label>}
+          <KeyframeEditor key={sec.uid} sc={sc} uid={sec.uid} onChange={onChange} hasNumbers={hasNumbers} onPick={onPick} picking={picking} />
+          <p className={s.hint}>Press ▶ Preview, then drag the timeline under the preview to scrub through it. Exports include it; people who prefer reduced motion see the section without it.</p>
         </>
       )}
     </section>
@@ -348,7 +515,21 @@ export default function WebsiteBuilder() {
   const [navHash, setNavHash] = useState(''); // section to scroll to after a page link
   const [hydrated, setHydrated] = useState(false);
   const [tab, setTab] = useState('page'); // page (sections) | site (pages) | theme | pages (saved) | backup
+  const [showMarkers, setShowMarkers] = useState(false); // ScrollTrigger start/end markers in the preview
+  const previewDocRef = useRef(null); // the preview's latest document (timeline scrubber, picker)
+  /* Element picker: startPick(done) arms it; the next click in the edited section calls done */
+  const [picking, setPicking] = useState(false);
+  const pickRef = useRef(null);
+  const editingRef = useRef(null);
+  const startPick = done => {
+    if (pickRef.current) { pickRef.current = null; setPicking(false); return; } // second click cancels
+    pickRef.current = done; setPicking(true);
+  };
+  useEffect(() => { previewDocRef.current?.documentElement?.classList.toggle('wb-picking', picking); }, [picking]);
   const [editing, setEditing] = useState(null); // uid whose content is open
+  editingRef.current = editing;
+  // Switching or closing the section cancels the element picker
+  useEffect(() => { pickRef.current = null; setPicking(false); }, [editing]);
   const [selected, setSelected] = useState(null);
   const [adding, setAdding] = useState(false);
   const [pickCat, setPickCat] = useState('all');
@@ -423,11 +604,13 @@ export default function WebsiteBuilder() {
     let live = true;
     (async () => {
       const wantsAdd = !!new URLSearchParams(window.location.search).get('add'); // the starter branch below clears the URL
+      const addTo = new URLSearchParams(window.location.search).get('to'); // the page of a multi-page website to add to
+      let loadedSite = null; // the saved website opened with ?page= (for the "added to" message)
       const id = new URLSearchParams(window.location.search).get('page');
       let done = false;
       if (id) {
         const d = await store.getDesign(id).catch(() => null);
-        if (d && live) { const p = restoreSite(d.state); setSiteRaw(p); savedJson.current = JSON.stringify(p); setCurrent({ id: d.id, name: d.name }); done = true; }
+        if (d && live) { const p = restoreSite(d.state); loadedSite = p; setSiteRaw(p); savedJson.current = JSON.stringify(p); setCurrent({ id: d.id, name: d.name }); done = true; }
       }
       if (!done) { const auto = await store.getAutosave(AUTOSAVE).catch(() => null); if (auto && live) setSiteRaw(restoreSite(auto)); }
       // ?starter=<id> from a website template page (or ?starter=blank, "Start from scratch"
@@ -458,16 +641,18 @@ export default function WebsiteBuilder() {
         try { incoming = JSON.parse(localStorage.getItem(INCOMING_KEY) || 'null'); localStorage.removeItem(INCOMING_KEY); } catch { /* storage blocked */ }
         const t = incoming && Date.now() - (incoming.at || 0) < 10 * 60 * 1000 ? sectionTemplateById(incoming.tpl) : null;
         if (t) {
-          // Appended to the home page (above the shared footer; a navbar or footer joins the shared ones)
+          // Appended to the chosen page (?to=, else the home page), above the shared footer; a
+          // navbar or footer joins the shared ones
           const sec = { uid: newUid(), tpl: t.id, anchor: '', state: restoreSectionState(t, incoming.state) };
           setSiteRaw(st => {
-            const home = st.pages[0].id;
-            const view = pageView(st, home);
-            return applyPageView(st, home, { ...view, sections: [...view.sections, { ...sec, anchor: defaultAnchor(t.id, view.sections) }] });
+            const target = st.pages.find(p => p.id === addTo) || st.pages[0];
+            const view = pageView(st, target.id);
+            return applyPageView(st, target.id, { ...view, sections: [...view.sections, { ...sec, anchor: defaultAnchor(t.id, view.sections) }] });
           });
-          setPageIdRaw(null);
+          setPageIdRaw(addTo || null);
           setSelected(sec.uid);
-          setToast(`Added your ${t.name} to the home page. It now uses the website’s theme; change colours and fonts in the Theme tab.`);
+          const named = loadedSite?.pages.length > 1 ? (loadedSite.pages.find(p => p.id === addTo) || loadedSite.pages[0]).name : '';
+          setToast(`Added your ${t.name} to ${named ? `the “${named}” page` : 'the page'}. It now uses the website’s theme; change colours and fonts in the Theme tab.`);
         }
         window.history.replaceState(null, '', window.location.pathname);
       }
@@ -695,8 +880,8 @@ export default function WebsiteBuilder() {
   const shown = useMemo(() => renderView(site, activePage.id), [site, activePage.id]); // with the automatic menu
   const previewHtml = useMemo(() => previewImages(pageDocumentHtml(shown, {
     imageSrc: previewSrc, clean: false, fontFaces, motion: playing > 0,
-    extraHead: `<script>window.ST_PREVIEW=true</script><style>${SELECT_CSS}</style>`,
-  }), origin), [shown, blobUrls, fontFaces, origin, playing]); // eslint-disable-line react-hooks/exhaustive-deps
+    extraHead: `<script>window.ST_PREVIEW=true${showMarkers ? ';window.ST_SCROLL_MARKERS=true' : ''}</script><style>${SELECT_CSS}</style>`,
+  }), origin), [shown, blobUrls, fontFaces, origin, playing, showMarkers]); // eslint-disable-line react-hooks/exhaustive-deps
   const autoNav = usesAutoNav(site);
   const autoNavRef = useRef(autoNav);
   autoNavRef.current = autoNav;
@@ -708,7 +893,27 @@ export default function WebsiteBuilder() {
   const [reveal, setReveal] = useState(null);
   const sectionsRef = useRef(page.sections);
   sectionsRef.current = page.sections;
-  const onPreviewDoc = useCallback(doc => bindInlineEdit(doc, {
+  const onPreviewDoc = useCallback(doc => {
+    previewDocRef.current = doc;
+    // Element picker: a window capture listener runs before click-to-edit and section select
+    const win = doc.defaultView;
+    if (win && !doc.__wbPick) {
+      doc.__wbPick = true;
+      win.addEventListener('click', ev => {
+        const done = pickRef.current;
+        if (!done) return;
+        ev.preventDefault(); ev.stopPropagation(); ev.stopImmediatePropagation();
+        const sec = ev.target.closest?.('section[data-uid]');
+        if (!sec || sec.getAttribute('data-uid') !== editingRef.current) { flash('Pick an element inside the section you are editing (outlined in blue).'); return; }
+        const r = describePick(ev.target, sec);
+        if (!r) { flash('That part can’t be animated on its own. Try the text, an image or a card.'); return; }
+        pickRef.current = null; setPicking(false);
+        done(r);
+        flash(`Animating ${r.sel}${r.n > 1 ? ` (${r.i + 1} of ${r.n}; switch to “All like it” in its track to animate every one)` : ''}.`);
+      }, true);
+    }
+    doc.documentElement.classList.toggle('wb-picking', !!pickRef.current);
+    return bindInlineEdit(doc, {
     resolve: tg => {
       // The automatic menu's links come from the page names: clicking one opens that page
       if (autoNavRef.current && tg?.list === 'links' && headerIdsRef.current.has(tg.uid)) return null;
@@ -721,7 +926,24 @@ export default function WebsiteBuilder() {
     onReveal: (tg, focus) => { setReveal({ ...tg, focus, n: Date.now() }); openSection(tg.uid); },
     onStart: editStart,
     onEnd: editEnd,
-  }), [editStart, editEnd]); // eslint-disable-line react-hooks/exhaustive-deps
+  }); }, [editStart, editEnd]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  /* Timeline scrubber: drag through the edited section's scroll animation in the preview.
+     Follow-scroll animations scroll the preview between their start and end (pins included);
+     play-once / play-and-reverse ones pause and jump to that point. */
+  const [scrub, setScrub] = useState(0);
+  const scrubTo = pct => {
+    setScrub(pct);
+    const doc = previewDocRef.current;
+    const el = doc && editing && doc.querySelector(`section[data-uid="${editing}"]`);
+    const tl = el?.__stScroll;
+    if (!tl) return;
+    const st = tl.scrollTrigger;
+    if (el.getAttribute('data-scroll')?.includes('"mode":"scrub"') && st) {
+      doc.documentElement.style.scrollBehavior = 'auto';
+      doc.defaultView.scrollTo(0, st.start + (st.end - st.start) * pct / 100);
+    } else { tl.pause(); tl.progress(pct / 100); }
+  };
   // Content changes stop ▶ Play; motion and scroll-animation changes replay it instead
   const stillJson = JSON.stringify({ ...site, motion: null, p: activePage.id }, (key, v) => (key === 'scroll' ? undefined : v));
   useEffect(() => { setPlaying(0); }, [stillJson]);
@@ -1030,6 +1252,11 @@ ${pageCss(shown, { fontFaces })}`),
                   sec={editSec}
                   onChange={v => { setSectionScroll(editSec.uid, v); if (v) setPlaying(n => n + 1); }}
                   onPreview={() => setPlaying(n => n + 1)}
+                  hasNumbers={/data-count/.test(editTpl.html)}
+                  hasMedia={/data-anim="media"/.test(editTpl.html)}
+                  laterSections={page.sections.slice(page.sections.findIndex(o => o.uid === editSec.uid) + 1).map(o => ({ uid: o.uid, name: sectionTemplateById(o.tpl)?.name || o.tpl }))}
+                  onPick={startPick}
+                  picking={picking}
                 />
                 <ContentPanel
                   key={editSec.uid}
@@ -1310,6 +1537,23 @@ ${pageCss(shown, { fontFaces })}`),
             </div>
           </div>
 
+          {editSec?.scroll && (
+            <div className={b.scrubBar}>
+              {playing > 0 ? (
+                <>
+                  <span className={b.scrubLabel}>{editTpl?.name}: scroll timeline</span>
+                  <input type="range" min={0} max={100} step={1} value={scrub} className={b.kfRange} aria-label="Scrub through the scroll animation" onChange={ev => scrubTo(Number(ev.target.value))} />
+                  <span className={b.scrubPct}>{scrub}%</span>
+                </>
+              ) : (
+                <>
+                  <span className={b.scrubLabel}>{editTpl?.name} has a scroll animation.</span>
+                  <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={() => { setScrub(0); setPlaying(n => n + 1); }}>▶ Preview to scrub</button>
+                </>
+              )}
+              <label className={b.check} title="Show where the animation starts and ends"><input type="checkbox" checked={showMarkers} onChange={ev => setShowMarkers(ev.target.checked)} /> Markers</label>
+            </div>
+          )}
           <div className={b.stage} ref={stageRef}>
             {page.sections.length === 0 ? (
               <div className={b.empty}>

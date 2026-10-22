@@ -231,7 +231,7 @@ export function pageMarkup(page, { imageSrc, clean = true } = {}) {
              layers (image hero) and per-section background images, which move to their own
              layer inside the section so the content never shifts. Works with or without smooth.
    Both run only with motion (exports, ▶ Play) and are off for reduced motion. */
-const scrollOn = page => !!(page.motion?.smooth || page.motion?.parallax);
+const scrollOn = page => !!(page.motion?.smooth || page.motion?.parallax || page.motion?.progress);
 
 export function scrollScript(m = {}) {
   return `(function () {
@@ -258,6 +258,16 @@ export function scrollScript(m = {}) {
       sec.insertBefore(layer, sec.firstChild);
       scrub(layer, sec, -9, 9);
     });
+  }
+  if (${!!m.progress}) {
+    // Reading progress: a thin brand-coloured bar across the top of the screen
+    var first = document.querySelector('.st');
+    var bar = document.createElement('div');
+    bar.setAttribute('aria-hidden', 'true');
+    bar.style.cssText = 'position:fixed;left:0;top:0;width:100%;height:3px;z-index:9999;pointer-events:none;transform-origin:0 50%;transform:scaleX(0)';
+    bar.style.background = (first && getComputedStyle(first).getPropertyValue('--st-brand').trim()) || '#4f46e5';
+    document.body.appendChild(bar);
+    gsap.to(bar, { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.3 } });
   }
   if (${!!m.smooth} && window.ScrollSmoother) {
     gsap.registerPlugin(ScrollSmoother);

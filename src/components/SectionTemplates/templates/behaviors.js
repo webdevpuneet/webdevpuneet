@@ -244,6 +244,8 @@ BEHAVIORS.counter = {
   if (!G || reduce || window.ST_STILL) return;
   if (window.ScrollTrigger) G.registerPlugin(ScrollTrigger);
   document.querySelectorAll('.st [data-count]').forEach(function (el) {
+    var host = el.closest('.st');
+    if (host && /"count":true/.test(host.getAttribute('data-scroll') || '')) return; // counted by its scroll animation
     var text = el.textContent;
     var m = text.match(/\\d[\\d,]*(\\.\\d+)?/);
     if (!m) return;
