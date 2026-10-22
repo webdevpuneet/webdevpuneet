@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { LIVE_TOOLS } from '@/lib/tools-registry';
 import { setNotFound } from '@/lib/not-found-state';
 import HeroSnippetPreview from '@/components/HeroSnippetPreview';
+import NotFoundBlogStrip from '@/components/NotFoundBlogStrip';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import styles from './not-found.module.css';
 
@@ -78,7 +79,8 @@ export default function NotFound() {
           </div>
         ) : (
           <>
-            <HeroSnippetPreview pageSize={8} columns={4} />
+            <HeroSnippetPreview pageSize={4} columns={4} />
+            <NotFoundBlogStrip count={4} columns={4} />
 
             <p className={styles.sectionLabel}>Learn to code</p>
             <div className={styles.learnGrid}>

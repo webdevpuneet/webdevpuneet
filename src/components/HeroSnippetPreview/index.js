@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { VISIBLE_SNIPPET_INDEX as VISIBLE_SNIPPETS } from '@/lib/snippet-index';
 import s from './styles.module.css';
 
-const pool = [...VISIBLE_SNIPPETS].filter(sn => !sn.noindex).reverse().slice(0, 24); // 3 pages of 8 on the 404 page
+const pool = [...VISIBLE_SNIPPETS].filter(sn => !sn.noindex).reverse().slice(0, 24); // 6 pages of 4 on the 404 page
 
 export default function HeroSnippetPreview({ pageSize = 4, columns = 4 }) {
   const [page, setPage] = useState(0);
