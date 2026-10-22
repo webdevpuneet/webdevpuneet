@@ -135,33 +135,42 @@ export function pageCdn(page, { motion = true } = {}) {
 /** All sections' JSON-LD (FAQPage, BlogPosting lists …) */
 export const pageSchema = page => page.sections.map(s => { const t = sectionTemplateById(s.tpl); return t ? schemaTag(t, sectionOnPage(page, s)) : ''; }).join('');
 
+/** Document-level CSS every page needs before the section CSS */
+export const pageBaseCss = page => `body{margin:0;background:${page.theme?.bg || '#fff'}}
+html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}`;
+
 /**
  * The complete page as one HTML document.
  * @param imageSrc  (uid, key) => url   uploaded images (data URLs, images/… or blob: in the preview)
  * @param clean     strip editor bindings (exports)
  * @param motion    include the entrance animation runtime
+ * Multi-page sites (site.js) also pass:
+ * @param title       the <title> (default: page.name)
+ * @param canonical   absolute URL for <link rel="canonical">
+ * @param stylesheet  href of a shared stylesheet, used instead of an inline <style>
+ * @param script      src of a shared script, used instead of an inline <script>
+ * @param cdnUrls     GSAP URLs to load (default: what this page needs)
  */
-export function pageDocumentHtml(page, { imageSrc, clean = true, fontFaces = '', extraHead = '', motion = true, description = '' } = {}) {
+export function pageDocumentHtml(page, { imageSrc, clean = true, fontFaces = '', extraHead = '', motion = true, description = '', title, canonical = '', stylesheet = '', script = '', cdnUrls } = {}) {
   const gf = googleFontsUrl(THEME_HOLDER, { fonts: page.fonts });
-  const js = pageScript(page, { motion });
-  const libs = js ? pageCdn(page, { motion }).map(u => `<script src="${u}"></script>`).join('\n') : '';
+  const js = script ? '' : pageScript(page, { motion });
+  const cdn = cdnUrls || (js ? pageCdn(page, { motion }) : []);
+  const libs = cdn.map(u => `<script src="${u}"></script>`).join('\n');
+  const scripts = script ? `${libs ? `${libs}\n` : ''}<script src="${esc(script)}"></script>\n` : js ? `${libs}\n<script>\n${js}\n</script>\n` : '';
+  const styles = stylesheet ? `<link rel="stylesheet" href="${esc(stylesheet)}">` : `<style>\n${pageBaseCss(page)}\n${pageCss(page, { fontFaces })}\n</style>`;
   const doc = `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${esc(page.name || 'My website')}</title>
-${description ? `<meta name="description" content="${esc(description)}">\n` : ''}<!-- Built with the free Website Builder · https://webdevpuneet.com/website-builder/ -->
-${gf ? `<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="${gf}" rel="stylesheet">\n` : ''}${clean ? pageSchema(page) : ''}<style>
-body{margin:0;background:${page.theme?.bg || '#fff'}}
-html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-${pageCss(page, { fontFaces })}
-</style>${extraHead}
+<title>${esc(title || page.name || 'My website')}</title>
+${description ? `<meta name="description" content="${esc(description)}">\n` : ''}${canonical ? `<link rel="canonical" href="${esc(canonical)}">\n` : ''}<!-- Built with the free Website Builder · https://webdevpuneet.com/website-builder/ -->
+${gf ? `<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="${gf}" rel="stylesheet">\n` : ''}${clean ? pageSchema(page) : ''}${styles}${extraHead}
 </head>
 <body>
 ${pageMarkup(page, { imageSrc, clean })}
-${js ? `${libs}\n<script>\n${js}\n</script>\n` : ''}</body>
+${scripts}</body>
 </html>
 `;
   // Exports are indented like hand-written HTML (the builder preview isn't, it's never read)

@@ -1,11 +1,18 @@
 'use client';
 
 /* Website Builder (/website-builder/editor/; /website-builder/ is the template gallery): stack navbars, sections and footers from the
-   Website Section Templates library into one page with one theme, edit every section in
-   place, preview it on any device and export the whole page.
+   Website Section Templates library into a website with one theme, edit every section in
+   place, preview it on any device and export it.
 
-   Pages are saved in this browser (IndexedDB `wdp-website-pages`, record tpl "page");
-   uploaded images go to the section asset store with keys `page:<uid>:<field>:<id>`. */
+   A website is a site (templates/site.js): a shared header and footer plus one or more
+   pages. The builder edits one page at a time as an ordinary page (header + page + footer,
+   pageView) and writes every change back into the site (applyPageView), so the section
+   tools below work unchanged. One-page sites export exactly like a single page; sites with
+   more pages export as a static site (one .html per page + styles.css + script.js).
+
+   Sites are saved in this browser (IndexedDB `wdp-website-pages`, record tpl "site"; older
+   records with tpl "page" open as one-page sites); uploaded images go to the section asset
+   store with keys `page:<uid>:<field>:<id>`. */
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import s from '../SocialPostTemplates/styles.module.css';
@@ -22,7 +29,11 @@ import { makeDesignStore } from '@/lib/design-store';
 import { exportDesigns, importDesigns, blobToDataUrl, dataUrlToBlob } from '@/lib/design-transfer';
 import { loadCustomFonts, onFontsChange, customFontFaceCss, exportCustomFonts, importCustomFonts } from '@/lib/fonts';
 import { SECTION_TEMPLATES, SECTION_CATEGORIES, sectionTemplateById, sectionCategoryById } from '@/components/SectionTemplates/templates/index.js';
-import { pageCss, pageMarkup, pageScript, pageCdn, emptyPage, newPageSection, newUid, restorePage, pageDocumentHtml, STARTERS, pageFromStarter, cleanAnchor, defaultAnchor } from '@/components/SectionTemplates/templates/page.js';
+import { pageCss, pageMarkup, pageScript, pageCdn, newPageSection, newUid, pageDocumentHtml, STARTERS, cleanAnchor, defaultAnchor } from '@/components/SectionTemplates/templates/page.js';
+import {
+  emptySite, restoreSite, siteFromStarter, isSite, pageView, renderView, applyPageView, pageById, pageFile, pageTitle, isHomePage,
+  siteFiles, usesAutoNav, addSitePage, updateSitePage, removeSitePage, reorderSitePages, pageFromLayout, PAGE_LAYOUTS, cleanSlug, cleanBaseUrl, newPageId,
+} from '@/components/SectionTemplates/templates/site.js';
 import { restoreSectionState } from '@/components/SectionTemplates/templates/index.js';
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
@@ -48,10 +59,14 @@ const DEVICES = [
 const previewOf = id => `/images/section-templates/previews/${id}.png`;
 const slugify = v => String(v || 'my-website').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'my-website';
 const SELECT_CSS = 'section[data-uid]{cursor:pointer}section[data-uid].wb-on{outline:3px solid #6366f1;outline-offset:-3px}section[data-uid]:hover:not(.wb-on){outline:2px dashed rgba(99,102,241,.6);outline-offset:-2px}';
+/* A link to another page of the site (about.html, index.html#pricing) */
+const PAGE_LINK = /^([\w-]+\.html)(?:#([\w-]*))?$/i;
+/* Every section of a saved record (a site, or an older single page) */
+const sectionsOf = st => (isSite(st) ? [...(st.header || []), ...(st.pages || []).flatMap(p => p.sections || []), ...(st.footer || [])] : st?.sections || []);
 
 /* The live page: an iframe at the device width, scaled to fit the stage, keeping its
    scroll position across updates. Clicking a section selects it. */
-function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDoc }) {
+function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDoc, onNavigate, hash }) {
   /* Two stacked frames (double buffering): an edit loads the new page into the hidden frame,
      restores the scroll position there, and only then swaps it in. The visible frame is never
      blanked or sent back to the top, so editing doesn't flicker. */
@@ -67,8 +82,9 @@ function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDo
   const selRef = useRef(selected);
   selRef.current = selected;
   const cb = useRef({});
-  cb.current = { onSelect, onKey };
+  cb.current = { onSelect, onKey, onNavigate };
   const scrollY = useRef(0);
+  const hashRef = useRef(hash); // a section to scroll to once, after another page's link opened this one
 
   useEffect(() => {
     if (html === lastHtml.current) return;
@@ -90,6 +106,7 @@ function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDo
     const root = doc.documentElement;
     root.style.scrollBehavior = 'auto';
     win.scrollTo(0, scrollY.current);
+    if (hashRef.current) { doc.getElementById(hashRef.current)?.scrollIntoView({ block: 'start' }); hashRef.current = ''; }
     root.style.scrollBehavior = '';
     win.addEventListener('scroll', () => { if (frontRef.current === i) scrollY.current = win.scrollY; }, { passive: true });
     doc.addEventListener('click', ev => {
@@ -100,6 +117,11 @@ function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDo
         // clicks edit their text or point to their link field)
         const href = a.getAttribute('href') || '';
         if (href.length > 1 && href.startsWith('#') && !ev.target.closest('[data-st-editing],[data-href],[data-i-href]')) { doc.getElementById(href.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+        // Links to other pages of the site (the automatic menu, about.html …) open that page
+        const pg = href.match(PAGE_LINK);
+        const went = pg && !ev.target.closest('[data-st-editing]') ? cb.current.onNavigate?.(pg[1], pg[2] || '') : false;
+        if (went === 'here') { if (pg[2]) doc.getElementById(pg[2])?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+        if (went) return;
       }
       const sec = ev.target.closest?.('section[data-uid]');
       if (sec) cb.current.onSelect(sec.getAttribute('data-uid'));
@@ -150,7 +172,7 @@ function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDo
 /* The page's sections as a list. Drag a row by its handle (GSAP Draggable): the other
    rows slide out of the way, and on release everything Flips into the new order.
    The ↑ ↓ buttons do the same from the keyboard. */
-function SectionList({ sections, selected, onOpen, onMove, onReorder, onDuplicate, onRemove }) {
+function SectionList({ sections, selected, shared, onOpen, onMove, onReorder, onDuplicate, onRemove }) {
   const listRef = useRef(null);
   const flipState = useRef(null);
   const order = sections.map(x => x.uid).join('|');
@@ -211,7 +233,7 @@ function SectionList({ sections, selected, onOpen, onMove, onReorder, onDuplicat
             <button type="button" className={b.rowMain} onClick={() => onOpen(x.uid)} title="Edit this section">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img className={b.thumb} src={previewOf(x.tpl)} alt="" loading="lazy" draggable="false" />
-              <span className={b.rowText}><b>{t?.name}</b><small>{sectionCategoryById(t?.category)?.label}{x.anchor ? ` · #${x.anchor}` : ''}</small></span>
+              <span className={b.rowText}><b>{t?.name}</b><small>{shared?.has(x.uid) ? 'Shared on every page' : sectionCategoryById(t?.category)?.label}{x.anchor ? ` · #${x.anchor}` : ''}</small></span>
             </button>
             <button type="button" className={b.rowBtn} onClick={() => onMove(x.uid, -1)} disabled={i === 0} title="Move up" aria-label={`Move ${t?.name} up`}>↑</button>
             <button type="button" className={b.rowBtn} onClick={() => onMove(x.uid, 1)} disabled={i === sections.length - 1} title="Move down" aria-label={`Move ${t?.name} down`}>↓</button>
@@ -225,9 +247,11 @@ function SectionList({ sections, selected, onOpen, onMove, onReorder, onDuplicat
 }
 
 export default function WebsiteBuilder() {
-  const [page, setPageRaw] = useState(emptyPage);
+  const [site, setSiteRaw] = useState(emptySite);
+  const [pageId, setPageIdRaw] = useState(null); // the page being edited (null = home)
+  const [navHash, setNavHash] = useState(''); // section to scroll to after a page link
   const [hydrated, setHydrated] = useState(false);
-  const [tab, setTab] = useState('page'); // page | theme | pages | backup
+  const [tab, setTab] = useState('page'); // page (sections) | site (pages) | theme | pages (saved) | backup
   const [editing, setEditing] = useState(null); // uid whose content is open
   const [selected, setSelected] = useState(null);
   const [adding, setAdding] = useState(false);
@@ -258,13 +282,13 @@ export default function WebsiteBuilder() {
     toastTimer.current = setTimeout(() => setToast(''), Math.min(6500, 2200 + msg.length * 25));
   }, []);
 
-  /* Undo / redo (typing bursts grouped per 600 ms) */
+  /* Undo / redo over the whole site (typing bursts grouped per 600 ms) */
   const past = useRef([]);
   const future = useRef([]);
   const lastPush = useRef(0);
   const [, setHistTick] = useState(0);
-  const setPage = useCallback(next => {
-    setPageRaw(prev => {
+  const setSite = useCallback(next => {
+    setSiteRaw(prev => {
       const value = typeof next === 'function' ? next(prev) : next;
       if (value === prev) return prev;
       const now = Date.now();
@@ -275,8 +299,27 @@ export default function WebsiteBuilder() {
     });
     setHistTick(n => n + 1);
   }, []);
-  const undo = useCallback(() => { setPageRaw(prev => { const p = past.current.pop(); if (!p) return prev; future.current.push(prev); lastPush.current = 0; return p; }); setHistTick(n => n + 1); }, []);
-  const redo = useCallback(() => { setPageRaw(prev => { const n = future.current.pop(); if (!n) return prev; past.current.push(prev); lastPush.current = 0; return n; }); setHistTick(n => n + 1); }, []);
+  const undo = useCallback(() => { setSiteRaw(prev => { const p = past.current.pop(); if (!p) return prev; future.current.push(prev); lastPush.current = 0; return p; }); setHistTick(n => n + 1); }, []);
+  const redo = useCallback(() => { setSiteRaw(prev => { const n = future.current.pop(); if (!n) return prev; past.current.push(prev); lastPush.current = 0; return n; }); setHistTick(n => n + 1); }, []);
+
+  /* The open page as an ordinary page (header + its sections + footer); every section
+     tool edits it through setPage, which writes the change back into the site */
+  const activePage = pageById(site, pageId);
+  const page = useMemo(() => pageView(site, activePage.id), [site, activePage.id]);
+  const pageIdRef = useRef(activePage.id);
+  pageIdRef.current = activePage.id;
+  const setPage = useCallback(next => setSite(prev => {
+    const id = pageIdRef.current;
+    const view = pageView(prev, id);
+    const value = typeof next === 'function' ? next(view) : next;
+    return value === view ? prev : applyPageView(prev, id, value);
+  }), [setSite]);
+  const multi = site.pages.length > 1;
+  const sharedIds = useMemo(() => new Set([...site.header, ...site.footer].map(x => x.uid)), [site.header, site.footer]);
+  const goToPage = (id, hash = '') => {
+    if (id === activePage.id && !hash) return;
+    setPageIdRaw(id); setNavHash(hash); setSelected(null); setEditing(null);
+  };
 
   /* Restore: ?page=<id> opens a saved page, otherwise the autosave */
   useEffect(() => {
@@ -288,9 +331,9 @@ export default function WebsiteBuilder() {
       let done = false;
       if (id) {
         const d = await store.getDesign(id).catch(() => null);
-        if (d && live) { const p = restorePage(d.state); setPageRaw(p); savedJson.current = JSON.stringify(p); setCurrent({ id: d.id, name: d.name }); done = true; }
+        if (d && live) { const p = restoreSite(d.state); setSiteRaw(p); savedJson.current = JSON.stringify(p); setCurrent({ id: d.id, name: d.name }); done = true; }
       }
-      if (!done) { const auto = await store.getAutosave(AUTOSAVE).catch(() => null); if (auto && live) setPageRaw(restorePage(auto)); }
+      if (!done) { const auto = await store.getAutosave(AUTOSAVE).catch(() => null); if (auto && live) setSiteRaw(restoreSite(auto)); }
       // ?starter=<id> from a website template page (or ?starter=blank, "Start from scratch"
       // on /website-builder/): open that template. The current page, if it has sections and
       // isn't saved, is kept in My pages first so nothing is lost.
@@ -298,17 +341,17 @@ export default function WebsiteBuilder() {
       const blank = starterId === 'blank';
       if (live && starterId && (blank || STARTERS.some(x => x.id === starterId))) {
         const auto = await store.getAutosave(AUTOSAVE).catch(() => null);
-        const prev = auto ? restorePage(auto) : null;
+        const prev = auto ? restoreSite(auto) : null;
         let kept = '';
-        if (!done && prev?.sections?.length) {
-          const rec = await store.saveDesign({ name: `${prev.name} (autosaved)`, tpl: 'page', state: prev }).catch(() => null);
-          if (rec) kept = ` Your previous page was saved to My pages as “${rec.name}”.`;
+        if (!done && prev && sectionsOf(prev).length) {
+          const rec = await store.saveDesign({ name: `${prev.name} (autosaved)`, tpl: 'site', state: prev }).catch(() => null);
+          if (rec) kept = ` Your previous website was saved to Saved as “${rec.name}”.`;
         }
-        const next = blank ? emptyPage() : pageFromStarter(starterId);
+        const next = blank ? emptySite() : siteFromStarter(starterId);
         if (live) {
-          setPageRaw(next);
+          setSiteRaw(next); setPageIdRaw(null);
           setCurrent(null); savedJson.current = null;
-          setToast(blank ? `New empty page. Add a navbar, hero and more from the list.${kept}` : `Opened the ${next.name} template. Click any section to edit it.${kept}`);
+          setToast(blank ? `New empty website. Add a navbar, hero and more from the list.${kept}` : `Opened the ${next.name} template. Click any section to edit it, or add pages in the Pages tab.${kept}`);
           window.history.replaceState(null, '', window.location.pathname);
         }
       }
@@ -318,12 +361,16 @@ export default function WebsiteBuilder() {
         try { incoming = JSON.parse(localStorage.getItem(INCOMING_KEY) || 'null'); localStorage.removeItem(INCOMING_KEY); } catch { /* storage blocked */ }
         const t = incoming && Date.now() - (incoming.at || 0) < 10 * 60 * 1000 ? sectionTemplateById(incoming.tpl) : null;
         if (t) {
-          setPageRaw(p => {
-            const sec = { uid: newUid(), tpl: t.id, anchor: defaultAnchor(t.id, p.sections), state: restoreSectionState(t, incoming.state) };
-            setSelected(sec.uid);
-            return { ...p, sections: [...p.sections, sec] };
+          // Appended to the home page (above the shared footer; a navbar or footer joins the shared ones)
+          const sec = { uid: newUid(), tpl: t.id, anchor: '', state: restoreSectionState(t, incoming.state) };
+          setSiteRaw(st => {
+            const home = st.pages[0].id;
+            const view = pageView(st, home);
+            return applyPageView(st, home, { ...view, sections: [...view.sections, { ...sec, anchor: defaultAnchor(t.id, view.sections) }] });
           });
-          setToast(`Added your ${t.name} to the page. It now uses the page’s theme; change colours and fonts in the Theme tab.`);
+          setPageIdRaw(null);
+          setSelected(sec.uid);
+          setToast(`Added your ${t.name} to the home page. It now uses the website’s theme; change colours and fonts in the Theme tab.`);
         }
         window.history.replaceState(null, '', window.location.pathname);
       }
@@ -333,9 +380,9 @@ export default function WebsiteBuilder() {
   }, []);
   useEffect(() => {
     if (!hydrated) return undefined;
-    const tm = setTimeout(() => { store.putAutosave(AUTOSAVE, page).catch(() => {}); }, 600);
+    const tm = setTimeout(() => { store.putAutosave(AUTOSAVE, site).catch(() => {}); }, 600);
     return () => clearTimeout(tm);
-  }, [page, hydrated]);
+  }, [site, hydrated]);
   useEffect(() => {
     if (!hydrated) return;
     window.history.replaceState(null, '', current ? `${window.location.pathname}?page=${encodeURIComponent(current.id)}` : window.location.pathname);
@@ -368,8 +415,9 @@ export default function WebsiteBuilder() {
     return () => window.removeEventListener('keydown', onKey);
   }, [onKey]);
 
-  /* Uploaded images across every section: object URLs for the preview */
-  const allUploads = useMemo(() => page.sections.flatMap(sec => Object.entries(sec.state.uploads || {}).map(([k, u]) => ({ uid: sec.uid, k, ...u }))), [page.sections]);
+  /* Uploaded images across every section of every page: object URLs for the preview */
+  const allSections = useMemo(() => sectionsOf(site), [site]);
+  const allUploads = useMemo(() => allSections.flatMap(sec => Object.entries(sec.state.uploads || {}).map(([k, u]) => ({ uid: sec.uid, k, ...u }))), [allSections]);
   const uploadIds = allUploads.map(u => u.id).sort().join('|');
   useEffect(() => {
     let live = true;
@@ -384,7 +432,7 @@ export default function WebsiteBuilder() {
     })();
     return () => { live = false; made.forEach(u => URL.revokeObjectURL(u)); };
   }, [uploadIds]); // eslint-disable-line react-hooks/exhaustive-deps
-  const uploadOf = (uid, k) => page.sections.find(x => x.uid === uid)?.state.uploads?.[k];
+  const uploadOf = (uid, k) => allSections.find(x => x.uid === uid)?.state.uploads?.[k];
   const previewSrc = (uid, k) => { const u = uploadOf(uid, k); return u ? blobUrls[u.id] || '' : ''; };
   const relativeSrc = (uid, k) => { const u = uploadOf(uid, k); return u ? `assets/${u.file}` : ''; };
   const dataUrls = async () => {
@@ -443,10 +491,57 @@ export default function WebsiteBuilder() {
   };
   const openSection = uid => { setSelected(uid); setEditing(uid); setTab('page'); setSheetOpen(true); };
   const startFrom = starterId => {
-    const p = pageFromStarter(starterId);
-    setPage(p);
+    const p = siteFromStarter(starterId);
+    setSite(p); setPageIdRaw(null);
     setCurrent(null); savedJson.current = null; setSelected(null); setEditing(null);
-    flash(`Started a ${STARTERS.find(x => x.id === starterId)?.name.toLowerCase()} with ${p.sections.length} sections. Edit any section, or change the theme for the whole page.`);
+    flash(`Started a ${STARTERS.find(x => x.id === starterId)?.name.toLowerCase()} with ${sectionsOf(p).length} sections. Edit any section, change the theme, or add pages in the Pages tab.`);
+  };
+
+  /* Pages of the site */
+  const [newPageName, setNewPageName] = useState('');
+  const [newPageLayout, setNewPageLayout] = useState('about');
+  const [pageOpen, setPageOpen] = useState(null); // page whose settings are expanded in the Pages tab
+  const addPage = () => {
+    const pg = pageFromLayout(site, newPageLayout, newPageName.trim() || undefined);
+    setSite(st => addSitePage(st, pg));
+    setNewPageName('');
+    goToPage(pg.id);
+    setPageOpen(pg.id);
+    flash(`Added the ${pg.name} page${pg.sections.length ? ` with ${pg.sections.length} sections` : ''}. It shares the header, footer and theme${usesAutoNav({ ...site, pages: [...site.pages, pg] }) ? ', and the menu now links to it' : ''}.`);
+  };
+  const duplicatePage = id => {
+    const src = pageById(site, id);
+    const copy = { ...JSON.parse(JSON.stringify(src)), id: newPageId(), name: `${src.name} (copy)`, slug: '' };
+    copy.sections = copy.sections.map(x => ({ ...x, uid: newUid() }));
+    setSite(st => addSitePage(st, copy, id));
+    goToPage(copy.id);
+    flash(`Duplicated “${src.name}”.`);
+  };
+  const deleteSitePage = id => {
+    const pg = pageById(site, id);
+    setConfirm({
+      title: `Delete the “${pg.name}” page?`,
+      body: 'Its sections are removed from this website. Press Undo (Ctrl+Z) to bring it back.',
+      okLabel: 'Delete page',
+      danger: true,
+      onOk: () => { setSite(st => removeSitePage(st, id)); if (activePage.id === id) goToPage(null); flash(`Deleted the “${pg.name}” page.`); },
+    });
+  };
+  const movePage = (id, dir) => {
+    const ids = site.pages.map(p => p.id);
+    const i = ids.indexOf(id), to = i + dir;
+    if (i < 0 || to < 0 || to >= ids.length) return;
+    [ids[i], ids[to]] = [ids[to], ids[i]];
+    setSite(st => reorderSitePages(st, ids));
+    if (to === 0 || i === 0) flash(`“${pageById(site, ids[0]).name}” is now the home page (index.html).`);
+  };
+  const setPageSetting = (id, patch) => setSite(st => updateSitePage(st, id, patch));
+  const navigateTo = (file, hash) => {
+    const pg = site.pages.find(p => pageFile(site, p) === file);
+    if (!pg) return false;
+    if (pg.id === activePage.id) return 'here'; // the preview just scrolls to the section
+    goToPage(pg.id, hash);
+    return true;
   };
 
   /* Uploads (into the section being edited) */
@@ -470,10 +565,16 @@ export default function WebsiteBuilder() {
   };
 
   /* Preview */
-  const previewHtml = useMemo(() => previewImages(pageDocumentHtml(page, {
+  const shown = useMemo(() => renderView(site, activePage.id), [site, activePage.id]); // with the automatic menu
+  const previewHtml = useMemo(() => previewImages(pageDocumentHtml(shown, {
     imageSrc: previewSrc, clean: false, fontFaces, motion: playing > 0,
     extraHead: `<script>window.ST_PREVIEW=true</script><style>${SELECT_CSS}</style>`,
-  }), origin), [page, blobUrls, fontFaces, origin, playing]); // eslint-disable-line react-hooks/exhaustive-deps
+  }), origin), [shown, blobUrls, fontFaces, origin, playing]); // eslint-disable-line react-hooks/exhaustive-deps
+  const autoNav = usesAutoNav(site);
+  const autoNavRef = useRef(autoNav);
+  autoNavRef.current = autoNav;
+  const headerIdsRef = useRef(sharedIds);
+  headerIdsRef.current = new Set(site.header.map(x => x.uid));
   /* Click-to-edit: text is typed right in the page preview, any other bound element opens
      its section and points to its input. The preview doesn't reload while text is edited. */
   const [shownHtml, editStart, editEnd] = useFrozenPreview(previewHtml);
@@ -482,6 +583,8 @@ export default function WebsiteBuilder() {
   sectionsRef.current = page.sections;
   const onPreviewDoc = useCallback(doc => bindInlineEdit(doc, {
     resolve: tg => {
+      // The automatic menu's links come from the page names: clicking one opens that page
+      if (autoNavRef.current && tg?.list === 'links' && headerIdsRef.current.has(tg.uid)) return null;
       const sec = tg?.uid && sectionsRef.current.find(o => o.uid === tg.uid);
       return sec ? fieldOfTarget(sectionTemplateById(sec.tpl), tg) : null;
     },
@@ -492,7 +595,7 @@ export default function WebsiteBuilder() {
     onStart: editStart,
     onEnd: editEnd,
   }), [editStart, editEnd]); // eslint-disable-line react-hooks/exhaustive-deps
-  const stillJson = JSON.stringify({ ...page, motion: null });
+  const stillJson = JSON.stringify({ ...site, motion: null, p: activePage.id });
   useEffect(() => { setPlaying(0); }, [stillJson]);
   const dev = DEVICES.find(d => d.id === device) || DEVICES[0];
   const scale = stage.w ? Math.min(1, (stage.w - 32) / dev.w) : 0;
@@ -508,21 +611,21 @@ export default function WebsiteBuilder() {
       const urls = await dataUrls();
       const now = new Date().toISOString();
       const rid = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `wb-${Date.now().toString(36)}`;
-      const gf = pageDocumentHtml(page, { fontFaces }).match(/<link href="(https:\/\/fonts\.googleapis\.com[^"]+)"/)?.[1];
+      const gf = pageDocumentHtml(shown, { fontFaces }).match(/<link href="(https:\/\/fonts\.googleapis\.com[^"]+)"/)?.[1];
       /* On localhost the production image URLs aren't live yet, so point them at this origin */
       const local = /^(localhost|127\.0\.0\.1)$/.test(location.hostname)
         ? str => str.split('https://webdevpuneet.com/images/').join(`${location.origin}/images/`)
         : str => str;
-      const js = pageScript(page);
+      const js = pageScript(shown);
       await dbPut({
         id: rid,
-        name: `${page.name || 'My website'} (page)`,
+        name: `${page.name || 'My website'}${multi ? ` · ${activePage.name}` : ''} (page)`,
         tags: ['page'],
-        cdnUrls: [...(gf ? [gf] : []), ...(js ? pageCdn(page) : [])],
-        html: local(pageMarkup(page, { imageSrc: (uid, k) => urls[`${uid}|${k}`] || '', clean: true })),
+        cdnUrls: [...(gf ? [gf] : []), ...(js ? pageCdn(shown) : [])],
+        html: local(pageMarkup(shown, { imageSrc: (uid, k) => urls[`${uid}|${k}`] || '', clean: true })),
         css: local(`body{margin:0;background:${page.theme?.bg || '#fff'}}
 html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
-${pageCss(page, { fontFaces })}`),
+${pageCss(shown, { fontFaces })}`),
         js: js || '',
         createdAt: now,
         updatedAt: now,
@@ -533,15 +636,15 @@ ${pageCss(page, { fontFaces })}`),
     setBusy('');
   };
   const pageParts = imageSrc => {
-    const gf = pageDocumentHtml(page, { fontFaces }).match(/<link href="(https:\/\/fonts\.googleapis\.com[^"]+)"/)?.[1];
-    const js = pageScript(page);
+    const gf = pageDocumentHtml(shown, { fontFaces }).match(/<link href="(https:\/\/fonts\.googleapis\.com[^"]+)"/)?.[1];
+    const js = pageScript(shown);
     return {
-      id: fileBase,
-      title: page.name || 'My website',
-      html: pageMarkup(page, { imageSrc, clean: true }),
-      css: `${gf ? `@import url('${gf}');\n` : ''}body{margin:0;background:${page.theme?.bg || '#fff'}}\nhtml{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}\n${pageCss(page, { fontFaces })}`,
+      id: multi && !isHomePage(site, activePage) ? `${fileBase}-${activePage.slug}` : fileBase,
+      title: multi ? pageTitle(site, activePage) : page.name || 'My website',
+      html: pageMarkup(shown, { imageSrc, clean: true }),
+      css: `${gf ? `@import url('${gf}');\n` : ''}body{margin:0;background:${page.theme?.bg || '#fff'}}\nhtml{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}\n${pageCss(shown, { fontFaces })}`,
       js: js || '',
-      cdnUrls: js ? pageCdn(page) : [],
+      cdnUrls: js ? pageCdn(shown) : [],
     };
   };
   const downloadFrameworkZip = async kind => {
@@ -582,41 +685,57 @@ ${pageCss(page, { fontFaces })}`),
       const { default: JSZip } = await import('jszip');
       const zip = new JSZip();
       const dir = zip.folder(fileBase);
-      let html = pageDocumentHtml(page, { imageSrc: relativeSrc, fontFaces });
       const seen = new Set();
       for (const u of allUploads) {
         if (seen.has(u.file)) continue;
         const rec = await getAsset(u.id).catch(() => null);
         if (rec?.blob) { dir.file(`assets/${u.file}`, rec.blob); seen.add(u.file); }
       }
-      let missed;
-      ({ html, missed } = await localizeImages(html, dir, seen));
-      dir.file('index.html', html);
+      let missed = 0;
+      let hasScript = false;
+      if (!multi) {
+        // One page: one self-contained index.html (as before)
+        let html = pageDocumentHtml(shown, { imageSrc: relativeSrc, fontFaces });
+        ({ html, missed } = await localizeImages(html, dir, seen));
+        dir.file('index.html', html);
+      } else {
+        // A static site: one .html per page sharing styles.css and script.js
+        for (const f of siteFiles(site, { imageSrc: relativeSrc, fontFaces })) {
+          if (f.path === 'script.js') hasScript = true;
+          if (/\.(html|css)$/.test(f.path)) { const r = await localizeImages(f.content, dir, seen); missed += r.missed; dir.file(f.path, r.html); }
+          else dir.file(f.path, f.content);
+        }
+      }
       dir.file('README.txt', [
-        `${page.name}: built with the free Website Builder, https://webdevpuneet.com/website-builder/`,
+        `${site.name}: built with the free Website Builder, https://webdevpuneet.com/website-builder/`,
         '',
-        'index.html   the complete page (HTML with the CSS in a <style> tag)',
-        seen.size ? `assets/      every image the page uses (${seen.size})` : '',
+        ...(multi ? [
+          ...site.pages.map(p => `${pageFile(site, p).padEnd(20)} ${p.name}${isHomePage(site, p) ? ' (home page)' : ''}`),
+          'styles.css           every page’s CSS (theme variables at the top)',
+          hasScript ? 'script.js            animations and interactive parts (menus, sliders, FAQ, pricing switch)' : '',
+          site.url ? `sitemap.xml          every page, for search engines (${site.url}sitemap.xml)` : 'Tip: set the site address in the builder’s Pages tab to get sitemap.xml, robots.txt and canonical links.',
+        ] : ['index.html   the complete page (HTML with the CSS in a <style> tag)']),
+        seen.size ? `assets/      every image the ${multi ? 'site' : 'page'} uses (${seen.size})` : '',
         missed ? `             ${missed} image${missed > 1 ? 's' : ''} could not be downloaded and still load from their original URL.` : '',
         '',
-        'Upload the folder to any static host (Netlify, Vercel, GitHub Pages, Cloudflare Pages) or open index.html.',
+        `Upload the folder to any static host (Netlify, Vercel, GitHub Pages, Cloudflare Pages) or open index.html.${multi ? ' Links between pages work from disk too.' : ''}`,
         'Every colour, font and size is a CSS variable at the top of the CSS (--st-brand, --st-font-heading …).',
       ].filter(Boolean).join('\n'));
       saveBlob(await zip.generateAsync({ type: 'blob' }), `${fileBase}.zip`);
-      flash(`Downloaded ZIP${seen.size ? ` with ${seen.size} image${seen.size > 1 ? 's' : ''} in assets/` : ''}${missed ? ` (${missed} kept as links)` : ''}.`);
+      flash(`Downloaded ZIP${multi ? ` with ${site.pages.length} pages` : ''}${seen.size ? `${multi ? ' and' : ' with'} ${seen.size} image${seen.size > 1 ? 's' : ''} in assets/` : ''}${missed ? ` (${missed} kept as links)` : ''}.`);
     } catch (err) { flash(`ZIP failed: ${err.message}`); }
     setBusy('');
   };
 
   /* My pages */
-  const dirty = !!current && savedJson.current !== null && savedJson.current !== JSON.stringify(page);
+  const dirty = !!current && savedJson.current !== null && savedJson.current !== JSON.stringify(site);
   const saveNew = async name => {
     setBusy('save');
     try {
-      const nm = name.trim() || page.name;
-      const next = { ...page, name: nm };
-      const rec = await store.saveDesign({ name: nm, tpl: 'page', state: next });
-      setPageRaw(next);
+      const nm = name.trim() || site.name;
+      const next = { ...site, name: nm };
+      const rec = await store.saveDesign({ name: nm, tpl: 'site', state: next });
+      setSiteRaw(next);
       savedJson.current = JSON.stringify(next);
       setCurrent({ id: rec.id, name: rec.name });
       setJustSaved(true); setTimeout(() => setJustSaved(false), 1500);
@@ -625,38 +744,38 @@ ${pageCss(page, { fontFaces })}`),
     setBusy('');
   };
   const quickSave = async () => {
-    if (!current) return saveNew(page.name);
+    if (!current) return saveNew(site.name);
     setBusy('save');
     try {
       const old = await store.getDesign(current.id).catch(() => null);
-      await store.saveDesign({ ...(old || {}), id: current.id, name: page.name, tpl: 'page', state: page });
-      savedJson.current = JSON.stringify(page);
-      setCurrent({ id: current.id, name: page.name });
+      await store.saveDesign({ ...(old || {}), id: current.id, name: site.name, tpl: 'site', state: site });
+      savedJson.current = JSON.stringify(site);
+      setCurrent({ id: current.id, name: site.name });
       setJustSaved(true); setTimeout(() => setJustSaved(false), 1500);
     } catch (err) { flash(`Couldn't save: ${err.message}`); }
     setBusy('');
   };
   saveRef.current = quickSave;
   const openPage = d => {
-    const p = restorePage(d.state);
-    setPage(p);
+    const p = restoreSite(d.state);
+    setSite(p); setPageIdRaw(null);
     savedJson.current = JSON.stringify(p);
     setCurrent({ id: d.id, name: d.name });
     setSelected(null); setEditing(null); setTab('page');
-    flash(`Opened “${d.name}”`);
+    flash(`Opened “${d.name}”${p.pages.length > 1 ? ` (${p.pages.length} pages)` : ''}`);
   };
   const deletePage = d => setConfirm({
     title: `Delete “${d.name}”?`,
-    body: 'This removes the saved page from this browser. Your autosave stays.',
+    body: 'This removes the saved website from this browser. Your autosave stays.',
     okLabel: 'Delete',
     danger: true,
     onOk: async () => { await store.deleteDesign(d.id); if (current?.id === d.id) { setCurrent(null); savedJson.current = null; } flash(`Deleted “${d.name}”`); },
   });
   const newPage = () => setConfirm({
-    title: 'Start a new page?',
-    body: current ? 'Your saved page stays in My pages.' : 'The current page is not saved in My pages. Save it first if you want to keep it (it stays in the autosave until you change the new page).',
-    okLabel: 'New page',
-    onOk: () => { setPage(emptyPage()); setCurrent(null); savedJson.current = null; setSelected(null); setEditing(null); setTab('page'); },
+    title: 'Start a new website?',
+    body: current ? 'Your saved website stays in Saved.' : 'The current website is not saved. Save it first if you want to keep it (it stays in the autosave until you change the new one).',
+    okLabel: 'New website',
+    onOk: () => { setSite(emptySite()); setPageIdRaw(null); setCurrent(null); savedJson.current = null; setSelected(null); setEditing(null); setTab('page'); },
   });
 
   /* Backup export / import */
@@ -668,7 +787,7 @@ ${pageCss(page, { fontFaces })}`),
         tool: TOOL,
         store,
         getAssets: async ds => {
-          const ids = [...new Set(ds.flatMap(d => (d.state?.sections || []).flatMap(x => Object.values(x.state?.uploads || {}).map(u => u.id))))];
+          const ids = [...new Set(ds.flatMap(d => sectionsOf(d.state).flatMap(x => Object.values(x.state?.uploads || {}).map(u => u.id))))];
           const out = [];
           for (const key of ids) { const rec = await getAsset(key).catch(() => null); if (rec?.blob) out.push({ key, data: await blobToDataUrl(rec.blob), type: rec.type, name: rec.file || rec.name, w: rec.w, h: rec.h }); }
           return out;
@@ -676,7 +795,7 @@ ${pageCss(page, { fontFaces })}`),
         getFonts: async ds => { const ids = [...new Set(ds.flatMap(d => Object.values(d.state?.fonts || {})).filter(id => String(id).startsWith('c:')))]; return ids.length ? exportCustomFonts(ids) : []; },
         brandKit: kitIsSet(kit) ? kit : undefined,
       });
-      flash(`Exported ${r.count} page${r.count === 1 ? '' : 's'} (${(r.bytes / 1024 / 1024).toFixed(2)} MB).`);
+      flash(`Exported ${r.count} website${r.count === 1 ? '' : 's'} (${(r.bytes / 1024 / 1024).toFixed(2)} MB).`);
     } catch (err) { flash(`Export failed: ${err.message}`); }
     setBusy('');
   };
@@ -687,7 +806,7 @@ ${pageCss(page, { fontFaces })}`),
       const r = await importDesigns(file, {
         tool: TOOL,
         store,
-        knownTemplate: tid => tid === 'page',
+        knownTemplate: tid => tid === 'page' || tid === 'site',
         putAssets: async assets => {
           let n = 0;
           for (const a of assets) {
@@ -701,7 +820,7 @@ ${pageCss(page, { fontFaces })}`),
         applyKit: k => { if (kitIsSet(loadKit())) return false; saveKit(k); return true; },
       });
       const parts = [];
-      if (r.added) parts.push(`${r.added} page${r.added > 1 ? 's' : ''} added`);
+      if (r.added) parts.push(`${r.added} website${r.added > 1 ? 's' : ''} added`);
       if (r.copies) parts.push(`${r.copies} added as copies`);
       if (r.skipped) parts.push(`${r.skipped} already here`);
       if (r.assets) parts.push(`${r.assets} image${r.assets > 1 ? 's' : ''}`);
@@ -734,9 +853,9 @@ ${pageCss(page, { fontFaces })}`),
             {sheetOpen ? 'Hide panel' : 'Edit page'}
           </button>
           <div className={s.panelTabs} role="tablist" aria-label="Panel" onClickCapture={() => setSheetOpen(true)}>
-            {[['page', 'Page'], ['theme', 'Theme'], ['pages', `My pages`], ['backup', 'Backup']].map(([v, l]) => (
+            {[['page', 'Sections'], ['site', 'Pages'], ['theme', 'Theme'], ['pages', 'Saved'], ['backup', 'Backup']].map(([v, l]) => (
               <button key={v} type="button" role="tab" aria-selected={tab === v} className={tab === v ? s.panelTabOn : ''} onClick={() => { setTab(v); if (v !== 'page') setEditing(null); }}>
-                {l}{v === 'pages' && <span className={s.panelTabCount}>{pages.length}</span>}
+                {l}{v === 'pages' && <span className={s.panelTabCount}>{pages.length}</span>}{v === 'site' && multi && <span className={s.panelTabCount}>{site.pages.length}</span>}
               </button>
             ))}
           </div>
@@ -746,8 +865,11 @@ ${pageCss(page, { fontFaces })}`),
                 <section className={s.section}>
                   <div className={b.editHead}>
                     <button type="button" className={b.back} onClick={() => setEditing(null)}>← Sections</button>
-                    <span className={b.editTitle}><b>{editTpl.name}</b><small>{sectionCategoryById(editTpl.category)?.label} · theme and animation are set for the whole page</small></span>
+                    <span className={b.editTitle}><b>{editTpl.name}</b><small>{sharedIds.has(editSec.uid) ? (multi ? 'Shared: changes here appear on every page' : 'Header / footer, shared with every page you add') : sectionCategoryById(editTpl.category)?.label} · theme and animation are set for the whole website</small></span>
                   </div>
+                  {autoNav && site.header.some(h => h.uid === editSec.uid) && (editTpl.lists || []).some(l => l.key === 'links') && (
+                    <p className={s.hint} style={{ marginTop: 10 }}>The menu links come from your pages. Rename, reorder or hide pages in the <button type="button" className={b.linkBtn} onClick={() => { setEditing(null); setTab('site'); }}>Pages tab</button>, or switch off the automatic menu there to edit the links below.</p>
+                  )}
                   <div className={s.field} style={{ marginTop: 12 }}>
                     <label className={s.label} htmlFor="wb-anchor">Section link (anchor)</label>
                     <div className={b.anchorRow}>
@@ -781,11 +903,17 @@ ${pageCss(page, { fontFaces })}`),
             ) : tab === 'page' ? (
               <>
                 <section className={s.section}>
-                  <label className={s.label} htmlFor="wb-name">Page title</label>
-                  <input id="wb-name" className={`${s.input} ${b.pageName}`} value={page.name} maxLength={80} onChange={ev => setPage(p => ({ ...p, name: ev.target.value }))} />
-                  <p className={s.hint}>Used as the page’s &lt;title&gt; in your export and as its name in My pages.</p>
+                  <label className={s.label} htmlFor="wb-name">Website name</label>
+                  <input id="wb-name" className={`${s.input} ${b.pageName}`} value={site.name} maxLength={80} onChange={ev => setPage(p => ({ ...p, name: ev.target.value }))} />
+                  <p className={s.hint}>{multi ? 'The home page’s <title>, the end of every other page’s title, and the name in Saved.' : 'Used as the page’s <title> in your export and as its name in Saved.'}</p>
                 </section>
                 <section className={s.section}>
+                  {multi && (
+                    <div className={b.pageBar}>
+                      <span>Editing <b>{activePage.name}</b> <code>{pageFile(site, activePage)}</code></span>
+                      <button type="button" className={b.linkBtn} onClick={() => setTab('site')}>All pages →</button>
+                    </div>
+                  )}
                   <h2 className={s.sectionTitle}>Sections {page.sections.length > 0 && <span style={{ opacity: 0.6, fontWeight: 500 }}>({page.sections.length})</span>}</h2>
                   {page.sections.length === 0 && !adding && (
                     <>
@@ -804,6 +932,7 @@ ${pageCss(page, { fontFaces })}`),
                   <SectionList
                     sections={page.sections}
                     selected={selected}
+                    shared={sharedIds}
                     onOpen={openSection}
                     onMove={moveSection}
                     onReorder={reorderSection}
@@ -836,7 +965,88 @@ ${pageCss(page, { fontFaces })}`),
                     </div>
                   </section>
                 )}
-                {page.sections.length > 0 && <p className={s.hint} style={{ padding: '0 16px 16px' }}>Tip: click any section in the preview to edit it. Colours, fonts and animation are in the Theme tab and apply to the whole page.</p>}
+                {page.sections.length > 0 && <p className={s.hint} style={{ padding: '0 16px 16px' }}>Tip: click any section in the preview to edit it. Colours, fonts and animation are in the Theme tab and apply to the whole website. Add more pages (About, Contact…) in the Pages tab.</p>}
+              </>
+            ) : tab === 'site' ? (
+              <>
+                <section className={s.section}>
+                  <h2 className={s.sectionTitle}>Pages <span style={{ opacity: 0.6, fontWeight: 500 }}>({site.pages.length})</span></h2>
+                  <p className={s.hint}>Every page shares the header, footer and theme. The first page is the home page (index.html).</p>
+                  <ol className={b.list} style={{ marginTop: 10 }}>
+                    {site.pages.map((pg, i) => {
+                      const open = pageOpen === pg.id;
+                      const home = i === 0;
+                      return (
+                        <li key={pg.id} className={b.pageItem}>
+                          <div className={`${b.row} ${pg.id === activePage.id ? b.rowOn : ''}`}>
+                            <button type="button" className={b.rowMain} onClick={() => { goToPage(pg.id); setTab('page'); }} title="Edit this page's sections">
+                              <span className={b.pageIcon} aria-hidden="true">{home ? '⌂' : '▤'}</span>
+                              <span className={b.rowText}><b>{pg.name}</b><small>{pageFile(site, pg)} · {pg.sections.length} section{pg.sections.length === 1 ? '' : 's'}{pg.hideHeader || pg.hideFooter ? ` · no ${[pg.hideHeader && 'header', pg.hideFooter && 'footer'].filter(Boolean).join(' / ')}` : ''}</small></span>
+                            </button>
+                            <button type="button" className={b.rowBtn} onClick={() => movePage(pg.id, -1)} disabled={home} title="Move up" aria-label={`Move ${pg.name} up`}>↑</button>
+                            <button type="button" className={b.rowBtn} onClick={() => movePage(pg.id, 1)} disabled={i === site.pages.length - 1} title="Move down" aria-label={`Move ${pg.name} down`}>↓</button>
+                            <button type="button" className={b.rowBtn} onClick={() => setPageOpen(open ? null : pg.id)} aria-expanded={open} title="Page settings" aria-label={`Settings for ${pg.name}`}>⚙</button>
+                            <button type="button" className={b.rowBtn} onClick={() => duplicatePage(pg.id)} title="Duplicate" aria-label={`Duplicate ${pg.name}`}>⧉</button>
+                            <button type="button" className={b.rowBtn} onClick={() => deleteSitePage(pg.id)} disabled={site.pages.length < 2} title="Delete" aria-label={`Delete ${pg.name}`}>✕</button>
+                          </div>
+                          {open && (
+                            <div className={b.pageSettings}>
+                              <div className={s.field}>
+                                <label className={s.label} htmlFor={`pg-name-${pg.id}`}>Page name (menu label)</label>
+                                <input id={`pg-name-${pg.id}`} className={s.input} value={pg.name} maxLength={80} onChange={ev => setPageSetting(pg.id, { name: ev.target.value })} />
+                              </div>
+                              <div className={s.field}>
+                                <label className={s.label} htmlFor={`pg-slug-${pg.id}`}>File name</label>
+                                {home
+                                  ? <span className={s.hint}><code>index.html</code>: the home page is always index.html. Move another page to the top to make it the home page.</span>
+                                  : (
+                                    <div className={b.anchorRow}>
+                                      <input id={`pg-slug-${pg.id}`} className={s.input} value={pg.slug} maxLength={48} spellCheck={false} onChange={ev => setSite(st => ({ ...st, pages: st.pages.map(p => (p.id === pg.id ? { ...p, slug: cleanSlug(ev.target.value) } : p)) }))} onBlur={() => setPageSetting(pg.id, {})} />
+                                      <span aria-hidden="true">.html</span>
+                                    </div>
+                                  )}
+                              </div>
+                              <div className={s.field}>
+                                <label className={s.label} htmlFor={`pg-title-${pg.id}`}>SEO title <span className={b.count}>{(pg.title || pageTitle(site, pg)).length}/60</span></label>
+                                <input id={`pg-title-${pg.id}`} className={s.input} value={pg.title} maxLength={120} placeholder={pageTitle(site, { ...pg, title: '' })} onChange={ev => setPageSetting(pg.id, { title: ev.target.value })} />
+                              </div>
+                              <div className={s.field}>
+                                <label className={s.label} htmlFor={`pg-desc-${pg.id}`}>Meta description <span className={b.count}>{pg.description.length}/160</span></label>
+                                <textarea id={`pg-desc-${pg.id}`} className={s.input} rows={3} value={pg.description} maxLength={320} placeholder="One or two sentences search engines can show under the title" onChange={ev => setPageSetting(pg.id, { description: ev.target.value })} />
+                              </div>
+                              <label className={b.check}><input type="checkbox" checked={pg.inNav} onChange={ev => setPageSetting(pg.id, { inNav: ev.target.checked })} /> Show in the menu</label>
+                              <label className={b.check}><input type="checkbox" checked={pg.hideHeader} onChange={ev => setPageSetting(pg.id, { hideHeader: ev.target.checked })} /> Hide the header on this page</label>
+                              <label className={b.check}><input type="checkbox" checked={pg.hideFooter} onChange={ev => setPageSetting(pg.id, { hideFooter: ev.target.checked })} /> Hide the footer on this page</label>
+                            </div>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ol>
+                </section>
+                <section className={s.section}>
+                  <h2 className={s.sectionTitle}>Add a page</h2>
+                  <div className={b.cats} role="radiogroup" aria-label="Page layout">
+                    {PAGE_LAYOUTS.map(l => (
+                      <button key={l.id} type="button" role="radio" aria-checked={newPageLayout === l.id} className={`${b.cat} ${newPageLayout === l.id ? b.catOn : ''}`} onClick={() => setNewPageLayout(l.id)} title={l.sections.map(id => sectionTemplateById(id)?.name).filter(Boolean).join(', ') || 'Only the shared header and footer'}>{l.name}</button>
+                    ))}
+                  </div>
+                  <p className={s.hint} style={{ margin: '8px 0' }}>{(() => { const l = PAGE_LAYOUTS.find(o => o.id === newPageLayout); return l?.sections.length ? `Starts with: ${l.sections.map(id => sectionTemplateById(id)?.name).filter(Boolean).join(', ')}.` : 'Starts with only the shared header and footer.'; })()}</p>
+                  <div className={b.addRow}>
+                    <input className={s.input} value={newPageName} maxLength={80} placeholder={`Page name (${PAGE_LAYOUTS.find(o => o.id === newPageLayout)?.id === 'blank' ? 'New page' : PAGE_LAYOUTS.find(o => o.id === newPageLayout)?.name})`} aria-label="New page name" onChange={ev => setNewPageName(ev.target.value)} onKeyDown={ev => { if (ev.key === 'Enter') addPage(); }} />
+                    <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={addPage}>+ Add page</button>
+                  </div>
+                </section>
+                <section className={s.section}>
+                  <h2 className={s.sectionTitle}>Website settings</h2>
+                  <label className={b.check}><input type="checkbox" checked={site.autoNav !== false} onChange={ev => setSite(st => ({ ...st, autoNav: ev.target.checked }))} /> Automatic menu</label>
+                  <p className={s.hint}>{site.autoNav !== false ? 'The navbar links to every page marked “Show in the menu”, and the logo links to the home page (with two or more pages).' : 'The navbar keeps the links you type in it. Link to a page with its file name, e.g. about.html or contact.html#map.'}</p>
+                  <div className={s.field} style={{ marginTop: 12 }}>
+                    <label className={s.label} htmlFor="wb-url">Site address (optional)</label>
+                    <input id="wb-url" className={s.input} value={site.url} placeholder="https://www.example.com/" spellCheck={false} onChange={ev => setSite(st => ({ ...st, url: ev.target.value }))} onBlur={() => setSite(st => ({ ...st, url: cleanBaseUrl(st.url) }))} />
+                    <span className={s.hint}>Where the site will live. Adds canonical links, sitemap.xml and robots.txt to the ZIP.</span>
+                  </div>
+                </section>
               </>
             ) : tab === 'theme' ? (
               <>
@@ -859,19 +1069,19 @@ ${pageCss(page, { fontFaces })}`),
               </>
             ) : tab === 'pages' ? (
               <section className={s.section}>
-                <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={newPage}>+ New page</button>
-                {pages.length === 0 && <p className={s.designsEmpty}>No saved pages yet. Click Save in the toolbar (or press Ctrl+S) to keep this page.</p>}
+                <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={newPage}>+ New website</button>
+                {pages.length === 0 && <p className={s.designsEmpty}>No saved websites yet. Click Save in the toolbar (or press Ctrl+S) to keep this one.</p>}
                 {pages.length > 0 && (
                   <ul className={`${s.designList} ${s.designListTab}`} style={{ marginTop: 12 }}>
                     {pages.map(d => (
                       <li key={d.id} className={`${s.designItem} ${current?.id === d.id ? s.designItemOn : ''}`}>
-                        <button type="button" className={s.designOpen} onClick={() => openPage(d)} title="Open this page" style={{ borderBottom: `3px solid ${d.state?.theme?.brand || '#4f46e5'}` }}>
+                        <button type="button" className={s.designOpen} onClick={() => openPage(d)} title="Open this website" style={{ borderBottom: `3px solid ${d.state?.theme?.brand || '#4f46e5'}` }}>
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={previewOf(d.state?.sections?.[1]?.tpl || d.state?.sections?.[0]?.tpl || 'saas-split-hero')} alt="" style={{ objectPosition: 'top' }} />
+                          <img src={previewOf((isSite(d.state) ? d.state.pages?.[0]?.sections?.[0]?.tpl || d.state.header?.[0]?.tpl : d.state?.sections?.[1]?.tpl || d.state?.sections?.[0]?.tpl) || 'saas-split-hero')} alt="" style={{ objectPosition: 'top' }} />
                         </button>
                         <span className={s.designMeta}>
                           <b title={d.name}>{d.name}</b>
-                          <small>{(d.state?.sections || []).length} sections</small>
+                          <small>{isSite(d.state) && (d.state.pages || []).length > 1 ? `${d.state.pages.length} pages · ` : ''}{sectionsOf(d.state).length} sections</small>
                           <span className={s.designActions}>
                             <button type="button" onClick={() => openPage(d)}>Open</button>
                             <button type="button" onClick={async () => { const c = await store.duplicateDesign(d.id); if (c) flash(`Duplicated as “${c.name}”`); }}>Duplicate</button>
@@ -882,15 +1092,15 @@ ${pageCss(page, { fontFaces })}`),
                     ))}
                   </ul>
                 )}
-                <p className={s.hint}>Pages are saved in this browser, with your uploaded images. Rename a page with the Page title field, then Save.</p>
+                <p className={s.hint}>Websites are saved in this browser with all their pages and uploaded images. Rename one with the Website name field (Sections tab), then Save.</p>
               </section>
             ) : (
               <section className={s.section}>
                 <h2 className={s.sectionTitle}>Export</h2>
-                <p className={s.transferText}>Download all {pages.length} saved page{pages.length === 1 ? '' : 's'} as one backup file, with your uploaded images, uploaded fonts and brand kit.</p>
-                <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={exportAll} disabled={!!busy || !pages.length}>{busy === 'export' ? 'Exporting…' : '⤓ Export pages'}</button>
+                <p className={s.transferText}>Download all {pages.length} saved website{pages.length === 1 ? '' : 's'} as one backup file, with every page, your uploaded images, uploaded fonts and brand kit.</p>
+                <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} onClick={exportAll} disabled={!!busy || !pages.length}>{busy === 'export' ? 'Exporting…' : '⤓ Export websites'}</button>
                 <h2 className={s.sectionTitle} style={{ marginTop: 22 }}>Import</h2>
-                <p className={s.transferText}>Add pages from a backup file. Nothing you already have is changed.</p>
+                <p className={s.transferText}>Add websites from a backup file. Nothing you already have is changed.</p>
                 <button type="button" className={s.miniBtn} onClick={() => importRef.current?.click()} disabled={!!busy}>{busy === 'import' ? 'Importing…' : '⤒ Choose a backup file (.json)'}</button>
                 <input ref={importRef} type="file" accept=".json,application/json" hidden onChange={ev => { const file = ev.target.files?.[0]; ev.target.value = ''; importFile(file); }} />
                 <p className={s.hint}>Everything is stored only in this browser. Export regularly so clearing site data or switching devices never loses your work.</p>
@@ -902,9 +1112,19 @@ ${pageCss(page, { fontFaces })}`),
         <div className={s.main} style={{ position: 'relative', display: 'flex', flexDirection: 'column' }}>
           <div className={s.toolbar}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', minWidth: 0 }}>
-              <h1 className={s.metaName} title={page.name}>{page.name}</h1>
+              <h1 className={s.metaName} title={site.name}>{site.name}</h1>
               {current && dirty && <i className={s.dirtyDot} title="Unsaved changes" aria-label="Unsaved changes" />}
               <span className={s.toolbarSep} aria-hidden="true" />
+              <select
+                className={b.pageSelect}
+                value={activePage.id}
+                aria-label="Page"
+                title="Page to edit and preview"
+                onChange={ev => { if (ev.target.value === '+') { setTab('site'); setSheetOpen(true); } else goToPage(ev.target.value); }}
+              >
+                {site.pages.map(p => <option key={p.id} value={p.id}>{p.name} ({pageFile(site, p)})</option>)}
+                <option value="+">+ Add a page…</option>
+              </select>
               <div className={`${s.seg} ${x.toolSeg}`} role="radiogroup" aria-label="Device">
                 {DEVICES.map(d => (
                   <button key={d.id} type="button" role="radio" aria-checked={device === d.id} aria-label={`${d.label} preview (${d.w}px)`} title={`${d.label} · ${d.w}px`} className={`${s.segBtn} ${x.iconSeg} ${device === d.id ? s.segBtnActive : ''}`} onClick={() => setDevice(d.id)}>{d.icon}</button>
@@ -915,8 +1135,8 @@ ${pageCss(page, { fontFaces })}`),
               )}
             </div>
             <div className={s.toolbarRight} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              {/* Reset clears the page; it is one undo step, so Ctrl+Z brings everything back */}
-              <HistoryButtons onUndo={undo} onRedo={redo} onReset={() => { setPage(emptyPage()); setSelected(null); setEditing(null); flash('Page cleared. Press Undo (Ctrl+Z) to bring it back.'); }} canUndo={past.current.length > 0} canRedo={future.current.length > 0} />
+              {/* Reset clears the website; it is one undo step, so Ctrl+Z brings everything back */}
+              <HistoryButtons onUndo={undo} onRedo={redo} onReset={() => { setSite(emptySite()); setPageIdRaw(null); setSelected(null); setEditing(null); flash('Website cleared. Press Undo (Ctrl+Z) to bring it back.'); }} canUndo={past.current.length > 0} canRedo={future.current.length > 0} />
               <SaveButton
                 onClick={quickSave}
                 busy={busy === 'save'}
@@ -924,17 +1144,19 @@ ${pageCss(page, { fontFaces })}`),
                 dirty={dirty}
                 disabled={!!busy}
                 title={current ? (dirty ? `Save changes to “${current.name}” (Ctrl+S)` : `“${current.name}” is saved`) : 'Save to My pages (Ctrl+S)'}
-                saveAs={{ defaultName: current ? `${page.name} (copy)` : page.name, onSave: name => saveNew(name) }}
-                menu={current ? [{ label: 'Detach', sub: `Keep editing without changing “${current.name}”`, onClick: () => { setCurrent(null); savedJson.current = null; flash('Detached. Save now creates a new page.'); } }] : []}
+                saveAs={{ defaultName: current ? `${site.name} (copy)` : site.name, onSave: name => saveNew(name) }}
+                menu={current ? [{ label: 'Detach', sub: `Keep editing without changing “${current.name}”`, onClick: () => { setCurrent(null); savedJson.current = null; flash('Detached. Save now creates a new website.'); } }] : []}
               />
               <span className={s.toolbarSep} aria-hidden="true" />
               <ForkButton onClick={forkToMyCode} busy={busy === 'fork'} disabled={!!busy || !page.sections.length} />
               <ExportMenu
-                head="Export this page as…"
+                head={multi ? 'Export this website as…' : 'Export this page as…'}
                 options={[
-                  { icon: 'html', label: busy === 'zip' ? 'Zipping…' : 'Download ZIP', sub: 'index.html plus an assets folder with every image', onClick: downloadZip, disabled: !!busy || !page.sections.length },
-                  { icon: 'react', label: busy === 'reactzip' ? 'Zipping…' : 'Download React ZIP', sub: 'The .jsx component plus an assets folder with every image', onClick: () => downloadFrameworkZip('react'), disabled: !!busy || !page.sections.length },
-                  { icon: 'vue', label: busy === 'vuezip' ? 'Zipping…' : 'Download Vue ZIP', sub: 'The .vue component plus an assets folder with every image', onClick: () => downloadFrameworkZip('vue'), disabled: !!busy || !page.sections.length },
+                  multi
+                    ? { icon: 'html', label: busy === 'zip' ? 'Zipping…' : 'Download website ZIP', sub: `${site.pages.length} pages (index.html, ${site.pages.slice(1, 3).map(p => pageFile(site, p)).join(', ')}${site.pages.length > 3 ? ' …' : ''}), styles.css, script.js and an assets folder`, onClick: downloadZip, disabled: !!busy || !allSections.length }
+                    : { icon: 'html', label: busy === 'zip' ? 'Zipping…' : 'Download ZIP', sub: 'index.html plus an assets folder with every image', onClick: downloadZip, disabled: !!busy || !page.sections.length },
+                  { icon: 'react', label: busy === 'reactzip' ? 'Zipping…' : 'Download React ZIP', sub: `The .jsx component${multi ? ` of this page (${activePage.name})` : ''} plus an assets folder with every image`, onClick: () => downloadFrameworkZip('react'), disabled: !!busy || !page.sections.length },
+                  { icon: 'vue', label: busy === 'vuezip' ? 'Zipping…' : 'Download Vue ZIP', sub: `The .vue component${multi ? ` of this page (${activePage.name})` : ''} plus an assets folder with every image`, onClick: () => downloadFrameworkZip('vue'), disabled: !!busy || !page.sections.length },
                 ]}
               />
             </div>
@@ -943,11 +1165,11 @@ ${pageCss(page, { fontFaces })}`),
           <div className={b.stage} ref={stageRef}>
             {page.sections.length === 0 ? (
               <div className={b.empty}>
-                <h2>Build a page from sections</h2>
-                <p>Pick a starter page or add sections from the panel: navbars, heroes, features, pricing, testimonials, FAQ, CTA, footers and more. They all share one theme, so the page always looks like one website.</p>
+                <h2>{multi ? `“${activePage.name}” is empty` : 'Build a website from sections'}</h2>
+                <p>{multi ? 'Add sections from the panel to fill this page. It gets the shared header and footer unless you hide them in its page settings.' :'Pick a starter or add sections from the panel: navbars, heroes, features, pricing, testimonials, FAQ, CTA, footers and more. They all share one theme, so every page looks like one website. Add more pages in the Pages tab.'}</p>
               </div>
             ) : origin && scale > 0 && (
-              <PageFrame key={device} html={shownHtml} width={dev.w} height={frameH} scale={scale} selected={selected} onSelect={openSection} onKey={onKey} onDoc={onPreviewDoc} />
+              <PageFrame key={`${device}|${activePage.id}`} html={shownHtml} width={dev.w} height={frameH} scale={scale} selected={selected} onSelect={openSection} onKey={onKey} onDoc={onPreviewDoc} onNavigate={navigateTo} hash={navHash} />
             )}
           </div>
         </div>

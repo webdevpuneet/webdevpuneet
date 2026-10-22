@@ -165,6 +165,7 @@ export function safeUrl(u) {
   if (/^(https?:|mailto:|tel:|#|\/)/i.test(v)) return v.replace(/"/g, '%22');
   if (/^(blob:|data:image\/(png|jpe?g|gif|webp|svg\+xml);base64,)/i.test(v)) return v;
   if (/^images\/[\w.-]+$/.test(v)) return v; // uploaded images next to the page in the ZIP
+  if (/^[\w-]+\.html(#[\w-]*)?$/i.test(v)) return v; // another page of a multi-page site (about.html#team)
   if (/^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(v)) return `https://${v.replace(/"/g, '%22')}`;
   return '#';
 }

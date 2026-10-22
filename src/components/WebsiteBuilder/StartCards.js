@@ -12,7 +12,7 @@ import s from '../SocialPostTemplates/styles.module.css';
 import x from '../SectionTemplates/styles.module.css';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import { makeDesignStore } from '@/lib/design-store';
-import { restorePage, pageDocumentHtml } from '@/components/SectionTemplates/templates/page.js';
+import { restoreSite, siteDocumentHtml, isSite } from '@/components/SectionTemplates/templates/site.js';
 import { getAsset } from '@/components/SectionTemplates/storage';
 import { previewImages } from '@/components/SectionTemplates/upload';
 
@@ -40,9 +40,13 @@ const panOut = ev => {
 const reduced = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 const panProps = { onMouseEnter: e => { if (!reduced()) panIn(e); }, onMouseLeave: panOut, onFocus: e => { if (!reduced()) panIn(e); }, onBlur: panOut };
 
+/* Every section of a saved record (a site, or an older single page) */
+const sectionsOf = st => (isSite(st) ? [...(st.header || []), ...(st.pages || []).flatMap(p => p.sections || []), ...(st.footer || [])] : st?.sections || []);
+const sizeOf = st => `${isSite(st) && st.pages?.length > 1 ? `${st.pages.length} pages · ` : ''}${sectionsOf(st).length} sections`;
+
 const when = iso => { try { return new Date(iso).toLocaleDateString(undefined, { day: 'numeric', month: 'short' }); } catch { return ''; } };
 
-/* The page itself, rendered live (its text, uploaded images, theme and fonts) at desktop
+/* The page itself (a website's home page), rendered live (its text, uploaded images, theme and fonts) at desktop
    width and scaled down to the card. Rendered only once the card reaches the viewport, with
    scripts off (sections are designed to show all their content without JavaScript). */
 const PAGE_W = 1280;
@@ -66,7 +70,7 @@ function LivePage({ page }) {
     const made = [];
     (async () => {
       const out = {};
-      for (const sec of page?.sections || []) {
+      for (const sec of sectionsOf(page)) {
         for (const [k, u] of Object.entries(sec.state?.uploads || {})) {
           try { const rec = await getAsset(u.id); if (rec?.blob) { const url = URL.createObjectURL(rec.blob); made.push(url); out[`${sec.uid}|${k}`] = url; } } catch { /* missing */ }
         }
@@ -78,7 +82,8 @@ function LivePage({ page }) {
   const html = useMemo(() => {
     if (!origin || !page) return '';
     try {
-      return previewImages(pageDocumentHtml(restorePage(page), { imageSrc: (uid, k) => urls[`${uid}|${k}`] || '', motion: false }), origin);
+      const site = restoreSite(page);
+      return previewImages(siteDocumentHtml(site, site.pages[0].id, { imageSrc: (uid, k) => urls[`${uid}|${k}`] || '', motion: false }), origin);
     } catch { return ''; }
   }, [page, urls, origin]);
   // The page's height, kept up to date as its fonts and images load
@@ -151,7 +156,7 @@ export default function StartCards() {
     const q = new URLSearchParams(window.location.search);
     if (['page', 'starter', 'add'].some(k => q.has(k))) { window.location.replace(`${EDITOR}${window.location.search}${window.location.hash}`); return undefined; }
     let live = true;
-    store.getAutosave('page').then(a => { if (live && a?.sections?.length) setAuto(a); }).catch(() => {});
+    store.getAutosave('page').then(a => { if (live && sectionsOf(a).length) setAuto(a); }).catch(() => {});
     const load = () => store.listDesigns().then(list => { if (live) setPages(list); }).catch(() => {});
     load();
     const off = store.onDesignsChange(load);
@@ -159,8 +164,8 @@ export default function StartCards() {
   }, []);
 
   const items = [
-    ...(auto ? [{ key: 'auto', href: EDITOR, page: auto, cat: 'Autosaved', title: 'Continue editing', meta: `${auto.name || 'Your page'} · ${auto.sections.length} sections` }] : []),
-    ...pages.map(d => ({ key: d.id, href: `${EDITOR}?page=${encodeURIComponent(d.id)}`, page: d.state, cat: 'My pages', title: d.name, meta: `${d.state?.sections?.length || 0} sections · ${when(d.updated)}` })),
+    ...(auto ? [{ key: 'auto', href: EDITOR, page: auto, cat: 'Autosaved', title: 'Continue editing', meta: `${auto.name || 'Your website'} · ${sizeOf(auto)}` }] : []),
+    ...pages.map(d => ({ key: d.id, href: `${EDITOR}?page=${encodeURIComponent(d.id)}`, page: d.state, cat: 'My pages', title: d.name, meta: `${sizeOf(d.state)} · ${when(d.updated)}` })),
   ];
   const total = items.length;
   const shown = items.slice(0, count);
