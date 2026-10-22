@@ -54,20 +54,21 @@ body { font-family: system-ui, sans-serif; background: #f8fafc; min-height: 100v
 
 .maze-wrap { position: relative; margin-bottom: 14px; }
 .maze-grid {
+  position: relative;
   display: grid;
   gap: 0;
   background: #1e293b;
+  border: 4px solid #1e293b;
   border-radius: 12px;
-  padding: 4px;
   aspect-ratio: 1 / 1;
   outline: none;
 }
 .maze-cell { position: relative; background: #1e293b; }
-.maze-cell .cell-inner { position: absolute; inset: 1px; background: #f8fafc; }
-.maze-cell.wall-top .cell-inner { top: 3px; }
-.maze-cell.wall-right .cell-inner { right: 3px; }
-.maze-cell.wall-bottom .cell-inner { bottom: 3px; }
-.maze-cell.wall-left .cell-inner { left: 3px; }
+.maze-cell .cell-inner { position: absolute; inset: 2px; background: #f8fafc; }
+.maze-cell.open-top .cell-inner { top: 0; }
+.maze-cell.open-right .cell-inner { right: 0; }
+.maze-cell.open-bottom .cell-inner { bottom: 0; }
+.maze-cell.open-left .cell-inner { left: 0; }
 
 .marker {
   position: absolute; border-radius: 50%;
@@ -95,7 +96,6 @@ body { font-family: system-ui, sans-serif; background: #f8fafc; min-height: 100v
 .hidden { display: none !important; }`,
 
   js: `const SIZE = 13;
-const CELL_PX = 26;
 
 const N = 1, E = 2, S = 4, W = 8;
 const OPPOSITE = { [N]: S, [E]: W, [S]: N, [W]: E };
@@ -168,10 +168,10 @@ function renderMaze() {
       const cell = grid[y][x];
       const div = document.createElement('div');
       div.className = 'maze-cell';
-      if (!(cell.walls & N)) div.classList.add('wall-top');
-      if (!(cell.walls & E)) div.classList.add('wall-right');
-      if (!(cell.walls & S)) div.classList.add('wall-bottom');
-      if (!(cell.walls & W)) div.classList.add('wall-left');
+      if (!(cell.walls & N)) div.classList.add('open-top');
+      if (!(cell.walls & E)) div.classList.add('open-right');
+      if (!(cell.walls & S)) div.classList.add('open-bottom');
+      if (!(cell.walls & W)) div.classList.add('open-left');
       const inner = document.createElement('div');
       inner.className = 'cell-inner';
       div.appendChild(inner);
@@ -286,7 +286,7 @@ Because a wall is only removed when moving from a visited cell to a *previously 
 
 **Rendering walls without drawing lines**
 
-Rather than drawing wall segments with borders or SVG lines, each \`.maze-cell\` is rendered as a dark background square containing a smaller white \`.cell-inner\` square inset by 1px on all sides by default. When a cell's bitmask indicates an open passage in a given direction (checked with \`!(cell.walls & N)\`, etc.), a corresponding class like \`.wall-top\` extends that one edge of the inner square outward to meet the neighbouring cell's inner square, visually merging the two into one open corridor — walls are simply the dark grid background showing through the 1px gaps, a lightweight technique needing no canvas or SVG.
+Rather than drawing wall segments with borders or SVG lines, each \`.maze-cell\` is rendered as a dark background square containing a smaller white \`.cell-inner\` square inset by 2px on all sides by default, so a standing wall shows as a 4px dark gap between two cells. When a cell's bitmask indicates an open passage in a given direction (checked with \`!(cell.walls & N)\`, etc.), a class like \`.open-top\` pushes that one edge of the inner square out to the cell boundary so it meets the neighbouring cell's inner square, visually merging the two into one open corridor — walls are simply the dark grid background showing through the gaps, a lightweight technique needing no canvas or SVG.
 
 **Movement and real collision checking**
 
@@ -321,7 +321,7 @@ A \`setInterval\` ticking every 100ms updates an elapsed-time display from \`Dat
         },
         {
           title: 'Adjust maze size or corridor rendering',
-          text: 'Change the SIZE constant in the JS panel to any odd or even number (larger values create a harder, longer maze). The .maze-cell and .cell-inner CSS controls corridor thickness — reduce the inset value for thinner walls or increase it for a more open feel.',
+          text: 'Change the SIZE constant in the JS panel to any odd or even number (larger values create a harder, longer maze). The .maze-cell and .cell-inner CSS controls corridor thickness — reduce the 2px inset on .cell-inner for thinner walls or increase it for thicker ones.',
         },
       ],
     },
@@ -329,7 +329,7 @@ A \`setInterval\` ticking every 100ms updates an elapsed-time display from \`Dat
       'Recursive backtracking (randomised DFS) maze generation using a 4-bit wall bitmask per cell (N | E | S | W)',
       'Spanning-tree guarantee: exactly one path between any two cells, so every generated maze is always fully solvable',
       'Real per-cell wall-collision checking via canMove() — movement is blocked, not just visually implied',
-      'Wall rendering with inset cell-inner squares instead of drawn border lines, extended per-direction with wall-top/right/bottom/left classes',
+      'Wall rendering with inset cell-inner squares instead of drawn border lines, extended to the cell edge per open direction with open-top/right/bottom/left classes',
       'Percentage-based marker positioning so player and goal markers align to cell boundaries at any container size',
       'Arrow-key and WASD support unified through a single KEY_DIR lookup table',
       'Live timer (100ms tick via setInterval) and move counter, both reset cleanly on New maze',
