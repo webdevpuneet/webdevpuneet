@@ -18,6 +18,8 @@ export const SECTION_CATEGORIES = [
   { id: 'team',         label: 'Team',            blurb: 'Team grids with photos, names and roles.' },
   { id: 'contact',      label: 'Contact',         blurb: 'Contact sections with details, maps and forms.' },
   { id: 'blog',         label: 'Blog',            blurb: 'Blog and article grids with cover images.' },
+  { id: 'scroll',       label: 'Scroll effects',  blurb: 'Scroll-driven sections built with GSAP: horizontal scroll galleries, pinned scroll stories and stacking cards.' },
+  { id: 'listings',     label: 'Menus & listings', blurb: 'Industry sections: restaurant menus with prices, property listings and class timetables.' },
   { id: 'footer',       label: 'Footer',          blurb: 'Website footers with link columns, newsletter sign-up and social links.' },
 ];
 export const sectionCategoryById = id => SECTION_CATEGORIES.find(c => c.id === id);

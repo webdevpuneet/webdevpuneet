@@ -332,7 +332,7 @@
   ]
  },
  "section": {
-  "total": 44,
+  "total": 51,
   "categories": [
    {
     "id": "hero",
@@ -557,6 +557,46 @@
      {
       "id": "blog-list",
       "name": "Editorial Post List"
+     }
+    ]
+   },
+   {
+    "id": "scroll",
+    "label": "Scroll effects",
+    "items": [
+     {
+      "id": "scroll-gallery",
+      "name": "Horizontal Scroll Gallery"
+     },
+     {
+      "id": "scroll-story",
+      "name": "Pinned Scroll Story"
+     },
+     {
+      "id": "scroll-stack",
+      "name": "Stacking Cards"
+     },
+     {
+      "id": "scroll-path",
+      "name": "Scroll Path Timeline"
+     }
+    ]
+   },
+   {
+    "id": "listings",
+    "label": "Menus & listings",
+    "items": [
+     {
+      "id": "restaurant-menu",
+      "name": "Restaurant Menu"
+     },
+     {
+      "id": "property-listings",
+      "name": "Property Listings"
+     },
+     {
+      "id": "class-timetable",
+      "name": "Class Timetable"
      }
     ]
    },

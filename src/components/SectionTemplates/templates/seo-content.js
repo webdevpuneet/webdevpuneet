@@ -1,6 +1,8 @@
 /* Hand-written SEO content for each website section template, keyed by id, plus the
    shared "how it's different" list. Use cases follow the library rules (4 × 18-42 words). */
 
+import { SCROLL_LISTINGS_SEO } from './seo-scroll-listings.js';
+
 export const SECTION_SEO = {
   'saas-split-hero': {
     keywords: ['saas hero section template', 'hero section html css', 'split hero section', 'landing page hero template', 'startup hero section'],
@@ -2631,6 +2633,7 @@ Download HTML, a ZIP, React or Vue with the hover script, or fork into [My Code]
 - Include an ItemList of BlogPosting JSON-LD.`,
     },
   },
+  ...SCROLL_LISTINGS_SEO, // Scroll effects + Menus & listings (seo-scroll-listings.js)
 };
 
 export const SECTION_DIFFERENT = [

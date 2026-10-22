@@ -48,6 +48,11 @@ for (const t of WEBSITE_TEMPLATES.filter(x => !ONLY.length || ONLY.includes(x.id
   const errors = []; p.on('pageerror', e => errors.push(e.message));
   await p.setContent(await inline(pageDocumentHtml(page, { motion: false })), { waitUntil: 'networkidle' });
   await p.evaluate(() => document.fonts.ready);
+  // A full-page screenshot doesn't scroll, so lazy images far down never load: load them all
+  await p.evaluate(async () => {
+    document.querySelectorAll('img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
+    await Promise.all([...document.images].map(img => (img.complete ? null : new Promise(r => { img.onload = img.onerror = r; }))));
+  });
   await p.waitForTimeout(300);
   const full = await p.screenshot({ fullPage: true });
   const top = await p.screenshot({ clip: { x: 0, y: 0, width: 1280, height: 800 } });

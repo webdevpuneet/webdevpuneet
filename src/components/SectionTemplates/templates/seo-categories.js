@@ -2,6 +2,8 @@
    Titles 50-60 characters, descriptions 150-160, written around what people search for.
    Only categories that have sections get a page (see generateStaticParams). */
 
+import { SCROLL_LISTINGS_CATEGORY_SEO } from './seo-scroll-listings.js';
+
 export const SECTION_CATEGORY_SEO = {
   hero: {
     title: 'Hero Section Templates — Free HTML, CSS, React & Vue',
@@ -193,4 +195,5 @@ Posts are editable lists with covers (upload your own or use the included abstra
       { q: 'How many posts should a homepage show?', a: 'Three is the most common: enough to show activity without competing with the rest of the page. Link to the full blog for more.' },
     ],
   },
+  ...SCROLL_LISTINGS_CATEGORY_SEO, // scroll + listings (seo-scroll-listings.js)
 };

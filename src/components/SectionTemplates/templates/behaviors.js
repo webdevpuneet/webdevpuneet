@@ -456,6 +456,130 @@ BEHAVIORS.hoverpreview = {
 };
 
 /** GSAP plugins a template's behaviours need */
+/* ── Scroll experiences (Scroll effects category) ─────────────────────────────────
+   All three are layouts first: without JavaScript, with reduced motion, while editing
+   (window.ST_STILL) and on small screens they show a plain, complete layout. With GSAP +
+   ScrollTrigger on larger screens the section pins and scrolling drives the motion. */
+
+BEHAVIORS.hscroll = {
+  /* Horizontal scroll gallery. Markup: a [data-hscroll] row inside the section.
+     Base: a swipeable row with scroll-snap. With GSAP (768px+): the section pins and the
+     row slides left as the page scrolls down, for as long as the row is wide. */
+  plugins: [],
+  js: `(function () {
+  var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!G || !window.ScrollTrigger || reduce || window.ST_STILL) return;
+  G.registerPlugin(ScrollTrigger);
+  G.matchMedia().add('(min-width: 768px)', function () {
+    var made = [];
+    document.querySelectorAll('.st [data-hscroll]').forEach(function (row) {
+      var sec = row.closest('.st');
+      sec.classList.add('is-hscroll');
+      var dist = function () { return Math.max(0, row.scrollWidth - row.clientWidth); };
+      var tw = G.to(row, { x: function () { return -dist(); }, ease: 'none', scrollTrigger: { trigger: sec, start: 'top top', end: function () { return '+=' + dist(); }, pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true } });
+      made.push(function () { tw.scrollTrigger.kill(); tw.kill(); G.set(row, { clearProps: 'transform' }); sec.classList.remove('is-hscroll'); });
+    });
+    return function () { made.forEach(function (f) { f(); }); };
+  });
+})();`,
+};
+
+BEHAVIORS.story = {
+  /* Pinned scroll story. Markup: [data-story] holding [data-story-step] items, each with an
+     image ([data-story-img]) and text. Base: each step shows its own image above its text.
+     With GSAP (900px+): the images move into one stage beside the steps; the stage pins
+     while the steps scroll past, and the image of the step in the middle of the screen
+     fades in. The active step is marked .is-active. */
+  plugins: [],
+  js: `(function () {
+  var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!G || !window.ScrollTrigger || reduce || window.ST_STILL) return;
+  G.registerPlugin(ScrollTrigger);
+  G.matchMedia().add('(min-width: 900px)', function () {
+    var made = [];
+    document.querySelectorAll('.st [data-story]').forEach(function (story) {
+      var steps = Array.prototype.slice.call(story.querySelectorAll('[data-story-step]'));
+      if (!steps.length) return;
+      var stage = document.createElement('div');
+      stage.className = 'ps-stage';
+      stage.setAttribute('aria-hidden', 'true');
+      var imgs = steps.map(function (s) { var i = s.querySelector('[data-story-img]'); var c = i ? i.cloneNode(true) : document.createElement('div'); stage.appendChild(c); return c; });
+      story.appendChild(stage);
+      story.classList.add('is-story');
+      G.set(imgs, { autoAlpha: 0 }); G.set(imgs[0], { autoAlpha: 1 });
+      var show = function (n) {
+        steps.forEach(function (s, i) { s.classList.toggle('is-active', i === n); });
+        imgs.forEach(function (im, i) { G.to(im, { autoAlpha: i === n ? 1 : 0, scale: i === n ? 1 : 1.04, duration: 0.5, overwrite: true }); });
+      };
+      show(0);
+      var pin = ScrollTrigger.create({ trigger: story, start: 'top 12%', end: 'bottom 88%', pin: stage, pinSpacing: false });
+      var ts = steps.map(function (s, i) { return ScrollTrigger.create({ trigger: s, start: 'top 55%', end: 'bottom 55%', onToggle: function (e) { if (e.isActive) show(i); } }); });
+      made.push(function () { pin.kill(); ts.forEach(function (t) { t.kill(); }); stage.remove(); story.classList.remove('is-story'); steps.forEach(function (s) { s.classList.remove('is-active'); }); });
+    });
+    return function () { made.forEach(function (f) { f(); }); };
+  });
+})();`,
+};
+
+BEHAVIORS.stack = {
+  /* Stacking cards. Markup: a [data-stack] list of cards. Base: a normal column of cards.
+     With GSAP (768px+): each card pins a little below the one before, so later cards slide
+     over earlier ones, which shrink and dim as they are covered. */
+  plugins: [],
+  js: `(function () {
+  var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!G || !window.ScrollTrigger || reduce || window.ST_STILL) return;
+  G.registerPlugin(ScrollTrigger);
+  G.matchMedia().add('(min-width: 768px)', function () {
+    var made = [];
+    document.querySelectorAll('.st [data-stack]').forEach(function (list) {
+      var cards = Array.prototype.slice.call(list.children);
+      if (cards.length < 2) return;
+      var last = cards[cards.length - 1];
+      cards.forEach(function (card, i) {
+        var top = 90 + i * 22;
+        var pin = ScrollTrigger.create({ trigger: card, start: 'top ' + top, endTrigger: last, end: 'top ' + (90 + (cards.length - 1) * 22), pin: true, pinSpacing: false });
+        made.push(function () { pin.kill(); });
+        if (card === last) return;
+        // Scale the card's inner wrapper: the card itself is positioned by its pin
+        var inner = card.firstElementChild || card;
+        // fromTo: GSAP can't tween a filter from "none" (it would start at brightness 0)
+        var tw = G.fromTo(inner, { scale: 1, filter: 'brightness(1)' }, { scale: 1 - (cards.length - 1 - i) * 0.04, filter: 'brightness(.82)', ease: 'none', scrollTrigger: { trigger: cards[i + 1], start: 'top bottom', end: 'top ' + top, scrub: true } });
+        made.push(function () { tw.scrollTrigger.kill(); tw.kill(); G.set(inner, { clearProps: 'transform,filter' }); });
+      });
+    });
+    return function () { made.forEach(function (f) { f(); }); };
+  });
+})();`,
+};
+
+BEHAVIORS.drawpath = {
+  /* SVG line drawn by scrolling. Markup: [data-drawpath] holding <path data-draw> elements
+     and [data-draw-step] items. Base: the line is fully drawn and every step is shown. With
+     GSAP: the box gets .is-drawing, each path's stroke is dashed to its own length and
+     scrubbed from hidden to drawn while the box crosses the screen, and each step gets
+     .is-on as the line reaches it. No plugin needed (stroke-dashoffset). */
+  plugins: [],
+  js: `(function () {
+  var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!G || !window.ScrollTrigger || reduce || window.ST_STILL) return;
+  G.registerPlugin(ScrollTrigger);
+  document.querySelectorAll('.st [data-drawpath]').forEach(function (box) {
+    box.classList.add('is-drawing');
+    box.querySelectorAll('[data-draw]').forEach(function (p) {
+      var len = p.getTotalLength ? p.getTotalLength() : 0;
+      if (!len) return;
+      G.set(p, { strokeDasharray: len, strokeDashoffset: len });
+      G.to(p, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: box, start: 'top 65%', end: 'bottom 65%', scrub: 0.5 } });
+    });
+    box.querySelectorAll('[data-draw-step]').forEach(function (step) {
+      // Stays lit once reached (only scrolling back up above it turns it off)
+      ScrollTrigger.create({ trigger: step, start: 'top 65%', onEnter: function () { step.classList.add('is-on'); }, onLeaveBack: function () { step.classList.remove('is-on'); } });
+    });
+  });
+})();`,
+};
+
 export const behaviorPlugins = t => [...new Set((t.behaviors || []).flatMap(b => BEHAVIORS[b]?.plugins || []))];
 /** The behaviours' scripts for a template ('' when it has none) */
 export const behaviorScript = t => (t.behaviors || []).map(b => BEHAVIORS[b]?.js).filter(Boolean).join('\n');

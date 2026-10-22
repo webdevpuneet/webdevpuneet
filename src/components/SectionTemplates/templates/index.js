@@ -45,6 +45,13 @@ import contactMap from './contact-map.js';
 import blogCards from './blog-cards.js';
 import blogFeatured from './blog-featured.js';
 import blogList from './blog-list.js';
+import scrollGallery from './scroll-gallery.js';
+import scrollStory from './scroll-story.js';
+import scrollStack from './scroll-stack.js';
+import scrollPath from './scroll-path.js';
+import restaurantMenu from './restaurant-menu.js';
+import propertyListings from './property-listings.js';
+import classTimetable from './class-timetable.js';
 import { DEFAULT_THEME, DEFAULT_MOTION } from './meta.js';
 
 export { SECTION_CATEGORIES, sectionCategoryById, DEFAULT_THEME, THEME_PRESETS, THEME_COLORS, THEME_KEYS, BASE_CSS, IMG, MOTION_PRESETS, MOTION_SPEEDS, TEXT_EFFECTS, DEFAULT_MOTION, GSAP_CDN, GSAP_VERSION, SCALE_CONTROLS, SCALE_MIN, SCALE_MAX, SCALE_STEP, scaleCss } from './meta.js';
@@ -96,6 +103,13 @@ export const SECTION_TEMPLATES = [
   blogCards,
   blogFeatured,
   blogList,
+  scrollGallery,
+  scrollStory,
+  scrollStack,
+  scrollPath,
+  restaurantMenu,
+  propertyListings,
+  classTimetable,
 ];
 export const sectionTemplateById = id => SECTION_TEMPLATES.find(t => t.id === id);
 
