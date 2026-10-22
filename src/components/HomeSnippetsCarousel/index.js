@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import rs from '../UiSnippetsTool/RelatedCarousel.module.css';
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 5;
 
-// The home page's "Latest UI Snippets" strip: the newest six first, and each
-// arrow click brings the next six - all the way through the whole library.
+// The home page's "Latest UI Snippets" strip: the newest five first, and each
+// arrow click brings the next five - all the way through the whole library.
 // It reuses the Related Snippets carousel's look (same card, header and
 // arrows) so the two feel like one design.
 //

@@ -319,7 +319,7 @@ export default async function Home() {
           <p className={styles.subtitleSeo}>{SNIPPET_COUNT}+ copy-paste UI snippets — cards, heroes, navbars, modals, forms, loaders and animations — {TEMPLATE_COUNT} editable website, email and social templates with a free website builder, {PLAYGROUND_COUNT} learn-to-code playgrounds for HTML, CSS, JavaScript, TypeScript, React, Vue, Angular, Next.js, Tailwind, SQL, Python and more, and {TOOL_COUNT} free developer tools. Live preview, structured lessons, nothing to install and no account needed.</p>
         </div>
 
-      {/* ── Latest UI snippets: newest six, arrows page through the rest ── */}
+      {/* ── Latest UI snippets: newest five, arrows page through the rest ── */}
       <div className={styles.snippetsStrip}>
         <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} />
       </div>
@@ -332,6 +332,7 @@ export default async function Home() {
           viewAllHref="/website-section-templates/"
           items={sectionItems}
           compact
+          cols={5}
         />
       </div>
       <div className={styles.snippetsStrip}>
@@ -340,6 +341,7 @@ export default async function Home() {
           label={`${WEBSITE_TEMPLATES.length} one-page websites, edit and export HTML`}
           viewAllHref="/website-builder/"
           items={websiteItems}
+          cols={5}
           scroll
         />
       </div>
@@ -349,6 +351,7 @@ export default async function Home() {
           label={`${SOCIAL_TEMPLATES.length} for Instagram, Facebook & X`}
           viewAllHref="/social-post-templates/"
           items={socialItems}
+          cols={5}
         />
       </div>
       <div className={styles.snippetsStrip}>
@@ -357,6 +360,7 @@ export default async function Home() {
           label={`${EMAIL_TEMPLATES.length} responsive HTML emails`}
           viewAllHref="/email-templates/"
           items={emailItems}
+          cols={5}
           scroll
         />
       </div>
