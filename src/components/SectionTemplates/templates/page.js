@@ -16,6 +16,7 @@ import { WEBSITE_TEMPLATES, websiteTemplateById } from './starters.js';
 import { DEFAULT_THEME, DEFAULT_MOTION, BASE_CSS, esc, gsapCdn, THEME_PRESETS, THEME_COLORS, scaleCss, scaleOf, scaleLengths, SPACE_UNITS } from './meta.js';
 import { BEHAVIORS } from './behaviors.js';
 import { cleanScroll, scrollAttr, SCROLL_RUNTIME } from './scroll.js';
+import { artMarkup, ART_CSS, ART_RUNTIME, cleanArt } from './art.js';
 import { themeCss, googleFontsUrl, fillHtml, motionScript, motionPlugins, schemaTag } from './render.js';
 
 export const newUid = () => `s${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
@@ -143,6 +144,8 @@ function withOverrides(t, state, o = {}) {
     const l = (t.lists || []).find(x => x.key === key);
     if (l && Array.isArray(items)) next.lists[key] = items.map((v, i) => listItem(l, v, `o${i}`));
   }
+  const art = o.art && cleanArt(o.art); // SVG artwork layer (art.js)
+  if (art) next.art = art;
   return next;
 }
 
@@ -204,6 +207,7 @@ export function pageCss(page, { fontFaces = '' } = {}) {
   const seen = new Set();
   const parts = [fontFaces, themeCss(THEME_HOLDER, { theme: page.theme, fonts: page.fonts }), scaleCss(BASE_CSS, page.theme)];
   for (const t of pageTemplates(page)) if (!seen.has(t.id)) { seen.add(t.id); parts.push(`/* ${t.name} */\n${scaleCss(t.css, page.theme)}`); }
+  if (page.sections.some(s => s.state?.art)) parts.push(ART_CSS); // SVG artwork layers (art.js)
   return parts.filter(Boolean).join('\n');
 }
 
@@ -216,7 +220,7 @@ export function pageMarkup(page, { imageSrc, clean = true } = {}) {
     const id = cleanAnchor(s.anchor);
     const css = sectionStyleCss(page, s, imageSrc);
     const sc = scrollAttr(s);
-    return `<section${id ? ` id="${id}"` : ''} class="st st-${t.id}"${css ? ` style="${esc(css)}"` : ''}${sc ? ` data-scroll="${esc(sc)}"` : ''} data-uid="${esc(s.uid)}">\n${fillHtml(t, sectionOnPage(page, s), { imageSrc: src, clean })}\n</section>`;
+    return `<section${id ? ` id="${id}"` : ''} class="st st-${t.id}"${css ? ` style="${esc(css)}"` : ''}${sc ? ` data-scroll="${esc(sc)}"` : ''} data-uid="${esc(s.uid)}">\n${artMarkup(s.state?.art, s.uid)}${fillHtml(t, sectionOnPage(page, s), { imageSrc: src, clean })}\n</section>`;
   }).join('\n');
 }
 
@@ -320,7 +324,8 @@ export function pageScript(page, { motion = true } = {}) {
   const anim = motion && page.sections.length ? motionScript({ motion: page.motion }) : '';
   const scroll = motion && page.sections.length && scrollOn(page) ? scrollScript(page.motion) : '';
   const scrollAnims = motion && page.sections.some(s => s.scroll) ? SCROLL_RUNTIME : ''; // per-section scroll animations (scroll.js)
-  return [behaviors && !motion ? 'window.ST_STILL = true;' : '', behaviors, anim, scroll, scrollAnims].filter(Boolean).join('\n');
+  const art = motion && page.sections.some(s => s.state?.art?.anim) ? ART_RUNTIME : ''; // animated SVG artwork (art.js)
+  return [behaviors && !motion ? 'window.ST_STILL = true;' : '', behaviors, anim, scroll, scrollAnims, art].filter(Boolean).join('\n');
 }
 
 /** GSAP CDN URLs the page needs ([] when it has no scripts) */

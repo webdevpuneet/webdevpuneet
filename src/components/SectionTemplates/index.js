@@ -23,7 +23,7 @@ import {
   SECTION_TEMPLATES, SECTION_CATEGORIES, sectionTemplateById, sectionCategoryById,
   defaultSectionState, restoreSectionState,
 } from './templates/index.js';
-import { ContentPanel, ThemePanel, withKit } from './panels';
+import { ContentPanel, ThemePanel, ArtworkPanel, withKit } from './panels';
 import { bindInlineEdit, fieldOfTarget, useFrozenPreview } from './inline-edit';
 import { documentHtml, sectionCss, sectionMarkup, snippetParts, customFontIds, sectionScript, sectionCdn } from './templates/render.js';
 import { sectionDesignStore as designStore, putAsset, getAsset } from './storage';
@@ -795,6 +795,14 @@ export function SectionTemplateEditor({ id }) {
                     const motionChanged = JSON.stringify(v.motion) !== JSON.stringify(state.motion);
                     setState(p => ({ ...p, theme: v.theme, fonts: v.fonts, motion: v.motion }));
                     if (motionChanged) setPlaying(n => n + 1);
+                  }}
+                />
+                <ArtworkPanel
+                  art={state.art}
+                  idPrefix={`sa-${t.id}`}
+                  onChange={next => {
+                    setState(p => { const { art: _old, ...rest } = p; return next ? { ...rest, art: next } : rest; });
+                    if (next?.anim && next.anim !== state.art?.anim) setPlaying(n => n + 1);
                   }}
                 />
               </>

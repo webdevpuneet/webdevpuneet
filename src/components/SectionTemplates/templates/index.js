@@ -53,6 +53,7 @@ import restaurantMenu from './restaurant-menu.js';
 import propertyListings from './property-listings.js';
 import classTimetable from './class-timetable.js';
 import { DEFAULT_THEME, DEFAULT_MOTION } from './meta.js';
+import { cleanArt } from './art.js';
 
 export { SECTION_CATEGORIES, sectionCategoryById, DEFAULT_THEME, THEME_PRESETS, THEME_COLORS, THEME_KEYS, BASE_CSS, IMG, MOTION_PRESETS, MOTION_SPEEDS, TEXT_EFFECTS, DEFAULT_MOTION, GSAP_CDN, GSAP_VERSION, SCALE_CONTROLS, SCALE_MIN, SCALE_MAX, SCALE_STEP, scaleCss } from './meta.js';
 export { ICONS, ICON_IDS, iconSvg } from './icons.js';
@@ -166,6 +167,7 @@ export function restoreSectionState(t, saved) {
     fonts: pick(saved?.fonts, d.fonts),
     motion: pick(saved?.motion, d.motion),
     uploads,
+    ...(cleanArt(saved?.art) ? { art: cleanArt(saved.art) } : {}), // SVG artwork layer (art.js)
   };
 }
 

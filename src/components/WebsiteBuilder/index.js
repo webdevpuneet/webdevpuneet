@@ -43,7 +43,7 @@ import { Draggable } from 'gsap/Draggable';
 import { Flip } from 'gsap/Flip';
 
 if (typeof window !== 'undefined') gsap.registerPlugin(Draggable, Flip);
-import { ContentPanel, ThemePanel, ColorField, withKit } from '@/components/SectionTemplates/panels';
+import { ContentPanel, ThemePanel, ColorField, ArtworkPanel, withKit } from '@/components/SectionTemplates/panels';
 import {
   SCROLL_PRESETS, SCROLL_STARTS, SCROLL_MODES, SCROLL_PIN_LENGTHS, SCROLL_TARGETS, SCROLL_EASES, KEY_FIELDS, REVEALS,
   scrollPresetById, scrollFromPreset, scrollSummary, cleanScroll, addTrack, removeTrack, setTrack, addKey, removeKey, setKey, trackLabel,
@@ -1247,6 +1247,14 @@ ${pageCss(shown, { fontFaces })}`),
                   onChange={patch => setSectionStyle(editSec.uid, patch)}
                   onPickBg={() => pickUpload(editSec.uid, { key: 'background', upload: { name: 'background', maxW: 2400 } }, BG_KEY)}
                   onRemoveBg={() => setSectionStyle(editSec.uid, { bg: null, overlay: null })}
+                />
+                <ArtworkPanel
+                  art={editSec.state.art}
+                  idPrefix={`wa-${editSec.uid}`}
+                  onChange={next => {
+                    setSectionState(editSec.uid, st => { const { art: _old, ...rest } = st; return next ? { ...rest, art: next } : rest; });
+                    if (next?.anim && next.anim !== editSec.state.art?.anim) setPlaying(n => n + 1);
+                  }}
                 />
                 <ScrollAnimPanel
                   sec={editSec}

@@ -26,6 +26,7 @@ import { DEFAULT_THEME, BASE_CSS, richText, esc, safeUrl, MOTION_PRESETS, DEFAUL
 import { iconSvgAny as iconSvg } from './icon-lib.js';
 import { formatHtml } from './format.js';
 import { behaviorPlugins, behaviorScript } from './behaviors.js';
+import { artMarkup, ART_CSS, ART_RUNTIME } from './art.js';
 import { resolveFont, googleCssUrl } from '../../../lib/fonts.js';
 
 /* Neutral placeholder for an empty image slot (keeps the layout's shape) */
@@ -269,13 +270,14 @@ export function motionScript(state) {
 export function sectionScript(t, state, { motion = true } = {}) {
   const behaviors = behaviorScript(t);
   // Static renders: behaviours skip autonomous animation (counters, marquees)
-  return [behaviors && !motion ? 'window.ST_STILL = true;' : '', behaviors, motion ? motionScript(state) : ''].filter(Boolean).join('\n');
+  const art = motion && state?.art?.anim ? ART_RUNTIME : ''; // animated SVG artwork (art.js)
+  return [behaviors && !motion ? 'window.ST_STILL = true;' : '', behaviors, motion ? motionScript(state) : '', art].filter(Boolean).join('\n');
 }
 /** CDN URLs those scripts need ([] when there are none) */
 export function sectionCdn(t, state, { motion = true } = {}) {
   const anim = motion && motionScript(state);
   const plugins = [...behaviorPlugins(t), ...(anim ? motionPlugins(state) : [])];
-  return anim || behaviorScript(t) ? gsapCdn(plugins) : [];
+  return anim || behaviorScript(t) || (motion && state?.art?.anim) ? gsapCdn(plugins) : [];
 }
 /** <script> tags for a section's GSAP libraries, behaviours and motion ('' when none) */
 export function sectionScriptTags(t, state, opts) {
@@ -286,13 +288,13 @@ export function sectionScriptTags(t, state, opts) {
 }
 
 /** The whole section element (what goes in a page) */
-export const sectionMarkup = (t, state, opts) => `<section class="st st-${t.id}">\n${fillHtml(t, state, opts)}\n</section>`;
+export const sectionMarkup = (t, state, opts) => `<section class="st st-${t.id}">\n${artMarkup(state?.art, t.id)}${fillHtml(t, state, opts)}\n</section>`;
 
 /** Every CSS rule the section needs: theme tokens, base styles, the section's own CSS
     (sizes scaled by the theme's Sizes settings, see scaleCss in meta.js) */
 export const sectionCss = (t, state, { fontFaces = '' } = {}) => {
   const th = themeOf(t, state);
-  return [fontFaces, themeCss(t, state), scaleCss(BASE_CSS, th), scaleCss(t.css, th)].filter(Boolean).join('\n');
+  return [fontFaces, themeCss(t, state), scaleCss(BASE_CSS, th), scaleCss(t.css, th), state?.art ? ART_CSS : ''].filter(Boolean).join('\n');
 };
 
 /**

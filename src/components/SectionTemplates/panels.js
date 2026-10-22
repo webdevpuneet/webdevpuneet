@@ -15,6 +15,7 @@ import { revealInPanel } from '@/lib/reveal-in-panel';
 import ImageLibraryPicker from '@/components/ImageLibrary';
 import { putAsset } from './storage';
 import { ICON_SETS, loadIconSet } from './icon-sets';
+import { ARTWORKS, ART_COLORS, ART_STRENGTHS, ART_ANIMS, artworkById, cleanArt, newArt, artPreview } from './templates/art.js';
 import { parseHex, onColor } from '../OgImageGenerator/engine';
 import {
   THEME_PRESETS, THEME_COLORS, MOTION_PRESETS, MOTION_SPEEDS, TEXT_EFFECTS,
@@ -321,6 +322,50 @@ export function ContentPanel({ t, state, setState, blobUrls = {}, onPickUpload, 
         );
       })}
     </>
+  );
+}
+
+/**
+ * SVG artwork behind a section (templates/art.js): pick an artwork, then its colour,
+ * strength, edge (dividers) and GSAP animation. Shared by the section editor and the builder.
+ * @param art       the section's state.art (undefined = none)
+ * @param onChange  (art | null) => void
+ */
+export function ArtworkPanel({ art, onChange, idPrefix = 'art' }) {
+  const a = art ? cleanArt(art) : null;
+  const def = a && artworkById(a.id);
+  const set = patch => onChange(cleanArt({ ...a, ...patch }));
+  const seg = (label, value, options, onPick) => (
+    <div className={s.field}>
+      <span className={s.label}>{label}</span>
+      <div className={`${s.seg} ${x.segSm}`} role="radiogroup" aria-label={label}>
+        {options.map(([v, l]) => <button key={v} type="button" role="radio" aria-checked={value === v} className={`${s.segBtn} ${value === v ? s.segBtnActive : ''}`} onClick={() => onPick(v)}>{l}</button>)}
+      </div>
+    </div>
+  );
+  return (
+    <section className={s.section}>
+      <h2 className={s.sectionTitle}>Artwork</h2>
+      <p className={s.hint} style={{ margin: '0 0 10px' }}>SVG shapes behind the content, in your theme colours. They recolour with every preset and can animate with GSAP.</p>
+      <div className={x.artGrid} role="radiogroup" aria-label="Artwork">
+        <button type="button" role="radio" aria-checked={!a} className={`${x.artTile} ${!a ? x.artTileOn : ''}`} onClick={() => onChange(null)} title="No artwork"><span className={x.artNone}>None</span></button>
+        {ARTWORKS.map(w => (
+          <button key={w.id} type="button" role="radio" aria-checked={a?.id === w.id} className={`${x.artTile} ${a?.id === w.id ? x.artTileOn : ''}`} onClick={() => onChange(a?.id === w.id ? a : newArt(w.id))} title={w.label}>
+            <span className={`${x.artThumb} ${w.layout === 'edge' ? x.artThumbEdge : ''}`} dangerouslySetInnerHTML={{ __html: artPreview(w.id, idPrefix) }} />
+            <span className={x.artLabel}>{w.label}</span>
+          </button>
+        ))}
+      </div>
+      {a && (
+        <>
+          {seg('Colour', a.color, ART_COLORS, v => set({ color: v }))}
+          {seg('Strength', a.strength, ART_STRENGTHS, v => set({ strength: v }))}
+          {def.layout === 'edge' && seg('Edge', a.pos, [['top', 'Top'], ['bottom', 'Bottom']], v => set({ pos: v }))}
+          {def.anims.length > 0 && seg('Animation', a.anim || '', [['', 'None'], ...def.anims.map(k => [k, ART_ANIMS[k]])], v => set({ anim: v }))}
+          {a.anim && <p className={s.hint}>Animation plays in your exports and when you press ▶ Play; it switches off for people who prefer reduced motion.</p>}
+        </>
+      )}
+    </section>
   );
 }
 

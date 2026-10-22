@@ -28,7 +28,7 @@ export const MORE_WEBSITE_TEMPLATES = [
         { image: IMG('tpl-wedding.jpg'), imageAlt: 'A floral arch on a hill at sunset', label: '2025 · Sintra', title: 'The question', text: 'Daniel planned a picnic on the hill where we will get married. Maya said yes before he finished asking.' },
         { image: IMG('wed-party.jpg'), imageAlt: 'String lights over a dance floor', label: '2027 · With you', title: 'Now, the party', text: 'All that is missing is the people we love. We cannot wait to celebrate with you.' },
       ] } }],
-      ['scroll-path', { fields: { eyebrow: 'The day', heading: 'Wedding day *schedule*', lead: 'Saturday 14 June 2027 at Quinta da Serra. Comfortable shoes recommended.' }, lists: { milestones: [
+      ['scroll-path', { art: { id: 'sparkles', color: 'brand', strength: '30', anim: 'float' }, fields: { eyebrow: 'The day', heading: 'Wedding day *schedule*', lead: 'Saturday 14 June 2027 at Quinta da Serra. Comfortable shoes recommended.' }, lists: { milestones: [
         { date: '3:00 pm', icon: 'heart', title: 'Ceremony', text: 'Under the flower arch in the garden. Please arrive by 2:30 pm.' },
         { date: '4:00 pm', icon: 'sparkles', title: 'Drinks in the garden', text: 'Port tonic, local wines and snacks on the terrace while we take photos.' },
         { date: '6:30 pm', icon: 'coffee', title: 'Dinner', text: 'A long-table dinner in the courtyard, followed by speeches (we promise they will be short).' },
@@ -114,7 +114,7 @@ export const MORE_WEBSITE_TEMPLATES = [
         { image: IMG('room-3.jpg'), imageAlt: 'Dark suite with a sunset window', tag: 'From €260 / night', title: 'Sea View Suite', text: 'Sunsets over the bay from a private balcony.', url: '#contact' },
         { image: IMG('room-4.jpg'), imageAlt: 'Pink-toned loft room', tag: 'From €240 / night', title: 'Rose Loft', text: 'A split-level loft with a reading nook.', url: '#contact' },
       ] } }],
-      ['scroll-stack', { fields: { eyebrow: 'The experience', heading: 'Everything for *a slow stay*', lead: 'Scroll on for the little things guests remember.' }, lists: { cards: [
+      ['scroll-stack', { art: { id: 'glow', color: 'brand', strength: '15', anim: 'float' }, fields: { eyebrow: 'The experience', heading: 'Everything for *a slow stay*', lead: 'Scroll on for the little things guests remember.' }, lists: { cards: [
         { icon: 'coffee', label: 'Mornings', title: 'Breakfast until noon', text: 'Fresh bread, fruit from the garden and eggs any way you like, served on the terrace.', image: '' },
         { icon: 'sparkles', label: 'Afternoons', title: 'Pool, spa and shade', text: 'A heated salt-water pool among the palms, a small spa and plenty of loungers.', image: '' },
         { icon: 'map-pin', label: 'Days out', title: 'Coves, vineyards and boats', text: 'We book boat trips, wine tastings and the best hidden beaches for you.', image: '' },
@@ -202,7 +202,7 @@ export const MORE_WEBSITE_TEMPLATES = [
     sections: [
       ['navbar-simple', nav('Bloom Studio', 'sparkles', 'Book now', links(['Services', '#menu'], ['Stylists', '#team'], ['Reviews', '#customers'], ['Visit', '#contact']), { login: '' })],
       ['image-background-hero', { fields: { image: IMG('tpl-salon.jpg'), eyebrow: 'Hair · Colour · Beauty · Hackney', headline: 'Leave feeling *like yourself, only better*', lead: 'Cuts, colour and care from a friendly team who listen first. Open late on Thursdays and Fridays.', cta1: 'Book an appointment', cta1Url: '#contact', cta2: 'Services & prices', cta2Url: '#menu', s1Value: '4.9★', s1Label: 'Google rating', s2Value: '12', s2Label: 'stylists', s3Value: 'Since 2012', s3Label: 'in Hackney' } }],
-      ['restaurant-menu', { fields: { eyebrow: 'Services & prices', heading: 'Cut, colour *and care*', lead: 'Every appointment starts with a consultation. Prices vary with hair length and stylist level.', note: 'Free colour consultation and patch test 48 hours before any colour service.', cta: 'Book online', ctaUrl: '#contact' }, lists: { dishes: [
+      ['restaurant-menu', { art: { id: 'blobs', color: 'brand', strength: '8', anim: 'float' }, fields: { eyebrow: 'Services & prices', heading: 'Cut, colour *and care*', lead: 'Every appointment starts with a consultation. Prices vary with hair length and stylist level.', note: 'Free colour consultation and patch test 48 hours before any colour service.', cta: 'Book online', ctaUrl: '#contact' }, lists: { dishes: [
         { name: 'Cut & finish', price: 'from £55', desc: 'Wash, cut, blow-dry and styling advice.' },
         { name: 'Men’s cut', price: 'from £32', desc: 'Scissor or clipper cut with a hot towel finish.' },
         { name: 'Full colour', price: 'from £85', desc: 'Root-to-tip colour with a gloss and finish.' },
@@ -305,7 +305,7 @@ export const MORE_WEBSITE_TEMPLATES = [
         { icon: 'briefcase', label: 'Employment', title: 'Contracts, disputes and settlements', text: 'Advice for employees and employers, from settlement agreements to tribunal claims.', image: '' },
         { icon: 'file-text', label: 'Wills & probate', title: 'Plan ahead and settle estates', text: 'Wills, lasting powers of attorney and probate handled with care and clear costs.', image: '' },
       ] } }],
-      ['scroll-path', { fields: { eyebrow: 'How we work', heading: 'Your case, *step by step*', lead: 'No surprises: you always know what happens next and what it costs.' }, lists: { milestones: [
+      ['scroll-path', { art: { id: 'topo', color: 'brand', strength: '8', anim: 'draw' }, fields: { eyebrow: 'How we work', heading: 'Your case, *step by step*', lead: 'No surprises: you always know what happens next and what it costs.' }, lists: { milestones: [
         { date: 'Step 1', icon: 'phone', title: 'Free first call', text: 'A 30-minute call to understand your situation and tell you honestly if we can help.' },
         { date: 'Step 2', icon: 'file-text', title: 'A clear, fixed quote', text: 'A written plan with the steps, the timeline and a fixed fee wherever possible.' },
         { date: 'Step 3', icon: 'shield-check', title: 'We handle the detail', text: 'Your solicitor manages the paperwork and negotiations, with updates every week.' },
