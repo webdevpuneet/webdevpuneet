@@ -13,7 +13,7 @@
 import { sectionTemplateById, defaultSectionState, restoreSectionState, listItem } from './index.js';
 import { formatHtml } from './format.js';
 import { WEBSITE_TEMPLATES, websiteTemplateById } from './starters.js';
-import { DEFAULT_THEME, DEFAULT_MOTION, BASE_CSS, esc, gsapCdn, THEME_PRESETS, THEME_COLORS } from './meta.js';
+import { DEFAULT_THEME, DEFAULT_MOTION, BASE_CSS, esc, gsapCdn, THEME_PRESETS, THEME_COLORS, scaleCss } from './meta.js';
 import { BEHAVIORS } from './behaviors.js';
 import { themeCss, googleFontsUrl, fillHtml, motionScript, motionPlugins, schemaTag } from './render.js';
 
@@ -97,11 +97,12 @@ export const sectionOnPage = (page, s) => ({ ...s.state, theme: page.theme, font
 const pageTemplates = page => page.sections.map(s => sectionTemplateById(s.tpl)).filter(Boolean);
 const THEME_HOLDER = { theme: {}, fonts: {} };
 
-/** CSS for the whole page: theme tokens and base once, each template's CSS once */
+/** CSS for the whole page: theme tokens and base once, each template's CSS once (sizes
+    scaled by the page theme's Sizes settings) */
 export function pageCss(page, { fontFaces = '' } = {}) {
   const seen = new Set();
-  const parts = [fontFaces, themeCss(THEME_HOLDER, { theme: page.theme, fonts: page.fonts }), BASE_CSS];
-  for (const t of pageTemplates(page)) if (!seen.has(t.id)) { seen.add(t.id); parts.push(`/* ${t.name} */\n${t.css}`); }
+  const parts = [fontFaces, themeCss(THEME_HOLDER, { theme: page.theme, fonts: page.fonts }), scaleCss(BASE_CSS, page.theme)];
+  for (const t of pageTemplates(page)) if (!seen.has(t.id)) { seen.add(t.id); parts.push(`/* ${t.name} */\n${scaleCss(t.css, page.theme)}`); }
   return parts.filter(Boolean).join('\n');
 }
 

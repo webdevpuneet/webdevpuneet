@@ -22,7 +22,7 @@
                        the item's own fields
      data-anim-text    a heading the GSAP SplitText text effect animates (motion.text) */
 
-import { DEFAULT_THEME, BASE_CSS, richText, esc, safeUrl, MOTION_PRESETS, DEFAULT_MOTION, TEXT_EFFECTS, gsapCdn } from './meta.js';
+import { DEFAULT_THEME, BASE_CSS, richText, esc, safeUrl, MOTION_PRESETS, DEFAULT_MOTION, TEXT_EFFECTS, gsapCdn, scaleCss } from './meta.js';
 import { iconSvgAny as iconSvg } from './icon-lib.js';
 import { formatHtml } from './format.js';
 import { behaviorPlugins, behaviorScript } from './behaviors.js';
@@ -287,8 +287,12 @@ export function sectionScriptTags(t, state, opts) {
 /** The whole section element (what goes in a page) */
 export const sectionMarkup = (t, state, opts) => `<section class="st st-${t.id}">\n${fillHtml(t, state, opts)}\n</section>`;
 
-/** Every CSS rule the section needs: theme tokens, base styles, the section's own CSS */
-export const sectionCss = (t, state, { fontFaces = '' } = {}) => [fontFaces, themeCss(t, state), BASE_CSS, t.css].filter(Boolean).join('\n');
+/** Every CSS rule the section needs: theme tokens, base styles, the section's own CSS
+    (sizes scaled by the theme's Sizes settings, see scaleCss in meta.js) */
+export const sectionCss = (t, state, { fontFaces = '' } = {}) => {
+  const th = themeOf(t, state);
+  return [fontFaces, themeCss(t, state), scaleCss(BASE_CSS, th), scaleCss(t.css, th)].filter(Boolean).join('\n');
+};
 
 /**
  * A complete standalone HTML document.

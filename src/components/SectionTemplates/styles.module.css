@@ -134,3 +134,16 @@
 .code :global(.hl-s) { color: #d7ba7d; }
 .code :global(.hl-k) { color: #9cdcfe; }
 .code :global(.hl-a) { color: #c586c0; }
+
+/* Sizes (Theme panel): − / + percentage steppers */
+.scaleRow { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 4px 0; }
+.scaleText { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.stepper { display: inline-flex; flex: none; align-items: stretch; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--surface, transparent); }
+.stepBtn, .stepVal { border: 0; background: transparent; color: var(--text); font: inherit; cursor: pointer; }
+.stepBtn { width: 30px; height: 30px; font-size: 16px; font-weight: 600; line-height: 1; }
+.stepVal { min-width: 52px; padding: 0 6px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); font-family: var(--font-mono); font-size: 12px; font-weight: 600; }
+.stepBtn:hover:not(:disabled), .stepVal:hover:not(:disabled) { background: var(--surface2, rgba(127, 127, 127, 0.12)); }
+.stepBtn:focus-visible, .stepVal:focus-visible { outline: 2px solid var(--spt-accent, #6366f1); outline-offset: -2px; }
+.stepBtn:disabled { color: var(--text3, var(--text2)); opacity: 0.45; cursor: default; }
+.stepVal:disabled { color: var(--text2); cursor: default; }
+.scaleFoot { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-top: 4px; }

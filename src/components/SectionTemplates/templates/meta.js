@@ -22,7 +22,8 @@ export const SECTION_CATEGORIES = [
 ];
 export const sectionCategoryById = id => SECTION_CATEGORIES.find(c => c.id === id);
 
-/* Theme tokens. Colours are hex; radius and maxWidth are px numbers as strings. */
+/* Theme tokens. Colours are hex; radius and maxWidth are px numbers as strings; the
+   three scales are percentages as strings (see "Size scales" below). */
 export const DEFAULT_THEME = {
   brand: '#4f46e5',     // buttons, links, accents
   brandText: '#ffffff', // text on brand-coloured buttons
@@ -32,8 +33,58 @@ export const DEFAULT_THEME = {
   muted: '#475569',     // secondary text
   radius: '14',         // corner radius in px
   maxWidth: '1200',     // content width in px
+  textScale: '100',     // font sizes, % of the template's own
+  spaceScale: '100',    // padding and margins, %
+  gapScale: '100',      // gaps between items, %
 };
 export const THEME_KEYS = Object.keys(DEFAULT_THEME);
+
+/* ── Size scales ──────────────────────────────────────────────────────────────────
+   Sections write their sizes as plain px / cqi values in their own CSS, so the Sizes
+   controls rewrite that CSS: every length in a font-size (and the size part of a font
+   shorthand) is multiplied by textScale, padding/margin by spaceScale and gap by
+   gapScale. Scaling every length in a value scales clamp(), min(), max() and calc()
+   correctly because they are linear. Percentages are left alone (aspect-ratio tricks),
+   and em in font sizes too (it already follows the parent). At 100% the CSS is returned
+   untouched, so exports only change when someone moves a slider. */
+export const SCALE_CONTROLS = [
+  { key: 'textScale',  label: 'Text size',         hint: 'Headings, body text and buttons' },
+  { key: 'spaceScale', label: 'Padding & margins', hint: 'Space around and inside sections' },
+  { key: 'gapScale',   label: 'Gaps',              hint: 'Space between cards, columns and items' },
+];
+export const SCALE_MIN = 60;
+export const SCALE_MAX = 160;
+export const SCALE_STEP = 5;
+
+const scaleOf = v => {
+  const n = parseFloat(v);
+  return Number.isFinite(n) ? Math.min(SCALE_MAX, Math.max(SCALE_MIN, n)) / 100 : 1;
+};
+const round = n => String(Math.round(n * 100) / 100);
+const scaleLengths = (value, k, units) =>
+  value.replace(new RegExp(`(-?\\d*\\.?\\d+)(${units})\\b`, 'g'), (_, n, u) => round(parseFloat(n) * k) + u);
+
+const TEXT_UNITS = 'px|rem|cqi|cqw|vw|vmin';
+const SPACE_UNITS = 'px|rem|em|cqi|cqw|vw|vmin';
+const SPACING_PROP = /^(padding|margin)(-(top|right|bottom|left|inline|block)(-(start|end))?)?$/;
+const GAP_PROP = /^(gap|row-gap|column-gap|grid-gap|grid-row-gap|grid-column-gap)$/;
+
+/** CSS with its sizes scaled by the theme's textScale / spaceScale / gapScale */
+export function scaleCss(css, theme = {}) {
+  const text = scaleOf(theme.textScale), space = scaleOf(theme.spaceScale), gap = scaleOf(theme.gapScale);
+  if (!css || (text === 1 && space === 1 && gap === 1)) return css;
+  return css.replace(/([{;]\s*)([a-z-]+)(\s*:\s*)([^;{}]+)/g, (all, pre, prop, colon, value) => {
+    let v = value;
+    if (prop === 'font-size' && text !== 1) v = scaleLengths(value, text, TEXT_UNITS);
+    else if (prop === 'font' && text !== 1) {
+      // font: 800 clamp(…)/1 var(--st-font-heading) — the size comes before the "/"
+      const slash = value.indexOf('/');
+      v = slash < 0 ? scaleLengths(value, text, TEXT_UNITS) : scaleLengths(value.slice(0, slash), text, TEXT_UNITS) + value.slice(slash);
+    } else if (SPACING_PROP.test(prop) && space !== 1) v = scaleLengths(value, space, SPACE_UNITS);
+    else if (GAP_PROP.test(prop) && gap !== 1) v = scaleLengths(value, gap, SPACE_UNITS);
+    return v === value ? all : pre + prop + colon + v;
+  });
+}
 export const THEME_COLORS = [
   { key: 'brand', label: 'Brand / buttons' },
   { key: 'brandText', label: 'Button text' },

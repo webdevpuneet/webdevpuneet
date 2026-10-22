@@ -18,6 +18,7 @@ import { ICON_SETS, loadIconSet } from './icon-sets';
 import { parseHex, onColor } from '../OgImageGenerator/engine';
 import {
   THEME_PRESETS, THEME_COLORS, MOTION_PRESETS, MOTION_SPEEDS, TEXT_EFFECTS,
+  SCALE_CONTROLS, SCALE_MIN, SCALE_MAX, SCALE_STEP,
   ICONS, ICON_IDS, iconSvgAny, iconLabelAny, encodeIcon, listItem, newItemId, listImageKey,
 } from './templates/index.js';
 
@@ -323,8 +324,42 @@ export function ContentPanel({ t, state, setState, blobUrls = {}, onPickUpload, 
   );
 }
 
+const scaleValue = v => (Number.isFinite(parseFloat(v)) ? parseFloat(v) : 100);
+
+/** Sizes: text size, padding & margins and gaps as − / + percentage steppers.
+    Each click is one change (one undo step, one preview render). */
+function SizesSection({ theme, onChange }) {
+  const changed = SCALE_CONTROLS.some(c => scaleValue(theme[c.key]) !== 100);
+  const set = (key, v) => onChange({ ...theme, [key]: String(Math.min(SCALE_MAX, Math.max(SCALE_MIN, v))) });
+  return (
+    <section className={s.section}>
+      <h2 className={s.sectionTitle}>Sizes</h2>
+      {SCALE_CONTROLS.map(c => {
+        const v = scaleValue(theme[c.key]);
+        return (
+          <div key={c.key} className={x.scaleRow}>
+            <div className={x.scaleText}>
+              <span className={s.label}>{c.label}</span>
+              <span className={s.hint}>{c.hint}</span>
+            </div>
+            <div className={x.stepper} role="group" aria-label={c.label}>
+              <button type="button" className={x.stepBtn} onClick={() => set(c.key, v - SCALE_STEP)} disabled={v <= SCALE_MIN} aria-label={`Decrease ${c.label.toLowerCase()}`}>−</button>
+              <button type="button" className={x.stepVal} onClick={() => set(c.key, 100)} disabled={v === 100} title="Reset to 100%" aria-label={`${c.label} ${v}%, reset to 100%`}>{v}%</button>
+              <button type="button" className={x.stepBtn} onClick={() => set(c.key, v + SCALE_STEP)} disabled={v >= SCALE_MAX} aria-label={`Increase ${c.label.toLowerCase()}`}>+</button>
+            </div>
+          </div>
+        );
+      })}
+      <div className={x.scaleFoot}>
+        <p className={s.hint}>Scales every section from its own design ({SCALE_MIN}–{SCALE_MAX}%). Click a percentage to reset it.</p>
+        {changed && <button type="button" className={s.miniBtn} onClick={() => onChange({ ...theme, ...Object.fromEntries(SCALE_CONTROLS.map(c => [c.key, '100'])) })}>Reset all</button>}
+      </div>
+    </section>
+  );
+}
+
 /**
- * Theme controls: colour presets + colours, fonts, radius, width and animation.
+ * Theme controls: colour presets + colours, fonts, radius, width, sizes and animation.
  * @param value      { theme, fonts, motion }
  * @param onChange   (next) => void, receives the full { theme, fonts, motion }
  * @param showTextEffect  show the headline text effect choice
@@ -377,6 +412,8 @@ export function ThemePanel({ value, onChange, showTextEffect = true, idPrefix = 
           </div>
         </div>
       </section>
+
+      <SizesSection theme={theme} onChange={t => onChange({ ...value, theme: t })} />
 
       <section className={s.section}>
         <h2 className={s.sectionTitle}>Animation</h2>
