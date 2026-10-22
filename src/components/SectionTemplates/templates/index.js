@@ -117,7 +117,11 @@ export function defaultSectionState(t) {
   return {
     lists: defaultLists(t),
     fields: Object.fromEntries(t.fields.map(f => [f.key, f.value ?? ''])),
-    toggles: Object.fromEntries((t.toggles || []).map(x => [x.key, x.value])),
+    // Toggles, plus the ones switch fields control (e.g. showLogoIcon), so restore keeps them
+    toggles: {
+      ...Object.fromEntries(t.fields.filter(f => f.type === 'switch' && f.toggle).map(f => [f.toggle, f.value !== false])),
+      ...Object.fromEntries((t.toggles || []).map(x => [x.key, x.value])),
+    },
     theme: { ...DEFAULT_THEME, ...(t.theme || {}) },
     fonts: { heading: 'inter', body: 'inter', ...(t.fonts || {}) },
     motion: { ...DEFAULT_MOTION, ...(t.motion || {}) }, // GSAP entrance animation

@@ -852,7 +852,7 @@ ${pageCss(shown, { fontFaces })}`),
             <i aria-hidden="true" />
             {sheetOpen ? 'Hide panel' : 'Edit page'}
           </button>
-          <div className={s.panelTabs} role="tablist" aria-label="Panel" onClickCapture={() => setSheetOpen(true)}>
+          <div className={`${s.panelTabs} ${b.tabs5}`} role="tablist" aria-label="Panel" onClickCapture={() => setSheetOpen(true)}>
             {[['page', 'Sections'], ['site', 'Pages'], ['theme', 'Theme'], ['pages', 'Saved'], ['backup', 'Backup']].map(([v, l]) => (
               <button key={v} type="button" role="tab" aria-selected={tab === v} className={tab === v ? s.panelTabOn : ''} onClick={() => { setTab(v); if (v !== 'page') setEditing(null); }}>
                 {l}{v === 'pages' && <span className={s.panelTabCount}>{pages.length}</span>}{v === 'site' && multi && <span className={s.panelTabCount}>{site.pages.length}</span>}

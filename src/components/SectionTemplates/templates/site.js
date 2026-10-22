@@ -20,7 +20,7 @@
 import { sectionTemplateById, listItem } from './index.js';
 import { newUid, emptyPage, restorePage, pageFromStarter, newPageSection, pageCss, pageScript, pageCdn, pageBaseCss, pageDocumentHtml } from './page.js';
 
-export const SITE_VERSION = 1;
+export const SITE_VERSION = 2; // 2: the home page is in the menu by default
 export const isSite = v => !!v && v.kind === 'site';
 
 /** A URL-safe page file name ('' when empty); "index" is reserved for the home page */
@@ -102,7 +102,7 @@ export function siteFromPage(page) {
     kind: 'site', version: SITE_VERSION, name: p.name || 'My website', url: '',
     theme: p.theme, fonts: p.fonts, motion: p.motion, autoNav: true,
     header, footer,
-    pages: [{ id: newPageId(), name: 'Home', slug: 'index', title: '', description: '', inNav: false, hideHeader: false, hideFooter: false, sections: secs }],
+    pages: [{ id: newPageId(), name: 'Home', slug: 'index', title: '', description: '', inNav: true, hideHeader: false, hideFooter: false, sections: secs }],
   };
 }
 
@@ -132,7 +132,7 @@ export function restoreSite(saved) {
       slug: '',
       title: String(p.title || '').slice(0, 120),
       description: String(p.description || '').slice(0, 320),
-      inNav: p.inNav !== false,
+      inNav: p.inNav !== false || (i === 0 && !(saved.version >= 2)), // v1 kept the home page out of the menu
       hideHeader: !!p.hideHeader,
       hideFooter: !!p.hideFooter,
       sections: dedupe(restoreSections(p.sections)),
@@ -140,7 +140,7 @@ export function restoreSite(saved) {
     page.slug = pages.length === 0 ? 'index' : uniqueSlug(cleanSlug(p.slug) || name, pages);
     pages.push(page);
   }
-  if (!pages.length) pages.push({ ...newSitePage(null, 'Home'), slug: 'index', inNav: false });
+  if (!pages.length) pages.push({ ...newSitePage(null, 'Home'), slug: 'index' });
   return {
     kind: 'site', version: SITE_VERSION,
     name: base.name, url: cleanBaseUrl(saved.url),

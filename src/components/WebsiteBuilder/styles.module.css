@@ -70,3 +70,10 @@
 .addRow { display: flex; gap: 8px; align-items: center; }
 .addRow input { flex: 1; min-width: 0; }
 .pageSelect { max-width: 220px; height: 30px; padding: 0 8px; border: 1px solid var(--border, rgba(127, 127, 127, 0.3)); border-radius: 8px; background: var(--surface, transparent); color: var(--text, inherit); font: 600 12.5px var(--font-ui, inherit); cursor: pointer; }
+
+/* Five panel tabs (Sections, Pages, Theme, Saved, Backup): tighter so they fit the panel,
+   scrolling sideways if the panel is narrower still */
+.tabs5 { gap: 0; padding: 0 6px; overflow-x: auto; scrollbar-width: none; }
+.tabs5::-webkit-scrollbar { display: none; }
+.tabs5 button { flex: none; padding: 9px 6px 8px; font-size: 12px; white-space: nowrap; }
+.tabs5 button::after { left: 5px !important; right: 5px !important; }
