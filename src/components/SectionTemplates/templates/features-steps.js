@@ -3,6 +3,7 @@ export default {
   name: 'How It Works Steps',
   version: '1.0.0',
   category: 'features',
+  anchor: 'how-it-works', // navbars and buttons link to #how-it-works
   tags: ['features', 'steps', 'process', 'how-it-works', 'numbered', 'onboarding', 'light'],
   created: '2026-10-20',
   updated: '2026-10-20',

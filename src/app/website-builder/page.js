@@ -4,6 +4,7 @@ import AdSlot from '@/components/AdSlot';
 import TemplateGallery from '@/components/WebsiteBuilder/TemplateGallery';
 import { SECTION_TEMPLATES, SECTION_CATEGORIES } from '@/components/SectionTemplates/templates/index.js';
 import { WEBSITE_TEMPLATES as STARTERS, TEMPLATE_INDUSTRIES } from '@/components/SectionTemplates/templates/starters.js';
+import { starterPageList } from '@/components/SectionTemplates/templates/site.js';
 import styles from '../tool-page.module.css';
 
 /* /website-builder/: the landing page. Website templates first (plus "Start from scratch"
@@ -31,11 +32,12 @@ export const metadata = {
 const faqs = [
   { q: 'Is this website builder really free?', a: `Yes. Every feature is free: all ${N} sections, the themes, GSAP animation, saving pages and exporting HTML. There is no account, no watermark and no limit on pages. Your work is saved in your own browser.` },
   { q: 'How does the website builder work?', a: 'Start from one of the website templates (SaaS, app, agency, portfolio, restaurant, real estate, gym, clinic, event, nonprofit and more) or an empty page, then add sections such as a navbar, hero, features, pricing, testimonials, FAQ, call to action and footer. Click any section to edit its text, images and links, reorder or duplicate sections, and set colours, fonts and animation once for the whole page.' },
-  { q: 'How do I use a website template?', a: 'Click a template above to see the whole page, then click “Use this template”. It opens in the builder, where you change the text, images, colours and fonts, add or remove sections, and export the finished page. Or choose “Start from scratch” for an empty page.' },
-  { q: 'Can I export my website?', a: 'Yes. Download the page as one HTML file with your images embedded, or as a ZIP with index.html and an assets folder holding every image. Upload it to any static host such as Netlify, Vercel, Cloudflare Pages, GitHub Pages or your own server; there is no lock-in.' },
+  { q: 'How do I use a website template?', a: 'Click a template above to see the whole page, then choose “Use as one page” or the multi-page version. It opens in the builder, where you change the text, images, colours and fonts, add or remove sections and pages, and export the finished site. Or choose “Start from scratch” for an empty page.' },
+  { q: 'Can I build a website with several pages?', a: 'Yes. Every template opens as one scrolling page or as a multi-page website (for example Home, Menu, About and Visit for a restaurant), and you can add pages such as About, Services, Pricing, Contact, Blog or FAQ in the Pages tab. All pages share one navbar, footer and theme, the menu links to every page automatically, and each page has its own SEO title and description.' },
+  { q: 'Can I export my website?', a: 'Yes. A one-page site downloads as a ZIP with index.html and an assets folder holding every image. A multi-page site downloads with one HTML file per page, a shared styles.css and script.js, and sitemap.xml once you set your site address. Upload it to any static host such as Netlify, Vercel, Cloudflare Pages, GitHub Pages or your own server; there is no lock-in.' },
   { q: 'Is the exported code clean?', a: 'Yes. It is semantic HTML with one style sheet built on CSS custom properties, responsive container queries and small, dependency-light scripts for interactive parts. Animations use GSAP from a CDN. FAQ and blog sections include structured data for search engines.' },
   { q: 'Do I need to know how to code?', a: 'No. Everything is edited with forms in the side panel: text, links, images, lists of cards and toggles. Developers can still open the exported HTML and change anything.' },
-  { q: 'Will my pages be saved?', a: 'The current page autosaves in your browser. Save named pages to My pages, and use Backup to download a file with all your pages, uploaded images, fonts and brand kit, which you can import in any browser.' },
+  { q: 'Will my website be saved?', a: 'The current website autosaves in your browser with all its pages. Save named websites to Saved, and use Backup to download a file with all your websites, uploaded images, fonts and brand kit, which you can import in any browser.' },
   { q: 'Are the pages responsive and accessible?', a: 'Every section adapts to its own width with container queries and is checked on desktop, tablet and mobile. Menus, accordions, carousels and forms are keyboard and screen-reader friendly, and animations switch off for people who prefer reduced motion.' },
 ];
 
@@ -48,6 +50,7 @@ const SECTIONS = [
       `${N} professionally designed sections in ${CATS} categories: navbars, heroes, features, pricing, testimonials, FAQ, CTA, stats, team, contact, blog and footers`,
       `${STARTERS.length} website templates with real content: SaaS, app, agency, portfolio, restaurant, real estate, gym, dental clinic, local services, online course, coach, event, nonprofit and more`,
       'Add, reorder, duplicate and remove sections; click any section in the preview to edit it',
+      'One-page or multi-page websites: every template comes both ways, pages share the navbar, footer and theme, and the menu builds itself',
       'One theme for the whole page: colour presets, exact colours, any Google Font or your own font, radius and width',
       'GSAP animation built in: entrance effects, SplitText headline reveals, counters, marquees and more',
       'Working interactions: mobile menus, pricing toggles, accordions, carousels and contact forms',
@@ -151,7 +154,7 @@ export default function WebsiteBuilderPage() {
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sc) }} />
       ))}
       <div className={`${styles.toolSection} ${styles.toolSectionGallery}`}>
-        <TemplateGallery templates={STARTERS.map(t => ({ id: t.id, name: t.name, industry: t.industry, blurb: t.blurb, n: t.sections.length }))} industries={TEMPLATE_INDUSTRIES} />
+        <TemplateGallery templates={STARTERS.map(t => ({ id: t.id, name: t.name, industry: t.industry, blurb: t.blurb, n: t.sections.length, p: starterPageList(t.id).length }))} industries={TEMPLATE_INDUSTRIES} />
       </div>
       <AdSlot related={false} />
       <IndexOnly>

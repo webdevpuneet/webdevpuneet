@@ -29,10 +29,13 @@ import { makeDesignStore } from '@/lib/design-store';
 import { exportDesigns, importDesigns, blobToDataUrl, dataUrlToBlob } from '@/lib/design-transfer';
 import { loadCustomFonts, onFontsChange, customFontFaceCss, exportCustomFonts, importCustomFonts } from '@/lib/fonts';
 import { SECTION_TEMPLATES, SECTION_CATEGORIES, sectionTemplateById, sectionCategoryById } from '@/components/SectionTemplates/templates/index.js';
-import { pageCss, pageMarkup, pageScript, pageCdn, newPageSection, newUid, pageDocumentHtml, STARTERS, cleanAnchor, defaultAnchor } from '@/components/SectionTemplates/templates/page.js';
+import {
+  pageCss, pageMarkup, pageScript, pageCdn, newPageSection, newUid, pageDocumentHtml, STARTERS, cleanAnchor, defaultAnchor,
+  SECTION_SCHEMES, SECTION_SPACING, SECTION_OVERLAYS, BG_KEY, cleanSectionStyle, sectionPadding,
+} from '@/components/SectionTemplates/templates/page.js';
 import {
   emptySite, restoreSite, siteFromStarter, isSite, pageView, renderView, applyPageView, pageById, pageFile, pageTitle, isHomePage,
-  siteFiles, usesAutoNav, addSitePage, updateSitePage, removeSitePage, reorderSitePages, pageFromLayout, PAGE_LAYOUTS, cleanSlug, cleanBaseUrl, newPageId,
+  siteFiles, usesAutoNav, addSitePage, updateSitePage, removeSitePage, reorderSitePages, pageFromLayout, PAGE_LAYOUTS, cleanSlug, cleanBaseUrl, newPageId, starterPageList,
 } from '@/components/SectionTemplates/templates/site.js';
 import { restoreSectionState } from '@/components/SectionTemplates/templates/index.js';
 import { gsap } from 'gsap';
@@ -40,7 +43,7 @@ import { Draggable } from 'gsap/Draggable';
 import { Flip } from 'gsap/Flip';
 
 if (typeof window !== 'undefined') gsap.registerPlugin(Draggable, Flip);
-import { ContentPanel, ThemePanel, withKit } from '@/components/SectionTemplates/panels';
+import { ContentPanel, ThemePanel, ColorField, withKit } from '@/components/SectionTemplates/panels';
 import { bindInlineEdit, fieldOfTarget, useFrozenPreview } from '@/components/SectionTemplates/inline-edit';
 import { putAsset, getAsset } from '@/components/SectionTemplates/storage';
 import { addToLibrary } from '@/lib/image-library';
@@ -246,6 +249,56 @@ function SectionList({ sections, selected, shared, onOpen, onMove, onReorder, on
   );
 }
 
+/* Per-section style: colours, top / bottom spacing and a background image for this section
+   only (templates/page.js sectionStyleCss renders it). */
+function SectionStylePanel({ sec, tpl, theme, bgUrl, onChange, onPickBg, onRemoveBg }) {
+  const st = sec.style || {};
+  const scheme = st.scheme || 'page';
+  const pad = sectionPadding(tpl);
+  const seg = (label, value, options, onPick) => (
+    <div className={s.field}>
+      <span className={s.label}>{label}</span>
+      <div className={`${s.seg} ${x.segSm}`} role="radiogroup" aria-label={label}>
+        {options.map(([v, l]) => <button key={v} type="button" role="radio" aria-checked={value === v} className={`${s.segBtn} ${value === v ? s.segBtnActive : ''}`} onClick={() => onPick(v)}>{l}</button>)}
+      </div>
+    </div>
+  );
+  return (
+    <section className={s.section}>
+      <div className={b.styleHead}>
+        <h2 className={s.sectionTitle} style={{ margin: 0 }}>Section style</h2>
+        {sec.style && <button type="button" className={b.linkBtn} onClick={() => onChange(null)}>Reset</button>}
+      </div>
+      <p className={s.hint} style={{ margin: '4px 0 10px' }}>Overrides the page theme for this section only.</p>
+      {seg('Colours', scheme, SECTION_SCHEMES.map(o => [o.id, o.label]), v => onChange({ scheme: v, colors: v === 'custom' ? { bg: theme.surface, text: theme.text, brand: theme.brand, ...(st.colors || {}) } : st.colors }))}
+      {scheme === 'custom' && (
+        <div className={s.colorGrid}>
+          {[['bg', 'Background', theme.bg], ['text', 'Text', theme.text], ['brand', 'Buttons', theme.brand]].map(([k, l, d]) => (
+            <ColorField key={k} label={l} value={st.colors?.[k] || d} onChange={v => onChange({ colors: { ...(st.colors || {}), [k]: v } })} />
+          ))}
+        </div>
+      )}
+      {pad ? (
+        <>
+          {seg('Space above', st.top || '100', SECTION_SPACING, v => onChange({ top: v }))}
+          {seg('Space below', st.bottom || '100', SECTION_SPACING, v => onChange({ bottom: v }))}
+        </>
+      ) : <p className={s.hint}>This section sets its own height, so it has no spacing options.</p>}
+      <div className={s.field}>
+        <span className={s.label}>Background image</span>
+        <div className={b.bgRow}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          {st.bg && bgUrl && <img src={bgUrl} alt="" className={b.bgThumb} />}
+          <button type="button" className={s.miniBtn} onClick={onPickBg}>{st.bg ? 'Replace' : 'Upload'}</button>
+          {st.bg && <button type="button" className={s.miniBtn} onClick={onRemoveBg}>Remove</button>}
+        </div>
+      </div>
+      {st.bg && seg('Overlay', st.overlay || '0', SECTION_OVERLAYS, v => onChange({ overlay: v }))}
+      {st.bg && <p className={s.hint}>The overlay uses the section’s background colour, so text stays readable. Pair a photo with Inverted or Custom colours.</p>}
+    </section>
+  );
+}
+
 export default function WebsiteBuilder() {
   const [site, setSiteRaw] = useState(emptySite);
   const [pageId, setPageIdRaw] = useState(null); // the page being edited (null = home)
@@ -347,7 +400,8 @@ export default function WebsiteBuilder() {
           const rec = await store.saveDesign({ name: `${prev.name} (autosaved)`, tpl: 'site', state: prev }).catch(() => null);
           if (rec) kept = ` Your previous website was saved to Saved as “${rec.name}”.`;
         }
-        const next = blank ? emptySite() : siteFromStarter(starterId);
+        // &pages=multi opens the template's multi-page version (the template page offers both)
+        const next = blank ? emptySite() : siteFromStarter(starterId, { multi: new URLSearchParams(window.location.search).get('pages') === 'multi' });
         if (live) {
           setSiteRaw(next); setPageIdRaw(null);
           setCurrent(null); savedJson.current = null;
@@ -417,7 +471,10 @@ export default function WebsiteBuilder() {
 
   /* Uploaded images across every section of every page: object URLs for the preview */
   const allSections = useMemo(() => sectionsOf(site), [site]);
-  const allUploads = useMemo(() => allSections.flatMap(sec => Object.entries(sec.state.uploads || {}).map(([k, u]) => ({ uid: sec.uid, k, ...u }))), [allSections]);
+  const allUploads = useMemo(() => allSections.flatMap(sec => [
+    ...Object.entries(sec.state.uploads || {}).map(([k, u]) => ({ uid: sec.uid, k, ...u })),
+    ...(sec.style?.bg ? [{ uid: sec.uid, k: BG_KEY, ...sec.style.bg }] : []), // section background image
+  ]), [allSections]);
   const uploadIds = allUploads.map(u => u.id).sort().join('|');
   useEffect(() => {
     let live = true;
@@ -432,7 +489,7 @@ export default function WebsiteBuilder() {
     })();
     return () => { live = false; made.forEach(u => URL.revokeObjectURL(u)); };
   }, [uploadIds]); // eslint-disable-line react-hooks/exhaustive-deps
-  const uploadOf = (uid, k) => allSections.find(x => x.uid === uid)?.state.uploads?.[k];
+  const uploadOf = (uid, k) => { const sec = allSections.find(x => x.uid === uid); return k === BG_KEY ? sec?.style?.bg : sec?.state.uploads?.[k]; };
   const previewSrc = (uid, k) => { const u = uploadOf(uid, k); return u ? blobUrls[u.id] || '' : ''; };
   const relativeSrc = (uid, k) => { const u = uploadOf(uid, k); return u ? `assets/${u.file}` : ''; };
   const dataUrls = async () => {
@@ -447,6 +504,16 @@ export default function WebsiteBuilder() {
   const setSectionState = useCallback((uid, next) => setPage(p => ({
     ...p,
     sections: p.sections.map(x => (x.uid === uid ? { ...x, state: typeof next === 'function' ? next(x.state) : next } : x)),
+  })), [setPage]);
+  /** Merge a change into one section's style override (null clears it) */
+  const setSectionStyle = useCallback((uid, patch) => setPage(p => ({
+    ...p,
+    sections: p.sections.map(x => {
+      if (x.uid !== uid) return x;
+      const style = patch === null ? undefined : cleanSectionStyle({ ...(x.style || {}), ...patch });
+      const { style: _old, ...rest } = x;
+      return style ? { ...rest, style } : rest;
+    }),
   })), [setPage]);
   const addSection = tplId => {
     const sec = newPageSection(tplId, page.sections);
@@ -490,11 +557,17 @@ export default function WebsiteBuilder() {
     if (selected === uid) setSelected(null);
   };
   const openSection = uid => { setSelected(uid); setEditing(uid); setTab('page'); setSheetOpen(true); };
-  const startFrom = starterId => {
-    const p = siteFromStarter(starterId);
+  /* Website templates open as one page or as their multi-page version */
+  const [starterMulti, setStarterMulti] = useState(false);
+  const starterPages = useMemo(() => Object.fromEntries(STARTERS.map(st => [st.id, starterPageList(st.id)])), []);
+  const startFrom = (starterId, multiPage = false) => {
+    const p = siteFromStarter(starterId, { multi: multiPage });
     setSite(p); setPageIdRaw(null);
     setCurrent(null); savedJson.current = null; setSelected(null); setEditing(null);
-    flash(`Started a ${STARTERS.find(x => x.id === starterId)?.name.toLowerCase()} with ${sectionsOf(p).length} sections. Edit any section, change the theme, or add pages in the Pages tab.`);
+    const name = STARTERS.find(x => x.id === starterId)?.name.toLowerCase();
+    flash(p.pages.length > 1
+      ? `Started a ${p.pages.length}-page ${name}: ${p.pages.map(x => x.name).join(', ')}. Switch pages in the toolbar or the Pages tab.`
+      : `Started a ${name} with ${sectionsOf(p).length} sections. Edit any section, change the theme, or add pages in the Pages tab.`);
   };
 
   /* Pages of the site */
@@ -559,7 +632,8 @@ export default function WebsiteBuilder() {
       const name = `${fd.upload?.name || fd.key}-${rid}.${EXT[out.type] || 'png'}`;
       await putAsset(key, { blob: out.blob, type: out.type, file: name, name, w: out.w, h: out.h, updatedAt: new Date().toISOString() });
       addToLibrary(out.blob, { file: name, w: out.w, h: out.h });
-      setSectionState(uid, st => ({ ...st, uploads: { ...st.uploads, [ukey]: { id: key, file: name, w: out.w, h: out.h } } }));
+      if (ukey === BG_KEY) setSectionStyle(uid, { bg: { id: key, file: name, w: out.w, h: out.h }, overlay: '55' });
+      else setSectionState(uid, st => ({ ...st, uploads: { ...st.uploads, [ukey]: { id: key, file: name, w: out.w, h: out.h } } }));
       flash(`Uploaded ${file.name} (${out.w}×${out.h}). Saved in this browser.`);
     } catch (err) { flash(err.message || 'Upload failed'); }
   };
@@ -787,7 +861,7 @@ ${pageCss(shown, { fontFaces })}`),
         tool: TOOL,
         store,
         getAssets: async ds => {
-          const ids = [...new Set(ds.flatMap(d => sectionsOf(d.state).flatMap(x => Object.values(x.state?.uploads || {}).map(u => u.id))))];
+          const ids = [...new Set(ds.flatMap(d => sectionsOf(d.state).flatMap(x => [...Object.values(x.state?.uploads || {}), x.style?.bg].filter(Boolean).map(u => u.id))))];
           const out = [];
           for (const key of ids) { const rec = await getAsset(key).catch(() => null); if (rec?.blob) out.push({ key, data: await blobToDataUrl(rec.blob), type: rec.type, name: rec.file || rec.name, w: rec.w, h: rec.h }); }
           return out;
@@ -889,6 +963,15 @@ ${pageCss(shown, { fontFaces })}`),
                       : <span className={s.hint}>Navbar and button links to <b>#{editSec.anchor || 'anchor'}</b> scroll to this section. Leave empty for none.</span>}
                   </div>
                 </section>
+                <SectionStylePanel
+                  sec={editSec}
+                  tpl={editTpl}
+                  theme={page.theme}
+                  bgUrl={editSec.style?.bg ? blobUrls[editSec.style.bg.id] : ''}
+                  onChange={patch => setSectionStyle(editSec.uid, patch)}
+                  onPickBg={() => pickUpload(editSec.uid, { key: 'background', upload: { name: 'background', maxW: 2400 } }, BG_KEY)}
+                  onRemoveBg={() => setSectionStyle(editSec.uid, { bg: null, overlay: null })}
+                />
                 <ContentPanel
                   key={editSec.uid}
                   t={editTpl}
@@ -918,12 +1001,17 @@ ${pageCss(shown, { fontFaces })}`),
                   {page.sections.length === 0 && !adding && (
                     <>
                       <p className={s.hint}>Start from a template, or add sections one by one. <a href="/website-builder/" target="_blank" rel="noopener">Browse all templates ↗</a></p>
+                      <div className={`${s.seg} ${b.starterMode}`} role="radiogroup" aria-label="Template version">
+                        {[[false, 'One page'], [true, 'Multi-page']].map(([v, l]) => (
+                          <button key={l} type="button" role="radio" aria-checked={starterMulti === v} className={`${s.segBtn} ${starterMulti === v ? s.segBtnActive : ''}`} onClick={() => setStarterMulti(v)}>{l}</button>
+                        ))}
+                      </div>
                       <div className={b.starters}>
                         {STARTERS.map(st => (
-                          <button key={st.id} type="button" className={b.starter} onClick={() => startFrom(st.id)} title={st.blurb}>
+                          <button key={st.id} type="button" className={b.starter} onClick={() => startFrom(st.id, starterMulti)} title={st.blurb}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src={`/images/website-templates/thumb/${st.id}.jpg`} alt="" loading="lazy" />
-                            <b>{st.name}</b><small>{st.industry} · {st.sections.length} sections</small>
+                            <b>{st.name}</b><small>{st.industry} · {starterMulti ? `${starterPages[st.id]?.length || 1} pages: ${(starterPages[st.id] || []).map(p => p.name).join(', ')}` : `${st.sections.length} sections, one page`}</small>
                           </button>
                         ))}
                       </div>

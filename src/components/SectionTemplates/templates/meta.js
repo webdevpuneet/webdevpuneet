@@ -56,16 +56,16 @@ export const SCALE_MIN = 60;
 export const SCALE_MAX = 160;
 export const SCALE_STEP = 5;
 
-const scaleOf = v => {
+export const scaleOf = v => {
   const n = parseFloat(v);
   return Number.isFinite(n) ? Math.min(SCALE_MAX, Math.max(SCALE_MIN, n)) / 100 : 1;
 };
 const round = n => String(Math.round(n * 100) / 100);
-const scaleLengths = (value, k, units) =>
+export const scaleLengths = (value, k, units) =>
   value.replace(new RegExp(`(-?\\d*\\.?\\d+)(${units})\\b`, 'g'), (_, n, u) => round(parseFloat(n) * k) + u);
 
 const TEXT_UNITS = 'px|rem|cqi|cqw|vw|vmin';
-const SPACE_UNITS = 'px|rem|em|cqi|cqw|vw|vmin';
+export const SPACE_UNITS = 'px|rem|em|cqi|cqw|vw|vmin';
 const SPACING_PROP = /^(padding|margin)(-(top|right|bottom|left|inline|block)(-(start|end))?)?$/;
 const GAP_PROP = /^(gap|row-gap|column-gap|grid-gap|grid-row-gap|grid-column-gap)$/;
 

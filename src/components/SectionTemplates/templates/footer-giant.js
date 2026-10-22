@@ -5,6 +5,7 @@ export default {
   name: 'Big Wordmark Footer',
   version: '1.0.0',
   category: 'footer',
+  anchor: 'contact', // the big "Let's talk" footer is the site's contact block
   tags: ['footer', 'wordmark', 'big-text', 'cta', 'dark', 'agency', 'splittext'],
   created: '2026-10-20',
   updated: '2026-10-20',

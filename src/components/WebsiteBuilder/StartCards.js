@@ -71,7 +71,8 @@ function LivePage({ page }) {
     (async () => {
       const out = {};
       for (const sec of sectionsOf(page)) {
-        for (const [k, u] of Object.entries(sec.state?.uploads || {})) {
+        // Its uploads, plus a section background image (style.bg, key '@bg')
+        for (const [k, u] of [...Object.entries(sec.state?.uploads || {}), ...(sec.style?.bg ? [['@bg', sec.style.bg]] : [])]) {
           try { const rec = await getAsset(u.id); if (rec?.blob) { const url = URL.createObjectURL(rec.blob); made.push(url); out[`${sec.uid}|${k}`] = url; } } catch { /* missing */ }
         }
       }

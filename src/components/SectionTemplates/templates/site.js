@@ -18,7 +18,8 @@
    view back into the site. */
 
 import { sectionTemplateById, listItem } from './index.js';
-import { newUid, emptyPage, restorePage, pageFromStarter, newPageSection, pageCss, pageScript, pageCdn, pageBaseCss, pageDocumentHtml } from './page.js';
+import { newUid, emptyPage, restorePage, pageFromStarter, starterSections, newPageSection, pageCss, pageScript, pageCdn, pageBaseCss, pageDocumentHtml } from './page.js';
+import { websiteTemplateById } from './starters.js';
 
 export const SITE_VERSION = 2; // 2: the home page is in the menu by default
 export const isSite = v => !!v && v.kind === 'site';
@@ -108,8 +109,108 @@ export function siteFromPage(page) {
 
 export const emptySite = (name = 'Untitled website') => siteFromPage(emptyPage(name));
 
-/** A site from a website template (a one-page site until templates ship extra pages) */
-export const siteFromStarter = starterId => siteFromPage(pageFromStarter(starterId));
+/* ── Website templates as one-page or multi-page sites ─────────────────────────────
+   Every website template opens either way:
+   - one page: exactly the template (in-page #anchor links), as a one-page site;
+   - multi-page: the template's hand-written `pages` (plus its `multiLinks` map, e.g.
+     '#features' → 'menu.html'), or, for templates without them, its sections split by
+     category onto their own pages (SPLIT_PAGES). Either way, links to an #anchor that now
+     lives on another page are pointed at that page (fixSiteLinks). */
+
+/** Categories that move to their own page when a template is split automatically */
+const SPLIT_PAGES = { pricing: 'Pricing', team: 'About', blog: 'Blog', faq: 'FAQ', contact: 'Contact' };
+
+/** The brand name in the site's navbar (logo text), for page titles */
+const brandOf = site => site.header.map(s => s.state?.fields?.logoText).find(Boolean) || site.name;
+
+/** Rewrite every link value in a section (url fields, "Label | url" link lists, and the same
+    inside list items) with fn(url) → url */
+function mapSectionLinks(s, fn) {
+  const t = sectionTemplateById(s.tpl);
+  if (!t) return s;
+  const one = (fd, v) => {
+    if (typeof v !== 'string' || !v) return v;
+    if (fd.type === 'url') return fn(v.trim());
+    if (fd.type === 'links') return v.split('\n').map(line => { const i = line.lastIndexOf('|'); return i < 0 ? line : `${line.slice(0, i + 1)} ${fn(line.slice(i + 1).trim())}`; }).join('\n');
+    return v;
+  };
+  const fields = { ...s.state.fields };
+  for (const fd of t.fields) if (fd.key in fields) fields[fd.key] = one(fd, fields[fd.key]);
+  const lists = { ...s.state.lists };
+  for (const l of t.lists || []) if (Array.isArray(lists[l.key])) lists[l.key] = lists[l.key].map(it => { const n = { ...it }; for (const fd of l.fields) if (fd.key in n) n[fd.key] = one(fd, n[fd.key]); return n; });
+  return { ...s, state: { ...s.state, fields, lists } };
+}
+
+/** Apply fn(url, pageFileOfThisSection | null) to every section of the site */
+function mapSiteLinks(site, fn) {
+  return {
+    ...site,
+    header: site.header.map(s => mapSectionLinks(s, u => fn(u, null))),
+    footer: site.footer.map(s => mapSectionLinks(s, u => fn(u, null))),
+    pages: site.pages.map(p => ({ ...p, sections: p.sections.map(s => mapSectionLinks(s, u => fn(u, pageFile(site, p)))) })),
+  };
+}
+
+/** Point #anchor links at the page that now holds that anchor ("#pricing" → "pricing.html#pricing").
+    Links in the shared header/footer always get the page; page links only when the anchor
+    is on another page. "#contact" with no contact section anywhere goes to a contact page. */
+export function fixSiteLinks(site) {
+  const where = new Map();
+  for (const p of site.pages) for (const s of p.sections) if (s.anchor && !where.has(s.anchor)) where.set(s.anchor, pageFile(site, p));
+  const shared = new Set([...site.header, ...site.footer].map(s => s.anchor).filter(Boolean));
+  const bySlug = slug => site.pages.find(p => p.slug === slug);
+  return mapSiteLinks(site, (u, file) => {
+    const m = u.match(/^#([\w-]+)$/);
+    if (!m || shared.has(m[1])) return u;
+    const target = where.get(m[1]);
+    if (target) return target === file ? u : `${target}#${m[1]}`;
+    const pg = bySlug(m[1]);
+    return pg ? pageFile(site, pg) : u;
+  });
+}
+
+/** The automatic multi-page split of a template's home page (sections of SPLIT_PAGES
+    categories move to their own pages, in the order they first appear) */
+function splitSite(site) {
+  const home = site.pages[0];
+  const groups = new Map();
+  const keep = [];
+  for (const s of home.sections) {
+    const name = SPLIT_PAGES[sectionTemplateById(s.tpl)?.category];
+    if (name) { if (!groups.has(name)) groups.set(name, []); groups.get(name).push(s); } else keep.push(s);
+  }
+  if (!groups.size || !keep.length) return site;
+  let out = { ...site, pages: [{ ...home, sections: keep }] };
+  const brand = brandOf(site);
+  for (const [name, sections] of groups) out = addSitePage(out, { ...newSitePage(out, name, sections), title: `${name} | ${brand}` });
+  return out;
+}
+
+/**
+ * A site from a website template.
+ * @param multi  false: the template as one page; true: its multi-page version
+ */
+export function siteFromStarter(starterId, { multi = false } = {}) {
+  let site = siteFromPage(pageFromStarter(starterId));
+  const st = websiteTemplateById(starterId);
+  if (st?.homeTitle || st?.homeDescription) site.pages[0] = { ...site.pages[0], title: st.homeTitle || '', description: st.homeDescription || '' };
+  if (!multi || !st) return site;
+  if (st.pages?.length) {
+    for (const p of st.pages) site = addSitePage(site, { ...newSitePage(site, p.name, starterSections(p.sections)), slug: p.slug || '', title: p.title || '', description: p.description || '' });
+    const map = st.multiLinks || {};
+    site = mapSiteLinks(site, u => map[u] ?? u);
+  } else {
+    site = splitSite(site);
+  }
+  return fixSiteLinks(site);
+}
+
+/** The pages a template's multi-page version has: [{ name, file, n }] (one entry = no
+    multi-page version) */
+export function starterPageList(starterId) {
+  const site = siteFromStarter(starterId, { multi: true });
+  return site.pages.map(p => ({ name: p.name, file: pageFile(site, p), n: p.sections.length }));
+}
 
 /* restorePage() already validates sections; borrow it for each part of the site */
 const restoreSections = list => restorePage({ sections: Array.isArray(list) ? list : [] }).sections;

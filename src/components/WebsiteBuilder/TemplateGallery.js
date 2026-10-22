@@ -75,7 +75,7 @@ export default function TemplateGallery({ templates, industries }) {
                   <div className={s.cardBody}>
                     <span className={s.cardCat}>{t.industry}</span>
                     <h3 className={s.cardTitle}>{t.name}</h3>
-                    <span className={s.cardMeta}>{t.n} sections · Responsive · Export HTML</span>
+                    <span className={s.cardMeta}>{t.n} sections · {t.p > 1 ? `One page or ${t.p} pages` : "One page"} · Export HTML</span>
                   </div>
                 </a>
               ))}

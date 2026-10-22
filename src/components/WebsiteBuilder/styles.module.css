@@ -77,3 +77,9 @@
 .tabs5::-webkit-scrollbar { display: none; }
 .tabs5 button { flex: none; padding: 9px 6px 8px; font-size: 12px; white-space: nowrap; }
 .tabs5 button::after { left: 5px !important; right: 5px !important; }
+.starterMode { margin: 4px 0 10px; }
+
+/* Section style panel (per-section overrides) */
+.styleHead { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.bgRow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.bgThumb { width: 56px; height: 36px; border-radius: 6px; object-fit: cover; border: 1px solid rgba(127, 127, 127, 0.3); }

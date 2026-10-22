@@ -4,6 +4,7 @@ import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import { WEBSITE_TEMPLATES, websiteTemplateById } from '@/components/SectionTemplates/templates/starters.js';
+import { starterPageList } from '@/components/SectionTemplates/templates/site.js';
 import { sectionTemplateById, sectionCategoryById, THEME_PRESETS } from '@/components/SectionTemplates/templates/index.js';
 import { resolveFont } from '@/lib/fonts';
 import st from '../templates.module.css';
@@ -45,6 +46,11 @@ export default async function WebsiteTemplatePage({ params }) {
   const theme = themeOf(t);
   const fonts = [resolveFont(t.fonts?.heading).label, resolveFont(t.fonts?.body).label];
   const parts = t.sections.map(([sid]) => sectionTemplateById(sid)).filter(Boolean);
+  // Every template opens as one page or as its multi-page version (one .html file per page)
+  const pages = starterPageList(t.id);
+  const multi = pages.length > 1;
+  const pageNames = pages.map(pg => pg.name).join(', ');
+  const multiUrl = `/website-builder/editor/?starter=${t.id}&pages=multi`;
   const related = [...WEBSITE_TEMPLATES.filter(x => x.id !== t.id && x.industry === t.industry), ...WEBSITE_TEMPLATES.filter(x => x.id !== t.id && x.industry !== t.industry)];
   const useUrl = `/website-builder/editor/?starter=${t.id}`;
   const nameLower = t.name.replace(/ (Website|Landing Page)$/, '').toLowerCase();
@@ -52,12 +58,14 @@ export default async function WebsiteTemplatePage({ params }) {
   const faqs = [
     { q: `Is the ${t.name} template free?`, a: `Yes. The ${t.name} template is free for personal and commercial use, with no sign-up, no watermark and no attribution required.` },
     { q: `How do I customize the ${t.name} template?`, a: 'Click “Use this template” to open it in the free Website Builder. Click any section to change its text, images and links, change colours and fonts for the whole page in the Theme tab, and add, remove or drag sections to reorder them.' },
-    { q: 'Can I download the template as HTML?', a: 'Yes. Export the page as one HTML file with your images embedded, or as a ZIP with index.html and an images folder, then upload it to any web host.' },
+    ...(multi ? [{ q: 'Is this a one-page or a multi-page template?', a: `Both. Use it as one scrolling page, or as a ${pages.length}-page website (${pageNames}) that opens with every page in the editor. The pages share one navbar, footer and theme, and the menu links to every page automatically. Add more pages (About, Pricing, Contact, Blog and others) or remove any you don’t need in the builder’s Pages tab.` }] : []),
+    { q: 'Can I download the template as HTML?', a: multi ? `Yes. As one page you get a ZIP with index.html and an assets folder. As a ${pages.length}-page website you get one HTML file per page (${pages.map(pg => pg.file).join(', ')}), a shared styles.css and script.js, and an assets folder with your images, then upload it to any web host. Links between pages also work when you open the files from your computer.` : 'Yes. Download a ZIP with index.html and an assets folder with your images, then upload it to any web host.' },
     { q: 'Is the template mobile-friendly?', a: 'Yes. Every section is responsive with CSS container queries, and menus, accordions, carousels and forms work on touch screens and with a keyboard.' },
     { q: 'Does it work without coding?', a: 'Yes. Everything is edited with simple forms. If you know HTML and CSS you can also edit the exported code directly; colours, fonts and sizes are CSS variables.' },
   ];
 
   const SECTIONS = [
+    ...(multi ? [{ type: 'features', label: 'Multi-page version', heading: `Pages in the ${pages.length}-Page ${t.name} Template`, items: pages.map(pg => `${pg.name} (${pg.file}): ${pg.n} sections${pg.file === 'index.html' ? ', the home page' : ''}`) }] : []),
     { type: 'features', label: "What's included", heading: `Sections in the ${t.name} Template`, items: parts.map(p => `${p.name}: ${p.description.split('. ')[0].replace(/\.$/, '')}`) },
     {
       type: 'text',
@@ -66,7 +74,7 @@ export default async function WebsiteTemplatePage({ params }) {
       quickFacts: false,
       text: `${t.intro}
 
-It's built from ${parts.length} sections of the [Website Section Templates](/website-section-templates/) library and opens in the free [Website Builder](/website-builder/editor/?starter=${t.id}), where you can change every word and image, swap sections, set your own colours and fonts and export the finished page as clean HTML. The page is responsive, accessible and animated with GSAP, with content that stays visible without JavaScript.
+${multi ? `Use it as one scrolling page, or as a ${pages.length}-page website (${pageNames}) sharing one navbar, footer and theme. The one-page version is` : `It's`} built from ${parts.length} sections of the [Website Section Templates](/website-section-templates/) library and opens in the free [Website Builder](/website-builder/editor/?starter=${t.id}), where you can change every word and image, swap sections, set your own colours and fonts and export the finished ${multi ? 'site as clean HTML pages' : 'page as clean HTML'}. The page is responsive, accessible and animated with GSAP, with content that stays visible without JavaScript.
 
 The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour theme suited to ${nameLower} websites; switch to any Google Font, upload your own, or apply your brand kit in one click.`,
     },
@@ -76,11 +84,11 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
       label: 'Step by step',
       heading: 'How to Use This Template',
       items: [
-        { title: 'Open the template', text: 'Click “Use this template” to load it in the Website Builder. Your current page is kept in My pages.' },
+        { title: 'Open the template', text: multi ? `Click “Use as one page” or “Use as ${pages.length}-page website” to load it in the Website Builder. Your current website is kept in Saved.` : 'Click “Use as one page” to load it in the Website Builder. Your current website is kept in Saved.' },
         { title: 'Make it yours', text: 'Click any section to change its text, images and links; upload your logo and photos.' },
         { title: 'Set your brand', text: 'Pick colours and fonts in the Theme tab, or apply your saved brand kit.' },
         { title: 'Adjust the page', text: 'Add sections from the library, drag to reorder, duplicate or remove what you don’t need.' },
-        { title: 'Export and publish', text: 'Download one HTML file or a ZIP and upload it to Netlify, Vercel or any host.' },
+        { title: 'Export and publish', text: multi ? 'Download the ZIP (one HTML file per page for the multi-page version) and upload it to Netlify, Vercel or any host.' : 'Download the ZIP and upload it to Netlify, Vercel or any host.' },
       ],
     },
     { type: 'faq', label: 'Got questions?', heading: 'Frequently Asked Questions', items: faqs },
@@ -121,9 +129,11 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
         <h1 className={st.h1}>{t.name} Template</h1>
         <p className={st.lead}>{t.intro}</p>
         <div className={st.actions}>
-          <a className={st.btn} href={useUrl}>Use this template, free</a>
+          <a className={st.btn} href={useUrl}>Use as one page</a>
+          {multi && <a className={st.btn} href={multiUrl}>Use as {pages.length}-page website</a>}
           <a className={`${st.btn} ${st.btnGhost}`} href="/website-builder/">All templates</a>
         </div>
+        {multi && <p className={st.lead} style={{ fontSize: 14, marginTop: 10 }}>One page keeps everything on a single scrolling page. The {pages.length}-page website opens all its pages in the editor: {pageNames}.</p>}
         <div className={st.split}>
           <div className={st.browser}>
             <div className={st.browserBar}><i /><i /><i /><span>Full page preview · scroll to see it all</span></div>
@@ -133,8 +143,16 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
             </div>
           </div>
           <aside className={st.side}>
+            {multi && (
+              <div className={st.box}>
+                <h2>Multi-page: {pages.length} pages</h2>
+                <ol className={st.sectionList}>
+                  {pages.map(pg => <li key={pg.file}>{pg.name} <span>· {pg.file} · {pg.n} sections</span></li>)}
+                </ol>
+              </div>
+            )}
             <div className={st.box}>
-              <h2>{parts.length} sections</h2>
+              <h2>{multi ? `One page: ${parts.length} sections` : `${parts.length} sections`}</h2>
               <ol className={st.sectionList}>
                 {parts.map((p, i) => <li key={`${p.id}-${i}`}><a href={`/website-section-templates/${p.id}/`}>{p.name}</a> <span>· {sectionCategoryById(p.category)?.label}</span></li>)}
               </ol>
@@ -145,20 +163,22 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
                 <dt>Industry</dt><dd>{t.industry}</dd>
                 <dt>Fonts</dt><dd>{fonts[0]} + {fonts[1]}</dd>
                 <dt>Colours</dt><dd className={st.swatches}>{['bg', 'surface', 'brand', 'text'].map(k => <i key={k} style={{ background: theme[k] }} title={theme[k]} />)}</dd>
-                <dt>Export</dt><dd>HTML or ZIP</dd>
+                <dt>Pages</dt><dd>{multi ? `1 or ${pages.length}` : '1'}</dd>
+                <dt>Export</dt><dd>{multi ? 'ZIP (one page, or HTML pages + CSS)' : 'HTML in a ZIP'}</dd>
                 <dt>Price</dt><dd>Free</dd>
               </dl>
             </div>
-            <a className={st.btn} href={useUrl} style={{ justifyContent: 'center' }}>Use this template</a>
+            <a className={st.btn} href={useUrl} style={{ justifyContent: 'center' }}>Use as one page</a>
+            {multi && <a className={`${st.btn} ${st.btnGhost}`} href={multiUrl} style={{ justifyContent: 'center', marginTop: 8 }}>Use as {pages.length}-page website</a>}
           </aside>
         </div>
         {/* Same strip as the home page: full-page shots that scroll on hover */}
         <div className={st.related}>
           <HomeTemplatesCarousel
             title="More Templates"
-            label={`${related.length} more one-page websites`}
+            label={`${related.length} more website templates`}
             viewAllHref="/website-builder/"
-            items={related.map(r => ({ id: r.id, title: r.name, href: `/website-builder/templates/${r.id}/`, img: `/images/website-templates/full/${r.id}.jpg`, cat: r.industry, meta: `${r.sections.length} sections · Export HTML` }))}
+            items={related.map(r => ({ id: r.id, title: r.name, href: `/website-builder/templates/${r.id}/`, img: `/images/website-templates/full/${r.id}.jpg`, cat: r.industry, meta: `${r.sections.length} sections · One page or ${starterPageList(r.id).length} pages` }))}
             scroll
             cols={4}
             flush
@@ -167,7 +187,7 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
       </div>
       <AdSlot related={false} />
       <IndexOnly>
-        <SeoSection slug="website-builder" title={`${t.name} Template — Free, Editable, Export HTML`} subtitle={`${t.industry} · ${parts.length} sections · ${fonts[0]} + ${fonts[1]} · Responsive · GSAP animation`} sections={SECTIONS} />
+        <SeoSection slug="website-builder" title={`${t.name} Template — Free, Editable, Export HTML`} subtitle={`${t.industry} · ${multi ? `One page or ${pages.length} pages · ` : ''}${parts.length} sections · ${fonts[0]} + ${fonts[1]} · Responsive · GSAP animation`} sections={SECTIONS} />
       </IndexOnly>
     </div>
   );
