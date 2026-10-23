@@ -24,6 +24,7 @@ import { dbPut } from '@/lib/uiSnippetsDb';
 import { openForkTab } from '@/lib/open-fork-tab';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import PlaygroundTopNav from '@/components/PlaygroundTopNav';
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { BrandKitPanel, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
 import { makeDesignStore } from '@/lib/design-store';
 import { exportDesigns, importDesigns, blobToDataUrl, dataUrlToBlob } from '@/lib/design-transfer';
@@ -587,6 +588,7 @@ export default function WebsiteBuilder() {
   const [topKey, setTopKey] = useState(0);
   const [origin, setOrigin] = useState('');
   const [toast, setToast] = useState('');
+  const [note, setNote] = useState(''); // the last "opened this template" tip: stays until closed, then a small (i) button brings it back
   const [busy, setBusy] = useState('');
   const [confirm, setConfirm] = useState(null);
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -602,6 +604,8 @@ export default function WebsiteBuilder() {
   const toastTimer = useRef(null);
   const savedJson = useRef(null);
 
+  // A longer tip that stays until it is closed (then the (i) button shows it again)
+  const showNote = useCallback(msg => { clearTimeout(toastTimer.current); setNote(msg); setToast(msg); }, []);
   const flash = useCallback(msg => {
     clearTimeout(toastTimer.current);
     setToast(msg);
@@ -680,7 +684,7 @@ export default function WebsiteBuilder() {
         if (live) {
           setSiteRaw(next); setPageIdRaw(null);
           setCurrent(null); savedJson.current = null;
-          setToast(blank ? `New empty website. Add a navbar, hero and more from the list.${kept}` : `Opened the ${next.name} template. Click any section to edit it, or add pages in the Pages tab.${kept}`);
+          showNote(blank ? `New empty website. Add a navbar, hero and more from the list.${kept}` : `Opened the ${next.name} template. Click any section to edit it, or add pages in the Pages tab.${kept}`);
           window.history.replaceState(null, '', window.location.pathname);
         }
       }
@@ -701,7 +705,7 @@ export default function WebsiteBuilder() {
           setPageIdRaw(addTo || null);
           setSelected(sec.uid);
           const named = loadedSite?.pages.length > 1 ? (loadedSite.pages.find(p => p.id === addTo) || loadedSite.pages[0]).name : '';
-          setToast(`Added your ${t.name} to ${named ? `the “${named}” page` : 'the page'}. It now uses the website’s theme; change colours and fonts in the Theme tab.`);
+          showNote(`Added your ${t.name} to ${named ? `the “${named}” page` : 'the page'}. It now uses the website’s theme; change colours and fonts in the Theme tab.`);
         }
         window.history.replaceState(null, '', window.location.pathname);
       }
@@ -928,9 +932,9 @@ export default function WebsiteBuilder() {
   /* Preview */
   const shown = useMemo(() => renderView(site, activePage.id), [site, activePage.id]); // with the automatic menu
   const previewHtml = useMemo(() => previewImages(pageDocumentHtml(shown, {
-    imageSrc: previewSrc, clean: false, fontFaces, motion: playing > 0,
+    imageSrc: previewSrc, clean: false, fontFaces, motion: playing > 0, activeFile: usesAutoNav(site) ? pageFile(site, activePage) : '',
     extraHead: `<script>window.ST_PREVIEW=true;window.ST_SCROLL_FX=true${showMarkers ? ';window.ST_SCROLL_MARKERS=true' : ''}</script><style>${SELECT_CSS}</style>`,
-  }), origin), [shown, blobUrls, fontFaces, origin, playing, showMarkers]); // eslint-disable-line react-hooks/exhaustive-deps
+  }), origin), [shown, blobUrls, fontFaces, origin, playing, showMarkers, activePage.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const autoNav = usesAutoNav(site);
   const autoNavRef = useRef(autoNav);
   autoNavRef.current = autoNav;
@@ -1580,6 +1584,7 @@ ${pageCss(shown, { fontFaces })}`),
         </aside>
 
         <div className={s.main} style={{ position: 'relative', display: 'flex', flexDirection: 'column' }}>
+          <PlaygroundTopAd />
           <div className={s.toolbar}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', minWidth: 0 }}>
               <h1 className={s.metaName} title={site.name}>{site.name}</h1>
@@ -1665,7 +1670,13 @@ ${pageCss(shown, { fontFaces })}`),
       {confirm && (
         <ConfirmDialog {...confirm} onCancel={() => setConfirm(null)} onOk={() => { const go = confirm.onOk; setConfirm(null); go(); }} />
       )}
-      {toast && <div className={s.toast} role="status">{toast}</div>}
+      {toast && (
+        <div className={`${s.toast} ${b.toastRow}`} role="status">
+          <span>{toast}</span>
+          <button type="button" className={b.toastClose} onClick={() => setToast('')} aria-label="Close this message" title="Close">×</button>
+        </div>
+      )}
+      {!toast && note && <button type="button" className={b.noteBtn} onClick={() => setToast(note)} aria-label="Show the tip again" title="Show the tip again">i</button>}
     </div>
   );
 }

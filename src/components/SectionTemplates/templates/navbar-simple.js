@@ -59,6 +59,7 @@ ${NAV_CSS}
 .nb-links{list-style:none;display:flex;align-items:center;gap:4px;margin:0 auto}
 .nb-link{display:block;padding:8px 14px;border-radius:calc(var(--st-radius) * .7px);color:var(--st-muted);font-weight:600;font-size:15.5px;text-decoration:none;transition:color .2s ease,background .2s ease}
 .nb-link:hover{color:var(--st-text);background:color-mix(in srgb,var(--st-text) 6%,transparent)}
+.nb-link[aria-current="page"]{color:var(--st-brand);background:color-mix(in srgb,var(--st-brand) 11%,transparent)}
 .nb-actions{display:flex;align-items:center;gap:18px}
 .nb-login{color:var(--st-text);font-weight:600;font-size:15.5px;text-decoration:none}
 .nb-login:hover{color:var(--st-brand)}

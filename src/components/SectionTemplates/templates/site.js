@@ -404,7 +404,7 @@ export const siteCdn = site => pageCdn(allSections(site));
 export function siteDocumentHtml(site, pageId, { imageSrc, clean = true, fontFaces = '', extraHead = '', motion = true, shared = false } = {}) {
   const page = pageById(site, pageId);
   const view = renderView(site, page.id);
-  const opts = { imageSrc, clean, fontFaces, extraHead: `${clean ? faviconTags(site, { files: shared }) : ''}${extraHead}`, motion, title: pageTitle(site, page), description: page.description, canonical: cleanBaseUrl(site.url) ? `${cleanBaseUrl(site.url)}${isHomePage(site, page) ? '' : pageFile(site, page)}` : '' };
+  const opts = { imageSrc, clean, fontFaces, extraHead: `${clean ? faviconTags(site, { files: shared }) : ''}${extraHead}`, motion, activeFile: usesAutoNav(site) ? pageFile(site, page) : '', title: pageTitle(site, page), description: page.description, canonical: cleanBaseUrl(site.url) ? `${cleanBaseUrl(site.url)}${isHomePage(site, page) ? '' : pageFile(site, page)}` : '' };
   if (!shared) return pageDocumentHtml(view, opts);
   const js = siteScript(site);
   return pageDocumentHtml(view, { ...opts, stylesheet: 'styles.css', script: js ? 'script.js' : '', cdnUrls: js ? siteCdn(site) : [] });

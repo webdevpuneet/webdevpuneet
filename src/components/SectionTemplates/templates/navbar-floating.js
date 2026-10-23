@@ -59,6 +59,7 @@ ${NAV_CSS}
 .nf-links{list-style:none;display:flex;gap:2px;margin:0 auto}
 .nf-link{display:block;padding:9px 16px;border-radius:999px;color:var(--st-muted);font-weight:600;font-size:15px;text-decoration:none;transition:color .2s ease,background .2s ease}
 .nf-link:hover{color:var(--st-text);background:color-mix(in srgb,var(--st-text) 9%,transparent)}
+.nf-link[aria-current="page"]{color:var(--st-brand);background:color-mix(in srgb,var(--st-brand) 13%,transparent)}
 .nf .nf-cta{min-height:44px;padding:0 22px;border-radius:999px;font-size:15px}
 .nf .st-burger{color:var(--st-text);background:color-mix(in srgb,var(--st-text) 10%,transparent);border-radius:999px}
 @container st (max-width:860px){

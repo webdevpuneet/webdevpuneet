@@ -351,11 +351,22 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
  * Multi-page sites (site.js) also pass:
  * @param title       the <title> (default: page.name)
  * @param canonical   absolute URL for <link rel="canonical">
+ * @param activeFile  this page's file name (index.html, about.html): the navbar link to it gets aria-current="page"
  * @param stylesheet  href of a shared stylesheet, used instead of an inline <style>
  * @param script      src of a shared script, used instead of an inline <script>
  * @param cdnUrls     GSAP URLs to load (default: what this page needs)
  */
-export function pageDocumentHtml(page, { imageSrc, clean = true, fontFaces = '', extraHead = '', motion = true, description = '', title, canonical = '', stylesheet = '', script = '', cdnUrls } = {}) {
+/** The navbar link that points at this page gets aria-current="page" (styled in each navbar's CSS),
+    so visitors see where they are. Links with a #hash point inside a page and are left alone. */
+export function markActiveNav(html, activeFile) {
+  const same = h => h === activeFile || (activeFile === 'index.html' && (h === './' || h === '/' || h === ''));
+  return html.replace(/<a\b[^>]*\bclass="(?:nb|nf|na)-link"[^>]*>/g, tag => {
+    const href = (tag.match(/\shref="([^"]*)"/) || [])[1];
+    return href !== undefined && !href.includes('#') && same(href) ? tag.replace(/>$/, ' aria-current="page">') : tag;
+  });
+}
+
+export function pageDocumentHtml(page, { imageSrc, clean = true, fontFaces = '', extraHead = '', motion = true, description = '', title, canonical = '', stylesheet = '', script = '', cdnUrls, activeFile = '' } = {}) {
   const gf = googleFontsUrl(THEME_HOLDER, { fonts: page.fonts });
   const js = script ? '' : pageScript(page, { motion });
   const cdn = cdnUrls || (js ? pageCdn(page, { motion }) : []);
@@ -376,6 +387,7 @@ ${pageMarkup(page, { imageSrc, clean })}
 ${scripts}</body>
 </html>
 `;
+  const out = activeFile ? markActiveNav(doc, activeFile) : doc;
   // Exports are indented like hand-written HTML (the builder preview isn't, it's never read)
-  return clean ? formatHtml(doc) : doc;
+  return clean ? formatHtml(out) : out;
 }

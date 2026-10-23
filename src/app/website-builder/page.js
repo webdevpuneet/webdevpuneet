@@ -154,7 +154,7 @@ export default function WebsiteBuilderPage() {
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sc) }} />
       ))}
       <div className={`${styles.toolSection} ${styles.toolSectionGallery}`}>
-        <TemplateGallery templates={STARTERS.map(t => ({ id: t.id, name: t.name, industry: t.industry, blurb: t.blurb, n: t.sections.length, p: starterPageList(t.id).length }))} industries={TEMPLATE_INDUSTRIES} />
+        <TemplateGallery templates={[...STARTERS].reverse().map(t => ({ id: t.id, name: t.name, industry: t.industry, blurb: t.blurb, n: t.sections.length, p: starterPageList(t.id).length }))} industries={TEMPLATE_INDUSTRIES} />
       </div>
       <AdSlot related={false} />
       <IndexOnly>

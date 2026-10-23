@@ -80,6 +80,7 @@ ${NAV_CSS}
 .na-links{list-style:none;display:flex;gap:2px}
 .na-link{display:block;padding:8px 12px;color:var(--st-text);font-weight:600;font-size:15px;text-decoration:none;border-radius:calc(var(--st-radius) * 1px)}
 .na-link:hover{color:var(--st-brand)}
+.na-link[aria-current="page"]{color:var(--st-brand);box-shadow:inset 0 -2px 0 var(--st-brand);border-radius:0}
 .na-actions{display:flex;align-items:center;gap:16px}
 .na-actions--menu{display:none}
 .na-login{color:var(--st-text);font-weight:600;font-size:15px;text-decoration:none}

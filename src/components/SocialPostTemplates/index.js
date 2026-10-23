@@ -10,6 +10,7 @@ import Preview from './Preview';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
 import * as socialDesigns from './designs';
 import { defaultState } from './render';
+import { newestFirst } from '@/lib/newest-first';
 
 const LS_PREFIX = 'wdp-spt-v1:';
 const GALLERY_PAGE = 10; // cards per "Load more": 2 rows of 5
@@ -31,7 +32,7 @@ export function TemplateGallery({ compact = false, excludeId = null, limit = nul
   }, []);
   const list = useMemo(() => {
     const words = q.toLowerCase().split(/\s+/).filter(Boolean);
-    return TEMPLATES.filter(t => t.id !== excludeId)
+    return newestFirst(TEMPLATES).filter(t => t.id !== excludeId)
       .filter(t => cat === 'all' || t.category === cat)
       .filter(t => !words.length || words.every(w => `${t.name} ${t.tags.join(' ')} ${categoryById(t.category)?.label}`.toLowerCase().includes(w)))
       .slice(0, limit || undefined);

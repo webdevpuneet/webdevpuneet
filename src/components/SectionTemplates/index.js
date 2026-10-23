@@ -17,6 +17,7 @@ import { makeDesignStore } from '@/lib/design-store';
 import { dbPut } from '@/lib/uiSnippetsDb';
 import { addToLibrary } from '@/lib/image-library';
 import { openForkTab } from '@/lib/open-fork-tab';
+import { newestFirst } from '@/lib/newest-first';
 import { highlightHtml } from '@/lib/highlight-html';
 import { toReactComponent, toVueSfc, componentName } from '@/lib/snippet-exporters';
 import {
@@ -130,7 +131,7 @@ export function SectionTemplateGallery({ excludeId = null, limit = null, preview
   useEffect(() => { setShownCount(GALLERY_PAGE); }, [q]);
   const list = useMemo(() => {
     const words = q.toLowerCase().split(/\s+/).filter(Boolean);
-    return SECTION_TEMPLATES.filter(t => t.id !== excludeId)
+    return newestFirst(SECTION_TEMPLATES).filter(t => t.id !== excludeId)
       .filter(t => cat === 'all' || t.category === cat)
       .filter(t => !words.length || words.every(w => `${t.name} ${t.tags.join(' ')} ${sectionCategoryById(t.category)?.label} ${t.description}`.toLowerCase().includes(w)))
       .slice(0, limit || undefined);

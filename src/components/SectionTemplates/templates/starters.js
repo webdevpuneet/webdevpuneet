@@ -13,6 +13,8 @@ const cov = n => IMG(`blog-${n}.jpg`);
 const links = (...pairs) => pairs.map(([label, url]) => ({ label, url }));
 const nav = (logoText, logoIcon, cta, list, extra = {}) => ({ fields: { logoText, logoIcon, cta, ctaUrl: '#contact', ...extra }, lists: { links: list } });
 
+/* Oldest first: add new templates at the END of this list. The /website-builder/ gallery shows
+   the list reversed, so the newest templates come first. */
 export const WEBSITE_TEMPLATES = [
   /* ── Software & startups ───────────────────────────────────────────────── */
   {

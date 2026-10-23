@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
+import PlaygroundTopNav from '@/components/PlaygroundTopNav';
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import { WEBSITE_TEMPLATES, websiteTemplateById } from '@/components/SectionTemplates/templates/starters.js';
 import { starterPageList } from '@/components/SectionTemplates/templates/site.js';
@@ -51,7 +53,8 @@ export default async function WebsiteTemplatePage({ params }) {
   const multi = pages.length > 1;
   const pageNames = pages.map(pg => pg.name).join(', ');
   const multiUrl = `/website-builder/editor/?starter=${t.id}&pages=multi`;
-  const related = [...WEBSITE_TEMPLATES.filter(x => x.id !== t.id && x.industry === t.industry), ...WEBSITE_TEMPLATES.filter(x => x.id !== t.id && x.industry !== t.industry)];
+  const newest = [...WEBSITE_TEMPLATES].reverse(); // newest first
+  const related = [...newest.filter(x => x.id !== t.id && x.industry === t.industry), ...newest.filter(x => x.id !== t.id && x.industry !== t.industry)];
   const useUrl = `/website-builder/editor/?starter=${t.id}`;
   const nameLower = t.name.replace(/ (Website|Landing Page)$/, '').toLowerCase();
 
@@ -124,16 +127,13 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
   return (
     <div>
       {schemas.map((sc, i) => <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sc) }} />)}
+      <PlaygroundTopNav active="website-builder" />
+      <PlaygroundTopAd />
       <div className={st.wrap}>
         <nav className={st.crumbs} aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/website-builder/">Website Builder</a> / <span>{t.name}</span></nav>
         <h1 className={st.h1}>{t.name} Template</h1>
         <p className={st.lead}>{t.intro}</p>
-        <div className={st.actions}>
-          <a className={st.btn} href={useUrl}>Use as one page</a>
-          {multi && <a className={st.btn} href={multiUrl}>Use as {pages.length}-page website</a>}
-          <a className={`${st.btn} ${st.btnGhost}`} href="/website-builder/">All templates</a>
-        </div>
-        {multi && <p className={st.lead} style={{ fontSize: 14, marginTop: 10 }}>One page keeps everything on a single scrolling page. The {pages.length}-page website opens all its pages in the editor: {pageNames}.</p>}
+        {multi && <p className={st.lead} style={{ fontSize: 14, margin: '-6px 0 22px' }}>One page keeps everything on a single scrolling page. The {pages.length}-page website opens all its pages in the editor: {pageNames}.</p>}
         <div className={st.split}>
           <div className={st.browser}>
             <div className={st.browserBar}><i /><i /><i /><span>Full page preview · scroll to see it all</span></div>
@@ -143,6 +143,11 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
             </div>
           </div>
           <aside className={st.side}>
+            <div className={st.sideActions}>
+              <a className={st.btn} href={useUrl}>Use as one page</a>
+              {multi && <a className={st.btn} href={multiUrl}>Use as {pages.length}-page website</a>}
+              <a className={`${st.btn} ${st.btnGhost}`} href="/website-builder/">All templates</a>
+            </div>
             {multi && (
               <div className={st.box}>
                 <h2>Multi-page: {pages.length} pages</h2>
@@ -168,10 +173,10 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
                 <dt>Price</dt><dd>Free</dd>
               </dl>
             </div>
-            <a className={st.btn} href={useUrl} style={{ justifyContent: 'center' }}>Use as one page</a>
-            {multi && <a className={`${st.btn} ${st.btnGhost}`} href={multiUrl} style={{ justifyContent: 'center', marginTop: 8 }}>Use as {pages.length}-page website</a>}
           </aside>
         </div>
+        {/* The page's ad sits above More Templates */}
+        <AdSlot related={false} contained />
         {/* Same strip as the home page: full-page shots that scroll on hover */}
         <div className={st.related}>
           <HomeTemplatesCarousel
@@ -185,7 +190,6 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
           />
         </div>
       </div>
-      <AdSlot related={false} />
       <IndexOnly>
         <SeoSection slug="website-builder" title={`${t.name} Template — Free, Editable, Export HTML`} subtitle={`${t.industry} · ${multi ? `One page or ${pages.length} pages · ` : ''}${parts.length} sections · ${fonts[0]} + ${fonts[1]} · Responsive · GSAP animation`} sections={SECTIONS} />
       </IndexOnly>

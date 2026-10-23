@@ -18,6 +18,7 @@ import { BrandKitPanel, loadKit, kitIsSet, saveKit } from '@/components/BrandKit
 import { exportDesigns, importDesigns, blobToDataUrl as fileToDataUrl, dataUrlToBlob } from '@/lib/design-transfer';
 import { dbPut } from '@/lib/uiSnippetsDb';
 import { openForkTab } from '@/lib/open-fork-tab';
+import { newestFirst } from '@/lib/newest-first';
 import { putAsset, getAsset, deleteAsset, assetKeys } from './assetsDb';
 import { revealInPanel } from '@/lib/reveal-in-panel';
 import FormatPopover from './FormatPopover';
@@ -157,7 +158,7 @@ export function EmailTemplateGallery({ excludeId = null, limit = null, previews 
   useEffect(() => { setShownCount(GALLERY_PAGE); }, [cat, q]);
   const list = useMemo(() => {
     const words = q.toLowerCase().split(/\s+/).filter(Boolean);
-    return EMAIL_TEMPLATES.filter(t => t.id !== excludeId)
+    return newestFirst(EMAIL_TEMPLATES).filter(t => t.id !== excludeId)
       .filter(t => cat === 'all' || t.category === cat)
       .filter(t => !words.length || words.every(w => `${t.name} ${t.tags.join(' ')} ${emailCategoryById(t.category)?.label} ${t.description}`.toLowerCase().includes(w)))
       .slice(0, limit || undefined);
