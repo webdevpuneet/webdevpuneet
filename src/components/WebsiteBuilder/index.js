@@ -89,7 +89,7 @@ const sectionsOf = st => (isSite(st) ? [...(st.header || []), ...(st.pages || []
 
 /* The live page: an iframe at the device width, scaled to fit the stage, keeping its
    scroll position across updates. Clicking a section selects it. */
-function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDoc, onNavigate, hash }) {
+function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDoc, onNavigate, hash, topKey = 0 }) {
   /* Two stacked frames (double buffering): an edit loads the new page into the hidden frame,
      restores the scroll position there, and only then swaps it in. The visible frame is never
      blanked or sent back to the top, so editing doesn't flicker. */
@@ -107,6 +107,7 @@ function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDo
   const cb = useRef({});
   cb.current = { onSelect, onKey, onNavigate };
   const scrollY = useRef(0);
+  useEffect(() => { if (topKey) scrollY.current = 0; }, [topKey]); // ▶ Play starts from the top
   const hashRef = useRef(hash); // a section to scroll to once, after another page's link opened this one
 
   useEffect(() => {
@@ -536,6 +537,7 @@ export default function WebsiteBuilder() {
   const [device, setDevice] = useState('desktop');
   const [stage, setStage] = useState({ w: 0, h: 0 });
   const [playing, setPlaying] = useState(0);
+  const [topKey, setTopKey] = useState(0);
   const [origin, setOrigin] = useState('');
   const [toast, setToast] = useState('');
   const [busy, setBusy] = useState('');
@@ -944,9 +946,13 @@ export default function WebsiteBuilder() {
       doc.defaultView.scrollTo(0, st.start + (st.end - st.start) * pct / 100);
     } else { tl.pause(); tl.progress(pct / 100); }
   };
-  // Content changes stop ▶ Play; motion and scroll-animation changes replay it instead
-  const stillJson = JSON.stringify({ ...site, motion: null, p: activePage.id }, (key, v) => (key === 'scroll' ? undefined : v));
-  useEffect(() => { setPlaying(0); }, [stillJson]);
+  /* ▶ Play is a switch: it stays on while content is edited (the page reloads animated, keeping
+     its scroll position) until ■ Stop. Turning it on starts from the top of the page. */
+  const togglePlay = () => {
+    if (playing > 0) { setPlaying(0); return; }
+    setTopKey(k => k + 1);
+    setPlaying(1);
+  };
   const dev = DEVICES.find(d => d.id === device) || DEVICES[0];
   const scale = stage.w ? Math.min(1, (stage.w - 32) / dev.w) : 0;
   const frameH = stage.h && scale ? Math.max(400, Math.round((stage.h - 32) / scale)) : 800;
@@ -1514,7 +1520,7 @@ ${pageCss(shown, { fontFaces })}`),
                 ))}
               </div>
               {page.motion?.preset !== 'none' && page.sections.length > 0 && (
-                <button type="button" className={`${s.miniBtn} ${x.toolBtn}`} onClick={() => setPlaying(n => n + 1)} title="Play animation">▶ Play</button>
+                <button type="button" className={`${s.miniBtn} ${x.toolBtn} ${playing > 0 ? s.miniBtnAccent : ''}`} aria-pressed={playing > 0} onClick={togglePlay} title={playing > 0 ? 'Animations are on: scroll the preview to watch each section animate in, again every time it comes into view. Click to stop.' : 'Turn on the page’s entrance animations, smooth scrolling and scroll effects in the preview, from the top. Editing keeps them on.'}>{playing > 0 ? '■ Stop' : '▶ Play'}</button>
               )}
             </div>
             <div className={s.toolbarRight} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -1569,7 +1575,7 @@ ${pageCss(shown, { fontFaces })}`),
                 <p>{multi ? 'Add sections from the panel to fill this page. It gets the shared header and footer unless you hide them in its page settings.' :'Pick a starter or add sections from the panel: navbars, heroes, features, pricing, testimonials, FAQ, CTA, footers and more. They all share one theme, so every page looks like one website. Add more pages in the Pages tab.'}</p>
               </div>
             ) : origin && scale > 0 && (
-              <PageFrame key={`${device}|${activePage.id}`} html={shownHtml} width={dev.w} height={frameH} scale={scale} selected={selected} onSelect={openSection} onKey={onKey} onDoc={onPreviewDoc} onNavigate={navigateTo} hash={navHash} />
+              <PageFrame key={`${device}|${activePage.id}`} html={shownHtml} width={dev.w} height={frameH} scale={scale} selected={selected} onSelect={openSection} onKey={onKey} onDoc={onPreviewDoc} onNavigate={navigateTo} hash={navHash} topKey={topKey} />
             )}
           </div>
         </div>

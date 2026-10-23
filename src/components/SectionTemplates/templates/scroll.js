@@ -283,7 +283,7 @@ export const SCROLL_RUNTIME = `(function () {
     if (c.desktopOnly && window.innerWidth < 768) return;
     var scrub = c.mode === 'scrub';
     var st = { trigger: sec, start: c.start || 'top 85%', end: c.pin ? '+=' + (c.pinLength || 100) + '%' : (c.end || 'bottom top'), markers: !!window.ST_SCROLL_MARKERS };
-    if (scrub) st.scrub = 0.6; else st.toggleActions = c.mode === 'reverse' ? 'play reverse play reverse' : 'play none none none';
+    if (scrub) st.scrub = 0.6; else st.toggleActions = c.mode === 'reverse' ? 'play reverse play reverse' : (window.ST_PREVIEW ? 'play reset play reset' : 'play none none none'); // the editor preview replays "once" animations each time they come into view
     if (c.pin) { st.pin = true; st.anticipatePin = 1; }
     // Spanning sections: run until a later section's bottom reaches the bottom of the screen
     var until = c.until && document.querySelector('[data-uid="' + c.until + '"]');

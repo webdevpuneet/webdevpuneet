@@ -225,6 +225,8 @@ export function motionPlugins(state) {
 /** CDN script URLs for the motion runtime ([] when motion is off) */
 export const motionCdn = state => (motionScript(state) ? gsapCdn(motionPlugins(state)) : []);
 
+/* In the editor preview (window.ST_PREVIEW) the entrance animation replays every time a section scrolls
+   into view, from above or below, so ▶ Play can be checked repeatedly; exports play it once. */
 /** The animation script for a section's [data-anim] elements (sections with a scroll
     animation, data-scroll in the Website Builder, are skipped: they run that instead) ('' when motion is off).
     Content is visible without it: the hidden "from" state is only applied by GSAP. */
@@ -250,7 +252,7 @@ export function motionScript(state) {
       var media = section.querySelectorAll('[data-anim="media"]');
       var tl = gsap.timeline({
         defaults: { ease: 'power3.out', duration: ${(0.8 * sp).toFixed(2)} },
-        scrollTrigger: window.ScrollTrigger ? { trigger: section, start: 'top 80%', once: true } : undefined
+        scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
       });
       Array.prototype.forEach.call(heads, function (el, i) {
         var opts = { type: TEXT.split };
