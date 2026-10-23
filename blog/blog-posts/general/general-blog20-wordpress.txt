@@ -345,7 +345,7 @@ gsap.from('.reveal', {
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Click "Insert block above" first, then read the number. Only after clicking "ScrollTrigger.refresh()" does the trigger's saved start position catch up to reality.</p>
+<p>Click "Insert block above", then scroll down: the trigger fires 240px too early, because its saved start position (the green marker line) is out of date. Scroll back up, click "ScrollTrigger.refresh()", and scroll again: the marker jumps down and the trigger now fires on time.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
