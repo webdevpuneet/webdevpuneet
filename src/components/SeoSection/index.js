@@ -68,7 +68,10 @@ function renderInline(text) {
     if (part.startsWith('**') && part.endsWith('**')) return <strong key={i}>{renderInline(part.slice(2, -2))}</strong>;
     if (part.startsWith('`') && part.endsWith('`')) return <code key={i} className={styles.inlineCode}>{part.slice(1, -1)}</code>;
     const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
-    if (linkMatch) return <a key={i} href={linkMatch[2]} className={styles.inlineLink}>{linkMatch[1]}</a>;
+    if (linkMatch) {
+      const external = /^https?:\/\//.test(linkMatch[2]);
+      return <a key={i} href={linkMatch[2]} className={styles.inlineLink} {...(external ? { target: '_blank', rel: 'noopener' } : {})}>{linkMatch[1]}</a>;
+    }
     return part;
   });
 }

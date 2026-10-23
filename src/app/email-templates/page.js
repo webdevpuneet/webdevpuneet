@@ -105,6 +105,7 @@ const SECTIONS = [
       { title: 'Style it', text: 'Upload your logo and images, set the brand colour and the light and dark palettes, choose fonts, or apply your brand kit.' },
       { title: 'Preview and check', text: 'Switch between desktop, mobile and dark mode, and fix anything the pre-send checks flag.' },
       { title: 'Save and export', text: 'Save it to My designs, then use Export to copy the HTML or plain text, download a .html file or ZIP, or fork it into My Code.' },
+      { title: 'Read the full guide', text: 'Want a deeper walkthrough of editing responsive, dark-mode emails and pasting the code into Gmail, Outlook and Apple Mail? Read the [free HTML email templates guide](https://webdevpuneet.com/blog/free-html-email-templates-edit-responsive-dark-mode-emails-online-and-copy-the-code-for-gmail-outlook-and-apple-mail/).' },
     ],
   },
   { type: 'faq', label: 'Got questions?', heading: 'Frequently Asked Questions', items: faqs },

@@ -92,6 +92,7 @@ const SEO = {
       { title: 'Edit text, photos, colours and fonts', text: 'Click text in the preview or use the fields on the left. Format words, upload photos and logos, apply a palette or your brand kit, and pick any Google Font.' },
       { title: 'Check and save', text: 'Preview it in a platform mock-up, fix anything the quality checks flag, and **Save** it to My designs so you can come back to it.' },
       { title: 'Export', text: 'Open **Export** for PNG or JPEG, **All sizes (ZIP)**, an animated MP4, a carousel PDF, or **Copy HTML** to take the template into your own website, app or design system.' },
+      { title: 'Read the full guide', text: 'Want a deeper walkthrough of designing, animating and exporting posts for Instagram, LinkedIn, X and Pinterest? Read the [free social media post templates guide](https://webdevpuneet.com/blog/free-social-media-post-templates-in-html-design-animate-and-export-posts-for-instagram-linkedin-x-and-pinterest/).' },
     ],
   },
   features: [

@@ -99,6 +99,7 @@ Every template is responsive, animated with GSAP (entrance effects, text reveals
       { title: 'Edit the content', text: 'Click a section to change its text, links, images and lists of cards; upload your own images and logo.' },
       { title: 'Set the theme', text: 'Choose colours, fonts, corner radius, content width and animation once for the whole page, or apply your brand kit.' },
       { title: 'Preview and export', text: 'Check desktop, tablet and mobile, save the page, then download one HTML file or a ZIP and upload it to your host.' },
+      { title: 'Read the full guide', text: 'Want a deeper walkthrough of building a site from ready-made sections, adding GSAP scroll animations and exporting clean HTML, React or Next.js? Read the [free website builder guide](https://webdevpuneet.com/blog/free-website-builder-and-website-templates-build-a-site-from-ready-made-sections-add-gsap-scroll-animations-and-export-clean-html-react-or-next-js/).' },
     ],
   },
   {
