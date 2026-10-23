@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FAQ Accordion section · free Website Sections</title>
+    <!-- FAQ Accordion v1.0.0 · https://webdevpuneet.com/website-section-templates/faq-accordion/ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is there a free plan?","acceptedAnswer":{"@type":"Answer","text":"Yes. The Starter plan is free forever for up to three people, with no credit card required. Upgrade any time when your team grows."}},{"@type":"Question","name":"Can I change plans later?","acceptedAnswer":{"@type":"Answer","text":"Of course. Upgrade or downgrade from your billing settings at any time. Changes apply immediately and we prorate the difference."}},{"@type":"Question","name":"How does the free trial work?","acceptedAnswer":{"@type":"Answer","text":"Paid plans include a 14-day free trial with every feature unlocked. If you don’t add a payment method, your workspace simply moves to the free plan."}},{"@type":"Question","name":"Can I import from another tool?","acceptedAnswer":{"@type":"Answer","text":"Yes. One-click importers bring in projects, tasks and comments from the most popular tools, and a CSV import covers everything else."}},{"@type":"Question","name":"Is my data secure?","acceptedAnswer":{"@type":"Answer","text":"Your data is encrypted in transit and at rest, backed up daily and hosted in SOC 2 certified data centres. Business plans add SSO and audit logs."}},{"@type":"Question","name":"Do you offer discounts for non-profits?","acceptedAnswer":{"@type":"Answer","text":"Yes. Registered non-profits and schools get 50% off any paid plan. Contact us with proof of status to apply."}}]}
+    </script>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .st {
+        --st-brand: #4f46e5;
+        --st-btn-text: #ffffff;
+        --st-bg: #ffffff;
+        --st-surface: #f6f7fb;
+        --st-text: #0f172a;
+        --st-muted: #475569;
+        --st-radius: 14;
+        --st-max: 1200;
+        --st-font-heading: "Plus Jakarta Sans", sans-serif;
+        --st-font-body: "Inter", sans-serif;
+      }
+
+      .st {
+        --st-pad: clamp(20px,5cqi,56px);
+        container: st/inline-size;
+        position: relative;
+        overflow: hidden;
+        background: var(--st-bg);
+        color: var(--st-text);
+        font-family: var(--st-font-body);
+        font-size: 17px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      :where(.st) *,:where(.st) *::before,:where(.st) *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :where(.st img) {
+        display: block;
+        max-width: 100%;
+        height: auto;
+      }
+
+      :where(.st a) {
+        color: inherit;
+      }
+
+      :where(.st h1,.st h2,.st h3) {
+        font-family: var(--st-font-heading);
+        line-height: 1.08;
+        letter-spacing: -.025em;
+        font-weight: 800;
+        color: var(--st-text);
+      }
+
+      .st .hl {
+        color: var(--st-brand);
+      }
+
+      .st [data-edit]:empty,.st [data-i-edit]:empty {
+        display: none;
+      }
+
+      .st-wrap {
+        width: 100%;
+        max-width: calc(var(--st-max) * 1px);
+        margin: 0 auto;
+        padding-left: var(--st-pad);
+        padding-right: var(--st-pad);
+      }
+
+      .st-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: var(--st-brand);
+      }
+
+      .st-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        background: color-mix(in srgb,var(--st-brand) 12%,transparent);
+        color: var(--st-brand);
+        font-size: 13.5px;
+        font-weight: 700;
+      }
+
+      .st-btns {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .st-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 50px;
+        padding: 0 26px;
+        border-radius: calc(var(--st-radius) * 1px);
+        border: 2px solid var(--st-brand);
+        background: var(--st-brand);
+        color: var(--st-btn-text);
+        font: 700 16px/1 var(--st-font-body);
+        text-decoration: none;
+        transition: transform .15s ease,box-shadow .15s ease,background .15s ease;
+      }
+
+      .st-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 24px color-mix(in srgb,var(--st-brand) 35%,transparent);
+      }
+
+      .st-btn:focus-visible {
+        outline: 3px solid color-mix(in srgb,var(--st-brand) 45%,transparent);
+        outline-offset: 3px;
+      }
+
+      .st-btn--ghost {
+        background: transparent;
+        color: var(--st-text);
+        border-color: color-mix(in srgb,var(--st-text) 22%,transparent);
+      }
+
+      .st-btn--ghost:hover {
+        box-shadow: none;
+        border-color: var(--st-text);
+      }
+
+      .st-lead {
+        font-size: clamp(17px,1.2cqi + 12px,20px);
+        line-height: 1.65;
+        color: var(--st-muted);
+      }
+
+      .st-head {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        max-width: 46em;
+        margin: 0 auto clamp(36px,5cqi,64px);
+        text-align: center;
+      }
+
+      .st-head--left {
+        align-items: flex-start;
+        margin-left: 0;
+        text-align: left;
+      }
+
+      .st-h2 {
+        font-size: clamp(30px,2.6cqi + 16px,48px);
+      }
+
+      .st-icon {
+        display: inline-grid;
+        place-items: center;
+        flex: none;
+        width: 48px;
+        height: 48px;
+        border-radius: calc(var(--st-radius) * .85px);
+        background: color-mix(in srgb,var(--st-brand) 12%,transparent);
+        color: var(--st-brand);
+      }
+
+      .st-icon svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      .st-icon:empty {
+        display: none;
+      }
+
+      .st-checks {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+      }
+
+      .st-checks li {
+        position: relative;
+        padding-left: 30px;
+        font-size: 15.5px;
+        line-height: 1.5;
+      }
+
+      .st-checks li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: .12em;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: color-mix(in srgb,var(--st-brand) 15%,transparent);
+      }
+
+      .st-checks li::after {
+        content: "";
+        position: absolute;
+        left: 5px;
+        top: calc(.12em + 5px);
+        width: 10px;
+        height: 10px;
+        background: var(--st-brand);
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat;
+      }
+
+      @media (prefers-reduced-motion:reduce) {
+        .st * {
+          transition: none!important;
+          animation: none!important;
+        }
+      }
+
+      .st-faq-accordion {
+        padding: clamp(64px,8cqi,112px) 0;
+      }
+
+      .st-acc {
+        border-bottom: 1px solid color-mix(in srgb,var(--st-text) 11%,transparent);
+      }
+
+      .st-acc-q {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 22px 2px;
+        cursor: pointer;
+        list-style: none;
+        font: 700 clamp(17px,.6cqi + 14px,19px)/1.4 var(--st-font-heading);
+        letter-spacing: -.01em;
+      }
+
+      .st-acc-q::-webkit-details-marker {
+        display: none;
+      }
+
+      .st-acc-q:hover {
+        color: var(--st-brand);
+      }
+
+      .st-acc-q:focus-visible {
+        outline: 3px solid color-mix(in srgb,var(--st-brand) 45%,transparent);
+        outline-offset: 2px;
+        border-radius: 6px;
+      }
+
+      .st-acc-icon {
+        position: relative;
+        flex: none;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: color-mix(in srgb,var(--st-brand) 11%,transparent);
+        transition: transform .3s ease,background .3s ease;
+      }
+
+      .st-acc-icon::before,.st-acc-icon::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 12px;
+        height: 2px;
+        border-radius: 2px;
+        background: var(--st-brand);
+        transform: translate(-50%,-50%);
+      }
+
+      .st-acc-icon::after {
+        transform: translate(-50%,-50%) rotate(90deg);
+        transition: transform .3s ease;
+      }
+
+      .st-acc[open]:not(.is-closing) .st-acc-icon {
+        transform: rotate(180deg);
+        background: var(--st-brand);
+      }
+
+      .st-acc[open]:not(.is-closing) .st-acc-icon::before,.st-acc[open]:not(.is-closing) .st-acc-icon::after {
+        background: var(--st-btn-text);
+      }
+
+      .st-acc[open]:not(.is-closing) .st-acc-icon::after {
+        transform: translate(-50%,-50%) rotate(0deg);
+      }
+
+      .st-acc-a {
+        overflow: hidden;
+      }
+
+      .st-acc-a p {
+        padding: 0 48px 24px 2px;
+        color: var(--st-muted);
+        font-size: 16.5px;
+        line-height: 1.7;
+      }
+
+      .fq-list {
+        max-width: 820px;
+        margin: 0 auto;
+        border-top: 1px solid color-mix(in srgb,var(--st-text) 11%,transparent);
+      }
+
+      .fq-contact {
+        max-width: 820px;
+        margin: clamp(32px,4cqi,48px) auto 0;
+        padding: 20px 24px;
+        border-radius: calc(var(--st-radius) * 1px);
+        background: var(--st-surface);
+        text-align: center;
+        color: var(--st-muted);
+      }
+
+      .fq-contact a {
+        color: var(--st-brand);
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .fq-contact a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  <style>
+.demo-room{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:100vh;padding:24px;box-sizing:border-box;text-align:center;font:600 15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;color:#64748b;background:#f8fafc}
+.demo-room b{font-size:20px;color:#0f172a}
+.demo-room small{max-width:34em}
+.demo-room i{font-style:normal;font-size:26px;animation:demo-bob 1.6s ease-in-out infinite}
+@keyframes demo-bob{50%{transform:translateY(8px)}}
+@media (prefers-reduced-motion:reduce){.demo-room i{animation:none}}
+</style>
+</head>
+  <body>
+<div class="demo-room"><i aria-hidden="true">↓</i><b>FAQ Accordion</b><small>Click a question: the answer opens smoothly. It is also FAQPage schema for Google. Scroll down to see it.</small></div>
+    <section class="st st-faq-accordion">
+      <div class="st-wrap">
+        <header class="st-head">
+          <p class="st-eyebrow" data-anim="item">FAQ</p>
+          <h2 class="st-h2" data-anim="item" data-anim-text>Questions? <span class="hl">We’ve got answers</span></h2>
+          <p class="st-lead" data-anim="item">Everything you need to know about plans, billing and getting started.</p>
+        </header>
+        <div class="fq-list" data-accordion="single first">
+          <details class="st-acc" data-anim="item">
+            <summary class="st-acc-q"><span>Is there a free plan?</span><span class="st-acc-icon" aria-hidden="true"></span></summary>
+            <div class="st-acc-a"><p>Yes. The Starter plan is free forever for up to three people, with no credit card required. Upgrade any time when your team grows.</p></div>
+          </details>
+          <details class="st-acc" data-anim="item">
+            <summary class="st-acc-q"><span>Can I change plans later?</span><span class="st-acc-icon" aria-hidden="true"></span></summary>
+            <div class="st-acc-a"><p>Of course. Upgrade or downgrade from your billing settings at any time. Changes apply immediately and we prorate the difference.</p></div>
+          </details>
+          <details class="st-acc" data-anim="item">
+            <summary class="st-acc-q"><span>How does the free trial work?</span><span class="st-acc-icon" aria-hidden="true"></span></summary>
+            <div class="st-acc-a"><p>Paid plans include a 14-day free trial with every feature unlocked. If you don’t add a payment method, your workspace simply moves to the free plan.</p></div>
+          </details>
+          <details class="st-acc" data-anim="item">
+            <summary class="st-acc-q"><span>Can I import from another tool?</span><span class="st-acc-icon" aria-hidden="true"></span></summary>
+            <div class="st-acc-a"><p>Yes. One-click importers bring in projects, tasks and comments from the most popular tools, and a CSV import covers everything else.</p></div>
+          </details>
+          <details class="st-acc" data-anim="item">
+            <summary class="st-acc-q"><span>Is my data secure?</span><span class="st-acc-icon" aria-hidden="true"></span></summary>
+            <div class="st-acc-a"><p>Your data is encrypted in transit and at rest, backed up daily and hosted in SOC 2 certified data centres. Business plans add SSO and audit logs.</p></div>
+          </details>
+          <details class="st-acc" data-anim="item">
+            <summary class="st-acc-q"><span>Do you offer discounts for non-profits?</span><span class="st-acc-icon" aria-hidden="true"></span></summary>
+            <div class="st-acc-a"><p>Yes. Registered non-profits and schools get 50% off any paid plan. Contact us with proof of status to apply.</p></div>
+          </details>
+        </div>
+        <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
+      </div>
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"></script>
+    <script>
+      (function () {
+        var G = window.gsap;
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var anim = G && !reduce;
+        document.querySelectorAll('.st [data-accordion]').forEach(function (list) {
+          var mode = list.getAttribute('data-accordion') || '';
+          var items = Array.prototype.slice.call(list.querySelectorAll('details'));
+          var body = function (d) { return d.querySelector('.st-acc-a'); };
+          var close = function (d) {
+            if (!d.open || d.classList.contains('is-closing')) return;
+            if (!anim) { d.open = false; return; }
+            d.classList.add('is-closing');
+            G.to(body(d), { height: 0, duration: 0.32, ease: 'power2.inOut', onComplete: function () {
+              d.open = false; d.classList.remove('is-closing'); G.set(body(d), { clearProps: 'height' });
+            } });
+          };
+          var open = function (d) {
+            d.open = true;
+            if (!anim) return;
+            var b = body(d);
+            G.fromTo(b, { height: 0 }, { height: 'auto', duration: 0.4, ease: 'power2.out', clearProps: 'height' });
+            G.fromTo(b.children, { y: -8, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, delay: 0.06, ease: 'power2.out', clearProps: 'transform,opacity' });
+          };
+          items.forEach(function (d) {
+            d.querySelector('summary').addEventListener('click', function (e) {
+              e.preventDefault();
+              if (d.open && !d.classList.contains('is-closing')) { close(d); return; }
+              if (/single/.test(mode)) items.forEach(function (o) { if (o !== d) close(o); });
+              open(d);
+            });
+          });
+          if (/first/.test(mode) && items[0]) items[0].open = true;
+        });
+      })();
+      (function () {
+        if (!window.gsap) return;
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+        var TEXT = window.SplitText ? {"split":"words","part":"words","mask":"words","vars":{"yPercent":110,"stagger":0.06,"duration":0.8}} : null;
+        if (TEXT) gsap.registerPlugin(SplitText);
+        function run() {
+          document.querySelectorAll('.st:not([data-scroll])').forEach(function (section) {
+            var heads = TEXT ? section.querySelectorAll('[data-anim-text]') : [];
+            var items = section.querySelectorAll(heads.length ? '[data-anim="item"]:not([data-anim-text])' : '[data-anim="item"]');
+            var media = section.querySelectorAll('[data-anim="media"]');
+            var tl = gsap.timeline({
+              defaults: { ease: 'power3.out', duration: 0.80 },
+              scrollTrigger: window.ScrollTrigger ? (window.ST_PREVIEW ? { trigger: section, start: 'top 80%', toggleActions: 'play reset play reset' } : { trigger: section, start: 'top 80%', once: true }) : undefined
+            });
+            Array.prototype.forEach.call(heads, function (el, i) {
+              var opts = { type: TEXT.split };
+              if (TEXT.mask) opts.mask = TEXT.mask;
+              var parts = SplitText.create(el, opts)[TEXT.part];
+              tl.from(parts, Object.assign({}, TEXT.vars), i ? '<0.1' : 0);
+            });
+            if (items.length) tl.from(items, {"y":28,"opacity":0,"stagger":0.09,"clearProps":"transform,opacity"}, heads.length ? '<0.2' : 0);
+            if (media.length) tl.from(media, {"y":40,"opacity":0,"duration":1.1,"clearProps":"transform,opacity"}, items.length || heads.length ? '<0.15' : 0);
+          });
+        }
+        // Split text only after the fonts load, so lines break where they finally will
+        if (TEXT && document.fonts && document.fonts.ready) document.fonts.ready.then(run); else run();
+      })();
+    </script>
+  
+<div class="demo-room"><b>End of the demo</b><small>Made with the free Website Sections editor on webdevpuneet.com: edit it, then export HTML, React or Vue.</small></div></body>
+</html>

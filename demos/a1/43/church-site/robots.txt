@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://webdevpuneet.com/demos/a1/43/church-site/sitemap.xml

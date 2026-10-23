@@ -1,0 +1,9 @@
+# Church Website
+
+> Grace Chapel is a friendly church in Riverside. Join us Sundays at 9:30 or 11:30 am, find a small group, bring the kids and stay for coffee. All are welcome.
+
+## Pages
+
+- [Home](https://webdevpuneet.com/demos/a1/43/church-site/): Grace Chapel is a friendly church in Riverside. Join us Sundays at 9:30 or 11:30 am, find a small group, bring the kids and stay for coffee. All are welcome.
+- [Events](https://webdevpuneet.com/demos/a1/43/church-site/events.html): Upcoming events at Grace Chapel: community dinners, the Alpha course, youth nights, carols by candlelight and how to volunteer at our weekly food bank.
+- [Visit](https://webdevpuneet.com/demos/a1/43/church-site/visit.html): Plan your first visit to Grace Chapel in Riverside: Sunday service times, what happens for children, free parking, step-free access and how to contact us.
