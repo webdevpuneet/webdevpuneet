@@ -10,6 +10,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import s from '../SocialPostTemplates/styles.module.css';
 import x from '../SectionTemplates/styles.module.css';
+import b from '../SavedDesignsStrip/styles.module.css';
+import { TRASH } from '@/components/SavedDesignsStrip';
+import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import { makeDesignStore } from '@/lib/design-store';
 import { restoreSite, siteDocumentHtml, isSite } from '@/components/SectionTemplates/templates/site.js';
@@ -117,7 +120,7 @@ function LivePage({ page }) {
   );
 }
 
-function PageCard({ href, page, cat, title, meta }) {
+function PageCard({ href, page, cat, title, meta, onDelete }) {
   // Rendered only when the card reaches the viewport (a page is a full HTML document)
   const ref = useRef(null);
   const [show, setShow] = useState(false);
@@ -129,16 +132,20 @@ function PageCard({ href, page, cat, title, meta }) {
     return () => io.disconnect();
   }, []);
   return (
-    <a ref={ref} className={s.card} href={href} {...panProps}>
-      <div className={s.cardPreview} data-stack="">
-        <div className={x.pageStack}>{show && <LivePage page={page} />}</div>
-      </div>
-      <div className={s.cardBody}>
-        <span className={s.cardCat}>{cat}</span>
-        <h3 className={s.cardTitle}>{title}</h3>
-        <span className={s.cardMeta}>{meta}</span>
-      </div>
-    </a>
+    <div className={b.cardWrap}>
+      <a ref={ref} className={s.card} href={href} {...panProps}>
+        <div className={s.cardPreview} data-stack="">
+          <div className={x.pageStack}>{show && <LivePage page={page} />}</div>
+        </div>
+        <div className={s.cardBody}>
+          <span className={s.cardCat}>{cat}</span>
+          <h3 className={s.cardTitle}>{title}</h3>
+          <span className={s.cardMeta}>{meta}</span>
+        </div>
+      </a>
+      {/* A sibling of the link (a button can't sit inside one), shown on hover */}
+      <button type="button" className={b.cardDel} onClick={onDelete} title="Delete" aria-label={`Delete ${title}`}>{TRASH}</button>
+    </div>
   );
 }
 
@@ -152,6 +159,7 @@ export default function StartCards() {
   const [auto, setAuto] = useState(null);
   const [pages, setPages] = useState([]);
   const [count, setCount] = useState(FIRST);
+  const [confirm, setConfirm] = useState(null);
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
@@ -165,8 +173,12 @@ export default function StartCards() {
   }, []);
 
   const items = [
-    ...(auto ? [{ key: 'auto', href: EDITOR, page: auto, cat: 'Autosaved', title: 'Continue editing', meta: `${auto.name || 'Your website'} · ${sizeOf(auto)}` }] : []),
-    ...pages.map(d => ({ key: d.id, href: `${EDITOR}?page=${encodeURIComponent(d.id)}`, page: d.state, cat: 'My pages', title: d.name, meta: `${sizeOf(d.state)} · ${when(d.updated)}` })),
+    ...(auto ? [{ key: 'auto', href: EDITOR, page: auto, cat: 'Autosaved', title: 'Continue editing', meta: `${auto.name || 'Your website'} · ${sizeOf(auto)}`,
+      ask: { title: 'Discard the autosave?', message: `“${auto.name || 'Your website'}” hasn’t been saved to My pages. Discarding it can’t be undone.`, okLabel: 'Discard' },
+      remove: () => store.clearAutosave('page').then(() => setAuto(null)) }] : []),
+    ...pages.map(d => ({ key: d.id, href: `${EDITOR}?page=${encodeURIComponent(d.id)}`, page: d.state, cat: 'My pages', title: d.name, meta: `${sizeOf(d.state)} · ${when(d.updated)}`,
+      ask: { title: 'Delete this website?', message: `“${d.name}” will be removed from My pages. This can’t be undone.`, okLabel: 'Delete' },
+      remove: () => store.deleteDesign(d.id) })),
   ];
   const total = items.length;
   const shown = items.slice(0, count);
@@ -186,9 +198,10 @@ export default function StartCards() {
             <span className={s.cardMeta}>Add sections one by one from the library</span>
           </div>
         </a>
-        {shown.map(it => <PageCard key={it.key} href={it.href} page={it.page} cat={it.cat} title={it.title} meta={it.meta} />)}
+        {shown.map(it => <PageCard key={it.key} href={it.href} page={it.page} cat={it.cat} title={it.title} meta={it.meta} onDelete={() => setConfirm({ ...it.ask, danger: true, onOk: () => it.remove().catch(() => {}) })} />)}
       </div>
       <LoadMore shown={shown.length} total={total} onLoadMore={() => setCount(n => n + MORE)} />
+      {confirm && <ConfirmDialog {...confirm} onCancel={() => setConfirm(null)} onOk={() => { const go = confirm.onOk; setConfirm(null); go(); }} />}
     </>
   );
 }

@@ -275,6 +275,7 @@ export function EmailGalleryPage({ previews = [] }) {
             imgFor={d => `/images/email-templates/previews/${d.tpl}.png`}
             renderPreview={(d, w) => <SavedEmailPreview design={d} width={w} />}
             query={q}
+            deletable
           />
         )}
       />

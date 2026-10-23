@@ -1,2 +1,12 @@
 /* My designs on gallery pages: the gallery's own card grid, one row at a time (Load more) */
 .wrap { width: 100%; box-sizing: border-box; padding-left: 0 !important; padding-right: 0 !important; margin-bottom: 10px; }
+
+/* Saved-design cards with a delete button over the preview, shown on hover (always shown on
+   touch screens, which have no hover). Also used by the Website Builder's "Your pages". */
+.cardWrap { position: relative; display: flex; flex-direction: column; }
+.cardWrap > a { flex: 1; }
+.cardDel { position: absolute; top: 10px; right: 10px; z-index: 1; display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid rgba(15, 23, 42, 0.12); border-radius: 8px; background: rgba(255, 255, 255, 0.95); color: #475569; box-shadow: 0 4px 14px -4px rgba(15, 23, 42, 0.35); cursor: pointer; opacity: 0; transition: opacity 0.15s, transform 0.15s, background 0.15s, color 0.15s; }
+.cardWrap:hover .cardDel, .cardDel:focus-visible { opacity: 1; }
+.cardWrap:hover .cardDel { transform: translateY(-3px); }
+.cardDel:hover { background: #dc2626; border-color: #dc2626; color: #fff; }
+@media (hover: none) { .cardDel { opacity: 1; } }

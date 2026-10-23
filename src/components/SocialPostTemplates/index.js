@@ -104,6 +104,7 @@ export function TemplateGalleryPage({ previews = [] }) {
             imgFor={d => d.thumb || `/images/social-post-templates/previews/${d.tpl}.png`}
             renderPreview={(d, w) => <SavedDesignPreview design={d} width={w} />}
             query={q}
+            deletable
           />
         )}
       />

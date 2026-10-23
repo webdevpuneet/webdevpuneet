@@ -217,6 +217,7 @@ export function SectionGalleryPage({ previews = [] }) {
             imgFor={d => `/images/section-templates/previews/${d.tpl}.png`}
             renderPreview={(d, w) => <SavedSectionPreview design={d} width={w} />}
             query={q}
+            deletable
           />
         )}
       />

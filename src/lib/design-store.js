@@ -60,6 +60,9 @@ export function makeDesignStore(dbName) {
       askPersist();
       await run('readwrite', st => st.put({ tpl, state, updated: new Date().toISOString() }), AUTOSAVE);
     },
+    async clearAutosave(tpl) {
+      await run('readwrite', st => st.delete(tpl), AUTOSAVE);
+    },
     async listDesigns() {
       try {
         const all = await run('readonly', st => st.getAll());

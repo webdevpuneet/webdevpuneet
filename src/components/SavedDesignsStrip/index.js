@@ -12,6 +12,9 @@ import hs from '../HomeTemplatesCarousel/styles.module.css';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
 import st from './styles.module.css';
 import { LoadMore } from '@/components/UiSnippetsGallery';
+import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
+
+export const TRASH = <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6" /></svg>;
 
 const fmtDate = iso => new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 
@@ -21,6 +24,7 @@ const fmtDate = iso => new Date(iso).toLocaleDateString(undefined, { month: 'sho
  * @param nameOf     template id -> template name
  * @param imgFor     design -> image URL for its card
  * @param scroll     pan tall images on hover (emails)
+ * @param deletable  a delete button on each card, shown on hover (asks first)
  */
 /* Card preview box that reports its width, so the live preview can scale to it */
 function LiveBox({ children, className }) {
@@ -43,8 +47,9 @@ function LiveBox({ children, className }) {
 // maxFour: at most 4 cards per row, matching galleries that use the grid4 layout
 // gridClass: any other column class from the gallery stylesheet (e.g. grid5 for social posts)
 // previewClass: the card's preview box (default: the gallery's portrait box; sections pass 16:10)
-export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, renderPreview = null, scroll = false, query = '', maxFour = false, gridClass = '', previewClass = '' }) {
+export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, renderPreview = null, scroll = false, query = '', maxFour = false, gridClass = '', previewClass = '', deletable = false }) {
   const [designs, setDesigns] = useState(null);
+  const [confirm, setConfirm] = useState(null);
   const [rows, setRows] = useState(1);
   const [cols, setCols] = useState(0); // cards that fit one row of the gallery grid
   const rowRef = useRef(null);
@@ -79,26 +84,38 @@ export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, ren
       </div>
       {/* Same column grid as "All Templates", so the cards line up */}
       <div ref={rowRef} className={`${gs.grid} ${maxFour ? gs.grid4 : ''} ${gridClass}`}>
-        {visible.map(d => (
-          <a key={d.id} href={`${basePath}${d.tpl}/?design=${encodeURIComponent(d.id)}`} className={gs.card} title={`Open “${d.name}”`} {...(scroll && !renderPreview ? panHandlers : {})}>
-            {renderPreview
-              // The design itself, rendered live from its template code
-              ? <LiveBox className={previewClass || gs.cardPreview}>{w => renderPreview(d, w)}</LiveBox>
-              : (
-                <div className={previewClass || gs.cardPreview}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img className={`${gs.cardImg} ${scroll ? hs.scrollImg : ''}`} src={imgFor(d)} alt={`${d.name} preview`} loading="lazy" />
-                </div>
-              )}
-            <div className={gs.cardBody}>
-              <span className={gs.cardCat}>{nameOf(d.tpl)}</span>
-              <h3 className={gs.cardTitle}>{d.name}</h3>
-              <span className={gs.cardMeta}>Saved {fmtDate(d.updated)}</span>
+        {visible.map(d => {
+          const card = (
+            <a key={d.id} href={`${basePath}${d.tpl}/?design=${encodeURIComponent(d.id)}`} className={gs.card} title={`Open “${d.name}”`} {...(scroll && !renderPreview ? panHandlers : {})}>
+              {renderPreview
+                // The design itself, rendered live from its template code
+                ? <LiveBox className={previewClass || gs.cardPreview}>{w => renderPreview(d, w)}</LiveBox>
+                : (
+                  <div className={previewClass || gs.cardPreview}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img className={`${gs.cardImg} ${scroll ? hs.scrollImg : ''}`} src={imgFor(d)} alt={`${d.name} preview`} loading="lazy" />
+                  </div>
+                )}
+              <div className={gs.cardBody}>
+                <span className={gs.cardCat}>{nameOf(d.tpl)}</span>
+                <h3 className={gs.cardTitle}>{d.name}</h3>
+                <span className={gs.cardMeta}>Saved {fmtDate(d.updated)}</span>
+              </div>
+            </a>
+          );
+          if (!deletable) return card;
+          // The button is a sibling of the link (a button can't sit inside one)
+          return (
+            <div key={d.id} className={st.cardWrap}>
+              {card}
+              <button type="button" className={st.cardDel} title="Delete" aria-label={`Delete ${d.name}`}
+                onClick={() => setConfirm({ title: 'Delete this design?', message: `“${d.name}” will be removed from My designs. This can’t be undone.`, okLabel: 'Delete', danger: true, onOk: () => store.deleteDesign(d.id).catch(() => {}) })}>{TRASH}</button>
             </div>
-          </a>
-        ))}
+          );
+        })}
       </div>
       <LoadMore shown={visible.length} total={shown.length} onLoadMore={() => setRows(r => r + 1)} />
+      {confirm && <ConfirmDialog {...confirm} onCancel={() => setConfirm(null)} onOk={() => { const go = confirm.onOk; setConfirm(null); go(); }} />}
     </section>
   );
 }
