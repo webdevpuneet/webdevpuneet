@@ -21,7 +21,7 @@ https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
   </header>
   <div class="line startLine"><span>start: top 80%</span></div>
   <div class="readout" id="readout">progress: 0.00 · inactive</div>
-  <div class="spacer">Scroll ↓</div>
+  <div class="spacer fold">Scroll ↓</div>
   <div class="target">TARGET</div>
   <div class="spacer end"></div>
 </script>
@@ -37,7 +37,8 @@ https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
   .line span { position: absolute; right: 10px; top: -20px; font: 700 10.5px ui-monospace, monospace; color: var(--accent); background: #fff; padding: 2px 6px; border-radius: 5px; border: 1px solid var(--accent); }
   .readout { position: fixed; left: 10px; top: 8px; z-index: 6; font: 700 11px ui-monospace, monospace; background: #14161c; color: #d1fae5; padding: 5px 9px; border-radius: 6px; }
   .spacer { height: 220px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
-  .spacer.end { height: 280px; }
+  .spacer.fold { height: 110vh; align-items: flex-start; padding-top: 24px; box-sizing: border-box; }  /* the demo element starts below the fold at any preview height */
+  .spacer.end { height: 80vh; }
   .target {
     max-width: 280px;
     margin: 0 auto;

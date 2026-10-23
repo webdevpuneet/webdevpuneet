@@ -19,7 +19,7 @@ https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
     <h1>Staggered card reveal</h1>
     <p class="hint">Scroll down. One <code>scrollTrigger</code> on the whole grid, one <code>stagger</code> value &mdash; six cards, six offset start times.</p>
   </header>
-  <div class="spacer">Scroll ↓</div>
+  <div class="spacer fold">Scroll ↓</div>
   <div class="cardGrid">
     <div class="card">1</div>
     <div class="card">2</div>
@@ -39,7 +39,8 @@ https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js
   .hint { margin: 0 auto; max-width: 46em; font-size: 12.5px; color: var(--sub); }
   .hint code { background: #eceef3; padding: 1px 5px; border-radius: 4px; }
   .spacer { height: 220px; display: flex; align-items: center; justify-content: center; color: var(--sub); font: 700 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
-  .spacer.end { height: 260px; }
+  .spacer.fold { height: 105vh; align-items: flex-start; padding-top: 24px; box-sizing: border-box; }  /* the grid starts below the fold at any preview height */
+  .spacer.end { height: 110vh; }
   .cardGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 360px; margin: 0 auto; }
   .card {
     height: 80px;
