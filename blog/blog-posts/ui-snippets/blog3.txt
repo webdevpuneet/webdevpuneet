@@ -49,7 +49,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://fwdtools.com/ui-snippets/typewriter/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Typewriter Effect — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/typewriter/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Typewriter Effect — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -61,7 +61,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/typewriter/">Typewriter Effect</a></p>
+<p>Grab the code: <a href="https://webdevpuneet.com/ui-snippets/typewriter/">Typewriter Effect</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:spacer {"height":"48px"} -->
@@ -77,7 +77,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://fwdtools.com/ui-snippets/gradient-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Animated Gradient Text — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/gradient-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Animated Gradient Text — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -89,7 +89,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/gradient-text/">Animated Gradient Text</a></p>
+<p>Grab the code: <a href="https://webdevpuneet.com/ui-snippets/gradient-text/">Animated Gradient Text</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:spacer {"height":"48px"} -->
@@ -105,7 +105,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://fwdtools.com/ui-snippets/glitch-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Glitch Text — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/glitch-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Glitch Text — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -117,7 +117,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/glitch-text/">Glitch Text</a></p>
+<p>Grab the code: <a href="https://webdevpuneet.com/ui-snippets/glitch-text/">Glitch Text</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:spacer {"height":"48px"} -->
@@ -133,7 +133,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://fwdtools.com/ui-snippets/text-scramble/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Text Scramble — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/text-scramble/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Text Scramble — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -141,11 +141,11 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Best for:</strong> security and crypto products, API/developer tools, and section headings that reveal on scroll or hover. It pairs naturally with the <a href="https://fwdtools.com/ui-snippets/evervault-card/">Evervault-style reveal card</a> for a full "encrypted brand" look. <strong>Tip:</strong> run the scramble once on entry, not on a loop — repeated scrambling of the same headline reads as broken rather than clever.</p>
+<p><strong>Best for:</strong> security and crypto products, API/developer tools, and section headings that reveal on scroll or hover. It pairs naturally with the <a href="https://webdevpuneet.com/ui-snippets/evervault-card/">Evervault-style reveal card</a> for a full "encrypted brand" look. <strong>Tip:</strong> run the scramble once on entry, not on a loop — repeated scrambling of the same headline reads as broken rather than clever.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/text-scramble/">Text Scramble</a></p>
+<p>Grab the code: <a href="https://webdevpuneet.com/ui-snippets/text-scramble/">Text Scramble</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:spacer {"height":"48px"} -->
@@ -161,7 +161,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://fwdtools.com/ui-snippets/number-ticker/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Number Ticker — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/number-ticker/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Number Ticker — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -173,7 +173,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/number-ticker/">Number Ticker</a></p>
+<p>Grab the code: <a href="https://webdevpuneet.com/ui-snippets/number-ticker/">Number Ticker</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:spacer {"height":"48px"} -->
@@ -189,7 +189,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://fwdtools.com/ui-snippets/wave-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Wave Text — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/wave-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Wave Text — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -201,7 +201,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/wave-text/">Wave Text</a></p>
+<p>Grab the code: <a href="https://webdevpuneet.com/ui-snippets/wave-text/">Wave Text</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:spacer {"height":"48px"} -->
@@ -217,7 +217,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://fwdtools.com/ui-snippets/sparkles-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sparkles Text — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/sparkles-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sparkles Text — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -229,7 +229,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/sparkles-text/">Sparkles Text</a></p>
+<p>Grab the code: <a href="https://webdevpuneet.com/ui-snippets/sparkles-text/">Sparkles Text</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:spacer {"height":"48px"} -->
@@ -245,7 +245,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://fwdtools.com/ui-snippets/split-flap-display/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Split-Flap Display — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/split-flap-display/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Split-Flap Display — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -257,7 +257,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/split-flap-display/">Split-Flap Display</a></p>
+<p>Grab the code: <a href="https://webdevpuneet.com/ui-snippets/split-flap-display/">Split-Flap Display</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:spacer {"height":"48px"} -->
@@ -320,5 +320,5 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/animations/">FWD Tools UI Snippets — Animations</a>. And if you're styling the rest of the page too, the companion roundups cover <a href="https://fwdtools.com/ui-snippets/buttons/">copy-paste button snippets</a> and <a href="https://fwdtools.com/ui-snippets/cards/">hover card snippets</a>.</p>
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/animations/">FWD Tools UI Snippets — Animations</a>. And if you're styling the rest of the page too, the companion roundups cover <a href="https://webdevpuneet.com/ui-snippets/buttons/">copy-paste button snippets</a> and <a href="https://webdevpuneet.com/ui-snippets/cards/">hover card snippets</a>.</p>
 <!-- /wp:paragraph -->

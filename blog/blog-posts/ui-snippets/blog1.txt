@@ -56,7 +56,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://fwdtools.com/ui-snippets/gradient-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Gradient Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/gradient-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Gradient Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -68,7 +68,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/gradient-button/">Gradient Button</a></p>
+<p>Grab the code: <a href="https://webdevpuneet.com/ui-snippets/gradient-button/">Gradient Button</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:spacer {"height":"48px"} -->
@@ -84,7 +84,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://fwdtools.com/ui-snippets/ripple-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Ripple Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/ripple-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Ripple Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -92,11 +92,11 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p><strong>Best for:</strong> app UIs, dashboards, and anything with a Material or Android feel where users expect touch feedback. <strong>Tip:</strong> the ripple is the single most recognisable "this is interactive" cue you can add — it works beautifully on <a href="https://fwdtools.com/ui-snippets/cards/">cards</a> and list items too, not just buttons.</p>
+<p><strong>Best for:</strong> app UIs, dashboards, and anything with a Material or Android feel where users expect touch feedback. <strong>Tip:</strong> the ripple is the single most recognisable "this is interactive" cue you can add — it works beautifully on <a href="https://webdevpuneet.com/ui-snippets/cards/">cards</a> and list items too, not just buttons.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/ripple-button/">Ripple Button</a></p>
+<p>Grab the code: <a href="https://webdevpuneet.com/ui-snippets/ripple-button/">Ripple Button</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:spacer {"height":"48px"} -->
@@ -112,7 +112,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://fwdtools.com/ui-snippets/shimmer-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Shimmer Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/shimmer-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Shimmer Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -124,7 +124,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/shimmer-button/">Shimmer Button</a></p>
+<p>Grab the code: <a href="https://webdevpuneet.com/ui-snippets/shimmer-button/">Shimmer Button</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:spacer {"height":"48px"} -->
@@ -140,7 +140,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://fwdtools.com/ui-snippets/neon-glow/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Neon Glow Buttons — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/neon-glow/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Neon Glow Buttons — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -152,7 +152,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/neon-glow/">Neon Glow Buttons</a></p>
+<p>Grab the code: <a href="https://webdevpuneet.com/ui-snippets/neon-glow/">Neon Glow Buttons</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:spacer {"height":"48px"} -->
@@ -168,7 +168,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://fwdtools.com/ui-snippets/magnetic-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Magnetic Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/magnetic-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Magnetic Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -180,7 +180,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/magnetic-button/">Magnetic Button</a></p>
+<p>Grab the code: <a href="https://webdevpuneet.com/ui-snippets/magnetic-button/">Magnetic Button</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:spacer {"height":"48px"} -->
@@ -196,7 +196,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://fwdtools.com/ui-snippets/liquid-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Liquid Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/liquid-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Liquid Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -208,7 +208,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/liquid-button/">Liquid Button</a></p>
+<p>Grab the code: <a href="https://webdevpuneet.com/ui-snippets/liquid-button/">Liquid Button</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:spacer {"height":"48px"} -->
@@ -224,7 +224,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://fwdtools.com/ui-snippets/3d-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="3D Push Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/3d-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="3D Push Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -236,7 +236,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/3d-button/">3D Push Button</a></p>
+<p>Grab the code: <a href="https://webdevpuneet.com/ui-snippets/3d-button/">3D Push Button</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:spacer {"height":"48px"} -->
@@ -252,7 +252,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://fwdtools.com/ui-snippets/pulse-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pulse Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/pulse-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Pulse Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -264,7 +264,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Grab the code: <a href="https://fwdtools.com/ui-snippets/pulse-button/">Pulse Button</a></p>
+<p>Grab the code: <a href="https://webdevpuneet.com/ui-snippets/pulse-button/">Pulse Button</a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:spacer {"height":"48px"} -->
@@ -327,5 +327,5 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://fwdtools.com/ui-snippets/buttons/">FWD Tools UI Snippets — Buttons</a> — it's free and runs entirely in your browser.</p>
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/buttons/">FWD Tools UI Snippets — Buttons</a> — it's free and runs entirely in your browser.</p>
 <!-- /wp:paragraph -->
