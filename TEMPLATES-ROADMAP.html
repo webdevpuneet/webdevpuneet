@@ -53,7 +53,7 @@
 <header>
   <h1>Section &amp; Website Templates — Roadmap</h1>
   <p>The living plan for webdevpuneet.com's next template library. <strong>Update this file every time we work on it</strong>: tick steps, add decisions and log what changed.</p>
-  <p class="muted">Created 2026-10-20 · Last updated 2026-10-22 · Owner: Puneet · File: <code>webdevpuneet/TEMPLATES-ROADMAP.html</code></p>
+  <p class="muted">Created 2026-10-20 · Last updated 2026-10-23 · Owner: Puneet · File: <code>webdevpuneet/TEMPLATES-ROADMAP.html</code></p>
 </header>
 
 <nav class="toc" aria-label="Contents">
@@ -533,6 +533,7 @@
       <tr><td>2026-10-22</td><td>Headless browser now allowed (user). Captured the 7 new previews; real-browser scroll test of the 4 scroll sections; 3 bugs found and fixed (stack dimming, milestones, gallery snap padding).</td></tr>
       <tr><td>2026-10-22</td><td>Website templates 15 → 19 (wedding, hotel, salon, law firm) and Restaurant / Real Estate / Gym upgraded with the new sections. Checked: override keys, links and anchors (one-page + multi-page), SEO lengths, icons, a scan for leaked default copy (fixed: real estate contact email, gym member reviews, three FAQ subtitles); screenshots recaptured in headless Chromium after making <code>capture-website-templates.mjs</code> load lazy images before the full-page shot. Not committed or deployed.</td></tr>
       <tr><td>2026-10-22</td><td>SVG artwork library: 15 theme-coloured artworks with GSAP float / draw / parallax / spin, Artwork panel in the section editor and builder, art overrides in website templates (4 templates use it). Corner arcs redrawn as fixed corner pieces after the browser check. Not committed or deployed.</td></tr>
+      <tr><td>2026-10-23</td><td>Editor polish from user review (headless-checked on localhost:3000): scroll effects (hscroll, story, stack, drawpath) now run in the Website Builder preview (<code>window.ST_SCROLL_FX</code>) and in the section editor, where scroll sections preview in a fixed-height scrollable frame; horizontal gallery pins below a sticky navbar; ▶ Play is a switch (■ Stop), starts from the top, stays on while editing, and in the preview entrance and “play once” scroll animations replay each time a section re-enters view (exports still play once); Pages tab count as a small badge, Saved count removed, tabs spaced evenly; hover delete (with confirm) on Website Builder “Your pages” and on My designs in Sections, Email and Social Posts (<code>SavedDesignsStrip deletable</code>, <code>clearAutosave</code>). Audit: all 19 starters load with no errors or broken images. Not yet tested: exports / Fork, multi-page, phone width, a11y. Not committed or deployed.</td></tr>
 </tbody>
   </table>
 </section>
