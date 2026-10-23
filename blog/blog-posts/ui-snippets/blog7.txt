@@ -1,4 +1,16 @@
-<h1>10 Copy-Paste Modal, Popover &amp; Toast Snippets That Don't Feel Bolted On</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Copy-Paste Modal, Popover & Toast Snippets That Don't Feel Bolted On
+
+  SEO TITLE (55 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Modal, Popover and Toast Snippets (Copy-Paste, Free)
+
+  SEO DESCRIPTION (157 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free modal, popover, drawer, toast and command palette snippets with focus trapping and smooth animation. Preview each live and copy the HTML, CSS and JS.
+================================================================
+-->
+
 
 <p>Every product eventually needs to interrupt the user — a confirmation before a delete, a settings drawer, a "saved" toast, a command palette for power users. These overlays are deceptively hard to get right: get the animation wrong and it feels janky, forget to trap focus and keyboard users get lost outside the dialog, skip the escape hatch and you've built a trap instead of a modal. Below are 10 free overlay snippets — a confirm dialog, a swipeable action sheet, a Cmd-K command palette, an undo-able snackbar — you can preview live and copy in seconds. Pure HTML, CSS and a few lines of JS, no framework required.</p>
 

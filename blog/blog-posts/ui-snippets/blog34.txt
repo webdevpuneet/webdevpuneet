@@ -1,4 +1,16 @@
-<h1>10 New Developer-Tool Snippets: JWTs, Regex, Subnets, and Data Viz Built From Real Math</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 New Developer-Tool Snippets: JWTs, Regex, Subnets, and Data Viz Built From Real Math
+
+  SEO TITLE (58 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Developer Tool Snippets: JWT, Regex, Subnets and Charts
+
+  SEO DESCRIPTION (157 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free developer tool snippets that run in your browser: a JWT decoder, regex tester, subnet calculator and data viz built from real math. Preview and copy.
+================================================================
+-->
+
 
 <p>Most "developer tool" pages on the web are wrappers around a paste box that quietly ships your input to a server. A JWT decoder that emails you your own token, a regex tester that runs on someone else's backend, a base64 decoder you have to trust not to log what you typed — none of that should be necessary for problems this small. Every snippet below runs entirely in the browser: real <code>base64url</code> decoding, a real <code>RegExp</code> engine, real 32-bit bitwise subnet math, a real Gaussian kernel density estimate for the violin chart — nothing faked, nothing transmitted anywhere.</p>
 

@@ -1,4 +1,16 @@
-<h1>10 New Copy-Paste Landing Page Snippets: A Working Command Palette, Three Pricing Calculators That Do Real Arithmetic & Modals That Hold Real State</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 New Copy-Paste Landing Page Snippets: A Working Command Palette, Three Pricing Calculators That Do Real Arithmetic & Modals That Hold Real State
+
+  SEO TITLE (57 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Landing Page Snippets: Command Palette and Calculators
+
+  SEO DESCRIPTION (152 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free landing page snippets with real behaviour: a working command palette, three pricing calculators with real arithmetic and modals that hold state.
+================================================================
+-->
+
 
 <p>Landing page sections are usually where interactivity goes to die — a "pricing calculator" that multiplies one number by one rate, a hero animation that plays once and never responds to anything, a modal that opens and closes and does nothing in between. The ten snippets below take the opposite position: the command palette in the hero is genuinely keyboard-navigable with grouped results and match highlighting, all three pricing widgets recompute a real bill from per-resource allowances and overage rates on every input event, and the three modals each run a small state machine — a two-month date range with hover preview, a format-and-field export picker, and a moderation report form whose validation changes depending on which reason you pick.</p>
 

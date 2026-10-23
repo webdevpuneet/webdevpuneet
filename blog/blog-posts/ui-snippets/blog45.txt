@@ -1,4 +1,16 @@
-<h1>10 Free Bootstrap 5 Snippets for Dev Tools &amp; Data Tables: A Real LCS Diff Algorithm, Drag-and-Drop Reordering &amp; a Rate Limiter That Isn't a Flat Cooldown</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Free Bootstrap 5 Snippets for Dev Tools & Data Tables: A Real LCS Diff Algorithm, Drag-and-Drop Reordering & a Rate Limiter That Isn't a Flat Cooldown
+
+  SEO TITLE (59 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Bootstrap 5 Snippets: Diff Viewer, Drag Reorder, Limiter
+
+  SEO DESCRIPTION (156 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free Bootstrap 5 snippets for dev tools and tables: a real LCS line diff, drag-and-drop reordering, inline cell editing and a smart rate limiter. Try it.
+================================================================
+-->
+
 
 <p>The last batch closes out this collection with the tools that sit behind the scenes of most real admin panels: a CI/CD pipeline status view, a proper line-level diff instead of a naive position comparison, and a table cell you can click and edit without losing your place. It ends with two interaction patterns worth knowing well beyond their specific demo — genuine HTML5 drag-and-drop, and a sliding-window rate limiter that behaves like a real API's, not a flat "wait 30 seconds" cooldown. Every one still loads the genuine <code>bootstrap.min.css</code> and <code>bootstrap.bundle.min.js</code> from a CDN and builds on Bootstrap's real component classes.</p>
 

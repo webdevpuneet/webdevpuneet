@@ -1,4 +1,16 @@
-<h1>10 Copy-Paste Layout Snippets That Replace a CSS Grid Framework</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Copy-Paste Layout Snippets That Replace a CSS Grid Framework
+
+  SEO TITLE (52 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Layout Snippets That Replace a CSS Grid Framework
+
+  SEO DESCRIPTION (157 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free layout snippets using CSS Grid, flexbox, sticky and scroll snap: masonry, resizable panels, auto-fill grids and more. Preview live and copy the code.
+================================================================
+-->
+
 
 <p>Layout is the part of front-end work that feels like it should be solved by now. It mostly is — CSS Grid, flexbox, <code>position: sticky</code> and scroll snap cover almost everything a page needs — and yet the reflex when a design lands is still to install something. A grid framework for a card list that <code>auto-fill</code> already handles. A masonry library for a gallery that four lines of CSS can do. A resizable-panel package for a divider you can drag with about forty lines of JavaScript. The framework isn't wrong, exactly. It's just usually answering a question the browser stopped asking a few years ago.</p>
 

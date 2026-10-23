@@ -1,4 +1,16 @@
-<h1>10 Copy-Paste Login &amp; Auth Snippets That Get Users In Without Friction</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Copy-Paste Login & Auth Snippets That Get Users In Without Friction
+
+  SEO TITLE (52 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Login and Auth Snippets for Friction-Free Sign-In
+
+  SEO DESCRIPTION (160 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free login and auth snippets: password-manager friendly forms, OTP input, validation that waits for you and more. Preview live and copy the HTML, CSS and JS.
+================================================================
+-->
+
 
 <p>The sign-in screen is the highest-stakes UI you will ever ship. It's the one component every returning user touches, it stands between someone and the product they already decided to use, and it fails in ways that are invisible from the inside — a missing <code>autocomplete</code> attribute that stops a password manager from filling, an OTP field that won't accept a pasted code, a validation message that fires on the first keystroke and shouts at someone who is still typing. None of that shows up in a screenshot. All of it shows up in your completion rate.</p>
 

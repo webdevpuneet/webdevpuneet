@@ -1,4 +1,16 @@
-<h1>10 More Free Bootstrap 5 Snippets: A Kanban Board You Can Actually Drag, a Table That Sorts Dates Correctly & Toasts That Clean Up After Themselves</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 More Free Bootstrap 5 Snippets: A Kanban Board You Can Actually Drag, a Table That Sorts Dates Correctly & Toasts That Clean Up After Themselves
+
+  SEO TITLE (60 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 More Bootstrap 5 Snippets: Kanban, Sortable Table, Toasts
+
+  SEO DESCRIPTION (157 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 more free Bootstrap 5 snippets: a drag-and-drop kanban board, a table that sorts dates correctly and toasts that clean up after themselves. Copy the code.
+================================================================
+-->
+
 
 <p>The first batch of Bootstrap snippets covered the pages every site needs — navbar, hero, pricing, login, cart. This second batch goes one layer deeper, into the details that separate a snippet that looks right from one that actually behaves right: a kanban board using the browser's real HTML5 Drag and Drop API instead of a library, a data table that sorts a currency column by its raw number instead of its formatted string, and a toast notification system that remembers to clean up its own DOM nodes after itself. Every one still loads the genuine <code>bootstrap.min.css</code> and <code>bootstrap.bundle.min.js</code> from a CDN and builds on Bootstrap's real component classes and JavaScript API.</p>
 

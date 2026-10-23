@@ -1,4 +1,16 @@
-<h1>10 Scroll Animations Built on the New CSS animation-timeline API (8 With Zero JavaScript)</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Scroll Animations Built on the New CSS animation-timeline API (8 With Zero JavaScript)
+
+  SEO TITLE (58 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 CSS animation-timeline Scroll Animations (8 Need No JS)
+
+  SEO DESCRIPTION (157 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 scroll animations built on the CSS animation-timeline API, 8 with zero JavaScript. Preview each live and copy the HTML, CSS and JS to use in your project.
+================================================================
+-->
+
 
 <p>For as long as scroll-driven animation has existed on the web, it has meant JavaScript: a <code>scroll</code> event listener, a <code>getBoundingClientRect()</code> call, and — if you wanted it smooth — a <code>requestAnimationFrame</code> loop tying the two together. GSAP's ScrollTrigger made that pattern pleasant to write, but it was still fundamentally the browser's main thread doing math on every scroll tick. The CSS Scroll-Driven Animations API changes the deal entirely: <code>animation-timeline: scroll()</code> and <code>animation-timeline: view()</code> let a <code>@keyframes</code> animation's 0%–100% playback position bind directly to scroll position instead of to a duration in seconds — computed by the browser's compositor, off the main thread, with no listener anywhere in the JavaScript.</p>
 

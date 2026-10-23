@@ -1,6 +1,16 @@
-<!-- wp:heading {"level":1} -->
-<h1 class="wp-block-heading">8 Copy-Paste CSS Button Snippets You Can Drop Into Any Site</h1>
-<!-- /wp:heading -->
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  8 Copy-Paste CSS Button Snippets You Can Drop Into Any Site
+
+  SEO TITLE (58 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  8 Free CSS Button Snippets to Copy and Paste Into Any Site
+
+  SEO DESCRIPTION (154 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  8 free CSS button snippets with live previews: hover effects, animations and accessibility built in. Copy the HTML, CSS and JS in one click. No framework.
+================================================================
+-->
+
 
 <!-- wp:paragraph -->
 <p>Every project needs buttons, and hand-coding a good one — hover state, animation, accessibility and all — eats more time than it should. Below are 8 free button snippets you can preview live and copy in seconds. Each one is pure HTML, CSS and (where needed) a few lines of JS, with no framework required.</p>

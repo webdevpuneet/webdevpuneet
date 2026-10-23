@@ -1,4 +1,16 @@
-<h1>10 Free ECharts Data Visualization Snippets: A Synced Candlestick + Volume Panel, a Sankey Diagram That Actually Traces Drop-Off &amp; a Sliding-Window Realtime Chart</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Free ECharts Data Visualization Snippets: A Synced Candlestick + Volume Panel, a Sankey Diagram That Actually Traces Drop-Off & a Sliding-Window Realtime Chart
+
+  SEO TITLE (58 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Free ECharts Snippets: Candlestick, Sankey and Realtime
+
+  SEO DESCRIPTION (159 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free Apache ECharts data visualization snippets: a synced candlestick and volume panel, a Sankey diagram and a sliding-window realtime chart. Copy the code.
+================================================================
+-->
+
 
 <p>This batch opens a new corner of the collection: real data visualization built on Apache ECharts instead of hand-rolled SVG. All ten load the genuine <code>echarts.min.js</code> from a CDN and lean on the parts of the library that are easy to get wrong the first time — dataZoom ranges that have to stay in sync across two axes, a treemap that has to know when to stop revealing levels, and a "live" chart that has to update forever without its memory growing forever. None of these are toy configurations; every one is the kind of chart an actual analytics or ops dashboard would ship.</p>
 

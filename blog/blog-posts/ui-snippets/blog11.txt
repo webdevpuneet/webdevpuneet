@@ -1,4 +1,16 @@
-<h1>10 Scroll Animation Snippets That Make Websites Feel Alive (Free, Copy-Paste)</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Scroll Animation Snippets That Make Websites Feel Alive (Free, Copy-Paste)
+
+  SEO TITLE (60 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Scroll Animation Snippets for Websites (Free, Copy-Paste)
+
+  SEO DESCRIPTION (159 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free scroll animation snippets: image sequences, a scrubbed typewriter, self-drawing SVG, stacking cards and scrollytelling. Preview live and copy the code.
+================================================================
+-->
+
 
 <p>Scroll is the one interaction every visitor performs. When the page reacts to it — text typing itself out, a line drawing across the screen, a 3D object assembling as you move down — the page stops feeling like a static document and starts feeling like something you're driving. Below are 10 free scroll-animation snippets you can preview live and copy in seconds: an Apple-style image sequence, a scrubbed typewriter, a self-drawing SVG path, stacking cards, a scrollytelling chart, two scroll-driven Lottie animations, a horizontal 3D gallery, a neon tunnel flythrough, and a shatter-and-assemble reveal.</p>
 

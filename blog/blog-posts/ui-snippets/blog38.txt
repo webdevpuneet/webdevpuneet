@@ -1,4 +1,16 @@
-<h1>10 Free Bootstrap 5 Snippets: A Real Cart That Recalculates, a Signup Modal That Actually Validates & a Sidebar That Collapses Two Different Ways</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Free Bootstrap 5 Snippets: A Real Cart That Recalculates, a Signup Modal That Actually Validates & a Sidebar That Collapses Two Different Ways
+
+  SEO TITLE (57 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Free Bootstrap 5 Snippets: Cart, Signup Modal, Sidebar
+
+  SEO DESCRIPTION (152 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free Bootstrap 5 snippets that use the real framework: a cart that recalculates, a signup modal that validates and a sidebar that collapses two ways.
+================================================================
+-->
+
 
 <p>Most "Bootstrap snippet" collections are CSS made to resemble Bootstrap — close enough to screenshot, not close enough to actually drop into a real Bootstrap project. The ten below are different: every one loads the genuine <code>bootstrap.min.css</code> and <code>bootstrap.bundle.min.js</code> from a CDN and uses Bootstrap's real component classes and JavaScript — <code>.navbar-collapse</code>, <code>.modal</code>, <code>.offcanvas</code>, <code>.accordion</code>, <code>.form-switch</code> — the same markup you'd write by hand from Bootstrap's own docs. On top of that real foundation, each one adds a small, genuinely working interaction: a live search that dims non-matching nav links, a cart whose subtotal recalculates from real quantity changes, a pricing toggle whose two rates come from data attributes instead of a runtime percentage calculation.</p>
 

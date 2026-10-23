@@ -1,4 +1,16 @@
-<h1>10 More Free Bootstrap 5 Snippets: A Star Rating You Can Arrow-Key Through, an OTP Form With a Real Countdown &amp; a Price Slider Whose Thumbs Never Get Stuck</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 More Free Bootstrap 5 Snippets: A Star Rating You Can Arrow-Key Through, an OTP Form With a Real Countdown & a Price Slider Whose Thumbs Never Get Stuck
+
+  SEO TITLE (60 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Bootstrap 5 Snippets: Star Rating, OTP Form, Price Slider
+
+  SEO DESCRIPTION (157 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free Bootstrap 5 snippets for collecting data: a keyboard-friendly star rating, an OTP login with a real countdown and a dual price slider. Copy the code.
+================================================================
+-->
+
 
 <p>Two batches in, the Bootstrap collection had already covered the pages every site needs and the dashboard-grade details that separate a working component from a decorative one. This third batch turns to the inputs a site collects data through — a star rating, a two-step OTP login, social sign-in buttons, password recovery and reset, file and image uploads, a searchable multi-select, a tag field, and a dual-thumb price slider. Every one still loads the genuine <code>bootstrap.min.css</code> and <code>bootstrap.bundle.min.js</code> from a CDN and builds on Bootstrap's real component classes, not custom CSS made to resemble them.</p>
 

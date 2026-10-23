@@ -1,4 +1,16 @@
-<h1>10 Copy-Paste Pricing Snippets That Make Plans Easy to Choose</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Copy-Paste Pricing Snippets That Make Plans Easy to Choose
+
+  SEO TITLE (58 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Pricing Section Snippets That Make Plans Easy to Choose
+
+  SEO DESCRIPTION (157 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free pricing snippets: two-tier cards, monthly/annual toggle, flip cards, plan selector, seat slider and comparison table. Preview live and copy the code.
+================================================================
+-->
+
 
 <p>A pricing page has one job — get the visitor to pick a plan and click — and yet it's one of the most commonly under-designed sections on the entire site. Below are 10 free pricing snippets you can preview live and copy in seconds: a classic two-tier card, a monthly/annual toggle, a 3D flip card that hides the fine print until you ask for it, a radio-card plan selector, a seat-based pricing slider, a full feature-comparison table, an enterprise "contact sales" tier, a pricing FAQ built to remove last-minute doubt, a money-back guarantee trust section, and an ROI calculator that turns your price into a savings number a buyer can defend to their boss.</p>
 

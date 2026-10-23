@@ -1,4 +1,16 @@
-<h1>10 Copy-Paste Table Snippets That Replace a Data Grid Library</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Copy-Paste Table Snippets That Replace a Data Grid Library
+
+  SEO TITLE (50 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Table Snippets That Replace a Data Grid Library
+
+  SEO DESCRIPTION (159 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free table snippets with sorting, filtering, pagination, selection and export. Skip the heavy data grid library. Preview live and copy the HTML, CSS and JS.
+================================================================
+-->
+
 
 <p>The moment a project needs to show a list of records, someone suggests installing a data grid. It's an understandable reflex — sorting, filtering, pagination, selection and export sound like a lot of work — but the honest version of most requirements is "a table with three or four of those features," and a grid library answers it with a large dependency, its own data conventions, and a theming system you'll spend a day fighting. Below are 10 free table snippets you can preview live and copy in seconds: a complete admin table, click-to-sort headers, per-column filters, client-side pagination, frozen header and first column, row selection with a bulk action bar, inline cell editing, expandable detail rows, a correct CSV export, and a real pivot table.</p>
 

@@ -1,4 +1,16 @@
-<h1>10 New Copy-Paste Dev Snippets: Real Formatters, a Semver Checker & Two Dashboards That Fake Traffic Convincingly</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 New Copy-Paste Dev Snippets: Real Formatters, a Semver Checker & Two Dashboards That Fake Traffic Convincingly
+
+  SEO TITLE (54 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Dev Snippets: JSON, SQL, .env Formatters and Semver
+
+  SEO DESCRIPTION (156 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free developer snippets with real parsing logic: JSON, SQL and .env formatters, a semver checker and two live dashboards. Preview live and copy the code.
+================================================================
+-->
+
 
 <p>Most "developer tool" demos either wrap a heavyweight npm package behind a UI or fake the hard part entirely — a JSON formatter that doesn't actually validate, a hash generator that isn't cryptographically real. The ten snippets below take the opposite approach: the JSON, SQL, and <code>.env</code> tools run real parsing logic (not a full grammar, but the same pragmatic clause-detection and line-by-line techniques a real formatter uses), the hash generator calls the browser's actual <code>SubtleCrypto</code> API, and the semver checker implements the same caret/tilde expansion rules npm itself uses. Two of the ten are dashboard-style widgets built around simulated data — a DNS propagation checker and a CDN cache-hit-ratio tile — included because the way they fake realistic, staggered telemetry is itself a pattern worth stealing for any "live status" UI.</p>
 

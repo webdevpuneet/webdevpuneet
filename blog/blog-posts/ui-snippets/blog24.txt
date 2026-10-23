@@ -1,4 +1,16 @@
-<h1>9 Copy-Paste Mobile Games That Teach Touch Controls, Canvas Physics & Game Loops</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  9 Copy-Paste Mobile Games That Teach Touch Controls, Canvas Physics & Game Loops
+
+  SEO TITLE (57 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  9 Mobile Game Snippets: Touch Controls and Canvas Physics
+
+  SEO DESCRIPTION (156 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  9 free mobile browser game snippets that teach touch controls, canvas physics and game loops, from dodge games to jump mechanics. Preview and copy the code.
+================================================================
+-->
+
 
 <p>The hard part of a browser game isn't the game — it's the thumb. A dodge game on a desktop is ten lines of keyboard handling; the same game on a phone has to answer questions the keyboard never asks. What happens when a finger slides off the button mid-press? Does holding "fire" on a 120Hz display shoot twice as fast as on a 60Hz one? Is "jump" the same kind of input as "move left", or something else entirely? Get those wrong and the game feels broken in a way no amount of art fixes — the controls fight the player instead of disappearing.</p>
 

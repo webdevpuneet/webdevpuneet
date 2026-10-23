@@ -1,4 +1,16 @@
-<h1>10 Footer Snippets for Every Job a Footer Actually Has</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Footer Snippets for Every Job a Footer Actually Has
+
+  SEO TITLE (54 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Footer Snippets for Every Job a Footer Actually Has
+
+  SEO DESCRIPTION (160 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free footer snippets: status footers, app install prompts, big closing calls to action, minimal footers and link directories. Preview live and copy the code.
+================================================================
+-->
+
 
 <p>Most footers get built the same tired way: copy the header nav, stack it under a "© 2026" line, ship it. That's fine for a footer whose only job is to end the page politely. It falls apart the moment the footer has to do something specific — reassure a technical buyer the service is up, push a mobile app install, close a long scroll with real energy, or just get out of the way entirely on a site that doesn't need a link directory. A footer is the last thing a visitor sees before they convert or leave, and treating it as an afterthought wastes that position.</p>
 

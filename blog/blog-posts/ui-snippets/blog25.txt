@@ -1,4 +1,16 @@
-<h1>10 Copy-Paste Card Snippets: 3D Flips, Holographic Glare, Motion-Path Borders &amp; Container Queries</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Copy-Paste Card Snippets: 3D Flips, Holographic Glare, Motion-Path Borders & Container Queries
+
+  SEO TITLE (54 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Card Snippets: 3D Flips, Holographic Glare and More
+
+  SEO DESCRIPTION (153 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free card snippets with 3D flips, holographic glare, motion-path borders and container queries. Preview live and copy the HTML, CSS and JS in seconds.
+================================================================
+-->
+
 
 <p>A card is the most boring component in any design system and the one you ship the most of. It's a box with a border radius. Which is exactly why the interesting question isn't what a card looks like sitting still — it's what happens when someone points at it. A card that tilts toward the cursor, dims its neighbours, catches the light, or grows into a full detail view is doing the same job as the flat box next to it, but it tells the user the thing is interactive before they've clicked anything.</p>
 

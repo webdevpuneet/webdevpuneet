@@ -1,4 +1,16 @@
-<h1>9 Copy-Paste Mini-Game Snippets That Actually Play (Wordle, Simon, a 15-Puzzle &amp; More)</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  9 Copy-Paste Mini-Game Snippets That Actually Play (Wordle, Simon, a 15-Puzzle & More)
+
+  SEO TITLE (55 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  9 Mini-Game Snippets You Can Play: Wordle, Simon & More
+
+  SEO DESCRIPTION (150 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  9 free playable mini-game snippets in HTML, CSS and JavaScript: Wordle, Simon, a 15-puzzle, tic-tac-toe and more. Preview live and copy the full code.
+================================================================
+-->
+
 
 <p>Most "game" snippets on the web are screenshots — a static mockup of a Wordle board or a piano that doesn't make a sound. These nine are different: every one is a fully playable, self-contained game with real logic underneath, not a decorative shell. The 15-puzzle only ever shuffles into solvable states. The Tic-Tac-Toe opponent actually tries to win and block instead of clicking randomly. The Wordle clone correctly handles repeated letters, which is the single most common bug in every "build a Wordle clone" tutorial. The piano makes real musical notes through the Web Audio API, not a beep.</p>
 

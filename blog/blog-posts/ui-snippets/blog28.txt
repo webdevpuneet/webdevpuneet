@@ -1,4 +1,16 @@
-<h1>10 Copy-Paste Chat & Messaging Snippets That Actually Feel Alive</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Copy-Paste Chat & Messaging Snippets That Actually Feel Alive
+
+  SEO TITLE (58 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Chat and Messaging UI Snippets That Actually Feel Alive
+
+  SEO DESCRIPTION (160 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free chat and messaging snippets: smooth scroll to the newest message, clear bubbles, typing indicators and more. Preview live and copy the HTML, CSS and JS.
+================================================================
+-->
+
 
 <p>A chat surface lives or dies on a handful of small, easy-to-skip details: whether the scroll position jumps to the newest message without a visible lurch, whether a bubble reads as "from them" or "from you" at a glance, whether a typing indicator ever gets stuck on screen after a dropped event. None of that is hard, exactly — but it's the kind of detail that's tedious to get right from scratch every time a product grows a messaging surface, which is most products eventually.</p>
 

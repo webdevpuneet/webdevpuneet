@@ -1,4 +1,16 @@
-<h1>8 Copy-Paste Hero Section Snippets That Make Landing Pages Convert</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  8 Copy-Paste Hero Section Snippets That Make Landing Pages Convert
+
+  SEO TITLE (55 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  8 Hero Section Snippets That Make Landing Pages Convert
+
+  SEO DESCRIPTION (150 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  8 free hero section snippets: video-style background, mesh gradient, minimal, portfolio, SaaS and app download heroes. Preview live and copy the code.
+================================================================
+-->
+
 
 <p>The hero is the only section of your page every single visitor sees. Get it wrong and nobody scrolls far enough to read your pricing table. Below are 8 free hero snippets you can preview live and copy in seconds: a cinematic video-style background, an animated mesh gradient, a typography-first minimal hero, a personal portfolio card, a word-flip headline, a dark SaaS hero, an app download hero, and an editorial agency hero — all built in plain HTML, CSS and JavaScript.</p>
 

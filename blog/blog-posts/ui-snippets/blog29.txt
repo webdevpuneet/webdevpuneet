@@ -1,4 +1,16 @@
-<h1>10 Copy-Paste Animation Snippets for the Scroll, Canvas & GSAP Trends Everyone's Chasing</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Copy-Paste Animation Snippets for the Scroll, Canvas & GSAP Trends Everyone's Chasing
+
+  SEO TITLE (53 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Animation Snippets: Scroll, Canvas and GSAP Trends
+
+  SEO DESCRIPTION (156 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free animation snippets for the scroll, Canvas and GSAP trends: native scroll effects, pinning, layout morphing and particle text. Preview live and copy.
+================================================================
+-->
+
 
 <p>Every animation trend on the web right now points in one of three directions: browsers doing more of the work natively so JavaScript can step back, GSAP's plugin ecosystem making genuinely hard motion problems (pinning, layout morphing, draggable inertia) into a few configured options, or raw Canvas/WebGL for the effects no CSS property will ever reach — particle text, cellular automata, hand-written GPU shaders. Most tutorials pick one of those three lanes and stay there. Real products end up needing all three, often on the same page.</p>
 

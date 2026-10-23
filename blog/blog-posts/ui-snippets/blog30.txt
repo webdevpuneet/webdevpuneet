@@ -1,4 +1,16 @@
-<h1>10 More Copy-Paste Snippets: Real Physics on Canvas, Real 3D Models, and Scroll That Tells a Story</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 More Copy-Paste Snippets: Real Physics on Canvas, Real 3D Models, and Scroll That Tells a Story
+
+  SEO TITLE (57 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Snippets: Canvas Physics, 3D Models and Scrollytelling
+
+  SEO DESCRIPTION (159 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free snippets with real canvas physics, 3D model viewers and scroll-driven stories, with the hard part genuinely built. Preview live and copy the full code.
+================================================================
+-->
+
 
 <p>The easiest way to make a demo look impressive and be worthless is to fake the hard part. A "metaball" effect that's just overlapping blurred circles. A "3D configurator" that recolors a sphere instead of a real product. A scroll story where the text changes but nothing underneath is actually being measured. All ten snippets below refuse that shortcut on purpose: the metaballs are a genuine scalar field summed per sample point, the water ripples solve an actual discretized wave equation, the 3D pieces load real Khronos-licensed <code>.glb</code> models and compute their explode directions from real geometry, and the scroll stories measure a real SVG path length or a real clip-path percentage rather than eyeballing a number that happens to look right.</p>
 

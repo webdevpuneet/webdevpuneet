@@ -1,4 +1,16 @@
-<h1>8 Copy-Paste Loading State Snippets That Make Waiting Feel Faster</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  8 Copy-Paste Loading State Snippets That Make Waiting Feel Faster
+
+  SEO TITLE (59 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  8 Loading State Snippets: Skeleton Screens, Spinners & More
+
+  SEO DESCRIPTION (158 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  8 free loading state snippets, from skeleton screens to spinners and progress bars, that make waiting feel faster. Preview live and copy the HTML, CSS and JS.
+================================================================
+-->
+
 
 <p>Every app makes users wait — for an API response, a page navigation, a file upload, an AI answer. What separates a polished product from a janky one isn't the wait itself, it's what's on screen during it. A blank white page and a well-built skeleton screen can cover the exact same 800&nbsp;ms, and one feels instant while the other feels broken. Below are 8 free loading state snippets — shimmer skeletons, a YouTube-style top bar, animated progress rings, a drag-and-drop upload with real per-file percentages — you can preview live and copy in seconds. Pure HTML, CSS and a few lines of JS, no framework required.</p>
 

@@ -1,4 +1,16 @@
-<h1>8 Copy-Paste Form Input Snippets That Make Native Controls Feel Custom-Built</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  8 Copy-Paste Form Input Snippets That Make Native Controls Feel Custom-Built
+
+  SEO TITLE (53 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  8 Custom Form Input Snippets Built on Native Controls
+
+  SEO DESCRIPTION (157 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  8 free form input snippets that restyle native browser controls with a few CSS tricks: toggles, checkboxes, selects and more. Preview live and copy the code.
+================================================================
+-->
+
 
 <p>Forms are where products win or lose users — sign-ups, checkouts, settings pages — and yet the default browser controls still look like they shipped with Windows XP. The fix isn't a component library; almost every polished input you've admired is a native control restyled with a few CSS tricks. Below are 8 free form snippets — an iOS-style toggle, floating labels, an animated checkbox, a six-box OTP input, a live password strength meter — you can preview live and copy in seconds. Pure HTML, CSS and a few lines of JS, no framework required.</p>
 

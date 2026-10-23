@@ -1,4 +1,16 @@
-<h1>9 Copy-Paste Three.js Scroll Scenes That Turn Scrolling Into Cinema</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  9 Copy-Paste Three.js Scroll Scenes That Turn Scrolling Into Cinema
+
+  SEO TITLE (57 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  9 Three.js Scroll Scenes: WebGL Scroll Animation Snippets
+
+  SEO DESCRIPTION (154 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  9 free Three.js and GSAP ScrollTrigger scroll scenes where scrolling is the timeline: flying cameras, particles and gears. Preview live and copy the code.
+================================================================
+-->
+
 
 <p>Most "scroll animation" on the web is a fade-in and a parallax layer. These nine are a different category entirely — full WebGL scenes where scrolling <em>is</em> the timeline — the camera flies, particles assemble, gears turn, sand falls — and scrolling back up runs the whole thing in reverse, frame for frame. Each one is built from Three.js and GSAP's ScrollTrigger, loaded straight from a CDN with no bundler and no build step, and every scene is fully reversible because nothing is a one-shot animation — every visual is a pure function of a single scrubbed progress value.</p>
 

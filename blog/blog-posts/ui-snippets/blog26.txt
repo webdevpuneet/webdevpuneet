@@ -1,4 +1,16 @@
-<h1>10 Copy-Paste Button Snippets That Do More Than Change Colour on Hover</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Copy-Paste Button Snippets That Do More Than Change Colour on Hover
+
+  SEO TITLE (56 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Button Snippets With Loading, Confirm and Copy States
+
+  SEO DESCRIPTION (155 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free button snippets that handle the two seconds after the click: loading, copied, hold-to-confirm and undo. Preview live and copy the HTML, CSS and JS.
+================================================================
+-->
+
 
 <p>Almost every button in a design system is finished the moment it has a hover state and a focus ring. That's fine for a link. It falls apart the second the button does something that takes time, something irreversible, or something the user needs confirmation of — because at that point the interesting design work isn't the resting style, it's the two seconds after the click. Did it copy? Is it downloading, or did nothing happen? Am I about to delete this permanently? A button that goes quiet during those two seconds reads as broken, and users click it again.</p>
 

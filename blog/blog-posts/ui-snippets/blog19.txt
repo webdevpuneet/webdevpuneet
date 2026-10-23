@@ -1,4 +1,16 @@
-<h1>9 Copy-Paste Testimonial & Social Proof Snippets That Actually Build Trust</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  9 Copy-Paste Testimonial & Social Proof Snippets That Actually Build Trust
+
+  SEO TITLE (56 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  9 Testimonial and Social Proof Snippets That Build Trust
+
+  SEO DESCRIPTION (158 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  9 free testimonial and social proof snippets: review walls, star rating breakdowns, logo bars and more. Preview live and copy the HTML, CSS and JS in seconds.
+================================================================
+-->
+
 
 <p>Nobody believes a landing page that just says "our customers love us." They believe a named person, a real-sounding job title, a star rating with a distribution behind it, and — strangely — an occasional three-star review sitting next to the five-star ones. Social proof only works when it reads as specific and slightly imperfect. A wall of identical five-star quotes with no faces and no companies reads as decoration, and visitors have gotten very good at scrolling past decoration.</p>
 

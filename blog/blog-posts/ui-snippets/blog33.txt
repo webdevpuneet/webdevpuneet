@@ -1,4 +1,16 @@
-<h1>10 Admin Table & Modal Snippets: Sticky Columns, Bulk Edit, and Stacked Dialogs Done Right</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Admin Table & Modal Snippets: Sticky Columns, Bulk Edit, and Stacked Dialogs Done Right
+
+  SEO TITLE (60 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Admin Table and Modal Snippets: Sticky Columns, Bulk Edit
+
+  SEO DESCRIPTION (152 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free admin table and modal snippets: stacked sticky columns, shift-click range select, bulk edit and stacked dialogs. Preview live and copy the code.
+================================================================
+-->
+
 
 <p>An admin data table looks simple from the outside — rows, columns, maybe a checkbox. What's actually hard is everything that happens once real users start pushing on it: pinning two columns and expecting them to stack without overlapping, shift-clicking a range the way Gmail trained them to, editing a dozen scattered cells and wanting one Save instead of a dozen. None of that is exotic — it's well-understood behavior with one correct implementation, and getting the details slightly wrong (a hardcoded sticky offset, an undo stack that's really just a boolean) is what makes homemade admin tools feel subtly broken compared to Sheets, Gmail, or a real desktop app.</p>
 

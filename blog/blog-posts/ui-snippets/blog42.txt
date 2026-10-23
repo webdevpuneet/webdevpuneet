@@ -1,4 +1,16 @@
-<h1>10 Free Bootstrap 5 Snippets for Search, Command Palettes &amp; Developer Utilities: A Real Ctrl+K, Safe Regex Highlighting &amp; a Recursive JSON Viewer</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Free Bootstrap 5 Snippets for Search, Command Palettes & Developer Utilities: A Real Ctrl+K, Safe Regex Highlighting & a Recursive JSON Viewer
+
+  SEO TITLE (55 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Bootstrap 5 Snippets: Ctrl+K Palette and JSON Viewer
+
+  SEO DESCRIPTION (156 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free Bootstrap 5 snippets for search and developer utilities: a real Ctrl+K command palette, safe regex highlighting and a recursive JSON viewer. Try it.
+================================================================
+-->
+
 
 <p>This batch is about the tools power users and developers actually reach for constantly: a Ctrl+K command palette, a search box that remembers what you searched last time, results that highlight exactly what matched, and the small copy/status/code-display components that show up in every dashboard and every README. None of these are decorative — every keyboard shortcut is a real global listener, every highlight is safely escaped, and every copy button falls back correctly outside a secure context. Every one still loads the genuine <code>bootstrap.min.css</code> and <code>bootstrap.bundle.min.js</code> from a CDN and builds on Bootstrap's real component classes.</p>
 

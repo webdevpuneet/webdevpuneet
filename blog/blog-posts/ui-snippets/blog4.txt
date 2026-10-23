@@ -1,3 +1,17 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  9 Free Browser-Based Developer Tools That Never Upload Your Data
+
+  SEO TITLE (58 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  9 Free Browser Developer Tools That Never Upload Your Data
+
+  SEO DESCRIPTION (158 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  Free developer tools that run 100% in your browser: JSON formatter, regex tester, diff checker, JWT decoder, image compressor and more. No sign-up, no upload.
+================================================================
+-->
+
+
 <div class="separator" style="clear: both;"><a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5_vimYBrJwI4MNU0JeZqcMqGODSkw-1uaiiJnIydCuRv7nLXdxVDX3gAn6u4aXoYjgffcvPyGF5CFBNkvb3KoOUXfTEceQBb4vCvtvl26pTY-5zZgF4OVrR17dnhMoKK0q89ylqegHHSjguRmYd4IcNS-xGu3L3YmTNxMZDkUnudCJnChJJNFPWMHwN8/s1600/powerful-browser-based-developer-tools.png" style="display: block; padding: 1em 0px; text-align: center;"><img alt="" border="0" data-original-height="683" data-original-width="1024" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5_vimYBrJwI4MNU0JeZqcMqGODSkw-1uaiiJnIydCuRv7nLXdxVDX3gAn6u4aXoYjgffcvPyGF5CFBNkvb3KoOUXfTEceQBb4vCvtvl26pTY-5zZgF4OVrR17dnhMoKK0q89ylqegHHSjguRmYd4IcNS-xGu3L3YmTNxMZDkUnudCJnChJJNFPWMHwN8/s1600/powerful-browser-based-developer-tools.png" /></a></div><p>Every developer has the same graveyard of half-solutions: a JSON formatter that's plastered with ads, a regex tester that wants an account, an image compressor that uploads your files to who-knows-where, and a handful of desktop apps you installed for one feature each. The tools below replace all of that. Each one is <strong>free, runs 100% in your browser, and needs no sign-up</strong> — your data never leaves your machine, because there's no server to send it to.</p>
 
 <p>That last point matters more than it sounds. When you paste a production API response into a formatter or drop a JWT into a decoder, you're often handling tokens, customer records, or internal schemas. A client-side tool processes everything locally with JavaScript and the browser's own APIs — close the tab and it's gone. For each tool below you'll find <strong>what it does</strong>, <strong>the workflow it fits into</strong>, and the specific feature that makes it worth bookmarking over the first Google result.</p>

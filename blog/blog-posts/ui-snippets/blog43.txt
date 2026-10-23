@@ -1,4 +1,16 @@
-<h1>10 Free Bootstrap 5 Snippets for File Uploads &amp; Account Security: A Real Pan-and-Zoom Cropper, Clipboard Paste &amp; a Session Timer That Actually Locks the Page</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Free Bootstrap 5 Snippets for File Uploads & Account Security: A Real Pan-and-Zoom Cropper, Clipboard Paste & a Session Timer That Actually Locks the Page
+
+  SEO TITLE (55 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Bootstrap 5 Snippets: Image Cropper and Session Lock
+
+  SEO DESCRIPTION (154 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free Bootstrap 5 snippets for file uploads and account security: a pan-and-zoom image cropper, clipboard paste and a session timer that locks the page.
+================================================================
+-->
+
 
 <p>This batch covers the two areas where a "looks right in a screenshot" component most often falls apart in real use: file uploads and account security. A progress bar that doesn't actually track bytes, a duplicate-file check that only catches exact re-selections, a session warning that can be casually clicked away — these are the details that separate a working feature from a decorative one. Every one still loads the genuine <code>bootstrap.min.css</code> and <code>bootstrap.bundle.min.js</code> from a CDN and builds on Bootstrap's real component classes.</p>
 

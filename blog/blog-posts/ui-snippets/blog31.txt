@@ -1,4 +1,16 @@
-<h1>10 New Copy-Paste Snippets: The Everyday Patterns Every Site Still Needs</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 New Copy-Paste Snippets: The Everyday Patterns Every Site Still Needs
+
+  SEO TITLE (56 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Everyday UI Snippets Every Website Still Needs (Free)
+
+  SEO DESCRIPTION (157 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free snippets for the patterns almost every site needs: menus, scroll-aware navbars, sortable lists and a loan calculator. Preview live and copy the code.
+================================================================
+-->
+
 
 <p>Not every useful component is exotic. In between the canvas simulations and the GLB viewers, there's a much shorter list of patterns that show up on almost every site ever built: a menu that opens, a navbar that behaves on scroll, a list you can reorder, a loan number you need to compute correctly. These are the snippets developers actually paste into ChatGPT or Claude at 11pm and ask "just build me this" — and getting the small mechanical details right (a midpoint comparison, a shared transition duration, an EMI formula that doesn't divide by zero) is the difference between a demo and something you can actually ship.</p>
 

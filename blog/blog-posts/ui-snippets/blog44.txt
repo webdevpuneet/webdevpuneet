@@ -1,4 +1,16 @@
-<h1>10 Free Bootstrap 5 Snippets for Smarter Forms &amp; Access Control: An Undo Toast, Nested Conditional Fields &amp; a Genuinely Locked Admin Permission</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Free Bootstrap 5 Snippets for Smarter Forms & Access Control: An Undo Toast, Nested Conditional Fields & a Genuinely Locked Admin Permission
+
+  SEO TITLE (57 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Bootstrap 5 Snippets: Undo Toast and Conditional Forms
+
+  SEO DESCRIPTION (156 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free Bootstrap 5 snippets for smarter forms and access control: an undo toast, nested conditional fields and a genuinely locked admin permission. Try it.
+================================================================
+-->
+
 
 <p>This batch is about the interactions that separate a form from a good form — a delete that can be undone instead of confirmed, a field that only appears when two conditions are both true, a click-to-edit row that only ever has one editor open at a time. It closes with the access-control side of the same coin: a permission a role can never accidentally lose, and a version history that's honest about which one is actually live. Every one still loads the genuine <code>bootstrap.min.css</code> and <code>bootstrap.bundle.min.js</code> from a CDN and builds on Bootstrap's real component classes.</p>
 

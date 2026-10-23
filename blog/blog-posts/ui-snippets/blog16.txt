@@ -1,4 +1,16 @@
-<h1>10 Copy-Paste E-commerce Snippets That Take a Shopper From Browse to Buy</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Copy-Paste E-commerce Snippets That Take a Shopper From Browse to Buy
+
+  SEO TITLE (56 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 E-commerce Snippets: Product Cards, Cart and Checkout
+
+  SEO DESCRIPTION (156 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free e-commerce snippets that take shoppers from browse to buy: product galleries, size pickers, cart totals, checkout and promo codes. Preview and copy.
+================================================================
+-->
+
 
 <p>An online store is a funnel with a specific set of leaks. People scroll past products that don't look clickable. They bounce because seeing a second photo meant a full page load. They add the wrong size, or can't add anything because the size picker is confusing. They abandon a cart because the total kept changing, or a checkout form asked for fourteen fields at once, or a promo code from an email quietly didn't work. Every one of those is an interface problem, not a merchandising one — and every one of them has a known solution that platform themes charge you a plugin for. Below are 10 free e-commerce snippets you can preview live and copy in seconds: a product card, a quick-view modal, a variant selector, a fly-to-cart animation, a slide-in cart drawer, a free-shipping progress bar, a promo code field, a multi-step checkout, an order summary, and a post-purchase tracking timeline.</p>
 

@@ -1,4 +1,16 @@
-<h1>10 Copy-Paste Mobile App Screen Snippets That Feel Like a Real App</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Copy-Paste Mobile App Screen Snippets That Feel Like a Real App
+
+  SEO TITLE (55 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Mobile App Screen Snippets That Feel Like a Real App
+
+  SEO DESCRIPTION (159 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free mobile app screen snippets you can click, type into and swipe: onboarding, checkout, chat and more. Preview live and copy the HTML, CSS and JavaScript.
+================================================================
+-->
+
 
 <p>Mocking up an app idea usually means one of two bad options: wire up a real native project just to test whether a flow feels right, or drop static boxes into Figma that can't actually be clicked, typed into, or swiped. Neither answers the question that actually matters, which is whether the interaction feels good — whether the double-tap registers cleanly, whether the checkout math updates instantly, whether the onboarding carousel tracks a swipe convincingly. Below are 10 free mobile app screens you can preview live and copy in seconds: onboarding, login, a lock screen, a social feed, a stories viewer, a chat thread, a music player, a fitness dashboard, a banking home screen, and a checkout — enough to walk a whole app concept from first launch to paid order.</p>
 

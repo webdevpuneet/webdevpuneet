@@ -1,4 +1,16 @@
-<h1>10 Free Bootstrap 5 Snippets for the Forms and Tables That Actually Ship: Autosave Status, Hold-to-Confirm Delete &amp; a Table That Handles Its Own Failures</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Free Bootstrap 5 Snippets for the Forms and Tables That Actually Ship: Autosave Status, Hold-to-Confirm Delete & a Table That Handles Its Own Failures
+
+  SEO TITLE (60 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Bootstrap 5 Snippets: Autosave Forms and Resilient Tables
+
+  SEO DESCRIPTION (156 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free Bootstrap 5 snippets for forms and tables: autosave status, hold-to-confirm delete and a table that handles its own loading, empty and error states.
+================================================================
+-->
+
 
 <p>Most component libraries stop at "here's a form" and "here's a table." This batch covers the states those two things spend most of their real life in: a form the user is mid-edit on and might walk away from, a delete button that needs real friction before it fires, and a data table that has to render a loading state, an empty state, and a genuine failure state — not just the one where the API call happens to succeed. Every one still loads the genuine <code>bootstrap.min.css</code> and <code>bootstrap.bundle.min.js</code> from a CDN and builds on Bootstrap's real component classes.</p>
 

@@ -1,4 +1,16 @@
-<h1>10 Canvas Snippets: Fractals, Physics, and Procedural Art From Scratch</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Canvas Snippets: Fractals, Physics, and Procedural Art From Scratch
+
+  SEO TITLE (56 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Canvas Snippets: Fractals, Physics and Procedural Art
+
+  SEO DESCRIPTION (160 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free Canvas 2D snippets built from hand-rolled math: fractal trees, rope physics, lightning and procedural art. No libraries. Preview live and copy the code.
+================================================================
+-->
+
 
 <p>Every effect in this batch is drawn by hand-rolled math against the Canvas 2D API — no WebGL, no physics engine, no noise library. A fractal tree is one recursive function calling itself twice. A rope is Verlet integration with an iterative constraint solver. A lightning bolt is the same midpoint-displacement algorithm used to generate fractal coastlines, aimed at a click point instead of a landscape. None of it is faked with a canned particle sprite or a CSS animation standing in for the real computation — the algorithm is genuinely running, which is exactly what makes each one worth reading the source of, not just dropping in.</p>
 

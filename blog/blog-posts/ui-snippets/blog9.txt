@@ -1,4 +1,16 @@
-<h1>Ditch the Charting Library: 8 Live CSS/SVG Charts You Can Copy Today</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  Ditch the Charting Library: 8 Live CSS/SVG Charts You Can Copy Today
+
+  SEO TITLE (51 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  8 Live CSS and SVG Chart Snippets Without a Library
+
+  SEO DESCRIPTION (158 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  Skip the 200KB charting library: 8 free CSS and SVG chart snippets, including bar, donut, gauge, sparkline, radar and heatmap. Preview live and copy the code.
+================================================================
+-->
+
 
 <p>Most dashboards don't need a 200KB charting library — they need one clean bar chart, a gauge, and maybe a sparkline. Below are 8 free chart snippets you can preview live and copy in seconds: a bar chart, a donut chart, a gauge, a sparkline, a candlestick chart, a radar chart, a funnel, and an activity heatmap — all built in plain HTML, CSS and SVG.</p>
 

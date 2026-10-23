@@ -1,4 +1,16 @@
-<h1>10 Copy-Paste AI UI Snippets That Make Your App Feel Like ChatGPT</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Copy-Paste AI UI Snippets That Make Your App Feel Like ChatGPT
+
+  SEO TITLE (59 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 AI Chat UI Snippets That Make Your App Feel Like ChatGPT
+
+  SEO DESCRIPTION (160 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free AI interface snippets: streaming chat, reasoning panels, an assistant sidebar and loading states that feel like ChatGPT. Preview live and copy the code.
+================================================================
+-->
+
 
 <p>Every product is growing an AI surface — a chat panel, an assistant sidebar, a "summarise this" button that streams an answer back. The model is the easy part now: an API key and a fetch call gets you a completion. What actually takes the week is the interface around it, and it's a genuinely unusual interface, because almost nothing else in front-end work involves rendering text that arrives a few characters at a time, showing a machine's reasoning while it happens, or making a wait of eight seconds feel acceptable. Below are 10 free AI interface snippets you can preview live and copy in seconds: a full chat shell, a prompt composer, a streaming response, a thinking loader, a model picker, source citations, an agent trace, a docked copilot sidebar, an image-generator front end, and browser-native speech to text.</p>
 

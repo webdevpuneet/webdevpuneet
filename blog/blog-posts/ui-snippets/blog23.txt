@@ -1,4 +1,16 @@
-<h1>10 Copy-Paste Coding Game Snippets That Teach CSS, Regex &amp; the Terminal</h1>
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  10 Copy-Paste Coding Game Snippets That Teach CSS, Regex & the Terminal
+
+  SEO TITLE (60 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  10 Coding Game Snippets That Teach CSS, Regex & the Terminal
+
+  SEO DESCRIPTION (151 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  10 free interactive coding game snippets that teach CSS, regex and the terminal by making you predict the answer first. Preview live and copy the code.
+================================================================
+-->
+
 
 <p>Most "learn to code" widgets are quizzes wearing a costume. You read a question, you pick an answer, a green tick appears, and nothing about the way you think has changed — because the thing you were tested on was recall, and the thing that's actually hard is prediction. Does <code>[1, 2, 10].sort()</code> give you what you expect? Does that selector match three elements or five? Does <code>cp src backup</code> work without a flag? You don't find out by being told. You find out by typing something, being wrong, and seeing precisely <em>how</em> wrong.</p>
 
