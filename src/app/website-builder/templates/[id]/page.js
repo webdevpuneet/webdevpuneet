@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
-import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import { WEBSITE_TEMPLATES, websiteTemplateById } from '@/components/SectionTemplates/templates/starters.js';
@@ -127,7 +126,6 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
   return (
     <div>
       {schemas.map((sc, i) => <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sc) }} />)}
-      <PlaygroundTopNav active="website-builder" />
       <PlaygroundTopAd />
       <div className={st.wrap}>
         <nav className={st.crumbs} aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/website-builder/">Website Builder</a> / <span>{t.name}</span></nav>

@@ -2,8 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import s from './styles.module.css';
-import PlaygroundTopNav from '@/components/PlaygroundTopNav';
-import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { BrandKitPanel, useBrandKit, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
 import { exportDesigns, importDesigns } from '@/lib/design-transfer';
 import { exportCustomFonts, importCustomFonts } from '@/lib/fonts';
@@ -683,7 +681,6 @@ export default function TemplateEditor({ id }) {
 
   return (
     <div className={s.wrap}>
-      <PlaygroundTopNav active="social-post-templates" />
       <input ref={fileRef} type="file" accept="image/*" className={s.fileInput} onChange={onFile} />
       <div className={s.body}>
         <aside className={`${s.controls} ${sheetOpen ? s.sheetOpen : ''}`} ref={controlsRef}>
@@ -973,7 +970,6 @@ export default function TemplateEditor({ id }) {
         </aside>
 
         <div className={s.main}>
-          <PlaygroundTopAd />
           <div className={s.toolbar}>
             <div className={s.meta}>
               {/* The page's H1: the template name, or the saved design's name once it's saved */}

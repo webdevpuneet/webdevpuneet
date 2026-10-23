@@ -23,8 +23,6 @@ import { toReactComponent, toVueSfc, componentName } from '@/lib/snippet-exporte
 import { dbPut } from '@/lib/uiSnippetsDb';
 import { openForkTab } from '@/lib/open-fork-tab';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
-import PlaygroundTopNav from '@/components/PlaygroundTopNav';
-import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { BrandKitPanel, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
 import { makeDesignStore } from '@/lib/design-store';
 import { exportDesigns, importDesigns, blobToDataUrl, dataUrlToBlob } from '@/lib/design-transfer';
@@ -1277,7 +1275,6 @@ ${pageCss(shown, { fontFaces })}`),
 
   return (
     <div className={s.wrap}>
-      <PlaygroundTopNav active={TOOL} />
       <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/gif,image/webp,image/svg+xml" className={s.fileInput} onChange={onUploadFile} />
       <div className={s.body}>
         <aside className={`${s.controls} ${sheetOpen ? s.sheetOpen : ''}`}>
@@ -1584,7 +1581,6 @@ ${pageCss(shown, { fontFaces })}`),
         </aside>
 
         <div className={s.main} style={{ position: 'relative', display: 'flex', flexDirection: 'column' }}>
-          <PlaygroundTopAd />
           <div className={s.toolbar}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', minWidth: 0 }}>
               <h1 className={s.metaName} title={site.name}>{site.name}</h1>

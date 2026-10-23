@@ -1927,3 +1927,17 @@ a.sortBtn { text-decoration: none; }
 .tplList { padding-left: 12px; }
 .tplAll { font-weight: 600; }
 :global([data-theme="dark"]) .tplCatHead:hover { background: rgba(255, 255, 255, 0.06); }
+
+/* Icon in front of a plain link row, shown in the expanded sidebar (the rail icon covers the collapsed one) */
+.frontIcon { display: none; align-items: center; flex-shrink: 0; margin-right: 2px; }
+.sidebarExpanded .frontIcon { display: inline-flex; }
+
+/* Plain link rows: grey until hovered or active */
+.playgroundsHeader.plainLink { color: rgba(0,0,0,0.5); }
+.playgroundsHeader.plainLink:hover { color: rgba(22,163,74,0.95); }
+:global([data-theme="dark"]) .playgroundsHeader.plainLink { color: rgba(255,255,255,0.5); }
+:global([data-theme="dark"]) .playgroundsHeader.plainLink:hover { color: rgba(134,239,172,0.8); }
+
+/* Plain link row that is the current section */
+.playgroundsHeader.linkActive { color: rgba(22,163,74,1); background: rgba(22,163,74,0.10); font-weight: 700; }
+:global([data-theme="dark"]) .playgroundsHeader.linkActive { color: rgba(134,239,172,0.95); background: rgba(134,239,172,0.10); }

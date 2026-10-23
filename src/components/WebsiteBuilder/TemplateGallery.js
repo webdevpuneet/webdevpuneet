@@ -9,12 +9,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import s from '../SocialPostTemplates/styles.module.css';
 import x from '../SectionTemplates/styles.module.css';
-import PlaygroundTopNav from '@/components/PlaygroundTopNav';
-import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import StartCards, { EDITOR } from './StartCards';
 import InViewImg from '@/components/InViewImg';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
 import hs from '@/components/HomeTemplatesCarousel/styles.module.css';
+import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 
 const PAGE = 10; // 2 rows of 5
 
@@ -33,7 +32,6 @@ export default function TemplateGallery({ templates, industries }) {
 
   return (
     <div className={`${s.galleryPage} ${s.galleryFull}`}>
-      <PlaygroundTopNav active="website-builder" />
       <PlaygroundTopAd />
       <header className={s.galleryHead}>
         <h1 className={s.galleryH1}>Free Website Builder &amp; Templates</h1>

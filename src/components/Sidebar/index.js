@@ -17,7 +17,6 @@ import { dbGetAll as dbGetAllCustomSnippets, dbDelete as dbDeleteCustomSnippet }
 import { publishedTags, tagsForSnippetId } from '@/lib/snippet-tags';
 // Snapshot of fwdtools' sidebar groups — regenerate with scripts/sync-fwdtools-sidebar.mjs
 import FWD_SIDEBAR from '@/data/fwdtools-sidebar.json';
-import TEMPLATE_NAV from '@/data/template-nav.json';
 
 /* ─────────────────────────────────────────────────────────────
    Derived data — do not edit; edit tools-registry.js instead
@@ -294,14 +293,15 @@ function UiSnippetsGroup({ pathname, open, onToggle }) {
   return (
     <div className={styles.playgroundsGroup}>
       <button
-        className={`${styles.playgroundsHeader} ${open ? styles.groupOpen : ''}`}
+        className={`${styles.playgroundsHeader} ${styles.plainLink} ${open ? styles.groupOpen : ''} ${/^\/ui-snippets(\/|$)/.test(pathname) ? styles.linkActive : ''}`}
         onClick={onToggle}
         aria-expanded={open}
       >
         <span className={styles.railIcon}>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
-          </svg>
+          <img src="/icons/ui-snippets.svg" alt="" width={13} height={13} />
+        </span>
+        <span className={styles.frontIcon}>
+          <img src="/icons/ui-snippets.svg" alt="" width={16} height={16} />
         </span>
         <span className={styles.groupLabel}>UI Snippets</span>
         <span className={`${styles.groupCount} ${styles.playgroundsCount}`}>{UI_SNIPPET_CATEGORIES_SIDEBAR.length}</span>
@@ -312,7 +312,7 @@ function UiSnippetsGroup({ pathname, open, onToggle }) {
         </svg>
       </button>
       <div ref={bodyRef} className={styles.groupBody} style={{ height: open ? 'auto' : '0px' }}>
-        <ul className={`${styles.list} ${styles.compactList} ${styles.twoColList}`}>
+        <ul className={`${styles.list} ${styles.compactList}`}>
           <li className={`${styles.item} ${pathname === '/ui-snippets/' ? styles.active : ''}`}>
             <a href="/ui-snippets/">
               <span className={styles.itemInner}>
@@ -408,6 +408,25 @@ function TemplatesGroup({ label, base, icon, nav, pathname, open, onToggle }) {
   );
 }
 
+// A plain link row styled like a group header, with an icon in front (no expandable list)
+function SidebarLink({ href, icon, label, active }) {
+  return (
+    <a
+      href={href}
+      className={`${styles.playgroundsHeader} ${styles.plainLink} ${active ? `${styles.groupOpen} ${styles.linkActive}` : ''}`}
+      style={{ textDecoration: 'none' }}
+    >
+      <span className={styles.railIcon}>
+        <img src={icon} alt="" width={13} height={13} />
+      </span>
+      <span className={styles.frontIcon}>
+        <img src={icon} alt="" width={16} height={16} />
+      </span>
+      <span className={styles.groupLabel}>{label}</span>
+    </a>
+  );
+}
+
 function PlaygroundsGroup({ activeSlug, open, onToggle }) {
   const bodyRef = useRef(null);
   const [everOpened, setEverOpened] = useState(open);
@@ -429,12 +448,17 @@ function PlaygroundsGroup({ activeSlug, open, onToggle }) {
   return (
     <div className={styles.playgroundsGroup}>
       <button
-        className={`${styles.playgroundsHeader} ${open ? styles.groupOpen : ''}`}
+        className={`${styles.playgroundsHeader} ${styles.plainLink} ${open ? styles.groupOpen : ''}`}
         onClick={onToggle}
         aria-expanded={open}
       >
         <span className={styles.railIcon}>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+          </svg>
+        </span>
+        <span className={styles.frontIcon}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
           </svg>
         </span>
@@ -566,6 +590,11 @@ function CategoryGroup({ category, open, onToggle, activeSlug, query, green = fa
             <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
           </svg>
         </span>
+        {green && (
+          <span className={styles.frontIcon}>
+            <img src="/icons/css-playground.svg" alt="" width={16} height={16} />
+          </span>
+        )}
         <span className={styles.groupLabel}>{category.label}</span>
         <span className={styles.groupCount}>{category.tools.length}</span>
         <svg
@@ -1520,12 +1549,8 @@ export default function Sidebar() {
   const [query, setQuery] = useState('');
   const [openIds, setOpenIds] = useState(() => new Set());
   const [favourites, setFavourites] = useState([]);
-  const [uiSnippetsOpen,   setUiSnippetsOpen]   = useState(pathname === '/'); // home: the UI Snippets group starts expanded
   const [playgroundsOpen,  setPlaygroundsOpen]  = useState(false);
   // Template groups start collapsed, except on their own pages
-  const [emailTplOpen,     setEmailTplOpen]     = useState(pathname.startsWith('/email-templates/'));
-  const [socialTplOpen,    setSocialTplOpen]    = useState(pathname.startsWith('/social-post-templates/'));
-  const [sectionTplOpen,   setSectionTplOpen]   = useState(pathname.startsWith('/website-section-templates/'));
   const [freelancerOpen,   setFreelancerOpen]   = useState(false);
   const [mobileOpen, setMobileOpen]   = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -1850,38 +1875,11 @@ export default function Sidebar() {
                     open={favOpen}
                     onToggle={() => setFavOpen(v => !v)}
                   />
-                  <UiSnippetsGroup
-                    pathname={pathname}
-                    open={uiSnippetsOpen}
-                    onToggle={() => setUiSnippetsOpen(v => !v)}
-                  />
-                  <TemplatesGroup
-                    label="Email Templates"
-                    base="/email-templates/"
-                    icon="/icons/email-templates.svg"
-                    nav={TEMPLATE_NAV.email}
-                    pathname={pathname}
-                    open={emailTplOpen}
-                    onToggle={() => setEmailTplOpen(v => !v)}
-                  />
-                  <TemplatesGroup
-                    label="Social Post Templates"
-                    base="/social-post-templates/"
-                    icon="/icons/social-post-templates.svg"
-                    nav={TEMPLATE_NAV.social}
-                    pathname={pathname}
-                    open={socialTplOpen}
-                    onToggle={() => setSocialTplOpen(v => !v)}
-                  />
-                  <TemplatesGroup
-                    label="Website Section Templates"
-                    base="/website-section-templates/"
-                    icon="/icons/website-section-templates.svg"
-                    nav={TEMPLATE_NAV.section}
-                    pathname={pathname}
-                    open={sectionTplOpen}
-                    onToggle={() => setSectionTplOpen(v => !v)}
-                  />
+                  <SidebarLink href="/website-builder/" icon="/icons/website-builder.svg" label="Website Builder &amp; Templates" active={/^\/website-builder(\/|$)/.test(pathname)} />
+                  <SidebarLink href="/website-section-templates/" icon="/icons/website-section-templates.svg" label="Website Section Templates" active={/^\/website-section-templates(\/|$)/.test(pathname)} />
+                  <SidebarLink href="/email-templates/" icon="/icons/email-templates.svg" label="Email Templates" active={/^\/email-templates(\/|$)/.test(pathname)} />
+                  <SidebarLink href="/social-post-templates/" icon="/icons/social-post-templates.svg" label="Social Post Templates" active={/^\/social-post-templates(\/|$)/.test(pathname)} />
+                  <SidebarLink href="/ui-snippets/" icon="/icons/ui-snippets.svg" label="UI Snippets" active={/^\/ui-snippets(\/|$)/.test(pathname)} />
                   <PlaygroundsGroup
                     activeSlug={activeSlug}
                     open={playgroundsOpen}

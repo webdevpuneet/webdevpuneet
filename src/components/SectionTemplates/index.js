@@ -6,7 +6,6 @@ import x from './styles.module.css';
 import { AddToPageMenu, ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import SavedDesignsStrip from '@/components/SavedDesignsStrip';
-import PlaygroundTopNav from '@/components/PlaygroundTopNav';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { LoadMore } from '@/components/UiSnippetsGallery';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
@@ -204,7 +203,6 @@ function SavedSectionPreview({ design: d, width }) {
 export function SectionGalleryPage({ previews = [] }) {
   return (
     <div className={`${s.galleryPage} ${s.galleryFull}`}>
-      <PlaygroundTopNav active={TOOL} />
       <PlaygroundTopAd />
       <header className={s.galleryHead}>
         <h1 className={s.galleryH1}>Website Section Templates</h1>
@@ -237,7 +235,6 @@ export function SectionGalleryPage({ previews = [] }) {
 export function SectionCategoryPage({ category, h1, lead, previews = [] }) {
   return (
     <div className={`${s.galleryPage} ${s.galleryFull}`}>
-      <PlaygroundTopNav active={TOOL} />
       <PlaygroundTopAd />
       <header className={s.galleryHead}>
         <a href={BASE} className={s.back}>← All section templates</a>
@@ -703,7 +700,6 @@ export function SectionTemplateEditor({ id }) {
 
   return (
     <div className={s.wrap}>
-      <PlaygroundTopNav active={TOOL} />
       <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/gif,image/webp,image/svg+xml" className={s.fileInput} onChange={onUploadFile} />
       <div className={s.body}>
         <aside className={`${s.controls} ${sheetOpen ? s.sheetOpen : ''}`}>
@@ -823,7 +819,6 @@ export function SectionTemplateEditor({ id }) {
         </aside>
 
         <div className={s.main} style={{ position: 'relative', display: 'flex', flexDirection: 'column' }}>
-          <PlaygroundTopAd />
           <div className={s.toolbar}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', minWidth: 0 }}>
               <h1 className={s.metaName} title={currentDesign ? `Saved design “${currentDesign.name}”` : undefined}>{currentDesign ? currentDesign.name : t.name}</h1>
