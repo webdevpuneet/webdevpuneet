@@ -20,7 +20,10 @@
     margin-top: 20px;
 }
 .post-wrap h1, .post-wrap h2, .post-wrap h3, .post-wrap h4, .post-wrap h5, .post-wrap h6{
-	padding-top:15px;
+	padding-top:10px;
+}
+.post-wrap .wp-block-image{
+	margin-bottom: 15px;
 }
 @media screen and (max-width: 782px) {
     html {
