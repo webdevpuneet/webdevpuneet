@@ -11,6 +11,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import s from '../SocialPostTemplates/styles.module.css';
 import x from '../SectionTemplates/styles.module.css';
 import b from '../SavedDesignsStrip/styles.module.css';
+import w from './styles.module.css';
 import { TRASH } from '@/components/SavedDesignsStrip';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import { LoadMore } from '@/components/UiSnippetsGallery';
@@ -185,21 +186,25 @@ export default function StartCards() {
 
   return (
     <>
-      <div className={s.sectionHead}>
-        <h2>Your pages</h2>
-        {total > 0 && <span>{total}</span>}
-      </div>
-      <div className={`${s.grid} ${s.grid5}`}>
-        <a className={`${s.card} ${x.cardBlank}`} href={`${EDITOR}?starter=blank`}>
-          <div className={s.cardPreview}><div className={x.blankArt} aria-hidden="true">+</div></div>
-          <div className={s.cardBody}>
-            <span className={s.cardCat}>Blank page</span>
-            <h3 className={s.cardTitle}>Start from scratch</h3>
-            <span className={s.cardMeta}>Add sections one by one from the library</span>
-          </div>
+      {/* Start from scratch is a large button, so the page never opens on an empty card; "Your
+          pages" (autosave + My pages) only appears once there is something to show */}
+      <div className={w.startRow}>
+        <a className={w.startBtn} href={`${EDITOR}?starter=blank`}>
+          <span className={w.startPlus} aria-hidden="true">+</span>
+          <span><b>Start from scratch</b><small>A blank page: add sections one by one from the library</small></span>
         </a>
-        {shown.map(it => <PageCard key={it.key} href={it.href} page={it.page} cat={it.cat} title={it.title} meta={it.meta} onDelete={() => setConfirm({ ...it.ask, danger: true, onOk: () => it.remove().catch(() => {}) })} />)}
       </div>
+      {total > 0 && (
+        <>
+          <div className={s.sectionHead}>
+            <h2>Your pages</h2>
+            <span>{total}</span>
+          </div>
+          <div className={`${s.grid} ${s.grid5}`}>
+            {shown.map(it => <PageCard key={it.key} href={it.href} page={it.page} cat={it.cat} title={it.title} meta={it.meta} onDelete={() => setConfirm({ ...it.ask, danger: true, onOk: () => it.remove().catch(() => {}) })} />)}
+          </div>
+        </>
+      )}
       <LoadMore shown={shown.length} total={total} onLoadMore={() => setCount(n => n + MORE)} />
       {confirm && <ConfirmDialog {...confirm} onCancel={() => setConfirm(null)} onOk={() => { const go = confirm.onOk; setConfirm(null); go(); }} />}
     </>

@@ -1,5 +1,5 @@
 import { esc, escBr, safeUrl, preheaderHtml, buttonHtml, fontStackById, wrapText, rich, stripRich } from './meta.js';
-import { placeBlocks } from './shell.js';
+import { placeBlocks, socialStyleToggle, socialLinksHtml } from './shell.js';
 
 const HERO = 'https://webdevpuneet.com/images/email-templates/welcome-hero.png';
 
@@ -74,6 +74,7 @@ export default {
     { key: 'showSteps', label: 'Getting-started steps', value: true },
     { key: 'showNote', label: 'Personal note', value: true },
     { key: 'showSocial', label: 'Social links', value: true },
+    socialStyleToggle('icons'),
   ],
 
   vars: [
@@ -158,7 +159,7 @@ export default {
     const socialHtml = on.showSocial && socials.length ? `
 <tr>
   <td align="center" style="padding:0 0 14px;font-family:${B};font-size:13px;line-height:20px;">
-    ${socials.map(([label, u, key]) => `<a${A(key)} href="${safeUrl(u)}" target="_blank" style="color:${v.brand};font-weight:700;text-decoration:none;">${label}</a>`).join(' <span class="m" style="color:#94a3b8;">&nbsp;&middot;&nbsp;</span> ')}
+    ${socialLinksHtml({ on, v, A, icons: s.socialIconSrc || {} }, socials)}
   </td>
 </tr>` : '';
 

@@ -21,7 +21,7 @@ import { openForkTab } from '@/lib/open-fork-tab';
 import { putAsset, getAsset, deleteAsset, assetKeys } from './assetsDb';
 import { revealInPanel } from '@/lib/reveal-in-panel';
 import FormatPopover from './FormatPopover';
-import { BLOCK_TYPES, blocksText, blockSlot, COLUMN_FIELDS, columnCount, upgradeColumns } from './templates/shell.js';
+import { BLOCK_TYPES, blocksText, blockSlot, COLUMN_FIELDS, columnCount, upgradeColumns, socialList, socialSlug, socialIconSvg, socialIconFile, SOCIAL_STYLES } from './templates/shell.js';
 import { highlightHtml } from '@/lib/highlight-html';
 import FontPicker from '@/components/FontPicker';
 import ImageLibraryPicker from '@/components/ImageLibrary';
@@ -394,6 +394,17 @@ function withBlockImages(blocks, srcFor) {
   });
 }
 
+/* An SVG icon drawn to a PNG (email clients don't show SVG): 72×72, shown at 24px */
+async function svgToPng(svg, size = 72) {
+  const img = new Image();
+  img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+  await img.decode();
+  const c = document.createElement('canvas');
+  c.width = size; c.height = size;
+  c.getContext('2d').drawImage(img, 0, 0, size, size);
+  return new Promise((res, rej) => c.toBlob(b => (b ? res(b) : rej(new Error('PNG failed'))), 'image/png'));
+}
+
 /* Small badges for the extra section types */
 const BLOCK_ICONS = { heading: 'H', text: '¶', button: '▭', image: '▣', columns: '▥', divider: '—', spacer: '↕' };
 
@@ -591,6 +602,27 @@ export function EmailTemplateEditor({ id }) {
   }, [uploads]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => () => Object.values(blobUrlsRef.current).forEach(u => URL.revokeObjectURL(u)), []);
   const assetBase = String(state.assetBase || '').trim().replace(/\/+$/, '');
+  /* Brand-colour social icons: PNGs drawn here in the brand colour for the networks in use.
+     { slug: { blob, url, file } }; the preview shows the blob: URLs, exports link images/<file>
+     (or the Image base URL) and Download ZIP includes the files. */
+  const socialStyle = state.toggles.socialStyle;
+  const brandIconKey = socialStyle === 'brand' && state.toggles.showSocial !== false ? `${state.vars.brand}|${socialList(state.fields).map(([l]) => socialSlug(l)).join(',')}` : '';
+  const [brandIcons, setBrandIcons] = useState({});
+  useEffect(() => {
+    if (!brandIconKey) { setBrandIcons({}); return undefined; }
+    let live = true;
+    const made = {};
+    const [color, slugs] = brandIconKey.split('|');
+    (async () => {
+      for (const slug of slugs.split(',').filter(Boolean)) {
+        try { const blob = await svgToPng(socialIconSvg(slug, color)); made[slug] = { blob, url: URL.createObjectURL(blob), file: socialIconFile(slug, color) }; } catch { /* that icon falls back to the grey one */ }
+      }
+      if (live) setBrandIcons(made); else Object.values(made).forEach(x => URL.revokeObjectURL(x.url));
+    })();
+    return () => { live = false; };
+  }, [brandIconKey]);
+  useEffect(() => () => Object.values(brandIcons).forEach(x => URL.revokeObjectURL(x.url)), [brandIcons]);
+  const iconPath = file => (assetBase ? `${assetBase}/${file}` : `images/${file}`);
   const imagePath = key => (assetBase ? `${assetBase}/${uploads[key].file}` : `images/${uploads[key].file}`);
   const exportState = useMemo(() => {
     const fields = { ...state.fields };
@@ -603,14 +635,16 @@ export function EmailTemplateEditor({ id }) {
         if (k in fields && (!String(fields[k] || '').trim() || /webdevpuneet\.com|yoursite\.com|yourbrand/i.test(fields[k]))) fields[k] = url;
       });
     }
-    return { ...state, fields, blocks };
-  }, [state]); // eslint-disable-line react-hooks/exhaustive-deps
+    const socialIconSrc = Object.fromEntries(Object.entries(brandIcons).map(([k, x]) => [k, iconPath(x.file)]));
+    return { ...state, fields, blocks, socialIconSrc };
+  }, [state, brandIcons]); // eslint-disable-line react-hooks/exhaustive-deps
   const previewState = useMemo(() => {
     const fields = { ...state.fields };
     Object.entries(uploads).forEach(([k, u]) => { if (blobUrls[u.id] && !k.startsWith('blk:')) fields[k] = blobUrls[u.id]; });
     const blocks = withBlockImages(state.blocks, k => (uploads[k] && blobUrls[uploads[k].id]) || '');
-    return { ...state, fields, blocks };
-  }, [state, blobUrls]); // eslint-disable-line react-hooks/exhaustive-deps
+    const socialIconSrc = Object.fromEntries(Object.entries(brandIcons).map(([k, x]) => [k, x.url]));
+    return { ...state, fields, blocks, socialIconSrc };
+  }, [state, blobUrls, brandIcons]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Exports use the chosen platform's merge tags; the preview shows tokens as sample values
   const html = useMemo(() => applyMergeTags(t.build(exportState), state.platform), [t, exportState, state.platform]);
@@ -901,6 +935,7 @@ export function EmailTemplateEditor({ id }) {
   const checks = [];
   if (bytes > GMAIL_CLIP) checks.push({ level: 'bad', text: `The email is ${fmtKB(bytes)}. Gmail clips messages over 102 KB and hides the rest, including your unsubscribe link.` });
   else if (bytes > 80 * 1024) checks.push({ level: 'warn', text: `The email is ${fmtKB(bytes)}, close to Gmail’s 102 KB clipping limit.` });
+  if (Object.keys(brandIcons).length && !assetBase && !Object.keys(uploads).length) checks.push({ level: 'warn', text: 'Brand-colour social icons are PNG files in Download ZIP (images folder). Host them and set the Image base URL before pasting the HTML elsewhere, or switch to Grey icons, which are already hosted.' });
   if (Object.keys(uploads).length) {
     if (!assetBase) checks.push({ level: 'warn', text: 'You uploaded images. Use Download ZIP (images sit next to the email in an images folder), or host them and set the Image base URL before pasting the HTML into an email service.' });
     else if (!/^https:\/\//i.test(assetBase)) checks.push({ level: 'bad', text: 'The Image base URL must start with https:// so email clients can load your uploaded images.' });
@@ -1002,6 +1037,7 @@ export function EmailTemplateEditor({ id }) {
         const rec = await getAsset(u.id);
         if (rec?.blob) { dir.file(`images/${u.file}`, rec.blob); files.push(u.file); }
       }
+      for (const x of Object.values(brandIcons)) { dir.file(`images/${x.file}`, x.blob); files.push(x.file); }
       dir.file('README.txt', [
         `${t.name} v${t.version} \u2014 https://webdevpuneet.com/email-templates/${t.id}/`,
         '',
@@ -1014,6 +1050,7 @@ export function EmailTemplateEditor({ id }) {
             ? `Image links point to ${assetBase}/. Upload the files in images/ there before sending.`
             : 'Image links are relative (images/...). Upload the images folder to your server or email service and update the links, or set an Image base URL in the editor and export again.')
           : 'No uploaded images: all images use the URLs set in the editor.',
+        Object.keys(brandIcons).length ? 'The social icons (social-*.png) are PNG images in your brand colour: email clients don’t show SVG.' : '',
       ].filter((l, i, a) => l || a[i - 1]).join('\n'));
       saveBlob(await zip.generateAsync({ type: 'blob' }), `${t.id}-email.zip`);
       flash(files.length ? `Downloaded ZIP with ${files.length} image${files.length > 1 ? 's' : ''}` : 'Downloaded ZIP');
@@ -1353,6 +1390,17 @@ export function EmailTemplateEditor({ id }) {
                 </div>
                 {isOpen && (
                   <div className={`${e.groupBody} ${enabled ? '' : e.groupOff}`}>
+                    {g.id === 'social' && 'socialStyle' in state.toggles && (
+                      <div className={s.field}>
+                        <span className={s.label}>Show links as</span>
+                        <div className={s.seg} role="radiogroup" aria-label="Show social links as">
+                          {SOCIAL_STYLES.map(([v, l]) => (
+                            <button key={v} type="button" role="radio" aria-checked={socialStyle === v} className={`${s.segBtn} ${socialStyle === v ? s.segBtnActive : ''}`} onClick={() => setToggle('socialStyle', v)}>{l}</button>
+                          ))}
+                        </div>
+                        <p className={s.hint}>{socialStyle === 'icons' ? 'Grey PNG icons hosted on webdevpuneet.com, so the HTML works anywhere.' : socialStyle === 'brand' ? 'PNG icons drawn in your brand colour (emails can’t show SVG). Download ZIP includes them in images/.' : 'Plain text links in your brand colour.'}</p>
+                      </div>
+                    )}
                     {fields.map(fd => (
                       <div key={fd.key} className={s.field} data-fieldwrap>
                         <label className={s.label} htmlFor={`em-${fd.key}`}>{fd.label}</label>
@@ -1640,7 +1688,7 @@ export function EmailTemplateEditor({ id }) {
               <ExportMenu
                 head="Export this email as…"
                 options={[
-                  { icon: 'html', label: 'Copy HTML', sub: 'Paste into Mailchimp, Klaviyo or your code', onClick: () => copy(html, 'Email HTML', Object.keys(uploads).length && !assetBase ? 'HTML copied. Uploaded images link to images/, so set an Image base URL or use Download ZIP.' : '') },
+                  { icon: 'html', label: 'Copy HTML', sub: 'Paste into Mailchimp, Klaviyo or your code', onClick: () => copy(html, 'Email HTML', (Object.keys(uploads).length || Object.keys(brandIcons).length) && !assetBase ? 'HTML copied. Uploaded images and brand-colour icons link to images/, so set an Image base URL or use Download ZIP.' : '') },
                   { icon: 'zip', label: busy === 'zip' ? 'Zipping…' : 'Download ZIP', sub: 'HTML, plain text and your uploaded images', onClick: downloadZip, disabled: !!busy },
                   { icon: 'file', label: 'Download .html', sub: 'The email as a single HTML file', onClick: () => saveBlob(new Blob([html], { type: 'text/html' }), `${t.id}-email.html`) },
                   { icon: 'text', label: 'Copy plain text', sub: 'The text version for multipart email', onClick: () => copy(text, 'Plain-text version') },

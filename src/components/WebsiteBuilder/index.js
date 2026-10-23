@@ -35,8 +35,9 @@ import {
 } from '@/components/SectionTemplates/templates/page.js';
 import {
   emptySite, restoreSite, siteFromStarter, isSite, pageView, renderView, applyPageView, pageById, pageFile, pageTitle, isHomePage,
-  siteFiles, usesAutoNav, addSitePage, updateSitePage, removeSitePage, reorderSitePages, pageFromLayout, PAGE_LAYOUTS, cleanSlug, cleanBaseUrl, newPageId, starterPageList,
+  siteFiles, siteExtraFiles, faviconTags, faviconFiles, faviconSvg, cleanFavicon, FAVICON_MODES, usesAutoNav, addSitePage, updateSitePage, removeSitePage, reorderSitePages, pageFromLayout, PAGE_LAYOUTS, cleanSlug, cleanBaseUrl, newPageId, starterPageList,
 } from '@/components/SectionTemplates/templates/site.js';
+import { siteNextFiles } from '@/components/SectionTemplates/templates/nextjs.js';
 import { restoreSectionState } from '@/components/SectionTemplates/templates/index.js';
 import { gsap } from 'gsap';
 import { Draggable } from 'gsap/Draggable';
@@ -189,6 +190,52 @@ function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDo
           style={{ width, height, transform: scale !== 1 ? `scale(${scale})` : undefined, ...(i === 1 ? { position: 'absolute', top: 0, left: 0 } : null), visibility: i === front ? 'visible' : 'hidden', pointerEvents: i === front ? undefined : 'none' }}
         />
       ))}
+    </div>
+  );
+}
+
+/* Favicon setting (Pages tab → Website settings): a letter on the brand colour (default),
+   your own image (resized here to a 180×180 PNG) or none. Exports add favicon.svg / .png. */
+function FaviconField({ site, onChange, flash }) {
+  const f = cleanFavicon(site.favicon);
+  const fileRef = useRef(null);
+  const onFile = async ev => {
+    const file = ev.target.files?.[0];
+    ev.target.value = '';
+    if (!file) return;
+    if (!/^image\//.test(file.type)) { flash('Choose an image file (PNG, JPG, SVG or ICO).'); return; }
+    try {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.src = url;
+      await img.decode();
+      const c = document.createElement('canvas');
+      c.width = 180; c.height = 180;
+      const k = Math.max(180 / (img.naturalWidth || 180), 180 / (img.naturalHeight || 180));
+      const w = (img.naturalWidth || 180) * k, h = (img.naturalHeight || 180) * k;
+      c.getContext('2d').drawImage(img, (180 - w) / 2, (180 - h) / 2, w, h);
+      URL.revokeObjectURL(url);
+      onChange({ ...f, mode: 'image', image: c.toDataURL('image/png') });
+      flash('Favicon set. It is saved with the website and exported as favicon.png.');
+    } catch { flash('That image could not be read. Try a PNG or JPG.'); }
+  };
+  const preview = f.mode === 'image' ? f.image : f.mode === 'auto' ? `data:image/svg+xml,${encodeURIComponent(faviconSvg({ ...site, favicon: f }))}` : '';
+  return (
+    <div className={s.field} style={{ marginTop: 12 }}>
+      <span className={s.label}>Favicon</span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        {preview ? <img src={preview} alt="" width={32} height={32} style={{ flex: 'none', borderRadius: 7, boxShadow: '0 0 0 1px rgba(127,127,127,.25)' }} /> : <span style={{ flex: 'none', width: 32, height: 32, borderRadius: 7, border: '1px dashed rgba(127,127,127,.5)' }} />}
+        <div className={s.seg} role="radiogroup" aria-label="Favicon" style={{ flex: 1 }}>
+          {FAVICON_MODES.map(([v, l]) => (
+            <button key={v} type="button" role="radio" aria-checked={f.mode === v} className={`${s.segBtn} ${f.mode === v ? s.segBtnActive : ''}`} onClick={() => (v === 'image' && !f.image ? fileRef.current?.click() : onChange({ ...f, mode: v }))}>{l}</button>
+          ))}
+        </div>
+      </div>
+      {f.mode === 'auto' && <input className={s.input} value={f.letter} maxLength={2} placeholder={`Letter (default: ${String(site.name || 'W').trim()[0]?.toUpperCase() || 'W'})`} aria-label="Favicon letter" onChange={ev => onChange({ ...f, letter: ev.target.value })} style={{ marginTop: 8 }} />}
+      {f.mode === 'image' && <button type="button" className={s.miniBtn} style={{ alignSelf: 'flex-start', marginTop: 8 }} onClick={() => fileRef.current?.click()}>Replace image</button>}
+      <input ref={fileRef} type="file" accept="image/*,.ico" onChange={onFile} hidden />
+      <span className={s.hint}>{f.mode === 'auto' ? 'A letter on your brand colour, exported as favicon.svg.' : f.mode === 'image' ? 'Your image as a 180×180 PNG: favicon.png, also used as the iPhone home-screen icon.' : 'No favicon: browsers show a blank page icon.'}</span>
     </div>
   );
 }
@@ -1003,6 +1050,33 @@ ${pageCss(shown, { fontFaces })}`),
       cdnUrls: js ? pageCdn(shown) : [],
     };
   };
+  /* Next.js: the whole website (every page) as a Next.js App Router project (templates/nextjs.js),
+     built from the static-site files with images copied into public/assets/ */
+  const downloadNextZip = async () => {
+    setBusy('nextzip');
+    try {
+      const { default: JSZip } = await import('jszip');
+      const zip = new JSZip();
+      const dir = zip.folder(`${fileBase}-nextjs`);
+      const pub = dir.folder('public');
+      const seen = new Set();
+      for (const u of allUploads) {
+        if (seen.has(u.file)) continue;
+        const rec = await getAsset(u.id).catch(() => null);
+        if (rec?.blob) { pub.file(`assets/${u.file}`, rec.blob); seen.add(u.file); }
+      }
+      let missed = 0;
+      const files = [];
+      for (const f of siteFiles(site, { imageSrc: relativeSrc, fontFaces })) {
+        if (/\.(html|css)$/.test(f.path)) { const r = await localizeImages(f.content, pub, seen); missed += r.missed; files.push({ ...f, content: r.html }); }
+        else files.push(f);
+      }
+      for (const f of siteNextFiles(site, files)) dir.file(f.path, f.content, f.base64 ? { base64: true } : undefined);
+      saveBlob(await zip.generateAsync({ type: 'blob' }), `${fileBase}-nextjs.zip`);
+      flash(`Downloaded a Next.js project with ${site.pages.length} page${site.pages.length > 1 ? 's' : ''}${seen.size ? ` and ${seen.size} image${seen.size > 1 ? 's' : ''}` : ''}. Run npm install, then npm run dev.${missed ? ` ${missed} image${missed > 1 ? 's' : ''} still load from their original URL.` : ''}`);
+    } catch (err) { flash(`ZIP failed: ${err.message}`); }
+    setBusy('');
+  };
   const downloadFrameworkZip = async kind => {
     const react = kind === 'react';
     setBusy(`${kind}zip`);
@@ -1051,15 +1125,16 @@ ${pageCss(shown, { fontFaces })}`),
       let hasScript = false;
       if (!multi) {
         // One page: one self-contained index.html (as before)
-        let html = pageDocumentHtml(shown, { imageSrc: relativeSrc, fontFaces });
+        let html = pageDocumentHtml(shown, { imageSrc: relativeSrc, fontFaces, extraHead: faviconTags(site, { files: true }) });
         ({ html, missed } = await localizeImages(html, dir, seen));
         dir.file('index.html', html);
+        for (const f of [...faviconFiles(site), ...siteExtraFiles(site)]) dir.file(f.path, f.content, f.base64 ? { base64: true } : undefined); // favicon, llms.txt (+ sitemap.xml, robots.txt with a site address)
       } else {
         // A static site: one .html per page sharing styles.css and script.js
         for (const f of siteFiles(site, { imageSrc: relativeSrc, fontFaces })) {
           if (f.path === 'script.js') hasScript = true;
           if (/\.(html|css)$/.test(f.path)) { const r = await localizeImages(f.content, dir, seen); missed += r.missed; dir.file(f.path, r.html); }
-          else dir.file(f.path, f.content);
+          else dir.file(f.path, f.content, f.base64 ? { base64: true } : undefined);
         }
       }
       dir.file('README.txt', [
@@ -1070,7 +1145,12 @@ ${pageCss(shown, { fontFaces })}`),
           'styles.css           every page’s CSS (theme variables at the top)',
           hasScript ? 'script.js            animations and interactive parts (menus, sliders, FAQ, pricing switch)' : '',
           site.url ? `sitemap.xml          every page, for search engines (${site.url}sitemap.xml)` : 'Tip: set the site address in the builder’s Pages tab to get sitemap.xml, robots.txt and canonical links.',
-        ] : ['index.html   the complete page (HTML with the CSS in a <style> tag)']),
+          'llms.txt             every page and its description, for AI assistants (llmstxt.org)',
+        ] : [
+          'index.html   the complete page (HTML with the CSS in a <style> tag)',
+          'llms.txt     what the page is, for AI assistants (llmstxt.org)',
+          site.url ? 'sitemap.xml  and robots.txt, for search engines' : 'Tip: set the site address in the builder’s Pages tab to get sitemap.xml and robots.txt too.',
+        ]),
         seen.size ? `assets/      every image the ${multi ? 'site' : 'page'} uses (${seen.size})` : '',
         missed ? `             ${missed} image${missed > 1 ? 's' : ''} could not be downloaded and still load from their original URL.` : '',
         '',
@@ -1434,6 +1514,7 @@ ${pageCss(shown, { fontFaces })}`),
                     <input id="wb-url" className={s.input} value={site.url} placeholder="https://www.example.com/" spellCheck={false} onChange={ev => setSite(st => ({ ...st, url: ev.target.value }))} onBlur={() => setSite(st => ({ ...st, url: cleanBaseUrl(st.url) }))} />
                     <span className={s.hint}>Where the site will live. Adds canonical links, sitemap.xml and robots.txt to the ZIP.</span>
                   </div>
+                  <FaviconField site={site} onChange={fav => setSite(st => ({ ...st, favicon: cleanFavicon(fav) }))} flash={flash} />
                 </section>
               </>
             ) : tab === 'theme' ? (
@@ -1544,6 +1625,7 @@ ${pageCss(shown, { fontFaces })}`),
                   multi
                     ? { icon: 'html', label: busy === 'zip' ? 'Zipping…' : 'Download website ZIP', sub: `${site.pages.length} pages (index.html, ${site.pages.slice(1, 3).map(p => pageFile(site, p)).join(', ')}${site.pages.length > 3 ? ' …' : ''}), styles.css, script.js and an assets folder`, onClick: downloadZip, disabled: !!busy || !allSections.length }
                     : { icon: 'html', label: busy === 'zip' ? 'Zipping…' : 'Download ZIP', sub: 'index.html plus an assets folder with every image', onClick: downloadZip, disabled: !!busy || !page.sections.length },
+                  { icon: 'next', label: busy === 'nextzip' ? 'Zipping…' : 'Download Next.js site', sub: `${multi ? `All ${site.pages.length} pages` : 'The page'} as a Next.js project (App Router), with sitemap, llms.txt and favicon`, onClick: downloadNextZip, disabled: !!busy || !page.sections.length },
                   { icon: 'react', label: busy === 'reactzip' ? 'Zipping…' : 'Download React ZIP', sub: `The .jsx component${multi ? ` of this page (${activePage.name})` : ''} plus an assets folder with every image`, onClick: () => downloadFrameworkZip('react'), disabled: !!busy || !page.sections.length },
                   { icon: 'vue', label: busy === 'vuezip' ? 'Zipping…' : 'Download Vue ZIP', sub: `The .vue component${multi ? ` of this page (${activePage.name})` : ''} plus an assets folder with every image`, onClick: () => downloadFrameworkZip('vue'), disabled: !!busy || !page.sections.length },
                 ]}

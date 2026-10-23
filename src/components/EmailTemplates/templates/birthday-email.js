@@ -1,5 +1,5 @@
 import { esc, escBr, safeUrl, wrapText, rich } from './meta.js';
-import { inboxFields, brandFields, footerFields, ctx, emailShell, h1Html, textFooter, cleanText, IMG, buttonRow, socialFields, socialRowHtml, socialText, footerHtml } from './shell.js';
+import { inboxFields, brandFields, footerFields, ctx, emailShell, h1Html, textFooter, cleanText, IMG, buttonRow, socialFields, socialRowHtml, socialText, footerHtml, socialStyleToggle } from './shell.js';
 
 export default {
   id: 'birthday-email',
@@ -45,6 +45,7 @@ export default {
     { key: 'showHero', label: 'Hero image', value: true },
     { key: 'showGift', label: 'Birthday gift', value: true },
     { key: 'showSocial', label: 'Social links', value: true },
+    socialStyleToggle('brand'),
   ],
   vars: [
     { key: 'brand', label: 'Brand / button', value: '#be185d', group: 'light' },

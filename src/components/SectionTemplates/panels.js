@@ -15,7 +15,7 @@ import { revealInPanel } from '@/lib/reveal-in-panel';
 import ImageLibraryPicker from '@/components/ImageLibrary';
 import { putAsset } from './storage';
 import { ICON_SETS, loadIconSet } from './icon-sets';
-import { ARTWORKS, ART_COLORS, ART_STRENGTHS, ART_ANIMS, artworkById, cleanArt, newArt, artPreview } from './templates/art.js';
+import { ARTWORKS, ART_COLORS, ART_STRENGTHS, ART_ANIMS, artworkById, cleanArt, newArt, artPreview, artMarkup, ART_CUSTOM_MAX, CUSTOM_ART_LAYOUTS } from './templates/art.js';
 import { parseHex, onColor } from '../OgImageGenerator/engine';
 import {
   THEME_PRESETS, THEME_COLORS, MOTION_PRESETS, MOTION_SPEEDS, TEXT_EFFECTS,
@@ -331,9 +331,60 @@ export function ContentPanel({ t, state, setState, blobUrls = {}, onPickUpload, 
  * @param art       the section's state.art (undefined = none)
  * @param onChange  (art | null) => void
  */
+/* Your own artwork: an uploaded or pasted SVG cleaned down to plain shapes. Only the tags and
+   attributes below survive (no scripts, links, images, text, styles or event handlers);
+   style="fill:…" declarations become attributes. cleanArt() checks the result again. */
+const ART_TAGS = new Set(['path', 'circle', 'rect', 'line', 'polyline', 'polygon', 'ellipse', 'g', 'defs', 'clipPath', 'mask', 'linearGradient', 'radialGradient', 'stop']);
+const ART_ATTRS = new Set(['d', 'cx', 'cy', 'r', 'rx', 'ry', 'x', 'y', 'x1', 'y1', 'x2', 'y2', 'width', 'height', 'points', 'fill', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-miterlimit', 'opacity', 'fill-opacity', 'stroke-opacity', 'fill-rule', 'clip-rule', 'transform', 'id', 'offset', 'stop-color', 'stop-opacity', 'gradientUnits', 'gradientTransform', 'fx', 'fy', 'clip-path', 'mask', 'maskUnits', 'clipPathUnits', 'spreadMethod', 'vector-effect']);
+const artValueOk = v => !/[<>"]|javascript:|expression\(|url\((?!#)/i.test(v);
+export function importArtSvg(text) {
+  const doc = new DOMParser().parseFromString(String(text || ''), 'image/svg+xml');
+  const svg = doc.documentElement;
+  if (!svg || svg.nodeName.toLowerCase() !== 'svg' || doc.querySelector('parsererror')) throw new Error('That isn’t a valid SVG file.');
+  let vb = svg.getAttribute('viewBox');
+  if (!vb) { const w = parseFloat(svg.getAttribute('width')), h = parseFloat(svg.getAttribute('height')); if (w > 0 && h > 0) vb = `0 0 ${w} ${h}`; }
+  if (!vb) throw new Error('The SVG needs a viewBox (or a width and height).');
+  const out = node => [...node.children].map(el => {
+    const tag = el.tagName.replace(/^svg:/, '');
+    if (!ART_TAGS.has(tag)) return tag === 'svg' || tag === 'a' || tag === 'switch' ? out(el) : ''; // nested svg / links: keep their shapes only
+    const attrs = {};
+    for (const at of el.attributes) if (ART_ATTRS.has(at.name) && artValueOk(at.value)) attrs[at.name] = at.value.trim();
+    (el.getAttribute('style') || '').split(';').forEach(decl => {
+      const [k, ...rest] = decl.split(':'); const key = (k || '').trim(), v = rest.join(':').trim();
+      if (ART_ATTRS.has(key) && v && artValueOk(v)) attrs[key] = v;
+    });
+    const a = Object.entries(attrs).map(([k, v]) => ` ${k}="${v.replace(/&/g, '&amp;')}"`).join('');
+    const inner = out(el);
+    return inner ? `<${tag}${a}>${inner}</${tag}>` : `<${tag}${a}/>`;
+  }).join('');
+  const body = out(svg);
+  if (!body) throw new Error('No shapes found. Text, photos and embedded images can’t be used, only vector shapes.');
+  if (body.length > ART_CUSTOM_MAX) throw new Error(`That SVG is too detailed (${Math.round(body.length / 1000)} KB of shapes; the limit is ${ART_CUSTOM_MAX / 1000} KB). Simplify it in your design tool first.`);
+  return { vb, body };
+}
+
 export function ArtworkPanel({ art, onChange, idPrefix = 'art' }) {
   const a = art ? cleanArt(art) : null;
-  const def = a && artworkById(a.id);
+  const custom = a?.id === 'custom';
+  const def = a && (custom ? { layout: a.layout, anims: ['float', 'spin', 'parallax'] } : artworkById(a.id));
+  const [own, setOwn] = useState(false); // the "Your own" tile is open (paste / upload)
+  const [paste, setPaste] = useState('');
+  const [err, setErr] = useState('');
+  const useSvg = (text, name) => {
+    try {
+      const { vb, body } = importArtSvg(text);
+      const next = cleanArt({ id: 'custom', name, vb, body, layout: 'cover', recolor: true, color: 'brand', strength: '15', anim: '' });
+      if (!next) throw new Error('That SVG couldn’t be used. Try exporting it again as plain SVG.');
+      setErr(''); setPaste(''); onChange(next);
+    } catch (e) { setErr(e.message); }
+  };
+  const onFile = async ev => {
+    const file = ev.target.files?.[0];
+    ev.target.value = '';
+    if (!file) return;
+    if (!/svg/i.test(file.type) && !/\.svg$/i.test(file.name)) { setErr('Choose an .svg file.'); return; }
+    useSvg(await file.text(), file.name.replace(/\.svg$/i, ''));
+  };
   const set = patch => onChange(cleanArt({ ...a, ...patch }));
   const seg = (label, value, options, onPick) => (
     <div className={s.field}>
@@ -355,10 +406,31 @@ export function ArtworkPanel({ art, onChange, idPrefix = 'art' }) {
             <span className={x.artLabel}>{w.label}</span>
           </button>
         ))}
+        <button type="button" role="radio" aria-checked={custom} className={`${x.artTile} ${custom || own ? x.artTileOn : ''}`} onClick={() => setOwn(o => !o)} title="Upload or paste your own SVG">
+          {custom
+            ? <span className={x.artThumb} dangerouslySetInnerHTML={{ __html: artMarkup({ ...a, strength: '100', anim: '' }, `${idPrefix}-own`).replace(/style="[^"]*"/, 'style="position:relative;display:block;width:100%;height:100%;color:currentColor"') }} />
+            : <span className={x.artNone}>+ SVG</span>}
+          <span className={x.artLabel}>Your own</span>
+        </button>
       </div>
+      {(own || custom) && (
+        <div className={s.field}>
+          <span className={s.label}>{custom ? `Your artwork${a.name ? `: ${a.name}` : ''}` : 'Your own SVG'}</span>
+          <label className={s.miniBtn} style={{ alignSelf: 'flex-start', cursor: 'pointer' }}>
+            {custom ? 'Replace with another .svg' : 'Upload an .svg file'}
+            <input type="file" accept=".svg,image/svg+xml" onChange={onFile} hidden />
+          </label>
+          <textarea className={s.textarea} rows={3} placeholder="…or paste SVG code here" value={paste} onChange={ev => setPaste(ev.target.value)} aria-label="Paste SVG code" />
+          {paste.trim() && <button type="button" className={`${s.miniBtn} ${s.miniBtnAccent}`} style={{ alignSelf: 'flex-start' }} onClick={() => useSvg(paste, 'Pasted SVG')}>Use this SVG</button>}
+          {err && <p className={s.hint} role="alert" style={{ color: '#dc2626' }}>{err}</p>}
+          <p className={s.hint}>Vector shapes only: scripts, links, text and embedded images are removed. It is saved inside your design, so exports work offline.</p>
+        </div>
+      )}
       {a && (
         <>
-          {seg('Colour', a.color, ART_COLORS, v => set({ color: v }))}
+          {custom && seg('Layout', a.layout, CUSTOM_ART_LAYOUTS, v => set({ layout: v }))}
+          {custom && seg('Colours', a.recolor ? 'theme' : 'own', [['theme', 'Theme colour'], ['own', 'Its own colours']], v => set({ recolor: v === 'theme' }))}
+          {(!custom || a.recolor) && seg('Colour', a.color, ART_COLORS, v => set({ color: v }))}
           {seg('Strength', a.strength, ART_STRENGTHS, v => set({ strength: v }))}
           {def.layout === 'edge' && seg('Edge', a.pos, [['top', 'Top'], ['bottom', 'Bottom']], v => set({ pos: v }))}
           {def.anims.length > 0 && seg('Animation', a.anim || '', [['', 'None'], ...def.anims.map(k => [k, ART_ANIMS[k]])], v => set({ anim: v }))}

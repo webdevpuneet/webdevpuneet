@@ -1,5 +1,5 @@
 import { esc, escBr, safeUrl, wrapText, rich } from './meta.js';
-import { inboxFields, brandFields, footerFields, ctx, emailShell, h1Html, textFooter, cleanText, IMG, buttonRow, socialFields, socialRowHtml, socialText, footerHtml } from './shell.js';
+import { inboxFields, brandFields, footerFields, ctx, emailShell, h1Html, textFooter, cleanText, IMG, buttonRow, socialFields, socialRowHtml, socialText, footerHtml, socialStyleToggle } from './shell.js';
 
 const GIFTS = [1, 2, 3, 4];
 const giftFields = (n, name, price, tag, img) => [
@@ -56,6 +56,7 @@ export default {
     { key: 'showHero', label: 'Hero image', value: true },
     { key: 'showCutoff', label: 'Shipping cut-off', value: true },
     { key: 'showSocial', label: 'Social links', value: true },
+    socialStyleToggle('text'),
   ],
   vars: [
     { key: 'brand', label: 'Brand / button', value: '#b91c1c', group: 'light' },

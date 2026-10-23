@@ -8,9 +8,9 @@ const TAGS = 'path|circle|rect|line|polyline|polygon|ellipse|g|defs|clipPath|mas
 const TOKEN = new RegExp(`<(?:(?:${TAGS})(?:\\s+[a-zA-Z][\\w:-]*="[^"<>]*")*\\s*/?|/(?:${TAGS}))>`, 'g');
 
 /** The markup when it is only plain SVG shapes, '' otherwise */
-export function safeBody(body) {
+export function safeBody(body, max = 20000) {
   const s = String(body || '');
-  if (!s || s.length > 20000) return '';
+  if (!s || s.length > max) return '';
   if (s.replace(TOKEN, '').trim()) return '';
   if (/\son\w+\s*=|javascript:|href|style\s*=/i.test(s)) return '';
   return s;

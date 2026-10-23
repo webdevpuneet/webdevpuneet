@@ -1,7 +1,7 @@
 /* Multi-page sites for the Website Builder (roadmap Phase 5).
 
    Site shape:
-     { kind: 'site', version, name, url, theme, fonts, motion, autoNav,
+     { kind: 'site', version, name, url, favicon, theme, fonts, motion, autoNav,
        header: [section], footer: [section],
        pages: [{ id, name, slug, title, description, inNav, hideHeader, hideFooter, sections: [section] }] }
    A section is the same { uid, tpl, anchor, state } a single page uses (page.js), and
@@ -100,7 +100,7 @@ export function siteFromPage(page) {
   while (secs.length && isHeaderSection(secs[0])) header.push(secs.shift());
   while (secs.length && isFooterSection(secs[secs.length - 1])) footer.unshift(secs.pop());
   return {
-    kind: 'site', version: SITE_VERSION, name: p.name || 'My website', url: '',
+    kind: 'site', version: SITE_VERSION, name: p.name || 'My website', url: '', favicon: cleanFavicon(null),
     theme: p.theme, fonts: p.fonts, motion: p.motion, autoNav: true,
     header, footer,
     pages: [{ id: newPageId(), name: 'Home', slug: 'index', title: '', description: '', inNav: true, hideHeader: false, hideFooter: false, sections: secs }],
@@ -244,11 +244,54 @@ export function restoreSite(saved) {
   if (!pages.length) pages.push({ ...newSitePage(null, 'Home'), slug: 'index' });
   return {
     kind: 'site', version: SITE_VERSION,
-    name: base.name, url: cleanBaseUrl(saved.url),
+    name: base.name, url: cleanBaseUrl(saved.url), favicon: cleanFavicon(saved.favicon),
     theme: base.theme, fonts: base.fonts, motion: base.motion,
     autoNav: saved.autoNav !== false,
     header, footer, pages,
   };
+}
+
+/* ── Favicon ─────────────────────────────────────────────────────────────────────
+   favicon: { mode: 'auto' | 'image' | 'none', letter, image }
+   auto   a rounded square in the brand colour with a letter (default: the site name's first),
+          as favicon.svg (SVG favicons work in every current browser)
+   image  the person's own icon, resized in the browser to a 180×180 PNG and kept in the site
+          as a data URL (favicon.png, also the apple-touch-icon)
+   none   no favicon tags */
+export const FAVICON_MODES = [['auto', 'Letter'], ['image', 'Your image'], ['none', 'None']];
+const FAVICON_PNG = /^data:image\/png;base64,[A-Za-z0-9+/=]+$/;
+export function cleanFavicon(f) {
+  const mode = FAVICON_MODES.some(([v]) => v === f?.mode) ? f.mode : 'auto';
+  const image = typeof f?.image === 'string' && f.image.length < 200000 && FAVICON_PNG.test(f.image) ? f.image : '';
+  return { mode: mode === 'image' && !image ? 'auto' : mode, letter: String(f?.letter || '').replace(/[<>&"']/g, '').trim().slice(0, 2), image };
+}
+const faviconLetter = site => (site.favicon?.letter || String(site.name || 'W').trim()[0] || 'W').toUpperCase();
+/** The automatic favicon: the letter on a rounded square in the theme's brand colour */
+export function faviconSvg(site) {
+  const t = site.theme || {};
+  const bg = /^#[0-9a-f]{3,8}$/i.test(t.brand || '') ? t.brand : '#4f46e5';
+  const fg = /^#[0-9a-f]{3,8}$/i.test(t.brandText || '') ? t.brandText : '#ffffff';
+  const l = faviconLetter(site);
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="${bg}"/><text x="32" y="33" text-anchor="middle" dominant-baseline="central" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="${l.length > 1 ? 28 : 38}" font-weight="700" fill="${fg}">${l}</text></svg>`;
+}
+/** <link> tags for the favicon. files: link favicon.svg / favicon.png next to the page
+    (exports); otherwise inline data URLs (single documents, previews). */
+export function faviconTags(site, { files = false, prefix = '' } = {}) {
+  const f = cleanFavicon(site.favicon);
+  if (f.mode === 'none') return '';
+  if (f.mode === 'image') {
+    const href = files ? `${prefix}favicon.png` : f.image;
+    return `<link rel="icon" type="image/png" href="${href}">\n<link rel="apple-touch-icon" href="${href}">\n`;
+  }
+  const href = files ? `${prefix}favicon.svg` : `data:image/svg+xml,${encodeURIComponent(faviconSvg(site))}`;
+  return `<link rel="icon" type="image/svg+xml" href="${href}">\n`;
+}
+/** The favicon file for exports ([] for none): { path, content, base64? } */
+export function faviconFiles(site) {
+  const f = cleanFavicon(site.favicon);
+  if (f.mode === 'none') return [];
+  if (f.mode === 'image') return [{ path: 'favicon.png', content: f.image.split(',')[1], base64: true }];
+  return [{ path: 'favicon.svg', content: `${faviconSvg(site)}\n` }];
 }
 
 /** The site's public address for canonical links and sitemap.xml ('' when unset) */
@@ -361,35 +404,66 @@ export const siteCdn = site => pageCdn(allSections(site));
 export function siteDocumentHtml(site, pageId, { imageSrc, clean = true, fontFaces = '', extraHead = '', motion = true, shared = false } = {}) {
   const page = pageById(site, pageId);
   const view = renderView(site, page.id);
-  const opts = { imageSrc, clean, fontFaces, extraHead, motion, title: pageTitle(site, page), description: page.description, canonical: cleanBaseUrl(site.url) ? `${cleanBaseUrl(site.url)}${isHomePage(site, page) ? '' : pageFile(site, page)}` : '' };
+  const opts = { imageSrc, clean, fontFaces, extraHead: `${clean ? faviconTags(site, { files: shared }) : ''}${extraHead}`, motion, title: pageTitle(site, page), description: page.description, canonical: cleanBaseUrl(site.url) ? `${cleanBaseUrl(site.url)}${isHomePage(site, page) ? '' : pageFile(site, page)}` : '' };
   if (!shared) return pageDocumentHtml(view, opts);
   const js = siteScript(site);
   return pageDocumentHtml(view, { ...opts, stylesheet: 'styles.css', script: js ? 'script.js' : '', cdnUrls: js ? siteCdn(site) : [] });
 }
 
 /** sitemap.xml for the site ('' without a site URL) */
-export function siteSitemap(site, { lastmod = new Date().toISOString().slice(0, 10) } = {}) {
+/* A page's path in the static export ('' for the home page). Other exports pass their own
+   (the Next.js export uses folders: 'about/'). */
+const staticPath = (site, p) => (isHomePage(site, p) ? '' : pageFile(site, p));
+
+export function siteSitemap(site, { lastmod = new Date().toISOString().slice(0, 10), pathOf = staticPath } = {}) {
   const base = cleanBaseUrl(site.url);
   if (!base) return '';
-  const urls = site.pages.map(p => `  <url>\n    <loc>${base}${isHomePage(site, p) ? '' : pageFile(site, p)}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`);
+  const urls = site.pages.map(p => `  <url>\n    <loc>${base}${pathOf(site, p)}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`);
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`;
 }
 
 /**
  * Every text file of the static-site export: one HTML file per page, styles.css,
- * script.js (when the site has scripts), and sitemap.xml + robots.txt when the site URL
- * is set. Images are the caller's job (imageSrc points at assets/…).
+ * script.js (when the site has scripts), llms.txt, and sitemap.xml + robots.txt when the
+ * site URL is set. Images are the caller's job (imageSrc points at assets/…).
  * @returns [{ path, content }]
  */
+/** llms.txt (llmstxt.org): the site's name, what it is and every page with its description,
+    so AI assistants can read the site. Links are absolute when the site address is set. */
+export function siteLlms(site, { pathOf = staticPath } = {}) {
+  const base = cleanBaseUrl(site.url);
+  const home = site.pages[0];
+  const clean = v => String(v || '').replace(/[\r\n]+/g, ' ').trim();
+  const lines = [`# ${clean(site.name) || 'Website'}`, ''];
+  if (clean(home?.description)) lines.push(`> ${clean(home.description)}`, '');
+  lines.push('## Pages', '');
+  for (const p of site.pages) {
+    const path = pathOf(site, p);
+    const url = base ? `${base}${path}` : (path || (pathOf === staticPath ? 'index.html' : '/'));
+    lines.push(`- [${clean(p.name) || 'Page'}](${url})${clean(p.description) ? `: ${clean(p.description)}` : ''}`);
+  }
+  return `${lines.join('\n')}\n`;
+}
+
+/** The search and AI files for a site: sitemap.xml + robots.txt (when the site address is set)
+    and llms.txt (always). Used by every website export, one page or many. */
+export function siteExtraFiles(site, { pathOf = staticPath } = {}) {
+  const files = [];
+  const sitemap = siteSitemap(site, { pathOf });
+  if (sitemap) {
+    files.push({ path: 'sitemap.xml', content: sitemap });
+    files.push({ path: 'robots.txt', content: `User-agent: *\nAllow: /\n\nSitemap: ${cleanBaseUrl(site.url)}sitemap.xml\n` });
+  }
+  files.push({ path: 'llms.txt', content: siteLlms(site, { pathOf }) });
+  return files;
+}
+
 export function siteFiles(site, { imageSrc, fontFaces = '' } = {}) {
   const files = site.pages.map(p => ({ path: pageFile(site, p), content: siteDocumentHtml(site, p.id, { imageSrc, fontFaces, shared: true }) }));
   files.push({ path: 'styles.css', content: siteCss(site, { fontFaces }) + '\n' });
   const js = siteScript(site);
   if (js) files.push({ path: 'script.js', content: js + '\n' });
-  const sitemap = siteSitemap(site);
-  if (sitemap) {
-    files.push({ path: 'sitemap.xml', content: sitemap });
-    files.push({ path: 'robots.txt', content: `User-agent: *\nAllow: /\n\nSitemap: ${cleanBaseUrl(site.url)}sitemap.xml\n` });
-  }
+  files.push(...faviconFiles(site));
+  files.push(...siteExtraFiles(site));
   return files;
 }

@@ -1,5 +1,5 @@
 import { esc, escBr, safeUrl, buttonHtml, wrapText, rich } from './meta.js';
-import { inboxFields, brandFields, footerFields, DEFAULT_VARS, ctx, emailShell, headerHtml, footerHtml, textFooter, cleanText } from './shell.js';
+import { inboxFields, brandFields, footerFields, DEFAULT_VARS, ctx, emailShell, headerHtml, footerHtml, textFooter, cleanText, socialStyleToggle, socialLinksHtml } from './shell.js';
 
 const FEATURE_IMG = 'https://webdevpuneet.com/images/email-templates/newsletter-feature.png';
 const STORIES = [1, 2, 3];
@@ -64,6 +64,7 @@ export default {
     { key: 'showFeature', label: 'Featured story', value: true },
     { key: 'showTip', label: 'Tip box', value: true },
     { key: 'showSocial', label: 'Social links', value: true },
+    socialStyleToggle('brand'),
   ],
   vars: DEFAULT_VARS('#e11d48'),
   fonts: { heading: 'playfair', body: 'system' },
@@ -127,7 +128,7 @@ export default {
     const socialHtml = on.showSocial && socials.length ? `
               <tr>
                 <td align="center" style="padding:0 0 14px;font-family:${B};font-size:13px;line-height:20px;">
-                  ${socials.map(([label, u, key]) => `<a${A(key)} href="${safeUrl(u)}" target="_blank" style="color:${v.brand};font-weight:700;text-decoration:none;">${label}</a>`).join(' <span class="m" style="color:#94a3b8;">&nbsp;&middot;&nbsp;</span> ')}
+                  ${socialLinksHtml(c, socials)}
                 </td>
               </tr>` : '';
     return emailShell(c, { card, header, footer: footerHtml(c, { socials: socialHtml }) });

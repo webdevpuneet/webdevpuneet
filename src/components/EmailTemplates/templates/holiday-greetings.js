@@ -1,5 +1,5 @@
 import { esc, escBr, safeUrl, wrapText, rich } from './meta.js';
-import { inboxFields, brandFields, footerFields, ctx, emailShell, textFooter, cleanText, IMG, buttonRow, socialFields, socialRowHtml, socialText, footerHtml } from './shell.js';
+import { inboxFields, brandFields, footerFields, ctx, emailShell, textFooter, cleanText, IMG, buttonRow, socialFields, socialRowHtml, socialText, footerHtml, socialStyleToggle } from './shell.js';
 
 export default {
   id: 'holiday-greetings',
@@ -47,6 +47,7 @@ export default {
     { key: 'showOffer', label: 'Thank-you offer', value: true },
     { key: 'showHours', label: 'Holiday hours', value: true },
     { key: 'showSocial', label: 'Social links', value: true },
+    socialStyleToggle('icons'),
   ],
   vars: [
     { key: 'brand', label: 'Brand / button', value: '#15803d', group: 'light' },

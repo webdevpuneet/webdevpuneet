@@ -53,6 +53,7 @@ export function ctx(t, s, opts = {}) {
     A: key => (opts.edit ? ` data-field="${key}"` : ''),
     blocks: Array.isArray(s.blocks) ? s.blocks : [],
     edit: !!opts.edit,
+    icons: s.socialIconSrc || {}, // brand-colour social icon PNGs drawn by the editor (socialLinksHtml)
   };
 }
 
@@ -348,15 +349,56 @@ export const socialFields = ({ x = 'https://x.com/yourbrand', linkedin = 'https:
   { key: 'instagramUrl', group: 'social', label: 'Instagram URL', type: 'url', value: instagram },
   { key: 'youtubeUrl', group: 'social', label: 'YouTube URL', type: 'url', value: youtube },
 ];
+/* ── Social icons ─────────────────────────────────────────────────────────────────
+   Each template picks text links or icons for its footer (toggle socialStyle, which the
+   person can switch): 'text' | 'icons' (grey) | 'brand' (brand colour). Icons are ALWAYS PNG
+   images, never SVG: Gmail, Outlook and most clients don't show SVG.
+   - 'icons': grey PNGs hosted at webdevpuneet.com/images/email-templates/social/<slug>.png
+     (made from socialIconSvg by scripts/build-email-social-icons.mjs), so Copy HTML works as is.
+   - 'brand': the editor draws socialIconSvg in the brand colour to PNG (canvas) and passes the
+     URLs as state.socialIconSrc (blob: in the preview, images/... or the image base URL in
+     exports; the ZIP includes the files). Without them (gallery thumbnails) the grey ones show. */
+export const SOCIAL_STYLES = [['text', 'Text'], ['icons', 'Grey icons'], ['brand', 'Brand-colour icons']];
+export const SOCIAL_ICON_GREY = '#64748b';
+const SOCIAL_ICONS = {
+  X: { slug: 'x', body: c => `<path fill="${c}" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>` },
+  LinkedIn: { slug: 'linkedin', body: c => `<path fill="${c}" d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/>` },
+  Instagram: { slug: 'instagram', body: c => `<rect x="2.5" y="2.5" width="19" height="19" rx="5.5" fill="none" stroke="${c}" stroke-width="2.2"/><circle cx="12" cy="12" r="4.4" fill="none" stroke="${c}" stroke-width="2.2"/><circle cx="17.6" cy="6.4" r="1.4" fill="${c}"/>` },
+  YouTube: { slug: 'youtube', body: c => `<path fill="${c}" d="M23.5 6.2a3.02 3.02 0 0 0-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.56A3.02 3.02 0 0 0 .5 6.2 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.8 3.02 3.02 0 0 0 2.12 2.14C4.5 20.5 12 20.5 12 20.5s7.5 0 9.38-.56a3.02 3.02 0 0 0 2.12-2.14A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.8zM9.6 15.5v-7l6.3 3.5-6.3 3.5z"/>` },
+};
+export const SOCIAL_SLUGS = Object.values(SOCIAL_ICONS).map(x => x.slug);
+export const socialSlug = label => SOCIAL_ICONS[label]?.slug || '';
+/** The icon as a standalone SVG document (only ever rasterised to PNG, never put in an email) */
+export const socialIconSvg = (slug, color, size = 72) => {
+  const ic = Object.values(SOCIAL_ICONS).find(x => x.slug === slug);
+  return ic ? `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24">${ic.body(color)}</svg>` : '';
+};
+export const socialIconFile = (slug, color) => `social-${slug}-${String(color).replace(/[^0-9a-f]/gi, '').toLowerCase()}.png`;
+/** The links themselves, as text or PNG icons (24×24, drawn at 3×) */
+export function socialLinksHtml({ on, v, A, icons = {} }, list) {
+  const style = on.socialStyle;
+  if (style === 'icons' || style === 'brand') {
+    return list.map(([label, u, key]) => {
+      const slug = socialSlug(label);
+      const src = (style === 'brand' && icons[slug]) || IMG(`social/${slug}.png`);
+      return `<a${A(key)} href="${safeUrl(u)}" target="_blank" style="display:inline-block;margin:0 7px;text-decoration:none;"><img src="${esc(src)}" width="24" height="24" alt="${esc(label)}" style="display:inline-block;width:24px;height:24px;border:0;outline:none;vertical-align:middle;"></a>`;
+    }).join('');
+  }
+  return list.map(([label, u, key]) => `<a${A(key)} href="${safeUrl(u)}" target="_blank" style="color:${v.brand};font-weight:700;text-decoration:none;">${label}</a>`).join(' <span class="m" style="color:#94a3b8;">&nbsp;&middot;&nbsp;</span> ');
+}
+/** The toggle a template adds to pick its footer's default: socialStyleToggle('icons') */
+export const socialStyleToggle = (value = 'text') => ({ key: 'socialStyle', label: 'Social links as', value, choice: SOCIAL_STYLES });
+
 export const socialList = f => [['X', f.xUrl, 'xUrl'], ['LinkedIn', f.linkedinUrl, 'linkedinUrl'], ['Instagram', f.instagramUrl, 'instagramUrl'], ['YouTube', f.youtubeUrl, 'youtubeUrl']].filter(([, u]) => String(u || '').trim());
 /** Social links as a footer row (empty when switched off or no links) */
-export function socialRowHtml({ f, v, B, A, on }, toggle = 'showSocial') {
+export function socialRowHtml(c, toggle = 'showSocial') {
+  const { f, B, on } = c;
   const list = socialList(f);
   if (!on[toggle] || !list.length) return '';
   return `
               <tr>
                 <td align="center" style="padding:0 0 14px;font-family:${B};font-size:13px;line-height:20px;">
-                  ${list.map(([label, u, key]) => `<a${A(key)} href="${safeUrl(u)}" target="_blank" style="color:${v.brand};font-weight:700;text-decoration:none;">${label}</a>`).join(' <span class="m" style="color:#94a3b8;">&nbsp;&middot;&nbsp;</span> ')}
+                  ${socialLinksHtml(c, list)}
                 </td>
               </tr>`;
 }

@@ -1,5 +1,5 @@
 import { esc, escBr, safeUrl, wrapText, rich } from './meta.js';
-import { inboxFields, brandFields, footerFields, DEFAULT_VARS, ctx, emailShell, headerHtml, footerHtml, h1Html, textFooter, cleanText, IMG, buttonRow, socialFields, socialRowHtml, socialText } from './shell.js';
+import { inboxFields, brandFields, footerFields, DEFAULT_VARS, ctx, emailShell, headerHtml, footerHtml, h1Html, textFooter, cleanText, IMG, buttonRow, socialFields, socialRowHtml, socialText, socialStyleToggle } from './shell.js';
 
 const FEATS = [1, 2, 3];
 const MORE = [1, 2, 3];
@@ -61,6 +61,7 @@ export default {
     { key: 'showHero', label: 'Feature image', value: true },
     { key: 'showMore', label: 'Also new', value: true },
     { key: 'showSocial', label: 'Social links', value: true },
+    socialStyleToggle('text'),
   ],
   vars: DEFAULT_VARS('#4f46e5'),
   fonts: { heading: 'inter', body: 'system' },

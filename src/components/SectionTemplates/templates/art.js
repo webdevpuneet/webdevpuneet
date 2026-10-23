@@ -13,7 +13,15 @@
    of the <section>, painted behind the content (z-index -1 inside an isolated section). Every
    shape uses currentColor, which .st-art sets from the chosen colour. ART_CSS and ART_RUNTIME
    are only added to a page when a section uses artwork, so other exports don't change.
-   SVG ids are suffixed with a key (section uid / template id) so several can share a page. */
+   SVG ids are suffixed with a key (section uid / template id) so several can share a page.
+
+   Your own artwork (id 'custom'): an SVG the person uploads or pastes, cleaned to plain
+   shapes in the browser (importArtSvg in panels.js) and checked again here with the icon
+   whitelist (safeBody), stored inside the design so exports work offline:
+     art: { id: 'custom', name, vb, body, layout: 'cover' | 'corner', recolor, color, strength, anim }
+   recolor   true: every fill / stroke / stop colour becomes the theme colour (currentColor)
+   Its shapes sit in one <g data-float data-spin>, so float and spin move the whole drawing. */
+import { safeBody } from './icon-lib.js';
 
 export const ART_COLORS = [['brand', 'Brand'], ['text', 'Text'], ['muted', 'Muted'], ['surface', 'Cards']];
 export const ART_STRENGTHS = [['8', 'Subtle'], ['15', 'Light'], ['30', 'Medium'], ['100', 'Solid']];
@@ -69,8 +77,33 @@ export const ARTWORKS = [
 ];
 export const artworkById = id => ARTWORKS.find(a => a.id === id);
 
+/* ── Your own artwork ── */
+export const ART_CUSTOM_MAX = 100000; // characters of cleaned SVG markup
+export const CUSTOM_ART_LAYOUTS = [['cover', 'Fill the section'], ['corner', 'Corner']];
+const CUSTOM_ANIMS = ['float', 'spin', 'parallax'];
+const cleanViewBox = vb => {
+  const n = String(vb || '').trim().split(/[\s,]+/).map(Number);
+  return n.length === 4 && n.every(Number.isFinite) && n[2] > 0 && n[3] > 0 ? n.map(v => Math.round(v * 1000) / 1000).join(' ') : '';
+};
+const recolor = body => body.replace(/\b(fill|stroke|stop-color)="(?!none"|url\()[^"]*"/g, '$1="currentColor"');
+const customDef = a => ({
+  id: 'custom', label: a.name || 'Your artwork', kind: 'background', layout: a.layout, anims: CUSTOM_ANIMS,
+  svg: () => `<svg viewBox="${a.vb}" preserveAspectRatio="${a.layout === 'cover' ? 'xMidYMid slice' : 'xMidYMid meet'}"><g data-float data-spin>${a.recolor ? recolor(a.body) : a.body}</g></svg>`,
+});
+
 /** A saved artwork setting made safe, or undefined for none */
 export function cleanArt(a) {
+  if (a?.id === 'custom') {
+    const body = safeBody(a.body, ART_CUSTOM_MAX), vb = cleanViewBox(a.vb);
+    if (!body || !vb) return undefined;
+    return {
+      id: 'custom', name: String(a.name || '').replace(/[<>"]/g, '').slice(0, 60), vb, body,
+      layout: a.layout === 'corner' ? 'corner' : 'cover', recolor: a.recolor !== false,
+      color: ART_COLORS.some(([v]) => v === a.color) ? a.color : 'brand',
+      strength: ART_STRENGTHS.some(([v]) => v === String(a.strength)) ? String(a.strength) : '15',
+      ...(CUSTOM_ANIMS.includes(a.anim) ? { anim: a.anim } : {}),
+    };
+  }
   const art = a && artworkById(a.id);
   if (!art) return undefined;
   return {
@@ -89,7 +122,7 @@ export const newArt = id => cleanArt({ id, color: 'brand', strength: artworkById
 export function artMarkup(art, key = 'a') {
   const a = cleanArt(art);
   if (!a) return '';
-  const def = artworkById(a.id);
+  const def = a.id === 'custom' ? customDef(a) : artworkById(a.id);
   const k = String(key).replace(/[^\w-]/g, '').slice(0, 24) || 'a';
   const cls = def.layout === 'edge' ? `st-art st-art--${a.pos}` : def.layout === 'corner' ? 'st-art st-art--corner' : def.layout === 'corners' ? 'st-art st-art--corners' : 'st-art';
   const style = `color:var(--st-${a.color === 'surface' ? 'surface' : a.color === 'brand' ? 'brand' : a.color});opacity:${Number(a.strength) / 100}${def.h ? `;--st-art-h:${def.h}` : ''}`;

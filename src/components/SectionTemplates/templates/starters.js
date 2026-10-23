@@ -6,6 +6,7 @@
    default state. A list given here replaces that list's default items. */
 import { IMG } from './meta.js';
 import { MORE_WEBSITE_TEMPLATES } from './starters-2.js';
+import { EVEN_MORE_WEBSITE_TEMPLATES } from './starters-3.js';
 
 const av = n => IMG(`avatar-${n}.jpg`);
 const cov = n => IMG(`blog-${n}.jpg`);
@@ -536,6 +537,8 @@ export const WEBSITE_TEMPLATES = [
   },
   // Wedding, hotel, salon and law firm (starters-2.js)
   ...MORE_WEBSITE_TEMPLATES,
+  // Podcast, product store, school and church (starters-3.js)
+  ...EVEN_MORE_WEBSITE_TEMPLATES,
 ];
 
 export const websiteTemplateById = id => WEBSITE_TEMPLATES.find(x => x.id === id);
