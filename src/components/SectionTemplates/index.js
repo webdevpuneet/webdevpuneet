@@ -32,6 +32,10 @@ import { saveBlob, prepareUpload, EXT, previewImages, localizeImages } from './u
 const TOOL = 'website-section-templates';
 const BASE = `/${TOOL}/`;
 const GALLERY_PAGE = 8; // 2 rows of 4
+/* Sections whose effect is driven by scrolling (pinned galleries, stacking cards, drawn lines): their
+   preview is a scrollable viewport with room before and after, instead of a frame grown to full height */
+const SCROLL_FX = new Set(['hscroll', 'story', 'stack', 'drawpath']);
+const SCROLL_FX_HEAD = '<script>window.ST_SCROLL_FX=true</script><style>html{background:#e8ebf0}body::after{content:"";display:block;height:40vh;background:#e8ebf0}</style>';
 const DEVICES = [
   { id: 'desktop', label: 'Desktop', w: 1280, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2" /><path d="M8 21h8M12 17v4" /></svg> },
   { id: 'tablet', label: 'Tablet', w: 820, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2" /><path d="M11 18h2" /></svg> },
@@ -40,7 +44,7 @@ const DEVICES = [
 
 
 /* ── Preview frame: an iframe at a real device width, scaled to fit, growing to the section's height ── */
-function SectionFrame({ html, width, scale = 1, interactive = true, onDoc }) {
+function SectionFrame({ html, width, scale = 1, interactive = true, onDoc, fixedH = 0 }) {
   const onDocRef = useRef(onDoc);
   onDocRef.current = onDoc;
   const ref = useRef(null);
@@ -53,9 +57,12 @@ function SectionFrame({ html, width, scale = 1, interactive = true, onDoc }) {
       const doc = frame.contentDocument;
       if (!doc?.documentElement) return;
       const fit = () => setH(Math.max(200, Math.ceil(Math.max(doc.documentElement.scrollHeight, doc.body?.scrollHeight || 0))));
-      fit();
       ro?.disconnect();
-      if (typeof ResizeObserver !== 'undefined') { ro = new ResizeObserver(fit); ro.observe(doc.documentElement); }
+      // A fixed-height frame is a scrollable viewport (scroll effects); otherwise it grows to the section
+      if (!fixedH) {
+        fit();
+        if (typeof ResizeObserver !== 'undefined') { ro = new ResizeObserver(fit); ro.observe(doc.documentElement); }
+      }
       // Links inside the preview never navigate away from the editor
       doc.addEventListener('click', ev => { if (ev.target.closest?.('a')) ev.preventDefault(); });
       // Forms (newsletter sign-ups) never submit from the preview
@@ -64,15 +71,16 @@ function SectionFrame({ html, width, scale = 1, interactive = true, onDoc }) {
     };
     frame.addEventListener('load', measure);
     return () => { frame.removeEventListener('load', measure); ro?.disconnect(); };
-  }, []);
+  }, [fixedH]);
+  const frameH = fixedH || h;
   return (
-    <div style={{ width: width * scale, height: h * scale, overflow: 'hidden', flex: 'none' }}>
+    <div style={{ width: width * scale, height: frameH * scale, overflow: 'hidden', flex: 'none' }}>
       <iframe
         ref={ref}
         title="Section preview"
         srcDoc={html}
-        scrolling="no"
-        style={{ width, height: h, border: 0, overflow: 'hidden', display: 'block', transform: scale !== 1 ? `scale(${scale})` : undefined, transformOrigin: 'top left', pointerEvents: interactive ? 'auto' : 'none', background: '#fff' }}
+        scrolling={fixedH ? 'yes' : 'no'}
+        style={{ width, height: frameH, border: 0, overflow: fixedH ? 'auto' : 'hidden', display: 'block', transform: scale !== 1 ? `scale(${scale})` : undefined, transformOrigin: 'top left', pointerEvents: interactive ? 'auto' : 'none', background: '#fff' }}
       />
     </div>
   );
@@ -262,6 +270,7 @@ export function SectionTemplateEditor({ id }) {
   const [blobUrls, setBlobUrls] = useState({}); // upload id -> object URL
   const [fontTick, setFontTick] = useState(0);
   const [stageW, setStageW] = useState(0);
+  const [stageH, setStageH] = useState(0);
   const [codeCopied, setCodeCopied] = useState(false);
   // The live preview stays still while editing; "Play animation" re-renders it with the GSAP runtime once
   const [playing, setPlaying] = useState(0);
@@ -376,7 +385,7 @@ export function SectionTemplateEditor({ id }) {
   useEffect(() => {
     const el = stageRef.current;
     if (!el) return undefined;
-    const ro = new ResizeObserver(() => setStageW(el.clientWidth));
+    const ro = new ResizeObserver(() => { setStageW(el.clientWidth); setStageH(el.clientHeight); });
     ro.observe(el);
     return () => ro.disconnect();
   }, [view]);
@@ -409,11 +418,12 @@ export function SectionTemplateEditor({ id }) {
   const zipSrc = key => (uploads[key] ? `assets/${uploads[key].file}` : '');
   const fontFaces = useMemo(() => (fontTick >= 0 ? customFontFaceCss(customFontIds(t, state)) : ''), [t, state, fontTick]);
 
+  const scrollFx = (t.behaviors || []).some(b => SCROLL_FX.has(b));
   const previewHtml = useMemo(
     // Navbars get room below them in the preview, so their menus have space to open
     // ST_PREVIEW: forms simulate success instead of sending anything
-    () => previewImages(documentHtml(t, state, { imageSrc: previewSrc, clean: false, fontFaces, motion: playing > 0, extraHead: `<script>window.ST_PREVIEW=true</script>${t.previewMinHeight ? `<style>body{min-height:${t.previewMinHeight}px;background:#f1f5f9}</style>` : ''}` }), origin),
-    [t, state, previewSrc, fontFaces, origin, playing],
+    () => previewImages(documentHtml(t, state, { imageSrc: previewSrc, clean: false, fontFaces, motion: playing > 0, extraHead: `<script>window.ST_PREVIEW=true</script>${scrollFx ? SCROLL_FX_HEAD : ''}${t.previewMinHeight ? `<style>body{min-height:${t.previewMinHeight}px;background:#f1f5f9}</style>` : ''}` }), origin),
+    [t, state, previewSrc, fontFaces, origin, playing, scrollFx],
   );
   /* Click-to-edit: text is typed right in the preview, any other bound element points to its
      input in the panel. The preview doesn't reload while text is being edited in it. */
@@ -865,10 +875,10 @@ export function SectionTemplateEditor({ id }) {
               <>
                 {origin && scale > 0 && (
                   <div className={x.frameOuter} style={{ width: dev.w * scale }}>
-                    <div className={x.frameBox}><SectionFrame key={`${device}-${playing}`} html={shownHtml} width={dev.w} scale={scale} onDoc={onPreviewDoc} /></div>
+                    <div className={x.frameBox}><SectionFrame key={`${device}-${playing}-${scrollFx}`} html={shownHtml} width={dev.w} scale={scale} onDoc={onPreviewDoc} fixedH={scrollFx && stageH ? Math.max(360, Math.round((stageH - 110) / scale)) : 0} /></div>
                   </div>
                 )}
-                <p className={x.stageHint}>{dev.label} · {dev.w}px{scale < 1 ? ` · shown at ${Math.round(scale * 100)}%` : ''} · edit the text, images and colours in the panel</p>
+                <p className={x.stageHint}>{dev.label} · {dev.w}px{scale < 1 ? ` · shown at ${Math.round(scale * 100)}%` : ''} · {scrollFx ? 'scroll inside the preview to see the effect' : 'edit the text, images and colours in the panel'}</p>
               </>
             ) : (
               <div className={x.codeWrap}>

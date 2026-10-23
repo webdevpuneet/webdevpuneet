@@ -479,7 +479,9 @@ BEHAVIORS.hscroll = {
       var sec = row.closest('.st');
       sec.classList.add('is-hscroll');
       var dist = function () { return Math.max(0, row.scrollWidth - row.clientWidth); };
-      var tw = G.to(row, { x: function () { return -dist(); }, ease: 'none', scrollTrigger: { trigger: sec, start: 'top top', end: function () { return '+=' + dist(); }, pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true } });
+      // A sticky header stays on screen, so the section pins just below it instead of under it
+      var head = function () { var h = 0; document.querySelectorAll('.st').forEach(function (n) { if (n !== sec && n.querySelector('[data-sticky-flag]')) h = Math.max(h, n.offsetHeight); }); return h; };
+      var tw = G.to(row, { x: function () { return -dist(); }, ease: 'none', scrollTrigger: { trigger: sec, start: function () { return 'top ' + head(); }, end: function () { return '+=' + dist(); }, pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true } });
       made.push(function () { tw.scrollTrigger.kill(); tw.kill(); G.set(row, { clearProps: 'transform' }); sec.classList.remove('is-hscroll'); });
     });
     return function () { made.forEach(function (f) { f(); }); };
