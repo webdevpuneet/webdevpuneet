@@ -880,7 +880,7 @@ export default function WebsiteBuilder() {
   const shown = useMemo(() => renderView(site, activePage.id), [site, activePage.id]); // with the automatic menu
   const previewHtml = useMemo(() => previewImages(pageDocumentHtml(shown, {
     imageSrc: previewSrc, clean: false, fontFaces, motion: playing > 0,
-    extraHead: `<script>window.ST_PREVIEW=true${showMarkers ? ';window.ST_SCROLL_MARKERS=true' : ''}</script><style>${SELECT_CSS}</style>`,
+    extraHead: `<script>window.ST_PREVIEW=true;window.ST_SCROLL_FX=true${showMarkers ? ';window.ST_SCROLL_MARKERS=true' : ''}</script><style>${SELECT_CSS}</style>`,
   }), origin), [shown, blobUrls, fontFaces, origin, playing, showMarkers]); // eslint-disable-line react-hooks/exhaustive-deps
   const autoNav = usesAutoNav(site);
   const autoNavRef = useRef(autoNav);
@@ -1205,7 +1205,7 @@ ${pageCss(shown, { fontFaces })}`),
           <div className={`${s.panelTabs} ${b.tabs5}`} role="tablist" aria-label="Panel" onClickCapture={() => setSheetOpen(true)}>
             {[['page', 'Sections'], ['site', 'Pages'], ['theme', 'Theme'], ['pages', 'Saved'], ['backup', 'Backup']].map(([v, l]) => (
               <button key={v} type="button" role="tab" aria-selected={tab === v} className={tab === v ? s.panelTabOn : ''} onClick={() => { setTab(v); if (v !== 'page') setEditing(null); }}>
-                {l}{v === 'pages' && <span className={s.panelTabCount}>{pages.length}</span>}{v === 'site' && multi && <span className={s.panelTabCount}>{site.pages.length}</span>}
+                {l}{v === 'site' && multi && <span className={b.tabBadge}>{site.pages.length}</span>}
               </button>
             ))}
           </div>

@@ -73,10 +73,12 @@
 
 /* Five panel tabs (Sections, Pages, Theme, Saved, Backup): tighter so they fit the panel,
    scrolling sideways if the panel is narrower still */
-.tabs5 { gap: 0; padding: 0 6px; overflow-x: auto; scrollbar-width: none; }
+.tabs5 { gap: 0; justify-content: space-between; padding: 0 10px; overflow-x: auto; scrollbar-width: none; }
 .tabs5::-webkit-scrollbar { display: none; }
 .tabs5 button { flex: none; padding: 9px 6px 8px; font-size: 12px; white-space: nowrap; }
 .tabs5 button::after { left: 5px !important; right: 5px !important; }
+/* Page count: a small badge over the tab's top-right corner, so it takes no width */
+.tabBadge { position: absolute; top: 1px; right: -5px; min-width: 14px; height: 14px; padding: 0 4px; border-radius: 99px; background: var(--spt-accent, #6366f1); color: #fff; font-size: 9.5px; font-weight: 800; line-height: 14px; text-align: center; pointer-events: none; }
 .starterMode { margin: 4px 0 10px; }
 
 /* Section style panel (per-section overrides) */

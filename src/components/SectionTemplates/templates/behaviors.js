@@ -459,7 +459,10 @@ BEHAVIORS.hoverpreview = {
 /* ── Scroll experiences (Scroll effects category) ─────────────────────────────────
    All three are layouts first: without JavaScript, with reduced motion, while editing
    (window.ST_STILL) and on small screens they show a plain, complete layout. With GSAP +
-   ScrollTrigger on larger screens the section pins and scrolling drives the motion. */
+   ScrollTrigger on larger screens the section pins and scrolling drives the motion.
+   The Website Builder's page preview scrolls like a real page, so it sets
+   window.ST_SCROLL_FX to keep these running there while editing (the section editor's
+   preview grows to full height and never scrolls, so it stays still). */
 
 BEHAVIORS.hscroll = {
   /* Horizontal scroll gallery. Markup: a [data-hscroll] row inside the section.
@@ -468,7 +471,7 @@ BEHAVIORS.hscroll = {
   plugins: [],
   js: `(function () {
   var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!G || !window.ScrollTrigger || reduce || window.ST_STILL) return;
+  if (!G || !window.ScrollTrigger || reduce || (window.ST_STILL && !window.ST_SCROLL_FX)) return;
   G.registerPlugin(ScrollTrigger);
   G.matchMedia().add('(min-width: 768px)', function () {
     var made = [];
@@ -493,7 +496,7 @@ BEHAVIORS.story = {
   plugins: [],
   js: `(function () {
   var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!G || !window.ScrollTrigger || reduce || window.ST_STILL) return;
+  if (!G || !window.ScrollTrigger || reduce || (window.ST_STILL && !window.ST_SCROLL_FX)) return;
   G.registerPlugin(ScrollTrigger);
   G.matchMedia().add('(min-width: 900px)', function () {
     var made = [];
@@ -528,7 +531,7 @@ BEHAVIORS.stack = {
   plugins: [],
   js: `(function () {
   var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!G || !window.ScrollTrigger || reduce || window.ST_STILL) return;
+  if (!G || !window.ScrollTrigger || reduce || (window.ST_STILL && !window.ST_SCROLL_FX)) return;
   G.registerPlugin(ScrollTrigger);
   G.matchMedia().add('(min-width: 768px)', function () {
     var made = [];
@@ -562,7 +565,7 @@ BEHAVIORS.drawpath = {
   plugins: [],
   js: `(function () {
   var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!G || !window.ScrollTrigger || reduce || window.ST_STILL) return;
+  if (!G || !window.ScrollTrigger || reduce || (window.ST_STILL && !window.ST_SCROLL_FX)) return;
   G.registerPlugin(ScrollTrigger);
   document.querySelectorAll('.st [data-drawpath]').forEach(function (box) {
     box.classList.add('is-drawing');
