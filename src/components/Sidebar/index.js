@@ -1568,7 +1568,6 @@ export default function Sidebar() {
   // still wins until the next navigation changes the page type.
   useEffect(() => {
     setSidebarView(defaultSidebarViewFor(pathname));
-    if (pathname === '/') setUiSnippetsOpen(true);
   }, [pathname]);
 
   const [customSnippets, setCustomSnippets] = useState([]);
