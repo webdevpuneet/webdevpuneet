@@ -230,11 +230,24 @@ export function ContentPanel({ t, state, setState, blobUrls = {}, onPickUpload, 
         </div>
       );
     }
+    if (fd.type === 'check') {
+      return (
+        <div key={id} className={s.field} data-fieldwrap="" style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <label className={s.label} htmlFor={id} style={{ margin: 0 }}>{fd.label}</label>
+          <label className={x.switch}>
+            <input id={id} type="checkbox" checked={value !== 'no'} onChange={ev => onChange(ev.target.checked ? 'yes' : 'no')} />
+            <span />
+          </label>
+        </div>
+      );
+    }
     const up = fd.type === 'image' ? uploads[ukey] : null;
     return (
       <div key={id} className={s.field} data-fieldwrap="">
         <label className={s.label} htmlFor={id}>{fd.label}</label>
         {fd.type === 'icon' ? <IconPicker id={id} value={value} onChange={onChange} />
+          : fd.type === 'choice'
+            ? <select id={id} className={s.input} value={value ?? ''} onChange={ev => onChange(ev.target.value)}>{fd.options.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select>
           : fd.type === 'textarea' || fd.type === 'lines' || fd.type === 'links'
             ? <textarea id={id} className={s.textarea} rows={fd.type === 'textarea' ? 3 : 5} spellCheck={fd.type !== 'links'} value={value ?? ''} onChange={ev => onChange(ev.target.value)} />
             : <input id={id} className={s.input} type="text" inputMode={fd.type === 'url' || fd.type === 'image' ? 'url' : undefined} spellCheck={fd.type === 'text'} value={up ? `images/${up.file}` : (value ?? '')} disabled={!!up} title={up ? 'Using your uploaded image; remove it to paste a URL instead' : undefined} onChange={ev => onChange(ev.target.value)} />}

@@ -276,7 +276,7 @@ export function scrollScript(m = {}) {
   if (${!!m.smooth} && window.ScrollSmoother) {
     gsap.registerPlugin(ScrollSmoother);
     gsap.matchMedia().add('(min-width: 1024px) and (pointer: fine)', function () {
-      var all = Array.prototype.filter.call(document.body.children, function (el) { return el.classList && el.classList.contains('st'); });
+      var all = Array.prototype.filter.call(document.body.children, function (el) { return el.classList && el.classList.contains('st') && !el.classList.contains('st-floating-social-share'); });
       var head = [];
       while (head.length < all.length && all[head.length].querySelector('[data-sticky-flag]')) head.push(all[head.length]);
       var rest = all.slice(head.length);

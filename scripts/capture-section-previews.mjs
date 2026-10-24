@@ -67,7 +67,7 @@ async function main() {
     await page.setContent(html, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
     const shot = t.previewMinHeight
-      ? await page.screenshot({ type: 'png', clip: { x: 0, y: 0, width: 1280, height: Math.min(720, t.previewMinHeight) } })
+      ? await page.screenshot({ type: 'png', clip: { x: 0, y: 0, width: 1280, height: 800 } })
       : await page.locator('section.st').screenshot({ type: 'png' });
     await sharp(shot).png({ compressionLevel: 9 }).toFile(previewPath);
 

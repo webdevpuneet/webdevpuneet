@@ -223,5 +223,24 @@ New: the **[Legal & Long-Form Text Page](/website-section-templates/privacy-poli
       { q: 'How many posts should a homepage show?', a: 'Three is the most common: enough to show activity without competing with the rest of the page. Link to the full blog for more.' },
     ],
   },
+  social: {
+    title: 'Social Share Button Templates — Free Floating Share Bar',
+    description: 'Free social share button templates: a floating bar that takes no space, with Facebook, X, WhatsApp, LinkedIn and more. Edit online, export HTML, React or Vue.',
+    h1: 'Social Share Button Templates',
+    keywords: ['social share buttons html', 'floating social share bar', 'sticky share buttons', 'social media share buttons css', 'whatsapp share button html'],
+    intro: `Readers share what they enjoy while they still feel it, and the easiest way to help them is a set of share buttons that is always within reach. These templates float above the page, so they never push your content around, and they link straight to each network's own share window.
+
+Start with the **[Floating Social Share Bar](/website-section-templates/floating-social-share/)**: stacked buttons on the left or right of the screen, centred or at a height you choose, for Facebook, X, LinkedIn, WhatsApp, Telegram, Pinterest, Reddit, Threads, Bluesky, Tumblr, Hacker News, LINE, email and copy link. Visitors can collapse it into a small tab and bring it back with one click.
+
+Every share link opens in a new tab, fills in the page address and title for you and works with a keyboard. On phones the bar becomes a bottom bar so it never covers your text. Edit the buttons, colours and position in your browser and export HTML, a ZIP, React or Vue.
+
+Put share buttons where people finish reading, keep the list to the three or four networks your audience really uses, and add a copy-link button for chat and email. For a stronger finish to an article, pair the bar with a [newsletter sign-up](/website-section-templates/category/cta/).`,
+    faqs: [
+      { q: 'How do I add social share buttons to my website?', a: 'Open the Floating Social Share Bar, choose your networks and position, then export the HTML or copy it into your page. The buttons share the page the visitor is on without any plugin.' },
+      { q: 'Will floating share buttons cover my content?', a: 'They sit on the edge of the screen and take no space in your layout. Visitors can collapse them into a small tab, and on phones they move to a bottom bar you can also hide.' },
+      { q: 'Do I need an API key or account to use them?', a: 'No. Each button is a normal link to the network’s public share page, so there is nothing to register and no tracking script is added to your site.' },
+      { q: 'Can I choose which networks appear?', a: 'Yes. Add, remove and reorder buttons from a list of fourteen, including WhatsApp, LinkedIn, Pinterest, Reddit, email and a copy-link button.' },
+    ],
+  },
   ...SCROLL_LISTINGS_CATEGORY_SEO, // scroll + listings (seo-scroll-listings.js)
 };

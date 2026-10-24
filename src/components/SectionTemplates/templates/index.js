@@ -60,6 +60,7 @@ import restaurantMenu from './restaurant-menu.js';
 import propertyListings from './property-listings.js';
 import productGrid from './product-grid.js';
 import classTimetable from './class-timetable.js';
+import socialShare from './social-share.js';
 import { DEFAULT_THEME, DEFAULT_MOTION } from './meta.js';
 import { cleanArt } from './art.js';
 
@@ -127,6 +128,7 @@ export const SECTION_TEMPLATES = [
   propertyListings,
   productGrid,
   classTimetable,
+  socialShare,
 ];
 // Ids a section used before it was renamed (designs saved in a browser still point at them)
 const RENAMED = { 'article-text': 'privacy-policy' };

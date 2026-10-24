@@ -499,4 +499,68 @@ Copy one HTML file, download a ZIP with your product photos, copy a React or Vue
 - Add Product JSON-LD (name, image, description, offers with price and priceCurrency, aggregateRating) for each card.`,
     },
   },
+
+  'floating-social-share': {
+    keywords: ['social share buttons html', 'floating social share bar', 'sticky social share sidebar', 'social media share buttons css', 'share buttons without plugin'],
+    about: {
+      title: 'Floating Social Share Bar — Free Sticky Share Buttons Template',
+      description: `**Floating Social Share Bar** is a free set of social share buttons that float at the edge of the screen and take no space in your layout. The buttons stack in a column on the left or right, centred or at any height you choose, and each one opens the network's own share window in a new tab with your page address and title already filled in.
+
+**Share the right page, every time**
+
+You do not have to type an address for each page. Leave the address empty and the bar reads the page the visitor is on, and the page title for the post. Fill them in to always share one fixed page. The Pinterest button picks up your social image, and the X button can add your username and hashtags.
+
+**Popular networks, one list**
+
+Add or remove buttons from a list of fourteen: Facebook, X, LinkedIn, WhatsApp, Telegram, Pinterest, Reddit, Threads, Bluesky, Tumblr, Hacker News, LINE, email and copy link. Reorder or rename them and pick network colours, your brand colour or a subtle style.
+
+**Out of the way when wanted**
+
+Visitors can collapse the bar into a small tab on the edge and bring it back with one click, and you can start it collapsed. On phones it becomes a bottom bar, or a small side stack if you prefer, so it never covers your text.
+
+**Accessible and fast**
+
+Every button is a real link or button with a label that says what it does and that it opens a new tab. The bar works with a keyboard and respects reduced motion. Export HTML, a ZIP, React or Vue, or fork it into [My Code](/ui-snippets/mycode/). To invite readers further, pair it with a [Newsletter CTA](/website-section-templates/cta-newsletter/).`,
+    },
+    features: [
+      'Floats on the left or right edge and takes no space in the layout',
+      'Stacked buttons centred on the screen or at any distance from the top',
+      'Fourteen networks: Facebook, X, WhatsApp, LinkedIn, Telegram, Pinterest and more',
+      'Add, remove, reorder and rename buttons from a simple list',
+      'Shares the current page address and title automatically',
+      'Every share link opens in a new tab with safe link settings',
+      'Copy-link button with a confirmation',
+      'Collapses to a small tab and comes back with one click, with an option to start collapsed',
+      'Bottom bar or small side stack on phones, smaller buttons on tablets',
+      'Network colours, theme colour or subtle style in attached, rounded or round shapes',
+    ],
+    why: [
+      { icon: '🪶', title: 'No layout cost', desc: 'The bar floats above the page, so adding it never moves your content or changes your spacing.' },
+      { icon: '🔐', title: 'No tracking', desc: 'Plain links to each network, with no third-party share script, cookies or counters loading on your page.' },
+      { icon: '📲', title: 'Works on every screen', desc: 'A side stack on desktop, a compact one on tablets and a bottom bar on phones, all reachable by touch and keyboard.' },
+    ],
+    useCases: [
+      { icon: '📰', title: 'Blogs and news sites', desc: 'Keep share buttons beside a long article so readers can post it the moment they finish, without scrolling back to the top.' },
+      { icon: '🛍', title: 'Product and landing pages', desc: 'Let visitors send a product or offer to a friend on WhatsApp or by email, while the buttons stay out of the design.' },
+      { icon: '🎓', title: 'Courses and resources', desc: 'Make guides, templates and lesson pages easy to share with a team or class, with copy link for chat and email.' },
+      { icon: '📅', title: 'Events and campaigns', desc: 'Encourage guests to spread the word about a launch, webinar or fundraiser with the networks your audience uses most.' },
+    ],
+    faqs: [
+      { q: 'Do share buttons slow my website down?', a: 'Not these. They are plain links and one small script. There are no network widgets, tracking scripts or extra images, so the page loads as fast as before.' },
+      { q: 'How do the buttons know which page to share?', a: 'The bar reads the address of the page the visitor is on, and the page title. You can enter a fixed address and text instead.' },
+      { q: 'Can visitors hide the share bar?', a: 'Yes. A small arrow collapses the bar into a tab on the edge of the screen, and one click on the tab brings it back. You can also make it start collapsed.' },
+      { q: 'How do the share buttons behave on phones?', a: 'By default the buttons become a bar along the bottom of the screen, with a small pill to bring it back after hiding. You can keep a compact side stack instead.' },
+      { q: 'Which social networks can I add?', a: 'Facebook, X, LinkedIn, WhatsApp, Telegram, Pinterest, Reddit, Threads, Bluesky, Tumblr, Hacker News, LINE, email and copy link.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Social Share Bar HTML, CSS and JavaScript: add a share counter, hide it after the footer, add another network, or turn it into a React component.',
+      prompt: `Create a floating social share bar in plain HTML, CSS and JavaScript.
+
+- A fixed column of square icon buttons on the left edge, vertically centred, with the outer corners rounded.
+- Each button is a link that opens in a new tab (target="_blank" with rel="noopener noreferrer") to the network's share URL for Facebook, X, LinkedIn and WhatsApp, plus an email link and a copy-link button.
+- JavaScript fills each link with the current page URL (location.href) and the page title, and the copy button uses navigator.clipboard with a short "Link copied" message.
+- A small arrow button collapses the bar into a vertical tab; clicking the tab restores it. Keep aria-expanded and visible focus styles.
+- On screens under 640px turn it into a horizontal bar fixed to the bottom of the screen, and hide it for printing.`,
+    },
+  },
 };

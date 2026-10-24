@@ -984,6 +984,91 @@ BEHAVIORS.booking = {
 })();`,
 };
 
+BEHAVIORS.share = {
+  /* Floating social share bar. Each [data-share] link holds a URL template ({url} {title}
+     {text} {image} {via} {tags}); the real page address is filled in here, so the buttons
+     share the page the visitor is on (or the address the editor entered). Also: copy link,
+     and collapse / expand with a tab. */
+  plugins: [],
+  js: `(function () {
+  var editing = window.ST_STILL || window.ST_PREVIEW;
+  var enc = encodeURIComponent;
+  function meta(sel) { var m = document.querySelector(sel); return m ? (m.getAttribute('content') || m.getAttribute('href') || '') : ''; }
+  function absolute(u) { try { return new URL(u, location.href).href; } catch (e) { return u; } }
+  document.querySelectorAll('.st [data-ss]').forEach(function (root) {
+    if (root.getAttribute('data-ss-ready')) return;
+    root.setAttribute('data-ss-ready', '1');
+    function vars() {
+      var url = root.getAttribute('data-url') || location.href.split('#')[0];
+      var title = root.getAttribute('data-title') || meta('meta[property="og:title"]') || document.title || '';
+      return {
+        url: url, title: title, text: (title ? title + ' ' : '') + url,
+        image: root.getAttribute('data-pin-image') || meta('meta[property="og:image"]'),
+        via: root.getAttribute('data-via') || '', tags: root.getAttribute('data-tags') || ''
+      };
+    }
+    function fill(tpl, v) {
+      var out = tpl.replace(/[{]([a-z]+)[}]/g, function (m, k) { return enc(v[k] || ''); });
+      var i = out.indexOf('?');
+      if (i < 1) return out;
+      var q = out.slice(i + 1).split('&').filter(function (p) { var e = p.indexOf('='); return e < 0 || p.slice(e + 1) !== ''; }).join('&');
+      return q ? out.slice(0, i) + '?' + q : out.slice(0, i);
+    }
+    function update() {
+      var v = vars();
+      root.querySelectorAll('a[data-share]').forEach(function (a) { a.href = fill(a.getAttribute('data-share'), v); });
+    }
+    update();
+    ['pointerenter', 'focusin', 'touchstart'].forEach(function (ev) { root.addEventListener(ev, update, { passive: true }); });
+
+    var live = root.querySelector('.ss-live');
+    function flash(btn, msg) {
+      var tip = btn.querySelector('.ss-tip');
+      if (live) live.textContent = msg;
+      if (tip && !btn.classList.contains('is-done')) tip.setAttribute('data-was', tip.textContent);
+      btn.classList.add('is-done');
+      if (tip) tip.textContent = msg;
+      clearTimeout(btn._ssTimer);
+      btn._ssTimer = setTimeout(function () {
+        btn.classList.remove('is-done');
+        if (tip) tip.textContent = tip.getAttribute('data-was') || '';
+        if (live) live.textContent = '';
+      }, 2000);
+    }
+    root.querySelectorAll('[data-net="copy"]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var u = vars().url;
+        var msg = root.getAttribute('data-copied') || 'Link copied';
+        function fallback() {
+          var t = document.createElement('textarea');
+          t.value = u; t.setAttribute('readonly', ''); t.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+          document.body.appendChild(t); t.select();
+          try { if (document.execCommand('copy')) flash(btn, msg); } catch (e) {}
+          t.remove();
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(u).then(function () { flash(btn, msg); }, fallback);
+        else fallback();
+      });
+    });
+    var hide = root.querySelector('[data-ss-hide]'), tab = root.querySelector('[data-ss-show]');
+    if (!hide || !tab) return;
+    var KEY = 'ss-collapsed';
+    function store(v) { if (editing) return; try { sessionStorage.setItem(KEY, v ? '1' : '0'); } catch (e) {} }
+    function read() { if (editing) return null; try { return sessionStorage.getItem(KEY); } catch (e) { return null; } }
+    function set(collapsed, focus) {
+      root.classList.toggle('is-collapsed', collapsed);
+      hide.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+      tab.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+      if (focus) (collapsed ? tab : root.querySelector('.ss-btn')).focus({ preventScroll: true });
+    }
+    var saved = read();
+    set(saved === null ? root.getAttribute('data-start') === 'collapsed' : saved === '1', false);
+    hide.addEventListener('click', function () { set(true, true); store(true); });
+    tab.addEventListener('click', function () { set(false, true); store(false); });
+  });
+})();`,
+};
+
 export const behaviorPlugins = t => [...new Set((t.behaviors || []).flatMap(b => BEHAVIORS[b]?.plugins || []))];
 /** The behaviours' scripts for a template ('' when it has none) */
 export const behaviorScript = t => (t.behaviors || []).map(b => BEHAVIORS[b]?.js).filter(Boolean).join('\n');
