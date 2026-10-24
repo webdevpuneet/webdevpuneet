@@ -1,0 +1,117 @@
+[
+ {
+  "id": "saas",
+  "name": "SaaS Landing Page",
+  "industry": "Software"
+ },
+ {
+  "id": "app",
+  "name": "Mobile App Landing Page",
+  "industry": "Software"
+ },
+ {
+  "id": "launch",
+  "name": "Startup Launch & Waitlist",
+  "industry": "Software"
+ },
+ {
+  "id": "agency",
+  "name": "Creative Agency Website",
+  "industry": "Creative"
+ },
+ {
+  "id": "portfolio",
+  "name": "Personal Portfolio Website",
+  "industry": "Creative"
+ },
+ {
+  "id": "photographer",
+  "name": "Photographer Website",
+  "industry": "Creative"
+ },
+ {
+  "id": "restaurant",
+  "name": "Restaurant Website",
+  "industry": "Food & drink"
+ },
+ {
+  "id": "real-estate",
+  "name": "Real Estate Agency Website",
+  "industry": "Real estate"
+ },
+ {
+  "id": "fitness",
+  "name": "Gym & Fitness Website",
+  "industry": "Health & fitness"
+ },
+ {
+  "id": "dental",
+  "name": "Dental Clinic Website",
+  "industry": "Health & fitness"
+ },
+ {
+  "id": "local-service",
+  "name": "Local Service Business Website",
+  "industry": "Local business"
+ },
+ {
+  "id": "online-course",
+  "name": "Online Course Website",
+  "industry": "Education"
+ },
+ {
+  "id": "coach",
+  "name": "Coach & Consultant Website",
+  "industry": "Education"
+ },
+ {
+  "id": "event",
+  "name": "Event & Conference Website",
+  "industry": "Events"
+ },
+ {
+  "id": "nonprofit",
+  "name": "Nonprofit & Charity Website",
+  "industry": "Community"
+ },
+ {
+  "id": "wedding",
+  "name": "Wedding Website",
+  "industry": "Events"
+ },
+ {
+  "id": "hotel",
+  "name": "Boutique Hotel Website",
+  "industry": "Travel & hospitality"
+ },
+ {
+  "id": "salon",
+  "name": "Hair & Beauty Salon Website",
+  "industry": "Health & beauty"
+ },
+ {
+  "id": "law-firm",
+  "name": "Law Firm Website",
+  "industry": "Professional services"
+ },
+ {
+  "id": "podcast",
+  "name": "Podcast Website",
+  "industry": "Creative"
+ },
+ {
+  "id": "product-store",
+  "name": "Product Landing Page Store",
+  "industry": "Retail"
+ },
+ {
+  "id": "school",
+  "name": "School Website",
+  "industry": "Education"
+ },
+ {
+  "id": "church",
+  "name": "Church Website",
+  "industry": "Community"
+ }
+]

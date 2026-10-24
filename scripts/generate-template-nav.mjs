@@ -11,6 +11,8 @@ import { EMAIL_TEMPLATES, EMAIL_CATEGORIES } from '../src/components/EmailTempla
 import { TEMPLATES as SOCIAL_TEMPLATES, TEMPLATE_CATEGORIES as SOCIAL_CATEGORIES } from '../src/components/SocialPostTemplates/templates/index.js';
 import { SECTION_TEMPLATES, SECTION_CATEGORIES } from '../src/components/SectionTemplates/templates/index.js';
 
+import { WEBSITE_TEMPLATES } from '../src/components/SectionTemplates/templates/starters.js';
+
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'data', 'template-nav.json');
 
 const group = (templates, categories) => categories
@@ -24,3 +26,9 @@ const nav = {
 };
 writeFileSync(OUT, `${JSON.stringify(nav, null, 1)}\n`);
 console.log(`template nav: ${nav.email.total} email, ${nav.social.total} social, ${nav.section.total} section -> ${OUT}`);
+
+// Website Builder templates, for the "Related website templates" strip under the editor
+const WEB_OUT = join(dirname(OUT), 'website-templates-nav.json');
+writeFileSync(WEB_OUT, `${JSON.stringify(WEBSITE_TEMPLATES.map(t => ({ id: t.id, name: t.name, industry: t.industry })), null, 1)}
+`);
+console.log(`website templates nav: ${WEBSITE_TEMPLATES.length} -> ${WEB_OUT}`);

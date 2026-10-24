@@ -587,7 +587,7 @@ export default function WebsiteBuilder() {
   const [pickCat, setPickCat] = useState('all');
   const [device, setDevice] = useState('desktop');
   const [stage, setStage] = useState({ w: 0, h: 0 });
-  const [playing, setPlaying] = useState(0);
+  const [playing, setPlaying] = useState(1); // animations on by default, like the real page; ■ Stop turns them off
   const [topKey, setTopKey] = useState(0);
   const [origin, setOrigin] = useState('');
   const [toast, setToast] = useState('');

@@ -258,6 +258,9 @@ export function motionScript(state) {
         var opts = { type: TEXT.split };
         if (TEXT.mask) opts.mask = TEXT.mask;
         var parts = SplitText.create(el, opts)[TEXT.part];
+        // The mask clips each line or word to its line box, which cuts off descenders (g, y, p):
+        // give the mask a little room below and take it back with a negative margin
+        if (TEXT.mask) Array.prototype.forEach.call(parts, function (p) { var m = p.parentElement; if (m && m !== el) { m.style.paddingBottom = '.22em'; m.style.marginBottom = '-.22em'; } });
         tl.from(parts, Object.assign({}, TEXT.vars), i ? '<0.1' : 0);
       });
       if (items.length) tl.from(items, ${item}, heads.length ? '<0.2' : 0);

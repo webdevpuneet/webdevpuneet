@@ -1,4 +1,5 @@
 import AdSlot from '@/components/AdSlot';
+import RelatedWebsiteTemplates from '@/components/RelatedWebsiteTemplates';
 import WebsiteBuilder from '@/components/WebsiteBuilder';
 import styles from '../../tool-page.module.css';
 
@@ -25,7 +26,7 @@ export default function WebsiteBuilderEditorPage() {
   return (
     <div className={styles.page}>
       <div className={styles.toolSection}><WebsiteBuilder /></div>
-      <AdSlot />
+      <AdSlot related={<RelatedWebsiteTemplates />} />
     </div>
   );
 }

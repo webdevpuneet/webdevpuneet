@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import rs from '@/components/UiSnippetsTool/RelatedCarousel.module.css';
+import pc from './portrait.module.css';
 
 const PAGE_SIZE = 6;
 
@@ -11,8 +12,8 @@ function ToolCard({ tool }) {
   const [noImg, setNoImg] = useState(false);
   return (
     <a
-      href={`/${tool.slug}/`}
-      className={rs.card}
+      href={tool.href || `/${tool.slug}/`}
+      className={tool.scrollImage ? `${rs.card} ${pc.card}` : rs.card}
     >
       {noImg ? (
         <div className={rs.thumb} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} aria-hidden="true">
@@ -20,8 +21,8 @@ function ToolCard({ tool }) {
         </div>
       ) : (
         <img
-          className={rs.thumb}
-          src={`/images/${tool.slug}.png`}
+          className={tool.scrollImage ? pc.scrollImg : rs.thumb}
+          src={tool.image || `/images/${tool.slug}.png`}
           alt={tool.name}
           loading="lazy"
           onError={() => setNoImg(true)}

@@ -1,0 +1,19 @@
+/* Portrait website-template cards: taller than wide, and the full-page screenshot scrolls
+   from the top to the bottom while the card is hovered. */
+.card .scrollImg {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: top;
+  background: var(--bg2, #f1f5f9);
+  transition: object-position 0.4s ease;
+}
+.card:hover .scrollImg,
+.card:focus-visible .scrollImg {
+  object-position: bottom;
+  transition: object-position 3.5s ease-in-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .card:hover .scrollImg, .card:focus-visible .scrollImg { transition: none; }
+}
