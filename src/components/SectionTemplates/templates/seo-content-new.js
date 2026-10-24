@@ -377,7 +377,7 @@ Copy one HTML file, download a ZIP with your images, copy a React or Vue compone
     },
   },
 
-  'article-text': {
+  'privacy-policy': {
     keywords: ['privacy policy page template', 'terms and conditions page html', 'legal page template with table of contents', 'long text page template', 'cookie policy page html'],
     about: {
       title: 'Legal & Long-Form Text Page — Free Policy Template',

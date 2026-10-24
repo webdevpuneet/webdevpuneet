@@ -81,7 +81,7 @@ ${multi ? `Use it as one scrolling page, or as a ${pages.length}-page website ($
 
 The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour theme suited to ${nameLower} websites; switch to any Google Font, upload your own, or apply your brand kit in one click.`,
     },
-    ...(seo?.about ? [{ type: 'text', label: 'Make it yours', heading: `How to Get the Most From the ${t.name} Template`, quickFacts: false, text: seo.about }] : []),
+    ...(seo?.about ? [{ type: 'text', label: 'Make it yours', heading: `How to Get the Most From the ${t.name} Template`, quickFacts: false, boxed: true, text: seo.about }] : []),
     ...(seo?.checklist ? [{ type: 'features', label: 'Checklist', heading: `What a ${nameLower} Website Needs`, items: seo.checklist }] : []),
     { type: 'cards', label: 'Who it’s for', heading: 'Best For', columns: 3, items: t.bestFor.map((b, i) => ({ icon: ['★', '◆', '●'][i % 3], title: b, desc: `A ready-made starting point for ${b.toLowerCase()}, with real copy you can adapt in minutes.` })) },
     {

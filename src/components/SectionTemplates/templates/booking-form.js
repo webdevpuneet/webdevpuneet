@@ -116,7 +116,7 @@ export default {
 </div>`,
   css: `.st-booking-form{padding:clamp(64px,8cqi,112px) 0}
 ${FORM_CSS}
-.st-field select{width:100%;padding:13px 15px;border-radius:calc(var(--st-radius) * .8px);border:1px solid color-mix(in srgb,var(--st-text) 16%,transparent);background:var(--st-bg);color:var(--st-text);font:400 16px/1.5 var(--st-font-body);outline:none;transition:border-color .2s ease,box-shadow .2s ease}
+.st-field select{width:100%;padding:13px 44px 13px 15px;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;background-size:16px;cursor:pointer;border-radius:calc(var(--st-radius) * .8px);border:1px solid color-mix(in srgb,var(--st-text) 16%,transparent);background-color:var(--st-bg);color:var(--st-text);font:400 16px/1.5 var(--st-font-body);outline:none;transition:border-color .2s ease,box-shadow .2s ease}
 .st-field select:focus,.st-field input[type="date"]:focus{border-color:var(--st-brand);box-shadow:0 0 0 4px color-mix(in srgb,var(--st-brand) 18%,transparent)}
 .st-field input[type="date"]{min-height:51px}
 .bk{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:start;gap:clamp(36px,5cqi,80px)}

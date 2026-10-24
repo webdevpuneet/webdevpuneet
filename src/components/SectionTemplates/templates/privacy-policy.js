@@ -1,5 +1,5 @@
 export default {
-  id: 'article-text',
+  id: 'privacy-policy',
   name: 'Legal & Long-Form Text Page',
   version: '1.0.0',
   category: 'blog',
@@ -71,7 +71,7 @@ export default {
     </aside>
   </article>
 </div>`,
-  css: `.st-article-text{padding:clamp(56px,7cqi,104px) 0}
+  css: `.st.st-privacy-policy{padding:clamp(56px,7cqi,104px) 0;overflow:clip}
 .at{display:grid;grid-template-columns:230px minmax(0,1fr);align-items:start;gap:clamp(32px,5cqi,72px)}
 .at-toc{position:sticky;top:24px;padding-right:12px}
 .at-toc[hidden]{display:none}

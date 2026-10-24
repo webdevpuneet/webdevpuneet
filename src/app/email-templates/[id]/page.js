@@ -108,6 +108,7 @@ export default async function EmailTemplatePage({ params }) {
       label: 'Promote it',
       heading: `Social Post Templates to Match the ${t.name} Email`,
       quickFacts: false,
+      boxed: true,
       text: `An email works harder with a post behind it. Announce the ${t.name.toLowerCase()} campaign on social media with matching free templates in the same editor: ${socialMatches.map(m => `[${m.name}](/social-post-templates/${m.id}/)`).join(', ')}. Use the same brand colours and fonts, export the post as an image at the right size for each network, and link to the same offer or page.`,
     }] : []),
     { type: 'faq', label: 'Got questions?', heading: 'Frequently Asked Questions', items: faqs },

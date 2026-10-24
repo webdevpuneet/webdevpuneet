@@ -52,7 +52,8 @@ export default async function WebsiteSectionTemplatePage({ params }) {
   const toggleable = t.groups.filter(g => g.toggle).map(g => g.label.toLowerCase());
   const listJoin = a => (a.length > 1 ? `${a.slice(0, -1).join(', ')} and ${a[a.length - 1]}` : a[0] || '');
 
-  const relatedAll = [t, ...relatedSectionTemplates(t)];
+  // Only sections from the same category (this one first)
+  const relatedAll = [t, ...relatedSectionTemplates(t).filter(x => x.category === t.category)];
   const relatedItems = relatedAll.filter(x => shots.has(x.id)).map(x => ({
     id: x.id, title: x.name, href: `/website-section-templates/${x.id}/`, img: sectionPreviewUrl(x.id),
     cat: sectionCategoryById(x.category)?.label, meta: 'Responsive · Animated',
@@ -104,6 +105,7 @@ export default async function WebsiteSectionTemplatePage({ params }) {
       label: 'In real websites',
       heading: `Website Templates That Use the ${t.name} Section`,
       quickFacts: false,
+      boxed: true,
       text: `The ${t.name} section is part of ${usedIn.length} complete website template${usedIn.length > 1 ? 's' : ''} in the free [Website Builder](/website-builder/), so you can see it in a full page before you use it on its own: ${usedIn.map(w => `[${w.name}](/website-builder/templates/${w.id}/)`).join(', ')}. Open any of them in the builder to edit the whole page, or keep customising this section by itself.`,
     }] : []),
     { type: 'faq', label: 'Got questions?', heading: 'Frequently Asked Questions', items: faqs },

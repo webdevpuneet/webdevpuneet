@@ -48,7 +48,7 @@ import bookingForm from './booking-form.js';
 import blogCards from './blog-cards.js';
 import blogFeatured from './blog-featured.js';
 import blogList from './blog-list.js';
-import articleText from './article-text.js';
+import privacyPolicy from './privacy-policy.js';
 import galleryGrid from './gallery-grid.js';
 import videoSection from './video-section.js';
 import beforeAfterSlider from './before-after-slider.js';
@@ -115,7 +115,7 @@ export const SECTION_TEMPLATES = [
   blogCards,
   blogFeatured,
   blogList,
-  articleText,
+  privacyPolicy,
   galleryGrid,
   videoSection,
   beforeAfterSlider,
@@ -128,7 +128,9 @@ export const SECTION_TEMPLATES = [
   productGrid,
   classTimetable,
 ];
-export const sectionTemplateById = id => SECTION_TEMPLATES.find(t => t.id === id);
+// Ids a section used before it was renamed (designs saved in a browser still point at them)
+const RENAMED = { 'article-text': 'privacy-policy' };
+export const sectionTemplateById = id => SECTION_TEMPLATES.find(t => t.id === (RENAMED[id] || id));
 
 /* Repeatable lists (t.lists): each item is { _id, ...its fields }. _id keeps uploads tied
    to the right item when items are added, removed or reordered. */

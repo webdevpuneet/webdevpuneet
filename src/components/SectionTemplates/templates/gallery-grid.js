@@ -90,10 +90,11 @@ export default {
 .stg-lb{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:clamp(16px,4vw,48px);background:rgba(8,10,16,.92);animation:stg-fade .2s ease}
 .stg-lb[hidden]{display:none}
 .stg-lb-fig{display:flex;flex-direction:column;align-items:center;gap:14px;max-width:min(1100px,100%);max-height:100%;margin:0}
-.stg-lb-img{display:block;max-width:100%;max-height:calc(100vh - 150px);border-radius:10px;object-fit:contain;background:#111}
+.stg-lb-img{display:block;max-width:100%;max-height:calc(var(--lb-h,100vh) - 150px);border-radius:10px;object-fit:contain;background:#111}
 .stg-lb-cap{color:#e5e7eb;font:500 15px/1.5 system-ui,sans-serif;text-align:center}
 .stg-lb-cap:empty{display:none}
 .stg-lb-close,.stg-lb-nav{position:absolute;display:grid;place-items:center;width:48px;height:48px;border:0;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font:400 30px/1 system-ui,sans-serif;cursor:pointer;transition:background .2s ease}
+.stg-lb-close svg,.stg-lb-nav svg{display:block;width:22px;height:22px;pointer-events:none}
 .stg-lb-close:hover,.stg-lb-nav:hover{background:rgba(255,255,255,.24)}
 .stg-lb-close:focus-visible,.stg-lb-nav:focus-visible{outline:3px solid #fff;outline-offset:2px}
 .stg-lb-close{top:16px;right:16px}

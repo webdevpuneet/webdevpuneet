@@ -216,7 +216,7 @@ New: the **[Booking Request Form](/website-section-templates/booking-form/)** co
 
 Posts are editable lists with covers (upload your own or use the included abstract artwork), and every blog section adds an ItemList of BlogPosting structured data to its HTML export. Everything shares the library's theme, animates with GSAP and exports to HTML, React or Vue.
 
-New: the **[Legal & Long-Form Text Page](/website-section-templates/article-text/)** is a readable layout for privacy policies, terms and long guides, with numbered sections and an automatic table of contents.`,
+New: the **[Legal & Long-Form Text Page](/website-section-templates/privacy-policy/)** is a readable layout for privacy policies, terms and long guides, with numbered sections and an automatic table of contents.`,
     faqs: [
       { q: 'Can these sections pull posts from my CMS?', a: 'They export as static HTML and CSS. To make them dynamic, render the same markup from WordPress, Ghost, Sanity, Markdown or any CMS in your framework of choice.' },
       { q: 'Is structured data included?', a: 'Yes. Each blog section’s HTML export includes an ItemList of BlogPosting JSON-LD with headlines, descriptions, URLs, images and authors.' },

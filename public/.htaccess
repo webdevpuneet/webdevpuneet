@@ -32,6 +32,9 @@ RewriteRule ^ %1/%2 [R=301,L,NE]
 # --------------------------------------------------
 RewriteRule ^ui-snippets/tag/?$ /ui-snippets/ [R=301,L]
 
+# /website-section-templates/article-text/ was renamed to /website-section-templates/privacy-policy/
+RewriteRule ^website-section-templates/article-text/?$ /website-section-templates/privacy-policy/ [R=301,L]
+
 # /website-builder/templates/ -> /website-builder/   (the template gallery moved to the
 #   builder's landing page; template pages /website-builder/templates/<id>/ are untouched)
 RewriteRule ^website-builder/templates/?$ /website-builder/ [R=301,L]

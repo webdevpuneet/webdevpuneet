@@ -604,10 +604,10 @@ BEHAVIORS.gallery = {
     viewer.setAttribute('aria-modal', 'true');
     viewer.setAttribute('aria-label', 'Image viewer');
     viewer.hidden = true;
-    viewer.innerHTML = '<button type="button" class="stg-lb-close" aria-label="Close">&times;</button>' +
-      '<button type="button" class="stg-lb-nav stg-lb-prev" aria-label="Previous image">&#8249;</button>' +
+    viewer.innerHTML = '<button type="button" class="stg-lb-close" aria-label="Close"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>' +
+      '<button type="button" class="stg-lb-nav stg-lb-prev" aria-label="Previous image"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>' +
       '<figure class="stg-lb-fig"><img class="stg-lb-img" alt=""><figcaption class="stg-lb-cap"></figcaption></figure>' +
-      '<button type="button" class="stg-lb-nav stg-lb-next" aria-label="Next image">&#8250;</button>' +
+      '<button type="button" class="stg-lb-nav stg-lb-next" aria-label="Next image"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>' +
       '<p class="stg-lb-count" aria-live="polite"></p>';
     document.body.appendChild(viewer);
     imgEl = viewer.querySelector('.stg-lb-img');
@@ -644,16 +644,49 @@ BEHAVIORS.gallery = {
     countEl.textContent = (index + 1) + ' / ' + items.length;
     viewer.classList.toggle('is-single', items.length < 2);
   }
+  // In the editor the preview is a tall frame inside a scrolling panel: centre the viewer in the
+  // part of the frame you can actually see (a normal page uses the whole window)
+  // The part of this frame you can see when it sits inside a scrolling panel of the editor
+  // (null on a normal page): { top, bottom } in the frame's own pixels
+  function seenRange() {
+    var fe = null, pw = null;
+    try { fe = window.frameElement; pw = window.parent; } catch (err) { return null; }
+    if (!fe || !pw || pw === window) return null;
+    try {
+      var r = fe.getBoundingClientRect(), k = r.width / (window.innerWidth || r.width) || 1;
+      var top = 0, bottom = pw.innerHeight;
+      for (var n = fe.parentElement; n; n = n.parentElement) {
+        if (/(auto|scroll|hidden|clip)/.test(pw.getComputedStyle(n).overflowY)) {
+          var nr = n.getBoundingClientRect();
+          top = Math.max(top, nr.top); bottom = Math.min(bottom, nr.bottom);
+        }
+      }
+      return { top: Math.max(0, top - r.top) / k, bottom: (Math.min(bottom, r.bottom) - r.top) / k };
+    } catch (err) { return null; }
+  }
+  function fit() {
+    if (!viewer) return;
+    var range = window.ST_STILL || window.ST_PREVIEW ? seenRange() : null;
+    if (!range || range.bottom - range.top < 120) { viewer.style.top = ''; viewer.style.bottom = ''; viewer.style.removeProperty('--lb-h'); return; }
+    viewer.style.top = range.top + 'px';
+    viewer.style.bottom = Math.max(0, window.innerHeight - range.bottom) + 'px';
+    viewer.style.setProperty('--lb-h', (range.bottom - range.top) + 'px');
+  }
+  function watch(on) {
+    try { var w = window.parent; if (!w || w === window) return; var f = on ? 'addEventListener' : 'removeEventListener'; w[f]('scroll', fit, true); w[f]('resize', fit); } catch (err) { /* cross-origin parent */ }
+  }
   function open(list, i, from) {
     build();
     items = list; opener = from;
     show(i);
     viewer.hidden = false;
+    fit(); watch(true);
     document.documentElement.classList.add('stg-open');
     viewer.querySelector('.stg-lb-close').focus();
   }
   function close() {
     viewer.hidden = true;
+    watch(false);
     document.documentElement.classList.remove('stg-open');
     if (opener) opener.focus();
   }
@@ -684,17 +717,24 @@ BEHAVIORS.gallery = {
         bar.hidden = false;
       }
     }
-    if (window.ST_STILL || window.ST_PREVIEW) return;
+    var editing = window.ST_STILL || window.ST_PREVIEW;
     all.forEach(function (it) {
       var img = it.querySelector('img');
       if (!img) return;
-      it.setAttribute('tabindex', '0');
-      it.setAttribute('role', 'button');
-      it.setAttribute('aria-label', 'View larger: ' + (img.alt || 'image'));
       function go() {
         var visible = all.filter(function (x) { return !x.hidden; });
         open(visible, visible.indexOf(it), it);
       }
+      if (editing) {
+        // In the editor the click also selects the photo in the panel (the editor handles that),
+        // and the viewer opens on top so you can check it
+        it.style.cursor = 'zoom-in';
+        it.addEventListener('click', go);
+        return;
+      }
+      it.setAttribute('tabindex', '0');
+      it.setAttribute('role', 'button');
+      it.setAttribute('aria-label', 'View larger: ' + (img.alt || 'image'));
       it.addEventListener('click', go);
       it.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
     });
@@ -710,7 +750,7 @@ BEHAVIORS.video = {
      <video> for .mp4 / .webm / .ogg files. Stays off in the editor and its previews. */
   plugins: [],
   js: `(function () {
-  if (window.ST_STILL || window.ST_PREVIEW) return;
+  var editing = window.ST_STILL || window.ST_PREVIEW;
   function embed(url) {
     var m;
     // Character classes instead of backslashes: this code lives inside a template literal
@@ -722,10 +762,12 @@ BEHAVIORS.video = {
   document.querySelectorAll('.st [data-video-box]').forEach(function (box) {
     var btn = box.querySelector('[data-video]');
     if (!btn) return;
-    btn.addEventListener('click', function (e) {
+    function start(e) {
       var info = embed(btn.getAttribute('data-video') || '');
       if (!info) return;
       e.preventDefault();
+      // In the editor the click also selects the section, so the editor still gets it
+      if (!editing) e.stopPropagation();
       var title = box.getAttribute('data-title') || 'Video';
       var el;
       if (info.type === 'iframe') {
@@ -747,7 +789,8 @@ BEHAVIORS.video = {
       box.appendChild(el);
       box.classList.add('is-playing');
       if (el.focus) el.focus();
-    });
+    }
+    btn.addEventListener('click', start);
   });
 })();`,
 };
@@ -763,7 +806,26 @@ BEHAVIORS.compare = {
   document.querySelectorAll('.st [data-compare]').forEach(function (box) {
     var input = box.querySelector('.ba-range');
     if (!input) return;
-    if (window.ST_STILL || window.ST_PREVIEW) { box.classList.add('is-static'); return; }
+    if (window.ST_STILL || window.ST_PREVIEW) {
+      // The editor: clicking a photo edits it, so the full-size input is off; the handle itself
+      // can still be dragged to try the slider
+      box.classList.add('is-static');
+      var handle = box.querySelector('.ba-handle');
+      if (handle) handle.addEventListener('pointerdown', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var rect = box.getBoundingClientRect();
+        var move = function (ev) {
+          var p = Math.max(0, Math.min(100, (ev.clientX - rect.left) / rect.width * 100));
+          box.style.setProperty('--pos', p + '%');
+        };
+        var up = function () { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); };
+        window.addEventListener('pointermove', move);
+        window.addEventListener('pointerup', up);
+        move(e);
+      });
+      return;
+    }
     function set() { box.style.setProperty('--pos', input.value + '%'); }
     input.addEventListener('input', set);
     set();
@@ -779,6 +841,46 @@ BEHAVIORS.toc = {
      and the page reads as plain numbered sections. */
   plugins: [],
   js: `(function () {
+  // The part of this frame you can see when it sits inside a scrolling panel of the editor
+  // (null on a normal page): { top, bottom } in the frame's own pixels
+  function seenRange() {
+    var fe = null, pw = null;
+    try { fe = window.frameElement; pw = window.parent; } catch (err) { return null; }
+    if (!fe || !pw || pw === window) return null;
+    try {
+      var r = fe.getBoundingClientRect(), k = r.width / (window.innerWidth || r.width) || 1;
+      var top = 0, bottom = pw.innerHeight;
+      for (var n = fe.parentElement; n; n = n.parentElement) {
+        if (/(auto|scroll|hidden|clip)/.test(pw.getComputedStyle(n).overflowY)) {
+          var nr = n.getBoundingClientRect();
+          top = Math.max(top, nr.top); bottom = Math.min(bottom, nr.bottom);
+        }
+      }
+      return { top: Math.max(0, top - r.top) / k, bottom: (Math.min(bottom, r.bottom) - r.top) / k };
+    } catch (err) { return null; }
+  }
+  // Scrolls to a section. Inside the editor's preview frame, scrollIntoView would also scroll
+  // containers the user cannot scroll back (overflow: hidden), so the panel that really
+  // scrolls is moved instead
+  function goTo(block, behavior) {
+    var fe = null, pw = null;
+    try { fe = window.frameElement; pw = window.parent; } catch (err) { fe = null; }
+    if (fe && pw && pw !== window && (window.ST_STILL || window.ST_PREVIEW)) {
+      try {
+        var fr = fe.getBoundingClientRect(), k = fr.width / (window.innerWidth || fr.width) || 1;
+        var y = fr.top + block.getBoundingClientRect().top * k;
+        var gap = (parseFloat(block.style.scrollMarginTop) || 24) * k;
+        var sc = null;
+        for (var n = fe.parentElement; n; n = n.parentElement) {
+          if (/(auto|scroll)/.test(pw.getComputedStyle(n).overflowY) && n.scrollHeight > n.clientHeight + 1) { sc = n; break; }
+        }
+        if (sc) sc.scrollTo({ top: sc.scrollTop + (y - sc.getBoundingClientRect().top - gap), behavior: behavior });
+        else pw.scrollTo({ top: pw.scrollY + y - gap, behavior: behavior });
+        return;
+      } catch (err) { /* fall back to scrollIntoView */ }
+    }
+    block.scrollIntoView({ behavior: behavior, block: 'start' });
+  }
   document.querySelectorAll('.st [data-toc]').forEach(function (toc) {
     var list = toc.querySelector('[data-toc-list]');
     var sec = toc.closest('.st');
@@ -798,12 +900,65 @@ BEHAVIORS.toc = {
       var a = document.createElement('a');
       a.href = '#' + id;
       a.textContent = text;
+      // Slide to the section (the editor keeps links from navigating, so the script does it)
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        goTo(block, reduce ? 'auto' : 'smooth');
+        if (!window.ST_STILL && !window.ST_PREVIEW && window.history && history.replaceState) history.replaceState(null, '', '#' + id);
+      });
       li.appendChild(a);
       list.appendChild(li);
       links.push(a); blocks.push(block);
     });
     if (!links.length) return;
     toc.hidden = false;
+    // A sticky header above this section (a sticky navbar): the contents list and the
+    // sections' scroll position sit below it, whatever its height is at the moment
+    var lastGap = -1;
+    function clearHeader() {
+      var h = 0;
+      document.querySelectorAll('.st').forEach(function (el) {
+        if (el === sec) return;
+        var cs = getComputedStyle(el);
+        if (cs.position !== 'sticky') return;
+        var r = el.getBoundingClientRect();
+        if (r.bottom > 0 && r.top <= (parseFloat(cs.top) || 0) + 1) h = Math.max(h, r.bottom);
+      });
+      return Math.round(h);
+    }
+    function place() {
+      var gap = clearHeader() + 24;
+      if (gap === lastGap) return;
+      lastGap = gap;
+      toc.style.top = gap + 'px';
+      blocks.forEach(function (b) { b.style.scrollMarginTop = gap + 'px'; });
+    }
+    place();
+    var queued = false;
+    function queue() { if (queued) return; queued = true; requestAnimationFrame(function () { queued = false; place(); }); }
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', queue);
+    // In the editor the preview is a tall frame inside a scrolling panel, so CSS sticky has
+    // nothing to stick to: follow the panel's scroll by hand
+    if (window.ST_STILL || window.ST_PREVIEW) {
+      var parentWin = null;
+      try { parentWin = window.parent !== window && window.frameElement ? window.parent : null; } catch (err) { parentWin = null; }
+      if (parentWin) {
+        var follow = function () {
+          if (getComputedStyle(toc).position !== 'sticky') { toc.style.transform = ''; return; }
+          var range = seenRange();
+          if (!range) return;
+          var box = toc.parentNode;
+          toc.style.transform = '';
+          var base = box.getBoundingClientRect().top;
+          var max = Math.max(0, box.offsetHeight - toc.offsetHeight);
+          toc.style.transform = 'translateY(' + Math.round(Math.min(max, Math.max(0, range.top + lastGap - base))) + 'px)';
+        };
+        try { parentWin.addEventListener('scroll', follow, true); parentWin.addEventListener('resize', follow); } catch (err) { /* cross-origin parent */ }
+        follow();
+      }
+    }
     if (window.ST_STILL || !('IntersectionObserver' in window)) return;
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {

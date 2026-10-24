@@ -34,7 +34,7 @@ export function privacyMeta(brand) {
 /** Sections of the Privacy page (in the starterSections format) */
 export function privacyPageSections(brand) {
   const b = String(brand || 'We').trim();
-  return [['article-text', {
+  return [['privacy-policy', {
     fields: {
       eyebrow: 'Legal',
       heading: 'Privacy *policy*',

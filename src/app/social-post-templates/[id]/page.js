@@ -115,6 +115,7 @@ export default async function SocialPostTemplatePage({ params }) {
       label: 'Follow it up',
       heading: `Email Templates to Match the ${t.name} Post`,
       quickFacts: false,
+      boxed: true,
       text: `Reach the people who are not on social media with a matching email from the free responsive HTML email templates: ${emailMatches.map(m => `[${m.name}](/email-templates/${m.id}/)`).join(', ')}. Both libraries use the same brand colours and fonts, so the post and the email look like one campaign.`,
     }] : []),
     { type: 'faq', label: 'Got questions?', heading: 'Frequently Asked Questions', items: faqs },

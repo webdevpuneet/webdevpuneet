@@ -81,6 +81,8 @@ export default {
 .ba-range{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;-webkit-appearance:none;appearance:none}
 .ba-compare:has(.ba-range:focus-visible){outline:3px solid var(--st-brand);outline-offset:3px}
 .ba-compare.is-static .ba-range{display:none}
+.ba-compare.is-static .ba-handle{pointer-events:auto;cursor:ew-resize;touch-action:none}
+.ba-compare.is-static .ba-handle::before{content:"";position:absolute;top:0;bottom:0;left:-18px;right:-18px}
 .ba-title{font-size:19px;line-height:1.3;letter-spacing:-.015em}
 .ba-cap{color:var(--st-muted);font-size:15.5px}`,
 };
