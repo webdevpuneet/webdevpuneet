@@ -158,3 +158,32 @@
 .artThumbEdge svg { top: auto; height: 50%; }
 .artLabel { font-size: 10px; line-height: 1.2; color: var(--text2); }
 .artNone { display: grid; place-items: center; height: 40px; font-size: 11px; font-weight: 600; color: var(--text2); }
+
+/* Custom Section editor (CustomLayoutPanel) */
+.csLayoutIcon { display: inline-flex; gap: 2px; width: 30px; height: 14px; flex: none; }
+.csLayoutIcon i { display: block; border-radius: 2px; background: currentColor; opacity: 0.55; }
+.csLayouts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.csLayoutBtn { display: grid; place-items: center; height: 34px; padding: 0 6px; border: 1px solid rgba(127, 127, 127, 0.3); border-radius: 8px; background: none; color: inherit; cursor: pointer; }
+.csLayoutBtn .csLayoutIcon { width: 100%; }
+.csLayoutBtn:hover { border-color: #4f46e5; }
+.csLayoutOn { border-color: #4f46e5; background: rgba(79, 70, 229, 0.1); color: #4f46e5; }
+.csLayoutOn .csLayoutIcon i { opacity: 0.9; }
+.csCol { display: flex; flex-direction: column; gap: 8px; padding: 10px; border-radius: 10px; background: rgba(127, 127, 127, 0.07); }
+.csColHead { display: flex; align-items: center; gap: 6px; font-size: 12.5px; }
+.csColHead strong { flex: 1; }
+.csMiniSelect { padding: 3px 6px; border: 1px solid rgba(127, 127, 127, 0.3); border-radius: 6px; background: transparent; color: inherit; font-size: 11.5px; }
+.csBlockIcon { display: inline-grid; place-items: center; flex: none; min-width: 22px; height: 20px; padding: 0 3px; border-radius: 5px; background: rgba(79, 70, 229, 0.12); color: #4f46e5; font-size: 10.5px; font-weight: 700; }
+.csAddMenu { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.csAddBtn { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid rgba(127, 127, 127, 0.3); border-radius: 8px; background: none; color: inherit; font-size: 12.5px; font-weight: 600; text-align: left; cursor: pointer; }
+.csAddBtn span { display: inline-grid; place-items: center; min-width: 22px; color: #4f46e5; font-weight: 700; font-size: 11px; }
+.csAddBtn:hover { border-color: #4f46e5; background: rgba(79, 70, 229, 0.06); }
+
+/* "Create custom section" card, first in My designs on the gallery page (same look as in the builder's Add a section dialog) */
+.createCard { text-decoration: none; border-style: dashed !important; border-color: rgba(79, 70, 229, 0.6) !important; background: rgba(79, 70, 229, 0.05); }
+.createCard:hover { background: rgba(79, 70, 229, 0.1); border-color: #4f46e5 !important; }
+.createPreview { position: relative; display: grid; place-items: center; background: rgba(79, 70, 229, 0.08); }
+.createMock { position: absolute; inset: 14% 12%; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr; gap: 6px; opacity: 0.45; }
+.createMock i { display: block; border: 1.5px dashed rgba(79, 70, 229, 0.8); border-radius: 6px; }
+.createMock i:first-child { grid-column: 1 / -1; height: 14px; }
+.createPlus { position: relative; z-index: 1; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; background: #4f46e5; color: #fff; font-size: 30px; font-weight: 300; line-height: 1; box-shadow: 0 8px 20px -6px rgba(79, 70, 229, 0.6); transition: transform 0.2s ease; }
+.createCard:hover .createPlus { transform: scale(1.08); }

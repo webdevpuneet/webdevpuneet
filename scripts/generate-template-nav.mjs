@@ -22,7 +22,7 @@ const group = (templates, categories) => categories
 const nav = {
   email: { total: EMAIL_TEMPLATES.length, categories: group(EMAIL_TEMPLATES, EMAIL_CATEGORIES) },
   social: { total: SOCIAL_TEMPLATES.length, categories: group(SOCIAL_TEMPLATES, SOCIAL_CATEGORIES) },
-  section: { total: SECTION_TEMPLATES.length, categories: group(SECTION_TEMPLATES, SECTION_CATEGORIES) },
+  section: { total: SECTION_TEMPLATES.filter(t => !t.draft).length, categories: group(SECTION_TEMPLATES.filter(t => !t.draft), SECTION_CATEGORIES) }, // drafts: no SEO page yet
 };
 writeFileSync(OUT, `${JSON.stringify(nav, null, 1)}\n`);
 console.log(`template nav: ${nav.email.total} email, ${nav.social.total} social, ${nav.section.total} section -> ${OUT}`);

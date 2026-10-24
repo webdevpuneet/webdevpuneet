@@ -10,18 +10,25 @@
    data-item="<listKey>.<itemId>" (see fillHtml). */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { setBlockProp } from './templates/custom-section.js';
 
 const KINDS = ['edit', 'image', 'bg', 'icon', 'lines', 'links', 'href'];
-const SEL = KINDS.flatMap(k => [`[data-${k}]`, `[data-i-${k}]`]).join(',');
+const SEL = [...KINDS.flatMap(k => [`[data-${k}]`, `[data-i-${k}]`]), '[data-cs-edit]', '[data-cs-block]'].join(',');
 const HOVER = KINDS.filter(k => k !== 'href').flatMap(k => [`[data-${k}]:hover`, `[data-i-${k}]:hover`]).join(',');
 
-export const INLINE_EDIT_CSS = `${KINDS.flatMap(k => [`[data-${k}]`, `[data-i-${k}]`]).join(',')}{cursor:pointer}
-:is(${HOVER}):not([data-st-editing]){outline:2px dashed rgba(99,102,241,.75);outline-offset:3px}
+export const INLINE_EDIT_CSS = `${KINDS.flatMap(k => [`[data-${k}]`, `[data-i-${k}]`]).join(',')},[data-cs-edit],[data-cs-block]{cursor:pointer}
+:is(${HOVER},[data-cs-edit]:hover,[data-cs-block]:hover:not(:has([data-cs-edit]:hover))):not([data-st-editing]){outline:2px dashed rgba(99,102,241,.75);outline-offset:3px}
 [data-st-editing]{outline:2px solid #6366f1 !important;outline-offset:3px;cursor:text}`;
 
 /** What a bound element edits: { kind, key, list, item, uid } (list/item null for section fields) */
 export function targetOf(el) {
   const uid = el.closest('section[data-uid]')?.getAttribute('data-uid') || null;
+  // Custom Section blocks (templates/custom-section.js): text edits in place, any other part opens its block in the panel
+  const csBlock = el.closest('[data-cs-block]')?.getAttribute('data-cs-block');
+  if (csBlock && (el.hasAttribute('data-cs-edit') || el.hasAttribute('data-cs-block'))) {
+    const key = el.getAttribute('data-cs-edit');
+    return { kind: key ? 'edit' : 'cs', key: key || '', csBlock, multi: el.hasAttribute('data-cs-multi'), list: null, item: null, uid };
+  }
   for (const kind of KINDS) {
     const key = el.getAttribute(`data-${kind}`);
     if (key != null) return { kind, key, list: null, item: null, uid };
@@ -39,6 +46,7 @@ export function targetOf(el) {
     as they do when rendering). Returns { fd, target } with the target normalised. */
 export function fieldOfTarget(t, target) {
   if (!t || !target) return null;
+  if (target.csBlock) return t.custom ? { fd: { type: target.key ? (target.multi ? 'textarea' : 'text') : 'cs', key: target.key }, target } : null;
   if (target.list) {
     const l = (t.lists || []).find(x => x.key === target.list);
     const fd = l?.fields.find(x => x.key === target.key);
@@ -46,6 +54,14 @@ export function fieldOfTarget(t, target) {
   }
   const fd = t.fields.find(x => x.key === target.key);
   return fd ? { fd, target: { ...target, list: null, item: null } } : null;
+}
+
+/** The state after text typed in the preview: a section field, a list item field or a Custom Section block */
+export function applyEdit(p, tg, v) {
+  if (tg.csBlock) return setBlockProp(p, tg.csBlock, tg.key, v);
+  return tg.list
+    ? { ...p, lists: { ...p.lists, [tg.list]: (p.lists?.[tg.list] || []).map(it => (it._id === tg.item ? { ...it, [tg.key]: v } : it)) } }
+    : { ...p, fields: { ...p.fields, [tg.key]: v } };
 }
 
 /* Edited preview text -> field value, in the syntax richText() renders: *brand words*,

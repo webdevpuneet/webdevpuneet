@@ -21,6 +21,7 @@ export const SECTION_CATEGORIES = [
   { id: 'gallery',      label: 'Gallery & media', blurb: 'Photo galleries with filters and a lightbox, video sections and before-and-after sliders.' },
   { id: 'scroll',       label: 'Scroll effects',  blurb: 'Scroll-driven sections built with GSAP: horizontal scroll galleries, pinned scroll stories and stacking cards.' },
   { id: 'listings',     label: 'Menus & listings', blurb: 'Industry sections: restaurant menus with prices, property listings and class timetables.' },
+  { id: 'custom',       label: 'Custom section',  blurb: 'Build your own section from rows, columns and blocks.', noPage: true },
   { id: 'social',       label: 'Social share',    blurb: 'Floating social share bars that take no space in the layout, with share buttons for the popular networks.' },
   { id: 'footer',       label: 'Footer',         blurb: 'Website footers with link columns, newsletter sign-up and social links.' },
 ];

@@ -47,7 +47,8 @@ function LiveBox({ children, className }) {
 // maxFour: at most 4 cards per row, matching galleries that use the grid4 layout
 // gridClass: any other column class from the gallery stylesheet (e.g. grid5 for social posts)
 // previewClass: the card's preview box (default: the gallery's portrait box; sections pass 16:10)
-export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, renderPreview = null, scroll = false, query = '', maxFour = false, gridClass = '', previewClass = '', deletable = false }) {
+// leadCard: an element shown as the first card (e.g. "Create custom section"); the strip then shows even with no designs
+export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, renderPreview = null, scroll = false, query = '', maxFour = false, gridClass = '', previewClass = '', deletable = false, leadCard = null }) {
   const [designs, setDesigns] = useState(null);
   const [confirm, setConfirm] = useState(null);
   const [rows, setRows] = useState(1);
@@ -67,23 +68,24 @@ export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, ren
     const off = store.onDesignsChange(load);
     return () => { live = false; off(); };
   }, [store]);
-  if (!designs?.length) return null;
+  if (!designs || (!designs.length && !leadCard)) return null;
   // The gallery search filters saved designs too (design name or template name)
   const words = query.toLowerCase().split(/\s+/).filter(Boolean);
   const shown = designs.filter(d => words.every(w => `${d.name} ${nameOf(d.tpl)}`.toLowerCase().includes(w)));
-  if (!shown.length) return null;
+  if (!shown.length && !leadCard) return null;
   // One row per step (the grid's column count, measured; 4 until it is known)
   const perRow = cols || 4;
-  const visible = shown.slice(0, perRow * rows);
+  const visible = shown.slice(0, perRow * rows - (leadCard ? 1 : 0));
 
   return (
     <section className={`${rs.section} ${st.wrap}`} aria-label="My designs">
       <div className={rs.header}>
         <h2 className={rs.title}>My designs</h2>
-        <span className={rs.headCount}>{words.length ? `${shown.length} of ${designs.length} match` : `${designs.length} saved in this browser`}</span>
+        {designs.length > 0 && <span className={rs.headCount}>{words.length ? `${shown.length} of ${designs.length} match` : `${designs.length} saved in this browser`}</span>}
       </div>
       {/* Same column grid as "All Templates", so the cards line up */}
       <div ref={rowRef} className={`${gs.grid} ${maxFour ? gs.grid4 : ''} ${gridClass}`}>
+        {leadCard}
         {visible.map(d => {
           const card = (
             <a key={d.id} href={`${basePath}${d.tpl}/?design=${encodeURIComponent(d.id)}`} className={gs.card} title={`Open “${d.name}”`} {...(scroll && !renderPreview ? panHandlers : {})}>
@@ -114,7 +116,7 @@ export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, ren
           );
         })}
       </div>
-      <LoadMore shown={visible.length} total={shown.length} onLoadMore={() => setRows(r => r + 1)} />
+      <LoadMore shown={visible.length + (leadCard ? 1 : 0)} total={shown.length + (leadCard ? 1 : 0)} onLoadMore={() => setRows(r => r + 1)} />
       {confirm && <ConfirmDialog {...confirm} onCancel={() => setConfirm(null)} onOk={() => { const go = confirm.onOk; setConfirm(null); go(); }} />}
     </section>
   );

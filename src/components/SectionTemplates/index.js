@@ -24,7 +24,8 @@ import {
   defaultSectionState, restoreSectionState,
 } from './templates/index.js';
 import { ContentPanel, ThemePanel, ArtworkPanel, withKit } from './panels';
-import { bindInlineEdit, fieldOfTarget, useFrozenPreview } from './inline-edit';
+import CustomLayoutPanel from './CustomLayoutPanel';
+import { bindInlineEdit, fieldOfTarget, applyEdit, useFrozenPreview } from './inline-edit';
 import { documentHtml, sectionCss, sectionMarkup, snippetParts, customFontIds, sectionScript, sectionCdn } from './templates/render.js';
 import { sectionDesignStore as designStore, putAsset, getAsset } from './storage';
 import { saveBlob, prepareUpload, EXT, previewImages, localizeImages } from './upload';
@@ -167,14 +168,15 @@ function SectionCategoryLinks({ active = null }) {
       <a href={BASE} className={`${s.catLink} ${!active ? s.catLinkActive : ''}`}>All sections <span>{SECTION_TEMPLATES.length}</span></a>
       {SECTION_CATEGORIES.map(c => {
         const n = SECTION_TEMPLATES.filter(t => t.category === c.id).length;
-        return n ? <a key={c.id} href={`${BASE}category/${c.id}/`} className={`${s.catLink} ${active === c.id ? s.catLinkActive : ''}`}>{c.label} <span>{n}</span></a> : null;
+        return n && !c.noPage ? <a key={c.id} href={`${BASE}category/${c.id}/`} className={`${s.catLink} ${active === c.id ? s.catLinkActive : ''}`}>{c.label} <span>{n}</span></a> : null;
       })}
     </nav>
   );
 }
 
-/* A saved design rendered live (its uploaded images loaded from IndexedDB) */
-function SavedSectionPreview({ design: d, width }) {
+/* A saved design rendered live (its uploaded images loaded from IndexedDB). Rendered with
+   clean: false, so a custom section's JavaScript and HTML-block scripts never run in a thumbnail. */
+export function SavedSectionPreview({ design: d, width }) {
   const t = sectionTemplateById(d.tpl);
   const [origin, setOrigin] = useState('');
   const [urls, setUrls] = useState({});
@@ -194,7 +196,7 @@ function SavedSectionPreview({ design: d, width }) {
   const html = useMemo(() => {
     if (!t || !origin) return '';
     const st = restoreSectionState(t, d.state);
-    return previewImages(documentHtml(t, st, { imageSrc: k => urls[k] || '', motion: false }), origin);
+    return previewImages(documentHtml(t, st, { imageSrc: k => urls[k] || '', motion: false, clean: false }), origin);
   }, [t, d, urls, origin]);
   if (!html) return null;
   return <SectionFrame html={html} width={1280} scale={width / 1280} interactive={false} />;
@@ -225,6 +227,19 @@ export function SectionGalleryPage({ previews = [] }) {
             renderPreview={(d, w) => <SavedSectionPreview design={d} width={w} />}
             query={q}
             deletable
+            leadCard={(
+              <a href={`${BASE}custom-section/?new=1`} className={`${s.card} ${x.createCard}`} title="Build your own section from rows, columns and blocks">
+                <div className={`${x.cardPreview} ${x.createPreview}`}>
+                  <span className={x.createMock} aria-hidden="true"><i /><i /><i /></span>
+                  <span className={x.createPlus} aria-hidden="true">+</span>
+                </div>
+                <div className={s.cardBody}>
+                  <span className={s.cardCat}>Custom section</span>
+                  <h3 className={s.cardTitle}>Create custom section</h3>
+                  <span className={s.cardMeta}>Opens the editor. Rows, columns, text, images, buttons and your own HTML, CSS and JS</span>
+                </div>
+              </a>
+            )}
           />
         )}
       />
@@ -311,13 +326,16 @@ export function SectionTemplateEditor({ id }) {
     setHistTick(n => n + 1);
   }, []);
 
-  /* Restore: ?design=<id> opens a saved design, otherwise the autosave */
+  /* Restore: ?design=<id> opens a saved design, ?new=1 starts from the template's defaults
+     (forgetting the autosave), otherwise the autosave */
   useEffect(() => {
     setOrigin(window.location.origin);
     let live = true;
     (async () => {
-      const did = new URLSearchParams(window.location.search).get('design');
+      const params = new URLSearchParams(window.location.search);
+      const did = params.get('design');
       let restored = false;
+      if (params.get('new') && !did) { await designStore.clearAutosave(t.id).catch(() => {}); restored = true; }
       if (did) {
         const d = await designStore.getDesign(did).catch(() => null);
         if (d && d.tpl === t.id && live) {
@@ -429,9 +447,7 @@ export function SectionTemplateEditor({ id }) {
   const [reveal, setReveal] = useState(null);
   const onPreviewDoc = useCallback(doc => bindInlineEdit(doc, {
     resolve: tg => fieldOfTarget(t, tg),
-    onInput: (tg, v) => setState(p => (tg.list
-      ? { ...p, lists: { ...p.lists, [tg.list]: (p.lists?.[tg.list] || []).map(it => (it._id === tg.item ? { ...it, [tg.key]: v } : it)) } }
-      : { ...p, fields: { ...p.fields, [tg.key]: v } })),
+    onInput: (tg, v) => setState(p => applyEdit(p, tg, v)),
     onReveal: (tg, focus) => {
       setPanelTab('edit');
       if (focus) setSheetOpen(true);
@@ -794,7 +810,9 @@ export function SectionTemplateEditor({ id }) {
                   onSaveFrom={() => ({ primary: state.theme.brand, bg: state.theme.bg, text: state.theme.text, headingFont: state.fonts.heading, bodyFont: state.fonts.body })}
                 />
 
-                <ContentPanel t={t} state={state} setState={setState} blobUrls={blobUrls} onPickUpload={pickUpload} reveal={reveal} />
+                {t.custom
+                  ? <CustomLayoutPanel state={state} setState={setState} blobUrls={blobUrls} onPickUpload={pickUpload} idPrefix={`cs-${t.id}`} reveal={reveal} />
+                  : <ContentPanel t={t} state={state} setState={setState} blobUrls={blobUrls} onPickUpload={pickUpload} reveal={reveal} />}
 
                 <ThemePanel
                   value={{ theme: state.theme, fonts: state.fonts, motion: state.motion }}

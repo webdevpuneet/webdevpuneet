@@ -140,7 +140,7 @@ export function fillHtml(t, state, { imageSrc, clean = false } = {}) {
   });
 
   // A template can write part of its own markup (e.g. the social share bar's buttons)
-  if (typeof t.finalize === 'function') html = t.finalize(html, state, { clean });
+  if (typeof t.finalize === 'function') html = t.finalize(html, state, { clean, imageSrc });
 
   if (clean) html = html.replace(/\s+data-(i-)?(edit|href|image|bg|icon|lines|links|set|show-if|hide-if|show|optional|list-done|item)(="[^"]*")?/g, '');
   else html = html.replace(/\sdata-list-done="/g, ' data-list="');

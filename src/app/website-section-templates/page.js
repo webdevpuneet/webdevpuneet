@@ -63,8 +63,8 @@ const SECTIONS = [
     boxed: true,
     heading: 'Sections for Every Part of a Website',
     quickFacts: false,
-    text: SECTION_CATEGORIES.filter(c => SECTION_TEMPLATES.some(t => t.category === c.id)).map(c => {
-      const list = SECTION_TEMPLATES.filter(t => t.category === c.id);
+    text: SECTION_CATEGORIES.filter(c => !c.noPage && SECTION_TEMPLATES.some(t => t.category === c.id)).map(c => {
+      const list = SECTION_TEMPLATES.filter(t => t.category === c.id && !t.draft);
       return `**[${c.label} section templates](/website-section-templates/category/${c.id}/)**: ${c.blurb} Includes ${list.map(t => `[${t.name}](/website-section-templates/${t.id}/)`).join(', ')}.`;
     }).join('\n\n') + '\n\nEvery section is built on the same theme, so any combination looks like one website. Want a whole page? The free [Website Builder](/website-builder/) stacks a navbar, any of these sections and a footer into one page with one theme, and exports it as HTML.',
   },

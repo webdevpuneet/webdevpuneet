@@ -61,6 +61,7 @@ import propertyListings from './property-listings.js';
 import productGrid from './product-grid.js';
 import classTimetable from './class-timetable.js';
 import socialShare from './social-share.js';
+import customSection, { defaultCustom, cleanCustom, customImageKeys } from './custom-section.js';
 import { DEFAULT_THEME, DEFAULT_MOTION } from './meta.js';
 import { cleanArt } from './art.js';
 
@@ -129,6 +130,7 @@ export const SECTION_TEMPLATES = [
   productGrid,
   classTimetable,
   socialShare,
+  customSection,
 ];
 // Ids a section used before it was renamed (designs saved in a browser still point at them)
 const RENAMED = { 'article-text': 'privacy-policy' };
@@ -161,6 +163,7 @@ export function defaultSectionState(t) {
     fonts: { heading: 'inter', body: 'inter', ...(t.fonts || {}) },
     motion: { ...DEFAULT_MOTION, ...(t.motion || {}) }, // GSAP entrance animation
     uploads: {}, // field key -> { id, file, w, h }: images uploaded in this browser
+    ...(t.custom ? { custom: defaultCustom() } : {}), // Custom Section layout (custom-section.js)
   };
 }
 
@@ -178,6 +181,8 @@ export function restoreSectionState(t, saved) {
     const imgs = l.fields.filter(fd => fd.type === 'image');
     for (const it of lists[l.key]) for (const fd of imgs) imageKeys.add(listImageKey(l.key, it._id, fd.key));
   }
+  const custom = t.custom ? cleanCustom(saved?.custom) : null;
+  if (custom) for (const k of customImageKeys(custom)) imageKeys.add(k);
   const uploads = Object.fromEntries(Object.entries(saved?.uploads || {}).filter(([k, u]) => imageKeys.has(k) && u?.id));
   return {
     lists,
@@ -188,6 +193,7 @@ export function restoreSectionState(t, saved) {
     motion: pick(saved?.motion, d.motion),
     uploads,
     ...(cleanArt(saved?.art) ? { art: cleanArt(saved.art) } : {}), // SVG artwork layer (art.js)
+    ...(custom ? { custom } : {}),
   };
 }
 

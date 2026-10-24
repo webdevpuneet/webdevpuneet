@@ -30,7 +30,7 @@ export async function generateMetadata({ params }) {
     description: t.seoDescription,
     keywords: SECTION_SEO[t.id]?.keywords,
     authors: [{ name: 'Puneet Sharma', url: 'https://www.webdevpuneet.com/' }],
-    robots: { index: true, follow: true },
+    robots: { index: !t.draft, follow: true }, // drafts: SEO content not written yet
     alternates: { canonical: url },
     icons: { icon: '/icons/website-section-templates.svg', shortcut: '/icons/website-section-templates.svg' },
     openGraph: { type: 'website', url, siteName: 'webdevpuneet.com', title: t.seoTitle, description: t.seoDescription, locale: 'en_US', ...(images && { images }) },

@@ -500,6 +500,17 @@ Copy one HTML file, download a ZIP with your product photos, copy a React or Vue
     },
   },
 
+  // Draft: SEO content to be written once the Custom Section is final (the page is noindex until then)
+  'custom-section': {
+    keywords: [],
+    about: { title: '', description: '' },
+    features: [],
+    why: [],
+    useCases: [],
+    faqs: [],
+    aiPrompt: { paragraph: '', prompt: '' },
+  },
+
   'floating-social-share': {
     keywords: ['social share buttons html', 'floating social share bar', 'sticky social share sidebar', 'social media share buttons css', 'share buttons without plugin'],
     about: {

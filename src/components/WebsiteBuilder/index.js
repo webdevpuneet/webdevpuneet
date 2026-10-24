@@ -22,12 +22,13 @@ import { ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components
 import { toReactComponent, toVueSfc, componentName } from '@/lib/snippet-exporters';
 import { dbPut } from '@/lib/uiSnippetsDb';
 import { openForkTab } from '@/lib/open-fork-tab';
+import SectionPickerModal from './SectionPickerModal';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import { BrandKitPanel, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
 import { makeDesignStore } from '@/lib/design-store';
 import { exportDesigns, importDesigns, blobToDataUrl, dataUrlToBlob } from '@/lib/design-transfer';
 import { loadCustomFonts, onFontsChange, customFontFaceCss, exportCustomFonts, importCustomFonts } from '@/lib/fonts';
-import { SECTION_TEMPLATES, SECTION_CATEGORIES, sectionTemplateById, sectionCategoryById } from '@/components/SectionTemplates/templates/index.js';
+import { sectionTemplateById, sectionCategoryById } from '@/components/SectionTemplates/templates/index.js';
 import {
   pageCss, pageMarkup, pageScript, pageCdn, newPageSection, newUid, pageDocumentHtml, STARTERS, cleanAnchor, defaultAnchor,
   SECTION_SCHEMES, SECTION_SPACING, SECTION_OVERLAYS, BG_KEY, cleanSectionStyle, sectionPadding,
@@ -44,11 +45,12 @@ import { Flip } from 'gsap/Flip';
 
 if (typeof window !== 'undefined') gsap.registerPlugin(Draggable, Flip);
 import { ContentPanel, ThemePanel, ColorField, ArtworkPanel, withKit } from '@/components/SectionTemplates/panels';
+import CustomLayoutPanel from '@/components/SectionTemplates/CustomLayoutPanel';
 import {
   SCROLL_PRESETS, SCROLL_STARTS, SCROLL_MODES, SCROLL_PIN_LENGTHS, SCROLL_TARGETS, SCROLL_EASES, KEY_FIELDS, REVEALS,
   scrollPresetById, scrollFromPreset, scrollSummary, cleanScroll, addTrack, removeTrack, setTrack, addKey, removeKey, setKey, trackLabel,
 } from '@/components/SectionTemplates/templates/scroll.js';
-import { bindInlineEdit, fieldOfTarget, useFrozenPreview } from '@/components/SectionTemplates/inline-edit';
+import { bindInlineEdit, fieldOfTarget, applyEdit, useFrozenPreview } from '@/components/SectionTemplates/inline-edit';
 import { putAsset, getAsset } from '@/components/SectionTemplates/storage';
 import { addToLibrary } from '@/lib/image-library';
 import { saveBlob, prepareUpload, EXT, previewImages, localizeImages } from '@/components/SectionTemplates/upload';
@@ -89,7 +91,7 @@ const sectionsOf = st => (isSite(st) ? [...(st.header || []), ...(st.pages || []
 
 /* The live page: an iframe at the device width, scaled to fit the stage, keeping its
    scroll position across updates. Clicking a section selects it. */
-function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDoc, onNavigate, hash, topKey = 0 }) {
+function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDoc, onNavigate, onInsert, onRemove, canRemove, revealRef, hash, topKey = 0 }) {
   /* Two stacked frames (double buffering): an edit loads the new page into the hidden frame,
      restores the scroll position there, and only then swaps it in. The visible frame is never
      blanked or sent back to the top, so editing doesn't flicker. */
@@ -105,7 +107,7 @@ function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDo
   const selRef = useRef(selected);
   selRef.current = selected;
   const cb = useRef({});
-  cb.current = { onSelect, onKey, onNavigate };
+  cb.current = { onSelect, onKey, onNavigate, onInsert, onRemove, canRemove };
   const scrollY = useRef(0);
   useEffect(() => { if (topKey) scrollY.current = 0; }, [topKey]); // ▶ Play starts from the top
   const hashRef = useRef(hash); // a section to scroll to once, after another page's link opened this one
@@ -155,10 +157,69 @@ function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDo
       const sec = ev.target.closest?.('section[data-uid]');
       if (sec) cb.current.onSelect(sec.getAttribute('data-uid'));
     });
+    // Hover between two sections: a line with a + button that opens the section picker there
+    const bar = doc.createElement('div');
+    bar.setAttribute('data-wb-ui', '');
+    bar.style.cssText = 'position:fixed;left:0;right:0;height:0;z-index:2147483000;display:none;pointer-events:none';
+    bar.innerHTML = '<span style="position:absolute;left:0;right:0;top:-1px;height:2px;background:#6366f1"></span>'
+      + '<button type="button" aria-label="Add a section here" title="Add a section here" style="pointer-events:auto;position:absolute;left:50%;top:-16px;margin-left:-16px;width:32px;height:32px;border:0;border-radius:50%;background:#6366f1;color:#fff;cursor:pointer;box-shadow:0 4px 14px rgba(79,70,229,.55);display:grid;place-items:center;padding:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true" style="display:block"><path d="M12 5v14M5 12h14"/></svg></button>';
+    doc.body.appendChild(bar);
+    // Hovering a section also shows a remove (trash) button at its top right
+    const tool = doc.createElement('div');
+    tool.setAttribute('data-wb-ui', '');
+    tool.style.cssText = 'position:fixed;z-index:2147483000;display:none;pointer-events:none';
+    tool.innerHTML = '<button type="button" aria-label="Remove this section" title="Remove this section" style="pointer-events:auto;display:grid;place-items:center;width:34px;height:34px;padding:0;border:0;border-radius:9px;background:#fff;color:#dc2626;cursor:pointer;box-shadow:0 4px 14px rgba(15,23,42,.28)"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg></button>';
+    doc.body.appendChild(tool);
+    let toolUid = null;
+    const hideTool = () => { tool.style.display = 'none'; toolUid = null; };
+    const showTool = (sec, x, y) => {
+      const uid = sec?.getAttribute('data-uid');
+      const r = sec?.getBoundingClientRect();
+      if (!uid || !r || r.height < 60 || !cb.current.canRemove?.(uid)) return hideTool();
+      toolUid = uid;
+      tool.style.top = Math.max(8, r.top + 8) + 'px';
+      tool.style.left = Math.max(8, Math.min(r.right, win.innerWidth - 16) - 46) + 'px';
+      tool.style.display = 'block';
+    };
+    tool.querySelector('button').addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); const u = toolUid; hideTool(); if (u) cb.current.onRemove?.(u); });
+    let gap = null; // { before, after } uids of the sections around the hovered boundary
+    const hideBar = () => { bar.style.display = 'none'; gap = null; };
+    doc.addEventListener('mousemove', ev => {
+      if (ev.target.closest?.('[data-wb-ui]')) return;
+      showTool(ev.target.closest?.('section[data-uid]'));
+      const secs = [...doc.querySelectorAll('section[data-uid]')].filter(el => el.getBoundingClientRect().height > 8);
+      if (!secs.length) return hideBar();
+      const y = ev.clientY;
+      let best = null;
+      const consider = (top, before, after) => { const d = Math.abs(y - top); if (d <= 22 && (!best || d < best.d)) best = { d, top, before, after }; };
+      const id = el => el?.getAttribute('data-uid') || null;
+      consider(secs[0].getBoundingClientRect().top, null, id(secs[0])); // above the first section
+      secs.forEach((el, k) => {
+        const next = secs[k + 1];
+        const r = el.getBoundingClientRect();
+        if (next) { const d = Math.abs(y - r.bottom); if (d <= 22 && (!best || d < best.d)) best = { d, top: r.bottom, before: id(el), after: id(next) }; }
+        else { const d = Math.abs(y - r.bottom); if (d <= 22 && (!best || d < best.d)) best = { d, top: r.bottom, before: id(el), after: null }; }
+      });
+      if (!best) return hideBar();
+      gap = { before: best.before, after: best.after };
+      bar.style.top = Math.max(1, Math.min(best.top, win.innerHeight - 1)) + 'px';
+      bar.style.display = 'block';
+    });
+    doc.addEventListener('mouseleave', () => { hideBar(); hideTool(); });
+    win.addEventListener('scroll', () => { hideBar(); hideTool(); }, { passive: true });
+    bar.querySelector('button').addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); if (gap) cb.current.onInsert?.(gap); hideBar(); });
     doc.addEventListener('submit', ev => ev.preventDefault());
     // Undo / redo / save shortcuts keep working while the preview has focus
     doc.addEventListener('keydown', ev => cb.current.onKey?.(ev));
     doc.querySelectorAll('section[data-uid]').forEach(el => el.classList.toggle('wb-on', el.getAttribute('data-uid') === selRef.current));
+    if (revealRef?.current) {
+      const el = doc.querySelector('section[data-uid="' + revealRef.current + '"]');
+      if (el) {
+        const r = el.getBoundingClientRect();
+        if (r.bottom < 40 || r.top > win.innerHeight - 40) { root.style.scrollBehavior = 'auto'; el.scrollIntoView({ block: 'center' }); root.style.scrollBehavior = ''; scrollY.current = win.scrollY; }
+        revealRef.current = null;
+      }
+    }
     onDocRef.current?.(doc);
     if (pending.current === i) {
       pending.current = -1;
@@ -584,7 +645,8 @@ export default function WebsiteBuilder() {
   useEffect(() => { pickRef.current = null; setPicking(false); }, [editing]);
   const [selected, setSelected] = useState(null);
   const [adding, setAdding] = useState(false);
-  const [pickCat, setPickCat] = useState('all');
+  const addAtRef = useRef(null); // { before, after } uids when the picker was opened from a + between sections
+  const revealRef = useRef(null); // a section to scroll into view once its preview has loaded
   const [device, setDevice] = useState('desktop');
   const [stage, setStage] = useState({ w: 0, h: 0 });
   const [playing, setPlaying] = useState(1); // animations on by default, like the real page; ■ Stop turns them off
@@ -809,19 +871,36 @@ export default function WebsiteBuilder() {
       return scroll ? { ...rest, scroll } : rest;
     }),
   })), [setPage]);
-  const addSection = tplId => {
-    const sec = newPageSection(tplId, page.sections);
+  /* Adds a section (optionally with a saved state, e.g. a custom section from the section
+     editor); { edit } opens it in the editor straight away */
+  const addSection = (tplId, savedState = null, { edit = false } = {}) => {
+    let sec = newPageSection(tplId, page.sections);
     if (!sec) return;
+    if (savedState) sec = { ...sec, state: restoreSectionState(sectionTemplateById(tplId), savedState) };
     setPage(p => {
-      const at = selected ? p.sections.findIndex(x => x.uid === selected) : -1;
+      const gap = addAtRef.current;
       const list = [...p.sections];
-      list.splice(at < 0 ? list.length : at + 1, 0, sec);
+      let to;
+      if (gap) {
+        const bi = gap.before ? list.findIndex(x => x.uid === gap.before) : -1;
+        const ai = gap.after ? list.findIndex(x => x.uid === gap.after) : -1;
+        to = ai >= 0 ? ai : bi >= 0 ? bi + 1 : gap.after ? list.length : (gap.before ? list.length : 0);
+        if (ai < 0 && bi < 0 && gap.after) to = 0; // between a shared header and the page
+      } else {
+        const at = selected ? list.findIndex(x => x.uid === selected) : -1;
+        to = at < 0 ? list.length : at + 1;
+      }
+      list.splice(to, 0, sec);
       return { ...p, sections: list };
     });
     setSelected(sec.uid);
+    if (edit) openSection(sec.uid);
+    revealRef.current = sec.uid;
+    addAtRef.current = null;
     setAdding(false);
     flash(`Added ${sectionTemplateById(tplId)?.name}. Click it in the list or the preview to edit.`);
   };
+  const openInsert = gap => { addAtRef.current = gap; setAdding(true); };
   const moveSection = (uid, dir) => setPage(p => {
     const i = p.sections.findIndex(x => x.uid === uid), to = i + dir;
     if (i < 0 || to < 0 || to >= p.sections.length) return p;
@@ -849,6 +928,13 @@ export default function WebsiteBuilder() {
     setPage(p => ({ ...p, sections: p.sections.filter(x => x.uid !== uid) }));
     if (editing === uid) setEditing(null);
     if (selected === uid) setSelected(null);
+  };
+  /* The trash button on a hovered section in the preview (shared header / footer sections are removed from the Pages tab) */
+  const canRemoveInPreview = uid => page.sections.some(x => x.uid === uid);
+  const removeFromPreview = uid => {
+    const name = sectionTemplateById(page.sections.find(x => x.uid === uid)?.tpl)?.name || 'section';
+    removeSection(uid);
+    flash(`Removed ${name}. Press Ctrl+Z to undo.`);
   };
   const openSection = uid => { setSelected(uid); setEditing(uid); setTab('page'); setSheetOpen(true); };
   /* Website templates open as one page or as their multi-page version */
@@ -976,9 +1062,7 @@ export default function WebsiteBuilder() {
       const sec = tg?.uid && sectionsRef.current.find(o => o.uid === tg.uid);
       return sec ? fieldOfTarget(sectionTemplateById(sec.tpl), tg) : null;
     },
-    onInput: (tg, v) => setSectionState(tg.uid, p => (tg.list
-      ? { ...p, lists: { ...p.lists, [tg.list]: (p.lists?.[tg.list] || []).map(it => (it._id === tg.item ? { ...it, [tg.key]: v } : it)) } }
-      : { ...p, fields: { ...p.fields, [tg.key]: v } })),
+    onInput: (tg, v) => setSectionState(tg.uid, p => applyEdit(p, tg, v)),
     onReveal: (tg, focus) => { setReveal({ ...tg, focus, n: Date.now() }); openSection(tg.uid); },
     onStart: editStart,
     onEnd: editEnd,
@@ -1275,11 +1359,11 @@ ${pageCss(shown, { fontFaces })}`),
 
   const editSec = page.sections.find(x => x.uid === editing);
   const editTpl = editSec ? sectionTemplateById(editSec.tpl) : null;
-  const pickList = SECTION_TEMPLATES.filter(t => pickCat === 'all' || t.category === pickCat);
   const hasTextEffect = page.sections.some(x => /data-anim-text/.test(sectionTemplateById(x.tpl)?.html || ''));
 
   return (
     <div className={s.wrap}>
+      <SectionPickerModal open={adding} onClose={() => { addAtRef.current = null; setAdding(false); }} onUse={addSection} page={page} below={!!selected && !addAtRef.current} />
       <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/gif,image/webp,image/svg+xml" className={s.fileInput} onChange={onUploadFile} />
       <div className={s.body}>
         <aside className={`${s.controls} ${sheetOpen ? s.sheetOpen : ''}`}>
@@ -1358,6 +1442,17 @@ ${pageCss(shown, { fontFaces })}`),
                   onPick={startPick}
                   picking={picking}
                 />
+                {editTpl.custom ? (
+                  <CustomLayoutPanel
+                    key={editSec.uid}
+                    state={editSec.state}
+                    setState={next => setSectionState(editSec.uid, next)}
+                    blobUrls={blobUrls}
+                    onPickUpload={(fd, ukey) => pickUpload(editSec.uid, fd, ukey)}
+                    idPrefix={`wb-${editSec.uid}`}
+                    reveal={reveal?.uid === editSec.uid ? reveal : null}
+                  />
+                ) : (
                 <ContentPanel
                   key={editSec.uid}
                   t={editTpl}
@@ -1368,6 +1463,7 @@ ${pageCss(shown, { fontFaces })}`),
                   idPrefix={`wb-${editSec.uid}`}
                   reveal={reveal?.uid === editSec.uid ? reveal : null}
                 />
+                )}
               </>
             ) : tab === 'page' ? (
               <>
@@ -1413,32 +1509,8 @@ ${pageCss(shown, { fontFaces })}`),
                     onDuplicate={duplicateSection}
                     onRemove={removeSection}
                   />
-                  {!adding && <button type="button" className={b.addBtn} onClick={() => setAdding(true)}>+ Add section{selected ? ' below the selected one' : ''}</button>}
+                  <button type="button" className={b.addBtn} onClick={() => setAdding(true)}>+ Add section{selected ? ' below the selected one' : ''}</button>
                 </section>
-                {adding && (
-                  <section className={s.section}>
-                    <div className={b.picker}>
-                      <div className={b.pickerHead}>
-                        <h2 className={s.sectionTitle}>Add a section</h2>
-                        <button type="button" className={b.back} onClick={() => setAdding(false)}>Cancel</button>
-                      </div>
-                      <div className={b.cats} role="radiogroup" aria-label="Section type">
-                        {[{ id: 'all', label: 'All' }, ...SECTION_CATEGORIES.filter(c => SECTION_TEMPLATES.some(t => t.category === c.id))].map(c => (
-                          <button key={c.id} type="button" role="radio" aria-checked={pickCat === c.id} className={`${b.cat} ${pickCat === c.id ? b.catOn : ''}`} onClick={() => setPickCat(c.id)}>{c.label}</button>
-                        ))}
-                      </div>
-                      <div className={b.pickGrid}>
-                        {pickList.map(t => (
-                          <button key={t.id} type="button" className={b.pick} onClick={() => addSection(t.id)} title={t.description}>
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={previewOf(t.id)} alt="" loading="lazy" />
-                            <span>{t.name}</span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </section>
-                )}
                 {page.sections.length > 0 && <p className={s.hint} style={{ padding: '0 16px 16px' }}>Tip: click any section in the preview to edit it. Colours, fonts and animation are in the Theme tab and apply to the whole website. Add more pages (About, Contact…) in the Pages tab.</p>}
               </>
             ) : tab === 'site' ? (
@@ -1663,7 +1735,7 @@ ${pageCss(shown, { fontFaces })}`),
                 <p>{multi ? 'Add sections from the panel to fill this page. It gets the shared header and footer unless you hide them in its page settings.' :'Pick a starter or add sections from the panel: navbars, heroes, features, pricing, testimonials, FAQ, CTA, footers and more. They all share one theme, so every page looks like one website. Add more pages in the Pages tab.'}</p>
               </div>
             ) : origin && scale > 0 && (
-              <PageFrame key={`${device}|${activePage.id}`} html={shownHtml} width={dev.w} height={frameH} scale={scale} selected={selected} onSelect={openSection} onKey={onKey} onDoc={onPreviewDoc} onNavigate={navigateTo} hash={navHash} topKey={topKey} />
+              <PageFrame key={`${device}|${activePage.id}`} html={shownHtml} width={dev.w} height={frameH} scale={scale} selected={selected} onSelect={openSection} onKey={onKey} onDoc={onPreviewDoc} onNavigate={navigateTo} onInsert={openInsert} onRemove={removeFromPreview} canRemove={canRemoveInPreview} revealRef={revealRef} hash={navHash} topKey={topKey} />
             )}
           </div>
         </div>
