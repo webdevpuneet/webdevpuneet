@@ -5,6 +5,8 @@ import AdSlot from '@/components/AdSlot';
 import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import { EmailTemplateEditor, EmailShot } from '@/components/EmailTemplates';
 import { EMAIL_TEMPLATES, emailTemplateById, emailCategoryById, relatedEmailTemplates } from '@/components/EmailTemplates/templates/index.js';
+import { TEMPLATES as SOCIAL_TEMPLATES } from '@/components/SocialPostTemplates/templates/index.js';
+import { socialForEmail } from '@/lib/cross-library-links';
 import { EMAIL_SEO, EMAIL_DIFFERENT } from '@/components/EmailTemplates/templates/seo-content.js';
 import { emailPreviewIds, hasEmailOg, emailOgUrl, emailPreviewUrl } from '@/components/EmailTemplates/assets';
 import styles from '../../tool-page.module.css';
@@ -61,6 +63,8 @@ export default async function EmailTemplatePage({ params }) {
     cat: emailCategoryById(x.category)?.label, meta: 'Responsive · Dark mode',
   }));
 
+  const socialMatches = socialForEmail(t.id).map(id => SOCIAL_TEMPLATES.find(x => x.id === id)).filter(Boolean);
+
   const faqs = [
     ...seo.faqs,
     { q: 'What does "Fork to My Code" do?', a: `It saves an editable copy of your ${t.name} in My Code, the UI Snippets code editor: the email markup goes in the HTML panel and its CSS (mobile and dark-mode rules plus fonts) in the CSS panel, so you can keep refining the code and save your own versions.` },
@@ -99,6 +103,13 @@ export default async function EmailTemplatePage({ params }) {
       ],
     },
     { type: 'cards', label: 'Real-world uses', heading: 'Common Use Cases', columns: 3, items: seo.useCases },
+    ...(socialMatches.length ? [{
+      type: 'text',
+      label: 'Promote it',
+      heading: `Social Post Templates to Match the ${t.name} Email`,
+      quickFacts: false,
+      text: `An email works harder with a post behind it. Announce the ${t.name.toLowerCase()} campaign on social media with matching free templates in the same editor: ${socialMatches.map(m => `[${m.name}](/social-post-templates/${m.id}/)`).join(', ')}. Use the same brand colours and fonts, export the post as an image at the right size for each network, and link to the same offer or page.`,
+    }] : []),
     { type: 'faq', label: 'Got questions?', heading: 'Frequently Asked Questions', items: faqs },
   ];
 

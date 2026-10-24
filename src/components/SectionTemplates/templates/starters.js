@@ -7,6 +7,7 @@
 import { IMG } from './meta.js';
 import { MORE_WEBSITE_TEMPLATES } from './starters-2.js';
 import { EVEN_MORE_WEBSITE_TEMPLATES } from './starters-3.js';
+import { applyExtras } from './starters-extras.js';
 
 const av = n => IMG(`avatar-${n}.jpg`);
 const cov = n => IMG(`blog-${n}.jpg`);
@@ -15,7 +16,7 @@ const nav = (logoText, logoIcon, cta, list, extra = {}) => ({ fields: { logoText
 
 /* Oldest first: add new templates at the END of this list. The /website-builder/ gallery shows
    the list reversed, so the newest templates come first. */
-export const WEBSITE_TEMPLATES = [
+const BASE_TEMPLATES = [
   /* ── Software & startups ───────────────────────────────────────────────── */
   {
     id: 'saas', name: 'SaaS Landing Page', industry: 'Software',
@@ -542,6 +543,9 @@ export const WEBSITE_TEMPLATES = [
   // Podcast, product store, school and church (starters-3.js)
   ...EVEN_MORE_WEBSITE_TEMPLATES,
 ];
+
+// The sections added later (gallery, video, before / after, booking form, case studies, product grid)
+export const WEBSITE_TEMPLATES = applyExtras(BASE_TEMPLATES);
 
 export const websiteTemplateById = id => WEBSITE_TEMPLATES.find(x => x.id === id);
 export const TEMPLATE_INDUSTRIES = [...new Set(WEBSITE_TEMPLATES.map(x => x.industry))];

@@ -1,6 +1,8 @@
 /* Landing-page content for each email category (/email-templates/category/<id>/).
    Titles 50-60 characters, descriptions 150-160, written around what people search for. */
 
+import { EMAIL_CATEGORY_MORE } from './seo-categories-more.js';
+
 export const EMAIL_CATEGORY_SEO = {
   onboarding: {
     title: 'Lifecycle Email Templates — Welcome, Win-Back & Birthday',
@@ -73,3 +75,11 @@ Use the **[Holiday Gift Guide](/email-templates/holiday-gift-guide/)** to show y
     ],
   },
 };
+
+// More intro text and FAQs per category (seo-categories-more.js)
+for (const [id, more] of Object.entries(EMAIL_CATEGORY_MORE)) {
+  const c = EMAIL_CATEGORY_SEO[id];
+  if (c) { c.intro = `${c.intro}
+
+${more.intro}`; c.faqs = [...c.faqs, ...more.faqs]; }
+}

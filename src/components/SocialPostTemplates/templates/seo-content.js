@@ -1329,7 +1329,7 @@ Celebrating the season first? See [Christmas Greeting](/social-post-templates/ch
     faqs: [
       { q: 'Can I change the year?', a: 'Yes. The year is its own field, so type 2027, 2028 or any year. It stays on one line and shrinks to fit if needed.' },
       { q: 'What should a New Year post from a business say?', a: 'Thank your customers or community for the past year and share one line about what is coming next. Keep it short so the big year stays the focus.' },
-      { q: 'Does it work as a Story?', a: 'Yes. Pick the 1080×1920 Story size; everything is centred and clear of the Story header and reply bar.' },
+      { q: 'Does the Happy New Year template work as a Story?', a: 'Yes. Pick the 1080×1920 Story size; everything is centred and clear of the Story header and reply bar.' },
       { q: 'Can I use it for Lunar New Year?', a: 'Change the kicker and year text (for example "Happy Lunar New Year" and "Year of the Horse") and switch to a red and gold palette.' },
     ],
   },
@@ -1744,7 +1744,7 @@ Comparisons work best when they're accurate and specific: "one flat price" beats
       { q: 'How do I make a comparison post for Instagram?', a: 'Open the Us vs Them Comparison template, write a headline, fill in up to four points for each column and add a call to action. Keep the 1080×1350 portrait size or switch to Story, then download the PNG.' },
       { q: 'Should I name a competitor?', a: 'It is usually safer to use a generic label such as "Other tools" or "The old way" and focus on your own benefits. If you name a competitor, make sure every claim is accurate and up to date.' },
       { q: 'Can I compare fewer than four points?', a: 'Yes. Leave a row empty in both columns and it disappears, so you can compare two or three points.' },
-      { q: 'Does it work as a Story?', a: 'Yes. On the 1080×1920 Story size the two columns stack vertically with the VS badge between them.' },
+      { q: 'Does the Us vs Them Comparison template work as a Story?', a: 'Yes. On the 1080×1920 Story size the two columns stack vertically with the VS badge between them.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the Us vs Them Comparison HTML and CSS: write honest comparison points for your product, turn it into a component that takes two arrays, or make a carousel that compares one feature per slide.',

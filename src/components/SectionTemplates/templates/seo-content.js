@@ -2,6 +2,7 @@
    shared "how it's different" list. Use cases follow the library rules (4 × 18-42 words). */
 
 import { SCROLL_LISTINGS_SEO } from './seo-scroll-listings.js';
+import { NEW_SECTIONS_SEO } from './seo-content-new.js';
 
 export const SECTION_SEO = {
   'saas-split-hero': {
@@ -53,7 +54,7 @@ Copy a single HTML file with the CSS included, download a ZIP with your images, 
       { q: 'How do I add this hero section to my website?', a: 'Edit the text, images and colours, then open Export. Download a ZIP or .html file and copy the <section class="st …"> element and its CSS into your page, or copy the React or Vue component into your app. Every colour and font is a CSS variable you can change later.' },
       { q: 'Is the hero section responsive?', a: 'Yes. It uses CSS container queries, so it adapts to the width of the element it sits in: two columns on wide screens, stacked and centred on tablets and phones. Preview desktop, tablet and mobile in the editor before exporting.' },
       { q: 'Can I use it with React, Next.js or Vue?', a: 'Yes. The Export menu copies a React component (JSX with the CSS included) or a Vue single-file component. The animation runtime loads GSAP from a CDN and runs after the component mounts.' },
-      { q: 'How does the animation work?', a: 'The text and screenshot animate in with GSAP and ScrollTrigger once the section scrolls into view. Content is visible without JavaScript, and the animation is skipped for visitors who prefer reduced motion. You can change the effect and speed, or turn it off.' },
+      { q: 'How does the SaaS Split Hero animation work?', a: 'The text and screenshot animate in with GSAP and ScrollTrigger once the section scrolls into view. Content is visible without JavaScript, and the animation is skipped for visitors who prefer reduced motion. You can change the effect and speed, or turn it off.' },
       { q: 'Where are my images and designs saved?', a: 'In your browser’s IndexedDB storage. Nothing is uploaded to a server. Use Save to keep named designs, and the Import / Export tab to download a backup file with your designs, images, uploaded fonts and brand kit.' },
     ],
     aiPrompt: {
@@ -230,7 +231,7 @@ Choose a theme preset or exact colours, pick any Google Font or upload your own,
       { q: 'Can I use the official App Store and Google Play badges?', a: 'The template uses simple text buttons with store icons, which are easy to restyle. If you prefer the official badges, fork the section to My Code and replace the buttons with the badge images, following Apple’s and Google’s badge guidelines.' },
       { q: 'What screenshot works best?', a: 'A phone mockup or screenshot with a transparent background, about 720 × 1440 px. Upload a PNG to keep the transparency; the editor resizes it in your browser.' },
       { q: 'Can I change the floating cards?', a: 'Yes. Each card has a title and a short line of text. Use them for your app’s key results, or switch "Floating cards" off for a cleaner look.' },
-      { q: 'Is it responsive?', a: 'Yes. On wide screens the copy and phone sit side by side; on tablets and phones the copy centres above the phone, using container queries.' },
+      { q: 'Is the App Product Hero section responsive?', a: 'Yes. On wide screens the copy and phone sit side by side; on tablets and phones the copy centres above the phone, using container queries.' },
       { q: 'Can I export it as a React component?', a: 'Yes. Copy React component from the Export menu. The CSS, theme variables and GSAP animation are included; uploaded images point to an images folder you get from the ZIP.' },
     ],
     aiPrompt: {
@@ -347,8 +348,8 @@ Copy one HTML file, download a ZIP, copy a React or Vue component, or fork it in
     faqs: [
       { q: 'How many feature cards can I add?', a: 'Up to twelve. Use + Add card to add one, the duplicate button to copy an existing card, the arrows to reorder and the cross to remove. The grid shows three per row on desktop, two on tablets and one on phones.' },
       { q: 'Can I use my own icons?', a: 'In the editor you can pick from 60 Lucide line icons. After exporting, each icon is an inline SVG, so you can replace it with any SVG icon, an emoji or an image in the HTML, React or Vue code.' },
-      { q: 'Is it responsive?', a: 'Yes. It uses CSS container queries, so the grid adapts to the width of the element it sits in: three columns when there is room, then two, then one.' },
-      { q: 'How does the animation work?', a: 'With GSAP: the heading reveals word by word using SplitText, then the cards stagger in once when the section scrolls into view. You can change the text effect, the entrance effect and the speed, or turn animation off.' },
+      { q: 'Is the Icon Grid Features section responsive?', a: 'Yes. It uses CSS container queries, so the grid adapts to the width of the element it sits in: three columns when there is room, then two, then one.' },
+      { q: 'How does the Icon Grid Features animation work?', a: 'With GSAP: the heading reveals word by word using SplitText, then the cards stagger in once when the section scrolls into view. You can change the text effect, the entrance effect and the speed, or turn animation off.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt this section: rewrite the six features for your product, turn the cards into a Next.js component that maps over an array, or add a "compare plans" link to each card.',
@@ -588,7 +589,7 @@ Switch the button and note on or off, link the button to your sign-up page and u
     faqs: [
       { q: 'How many steps can I have?', a: 'Between two and six. Three is the most common and reads best in one row; with five or six, consider shorter text so each column stays balanced.' },
       { q: 'How are the steps numbered?', a: 'With a CSS counter on the ordered list, so numbers are always correct after you add, remove or reorder steps. The list is a real <ol>, which also helps screen readers.' },
-      { q: 'What does it look like on mobile?', a: 'Steps stack vertically and the dashed connector becomes a short vertical line between them, using container queries.' },
+      { q: 'What does the How It Works Steps section look like on mobile?', a: 'Steps stack vertically and the dashed connector becomes a short vertical line between them, using container queries.' },
       { q: 'Can I remove the button?', a: 'Yes. Switch the Button group off in the panel and the button and note disappear; leave the note empty to show the button alone.' },
     ],
     aiPrompt: {
@@ -827,7 +828,7 @@ Download HTML or a ZIP, copy a React or Vue component, or fork into [My Code](/u
       { q: 'When should I use rows instead of cards?', a: 'When plans have long names or prices, when you have more than four options, or when you sell packages and services rather than software tiers. Rows also read well on phones.' },
       { q: 'Can a row have a one-off price?', a: 'Yes. Add a price note such as "one-off" or "per project" and it replaces the /month suffix for that row, in both monthly and yearly views.' },
       { q: 'How do I highlight a row?', a: 'Type text such as "Best value" in the row’s Highlight badge field; the row gets the badge, a brand border and a filled button.' },
-      { q: 'How does it look on mobile?', a: 'Each row becomes a card with the name and description, then the price, the highlight chips and a full-width button.' },
+      { q: 'How does the Pricing List Rows section look on mobile?', a: 'Each row becomes a card with the name and description, then the price, the highlight chips and a full-width button.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the pricing rows: add an add-ons table below, a "compare" checkbox per row, or an enquiry form that opens from each button.',
@@ -940,9 +941,9 @@ Add up to twelve testimonials with quotes, names, roles, photos and optional sta
       { icon: '🎉', title: 'Event or launch feedback', desc: 'Collect attendee or beta-user feedback after a launch and show it as a swipeable row on the follow-up page.' },
     ],
     faqs: [
-      { q: 'How does dragging work?', a: 'On devices with a mouse, GSAP Draggable tracks the drag on an invisible proxy and moves the row’s native scroll position; InertiaPlugin adds momentum and the row snaps to the nearest card. Touch devices use normal swiping with CSS scroll-snap.' },
-      { q: 'Does it work without JavaScript?', a: 'Yes. The cards sit in a horizontally scrollable row with scroll-snap, so visitors can still scroll through them; only the drag momentum and arrow buttons need the script.' },
-      { q: 'Is it accessible?', a: 'The row is a labelled, focusable region that can be scrolled with the keyboard, the arrow buttons have screen-reader labels you can edit, and animations are skipped for people who prefer reduced motion.' },
+      { q: 'How does dragging work in Testimonial Carousel?', a: 'On devices with a mouse, GSAP Draggable tracks the drag on an invisible proxy and moves the row’s native scroll position; InertiaPlugin adds momentum and the row snaps to the nearest card. Touch devices use normal swiping with CSS scroll-snap.' },
+      { q: 'Does Testimonial Carousel work without JavaScript?', a: 'Yes. The cards sit in a horizontally scrollable row with scroll-snap, so visitors can still scroll through them; only the drag momentum and arrow buttons need the script.' },
+      { q: 'Is the Testimonial Carousel section accessible?', a: 'The row is a labelled, focusable region that can be scrolled with the keyboard, the arrow buttons have screen-reader labels you can edit, and animations are skipped for people who prefer reduced motion.' },
       { q: 'Which GSAP plugins does it load?', a: 'GSAP core with Draggable, InertiaPlugin and ScrollToPlugin (plus ScrollTrigger and SplitText for the entrance), all free and loaded from cdnjs.' },
     ],
     aiPrompt: {
@@ -1059,7 +1060,7 @@ Upload the customer's photo (resized in your browser), set the company name, and
       { q: 'Can I animate the quote differently?', a: 'Yes. Open Animation and pick a headline text effect: Words rise, Line reveal, Letters or Blur in. The quote uses the same GSAP SplitText effect as section headings.' },
       { q: 'How many results can I show?', a: 'Up to four. Three usually reads best in one row; on phones they stack vertically.' },
       { q: 'Can I hide the results or the link?', a: 'Yes. Switch the Results group off, and leave the link text empty to hide the case-study link.' },
-      { q: 'Is the markup semantic?', a: 'Yes. The quote is a blockquote inside a figure with a figcaption for the person, and the results are a description list (dt for the label, dd for the number).' },
+      { q: 'Is the Testimonial Spotlight markup semantic?', a: 'Yes. The quote is a blockquote inside a figure with a figcaption for the person, and the results are a description list (dt for the label, dd for the number).' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the spotlight: add a company logo, turn it into a rotating set of three spotlights, or animate the stats counting up with GSAP.',
@@ -1117,9 +1118,9 @@ Add up to fifteen questions, reorder them so the most common come first, and edi
     ],
     faqs: [
       { q: 'Does the accordion work without JavaScript?', a: 'Yes. Each question is a native details/summary element, so it opens and closes in every browser without any script. GSAP only adds the smooth animation and the one-at-a-time behaviour.' },
-      { q: 'Is FAQ schema included?', a: 'Yes. The exported HTML page includes FAQPage JSON-LD generated from your questions and answers. For React or Vue, add the same JSON-LD to your page head with your framework’s head manager.' },
+      { q: 'Is FAQ schema included in FAQ Accordion?', a: 'Yes. The exported HTML page includes FAQPage JSON-LD generated from your questions and answers. For React or Vue, add the same JSON-LD to your page head with your framework’s head manager.' },
       { q: 'Can several answers be open at once?', a: 'In this section, opening a question closes the previous one. For multiple open answers, use the Split FAQ With Contact Card, or remove "single" from the data-accordion attribute in the exported code.' },
-      { q: 'Is it accessible?', a: 'Yes. Summary elements are focusable and toggle with Enter or Space, screen readers announce them as expandable, and animation is skipped for people who prefer reduced motion.' },
+      { q: 'Is the FAQ Accordion section accessible?', a: 'Yes. Summary elements are focusable and toggle with Enter or Space, screen readers announce them as expandable, and animation is skipped for people who prefer reduced motion.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the FAQ: add a search box that filters questions, group questions under category tabs, or generate questions from your support tickets.',
@@ -1179,7 +1180,7 @@ Download HTML or a ZIP, copy a React or Vue component, or fork it into [My Code]
       { q: 'Can I keep several answers open?', a: 'Yes. In this section each question opens and closes on its own, so visitors can compare answers. The FAQ Accordion section opens one at a time instead.' },
       { q: 'Does the left column stay on screen?', a: 'On wide screens, yes: it uses position: sticky so the heading and support card stay visible while the questions scroll. On narrow screens the columns stack normally.' },
       { q: 'Where can the contact button link?', a: 'Anywhere: a contact page, a mailto: address, a tel: number, a chat widget page or a booking tool such as Calendly.' },
-      { q: 'Is FAQ schema included?', a: 'Yes. The exported HTML page includes FAQPage JSON-LD built from your questions and answers.' },
+      { q: 'Is FAQ schema included in Split FAQ With Contact Card?', a: 'Yes. The exported HTML page includes FAQPage JSON-LD built from your questions and answers.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the split FAQ: add a search field above the questions, show question categories as tabs, or embed a contact form in the card.',
@@ -1237,9 +1238,9 @@ Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/)
     ],
     faqs: [
       { q: 'When should I use a grid instead of an accordion?', a: 'Use a grid when answers are short (one or two sentences) and you want all of them read. Use an accordion when answers are longer or you have many questions.' },
-      { q: 'Is the markup semantic?', a: 'Yes. Questions and answers are a description list, with dt for each question and dd for each answer, which screen readers and search engines understand as pairs.' },
-      { q: 'Is FAQ schema included?', a: 'Yes. The exported HTML page includes FAQPage JSON-LD generated from your questions and answers.' },
-      { q: 'Can I use a light theme?', a: 'Yes. Pick a light colour preset or apply your brand kit; the cards, badges and text colours all follow the theme.' },
+      { q: 'Is the FAQ Grid markup semantic?', a: 'Yes. Questions and answers are a description list, with dt for each question and dd for each answer, which screen readers and search engines understand as pairs.' },
+      { q: 'Is FAQ schema included in FAQ Grid?', a: 'Yes. The exported HTML page includes FAQPage JSON-LD generated from your questions and answers.' },
+      { q: 'Can I use a light theme with FAQ Grid?', a: 'Yes. Pick a light colour preset or apply your brand kit; the cards, badges and text colours all follow the theme.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the FAQ grid: add category headings, link answers to documentation pages, or generate the questions from your product docs.',
@@ -1357,8 +1358,8 @@ Download HTML or a ZIP with your image, copy a React or Vue component, or fork i
     faqs: [
       { q: 'What image works best?', a: 'A tall PNG with a transparent background, such as a phone mockup, about 720×1440 px. The image is cropped at the bottom edge of the card, which looks natural for phones.' },
       { q: 'Can I use official App Store badges?', a: 'Yes. After exporting, replace the two buttons with Apple’s and Google’s official badge images and links, following their brand guidelines.' },
-      { q: 'How does it look on mobile?', a: 'The card stacks: copy and buttons first, then the image, shrunk to about 70% of the width and still rising from the bottom edge.' },
-      { q: 'Can I use a light theme?', a: 'The card uses the theme’s surface colour as its background, so choosing a light preset gives a light card; adjust the text colours in the exported CSS if needed.' },
+      { q: 'How does the Split CTA With Image section look on mobile?', a: 'The card stacks: copy and buttons first, then the image, shrunk to about 70% of the width and still rising from the bottom edge.' },
+      { q: 'Can I use a light theme with Split CTA With Image?', a: 'The card uses the theme’s surface colour as its background, so choosing a light preset gives a light card; adjust the text colours in the exported CSS if needed.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the split CTA: add a QR code for downloading on desktop, show app ratings under the buttons, or swap the image for an autoplaying demo video.',
@@ -1418,7 +1419,7 @@ Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/)
       { q: 'How do I connect the form to Mailchimp?', a: 'In Mailchimp, open your audience’s embedded form code and copy the form’s action URL into Form URL, and set Email field name to EMAIL. Sign-ups will go straight to your audience.' },
       { q: 'Does it work with Kit (ConvertKit) or Buttondown?', a: 'Yes. Copy the action URL from the service’s HTML form embed and use the field name it expects, such as email_address for Kit or email for Buttondown.' },
       { q: 'Will the form submit while I edit?', a: 'No. In the editor preview submissions are blocked so you can try the form safely. The exported page submits normally.' },
-      { q: 'Is it accessible?', a: 'The email input has a label from the placeholder (aria-label), type="email", autocomplete="email" and required, and the button is a real submit button.' },
+      { q: 'Is the Newsletter Signup CTA section accessible?', a: 'The email input has a label from the placeholder (aria-label), type="email", autocomplete="email" and required, and the button is a real submit button.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the newsletter section: submit with fetch and show a thank-you message, add a first-name field, or add a hidden honeypot field against spam.',
@@ -1478,7 +1479,7 @@ Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/)
       { q: 'When should I use a strip instead of a banner?', a: 'Use the strip between sections or on content pages where a big banner would interrupt reading, and a banner as the main closing CTA of a landing page.' },
       { q: 'Can I show just one button?', a: 'Yes. Leave the secondary button text empty and it is removed.' },
       { q: 'What does "magnetic" mean?', a: 'On devices with a mouse, the buttons move slightly toward the cursor and spring back when it leaves, using GSAP. It is off on touch screens and for reduced motion.' },
-      { q: 'How does it look on phones?', a: 'The icon, heading and text stack, and the two buttons sit side by side across the full width.' },
+      { q: 'How does CTA Strip look on phones?', a: 'The icon, heading and text stack, and the two buttons sit side by side across the full width.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the CTA strip: make it dismissible and remember that with localStorage, turn it into a sticky bottom bar, or add an email field.',
@@ -1537,7 +1538,7 @@ Download HTML or a ZIP, copy a React or Vue component, or fork into [My Code](/u
       { q: 'Which number formats are supported?', a: 'Any text with a number in it: prefixes like $ or €, suffixes like +, %, M, k, × or /5, thousands separators with commas and any number of decimal places. The first number in the text is animated and everything around it stays.' },
       { q: 'Will search engines see the real numbers?', a: 'Yes. The HTML contains the final values; the count-up only changes them briefly in the browser when the section scrolls into view, then restores the exact original text.' },
       { q: 'Does it count every time I scroll past?', a: 'No, once per page load, when each number first comes into view. It never runs for people who prefer reduced motion.' },
-      { q: 'How many stats can I show?', a: 'Up to six. Three or four read best in one row; on phones they wrap into two columns.' },
+      { q: 'How many stats can I show in Animated Stats Counters?', a: 'Up to six. Three or four read best in one row; on phones they wrap into two columns.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the stats section: pull live numbers from an API, add small trend arrows, or add an icon above each number.',
@@ -1654,8 +1655,8 @@ Download HTML or a ZIP, copy a React or Vue component, or fork into [My Code](/u
     faqs: [
       { q: 'Do the numbers count on every device?', a: 'Yes, on any device with JavaScript, once per page load as they come into view. People who prefer reduced motion see the final values straight away.' },
       { q: 'Can I add my real customer logos?', a: 'Yes. Upload an SVG or transparent PNG for each logo; it replaces the icon-and-name wordmark and is shown in a light grey that suits the dark background.' },
-      { q: 'Can I use a light theme?', a: 'Yes. Choose a light colour preset or apply your brand kit; the cards, glow and text all follow the theme colours.' },
-      { q: 'How many stats can I show?', a: 'Up to four, in a two-by-two grid. For more, use Animated Stats Counters, which fits six.' },
+      { q: 'Can I use a light theme with Stats With Logos (Dark)?', a: 'Yes. Choose a light colour preset or apply your brand kit; the cards, glow and text all follow the theme colours.' },
+      { q: 'How many stats can I show in Stats With Logos (Dark)?', a: 'Up to four, in a two-by-two grid. For more, use Animated Stats Counters, which fits six.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the dark stats section: add sparkline charts to each card, link stats to case studies, or switch the logos for a scrolling marquee.',
@@ -1835,7 +1836,7 @@ Download HTML, a ZIP, React or Vue with the menu and dismiss scripts included, o
       { q: 'Can visitors close the announcement?', a: 'Yes. The × button collapses the bar with a smooth GSAP animation and removes it. It reappears on the next page load; to remember the choice, store it in localStorage in your exported code.' },
       { q: 'Can I turn the announcement bar off?', a: 'Yes. Switch the Announcement bar group off and only the navbar remains.' },
       { q: 'Is the close button accessible?', a: 'Yes. It is a real button with an editable screen-reader label such as "Dismiss announcement".' },
-      { q: 'How does it look on phones?', a: 'The announcement text wraps to the left of the close button, and the navbar shows the logo and a hamburger that opens the links, sign-in link and button.' },
+      { q: 'How does Navbar With Announcement Bar look on phones?', a: 'The announcement text wraps to the left of the close button, and the navbar shows the logo and a hamburger that opens the links, sign-in link and button.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the header: remember dismissal in localStorage, rotate several announcements, or add a cart icon with an item count.',
@@ -1956,7 +1957,7 @@ Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/)
       { q: 'How big is the wordmark?', a: 'It scales with the width of the section (about 15% of it per character height) so it fills the width without overflowing. Shorter names, up to about ten letters, look best.' },
       { q: 'How is the wordmark animated?', a: 'With GSAP SplitText: it is marked for the headline text effect, so it rises in by words, lines or letters, or blurs in, when the footer scrolls into view. Pick the effect in the Animation panel.' },
       { q: 'Is the giant text read by screen readers?', a: 'No. It is decorative and hidden with aria-hidden, because it repeats the brand name that is already in the page.' },
-      { q: 'Can I use a light theme?', a: 'Yes. Pick a light colour preset or your brand kit; the wordmark uses the text colour with a fade, so it works on light backgrounds too.' },
+      { q: 'Can I use a light theme with Big Wordmark Footer?', a: 'Yes. Pick a light colour preset or your brand kit; the wordmark uses the text colour with a fade, so it works on light backgrounds too.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the big footer: make the wordmark react to the mouse, use an outlined text style, or add a live local time for your studio.',
@@ -2016,7 +2017,7 @@ Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/)
       { q: 'How do I connect the form?', a: 'Copy the form action URL from your email service’s embed code into Form URL and set Email field name (for example EMAIL for Mailchimp, email_address for Kit). The exported form posts sign-ups straight to your list.' },
       { q: 'Will the form submit in the editor?', a: 'No. Submissions are blocked in the preview so you can test the layout. The exported page submits normally.' },
       { q: 'How do I edit the link columns?', a: 'Each column has a title and a links box where you write one link per line as Label | URL. Add, reorder or remove columns in the panel.' },
-      { q: 'Is it responsive?', a: 'Yes. On narrow widths the newsletter block sits above the links, the form stacks with a full-width button, and link columns go two by two.' },
+      { q: 'Is the Footer With Newsletter section responsive?', a: 'Yes. On narrow widths the newsletter block sits above the links, the form stacks with a full-width button, and link columns go two by two.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the footer: submit the form with fetch and show a thank-you message, add a cookie settings link, or add a currency and language picker.',
@@ -2075,7 +2076,7 @@ Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/)
     faqs: [
       { q: 'How many links fit?', a: 'Five or six fit comfortably in one row on desktop; more will wrap neatly. For many links, use the Multi-Column Footer.' },
       { q: 'Can I link to sections on the same page?', a: 'Yes. Use anchors like Features | #features; the matching section needs an id of features.' },
-      { q: 'How does it look on mobile?', a: 'The logo, links and icons stack and centre, with the copyright line below.' },
+      { q: 'How does the Minimal Footer section look on mobile?', a: 'The logo, links and icons stack and centre, with the copyright line below.' },
       { q: 'Can I remove the social icons?', a: 'Yes. Switch the Social links group off.' },
     ],
     aiPrompt: {
@@ -2108,7 +2109,11 @@ The heading reveals with a SplitText effect and the cards stagger in as the sect
 
 **Export it**
 
-Download HTML, a ZIP with your photos, React or Vue, or fork into [My Code](/ui-snippets/mycode/). For a larger team, try the [Team Carousel](/website-section-templates/team-carousel/).`,
+Download HTML, a ZIP with your photos, React or Vue, or fork into [My Code](/ui-snippets/mycode/). For a larger team, try the [Team Carousel](/website-section-templates/team-carousel/).
+
+**Getting the most from it**
+
+Use photos with the same framing and background so the grid looks uniform, and write each bio as one line about what the person does for the customer, not a job title alone. Keep the list to the people customers actually meet: a grid of four to eight is easy to scan. Link each person to a profile, LinkedIn page or contact page, and refresh the photos once a year. For a large team, show the leadership here and link to a full directory.`,
     },
     features: [
       'Grid of member cards: photo, name, role and short bio',
@@ -2191,10 +2196,10 @@ Download HTML, a ZIP, React or Vue with the carousel script, or fork into [My Co
       { icon: '🏢', title: 'Leadership team', desc: 'Show department heads with their titles, linking to longer bios.' },
     ],
     faqs: [
-      { q: 'How does dragging work?', a: 'On devices with a mouse, GSAP Draggable tracks an invisible proxy and moves the row’s native scroll position, with InertiaPlugin momentum and snapping to cards. Touch devices use normal swiping with CSS scroll-snap.' },
+      { q: 'How does dragging work in Team Carousel?', a: 'On devices with a mouse, GSAP Draggable tracks an invisible proxy and moves the row’s native scroll position, with InertiaPlugin momentum and snapping to cards. Touch devices use normal swiping with CSS scroll-snap.' },
       { q: 'What photo shape works best?', a: 'Portrait photos; cards are cropped to 3:4. Faces near the top or centre of the image work best because the name sits over the bottom.' },
       { q: 'Can names link to profile pages?', a: 'Yes. Add a profile link to a person and their name becomes a link; leave it empty for plain text.' },
-      { q: 'Does it work without JavaScript?', a: 'Yes. The cards sit in a horizontally scrollable row, so visitors can still scroll through them.' },
+      { q: 'Does Team Carousel work without JavaScript?', a: 'Yes. The cards sit in a horizontally scrollable row, so visitors can still scroll through them.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the team carousel: flip cards to show a bio on click, add an autoplay mode, or show each person’s favourite tool.',
@@ -2347,7 +2352,11 @@ It ships in a deep teal-black with a mint accent; cards lift and highlight on ho
 
 **Export it**
 
-Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). Pair it with a form from [Contact Form With Details](/website-section-templates/contact-split-form/).`,
+Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/). Pair it with a form from [Contact Form With Details](/website-section-templates/contact-split-form/).
+
+**Getting the most from it**
+
+Give each card one job and a clear label, such as "Sales", "Support" or "Press", and say what happens next, for example "We reply within one working day". Use the link on each card for the quickest route: a mailto link, a phone number or a chat page. Three or four cards are enough; more makes the choice harder. If you also want a form, place this section above it, so people who prefer to email or call can do so without scrolling past a form.`,
     },
     features: [
       'Cards for sales, support, partnerships, press or any team',
@@ -2374,7 +2383,7 @@ Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/)
       { q: 'Can each card link somewhere different?', a: 'Yes. Each card has its own link text and URL: a page, a mailto: address, a tel: number or a chat link.' },
       { q: 'How many options can I show?', a: 'Up to six. Three or four usually works best; the grid wraps automatically.' },
       { q: 'Can I remove the response-time note?', a: 'Yes. Leave the note empty and it disappears, including the green dot.' },
-      { q: 'Can I use a light theme?', a: 'Yes. Choose a light colour preset or apply your brand kit; the cards and accents follow the theme.' },
+      { q: 'Can I use a light theme with Contact Options Cards?', a: 'Yes. Choose a light colour preset or apply your brand kit; the cards and accents follow the theme.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the contact cards: show live support status from an API, open a chat widget from the support card, or add office time zones.',
@@ -2466,7 +2475,11 @@ The exported page includes an ItemList of BlogPosting structured data (JSON-LD) 
 
 **Export it**
 
-Download HTML, a ZIP with your covers, React or Vue, or fork into [My Code](/ui-snippets/mycode/). For a magazine layout with one big story, see [Featured Post With List](/website-section-templates/blog-featured/).`,
+Download HTML, a ZIP with your covers, React or Vue, or fork into [My Code](/ui-snippets/mycode/). For a magazine layout with one big story, see [Featured Post With List](/website-section-templates/blog-featured/).
+
+**Getting the most from it**
+
+Use real cover images at the same size and a headline that promises a clear benefit. Three cards is a good fit for a homepage section, six for a blog front page. Add a one-sentence excerpt that gives the reader a reason to click, and put the category and reading time in the small print so visitors know what they are choosing. Link the "See all" button to your full blog or archive and refresh the three featured posts as you publish new ones.`,
     },
     features: [
       'Post cards: cover, category, date, read time, title, excerpt, author',
@@ -2491,7 +2504,7 @@ Download HTML, a ZIP with your covers, React or Vue, or fork into [My Code](/ui-
     ],
     faqs: [
       { q: 'Can I connect it to my blog automatically?', a: 'The section is static HTML. After exporting, you can render the cards from your CMS (WordPress, Ghost, Sanity, Markdown) by looping over posts in your framework, using the same markup and CSS.' },
-      { q: 'Is structured data included?', a: 'Yes. The exported HTML includes an ItemList of BlogPosting JSON-LD with each post’s headline, description, URL, image and author.' },
+      { q: 'Is structured data included in Blog Post Cards?', a: 'Yes. The exported HTML includes an ItemList of BlogPosting JSON-LD with each post’s headline, description, URL, image and author.' },
       { q: 'What cover size should I use?', a: 'About 1200×750 px (16:10). Covers are cropped to that shape in the cards.' },
       { q: 'How many posts can I show?', a: 'Up to nine. Three is typical for a homepage; six or nine work for a blog index.' },
     ],
@@ -2555,9 +2568,9 @@ Download HTML, a ZIP, React or Vue, or fork into [My Code](/ui-snippets/mycode/)
     ],
     faqs: [
       { q: 'How do I change the featured post?', a: 'Edit the Featured post group: cover, category, date, title, excerpt, author, link and the read-link text. It is separate from the recent posts list.' },
-      { q: 'Is structured data included?', a: 'Yes. The exported HTML includes an ItemList of BlogPosting JSON-LD with the featured post first, then the recent posts.' },
+      { q: 'Is structured data included in Featured Post With List?', a: 'Yes. The exported HTML includes an ItemList of BlogPosting JSON-LD with the featured post first, then the recent posts.' },
       { q: 'How many recent posts can I list?', a: 'Up to six. Four balances well with the featured story on desktop.' },
-      { q: 'How does it look on mobile?', a: 'The featured story comes first at full width, followed by the list of recent posts with small thumbnails.' },
+      { q: 'How does the Featured Post With List section look on mobile?', a: 'The featured story comes first at full width, followed by the list of recent posts with small thumbnails.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the magazine layout: rotate featured posts automatically, add a category navigation bar, or load posts from your CMS.',
@@ -2619,9 +2632,9 @@ Download HTML, a ZIP, React or Vue with the hover script, or fork into [My Code]
     ],
     faqs: [
       { q: 'How does the hover image work?', a: 'A small script creates one floating card in the section. When you hover a row, it shows that post’s cover and GSAP quickTo smoothly moves the card to follow the cursor; it fades out when you leave the row.' },
-      { q: 'Does it work on phones?', a: 'Yes, as a clean list. The hover preview only runs on devices with a mouse, so phones get a fast list without the effect.' },
+      { q: 'Does the Editorial Post List section work on phones?', a: 'Yes, as a clean list. The hover preview only runs on devices with a mouse, so phones get a fast list without the effect.' },
       { q: 'Can I turn off the preview for a post?', a: 'Yes. Leave that post’s cover image empty and no preview appears for it.' },
-      { q: 'Is structured data included?', a: 'Yes. The exported HTML includes an ItemList of BlogPosting JSON-LD for the posts.' },
+      { q: 'Is structured data included in Editorial Post List?', a: 'Yes. The exported HTML includes an ItemList of BlogPosting JSON-LD for the posts.' },
     ],
     aiPrompt: {
       paragraph: 'Ask an AI assistant to adapt the editorial list: use a video preview instead of an image, add year groupings, or filter by category.',
@@ -2634,6 +2647,7 @@ Download HTML, a ZIP, React or Vue with the hover script, or fork into [My Code]
     },
   },
   ...SCROLL_LISTINGS_SEO, // Scroll effects + Menus & listings (seo-scroll-listings.js)
+  ...NEW_SECTIONS_SEO, // Gallery & media, comparison table, booking form, case study, legal text (seo-content-new.js)
 };
 
 export const SECTION_DIFFERENT = [

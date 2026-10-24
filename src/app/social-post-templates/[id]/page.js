@@ -7,6 +7,8 @@ import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import TemplateShot from '@/components/SocialPostTemplates/Shot';
 import { previewIds, hasOg, ogUrl, previewUrl } from '@/components/SocialPostTemplates/assets';
 import { TEMPLATES, SIZES, templateById, categoryById } from '@/components/SocialPostTemplates/templates/index.js';
+import { EMAIL_TEMPLATES } from '@/components/EmailTemplates/templates/index.js';
+import { emailsForSocial } from '@/lib/cross-library-links';
 import { TEMPLATE_SEO } from '@/components/SocialPostTemplates/templates/seo-content.js';
 import { TEMPLATE_WHY, TEMPLATE_DIFFERENT } from '@/components/SocialPostTemplates/templates/seo-why.js';
 import styles from '../../tool-page.module.css';
@@ -73,6 +75,8 @@ export default async function SocialPostTemplatePage({ params }) {
     cat: categoryById(x.category)?.label, meta: `${SIZES.length} sizes`,
   }));
 
+  const emailMatches = emailsForSocial(t.id).map(id => EMAIL_TEMPLATES.find(x => x.id === id)).filter(Boolean);
+
   const sections = [
     { type: 'features', label: "What's included", heading: 'Features', items: seo.features },
     {
@@ -106,6 +110,13 @@ export default async function SocialPostTemplatePage({ params }) {
       ],
     },
     { type: 'cards', label: 'Real-world uses', heading: 'Common Use Cases', columns: 3, items: seo.useCases },
+    ...(emailMatches.length ? [{
+      type: 'text',
+      label: 'Follow it up',
+      heading: `Email Templates to Match the ${t.name} Post`,
+      quickFacts: false,
+      text: `Reach the people who are not on social media with a matching email from the free responsive HTML email templates: ${emailMatches.map(m => `[${m.name}](/email-templates/${m.id}/)`).join(', ')}. Both libraries use the same brand colours and fonts, so the post and the email look like one campaign.`,
+    }] : []),
     { type: 'faq', label: 'Got questions?', heading: 'Frequently Asked Questions', items: faqs },
   ];
 

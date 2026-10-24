@@ -19,7 +19,11 @@ The section is a swipeable row with CSS scroll snapping first. On phones, withou
 
 **Edit every card**
 
-Cards are an editable list of 2 to 12, each with an image, tag, title, text and link. Export HTML, a ZIP, React or Vue, or fork it into [My Code](/ui-snippets/mycode/). Pair it with the [Pinned Scroll Story](/website-section-templates/scroll-story/) for a page full of scroll moments.`,
+Cards are an editable list of 2 to 12, each with an image, tag, title, text and link. Export HTML, a ZIP, React or Vue, or fork it into [My Code](/ui-snippets/mycode/). Pair it with the [Pinned Scroll Story](/website-section-templates/scroll-story/) for a page full of scroll moments.
+
+**Getting the most from it**
+
+Choose images with the same aspect ratio so the row feels even, and give each card a short tag, such as the room type or the category, so visitors can tell the cards apart as they scroll sideways. Six to eight cards are enough for most pages. Make each title descriptive, since it also becomes the text search engines read, and link every card to its own page. Remember that on a phone the gallery is a normal vertical list, so check that the first card is strong on its own.`,
     },
     features: [
       'Pins and scrolls sideways as visitors scroll down',
@@ -76,7 +80,11 @@ On phones, without JavaScript and while editing, each step simply shows its imag
 
 **Pairs well**
 
-Use it after a hero for a product tour, or follow it with a [Stacking Cards](/website-section-templates/scroll-stack/) section for features. Export HTML, a ZIP, React or Vue.`,
+Use it after a hero for a product tour, or follow it with a [Stacking Cards](/website-section-templates/scroll-stack/) section for features. Export HTML, a ZIP, React or Vue.
+
+**Getting the most from it**
+
+Treat each scene as one sentence of your story: a clear heading, two or three lines of text and an image that shows the point. Three to five scenes keep the pinned section short enough to enjoy rather than endure. Order the scenes the way you would explain the idea to a friend, from the problem to the result, and end on a scene that leads naturally into your call to action. Use images with a similar crop so the transitions stay smooth.`,
     },
     features: [
       'Steps scroll while the image stage stays pinned',
@@ -102,7 +110,7 @@ Use it after a hero for a product tour, or follow it with a [Stacking Cards](/we
     faqs: [
       { q: 'What is a scroll story?', a: 'Also called scrollytelling: content that changes as you scroll. Here, text steps scroll past while a pinned image beside them switches to match the step in view.' },
       { q: 'How many steps work best?', a: 'Three to five. Each step takes most of a screen height on desktop, so more than six makes the section long; split longer stories into two sections.' },
-      { q: 'What does it look like on mobile?', a: 'Below 900px each step shows its own image above its title and text, in a simple vertical sequence with no pinning.' },
+      { q: 'What does the Pinned Scroll Story section look like on mobile?', a: 'Below 900px each step shows its own image above its title and text, in a simple vertical sequence with no pinning.' },
       { q: 'Can I use video instead of images?', a: 'The export uses images, but you can replace an image with a muted, looping video in the exported HTML; the crossfade works on any element in the stage.' },
     ],
     aiPrompt: {
@@ -130,7 +138,11 @@ Cards are an editable list of 2 to 6, each with an icon, label, title, text and 
 
 Without JavaScript, on phones and while editing, the cards form a normal column, so nothing depends on the animation. The effect uses GSAP ScrollTrigger pins with stepped offsets and scrubbed scale, and respects reduced motion.
 
-Follow it with a [Gradient CTA Banner](/website-section-templates/cta-gradient-banner/) to turn interest into sign-ups. Export HTML, a ZIP, React or Vue.`,
+Follow it with a [Gradient CTA Banner](/website-section-templates/cta-gradient-banner/) to turn interest into sign-ups. Export HTML, a ZIP, React or Vue.
+
+**Getting the most from it**
+
+Keep each card to a single idea, a short title and two lines of text, because stacked cards cover each other as you scroll and the previous card is only half visible. Four to six cards is the sweet spot: fewer feels thin, more makes the page long. Put the strongest point first and the call to action in the last card, and link every card to a deeper page so the section also feeds your internal links.`,
     },
     features: [
       'Cards pin and stack as visitors scroll',
@@ -155,7 +167,7 @@ Follow it with a [Gradient CTA Banner](/website-section-templates/cta-gradient-b
     ],
     faqs: [
       { q: 'How does the stacking work?', a: 'GSAP ScrollTrigger pins each card a little lower than the one before until the last card arrives. While the next card slides over, the covered card scales down and dims, scrubbed to the scroll.' },
-      { q: 'Does it work on phones?', a: 'Below 768px the cards are a normal column without pinning, which is easier to read on small screens.' },
+      { q: 'Does the Stacking Cards section work on phones?', a: 'Below 768px the cards are a normal column without pinning, which is easier to read on small screens.' },
       { q: 'Do the cards need images?', a: 'No. Leave the image empty and that card becomes text-only and spans the full width.' },
       { q: 'Why is the inner card scaled rather than the card itself?', a: 'The pinned card is positioned by ScrollTrigger, so the scale is applied to its inner wrapper to keep the pin and the shrink effect from interfering.' },
     ],
@@ -185,7 +197,11 @@ Add 2 to 10 milestones, each with a date or label, an icon, a title and text. On
 
 **Visible without JavaScript**
 
-Without JavaScript or with reduced motion the line is fully drawn and every milestone is shown. With GSAP the stroke is scrubbed from hidden to drawn using its own length, no plugin needed. Export HTML, a ZIP, React or Vue.`,
+Without JavaScript or with reduced motion the line is fully drawn and every milestone is shown. With GSAP the stroke is scrubbed from hidden to drawn using its own length, no plugin needed. Export HTML, a ZIP, React or Vue.
+
+**Getting the most from it**
+
+Use it for a sequence that really has an order, such as a company history, a project roadmap, an onboarding journey or a wedding day schedule. Keep milestone titles short and put the year or step number in the label so the path reads as a timeline even at a glance. Six to eight milestones work best; past that, the line becomes long and visitors skim. Add a short sentence under each title that says what changed, not just what happened.`,
     },
     features: [
       'SVG line that draws itself as you scroll',
@@ -241,7 +257,11 @@ A note under the dishes covers allergens, dietary symbols or service charges, an
 
 **Warm by default**
 
-It ships with a warm palette and a serif heading font that suit restaurants, cafés and bars; switch to any preset or your brand kit. Pair it with the [Contact With Map](/website-section-templates/contact-map/) section for opening hours and directions. Export HTML, a ZIP, React or Vue.`,
+It ships with a warm palette and a serif heading font that suit restaurants, cafés and bars; switch to any preset or your brand kit. Pair it with the [Contact With Map](/website-section-templates/contact-map/) section for opening hours and directions. Export HTML, a ZIP, React or Vue.
+
+**Getting the most from it**
+
+Write each dish with its main ingredients in a single line and a price, and keep the descriptions short enough to scan on a phone. Mark dietary information, such as vegetarian or gluten-free, in the description text so it is searchable. Group items into the courses guests expect, starters, mains and desserts, and put the dishes you most want to sell first in each group. The same menu layout works for a spa treatment list, a salon price list or a catering package list.`,
     },
     features: [
       'Two columns of dishes, one on phones',
@@ -295,7 +315,11 @@ Every card starts with an inline SVG house illustration drawn in your theme colo
 
 Cards sit in a responsive grid of up to twelve, lift on hover and link to each full listing, with a "See all listings" link in the header. Leave any fact empty and it disappears.
 
-Use it with the [Contact Split Form](/website-section-templates/contact-split-form/) for viewings and valuations. Export HTML, a ZIP, React or Vue.`,
+Use it with the [Contact Split Form](/website-section-templates/contact-split-form/) for viewings and valuations. Export HTML, a ZIP, React or Vue.
+
+**Getting the most from it**
+
+Write the title as what makes the home special, such as "Corner house with a garden", and keep the address to the street and area so it reads quickly. Show the same facts on every card, price, bedrooms and size, so visitors can compare at a glance, and use the status badge for "For sale", "To let" or "Under offer". If you have more than a dozen homes, show your best six to twelve here and link "See all listings" to your property portal.`,
     },
     features: [
       'Cards with photo, status badge, price, title and address',
@@ -348,7 +372,11 @@ Column headings are editable, so the same section serves gyms and yoga studios, 
 
 A note covers first visits or changes, and an optional button links to bookings or a free trial. The bold dark theme with a lime accent suits fitness brands; switch to any preset for a calmer look.
 
-Pair it with the [Team Grid](/website-section-templates/team-grid/) to introduce the coaches. Export HTML, a ZIP, React or Vue.`,
+Pair it with the [Team Grid](/website-section-templates/team-grid/) to introduce the coaches. Export HTML, a ZIP, React or Vue.
+
+**Getting the most from it**
+
+Keep class names short and consistent, and put the level in its own column so beginners can spot where they belong. Order the rows by day and time, and name the coach, since people often choose a class for the person leading it. If the timetable changes by term, add the dates in the note rather than keeping out-of-date rows. The same layout works for yoga studios, dance schools, tutoring centres and clubs: rename the columns in the panel to suit.`,
     },
     features: [
       'Accessible table: day, time, class, coach, level',
@@ -415,7 +443,9 @@ Every section is editable in the browser and shares one theme with the rest of t
 
 The **[Restaurant Menu](/website-section-templates/restaurant-menu/)** lists dishes with dotted leaders to the price, descriptions and dietary tags, one section per course. **[Property Listings](/website-section-templates/property-listings/)** shows homes as cards with price, status, address and key facts, with themed SVG house illustrations until you add photos. The **[Class Timetable](/website-section-templates/class-timetable/)** publishes a weekly schedule as an accessible table that becomes labelled cards on phones.
 
-Each one is editable in the browser, matches the rest of the library's theme and exports as HTML, a ZIP, React or Vue. Combine them with heroes, galleries and contact sections in the [Website Builder](/website-builder/) to build a restaurant, agency or gym website in minutes.`,
+Each one is editable in the browser, matches the rest of the library's theme and exports as HTML, a ZIP, React or Vue. Combine them with heroes, galleries and contact sections in the [Website Builder](/website-builder/) to build a restaurant, agency or gym website in minutes.
+
+New: the **[Product Grid](/website-section-templates/product-grid/)** shows products with photos, badges, prices, sale prices and ratings, and links each one to your own checkout.`,
     faqs: [
       { q: 'Are these better than a PDF menu or an image timetable?', a: 'Yes for most sites: real text loads faster, reads well on phones, works with screen readers and can be found by search engines.' },
       { q: 'Can I use them for other industries?', a: 'Yes. The menu works for services with prices, the listings for any catalogue of cards, and the timetable for courses, events and conferences, since every label is editable.' },

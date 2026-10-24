@@ -1,6 +1,8 @@
 /* Landing-page content for each template category (/social-post-templates/category/<id>/).
    Titles 50-60 characters, descriptions 150-160, written around what people search for. */
 
+import { CATEGORY_MORE } from './seo-categories-more.js';
+
 export const CATEGORY_SEO = {
   quotes: {
     title: 'Quote & Tip Post Templates — Free for Instagram, X & FB',
@@ -107,3 +109,11 @@ Use **Halloween Sale** for spooky-season deals, **Thanksgiving Thank You** for a
     ],
   },
 };
+
+// More intro text and FAQs per category (seo-categories-more.js)
+for (const [id, more] of Object.entries(CATEGORY_MORE)) {
+  const c = CATEGORY_SEO[id];
+  if (c) { c.intro = `${c.intro}
+
+${more.intro}`; c.faqs = [...c.faqs, ...more.faqs]; }
+}

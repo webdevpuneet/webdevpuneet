@@ -26,7 +26,7 @@ export const emptyPage = (name = 'Untitled page') => ({ name, theme: { ...DEFAUL
 
 /* Section anchors: an optional id per section so navbar links like #pricing scroll to it.
    New sections get a default from their category (unique on the page). */
-const ANCHOR_FOR = { features: 'features', pricing: 'pricing', testimonials: 'customers', faq: 'faq', contact: 'contact', blog: 'blog', team: 'team', stats: 'results', cta: 'get-started' };
+const ANCHOR_FOR = { features: 'features', pricing: 'pricing', testimonials: 'customers', faq: 'faq', contact: 'contact', blog: 'blog', team: 'team', stats: 'results', cta: 'get-started', gallery: 'gallery' };
 /** A URL-safe anchor id ('' when empty) */
 export const cleanAnchor = v => String(v || '').toLowerCase().trim().replace(/[^a-z0-9-_]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
 /** The default anchor for a template on a page ('' for navbars, heroes and footers) */

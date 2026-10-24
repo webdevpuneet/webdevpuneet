@@ -20,6 +20,9 @@
 import { sectionTemplateById, listItem } from './index.js';
 import { newUid, emptyPage, restorePage, pageFromStarter, starterSections, newPageSection, pageCss, pageScript, pageCdn, pageBaseCss, pageDocumentHtml } from './page.js';
 import { websiteTemplateById } from './starters.js';
+import { WEBSITE_TEMPLATE_SEO } from './seo-website-templates.js';
+import { WEBSITE_PAGE_SEO } from './seo-website-pages.js';
+import { privacyMeta, privacyPageSections } from './privacy-page.js';
 
 export const SITE_VERSION = 2; // 2: the home page is in the menu by default
 export const isSite = v => !!v && v.kind === 'site';
@@ -193,7 +196,8 @@ function splitSite(site) {
 export function siteFromStarter(starterId, { multi = false } = {}) {
   let site = siteFromPage(pageFromStarter(starterId));
   const st = websiteTemplateById(starterId);
-  if (st?.homeTitle || st?.homeDescription) site.pages[0] = { ...site.pages[0], title: st.homeTitle || '', description: st.homeDescription || '' };
+  const home = { title: st?.homeTitle || WEBSITE_TEMPLATE_SEO[starterId]?.home?.title || '', description: st?.homeDescription || WEBSITE_TEMPLATE_SEO[starterId]?.home?.description || '' };
+  if (home.title || home.description) site.pages[0] = { ...site.pages[0], title: home.title, description: home.description };
   if (!multi || !st) return site;
   if (st.pages?.length) {
     for (const p of st.pages) site = addSitePage(site, { ...newSitePage(site, p.name, starterSections(p.sections)), slug: p.slug || '', title: p.title || '', description: p.description || '' });
@@ -201,7 +205,15 @@ export function siteFromStarter(starterId, { multi = false } = {}) {
     site = mapSiteLinks(site, u => map[u] ?? u);
   } else {
     site = splitSite(site);
+    const over = WEBSITE_PAGE_SEO[starterId] || {};
+    site = { ...site, pages: site.pages.map(p => (over[p.name] ? { ...p, ...over[p.name] } : p)) };
   }
+  // Every multi-page website also gets a Privacy page (sample wording, kept out of the menu)
+  const brand = brandOf(site);
+  site = addSitePage(site, { ...newSitePage(site, 'Privacy', starterSections(privacyPageSections(brand))), slug: 'privacy', inNav: false, ...privacyMeta(brand) });
+  // The footers' default /privacy/ link now has a page to go to
+  const privacy = site.pages.find(pg => pg.slug === 'privacy');
+  if (privacy) site = mapSiteLinks(site, u => (u === '/privacy/' ? pageFile(site, privacy) : u));
   return fixSiteLinks(site);
 }
 

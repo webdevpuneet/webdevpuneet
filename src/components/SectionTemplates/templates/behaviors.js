@@ -585,6 +585,250 @@ BEHAVIORS.drawpath = {
 })();`,
 };
 
+BEHAVIORS.gallery = {
+  /* Filterable image gallery with a lightbox. Markup: [data-gallery] holding .gg-item figures
+     (each with data-tag and an <img>), an optional [data-gallery-filters] bar (data-all = the
+     label of the "show all" button). Base: every image is shown, nothing needs JavaScript.
+     With JavaScript: filter buttons are built from the items' tags and hide the others, and
+     each image opens in a full-screen viewer (Esc closes, arrow keys move, focus is kept).
+     Both stay off in the editor and its previews (window.ST_STILL / window.ST_PREVIEW), where
+     clicking an image edits it. */
+  plugins: [],
+  js: `(function () {
+  var viewer, imgEl, capEl, countEl, items = [], index = 0, opener = null;
+  function build() {
+    if (viewer) return;
+    viewer = document.createElement('div');
+    viewer.className = 'stg-lb';
+    viewer.setAttribute('role', 'dialog');
+    viewer.setAttribute('aria-modal', 'true');
+    viewer.setAttribute('aria-label', 'Image viewer');
+    viewer.hidden = true;
+    viewer.innerHTML = '<button type="button" class="stg-lb-close" aria-label="Close">&times;</button>' +
+      '<button type="button" class="stg-lb-nav stg-lb-prev" aria-label="Previous image">&#8249;</button>' +
+      '<figure class="stg-lb-fig"><img class="stg-lb-img" alt=""><figcaption class="stg-lb-cap"></figcaption></figure>' +
+      '<button type="button" class="stg-lb-nav stg-lb-next" aria-label="Next image">&#8250;</button>' +
+      '<p class="stg-lb-count" aria-live="polite"></p>';
+    document.body.appendChild(viewer);
+    imgEl = viewer.querySelector('.stg-lb-img');
+    capEl = viewer.querySelector('.stg-lb-cap');
+    countEl = viewer.querySelector('.stg-lb-count');
+    viewer.addEventListener('click', function (e) {
+      if (e.target === viewer || e.target.classList.contains('stg-lb-fig')) close();
+    });
+    viewer.querySelector('.stg-lb-close').addEventListener('click', close);
+    viewer.querySelector('.stg-lb-prev').addEventListener('click', function () { show(index - 1); });
+    viewer.querySelector('.stg-lb-next').addEventListener('click', function () { show(index + 1); });
+    document.addEventListener('keydown', function (e) {
+      if (viewer.hidden) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') show(index - 1);
+      else if (e.key === 'ArrowRight') show(index + 1);
+      else if (e.key === 'Tab') {
+        var f = viewer.querySelectorAll('button');
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+  }
+  function show(i) {
+    if (!items.length) return;
+    index = (i + items.length) % items.length;
+    var fig = items[index], img = fig.querySelector('img');
+    imgEl.src = img.currentSrc || img.src;
+    imgEl.alt = img.alt || '';
+    var cap = fig.querySelector('.gg-cap');
+    var parts = cap ? [].slice.call(cap.children).map(function (c) { return c.textContent.trim(); }).filter(Boolean) : [];
+    capEl.textContent = parts.join(' — ');
+    countEl.textContent = (index + 1) + ' / ' + items.length;
+    viewer.classList.toggle('is-single', items.length < 2);
+  }
+  function open(list, i, from) {
+    build();
+    items = list; opener = from;
+    show(i);
+    viewer.hidden = false;
+    document.documentElement.classList.add('stg-open');
+    viewer.querySelector('.stg-lb-close').focus();
+  }
+  function close() {
+    viewer.hidden = true;
+    document.documentElement.classList.remove('stg-open');
+    if (opener) opener.focus();
+  }
+  document.querySelectorAll('.st').forEach(function (sec) {
+    var grid = sec.querySelector('[data-gallery]');
+    if (!grid) return;
+    var all = [].slice.call(grid.querySelectorAll('.gg-item'));
+    var bar = sec.querySelector('[data-gallery-filters]');
+    if (bar && !window.ST_STILL) {
+      var tags = [];
+      all.forEach(function (it) { var t = (it.getAttribute('data-tag') || '').trim(); if (t && tags.indexOf(t) < 0) tags.push(t); });
+      if (tags.length > 1) {
+        var label = bar.getAttribute('data-all') || 'All';
+        var buttons = [];
+        [''].concat(tags).forEach(function (t) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'gg-chip';
+          b.textContent = t || label;
+          b.setAttribute('aria-pressed', t ? 'false' : 'true');
+          b.addEventListener('click', function () {
+            buttons.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+            all.forEach(function (it) { it.hidden = !!t && (it.getAttribute('data-tag') || '').trim() !== t; });
+          });
+          buttons.push(b);
+          bar.appendChild(b);
+        });
+        bar.hidden = false;
+      }
+    }
+    if (window.ST_STILL || window.ST_PREVIEW) return;
+    all.forEach(function (it) {
+      var img = it.querySelector('img');
+      if (!img) return;
+      it.setAttribute('tabindex', '0');
+      it.setAttribute('role', 'button');
+      it.setAttribute('aria-label', 'View larger: ' + (img.alt || 'image'));
+      function go() {
+        var visible = all.filter(function (x) { return !x.hidden; });
+        open(visible, visible.indexOf(it), it);
+      }
+      it.addEventListener('click', go);
+      it.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    });
+  });
+})();`,
+};
+
+BEHAVIORS.video = {
+  /* Click-to-play video with no third-party requests until the visitor presses play.
+     Markup: [data-video-box] holding a poster image and an <a class="vs-play" data-video="URL">.
+     Base: the play button is a normal link to the video. With JavaScript the click swaps the
+     poster for a YouTube or Vimeo player (privacy mode / do-not-track embeds) or a native
+     <video> for .mp4 / .webm / .ogg files. Stays off in the editor and its previews. */
+  plugins: [],
+  js: `(function () {
+  if (window.ST_STILL || window.ST_PREVIEW) return;
+  function embed(url) {
+    var m;
+    // Character classes instead of backslashes: this code lives inside a template literal
+    if ((m = url.match(/(?:youtube[.]com[/](?:watch[?](?:.*&)?v=|embed[/]|shorts[/])|youtu[.]be[/])([A-Za-z0-9_-]{11})/))) return { type: 'iframe', src: 'https://www.youtube-nocookie.com/embed/' + m[1] + '?autoplay=1&rel=0' };
+    if ((m = url.match(/vimeo[.]com[/](?:video[/])?([0-9]+)/))) return { type: 'iframe', src: 'https://player.vimeo.com/video/' + m[1] + '?autoplay=1&dnt=1' };
+    if (/[.](mp4|webm|ogg)([?].*)?$/i.test(url)) return { type: 'video', src: url };
+    return null;
+  }
+  document.querySelectorAll('.st [data-video-box]').forEach(function (box) {
+    var btn = box.querySelector('[data-video]');
+    if (!btn) return;
+    btn.addEventListener('click', function (e) {
+      var info = embed(btn.getAttribute('data-video') || '');
+      if (!info) return;
+      e.preventDefault();
+      var title = box.getAttribute('data-title') || 'Video';
+      var el;
+      if (info.type === 'iframe') {
+        el = document.createElement('iframe');
+        el.src = info.src;
+        el.title = title;
+        el.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+        el.allowFullscreen = true;
+        el.referrerPolicy = 'strict-origin-when-cross-origin';
+      } else {
+        el = document.createElement('video');
+        el.src = info.src;
+        el.controls = true;
+        el.autoplay = true;
+        el.setAttribute('playsinline', '');
+        el.setAttribute('aria-label', title);
+      }
+      el.className = 'vs-embed';
+      box.appendChild(el);
+      box.classList.add('is-playing');
+      if (el.focus) el.focus();
+    });
+  });
+})();`,
+};
+
+BEHAVIORS.compare = {
+  /* Before / after slider. Markup: [data-compare] holding the "after" image, the "before" image
+     (clipped by --pos) and a range input .ba-range. Base: a fixed 50% split, so both photos are
+     visible without JavaScript. With JavaScript the range input (mouse, touch and arrow keys)
+     moves the divider. In the editor and its previews the input is switched off, so clicking an
+     image edits it. */
+  plugins: [],
+  js: `(function () {
+  document.querySelectorAll('.st [data-compare]').forEach(function (box) {
+    var input = box.querySelector('.ba-range');
+    if (!input) return;
+    if (window.ST_STILL || window.ST_PREVIEW) { box.classList.add('is-static'); return; }
+    function set() { box.style.setProperty('--pos', input.value + '%'); }
+    input.addEventListener('input', set);
+    set();
+  });
+})();`,
+};
+
+BEHAVIORS.toc = {
+  /* Table of contents for long text pages. Markup: [data-toc] holding an <ol data-toc-list>,
+     and a [data-toc-source] holding the sections, each with an <h2>. The script gives every
+     h2's section an id (made from the heading), fills the list with links and, outside the
+     editor, marks the section being read. Without JavaScript the contents box stays hidden
+     and the page reads as plain numbered sections. */
+  plugins: [],
+  js: `(function () {
+  document.querySelectorAll('.st [data-toc]').forEach(function (toc) {
+    var list = toc.querySelector('[data-toc-list]');
+    var sec = toc.closest('.st');
+    var source = sec && sec.querySelector('[data-toc-source]');
+    if (!list || !source) return;
+    var used = {}, links = [], blocks = [];
+    source.querySelectorAll('h2').forEach(function (h) {
+      var block = h.closest('section') || h.parentNode;
+      var text = h.textContent.trim();
+      if (!text) return;
+      var slug = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'section';
+      var id = slug, n = 2;
+      while (used[id] || document.getElementById(id)) { id = slug + '-' + n++; }
+      used[id] = true;
+      block.id = id;
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '#' + id;
+      a.textContent = text;
+      li.appendChild(a);
+      list.appendChild(li);
+      links.push(a); blocks.push(block);
+    });
+    if (!links.length) return;
+    toc.hidden = false;
+    if (window.ST_STILL || !('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var i = blocks.indexOf(en.target);
+        links.forEach(function (l, k) { l.classList.toggle('is-current', k === i); });
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    blocks.forEach(function (b) { io.observe(b); });
+  });
+})();`,
+};
+
+BEHAVIORS.booking = {
+  /* Booking request forms: the date picker cannot be set to a day in the past. Markup:
+     <input type="date" data-booking-date>. Works alongside the form behaviour. */
+  plugins: [],
+  js: `(function () {
+  var d = new Date();
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  var today = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  document.querySelectorAll('.st [data-booking-date]').forEach(function (input) { input.min = today; });
+})();`,
+};
+
 export const behaviorPlugins = t => [...new Set((t.behaviors || []).flatMap(b => BEHAVIORS[b]?.plugins || []))];
 /** The behaviours' scripts for a template ('' when it has none) */
 export const behaviorScript = t => (t.behaviors || []).map(b => BEHAVIORS[b]?.js).filter(Boolean).join('\n');

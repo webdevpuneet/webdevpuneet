@@ -15,10 +15,12 @@ import pricingThreeTier from './pricing-three-tier.js';
 import pricingDarkGlow from './pricing-dark-glow.js';
 import pricingSinglePlan from './pricing-single-plan.js';
 import pricingRows from './pricing-rows.js';
+import pricingComparison from './pricing-comparison.js';
 import testimonialsGrid from './testimonials-grid.js';
 import testimonialsCarousel from './testimonials-carousel.js';
 import testimonialsMarquee from './testimonials-marquee.js';
 import testimonialSpotlight from './testimonial-spotlight.js';
+import caseStudyShowcase from './case-study-showcase.js';
 import faqAccordion from './faq-accordion.js';
 import faqSplit from './faq-split.js';
 import faqGrid from './faq-grid.js';
@@ -42,15 +44,21 @@ import teamHiring from './team-hiring.js';
 import contactSplitForm from './contact-split-form.js';
 import contactCards from './contact-cards.js';
 import contactMap from './contact-map.js';
+import bookingForm from './booking-form.js';
 import blogCards from './blog-cards.js';
 import blogFeatured from './blog-featured.js';
 import blogList from './blog-list.js';
+import articleText from './article-text.js';
+import galleryGrid from './gallery-grid.js';
+import videoSection from './video-section.js';
+import beforeAfterSlider from './before-after-slider.js';
 import scrollGallery from './scroll-gallery.js';
 import scrollStory from './scroll-story.js';
 import scrollStack from './scroll-stack.js';
 import scrollPath from './scroll-path.js';
 import restaurantMenu from './restaurant-menu.js';
 import propertyListings from './property-listings.js';
+import productGrid from './product-grid.js';
 import classTimetable from './class-timetable.js';
 import { DEFAULT_THEME, DEFAULT_MOTION } from './meta.js';
 import { cleanArt } from './art.js';
@@ -74,10 +82,12 @@ export const SECTION_TEMPLATES = [
   pricingDarkGlow,
   pricingSinglePlan,
   pricingRows,
+  pricingComparison,
   testimonialsGrid,
   testimonialsCarousel,
   testimonialsMarquee,
   testimonialSpotlight,
+  caseStudyShowcase,
   faqAccordion,
   faqSplit,
   faqGrid,
@@ -101,15 +111,21 @@ export const SECTION_TEMPLATES = [
   contactSplitForm,
   contactCards,
   contactMap,
+  bookingForm,
   blogCards,
   blogFeatured,
   blogList,
+  articleText,
+  galleryGrid,
+  videoSection,
+  beforeAfterSlider,
   scrollGallery,
   scrollStory,
   scrollStack,
   scrollPath,
   restaurantMenu,
   propertyListings,
+  productGrid,
   classTimetable,
 ];
 export const sectionTemplateById = id => SECTION_TEMPLATES.find(t => t.id === id);

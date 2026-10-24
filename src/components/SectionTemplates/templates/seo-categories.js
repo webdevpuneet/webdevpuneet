@@ -5,6 +5,26 @@
 import { SCROLL_LISTINGS_CATEGORY_SEO } from './seo-scroll-listings.js';
 
 export const SECTION_CATEGORY_SEO = {
+  gallery: {
+    title: 'Gallery & Video Section Templates — Free HTML, React & Vue',
+    description: 'Free gallery section templates: a photo grid with filters and lightbox, a click-to-play video and a before-after slider. Edit online, export HTML, React or Vue.',
+    h1: 'Gallery & Media Section Templates',
+    keywords: ['gallery section template', 'image gallery html css', 'video section template', 'before and after slider', 'photo gallery with lightbox'],
+    intro: `Visual proof is often what turns a visitor into a customer: the rooms they will sleep in, the dishes they will eat, the work you did for someone like them. These sections present photos and video in ways that load quickly, work on phones and stay accessible.
+
+Use the **[Filterable Image Gallery](/website-section-templates/gallery-grid/)** when you have many photos to organise: visitors filter by category and open each photo in a keyboard-friendly viewer. Use the **[Video Section With Poster](/website-section-templates/video-section/)** for a demo, trailer or customer story that loads only when someone presses play, which keeps the page fast and private. Use the **[Before & After Slider](/website-section-templates/before-after-slider/)** for results that are easier to see than to describe, such as a renovation, a haircut or a clean.
+
+Every section is editable in your browser: upload images, add alt text, change colours and fonts, and export HTML, a ZIP, React or Vue. For scroll-driven galleries with pinned motion, see the [scroll effects](/website-section-templates/category/scroll/) sections.
+
+Write descriptive alt text for every photo, use consistent framing and sizes, and keep the number of photos to what a visitor will actually look at. Fewer, better pictures usually beat a long, unfiltered wall.`,
+    faqs: [
+      { q: 'How do I add a photo gallery to my website?', a: 'Open the Filterable Image Gallery, upload your photos, give each a category and alt text, and export the HTML or copy it into your page. Visitors can filter by category and open every photo in a viewer.' },
+      { q: 'Will a video section slow my page down?', a: 'Not this one. Only the poster image loads at first. The YouTube or Vimeo player is added when the visitor presses play, so the page stays fast and the video host does not track people who never watch.' },
+      { q: 'How should I take photos for a before and after slider?', a: 'Use the same angle, distance and lighting for both photos, so the only difference is the result. Export both at the same size, about 1200 by 800 pixels, and write alt text for each.' },
+      { q: 'Are the galleries accessible to keyboard and screen-reader users?', a: 'Yes. The gallery viewer opens with Enter and closes with Escape, the slider uses a real range input with arrow-key control, and every image has its own alt text field.' },
+      { q: 'Can I use these sections in React or Vue?', a: 'Yes. Each section exports as a React component or a Vue single-file component, with the behaviour script included, or as plain HTML.' },
+    ],
+  },
   hero: {
     title: 'Hero Section Templates — Free HTML, CSS, React & Vue',
     description: 'Free responsive hero section templates: SaaS, gradient, background image, app and portfolio heroes. Edit online with GSAP animation, export HTML, React or Vue.',
@@ -44,7 +64,9 @@ Cards, rows and steps are editable lists: add, duplicate, reorder and remove the
 
 The **[Three-Tier Pricing](/website-section-templates/pricing-three-tier/)** table is the SaaS standard, with a highlighted "Most popular" plan. **[Dark Glow Pricing](/website-section-templates/pricing-dark-glow/)** does the same on a dark theme with a glowing gradient border for AI and developer products. **[Single Plan Pricing](/website-section-templates/pricing-single-plan/)** presents one price with an everything-included list and a guarantee, and **[Pricing List Rows](/website-section-templates/pricing-rows/)** lays plans and service packages out as rows with room for detail.
 
-Every one has a working monthly/yearly switch: the pill slides with GSAP Flip, the prices roll over, it's accessible and it works in HTML, React and Vue exports. Plans are editable lists with price notes for free, custom and one-off prices, and every section shares the library's theme.`,
+Every one has a working monthly/yearly switch: the pill slides with GSAP Flip, the prices roll over, it's accessible and it works in HTML, React and Vue exports. Plans are editable lists with price notes for free, custom and one-off prices, and every section shares the library's theme.
+
+New: the **[Pricing Comparison Table](/website-section-templates/pricing-comparison/)** lays three plans out feature by feature, with ticks, limits and a highlighted plan, for visitors who want to compare before they choose.`,
     faqs: [
       { q: 'How many pricing plans should I show?', a: 'Three is the most common: it gives a clear entry option, a recommended middle plan and a premium tier. Use one plan if your product is simple, and rows if you have five or more packages.' },
       { q: 'Should I offer monthly and yearly pricing?', a: 'If you sell subscriptions, usually yes. A yearly option with a visible saving (such as "Save 20%") improves cash flow and retention; the switch lets visitors compare without doubling the number of cards.' },
@@ -60,7 +82,9 @@ Every one has a working monthly/yearly switch: the pill slides with GSAP Flip, t
 
 With lots of short quotes, the **[Testimonial Wall](/website-section-templates/testimonials-grid/)** shows them all at once in a masonry layout, and the **[Testimonial Marquee](/website-section-templates/testimonials-marquee/)** keeps two rows gliding past endlessly. To save space, the **[Testimonial Carousel](/website-section-templates/testimonials-carousel/)** lets visitors drag or swipe through cards with momentum. And when one customer story says it all, the **[Testimonial Spotlight](/website-section-templates/testimonial-spotlight/)** gives it a big animated quote with result stats.
 
-Every section stores testimonials as an editable list with quotes, names, roles, optional photos and star ratings. The interactions are built with GSAP (Draggable, Inertia, ScrollTo and an endless loop) on top of plain scrolling, so they stay accessible and work in HTML, React and Vue exports.`,
+Every section stores testimonials as an editable list with quotes, names, roles, optional photos and star ratings. The interactions are built with GSAP (Draggable, Inertia, ScrollTo and an endless loop) on top of plain scrolling, so they stay accessible and work in HTML, React and Vue exports.
+
+New: the **[Case Study Showcase](/website-section-templates/case-study-showcase/)** gives each project a wide card with a result headline, key numbers and a client quote, for visitors who want proof they can measure.`,
     faqs: [
       { q: 'What makes a good testimonial?', a: 'A specific result in the customer’s own words, their full name, role and company, and ideally a photo. "We cut reporting time by two thirds" persuades far more than "Great product!".' },
       { q: 'How many testimonials should I show?', a: 'Three to six is enough for most landing pages. Use a wall or marquee to show many at once, a carousel when space is tight, or one spotlight quote for a strong case study.' },
@@ -172,7 +196,9 @@ Team members are editable lists: add, reorder and remove people, and upload phot
 
 **[Contact Form With Details](/website-section-templates/contact-split-form/)** pairs your email, phone, address and hours with a working form that sends to Formspree, Basin, Getform or your own endpoint, with animated success and error states. **[Contact Options Cards](/website-section-templates/contact-cards/)** route visitors to sales, support, partnerships or press with response times. **[Contact With Map](/website-section-templates/contact-map/)** shows your locations beside an embedded OpenStreetMap or Google Map, with no API key needed.
 
-Forms send in the background with JavaScript and fall back to a normal post without it; in the editor they simulate success so nothing is sent while you design. Every section shares the library's theme and exports to HTML, React or Vue.`,
+Forms send in the background with JavaScript and fall back to a normal post without it; in the editor they simulate success so nothing is sent while you design. Every section shares the library's theme and exports to HTML, React or Vue.
+
+New: the **[Booking Request Form](/website-section-templates/booking-form/)** collects a service, a day and a time for salons, clinics, restaurants and any business that takes appointments, with your opening hours beside it.`,
     faqs: [
       { q: 'How do I make a contact form send emails without a backend?', a: 'Use a form service such as Formspree, Basin or Getform: create a form, copy its endpoint URL into the section’s Form URL, and submissions are emailed to you.' },
       { q: 'Do I need an API key for the map?', a: 'No. OpenStreetMap embeds and Google Maps “Embed a map” links both work without an API key.' },
@@ -188,7 +214,9 @@ Forms send in the background with JavaScript and fall back to a normal post with
 
 **[Blog Post Cards](/website-section-templates/blog-cards/)** shows recent posts as cards with covers, categories, dates, read times and authors. **[Featured Post With List](/website-section-templates/blog-featured/)** gives one story the front page beside a list of recent posts, like a magazine. The **[Editorial Post List](/website-section-templates/blog-list/)** presents posts as large typographic rows, with a cover image that follows the cursor on hover.
 
-Posts are editable lists with covers (upload your own or use the included abstract artwork), and every blog section adds an ItemList of BlogPosting structured data to its HTML export. Everything shares the library's theme, animates with GSAP and exports to HTML, React or Vue.`,
+Posts are editable lists with covers (upload your own or use the included abstract artwork), and every blog section adds an ItemList of BlogPosting structured data to its HTML export. Everything shares the library's theme, animates with GSAP and exports to HTML, React or Vue.
+
+New: the **[Legal & Long-Form Text Page](/website-section-templates/article-text/)** is a readable layout for privacy policies, terms and long guides, with numbered sections and an automatic table of contents.`,
     faqs: [
       { q: 'Can these sections pull posts from my CMS?', a: 'They export as static HTML and CSS. To make them dynamic, render the same markup from WordPress, Ghost, Sanity, Markdown or any CMS in your framework of choice.' },
       { q: 'Is structured data included?', a: 'Yes. Each blog section’s HTML export includes an ItemList of BlogPosting JSON-LD with headlines, descriptions, URLs, images and authors.' },

@@ -332,7 +332,7 @@
   ]
  },
  "section": {
-  "total": 51,
+  "total": 59,
   "categories": [
    {
     "id": "hero",
@@ -423,6 +423,10 @@
      {
       "id": "pricing-rows",
       "name": "Pricing List Rows"
+     },
+     {
+      "id": "pricing-comparison",
+      "name": "Pricing Comparison Table"
      }
     ]
    },
@@ -445,6 +449,10 @@
      {
       "id": "testimonial-spotlight",
       "name": "Testimonial Spotlight"
+     },
+     {
+      "id": "case-study-showcase",
+      "name": "Case Study Showcase"
      }
     ]
    },
@@ -539,6 +547,10 @@
      {
       "id": "contact-map",
       "name": "Contact With Map"
+     },
+     {
+      "id": "booking-form",
+      "name": "Booking Request Form"
      }
     ]
    },
@@ -557,6 +569,28 @@
      {
       "id": "blog-list",
       "name": "Editorial Post List"
+     },
+     {
+      "id": "article-text",
+      "name": "Legal & Long-Form Text Page"
+     }
+    ]
+   },
+   {
+    "id": "gallery",
+    "label": "Gallery & media",
+    "items": [
+     {
+      "id": "gallery-grid",
+      "name": "Filterable Image Gallery"
+     },
+     {
+      "id": "video-section",
+      "name": "Video Section with Poster"
+     },
+     {
+      "id": "before-after-slider",
+      "name": "Before & After Slider"
      }
     ]
    },
@@ -593,6 +627,10 @@
      {
       "id": "property-listings",
       "name": "Property Listings"
+     },
+     {
+      "id": "product-grid",
+      "name": "Product Grid"
      },
      {
       "id": "class-timetable",

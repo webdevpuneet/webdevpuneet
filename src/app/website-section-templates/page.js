@@ -8,8 +8,8 @@ import { sectionPreviewIds } from '@/components/SectionTemplates/assets';
 import styles from '../tool-page.module.css';
 
 const PAGE_URL = 'https://webdevpuneet.com/website-section-templates/';
-const TITLE = 'Website Section Templates — Free HTML, React & Vue Blocks';
-const DESC = 'Free editable website section templates: hero sections and more, with GSAP animation. Change text, images, colours and fonts, then export HTML, React or Vue.';
+const TITLE = `${SECTION_TEMPLATES.length} Free Website Section Templates for HTML, React and Vue`;
+const DESC = `${SECTION_TEMPLATES.length} free website section templates: hero, navbar, pricing, FAQ, testimonials and footer. Edit text, images and colours online, then export HTML, React or Vue.`;
 // Own share image: scripts/capture-section-templates-og.mjs
 const OG_IMAGES = [{ url: 'https://webdevpuneet.com/images/section-templates/og/website-section-templates.jpg', width: 1200, height: 630, alt: `Website Section Templates: ${SECTION_TEMPLATES.length} free, editable sections animated with GSAP` }];
 

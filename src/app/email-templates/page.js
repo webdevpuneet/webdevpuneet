@@ -8,10 +8,10 @@ import { emailPreviewIds } from '@/components/EmailTemplates/assets';
 import styles from '../tool-page.module.css';
 
 const PAGE_URL = 'https://webdevpuneet.com/email-templates/';
-const TITLE = 'Free HTML Email Templates — Responsive & Dark Mode Ready';
+const TITLE = `${EMAIL_TEMPLATES.length} Free HTML Email Templates: Responsive and Dark Mode`;
 // Hand-made social share image for the gallery page (public/images/email-templates.png)
 const OG_IMAGES = [{ url: 'https://webdevpuneet.com/images/email-templates.png', width: 1200, height: 630, alt: 'Free responsive HTML email templates with dark mode' }];
-const DESC = 'Free responsive HTML email templates for Gmail, Outlook and Apple Mail, with dark mode. Add merge tags, extra sections and your brand, then export the HTML.';
+const DESC = `${EMAIL_TEMPLATES.length} free responsive HTML email templates for Gmail, Outlook and Apple Mail, with dark mode. Add merge tags and your brand, then export the HTML or plain text.`;
 
 export const metadata = {
   title: TITLE,

@@ -5,6 +5,7 @@ import AdSlot from '@/components/AdSlot';
 import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import { SectionTemplateEditor, SectionShot } from '@/components/SectionTemplates';
 import { SECTION_TEMPLATES, sectionTemplateById, sectionCategoryById, relatedSectionTemplates } from '@/components/SectionTemplates/templates/index.js';
+import { WEBSITE_TEMPLATES } from '@/components/SectionTemplates/templates/starters.js';
 import { SECTION_SEO, SECTION_DIFFERENT } from '@/components/SectionTemplates/templates/seo-content.js';
 import { sectionPreviewIds, hasSectionOg, sectionOgUrl, sectionPreviewUrl } from '@/components/SectionTemplates/assets';
 import styles from '../../tool-page.module.css';
@@ -63,6 +64,9 @@ export default async function WebsiteSectionTemplatePage({ params }) {
     { q: `Is the ${t.name} template free for commercial use?`, a: 'Yes. It is free for personal and commercial websites, with no sign-up, no watermark and no attribution required. Everything runs in your browser and your edits are saved locally.' },
   ];
 
+  // Website templates built with this section: a link from the section page to each of them
+  const usedIn = WEBSITE_TEMPLATES.filter(w => w.sections.some(([sid]) => sid === t.id));
+
   const sections = [
     { type: 'features', label: "What's included", heading: 'Features', items: seo.features },
     {
@@ -95,6 +99,13 @@ export default async function WebsiteSectionTemplatePage({ params }) {
       ],
     },
     { type: 'cards', label: 'Real-world uses', heading: 'Common Use Cases', columns: 3, items: seo.useCases },
+    ...(usedIn.length ? [{
+      type: 'text',
+      label: 'In real websites',
+      heading: `Website Templates That Use the ${t.name} Section`,
+      quickFacts: false,
+      text: `The ${t.name} section is part of ${usedIn.length} complete website template${usedIn.length > 1 ? 's' : ''} in the free [Website Builder](/website-builder/), so you can see it in a full page before you use it on its own: ${usedIn.map(w => `[${w.name}](/website-builder/templates/${w.id}/)`).join(', ')}. Open any of them in the builder to edit the whole page, or keep customising this section by itself.`,
+    }] : []),
     { type: 'faq', label: 'Got questions?', heading: 'Frequently Asked Questions', items: faqs },
   ];
 

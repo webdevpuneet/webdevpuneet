@@ -7,6 +7,7 @@ import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import { WEBSITE_TEMPLATES, websiteTemplateById } from '@/components/SectionTemplates/templates/starters.js';
 import { starterPageList } from '@/components/SectionTemplates/templates/site.js';
 import { sectionTemplateById, sectionCategoryById, THEME_PRESETS } from '@/components/SectionTemplates/templates/index.js';
+import { WEBSITE_TEMPLATE_SEO } from '@/components/SectionTemplates/templates/seo-website-templates.js';
 import { resolveFont } from '@/lib/fonts';
 import st from '../templates.module.css';
 
@@ -57,13 +58,13 @@ export default async function WebsiteTemplatePage({ params }) {
   const useUrl = `/website-builder/editor/?starter=${t.id}`;
   const nameLower = t.name.replace(/ (Website|Landing Page)$/, '').toLowerCase();
 
+  const seo = WEBSITE_TEMPLATE_SEO[t.id];
   const faqs = [
+    ...(seo?.faqs || []),
     { q: `Is the ${t.name} template free?`, a: `Yes. The ${t.name} template is free for personal and commercial use, with no sign-up, no watermark and no attribution required.` },
     { q: `How do I customize the ${t.name} template?`, a: 'Click “Use this template” to open it in the free Website Builder. Click any section to change its text, images and links, change colours and fonts for the whole page in the Theme tab, and add, remove or drag sections to reorder them.' },
     ...(multi ? [{ q: 'Is this a one-page or a multi-page template?', a: `Both. Use it as one scrolling page, or as a ${pages.length}-page website (${pageNames}) that opens with every page in the editor. The pages share one navbar, footer and theme, and the menu links to every page automatically. Add more pages (About, Pricing, Contact, Blog and others) or remove any you don’t need in the builder’s Pages tab.` }] : []),
     { q: 'Can I download the template as HTML?', a: multi ? `Yes. As one page you get a ZIP with index.html and an assets folder. As a ${pages.length}-page website you get one HTML file per page (${pages.map(pg => pg.file).join(', ')}), a shared styles.css and script.js, and an assets folder with your images, then upload it to any web host. Links between pages also work when you open the files from your computer.` : 'Yes. Download a ZIP with index.html and an assets folder with your images, then upload it to any web host.' },
-    { q: 'Is the template mobile-friendly?', a: 'Yes. Every section is responsive with CSS container queries, and menus, accordions, carousels and forms work on touch screens and with a keyboard.' },
-    { q: 'Does it work without coding?', a: 'Yes. Everything is edited with simple forms. If you know HTML and CSS you can also edit the exported code directly; colours, fonts and sizes are CSS variables.' },
   ];
 
   const SECTIONS = [
@@ -80,6 +81,8 @@ ${multi ? `Use it as one scrolling page, or as a ${pages.length}-page website ($
 
 The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour theme suited to ${nameLower} websites; switch to any Google Font, upload your own, or apply your brand kit in one click.`,
     },
+    ...(seo?.about ? [{ type: 'text', label: 'Make it yours', heading: `How to Get the Most From the ${t.name} Template`, quickFacts: false, text: seo.about }] : []),
+    ...(seo?.checklist ? [{ type: 'features', label: 'Checklist', heading: `What a ${nameLower} Website Needs`, items: seo.checklist }] : []),
     { type: 'cards', label: 'Who it’s for', heading: 'Best For', columns: 3, items: t.bestFor.map((b, i) => ({ icon: ['★', '◆', '●'][i % 3], title: b, desc: `A ready-made starting point for ${b.toLowerCase()}, with real copy you can adapt in minutes.` })) },
     {
       type: 'steps',
@@ -106,8 +109,12 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
       image: `https://webdevpuneet.com/images/website-templates/og/${t.id}.jpg`,
       genre: t.industry,
       keywords: t.keywords.join(', '),
+      thumbnailUrl: `https://webdevpuneet.com/images/website-templates/thumb/${t.id}.jpg`,
+      inLanguage: 'en',
       isAccessibleForFree: true,
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock', url },
       license: 'Free for personal and commercial use',
+      hasPart: { '@type': 'ItemList', numberOfItems: parts.length, itemListElement: parts.map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: p.name, url: `https://webdevpuneet.com/website-section-templates/${p.id}/` })) },
       author: { '@type': 'Person', name: 'Puneet Sharma', url: 'https://www.webdevpuneet.com/' },
       isPartOf: { '@type': 'CollectionPage', name: 'Free Website Templates', url: 'https://webdevpuneet.com/website-builder/' },
     },
