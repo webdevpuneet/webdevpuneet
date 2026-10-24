@@ -177,12 +177,13 @@ export default {
 .ss-list{list-style:none;display:flex;flex-direction:column;flex-wrap:wrap;align-items:stretch;align-content:flex-start;max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);filter:drop-shadow(0 10px 18px rgba(15,23,42,.22))}
 .ss[data-align=custom] .ss-list{max-height:calc(100vh - var(--ss-top) - 12px);max-height:calc(100dvh - var(--ss-top) - 12px)}
 .ss-item[hidden]{display:none}
-.ss-btn{position:relative;display:grid;place-items:center;width:var(--ss-size);height:var(--ss-size);border:0;background:var(--c,var(--st-brand));color:#fff;cursor:pointer;text-decoration:none;font:inherit;transition:transform .25s cubic-bezier(.2,.8,.2,1),filter .25s ease,background .25s ease,color .25s ease,border-radius .25s ease}
-.ss-btn::before{content:"";position:absolute;top:0;bottom:0;width:12px;background:inherit}
-.ss:not([data-shape=attached]) .ss-btn::before{display:none}
-.ss[data-side=left] .ss-btn::before{right:100%}
-.ss[data-side=right] .ss-btn::before{left:100%}
-.ss-btn:hover,.ss-btn:focus-visible{transform:translateX(var(--ss-nudge));filter:brightness(1.1)}
+.ss-btn{position:relative;flex:none;display:grid;place-items:center;width:var(--ss-size);height:var(--ss-size);border:0;background:var(--c,var(--st-brand));color:#fff;cursor:pointer;text-decoration:none;font:inherit;transition:width .25s cubic-bezier(.2,.8,.2,1),padding .25s cubic-bezier(.2,.8,.2,1),transform .25s cubic-bezier(.2,.8,.2,1),filter .25s ease,background .25s ease,color .25s ease,border-radius .25s ease}
+.ss-item{display:flex;width:var(--ss-size)}
+.ss-btn:hover,.ss-btn:focus-visible{filter:brightness(1.1)}
+.ss:not([data-shape=attached]) .ss-btn:hover,.ss:not([data-shape=attached]) .ss-btn:focus-visible{transform:translateX(var(--ss-nudge))}
+.ss[data-shape=attached] .ss-btn:hover,.ss[data-shape=attached] .ss-btn:focus-visible{width:calc(var(--ss-size) + 12px)}
+.ss[data-side=left] .ss-item{justify-content:flex-start}
+.ss[data-side=right] .ss-item{justify-content:flex-end}
 .ss[data-side=left] .ss-btn:hover,.ss[data-side=left] .ss-btn:focus-visible{border-top-right-radius:var(--ss-r);border-bottom-right-radius:var(--ss-r)}
 .ss[data-side=right] .ss-btn:hover,.ss[data-side=right] .ss-btn:focus-visible{border-top-left-radius:var(--ss-r);border-bottom-left-radius:var(--ss-r)}
 .ss[data-shape=attached] .ss-list{gap:0}
@@ -232,9 +233,8 @@ export default {
 .ss[data-mobile=bar]{top:auto!important;bottom:0;left:0;right:0;display:block;height:0;margin:0;transform:none!important}
 .ss[data-mobile=bar] .ss-panel{position:absolute;left:0;right:0;bottom:0;background:var(--st-bg);box-shadow:0 -6px 20px rgba(15,23,42,.18);padding-bottom:env(safe-area-inset-bottom)}
 .ss[data-mobile=bar] .ss-list{flex-direction:row;margin:0;gap:0;filter:none}
-.ss[data-mobile=bar] .ss-item{flex:1 1 0;min-width:0}
-.ss[data-mobile=bar] .ss-btn::before{display:none}
-.ss[data-mobile=bar] .ss-btn{width:100%;height:48px;border-radius:0!important;transform:none}
+.ss[data-mobile=bar] .ss-item{flex:1 1 0;min-width:0;width:auto}
+.ss[data-mobile=bar] .ss-btn,.ss[data-mobile=bar] .ss-btn:hover,.ss[data-mobile=bar] .ss-btn:focus-visible{width:100%;height:48px;border-radius:0!important;transform:none}
 .ss[data-mobile=bar] .ss-item--hide{flex:0 0 48px}
 .ss[data-mobile=bar] .ss-hide{height:48px;border-radius:0}
 .ss[data-mobile=bar] .ss-ic--hide{transform:rotate(-90deg)!important}
