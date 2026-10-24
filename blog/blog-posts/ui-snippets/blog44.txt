@@ -30,7 +30,7 @@
 
 <p>Delete an inbox item and a real Bootstrap toast offers Undo — restoring the item to its exact original position, and correctly forgetting the undo the moment a second item is deleted.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-undo-action-toast/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Undo Action Toast — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-undo-action-toast/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Undo Action Toast — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the exact index of the deleted item is recorded alongside the item itself, and Undo re-inserts it there via <code>splice(lastIndex, 0, lastRemoved)</code> rather than pushing it back onto the end — appending it would silently reorder the list every time Undo ran. Only the single most recent deletion is ever recoverable, matching what one visible toast can honestly represent; deleting a second item overwrites the first one's undo state entirely.</p>
 
@@ -42,7 +42,7 @@
 
 <p>A single-page profile form where a live percentage bar fills as each of five mixed-type fields is completed, turning green and enabling Save only at 100%.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-form-progress-indicator/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Form Progress Indicator — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-form-progress-indicator/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Form Progress Indicator — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> <code>isFilled()</code> correctly branches per field type — a text field is filled when its trimmed value is non-empty, while a file input is filled based on <code>.files.length</code>, since its <code>.value</code> is deliberately unreliable in every browser. Text fields listen for <code>input</code>; the file field listens for <code>change</code>, since file inputs never fire <code>input</code> on selection — a common bug in a homemade version of this pattern.</p>
 
@@ -54,7 +54,7 @@
 
 <p>Field groups that show and hide based on a dropdown selection — including one field that only appears when the selection <em>and</em> a separate checkbox are both true at once.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-conditional-form-fields/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Conditional Form Fields — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-conditional-form-fields/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Conditional Form Fields — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> one <code>update()</code> function is the only place field visibility is decided, triggered by every control that could affect it. The EIN field is the genuinely nested case — visible only when the type is Nonprofit <em>and</em> the "registered" checkbox is checked — which a flat "one field per dropdown option" implementation has no way to express on its own.</p>
 
@@ -66,7 +66,7 @@
 
 <p>Click-to-edit profile fields — only one editor is ever open at a time, Enter saves, Escape cancels, and an empty save is silently rejected.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-inline-form-editing/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Inline Form Editing — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-inline-form-editing/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Inline Form Editing — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> each row remembers its own last-saved value on the row itself, so reopening an editor always starts from a known-good state rather than stale, cancelled text. Opening a new field's editor calls <code>closeAllExcept()</code>, discarding any other row's unsaved edit — a deliberate choice to avoid two ambiguous open editors at once. Enter and Escape inside the input click the row's own real Save and Cancel buttons rather than duplicating their logic.</p>
 
@@ -78,7 +78,7 @@
 
 <p>A searchable timezone picker matching by city name or by UTC offset directly, with full keyboard navigation and correctly formatted half-hour offsets like UTC+05:30.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-timezone-selector/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Timezone Selector — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-timezone-selector/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Timezone Selector — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> <code>formatOffset()</code> splits the offset into whole-hour and remainder-minute parts rather than assuming every timezone sits on a whole-hour boundary — a formatter that assumes integers breaks the instant it hits India's UTC+5:30. Search matches the formatted offset string as well as the city name, so typing "+9" finds Tokyo the same way typing "tokyo" would, and keyboard navigation repaints from a separate <code>paint()</code> function rather than re-filtering, so arrowing through results never accidentally resets the list.</p>
 
@@ -90,7 +90,7 @@
 
 <p>An active-sessions list with device, location, and last-active time per row — a "This device" badge on the current session, which deliberately has no Sign Out button of its own.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-session-activity-timeline/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Session Activity Timeline — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-session-activity-timeline/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Session Activity Timeline — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> a <code>current: true</code> flag drives both the visible badge and, more importantly, withholds the Sign Out button entirely from that one row — a real security page shouldn't let a user casually revoke the very session they're using to view the list. Signing out of any other session removes it from the array and re-renders, the same shape a real revoke-session API call would take.</p>
 
@@ -102,7 +102,7 @@
 
 <p>A clickable role/permission grid — toggle any Viewer or Editor cell directly, while Admin stays genuinely locked to every permission, not just pre-checked and still editable.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-user-permission-matrix/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap User Permission Matrix — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-user-permission-matrix/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap User Permission Matrix — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> permission state lives in one plain object keyed by role, each holding a boolean array indexed identically to the permission rows. Admin's row isn't just pre-checked — every cell is fixed <code>true</code> and marked locked, and the click handler explicitly bails out on a locked cell before ever touching the underlying grid. That's what makes it structurally impossible, not just discouraged, to accidentally uncheck a permission a role is supposed to always guarantee.</p>
 
@@ -114,7 +114,7 @@
 
 <p>Each flag pairs an on/off switch with a rollout-percentage slider that only exists in the DOM while the flag is enabled, and resets cleanly on disable.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-feature-flag-toggle-panel/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Feature Flag Toggle Panel — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-feature-flag-toggle-panel/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Feature Flag Toggle Panel — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> switching a flag off resets its rollout to 0 rather than leaving a stale percentage that would misrepresent the flag's actual state the next time someone glances at it; switching it back on defaults to 100% rather than an ambiguous leftover value. Two narrowly-scoped delegated listeners — one for the switch's <code>change</code>, one for the slider's <code>input</code> — cover every row without per-row re-binding after each render.</p>
 
@@ -126,7 +126,7 @@
 
 <p>Search by actor or action text, filter by event type, and both combine with real AND logic — with safely highlighted matches in a searchable admin activity log.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-audit-log-viewer/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Audit Log Viewer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-audit-log-viewer/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Audit Log Viewer — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> search text and the type dropdown filter the same array together in one function — an entry only shows when both conditions pass, so searching one actor while filtering to an unrelated type correctly returns nothing rather than behaving like an accidental OR. Each entry's severity tone is stored independently of its type, since two events of the same category (a routine invite, a suspicious new-device sign-in) can carry very different real significance.</p>
 
@@ -138,7 +138,7 @@
 
 <p>A version list where "current" is a single comparison value, not a flag stuck on any one version — restoring an old version moves the badge, and the confirmation names exactly what's about to change.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-version-history-panel/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Version History Panel — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-version-history-panel/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Version History Panel — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> a single <code>currentId</code> variable is compared against every version's id at render time, so restoring an older version is just reassigning that one value — the "current" badge and the missing Restore button both automatically follow it to the new row. The current version deliberately has no Restore button of its own, since restoring onto itself would be a meaningless offered action. Restoring is a genuine two-step confirmation, with the modal's message generated from that specific version's real author and summary.</p>
 

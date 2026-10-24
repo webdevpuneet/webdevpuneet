@@ -59,7 +59,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/ui-snippets/typewriter/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Typewriter Effect — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/typewriter/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Typewriter Effect — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -87,7 +87,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/ui-snippets/gradient-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Animated Gradient Text — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/gradient-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Animated Gradient Text — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -115,7 +115,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/ui-snippets/glitch-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Glitch Text — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/glitch-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Glitch Text — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -143,7 +143,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/ui-snippets/text-scramble/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Text Scramble — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/text-scramble/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Text Scramble — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -171,7 +171,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/ui-snippets/number-ticker/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Number Ticker — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/number-ticker/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Number Ticker — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -199,7 +199,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/ui-snippets/wave-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Wave Text — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/wave-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Wave Text — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -227,7 +227,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/ui-snippets/sparkles-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sparkles Text — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/sparkles-text/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sparkles Text — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -255,7 +255,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/ui-snippets/split-flap-display/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Split-Flap Display — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/split-flap-display/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Split-Flap Display — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -330,5 +330,5 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/animations/">FWD Tools UI Snippets — Animations</a>. And if you're styling the rest of the page too, the companion roundups cover <a href="https://webdevpuneet.com/ui-snippets/buttons/">copy-paste button snippets</a> and <a href="https://webdevpuneet.com/ui-snippets/cards/">hover card snippets</a>.</p>
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/animations/">webdevpuneet UI Snippets — Animations</a>. And if you're styling the rest of the page too, the companion roundups cover <a href="https://webdevpuneet.com/ui-snippets/buttons/">copy-paste button snippets</a> and <a href="https://webdevpuneet.com/ui-snippets/cards/">hover card snippets</a>.</p>
 <!-- /wp:paragraph -->

@@ -35,7 +35,7 @@
 
 <p>A responsive nav bar that collapses into a hamburger icon on mobile, with the bars morphing into an X and the menu sliding in — the pattern behind nearly every site's mobile header.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/hamburger-nav/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Hamburger Nav — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/hamburger-nav/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Hamburger Nav — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> a single <code>toggle('open')</code> class swap on click drives everything — CSS handles the rest. The three bars are <code>&lt;span&gt;</code> elements rotated and translated into an X with <code>transform</code>, and the menu panel transitions in with <code>transform: translateX()</code> rather than animating <code>width</code> or <code>display</code>, so it stays smooth even on low-end phones.</p>
 
@@ -47,7 +47,7 @@
 
 <p>A full-width dropdown panel with grouped links, icons and a featured column — the navigation pattern SaaS and e-commerce sites use when one nav item hides dozens of destinations.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/mega-menu/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mega Menu — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/mega-menu/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mega Menu — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the trigger button carries <code>aria-haspopup</code> and <code>aria-expanded</code>, and toggling it swaps a class that reveals a full-width panel positioned with <code>position: absolute</code> relative to the nav bar (not the trigger), so it spans edge-to-edge. <code>role="menubar"</code> and <code>role="menuitem"</code> on the structure give screen readers the same mental model as sighted users.</p>
 
@@ -59,7 +59,7 @@
 
 <p>A dashboard sidebar that collapses to icon-only width with one click, keeping labels accessible via tooltip — the exact layout behind Notion, Linear and most admin panels.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/sidebar-nav/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Collapsible Sidebar Nav — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/sidebar-nav/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Collapsible Sidebar Nav — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the collapse button flips a class on the sidebar that animates its <code>width</code> via a CSS transition and simultaneously fades the text labels with <code>opacity</code>, so icons stay aligned while labels disappear. <code>aria-expanded</code> on the toggle button keeps assistive tech in sync with the visual state.</p>
 
@@ -71,7 +71,7 @@
 
 <p>A header that shrinks and gains a shadow once you scroll past the hero, so navigation stays reachable without permanently eating vertical space.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/sticky-header/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sticky Header — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/sticky-header/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sticky Header — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> <code>position: sticky</code> keeps the header pinned to the top of the viewport with zero JavaScript for the pinning itself. A small scroll listener checks <code>window.scrollY</code> against a threshold and toggles a "scrolled" class that shrinks the header's padding and adds a box-shadow — both cheap, transform-friendly changes rather than anything that reflows the page.</p>
 
@@ -83,7 +83,7 @@
 
 <p>A clean account-menu dropdown with icons, a chevron that rotates on open, and a click-outside-to-close behaviour — the small utility every app header needs at least once.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/dropdown-menu/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Dropdown Menu — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/dropdown-menu/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Dropdown Menu — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the trigger toggles an <code>open</code> class on its parent, which a sibling-selector rule (<code>.dropdown.open .menu</code>) uses to reveal the panel with a short <code>opacity</code> and <code>transform: translateY()</code> transition — no JavaScript animation library needed. The chevron icon rotates 180° using the same class toggle.</p>
 
@@ -95,7 +95,7 @@
 
 <p>A minimal, semantic breadcrumb trail — the small navigation piece that tells users (and Google) exactly where a page sits in your site hierarchy.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/breadcrumb/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Breadcrumb — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/breadcrumb/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Breadcrumb — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> it's an ordered list (<code>&lt;ol&gt;</code>) inside a <code>&lt;nav aria-label="Breadcrumb"&gt;</code>, with CSS pseudo-elements (<code>::before</code>) drawing the separator between items so the markup itself stays clean text and links — no stray separator characters cluttering a screen reader's output. The final item gets <code>aria-current="page"</code> instead of a link.</p>
 
@@ -107,7 +107,7 @@
 
 <p>A fixed, app-style bottom tab bar with an active-state indicator that swaps content panels instantly — the pattern that makes a mobile web page feel like a native app.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bottom-nav/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mobile Bottom Nav — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bottom-nav/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mobile Bottom Nav — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the bar sits fixed to the viewport bottom with <code>position: fixed</code> and a safe-area inset so it clears the home-indicator strip on iOS. Tapping a tab toggles an <code>active</code> class on both the tab and its matching content panel, swapping <code>display</code> instantly rather than routing to a new page — the same trick single-page apps use for instant tab switches.</p>
 
@@ -119,7 +119,7 @@
 
 <p>A tab bar where a highlight pill glides smoothly to the active tab instead of just jumping, plus panel content that crossfades in — a small detail that makes a tabbed UI feel considerably more polished.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/animated-tabs/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Animated Tabs with Indicator — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/animated-tabs/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Animated Tabs with Indicator — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> on click, the script reads the clicked tab's <code>offsetLeft</code> and <code>offsetWidth</code> via <code>getBoundingClientRect()</code>-style measurement, then applies those values to the indicator element as <code>transform: translateX()</code> and <code>width</code> with a CSS transition — so the pill "travels" between tabs instead of teleporting. The panel swap uses a short <code>opacity</code> crossfade rather than an abrupt cut.</p>
 
@@ -152,4 +152,4 @@
 
 <p>These are just 8 of dozens of navigation patterns you can copy for free — no login, no sign-up, everything runs in your browser. The techniques underneath them — class-toggled state paired with CSS transitions, scroll-position detection, measured-and-transformed indicators, and semantic landmark markup — are the same building blocks behind every menu, tab bar and sidebar you'll ever build. Learn them once here and you'll reach for them on every project.</p>
 
-<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/navigation/">FWD Tools UI Snippets — Navigation</a> — it's free and runs entirely in your browser.</p>
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/navigation/">webdevpuneet UI Snippets — Navigation</a> — it's free and runs entirely in your browser.</p>

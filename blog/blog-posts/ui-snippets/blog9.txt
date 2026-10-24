@@ -35,7 +35,7 @@
 
 <p>A clean, animated bar chart with hover tooltips and value labels — the single most common chart on the web, built without a single dependency.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bar-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bar Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bar-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bar Chart — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the bars are SVG rects drawn inside a <code>viewBox="0 0 540 240"</code> with <code>preserveAspectRatio</code> set, so widths and gaps are expressed as percentages of that coordinate space rather than pixels — the chart stays sharp at 300px or 900px wide with no <code>ResizeObserver</code> needed. Each bar's height and y-position are computed from the data value against the dataset's max, then grown in with a <code>requestAnimationFrame</code> loop using an ease-out cubic curve rather than a plain CSS transition.</p>
 
@@ -47,7 +47,7 @@
 
 <p>A segmented donut chart with a centred total, animated segment reveal, and a matching legend — the classic "share of total" visual for revenue, storage, or traffic breakdowns.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/donut-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Donut Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/donut-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Donut Chart — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> each segment is an SVG <code>&lt;circle&gt;</code> with a <code>stroke-dasharray</code> equal to its share of the circle's circumference and a <code>stroke-dashoffset</code> that positions it after the previous segments — the same trick behind every SVG progress ring, just stacked. Animating <code>stroke-dashoffset</code> on load produces the "sweeping in" reveal.</p>
 
@@ -59,7 +59,7 @@
 
 <p>A semi-circular gauge with a needle that sweeps to the current value on load, colour-banded zones, and a large centred number — the dial you'd expect on a speedometer or a health-score widget.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/gauge-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Gauge Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/gauge-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Gauge Chart — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the arc uses the same SVG <code>stroke-dasharray</code>/<code>stroke-dashoffset</code> technique as the donut chart, but constrained to a 180° sweep instead of a full circle. The needle is an SVG line inside a group with <code>transform-origin</code> pinned at the arc's centre; JavaScript just sets its rotation angle as a percentage of the gauge's range via <code>transform: rotate()</code>, and a CSS <code>transition</code> on that property handles the smooth sweep — no animation loop involved.</p>
 
@@ -71,7 +71,7 @@
 
 <p>A tiny inline trend line with no axes or labels — the chart that fits inside a table cell or a stat card to answer "is this going up or down" in a glance.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/sparkline-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sparkline Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/sparkline-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sparkline Chart — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> each sparkline is drawn on a small <code>&lt;canvas&gt;</code> rather than SVG — the data points are normalised against the series' min/max range into pixel coordinates, then joined with <code>bezierCurveTo</code> for a smoothed line instead of straight segments, with a soft gradient fill traced underneath down to the baseline. No axes, ticks or gridlines are drawn at all, which is what keeps it small enough to sit inline with text.</p>
 
@@ -83,7 +83,7 @@
 
 <p>An open/high/low/close candlestick chart with green and red candles and a hoverable price tooltip — the exact chart type every trading and finance dashboard needs.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/candlestick-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Candlestick Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/candlestick-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Candlestick Chart — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> each candle is two stacked elements — a thin "wick" line spanning the high-to-low range and a wider "body" spanning the open-to-close range — both positioned and sized as percentages of the chart's overall price range. The body's colour flips between up and down states depending on whether close is above or below open.</p>
 
@@ -95,7 +95,7 @@
 
 <p>A multi-axis radar (spider) chart comparing several metrics at once inside a polygon shape — perfect for skill breakdowns, product comparisons, or review scorecards.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/radar-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Radar Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/radar-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Radar Chart — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> each metric gets its own axis radiating from a shared centre point, spaced evenly around 360° using basic trigonometry (<code>sin</code>/<code>cos</code> of each axis's angle). Every data value is plotted along its axis as a distance from centre, and the points are joined into a single SVG <code>&lt;polygon&gt;</code> that fills with a translucent colour.</p>
 
@@ -107,7 +107,7 @@
 
 <p>A tapering funnel chart showing drop-off between stages, with each segment's conversion percentage labelled — the standard way to visualise a signup or checkout flow.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/funnel-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Funnel Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/funnel-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Funnel Chart — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> each stage is a plain centred bar, not an SVG shape — its width is set via a <code>--w</code> CSS custom property calculated as a percentage of the top stage's value, then centred with <code>margin: 0 auto</code>. Because every bar is narrower than the one before it and all are centre-aligned, the stack naturally forms the symmetric tapering funnel silhouette with no <code>clip-path</code> or polygon math required.</p>
 
@@ -119,7 +119,7 @@
 
 <p>A GitHub-style contribution heatmap — a grid of coloured squares where intensity maps to activity level, with a hover tooltip showing the exact date and count.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/activity-heatmap/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Activity Heatmap — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/activity-heatmap/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Activity Heatmap — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the grid is a CSS Grid of small squares, one per day, generated in JS from a date range. Each square's background colour is picked from a fixed intensity scale by bucketing that day's value (e.g. none / low / medium / high), so the whole grid renders as flat divs with zero canvas or SVG involved — just colour lookups.</p>
 
@@ -152,4 +152,4 @@
 
 <p>These are just 8 of dozens of chart types you can copy for free — no login, no sign-up, no dependency to install. The underlying techniques — proportional SVG stroke offsets, canvas curve drawing, CSS custom-property scaling, grid-based colour buckets, and simple trigonometry for radial layouts — are what every charting library is doing under the hood anyway. Once you've built a few of these by hand, reaching for a full library becomes a deliberate choice instead of a default.</p>
 
-<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/charts/">FWD Tools UI Snippets — Charts</a> — it's free and runs entirely in your browser.</p>
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/charts/">webdevpuneet UI Snippets — Charts</a> — it's free and runs entirely in your browser.</p>

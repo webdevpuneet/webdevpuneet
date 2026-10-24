@@ -33,7 +33,7 @@
 
 <h2>1. Skeleton Loader — the shimmer everyone recognises</h2>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/skeleton-loader/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Skeleton Loader — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/skeleton-loader/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Skeleton Loader — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> every placeholder shares one class with a horizontal <code>linear-gradient</code> — grey, brighter in the middle, grey again — stretched to <code>background-size: 200% 100%</code> so only half is visible at once. A single keyframe animates <code>background-position</code> from <code>200% 0</code> to <code>-200% 0</code>, sweeping the bright band across the element. That's the entire shimmer: no JavaScript, no extra elements, and because <code>background-position</code> doesn't trigger layout or paint, you can animate dozens of skeletons at once with no performance cost.</p>
 
@@ -43,7 +43,7 @@
 
 <h2>2. Skeleton Card Grid — the skeleton-to-content swap, done right</h2>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/skeleton-card-grid/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Skeleton Card Grid — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/skeleton-card-grid/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Skeleton Card Grid — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> this one demonstrates the part most skeleton tutorials skip — the handoff. A product grid renders six shimmering placeholder cards, then after the simulated fetch resolves, swaps in the real cards with a short fade-and-rise animation (<code>opacity</code> plus a 6px <code>translateY</code>). Because the skeleton cards have the same dimensions as the real ones, the grid doesn't jump when content lands — no layout shift, which is exactly what Google's CLS metric punishes.</p>
 
@@ -53,7 +53,7 @@
 
 <h2>3. Top Loading Bar — the YouTube/GitHub trickle</h2>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/top-loading-bar/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Top Loading Bar — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/top-loading-bar/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Top Loading Bar — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the thin bar that slides across the top of the page during navigation solves an honest problem: you <em>can't know</em> how long a request will take, so a real percentage is impossible. The trick — popularised by the NProgress library — is the <strong>trickle model</strong>. On start, the bar jumps to 8%, then a timer nudges it upward by a shrinking amount every 400&nbsp;ms, easing toward but never passing 90%. It races early and slows near the top, conveying activity without ever pretending to be done. When the real work finishes, it snaps to 100% and fades out. The width itself is animated with <code>requestAnimationFrame</code> easing so the motion stays silky, and a glowing "peg" via <code>box-shadow</code> on the leading edge gives it that signature comet look.</p>
 
@@ -63,7 +63,7 @@
 
 <h2>4. Loading Button — the loading state users trigger themselves</h2>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/loading-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Loading Button — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/loading-button/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Loading Button — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the most common loading state isn't a page load — it's the moment after a user clicks <em>Save</em>. This button swaps its label to "Saving…", reveals a tiny inline spinner (a circle with a semi-transparent border and one solid white segment, rotated by a single keyframe), blocks double-clicks with a class guard, then lands on a green "✓ Saved!" confirmation before resetting. Three states — idle, loading, done — driven by two CSS classes and a few lines of JS.</p>
 
@@ -73,7 +73,7 @@
 
 <h2>5. Dots Loader — four variants from one technique</h2>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/dots-loader/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Dots Loader — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/dots-loader/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Dots Loader — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> bounce, pulse, wave and an elastic ring — all built on one idea: give every dot the <em>same</em> animation, then offset each with <code>animation-delay: 0.2s × its index</code>. The stagger is what turns identical keyframes into a travelling wave. The bounce variant pairs <code>translateY</code> with an opacity dip so dots "light up" at the top of their arc; the wave variant stretches bars instead of moving circles; and a bonus button shows the dots working as an inline busy indicator.</p>
 
@@ -83,7 +83,7 @@
 
 <h2>6. SVG Progress Ring — the stroke-dashoffset classic</h2>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/svg-progress-ring/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="SVG Progress Ring — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/svg-progress-ring/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="SVG Progress Ring — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the circular progress ring you see in Lighthouse scores and fitness apps is one SVG trick. A circle's <code>stroke-dasharray</code> is set to its exact circumference (2πr ≈ 251.2 for a radius of 40), which makes the entire outline one dash. <code>stroke-dashoffset</code> then hides part of that dash — offset by the full circumference and the ring is empty; offset by <code>circumference × (1 − pct/100)</code> and exactly <em>pct</em> percent is drawn. A CSS <code>transition</code> on the offset animates the sweep, the SVG is rotated −90° so progress starts at 12 o'clock, and a small JS counter animates the percentage label in sync.</p>
 
@@ -93,7 +93,7 @@
 
 <h2>7. CSS Loader Gallery — eight spinners, zero JavaScript, click to copy</h2>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/css-loader-gallery/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="CSS Loader Gallery — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/css-loader-gallery/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="CSS Loader Gallery — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> a grid of eight pure-CSS loaders — classic spinner, bouncing dots, pulse ring, shimmer skeleton, orbit, indeterminate progress bar, square grid, typing cursor — each one a self-contained few lines of CSS. The classic spinner is the oldest trick in the book: a circle with a light border, one segment recoloured via <code>border-top-color</code>, rotated forever. The pulse ring scales up while fading out. The square grid is nine cells sharing one fade keyframe with delays incremented by 0.1s so a lit wave sweeps across. Click any card and its minified, standalone CSS lands on your clipboard with a toast confirmation.</p>
 
@@ -103,7 +103,7 @@
 
 <h2>8. Upload Progress — real percentages, per file</h2>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/upload-progress/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Upload Progress — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/upload-progress/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Upload Progress — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the one loading state where you <em>do</em> have real numbers, done properly. A dashed drop zone accepts drag-and-drop or click-to-browse, then renders a row per file — an icon picked by extension, the filename, a formatted size, and a thin progress bar whose fill animates via a CSS <code>transition</code> on <code>width</code>, so each JS update glides instead of jumping. Every file tracks its own percentage while a summary bar at the bottom aggregates them all into one overall figure, and finished files flip to a green "done" state. Removing a file mid-upload cancels its ticker — a small detail most implementations forget.</p>
 
@@ -127,4 +127,4 @@
 
 <p>Users forgive waiting; they don't forgive wondering whether anything is happening. Pick the state that matches what you actually know — skeleton for known layouts, trickle bar for unknown durations, ring for real percentages — and the same app suddenly feels faster without a single backend change.</p>
 
-<p>All eight snippets live in the free <a href="https://webdevpuneet.com/ui-snippets/">FWD Tools UI snippet gallery</a> — preview them live, edit the code in the browser, and export to React, Vue, Angular or Tailwind. And if you missed the earlier roundups in this series, they cover <a href="https://webdevpuneet.com/ui-snippets/buttons/">copy-paste button snippets</a>, <a href="https://webdevpuneet.com/ui-snippets/cards/">hover card snippets</a> and <a href="https://webdevpuneet.com/ui-snippets/animations/">text effect snippets</a>.</p>
+<p>All eight snippets live in the free <a href="https://webdevpuneet.com/ui-snippets/">webdevpuneet UI snippet gallery</a> — preview them live, edit the code in the browser, and export to React, Vue, Angular or Tailwind. And if you missed the earlier roundups in this series, they cover <a href="https://webdevpuneet.com/ui-snippets/buttons/">copy-paste button snippets</a>, <a href="https://webdevpuneet.com/ui-snippets/cards/">hover card snippets</a> and <a href="https://webdevpuneet.com/ui-snippets/animations/">text effect snippets</a>.</p>

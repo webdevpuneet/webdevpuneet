@@ -66,7 +66,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/ui-snippets/spotlight-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Spotlight Hover Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/spotlight-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Spotlight Hover Card — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -94,7 +94,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/ui-snippets/3d-card-tilt/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="3D Card Tilt — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/3d-card-tilt/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="3D Card Tilt — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -122,7 +122,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/ui-snippets/glowing-stars-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Glowing Stars Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/glowing-stars-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Glowing Stars Card — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -150,7 +150,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/ui-snippets/wobble-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Wobble Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/wobble-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Wobble Card — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -178,7 +178,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/ui-snippets/meteor-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Meteor Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/meteor-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Meteor Card — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -206,7 +206,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/ui-snippets/evervault-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Evervault-Style Reveal Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/evervault-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Evervault-Style Reveal Card — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -234,7 +234,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/ui-snippets/neo-brutalist-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Neo-Brutalist Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/neo-brutalist-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Neo-Brutalist Card — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -262,7 +262,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:html -->
-<iframe src="https://webdevpuneet.com/ui-snippets/glass-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Glassmorphism Card — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/glass-card/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Glassmorphism Card — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 <!-- /wp:html -->
 
 <!-- wp:paragraph -->
@@ -337,5 +337,5 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/cards/">FWD Tools UI Snippets — Cards</a> — it's free and runs entirely in your browser. Looking for the button-focused version of this roundup? Check out <a href="https://webdevpuneet.com/ui-snippets/buttons/">8 Copy-Paste CSS Button Snippets</a> too.</p>
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/cards/">webdevpuneet UI Snippets — Cards</a> — it's free and runs entirely in your browser. Looking for the button-focused version of this roundup? Check out <a href="https://webdevpuneet.com/ui-snippets/buttons/">8 Copy-Paste CSS Button Snippets</a> too.</p>
 <!-- /wp:paragraph -->

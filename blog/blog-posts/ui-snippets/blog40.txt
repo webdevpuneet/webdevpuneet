@@ -30,7 +30,7 @@
 
 <p>A real, clickable five-star rating widget — hover previews the rating, clicking commits it, and a hidden input carries the numeric value for form submission.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-star-rating-input/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Star Rating Input — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-star-rating-input/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Star Rating Input — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> a single <code>commit(value)</code> function is the only place a rating is ever finalized — it updates the hidden <code>#bsstarValue</code> input, repaints the stars up to that value, sets the "N out of 5" label, and enables the submit button, so every path that can change the rating (a click, or an arrow key) runs through the exact same function instead of duplicating the update logic. Hovering any star calls <code>paint()</code> to preview up to that star without touching the committed value, and <code>mouseleave</code> repaints back to whatever was last actually committed. The star row itself carries <code>tabindex="0"</code> and listens for arrow keys, moving the committed rating by one star at a time — a genuine keyboard path, not a mouse-only widget with a keyboard afterthought bolted on.</p>
 
@@ -42,7 +42,7 @@
 
 <p>A real two-step login card: step one collects an email or phone number, step two reveals a six-digit code entry with a genuine 30-second resend countdown.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-otp-login-form/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap OTP Login Form — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-otp-login-form/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap OTP Login Form — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> <code>isValidContact()</code> checks the entered value against an email pattern <em>or</em> a phone pattern before step one is allowed to advance, so the form doesn't need separate "email" and "phone" tabs — either format just works. Once step two appears, <code>startCountdown()</code> disables the resend link, starts a <code>setInterval</code> ticking a visible "(30s)" label down to zero, and calls <code>clearInterval</code> on any previous timer first, so tapping resend mid-countdown can't spawn a second competing timer. The six code boxes reuse the same auto-advance-on-type, backspace-to-previous pattern that makes a segmented code input feel like typing one number instead of managing six fields.</p>
 
@@ -54,7 +54,7 @@
 
 <p>A stack of full-width social login buttons — Google, GitHub, Facebook, Apple — each showing a real loading spinner inside the button while a sign-in is simulated.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-social-login-buttons/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Social Login Buttons — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-social-login-buttons/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Social Login Buttons — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> clicking any provider button disables every button in the group at once, not just the one clicked — a real auth redirect only ever goes to one provider, so this snippet's <code>buttons.forEach(b =&gt; (b.disabled = true))</code> stops a user firing off two competing sign-in flows by clicking a second provider while the first is still "connecting." The clicked button's own label swaps to "Connecting to Google…" and its Bootstrap <code>spinner-border</code> becomes visible via a <code>d-none</code> class toggle, then a <code>setTimeout</code> stands in for the real redirect, restoring every button and reporting which provider "signed in" once it resolves.</p>
 
@@ -66,7 +66,7 @@
 
 <p>A centered Bootstrap card that validates an email, then swaps to a success state showing the masked address it was "sent" to, with a real resend countdown.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-forgot-password-form/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Forgot Password Form — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-forgot-password-form/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Forgot Password Form — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> <code>maskEmail()</code> keeps only the first character of the address's local part — <code>sarah@gmail.com</code> becomes <code>s•••••@gmail.com</code> — so the success screen confirms where the reset link went without fully exposing an address someone glancing at the screen shouldn't see in full. The same <code>startCountdown()</code>/<code>clearInterval</code> pattern from the OTP form's resend link reappears here, disabling the resend action for 30 real seconds rather than leaving it clickable the instant the success screen appears.</p>
 
@@ -78,7 +78,7 @@
 
 <p>A new-password and confirm-password pair with a live strength meter and a live "passwords match" indicator, both updating on every keystroke.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-reset-password-form/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Reset Password Form — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-reset-password-form/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Reset Password Form — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> <code>scorePassword()</code> checks four independent character-class rules — length past 8, length past 12, mixed case, digits, symbols — plus a length bonus, and the resulting 0–4 score indexes straight into a <code>LEVELS</code> array that pairs a percentage, a Bootstrap color class, and a label ("Weak," "Good," "Strong") for the progress bar. That table-driven approach is what keeps the five strength tiers consistent — there's one place to adjust the thresholds, not five scattered <code>if</code> branches each setting their own color and width.</p>
 
@@ -90,7 +90,7 @@
 
 <p>A dashed-border dropzone that highlights on drag-over, accepts a drop or a click-to-browse, and lists every selected file with its size and a remove button.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-file-upload-drag-drop/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap File Upload Drag and Drop — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-file-upload-drag-drop/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap File Upload Drag and Drop — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> <code>addFiles()</code> is called from both the drop event and the hidden file input's change event, so dragging a file in and clicking to browse for one go through identical validation instead of two separate code paths that could drift apart. Every file is checked against a <code>MAX_SIZE</code> constant and oversized ones are collected into a <code>rejected</code> list and reported together in one visible error, rather than rejecting silently or stopping at the first bad file and ignoring the valid ones after it in the same batch.</p>
 
@@ -102,7 +102,7 @@
 
 <p>A multiple-image file input that renders live thumbnail previews in a Bootstrap grid, each with its own remove button and a running selected-count badge.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-image-upload-preview/embed/" style="width:100%;height:500px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Image Upload with Preview — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-image-upload-preview/embed/" style="width:100%;height:500px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Image Upload with Preview — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> every selected image is paired with the <code>URL.createObjectURL</code> generated for it inside one <code>entries</code> array — <code>{ id, file, url }</code> — specifically so that when a single thumbnail's remove button is clicked, its matching object URL can be revoked on its own rather than only being able to revoke all of them at once. A delegated click listener on the whole <code>#bsimgGrid</code> container handles every remove button through one <code>e.target.closest('.bsimg-remove')</code> check, so newly added thumbnails are removable immediately with no per-thumbnail listener ever attached.</p>
 
@@ -114,7 +114,7 @@
 
 <p>A Bootstrap dropdown holding a checkbox list instead of the native multi-select element, with a live "N selected" summary and a search filter built in.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-multi-select-dropdown/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Multi-Select Dropdown — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-multi-select-dropdown/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Multi-Select Dropdown — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> Bootstrap's Dropdown closes itself on any click by default, including a click on one of the checkboxes inside it — this snippet's trigger carries <code>data-bs-auto-close="outside"</code>, the same documented mode used to keep the notification center dropdown open in the second batch, so selecting several skills in a row doesn't close and reopen the panel each time. The search box hides non-matching rows in place — toggling a <code>d-none</code> class per row rather than re-rendering the list — by checking each row's own <code>data-name</code> attribute against the typed query, and a dedicated "no results" row appears only once every row has been filtered out.</p>
 
@@ -126,7 +126,7 @@
 
 <p>An input where typing a value and pressing Enter turns it into a removable pill inside the same container — with duplicate tags silently rejected.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-tag-input-field/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Tag Input Field — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-tag-input-field/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Tag Input Field — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> <code>addTag()</code> checks a case-insensitive match against every tag already in the <code>tags</code> array before adding a new one, and a duplicate briefly flashes an error message via a self-clearing <code>setTimeout</code> rather than silently doing nothing — so a repeated entry gets an explanation, not just a non-response. Pressing Enter or typing a comma commits the current input as a tag; pressing Backspace on an <em>already-empty</em> input removes the most recently added tag instead, mirroring how a real tag field on sites like Gmail's "To" field behaves, and <code>CSS.escape()</code> is used when looking up a tag's pill element so a tag containing quote or bracket characters can't break the DOM query that finds it.</p>
 
@@ -138,7 +138,7 @@
 
 <p>A dual-thumb price filter built from two overlapping native range inputs kept perfectly in sync, with a live "$X – $Y" label and a visually filled track between them.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-range-slider-price/embed/" style="width:100%;height:380px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Price Range Slider — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-range-slider-price/embed/" style="width:100%;height:380px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Price Range Slider — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the two <code>&lt;input type="range"&gt;</code> elements sit stacked on top of each other and clamp one another's value on every <code>input</code> event, minus a fixed <code>MIN_GAP</code> — dragging the min thumb past <code>max - MIN_GAP</code> simply stops it there, and the same happens in reverse for the max thumb, so the two thumbs can never cross or fully overlap into an unreachable stack. The visually filled bar between them isn't a third slider; it's a plain <code>div</code> whose <code>left</code> and <code>width</code> are recalculated from both values on every input event, converting each raw value into a percentage of the fixed <code>RANGE_MIN</code>–<code>RANGE_MAX</code> span.</p>
 

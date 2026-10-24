@@ -30,7 +30,7 @@
 
 <p>A recursive tree that sways toward the cursor like wind, where the entire branching structure is one function calling itself twice — no tree data structure exists anywhere in memory.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/canvas-fractal-tree/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Fractal Tree Generator — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/canvas-fractal-tree/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Fractal Tree Generator — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> every call to <code>branch()</code> draws one line segment from a start point at a given angle and length, then recurses exactly twice — once angled left by the spread, once right — each with a shrunken length and one less depth remaining. The recursive call stack is the tree; nothing else stores its structure. Line width, color, and leaf dots are all derived from the current <code>depth</code> relative to <code>maxDepth</code> inside the same recursive call, and cursor position sets a <code>targetSway</code> value eased into every branch's angle, scaled by a <code>windFactor</code> that grows the further a branch sits from the trunk — so outer twigs visibly sway more, reusing the same depth value already tracked for recursion.</p>
 
@@ -42,7 +42,7 @@
 
 <p>Click anywhere and a jagged, branching bolt strikes from the top of the sky — generated with recursive midpoint displacement, the same fractal technique used to generate terrain heightmaps and coastlines.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/canvas-procedural-lightning/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Procedural Lightning — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/canvas-procedural-lightning/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Procedural Lightning — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> <code>displace()</code> takes a straight segment, finds its exact midpoint, nudges it perpendicular to the segment by a random amount, then recurses on both resulting sub-segments with a smaller displacement budget (<code>maxOffset * 0.55</code>). Because each recursion level operates on a shorter segment with a proportionally smaller budget, the result has large kinks at the coarse level and progressively finer kinks nested inside them — genuine self-similar roughness, not a scribble of random points. Displacement is constrained to strictly perpendicular, which is what keeps the bolt progressing toward its target instead of doubling back on itself; branches reuse the identical <code>displace()</code> function at a smaller depth, which is why they read as belonging to the same bolt rather than a separately-drawn effect.</p>
 
@@ -54,7 +54,7 @@
 
 <p>A draggable rope pinned at both ends that sags, swings, and holds its length under an adjustable stiffness — simulated with Verlet integration and iterative constraint solving, the same class of technique behind game rope and cloth.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/canvas-rope-physics/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Rope Physics — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/canvas-rope-physics/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Rope Physics — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> each rope point stores its current and previous position, never an explicit velocity — every frame, velocity is derived implicitly as <code>(x - px)</code>, damped by friction, and projected forward plus gravity. That's Verlet integration, and it's numerically stable in a way that makes distance constraints trivial to enforce directly on position. Every stick between adjacent points is a rigid-distance constraint that <code>satisfyConstraints()</code> corrects by nudging both points toward the right separation; running that pass multiple times per frame — the Stiffness slider maps straight to iteration count — is what makes the rope feel taut instead of stretchy elastic. While dragging a point, both its current and previous position are set to the pointer position every move event, which zeroes its implicit velocity so it doesn't fling on release.</p>
 
@@ -66,7 +66,7 @@
 
 <p>Hundreds of particles orbit user-placed gravity wells under a real inverse-square attraction force, curving sharply on close passes without ever slingshotting to infinity.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/canvas-gravity-particles/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Gravity Particle Orbits — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/canvas-gravity-particles/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Gravity Particle Orbits — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> every frame, each particle sums a force of <code>(G * mass) / distance²</code> from every active well, directed along the vector between them — literally Newton's law of gravitation, with <code>G</code> tuned for canvas scale rather than SI units. A raw inverse-square force approaches infinity as distance approaches zero, which would fling any particle straying too close out at simulation-breaking speed; adding a small constant to the squared distance before dividing (force softening, a standard N-body technique) caps the force at close range with no special-case collision check. Initial velocities use the real circular-orbit-speed formula <code>sqrt(G * mass / distance)</code> but randomized around it, which is what produces a genuine mix of ellipses, spirals, and slingshot escapes instead of one repetitive, mathematically perfect circle.</p>
 
@@ -78,7 +78,7 @@
 
 <p>A soft, glowing trail of stretched blobs that follows the cursor — an honest, lightweight approximation of a fluid look, not a Navier-Stokes solver pretending to be one.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/canvas-fluid-cursor-trail/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Fluid Cursor Trail — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/canvas-fluid-cursor-trail/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Fluid Cursor Trail — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> every pointer move computes a velocity vector against the last recorded position, and that single vector drives three things at once — the new blob's drift, its stretch factor (<code>ctx.rotate</code> plus <code>ctx.scale</code> elongate it along the direction of travel), and its hue, so a fast flick reads visually differently from a slow drag. Each blob draws with <code>globalCompositeOperation = 'lighter'</code>, which adds color where blobs overlap instead of layering opaque shapes — that additive blowout near the cursor, combined with each blob's soft radial-gradient falloff, is most of what sells the glow. The trail fades not by tracking a history array but by painting a low-opacity dark rectangle over the whole canvas before every new frame, letting old blobs dim across several frames for free.</p>
 
@@ -90,7 +90,7 @@
 
 <p>A generated scene rendered live as ASCII characters, sampling real pixel brightness cell by cell against a swappable character ramp — no image upload, no library.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/canvas-ascii-art-converter/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas ASCII Art Converter — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/canvas-ascii-art-converter/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas ASCII Art Converter — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> since a self-contained snippet has nowhere reliable to host a photo, a procedural scene — gradient sky, radial-gradient sun, a sine-perturbed mountain silhouette, scattered stars — is painted onto an offscreen canvas purely to give the sampler real light-to-dark range to react to. <code>getImageData</code> returns a flat RGBA byte array, and the render loop walks the canvas in cell-sized steps, converting each sampled pixel to brightness with the standard luminance weighting <code>r*0.299 + g*0.587 + b*0.114</code> — which accounts for the eye's higher sensitivity to green, so the result tracks perceived lightness rather than a flat channel average. That brightness indexes into a character ramp ordered from sparse to dense, and the chosen glyph draws directly with <code>fillText</code> at the cell's coordinates — the ASCII output lives entirely on the canvas, no overlaid <code>&lt;pre&gt;</code> block to keep in sync.</p>
 
@@ -102,7 +102,7 @@
 
 <p>A topographic-style landscape generated from a from-scratch Perlin noise implementation, stacked into fractal Brownian motion and colored by elevation band.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/canvas-noise-terrain/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Noise Terrain Generator — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/canvas-noise-terrain/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Noise Terrain Generator — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> a shuffled 256-entry permutation table assigns each integer lattice point a pseudo-random gradient direction, and <code>noise2D()</code> smoothly interpolates between the dot products of surrounding lattice gradients — classic gradient noise, which produces spatially coherent randomness instead of per-pixel static. A single octave alone produces smooth, blobby shapes with no fine texture, so <code>fbm()</code> sums several octaves at doubling frequency and halving amplitude: low-frequency octaves set the broad hills and valleys, high-frequency ones layer in coastline roughness on top — real fractal Brownian motion, the same technique actual terrain-generation systems use. Rather than a smooth color gradient, height maps through a fixed sequence of elevation-band thresholds (water, beach, grass, forest, rock, snow) with interpolation only within each band, which is what makes the field read as a legible map instead of an abstract color blend.</p>
 
@@ -114,7 +114,7 @@
 
 <p>A drawing pad where every stroke replays as rotated and mirrored copies around a shared center — true reflective symmetry, not just a rotated pinwheel repeat.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/canvas-kaleidoscope-drawing/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Kaleidoscope Drawing — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/canvas-kaleidoscope-drawing/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Kaleidoscope Drawing — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the core is a plain 2D rotation of a point around the canvas center, applied once per symmetry segment spaced evenly around a full circle. A purely rotated repeat produces a pinwheel, not a kaleidoscope — so for every rotated copy, a second copy negates the segment's y-offset from center <em>before</em> rotating, mirroring the stroke across the local axis first. Combining a mirrored copy with each rotated copy is specifically what produces true reflective symmetry, where each wedge is a mirror of its neighbor rather than an identical rotated repeat. Every <code>mousemove</code> event stamps just the newest line segment straight onto the canvas, rotated and mirrored, with no separate path array to manage — the canvas itself is the only state, exactly like an ordinary paint app.</p>
 
@@ -126,7 +126,7 @@
 
 <p>Cards that sharpen from a chunky mosaic to full detail on scroll-into-view or hover — the "developing photograph" effect, built from exactly one canvas property most people never touch.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/canvas-image-pixelate-reveal/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Pixelate Image Reveal — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/canvas-image-pixelate-reveal/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Pixelate Image Reveal — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the full-detail source is drawn once, at native resolution, onto its own untouched offscreen canvas — every reveal frame downsamples fresh from that same source, so quality never degrades across repeated hover cycles the way it would if the visible canvas were resized in place repeatedly. To render at a given "resolution," the source is first drawn down onto a tiny intermediate canvas only a handful of pixels wide, then that tiny canvas is drawn back onto the visible canvas at full size with <code>imageSmoothingEnabled = false</code> on the destination — that single boolean switches the browser's upscale from blurry bilinear interpolation to nearest-neighbor, which is the entire difference between "pixelated" and "blurry." Resolution eases toward its target by a fixed fraction of the remaining distance each frame rather than jumping straight there, and both hover and an <code>IntersectionObserver</code> scroll trigger call the identical <code>reveal()</code> function — no duplicated logic between the two trigger paths.</p>
 
@@ -138,7 +138,7 @@
 
 <p>Soft, saturated color blobs orbiting slowly and blending into the animated mesh-gradient look every SaaS marketing page seems to have now — with the actual blur coming from one line of CSS, not the JavaScript.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/canvas-mesh-gradient-bg/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Mesh Gradient Background — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/canvas-mesh-gradient-bg/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Canvas Mesh Gradient Background — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> every blob is a plain <code>createRadialGradient</code> circle drawn with hard mathematical precision — full color at center, fading to transparent at the edge. None of the softness is drawn; <code>filter: blur(60px) saturate(1.3)</code> on the canvas element in CSS is what turns those crisp circles into the smooth, melting fields the effect is known for, handled by the compositor at essentially no extra per-frame cost. Because a 60px blur erases fine detail regardless of source resolution, the canvas's actual backing store is deliberately sized to only 60% of the wrapper's dimensions — drawing sharper than that would just spend more fill-rate for a visually identical blurred result. Each blob orbits its own home point on an ellipse with its own independent speed and phase offset, so five simple sine/cosine motions combine into drift that never visibly repeats.</p>
 
@@ -160,4 +160,4 @@
 
 <p>What connects a fractal tree, a Verlet rope, and a mesh gradient isn't a shared visual style — they don't look anything alike. It's that each one reaches for the real underlying technique (recursion, position-based integration, an inverse-square force law, gradient noise) rather than faking its silhouette with a canned animation. That's what makes the code worth reading even when you're not going to ship the exact effect: the midpoint-displacement function behind the lightning bolt is the same one that would generate a coastline; the constraint solver behind the rope is the same one that would build a cloth grid. Learn one of these honestly and two or three neighboring effects come along with it for free.</p>
 
-<p>Try them, retune the constants, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>
+<p>Try them, retune the constants, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/">webdevpuneet UI Snippets</a> — it's free and runs entirely in your browser.</p>

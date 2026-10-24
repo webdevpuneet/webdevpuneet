@@ -30,7 +30,7 @@
 
 <p>A profile form that tracks its own dirty state and warns with a real modal — Keep editing, Discard &amp; leave, or Save &amp; leave — before an in-app navigation, plus a genuine <code>beforeunload</code> guard for a real page exit.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-unsaved-changes-alert/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Unsaved Changes Alert — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-unsaved-changes-alert/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Unsaved Changes Alert — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> a single <code>isDirty</code> flag is flipped by an <code>input</code> listener on every field, and clicking "Back to dashboard" while it's true opens a modal instead of leaving immediately. "Discard &amp; leave" restores the fields to their last saved snapshot rather than just closing the dialog, and "Save &amp; leave" runs the exact same <code>save()</code> function the visible Save button uses. A separate <code>window.beforeunload</code> listener, gated behind the same <code>isDirty</code> check, is the real protection against a tab close or address-bar navigation — a click handler alone could never catch that.</p>
 
@@ -42,7 +42,7 @@
 
 <p>A note editor that autosaves 1.2 seconds after you stop typing — Saving, Saved with a real timestamp, or Failed with a working Retry — instead of a plain "Save" button.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-form-autosave-status/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Form Autosave Status — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-form-autosave-status/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Form Autosave Status — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> every keystroke clears a previous <code>setTimeout</code> and restarts a 1200ms one, so <code>performSave()</code> only actually runs once typing genuinely pauses. An <code>isSaving</code> flag guards against two overlapping requests — a keystroke landing mid-save sets a <code>pendingResave</code> flag instead of firing a second request, and exactly one more save runs the instant the current one resolves. A simulated 15% failure rate keeps the Failed state and its Retry link — which calls the identical <code>performSave()</code> function — genuinely reachable in this preview.</p>
 
@@ -54,7 +54,7 @@
 
 <p>Ten single-use backup codes in a grid — click one to mark it redeemed, copy or download the full set, and regenerate through a confirmation modal that invalidates the old codes.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-two-factor-backup-codes/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Two-Factor Backup Codes Display — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-two-factor-backup-codes/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Two-Factor Backup Codes Display — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> each code is an object carrying its own <code>used</code> boolean, so clicking an already-used code is a real no-op rather than a style with nothing behind it. Codes are generated from a character set that deliberately excludes <code>0</code>/<code>O</code> and <code>1</code>/<code>I</code>, since backup codes are the kind of thing someone reads off a screen and types by hand. Regenerating is destructive — it invalidates every code, used or not — so it's gated behind a real Bootstrap modal instead of firing on one click.</p>
 
@@ -66,7 +66,7 @@
 
 <p>Five password rules that tick off individually as you type, with a submit button that only enables once every single one passes.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-password-requirements-checklist/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Password Requirements Checklist — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-password-requirements-checklist/embed/" style="width:100%;height:460px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Password Requirements Checklist — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> a <code>RULES</code> object maps each requirement's name to a small test function, and every <code>&lt;li&gt;</code> carries a <code>data-rule</code> attribute matching one of those keys — the update loop never hardcodes which item is which, it just reads the rule name straight off the element. Every rule re-evaluates from scratch on each keystroke, and the submit button's disabled state is derived from the same passing-rule count driving the visible checklist, so the two can never disagree.</p>
 
@@ -78,7 +78,7 @@
 
 <p>Press and hold for 1.5 seconds to delete — a visible fill sweeps across the button in real time, and releasing early cancels instantly instead of completing the action.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-hold-to-confirm-delete-button/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Hold-to-Confirm Delete Button — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-hold-to-confirm-delete-button/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Hold-to-Confirm Delete Button — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> a single <code>HOLD_MS</code> constant drives both the CSS transition duration on the fill element and a matching <code>setTimeout</code>, so the visual progress and the actual delete complete at the exact same instant. Releasing early swaps in a much shorter 180ms transition before resetting the fill to zero — reusing the slow fill-in duration for the reset would make cancelling feel as slow as completing. Keyboard users get the identical behavior via Space/Enter, guarded against the OS's own key-repeat re-firing the hold on every repeated <code>keydown</code>.</p>
 
@@ -90,7 +90,7 @@
 
 <p>Select one or more table rows and the header swaps for a bulk-action toolbar — Archive, Delete behind a real confirmation modal, and Clear — disappearing the instant nothing is selected.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-bulk-action-toolbar/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Bulk Action Toolbar — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-bulk-action-toolbar/embed/" style="width:100%;height:440px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Bulk Action Toolbar — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> a single <code>refresh()</code> function reads how many row checkboxes are checked and toggles the toolbar and default header from that one number, so they can never both show (or both hide) at once. The header checkbox's three real states — checked, unchecked, or a genuine <code>indeterminate</code> — are recomputed the same way every time, derived from the same count. Archive applies instantly as a soft, reversible action; Delete actually removes rows, so it's gated behind a confirmation modal whose message is generated from the live selection count.</p>
 
@@ -102,7 +102,7 @@
 
 <p>A 24-row table inside a fixed-height scroll box whose header stays pinned via genuine <code>position: sticky</code>, with a JavaScript-driven shadow that only appears once real content has scrolled underneath it.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-sticky-table-header-scroll/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Sticky Table Header on Scroll — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-sticky-table-header-scroll/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Sticky Table Header on Scroll — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> <code>position: sticky</code> on the header cells is scoped to their own scrolling container (a fixed <code>max-height</code> plus <code>overflow-y: auto</code>), not the page — without that scoped scroll context, the header has nothing to stick within. The header needs an explicit opaque background too, or rows scrolling underneath would show through it. The one line of JavaScript toggles a shadow class based on <code>scrollTop > 0</code>, so the header only looks "elevated" once there's actually something scrolled beneath it.</p>
 
@@ -114,7 +114,7 @@
 
 <p>A filtered list whose empty state echoes back the user's exact search text — "No results for 'xyz'" — with a one-click Clear search that immediately restores the full list and refocuses the input.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-no-search-results-state/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap No Search Results State — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-no-search-results-state/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap No Search Results State — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> one <code>render()</code> function is the single source of truth for whether the list or the empty state shows, filtering by a case-insensitive substring match and echoing the literal, unmodified query back into the message. An empty search box is deliberately treated as "no filter applied," correctly returning every item rather than zero — the difference between a search that found nothing and a search that hasn't started yet.</p>
 
@@ -126,7 +126,7 @@
 
 <p>Shimmering skeleton rows shaped like the real table's columns while data "loads," swapped for actual rows once it resolves — with a Reload button to trigger the cycle again on demand.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-data-table-loading-skeleton/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Data Table Loading Skeleton — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-data-table-loading-skeleton/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Data Table Loading Skeleton — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> each skeleton bar's width is set per column — narrower for a name, wider for an email — so the loading state resembles this specific table rather than reading as a generic placeholder. The shimmer itself is a pure CSS animation sweeping an oversized background gradient's position, with zero JavaScript driving the visual effect frame by frame. The Reload button disables itself for the duration of the simulated fetch so a second click can't start an overlapping load.</p>
 
@@ -138,7 +138,7 @@
 
 <p>A table whose very first load is scripted to fail — a centered inline message with a working Retry button replaces the rows, while the column headers never move.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-data-table-error-state/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Data Table Error State — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/bootstrap-data-table-error-state/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Bootstrap Data Table Error State — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> only the <code>&lt;tbody&gt;</code> is ever replaced between loading, error, and loaded states — the column headers stay put the whole time, so a user never loses context for what the table is supposed to show. The error message is a real table row with <code>colspan</code>, not an absolutely positioned overlay that would need its own sizing logic. The first attempt is deliberately scripted to fail so the error state is guaranteed to be visible in this preview; every retry after that has a genuine 60% chance of succeeding, and Retry always calls the exact same <code>load()</code> function a fresh page load uses.</p>
 

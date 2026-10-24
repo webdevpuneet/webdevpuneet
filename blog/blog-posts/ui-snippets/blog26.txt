@@ -30,7 +30,7 @@
 
 <p>The one every developer-facing product needs: an icon button on a code block that swaps to a green checkmark for two seconds when the text lands on the clipboard, plus inline copy buttons on a row of credentials.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/copy-button/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Copy Button — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/copy-button/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Copy Button — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> <code>navigator.clipboard.writeText(text)</code> is asynchronous and returns a promise, which matters more than it looks — clipboard access is denied outside a secure context (HTTPS or localhost), in some privacy modes, and when the user has refused the permission, so the <code>.catch()</code> is doing real work rather than satisfying a linter. The feedback is a pure CSS icon swap: the button contains both a copy icon and a checkmark, the checkmark is <code>display: none</code> at rest, and a single <code>.copied</code> class flips which one shows while tinting the button green. No DOM manipulation, no icon library, no re-render. A <code>setTimeout</code> removes the class after two seconds — long enough to register, short enough that the button is ready again before you want it.</p>
 
@@ -42,7 +42,7 @@
 
 <p>Click and the label gives way to a progress ring with a live percentage, which fills, then resolves into a checkmark and "Saved" before returning to idle on its own.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/download-button/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Download Button — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/download-button/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Download Button — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> three layers — idle, loading, done — are stacked absolutely inside a fixed-size button and cross-faded with opacity and a small vertical slide, so the button never changes width and there's no layout jank to animate around. The ring is the standard stroke-dash technique: two SVG circles, with <code>stroke-dasharray</code> set to the circumference and <code>stroke-dashoffset</code> driven toward zero to draw the arc, and the whole SVG rotated <code>-90deg</code> so it fills from the top. The interesting choice is that the offset is updated inside a <code>requestAnimationFrame</code> loop rather than by a CSS transition — partly because utility frameworks don't reliably transition <code>stroke-dashoffset</code>, and partly because it lets the fill be eased deliberately: an ease-out curve of <code>1 - (1 - p)²</code> makes the ring race ahead early and slow near the end, which is what a real transfer feels like. A linear fill reads as fake. The percentage text is derived from the same <code>p</code>, so the number and the arc can never disagree, and a re-entrancy guard ignores clicks while the button is already loading or done, so spamming it can't stack animations.</p>
 
@@ -54,7 +54,7 @@
 
 <p>Press and hold, a bar fills, and the destructive action only fires when it completes. Let go early and it retracts with a "released too soon" note.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/hold-to-confirm-button/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Hold to Confirm Button — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/hold-to-confirm-button/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Hold to Confirm Button — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> this replaces a modal with a gesture, and the implementation is a good lesson in why time-based beats transition-based. The fill runs in a <code>requestAnimationFrame</code> loop measured against <code>performance.now()</code>, computing <code>progress = elapsed / HOLD_MS</code> every frame, so the bar always reflects exactly how long the button has actually been held — release halfway and it's genuinely halfway, which a fixed CSS animation can't guarantee. Hitting <code>progress >= 1</code> fires <code>confirm()</code> once and stops the loop, so the action can't double-fire. The touch handling is the part worth stealing: on <code>pointerdown</code> the button calls <code>setPointerCapture</code>, which means it still receives <code>pointerup</code> even if your finger slides off the button — without it, a small drift on a phone drops the release event and leaves the hold stuck running. <code>touch-action: none</code> stops the page scrolling under the gesture, and <code>pointerup</code>, <code>pointercancel</code> and a guarded <code>pointerleave</code> all route to the same <code>cancel()</code>. On success the button locks into a done state, so the next press resets rather than deleting something twice.</p>
 
@@ -66,7 +66,7 @@
 
 <p>Tap the heart and it pops into red past its own size while a dozen coloured particles spray outward and the count ticks up.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/like-burst-button/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Like Burst Button — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/like-burst-button/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Like Burst Button — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> two mechanisms, both small. The heart is an inline SVG that gains a <code>.liked</code> class, which fills it red and runs a keyframe scaling it from 0 up past 1 to 1.25 and back down on an overshooting <code>cubic-bezier</code> — that brief overshoot is the entire difference between "the heart sprang to life" and "the heart changed colour". The burst is twelve particles created on each like and sent to evenly spaced angles of <code>(i / n) × 2π</code> with a little random jitter and a random distance, positioned with <code>cos</code> and <code>sin</code>. The even angular spacing is what makes it read as a deliberate firework rather than random scatter; the jitter stops it looking mechanical. Each particle animates via the Web Animations API — <code>element.animate()</code> returns a handle whose <code>onfinish</code> removes the particle from the DOM — which is a genuinely nice pattern for short-lived elements: no <code>animationend</code> listeners to attach and detach across a dozen nodes, no cleanup pass, and nothing accumulates however many times you click. Unliking removes the state without a burst, because celebrations belong to the positive action only.</p>
 
@@ -78,7 +78,7 @@
 
 <p>A thick black border, flat saturated fill and a hard offset shadow — and on press the button travels down into the space the shadow was occupying.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/brutalist-press-button/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Brutalist Press Button — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/brutalist-press-button/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Brutalist Press Button — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the resting look is one detail — <code>box-shadow: 5px 5px 0 #111</code> with <strong>no blur radius</strong>, which is what makes it read as a literal offset silhouette sitting behind the button rather than a soft drop shadow. The press is where it earns its place: on <code>:active</code> the button translates by exactly the shadow's offset, <code>translate(5px, 5px)</code>, while the shadow itself collapses to <code>0 0 0</code>. The two numbers must match precisely — translate further than the shadow and the button appears to sink through the page; translate less and it looks like it's stuck partway. That one constraint is the whole illusion, and it's why this reads as a physical object being pushed flush against the surface when a generic <code>transform: scale(0.98)</code> reads as nothing at all. The high-contrast styling is also an accessibility argument, not just an aesthetic one: a 3px solid border and a flat fill make "this is clickable" unambiguous in a way that low-contrast neumorphic surfaces never managed.</p>
 
@@ -90,7 +90,7 @@
 
 <p>The iOS-style pill of mutually exclusive options, with a white glider that slides <em>and</em> resizes to fit segments of different widths.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/segmented-toggle/embed/" style="width:100%;height:540px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Segmented Toggle — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/segmented-toggle/embed/" style="width:100%;height:540px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Segmented Toggle — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the glider is a single element behind the segments, and selecting a segment reads that segment's live <code>offsetWidth</code> and <code>offsetLeft</code> and writes them to the glider's <code>width</code> and <code>transform: translateX()</code>. Measuring from the DOM rather than hard-coding sizes is what lets "Grid", "List" and "Compact" — or "Monthly" and "Annual −20%" — all work in the same control without anyone maintaining a table of pixel offsets. It slides with <code>translateX</code> rather than animating <code>left</code>, which keeps the movement on the compositor instead of forcing a layout recalculation every frame; only the width transition relayouts, and only for one tiny element. The whole thing is wired by a reusable <code>setupGroup()</code> called once per control — twice in the demo, proving the pattern scales — and each group is a real <code>role="tablist"</code> of <code>role="tab"</code> buttons with <code>aria-selected</code> and keyboard navigation, so it's operable without a mouse.</p>
 
@@ -102,7 +102,7 @@
 
 <p>A three-way Light / Dark / System switch — and System is a live binding, not a one-time snapshot.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/color-mode-toggle/embed/" style="width:100%;height:540px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Colour Mode Toggle — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/color-mode-toggle/embed/" style="width:100%;height:540px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Colour Mode Toggle — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the third option is the whole point. A two-state dark-mode switch ignores that the user's device already has a preference that changes with the time of day, so the modern pattern is Light, Dark and System — where System defers to <code>prefers-color-scheme</code> and keeps deferring. The snippet listens to the <code>matchMedia('(prefers-color-scheme: dark)')</code> change event and re-applies the theme whenever the OS flips, <em>but only while the user is in System mode</em>: pick Light or Dark explicitly and you've overridden the OS; pick System and you hand control back. That live-follow behaviour is what separates a real three-way toggle from one that merely has a third button. The theming itself is CSS custom properties — tokens for background, text, border and accent defined on the container, overridden under a <code>[data-theme="dark"]</code> selector — so switching themes is one attribute change on one element rather than a class toggle per component, with a transition on the colour properties to make it a crossfade instead of a flash. The thumb slides with <code>translateX()</code> of the active index.</p>
 
@@ -114,7 +114,7 @@
 
 <p>A primary action on the left, a chevron on the right that opens a menu of alternatives — the deploy-button pattern from every dashboard you've used.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/split-button/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Split Button — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/split-button/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Split Button — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the layout is <code>inline-flex</code> on a <code>position: relative</code> container, with the main button rounded on its left corners only and the arrow button rounded on its right, so they read as one control with a seam. Notably there's <em>no</em> wrapper with <code>overflow: hidden</code> — that would clip the dropdown panel, which is the most common way this component gets broken. The seam itself is a <code>border-left: 1px solid rgba(255,255,255,0.25)</code> on the arrow half: because both halves share a background colour, a fully opaque divider looks harsh, and dropping the alpha to 25% reads as an inset separator rather than a line drawn on top. The menu animates in with a 150ms keyframe from <code>opacity: 0</code> and <code>translateY(-6px)</code>, so it emerges from the button rather than appearing from nowhere. Two behaviours make it usable: opening any dropdown first sweeps all others closed, so multiple split buttons on a page can't stack open panels, and a document-level click handler uses <code>e.target.closest('.split-btn')</code> to close on any click outside.</p>
 
@@ -126,7 +126,7 @@
 
 <p>A floating action button whose <code>+</code> rotates into a <code>×</code> while three labelled sub-actions stagger upward over a blurred backdrop.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/expanding-fab/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Expanding FAB — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/expanding-fab/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Expanding FAB — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> three small tricks, none of which need JavaScript to run the animation. The stagger is a CSS custom property: each sub-action carries <code>--i</code> (1, 2, 3) and its <code>transition-delay</code> is <code>calc((var(--i) - 1) × 0.05s)</code>, so they enter 50ms apart — and because <code>transition-delay</code> applies to the exit too, the close animation reverses naturally, topmost item first, with no separate close sequence to write. The icon needs no swap at all: the <code>+</code> character rotated 45° <em>is</em> a <code>×</code>, so <code>transform: rotate(45deg)</code> on a spring curve does the whole thing. The tooltips have no hover logic either — their opacity is driven by the parent item's open state, so they simply exist when the actions do. The backdrop is a fixed layer that fades to <code>rgba(0,0,0,0.2)</code> with <code>backdrop-filter: blur(2px)</code> and toggles <code>pointer-events</code> so it can't swallow clicks while closed. <code>aria-expanded</code> tracks the state and Escape closes it.</p>
 
@@ -138,7 +138,7 @@
 
 <p>A dropdown that hands the same event to Google, Outlook, Office 365 and Yahoo as pre-filled links — and to Apple Calendar and everything else as a downloadable <code>.ics</code> file generated in the browser.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/add-to-calendar-button/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Add to Calendar Button — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/add-to-calendar-button/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Add to Calendar Button — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> all the event details live in one <code>EVENT</code> object — title, description, location, start, end — and every menu item builds its own output from it, so changing the event is a one-place edit. The fiddly part, done for you, is that each provider wants a different URL shape: Google and Yahoo take compact UTC timestamps in their own parameter names, while Outlook and Office 365 take ISO datetimes in <code>startdt</code>/<code>enddt</code>. Apple has no add-event URL scheme at all, which is why the <code>.ics</code> path matters: <code>downloadIcs()</code> assembles a minimal valid VCALENDAR/VEVENT block, wraps it in a <code>Blob</code>, and triggers a download through a temporary object URL that's revoked immediately afterwards so it doesn't leak. Time zones are the other classic failure, and they're handled in one helper — <code>toUTC()</code> converts your local ISO start and end into the <code>YYYYMMDDTHHMMSSZ</code> format calendars require, so you author the event in plain local time and never think about it again.</p>
 
@@ -161,4 +161,4 @@
 
 <p>The gap between a button that works and a button that feels finished is almost never the resting style — it's whether the interface keeps talking after the click. A checkmark for two seconds, a ring that fills honestly, a bar that only completes if you really meant it, a heart that pops. None of these are more than a few dozen lines, and all of them replace the same thing: a user clicking again because nothing appeared to happen.</p>
 
-<p>Click them, hold them, retune the timings, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>
+<p>Click them, hold them, retune the timings, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/">webdevpuneet UI Snippets</a> — it's free and runs entirely in your browser.</p>

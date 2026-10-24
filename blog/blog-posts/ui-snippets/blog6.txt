@@ -32,7 +32,7 @@
 
 <h2>1. Toggle Switch — the iOS switch in pure CSS</h2>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/toggle-switch/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Toggle Switch — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/toggle-switch/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Toggle Switch — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the golden rule in its purest form — zero JavaScript. A real <code>&lt;input type="checkbox"&gt;</code> hides inside a <code>&lt;label&gt;</code> with <code>opacity: 0</code> and no size. The visible pill is a sibling <code>span</code>; its knob is an <code>::after</code> pseudo-element. Two selectors do everything: <code>input:checked ~ .track</code> turns the pill indigo, and <code>input:checked ~ .track::after</code> slides the knob across with <code>transform: translateX(20px)</code>. Clicking the label toggles the real checkbox, keyboard users can Space it, and a form submit picks up the value — the browser does all the work.</p>
 
@@ -42,7 +42,7 @@
 
 <h2>2. Floating Label Input — the Material trick in 3 selectors</h2>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/floating-label/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Floating Label Input — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/floating-label/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Floating Label Input — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the label starts as fake placeholder text, vertically centred over the input, then shrinks and floats to the top border the moment you focus or type. The whole effect is one CSS trick: the input gets <code>placeholder=" "</code> — a single space — which makes <code>:placeholder-shown</code> a reliable "is this field empty?" test. The selector <code>input:not(:placeholder-shown) ~ label, input:focus ~ label</code> then moves the label up, shrinks it to 11px and colours it indigo. A white background on the label lets it sit cleanly on top of the border line. No JavaScript, no wrapper classes to manage.</p>
 
@@ -52,7 +52,7 @@
 
 <h2>3. Custom Checkbox — a checkmark that draws itself</h2>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/custom-checkbox/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Custom Checkbox — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/custom-checkbox/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Custom Checkbox — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> same hidden-input pattern as the toggle, but the payoff is the tick. The checkmark is an SVG <code>polyline</code> whose <code>stroke-dasharray</code> and <code>stroke-dashoffset</code> are both set to the path's length (24), which renders it invisible. On <code>input:checked</code>, the offset transitions to 0 and the tick <em>draws itself</em> stroke-first, like a pen — the same dashoffset maths as a progress ring, applied to a 3-line icon. The box also gets press feedback (<code>:active</code> scales it to 0.9) and a proper keyboard focus ring via <code>:focus-visible</code>, plus a styled disabled state.</p>
 
@@ -62,7 +62,7 @@
 
 <h2>4. OTP / PIN Input — six boxes that behave like one field</h2>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/otp-input/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="OTP / PIN Input — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/otp-input/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="OTP / PIN Input — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> six single-character inputs with <code>inputmode="numeric"</code> (mobile keyboards open the number pad), glued together by three small event handlers. On <code>input</code>: strip non-digits with a regex and auto-focus the next box. On <code>keydown</code>: if Backspace is pressed in an <em>empty</em> box, jump focus back to the previous one — the detail that makes deleting feel natural. And on <code>paste</code>: intercept the clipboard, strip non-digits, distribute one character per box, and land focus after the last filled digit — so pasting a code from an SMS or email just works.</p>
 
@@ -72,7 +72,7 @@
 
 <h2>5. Password Strength Meter — live feedback as they type</h2>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/password-strength/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Password Strength Meter — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/password-strength/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Password Strength Meter — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> on every keystroke, four regex tests run against the value — length ≥ 8, an uppercase letter, a digit, a symbol — and the count of passes becomes a 0–4 score. That one number drives everything: how many of the four segment bars fill, which colour they take (red → amber → indigo → green), the "Weak / Fair / Good / Strong" label, and which items in the requirements checklist flip from a hollow circle to a filled green dot. A show/hide eye button toggles the input between <code>type="password"</code> and <code>type="text"</code>.</p>
 
@@ -82,7 +82,7 @@
 
 <h2>6. Star Rating — hover preview, click to commit</h2>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/star-rating/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Star Rating — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/star-rating/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Star Rating — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> five stars, each carrying a <code>data-v</code> value from 1 to 5, and one comparison doing all the visual work: on hover, <code>classList.toggle('active', starValue &lt;= hoveredValue)</code> lights every star up to the cursor. Click stores the value in a <code>selected</code> variable; <code>mouseleave</code> on the container restores the display to the committed rating (or grey if none). A label swaps between "Poor / Fair / Good / Great / Excellent!" as you move, so the rating has words, not just symbols.</p>
 
@@ -92,7 +92,7 @@
 
 <h2>7. Tag / Chip Input — the multi-value field done properly</h2>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/tag-input/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Tag / Chip Input — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/tag-input/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Tag / Chip Input — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the "field" is actually a flex-wrap container holding chip elements plus a borderless text input that flexes to fill the remaining space — clicking anywhere in the container focuses the input, and <code>:focus-within</code> draws the focus ring on the container so the whole thing behaves like one field. Enter or comma commits the current text as a chip (after trimming and rejecting duplicates), each chip carries its own × button, and new chips pop in with a quick scale animation. A row of suggestion buttons demonstrates programmatic adds.</p>
 
@@ -102,7 +102,7 @@
 
 <h2>8. Multi-step Form — one form, three screens, zero page loads</h2>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/multi-step-form/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Multi-step Form — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/multi-step-form/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Multi-step Form — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> all three steps live in the DOM at once; a single <code>cur</code> variable decides which panel has the <code>.active</code> class (shown, with a slide-in animation) while the rest stay <code>display: none</code>. The progress header — numbered dots joined by connector lines — is driven by the same variable: dots behind you get a filled "done" state, the current dot gets the outlined active state, and the connector lines fill as you pass them. The Back button hides itself on step one and the Next button becomes the finish action on the last step.</p>
 
@@ -126,4 +126,4 @@
 
 <p>Here's a challenge for your next project: before you <code>npm install</code> a form library, try building the controls from these eight patterns instead. You'll ship less JavaScript, you'll actually understand your own form when it breaks, and — the part nobody expects — the native-input-plus-CSS version is usually <em>more</em> accessible than the library, not less, because the browser is doing the hard parts.</p>
 
-<p>Every snippet here is part of the free <a href="https://webdevpuneet.com/ui-snippets/forms/">form snippets collection</a> at FWD Tools, alongside range sliders, credit card inputs, file dropzones and colour pickers that didn't make this list — all editable in the browser and exportable to React, Vue, Angular or Tailwind. Earlier roundups in this series cover <a href="https://webdevpuneet.com/ui-snippets/buttons/">buttons</a>, <a href="https://webdevpuneet.com/ui-snippets/cards/">hover cards</a>, <a href="https://webdevpuneet.com/ui-snippets/animations/">text effects</a> and <a href="https://webdevpuneet.com/ui-snippets/loaders/">loading states</a>.</p>
+<p>Every snippet here is part of the free <a href="https://webdevpuneet.com/ui-snippets/forms/">form snippets collection</a> at webdevpuneet, alongside range sliders, credit card inputs, file dropzones and colour pickers that didn't make this list — all editable in the browser and exportable to React, Vue, Angular or Tailwind. Earlier roundups in this series cover <a href="https://webdevpuneet.com/ui-snippets/buttons/">buttons</a>, <a href="https://webdevpuneet.com/ui-snippets/cards/">hover cards</a>, <a href="https://webdevpuneet.com/ui-snippets/animations/">text effects</a> and <a href="https://webdevpuneet.com/ui-snippets/loaders/">loading states</a>.</p>

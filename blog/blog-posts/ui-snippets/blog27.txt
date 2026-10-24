@@ -30,7 +30,7 @@
 
 <p>The full link-directory footer: a brand column with social icons and a newsletter form, four navigational link groups, a "Hiring" badge tucked into one link, and a bottom bar with a language selector.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/mega-footer/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mega Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/mega-footer/embed/" style="width:100%;height:640px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Mega Footer — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> two nested CSS grids do the layout. The outer grid is <code>340px 1fr</code> — a fixed brand column beside a fluid link area — and the inner link area is <code>repeat(4, 1fr)</code> for the four equal-width groups. Both collapse independently at the same 900px breakpoint: the outer grid stacks to one column, the inner grid drops to two, and a second breakpoint at 520px keeps it at two columns rather than forcing single-file. The newsletter's <code>subscribe()</code> validates the email against a basic regex, shows a red inline error for anything invalid, and on success shows a green confirmation while disabling the input and button so the same address can't be submitted twice — the whole interaction is one function with no framework.</p>
 
@@ -42,7 +42,7 @@
 
 <p>The deliberate opposite of the mega footer: one flex row, three groups — brand, four links, two social icons and a copyright — and nothing else.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/minimal-footer/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Minimal Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/minimal-footer/embed/" style="width:100%;height:420px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Minimal Footer — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the entire layout is one line — <code>display: flex; justify-content: space-between</code> — holding exactly three children, with the nav links floating naturally in the middle between the brand and the icon cluster. No grid template, no manual margins, no breakpoint math for three groups that just need to spread apart. The link list is a real <code>&lt;nav aria-label="Footer"&gt;</code> rather than a bag of anchors in a <code>div</code>, which matters more here than in a page's primary navigation: it's the landmark that lets a screen reader jump straight to "the other nav" instead of reading through the entire page first. The one responsive rule that exists — stack to a column below 640px, keep the icon cluster spread with its own <code>justify-content: space-between</code> — is the entire mobile treatment.</p>
 
@@ -54,7 +54,7 @@
 
 <p>A frosted-glass panel floating over a colourful, multi-blob gradient backdrop — the full glassmorphism recipe, with a graceful fallback for browsers that don't support it.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/glass-footer/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Glass Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/glass-footer/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Glass Footer — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> glassmorphism is three CSS declarations living together on one element — a translucent <code>background</code>, <code>backdrop-filter: blur(18px)</code>, and a faint light-catching <code>border</code> — and removing any one collapses the illusion in a different way: background alone looks like a plain transparent box, blur without the border looks like it's floating with no defined edge. The part that's easy to skip when copy-pasting just the panel CSS is the backdrop itself: three overlapping <code>radial-gradient</code> blobs in different colours behind everything, because <code>backdrop-filter</code> has nothing worth blurring behind a flat single-colour page. An <code>@supports not (backdrop-filter: blur(1px))</code> query swaps the panel to a solid, opaque background for the small minority of browsers that can't render the filter, so unsupported browsers get a legible fallback instead of a barely-visible low-contrast box.</p>
 
@@ -66,7 +66,7 @@
 
 <p>Three large, blurred colour blobs drift independently behind a centred closing CTA, borrowing the ambient-glow trick from modern SaaS hero sections and putting it at the bottom of the page instead.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/aurora-gradient-footer/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Aurora Gradient Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/aurora-gradient-footer/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Aurora Gradient Footer — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> three <code>radial-gradient</code> circles each run their own <code>@keyframes</code> animation on a different duration — 16s, 20s, 18s — and a different translate/scale path. Giving each blob independent, slightly-out-of-sync timing is the entire trick: three blobs pulsing in perfect sync would read as one mechanical thing, while three drifting at different speeds reads as organic weather. Rather than blurring each blob individually, a single <code>filter: blur(60px)</code> sits on the parent wrapper and applies to all three at once — cheaper to composite and the only knob you need to tune the whole effect's softness. Everything the user actually reads sits in its own <code>z-index: 1</code> stacking layer above the aurora, so the ambient motion never has to fight the text for legibility; it's structurally behind the content, not blended with it.</p>
 
@@ -78,7 +78,7 @@
 
 <p>A slim, IDE-style status bar with a live connection indicator, a real ⌘K command palette, a light/dark toggle, and a "synced Xs ago" timestamp that keeps recalculating.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/command-bar-footer/embed/" style="width:100%;height:500px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Command Bar Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/command-bar-footer/embed/" style="width:100%;height:500px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Command Bar Footer — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> this is a status bar for a logged-in app shell, not a marketing footer — modelled on the bar you'd find in an IDE or a project dashboard. The ⌘K badge is a genuine shortcut: a document-level <code>keydown</code> listener checks <code>(isMac ? e.metaKey : e.ctrlKey) && e.key.toLowerCase() === 'k'</code>, calls <code>preventDefault()</code> to stop the browser's own shortcut from intercepting it, and opens the same palette a click does. <code>navigator.platform</code> (with a user-agent fallback) decides both the badge's label and which modifier the listener actually checks, so the shortcut works correctly rather than silently doing nothing on Windows and Linux. The theme toggle flips one <code>data-theme</code> attribute on the app's root wrapper, and every themed rule in the stylesheet is scoped under that attribute — one change re-themes the whole shell, not just the bar. A <code>setInterval</code> recomputes the "synced" label every second against the moment the page loaded, because a timestamp rendered once and left alone goes stale the instant more time passes.</p>
 
@@ -90,7 +90,7 @@
 
 <p>A pulsing "All systems operational" strip sits above a conventional footer, with a demo toggle that flips the whole thing to a red incident state.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/status-bar-footer/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Status Bar Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/status-bar-footer/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Status Bar Footer — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> developer-tool and infrastructure sites almost universally put a status indicator somewhere a prospective customer can see it before they trust the service with production traffic, and this builds that strip as the footer's top band. A static green dot reads as decoration; a <code>@keyframes</code> animation gently cycling its opacity between 1 and 0.45 reads as "this is a live signal," the same visual grammar as a recording indicator. Clicking "Simulate incident" toggles a single <code>.stf-down</code> class on the strip's container, and CSS handles everything from there — background tint, border colour, dot colour and text colour all key off that one class via descendant selectors, while the JavaScript only swaps two strings. One boolean, five coordinated visual changes, zero manually-set inline styles.</p>
 
@@ -102,7 +102,7 @@
 
 <p>A fixed back-to-top button whose ring fills to the exact percentage of the page you've scrolled — not a fixed-duration animation, a live read of scroll position.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/scroll-progress-footer/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll Progress Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/scroll-progress-footer/embed/" style="width:100%;height:560px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll Progress Footer — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the button is two concentric SVG circles sharing a centre and radius — a faint static track and an animated arc using <code>stroke-dasharray</code> set to the circle's exact circumference (<code>2πr</code>, computed once as <code>CIRC</code>) with <code>stroke-dashoffset</code> driven toward zero as the arc draws in, the whole SVG rotated <code>-90deg</code> so it fills from 12 o'clock. On every <code>scroll</code> event — registered <code>{ passive: true }</code> so the browser never waits to see if the handler blocks it — the fraction scrolled becomes <code>strokeDashoffset = CIRC * (1 - pct)</code>: full circumference (empty ring) at the top, zero (complete ring) at the bottom. There's deliberately no <code>requestAnimationFrame</code> loop here; a short <code>0.1s linear</code> CSS transition smooths the per-event jitter, because the ring only needs to update when a scroll event actually fires.</p>
 
@@ -114,7 +114,7 @@
 
 <p>A floating call-to-action bar slides up from the bottom once you scroll past the hero, and tucks away again the moment you return to the top.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/sticky-cta-footer/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sticky CTA Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/sticky-cta-footer/embed/" style="width:100%;height:600px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sticky CTA Footer — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the bar starts translated below the viewport at <code>opacity: 0</code>, and a scroll handler toggles an <code>is-shown</code> class once <code>window.scrollY</code> passes a threshold — about 320px, roughly past the hero — removing it again above that point so the bar never covers content at the very top. The handler itself never does layout work directly: it sets a <code>ticking</code> flag and schedules the actual class toggle inside a <code>requestAnimationFrame</code> callback, guaranteeing at most one update per frame no matter how many native scroll events fire in between. The show and hide are a single CSS transition on <code>transform</code> and <code>opacity</code> with an ease-out <code>cubic-bezier</code>, which keeps the motion on the compositor and jank-free. A "Maybe later" button sets a <code>dismissed</code> flag that the update function checks and early-returns on, so the bar stays gone for the rest of the session once closed.</p>
 
@@ -126,7 +126,7 @@
 
 <p>A huge, continuously scrolling band of words sits above a conventional link row — pure CSS animation, no JavaScript, and it pauses the instant your cursor lands on it.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/marquee-footer/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Marquee Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/marquee-footer/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Marquee Footer — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the trick is deceptively simple. The track contains the same sequence of words twice in a row, laid out with <code>display: flex; width: max-content</code> so the track is exactly twice as wide as one copy of the content — <code>max-content</code> isn't optional here, since without it the flex track would shrink to its parent's width and break the "-50% equals exactly one copy" math the whole animation depends on. A <code>@keyframes</code> animation moves the track from <code>translateX(0)</code> to <code>translateX(-50%)</code> — precisely one copy's width — over 22 seconds, linear, and because the second copy is identical to the first, the reset from -50% back to 0% is invisible: no seam, no jump, an apparently infinite loop built from a track that's secretly only two repeats long. A <code>mask: linear-gradient(...)</code> fades both edges to transparent so words appear to dissolve into the page rather than getting clipped mid-character, and <code>animation-play-state: paused</code> on hover freezes the scroll so the real, clickable link row underneath never has to compete with motion for attention.</p>
 
@@ -138,7 +138,7 @@
 
 <p>A footer built entirely around getting a visitor into your mobile app: real App Store and Google Play badges, a scannable-looking QR code built from pure CSS, and a slim legal row underneath.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/app-download-footer/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="App Download Footer — Free HTML CSS JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/app-download-footer/embed/" style="width:100%;height:520px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="App Download Footer — Free HTML CSS JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> both store badges are inline SVG glyphs plus text inside real <code>&lt;a&gt;</code> tags, not screenshots of Apple's or Google's official artwork — which means the text stays selectable and screen-reader friendly, the badge recolours and resizes with plain CSS, and there's no image request blocking the footer's first paint. The "QR code" is a fixed 8×8 <code>display: grid</code> with fifteen cells positioned by explicit <code>grid-area</code> coordinates to resemble a scan pattern — it's not a real, decodable code, and the docs say so directly: it demonstrates the zero-dependency way to get QR-code <em>styling</em> into a footer instantly, with the expectation you'll swap in a genuinely generated image once you have a real store link to encode. The footer splits cleanly into a persuasive top section and a slim, reusable bottom bar, so the pitch never has to share visual weight with boilerplate legal links.</p>
 
@@ -161,4 +161,4 @@
 
 <p>A footer that just closes the page is fine right up until the page needs the footer to do something — reassure, convert, orient, or simply step aside. These ten are built around ten different answers to "what is this footer actually for," and every one of them is small enough to read end to end in a few minutes: a single grid, one boolean class, one duplicated track. None of them need a library to earn their place at the bottom of the page.</p>
 
-<p>Try them, retune the timings, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/">FWD Tools UI Snippets</a> — it's free and runs entirely in your browser.</p>
+<p>Try them, retune the timings, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/">webdevpuneet UI Snippets</a> — it's free and runs entirely in your browser.</p>

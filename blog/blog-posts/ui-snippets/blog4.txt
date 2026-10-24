@@ -20,9 +20,9 @@
 
 <p>Paste minified, mangled, or outright broken JSON and get it beautified, validated, and readable in one keystroke. Beyond the basics, it can <strong>sort keys alphabetically</strong> (invaluable when diffing two API responses), minify for payload size checks, and point at the exact position where invalid JSON fails to parse instead of a vague "unexpected token" shrug.</p>
 
-<p><strong>Fits into:</strong> debugging API responses, cleaning up config files, and preparing fixtures for tests. Because it's client-side, it's safe for responses containing real user data — nothing is logged, nothing is uploaded. Pair it with the <a href="https://fwdtools.com/json-to-typescript/">JSON to TypeScript converter</a> below and a raw response becomes typed code in two pastes.</p>
+<p><strong>Fits into:</strong> debugging API responses, cleaning up config files, and preparing fixtures for tests. Because it's client-side, it's safe for responses containing real user data — nothing is logged, nothing is uploaded. Pair it with the <a href="https://webdevpuneet.com/json-to-typescript/">JSON to TypeScript converter</a> below and a raw response becomes typed code in two pastes.</p>
 
-<p>Try it: <a href="https://fwdtools.com/json-formatter/">JSON Formatter</a></p>
+<p>Try it: <a href="https://webdevpuneet.com/json-formatter/">JSON Formatter</a></p>
 
 <h2>2. Regex Tester — see your pattern think</h2>
 
@@ -38,7 +38,7 @@
 
 <p><strong>Fits into:</strong> all the diffing that happens <em>outside</em> version control — comparing two API responses, checking what a formatter changed, verifying an edited config against the original, or spotting the one-line difference between staging and production env files. It's the tool <code>git diff</code> can't be, because half of what you compare was never committed anywhere.</p>
 
-<p>Try it: <a href="https://fwdtools.com/diff-checker/">Diff Checker</a></p>
+<p>Try it: <a href="https://webdevpuneet.com/diff-checker/">Diff Checker</a></p>
 
 <h2>4. JWT Decoder — read tokens without leaking them</h2>
 
@@ -52,9 +52,9 @@
 
 <p>A visual playground for every flex property — direction, wrap, justify, align, gap, and the per-item grow/shrink/basis trio — with a <strong>live preview</strong> that updates as you click. When the layout looks right, export it as <strong>production-ready CSS, SCSS, Tailwind classes, or a React component</strong> in one click.</p>
 
-<p><strong>Fits into:</strong> the daily "was it <code>align-items</code> or <code>justify-content</code>?" cycle. Instead of edit-save-refresh guessing in DevTools, you manipulate the real thing and copy the answer. It's also the fastest way to <em>teach</em> flexbox — juniors can see cause and effect instantly. Building a grid instead? There's a matching <a href="https://fwdtools.com/css-grid-builder/">CSS Grid Builder</a>.</p>
+<p><strong>Fits into:</strong> the daily "was it <code>align-items</code> or <code>justify-content</code>?" cycle. Instead of edit-save-refresh guessing in DevTools, you manipulate the real thing and copy the answer. It's also the fastest way to <em>teach</em> flexbox — juniors can see cause and effect instantly. Building a grid instead? There's a matching <a href="https://webdevpuneet.com/css-grid-builder/">CSS Grid Builder</a>.</p>
 
-<p>Try it: <a href="https://fwdtools.com/flexbox-builder/">Flexbox Builder</a></p>
+<p>Try it: <a href="https://webdevpuneet.com/flexbox-builder/">Flexbox Builder</a></p>
 
 <h2>6. Code Screenshot Generator — make your snippets presentable</h2>
 
@@ -62,7 +62,7 @@
 
 <p><strong>Fits into:</strong> sharing knowledge anywhere plain text loses formatting — social posts, blog thumbnails, documentation callouts, slide decks, and README hero images. A screenshot of your editor works, but it drags along your file tree, your tabs, and whatever was in your terminal; a generated card shows exactly the lines you chose and nothing else.</p>
 
-<p>Try it: <a href="https://fwdtools.com/code-screenshot-generator/">Code Screenshot Generator</a></p>
+<p>Try it: <a href="https://webdevpuneet.com/code-screenshot-generator/">Code Screenshot Generator</a></p>
 
 <h2>7. Image Compressor — TinyPNG without the upload</h2>
 
@@ -70,7 +70,7 @@
 
 <p><strong>Fits into:</strong> the asset pass before every deploy. Oversized images are still the number-one cause of slow Largest Contentful Paint scores, and converting hero images to AVIF or WebP is the cheapest performance win available. Because there are no uploads, there are also no file-size limits, no queues, and no client screenshots sitting on a stranger's server.</p>
 
-<p>Try it: <a href="https://fwdtools.com/image-compressor/">Image Compressor</a></p>
+<p>Try it: <a href="https://webdevpuneet.com/image-compressor/">Image Compressor</a></p>
 
 <h2>8. Cron Expression Builder — never misread <code>0 0 * * 1</code> again</h2>
 
@@ -82,7 +82,7 @@
 
 <h2>Bonus: JSON to TypeScript — types from real data</h2>
 
-<p>One more that earns its bookmark: paste any JSON and get <strong>TypeScript interfaces or type aliases</strong> generated instantly — nested objects, arrays, null values, optional fields, custom root names and the <code>export</code> keyword all handled. Writing types by hand from a big API response is transcription work; this does it in one paste. Try it: <a href="https://fwdtools.com/json-to-typescript/">JSON to TypeScript</a>.</p>
+<p>One more that earns its bookmark: paste any JSON and get <strong>TypeScript interfaces or type aliases</strong> generated instantly — nested objects, arrays, null values, optional fields, custom root names and the <code>export</code> keyword all handled. Writing types by hand from a big API response is transcription work; this does it in one paste. Try it: <a href="https://webdevpuneet.com/json-to-typescript/">JSON to TypeScript</a>.</p>
 
 <h2>Why "runs in your browser" is the feature that matters</h2>
 
@@ -96,6 +96,6 @@
 
 <h2>Final Thought</h2>
 
-<p>These eight are the daily drivers, but they're a fraction of the collection — there are also full <a href="https://fwdtools.com/react-playground/">code playgrounds</a> for React, Python, SQL and a dozen other stacks, a suite of <a href="https://fwdtools.com/pdf-tools/">PDF tools</a> for merging, splitting and compressing, and generators for everything from <a href="https://fwdtools.com/box-shadow-generator/">box shadows</a> to <a href="https://fwdtools.com/meta-tag-generator/">meta tags</a>. Everything is free, browser-based, and sign-up-free.</p>
+<p>These eight are the daily drivers, but they're a fraction of the collection — there are also full <a href="https://webdevpuneet.com/react-playground/">code playgrounds</a> for React, Python, SQL and a dozen other stacks, a suite of <a href="https://fwdtools.com/pdf-tools/">PDF tools</a> for merging, splitting and compressing, and generators for everything from <a href="https://webdevpuneet.com/box-shadow-generator/">box shadows</a> to <a href="https://webdevpuneet.com/meta-tag-generator/">meta tags</a>. Everything is free, browser-based, and sign-up-free.</p>
 
-<p>Browse the full collection at <a href="https://fwdtools.com/">FWD Tools</a> — and if you're building UI as well as debugging it, the companion roundups cover <a href="https://webdevpuneet.com/ui-snippets/buttons/">copy-paste button snippets</a>, <a href="https://webdevpuneet.com/ui-snippets/cards/">hover card snippets</a> and <a href="https://webdevpuneet.com/ui-snippets/animations/">text effect snippets</a>.</p>
+<p>Browse the full collection at <a href="https://webdevpuneet.com/">webdevpuneet</a> — and if you're building UI as well as debugging it, the companion roundups cover <a href="https://webdevpuneet.com/ui-snippets/buttons/">copy-paste button snippets</a>, <a href="https://webdevpuneet.com/ui-snippets/cards/">hover card snippets</a> and <a href="https://webdevpuneet.com/ui-snippets/animations/">text effect snippets</a>.</p>

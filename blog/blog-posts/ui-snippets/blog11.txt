@@ -34,7 +34,7 @@
 
 <p>The technique behind Apple's AirPods and MacBook pages: an animation rendered as individual frames and drawn to a canvas, with the scrollbar acting as the playhead so the sequence plays frame by frame as you scroll.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/scroll-image-sequence/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll Image Sequence — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/scroll-image-sequence/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll Image Sequence — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> a set of frames is preloaded, and GSAP's ScrollTrigger scrubs a single frame-index value from the first frame to the last as you scroll through a pinned section. Whichever frame that value lands on is painted to a <code>&lt;canvas&gt;</code> with <code>drawImage</code>, so only one image is ever on screen and the "video" is really just the right still for your scroll position. Because it's scrubbed, scrolling back up plays the sequence in reverse with no extra code.</p>
 
@@ -46,7 +46,7 @@
 
 <p>The classic typing animation turned into a scrubbed one: characters appear one by one as you scroll down, and un-type — caret and all — when you scroll back up.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/scroll-typewriter/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll Typewriter — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/scroll-typewriter/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll Typewriter — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> GSAP ScrollTrigger scrubs a character count from zero to the length of the string as you move through a pinned section, and each frame the snippet shows just that many characters with a blinking caret at the end. Nothing is on a timer, so the reversibility is free — scroll up and the value shrinks, deleting characters one at a time. It's the same scrubbing idea as the image sequence, applied to text instead of frames.</p>
 
@@ -58,7 +58,7 @@
 
 <p>A winding line or route that appears to draw itself stroke by stroke as you scroll — the technique behind animated roadmaps, timelines, and "how it works" sections.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/scroll-svg-path-draw/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll SVG Path Draw — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/scroll-svg-path-draw/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scroll SVG Path Draw — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the SVG path is given a <code>stroke-dasharray</code> equal to its own total length, so the entire stroke is one long dash followed by an equal gap. GSAP ScrollTrigger then scrubs the <code>stroke-dashoffset</code> from the full length down to zero as you scroll, sliding the dash into view so the line appears to draw. Reverse the scroll and the offset grows again, un-drawing the path.</p>
 
@@ -70,7 +70,7 @@
 
 <p>Full-width cards pin to the top of the viewport one after another, and as you keep scrolling the next card slides up to cover the previous one — which shrinks back like a card going into a deck.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/stacking-scroll-cards/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Stacking Scroll Cards — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/stacking-scroll-cards/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Stacking Scroll Cards — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> each card uses <code>position: sticky</code> with a top offset, so it sticks to the top of the viewport while its section scrolls past, and the next sticky card rides up over it. A small scale-down on the outgoing card makes it recede like it's slipping into a stack rather than being flatly hidden. The whole effect is CSS-first — no library needed for the core stacking.</p>
 
@@ -82,7 +82,7 @@
 
 <p>The data-journalism pattern popularized by the New York Times and The Pudding: narrative steps scroll up one column while a sticky chart beside them morphs to illustrate each step, so the reader controls the pace and the chart always matches the paragraph in view.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/scroll-story-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scrollytelling Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/scroll-story-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Scrollytelling Chart — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the chart sits in a <code>position: sticky</code> column so it stays fixed on screen while the text steps scroll past it. Each step is tracked as it scrolls into view, and as one becomes active the chart transitions to that step's data — bars regrow, a line redraws, a series highlights. Because the active step is derived from scroll position, scrolling back up returns the chart to the previous state exactly.</p>
 
@@ -94,7 +94,7 @@
 
 <p>A Lottie animation played with the scrollbar instead of a clock: as you scroll a pinned section, a progress ring draws itself around a circle and a checkmark strokes in at the end, rewinding when you scroll back up.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/lottie-scroll-scrub/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Lottie Scroll Scrub — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/lottie-scroll-scrub/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Lottie Scroll Scrub — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the animation loads with <code>autoplay: false</code> so its internal timer never runs, and GSAP ScrollTrigger scrubs a 0-to-1 value that is mapped onto the animation's frame range. Every frame the snippet calls <code>goToAndStop(frame, true)</code> to seek that exact frame, so scroll position — not time — decides what's on screen. The drawing effect itself is a Lottie trim path animating from 0 to 100 percent.</p>
 
@@ -106,7 +106,7 @@
 
 <p>A multi-color donut that fills one segment at a time as you scroll — each colored slice sweeping in from where the last one ended — and empties again on the way back up.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/lottie-scroll-donut-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Lottie Scroll Donut Chart — Free HTML/CSS/JS Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/lottie-scroll-donut-chart/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Lottie Scroll Donut Chart — Free HTML/CSS/JS Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the donut is one thick stroked ring copied into several segments, each trimmed to its own slice with a Lottie trim path. Every segment draws during its own window of the timeline — sized in proportion to its value and laid end to end — so the slices fill in sequence rather than all at once. As with every scrubbed effect here, ScrollTrigger drives the frame and scrolling up un-draws the segments in reverse.</p>
 
@@ -118,7 +118,7 @@
 
 <p>Plain vertical page scroll turned into a horizontal pan across a strip of 3D panels — the scrollbar slides the whole gallery sideways while each panel rotates coverflow-style toward the camera as it reaches center.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/three-scroll-horizontal-gallery/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll Horizontal Gallery — Free WebGL Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/three-scroll-horizontal-gallery/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll Horizontal Gallery — Free WebGL Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> the panels live in a WebGL scene, and GSAP ScrollTrigger scrubs a value that slides the whole group sideways as you scroll a pinned section vertically. Each panel's rotation is derived from its distance to the center, so it turns to face the camera as it arrives and angles away as it leaves, giving the coverflow tilt. Vertical scroll in, horizontal motion out — with full reversibility.</p>
 
@@ -130,7 +130,7 @@
 
 <p>The visitor is dropped inside a glowing wireframe tube and flown down its length as they scroll — the scrollbar drives the camera directly along a curved 3D path, past neon rings, for a genuine sense of forward speed.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/three-scroll-tunnel/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll Tunnel Travel — Free WebGL Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/three-scroll-tunnel/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll Tunnel Travel — Free WebGL Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> a single curve is used twice — once to extrude the tube geometry you fly through, and again as the exact path the camera travels — so the camera is always perfectly centered inside the tunnel. ScrollTrigger scrubs one 0-to-1 value that walks the camera along that curve, and the camera looks at a point sampled slightly ahead so it banks naturally into every bend. Neon rings threaded along the path streak past to sell the speed.</p>
 
@@ -142,7 +142,7 @@
 
 <p>Dozens of glowing crystal fragments start flung apart in space and, as you scroll through a pinned stage, fly inward until every piece locks into its exact position and orientation to form a solid shape.</p>
 
-<iframe src="https://webdevpuneet.com/ui-snippets/three-scroll-shatter-assemble/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll Shatter & Assemble — Free WebGL Snippet by FWD Tools"></iframe>
+<iframe src="https://webdevpuneet.com/ui-snippets/three-scroll-shatter-assemble/embed/" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Three.js Scroll Shatter & Assemble — Free WebGL Snippet by webdevpuneet.com"></iframe>
 
 <p><strong>How it works:</strong> every fragment stores both a scattered start transform and a target position and rotation on the assembled surface. ScrollTrigger scrubs a single 0-to-1 value, and each frame every fragment's position is interpolated between its start and target while its rotation is smoothly slerped, so scrolling assembles the object and scrolling back explodes it apart again. A three-light rig gives the crystal shards their glassy, faceted shading.</p>
 
@@ -175,4 +175,4 @@
 
 <p>These ten span every layer of the stack — a pure-CSS sticky stack, a GSAP-scrubbed typewriter, a canvas image sequence, two scroll-driven Lottie animations, and three WebGL scenes — but they're all the same idea underneath: make the scrollbar the timeline, and derive everything on screen from one scrubbed value. Once that clicks, you stop thinking of scroll animations as separate tricks and start seeing them as one technique pointed at different content — text, an SVG path, a chart, a Lottie frame, or a 3D camera.</p>
 
-<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/scroll/">FWD Tools UI Snippets — Scroll Effects</a> — it's free and runs entirely in your browser.</p>
+<p>Preview any of them live, tweak the code, and export to your framework of choice in one click. Browse the full collection at <a href="https://webdevpuneet.com/ui-snippets/scroll/">webdevpuneet UI Snippets — Scroll Effects</a> — it's free and runs entirely in your browser.</p>
