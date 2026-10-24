@@ -137,10 +137,15 @@ function PageFrame({ html, width, height, scale, selected, onSelect, onKey, onDo
       const a = ev.target.closest?.('a');
       if (a) {
         ev.preventDefault();
-        // In-page links (#pricing) scroll the preview to that section (not buttons, whose
-        // clicks edit their text or point to their link field)
+        // In-page links (#pricing) scroll the preview to that section. Menu links also keep
+        // selecting their section (their link field opens in the panel); buttons only edit
+        // their text or point to their link field, so they do not scroll.
         const href = a.getAttribute('href') || '';
-        if (href.length > 1 && href.startsWith('#') && !ev.target.closest('[data-st-editing],[data-href],[data-i-href]')) { doc.getElementById(href.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+        const isButton = a.closest('.st-btn,button');
+        if (href.length > 1 && href.startsWith('#') && !isButton) { // also while the label is being edited (click-to-edit starts first)
+          doc.getElementById(href.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (!a.closest('[data-href],[data-i-href]')) return;
+        }
         // Links to other pages of the site (the automatic menu, about.html …) open that page
         const pg = href.match(PAGE_LINK);
         const went = pg && !ev.target.closest('[data-st-editing]') ? cb.current.onNavigate?.(pg[1], pg[2] || '') : false;

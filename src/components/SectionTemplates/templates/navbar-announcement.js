@@ -69,11 +69,11 @@ export default {
 ${STICKY_FLAGS_HTML}`,
   css: `.st-navbar-announcement{overflow:visible;background:var(--st-bg);border-bottom:1px solid color-mix(in srgb,var(--st-text) 9%,transparent)}
 ${NAV_CSS}
-.na-bar{position:relative;overflow:hidden;background:var(--st-surface);color:#fff}
+.na-bar{position:relative;overflow:hidden;background:var(--st-brand);color:var(--st-btn-text)}
 .na-bar-in{padding-top:10px;padding-bottom:10px;padding-right:56px;text-align:center;font-size:14.5px;font-weight:500}
-.na-bar-link{color:#fff;font-weight:800;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
-.na-close{position:absolute;right:max(8px,calc(var(--st-pad) - 12px));top:50%;transform:translateY(-50%);display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:8px;background:none;color:#fff;font-size:22px;line-height:1;cursor:pointer;opacity:.8}
-.na-close:hover{opacity:1;background:rgba(255,255,255,.12)}
+.na-bar-link{color:var(--st-btn-text);font-weight:800;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.na-close{position:absolute;right:max(8px,calc(var(--st-pad) - 12px));top:50%;transform:translateY(-50%);display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:8px;background:none;color:var(--st-btn-text);font-size:22px;line-height:1;cursor:pointer;opacity:.8}
+.na-close:hover{opacity:1;background:color-mix(in srgb,var(--st-btn-text) 14%,transparent)}
 .na{position:relative;display:flex;align-items:center;gap:24px;min-height:70px}
 .na-left{flex:1;display:flex;align-items:center;gap:clamp(20px,3cqi,40px);min-width:0}
 .na-nav{display:flex;align-items:center}

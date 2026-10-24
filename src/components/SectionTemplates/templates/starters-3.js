@@ -265,6 +265,7 @@ export const EVEN_MORE_WEBSITE_TEMPLATES = [
         { photo: av(1), photoAlt: 'Rev. Daniel Hughes', name: 'Rev. Daniel Hughes', role: 'Lead pastor', bio: 'Pastor at Grace Chapel for twelve years, and a terrible but enthusiastic gardener.', linkedin: '', x: '' },
         { photo: av(4), photoAlt: 'Ruth Adeyemi', name: 'Ruth Adeyemi', role: 'Families & children', bio: 'Leads kids’ church and our parenting courses.', linkedin: '', x: '' },
         { photo: av(6), photoAlt: 'Ben Carter', name: 'Ben Carter', role: 'Youth leader', bio: 'Runs Friday youth nights and the summer camp.', linkedin: '', x: '' },
+        { photo: av(3), photoAlt: 'Grace Okafor', name: 'Grace Okafor', role: 'Worship leader', bio: 'Leads the Sunday band and the midweek choir.', linkedin: '', x: '' },
       ] } }],
       ['blog-cards', { fields: { eyebrow: 'Coming up', heading: 'Events & *gatherings*', allLink: 'All events', allUrl: '#blog' }, lists: { posts: [
         { image: IMG('wed-dinner.jpg'), imageAlt: 'A long dinner table with candles', category: 'Community', date: 'Nov 8, 2026', readTime: '6 pm', title: 'Harvest community dinner', excerpt: 'A free three-course meal for anyone in Riverside. Bring a friend.', author: 'Welcome team', avatar: av(7), avatarAlt: 'Welcome team', url: '#' },

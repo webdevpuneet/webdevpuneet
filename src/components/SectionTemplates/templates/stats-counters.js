@@ -57,7 +57,7 @@ export default {
 .sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-text) 7%,transparent);overflow:hidden}
 .sc-stat{display:flex;flex-direction:column;align-items:center;gap:6px;padding:clamp(28px,3.4cqi,44px) 20px;text-align:center}
 .sc-stat + .sc-stat{border-left:1px solid color-mix(in srgb,var(--st-text) 8%,transparent)}
-.sc-value{order:-1;margin:0;font:800 clamp(38px,3.4cqi + 16px,58px)/1 var(--st-font-heading);letter-spacing:-.035em;font-variant-numeric:tabular-nums;background:linear-gradient(135deg,var(--st-text),var(--st-brand));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sc-value{order:-1;margin:0;font:800 clamp(38px,3.4cqi + 16px,58px)/1 var(--st-font-heading);letter-spacing:-.035em;font-variant-numeric:tabular-nums;background:linear-gradient(135deg,var(--st-text),var(--st-brand));-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.16em;margin-bottom:-.16em}
 .sc-label{font-weight:700;font-size:16.5px}
 .sc-note{margin:0;color:var(--st-muted);font-size:14.5px}
 .sc-note:empty{display:none}

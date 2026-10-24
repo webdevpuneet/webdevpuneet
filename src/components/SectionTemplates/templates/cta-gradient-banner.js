@@ -44,6 +44,7 @@ export default {
 .cb{--mx:50%;--my:30%;position:relative;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;align-items:center;gap:20px;padding:clamp(48px,7cqi,96px) clamp(24px,5cqi,72px);text-align:center;border-radius:calc(var(--st-radius) * 1px);color:#fff;background:linear-gradient(135deg,var(--st-brand),color-mix(in srgb,var(--st-brand) 55%,#0f172a));box-shadow:0 40px 80px -40px color-mix(in srgb,var(--st-brand) 70%,transparent)}
 .cb::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(520px circle at var(--mx) var(--my),rgba(255,255,255,.28),transparent 60%)}
 .cb::after{content:"";position:absolute;inset:0;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:44px 44px;-webkit-mask:radial-gradient(ellipse at center,#000 30%,transparent 75%);mask:radial-gradient(ellipse at center,#000 30%,transparent 75%)}
+.cb .hl{color:color-mix(in srgb,#fff 72%,var(--st-brand))}
 .cb .cb-title{color:#fff;max-width:18em;font-size:clamp(32px,3.2cqi + 14px,54px)}
 .cb-lead{max-width:36em;font-size:clamp(17px,1cqi + 13px,20px);color:rgba(255,255,255,.85)}
 .cb-btns{justify-content:center;margin-top:8px}

@@ -459,3 +459,16 @@
 .galleryFull .galleryHead, .galleryFull .catLinks, .galleryFull .gallery { max-width: none; }
 /* At most 5 cards per row (social posts: portrait cards) */
 .grid5 { grid-template-columns: repeat(auto-fill, minmax(max(200px, calc((100% - 4 * 18px) / 5)), 1fr)); }
+
+/* iPad and smaller: the editor toolbar stays on one row. The left group (name, page, device,
+   play) scrolls sideways when it does not fit; Reset / Save / Fork / Export stay put, so their
+   dropdown menus are never clipped by a scroll container. */
+@media (max-width: 1100px) {
+  .toolbar { flex-wrap: nowrap; }
+  .toolbar > :first-child {
+    flex: 1 1 0; min-width: 0; flex-wrap: nowrap !important; overflow-x: auto; overflow-y: hidden;
+    scrollbar-width: thin; -webkit-overflow-scrolling: touch;
+  }
+  .toolbar > :first-child > * { flex: none; }
+  .toolbarRight { flex: none; }
+}
