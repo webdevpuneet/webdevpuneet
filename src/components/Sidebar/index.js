@@ -1632,7 +1632,9 @@ export default function Sidebar() {
 
   const [favOpen, setFavOpen] = useState(true);
 
-  const activeTool = TOOL_MAP[activeSlug] || null;
+  // No "Add to favourites" button on the sections that are plain links in this sidebar
+  const NO_FAV_SLUGS = ['website-builder', 'website-section-templates', 'email-templates', 'social-post-templates', 'ui-snippets'];
+  const activeTool = NO_FAV_SLUGS.includes(activeSlug) ? null : (TOOL_MAP[activeSlug] || null);
   const isFav = favourites.includes(activeSlug);
 
   const toggleFav = () => {
