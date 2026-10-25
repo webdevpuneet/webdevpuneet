@@ -369,7 +369,7 @@ function SectionList({ sections, selected, shared, onOpen, onMove, onReorder, on
             <button type="button" className={b.rowMain} onClick={() => onOpen(x.uid)} title="Edit this section">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img className={b.thumb} src={previewOf(x.tpl)} alt="" loading="lazy" draggable="false" />
-              <span className={b.rowText}><b>{t?.name}</b><small>{shared?.has(x.uid) ? 'Shared on every page' : sectionCategoryById(t?.category)?.label}{x.anchor ? ` · #${x.anchor}` : ''}</small></span>
+              <span className={b.rowText}><b>{t?.name}</b><small>{shared?.has(x.uid) ? 'Shared on every page' : (sectionCategoryById(t?.category)?.label || (t?.custom ? 'Custom section' : ''))}{x.anchor ? ` · #${x.anchor}` : ''}</small></span>
             </button>
             <button type="button" className={b.rowBtn} onClick={() => onMove(x.uid, -1)} disabled={i === 0} title="Move up" aria-label={`Move ${t?.name} up`}>↑</button>
             <button type="button" className={b.rowBtn} onClick={() => onMove(x.uid, 1)} disabled={i === sections.length - 1} title="Move down" aria-label={`Move ${t?.name} down`}>↓</button>
@@ -1391,7 +1391,7 @@ ${pageCss(shown, { fontFaces })}`),
                 <section className={s.section}>
                   <div className={b.editHead}>
                     <button type="button" className={b.back} onClick={() => setEditing(null)}>← Sections</button>
-                    <span className={b.editTitle}><b>{editTpl.name}</b><small>{sharedIds.has(editSec.uid) ? (multi ? 'Shared: changes here appear on every page' : 'Header / footer, shared with every page you add') : sectionCategoryById(editTpl.category)?.label} · theme and animation are set for the whole website</small></span>
+                    <span className={b.editTitle}><b>{editTpl.name}</b><small>{sharedIds.has(editSec.uid) ? (multi ? 'Shared: changes here appear on every page' : 'Header / footer, shared with every page you add') : (sectionCategoryById(editTpl.category)?.label || (editTpl.custom ? 'Custom section' : ''))} · theme and animation are set for the whole website</small></span>
                   </div>
                   {autoNav && site.header.some(h => h.uid === editSec.uid) && (editTpl.lists || []).some(l => l.key === 'links') && (
                     <p className={s.hint} style={{ marginTop: 10 }}>The menu links come from your pages. Rename, reorder or hide pages in the <button type="button" className={b.linkBtn} onClick={() => { setEditing(null); setTab('site'); }}>Pages tab</button>, or switch off the automatic menu there to edit the links below.</p>

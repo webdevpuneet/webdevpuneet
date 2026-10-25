@@ -11,7 +11,7 @@ import { CATEGORY_SEO as SOCIAL_CATEGORY_SEO } from '../src/components/SocialPos
 import { EMAIL_TEMPLATES, EMAIL_CATEGORIES } from '../src/components/EmailTemplates/templates/index.js';
 import { EMAIL_CATEGORY_SEO } from '../src/components/EmailTemplates/templates/seo-categories.js';
 import { EMAIL_SEO } from '../src/components/EmailTemplates/templates/seo-content.js';
-import { SECTION_TEMPLATES, SECTION_CATEGORIES } from '../src/components/SectionTemplates/templates/index.js';
+import { SECTION_TEMPLATES, CUSTOM_TEMPLATES, SECTION_CATEGORIES } from '../src/components/SectionTemplates/templates/index.js';
 import { SECTION_SEO } from '../src/components/SectionTemplates/templates/seo-content.js';
 import { SECTION_CATEGORY_SEO } from '../src/components/SectionTemplates/templates/seo-categories.js';
 import { WEBSITE_TEMPLATES } from '../src/components/SectionTemplates/templates/starters.js';
@@ -322,7 +322,7 @@ async function main() {
       changefreq: 'monthly',
       priority:   0.7,
     })),
-    ...SECTION_TEMPLATES.filter(t => !t.draft).map(t => ({ // drafts (no SEO content yet) stay out
+    ...[...SECTION_TEMPLATES, ...CUSTOM_TEMPLATES].filter(t => !t.draft).map(t => ({ // drafts (no SEO content yet) stay out
       loc:        `${BASE_URL}/website-section-templates/${t.id}/`,
       lastmod:    t.updated,
       changefreq: 'monthly',
@@ -539,6 +539,10 @@ async function main() {
       llmsTxt += `- [${t.name}](${BASE_URL}/website-section-templates/${t.id}/) : ${t.description}${kw ? ` Good for: ${kw.join(', ')}.` : ''}\n`;
     }
     llmsTxt += '\n';
+  }
+  for (const t of CUSTOM_TEMPLATES.filter(x => !x.draft)) { // sections that belong to no category
+    const kw = SECTION_SEO[t.id]?.keywords;
+    llmsTxt += `### Custom section\n\n- [${t.name}](${BASE_URL}/website-section-templates/${t.id}/) : ${t.description}${kw ? ` Good for: ${kw.join(', ')}.` : ''}\n\n`;
   }
   llmsTxt += `\n---\n\n## Website Templates\n\n`;
   llmsTxt += `Free one-page website templates with real content for each industry, built from the section library and opened in the free Website Builder (${BASE_URL}/website-builder/), where everything is editable without code and the page exports as clean HTML or a ZIP.\n\nGallery: ${BASE_URL}/website-builder/templates/\n\n`;

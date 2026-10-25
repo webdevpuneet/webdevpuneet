@@ -130,11 +130,13 @@ export const SECTION_TEMPLATES = [
   productGrid,
   classTimetable,
   socialShare,
-  customSection,
 ];
+/* Sections that belong to no category: not listed in the gallery, the category pages, the sidebar or the counts.
+   They have their own page and are started from the "Create custom section" cards. */
+export const CUSTOM_TEMPLATES = [customSection];
 // Ids a section used before it was renamed (designs saved in a browser still point at them)
 const RENAMED = { 'article-text': 'privacy-policy' };
-export const sectionTemplateById = id => SECTION_TEMPLATES.find(t => t.id === (RENAMED[id] || id));
+export const sectionTemplateById = id => SECTION_TEMPLATES.find(t => t.id === (RENAMED[id] || id)) || CUSTOM_TEMPLATES.find(t => t.id === id);
 
 /* Repeatable lists (t.lists): each item is { _id, ...its fields }. _id keeps uploads tied
    to the right item when items are added, removed or reordered. */

@@ -4,7 +4,7 @@ import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import { SectionTemplateEditor, SectionShot } from '@/components/SectionTemplates';
-import { SECTION_TEMPLATES, sectionTemplateById, sectionCategoryById, relatedSectionTemplates } from '@/components/SectionTemplates/templates/index.js';
+import { SECTION_TEMPLATES, SECTION_CATEGORIES, CUSTOM_TEMPLATES, sectionTemplateById, sectionCategoryById, relatedSectionTemplates } from '@/components/SectionTemplates/templates/index.js';
 import { WEBSITE_TEMPLATES } from '@/components/SectionTemplates/templates/starters.js';
 import { SECTION_SEO, SECTION_DIFFERENT } from '@/components/SectionTemplates/templates/seo-content.js';
 import { sectionPreviewIds, hasSectionOg, sectionOgUrl, sectionPreviewUrl } from '@/components/SectionTemplates/assets';
@@ -16,7 +16,7 @@ const AUTHOR = { '@type': 'Person', name: 'Puneet Sharma', url: 'https://www.web
 
 export const dynamicParams = false;
 export function generateStaticParams() {
-  return SECTION_TEMPLATES.map(t => ({ id: t.id }));
+  return [...SECTION_TEMPLATES, ...CUSTOM_TEMPLATES].map(t => ({ id: t.id }));
 }
 
 export async function generateMetadata({ params }) {
@@ -43,9 +43,9 @@ export default async function WebsiteSectionTemplatePage({ params }) {
   const t = sectionTemplateById(id);
   if (!t) notFound();
   const seo = SECTION_SEO[t.id];
-  const cat = sectionCategoryById(t.category);
+  const cat = sectionCategoryById(t.category) || (t.custom ? { label: 'Custom section' } : null); // a custom section has no category
   const url = `${BASE}${t.id}/`;
-  const catUrl = `${BASE}category/${t.category}/`;
+  const catUrl = t.category ? `${BASE}category/${t.category}/` : BASE;
   const shots = new Set(sectionPreviewIds());
   const hasPreview = shots.has(t.id);
   const parts = t.groups.map(g => g.label.toLowerCase());
@@ -53,7 +53,10 @@ export default async function WebsiteSectionTemplatePage({ params }) {
   const listJoin = a => (a.length > 1 ? `${a.slice(0, -1).join(', ')} and ${a[a.length - 1]}` : a[0] || '');
 
   // Only sections from the same category (this one first)
-  const relatedAll = [t, ...relatedSectionTemplates(t).filter(x => x.category === t.category)];
+  // A section with no category (the Custom Section) shows one section from every category instead
+  const relatedAll = t.category
+    ? [t, ...relatedSectionTemplates(t).filter(x => x.category === t.category)]
+    : [t, ...SECTION_CATEGORIES.map(c => SECTION_TEMPLATES.find(x => x.category === c.id)).filter(Boolean)];
   const relatedItems = relatedAll.filter(x => shots.has(x.id)).map(x => ({
     id: x.id, title: x.name, href: `/website-section-templates/${x.id}/`, img: sectionPreviewUrl(x.id),
     cat: sectionCategoryById(x.category)?.label, meta: 'Responsive · Animated',
@@ -92,7 +95,7 @@ export default async function WebsiteSectionTemplatePage({ params }) {
       label: 'Step by step',
       heading: 'How to Use',
       items: [
-        { title: 'Edit the content', text: `Fill in the ${listJoin(parts)} in the panel.${toggleable.length ? ` Switch the ${listJoin(toggleable)} on or off.` : ''} Wrap words in *asterisks* to colour them.` },
+        { title: 'Edit the content', text: t.custom ? 'Add rows and columns in the panel, fill them with blocks such as headings, text, images, buttons, lists and HTML, then set alignment, spacing and any custom CSS or JavaScript. Click text in the preview to edit it in place.' : `Fill in the ${listJoin(parts)} in the panel.${toggleable.length ? ` Switch the ${listJoin(toggleable)} on or off.` : ''} Wrap words in *asterisks* to colour them.` },
         { title: 'Add your images', text: 'Upload your own images (resized in your browser and kept on your device) or paste a hosted image URL.' },
         { title: 'Match your brand', text: 'Pick a colour preset or exact colours, choose heading and body fonts from Google Fonts or your own uploaded font, set the corner radius and width, or apply your brand kit.' },
         { title: 'Animate and preview', text: 'Choose a GSAP entrance effect and speed, press Play animation, and check the section on desktop, tablet and mobile.' },
@@ -157,7 +160,7 @@ export default async function WebsiteSectionTemplatePage({ params }) {
           <HomeTemplatesCarousel
             title="Related Section Templates"
             label={`${relatedItems.length} sections`}
-            viewAllHref={`/website-section-templates/category/${t.category}/`}
+            viewAllHref={catUrl}
             items={relatedItems}
             activeId={t.id}
             wide
@@ -175,7 +178,7 @@ export default async function WebsiteSectionTemplatePage({ params }) {
             <>
               <div className={snip.snippetTagRow}>
                 <span className={snip.snippetTagLabel}>Category</span>
-                <a href={`/website-section-templates/category/${t.category}/`} className={snip.tagChipLink}>{cat?.label}</a>
+                <a href={catUrl} className={snip.tagChipLink}>{t.category ? cat?.label : 'All sections'}</a>
               </div>
               <div className={snip.snippetTagRow}>
                 <span className={snip.snippetTagLabel}>Tags</span>

@@ -500,15 +500,69 @@ Copy one HTML file, download a ZIP with your product photos, copy a React or Vue
     },
   },
 
-  // Draft: SEO content to be written once the Custom Section is final (the page is noindex until then)
   'custom-section': {
-    keywords: [],
-    about: { title: '', description: '' },
-    features: [],
-    why: [],
-    useCases: [],
-    faqs: [],
-    aiPrompt: { paragraph: '', prompt: '' },
+    keywords: ['custom section builder', 'multi column layout builder', 'html css section builder', 'custom html section template', 'website section layout editor'],
+    about: {
+      title: 'Custom Section Builder — Free Rows, Columns and HTML Editor',
+      description: `**Custom Section** is a free section builder for the layouts the ready-made templates do not cover. You start with an empty canvas of rows and columns, add blocks to each column, and see the result as you type, at desktop, tablet and phone widths. There is no code to write unless you want to, and no account to create.
+
+**Rows and columns**
+
+Each row has one to four columns, with nine layouts to choose from: equal columns, a narrow column beside a wide one, a wide middle, and a left or right sidebar. Set the gap, how the columns line up (top, middle, bottom or stretched), and whether they stack on tablets, on phones only, or never. Reverse the order when stacked so an image can come first on small screens.
+
+**Blocks for everything**
+
+Fill a column with a small label, a heading (H1 to H4, so your page outline stays correct), a paragraph, an image, a button, a list, a spacer, a divider or an HTML embed for forms, maps and widgets. Click any text in the preview to edit it in place. Left, centre or right alignment can be set for the whole section, a column or a single block, with margins and padding in pixels.
+
+**Your theme, your code**
+
+Colours, fonts and corner radius follow the theme you share with every other section, and the same entrance animations and scroll effects apply. When you need more, add custom CSS scoped to this section only and your own JavaScript, which run in the exported page.
+
+**Save, reuse and export**
+
+Save a layout to My designs, add it to any page in the [Website Builder](/website-builder/), or export HTML, a ZIP with your images, React or Vue. For ready-made starting points, browse the [hero sections](/website-section-templates/category/hero/) and [feature sections](/website-section-templates/category/features/).`,
+    },
+    features: [
+      'Rows of one to four columns with nine layouts, including sidebars',
+      'Blocks for labels, headings, paragraphs, images, buttons, lists, spacers, dividers and HTML',
+      'Left, centre or right alignment for the section, each column and each block',
+      'Margins, padding, row gaps and column gaps set in pixels',
+      'Control when columns stack, and reverse their order on small screens',
+      'Headings with a choice of H1 to H4 tags and four sizes',
+      'Click any text in the preview to edit it in place',
+      'HTML embed blocks for forms, maps, videos and third-party widgets',
+      'Custom CSS scoped to this section and your own JavaScript',
+      'Uses your theme and animations, saves to My designs and exports HTML, React or Vue',
+    ],
+    why: [
+      { icon: '🧩', title: 'Fits any layout', desc: 'Combine rows, columns and blocks to build the exact section you have in mind, instead of bending a template to fit.' },
+      { icon: '🎯', title: 'No code needed', desc: 'Build visually with controls for alignment and spacing, and reach for HTML, CSS or JavaScript only when you want to.' },
+      { icon: '🔁', title: 'Consistent and reusable', desc: 'The section follows your theme and animations, can be saved, and drops into any page or export.' },
+    ],
+    useCases: [
+      { icon: '🗂', title: 'Unusual page layouts', desc: 'Build a section with a sidebar, a wide middle column or an image that sits beside a list and two buttons, when no template matches.' },
+      { icon: '🔌', title: 'Forms, maps and widgets', desc: 'Drop an HTML embed into a column for a booking form, a map or a review widget, and style the space around it.' },
+      { icon: '📝', title: 'Simple content pages', desc: 'Assemble about, terms or announcement pages from headings, paragraphs, lists and images, then publish them on any host without touching a code editor.' },
+      { icon: '🎨', title: 'Landing page experiments', desc: 'Try a new arrangement of copy, proof and a call to action, then save the layout and reuse it across your pages.' },
+    ],
+    faqs: [
+      { q: 'What is a custom section?', a: 'A section you lay out yourself. You add rows with one to four columns, put blocks such as headings, text, images and buttons in each column, and set alignment and spacing.' },
+      { q: 'Can I add my own HTML, CSS and JavaScript?', a: 'Yes. HTML embed blocks take any markup, custom CSS is scoped to this section, and custom JavaScript runs in your exported page. Scripts do not run in the editor preview, for safety.' },
+      { q: 'How do I align content left, centre or right?', a: 'Set an alignment for the whole section, then override it for a column or a single block. Buttons placed together in a column line up as a group.' },
+      { q: 'Will my layout work on phones?', a: 'Yes. Columns stack on tablets and phones by default, you can choose when they stack, and you can reverse their order so an image appears first on small screens.' },
+      { q: 'Can I reuse a custom section on other pages?', a: 'Yes. Save it to My designs, then add it to any page from the Website Builder, where it appears in the Add a section dialog next to the ready-made sections.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Custom Section HTML and CSS: add a new column layout, a tabs block, a sticky sidebar or a different stacking breakpoint, or turn it into a React component.',
+      prompt: `Create a flexible content section in plain HTML and CSS.
+
+- A centred container with a maximum width and responsive side padding, holding several rows.
+- Each row is a CSS grid with one to four columns set by a variable such as --cs-cols: 1fr 2fr, a configurable gap, and vertical alignment options (start, center, end, stretch).
+- Columns stack into a single column below 900px, with an option to reverse the order when stacked.
+- Inside columns: an eyebrow label, headings (h2 and h3), paragraphs, images with alt text, button links in a row, a list with check marks, a spacer and a divider.
+- Support left, centre and right alignment at section, column and block level.
+- Use CSS custom properties for colours, fonts and radius, and respect prefers-reduced-motion.`,
+    },
   },
 
   'floating-social-share': {
