@@ -5,16 +5,12 @@ import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
-import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
+import HomeTemplateLibraries from '@/components/HomeTemplateLibraries';
 import InViewImg from '@/components/InViewImg';
-import { TEMPLATES as SOCIAL_TEMPLATES, SIZES as SOCIAL_SIZES, categoryById as socialCategoryById } from '@/components/SocialPostTemplates/templates/index.js';
-import { previewIds as socialPreviewIds } from '@/components/SocialPostTemplates/assets';
-import { EMAIL_TEMPLATES, emailCategoryById } from '@/components/EmailTemplates/templates/index.js';
-import { emailPreviewIds } from '@/components/EmailTemplates/assets';
-import { SECTION_TEMPLATES, sectionCategoryById } from '@/components/SectionTemplates/templates/index.js';
-import { sectionPreviewIds } from '@/components/SectionTemplates/assets';
+import { TEMPLATES as SOCIAL_TEMPLATES, TEMPLATE_CATEGORIES as SOCIAL_CATEGORIES } from '@/components/SocialPostTemplates/templates/index.js';
+import { EMAIL_TEMPLATES, EMAIL_CATEGORIES } from '@/components/EmailTemplates/templates/index.js';
+import { SECTION_TEMPLATES, SECTION_CATEGORIES } from '@/components/SectionTemplates/templates/index.js';
 import { WEBSITE_TEMPLATES } from '@/components/SectionTemplates/templates/starters.js';
-import { newestFirst } from '@/lib/newest-first';
 import { getLatestSnippets } from '@/lib/snippet-related';
 import { LIVE_TOOLS } from '@/lib/tools-registry';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
@@ -269,19 +265,24 @@ function ItemIcon({ d, accent }) {
 export default async function Home() {
   const blogPosts = await fetchLatestBlogPosts(6);
   const latestSnippets = getLatestSnippets(60);
-  // Template strips: only templates whose preview image is captured
-  const socialShots = new Set(socialPreviewIds());
-  const socialItems = newestFirst(SOCIAL_TEMPLATES).filter(t => socialShots.has(t.id))
-    .map(t => ({ id: t.id, title: t.name, href: `/social-post-templates/${t.id}/`, img: `/images/social-post-templates/previews/${t.id}.png`, cat: socialCategoryById(t.category)?.label, meta: `${SOCIAL_SIZES.length} sizes` }));
-  const emailShots = new Set(emailPreviewIds());
-  const emailItems = newestFirst(EMAIL_TEMPLATES).filter(t => emailShots.has(t.id))
-    .map(t => ({ id: t.id, title: t.name, href: `/email-templates/${t.id}/`, img: `/images/email-templates/previews/${t.id}.png`, cat: emailCategoryById(t.category)?.label, meta: 'Responsive · Dark mode' }));
-  // Website templates: tall full-page shots that pan on hover; sections: landscape previews
-  const websiteItems = [...WEBSITE_TEMPLATES].reverse() // newest first (templates are added at the end of the list)
-    .map(t => ({ id: t.id, title: t.name, href: `/website-builder/templates/${t.id}/`, img: `/images/website-templates/full/${t.id}.jpg`, cat: t.industry, meta: `${t.sections.length} sections · Export HTML` }));
-  const sectionShots = new Set(sectionPreviewIds());
-  const sectionItems = newestFirst(SECTION_TEMPLATES).filter(t => sectionShots.has(t.id))
-    .map(t => ({ id: t.id, title: t.name, href: `/website-section-templates/${t.id}/`, img: `/images/section-templates/previews/${t.id}.png`, cat: sectionCategoryById(t.category)?.label, meta: 'Responsive · HTML, React & Vue' }));
+  // Template libraries as light text cards (no preview images): category links with counts
+  const byCategory = (templates, categories, base) => categories
+    .map(c => ({ label: c.label, href: `${base}category/${c.id}/`, n: templates.filter(t => t.category === c.id).length }))
+    .filter(c => c.n);
+  const templateLibs = [
+    { id: 'sections', title: 'Website Section Templates', count: `${SECTION_TEMPLATES.length} sections`, accent: '#6366f1', href: '/website-section-templates/', cta: 'Browse sections', chipsLabel: 'category',
+      blurb: 'Heroes, navbars, pricing, FAQ, galleries and footers with GSAP animation. Edit, then export HTML, React or Vue.',
+      chips: byCategory(SECTION_TEMPLATES, SECTION_CATEGORIES, '/website-section-templates/') },
+    { id: 'websites', title: 'Website Templates', count: `${WEBSITE_TEMPLATES.length} websites`, accent: '#0f766e', href: '/website-builder/', cta: 'Open the Website Builder', chipsLabel: 'industry',
+      blurb: 'One-page and multi-page websites with real content for each industry. Edit everything and export clean HTML.',
+      chips: [...WEBSITE_TEMPLATES].reverse().map(t => ({ label: t.name.replace(/ (Landing Page|Website)/gi, ''), href: `/website-builder/templates/${t.id}/` })) },
+    { id: 'social', title: 'Social Post Templates', count: `${SOCIAL_TEMPLATES.length} templates`, accent: '#db2777', href: '/social-post-templates/', cta: 'Browse social templates', chipsLabel: 'category',
+      blurb: 'Designs for Instagram, Facebook and X in every post size. Change text, images, colours and fonts, then download.',
+      chips: byCategory(SOCIAL_TEMPLATES, SOCIAL_CATEGORIES, '/social-post-templates/') },
+    { id: 'email', title: 'Email Templates', count: `${EMAIL_TEMPLATES.length} emails`, accent: '#d97706', href: '/email-templates/', cta: 'Browse email templates', chipsLabel: 'category',
+      blurb: 'Responsive HTML emails with dark mode that work in Gmail and Outlook. Edit in the browser and export the code.',
+      chips: byCategory(EMAIL_TEMPLATES, EMAIL_CATEGORIES, '/email-templates/') },
+  ];
   const playgroundCardTools = PLAYGROUND_CARD_SLUGS.map(slug => LIVE_TOOLS.find(t => t.slug === slug)).filter(Boolean);
   // Six for the blog fetch; the blog card lists the first four.
   const latestPosts = blogPosts.slice(0, 4);
@@ -325,45 +326,9 @@ export default async function Home() {
         <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} />
       </div>
 
-      {/* ── Template libraries: website templates and sections, social post images, HTML emails ── */}
+      {/* ── Template libraries: light text cards (no preview images) ── */}
       <div className={styles.snippetsStrip}>
-        <HomeTemplatesCarousel
-          title="Website Section Templates"
-          label={`${SECTION_TEMPLATES.length} heroes, pricing, FAQ, footers and more`}
-          viewAllHref="/website-section-templates/"
-          items={sectionItems}
-          compact
-          cols={5}
-        />
-      </div>
-      <div className={styles.snippetsStrip}>
-        <HomeTemplatesCarousel
-          title="Website Templates"
-          label={`${WEBSITE_TEMPLATES.length} one-page websites, edit and export HTML`}
-          viewAllHref="/website-builder/"
-          items={websiteItems}
-          cols={5}
-          scroll
-        />
-      </div>
-      <div className={styles.snippetsStrip}>
-        <HomeTemplatesCarousel
-          title="Social Post Templates"
-          label={`${SOCIAL_TEMPLATES.length} for Instagram, Facebook & X`}
-          viewAllHref="/social-post-templates/"
-          items={socialItems}
-          cols={5}
-        />
-      </div>
-      <div className={styles.snippetsStrip}>
-        <HomeTemplatesCarousel
-          title="Email Templates"
-          label={`${EMAIL_TEMPLATES.length} responsive HTML emails`}
-          viewAllHref="/email-templates/"
-          items={emailItems}
-          cols={5}
-          scroll
-        />
+        <HomeTemplateLibraries libs={templateLibs} />
       </div>
 
       {/* ── Feature grid: UI Snippets / Coding Playgrounds / Developer Tools / Latest From the Blog ── */}
