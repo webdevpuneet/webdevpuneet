@@ -20,6 +20,7 @@
 import { sectionTemplateById, listItem } from './index.js';
 import { newUid, emptyPage, restorePage, pageFromStarter, starterSections, newPageSection, pageCss, pageScript, pageCdn, pageBaseCss, pageDocumentHtml } from './page.js';
 import { websiteTemplateById } from './starters.js';
+import { STARTER_PAGES } from './starters-more.js';
 import { WEBSITE_TEMPLATE_SEO } from './seo-website-templates.js';
 import { WEBSITE_PAGE_SEO } from './seo-website-pages.js';
 import { privacyMeta, privacyPageSections } from './privacy-page.js';
@@ -189,6 +190,34 @@ function splitSite(site) {
   return out;
 }
 
+/** The blog, article, log in and sign up pages of a template (STARTER_PAGES in starters-more.js).
+    A spec with appendTo adds to (or, with replace, swaps a section of) the existing page of that
+    name; otherwise it becomes a new page. /login and /register links go to the new pages. */
+function addStarterPages(site, starterId) {
+  const specs = STARTER_PAGES[starterId];
+  if (!specs?.length) return site;
+  const brand = brandOf(site);
+  let out = site;
+  for (const sp of specs) {
+    const sections = starterSections(sp.sections);
+    const existing = sp.appendTo && out.pages.find(p => p.name === sp.appendTo);
+    if (existing) {
+      let list = [...existing.sections, ...sections];
+      const at = sp.replace ? existing.sections.findIndex(s => s.tpl === sp.replace) : -1;
+      if (at >= 0) list = [...existing.sections.slice(0, at), ...sections, ...existing.sections.slice(at + 1)];
+      out = { ...out, pages: out.pages.map(p => (p.id === existing.id ? { ...p, sections: list } : p)) };
+    } else {
+      out = addSitePage(out, { ...newSitePage(out, sp.name, sections), ...(sp.slug ? { slug: sp.slug } : {}), inNav: sp.inNav !== false, title: sp.title || `${sp.name} | ${brand}`, description: sp.description || '' });
+    }
+  }
+  const fileOf = slug => { const p = out.pages.find(x => x.slug === slug); return p ? pageFile(out, p) : null; };
+  const login = fileOf('login'), register = fileOf('register');
+  const map = {};
+  if (login) for (const u of ['/login', '/login/', 'https://webdevpuneet.com/login', 'https://webdevpuneet.com/login/']) map[u] = login;
+  if (register) for (const u of ['/register', '/register/', '/signup', '/signup/', '/sign-up', 'https://webdevpuneet.com/signup', 'https://webdevpuneet.com/register']) map[u] = register;
+  return Object.keys(map).length ? mapSiteLinks(out, u => map[u] ?? u) : out;
+}
+
 /**
  * A site from a website template.
  * @param multi  false: the template as one page; true: its multi-page version
@@ -208,6 +237,7 @@ export function siteFromStarter(starterId, { multi = false } = {}) {
     const over = WEBSITE_PAGE_SEO[starterId] || {};
     site = { ...site, pages: site.pages.map(p => (over[p.name] ? { ...p, ...over[p.name] } : p)) };
   }
+  site = addStarterPages(site, starterId);
   // Every multi-page website also gets a Privacy page (sample wording, kept out of the menu)
   const brand = brandOf(site);
   site = addSitePage(site, { ...newSitePage(site, 'Privacy', starterSections(privacyPageSections(brand))), slug: 'privacy', inNav: false, ...privacyMeta(brand) });

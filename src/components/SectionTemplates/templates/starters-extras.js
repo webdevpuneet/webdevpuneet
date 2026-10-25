@@ -7,6 +7,7 @@
      replace: the section it takes the place of
    Each section is [id, state] exactly like the template's own `sections`. */
 import { IMG } from './meta.js';
+import { STARTER_MORE_EXTRAS } from './starters-more.js';
 
 const gallery = (fields, images) => ['gallery-grid', { fields, lists: { images } }];
 const img = (file, alt, tag, title, text = '') => ({ image: IMG(file), imageAlt: alt, tag, title, text });
@@ -171,6 +172,9 @@ export const STARTER_EXTRAS = {
 };
 
 /** The templates with the extra sections placed in (sections not found fall back to just before the footer) */
+// Popups and share bars (starters-more.js) come after the sections added above
+for (const [id, more] of Object.entries(STARTER_MORE_EXTRAS)) STARTER_EXTRAS[id] = [...(STARTER_EXTRAS[id] || []), ...more];
+
 export function applyExtras(list) {
   return list.map(t => {
     const extras = STARTER_EXTRAS[t.id];

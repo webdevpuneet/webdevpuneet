@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { notFound } from 'next/navigation';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
@@ -12,6 +14,10 @@ import { resolveFont } from '@/lib/fonts';
 import st from '../templates.module.css';
 
 const BASE = 'https://webdevpuneet.com/website-builder/templates/';
+/* Live demos: demos/website-templates/<id>/one-page and /multi-page (made by scripts/export-website-demos.mjs).
+   A demo button shows only when its folder exists, so a missing demo never becomes a dead link. */
+const DEMOS = 'https://webdevpuneet.com/demos/website-templates/';
+const hasDemo = (id, kind) => fs.existsSync(path.join(process.cwd(), 'demos', 'website-templates', id, kind, 'index.html'));
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -56,6 +62,8 @@ export default async function WebsiteTemplatePage({ params }) {
   const newest = [...WEBSITE_TEMPLATES].reverse(); // newest first
   const related = [...newest.filter(x => x.id !== t.id && x.industry === t.industry), ...newest.filter(x => x.id !== t.id && x.industry !== t.industry)];
   const useUrl = `/website-builder/editor/?starter=${t.id}`;
+  const demoOne = hasDemo(t.id, 'one-page') ? `${DEMOS}${t.id}/one-page/` : '';
+  const demoMulti = multi && hasDemo(t.id, 'multi-page') ? `${DEMOS}${t.id}/multi-page/` : '';
   const nameLower = t.name.replace(/ (Website|Landing Page)$/, '').toLowerCase();
 
   const seo = WEBSITE_TEMPLATE_SEO[t.id];
@@ -148,10 +156,26 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
             </div>
           </div>
           <aside className={st.side}>
-            <div className={st.sideActions}>
-              <a className={st.btn} href={useUrl}>Use as one page</a>
-              {multi && <a className={st.btn} href={multiUrl}>Use as {pages.length}-page website</a>}
-              <a className={`${st.btn} ${st.btnGhost}`} href="/website-builder/">All templates</a>
+            <div className={st.versions}>
+              <section className={st.version} aria-labelledby="ver-one">
+                <h2 id="ver-one" className={st.versionTitle}>One page</h2>
+                <p className={st.versionText}>{t.sections.length} sections on one scrolling page, with menu links that jump to each part.</p>
+                <div className={st.versionBtns}>
+                  <a className={st.btn} href={useUrl}>Use this version</a>
+                  {demoOne && <a className={`${st.btn} ${st.btnGhost}`} href={demoOne} target="_blank" rel="noopener">Live demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg><span className={st.srOnly}> (opens in a new tab)</span></a>}
+                </div>
+              </section>
+              {multi && (
+                <section className={st.version} aria-labelledby="ver-multi">
+                  <h2 id="ver-multi" className={st.versionTitle}>{pages.length}-page website</h2>
+                  <p className={st.versionText}>{pageNames}, sharing one navbar, footer and theme.</p>
+                  <div className={st.versionBtns}>
+                    <a className={st.btn} href={multiUrl}>Use this version</a>
+                    {demoMulti && <a className={`${st.btn} ${st.btnGhost}`} href={demoMulti} target="_blank" rel="noopener">Live demo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg><span className={st.srOnly}> (opens in a new tab)</span></a>}
+                  </div>
+                </section>
+              )}
+              <a className={st.allLink} href="/website-builder/"><span aria-hidden="true">←</span> All website templates</a>
             </div>
             {multi && (
               <div className={st.box}>
