@@ -984,6 +984,128 @@ BEHAVIORS.booking = {
 })();`,
 };
 
+BEHAVIORS.popup = {
+  /* Popup & Promo Modal (popup-modal): opens by itself after a delay, on exit intent (the mouse leaving the top
+     of the window) or after scrolling part of the page; closes with ×, Esc, the backdrop (centre only) or any
+     [data-pu-close]. Settings are data attributes on [data-pu] (written by the template's
+     finalize). It remembers that it was shown for data-days days (localStorage, safely wrapped).
+     In the editors (ST_STILL / ST_PREVIEW) and in the Add a section preview (ST_POPUP_INLINE) it
+     is shown inline as a normal card so its content can be edited and judged. An image carousel
+     ([data-pu-carousel]: scroll-snap track, arrows, dots, optional autoplay) works with or without JS. */
+  plugins: [],
+  js: `(function () {
+  var inline = window.ST_STILL || window.ST_PREVIEW || window.ST_POPUP_INLINE;
+  document.querySelectorAll('.st [data-pu]').forEach(function (root) {
+    var dlg = root.querySelector('.pu-dialog');
+    var back = root.querySelector('.pu-backdrop');
+    if (!dlg || root.getAttribute('data-pu-ready')) return;
+    root.setAttribute('data-pu-ready', '1');
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    root.querySelectorAll('[data-pu-carousel]').forEach(function (car) {
+      var track = car.querySelector('.pu-track');
+      if (!track) return;
+      var slides = track.children, n = slides.length;
+      if (n < 2) { car.classList.add('is-single'); return; }
+      var mk = function (cls, label, svg) { var b = document.createElement('button'); b.type = 'button'; b.className = cls; b.setAttribute('aria-label', label); if (svg) b.innerHTML = svg; return b; };
+      var arrow = function (d) { return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + d + '"/></svg>'; };
+      var prev = mk('pu-nav pu-prev', 'Previous slide', arrow('m15 18-6-6 6-6'));
+      var next = mk('pu-nav pu-next', 'Next slide', arrow('m9 18 6-6-6-6'));
+      var dots = document.createElement('div'); dots.className = 'pu-dots';
+      var dotEls = [];
+      for (var i = 0; i < n; i++) { (function (k) { var d = mk('pu-dot', 'Go to slide ' + (k + 1)); d.addEventListener('click', function () { go(k); stop(); }); dots.appendChild(d); dotEls.push(d); })(i); }
+      car.appendChild(prev); car.appendChild(next); car.appendChild(dots);
+      var idx = function () { return Math.round(track.scrollLeft / Math.max(1, track.clientWidth)); };
+      var mark = function () { var c = idx(); dotEls.forEach(function (d, k) { d.setAttribute('aria-current', k === c ? 'true' : 'false'); }); };
+      var go = function (k) { k = (k + n) % n; track.scrollTo({ left: k * track.clientWidth, behavior: reduce ? 'auto' : 'smooth' }); };
+      var ticking = false;
+      track.addEventListener('scroll', function () { if (ticking) return; ticking = true; requestAnimationFrame(function () { ticking = false; mark(); }); }, { passive: true });
+      prev.addEventListener('click', function () { go(idx() - 1); stop(); });
+      next.addEventListener('click', function () { go(idx() + 1); stop(); });
+      mark();
+      var secs = parseFloat(root.getAttribute('data-autoplay')) || 0;
+      var timer = 0, paused = false;
+      var stop = function () { clearInterval(timer); timer = 0; };
+      if (secs > 0 && !reduce) {
+        car.addEventListener('mouseenter', function () { paused = true; });
+        car.addEventListener('mouseleave', function () { paused = false; });
+        car.addEventListener('focusin', function () { paused = true; });
+        car.addEventListener('focusout', function () { paused = false; });
+        timer = setInterval(function () { var d = root.querySelector('.pu-dialog'); if (!paused && d && !d.hidden && !document.hidden) go(idx() + 1); }, secs * 1000);
+      }
+    });
+    if (inline) {
+      root.classList.add('is-preview');
+      dlg.hidden = false;
+      if (back) back.hidden = true;
+      root.querySelectorAll('[data-pu-close]').forEach(function (b) { b.addEventListener('click', function (e) { e.preventDefault(); }); });
+      return;
+    }
+    var trigger = root.getAttribute('data-trigger') || 'delay';
+    var delay = Math.max(0, parseFloat(root.getAttribute('data-delay')) || 0);
+    var pct = Math.min(100, Math.max(1, parseFloat(root.getAttribute('data-scroll')) || 50));
+    var days = parseFloat(root.getAttribute('data-days')) || 0;
+    var KEY = 'pu-' + (root.getAttribute('data-pu-id') || 'x');
+    try {
+      var seen = parseInt(localStorage.getItem(KEY), 10);
+      if (days > 0 && seen && Date.now() - seen < days * 86400000) return;
+    } catch (e) {}
+    var modal = (root.getAttribute('data-pos') || 'center') === 'center'; // only the centre popup dims the page and traps focus
+    dlg.setAttribute('aria-modal', modal ? 'true' : 'false');
+    var shown = false, last = null, undo = [];
+    var focusables = function () { return Array.prototype.filter.call(dlg.querySelectorAll('a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])'), function (el) { return el.offsetParent !== null; }); };
+    var onKey = function (e) {
+      if (e.key === 'Escape') { e.preventDefault(); hide(); return; }
+      if (e.key !== 'Tab' || !modal) return;
+      var f = focusables();
+      if (!f.length) return;
+      var first = f[0], end = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); end.focus(); }
+      else if (!e.shiftKey && document.activeElement === end) { e.preventDefault(); first.focus(); }
+    };
+    function show() {
+      if (shown) return;
+      shown = true;
+      undo.forEach(function (fn) { fn(); });
+      last = document.activeElement;
+      dlg.hidden = false;
+      if (back) back.hidden = false;
+      void dlg.offsetWidth;
+      root.classList.add('is-open');
+      if (modal) {
+        var f = focusables();
+        var target = dlg.querySelector('input') || f[1] || f[0] || dlg;
+        try { target.focus({ preventScroll: true }); } catch (e) {}
+      }
+      document.addEventListener('keydown', onKey);
+      try { if (days > 0) localStorage.setItem(KEY, String(Date.now())); } catch (e) {}
+    }
+    function hide() {
+      root.classList.remove('is-open');
+      root.querySelectorAll('.vs-embed').forEach(function (v) { var box = v.parentNode; v.remove(); if (box) box.classList.remove('is-playing'); });
+      document.removeEventListener('keydown', onKey);
+      setTimeout(function () { dlg.hidden = true; if (back) back.hidden = true; }, 320);
+      if (last && last.focus) { try { last.focus({ preventScroll: true }); } catch (e) {} }
+    }
+    root.querySelectorAll('[data-pu-close]').forEach(function (b) { b.addEventListener('click', hide); });
+    var on = function (target, ev, fn, opts) { target.addEventListener(ev, fn, opts); undo.push(function () { target.removeEventListener(ev, fn, opts); }); };
+    var started = Date.now();
+    if (trigger === 'scroll') {
+      var check = function () {
+        var h = document.documentElement.scrollHeight - window.innerHeight;
+        var p = h > 0 ? (window.scrollY / h) * 100 : 100;
+        if (p >= pct) show();
+      };
+      on(window, 'scroll', check, { passive: true });
+    } else if (trigger === 'exit' && window.matchMedia && window.matchMedia('(pointer: fine)').matches) {
+      on(document, 'mouseout', function (e) { if (!e.relatedTarget && e.clientY <= 0 && Date.now() - started > 2000) show(); });
+    } else {
+      var timer = setTimeout(show, Math.max(delay, trigger === 'exit' ? 10 : 0) * 1000);
+      undo.push(function () { clearTimeout(timer); });
+    }
+  });
+})();`,
+};
+
 BEHAVIORS.share = {
   /* Floating social share bar. Each [data-share] link holds a URL template ({url} {title}
      {text} {image} {via} {tags}); the real page address is filled in here, so the buttons

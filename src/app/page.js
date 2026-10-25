@@ -268,7 +268,7 @@ export default async function Home() {
   // Template libraries as light text cards (no preview images): category links with counts
   const byCategory = (templates, categories, base) => categories
     .map(c => ({ label: c.label, href: `${base}category/${c.id}/`, n: templates.filter(t => t.category === c.id).length }))
-    .filter(c => c.n);
+    .filter(c => c.n && !c.noPage);
   const templateLibs = [
     { id: 'sections', title: 'Website Section Templates', count: `${SECTION_TEMPLATES.length} sections`, accent: '#6366f1', href: '/website-section-templates/', cta: 'Browse sections', chipsLabel: 'category',
       blurb: 'Heroes, navbars, pricing, FAQ, galleries and footers with GSAP animation. Edit, then export HTML, React or Vue.',

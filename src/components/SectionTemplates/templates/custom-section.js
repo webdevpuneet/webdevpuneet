@@ -135,7 +135,7 @@ export const customImageKeys = c => (c?.rows || []).flatMap(r => r.cols.flatMap(
 const hash = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0; return h.toString(36); };
 
 /* Editor previews: no scripts, inline event handlers or javascript: links from HTML blocks */
-const tame = html => String(html)
+export const tame = html => String(html)
   .replace(/<script\b[\s\S]*?<\/script\s*>/gi, '').replace(/<script\b[^>]*>/gi, '')
   .replace(/\son[a-z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, '')
   .replace(/(href|src|action|formaction)\s*=\s*(["'])\s*javascript:[^"']*\2/gi, '$1="#"');

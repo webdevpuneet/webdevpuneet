@@ -61,6 +61,7 @@ import propertyListings from './property-listings.js';
 import productGrid from './product-grid.js';
 import classTimetable from './class-timetable.js';
 import socialShare from './social-share.js';
+import popupModal from './popup-modal.js';
 import customSection, { defaultCustom, cleanCustom, customImageKeys } from './custom-section.js';
 import { DEFAULT_THEME, DEFAULT_MOTION } from './meta.js';
 import { cleanArt } from './art.js';
@@ -130,6 +131,7 @@ export const SECTION_TEMPLATES = [
   productGrid,
   classTimetable,
   socialShare,
+  popupModal,
 ];
 /* Sections that belong to no category: not listed in the gallery, the category pages, the sidebar or the counts.
    They have their own page and are started from the "Create custom section" cards. */

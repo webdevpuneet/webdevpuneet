@@ -93,7 +93,7 @@ export default function SectionPickerModal({ open, onClose, onUse, page, below }
     const st = { ...base, theme: page?.theme, fonts: page?.fonts, motion: page?.motion };
     // The frame is sandboxed (its own origin), so a custom section's scripts can run here.
     // Uploaded images live in this browser's store; the preview shows the typed image links.
-    return documentHtml(chosen.t, st, { clean: true, extraHead: '<style>html{scroll-behavior:auto}</style>' });
+    return documentHtml(chosen.t, st, { clean: true, extraHead: `<style>html{scroll-behavior:auto}</style>${(chosen.t.behaviors || []).includes('popup') ? '<script>window.ST_POPUP_INLINE=true</script>' : ''}` });
   }, [chosen, page]);
 
   useEffect(() => {

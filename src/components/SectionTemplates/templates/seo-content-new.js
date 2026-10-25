@@ -565,6 +565,17 @@ Save a layout to My designs, add it to any page in the [Website Builder](/websit
     },
   },
 
+  // Draft: SEO content to be written once the Popup is final (the page is noindex until then)
+  'popup-modal': {
+    keywords: [],
+    about: { title: '', description: '' },
+    features: [],
+    why: [],
+    useCases: [],
+    faqs: [],
+    aiPrompt: { paragraph: '', prompt: '' },
+  },
+
   'floating-social-share': {
     keywords: ['social share buttons html', 'floating social share bar', 'sticky social share sidebar', 'social media share buttons css', 'share buttons without plugin'],
     about: {
