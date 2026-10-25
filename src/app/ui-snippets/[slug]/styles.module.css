@@ -194,3 +194,20 @@
 /* Category strip above Related Snippets — same 20px inset as the carousel. */
 .relatedCats { padding: 16px 20px 0; }
 @media (max-width: 768px) { .relatedCats { padding: 14px 16px 0; } }
+
+/* ── Landing-page template snippets: sections used + start button ── */
+.startCard { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); padding: 24px; }
+.startLabel { margin: 0 0 6px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.startTitle { margin: 0 0 8px; font-size: 20px; font-weight: 500; color: var(--text); letter-spacing: -0.2px; }
+.startIntro { margin: 0 0 16px; font-size: 14.5px; line-height: 1.7; color: var(--text2, var(--text)); }
+.startList { margin: 0 0 20px; padding: 0; list-style: none; counter-reset: sec; display: grid; gap: 10px; }
+.startList li { counter-increment: sec; display: grid; grid-template-columns: 28px 1fr; column-gap: 10px; font-size: 14px; line-height: 1.6; color: var(--text2, var(--text)); }
+.startList li::before { content: counter(sec); grid-row: span 2; width: 24px; height: 24px; border-radius: 50%; background: var(--surface2, var(--border)); color: var(--text); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.startList a { font-weight: 700; color: var(--accent); text-decoration: none; }
+.startList a:hover { text-decoration: underline; }
+.startActions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
+.startBtn { display: inline-block; padding: 12px 22px; border-radius: 999px; background: var(--accent); color: #fff; font-size: 14px; font-weight: 700; text-decoration: none; }
+.startBtn:hover { filter: brightness(1.1); }
+.startLink { font-size: 13.5px; font-weight: 600; color: var(--accent); text-decoration: none; }
+.startLink:hover { text-decoration: underline; }
+.startBottom { margin-bottom: 32px; }

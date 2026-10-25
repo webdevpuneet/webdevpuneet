@@ -20,6 +20,7 @@ export const CATEGORIES = [
   { id: 'dashboards', label: 'Dashboards' },
   { id: 'pricing',    label: 'Pricing' },
   { id: 'heroes',     label: 'Heroes' },
+  { id: 'landing-pages', label: 'Landing Pages' },
   { id: 'mobile',     label: 'Mobile Screens' },
   { id: 'games',      label: 'Games' },
   { id: 'tools',      label: 'Tools & Calculators' },

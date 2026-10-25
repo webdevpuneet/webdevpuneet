@@ -2129,6 +2129,29 @@ import matterJsStackingTowerGame from './snippets/matter-js-stacking-tower-game.
 import matterJsBallPitHero from './snippets/matter-js-ball-pit-hero.js';
 import matterJsCollisionFilterCategories from './snippets/matter-js-collision-filter-categories.js';
 import aiModeGlowButton from './snippets/ai-mode-glow-button.js';
+import saasLandingPageTemplate from './snippets/saas-landing-page-template.js';
+import appLandingPageTemplate from './snippets/app-landing-page-template.js';
+import launchLandingPageTemplate from './snippets/launch-landing-page-template.js';
+import agencyLandingPageTemplate from './snippets/agency-landing-page-template.js';
+import portfolioLandingPageTemplate from './snippets/portfolio-landing-page-template.js';
+import photographerLandingPageTemplate from './snippets/photographer-landing-page-template.js';
+import restaurantLandingPageTemplate from './snippets/restaurant-landing-page-template.js';
+import realEstateLandingPageTemplate from './snippets/real-estate-landing-page-template.js';
+import fitnessLandingPageTemplate from './snippets/fitness-landing-page-template.js';
+import dentalLandingPageTemplate from './snippets/dental-landing-page-template.js';
+import localServiceLandingPageTemplate from './snippets/local-service-landing-page-template.js';
+import onlineCourseLandingPageTemplate from './snippets/online-course-landing-page-template.js';
+import coachLandingPageTemplate from './snippets/coach-landing-page-template.js';
+import eventLandingPageTemplate from './snippets/event-landing-page-template.js';
+import nonprofitLandingPageTemplate from './snippets/nonprofit-landing-page-template.js';
+import weddingLandingPageTemplate from './snippets/wedding-landing-page-template.js';
+import hotelLandingPageTemplate from './snippets/hotel-landing-page-template.js';
+import salonLandingPageTemplate from './snippets/salon-landing-page-template.js';
+import lawFirmLandingPageTemplate from './snippets/law-firm-landing-page-template.js';
+import podcastLandingPageTemplate from './snippets/podcast-landing-page-template.js';
+import productStoreLandingPageTemplate from './snippets/product-store-landing-page-template.js';
+import schoolLandingPageTemplate from './snippets/school-landing-page-template.js';
+import churchLandingPageTemplate from './snippets/church-landing-page-template.js';
 export const SNIPPETS = [
   cubeCarousel,
   verticalStorySlider,
@@ -4230,6 +4253,29 @@ export const SNIPPETS = [
   matterJsBallPitHero,
   matterJsCollisionFilterCategories,
   aiModeGlowButton,
+  saasLandingPageTemplate,
+  appLandingPageTemplate,
+  launchLandingPageTemplate,
+  agencyLandingPageTemplate,
+  portfolioLandingPageTemplate,
+  photographerLandingPageTemplate,
+  restaurantLandingPageTemplate,
+  realEstateLandingPageTemplate,
+  fitnessLandingPageTemplate,
+  dentalLandingPageTemplate,
+  localServiceLandingPageTemplate,
+  onlineCourseLandingPageTemplate,
+  coachLandingPageTemplate,
+  eventLandingPageTemplate,
+  nonprofitLandingPageTemplate,
+  weddingLandingPageTemplate,
+  hotelLandingPageTemplate,
+  salonLandingPageTemplate,
+  lawFirmLandingPageTemplate,
+  podcastLandingPageTemplate,
+  productStoreLandingPageTemplate,
+  schoolLandingPageTemplate,
+  churchLandingPageTemplate,
 ];
 
 // Snippets visible in production listings/sitemaps — noindex/test snippets only show on localhost

@@ -2326,6 +2326,17 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               <ExportMenu options={exportOptions} />
             </div>
           </div>}
+          {/* Phones hide the console bar, so landing-page templates get their own slim bar with the button */}
+          {showEditor && activeSn?.category === 'landing-pages' && /-landing-page-template$/.test(activeSn.id || '') && (
+            <div className={s.designSiteMobile}>
+              <a
+                className={s.designSiteBtn}
+                href={`/website-builder/editor/?starter=${activeSn.id.replace(/-landing-page-template$/, '')}`}
+                target="_blank"
+                rel="noopener"
+              >Design your website</a>
+            </div>
+          )}
           {/* Console bar sits right under the PREVIEW toolbar */}
           {showEditor && (
             <div className={`${s.consolePanel} ${consoleOpen ? s.consolePanelOpen : ''}`}>
@@ -2333,6 +2344,16 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                 className={`${s.consoleBar} ${consoleLogs.length === 0 ? s.consoleBarEmpty : ''}`}
                 onClick={consoleLogs.length > 0 ? () => setConsoleOpen(v => !v) : undefined}
               >
+                {activeSn?.category === 'landing-pages' && /-landing-page-template$/.test(activeSn.id || '') && (
+                  <a
+                    className={s.designSiteBtn}
+                    href={`/website-builder/editor/?starter=${activeSn.id.replace(/-landing-page-template$/, '')}`}
+                    target="_blank"
+                    rel="noopener"
+                    onClick={e => e.stopPropagation()}
+                    title="Open this template in the Website Builder to customise it"
+                  >Design your website</a>
+                )}
                 {(activeSn?.title || activeSn?.name) && (
                   <span className={s.consoleBarTitle} title={activeSn.title || activeSn.name}>{activeSn.title || activeSn.name}</span>
                 )}

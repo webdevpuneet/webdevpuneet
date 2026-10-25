@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import SeoSection from '@/components/SeoSection';
+import LandingPageStart, { StartTemplateButtons } from './LandingPageStart';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
 import { SNIPPET_COUNT } from '@/lib/snippet-count';
@@ -69,6 +70,7 @@ const CATEGORY_SEO = {
   dashboards: { title: 'Dashboard Snippets HTML CSS JS — {n} Free Dashboard Components | UI Snippets', description: 'Free HTML CSS JS dashboard snippets — stats cards, kanban boards, activity feeds, calendars, status pages, metric grids & more. Export to React, Vue, Angular & Tailwind.' },
   pricing:    { title: 'Pricing Page Snippets HTML CSS JS — {n} Free Pricing Components | UI Snippets', description: 'Free HTML CSS JS pricing snippets — 3-tier pricing pages, annual toggles, popular-badge cards, usage calculators, upgrade banners & more. Export to React, Vue, Angular & Tailwind.' },
   heroes:     { title: 'Hero Section Snippets HTML CSS JS — {n} Free Landing Page Heroes | UI Snippets', description: 'Free HTML CSS JS hero section snippets — SaaS startup, product, gradient mesh, app download, portfolio, agency, coming-soon & video heroes. Export to React, Vue, Angular & Tailwind.' },
+  'landing-pages': { title: 'Landing Page Templates HTML CSS JS — {n} Free | UI Snippets', description: 'Free landing page templates in HTML, CSS and JS: SaaS, app, agency, restaurant, clinic, gym, wedding and more. Edit live, then customise in the Website Builder.' },
   mobile:     { title: 'Mobile App Screen Snippets HTML CSS JS — {n} Free UI Kit | UI Snippets', description: 'Free mobile app screen snippets — chat, settings, feed, checkout, banking, music player, camera & stories, all framed in a CSS phone mockup. Export to React, Vue, Angular & Tailwind.' },
   games:      { title: 'Game Snippets HTML CSS JS — {n} Free Playable Browser Games | UI Snippets', description: 'Free HTML CSS JS game snippets — Snake, Pong, 2048, Minesweeper, Sudoku, Wordle-style word games, plus coding games that teach CSS selectors, regex and binary. Export to React, Vue, Angular & Tailwind.' },
   misc:       { title: 'Misc Snippets HTML CSS JS — {n} Free Coding Demos & Examples | UI Snippets', description: 'A rotating collection of free HTML, CSS & JS demos and coding examples that don\'t fit a single structural category — built for learning, reference, and experimentation. Export to React, Vue, Angular & Tailwind.' },
@@ -454,6 +456,39 @@ const CATEGORY_CONTENT = {
       { q: 'How do I add a fourth plan column to the pricing page or comparison table?', a: 'Add a fourth .plan div inside .plans in the HTML, matching the structure of the existing three columns. Add a fourth price to both the monthly and annual JS arrays at index 3. Change the CSS grid to grid-template-columns: repeat(4,1fr). For responsive behaviour, use repeat(auto-fill, minmax(220px,1fr)) — the browser wraps to a new row on narrow screens automatically.' },
       { q: 'How does the usage calculator map a 0–10 slider input to non-linear usage tiers?', a: 'apiTiers and storageTicks are lookup arrays where each position represents a real usage tier — [0, 1000, 5000, 10000, 25000, 50000, 100000, 250000, 500000, 1000000, 5000000] for API calls. The HTML range input spans 0–10. Math.round(sliderValue * (array.length - 1) / 10) converts the 0–10 position to an array index. Each drag step moves to the next tier rather than incrementing linearly.' },
       { q: 'How do I persist the upgrade banner dismiss so it does not reappear on every page load?', a: 'Inside dismiss() in the JS panel, add localStorage.setItem("upgrade_dismissed", Date.now()) before the animation starts. On every page load, read: const stored = localStorage.getItem("upgrade_dismissed"); const TTL = 7 * 24 * 60 * 60 * 1000; if (stored && Date.now() - parseInt(stored) < TTL) { banner.style.display = "none"; return; } Adjust the TTL constant to control how many days before the banner reappears for the same user.' },
+    ],
+  },
+  'landing-pages': {
+    slug: 'ui-snippets/landing-pages',
+    title: 'Landing Page Templates — Free HTML CSS JS Website Templates You Can Customise',
+    subtitle: '{n} complete landing pages · SaaS, App, Agency, Restaurant, Clinic, Gym, Wedding, Course and more · Edit the code or open it in the Website Builder',
+    about: {
+      title: 'Landing Page Templates — Complete One-Page Websites, Built From Reusable Sections',
+      description: `Every snippet in this category is a finished, one-page website for a specific kind of business, not a single component. Each is assembled from ready-made sections in the [Website Section Templates](/website-section-templates/) library (a navbar, a hero, features, pricing or a menu, reviews, an FAQ, a contact form and a footer, chosen and ordered for that business), so the structure reflects what visitors to that kind of site actually look for.
+
+**Pick by what you are selling.** Software and apps (the SaaS, mobile app and launch pages) lead with outcomes and pricing. Local businesses (restaurant, dental clinic, salon, gym, local trades) lead with trust, prices and a way to book. Professional services (law firm, coach, agency, portfolio) lead with people and proof. Events and communities (conference, wedding, nonprofit, church, school) lead with the date, the story and an action.
+
+**Two ways to use them.** Read and edit the HTML, CSS and JavaScript here with a live preview and export it to React, Vue, Angular or Tailwind, or press "Design your website" to open the same page in the [Website Builder](/website-builder/), where you edit text, images, colours and fonts with forms, add pages and download a finished site. Every page explains which sections it uses, links to each of them and shows how to adapt it.`,
+    },
+    features: [
+      'Complete one-page websites for 23 kinds of business, each built from real section templates',
+      'Every page lists its sections in order, with a link to each one and why it sits where it does',
+      'Container-query responsive layouts that work from phone to desktop',
+      'GSAP entrance animations and scroll effects, with reduced-motion support',
+      'One theme per page (colours, fonts, radius), so a rebrand takes minutes',
+      'Open any page in the Website Builder to edit with forms, add pages and export a finished site',
+      'Export the code to React, Vue, Angular or Tailwind from the snippet editor',
+    ],
+    useCases: [
+      { icon: 'APP', title: 'Launch a small business website quickly', desc: 'Start from the page that matches your business, replace the sample content with yours and publish to any static host.' },
+      { icon: 'DESIGN', title: 'Prototype a client site', desc: 'Show a client a realistic, animated page for their industry before committing to a full design.' },
+      { icon: 'LEARN', title: 'Learn how real landing pages are structured', desc: 'Read how sections are ordered, how container queries and GSAP are used and how forms and toggles work in plain JavaScript.' },
+    ],
+    faqs: [
+      { q: 'What is the difference between a landing page template and a section snippet?', a: 'A section snippet is one component, such as a hero or a pricing table. A landing page template is a complete page made by stacking several sections in an order chosen for one kind of business.' },
+      { q: 'Can I customise these without coding?', a: 'Yes. Press "Design your website" to open the page in the Website Builder and edit text, images, colours and fonts with forms. Then export the HTML.' },
+      { q: 'Which section templates does each landing page use?', a: 'Each page lists its sections in order, with a link to every one in the Website Section Templates library.' },
+      { q: 'Are the templates free to use commercially?', a: 'Yes. They are free to use and adapt for personal and commercial projects.' },
     ],
   },
   heroes: {
@@ -875,6 +910,11 @@ Requirements:
     ...(sn.seo?.aiPrompt    && { aiPrompt: sn.seo.aiPrompt }),
   };
 
+  // Landing-page template snippets: no "Build with AI" block. Instead, the website section templates
+  // the page is built from (after About) and a "Start using this template" button (above the code).
+  const start = sn.seo?.startTemplate;
+  if (start) SEO.aiPrompt = undefined;
+
   // Navigation snippets (and the standalone hamburger button) point readers at the
   // Navbar Builder for a complete, responsive navbar: a call-out under the source
   // code plus one FAQ, which also flows into the FAQPage schema below.
@@ -969,10 +1009,14 @@ Requirements:
             />
           </div>
         }
-        injectAfterAiPrompt={navRelated
-          ? <div className={styles.navbarPromoGap}><NavbarBuilderPromo /></div>
-          : undefined}
-        bottomExtra={sourceCodeBlock}
+        injectAfterAiPrompt={start
+          ? <LandingPageStart start={start} sections={sn.seo.sectionsUsed} />
+          : navRelated
+            ? <div className={styles.navbarPromoGap}><NavbarBuilderPromo /></div>
+            : undefined}
+        bottomExtra={start
+          ? <div><div className={styles.startBottom}><StartTemplateButtons start={start} /></div>{sourceCodeBlock}</div>
+          : sourceCodeBlock}
         aiPromptLast
         featuresAfterAbout
       />
