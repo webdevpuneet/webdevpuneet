@@ -984,6 +984,133 @@ BEHAVIORS.booking = {
 })();`,
 };
 
+BEHAVIORS.paginate = {
+  /* Paging for a list of cards: [data-pager] holds [data-pager-items] (an ul of li cards, ALL in
+     the HTML), a [data-pager-status] line and a [data-pager-nav]. Settings are data attributes
+     (data-per, data-style numbers | more, data-label-*). Without JavaScript every card shows.
+     With it, one page shows at a time with Previous / numbers / Next, or a show-more button. */
+  plugins: [],
+  js: `(function () {
+  var editing = window.ST_STILL || window.ST_PREVIEW;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.st [data-pager]').forEach(function (root) {
+    var items = Array.prototype.slice.call(root.querySelectorAll('[data-pager-items] > li'));
+    var nav = root.querySelector('[data-pager-nav]');
+    var status = root.querySelector('[data-pager-status]');
+    var per = Math.max(1, parseInt(root.getAttribute('data-per'), 10) || 6);
+    var style = root.getAttribute('data-style') || 'numbers';
+    var tpl = root.getAttribute('data-label-status') || '';
+    var total = items.length;
+    var pages = Math.ceil(total / per);
+    var say = function (from, to) {
+      if (status) status.textContent = tpl ? tpl.replace('{from}', from).replace('{to}', to).replace('{total}', total) : '';
+    };
+    if (!nav || total <= per) { say(total ? 1 : 0, total); return; }
+    nav.setAttribute('aria-label', root.getAttribute('data-label-nav') || 'Pagination');
+    nav.hidden = false;
+    var btn = function (cls, text, label) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = cls; b.textContent = text;
+      if (label) b.setAttribute('aria-label', label);
+      return b;
+    };
+    var page = 1, shown = per;
+    var top = function () { if (!editing) root.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); };
+
+    function numbers(focus) {
+      items.forEach(function (li, i) { li.hidden = !(i >= (page - 1) * per && i < page * per); });
+      say((page - 1) * per + 1, Math.min(total, page * per));
+      nav.textContent = '';
+      var prev = btn('bg-pbtn', root.getAttribute('data-label-prev') || 'Previous');
+      prev.disabled = page === 1;
+      prev.addEventListener('click', function () { go(page - 1); });
+      nav.appendChild(prev);
+      var last = 0;
+      for (var p = 1; p <= pages; p++) {
+        if (p !== 1 && p !== pages && Math.abs(p - page) > 1) continue;
+        if (last && p - last > 1) { var gap = document.createElement('span'); gap.className = 'bg-gap'; gap.setAttribute('aria-hidden', 'true'); gap.textContent = '…'; nav.appendChild(gap); }
+        var n = btn('bg-pbtn', String(p), 'Page ' + p + ' of ' + pages);
+        if (p === page) n.setAttribute('aria-current', 'page');
+        (function (target) { n.addEventListener('click', function () { go(target); }); })(p);
+        nav.appendChild(n);
+        last = p;
+      }
+      var next = btn('bg-pbtn', root.getAttribute('data-label-next') || 'Next');
+      next.disabled = page === pages;
+      next.addEventListener('click', function () { go(page + 1); });
+      nav.appendChild(next);
+      if (focus) { var cur = nav.querySelector('[aria-current]'); if (cur) cur.focus({ preventScroll: true }); }
+    }
+    function go(p) { page = Math.min(pages, Math.max(1, p)); numbers(true); top(); }
+
+    function more() {
+      items.forEach(function (li, i) { li.hidden = i >= shown; });
+      say(1, Math.min(total, shown));
+      nav.textContent = '';
+      if (shown < total) {
+        var b = btn('bg-more', root.getAttribute('data-label-more') || 'Show more posts');
+        b.addEventListener('click', function () {
+          var first = shown;
+          shown = Math.min(total, shown + per);
+          more();
+          var a = items[first] && items[first].querySelector('a[href]:not([tabindex="-1"])');
+          if (a) a.focus({ preventScroll: true });
+        });
+        nav.appendChild(b);
+      } else nav.hidden = true;
+    }
+    if (style === 'more') more(); else numbers(false);
+  });
+})();`,
+};
+
+BEHAVIORS.auth = {
+  /* Login and register forms (form[data-auth]): show / hide password buttons ([data-pw-toggle]
+     inside .au-pw), a strength hint ([data-pw-meter] with data-levels words) for the password
+     field ([data-pw]), a matching check for [data-pw-confirm], and nothing is submitted from
+     the editor previews. Without JavaScript the form is an ordinary POST. */
+  plugins: [],
+  js: `(function () {
+  var editing = window.ST_STILL || window.ST_PREVIEW;
+  document.querySelectorAll('.st form[data-auth]').forEach(function (form) {
+    var pw = form.querySelector('[data-pw]');
+    var cf = form.querySelector('[data-pw-confirm]');
+    form.querySelectorAll('[data-pw-toggle]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var wrap = btn.closest('.au-pw');
+        var input = wrap && wrap.querySelector('input');
+        if (!input) return;
+        var show = input.type === 'password';
+        input.type = show ? 'text' : 'password';
+        btn.setAttribute('aria-pressed', show ? 'true' : 'false');
+        btn.classList.toggle('is-on', show);
+      });
+    });
+    if (pw && cf) {
+      var same = function () { cf.setCustomValidity(cf.value && cf.value !== pw.value ? (cf.getAttribute('data-mismatch') || 'Passwords do not match') : ''); };
+      pw.addEventListener('input', same);
+      cf.addEventListener('input', same);
+    }
+    var meter = form.querySelector('[data-pw-meter]');
+    if (pw && meter) {
+      var words = (meter.getAttribute('data-levels') || 'Weak,Fair,Good,Strong').split(',');
+      var text = meter.querySelector('.au-meter-text');
+      pw.addEventListener('input', function () {
+        var v = pw.value, s = 0;
+        if (v.length >= 8) s++;
+        if (/[a-z]/.test(v) && /[A-Z]/.test(v)) s++;
+        if (/[0-9]/.test(v)) s++;
+        if (/[^A-Za-z0-9]/.test(v) || v.length >= 14) s++;
+        var level = v ? Math.max(1, s) : 0;
+        meter.setAttribute('data-level', String(level));
+        if (text) text.textContent = level ? (words[level - 1] || '') : '';
+      });
+    }
+    form.addEventListener('submit', function (e) { if (editing) e.preventDefault(); });
+  });
+})();`,
+};
+
 BEHAVIORS.popup = {
   /* Popup & Promo Modal (popup-modal): opens by itself after a delay, on exit intent (the mouse leaving the top
      of the window) or after scrolling part of the page; closes with ×, Esc, the backdrop (centre only) or any

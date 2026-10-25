@@ -3,6 +3,7 @@
    Only categories that have sections get a page (see generateStaticParams). */
 
 import { SCROLL_LISTINGS_CATEGORY_SEO } from './seo-scroll-listings.js';
+import { MORE_CATEGORY_SEO } from './seo-content-more.js';
 
 export const SECTION_CATEGORY_SEO = {
   gallery: {
@@ -216,7 +217,9 @@ New: the **[Booking Request Form](/website-section-templates/booking-form/)** co
 
 Posts are editable lists with covers (upload your own or use the included abstract artwork), and every blog section adds an ItemList of BlogPosting structured data to its HTML export. Everything shares the library's theme, animates with GSAP and exports to HTML, React or Vue.
 
-New: the **[Legal & Long-Form Text Page](/website-section-templates/privacy-policy/)** is a readable layout for privacy policies, terms and long guides, with numbered sections and an automatic table of contents.`,
+New: the **[Legal & Long-Form Text Page](/website-section-templates/privacy-policy/)** is a readable layout for privacy policies, terms and long guides, with numbered sections and an automatic table of contents.
+
+For a whole blog, use the **[Blog Grid with Pagination](/website-section-templates/blog-grid-pagination/)** as the index page, with numbered pages or a load-more button, and the **[Blog Post Page](/website-section-templates/blog-post/)** as the page for each article, with a table of contents, share buttons, an author box and related posts.`,
     faqs: [
       { q: 'Can these sections pull posts from my CMS?', a: 'They export as static HTML and CSS. To make them dynamic, render the same markup from WordPress, Ghost, Sanity, Markdown or any CMS in your framework of choice.' },
       { q: 'Is structured data included?', a: 'Yes. Each blog section’s HTML export includes an ItemList of BlogPosting JSON-LD with headlines, descriptions, URLs, images and authors.' },
@@ -260,5 +263,6 @@ Keep the offer relevant, show one popup per visit and make the close button obvi
       { q: 'Do popups work on mobile phones?', a: 'Yes. Cards stretch across the screen, and because phones have no mouse, exit intent falls back to a delay of at least ten seconds.' },
     ],
   },
+  ...MORE_CATEGORY_SEO, // Login & Sign up (seo-content-more.js)
   ...SCROLL_LISTINGS_CATEGORY_SEO, // scroll + listings (seo-scroll-listings.js)
 };

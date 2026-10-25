@@ -332,7 +332,7 @@
   ]
  },
  "section": {
-  "total": 61,
+  "total": 65,
   "categories": [
    {
     "id": "hero",
@@ -573,6 +573,14 @@
      {
       "id": "privacy-policy",
       "name": "Legal & Long-Form Text Page"
+     },
+     {
+      "id": "blog-post",
+      "name": "Blog Post Page (Single Article)"
+     },
+     {
+      "id": "blog-grid-pagination",
+      "name": "Blog Grid with Pagination"
      }
     ]
    },
@@ -635,6 +643,20 @@
      {
       "id": "class-timetable",
       "name": "Class Timetable"
+     }
+    ]
+   },
+   {
+    "id": "auth",
+    "label": "Login & Sign up",
+    "items": [
+     {
+      "id": "login-form",
+      "name": "Login Form (Sign In Page)"
+     },
+     {
+      "id": "register-form",
+      "name": "Register Form (Sign Up Page)"
      }
     ]
    },

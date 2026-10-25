@@ -248,3 +248,6 @@ export default {
 }
 @media print{.ss{display:none}}`,
 };
+
+/* The network table and icon builder, for other sections (the blog post page share row) */
+export { NETS, svg as netSvg };
