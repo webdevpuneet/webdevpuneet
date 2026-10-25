@@ -175,7 +175,7 @@ The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour 
                   </div>
                 </section>
               )}
-              <a className={st.allLink} href="/website-builder/"><span aria-hidden="true">←</span> All website templates</a>
+              <a className={`${st.btn} ${st.btnGhost} ${st.allBtn}`} href="/website-builder/"><span aria-hidden="true">←</span> All website templates</a>
             </div>
             {multi && (
               <div className={st.box}>
