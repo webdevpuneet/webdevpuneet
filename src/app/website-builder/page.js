@@ -80,6 +80,21 @@ const SECTIONS = [
   },
   {
     type: 'text',
+    label: 'Live examples',
+    heading: 'See Real Exported Websites',
+    quickFacts: false,
+    text: `These are real sites exported straight from the builder, running as plain HTML, CSS and a small script. Each opens in a new tab so you can scroll, resize and test the menus, accordions and animations yourself.
+
+**SaaS landing page:** [One-page site](https://webdevpuneet.com/demos/website-templates/saas/one-page/) · [Multi-page site](https://webdevpuneet.com/demos/website-templates/saas/multi-page/)
+
+**Restaurant:** [One-page site](https://webdevpuneet.com/demos/website-templates/restaurant/one-page/) · [Multi-page site](https://webdevpuneet.com/demos/website-templates/restaurant/multi-page/)
+
+**Portfolio:** [One-page site](https://webdevpuneet.com/demos/website-templates/portfolio/one-page/) · [Multi-page site](https://webdevpuneet.com/demos/website-templates/portfolio/multi-page/)
+
+**Dental clinic:** [One-page site](https://webdevpuneet.com/demos/website-templates/dental/one-page/) · [Multi-page site](https://webdevpuneet.com/demos/website-templates/dental/multi-page/)`,
+  },
+  {
+    type: 'text',
     label: 'About these templates',
     heading: 'Website Templates You Can Actually Edit',
     quickFacts: false,

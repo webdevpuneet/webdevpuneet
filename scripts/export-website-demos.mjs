@@ -16,6 +16,11 @@ const only = process.argv.slice(2);
 const SKIP = new Set(['sitemap.xml', 'robots.txt', 'llms.txt']); // demos are not a real site
 const NOINDEX = '<meta name="robots" content="noindex, follow">';
 
+/* Thin in-flow bar at the very top of every demo page linking back to its template page
+   (the navbar is sticky, so it simply sticks once the bar scrolls away). Marker keeps it idempotent. */
+const BASE = 'https://webdevpuneet.com/website-builder/templates/';
+const demoBar = (id, name) => `<!--ws-demo-bar--><div style="background:#0f172a;color:#e2e8f0;font:500 13px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;text-align:center;padding:8px 12px"><a href="${BASE}${id}/" style="color:#fff;text-decoration:none">Demo of the free <strong>${name.replace(/&/g, "&amp;")}</strong> template. <span style="text-decoration:underline">View the template page &rarr;</span></a></div>`;
+
 await mkdir(OUT, { recursive: true });
 let made = 0;
 for (const t of WEBSITE_TEMPLATES) {
@@ -34,6 +39,7 @@ for (const t of WEBSITE_TEMPLATES) {
         else content = content.replace(/(<meta charset="[^"]*">)/i, `$1
 ${NOINDEX}`);
       }
+      if (f.path.endsWith('.html')) content = content.replace(/<body([^>]*)>/i, (m) => `${m}${demoBar(t.id, t.name)}`);
       await writeFile(path.join(dir, folder, f.path), f.base64 ? Buffer.from(content, 'base64') : content);
     }
     counts.push(`${folder} ${files.filter(f => f.path.endsWith('.html')).length}`);
