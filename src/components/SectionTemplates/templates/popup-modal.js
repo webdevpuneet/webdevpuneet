@@ -22,12 +22,11 @@ export default {
   name: 'Popup & Promo Modal',
   version: '1.0.0',
   category: 'popup',
-  draft: true, // SEO content not written yet: noindex, left out of the sitemap, the sidebar and llms.txt
   tags: ['popup', 'modal', 'exit-intent', 'promo', 'sidekick', 'newsletter', 'lead-capture', 'carousel', 'overlay', 'light'],
   created: '2026-10-25',
   updated: '2026-10-25',
-  seoTitle: 'Popup & Promo Modal',
-  seoDescription: '',
+  seoTitle: 'Popup & Promo Modal — Free Exit-Intent Popup Template',
+  seoDescription: 'Free popup template: open it after a delay, on exit intent or on scroll, as a centre modal or corner promo card with email form, video, carousel and CTAs.',
   description: 'A popup or promo modal that opens by itself: in the middle of the screen with a dimmed page, or as a small card in a corner or along the bottom or top edge with no overlay, which the visitor can dismiss with ×. It opens after a delay, when the visitor moves to leave the page (exit intent) or after they scroll part of the way down, and can hold an image, an image carousel or a video, a heading, text, your own HTML, an email form and up to two buttons. It takes no space in your layout.',
   bestFor: ['Newsletter and discount sign-ups', 'Exit-intent offers on shop and landing pages', 'Promo cards for sales, launches, webinars and events'],
   behaviors: ['popup', 'form', 'video'],
@@ -43,16 +42,22 @@ export default {
       ['data-scroll', num(f.scrollPct, 50, 5, 100)],
       ['data-days', num(f.days, 7, 0, 365)],
       ['data-pos', pick(f.position, POSITIONS, 'center')],
+      ['data-layout', pick(f.layout, ['left', 'right', 'top', 'bottom'], 'left')],
       ['data-autoplay', num(f.autoplay, 0, 0, 30)],
       ['data-pu-id', hash(`${f.heading || ''}|${f.trigger || ''}`)],
     ].map(([k, v]) => ` ${k}="${esc(v)}"`).join('');
+    // Width and height are automatic unless set to Custom (px)
+    const dim = (v, min, max) => { const n = parseFloat(v); return Number.isFinite(n) && n > 0 ? Math.min(max, Math.max(min, Math.round(n))) : 0; };
+    const vars = [['--pu-w', f.widthMode === 'custom' ? dim(f.width, 280, 1100) : 0], ['--pu-h', f.heightMode === 'custom' ? dim(f.height, 200, 900) : 0]].filter(([, n]) => n).map(([k, n]) => `${k}:${n}px`).join(';');
+    const style = vars ? ` style="${vars}"` : '';
     return html
-      .replace('<div class="pu" data-pu>', () => `<div class="pu" data-pu${attrs}>`)
+      .replace('<div class="pu" data-pu>', () => `<div class="pu" data-pu${attrs}${style}>`)
       .replace('<div class="pu-html" data-pu-html></div>', () => `<div class="pu-html">${clean ? custom : tame(custom)}</div>`);
   },
 
   groups: [
     { id: 'when', label: 'When & where it appears' },
+    { id: 'layout', label: 'Layout' },
     { id: 'content', label: 'Heading & text' },
     { id: 'image', label: 'Image', toggle: 'showImage' },
     { id: 'carousel', label: 'Image carousel', toggle: 'showCarousel' },
@@ -68,6 +73,13 @@ export default {
     { key: 'scrollPct', group: 'when', label: 'Scroll depth (%)', type: 'text', value: '50', hint: 'Used for “After scrolling”: the share of the page scrolled.' },
     { key: 'days', group: 'when', label: 'Show again after (days)', type: 'text', value: '7', hint: '0 shows it on every visit. Otherwise it stays away for that many days once shown.' },
     { key: 'position', group: 'when', label: 'Position', type: 'choice', options: [['center', 'Centre of the screen, page dimmed'], ['bottom-right', 'Bottom right, no overlay'], ['bottom-left', 'Bottom left, no overlay'], ['bottom-center', 'Bottom centre, no overlay'], ['top-right', 'Top right, no overlay'], ['top-left', 'Top left, no overlay']], value: 'center', hint: 'Only the centre position dims the page. The others are small cards the visitor can keep browsing around, and close with ×.' },
+
+    { key: 'layout', group: 'layout', label: 'Text position, next to the image or video', type: 'choice', options: [['left', 'Text on the right of the image'], ['right', 'Text on the left of the image'], ['top', 'Text below the image (image on top)'], ['bottom', 'Text above the image (image at the bottom)']], value: 'left', hint: 'Right and left need the centre position. Above and below work for the centre popup and for corner cards, which are always one column, as are small screens. Remove the image, carousel and video for a text-only popup, or clear the text for a media-only one.' },
+
+    { key: 'widthMode', group: 'layout', label: 'Width', type: 'choice', options: [['auto', 'Automatic (fits the layout)'], ['custom', 'Custom']], value: 'auto', hint: 'Automatic is about 780 px for two columns, 520 px for one column and 400 px for corner cards.' },
+    { key: 'width', group: 'layout', label: 'Custom width (px)', type: 'text', value: '600', hint: 'Used when the width is Custom. Between 280 and 1100. It always fits the screen.' },
+    { key: 'heightMode', group: 'layout', label: 'Height', type: 'choice', options: [['auto', 'Automatic (fits the content)'], ['custom', 'Custom']], value: 'auto', hint: 'The image or video fills extra height, and the popup scrolls if the content is taller.' },
+    { key: 'height', group: 'layout', label: 'Custom height (px)', type: 'text', value: '520', hint: 'Used when the height is Custom. Between 200 and 900. It never grows beyond the screen.' },
 
     { key: 'eyebrow', group: 'content', label: 'Label (optional)', type: 'text', value: 'Before you go' },
     { key: 'heading', group: 'content', label: 'Heading', type: 'textarea', value: 'Get *10% off* your first order' },
@@ -175,15 +187,15 @@ export default {
 .st-popup-modal:has(.pu.is-preview){height:auto;padding:clamp(24px,4vw,48px) var(--st-pad);background:color-mix(in srgb,var(--st-text) 8%,var(--st-bg))}
 .pu-backdrop{position:fixed;inset:0;z-index:1000;background:rgba(15,23,42,.58);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);opacity:0;transition:opacity .3s ease}
 .pu-backdrop[hidden],.pu-dialog[hidden]{display:none}
-.pu-dialog{position:fixed;z-index:1001;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);width:min(780px,calc(100vw - 32px));max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow:auto;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-bg);color:var(--st-text);box-shadow:0 40px 90px -20px rgba(15,23,42,.55);font-family:var(--st-font-body);opacity:0;transition:opacity .3s ease,transform .35s cubic-bezier(.2,.8,.2,1)}
+.pu-dialog{position:fixed;z-index:1001;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);--pu-wd:780px;width:min(var(--pu-w,var(--pu-wd)),calc(100vw - 32px));height:var(--pu-h,auto);max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow:auto;border-radius:calc(var(--st-radius) * 1.2px);background:var(--st-bg);color:var(--st-text);box-shadow:0 40px 90px -20px rgba(15,23,42,.55);font-family:var(--st-font-body);opacity:0;transition:opacity .3s ease,transform .35s cubic-bezier(.2,.8,.2,1)}
 .pu[data-pos=center] .pu-dialog{top:50%;left:50%;transform:translate(-50%,-46%) scale(.97)}
-.pu:not([data-pos=center]) .pu-dialog{width:min(400px,calc(100vw - 24px));grid-template-columns:1fr;box-shadow:0 24px 60px -16px rgba(15,23,42,.5),0 0 0 1px color-mix(in srgb,var(--st-text) 8%,transparent)}
+.pu:not([data-pos=center]) .pu-dialog{--pu-wd:400px;grid-template-columns:1fr;box-shadow:0 24px 60px -16px rgba(15,23,42,.5),0 0 0 1px color-mix(in srgb,var(--st-text) 8%,transparent)}
 .pu:not([data-pos=center]) .pu-backdrop{display:none}
 .pu[data-pos^=bottom] .pu-dialog{bottom:20px;transform:translateY(24px)}
 .pu[data-pos^=top] .pu-dialog{top:20px;transform:translateY(-24px)}
 .pu[data-pos$=right] .pu-dialog{right:20px}
 .pu[data-pos$=left] .pu-dialog{left:20px}
-.pu[data-pos=bottom-center] .pu-dialog{left:50%;width:min(460px,calc(100vw - 24px));transform:translate(-50%,24px)}
+.pu[data-pos=bottom-center] .pu-dialog{left:50%;--pu-wd:460px;transform:translate(-50%,24px)}
 .pu.is-open .pu-backdrop{opacity:1}
 .pu.is-open .pu-dialog{opacity:1}
 .pu[data-pos=center].is-open .pu-dialog{transform:translate(-50%,-50%)}
@@ -192,6 +204,16 @@ export default {
 .pu-media{position:relative;min-height:220px;background:var(--st-surface)}
 .pu-media:not(:has(.pu-img,.pu-car,.pu-video)){display:none}
 .pu-dialog:not(:has(.pu-img,.pu-car,.pu-video)){grid-template-columns:1fr}
+.pu-body:not(:has(.st-eyebrow:not(:empty),.pu-h:not(:empty),.pu-lead:not(:empty),.pu-form,.pu-ctas,.pu-html-wrap,.pu-no span:not(:empty))){display:none}
+.pu-dialog:not(:has(.st-eyebrow:not(:empty),.pu-h:not(:empty),.pu-lead:not(:empty),.pu-form,.pu-ctas,.pu-html-wrap,.pu-no span:not(:empty))){grid-template-columns:1fr}
+.pu-dialog:not(:has(.st-eyebrow:not(:empty),.pu-h:not(:empty),.pu-lead:not(:empty),.pu-form,.pu-ctas,.pu-html-wrap,.pu-no span:not(:empty))) .pu-media{min-height:clamp(240px,40vw,380px)}
+.pu[data-pos=center][data-layout=right] .pu-dialog{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}
+.pu[data-pos=center][data-layout=right] .pu-media{order:2}
+.pu[data-pos=center][data-layout=top] .pu-dialog{grid-template-columns:1fr;--pu-wd:520px}
+.pu[data-pos=center][data-layout=top] .pu-media{min-height:0;aspect-ratio:16/9}
+.pu[data-pos=center][data-layout=bottom] .pu-dialog{grid-template-columns:1fr;--pu-wd:520px}
+.pu[data-pos=center][data-layout=bottom] .pu-media{min-height:0;aspect-ratio:16/9}
+.pu[data-layout=bottom] .pu-media{order:2}
 .pu:not([data-pos=center]) .pu-media{min-height:150px;aspect-ratio:16/9}
 .pu-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .pu-car{position:absolute;inset:0}
@@ -222,7 +244,7 @@ export default {
 .pu-dot{width:9px;height:9px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.55);cursor:pointer;transition:background .2s ease,transform .2s ease}
 .pu-dot[aria-current=true]{background:#fff;transform:scale(1.25)}
 .pu-car.is-single .pu-nav,.pu-car.is-single .pu-dots{display:none}
-.pu-body{display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:clamp(24px,4vw,40px)}
+.pu-body{display:flex;flex-direction:column;align-items:flex-start;gap:12px;justify-content:safe center;padding:clamp(24px,4vw,40px)}
 .pu:not([data-pos=center]) .pu-body{padding:20px 22px 22px;gap:10px}
 .pu-h{font-size:clamp(24px,2vw + 14px,34px)}
 .pu:not([data-pos=center]) .pu-h{font-size:clamp(20px,1vw + 14px,26px)}
@@ -248,7 +270,8 @@ export default {
 .pu.is-preview .pu-backdrop{display:none}
 .pu.is-preview .pu-dialog{position:relative;inset:auto;transform:none;margin:0 auto;opacity:1;max-height:none}
 @media (max-width:640px){
-.pu[data-pos=center] .pu-dialog{grid-template-columns:1fr}
+.pu[data-pos=center] .pu-dialog,.pu[data-pos=center][data-layout=right] .pu-dialog{grid-template-columns:1fr}
+.pu[data-pos=center][data-layout=right] .pu-media{order:0}
 .pu-media{min-height:150px;max-height:220px}
 .pu:not([data-pos=center]) .pu-dialog{left:12px;right:12px;width:auto}
 .pu[data-pos=bottom-center] .pu-dialog,.pu[data-pos=bottom-center].is-open .pu-dialog{left:12px;transform:none}

@@ -332,7 +332,7 @@
   ]
  },
  "section": {
-  "total": 60,
+  "total": 61,
   "categories": [
    {
     "id": "hero",
@@ -635,6 +635,16 @@
      {
       "id": "class-timetable",
       "name": "Class Timetable"
+     }
+    ]
+   },
+   {
+    "id": "popup",
+    "label": "Popups",
+    "items": [
+     {
+      "id": "popup-modal",
+      "name": "Popup & Promo Modal"
      }
     ]
    },

@@ -565,15 +565,69 @@ Save a layout to My designs, add it to any page in the [Website Builder](/websit
     },
   },
 
-  // Draft: SEO content to be written once the Popup is final (the page is noindex until then)
   'popup-modal': {
-    keywords: [],
-    about: { title: '', description: '' },
-    features: [],
-    why: [],
-    useCases: [],
-    faqs: [],
-    aiPrompt: { paragraph: '', prompt: '' },
+    keywords: ['popup builder html', 'exit intent popup', 'timed popup html css', 'promo modal template', 'newsletter popup with email form'],
+    about: {
+      title: 'Popup & Promo Modal — Free Exit-Intent and Timed Popup Template',
+      description: `**Popup & Promo Modal** is a free popup for websites that need to make an offer at the right moment. It opens by itself after a delay you choose, when a visitor moves to leave the page (exit intent) or after they scroll part of the way down, and it takes no space in your layout.
+
+**Centre modal or quiet promo card**
+
+Show it in the middle of the screen with a dimmed page for a sign-up or an offer you really want seen, or as a small card in the bottom right, bottom left, bottom centre, top right or top left with no overlay. Visitors keep browsing around the card and close it with the × button. On phones the card stretches neatly across the screen.
+
+**Everything a promotion needs**
+
+Add a label, a heading and a short text, then an image, an image carousel with arrows and dots, or a click-to-play video that loads nothing from YouTube or Vimeo until it is played. Add an email form that posts to Mailchimp, Kit or any service, up to two call-to-action buttons, a "no thanks" link, or your own HTML for anything else.
+
+**Polite by design**
+
+A visitor who closes it is left alone for the number of days you set, or you can show it on every visit. The popup closes with Esc, keeps keyboard focus inside when it dims the page, announces itself to screen readers and respects reduced motion.
+
+**Edit, save and export**
+
+Click any text or image in the preview to change it, then match the colours, fonts and corner radius to your brand. Export HTML, a ZIP with your images, React or Vue, or add it to a page in the [Website Builder](/website-builder/). For the form it works with, see the [Newsletter Signup CTA](/website-section-templates/cta-newsletter/).`,
+    },
+    features: [
+      'Opens after a delay, on exit intent or after scrolling part of the page',
+      'Centre modal with a dimmed page, or a promo card in any corner or along the bottom or top edge',
+      'Small cards have no overlay, so visitors keep browsing and close them with ×',
+      'Image, image carousel or a click-to-play video that loads only when played',
+      'Email form that posts to Mailchimp, Kit or any service, with success and error messages',
+      'Up to two call-to-action buttons and an optional "no thanks" link',
+      'Custom HTML area for embeds, badges or anything else',
+      'Shows again only after the number of days you set, or on every visit',
+      'Closes with ×, Esc or a click outside, with keyboard focus kept inside the dimmed modal',
+      'Takes no space in the layout; export HTML, React or Vue',
+    ],
+    why: [
+      { icon: '🎯', title: 'Right moment, right place', desc: 'Pick the trigger that fits the offer, such as a delay for a promotion or exit intent for a last chance.' },
+      { icon: '🙂', title: 'Visitor friendly', desc: 'Corner cards never block the page, a closed popup stays away for days, and everything works from the keyboard.' },
+      { icon: '⚡', title: 'Light and private', desc: 'No third-party popup script, and a video loads nothing from its host until someone presses play.' },
+    ],
+    useCases: [
+      { icon: '✉️', title: 'Newsletter and discount sign-ups', desc: 'Offer a first-order discount or a free guide in return for an email address, shown after a short delay or as the visitor leaves.' },
+      { icon: '🛒', title: 'Shop and sale promotions', desc: 'Announce a sale or a new range with a corner card and a carousel of products, with two buttons to shop or learn more.' },
+      { icon: '🎥', title: 'Webinar and event invites', desc: 'Invite readers to a workshop with a short video and a sign-up button, shown after they have scrolled halfway down an article.' },
+      { icon: '📢', title: 'Announcements and notices', desc: 'Tell visitors about opening hours, a launch or a policy change in a quiet card that they can dismiss and not see again for a week.' },
+    ],
+    faqs: [
+      { q: 'What is an exit-intent popup?', a: 'A popup that opens when a visitor moves the mouse towards the top of the window, as if to leave. It is a last chance to make an offer. Phones have no mouse, so it opens after a delay there.' },
+      { q: 'Can the popup open after a few seconds?', a: 'Yes. Choose "After some time" and set the delay in seconds. You can also open it after the visitor scrolls a share of the page, for example halfway down an article.' },
+      { q: 'Will a popup annoy visitors or hurt SEO?', a: 'Keep it relevant and easy to close. This one has a clear × button, stays away for the days you set once shown, and takes no space in the layout. Corner cards do not cover the page at all.' },
+      { q: 'Can I put a video or my own HTML in the popup?', a: 'Yes. Add a click-to-play video that loads nothing until it is played, an image carousel, or your own HTML for embeds and extra content.' },
+      { q: 'Does the email form work with Mailchimp or Kit?', a: 'Yes. Paste the form action URL and the field name from your email service. The visitor sees a success message, or an error message if the sending fails.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to adapt the Popup HTML, CSS and JavaScript: add a countdown, a cookie-style remember rule, another trigger such as inactivity, or turn it into a React component.',
+      prompt: `Create a promotional popup in plain HTML, CSS and JavaScript.
+
+- A fixed dialog with role="dialog", a close button, an image on the left, a heading, a short text, an email form and a "no thanks" link.
+- A data-trigger setting with three options: after N seconds, exit intent (mouseout with clientY <= 0 and no relatedTarget, desktop only), and after scrolling a given percentage of the page.
+- A data-pos setting: centre with a dimmed backdrop, or a small card in the bottom right with no backdrop.
+- Close with the button, Esc and a click on the backdrop; for the centre popup trap focus inside and return it on close.
+- Remember a close in localStorage and do not show again for 7 days, wrapped in try/catch.
+- Fade and slide in with CSS transitions and respect prefers-reduced-motion.`,
+    },
   },
 
   'floating-social-share': {

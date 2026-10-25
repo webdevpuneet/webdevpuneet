@@ -242,5 +242,23 @@ Put share buttons where people finish reading, keep the list to the three or fou
       { q: 'Can I choose which networks appear?', a: 'Yes. Add, remove and reorder buttons from a list of fourteen, including WhatsApp, LinkedIn, Pinterest, Reddit, email and a copy-link button.' },
     ],
   },
+  popup: {
+    title: 'Popup & Modal Templates — Free Exit-Intent and Promo Popups',
+    description: 'Free popup templates: timed popups, exit-intent offers and promo cards with email forms, videos and carousels. Edit online and export HTML, React or Vue.',
+    h1: 'Popup & Promo Modal Templates',
+    keywords: ['popup builder html', 'exit intent popup', 'timed popup html css', 'promo modal template', 'newsletter popup with email form'],
+    intro: `A well-timed popup can turn a passing visitor into a subscriber or a customer, and a badly timed one sends them away. These templates are built to be polite: they open when you tell them to, stay out of the way and are easy to close.
+
+The **[Popup & Promo Modal](/website-section-templates/popup-modal/)** opens after a delay, when a visitor is about to leave (exit intent) or after they scroll part of the page. Show it in the middle of the screen with a dimmed page, or as a small promo card in any corner or along the bottom or top edge with no overlay. It can hold an image, an image carousel or a click-to-play video, an email form, up to two buttons or your own HTML.
+
+It takes no space in your layout, remembers a closed popup for the number of days you choose, closes with ×, Esc or a click outside, and works with a keyboard. Edit it in your browser and export HTML, a ZIP, React or Vue.
+
+Keep the offer relevant, show one popup per visit and make the close button obvious. For a sign-up that sits inside the page instead, see the [call-to-action sections](/website-section-templates/category/cta/).`,
+    faqs: [
+      { q: 'How do I add an exit-intent popup to my website?', a: 'Open the Popup & Promo Modal, set the trigger to exit intent, write your offer and export the HTML or copy it into your page. It opens when a visitor moves to leave the window.' },
+      { q: 'Can I show a popup only once per visitor?', a: 'Yes. Set how many days it should stay away after being shown, or use zero to show it on every visit. The choice is remembered in the visitor’s own browser.' },
+      { q: 'Do popups work on mobile phones?', a: 'Yes. Cards stretch across the screen, and because phones have no mouse, exit intent falls back to a delay of at least ten seconds.' },
+    ],
+  },
   ...SCROLL_LISTINGS_CATEGORY_SEO, // scroll + listings (seo-scroll-listings.js)
 };
