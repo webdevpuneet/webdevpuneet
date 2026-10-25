@@ -7,6 +7,7 @@ import styles from './styles.module.css';
 const POPULAR = ['CSS', 'JavaScript', 'React'];
 const MAX_TOOL_RESULTS = 8;
 const MAX_SNIPPET_RESULTS = 5;
+const MAX_TEMPLATE_RESULTS = 6;
 
 // Every tool on this site plus every tool that still lives on fwdtools.com (external
 // links). Name matches rank first, then slug, then the longer description text; tools on
@@ -47,12 +48,43 @@ function matchSnippets(query, index) {
     .slice(0, MAX_SNIPPET_RESULTS);
 }
 
+/* The four template libraries as one searchable list, built from the small generated nav
+   files (names and categories only, no template code): { name, lib, cat, href }. Matches
+   every word of the query against the name, the category and the library name. */
+const TEMPLATE_LIBS = [
+  { key: 'section', lib: 'Website Section Templates', base: '/website-section-templates/' },
+  { key: 'email', lib: 'Email Templates', base: '/email-templates/' },
+  { key: 'social', lib: 'Social Post Templates', base: '/social-post-templates/' },
+];
+function buildTemplateIndex(nav, websites) {
+  const out = [];
+  for (const { key, lib, base } of TEMPLATE_LIBS) {
+    for (const c of nav[key]?.categories || []) for (const it of c.items) out.push({ name: it.name, lib, cat: c.label, href: `${base}${it.id}/` });
+  }
+  for (const w of websites || []) out.push({ name: w.name, lib: 'Website Templates', cat: w.industry, href: `/website-builder/templates/${w.id}/` });
+  out.push({ name: 'Custom Section Builder', lib: 'Website Section Templates', cat: 'Build your own', href: '/website-section-templates/custom-section/' });
+  return out.map(t => ({ ...t, hay: `${t.name} ${t.cat} ${t.lib}`.toLowerCase(), lname: t.name.toLowerCase() }));
+}
+function matchTemplates(query, index) {
+  if (!index) return [];
+  const words = query.toLowerCase().split(/\s+/).filter(Boolean);
+  const scored = [];
+  for (const t of index) {
+    if (!words.every(w => t.hay.includes(w))) continue;
+    const q = words.join(' ');
+    scored.push({ t, score: t.lname.startsWith(q) ? 3 : t.lname.includes(q) ? 2 : 1 });
+  }
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, MAX_TEMPLATE_RESULTS).map(x => x.t);
+}
+
 export default function HomeOmniSearch() {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const [highlight, setHighlight] = useState(-1);
   const [snippetIndex, setSnippetIndex] = useState(null);
   const [externalTools, setExternalTools] = useState(null);
+  const [templateIndex, setTemplateIndex] = useState(null);
   const wrapRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -77,6 +109,15 @@ export default function HomeOmniSearch() {
     return () => { cancelled = true; };
   }, []);
 
+  // Templates (sections, websites, social posts, emails): their own small chunk too
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all([import('@/data/template-nav.json'), import('@/data/website-templates-nav.json')]).then(([nav, sites]) => {
+      if (!cancelled) setTemplateIndex(buildTemplateIndex(nav.default || nav, sites.default || sites));
+    });
+    return () => { cancelled = true; };
+  }, []);
+
   useEffect(() => {
     function onDocMouseDown(e) {
       if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false);
@@ -86,6 +127,7 @@ export default function HomeOmniSearch() {
   }, []);
 
   const toolResults = useMemo(() => (query.trim() ? matchTools(query.trim(), externalTools) : []), [query, externalTools]);
+  const templateResults = useMemo(() => (query.trim() ? matchTemplates(query.trim(), templateIndex) : []), [query, templateIndex]);
   const snippetResults = useMemo(
     () => (query.trim() ? matchSnippets(query.trim(), snippetIndex) : []),
     [query, snippetIndex]
@@ -93,9 +135,10 @@ export default function HomeOmniSearch() {
   const flatResults = useMemo(
     () => [
       ...toolResults.map(t => ({ kind: 'tool', ...t, href: toolHref(t) })),
+      ...templateResults.map(t => ({ kind: 'template', ...t })),
       ...snippetResults.map(s => ({ kind: 'snippet', href: `/ui-snippets/${s.id}/`, ...s })),
     ],
-    [toolResults, snippetResults]
+    [toolResults, templateResults, snippetResults]
   );
 
   const showDropdown = open && query.trim().length > 0;
@@ -140,7 +183,7 @@ export default function HomeOmniSearch() {
           ref={inputRef}
           type="search"
           className={styles.searchInput}
-          placeholder="Search UI snippets, coding playgrounds and tools…"
+          placeholder="Search UI snippets, templates, coding playgrounds and tools…"
           value={query}
           onChange={handleChange}
           onFocus={() => setOpen(true)}
@@ -149,7 +192,7 @@ export default function HomeOmniSearch() {
           aria-expanded={showDropdown}
           aria-controls="home-omni-results"
           aria-autocomplete="list"
-          aria-label="Search UI snippets, coding playgrounds and tools"
+          aria-label="Search UI snippets, templates, coding playgrounds and tools"
         />
         {query && (
           <button
@@ -198,11 +241,35 @@ export default function HomeOmniSearch() {
                     })}
                   </div>
                 )}
+                {templateResults.length > 0 && (
+                  <div className={styles.resultGroup}>
+                    <div className={styles.resultGroupLabel}>Templates</div>
+                    {templateResults.map((t, i) => {
+                      const idx = toolResults.length + i;
+                      return (
+                        <a
+                          key={t.href}
+                          href={t.href}
+                          role="option"
+                          aria-selected={highlight === idx}
+                          className={`${styles.resultRow} ${highlight === idx ? styles.resultRowActive : ''}`}
+                          onMouseEnter={() => setHighlight(idx)}
+                        >
+                          <span className={styles.resultIcon} aria-hidden="true">▦</span>
+                          <span className={styles.resultBody}>
+                            <span className={styles.resultTitle}>{t.name}</span>
+                            <span className={styles.resultSub}>{t.lib} · {t.cat}</span>
+                          </span>
+                        </a>
+                      );
+                    })}
+                  </div>
+                )}
                 {snippetResults.length > 0 && (
                   <div className={styles.resultGroup}>
                     <div className={styles.resultGroupLabel}>UI Snippets</div>
                     {snippetResults.map((s, i) => {
-                      const idx = toolResults.length + i;
+                      const idx = toolResults.length + templateResults.length + i;
                       return (
                         <a
                           key={s.id}

@@ -83,6 +83,8 @@ export default function SectionPickerModal({ open, onClose, onUse, page, below }
   }, [q, cat, LIB]);
   const counts = useMemo(() => Object.fromEntries(cats.map(c => [c.id, LIB.filter(t => t.category === c.id).length])), [cats, LIB]);
   const limit = cols * rows;
+  const withCreate = !!CUSTOM && !q && cat === 'all'; // the create card takes the first place in the grid
+  const secLimit = limit - (withCreate ? 1 : 0);
 
   // Live preview document: the page's theme, fonts and motion over the section's sample content
   const doc = useMemo(() => {
@@ -143,20 +145,11 @@ export default function SectionPickerModal({ open, onClose, onUse, page, below }
               ))}
             </div>
             <div className={b.modalBody}>
-              {CUSTOM && !q && cat === 'all' && (
+              {!q && cat === 'all' && saved.length > 0 && (
                 <div className={b.customStrip}>
-                  <h3 className={b.stripTitle}>Custom and saved sections{saved.length ? <em> {saved.length} saved</em> : null}</h3>
+                  <h3 className={b.stripTitle}>Your saved sections<em> {saved.length}</em></h3>
                   <div className={b.modalGrid}>
-                    <a className={`${b.modalCard} ${b.createCard}`} href={`/website-section-templates/${CUSTOM.id}/?new=1`} target="_blank" rel="noopener" onClick={onClose}>
-                      <span className={b.createThumb} aria-hidden="true">
-                        <span className={b.createPlus}>+</span>
-                        <span className={b.createMock}><i /><i /><i /></span>
-                      </span>
-                      <span className={b.modalCardCat}>Custom section</span>
-                      <strong>Create custom section</strong>
-                      <small className={b.savedWhen}>Opens the editor in a new tab. Rows, columns, text, images, buttons and your own HTML, CSS and JS</small>
-                    </a>
-                    {saved.slice(0, allSaved ? saved.length : Math.max(0, cols - 1)).map(d => {
+                    {saved.slice(0, allSaved ? saved.length : cols).map(d => {
                       const st = sectionTemplateById(d.tpl);
                       return (
                         <button key={d.id} type="button" className={b.modalCard} onClick={() => { setChosen({ t: st, state: d.state, title: d.name, saved: d }); setDevice('desktop'); }}>
@@ -168,7 +161,7 @@ export default function SectionPickerModal({ open, onClose, onUse, page, below }
                       );
                     })}
                   </div>
-                  {saved.length > cols - 1 && (
+                  {saved.length > cols && (
                     <div className={b.modalMore}>
                       <button type="button" className={b.moreBtn} onClick={() => setAllSaved(v => !v)}>{allSaved ? 'Show fewer' : `Show all saved (${saved.length})`}</button>
                     </div>
@@ -183,7 +176,18 @@ export default function SectionPickerModal({ open, onClose, onUse, page, below }
               )}
               {list.length ? (
                 <div ref={gridRef} className={b.modalGrid}>
-                  {list.slice(0, limit).map(t => (
+                  {withCreate && (
+                    <a className={`${b.modalCard} ${b.createCard}`} href={`/website-section-templates/${CUSTOM.id}/?new=1`} target="_blank" rel="noopener" onClick={onClose}>
+                      <span className={b.createThumb} aria-hidden="true">
+                        <span className={b.createPlus}>+</span>
+                        <span className={b.createMock}><i /><i /><i /></span>
+                      </span>
+                      <span className={b.modalCardCat}>Custom section</span>
+                      <strong>Create custom section</strong>
+                      <small className={b.savedWhen}>Opens the editor in a new tab. Rows, columns, text, images, buttons and your own HTML, CSS and JS</small>
+                    </a>
+                  )}
+                  {list.slice(0, secLimit).map(t => (
                     <button key={t.id} type="button" className={b.modalCard} onClick={() => { setChosen({ t, title: t.name }); setDevice('desktop'); }}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={previewOf(t.id)} alt="" loading="lazy" />
@@ -193,10 +197,10 @@ export default function SectionPickerModal({ open, onClose, onUse, page, below }
                   ))}
                 </div>
               ) : null}
-              {list.length > limit && (
+              {list.length > secLimit && (
                 <div className={b.modalMore}>
                   <button type="button" className={b.moreBtn} onClick={() => setRows(n => n + 2)}>Load more</button>
-                  <span>Showing {Math.min(limit, list.length)} of {list.length}</span>
+                  <span>Showing {Math.min(secLimit, list.length)} of {list.length}</span>
                 </div>
               )}
               {list.length ? null : (

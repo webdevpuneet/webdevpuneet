@@ -205,3 +205,19 @@
 .createPlus { position: relative; z-index: 1; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; background: #4f46e5; color: #fff; font-size: 30px; font-weight: 300; line-height: 1; box-shadow: 0 8px 20px -6px rgba(79, 70, 229, 0.6); }
 .createCard .savedWhen { opacity: 0.75; line-height: 1.4; }
 .stripTitleGap { margin-top: 4px; }
+.orDivider { display: flex; align-items: center; gap: 10px; margin: 2px 0; color: inherit; opacity: 0.6; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+.orDivider::before, .orDivider::after { content: ""; flex: 1; height: 1px; background: rgba(127, 127, 127, 0.4); }
+.emptyChoices { display: flex; flex-direction: column; gap: 10px; margin: 4px 0 2px; }
+.emptyLead { margin: 0 0 2px; font-size: 13px; line-height: 1.5; opacity: 0.8; }
+.choice { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px; border: 1.5px solid #4f46e5; border-radius: 12px; background: linear-gradient(135deg, #4f46e5, #6d5df5); color: #fff; text-align: left; text-decoration: none; cursor: pointer; font: inherit; transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease; }
+.choice:hover { transform: translateY(-1px); box-shadow: 0 10px 22px -12px rgba(79, 70, 229, 0.8); }
+.choice:focus-visible { outline: 3px solid rgba(79, 70, 229, 0.45); outline-offset: 2px; }
+.choiceIcon { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 10px; background: rgba(255, 255, 255, 0.18); }
+.choiceText { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.choiceText b { font-size: 14.5px; line-height: 1.25; }
+.choiceText small { font-size: 12px; line-height: 1.4; opacity: 0.85; }
+.choiceArrow { margin-left: auto; flex: none; font-size: 18px; opacity: 0.85; }
+.choiceDash { border-style: dashed; background: rgba(79, 70, 229, 0.06); color: inherit; }
+.choiceDash:hover { background: rgba(79, 70, 229, 0.12); box-shadow: none; }
+.choiceDash .choiceIcon { background: #4f46e5; color: #fff; }
+.choiceDash .choiceText small { opacity: 0.7; }

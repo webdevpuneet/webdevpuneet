@@ -35,7 +35,7 @@ import {
 } from '@/components/SectionTemplates/templates/page.js';
 import {
   emptySite, restoreSite, siteFromStarter, isSite, pageView, renderView, applyPageView, pageById, pageFile, pageTitle, isHomePage,
-  siteFiles, siteExtraFiles, faviconTags, faviconFiles, faviconSvg, cleanFavicon, FAVICON_MODES, usesAutoNav, addSitePage, updateSitePage, removeSitePage, reorderSitePages, pageFromLayout, PAGE_LAYOUTS, cleanSlug, cleanBaseUrl, newPageId, starterPageList,
+  siteFiles, siteExtraFiles, faviconTags, faviconFiles, faviconSvg, cleanFavicon, FAVICON_MODES, usesAutoNav, addSitePage, updateSitePage, removeSitePage, reorderSitePages, pageFromLayout, PAGE_LAYOUTS, cleanSlug, cleanBaseUrl, newPageId,
 } from '@/components/SectionTemplates/templates/site.js';
 import { siteNextFiles } from '@/components/SectionTemplates/templates/nextjs.js';
 import { restoreSectionState } from '@/components/SectionTemplates/templates/index.js';
@@ -937,19 +937,6 @@ export default function WebsiteBuilder() {
     flash(`Removed ${name}. Press Ctrl+Z to undo.`);
   };
   const openSection = uid => { setSelected(uid); setEditing(uid); setTab('page'); setSheetOpen(true); };
-  /* Website templates open as one page or as their multi-page version */
-  const [starterMulti, setStarterMulti] = useState(false);
-  const starterPages = useMemo(() => Object.fromEntries(STARTERS.map(st => [st.id, starterPageList(st.id)])), []);
-  const startFrom = (starterId, multiPage = false) => {
-    const p = siteFromStarter(starterId, { multi: multiPage });
-    setSite(p); setPageIdRaw(null);
-    setCurrent(null); savedJson.current = null; setSelected(null); setEditing(null);
-    const name = STARTERS.find(x => x.id === starterId)?.name.toLowerCase();
-    flash(p.pages.length > 1
-      ? `Started a ${p.pages.length}-page ${name}: ${p.pages.map(x => x.name).join(', ')}. Switch pages in the toolbar or the Pages tab.`
-      : `Started a ${name} with ${sectionsOf(p).length} sections. Edit any section, change the theme, or add pages in the Pages tab.`);
-  };
-
   /* Pages of the site */
   const [newPageName, setNewPageName] = useState('');
   const [newPageLayout, setNewPageLayout] = useState('about');
@@ -1481,23 +1468,24 @@ ${pageCss(shown, { fontFaces })}`),
                   )}
                   <h2 className={s.sectionTitle}>Sections {page.sections.length > 0 && <span style={{ opacity: 0.6, fontWeight: 500 }}>({page.sections.length})</span>}</h2>
                   {page.sections.length === 0 && !adding && (
-                    <>
-                      <p className={s.hint}>Start from a template, or add sections one by one. <a href="/website-builder/" target="_blank" rel="noopener">Browse all templates ↗</a></p>
-                      <div className={`${s.seg} ${b.starterMode}`} role="radiogroup" aria-label="Template version">
-                        {[[false, 'One page'], [true, 'Multi-page']].map(([v, l]) => (
-                          <button key={l} type="button" role="radio" aria-checked={starterMulti === v} className={`${s.segBtn} ${starterMulti === v ? s.segBtnActive : ''}`} onClick={() => setStarterMulti(v)}>{l}</button>
-                        ))}
-                      </div>
-                      <div className={b.starters}>
-                        {STARTERS.map(st => (
-                          <button key={st.id} type="button" className={b.starter} onClick={() => startFrom(st.id, starterMulti)} title={st.blurb}>
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={`/images/website-templates/thumb/${st.id}.jpg`} alt="" loading="lazy" />
-                            <b>{st.name}</b><small>{st.industry} · {starterMulti ? `${starterPages[st.id]?.length || 1} pages: ${(starterPages[st.id] || []).map(p => p.name).join(', ')}` : `${st.sections.length} sections, one page`}</small>
-                          </button>
-                        ))}
-                      </div>
-                    </>
+                    <div className={b.emptyChoices}>
+                      <p className={b.emptyLead}>This page is empty. Pick how you want to start.</p>
+                      <a className={b.choice} href="/website-builder/">
+                        <span className={b.choiceIcon} aria-hidden="true">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2.5" /><path d="M3 9h18M9 21V9" /></svg>
+                        </span>
+                        <span className={b.choiceText}><b>Start from a template</b><small>{STARTERS.length} ready-made websites with real content</small></span>
+                        <span className={b.choiceArrow} aria-hidden="true">→</span>
+                      </a>
+                      <div className={b.orDivider} aria-hidden="true"><span>or</span></div>
+                      <button type="button" className={`${b.choice} ${b.choiceDash}`} onClick={() => setAdding(true)}>
+                        <span className={b.choiceIcon} aria-hidden="true">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>
+                        </span>
+                        <span className={b.choiceText}><b>Add sections one by one</b><small>Heroes, pricing, FAQ, galleries or your own custom layout</small></span>
+                        <span className={b.choiceArrow} aria-hidden="true">→</span>
+                      </button>
+                    </div>
                   )}
                   <SectionList
                     sections={page.sections}
@@ -1509,7 +1497,7 @@ ${pageCss(shown, { fontFaces })}`),
                     onDuplicate={duplicateSection}
                     onRemove={removeSection}
                   />
-                  <button type="button" className={b.addBtn} onClick={() => setAdding(true)}>+ Add section{selected ? ' below the selected one' : ''}</button>
+                  {(page.sections.length > 0 || adding) && <button type="button" className={b.addBtn} onClick={() => setAdding(true)}>+ Add section{selected ? ' below the selected one' : ''}</button>}
                 </section>
                 {page.sections.length > 0 && <p className={s.hint} style={{ padding: '0 16px 16px' }}>Tip: click any section in the preview to edit it. Colours, fonts and animation are in the Theme tab and apply to the whole website. Add more pages (About, Contact…) in the Pages tab.</p>}
               </>
@@ -1732,7 +1720,7 @@ ${pageCss(shown, { fontFaces })}`),
             {page.sections.length === 0 ? (
               <div className={b.empty}>
                 <h2>{multi ? `“${activePage.name}” is empty` : 'Build a website from sections'}</h2>
-                <p>{multi ? 'Add sections from the panel to fill this page. It gets the shared header and footer unless you hide them in its page settings.' :'Pick a starter or add sections from the panel: navbars, heroes, features, pricing, testimonials, FAQ, CTA, footers and more. They all share one theme, so every page looks like one website. Add more pages in the Pages tab.'}</p>
+                <p>{multi ? 'Add sections from the panel to fill this page. It gets the shared header and footer unless you hide them in its page settings.' :'Add sections from the panel, or browse the ready-made website templates: navbars, heroes, features, pricing, testimonials, FAQ, CTA, footers and more. They all share one theme, so every page looks like one website. Add more pages in the Pages tab.'}</p>
               </div>
             ) : origin && scale > 0 && (
               <PageFrame key={`${device}|${activePage.id}`} html={shownHtml} width={dev.w} height={frameH} scale={scale} selected={selected} onSelect={openSection} onKey={onKey} onDoc={onPreviewDoc} onNavigate={navigateTo} onInsert={openInsert} onRemove={removeFromPreview} canRemove={canRemoveInPreview} revealRef={revealRef} hash={navHash} topKey={topKey} />

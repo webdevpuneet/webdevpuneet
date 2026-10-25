@@ -23,6 +23,8 @@ export default function TemplateGallery({ templates, industries }) {
   // 10 cards at first (2 rows of 5), then 10 more per Load more; a new filter starts over
   const [shownCount, setShownCount] = useState(PAGE);
   useEffect(() => { setShownCount(PAGE); }, [ind, q]);
+  // The first card of All Templates starts an empty website (the same card style as "Create custom section")
+  const withCreate = ind === 'all' && !q.trim();
   const list = useMemo(() => {
     const words = q.toLowerCase().split(/\s+/).filter(Boolean);
     return templates
@@ -60,11 +62,24 @@ export default function TemplateGallery({ templates, industries }) {
           <h2>{ind === 'all' ? 'All Templates' : `${ind} Templates`}</h2>
           <span>{list.length}{list.length !== templates.length ? ` of ${templates.length}` : ''}</span>
         </div>
-        {list.length === 0
+        {list.length === 0 && !withCreate
           ? <div className={s.empty}>No website templates match &ldquo;{q}&rdquo;. <a href={`${EDITOR}?starter=blank`}>Start from scratch</a> instead.</div>
           : (
             <div className={`${s.grid} ${s.grid5}`}>
-              {list.slice(0, shownCount).map(t => (
+              {withCreate && (
+                <a className={`${s.card} ${x.createCard}`} href={`${EDITOR}?starter=blank`} title="Start an empty website and add sections one by one">
+                  <div className={`${s.cardPreview} ${x.createPreview}`}>
+                    <span className={x.createMockSite} aria-hidden="true"><i /><i /><i /><i /></span>
+                    <span className={x.createPlus} aria-hidden="true">+</span>
+                  </div>
+                  <div className={s.cardBody}>
+                    <span className={s.cardCat}>Start from scratch</span>
+                    <h3 className={s.cardTitle}>Create a new website</h3>
+                    <span className={s.cardMeta}>An empty page: add a navbar, sections and a footer your way</span>
+                  </div>
+                </a>
+              )}
+              {list.slice(0, shownCount - (withCreate ? 1 : 0)).map(t => (
                 // Tall card with the whole page: the preview scrolls top to bottom while hovered
                 <a key={t.id} className={s.card} href={`/website-builder/templates/${t.id}/`} title={t.blurb} {...panHandlers}>
                   <div className={s.cardPreview}>
@@ -79,7 +94,7 @@ export default function TemplateGallery({ templates, industries }) {
               ))}
             </div>
           )}
-        <LoadMore shown={Math.min(shownCount, list.length)} total={list.length} onLoadMore={() => setShownCount(n => n + PAGE)} />
+        <LoadMore shown={Math.min(shownCount - (withCreate ? 1 : 0), list.length)} total={list.length} onLoadMore={() => setShownCount(n => n + PAGE)} />
       </div>
     </div>
   );

@@ -124,6 +124,23 @@ function GalleryCard({ t, preview }) {
   );
 }
 
+/* "Create custom section": the first card of All Sections (the Custom Section is a blank layout you build yourself) */
+function CreateCustomCard() {
+  return (
+    <a href={`${BASE}custom-section/?new=1`} className={`${s.card} ${x.createCard}`} title="Build your own section from rows, columns and blocks">
+      <div className={`${x.cardPreview} ${x.createPreview}`}>
+        <span className={x.createMock} aria-hidden="true"><i /><i /><i /></span>
+        <span className={x.createPlus} aria-hidden="true">+</span>
+      </div>
+      <div className={s.cardBody}>
+        <span className={s.cardCat}>Custom section</span>
+        <h3 className={s.cardTitle}>Create custom section</h3>
+        <span className={s.cardMeta}>Rows, columns, text, images, buttons and your own HTML, CSS and JS</span>
+      </div>
+    </a>
+  );
+}
+
 export function SectionTemplateGallery({ excludeId = null, limit = null, previews = [], initialCategory = 'all', hideControls = false, savedStrip = null }) {
   const [cat] = useState(initialCategory);
   const [q, setQ] = useState('');
@@ -136,7 +153,9 @@ export function SectionTemplateGallery({ excludeId = null, limit = null, preview
       .filter(t => !words.length || words.every(w => `${t.name} ${t.tags.join(' ')} ${sectionCategoryById(t.category)?.label} ${t.description}`.toLowerCase().includes(w)))
       .slice(0, limit || undefined);
   }, [cat, q, excludeId, limit]);
-  const shown = limit ? list : list.slice(0, shownCount);
+  // The gallery page (it has the My designs strip) starts All Sections with the create card, when nothing is searched
+  const withCreate = !!savedStrip && !limit && cat === 'all' && !q.trim();
+  const shown = limit ? list : list.slice(0, shownCount - (withCreate ? 1 : 0));
   return (
     <div className={s.gallery}>
       {!hideControls && (
@@ -155,7 +174,7 @@ export function SectionTemplateGallery({ excludeId = null, limit = null, preview
       )}
       {list.length === 0
         ? <div className={s.empty}>No section templates match &ldquo;{q}&rdquo;.</div>
-        : <div className={`${s.grid} ${s.grid4}`}>{shown.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}</div>}
+        : <div className={`${s.grid} ${s.grid4}`}>{withCreate && <CreateCustomCard />}{shown.map(t => <GalleryCard key={t.id} t={t} preview={previews.includes(t.id)} />)}</div>}
       {!limit && <LoadMore shown={shown.length} total={list.length} onLoadMore={() => setShownCount(n => n + GALLERY_PAGE)} />}
     </div>
   );
@@ -227,19 +246,6 @@ export function SectionGalleryPage({ previews = [] }) {
             renderPreview={(d, w) => <SavedSectionPreview design={d} width={w} />}
             query={q}
             deletable
-            leadCard={(
-              <a href={`${BASE}custom-section/?new=1`} className={`${s.card} ${x.createCard}`} title="Build your own section from rows, columns and blocks">
-                <div className={`${x.cardPreview} ${x.createPreview}`}>
-                  <span className={x.createMock} aria-hidden="true"><i /><i /><i /></span>
-                  <span className={x.createPlus} aria-hidden="true">+</span>
-                </div>
-                <div className={s.cardBody}>
-                  <span className={s.cardCat}>Custom section</span>
-                  <h3 className={s.cardTitle}>Create custom section</h3>
-                  <span className={s.cardMeta}>Opens the editor. Rows, columns, text, images, buttons and your own HTML, CSS and JS</span>
-                </div>
-              </a>
-            )}
           />
         )}
       />

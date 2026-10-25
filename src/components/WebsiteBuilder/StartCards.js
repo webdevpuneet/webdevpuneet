@@ -186,14 +186,8 @@ export default function StartCards() {
 
   return (
     <>
-      {/* Start from scratch is a large button, so the page never opens on an empty card; "Your
-          pages" (autosave + My pages) only appears once there is something to show */}
-      <div className={w.startRow}>
-        <a className={w.startBtn} href={`${EDITOR}?starter=blank`}>
-          <span className={w.startPlus} aria-hidden="true">+</span>
-          <span><b>Start from scratch</b><small>A blank page: add sections one by one from the library</small></span>
-        </a>
-      </div>
+      {/* Starting from scratch is the first card of All Templates (TemplateGallery); "Your pages"
+          (autosave + My pages) only appears once there is something to show */}
       {total > 0 && (
         <>
           <div className={s.sectionHead}>
