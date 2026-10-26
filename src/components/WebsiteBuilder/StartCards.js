@@ -42,7 +42,7 @@ const panOut = ev => {
   inner.style.transform = 'translateY(0)';
 };
 const reduced = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-const panProps = { onMouseEnter: e => { if (!reduced()) panIn(e); }, onMouseLeave: panOut, onFocus: e => { if (!reduced()) panIn(e); }, onBlur: panOut };
+export const panProps = { onMouseEnter: e => { if (!reduced()) panIn(e); }, onMouseLeave: panOut, onFocus: e => { if (!reduced()) panIn(e); }, onBlur: panOut };
 
 /* Every section of a saved record (a site, or an older single page) */
 const sectionsOf = st => (isSite(st) ? [...(st.header || []), ...(st.pages || []).flatMap(p => p.sections || []), ...(st.footer || [])] : st?.sections || []);
@@ -54,7 +54,7 @@ const when = iso => { try { return new Date(iso).toLocaleDateString(undefined, {
    width and scaled down to the card. Rendered only once the card reaches the viewport, with
    scripts off (sections are designed to show all their content without JavaScript). */
 const PAGE_W = 1280;
-function LivePage({ page }) {
+export function LivePage({ page }) {
   const boxRef = useRef(null);
   const [scale, setScale] = useState(0);
   const [h, setH] = useState(0);

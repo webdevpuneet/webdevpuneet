@@ -23,6 +23,7 @@ import { toReactComponent, toVueSfc, componentName } from '@/lib/snippet-exporte
 import { dbPut } from '@/lib/uiSnippetsDb';
 import { openForkTab } from '@/lib/open-fork-tab';
 import SectionPickerModal from './SectionPickerModal';
+import TemplatePickerModal from './TemplatePickerModal';
 import ConfirmDialog from '@/components/SocialPostTemplates/ConfirmDialog';
 import { BrandKitPanel, loadKit, kitIsSet, saveKit } from '@/components/BrandKit';
 import { makeDesignStore } from '@/lib/design-store';
@@ -645,6 +646,7 @@ export default function WebsiteBuilder() {
   useEffect(() => { pickRef.current = null; setPicking(false); }, [editing]);
   const [selected, setSelected] = useState(null);
   const [adding, setAdding] = useState(false);
+  const [pickingTpl, setPickingTpl] = useState(false);
   const addAtRef = useRef(null); // { before, after } uids when the picker was opened from a + between sections
   const revealRef = useRef(null); // a section to scroll into view once its preview has loaded
   const [device, setDevice] = useState('desktop');
@@ -871,6 +873,16 @@ export default function WebsiteBuilder() {
       return scroll ? { ...rest, scroll } : rest;
     }),
   })), [setPage]);
+  /* "Start from a template" dialog: the template replaces the (empty) website; undo restores it */
+  const applyTemplate = (starterId, multi) => {
+    const next = siteFromStarter(starterId, { multi });
+    setSite(next);
+    setPageIdRaw(null);
+    setSelected(null);
+    setPickingTpl(false);
+    showNote(`Opened the ${next.name} template. Click any section to edit it, or add pages in the Pages tab.`);
+  };
+
   /* Adds a section (optionally with a saved state, e.g. a custom section from the section
      editor); { edit } opens it in the editor straight away */
   const addSection = (tplId, savedState = null, { edit = false } = {}) => {
@@ -1350,6 +1362,7 @@ ${pageCss(shown, { fontFaces })}`),
 
   return (
     <div className={s.wrap}>
+      <TemplatePickerModal open={pickingTpl} onClose={() => setPickingTpl(false)} onUse={applyTemplate} saved={pages} onOpenSaved={d => { setPickingTpl(false); openPage(d); }} />
       <SectionPickerModal open={adding} onClose={() => { addAtRef.current = null; setAdding(false); }} onUse={addSection} page={page} below={!!selected && !addAtRef.current} />
       <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/gif,image/webp,image/svg+xml" className={s.fileInput} onChange={onUploadFile} />
       <div className={s.body}>
@@ -1470,13 +1483,13 @@ ${pageCss(shown, { fontFaces })}`),
                   {page.sections.length === 0 && !adding && (
                     <div className={b.emptyChoices}>
                       <p className={b.emptyLead}>This page is empty. Pick how you want to start.</p>
-                      <a className={b.choice} href="/website-builder/">
+                      <button type="button" className={`${b.choice} ${b.choiceDash}`} onClick={() => setPickingTpl(true)}>
                         <span className={b.choiceIcon} aria-hidden="true">
                           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2.5" /><path d="M3 9h18M9 21V9" /></svg>
                         </span>
                         <span className={b.choiceText}><b>Start from a template</b><small>{STARTERS.length} ready-made websites with real content</small></span>
                         <span className={b.choiceArrow} aria-hidden="true">→</span>
-                      </a>
+                      </button>
                       <div className={b.orDivider} aria-hidden="true"><span>or</span></div>
                       <button type="button" className={`${b.choice} ${b.choiceDash}`} onClick={() => setAdding(true)}>
                         <span className={b.choiceIcon} aria-hidden="true">
