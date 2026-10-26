@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 import { revealInPanel } from '@/lib/reveal-in-panel';
 import s from '../SocialPostTemplates/styles.module.css';
 import x from './styles.module.css';
+import ImageLibraryPicker from '@/components/ImageLibrary';
+import { putAsset } from './storage';
 import {
   CUSTOM_LAYOUTS, ALIGNS, WIDTHS, VALIGNS, STACKS, HEADING_SIZES, TEXT_SIZES, BLOCKS, BLOCK_TYPES,
   colsOf, newBlock, newRow, newCustomId, relayoutRow, defaultCustom,
@@ -112,7 +114,23 @@ export default function CustomLayoutPanel({ state, setState, blobUrls = {}, onPi
   const setBlock = (rid, cid, bid, patch) => setCol(rid, cid, col => ({ ...col, blocks: col.blocks.map(b => (b.id === bid ? { ...b, ...patch } : b)) }));
   const move = (arr, i, dir) => { const to = i + dir; if (to < 0 || to >= arr.length) return arr; const n = [...arr]; [n[i], n[to]] = [n[to], n[i]]; return n; };
   const dropUploads = keys => setState(p => { const u = { ...(p.uploads || {}) }; keys.forEach(k => delete u[k]); return { ...p, uploads: u }; });
-  const imageKeysOf = blocks => blocks.filter(b => b.type === 'image').map(b => `cs.${b.id}`);
+  /* Reuse an image from the shared gallery (same as the other section panels): one already in
+     this tool's store is used as is; any other is copied into it once so it behaves like an upload. */
+  const applyLibraryImage = async (key, item) => {
+    let rec;
+    if (item.origin === 'section') rec = { id: item.key, file: item.file, w: item.w, h: item.h };
+    else {
+      const id = `lib:${item.sig}`;
+      const ext = (item.file.match(/\.(\w+)$/)?.[1] || item.type.split('/')[1] || 'png').replace('jpeg', 'jpg');
+      const stem = item.file.replace(/\.\w+$/, '').replace(/[^\w-]+/g, '-').slice(0, 40) || 'image';
+      const hash = Array.from(item.sig).reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7).toString(36);
+      const file = `${stem}-${hash}.${ext}`;
+      await putAsset(id, { blob: item.blob, type: item.type, file, name: file, w: item.w, h: item.h, updatedAt: new Date().toISOString() });
+      rec = { id, file, w: item.w, h: item.h };
+    }
+    setState(p => ({ ...p, uploads: { ...(p.uploads || {}), [key]: rec } }));
+  };
+  const imageKeysOf =blocks => blocks.filter(b => b.type === 'image').map(b => `cs.${b.id}`);
 
   /* Rows */
   const addRow = () => { const r = newRow('1'); setRows(rows => [...rows, r]); setOpenRow(r.id); };
@@ -197,6 +215,7 @@ export default function CustomLayoutPanel({ state, setState, blobUrls = {}, onPi
                     <button type="button" className={s.miniBtn} onClick={() => dropUploads([ukey])}>Remove</button>
                   </>
                 ) : <button type="button" className={s.miniBtn} onClick={() => onPickUpload(IMAGE_FIELD, ukey)}>↑ Upload image</button>}
+                <ImageLibraryPicker onPick={item => applyLibraryImage(ukey, item)} />
               </div>
             )}
           </div>

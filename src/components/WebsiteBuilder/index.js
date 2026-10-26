@@ -1021,7 +1021,7 @@ export default function WebsiteBuilder() {
   const shown = useMemo(() => renderView(site, activePage.id), [site, activePage.id]); // with the automatic menu
   const previewHtml = useMemo(() => previewImages(pageDocumentHtml(shown, {
     imageSrc: previewSrc, clean: false, fontFaces, motion: playing > 0, activeFile: usesAutoNav(site) ? pageFile(site, activePage) : '',
-    extraHead: `<script>window.ST_PREVIEW=true;window.ST_SCROLL_FX=true${showMarkers ? ';window.ST_SCROLL_MARKERS=true' : ''}</script><style>${SELECT_CSS}</style>`,
+    extraHead: `<script>window.ST_PREVIEW=true;window.ST_POPUP_BUTTON=true;window.ST_SCROLL_FX=true${showMarkers ? ';window.ST_SCROLL_MARKERS=true' : ''}</script><style>${SELECT_CSS}</style>`,
   }), origin), [shown, blobUrls, fontFaces, origin, playing, showMarkers, activePage.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const autoNav = usesAutoNav(site);
   const autoNavRef = useRef(autoNav);
