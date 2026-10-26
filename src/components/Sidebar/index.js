@@ -1876,11 +1876,11 @@ export default function Sidebar() {
                     open={favOpen}
                     onToggle={() => setFavOpen(v => !v)}
                   />
+                  <SidebarLink href="/ui-snippets/" icon="/icons/ui-snippets.svg" label="UI Snippets" active={/^\/ui-snippets(\/|$)/.test(pathname)} />
                   <SidebarLink href="/website-builder/" icon="/icons/website-builder.svg" label="Website Builder &amp; Templates" active={/^\/website-builder(\/|$)/.test(pathname)} />
                   <SidebarLink href="/website-section-templates/" icon="/icons/website-section-templates.svg" label="Website Section Templates" active={/^\/website-section-templates(\/|$)/.test(pathname)} />
                   <SidebarLink href="/email-templates/" icon="/icons/email-templates.svg" label="Email Templates" active={/^\/email-templates(\/|$)/.test(pathname)} />
                   <SidebarLink href="/social-post-templates/" icon="/icons/social-post-templates.svg" label="Social Post Templates" active={/^\/social-post-templates(\/|$)/.test(pathname)} />
-                  <SidebarLink href="/ui-snippets/" icon="/icons/ui-snippets.svg" label="UI Snippets" active={/^\/ui-snippets(\/|$)/.test(pathname)} />
                   <PlaygroundsGroup
                     activeSlug={activeSlug}
                     open={playgroundsOpen}

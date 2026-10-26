@@ -31,7 +31,7 @@ function categoryOG(catId) {
     'animations','buttons','cards','charts','dashboards','forms',
     'heroes','layouts','loaders','modals','navigation',
     'pricing','tables','scroll','mobile','games',
-    'carousels','media','tools','visualizers',
+    'carousels','media','tools','visualizers','landing-pages',
   ]);
   return available.has(catId) ? `${BASE_OG}/${catId}.png` : FALLBACK_OG;
 }

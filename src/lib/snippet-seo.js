@@ -17,7 +17,7 @@ const OG_CATEGORIES = new Set([
   'animations', 'buttons', 'cards', 'charts', 'dashboards', 'forms',
   'heroes', 'layouts', 'loaders', 'modals', 'navigation',
   'pricing', 'tables', 'scroll', 'mobile', 'games',
-  'carousels', 'media', 'tools', 'visualizers',
+  'carousels', 'media', 'tools', 'visualizers', 'landing-pages',
 ]);
 
 /** Returns the OG image for a category id. Falls back to the generic image. */
