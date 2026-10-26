@@ -411,31 +411,6 @@
           "icon": "/icons/responsive-preview-tool.svg"
         },
         {
-          "slug": "sql-formatter",
-          "name": "SQL Formatter",
-          "icon": "/icons/sql-formatter.svg"
-        },
-        {
-          "slug": "api-mock-generator",
-          "name": "API Mock Generator",
-          "icon": "{}"
-        },
-        {
-          "slug": "api-request-generator-tester",
-          "name": "API Request Generator & Tester",
-          "icon": "/icons/api-request-generator-tester.svg"
-        },
-        {
-          "slug": "htaccess-redirect-generator",
-          "name": ".htaccess Redirect Generator",
-          "icon": "/icons/htaccess-redirect-generator.svg"
-        },
-        {
-          "slug": "security-headers-generator",
-          "name": "Security Headers Generator",
-          "icon": "/icons/security-headers-generator.svg"
-        },
-        {
           "slug": "llms-txt-generator",
           "name": "LLMs.txt Generator",
           "icon": "/icons/llms-txt-generator.svg"
@@ -521,19 +496,9 @@
           "icon": "/icons/html-table-generator.svg"
         },
         {
-          "slug": "json-schema-generator",
-          "name": "JSON Schema Generator",
-          "icon": "/icons/json-schema-generator.svg"
-        },
-        {
           "slug": "markdown-table-generator",
           "name": "Markdown Table Generator",
           "icon": "/icons/markdown-table-generator.svg"
-        },
-        {
-          "slug": "xml-formatter",
-          "name": "XML Formatter / Validator",
-          "icon": "/icons/xml-formatter.svg"
         }
       ]
     },
@@ -1015,11 +980,6 @@
           "slug": "mind-map",
           "name": "Mind Map Studio",
           "icon": "/icons/mind-map.svg"
-        },
-        {
-          "slug": "database-schema-designer",
-          "name": "Database Schema Designer",
-          "icon": "/icons/database-schema-designer.svg"
         },
         {
           "slug": "ui-snippets",

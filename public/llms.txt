@@ -74,8 +74,6 @@ Blog: https://webdevpuneet.com/blog/
 - [JSON Table Viewer](https://webdevpuneet.com/json-table-viewer/) : Visualize JSON arrays as tables. Filter, sort, paginate, toggle columns, and export as CSV.
 - [Diff Checker](https://webdevpuneet.com/diff-checker/) : Compare two texts side-by-side with LCS-based diffing. Split, unified, and char-level inline modes.
 - [Responsive Preview](https://webdevpuneet.com/responsive-preview-tool/) : Preview any site on 18 real devices with frames and browser bars. Compare URLs, paste HTML, find overflow, take screenshots.
-- [SQL Formatter](https://webdevpuneet.com/sql-formatter/) : Format and beautify SQL queries with proper indentation, keyword casing, and syntax highlighting. Minify SQL, dialect support for MySQL, PostgreSQL, SQLite & SQL Server.
-- [API Mock Generator](https://webdevpuneet.com/api-mock-generator/) : Build fake REST API endpoints with realistic mock JSON. Auto-generate fake data, export as JSON Server db.json or Postman collection. Free for frontend devs.
 - [SVG to PNG Converter](https://webdevpuneet.com/svg-to-png/) : Convert SVG to PNG instantly. Upload file or paste SVG code. Set scale (1×–4×), custom dimensions, transparent or custom background. Download PNG free.
 - [HTML to Markdown](https://webdevpuneet.com/html-to-markdown/) : Convert HTML to clean Markdown instantly. Paste from web pages, CMS exports, or email templates. Full support for tables, code blocks, links, images, and lists. Copy or download .md.
 - [Markdown to HTML](https://webdevpuneet.com/markdown-to-html/) : Convert Markdown to HTML instantly with live preview. Supports GFM tables, task lists, fenced code blocks. Copy HTML fragment or full page, download as .html file.
@@ -84,7 +82,6 @@ Blog: https://webdevpuneet.com/blog/
 - [Tailwind → CSS](https://webdevpuneet.com/tailwind-to-css/) : Paste Tailwind utility classes and get the equivalent CSS declarations. Supports all spacing, color, typography, flex, grid utilities — plus arbitrary values and responsive/state variants.
 - [HTML → JSX Converter](https://webdevpuneet.com/html-to-jsx-converter/) : Convert HTML to React JSX. Handles className, htmlFor, camelCase events, self-closing tags, and inline styles.
 - [REM ↔ PX Converter](https://webdevpuneet.com/rem-px-converter/) : Bidirectional REM and PX conversion with custom base font size. Live preview and reference table.
-- [API Request Generator & Tester](https://webdevpuneet.com/api-request-generator-tester/) : Generate HTTP request code in 12 languages and test APIs live in the browser — Fetch, Axios, XHR, Node.js, cURL, Python, PHP, Ruby, Go, C#, Jest, Pytest. GraphQL, env vars, history & Postman import.
 - [URL Encoder/Decoder](https://webdevpuneet.com/url-encoder-decoder/) : Encode and decode URLs and query strings. Supports encodeURIComponent (query params) and encodeURI (full URLs). Highlights %XX sequences live.
 - [Hash Generator](https://webdevpuneet.com/hash-generator/) : Generate MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes from text or files. HMAC mode, hash verification, uppercase toggle, copy-all. 100% client-side.
 - [Image Editor](https://webdevpuneet.com/image-editor/) : Edit images in your browser — resize to exact pixels or presets, crop with aspect lock, rotate and flip, compress with quality control, add text overlays, fill background color, and convert format. Nothing uploaded.
@@ -110,9 +107,7 @@ Blog: https://webdevpuneet.com/blog/
 - [GSAP Playground](https://webdevpuneet.com/gsap-playground/) : Learn GSAP animation interactively with a live code editor. 55 lessons — tweens, timelines, stagger, easing, ScrollTrigger, and advanced animation patterns. Replay controls, dark mode sync. No install.
 - [SEO Playground](https://webdevpuneet.com/seo-playground/) : Browser-based SEO QA workspace. Paste any HTML and instantly audit title, meta description, canonical, robots, Open Graph, Twitter card, JSON-LD, headings, images, and links. SERP preview, social card preview, export as HTML/Next.js/React Helmet/Astro.
 - [HTML Table Generator](https://webdevpuneet.com/html-table-generator/) : Build HTML tables visually. Add rows and columns, edit cells, set alignment, and export clean semantic HTML or Tailwind CSS. Free online tool.
-- [JSON Schema Generator](https://webdevpuneet.com/json-schema-generator/) : Paste JSON and instantly generate a JSON Schema (Draft 7). Infers types, required fields, nested objects, and arrays. Copy or download free.
 - [Markdown Table Generator](https://webdevpuneet.com/markdown-table-generator/) : Generate Markdown tables visually. Add rows and columns, edit cells, set column alignment, and export as Markdown, HTML, or CSV. Free online tool.
-- [XML Formatter / Validator](https://webdevpuneet.com/xml-formatter/) : Free online XML formatter, validator, and minifier. Paste XML and instantly pretty-print with syntax highlighting, validate with error line numbers, or minify to compact form.
 
 ---
 
@@ -160,10 +155,8 @@ Blog: https://webdevpuneet.com/blog/
 - [Meta Tag Generator](https://webdevpuneet.com/meta-tag-generator/) : Generate complete meta tag sets from page details. Live Google SERP, Facebook OG, and Twitter card previews. Export as HTML, Next.js metadata, React Helmet, Vue/Nuxt, Astro, or JSON-LD.
 - [Robots.txt Generator](https://webdevpuneet.com/robots-txt-generator/) : Generate a clean robots.txt file with Allow, Disallow, Crawl-delay, Host, and Sitemap directives. Includes public site, staging, and ecommerce presets with copy and download output.
 - [Sitemap.xml Generator](https://webdevpuneet.com/sitemap-generator/) : Create a valid sitemap.xml file from URLs or paths. Add lastmod, changefreq, and priority fields, then copy or download the XML for search engines.
-- [.htaccess Redirect Generator](https://webdevpuneet.com/htaccess-redirect-generator/) : Generate Apache .htaccess redirect rules for custom 301 and 302 redirects, HTTPS enforcement, www/non-www canonical hosts, and trailing slash handling.
 - [Schema Markup Generator](https://webdevpuneet.com/schema-markup-generator/) : Generate JSON-LD schema markup for WebSite, Article, Product, FAQPage, and LocalBusiness pages with ready-to-paste script output.
 - [Hreflang Tag Generator](https://webdevpuneet.com/hreflang-tag-generator/) : Generate hreflang alternate tags for multilingual and regional pages. Output HTML link tags or sitemap XML alternates with x-default support.
-- [Security Headers Generator](https://webdevpuneet.com/security-headers-generator/) : Generate security header configuration for Apache, Nginx, and Next.js, including CSP, HSTS, X-Frame-Options, Referrer-Policy, and Permissions-Policy.
 - [LLMs.txt Generator](https://webdevpuneet.com/llms-txt-generator/) : Create an llms.txt draft for AI crawlers and assistants with site description, important canonical pages, sitemap link, and usage notes.
 
 ---

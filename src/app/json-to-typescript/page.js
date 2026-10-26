@@ -181,7 +181,7 @@ const SEO = {
     {
       icon: '🔌',
       title: 'Type an API response in seconds instead of minutes',
-      desc: 'You called a REST API and got back 200 lines of nested JSON. Instead of writing interfaces by hand — getting field names wrong, missing nested types, forgetting nullables — paste the response here and get complete TypeScript interfaces in under two seconds. Pair with the [API Request Generator & Tester](/api-request-generator-tester/) to make and capture the API call in the same browser tab.',
+      desc: 'You called a REST API and got back 200 lines of nested JSON. Instead of writing interfaces by hand — getting field names wrong, missing nested types, forgetting nullables — paste the response here and get complete TypeScript interfaces in under two seconds. Pair with the [API Request Generator & Tester](https://fwdtools.com/api-request-generator-tester/) to make and capture the API call in the same browser tab.',
     },
     {
       icon: '🗂️',

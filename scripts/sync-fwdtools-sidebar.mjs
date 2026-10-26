@@ -29,11 +29,14 @@ const PLAYGROUND_SLUGS = [
   'vue-playground', 'nextjs-playground', 'gsap-playground', 'svg-playground',
 ];
 
-// Backend playgrounds moved back to fwdtools (2026-10-26): kept out of every sidebar group here.
+// Tools moved back to fwdtools (2026-10-26): kept out of every sidebar group here.
 const EXCLUDED_SLUGS = new Set([
   'git-playground', 'python-playground', 'nodejs-playground', 'php-playground',
   'sql-playground', 'mongo-playground', 'express-playground', 'graphql-playground',
   'firebase-playground', 'rest-api-builder-playground', 'redis-playground',
+  // Backend / server-side tools, also back on fwdtools (2026-10-26)
+  'database-schema-designer', 'sql-formatter', 'htaccess-redirect-generator', 'security-headers-generator',
+  'api-mock-generator', 'api-request-generator-tester', 'json-schema-generator', 'xml-formatter',
 ]);
 
 const FREELANCER_SLUGS = [

@@ -13,7 +13,6 @@ const NAV_ITEMS = [
   { slug: 'json-to-typescript',      short: 'JSON → TypeScript', icon: '/icons/json-to-typescript.svg' },
   { slug: 'json-table-viewer',       short: 'Table Viewer',     icon: '/icons/json-table-viewer.svg' },
   { slug: 'json-dashboard-generator', short: 'Dashboard',       icon: '/icons/json-dashboard-generator.svg' },
-  { slug: 'json-schema-generator',   short: 'Schema Generator', icon: '/icons/json-schema-generator.svg' },
 ];
 
 export default function JsonToolsTopNav({ active }) {

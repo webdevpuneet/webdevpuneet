@@ -14,9 +14,7 @@ const NAV_ITEMS = [
   { slug: 'html-formatter',        short: 'HTML Formatter',       icon: '/icons/html-formatter.svg' },
   { slug: 'html-to-jsx-converter', short: 'HTML → JSX',           icon: '/icons/html-to-jsx-converter.svg' },
   { slug: 'javascript-minifier',   short: 'JS Minifier',          icon: '/icons/javascript-minifier.svg' },
-  { slug: 'sql-formatter',         short: 'SQL Formatter',        icon: '/icons/sql-formatter.svg' },
   { slug: 'tailwind-formatter',    short: 'Tailwind Formatter',   icon: '/icons/tailwind-formatter.svg' },
-  { slug: 'xml-formatter',         short: 'XML Formatter',        icon: '/icons/xml-formatter.svg' },
 ];
 
 export default function DevConvertersTopNav({ active }) {

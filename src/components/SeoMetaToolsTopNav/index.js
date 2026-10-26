@@ -13,12 +13,10 @@ const NAV_ITEMS = [
   { slug: 'meta-tag-generator',          short: 'Meta Tags',     icon: '/icons/meta-tag-generator.svg' },
   { slug: 'robots-txt-generator',        short: 'Robots.txt',    icon: '/icons/robots-txt-generator.svg' },
   { slug: 'sitemap-generator',           short: 'Sitemap',       icon: '/icons/sitemap-generator.svg' },
-  { slug: 'htaccess-redirect-generator', short: '.htaccess',     icon: '/icons/htaccess-redirect-generator.svg' },
   { slug: 'schema-markup-generator',     short: 'Schema Markup', icon: '/icons/schema-markup-generator.svg' },
   { slug: 'hreflang-tag-generator',      short: 'Hreflang',      icon: '/icons/hreflang-tag-generator.svg' },
   { slug: 'llms-txt-generator',          short: 'llms.txt',      icon: '/icons/llms-txt-generator.svg' },
   { slug: 'seo-checker',                short: 'SEO Checker',         icon: '/icons/seo-checker.svg' },
-  { slug: 'security-headers-generator', short: 'Security Headers',    icon: '/icons/security-headers-generator.svg' },
 ];
 
 export default function SeoMetaToolsTopNav({ active }) {

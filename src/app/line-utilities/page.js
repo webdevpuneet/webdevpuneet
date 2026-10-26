@@ -97,7 +97,7 @@ const features = [
 const useCases = [
   { icon: 'SORT', title: 'Sort a list alphabetically', desc: 'Paste any word list, name list, or tag list and click Sort A→Z. Get a clean alphabetical result in one click. Change capitalization afterwards with the [text case converter](/text-case-converter).' },
   { icon: 'DEL', title: 'Remove duplicate lines', desc: 'Deduplicate an export, log file, or copy-pasted list. Case-sensitive and case-insensitive modes both available. Compare before/after versions with the [diff checker](/diff-checker).' },
-  { icon: 'DOC', title: 'Build a SQL IN clause', desc: 'Paste a list of values and click Comma-separate to produce "value1, value2, value3" — ready to paste into a SQL WHERE IN statement; format the full query with the [SQL formatter](/sql-formatter).' },
+  { icon: 'DOC', title: 'Build a SQL IN clause', desc: 'Paste a list of values and click Comma-separate to produce "value1, value2, value3" — ready to paste into a SQL WHERE IN statement; format the full query with the [SQL formatter](https://fwdtools.com/sql-formatter/).' },
   { icon: 'FORM', title: 'Clean up pasted data', desc: 'Remove blank lines, trim whitespace, fix casing — apply multiple transforms by chaining operations with the Swap button.' },
   { icon: 'ROT', title: 'Number a reference list', desc: 'Add sequential numbers to every line instantly. Useful for turning a bullet list into a numbered list without manually typing numbers.' },
   { icon: 'WEB', title: 'Shuffle a list randomly', desc: 'Randomize the order of lines for sampling, randomized tests, or just shuffling a playlist.' },

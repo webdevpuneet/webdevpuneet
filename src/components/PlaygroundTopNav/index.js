@@ -24,7 +24,6 @@ const NAV_ITEMS = [
   { slug: 'tailwind-playground',         short: 'Tailwind',     icon: '/icons/tailwind-playground.svg' },
   { slug: 'bootstrap5-playground',       short: 'Bootstrap',    icon: '/icons/bootstrap5-playground.svg' },
   { slug: 'nextjs-playground',           short: 'Next.js',      icon: '/icons/nextjs-playground.svg' },
-  { slug: 'database-schema-designer',    short: 'DB Schema',    icon: '/icons/database-schema-designer.svg' },
   { slug: 'ai-prompt-studio',            short: 'AI Prompts',   icon: '/icons/ai-prompt-studio.svg' },
 ];
 

@@ -135,7 +135,7 @@ const SEO = {
 
   features: [
     '**UUID v4** — 122-bit random UUID using `crypto.randomUUID()`, the most widely supported and used format; generates at full cryptographic quality',
-    '**UUID v7** — time-ordered UUID (RFC 9562); first 48 bits are Unix ms timestamp, remaining 74 bits random; sorts chronologically and avoids B-tree index fragmentation as a [SQL](/sql-formatter)-friendly primary key',
+    '**UUID v7** — time-ordered UUID (RFC 9562); first 48 bits are Unix ms timestamp, remaining 74 bits random; sorts chronologically and avoids B-tree index fragmentation as a [SQL](https://fwdtools.com/sql-formatter/)-friendly primary key',
     '**UUID v1** — timestamp-based UUID with random node ID (MAC address replaced with random bytes for privacy); 60-bit timestamp in 100-ns intervals since 1582',
     '**ULID** — 26-char Crockford Base32; 48-bit timestamp prefix + 80-bit random; lexicographically sortable, URL-safe, no hyphens; pairs well with [hash-based auth tokens](https://fwdtools.com/hash-generator/)',
     '**NanoID** — configurable alphabet and length; 6 built-in presets (URL-safe, alphanumeric, lowercase+digits, uppercase+digits, hex, numbers); custom alphabet input for fully bespoke IDs',
@@ -188,7 +188,7 @@ const SEO = {
     {
       icon: '📡',
       title: 'Add correlation IDs to distributed service logs',
-      desc: 'Generate a UUID v4 or v7 correlation ID at the entry point of each request and thread it through all downstream service calls via headers. UUID v7\'s time prefix lets you sort log lines by generation time without parsing timestamps. Use the [API Request Generator & Tester](/api-request-generator-tester) to test endpoints with correlation IDs in headers.',
+      desc: 'Generate a UUID v4 or v7 correlation ID at the entry point of each request and thread it through all downstream service calls via headers. UUID v7\'s time prefix lets you sort log lines by generation time without parsing timestamps. Use the [API Request Generator & Tester](https://fwdtools.com/api-request-generator-tester/) to test endpoints with correlation IDs in headers.',
     },
     {
       icon: '🧪',

@@ -4,8 +4,8 @@ Options -Indexes
 
 RewriteEngine On
 
-# Database Schema Designer lives on fwdtools.com
-RewriteRule ^database-schema-designer/?$ https://fwdtools.com/database-schema-designer/ [R=301,L]
+# Backend / server-side tools live on fwdtools.com (database-schema-designer since 2026-10-22, the rest moved back 2026-10-26)
+RewriteRule ^(database-schema-designer|sql-formatter|htaccess-redirect-generator|security-headers-generator|api-mock-generator|api-request-generator-tester|json-schema-generator|xml-formatter)(/.*)?$ https://fwdtools.com/$1/ [R=301,L]
 
 # Backend playgrounds moved back to fwdtools.com (2026-10-26)
 RewriteRule ^(nodejs|express|python|php|sql|mongo|redis|graphql|firebase|git|rest-api-builder)-playground(/.*)?$ https://fwdtools.com/$1-playground/ [R=301,L]
