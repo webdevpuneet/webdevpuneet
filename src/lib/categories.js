@@ -25,7 +25,7 @@ export const CATEGORIES = [
     slug:        'learn-to-code',
     name:        'Learn to Code',
     headline:    'Learn to Code Free — Interactive Playgrounds for HTML, CSS, JavaScript, React & More',
-    tagline:     '25 browser-based coding playgrounds — frontend, backend and databases — with live preview and structured lessons. No install, no signup — open any playground and start immediately.',
+    tagline:     '14 browser-based frontend coding playgrounds with live preview and structured lessons. No install, no signup — open any playground and start immediately.',
     accent:      '#6366f1',
     icon:        '🎓',
     toolSlugs: [
@@ -43,7 +43,7 @@ export const CATEGORIES = [
       'vue-playground',
       'nextjs-playground',
       'gsap-playground',
-      'svg-playground', 'git-playground', 'python-playground', 'nodejs-playground', 'php-playground', 'sql-playground', 'mongo-playground', 'express-playground', 'graphql-playground', 'firebase-playground', 'rest-api-builder-playground', 'redis-playground'],
+      'svg-playground'],
     related: ['css-tools', 'developer-tools', 'design-tools'],
     about: `Learning to code is easier when you can see the result of every change instantly. These interactive playgrounds cover the frontend stack — HTML, CSS, SCSS/Sass, JavaScript, TypeScript, jQuery, Bootstrap 5, Tailwind CSS, React, Vue.js, Angular, Next.js, GSAP, and SVG — each with a structured curriculum of lessons, a live editor, or an instant preview. No Node.js, no terminal, no build step. Open the browser and start writing.
 
@@ -113,7 +113,7 @@ Watching a tutorial is passive. Writing code is active. These playgrounds keep y
     faqs: [
       {
         q: 'Do I need to install anything to use these playgrounds?',
-        a: 'No. All 25 playgrounds run in the browser with zero setup. HTML, JavaScript, SVG, TypeScript, CSS, SCSS, and Tailwind use the browser\'s native rendering engine, a local sandbox, or a browser-safe learning compiler. The SVG Playground renders your markup live in a sandboxed frame so CSS and SMIL animations run natively. The SCSS Playground uses a browser-safe Sass learning compiler for lesson patterns. The Tailwind Playground loads the official Tailwind Play CDN. The React Playground uses Babel standalone to transpile JSX. The Vue.js Playground loads Vue 3 from CDN. The GSAP Playground loads GSAP and plugin files from the installed package. No Node.js, no npm, no terminal — just open the URL and start writing.',
+        a: 'No. All 14 playgrounds run in the browser with zero setup. HTML, JavaScript, SVG, TypeScript, CSS, SCSS, and Tailwind use the browser\'s native rendering engine, a local sandbox, or a browser-safe learning compiler. The SVG Playground renders your markup live in a sandboxed frame so CSS and SMIL animations run natively. The SCSS Playground uses a browser-safe Sass learning compiler for lesson patterns. The Tailwind Playground loads the official Tailwind Play CDN. The React Playground uses Babel standalone to transpile JSX. The Vue.js Playground loads Vue 3 from CDN. The GSAP Playground loads GSAP and plugin files from the installed package. No Node.js, no npm, no terminal — just open the URL and start writing.',
       },
       {
         q: 'Is my progress saved between sessions?',
@@ -274,7 +274,7 @@ Utility tools round it out: the **CSS Clamp() Generator** for fluid typography, 
 
 ### Interactive Coding Playgrounds
 
-The playgrounds are structured, lesson-based editors with a live preview — learn by changing real code rather than watching a video. Front-end playgrounds cover **HTML**, **CSS**, **SCSS**, **JavaScript**, **TypeScript**, **Tailwind CSS**, **Bootstrap 5**, **jQuery**, **React**, **Vue.js**, **Angular**, **Next.js**, **GSAP** and **SVG**. Back-end and data playgrounds cover **Node.js**, **Express.js**, **Python**, **PHP**, **SQL**, **MongoDB**, **Redis**, **GraphQL**, **Firebase**, **Git** and a **REST API Builder**. Lesson progress is saved in your browser, so you can close the tab and pick up exactly where you left off. The Learn to Code page lists just the playgrounds.
+The playgrounds are structured, lesson-based editors with a live preview — learn by changing real code rather than watching a video. Front-end playgrounds cover **HTML**, **CSS**, **SCSS**, **JavaScript**, **TypeScript**, **Tailwind CSS**, **Bootstrap 5**, **jQuery**, **React**, **Vue.js**, **Angular**, **Next.js**, **GSAP** and **SVG**. Lesson progress is saved in your browser, so you can close the tab and pick up exactly where you left off. The Learn to Code page lists just the playgrounds.
 
 ### Code Formatters, Validators and Data Tools
 
@@ -302,7 +302,7 @@ If you are styling something, start with the CSS generators. If you are learning
     useCases: [
       { icon: '🔎', title: 'Find the right tool in seconds', desc: 'Type what you need — "shadow", "json", "tailwind", "sql" — into the search box and the grid filters every tool by name and description instantly.' },
       { icon: '🎨', title: 'Generate production-ready CSS', desc: 'Build gradients, shadows, glassmorphism, clip-paths, animations and full Flexbox or Grid layouts with a live preview, then copy CSS — or a Tailwind, SCSS or React version — straight into your project.' },
-      { icon: '🎓', title: 'Learn a language or framework', desc: 'Work through structured lessons for HTML, CSS, JavaScript, TypeScript, React, Vue, Angular, Python, SQL and more in a live editor. Progress is saved in your browser — no course sign-up.' },
+      { icon: '🎓', title: 'Learn a language or framework', desc: 'Work through structured lessons for HTML, CSS, JavaScript, TypeScript, React, Vue, Angular, Next.js and more in a live editor. Progress is saved in your browser — no course sign-up.' },
       { icon: '🧹', title: 'Format and validate code', desc: 'Paste messy JSON, XML, SQL or HTML and get it indented, validated and readable in one click — handy when inspecting an API response or a log file.' },
       { icon: '🔁', title: 'Convert between formats', desc: 'Turn HTML into JSX for a React component, JSON into TypeScript interfaces, Markdown into HTML, CSS into Tailwind classes, or an image into Base64 — without writing a throwaway script.' },
       { icon: '🔌', title: 'Prototype and test APIs', desc: 'Generate request code in your language of choice, send test calls from the browser, and mock endpoints and data so front-end work isn\'t blocked waiting on the back end.' },

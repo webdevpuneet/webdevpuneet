@@ -20,17 +20,21 @@ const { CATEGORY_META, LIVE_TOOLS } = await import(
   pathToFileURL(path.join(FWD_ROOT, 'src/lib/tools-registry.js')).href
 );
 
-// Learn to Code: every playground now on webdevpuneet (Mind Map stays on fwdtools).
+// Learn to Code: the frontend playgrounds on webdevpuneet (Mind Map stays on fwdtools).
 // Freelance mirrors FREELANCER_SLUGS_SIDEBAR in fwdtools' Sidebar.
 const PLAYGROUND_SLUGS = [
   'ui-snippets', 'ai-prompt-studio',
   'html-playground', 'css-playground', 'js-playground', 'typescript-playground', 'scss-playground',
   'tailwind-playground', 'bootstrap5-playground', 'jquery-playground', 'react-playground', 'angular-playground',
   'vue-playground', 'nextjs-playground', 'gsap-playground', 'svg-playground',
+];
+
+// Backend playgrounds moved back to fwdtools (2026-10-26): kept out of every sidebar group here.
+const EXCLUDED_SLUGS = new Set([
   'git-playground', 'python-playground', 'nodejs-playground', 'php-playground',
   'sql-playground', 'mongo-playground', 'express-playground', 'graphql-playground',
   'firebase-playground', 'rest-api-builder-playground', 'redis-playground',
-];
+]);
 
 const FREELANCER_SLUGS = [
   'freelance-dashboard', 'freelance-invoice-generator', 'client-crm', 'proposal-builder',
@@ -51,7 +55,7 @@ const data = {
   categories: CATEGORY_META.map(c => ({
     id: c.id,
     label: c.label,
-    tools: LIVE_TOOLS.filter(t => !t.extended && t.category === c.id).map(slim),
+    tools: LIVE_TOOLS.filter(t => !t.extended && t.category === c.id && !EXCLUDED_SLUGS.has(t.slug)).map(slim),
   })).filter(c => c.tools.length > 0),
 };
 

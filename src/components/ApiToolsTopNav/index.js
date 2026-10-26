@@ -11,7 +11,6 @@ const toolHref = slug => (LOCAL_SLUGS.has(slug) ? `/${slug}/` : `https://fwdtool
 const NAV_ITEMS = [
   { slug: 'api-request-generator-tester', short: 'API Request Tester', icon: '/icons/api-request-generator-tester.svg' },
   { slug: 'api-mock-generator',           short: 'API Mock Generator', icon: '/icons/api-mock-generator.svg' },
-  { slug: 'rest-api-builder-playground',  short: 'REST API Builder',   icon: '/icons/rest-api-builder-playground.svg' },
 ];
 
 export default function ApiToolsTopNav({ active }) {

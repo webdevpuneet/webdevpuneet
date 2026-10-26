@@ -105,7 +105,7 @@ This JSON Schema generator takes the opposite approach: paste your JSON, and the
   },
   useCases: [
     { icon: "\u25c9", title: "Generate schemas for API response validation", desc: "Paste an API response and generate a JSON Schema Draft 7 schema to use with AJV, Zod, or your validation library of choice." },
-    { icon: "\u25a6", title: "Create OpenAPI component schemas", desc: "Use the generated schema as a starting point for OpenAPI 3.0 component definitions \u2014 paste into your spec and refine as needed. Prototype the endpoints themselves in the [REST API builder playground](/rest-api-builder-playground)." },
+    { icon: "\u25a6", title: "Create OpenAPI component schemas", desc: "Use the generated schema as a starting point for OpenAPI 3.0 component definitions \u2014 paste into your spec and refine as needed. Prototype the endpoints themselves in the [REST API builder playground](https://fwdtools.com/rest-api-builder-playground/)." },
     { icon: "\u25b3", title: "Bootstrap Pydantic models from JSON", desc: "Generate a JSON Schema from a Python dict or FastAPI response body and use it to build Pydantic model field definitions." },
     { icon: "\u2726", title: "Document data structures in API specs", desc: "Generate and edit schemas for request bodies and response types to include in API documentation or a developer portal." },
     { icon: "\u26a1", title: "Validate config files with a schema", desc: "Create a schema from an example config JSON and use it to validate future config files against the expected structure." },

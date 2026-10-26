@@ -79,61 +79,6 @@
       "slug": "svg-playground",
       "name": "SVG Playground",
       "icon": "/icons/svg-playground.svg"
-    },
-    {
-      "slug": "git-playground",
-      "name": "Git Playground",
-      "icon": "/icons/git-playground.svg"
-    },
-    {
-      "slug": "python-playground",
-      "name": "Python Playground",
-      "icon": "/icons/python-playground.svg"
-    },
-    {
-      "slug": "nodejs-playground",
-      "name": "Node.js Playground",
-      "icon": "/icons/nodejs-playground.svg"
-    },
-    {
-      "slug": "php-playground",
-      "name": "PHP Playground",
-      "icon": "/icons/php-playground.svg"
-    },
-    {
-      "slug": "sql-playground",
-      "name": "SQL Playground",
-      "icon": "/icons/sql-playground.svg"
-    },
-    {
-      "slug": "mongo-playground",
-      "name": "MongoDB Playground",
-      "icon": "/icons/mongo-playground.svg"
-    },
-    {
-      "slug": "express-playground",
-      "name": "Express.js Playground",
-      "icon": "/icons/express-playground.svg"
-    },
-    {
-      "slug": "graphql-playground",
-      "name": "GraphQL Playground",
-      "icon": "/icons/graphql-playground.svg"
-    },
-    {
-      "slug": "firebase-playground",
-      "name": "Firebase Playground",
-      "icon": "/icons/firebase-playground.svg"
-    },
-    {
-      "slug": "rest-api-builder-playground",
-      "name": "REST API Builder Playground",
-      "icon": "/icons/rest-api-builder-playground.svg"
-    },
-    {
-      "slug": "redis-playground",
-      "name": "Redis Playground",
-      "icon": "/icons/redis-playground.svg"
     }
   ],
   "freelancer": [
@@ -471,41 +416,6 @@
           "icon": "/icons/responsive-preview-tool.svg"
         },
         {
-          "slug": "sql-playground",
-          "name": "SQL Playground",
-          "icon": "/icons/sql-playground.svg"
-        },
-        {
-          "slug": "mongo-playground",
-          "name": "MongoDB Playground",
-          "icon": "/icons/mongo-playground.svg"
-        },
-        {
-          "slug": "express-playground",
-          "name": "Express.js Playground",
-          "icon": "/icons/express-playground.svg"
-        },
-        {
-          "slug": "graphql-playground",
-          "name": "GraphQL Playground",
-          "icon": "/icons/graphql-playground.svg"
-        },
-        {
-          "slug": "firebase-playground",
-          "name": "Firebase Playground",
-          "icon": "/icons/firebase-playground.svg"
-        },
-        {
-          "slug": "rest-api-builder-playground",
-          "name": "REST API Builder Playground",
-          "icon": "/icons/rest-api-builder-playground.svg"
-        },
-        {
-          "slug": "redis-playground",
-          "name": "Redis Playground",
-          "icon": "/icons/redis-playground.svg"
-        },
-        {
           "slug": "sql-formatter",
           "name": "SQL Formatter",
           "icon": "/icons/sql-formatter.svg"
@@ -571,11 +481,6 @@
           "icon": "/icons/svg-playground.svg"
         },
         {
-          "slug": "git-playground",
-          "name": "Git Playground",
-          "icon": "/icons/git-playground.svg"
-        },
-        {
           "slug": "typescript-playground",
           "name": "TypeScript Playground",
           "icon": "/icons/typescript-playground.svg"
@@ -609,21 +514,6 @@
           "slug": "nextjs-playground",
           "name": "Next.js Playground",
           "icon": "/icons/nextjs-playground.svg"
-        },
-        {
-          "slug": "nodejs-playground",
-          "name": "Node.js Playground",
-          "icon": "/icons/nodejs-playground.svg"
-        },
-        {
-          "slug": "php-playground",
-          "name": "PHP Playground",
-          "icon": "/icons/php-playground.svg"
-        },
-        {
-          "slug": "python-playground",
-          "name": "Python Playground",
-          "icon": "/icons/python-playground.svg"
         },
         {
           "slug": "gsap-playground",
