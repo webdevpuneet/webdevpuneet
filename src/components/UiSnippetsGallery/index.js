@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo, useRef, useEffect } from 'react';
+import InViewImg from '@/components/InViewImg';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 // The lightweight index + categories, not UiSnippetsTool/snippets (which bundles every snippet's source).
 import { VISIBLE_SNIPPET_INDEX as SNIPPETS } from '@/lib/snippet-index';
@@ -292,7 +293,7 @@ export default function UiSnippetsGallery({ initialCategory = 'all', initialTag 
             {shown.map((sn) => (
               <article key={sn.id} className={s.card}>
                 <div className={s.previewWrap}>
-                  <img className={s.preview} src={`/images/ui-snippets/previews/${sn.id}.png`} alt="" loading="lazy" />
+                  <InViewImg className={s.preview} src={`/images/ui-snippets/previews/${sn.id}.png`} alt="" />
                 </div>
                 <div className={s.cardBody}>
                   <h3 className={s.cardTitle}>

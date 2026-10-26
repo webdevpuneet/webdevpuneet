@@ -6,6 +6,7 @@
    opens the design in its editor. Renders nothing until something is saved. */
 
 import { useEffect, useRef, useState } from 'react';
+import InViewImg from '@/components/InViewImg';
 import rs from '../UiSnippetsTool/RelatedCarousel.module.css';
 import gs from '../SocialPostTemplates/styles.module.css';
 import hs from '../HomeTemplatesCarousel/styles.module.css';
@@ -95,7 +96,7 @@ export default function SavedDesignsStrip({ store, basePath, nameOf, imgFor, ren
                 : (
                   <div className={previewClass || gs.cardPreview}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img className={`${gs.cardImg} ${scroll ? hs.scrollImg : ''}`} src={imgFor(d)} alt={`${d.name} preview`} loading="lazy" />
+                    <InViewImg className={`${gs.cardImg} ${scroll ? hs.scrollImg : ''}`} src={imgFor(d)} alt={`${d.name} preview`} />
                   </div>
                 )}
               <div className={gs.cardBody}>

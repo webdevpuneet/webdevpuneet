@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import InViewImg from '@/components/InViewImg';
 import s from '../SocialPostTemplates/styles.module.css';
 import x from './styles.module.css';
 import { AddToPageMenu, ExportMenu, ForkButton, HistoryButtons, SaveButton } from '@/components/ToolbarActions';
@@ -112,7 +113,7 @@ function GalleryCard({ t, preview }) {
       <div className={x.cardPreview}>
         {preview
           // eslint-disable-next-line @next/next/no-img-element
-          ? <img className={x.cardImg} src={`/images/section-templates/previews/${t.id}.png`} alt={`${t.name} preview`} loading="lazy" />
+          ? <InViewImg className={x.cardImg} src={`/images/section-templates/previews/${t.id}.png`} alt={`${t.name} preview`} />
           : <SectionShot id={t.id} />}
       </div>
       <div className={s.cardBody}>

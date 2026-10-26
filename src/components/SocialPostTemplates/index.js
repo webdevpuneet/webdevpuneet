@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import InViewImg from '@/components/InViewImg';
 import s from './styles.module.css';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import { LoadMore } from '@/components/UiSnippetsGallery';
@@ -183,7 +184,7 @@ function GalleryCard({ t, preview }) {
         {preview
           // Captured screenshot when available: much lighter than a live preview
           // eslint-disable-next-line @next/next/no-img-element
-          ? <img className={s.cardImg} src={`/images/social-post-templates/previews/${t.id}.png`} alt={`${t.name} template preview`} loading="lazy" />
+          ? <InViewImg className={s.cardImg} src={`/images/social-post-templates/previews/${t.id}.png`} alt={`${t.name} template preview`} />
           : visible && w > 0 && <Preview template={t} state={state} maxW={w} />}
       </div>
       <div className={s.cardBody}>

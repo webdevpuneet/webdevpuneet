@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import InViewImg from '@/components/InViewImg';
 import { createPortal } from 'react-dom';
 import { navStart } from '@/lib/navStart';
 import rs from './RelatedCarousel.module.css';
@@ -60,11 +61,10 @@ function RelatedCard({ sn, active, onPeek }) {
       onMouseEnter={e => onPeek?.({ src: `/images/ui-snippets/previews/${sn.id}.png`, title: sn.title }, e.currentTarget.getBoundingClientRect())}
       onMouseLeave={() => onPeek?.(null)}
     >
-      <img
+      <InViewImg
         className={rs.thumb}
         src={`/images/ui-snippets/previews/${sn.id}.png`}
         alt={sn.title}
-        loading="lazy"
       />
       <h4 className={rs.cardTitle}>{sn.title}</h4>
     </a>
