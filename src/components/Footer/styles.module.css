@@ -34,10 +34,26 @@
   }
 }
 
+.copyGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
 .copy {
   white-space: nowrap;
   flex-shrink: 0;
 }
+
+.credit { white-space: nowrap; }
+.creditLink {
+  color: var(--text2);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.creditLink:hover { color: var(--accent); text-decoration: underline; }
 
 .links {
   display: flex;

@@ -5,8 +5,10 @@ import { SEARCHABLE_TOOLS } from '@/lib/tools-registry';
 import styles from './styles.module.css';
 
 const POPULAR = ['CSS', 'JavaScript', 'React'];
+const SNIPPET_POPULAR = ['Button', 'Card', 'Navbar', 'Modal', 'Loader'];
 const MAX_TOOL_RESULTS = 8;
 const MAX_SNIPPET_RESULTS = 5;
+const MAX_SNIPPET_ONLY_RESULTS = 10;
 const MAX_TEMPLATE_RESULTS = 6;
 
 // Every tool on this site plus every tool that still lives on fwdtools.com (external
@@ -40,12 +42,12 @@ function toolHref(t) {
   return t.external ? `https://fwdtools.com/${t.slug}/` : `/${t.slug}`;
 }
 
-function matchSnippets(query, index) {
+function matchSnippets(query, index, max = MAX_SNIPPET_RESULTS) {
   if (!index) return [];
   const q = query.toLowerCase();
   return index
     .filter(sn => sn.title.toLowerCase().includes(q) || sn.category.toLowerCase().includes(q))
-    .slice(0, MAX_SNIPPET_RESULTS);
+    .slice(0, max);
 }
 
 /* The four template libraries as one searchable list, built from the small generated nav
@@ -78,7 +80,9 @@ function matchTemplates(query, index) {
   return scored.slice(0, MAX_TEMPLATE_RESULTS).map(x => x.t);
 }
 
-export default function HomeOmniSearch() {
+// `snippetsOnly`: search just the UI snippet library (used inside the home page's snippets
+// section) and skip loading the tool and template indexes.
+export default function HomeOmniSearch({ snippetsOnly = false }) {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const [highlight, setHighlight] = useState(-1);
@@ -100,6 +104,7 @@ export default function HomeOmniSearch() {
 
   // fwdtools' tool list, also its own chunk: only needed once someone starts typing.
   useEffect(() => {
+    if (snippetsOnly) return undefined;
     let cancelled = false;
     import('@/data/fwdtools-sidebar.json').then(mod => {
       const d = mod.default || mod;
@@ -107,16 +112,17 @@ export default function HomeOmniSearch() {
       if (!cancelled) setExternalTools(list);
     });
     return () => { cancelled = true; };
-  }, []);
+  }, [snippetsOnly]);
 
   // Templates (sections, websites, social posts, emails): their own small chunk too
   useEffect(() => {
+    if (snippetsOnly) return undefined;
     let cancelled = false;
     Promise.all([import('@/data/template-nav.json'), import('@/data/website-templates-nav.json')]).then(([nav, sites]) => {
       if (!cancelled) setTemplateIndex(buildTemplateIndex(nav.default || nav, sites.default || sites));
     });
     return () => { cancelled = true; };
-  }, []);
+  }, [snippetsOnly]);
 
   useEffect(() => {
     function onDocMouseDown(e) {
@@ -126,12 +132,15 @@ export default function HomeOmniSearch() {
     return () => document.removeEventListener('mousedown', onDocMouseDown);
   }, []);
 
-  const toolResults = useMemo(() => (query.trim() ? matchTools(query.trim(), externalTools) : []), [query, externalTools]);
-  const templateResults = useMemo(() => (query.trim() ? matchTemplates(query.trim(), templateIndex) : []), [query, templateIndex]);
+  const toolResults = useMemo(() => (!snippetsOnly && query.trim() ? matchTools(query.trim(), externalTools) : []), [snippetsOnly, query, externalTools]);
+  const templateResults = useMemo(() => (!snippetsOnly && query.trim() ? matchTemplates(query.trim(), templateIndex) : []), [snippetsOnly, query, templateIndex]);
   const snippetResults = useMemo(
-    () => (query.trim() ? matchSnippets(query.trim(), snippetIndex) : []),
-    [query, snippetIndex]
+    () => (query.trim() ? matchSnippets(query.trim(), snippetIndex, snippetsOnly ? MAX_SNIPPET_ONLY_RESULTS : MAX_SNIPPET_RESULTS) : []),
+    [snippetsOnly, query, snippetIndex]
   );
+  const searchLabel = snippetsOnly
+    ? `Search ${snippetIndex ? snippetIndex.length.toLocaleString('en-US') + ' ' : ''}UI snippets…`
+    : 'Search UI snippets, templates, coding playgrounds and tools…';
   const flatResults = useMemo(
     () => [
       ...toolResults.map(t => ({ kind: 'tool', ...t, href: toolHref(t) })),
@@ -183,7 +192,7 @@ export default function HomeOmniSearch() {
           ref={inputRef}
           type="search"
           className={styles.searchInput}
-          placeholder="Search UI snippets, templates, coding playgrounds and tools…"
+          placeholder={searchLabel}
           value={query}
           onChange={handleChange}
           onFocus={() => setOpen(true)}
@@ -192,7 +201,7 @@ export default function HomeOmniSearch() {
           aria-expanded={showDropdown}
           aria-controls="home-omni-results"
           aria-autocomplete="list"
-          aria-label="Search UI snippets, templates, coding playgrounds and tools"
+          aria-label={snippetsOnly ? 'Search UI snippets' : 'Search UI snippets, templates, coding playgrounds and tools'}
         />
         {query && (
           <button
@@ -297,7 +306,7 @@ export default function HomeOmniSearch() {
 
       <div className={styles.popularRow}>
         <span className={styles.popularLabel}>Popular:</span>
-        {POPULAR.map(term => (
+        {(snippetsOnly ? SNIPPET_POPULAR : POPULAR).map(term => (
           <button key={term} type="button" className={styles.popularChip} onClick={() => handleChipClick(term)}>
             {term}
           </button>
