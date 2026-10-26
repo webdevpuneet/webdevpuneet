@@ -40,7 +40,7 @@ export default function NotFound() {
 
   return (
     <div className={styles.shell}>
-      {/* The same tabs as the tool pages: UI Snippets, Website Sections, Website Builder, Email Templates… */}
+      {/* The same tabs as the tool pages: UI Snippets, Website Builder, Website Sections, Email Templates… */}
       <PlaygroundTopNav />
       <div className={styles.page} data-not-found-page>
       <div className={styles.inner}>

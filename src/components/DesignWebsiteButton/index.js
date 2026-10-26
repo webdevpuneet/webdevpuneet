@@ -28,13 +28,13 @@ export default function DesignWebsiteButton() {
   };
 
   if (collapsed) {
-    return <a className={styles.tab} href="/website-builder/">Design your website</a>;
+    return <a className={styles.tab} href="/website-builder/editor/?starter=blank">Design your website</a>;
   }
 
   return (
     <div className={styles.wrap}>
       <button type="button" className={styles.close} onClick={collapse} aria-label="Minimise to the side">×</button>
-      <a className={styles.btn} href="/website-builder/">Design your website</a>
+      <a className={styles.btn} href="/website-builder/editor/?starter=blank">Design your website</a>
     </div>
   );
 }
