@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.css';
 import { SEARCHABLE_TOOLS } from '@/lib/tools-registry';
 
-// Tools that live on webdevpuneet link locally; the rest still live on fwdtools.
+// Only tools that live on webdevpuneet are listed (the rest stay on fwdtools).
 const LOCAL_SLUGS = new Set(SEARCHABLE_TOOLS.map(t => t.slug));
 const toolHref = slug => (LOCAL_SLUGS.has(slug) ? `/${slug}/` : `https://fwdtools.com/${slug}/`);
 
@@ -62,7 +62,7 @@ export default function PdfToolsTopNav({ active }) {
         </button>
       )}
       <nav className={styles.nav} ref={scrollRef} aria-label="PDF tools">
-        {NAV_ITEMS.map(item => (
+        {NAV_ITEMS.filter(item => LOCAL_SLUGS.has(item.slug)).map(item => (
           <a
             key={item.slug}
             href={toolHref(item.slug)}

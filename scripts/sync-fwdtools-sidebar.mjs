@@ -60,10 +60,15 @@ const data = {
 };
 
 // Tools that exist only on webdevpuneet (e.g. navbar-builder, unregistered on fwdtools)
-// join their category group too.
+// join their category group too, and a local tool filed under a different category here
+// (html-to-pdf: 'pdf' on fwdtools, 'converters' here) moves to its local group.
 const { LIVE_TOOLS: WDP_TOOLS } = await import(pathToFileURL(path.resolve('src/lib/tools-registry.js')).href);
 for (const t of WDP_TOOLS) {
-  if (bySlug[t.slug] || t.extended) continue;
+  if (t.extended) continue;
+  if (bySlug[t.slug]) {
+    if (bySlug[t.slug].category === t.category) continue;
+    for (const c of data.categories) c.tools = c.tools.filter(x => x.slug !== t.slug);
+  }
   const cat = data.categories.find(c => c.id === t.category);
   if (cat && !cat.tools.some(x => x.slug === t.slug)) cat.tools.push(slim(t));
 }

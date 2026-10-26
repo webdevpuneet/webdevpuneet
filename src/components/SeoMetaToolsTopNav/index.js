@@ -59,7 +59,7 @@ export default function SeoMetaToolsTopNav({ active }) {
         </button>
       )}
       <nav className={styles.nav} ref={scrollRef} aria-label="SEO and meta tools">
-        {NAV_ITEMS.map(item => (
+        {NAV_ITEMS.filter(item => LOCAL_SLUGS.has(item.slug)).map(item => (
           <a
             key={item.slug}
             href={toolHref(item.slug)}

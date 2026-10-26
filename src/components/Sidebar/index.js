@@ -25,8 +25,11 @@ const EXTENDED_TOOLS = LIVE_TOOLS.filter(t => t.extended);
 
 const TOOL_MAP = Object.fromEntries(LIVE_TOOLS.map(t => [t.slug, t]));
 
-// Category accordions mirror fwdtools (see FWD_SIDEBAR above).
-const CATEGORIES = FWD_SIDEBAR.categories;
+// Category accordions mirror fwdtools' groups (see FWD_SIDEBAR above), but list only the
+// tools that live on webdevpuneet; a group with none of them is dropped.
+const CATEGORIES = FWD_SIDEBAR.categories
+  .map(c => ({ ...c, tools: c.tools.filter(t => TOOL_MAP[t.slug]) }))
+  .filter(c => c.tools.length > 0);
 
 // Tools that live on webdevpuneet link locally; everything else goes to fwdtools.
 function toolHref(slug) {
@@ -260,9 +263,9 @@ function ToolOfDay({ activeSlug, favourites }) {
 /* ─────────────────────────────────────────────────────────────
    PlaygroundsGroup — pinned learn-to-code section
 ───────────────────────────────────────────────────────────── */
-// Local entry wins (webdevpuneet's own name); fwdtools-only ones come from the snapshot.
+// Only playgrounds that live on webdevpuneet.
 const PLAYGROUND_TOOLS = FWD_SIDEBAR.playgrounds
-  .map(p => TOOL_MAP[p.slug] || (p.name ? p : null))
+  .map(p => TOOL_MAP[p.slug])
   .filter(Boolean);
 
 const FREELANCER_TOOLS_SIDEBAR = FWD_SIDEBAR.freelancer;
@@ -1910,26 +1913,7 @@ export default function Sidebar() {
                       />
                     ))}
                   </div>
-                  {/* Freelance and PDF Tools sit at the bottom of the list */}
-                  {FREELANCER_TOOLS_SIDEBAR.length > 0 && (
-                    <FreelancerGroup
-                      activeSlug={activeSlug}
-                      open={freelancerOpen}
-                      onToggle={() => setFreelancerOpen(v => !v)}
-                    />
-                  )}
-                  <div className={styles.categories}>
-                    {CATEGORIES.filter(cat => cat.id === 'pdf').map(cat => (
-                      <CategoryGroup
-                        key={cat.id}
-                        category={cat}
-                        open={openIds.has(cat.id)}
-                        onToggle={() => toggleCategory(cat.id)}
-                        activeSlug={activeSlug}
-                        query=""
-                      />
-                    ))}
-                  </div>
+                  {/* Freelance and PDF Tools are not shown on webdevpuneet (they live on fwdtools) */}
 
                 </>
               )}

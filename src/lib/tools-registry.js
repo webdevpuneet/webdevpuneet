@@ -1441,7 +1441,7 @@ export const TOOLS = [
     desc:     'Convert Markdown or HTML to a styled, downloadable PDF directly in your browser. Live split-pane preview, font and paper size controls. No upload, no sign-up, no watermark.',
     icon:     '/icons/html-to-pdf.svg',
     accent:   '#0f766e',
-    category: 'pdf',
+    category: 'converters', // 'pdf' on fwdtools; webdevpuneet shows no PDF Tools group
     extended: false,
     status:   'live',
     lastmod:  '2026-10-22',

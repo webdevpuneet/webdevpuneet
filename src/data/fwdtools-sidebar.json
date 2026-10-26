@@ -204,11 +204,6 @@
           "icon": "/icons/pdf-to-images.svg"
         },
         {
-          "slug": "html-to-pdf",
-          "name": "HTML / Markdown to PDF",
-          "icon": "/icons/html-to-pdf.svg"
-        },
-        {
           "slug": "pdf-metadata",
           "name": "PDF Metadata Editor",
           "icon": "/icons/pdf-metadata.svg"
@@ -666,6 +661,11 @@
           "slug": "image-to-text-converter",
           "name": "Image to Text",
           "icon": "/icons/image-to-text-converter.svg"
+        },
+        {
+          "slug": "html-to-pdf",
+          "name": "HTML / Markdown to PDF",
+          "icon": "/icons/html-to-pdf.svg"
         }
       ]
     },

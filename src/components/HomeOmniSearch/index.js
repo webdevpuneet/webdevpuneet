@@ -11,35 +11,26 @@ const MAX_SNIPPET_RESULTS = 5;
 const MAX_SNIPPET_ONLY_RESULTS = 10;
 const MAX_TEMPLATE_RESULTS = 6;
 
-// Every tool on this site plus every tool that still lives on fwdtools.com (external
-// links). Name matches rank first, then slug, then the longer description text; tools on
-// this site win ties.
-function matchTools(query, externalTools) {
+// Tools on this site only. Name matches rank first, then slug, then the longer description text.
+function matchTools(query) {
   const q = query.toLowerCase();
-  const local = new Set(SEARCHABLE_TOOLS.map(t => t.slug));
-  const pool = [
-    ...SEARCHABLE_TOOLS.map(t => ({ ...t, external: false })),
-    ...(externalTools || [])
-      .filter(t => !local.has(t.slug))
-      .map(t => ({ slug: t.slug, name: t.name, icon: t.icon, accent: '#64748b', sub: 'on fwdtools.com', external: true })),
-  ];
   const scored = [];
-  for (const t of pool) {
+  for (const t of SEARCHABLE_TOOLS) {
     const name = t.name.toLowerCase();
     let score = 0;
     if (name.startsWith(q)) score = 5;
     else if (name.split(/[\s\-/·]+/).some(w => w.startsWith(q))) score = 4;
     else if (name.includes(q)) score = 3;
     else if (t.slug.includes(q)) score = 2;
-    else if (!t.external && ((t.sub || '').toLowerCase().includes(q) || (t.desc || '').toLowerCase().includes(q))) score = 1;
+    else if ((t.sub || '').toLowerCase().includes(q) || (t.desc || '').toLowerCase().includes(q)) score = 1;
     if (score) scored.push({ t, score });
   }
-  scored.sort((a, b) => b.score - a.score || (a.t.external - b.t.external));
+  scored.sort((a, b) => b.score - a.score);
   return scored.slice(0, MAX_TOOL_RESULTS).map(x => x.t);
 }
 
 function toolHref(t) {
-  return t.external ? `https://fwdtools.com/${t.slug}/` : `/${t.slug}`;
+  return `/${t.slug}`;
 }
 
 function matchSnippets(query, index, max = MAX_SNIPPET_RESULTS) {
@@ -87,7 +78,6 @@ export default function HomeOmniSearch({ snippetsOnly = false }) {
   const [open, setOpen] = useState(false);
   const [highlight, setHighlight] = useState(-1);
   const [snippetIndex, setSnippetIndex] = useState(null);
-  const [externalTools, setExternalTools] = useState(null);
   const [templateIndex, setTemplateIndex] = useState(null);
   const wrapRef = useRef(null);
   const inputRef = useRef(null);
@@ -101,18 +91,6 @@ export default function HomeOmniSearch({ snippetsOnly = false }) {
     });
     return () => { cancelled = true; };
   }, []);
-
-  // fwdtools' tool list, also its own chunk: only needed once someone starts typing.
-  useEffect(() => {
-    if (snippetsOnly) return undefined;
-    let cancelled = false;
-    import('@/data/fwdtools-sidebar.json').then(mod => {
-      const d = mod.default || mod;
-      const list = [...(d.freelancer || []), ...d.categories.flatMap(c => c.tools)];
-      if (!cancelled) setExternalTools(list);
-    });
-    return () => { cancelled = true; };
-  }, [snippetsOnly]);
 
   // Templates (sections, websites, social posts, emails): their own small chunk too
   useEffect(() => {
@@ -132,7 +110,7 @@ export default function HomeOmniSearch({ snippetsOnly = false }) {
     return () => document.removeEventListener('mousedown', onDocMouseDown);
   }, []);
 
-  const toolResults = useMemo(() => (!snippetsOnly && query.trim() ? matchTools(query.trim(), externalTools) : []), [snippetsOnly, query, externalTools]);
+  const toolResults = useMemo(() => (!snippetsOnly && query.trim() ? matchTools(query.trim()) : []), [snippetsOnly, query]);
   const templateResults = useMemo(() => (!snippetsOnly && query.trim() ? matchTemplates(query.trim(), templateIndex) : []), [snippetsOnly, query, templateIndex]);
   const snippetResults = useMemo(
     () => (query.trim() ? matchSnippets(query.trim(), snippetIndex, snippetsOnly ? MAX_SNIPPET_ONLY_RESULTS : MAX_SNIPPET_RESULTS) : []),
