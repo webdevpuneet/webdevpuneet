@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import rs from '@/components/UiSnippetsTool/RelatedCarousel.module.css';
 import pc from './portrait.module.css';
+import InViewImg from '../InViewImg';
 
 const PAGE_SIZE = 6;
 
@@ -20,11 +21,10 @@ function ToolCard({ tool }) {
           <img src={`/icons/${tool.slug}.svg`} alt="" width={40} height={40} />
         </div>
       ) : (
-        <img
+        <InViewImg
           className={tool.scrollImage ? pc.scrollImg : rs.thumb}
           src={tool.image || `/images/${tool.slug}.png`}
           alt={tool.name}
-          loading="lazy"
           onError={() => setNoImg(true)}
         />
       )}

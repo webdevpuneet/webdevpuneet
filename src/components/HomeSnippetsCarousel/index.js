@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import rs from '../UiSnippetsTool/RelatedCarousel.module.css';
+import InViewImg from '../InViewImg';
 
 const PAGE_SIZE = 5;
 
@@ -81,12 +82,22 @@ export default function HomeSnippetsCarousel({ items, total, flush = false }) {
             href={`/ui-snippets/${sn.id}/`}
             className={rs.card}
           >
-            <img
-              className={rs.thumb}
-              src={`/images/ui-snippets/previews/${sn.id}.png`}
-              alt={sn.title}
-              loading={start === 0 ? 'eager' : 'lazy'}
-            />
+            {/* The first five are above the fold: load them straight away. The rest wait until they are in view. */}
+            {start === 0 ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                className={rs.thumb}
+                src={`/images/ui-snippets/previews/${sn.id}.png`}
+                alt={sn.title}
+                loading="eager"
+              />
+            ) : (
+              <InViewImg
+                className={rs.thumb}
+                src={`/images/ui-snippets/previews/${sn.id}.png`}
+                alt={sn.title}
+              />
+            )}
             <h3 className={rs.cardTitle}>{sn.title}</h3>
           </a>
         ))}
