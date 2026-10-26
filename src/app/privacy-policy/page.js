@@ -178,7 +178,7 @@ export default function PrivacyPolicy() {
           <p>If you have questions about this Privacy Policy or wish to exercise any of the rights described above, please contact us via the <a href="/contact/">contact page</a>, or by email at <a href="mailto:puneet438@gmail.com">puneet438@gmail.com</a>.</p>
         </section>
 
-        <p className={styles.footer}>© {year} webdevpuneet.com</p>
+        <p className={styles.footer}>© {year} webdevpuneet.com · Built with care by <a href="/puneet/">Puneet Sharma</a></p>
       </div>
     </div>
   );

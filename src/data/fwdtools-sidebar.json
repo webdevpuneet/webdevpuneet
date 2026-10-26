@@ -971,22 +971,6 @@
           "icon": "/icons/client-portal-lite.svg"
         }
       ]
-    },
-    {
-      "id": "learn",
-      "label": "Learn & Think",
-      "tools": [
-        {
-          "slug": "mind-map",
-          "name": "Mind Map Studio",
-          "icon": "/icons/mind-map.svg"
-        },
-        {
-          "slug": "ui-snippets",
-          "name": "UI Snippets Library",
-          "icon": "/icons/ui-snippets.svg"
-        }
-      ]
     }
   ]
 }

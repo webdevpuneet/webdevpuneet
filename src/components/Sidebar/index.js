@@ -27,7 +27,9 @@ const TOOL_MAP = Object.fromEntries(LIVE_TOOLS.map(t => [t.slug, t]));
 
 // Category accordions mirror fwdtools' groups (see FWD_SIDEBAR above), but list only the
 // tools that live on webdevpuneet; a group with none of them is dropped.
+// 'learn' (Learn & Think) is skipped: its only local tool, UI Snippets, has its own link at the top.
 const CATEGORIES = FWD_SIDEBAR.categories
+  .filter(c => c.id !== 'learn')
   .map(c => ({ ...c, tools: c.tools.filter(t => TOOL_MAP[t.slug]) }))
   .filter(c => c.tools.length > 0);
 
@@ -1953,9 +1955,7 @@ export default function Sidebar() {
             </span>
           </a>
           <a
-            href="https://www.webdevpuneet.com/"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/puneet/"
             className={styles.hireLine}
             title="Hire Puneet Sharma - UI Engineer (10 yrs exp)"
             aria-label="Hire Puneet Sharma - UI Engineer (10 yrs exp)"

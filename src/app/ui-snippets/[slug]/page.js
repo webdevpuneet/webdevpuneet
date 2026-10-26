@@ -70,13 +70,37 @@ const CATEGORY_SEO = {
   dashboards: { title: 'Dashboard Snippets HTML CSS JS — {n} Free Dashboard Components | UI Snippets', description: 'Free HTML CSS JS dashboard snippets — stats cards, kanban boards, activity feeds, calendars, status pages, metric grids & more. Export to React, Vue, Angular & Tailwind.' },
   pricing:    { title: 'Pricing Page Snippets HTML CSS JS — {n} Free Pricing Components | UI Snippets', description: 'Free HTML CSS JS pricing snippets — 3-tier pricing pages, annual toggles, popular-badge cards, usage calculators, upgrade banners & more. Export to React, Vue, Angular & Tailwind.' },
   heroes:     { title: 'Hero Section Snippets HTML CSS JS — {n} Free Landing Page Heroes | UI Snippets', description: 'Free HTML CSS JS hero section snippets — SaaS startup, product, gradient mesh, app download, portfolio, agency, coming-soon & video heroes. Export to React, Vue, Angular & Tailwind.' },
-  'landing-pages': { title: 'Landing Page Templates HTML CSS JS — {n} Free | UI Snippets', description: 'Free landing page templates in HTML, CSS and JS: SaaS, app, agency, restaurant, clinic, gym, wedding and more. Edit live, then customise in the Website Builder.' },
+  'landing-pages': { title: 'Landing Page Templates HTML CSS JS — {n} Free | UI Snippets', description: '{n} free landing page templates in HTML, CSS and JS: SaaS, restaurant, clinic, gym, wedding and more. Edit live or customise in the Website Builder, then export.' },
   mobile:     { title: 'Mobile App Screen Snippets HTML CSS JS — {n} Free UI Kit | UI Snippets', description: 'Free mobile app screen snippets — chat, settings, feed, checkout, banking, music player, camera & stories, all framed in a CSS phone mockup. Export to React, Vue, Angular & Tailwind.' },
   games:      { title: 'Game Snippets HTML CSS JS — {n} Free Playable Browser Games | UI Snippets', description: 'Free HTML CSS JS game snippets — Snake, Pong, 2048, Minesweeper, Sudoku, Wordle-style word games, plus coding games that teach CSS selectors, regex and binary. Export to React, Vue, Angular & Tailwind.' },
   misc:       { title: 'Misc Snippets HTML CSS JS — {n} Free Coding Demos & Examples | UI Snippets', description: 'A rotating collection of free HTML, CSS & JS demos and coding examples that don\'t fit a single structural category — built for learning, reference, and experimentation. Export to React, Vue, Angular & Tailwind.' },
 };
 
 // Full SEO content per category for the SeoSection below the gallery
+// "Browse by business type" copy for the landing-pages category: every template linked with its
+// own name as the anchor, grouped by who it is for. Built from the snippet data so a new template
+// shows up here on its own (anything not grouped below lands in "More").
+const LANDING_PAGE_GROUPS = [
+  ['Software and apps', ['saas-landing-page-template', 'app-landing-page-template', 'launch-landing-page-template', 'online-course-landing-page-template']],
+  ['Shops, food, hotels and local business', ['product-store-landing-page-template', 'restaurant-landing-page-template', 'hotel-landing-page-template', 'salon-landing-page-template', 'dental-landing-page-template', 'fitness-landing-page-template', 'local-service-landing-page-template']],
+  ['Professional services and portfolios', ['agency-landing-page-template', 'portfolio-landing-page-template', 'photographer-landing-page-template', 'law-firm-landing-page-template', 'coach-landing-page-template', 'real-estate-landing-page-template']],
+  ['Events, communities and media', ['event-landing-page-template', 'wedding-landing-page-template', 'nonprofit-landing-page-template', 'church-landing-page-template', 'school-landing-page-template', 'podcast-landing-page-template']],
+];
+function landingPageTemplateList() {
+  const all = VISIBLE_SNIPPETS.filter(sn => sn.category === 'landing-pages');
+  const byId = Object.fromEntries(all.map(sn => [sn.id, sn]));
+  const used = new Set();
+  const link = sn => `[${sn.title}](/ui-snippets/${sn.id}/)`;
+  const lines = LANDING_PAGE_GROUPS.map(([label, ids]) => {
+    const items = ids.map(id => byId[id]).filter(Boolean);
+    items.forEach(sn => used.add(sn.id));
+    return items.length ? `**${label}:** ${items.map(link).join(' · ')}` : '';
+  }).filter(Boolean);
+  const rest = all.filter(sn => !used.has(sn.id));
+  if (rest.length) lines.push(`**More:** ${rest.map(link).join(' · ')}`);
+  return lines.join('\n\n');
+}
+
 const CATEGORY_CONTENT = {
   buttons: {
     slug: 'ui-snippets/buttons',
@@ -463,10 +487,14 @@ const CATEGORY_CONTENT = {
     title: 'Landing Page Templates — Free HTML CSS JS Website Templates You Can Customise',
     subtitle: '{n} complete landing pages · SaaS, App, Agency, Restaurant, Clinic, Gym, Wedding, Course and more · Edit the code or open it in the Website Builder',
     about: {
-      title: 'Landing Page Templates — Complete One-Page Websites, Built From Reusable Sections',
+      title: 'What Is a Landing Page Template? Complete One-Page Websites Built From Reusable Sections',
       description: `Every snippet in this category is a finished, one-page website for a specific kind of business, not a single component. Each is assembled from ready-made sections in the [Website Section Templates](/website-section-templates/) library (a navbar, a hero, features, pricing or a menu, reviews, an FAQ, a contact form and a footer, chosen and ordered for that business), so the structure reflects what visitors to that kind of site actually look for.
 
 **Pick by what you are selling.** Software and apps (the SaaS, mobile app and launch pages) lead with outcomes and pricing. Local businesses (restaurant, dental clinic, salon, gym, local trades) lead with trust, prices and a way to book. Professional services (law firm, coach, agency, portfolio) lead with people and proof. Events and communities (conference, wedding, nonprofit, church, school) lead with the date, the story and an action.
+
+**Browse all templates by business type.**
+
+${landingPageTemplateList()}
 
 **Two ways to use them.** Read and edit the HTML, CSS and JavaScript here with a live preview and export it to React, Vue, Angular or Tailwind, or press "Design your website" to open the same page in the [Website Builder](/website-builder/), where you edit text, images, colours and fonts with forms, add pages and download a finished site. Every page explains which sections it uses, links to each of them and shows how to adapt it.`,
     },
@@ -489,6 +517,9 @@ const CATEGORY_CONTENT = {
       { q: 'Can I customise these without coding?', a: 'Yes. Press "Design your website" to open the page in the Website Builder and edit text, images, colours and fonts with forms. Then export the HTML.' },
       { q: 'Which section templates does each landing page use?', a: 'Each page lists its sections in order, with a link to every one in the Website Section Templates library.' },
       { q: 'Are the templates free to use commercially?', a: 'Yes. They are free to use and adapt for personal and commercial projects.' },
+      { q: 'Are these landing page templates responsive?', a: 'Yes. Each page uses container-query responsive layouts, so it adapts from phone to desktop. You can check the layout at mobile, tablet and desktop widths in the live preview before you copy any code.' },
+      { q: 'How do I publish a landing page template?', a: 'Open the template in the Website Builder, edit the text, images, colours and fonts, then export clean HTML or a ZIP that includes every image. Upload the files to any static host, such as Netlify, GitHub Pages or a standard cPanel hosting plan.' },
+      { q: 'Can I use a landing page template in React, Vue, Angular or Tailwind?', a: 'Yes. Open the snippet in the editor and export it to React (JSX), React + Tailwind CSS, a standalone Tailwind HTML file, a Vue 3 single-file component or an Angular standalone component.' },
     ],
   },
   heroes: {
@@ -720,14 +751,15 @@ export async function generateMetadata({ params }) {
     const cat = CATEGORIES.find(c => c.id === slug);
     const count = VISIBLE_SNIPPETS.filter(s => s.category === slug).length;
     const title = catSeo.title.replace('{n}', count);
+    const description = catSeo.description.replace('{n}', count);
     return {
       title,
-      description: catSeo.description,
+      description,
       authors:    [{ name: 'Puneet Sharma', url: 'https://www.webdevpuneet.com/' }],
       robots:     { index: true, follow: true },
       alternates: { canonical: `${BASE_URL}/${slug}/` },
-      openGraph: { type: 'website', url: `${BASE_URL}/${slug}/`, siteName: 'webdevpuneet.com', title, description: catSeo.description, images: [{ url: categoryOG(slug), width: 1200, height: 630, alt: title }], locale: 'en_US' },
-      twitter:    { card: 'summary_large_image', site: '@webdevpuneet', title, description: catSeo.description, images: [categoryOG(slug)] },
+      openGraph: { type: 'website', url: `${BASE_URL}/${slug}/`, siteName: 'webdevpuneet.com', title, description, images: [{ url: categoryOG(slug), width: 1200, height: 630, alt: title }], locale: 'en_US' },
+      twitter:    { card: 'summary_large_image', site: '@webdevpuneet', title, description, images: [categoryOG(slug)] },
     };
   }
 
@@ -765,22 +797,30 @@ export default async function UiSnippetSlugPage({ params }) {
         acceptedAnswer: { '@type': 'Answer', text: f.a },
       })),
     } : null;
-    const techArticleSchema = {
-      '@context': 'https://schema.org', '@type': 'TechArticle',
-      headline: content.title,
-      description: CATEGORY_SEO[slug].description,
+    // A category page is a collection of snippets, not an article: describe it as a CollectionPage
+    // whose main entity is the list of snippets (capped so the markup stays small on big categories).
+    const catSnippets = VISIBLE_SNIPPETS.filter(sn => sn.category === slug);
+    const collectionSchema = {
+      '@context': 'https://schema.org', '@type': 'CollectionPage',
+      name: content.title,
+      description: CATEGORY_SEO[slug].description.replace('{n}', catCount),
       image: categoryOG(slug),
       url: `${BASE_URL}/${slug}/`,
-      mainEntityOfPage: { '@type': 'WebPage', '@id': `${BASE_URL}/${slug}/` },
+      isPartOf: { '@type': 'WebSite', name: 'webdevpuneet.com', url: 'https://webdevpuneet.com' },
       author: { '@type': 'Person', name: 'Puneet Sharma', url: 'https://www.webdevpuneet.com/' },
       publisher: { '@type': 'Person', name: 'Puneet Sharma', url: 'https://www.webdevpuneet.com/' },
-      proficiencyLevel: 'Beginner',
-      dependencies: 'HTML, CSS, JavaScript',
+      mainEntity: {
+        '@type': 'ItemList',
+        numberOfItems: catSnippets.length,
+        itemListElement: catSnippets.slice(0, 60).map((sn, k) => ({
+          '@type': 'ListItem', position: k + 1, name: sn.title, url: `${BASE_URL}/${sn.id}/`,
+        })),
+      },
     };
     return (
       <>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }} />
         {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
         <AdSlot adFirst related={false} />
         <IndexOnly>

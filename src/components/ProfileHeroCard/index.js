@@ -6,7 +6,6 @@ import styles from './styles.module.css';
 // Author card for the home hero — a quiet, flat card (no photo) so it does not compete
 // with the hero title and search. "Email me" opens a small popover with the
 // address and a copy button instead of a mailto: link.
-const UPWORK_URL = 'https://www.upwork.com/freelancers/~017de423dd2d0e2767';
 const EMAIL = 'puneet438@gmail.com';
 
 export default function ProfileHeroCard() {
@@ -51,7 +50,7 @@ export default function ProfileHeroCard() {
         <span className={styles.available}><i aria-hidden="true" /> Open to freelance work</span>
       </div>
       <div className={styles.buttons}>
-        <a className={styles.primary} href={UPWORK_URL} target="_blank" rel="noopener">&#8663; Hire on Upwork</a>
+        <a className={styles.primary} href="/puneet/">Hire Me</a>
         <div className={styles.emailWrap} ref={emailRef}>
           <button
             type="button"

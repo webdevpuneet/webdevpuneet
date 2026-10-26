@@ -76,7 +76,7 @@ export default function ContactPage() {
           </section>
 
           <div className={styles.footer}>
-            Built with care by <a href="https://www.webdevpuneet.com/" target="_blank" rel="noopener noreferrer">Puneet Sharma</a> · <a href="https://x.com/webdevpuneet" target="_blank" rel="noopener noreferrer">@webdevpuneet</a>
+            Built with care by <a href="/puneet/">Puneet Sharma</a> · <a href="https://x.com/webdevpuneet" target="_blank" rel="noopener noreferrer">@webdevpuneet</a>
           </div>
         </div>
       </div>

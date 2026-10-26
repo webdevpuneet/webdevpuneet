@@ -455,7 +455,7 @@ export default async function Home() {
             <p>
               webdevpuneet.com brings together {SNIPPET_COUNT.toLocaleString('en-US')} free UI components, {TEMPLATE_COUNT} website, email and social templates, {PLAYGROUND_COUNT} interactive coding playgrounds and {TOOL_COUNT} developer tools. Build websites, experiment with code and create reusable interfaces directly in your browser.
             </p>
-            <p className={styles.introMeta}>Built and maintained by <a href="/about/">Puneet Sharma</a>, frontend developer and UI engineer.</p>
+            <p className={styles.introMeta}>Built and maintained by <a href="/puneet/">Puneet Sharma</a>, frontend developer and UI engineer.</p>
           </div>
           <div className={styles.faq}>
             <h2 className={styles.faqTitle}>Frequently Asked Questions</h2>

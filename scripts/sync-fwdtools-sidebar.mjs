@@ -55,7 +55,7 @@ const data = {
   // from webdevpuneet's own registry at render time, so keep them as bare slugs.
   playgrounds: PLAYGROUND_SLUGS.map(s => (bySlug[s] ? slim(bySlug[s]) : { slug: s })),
   freelancer: FREELANCER_SLUGS.map(s => bySlug[s]).filter(Boolean).map(slim),
-  categories: CATEGORY_META.map(c => ({
+  categories: CATEGORY_META.filter(c => c.id !== 'learn').map(c => ({  // 'learn' (Learn & Think) is not shown on webdevpuneet
     id: c.id,
     label: c.label,
     tools: LIVE_TOOLS.filter(t => !t.extended && t.category === c.id && !EXCLUDED_SLUGS.has(t.slug)).map(slim),
