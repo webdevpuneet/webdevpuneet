@@ -280,7 +280,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.mockBody { display: grid; grid-template-columns: 150px minmax(0, 1fr); }
+.mockBody { position: relative; display: grid; grid-template-columns: 150px minmax(0, 1fr); }
 .mockPanel {
   padding: 12px 10px;
   border-right: 1px solid #e2e8f0;
@@ -307,10 +307,8 @@
   border-radius: 5px;
 }
 .mockSections span { color: #cbd5e1; font-size: 9px; letter-spacing: -2px; }
-.mockSections .mockActive { border-color: #6366f1; background: #eef2ff; color: #4338ca; font-weight: 600; }
 .mockSwatches { display: flex; gap: 5px; }
 .mockSwatches i { width: 16px; height: 16px; border-radius: 50%; }
-.mockSwatches .mockSwatchOn { outline: 2px solid #6366f1; outline-offset: 2px; }
 .mockSelect {
   display: flex;
   justify-content: space-between;
@@ -328,8 +326,110 @@
   font-weight: 700;
   text-align: center;
 }
-.mockPreview { display: block; min-width: 0; background: #fff; }
-.mockPreview img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.mockPreview { position: relative; display: block; overflow: hidden; min-width: 0; aspect-ratio: 16 / 10; background: #fff; }
+.mockStack { position: absolute; inset: 0; display: block; }
+.mockStack img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; opacity: 0; }
+
+/* ── Animated builder mock: one 14s loop = 4 templates x 3.5s = 7 sections x 2s = 5 swatches x 2.8s ── */
+.mockStack img { animation: mockTpl 14s ease-in-out infinite; animation-delay: calc(var(--t) * 3.5s); }
+.mockSections li { animation: mockSection 14s linear infinite; animation-delay: calc(var(--i) * 2s); }
+.mockSwatches i { animation: mockSwatch 14s linear infinite; animation-delay: calc(var(--i) * 2.8s); }
+.mockExport { animation: mockPress 14s ease-in-out infinite; }
+/* Dashed box that jumps down the page, as if each section were being edited in turn */
+.mockFocus {
+  position: absolute;
+  left: 3%;
+  right: 3%;
+  height: 13%;
+  border: 2px dashed #6366f1;
+  border-radius: 6px;
+  background: rgba(99, 102, 241, .08);
+  animation: mockFocus 14s linear infinite;
+}
+.mockChips { position: absolute; left: 10px; top: 10px; display: block; height: 22px; }
+.mockChips b {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, .82);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 16px;
+  white-space: nowrap;
+  opacity: 0;
+  animation: mockTpl 14s ease-in-out infinite;
+  animation-delay: calc(var(--t) * 3.5s);
+}
+.mockToast {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #059669;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: 0 8px 20px -6px rgba(5, 150, 105, .6);
+  opacity: 0;
+  animation: mockToast 14s ease-in-out infinite;
+}
+.mockCursor {
+  position: absolute;
+  z-index: 3;
+  left: 70px;
+  top: 22%;
+  filter: drop-shadow(0 2px 3px rgba(15, 23, 42, .35));
+  pointer-events: none;
+  animation: mockCursor 14s ease-in-out infinite;
+}
+@keyframes mockTpl { 0% { opacity: 0; } 3% { opacity: 1; } 25% { opacity: 1; } 28%, 100% { opacity: 0; } }
+@keyframes mockSection {
+  0%, 14.28% { border-color: #6366f1; background: #eef2ff; color: #4338ca; font-weight: 600; }
+  14.29%, 100% { border-color: #e2e8f0; background: transparent; color: #334155; font-weight: 400; }
+}
+@keyframes mockSwatch {
+  0%, 20% { outline: 2px solid #6366f1; outline-offset: 2px; }
+  20.01%, 100% { outline: 2px solid transparent; outline-offset: 2px; }
+}
+@keyframes mockFocus {
+  0%, 14.28% { top: 2%; }
+  14.29%, 28.57% { top: 16%; }
+  28.58%, 42.85% { top: 30%; }
+  42.86%, 57.14% { top: 44%; }
+  57.15%, 71.42% { top: 58%; }
+  71.43%, 85.71% { top: 72%; }
+  85.72%, 100% { top: 85%; }
+}
+@keyframes mockPress {
+  0%, 88%, 100% { transform: scale(1); filter: none; }
+  91% { transform: scale(.94); filter: brightness(1.2); }
+  94% { transform: scale(1); filter: none; }
+}
+@keyframes mockToast { 0%, 91% { opacity: 0; transform: translateY(8px); } 94%, 98% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(8px); } }
+/* Cursor: picks sections in the panel, wanders over the page, then clicks Export HTML */
+@keyframes mockCursor {
+  0%   { left: 70px;  top: 22%; }
+  20%  { left: 70px;  top: 36%; }
+  35%  { left: 58%;   top: 40%; }
+  55%  { left: 66%;   top: 62%; }
+  75%  { left: 40%;   top: 50%; }
+  88%  { left: 60px;  top: 80%; transform: scale(1); }
+  91%  { left: 60px;  top: 80%; transform: scale(.82); }
+  94%  { left: 60px;  top: 80%; transform: scale(1); }
+  100% { left: 70px;  top: 22%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mockStack img, .mockSections li, .mockSwatches i, .mockExport, .mockFocus, .mockChips b, .mockToast, .mockCursor { animation: none; }
+  .mockStack img:first-child { opacity: 1; }
+  .mockChips b:first-child { opacity: 1; }
+  .mockFocus, .mockCursor, .mockToast { display: none; }
+  .mockSections li:nth-child(2) { border-color: #6366f1; background: #eef2ff; color: #4338ca; font-weight: 600; }
+  .mockSwatches i:first-child { outline: 2px solid #6366f1; outline-offset: 2px; }
+}
 .builderStrip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
 .builderThumb {
   display: block;
@@ -518,6 +618,7 @@
   .learnBand { padding: 22px 16px; border-radius: 14px; }
   .mockBody { grid-template-columns: 1fr; }
   .mockPanel { display: none; }
+  .mockCursor { display: none; }
 }
 @media (max-width: 560px) {
   .snippetGrid, .shotGrid, .blogGrid, .playGrid { grid-template-columns: 1fr; }

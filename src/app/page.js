@@ -121,6 +121,8 @@ const BUILDER_POINTS = [
 const BUILDER_SECTIONS = ['Navbar', 'Hero', 'Features', 'Pricing', 'Testimonials', 'FAQ', 'Footer'];
 const BUILDER_SWATCHES = ['#4f46e5', '#059669', '#e11d48', '#d97706', '#0f172a'];
 const BUILDER_TEMPLATE_STRIP = ['restaurant', 'real-estate', 'fitness', 'portfolio'];
+// Templates the animated builder mock cycles through (4: the loop in page.module.css is 14s = 4 x 3.5s)
+const BUILDER_MOCK_TEMPLATES = ['saas', 'restaurant', 'fitness', 'portfolio'];
 
 const SNIPPET_CATEGORIES = [
   { slug: 'buttons', title: 'Buttons & interactions' },
@@ -226,6 +228,7 @@ export default async function Home() {
   const blogPosts = (await fetchLatestBlogPosts(4)).slice(0, 3);
   const featuredTools = FEATURED_TOOL_SLUGS.map(s => LIVE_TOOLS.find(t => t.slug === s)).filter(Boolean);
   const featuredPlaygrounds = FEATURED_PLAYGROUND_SLUGS.map(s => LIVE_TOOLS.find(t => t.slug === s)).filter(Boolean);
+  const mockTemplates = BUILDER_MOCK_TEMPLATES.map(id => WEBSITE_TEMPLATES.find(x => x.id === id)).filter(Boolean);
   const builderStrip = BUILDER_TEMPLATE_STRIP.map(id => WEBSITE_TEMPLATES.find(t => t.id === id)).filter(Boolean);
   // Plain data for the client-side tool finder; only categories that actually have tools.
   const searchTools = TOOLS.map(({ slug, name, sub, desc, icon, accent, category }) => ({ slug, name, sub, desc, icon, accent, category }));
@@ -290,20 +293,39 @@ export default async function Home() {
                   <p className={styles.mockLabel}>Sections</p>
                   <ul className={styles.mockSections}>
                     {BUILDER_SECTIONS.map((s, i) => (
-                      <li key={s} className={i === 1 ? styles.mockActive : undefined}><span>⋮⋮</span>{s}</li>
+                      <li key={s} style={{ '--i': i }}><span>⋮⋮</span>{s}</li>
                     ))}
                   </ul>
                   <p className={styles.mockLabel}>Theme</p>
                   <div className={styles.mockSwatches}>
-                    {BUILDER_SWATCHES.map((c, i) => <i key={c} style={{ background: c }} className={i === 0 ? styles.mockSwatchOn : undefined} />)}
+                    {BUILDER_SWATCHES.map((c, i) => <i key={c} style={{ background: c, '--i': i }} />)}
                   </div>
                   <p className={styles.mockLabel}>Font</p>
                   <div className={styles.mockSelect}>Inter <span>▾</span></div>
                   <div className={styles.mockExport}>Export HTML</div>
                 </div>
-                <a href="/website-builder/templates/saas/" className={styles.mockPreview}>
-                  <img src="/images/website-templates/thumb/saas.jpg" alt="SaaS landing page template open in the Website Builder" width={640} height={400} />
+                {/* Decorative loop: templates crossfade, a focus box steps down the page, a cursor
+                    picks sections and presses Export (all CSS, see .mock* in page.module.css) */}
+                <a href="/website-builder/" className={styles.mockPreview} aria-label="Website Builder: build a page from a template">
+                  <span className={styles.mockStack}>
+                    {mockTemplates.map((tpl, i) => (
+                      <img
+                        key={tpl.id}
+                        src={`/images/website-templates/thumb/${tpl.id}.jpg`}
+                        alt={i === 0 ? 'Website templates open in the Website Builder' : ''}
+                        width={640}
+                        height={400}
+                        style={{ '--t': i }}
+                      />
+                    ))}
+                    <span className={styles.mockFocus} aria-hidden="true" />
+                  </span>
+                  <span className={styles.mockChips} aria-hidden="true">
+                    {mockTemplates.map((tpl, i) => <b key={tpl.id} style={{ '--t': i }}>{tpl.name}</b>)}
+                  </span>
+                  <span className={styles.mockToast} aria-hidden="true">✓ index.html exported</span>
                 </a>
+                <svg className={styles.mockCursor} width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 8-6 1.8L10.5 19z" fill="#0f172a" stroke="#fff" strokeWidth="1.6" strokeLinejoin="round"/></svg>
               </div>
             </div>
             <div className={styles.builderStrip}>
