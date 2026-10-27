@@ -882,9 +882,9 @@ function ExportMenu({ options }) {
 
   return (
     <div className={s.popoverAnchor} ref={ref}>
-      <button className={s.iconBtn} onClick={() => setOpen(v => !v)} title="Export as HTML, Tailwind, React, Vue or Angular" aria-haspopup="true" aria-expanded={open}>
+      <button className={s.iconBtn} onClick={() => setOpen(v => !v)} title="Export as HTML, Tailwind, React, Vue or Angular" aria-label="Export" aria-haspopup="true" aria-expanded={open}>
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12"/><path d="M8 11l4 4 4-4"/><path d="M4 19h16"/></svg>
-        Export
+        <span className={s.exportLabel}>Export</span>
         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 1, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }}><polyline points="6 9 12 15 18 9"/></svg>
       </button>
       {open && <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 299 }} />}
@@ -1079,7 +1079,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   useEffect(() => {
     const el = previewHdrRef.current;
     if (!el || typeof ResizeObserver === 'undefined') return;
-    const ro = new ResizeObserver(() => setNavCentered(el.clientWidth >= 880));
+    const ro = new ResizeObserver(() => setNavCentered(el.clientWidth >= 640));
     ro.observe(el);
     return () => ro.disconnect();
   });

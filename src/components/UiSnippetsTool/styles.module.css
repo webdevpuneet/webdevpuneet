@@ -1526,6 +1526,8 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
    the prev/next nav onto its own row so the label, refresh, device and
    action buttons on row 1 stay fully visible instead of getting squeezed. ── */
 @media (min-width: 768px) and (max-width: 1300px) {
+  /* Tablet: the Export button is just its icon + chevron */
+  .exportLabel { display: none; }
   .previewHeader {
     flex-wrap: wrap;
     height: auto;
