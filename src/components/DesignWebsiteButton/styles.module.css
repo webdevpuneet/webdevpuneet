@@ -3,9 +3,26 @@
   right: 16px;
   bottom: 20px;
   z-index: 1100;
+  /* Springs up from below shortly after load, then floats gently */
+  animation: dwbEnter 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s backwards, dwbFloat 4.5s ease-in-out 2s infinite;
+}
+/* Soft ripple ring that radiates out of the pill every few seconds */
+.wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 999px;
+  background: var(--accent, #4f46e5);
+  opacity: 0;
+  animation: dwbRing 3.6s ease-out 3s infinite;
+  pointer-events: none;
 }
 .btn {
+  position: relative;
+  overflow: hidden;
   display: block;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s, filter 0.2s;
   padding: 11px 18px;
   border-radius: 999px;
   background: var(--accent, #4f46e5);
@@ -14,9 +31,24 @@
   text-decoration: none;
   box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.45);
 }
-.btn:hover { filter: brightness(1.1); }
+.btn:hover { filter: brightness(1.1); transform: translateY(-3px) scale(1.04); box-shadow: 0 14px 28px -8px rgba(15, 23, 42, 0.5); }
+.btn:active { transform: scale(0.97); }
+/* A glint of light sweeping across the pill */
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-20deg);
+  animation: dwbShine 5s ease-in-out 3.5s infinite;
+  pointer-events: none;
+}
 .close {
   position: absolute;
+  z-index: 2;
   top: -9px;
   right: -6px;
   width: 22px;
@@ -46,9 +78,37 @@
   text-decoration: none;
   white-space: nowrap;
   box-shadow: -4px 4px 16px -6px rgba(15, 23, 42, 0.45);
+  overflow: hidden;
+  animation: dwbTabIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) backwards, dwbTabGlow 2.8s ease-in-out 1s infinite;
+  transition: padding 0.2s, filter 0.2s;
 }
-.tab:hover { padding-right: 11px; filter: brightness(1.1); }
+/* A glint of light running down the tab */
+.tab::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -60%;
+  width: 100%;
+  height: 40%;
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  animation: dwbTabShine 4s ease-in-out 2s infinite;
+  pointer-events: none;
+}
+.tab:hover { padding-right: 14px; filter: brightness(1.1); animation-play-state: paused; }
 @media print { .tab { display: none; } }
+
+@keyframes dwbEnter { from { opacity: 0; transform: translateY(40px) scale(0.85); } to { opacity: 1; transform: none; } }
+@keyframes dwbFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes dwbRing { 0% { opacity: 0.45; transform: scale(1); } 70%, 100% { opacity: 0; transform: scale(1.35, 1.9); } }
+@keyframes dwbShine { 0%, 55% { left: -60%; } 80%, 100% { left: 130%; } }
+@keyframes dwbTabIn { from { transform: translateX(100%); } to { transform: none; } }
+@keyframes dwbTabGlow { 0%, 100% { box-shadow: -4px 4px 16px -6px rgba(15, 23, 42, 0.45); } 50% { box-shadow: -4px 4px 16px -6px rgba(15, 23, 42, 0.45), -6px 0 20px 2px color-mix(in srgb, var(--accent, #4f46e5) 55%, transparent); } }
+@keyframes dwbTabShine { 0%, 50% { top: -60%; } 85%, 100% { top: 130%; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .wrap, .wrap::before, .btn::after, .tab, .tab::after { animation: none; }
+  .btn { transition: none; }
+}
 
 /* Phones: smaller pill and tab, kept clear of the screen edge and the cookie banner */
 @media (max-width: 640px) {
