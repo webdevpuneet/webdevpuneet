@@ -320,7 +320,8 @@
         timer = setInterval(function () { var d = root.querySelector('.pu-dialog'); if (!paused && d && !d.hidden && !document.hidden) go(idx() + 1); }, secs * 1000);
       }
     });
-    if (inline) {
+    var btnMode = !!window.ST_POPUP_BUTTON; // Website Builder preview: a floating button opens the popup instead of showing it inline
+    if (inline && !btnMode) {
       root.classList.add('is-preview');
       dlg.hidden = false;
       if (back) back.hidden = true;
@@ -334,11 +335,12 @@
     var KEY = 'pu-' + (root.getAttribute('data-pu-id') || 'x');
     try {
       var seen = parseInt(localStorage.getItem(KEY), 10);
-      if (days > 0 && seen && Date.now() - seen < days * 86400000) return;
+      if (!btnMode && days > 0 && seen && Date.now() - seen < days * 86400000) return;
     } catch (e) {}
     var modal = (root.getAttribute('data-pos') || 'center') === 'center'; // only the centre popup dims the page and traps focus
     dlg.setAttribute('aria-modal', modal ? 'true' : 'false');
-    var shown = false, last = null, undo = [];
+    var shown = false, last = null, undo = [], quiet = btnMode; // in the builder preview the popup never pulls focus out of the side panel
+    var setOpenFlag = function (v) { if (!btnMode) return; try { if (v) window.parent.__wbPuOpen = KEY; else if (window.parent.__wbPuOpen === KEY) window.parent.__wbPuOpen = ''; } catch (e) {} };
     var focusables = function () { return Array.prototype.filter.call(dlg.querySelectorAll('a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])'), function (el) { return el.offsetParent !== null; }); };
     var onKey = function (e) {
       if (e.key === 'Escape') { e.preventDefault(); hide(); return; }
@@ -358,15 +360,17 @@
       if (back) back.hidden = false;
       void dlg.offsetWidth;
       root.classList.add('is-open');
-      if (modal) {
+      setOpenFlag(true);
+      if (modal && !quiet) {
         var f = focusables();
         var target = dlg.querySelector('input') || f[1] || f[0] || dlg;
         try { target.focus({ preventScroll: true }); } catch (e) {}
       }
       document.addEventListener('keydown', onKey);
-      try { if (days > 0) localStorage.setItem(KEY, String(Date.now())); } catch (e) {}
+      try { if (days > 0 && !btnMode) localStorage.setItem(KEY, String(Date.now())); } catch (e) {}
     }
     function hide() {
+      setOpenFlag(false);
       root.classList.remove('is-open');
       root.querySelectorAll('.vs-embed').forEach(function (v) { var box = v.parentNode; v.remove(); if (box) box.classList.remove('is-playing'); });
       document.removeEventListener('keydown', onKey);
@@ -376,6 +380,19 @@
     root.querySelectorAll('[data-pu-close]').forEach(function (b) { b.addEventListener('click', hide); });
     var on = function (target, ev, fn, opts) { target.addEventListener(ev, fn, opts); undo.push(function () { target.removeEventListener(ev, fn, opts); }); };
     var started = Date.now();
+    if (btnMode) {
+      // The popup follows its own trigger (delay, exit intent, scroll) exactly like the published page; a floating
+      // button also opens and closes it on demand, and it stays open across preview reloads while it is being edited
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'wb-pu-btn';
+      btn.textContent = 'Popup preview';
+      btn.setAttribute('aria-label', 'Open the popup');
+      btn.style.cssText = 'position:fixed;left:16px;bottom:' + (16 + document.querySelectorAll('.wb-pu-btn').length * 48) + 'px;z-index:999;padding:0 16px;height:38px;border:0;border-radius:999px;background:#4f46e5;color:#fff;font:700 13px/1 system-ui,sans-serif;box-shadow:0 8px 22px rgba(15,23,42,.35);cursor:pointer';
+      btn.addEventListener('click', function () { if (root.classList.contains('is-open')) hide(); else { shown = false; show(); } });
+      document.body.appendChild(btn);
+      try { if (window.parent.__wbPuOpen === KEY) show(); } catch (e) {}
+    }
     if (trigger === 'scroll') {
       var check = function () {
         var h = document.documentElement.scrollHeight - window.innerHeight;
