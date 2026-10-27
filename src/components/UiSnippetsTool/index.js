@@ -866,6 +866,74 @@ const EXPORT_ICON_TINTS = {
   'Test Exports':     '#059669',
 };
 
+/* Preview-size switcher: one button showing the current device, the others in a dropdown
+   (same menu styling as Export). Also hosts "Open in new window". */
+const DEVICE_ICONS = {
+  desktop: <svg width="16" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>,
+  tablet:  <svg width="13" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="3" y="2" width="18" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>,
+  mobile:  <svg width="11" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>,
+};
+const DEVICE_OPTIONS = [
+  { id: 'desktop', label: 'Desktop', sub: 'Full width' },
+  { id: 'tablet',  label: 'Tablet',  sub: '768px wide' },
+  { id: 'mobile',  label: 'Mobile',  sub: '375px wide' },
+];
+
+function DeviceMenu({ mode, onChange, allowDesktop, onPopOut }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  const fixedPos = useScrollToolbarMenu(open, setOpen, ref);
+
+  useEffect(() => {
+    if (!open) return;
+    function onDoc(e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false); }
+    function onKey(e) { if (e.key === 'Escape') setOpen(false); }
+    document.addEventListener('mousedown', onDoc);
+    document.addEventListener('keydown', onKey);
+    return () => { document.removeEventListener('mousedown', onDoc); document.removeEventListener('keydown', onKey); };
+  }, [open]);
+
+  const options = DEVICE_OPTIONS.filter(o => allowDesktop || o.id !== 'desktop');
+  const current = options.find(o => o.id === mode) || options[0];
+
+  return (
+    <div className={s.popoverAnchor} ref={ref}>
+      <button className={s.iconBtn} onClick={() => setOpen(v => !v)} title={`Preview size: ${current.label}`} aria-label={`Preview size: ${current.label}`} aria-haspopup="true" aria-expanded={open}>
+        {DEVICE_ICONS[current.id]}
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 1, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }}><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      {open && <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 299 }} />}
+      {open && (
+        <div className={s.exportMenu} role="menu" style={{ ...(fixedPos || {}), width: 220 }}>
+          <div className={s.exportMenuHead}>Preview size</div>
+          {options.map(o => (
+            <button key={o.id} className={s.exportMenuItem} role="menuitemradio" aria-checked={o.id === mode} onClick={() => { onChange(o.id); setOpen(false); }}>
+              <span className={s.exportMenuItemIcon} style={{ background: o.id === mode ? 'rgba(5,150,105,.14)' : 'var(--surface3)', color: o.id === mode ? '#059669' : 'var(--text2)' }}>
+                {DEVICE_ICONS[o.id]}
+              </span>
+              <span className={s.exportMenuItemText}>
+                <span className={s.exportMenuItemLabel}>{o.label}</span>
+                <span className={s.exportMenuItemSub}>{o.sub}</span>
+              </span>
+              {o.id === mode && <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>}
+            </button>
+          ))}
+          <div className={s.exportMenuDivider} />
+          <button className={s.exportMenuItem} role="menuitem" onClick={() => { onPopOut(); setOpen(false); }}>
+            <span className={s.exportMenuItemIcon} style={{ background: 'var(--surface3)', color: 'var(--text2)' }}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </span>
+            <span className={s.exportMenuItemText}>
+              <span className={s.exportMenuItemLabel}>Open in new window</span>
+              <span className={s.exportMenuItemSub}>Pop the preview out</span>
+            </span>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ExportMenu({ options }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
@@ -1075,11 +1143,28 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   const [jumpVal, setJumpVal] = useState('');
   // Centre the Home / search / Prev / Next / Random group on the whole toolbar once it is wide enough.
   const previewHdrRef = useRef(null);
-  const [navCentered, setNavCentered] = useState(false);
+  // Console button: lives in the empty strip to the right of the preview when there is room (>= 30px),
+  // otherwise falls back to a pill inside the preview. sideLeft = x of that strip, null = no room.
+  const stageRef = useRef(null);
+  const [sideLeft, setSideLeft] = useState(null);
+  useEffect(() => {
+    if (!showEditor) return;
+    const measure = () => {
+      const r = stageRef.current?.getBoundingClientRect();
+      setSideLeft(r && window.innerWidth - r.right >= 30 ? Math.round(r.right) + 2 : null);
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    const ro = typeof ResizeObserver !== 'undefined' && stageRef.current ? new ResizeObserver(measure) : null;
+    if (ro) ro.observe(stageRef.current);
+    return () => { window.removeEventListener('resize', measure); ro && ro.disconnect(); };
+  }, [showEditor, activeId]);
+  const [hdrW, setHdrW] = useState(0);
+  const navCentered = hdrW >= 640;
   useEffect(() => {
     const el = previewHdrRef.current;
     if (!el || typeof ResizeObserver === 'undefined') return;
-    const ro = new ResizeObserver(() => setNavCentered(el.clientWidth >= 640));
+    const ro = new ResizeObserver(() => setHdrW(el.clientWidth));
     ro.observe(el);
     return () => ro.disconnect();
   });
@@ -1847,6 +1932,31 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               Save
             </button>
           )}
+          {showEditor && !isMobile && (
+            <button
+              className={`${s.iconBtn} ${s.refreshBtn}`}
+              onClick={() => setPreviewKey(k => k + 1)}
+              title="Refresh preview — click if nothing appears"
+              aria-label="Refresh preview"
+            >
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+              </svg>
+            </button>
+          )}
+          {showEditor && !isMobile && (
+            <DeviceMenu
+              mode={previewMode}
+              onChange={setPreviewMode}
+              allowDesktop={!isTablet}
+              onPopOut={() => {
+                const blob = new Blob([srcDoc], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const win = window.open(url, '_blank', 'width=' + screen.width + ',height=' + screen.height);
+                if (win) { win.addEventListener('load', () => URL.revokeObjectURL(url)); }
+              }}
+            />
+          )}
           {/* Fork & Edit — save your own editable copy, only when a snippet is open */}
           {showEditor && <div className={`${s.popoverAnchor} ${s.forkAnchor}`} ref={savePopRef}>
             <button
@@ -1866,7 +1976,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                   onChange={e => setSaveName(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && saveSnippet()}
                   placeholder="Name your fork..."
-                  autoFocus
+                  ref={el => { if (el) el.focus({ preventScroll: true }); }} /* plain autoFocus scrolled the preview pane and threw the popover's position off */
                 />
                 <div className={s.tagLabel}>Tags <span className={s.tagHint}>(optional · Enter to add)</span></div>
                 <div className={s.tagInputWrap} onClick={e => e.currentTarget.querySelector('input')?.focus()}>
@@ -2076,43 +2186,13 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             {/* Everything but the action menus scrolls sideways in one row when space is
                 short; Fork / Export stay pinned outside so their menus aren't clipped. */}
             <div className={s.previewScroll}>
-            <div className={s.previewDeviceBtns}>
-              {!isTablet && <button className={`${s.deviceBtn} ${previewMode === 'desktop' ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('desktop')} title="Desktop (full)">
-                <svg width="16" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-              </button>}
-              <button className={`${s.deviceBtn} ${previewMode === 'tablet'  ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('tablet')}  title="Tablet (768px)">
-                <svg width="13" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="3" y="2" width="18" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
-              </button>
-              <button className={`${s.deviceBtn} ${previewMode === 'mobile'  ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('mobile')}  title="Mobile (375px)">
-                <svg width="11" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
-              </button>
-              <button
-                className={s.deviceBtn}
-                onClick={() => {
-                  const blob = new Blob([srcDoc], { type: 'text/html' });
-                  const url = URL.createObjectURL(blob);
-                  const win = window.open(url, '_blank', 'width=' + screen.width + ',height=' + screen.height);
-                  if (win) { win.addEventListener('load', () => URL.revokeObjectURL(url)); }
-                }}
-                title="Pop out preview in new window"
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                  <polyline points="15 3 21 3 21 9"/>
-                  <line x1="10" y1="14" x2="21" y2="3"/>
-                </svg>
-              </button>
-            </div>
-            <button
-              className={`${s.iconBtn} ${s.refreshBtn}`}
-              onClick={() => setPreviewKey(k => k + 1)}
-              title="Refresh preview — click if nothing appears"
-              aria-label="Refresh preview"
-            >
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
-              </svg>
-            </button>
+            {(activeSn?.title || activeSn?.name) && (() => {
+              // When Prev / Next / Random are centred on the bar, leave them room (about 115px each side of centre)
+              const maxW = navCentered ? Math.floor(hdrW / 2 - 135) : 170;
+              return maxW >= 50 ? (
+                <span className={s.previewTitle} style={{ maxWidth: maxW }} title={activeSn.title || activeSn.name}>{activeSn.title || activeSn.name}</span>
+              ) : null;
+            })()}
 
             {/* — My Code prev / next — */}
             {activeIsCustom && customSorted.length > 0 && (
@@ -2263,46 +2343,11 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               <ExportMenu options={exportOptions} />
             </div>
           </div>}
-          {/* Console bar sits right under the PREVIEW toolbar */}
-          {showEditor && (
-            <div className={`${s.consolePanel} ${consoleOpen ? s.consolePanelOpen : ''}`}>
-              <div
-                className={`${s.consoleBar} ${consoleLogs.length === 0 ? s.consoleBarEmpty : ''}`}
-                onClick={consoleLogs.length > 0 ? () => setConsoleOpen(v => !v) : undefined}
-              >
-                {(activeSn?.title || activeSn?.name) && (
-                  <span className={s.consoleBarTitle} title={activeSn.title || activeSn.name}>{activeSn.title || activeSn.name}</span>
-                )}
-                <span
-                  className={s.consoleBarRight}
-                  data-level={consoleLogs.some(l => l.level === 'error') ? 'error' : consoleLogs.some(l => l.level === 'warn') ? 'warn' : consoleLogs.some(l => l.level === 'log' || l.level === 'info') ? 'log' : undefined}
-                >
-                  <span className={s.consoleDot} aria-hidden="true" />
-                  <span className={s.consoleBarLabel}>Console</span>
-                  {consoleLogs.length > 0 && <span className={s.consoleBadge} title={`${consoleLogs.length} message${consoleLogs.length === 1 ? '' : 's'} — click to view`}>{consoleLogs.length}</span>}
-                  {consoleLogs.length > 0 && (
-                    <button className={s.consoleClearBtn} onClick={e => { e.stopPropagation(); setConsoleLogs([]); }} title="Clear console">Clear</button>
-                  )}
-                  <span className={s.consoleBarChevron} style={{ transform: consoleOpen ? 'rotate(180deg)' : 'none', visibility: consoleLogs.length > 0 ? 'visible' : 'hidden' }}>
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="6 9 12 15 18 9"/></svg>
-                  </span>
-                </span>
-              </div>
-              {consoleOpen && (
-                <div className={s.consoleOutput}>
-                  {consoleLogs.length === 0 && <span className={s.consoleEmpty}>No output yet</span>}
-                  {consoleLogs.map(entry => (
-                    <div key={entry.id} className={`${s.consoleLine} ${s['consoleLevel_' + entry.level]}`}>
-                      <span className={s.consolePrefix}>{entry.level === 'error' ? '✕' : entry.level === 'warn' ? '⚠' : entry.level === 'info' ? 'ℹ' : '›'}</span>
-                      <span className={s.consoleText}>{entry.args.join(' ')}</span>
-                    </div>
-                  ))}
-                  <div ref={consoleEndRef} />
-                </div>
-              )}
-            </div>
+          {/* Phones: the toolbar has no room for the title, so it gets its own strip under it */}
+          {showEditor && (activeSn?.title || activeSn?.name) && (
+            <div className={s.mobileTitle} title={activeSn.title || activeSn.name}>{activeSn.title || activeSn.name}</div>
           )}
-          {showEditor && <div className={s.previewStage}>
+          {showEditor && <div ref={stageRef} className={s.previewStage}>
           <div className={s.iframeWrap}>
             {!previewVisible && (
               <div className={s.previewLoading}>
@@ -2328,6 +2373,59 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               }}
             />
           </div>
+          {/* Console: a vertical tab in the strip right of the preview (a pill inside the preview when there
+              is no room). Clicking it docks the output panel along the bottom of the preview. */}
+          {(() => {
+            const n = consoleLogs.length;
+            const level = consoleLogs.some(l => l.level === 'error') ? 'error' : consoleLogs.some(l => l.level === 'warn') ? 'warn' : n ? 'log' : undefined;
+            const open = consoleOpen && n > 0;
+            const outside = sideLeft !== null;
+            return (
+              <>
+                {open && (
+                  <div className={s.consoleDock}>
+                    <div className={s.consoleDockHead} onClick={() => setConsoleOpen(false)} title="Hide console">
+                      <span className={s.consoleBarRight} data-level={level}>
+                        <span className={s.consoleDot} aria-hidden="true" />
+                        <span className={s.consoleBarLabel}>Console</span>
+                        <span className={s.consoleBadge}>{n}</span>
+                      </span>
+                      <button className={s.consoleClearBtn} onClick={e => { e.stopPropagation(); setConsoleLogs([]); }} title="Clear console">Clear</button>
+                      <span className={s.consoleBarChevron}>
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+                      </span>
+                    </div>
+                    <div className={s.consoleOutput}>
+                      {consoleLogs.map(entry => (
+                        <div key={entry.id} className={`${s.consoleLine} ${s['consoleLevel_' + entry.level]}`}>
+                          <span className={s.consolePrefix}>{entry.level === 'error' ? '✕' : entry.level === 'warn' ? '⚠' : entry.level === 'info' ? 'ℹ' : '›'}</span>
+                          <span className={s.consoleText}>{entry.args.join(' ')}</span>
+                        </div>
+                      ))}
+                      <div ref={consoleEndRef} />
+                    </div>
+                  </div>
+                )}
+                {!(open && !outside) && (
+                  <button
+                    type="button"
+                    className={`${outside ? s.consoleTab : s.consoleFab} ${n === 0 ? s.consoleFabEmpty : ''} ${open ? s.consoleTabOn : ''}`}
+                    style={outside ? { left: sideLeft } : undefined}
+                    onClick={n > 0 ? () => setConsoleOpen(v => !v) : undefined}
+                    aria-disabled={n === 0}
+                    aria-expanded={open}
+                    title={n > 0 ? `Console: ${n} message${n === 1 ? '' : 's'}, click to ${open ? 'hide' : 'view'}` : 'Console: no output yet'}
+                  >
+                    <span className={s.consoleBarRight} data-level={level}>
+                      <span className={s.consoleDot} aria-hidden="true" />
+                      <span className={s.consoleBarLabel}>Console</span>
+                      {n > 0 && <span className={s.consoleBadge}>{n}</span>}
+                    </span>
+                  </button>
+                )}
+              </>
+            );
+          })()}
           </div>}
         </div>
 

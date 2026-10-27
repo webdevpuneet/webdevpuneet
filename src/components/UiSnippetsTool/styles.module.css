@@ -1233,37 +1233,7 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
 /* ── iframe wrapper (handles device sizing) ─────────────────────────────────── */
 
 /* ── Console panel ─────────────────────────────────────────────────────────── */
-.consolePanel {
-  flex-shrink: 0;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface2, #f1f5f9);
-  display: flex;
-  flex-direction: column;
-  height: 28px;
-  overflow: hidden;
-  transition: height 0.18s ease;
-}
-/* Grows with the output but never past ~5 lines; the list scrolls inside */
-.consolePanelOpen { height: auto; max-height: 128px; }
 
-.consoleBar {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 10px;
-  cursor: pointer;
-  user-select: none;
-  background: var(--surface2, #f1f5f9);
-  color: var(--text2, #64748b);
-  flex-shrink: 0;
-  height: 28px;
-}
-.consoleBar:hover { background: var(--border, #e2e8f0); }
-/* No output yet: the bar is a plain label, not a button */
-.consoleBarEmpty { cursor: default; }
-.consoleBarEmpty:hover { background: var(--surface2, #f1f5f9); }
-.consoleBarEmpty .consoleBarLabel, .consoleBarEmpty .consoleBarRight > svg { opacity: 0.55; }
 
 .consoleBarLabel {
   font-size: 10px;
@@ -1275,13 +1245,8 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
 }
 
 /* Snippet title at the left of the bar; truncates before it reaches the right-hand group */
-.consoleBarTitle {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  /* Room on both sides for the right-aligned console group so the centred title never overlaps it */
-  max-width: calc(100% - 280px);
-  text-align: center;
+.previewTitle {
+  min-width: 0;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -1289,10 +1254,8 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
   font-weight: 700;
   font-family: var(--font-ui);
   color: var(--text, #1e293b);
-  pointer-events: none;
 }
 @media (max-width: 600px) {
-  .consoleBarTitle { position: static; transform: none; flex: 0 1 auto; min-width: 0; max-width: none; text-align: left; }
 }
 
 .consoleBarChevron {
@@ -1335,7 +1298,6 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
 }
 .consoleBarRight[data-level="warn"]  .consoleDot { background: #f59e0b; }
 .consoleBarRight[data-level="error"] .consoleDot { background: #ef4444; }
-.consoleBarEmpty .consoleDot { opacity: 0.55; }
 
 .consoleClearBtn {
   font-size: 10px;
@@ -1388,6 +1350,7 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
 /* ── iframe wrap ─────────────────────────────────────────────────────────────── */
 /* Preview stage: optional ad banner on top, the preview below. */
 .previewStage {
+  position: relative;
   flex: 1;
   min-height: 0;
   display: flex;
@@ -1614,7 +1577,6 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
   .adBarSlot { height: auto; min-height: 50px; }
   .previewStage  { order: 2; flex: none; }
   .iframeWrap    { order: 2; }
-  .consolePanel  { order: 1; }  /* DOM order puts it right after the preview toolbar */
   .mobileEditors {
     order: 4;
     flex-shrink: 0;
@@ -1646,9 +1608,12 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
   .forkAnchor,
   .previewLabel,
   .previewDeviceBtns,
+  .previewTitle,
   .refreshBtn,
   .previewActions,
-  .consolePanel { display: none; }
+  .consoleFab,
+  .consoleTab,
+  .consoleDock { display: none; }
 
   /* Row 1: PREVIEW label + all icon controls */
   .previewLabel {
@@ -1777,3 +1742,90 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
 }
 .pageJumpBtn:hover:not(:disabled) { border-color: var(--accent, #2563eb); color: var(--accent, #2563eb); }
 .pageJumpBtn:disabled { opacity: 0.5; cursor: default; }
+
+/* ── Console: floating pill + docked panel at the bottom of the preview ───────── */
+.consoleFab {
+  position: absolute;
+  right: 26px;  /* clear of the preview's own scrollbar */
+  bottom: 12px;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 999px;
+  background: var(--surface, #fff);
+  color: var(--text2, #64748b);
+  box-shadow: 0 6px 18px -6px rgba(15, 23, 42, .35);
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s, opacity .15s;
+}
+.consoleFab:hover { transform: translateY(-1px); box-shadow: 0 10px 22px -8px rgba(15, 23, 42, .4); }
+.consoleFabEmpty { opacity: .6; cursor: default; }
+.consoleFabEmpty:hover { transform: none; box-shadow: 0 6px 18px -6px rgba(15, 23, 42, .35); }
+.consoleFab .consoleBarRight { margin-left: 0; }
+.consoleDock {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: 170px;
+  border-top: 1px solid var(--border);
+  background: var(--surface, #fff);
+  box-shadow: 0 -8px 20px -12px rgba(15, 23, 42, .3);
+}
+.consoleDockHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 4px 10px;
+  background: var(--surface2, #f1f5f9);
+  color: var(--text2, #64748b);
+  cursor: pointer;
+  user-select: none;
+}
+.consoleDockHead:hover { background: var(--border, #e2e8f0); }
+.consoleDockHead .consoleBarRight { margin-left: 0; margin-right: auto; }
+
+/* Console as a vertical tab hanging off the right edge of the preview, in the strip outside it */
+.consoleTab {
+  position: fixed;
+  bottom: 84px;  /* clears the floating "Design your website" pill */
+  z-index: 60;
+  width: 26px;
+  padding: 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border, #e2e8f0);
+  border-left: 0;
+  border-radius: 0 10px 10px 0;
+  background: var(--surface, #fff);
+  color: var(--text2, #64748b);
+  box-shadow: 4px 4px 14px -6px rgba(15, 23, 42, .35);
+  cursor: pointer;
+  transition: background .15s, width .15s;
+}
+.consoleTab:hover { width: 30px; }
+.consoleTab .consoleBarRight { margin: 0; writing-mode: vertical-rl; gap: 8px; }
+.consoleTab .consoleBarLabel { letter-spacing: .12em; }
+.consoleTabOn { background: var(--surface2, #f1f5f9); }
+
+/* Snippet title strip under the toolbar: phones only (wider screens show it inside the toolbar) */
+.mobileTitle { display: none; }
+@media (max-width: 767px) {
+  .mobileTitle {
+    display: block;
+    order: 1;  /* right after the toolbar (DOM order breaks the tie with .previewHeader) */
+    flex-shrink: 0;
+    padding: 6px 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2, #f1f5f9);
+    color: var(--text, #1e293b);
+    font: 700 12px/1.3 var(--font-ui);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
