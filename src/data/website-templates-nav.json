@@ -113,5 +113,10 @@
   "id": "church",
   "name": "Church Website",
   "industry": "Community"
+ },
+ {
+  "id": "music",
+  "name": "Music Artist & Band Website",
+  "industry": "Music"
  }
 ]

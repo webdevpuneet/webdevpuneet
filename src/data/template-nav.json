@@ -332,7 +332,7 @@
   ]
  },
  "section": {
-  "total": 66,
+  "total": 72,
   "categories": [
    {
     "id": "hero",
@@ -647,6 +647,36 @@
      {
       "id": "class-timetable",
       "name": "Class Timetable"
+     }
+    ]
+   },
+   {
+    "id": "music",
+    "label": "Music",
+    "items": [
+     {
+      "id": "music-hero",
+      "name": "Music Artist Hero"
+     },
+     {
+      "id": "audio-player",
+      "name": "Audio Player & Track List"
+     },
+     {
+      "id": "tour-dates",
+      "name": "Tour Dates & Tickets"
+     },
+     {
+      "id": "discography",
+      "name": "Discography Grid"
+     },
+     {
+      "id": "release-spotlight",
+      "name": "New Release Spotlight"
+     },
+     {
+      "id": "streaming-links",
+      "name": "Streaming Links Bar"
      }
     ]
    },

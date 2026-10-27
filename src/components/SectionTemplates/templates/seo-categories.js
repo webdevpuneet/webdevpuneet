@@ -3,6 +3,7 @@
    Only categories that have sections get a page (see generateStaticParams). */
 
 import { SCROLL_LISTINGS_CATEGORY_SEO } from './seo-scroll-listings.js';
+import { MUSIC_CATEGORY_SEO } from './seo-music.js';
 import { MORE_CATEGORY_SEO } from './seo-content-more.js';
 
 export const SECTION_CATEGORY_SEO = {
@@ -265,4 +266,5 @@ Keep the offer relevant, show one popup per visit and make the close button obvi
   },
   ...MORE_CATEGORY_SEO, // Login & Sign up (seo-content-more.js)
   ...SCROLL_LISTINGS_CATEGORY_SEO, // scroll + listings (seo-scroll-listings.js)
+  ...MUSIC_CATEGORY_SEO, // music (seo-music.js)
 };

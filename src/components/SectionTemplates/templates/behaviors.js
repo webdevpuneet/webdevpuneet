@@ -1563,6 +1563,143 @@ BEHAVIORS.share = {
 })();`,
 };
 
+/* ── Music sections (Music category) ───────────────────────────────────────────── */
+
+BEHAVIORS.player = {
+  /* Audio player. Markup: a [data-player] box holding a now-playing panel ([data-ap-*] parts) and a
+     list of .ap-track items, each with a button (.ap-row), .ap-name, .ap-by, .ap-len, .ap-thumb and a
+     data-src audio link. Plain HTML audio, no library. Only one player on a page plays at a time;
+     a track that ends starts the next one. Tracks without a file only show their stream link. */
+  plugins: [],
+  js: `(function () {
+  var current = null;
+  var fmt = function (s) { if (!isFinite(s) || s < 0) s = 0; var m = Math.floor(s / 60), r = Math.floor(s % 60); return m + ':' + (r < 10 ? '0' : '') + r; };
+  document.querySelectorAll('.st [data-player]').forEach(function (box) {
+    var rows = Array.prototype.slice.call(box.querySelectorAll('.ap-track'));
+    if (!rows.length) return;
+    var q = function (a) { return box.querySelector('[' + a + ']'); };
+    var cover = q('data-ap-cover'), title = q('data-ap-title'), meta = q('data-ap-meta'), cur = q('data-ap-cur'), dur = q('data-ap-dur');
+    var seek = q('data-ap-seek'), play = q('data-ap-play'), prev = q('data-ap-prev'), next = q('data-ap-next'), msg = q('data-ap-msg');
+    var audio = new Audio();
+    audio.preload = 'none';
+    var idx = -1, loaded = -1, tried = false;
+    var setSeek = function (p) { seek.value = String(Math.round(p * 1000)); seek.style.setProperty('--p', (p * 100) + '%'); };
+    var mark = function () {
+      rows.forEach(function (r, i) { r.classList.toggle('is-current', i === idx); r.classList.toggle('is-playing', i === idx && !audio.paused); });
+      box.classList.toggle('is-playing', !audio.paused);
+      play.setAttribute('aria-label', audio.paused ? 'Play' : 'Pause');
+    };
+    var show = function (i) {
+      idx = i;
+      var r = rows[i], img = r.querySelector('.ap-thumb'), by = r.querySelector('.ap-by'), len = r.querySelector('.ap-len');
+      title.textContent = r.querySelector('.ap-name').textContent;
+      meta.textContent = by ? by.textContent : '';
+      if (img && img.getAttribute('src')) { cover.src = img.getAttribute('src'); cover.style.visibility = ''; } else { cover.removeAttribute('src'); cover.style.visibility = 'hidden'; }
+      cur.textContent = '0:00'; dur.textContent = len && len.textContent ? len.textContent : '0:00'; setSeek(0);
+      msg.textContent = r.getAttribute('data-src') ? '' : 'No audio file for this track yet. Use its stream link.';
+      mark();
+    };
+    var select = function (i) {
+      if (i === loaded) return;
+      audio.pause();
+      show(i);
+      var src = rows[i].getAttribute('data-src') || '';
+      if (src) audio.src = src; else audio.removeAttribute('src');
+      audio.load();
+      loaded = i;
+    };
+    var playAt = function (i) {
+      select(i);
+      if (!rows[i].getAttribute('data-src')) { mark(); return; }
+      tried = true;
+      if (current && current !== audio) current.pause();
+      current = audio;
+      var p = audio.play();
+      if (p && p.catch) p.catch(function () { msg.textContent = 'This audio file could not be played.'; mark(); });
+    };
+    var go = function (t) { t = Math.max(0, Math.min(rows.length - 1, t)); if (!audio.paused) playAt(t); else select(t); };
+    rows.forEach(function (r, i) {
+      r.querySelector('[data-ap-row]').addEventListener('click', function () {
+        if (i === idx && rows[i].getAttribute('data-src')) { if (audio.paused) playAt(i); else audio.pause(); } else playAt(i);
+      });
+    });
+    play.addEventListener('click', function () { if (idx < 0) select(0); if (audio.paused) playAt(idx); else audio.pause(); });
+    prev.addEventListener('click', function () { if (audio.currentTime > 3) audio.currentTime = 0; else go(idx - 1); });
+    next.addEventListener('click', function () { go(idx + 1); });
+    seek.addEventListener('input', function () { var p = seek.value / 1000; seek.style.setProperty('--p', (p * 100) + '%'); if (isFinite(audio.duration) && audio.duration > 0) audio.currentTime = p * audio.duration; });
+    audio.addEventListener('play', mark); audio.addEventListener('pause', mark);
+    audio.addEventListener('timeupdate', function () { cur.textContent = fmt(audio.currentTime); if (isFinite(audio.duration) && audio.duration > 0) setSeek(audio.currentTime / audio.duration); });
+    audio.addEventListener('loadedmetadata', function () {
+      dur.textContent = fmt(audio.duration);
+      var len = rows[idx] && rows[idx].querySelector('.ap-len');
+      if (len && isFinite(audio.duration)) len.textContent = fmt(audio.duration);
+    });
+    audio.addEventListener('ended', function () { if (idx < rows.length - 1) playAt(idx + 1); else { setSeek(0); cur.textContent = '0:00'; mark(); } });
+    audio.addEventListener('error', function () { if (tried && audio.getAttribute('src')) { msg.textContent = 'This audio file could not be loaded.'; mark(); } });
+    select(0);
+  });
+})();`,
+};
+
+BEHAVIORS.chips = {
+  /* Filter chips built from the items' data-tag values. Markup: a [data-chips] list of items (each with
+     data-tag) and a [data-chips-bar] container next to it. Without JavaScript the bar stays hidden and
+     every item is shown. */
+  plugins: [],
+  js: `(function () {
+  document.querySelectorAll('.st [data-chips]').forEach(function (grid) {
+    var bar = grid.parentNode.querySelector('[data-chips-bar]');
+    if (!bar) return;
+    var items = Array.prototype.slice.call(grid.children), tags = [];
+    items.forEach(function (it) { var t = (it.getAttribute('data-tag') || '').trim(); if (t && tags.indexOf(t) < 0) tags.push(t); });
+    if (tags.length < 2) return;
+    var all = bar.getAttribute('data-all') || 'All';
+    bar.textContent = '';
+    [''].concat(tags).forEach(function (t) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'dg-chip'; b.textContent = t || all; b.setAttribute('aria-pressed', t ? 'false' : 'true');
+      b.addEventListener('click', function () {
+        Array.prototype.forEach.call(bar.children, function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); });
+        items.forEach(function (it) { it.hidden = !!t && (it.getAttribute('data-tag') || '').trim() !== t; });
+      });
+      bar.appendChild(b);
+    });
+    bar.hidden = false;
+  });
+})();`,
+};
+
+BEHAVIORS.countdown = {
+  /* Countdown to a release date. Markup: [data-countdown] with data-at (date and time, visitor's local
+     time), data-out (message) and data-cta-out (button text once it is out) and four [data-u] numbers
+     (d, h, m, s). When the time passes the countdown hides, the [data-out] message shows and the main
+     button [data-cta-main] changes its text. */
+  plugins: [],
+  js: `(function () {
+  document.querySelectorAll('.st [data-countdown]').forEach(function (box) {
+    var at = Date.parse(box.getAttribute('data-at') || '');
+    if (isNaN(at)) return;
+    var sec = box.closest('.st'), out = sec.querySelector('[data-out]'), main = sec.querySelector('[data-cta-main]'), cells = {}, timer;
+    box.querySelectorAll('[data-u]').forEach(function (b) { cells[b.getAttribute('data-u')] = b; });
+    var pad = function (n) { return n < 10 ? '0' + n : String(n); };
+    var finish = function () {
+      box.hidden = true;
+      if (out) { out.textContent = box.getAttribute('data-out') || ''; out.hidden = !out.textContent; }
+      var o = box.getAttribute('data-cta-out'), sp = main && main.querySelector('span');
+      if (sp && o) sp.textContent = o;
+    };
+    var tick = function () {
+      var ms = at - Date.now();
+      if (ms <= 0) { finish(); clearInterval(timer); return; }
+      var s = Math.floor(ms / 1000);
+      cells.d.textContent = pad(Math.floor(s / 86400)); cells.h.textContent = pad(Math.floor(s % 86400 / 3600));
+      cells.m.textContent = pad(Math.floor(s % 3600 / 60)); cells.s.textContent = pad(s % 60);
+    };
+    tick(); timer = setInterval(tick, 1000);
+  });
+})();`,
+};
+
 export const behaviorPlugins = t => [...new Set((t.behaviors || []).flatMap(b => BEHAVIORS[b]?.plugins || []))];
 /** The behaviours' scripts for a template ('' when it has none) */
 export const behaviorScript = t => (t.behaviors || []).map(b => BEHAVIORS[b]?.js).filter(Boolean).join('\n');

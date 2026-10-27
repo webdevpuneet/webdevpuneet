@@ -61,6 +61,12 @@ import restaurantMenu from './restaurant-menu.js';
 import propertyListings from './property-listings.js';
 import productGrid from './product-grid.js';
 import classTimetable from './class-timetable.js';
+import musicHero from './music-hero.js';
+import audioPlayer from './audio-player.js';
+import tourDates from './tour-dates.js';
+import discography from './discography.js';
+import releaseSpotlight from './release-spotlight.js';
+import streamingLinks from './streaming-links.js';
 import socialShare from './social-share.js';
 import popupModal from './popup-modal.js';
 import blogPost from './blog-post.js';
@@ -136,6 +142,12 @@ export const SECTION_TEMPLATES = [
   propertyListings,
   productGrid,
   classTimetable,
+  musicHero,
+  audioPlayer,
+  tourDates,
+  discography,
+  releaseSpotlight,
+  streamingLinks,
   socialShare,
   popupModal,
   blogPost,

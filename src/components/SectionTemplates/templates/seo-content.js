@@ -2,6 +2,7 @@
    shared "how it's different" list. Use cases follow the library rules (4 × 18-42 words). */
 
 import { SCROLL_LISTINGS_SEO } from './seo-scroll-listings.js';
+import { MUSIC_SEO } from './seo-music.js';
 import { NEW_SECTIONS_SEO } from './seo-content-new.js';
 import { MORE_SECTIONS_SEO } from './seo-content-more.js';
 
@@ -2648,6 +2649,7 @@ Download HTML, a ZIP, React or Vue with the hover script, or fork into [My Code]
     },
   },
   ...SCROLL_LISTINGS_SEO, // Scroll effects + Menus & listings (seo-scroll-listings.js)
+  ...MUSIC_SEO, // Music (seo-music.js)
   ...MORE_SECTIONS_SEO, // login, register, blog post, blog grid with pagination (seo-content-more.js)
   ...NEW_SECTIONS_SEO, // Gallery & media, comparison table, booking form, case study, legal text (seo-content-new.js)
 };

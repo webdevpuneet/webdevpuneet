@@ -155,6 +155,7 @@ export function starterSections(list = []) {
   for (const [id, o] of list) {
     const sec = newPageSection(id, out);
     if (!sec) continue;
+    if (o && typeof o.anchor === 'string') sec.anchor = cleanAnchor(o.anchor); // a template can name a section's anchor
     sec.state = withOverrides(sectionTemplateById(id), sec.state, o);
     out.push(sec);
   }
@@ -366,6 +367,17 @@ export function markActiveNav(html, activeFile) {
   });
 }
 
+/* Every exported page needs exactly one <h1>. Inner pages often start with a section whose heading is an
+   h2 (the hero with the h1 is only on the home page), so when a page has no h1 its first heading is promoted.
+   Section CSS targets classes (.st-h2) and the base style treats h1 and h2 alike, so nothing changes visually. */
+function ensureH1(html) {
+  if (/<h1[\s>]/i.test(html)) return html;
+  const open = html.search(/<h2[\s>]/i);
+  const close = open < 0 ? -1 : html.indexOf('</h2>', open);
+  if (close < 0) return html;
+  return html.slice(0, open) + html.slice(open, close + 5).replace(/^<h2/i, '<h1').replace(/<\/h2>$/i, '</h1>') + html.slice(close + 5);
+}
+
 export function pageDocumentHtml(page, { imageSrc, clean = true, fontFaces = '', extraHead = '', motion = true, description = '', title, canonical = '', stylesheet = '', script = '', cdnUrls, activeFile = '' } = {}) {
   const gf = googleFontsUrl(THEME_HOLDER, { fonts: page.fonts });
   const js = script ? '' : pageScript(page, { motion });
@@ -383,7 +395,7 @@ ${description ? `<meta name="description" content="${esc(description)}">\n` : ''
 ${gf ? `<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="${gf}" rel="stylesheet">\n` : ''}${clean ? pageSchema(page) : ''}${styles}${extraHead}
 </head>
 <body>
-${pageMarkup(page, { imageSrc, clean })}
+${clean ? ensureH1(pageMarkup(page, { imageSrc, clean })) : pageMarkup(page, { imageSrc, clean })}
 ${scripts}</body>
 </html>
 `;
