@@ -1642,7 +1642,7 @@ export function EmailTemplateEditor({ id }) {
         </aside>
 
         <div className={s.main} style={{ position: 'relative' }}>
-          <div className={s.toolbar}>
+          <div className={s.toolbar} data-scroll-toolbar>
             <div className={e.toolbarLeft}>
               {/* The page's H1: template name and version lead the preview toolbar */}
               {/* The page's H1: the template name, or the saved design's name once it's saved */}

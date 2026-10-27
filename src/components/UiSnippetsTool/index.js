@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useScrollToolbarMenu } from '@/components/ToolbarActions';
 import { useRouter, useSearchParams } from 'next/navigation';
 import UiSnippetsGallery, { LoadMore } from '@/components/UiSnippetsGallery';
 import gs from '@/components/UiSnippetsGallery/styles.module.css';
@@ -867,6 +868,7 @@ const EXPORT_ICON_TINTS = {
 function ExportMenu({ options }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
+  const fixedPos = useScrollToolbarMenu(open, setOpen, ref);
 
   useEffect(() => {
     if (!open) return;
@@ -886,7 +888,7 @@ function ExportMenu({ options }) {
       </button>
       {open && <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 299 }} />}
       {open && (
-        <div className={s.exportMenu} role="menu">
+        <div className={s.exportMenu} role="menu" style={fixedPos || undefined}>
           <div className={s.exportMenuHead}>Export this snippet as…</div>
           {options.map((o, i) => (
             <div key={o.label}>
@@ -1820,6 +1822,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   const headerInCode = !isMobile && showEditor;
   // Save / Fork / Export / sync. Rendered in the header normally, or in the preview
   // toolbar (left of the device buttons) when the header sits in the code column.
+  const forkPos = useScrollToolbarMenu(showSave, setShowSave, savePopRef);
   const headerRightEl = (
         <div className={s.headerRight}>
           {/* Save — update existing or open dialog for new blank */}
@@ -1844,7 +1847,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               Fork
             </button>
             {showSave && (
-              <div className={s.savePopover}>
+              <div className={s.savePopover} style={forkPos || undefined}>
                 <p className={s.savePopTitle}>Fork &amp; Edit</p>
                 <input
                   className={s.saveInput}
@@ -2058,7 +2061,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               )}
             </div>
           )}
-          {showEditor && <div className={s.previewHeader}>
+          {showEditor && <div className={s.previewHeader} data-scroll-toolbar>
             {/* Everything but the action menus scrolls sideways in one row when space is
                 short; Fork / Export stay pinned outside so their menus aren't clipped. */}
             <div className={s.previewScroll}>

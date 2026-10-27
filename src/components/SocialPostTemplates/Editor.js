@@ -970,7 +970,7 @@ export default function TemplateEditor({ id }) {
         </aside>
 
         <div className={s.main}>
-          <div className={s.toolbar}>
+          <div className={s.toolbar} data-scroll-toolbar>
             <div className={s.meta}>
               {/* The page's H1: the template name, or the saved design's name once it's saved */}
               <h1 className={s.metaName} title={currentDesign ? `Saved design “${currentDesign.name}”` : undefined}>{currentDesign ? currentDesign.name : (isCarousel ? 'Carousel Builder' : t.name)}</h1>

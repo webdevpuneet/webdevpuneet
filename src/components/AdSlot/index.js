@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { ADS_ENABLED as ADS_CONFIG_ENABLED, adsAllowedOnPath } from '@/lib/ads-config';
 import { useIsNotFound, getNotFound } from '@/lib/not-found-state';
@@ -20,13 +20,36 @@ function pushAd() {
 
 // 300×600 half-page ad — the sticky column beside the SEO content (features, about…).
 // AdSense unit "content-right-sticky" (slot 2059770203); fixed size, not "auto".
+// At 1500px and below (SeoSection stacks the column under the content: tablets and phones) a
+// fixed 300px ad would sit small in a wide column, so those screens get the full-width
+// responsive unit (the same slot as the page-bottom AdSlot) instead. The choice is made once
+// per page view, before the ad is requested.
 export function AdSlot300x600() {
   const ADS_ENABLED = useAdsEnabled();
+  const [wide, setWide] = useState(null);
   useEffect(() => {
-    if (ADS_ENABLED) pushAd();
-  }, [ADS_ENABLED]);
+    setWide(window.matchMedia('(min-width: 1501px)').matches);
+  }, []);
+  useEffect(() => {
+    if (ADS_ENABLED && wide !== null) pushAd();
+  }, [ADS_ENABLED, wide]);
 
-  if (!ADS_ENABLED) return null;
+  if (!ADS_ENABLED || wide === null) return null;
+
+  if (!wide) {
+    return (
+      <div className={styles.adSlot300WrapFull}>
+        <ins
+          className="adsbygoogle"
+          style={{ display: 'block' }}
+          data-ad-client="ca-pub-2762737943861458"
+          data-ad-slot="5223917455"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.adSlot300Wrap}>

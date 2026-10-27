@@ -1659,7 +1659,7 @@ ${pageCss(shown, { fontFaces })}`),
         </aside>
 
         <div className={s.main} style={{ position: 'relative', display: 'flex', flexDirection: 'column' }}>
-          <div className={s.toolbar}>
+          <div className={s.toolbar} data-scroll-toolbar>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', minWidth: 0 }}>
               <h1 className={s.metaName} title={site.name}>{site.name}</h1>
               {current && dirty && <i className={s.dirtyDot} title="Unsaved changes" aria-label="Unsaved changes" />}

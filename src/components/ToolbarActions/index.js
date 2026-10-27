@@ -4,7 +4,7 @@
    a "Fork" button and an "Export ▾" menu, styled like the UI Snippets toolbar.
    options: [{ icon: 'html'|'zip'|'file'|'text'|'image', label, sub, onClick, disabled? }] */
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import us from '../UiSnippetsTool/styles.module.css';
 
 const EXPORT_ICON = {
@@ -20,9 +20,28 @@ const EXPORT_ICON = {
 };
 const EXPORT_TINT = { next: '#111827', react: '#61dafb', vue: '#41b883', html: '#e44d26', zip: '#6366f1', file: '#0ea5e9', text: '#059669', image: '#db2777', video: '#7c3aed' };
 
+/* Inside a toolbar that scrolls sideways ([data-scroll-toolbar], tablet width) an absolute menu
+   would be clipped by the scroller, so it is placed with position: fixed under its button
+   instead, and closes when the toolbar scrolls. Elsewhere it returns null (normal CSS). */
+export function useScrollToolbarMenu(open, setOpen, ref) {
+  const [pos, setPos] = useState(null);
+  useLayoutEffect(() => {
+    const sc = open && ref.current ? ref.current.closest('[data-scroll-toolbar]') : null;
+    // only while the toolbar really is a scroller (its CSS makes it one on tablets)
+    if (!sc || !/auto|scroll/.test(getComputedStyle(sc).overflowX)) { setPos(null); return undefined; }
+    const r = ref.current.getBoundingClientRect();
+    setPos({ position: 'fixed', top: r.bottom + 8, left: 'auto', right: Math.max(8, window.innerWidth - r.right), zIndex: 60 });
+    const close = () => setOpen(false);
+    sc.addEventListener('scroll', close, { passive: true });
+    return () => sc.removeEventListener('scroll', close);
+  }, [open, setOpen, ref]);
+  return pos;
+}
+
 export function ExportMenu({ options, head = 'Export as…', title = 'Copy or download' }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
+  const fixedPos = useScrollToolbarMenu(open, setOpen, ref);
   useEffect(() => {
     if (!open) return undefined;
     const onDoc = ev => { if (ref.current && !ref.current.contains(ev.target)) setOpen(false); };
@@ -39,7 +58,7 @@ export function ExportMenu({ options, head = 'Export as…', title = 'Copy or do
         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 1, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
       {open && (
-        <div className={us.exportMenu} role="menu">
+        <div className={us.exportMenu} role="menu" style={fixedPos || undefined}>
           <div className={us.exportMenuHead}>{head}</div>
           {options.map(o => (
             <button key={o.label} type="button" className={us.exportMenuItem} role="menuitem" disabled={o.disabled} onClick={() => { o.onClick(); setOpen(false); }}>
@@ -67,6 +86,7 @@ export function AddToPageMenu({ loadPages, onPick, title = 'Add this section to 
   const [open, setOpen] = useState(false);
   const [pages, setPages] = useState(null);
   const ref = useRef(null);
+  const fixedPos = useScrollToolbarMenu(open, setOpen, ref);
   useEffect(() => {
     if (!open) return undefined;
     let live = true;
@@ -86,7 +106,7 @@ export function AddToPageMenu({ loadPages, onPick, title = 'Add this section to 
         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 1, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
       {open && (
-        <div className={us.exportMenu} role="menu" style={{ width: 300 }}>
+        <div className={us.exportMenu} role="menu" style={{ width: 300, ...fixedPos }}>
           <div className={us.exportMenuHead}>Add this section to…</div>
           <button type="button" className={us.exportMenuItem} role="menuitem" onClick={() => pick(null)}>
             <span className={us.exportMenuItemText}>
@@ -161,6 +181,7 @@ export function SaveButton({ onClick, busy = false, saved = false, dirty = false
   const [open, setOpen] = useState(false);
   const [name, setName] = useState(null); // null = menu, string = naming a new design
   const ref = useRef(null);
+  const fixedPos = useScrollToolbarMenu(open, setOpen, ref);
   useEffect(() => { if (!open) setName(null); }, [open]);
   const items = [...(saveAs ? [{ label: 'Save as new design', sub: 'Keep this version under a new name', keepOpen: true, onClick: () => setName(saveAs.defaultName || '') }] : []), ...menu];
   useEffect(() => {
@@ -185,7 +206,7 @@ export function SaveButton({ onClick, busy = false, saved = false, dirty = false
         </button>
       )}
       {open && name === null && (
-        <div className={us.exportMenu} role="menu" style={{ width: 250 }}>
+        <div className={us.exportMenu} role="menu" style={{ width: 250, ...fixedPos }}>
           {items.map(o => (
             <button key={o.label} type="button" className={us.exportMenuItem} role="menuitem" onClick={() => { o.onClick(); if (!o.keepOpen) setOpen(false); }}>
               <span className={us.exportMenuItemText}>
@@ -199,7 +220,7 @@ export function SaveButton({ onClick, busy = false, saved = false, dirty = false
       {open && name !== null && (
         <form
           className={us.exportMenu}
-          style={{ width: 260, padding: 10, gap: 8 }}
+          style={{ width: 260, padding: 10, gap: 8, ...fixedPos }}
           onSubmit={ev => { ev.preventDefault(); saveAs.onSave(name); setOpen(false); }}
         >
           <span className={us.exportMenuHead} style={{ margin: 0, padding: '0 2px 6px' }}>Save as new design</span>

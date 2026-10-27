@@ -1554,6 +1554,27 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
   .previewDeviceBtns {
     order: 2;
   }
+
+}
+
+/* Preview toolbar (tablets and up): ONE row at any width; when the pane is too narrow for it, the
+   whole row (Fork / Export included) scrolls sideways instead of wrapping. Their menus are placed
+   with position: fixed from JS so this scroller never clips them. */
+@media (min-width: 768px) {
+  .previewHeader[data-scroll-toolbar] {
+    flex-wrap: nowrap;
+    height: 40px;
+    padding: 3px 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+  .previewHeader[data-scroll-toolbar] > * { flex: none; }
+  .previewHeader[data-scroll-toolbar] > .previewScroll { overflow: visible; }
+  .previewHeader[data-scroll-toolbar] .previewNav { order: 0; flex: none; width: auto; }
+  .previewHeader[data-scroll-toolbar] .previewDeviceBtns { order: 0; }
+  .previewHeader[data-scroll-toolbar] .previewBtns { display: flex; }
 }
 
 @media (max-width: 767px) {

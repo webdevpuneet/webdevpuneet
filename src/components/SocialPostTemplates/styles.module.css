@@ -471,4 +471,19 @@
   }
   .toolbar > :first-child > * { flex: none; }
   .toolbarRight { flex: none; }
+
 }
+
+/* Website Builder, Social Post, Email and Section Templates editors: the whole toolbar (name,
+   page, device, play, Reset / Save / Fork / Export) is ONE row at any width. When the editor
+   panel is too narrow for it, the row scrolls sideways instead of wrapping. Dropdown menus are
+   placed with position: fixed (see ToolbarActions) so the scroller never clips them. */
+.toolbar[data-scroll-toolbar] {
+  flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; overflow-y: hidden;
+  scrollbar-width: thin; -webkit-overflow-scrolling: touch;
+}
+.toolbar[data-scroll-toolbar] > * { flex: none; }
+.toolbar[data-scroll-toolbar] > :first-child { flex-wrap: nowrap !important; overflow: visible; min-width: auto; }
+.toolbar[data-scroll-toolbar] > :first-child > * { flex: none; }
+.toolbar[data-scroll-toolbar] .toolbarRight { margin-left: auto; }
+.toolbar[data-scroll-toolbar] .check { white-space: nowrap; }

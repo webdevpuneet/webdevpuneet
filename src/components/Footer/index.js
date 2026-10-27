@@ -4,8 +4,6 @@ import { usePathname } from 'next/navigation';
 import styles from './styles.module.css';
 import { isEmbedRoute } from '@/lib/is-embed-route';
 
-const UPWORK_URL = 'https://www.upwork.com/freelancers/~017de423dd2d0e2767';
-
 export default function Footer() {
   const pathname = usePathname();
   const year = new Date().getFullYear();
@@ -19,7 +17,7 @@ export default function Footer() {
         <span className={styles.sep}>|</span>
         <span className={styles.credit}>
           Built by{' '}
-          <a href={UPWORK_URL} className={styles.creditLink} target="_blank" rel="noopener noreferrer">
+          <a href="/puneet/" className={styles.creditLink}>
             Puneet Sharma — Frontend Developer &amp; UI Engineer
           </a>
         </span>

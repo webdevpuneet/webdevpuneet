@@ -844,7 +844,7 @@ export function SectionTemplateEditor({ id }) {
         </aside>
 
         <div className={s.main} style={{ position: 'relative', display: 'flex', flexDirection: 'column' }}>
-          <div className={s.toolbar}>
+          <div className={s.toolbar} data-scroll-toolbar>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', minWidth: 0 }}>
               <h1 className={s.metaName} title={currentDesign ? `Saved design “${currentDesign.name}”` : undefined}>{currentDesign ? currentDesign.name : t.name}</h1>
               {currentDesign && dirty && <i className={s.dirtyDot} title="Unsaved changes" aria-label="Unsaved changes" />}

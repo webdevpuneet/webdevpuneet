@@ -170,7 +170,7 @@ const PATHS = [
   },
 ];
 
-const FEATURED_TOOL_SLUGS = ['gradient-generator', 'css-grid-builder', 'flexbox-builder', 'box-shadow-generator', 'color-contrast-checker', 'css-animation-generator'];
+const FEATURED_TOOL_SLUGS = ['gradient-generator', 'responsive-preview-tool', 'flexbox-builder', 'carousel-builder', 'navbar-builder', 'css-animation-generator'];
 const FEATURED_PLAYGROUND_SLUGS = ['html-playground', 'css-playground', 'js-playground', 'react-playground'];
 
 const FAQS = [
