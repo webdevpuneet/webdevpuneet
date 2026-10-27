@@ -1809,6 +1809,7 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
 .consoleTab:hover { width: 30px; }
 .consoleTab .consoleBarRight { margin: 0; writing-mode: vertical-rl; gap: 8px; }
 .consoleTab .consoleBarLabel { letter-spacing: .12em; }
+.consoleTab .consoleBadge { writing-mode: horizontal-tb; }  /* the count reads upright, only the label runs vertically */
 .consoleTabOn { background: var(--surface2, #f1f5f9); }
 
 /* Snippet title strip under the toolbar: phones only (wider screens show it inside the toolbar) */
