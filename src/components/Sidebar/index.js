@@ -766,7 +766,7 @@ const LIB_CATEGORIES = SNIPPET_CATEGORIES.filter(cat => !cat.devOnly || process.
 const LIB_TAGS = publishedTags(VISIBLE_SNIPPETS);
 const LIB_PAGE_SIZE = 20;
 
-// Home-icon link placed before the search box: the gallery for the panel it sits in.
+// Home-icon link placed after the sort button: the gallery for the panel it sits in.
 function GalleryBtn({ href, label }) {
   return (
     <a href={href} className={styles.sortBtn} title={label} aria-label={label}>
@@ -1083,7 +1083,6 @@ function LibraryTab({ pathname }) {
   return (
     <>
       <div className={styles.libSearchWrap}>
-        <GalleryBtn href="/ui-snippets/" label="All snippets" />
         <div className={styles.libSearchBox}>
           <svg className={styles.libSearchIcon} width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input
@@ -1107,6 +1106,7 @@ function LibraryTab({ pathname }) {
           )}
         </div>
         <SortBtn order={sortOrder} onToggle={() => setSortOrder(o => o === 'newest' ? 'oldest' : 'newest')} />
+        <GalleryBtn href="/ui-snippets/" label="All snippets" />
       </div>
 
 
@@ -1266,7 +1266,6 @@ function MyCodeTab({ pathname, snippets }) {
   return (
     <>
       <div className={styles.libSearchWrap}>
-        <GalleryBtn href="/ui-snippets/mycode/" label="All My Code snippets" />
         <div className={styles.libSearchBox}>
           <svg className={styles.libSearchIcon} width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input
@@ -1279,6 +1278,7 @@ function MyCodeTab({ pathname, snippets }) {
           />
         </div>
         <SortBtn order={sortOrder} onToggle={() => setSortOrder(o => o === 'newest' ? 'oldest' : 'newest')} />
+        <GalleryBtn href="/ui-snippets/mycode/" label="All My Code snippets" />
       </div>
 
       <div className={styles.snippetList} aria-label="My saved snippets">
