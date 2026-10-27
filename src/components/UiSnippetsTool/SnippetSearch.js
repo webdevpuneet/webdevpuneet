@@ -24,6 +24,7 @@ const PEEK_GAP = 2; // space between preview and drop-down (matches .peek)
 export default function SnippetSearch({ snippets, categoryLabels, activeId, activeCategory, onNavigate }) {
   const [query, setQuery] = useState('');
   const [pos, setPos] = useState(null); // null = closed
+  const [expanded, setExpanded] = useState(false); // false = just the search icon; click it to show the input
   const [hi, setHi] = useState(0);
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [peekOn, setPeekOn] = useState(false); // a row is hovered (or arrowed to)
@@ -101,6 +102,9 @@ export default function SnippetSearch({ snippets, categoryLabels, activeId, acti
     };
   }, [pos]);
 
+  // Clicking the icon swaps in the input and focuses it (focus opens the drop-down)
+  useEffect(() => { if (expanded) inputRef.current?.focus(); }, [expanded]);
+
   function open() {
     const r = inputRef.current.getBoundingClientRect();
     const w = Math.min(360, window.innerWidth - 16); // matches .panel width
@@ -139,6 +143,16 @@ export default function SnippetSearch({ snippets, categoryLabels, activeId, acti
   if (peekOn && results.items[hi]) peekIdRef.current = results.items[hi].id;
   const peekId = peekIdRef.current;
 
+  if (!expanded) {
+    return (
+      <div ref={wrapRef} className={s.wrap}>
+        <button type="button" className={s.iconBtn} onClick={() => setExpanded(true)} title="Search snippets" aria-label="Search UI snippets">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div ref={wrapRef} className={s.wrap}>
       <svg className={s.icon} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
@@ -153,6 +167,7 @@ export default function SnippetSearch({ snippets, categoryLabels, activeId, acti
         aria-haspopup="listbox"
         onChange={e => { setQuery(e.target.value); saveQuery(e.target.value); if (!pos) open(); }}
         onFocus={open}
+        onBlur={() => { setPos(null); setExpanded(false); }}
         onClick={() => { if (!pos) open(); }}
         onKeyDown={onKeyDown}
       />

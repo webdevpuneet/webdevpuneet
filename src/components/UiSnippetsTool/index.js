@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { useScrollToolbarMenu } from '@/components/ToolbarActions';
 import { useRouter, useSearchParams } from 'next/navigation';
 import UiSnippetsGallery, { LoadMore } from '@/components/UiSnippetsGallery';
@@ -1072,6 +1073,16 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   const [consoleOpen,  setConsoleOpen]  = useState(false);
   const [jumping, setJumping] = useState(false);   // the "12 / 2,063" counter is a number box while true
   const [jumpVal, setJumpVal] = useState('');
+  // Centre the Home / search / Prev / Next / Random group on the whole toolbar once it is wide enough.
+  const previewHdrRef = useRef(null);
+  const [navCentered, setNavCentered] = useState(false);
+  useEffect(() => {
+    const el = previewHdrRef.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(() => setNavCentered(el.clientWidth >= 880));
+    ro.observe(el);
+    return () => ro.disconnect();
+  });
   const [homeMenuPos, setHomeMenuPos] = useState(null); // fixed-position coords of the home-button drop-down, null = closed
   function openHomeMenu(e) {
     const r = e.currentTarget.getBoundingClientRect();
@@ -1842,9 +1853,9 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               className={s.iconBtn}
               onClick={() => { setSaveName(activeSn?.title || activeSn?.name || ''); setShowSave(v => !v); setSaveStatus(''); }}
               title="Fork this snippet into your own editable copy"
+              aria-label="Fork this snippet"
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="5" r="2.5"/><circle cx="18" cy="5" r="2.5"/><circle cx="12" cy="19" r="2.5"/><path d="M6 7.5v2a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-2"/><line x1="12" y1="11.5" x2="12" y2="16.5"/></svg>
-              Fork
             </button>
             {showSave && (
               <div className={s.savePopover} style={forkPos || undefined}>
@@ -2061,37 +2072,19 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               )}
             </div>
           )}
-          {showEditor && <div className={s.previewHeader} data-scroll-toolbar>
+          {showEditor && <div ref={previewHdrRef} className={`${s.previewHeader} ${navCentered ? s.previewHeaderCentered : ''}`} data-scroll-toolbar>
             {/* Everything but the action menus scrolls sideways in one row when space is
                 short; Fork / Export stay pinned outside so their menus aren't clipped. */}
             <div className={s.previewScroll}>
-            <span className={s.previewLabel}>Preview</span>
             <div className={s.previewDeviceBtns}>
-              <button className={`${s.deviceBtn} ${previewMode === 'mobile'  ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('mobile')}  title="Mobile (375px)">
-                <svg width="11" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
-              </button>
-              <button className={`${s.deviceBtn} ${previewMode === 'tablet'  ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('tablet')}  title="Tablet (768px)">
-                <svg width="13" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="3" y="2" width="18" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
-              </button>
               {!isTablet && <button className={`${s.deviceBtn} ${previewMode === 'desktop' ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('desktop')} title="Desktop (full)">
                 <svg width="16" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
               </button>}
-              <button
-                className={`${s.deviceBtn} ${isMaximized ? s.deviceBtnActive : ''}`}
-                onClick={toggleMaximize}
-                title={isMaximized ? 'Restore panels' : 'Maximise preview'}
-              >
-                {isMaximized ? (
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                    <polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/>
-                    <line x1="10" y1="14" x2="3" y2="21"/><line x1="21" y1="3" x2="14" y2="10"/>
-                  </svg>
-                ) : (
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                    <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
-                    <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
-                  </svg>
-                )}
+              <button className={`${s.deviceBtn} ${previewMode === 'tablet'  ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('tablet')}  title="Tablet (768px)">
+                <svg width="13" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="3" y="2" width="18" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
+              </button>
+              <button className={`${s.deviceBtn} ${previewMode === 'mobile'  ? s.deviceBtnActive : ''}`} onClick={() => setPreviewMode('mobile')}  title="Mobile (375px)">
+                <svg width="11" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
               </button>
               <button
                 className={s.deviceBtn}
@@ -2109,32 +2102,16 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                   <line x1="10" y1="14" x2="21" y2="3"/>
                 </svg>
               </button>
-              {/* Hand the built page to the Responsive Preview tool (it reads rpt:html on ?mode=html) */}
-              {!isMobile && (
-                <button
-                  className={s.deviceBtn}
-                  onClick={() => {
-                    try { localStorage.setItem('rpt:html', srcDoc); } catch {}
-                    window.open('/responsive-preview-tool/?mode=html', '_blank');
-                  }}
-                  title="Test in Responsive Preview — real devices, overflow finder, dark mode"
-                  aria-label="Test in Responsive Preview"
-                >
-                  <svg width="14" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <rect x="2" y="4" width="13" height="10" rx="1.5"/><rect x="16" y="8" width="6" height="12" rx="1.5"/><line x1="6" y1="18" x2="11" y2="18"/>
-                  </svg>
-                </button>
-              )}
             </div>
             <button
               className={`${s.iconBtn} ${s.refreshBtn}`}
               onClick={() => setPreviewKey(k => k + 1)}
               title="Refresh preview — click if nothing appears"
+              aria-label="Refresh preview"
             >
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
               </svg>
-              Refresh
             </button>
 
             {/* — My Code prev / next — */}
@@ -2144,7 +2121,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                   className={s.navBtn}
                   href="/ui-snippets/mycode/"
                   aria-label="All My Code snippets"
-                  data-tip="All My Code snippets"
+                  title="All My Code snippets"
                 >
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                 </a>
@@ -2153,13 +2130,13 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                     className={`${s.navBtn} ${s.navBtnLabeled}`}
                     href={`/ui-snippets/mycode/?id=${prevCustomSn.id}`}
                     aria-label={`Previous: ${prevCustomSn.name}`}
-                    data-tip={prevCustomSn.name}
+                    title={prevCustomSn.name}
                   >
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
                     <span className={s.navBtnText}>Prev</span>
                   </a>
                 ) : (
-                  <button className={`${s.navBtn} ${s.navBtnLabeled}`} disabled aria-label="No previous" data-tip="No previous">
+                  <button className={`${s.navBtn} ${s.navBtnLabeled}`} disabled aria-label="No previous" title="No previous">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
                     <span className={s.navBtnText}>Prev</span>
                   </button>
@@ -2169,13 +2146,13 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                     className={`${s.navBtn} ${s.navBtnLabeled}`}
                     href={`/ui-snippets/mycode/?id=${nextCustomSn.id}`}
                     aria-label={`Next: ${nextCustomSn.name}`}
-                    data-tip={nextCustomSn.name}
+                    title={nextCustomSn.name}
                   >
                     <span className={s.navBtnText}>Next</span>
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
                   </a>
                 ) : (
-                  <button className={`${s.navBtn} ${s.navBtnLabeled}`} disabled aria-label="No next" data-tip="No next">
+                  <button className={`${s.navBtn} ${s.navBtnLabeled}`} disabled aria-label="No next" title="No next">
                     <span className={s.navBtnText}>Next</span>
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
                   </button>
@@ -2186,6 +2163,29 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             {/* — Library prev / next — */}
             {!activeIsCustom && activeSn && (
               <div className={s.previewNav}>
+                <SnippetSearch
+                  snippets={sortOrder === 'newest' ? VISIBLE_SNIPPETS_NEWEST : VISIBLE_SNIPPETS}
+                  categoryLabels={CATEGORY_LABELS}
+                  activeId={activeId}
+                  activeCategory={activeSn?.category}
+                  onNavigate={navStart}
+                />
+                {catSnippets.length > 1 && prevCatSn ? (
+                  <a
+                    className={`${s.navBtn} ${s.navBtnLabeled}`}
+                    href={`/ui-snippets/${prevCatSn.id}/`}
+                    aria-label={`Previous: ${prevCatSn.title}`}
+                    title={prevCatSn.title}
+                  >
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    <span className={s.navBtnText}>Prev</span>
+                  </a>
+                ) : (
+                  <button className={`${s.navBtn} ${s.navBtnLabeled}`} disabled aria-label="No previous" title="No previous">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    <span className={s.navBtnText}>Prev</span>
+                  </button>
+                )}
                 <div
                   className={s.homeMenu}
                   onMouseEnter={openHomeMenu}
@@ -2202,7 +2202,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                   </a>
                   {/* Hover / keyboard-focus panel: every category and tag, two columns */}
-                  {homeMenuPos && <div className={s.homeMenuPanel} style={homeMenuPos} role="navigation" aria-label="Browse UI snippets">
+                  {homeMenuPos && typeof document !== 'undefined' && createPortal(<div className={s.homeMenuPanel} style={homeMenuPos} role="navigation" aria-label="Browse UI snippets">
                     <div className={s.homeMenuCol}>
                       <div className={s.homeMenuHead}>Categories</div>
                       <a className={s.homeMenuLink} href="/ui-snippets/">All snippets</a>
@@ -2222,85 +2222,20 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                         <a key={t.id} className={s.homeMenuLink} href={`/ui-snippets/tag/${t.id}/`}>{t.label}</a>
                       ))}
                     </div>
-                  </div>}
+                  </div>, document.body)}
                 </div>
-                <SnippetSearch
-                  snippets={sortOrder === 'newest' ? VISIBLE_SNIPPETS_NEWEST : VISIBLE_SNIPPETS}
-                  categoryLabels={CATEGORY_LABELS}
-                  activeId={activeId}
-                  activeCategory={activeSn?.category}
-                  onNavigate={navStart}
-                />
-                {catSnippets.length > 1 && prevCatSn ? (
-                  <a
-                    className={`${s.navBtn} ${s.navBtnLabeled}`}
-                    href={`/ui-snippets/${prevCatSn.id}/`}
-                    aria-label={`Previous: ${prevCatSn.title}`}
-                    data-tip={prevCatSn.title}
-                  >
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-                    <span className={s.navBtnText}>Prev</span>
-                  </a>
-                ) : (
-                  <button className={`${s.navBtn} ${s.navBtnLabeled}`} disabled aria-label="No previous" data-tip="No previous">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-                    <span className={s.navBtnText}>Prev</span>
-                  </button>
-                )}
-                {/* Where this snippet sits in the list Prev / Next walk through (the sidebar's list):
-                    a pill with a progress line along the bottom; click it to type a number and jump. */}
-                {catIdx >= 0 && catSnippets.length > 1 && (() => {
-                  const total = catSnippets.length;
-                  const pos = catIdx + 1;
-                  const go = () => {
-                    const n = Math.min(total, Math.max(1, parseInt(jumpVal, 10) || pos));
-                    setJumping(false);
-                    const target = catSnippets[n - 1];
-                    if (target && target.id !== activeId) { navStart(); window.location.href = `/ui-snippets/${target.id}/`; }
-                  };
-                  return jumping ? (
-                    <span className={`${s.navCount} ${s.navCountEdit}`}>
-                      <input
-                        className={s.navCountInput}
-                        type="number"
-                        min={1}
-                        max={total}
-                        autoFocus
-                        value={jumpVal}
-                        placeholder={String(pos)}
-                        aria-label={`Jump to a snippet number, 1 to ${total}`}
-                        onChange={e => setJumpVal(e.target.value)}
-                        onKeyDown={e => { if (e.key === 'Enter') go(); else if (e.key === 'Escape') setJumping(false); }}
-                        onBlur={() => setJumping(false)}
-                      />
-                      <span className={s.navCountOf}>/ {total.toLocaleString('en-US')}</span>
-                    </span>
-                  ) : (
-                    <button
-                      type="button"
-                      className={s.navCount}
-                      onClick={() => { setJumpVal(''); setJumping(true); }}
-                      title={`Snippet ${pos.toLocaleString('en-US')} of ${total.toLocaleString('en-US')} in this list. Click to jump to a number.`}
-                      aria-label={`Snippet ${pos} of ${total}. Click to jump to a number.`}
-                    >
-                      <span className={s.navCountCur}>{pos.toLocaleString('en-US')}</span>
-                      <span className={s.navCountOf}>/ {total.toLocaleString('en-US')}</span>
-                      <i className={s.navCountBar} style={{ width: `${Math.max(2, (pos / total) * 100)}%` }} aria-hidden="true" />
-                    </button>
-                  );
-                })()}
                 {nextCatSn ? (
                   <a
                     className={`${s.navBtn} ${s.navBtnLabeled}`}
                     href={`/ui-snippets/${nextCatSn.id}/`}
                     aria-label={`Next: ${nextCatSn.title}`}
-                    data-tip={nextCatSn.title}
+                    title={nextCatSn.title}
                   >
                     <span className={s.navBtnText}>Next</span>
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
                   </a>
                 ) : (
-                  <button className={`${s.navBtn} ${s.navBtnLabeled}`} disabled aria-label="No next" data-tip="No next">
+                  <button className={`${s.navBtn} ${s.navBtnLabeled}`} disabled aria-label="No next" title="No next">
                     <span className={s.navBtnText}>Next</span>
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
                   </button>
@@ -2315,10 +2250,9 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                     window.location.href = `/ui-snippets/${pick.id}/`;
                   }}
                   aria-label={randomLabel}
-                  data-tip={randomLabel}
+                  title={randomLabel}
                 >
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
-                  <span className={s.navBtnText}>Random</span>
                 </button>
               </div>
             )}

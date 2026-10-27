@@ -11,15 +11,17 @@ const bootstrapTimezoneSelector = {
   <div class="card bstz-card">
     <div class="card-body p-3 position-relative">
       <label class="form-label small fw-semibold">Timezone</label>
-      <input type="text" class="form-control" id="bstzInput" placeholder="Search city or UTC offset..." autocomplete="off">
-      <div class="bstz-dropdown d-none" id="bstzDropdown"></div>
+      <div class="position-relative">
+        <input type="text" class="form-control" id="bstzInput" placeholder="Search city or UTC offset..." autocomplete="off">
+        <div class="bstz-dropdown d-none" id="bstzDropdown"></div>
+      </div>
       <p class="small text-muted mt-2 mb-0" id="bstzSelected">No timezone selected.</p>
     </div>
   </div>
 </div>`,
   css: `.bstz-card { width: 360px; max-width: 100%; border: 1px solid #eceef1; border-radius: 14px; }
 .bstz-dropdown {
-  position: absolute; left: 12px; right: 12px; top: 68px; z-index: 5; max-height: 220px; overflow-y: auto;
+  position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 5; max-height: 220px; overflow-y: auto;
   background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; box-shadow: 0 8px 20px rgba(20,22,28,.08);
 }
 .bstz-item { display: flex; justify-content: space-between; padding: 8px 12px; font-size: 13px; cursor: pointer; }

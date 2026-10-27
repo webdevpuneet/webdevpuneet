@@ -10,6 +10,21 @@
   color: var(--text3, #94a3b8);
   pointer-events: none;
 }
+.iconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid var(--border, #e2e8f0);
+  background: var(--surface, #fff);
+  color: var(--text2, #64748b);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+.iconBtn:hover { background: var(--border, #e2e8f0); border-color: #cbd5e1; color: var(--text, #1e293b); }
 .input {
   width: 140px;
   height: 26px;

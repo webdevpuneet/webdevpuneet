@@ -30,7 +30,7 @@ export function useScrollToolbarMenu(open, setOpen, ref) {
     // only while the toolbar really is a scroller (its CSS makes it one on tablets)
     if (!sc || !/auto|scroll/.test(getComputedStyle(sc).overflowX)) { setPos(null); return undefined; }
     const r = ref.current.getBoundingClientRect();
-    setPos({ position: 'fixed', top: r.bottom + 8, left: 'auto', right: Math.max(8, window.innerWidth - r.right), zIndex: 60 });
+    setPos({ position: 'fixed', top: r.bottom + 8, left: 'auto', right: Math.max(8, window.innerWidth - r.right), zIndex: 300 });
     const close = () => setOpen(false);
     sc.addEventListener('scroll', close, { passive: true });
     return () => sc.removeEventListener('scroll', close);
