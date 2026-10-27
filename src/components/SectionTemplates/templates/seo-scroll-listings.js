@@ -3,6 +3,73 @@
    features, 3 reasons, 4 use cases (18–42 words), 4 FAQs and an AI prompt. */
 
 export const SCROLL_LISTINGS_SEO = {
+  'scroll-ring': {
+    keywords: ['3d carousel', 'scroll driven 3d carousel', 'coverflow carousel', 'cylinder carousel', 'gsap 3d carousel scroll', 'rotating card carousel', '3d ring carousel html'],
+    about: {
+      title: '3D Scroll Carousel — Free GSAP Coverflow Section',
+      description: `**3D Scroll Carousel** is a scroll-driven 3D carousel, also known as a coverflow or cylinder carousel. Cards sit on a ring in perspective: the centre card faces forward with a glowing border while the cards on each side curve away, dim and blur. As visitors scroll, the ring turns and the next card swings to the front.
+
+**How the effect works**
+
+The section pins to the screen and GSAP ScrollTrigger ties the ring's rotation to scroll progress. Each card is placed on a circle with a translate and rotateY, so the depth is real CSS 3D rather than a flat trick, and the scroll snaps so a card always lands in the centre.
+
+**More than scrolling**
+
+Arrows, dots, a click on any side card, and keyboard focus all bring a card to the front, so the carousel works for people who do not like scroll-jacking too. The front card is marked as active and links to its own page.
+
+**A real layout without JavaScript**
+
+On phones, without JavaScript, with reduced motion and while you edit it, the section is a swipeable row of the same cards with scroll snapping, so nothing is ever hidden and every link is in the HTML.
+
+**Edit and export**
+
+Cards are an editable list of 3 to 8, each with an image, tag, title, text and link. The glow colour follows your brand colour. Export HTML, a ZIP, React or Vue, or fork it into [My Code](/ui-snippets/mycode/). Pair it with the [Horizontal Scroll Gallery](/website-section-templates/scroll-gallery/) or [Stacking Cards](/website-section-templates/scroll-stack/) for a page of scroll moments.
+
+**Getting the most from it**
+
+Use images with the same aspect ratio, ideally screenshots or product shots with clear subjects, because side cards are partly turned away. Five or six cards suit the ring best. Give every card a descriptive title and its own link, since the text stays in the HTML for search engines and AI assistants to read, and keep the first card strong because it is the first thing visitors see.`,
+    },
+    features: [
+      'Cards on a 3D ring that rotates as visitors scroll',
+      'Glowing centre card; side cards curve away, dim and blur',
+      'Scroll snaps so a card always lands in the centre',
+      'Arrows, dots, side-card clicks and keyboard focus',
+      '3 to 8 cards with image, tag, title, text and link',
+      'Glow follows the brand colour; dark theme by default',
+      'Swipeable row on phones, without JS and with reduced motion',
+      'Export HTML, a ZIP, React or Vue, or fork to My Code',
+    ],
+    why: [
+      { icon: '◐', title: 'Depth that shows the range', desc: 'Seeing several cards at once in 3D tells visitors there is more to explore, while the centre card keeps the focus.' },
+      { icon: '⇣', title: 'Driven by the scroll they already do', desc: 'No new gesture is needed: scrolling turns the ring, and arrows, dots and clicks are there for everyone else.' },
+      { icon: '✓', title: 'Content stays in the HTML', desc: 'Every card is a real link with real text, readable by search engines and screen readers, with or without the motion.' },
+    ],
+    useCases: [
+      { icon: '📱', title: 'App and product tours', desc: 'Show six app screens or product views as a rotating ring so visitors tour the interface by scrolling, with the front card linking to the matching feature page or a free trial.' },
+      { icon: '🎨', title: 'Portfolio highlights', desc: 'Present five standout projects as glowing cards on a ring, each with a client tag, title and link to its case study, giving a studio homepage a memorable centrepiece.' },
+      { icon: '🛍️', title: 'Collections and lookbooks', desc: 'Turn a seasonal collection into a 3D coverflow of product photos, where the card in front shows the name and price and links straight to the product page.' },
+      { icon: '✈️', title: 'Destinations and services', desc: 'Let travel brands and agencies spin through destinations, packages or service tiers, with a short description and a booking link on every card in the ring.' },
+    ],
+    faqs: [
+      { q: 'What is a 3D scroll carousel?', a: 'It is a carousel whose items sit on a circle in 3D space and rotate in perspective, with the centre item facing forward. Here the rotation is tied to the scroll position, so scrolling turns the ring. It is also called a coverflow or cylinder carousel.' },
+      { q: 'How is the rotation linked to scrolling?', a: 'GSAP ScrollTrigger pins the section and scrubs a progress value from the first card to the last. Each card is placed on a circle with translate and rotateY from that value, and the scroll snaps so one card always sits in front.' },
+      { q: 'What happens on phones and without JavaScript?', a: 'Below 900px, without JavaScript and for people who prefer reduced motion, the section is a normal swipeable row of cards with scroll snapping. All the text and links are in the HTML either way.' },
+      { q: 'Is it accessible, and can I use it in React?', a: 'Yes to both. Cards are ordinary links, focusing a card brings it to the front, and arrows and dots are real buttons. Export it as a React or Vue component; GSAP and ScrollTrigger load from the CDN links in the export.' },
+    ],
+    aiPrompt: {
+      paragraph: 'Ask an AI assistant to extend the carousel: add auto-rotation when idle, tilt the ring with the mouse, or show a caption under the front card.',
+      prompt: `Create a scroll-driven 3D carousel section in HTML, CSS and GSAP.
+
+- A header with eyebrow, heading and intro text, then 5 to 6 rounded cards (image, tag, title, text) as links.
+- Base layout: a swipeable flex row with scroll-snap.
+- With GSAP ScrollTrigger on screens 900px and wider: pin the section and tween a progress value from 0 to cardCount - 1 with scrub and snap to 1 / (cardCount - 1).
+- On every update place each card on a ring inside a container with perspective: angle = (index - progress) * 48deg, x = sin(angle) * radius, z = cos(angle) * radius - radius, rotationY = angle; fade, shrink and blur cards as the angle grows and hide them past about 90deg.
+- Mark the card nearest the front as active with a pink glow border, and add arrows and dots that scroll to a card.
+- Use gsap.matchMedia so phones keep the swipeable row; respect prefers-reduced-motion.
+- Theme colours as CSS custom properties.`,
+    },
+  },
+
   'scroll-gallery': {
     keywords: ['horizontal scroll section', 'gsap horizontal scroll', 'scroll gallery html', 'pinned horizontal scroll', 'scroll sideways on scroll down'],
     about: {
@@ -420,12 +487,12 @@ Keep class names short and consistent, and put the level in its own column so be
 export const SCROLL_LISTINGS_CATEGORY_SEO = {
   scroll: {
     title: 'Scroll Effect Section Templates — Free GSAP Scroll Sections',
-    description: 'Free scroll effect sections built with GSAP ScrollTrigger: horizontal scroll gallery, pinned scroll story, stacking cards and a timeline drawn on scroll.',
+    description: 'Free scroll effect sections built with GSAP ScrollTrigger: 3D carousel, horizontal scroll gallery, pinned scroll story, stacking cards and scroll timeline.',
     h1: 'Scroll Effect Section Templates',
-    keywords: ['scroll animation sections', 'gsap scroll templates', 'horizontal scroll section', 'scrollytelling template', 'stacking cards scroll'],
+    keywords: ['scroll animation sections', 'gsap scroll templates', '3d carousel scroll', 'horizontal scroll section', 'scrollytelling template', 'stacking cards scroll'],
     intro: `Scroll effects turn a long page into an experience. These sections use GSAP ScrollTrigger to pin, scrub and reveal content as visitors scroll, while staying complete, readable layouts on phones, without JavaScript and for people who prefer reduced motion.
 
-The **[Horizontal Scroll Gallery](/website-section-templates/scroll-gallery/)** pins and slides a row of cards sideways as you scroll down. The **[Pinned Scroll Story](/website-section-templates/scroll-story/)** keeps an image stage in view while steps scroll past and crossfades to each step's picture. **[Stacking Cards](/website-section-templates/scroll-stack/)** pins features one over another like a deck being dealt. The **[Scroll Path Timeline](/website-section-templates/scroll-path/)** draws an SVG line through your milestones as you read.
+The **[3D Scroll Carousel](/website-section-templates/scroll-ring/)** puts cards on a ring in perspective and turns it as you scroll, with a glowing centre card. The **[Horizontal Scroll Gallery](/website-section-templates/scroll-gallery/)** pins and slides a row of cards sideways as you scroll down. The **[Pinned Scroll Story](/website-section-templates/scroll-story/)** keeps an image stage in view while steps scroll past and crossfades to each step's picture. **[Stacking Cards](/website-section-templates/scroll-stack/)** pins features one over another like a deck being dealt. The **[Scroll Path Timeline](/website-section-templates/scroll-path/)** draws an SVG line through your milestones as you read.
 
 Every section is editable in the browser and shares one theme with the rest of the library. In the [Website Builder](/website-builder/) you can add scroll animations to any section too: pin, scrub, keyframes and effects, without writing code.`,
     faqs: [

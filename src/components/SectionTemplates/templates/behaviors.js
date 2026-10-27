@@ -558,6 +558,105 @@ BEHAVIORS.stack = {
 })();`,
 };
 
+BEHAVIORS.ring = {
+  /* 3D scroll carousel. Markup: a [data-ring] row of card links. Base: a swipeable row with
+     scroll-snap. With GSAP (900px+): the section pins and the cards sit on a ring in
+     perspective; scrolling turns the ring, so the card at the front changes (snapping to
+     each card). The front card is .is-active; side cards curve away, fade and blur.
+     Arrows, dots, a click on a side card and focus on a card scroll to that card. */
+  plugins: [],
+  js: `(function () {
+  var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!G || !window.ScrollTrigger || reduce || (window.ST_STILL && !window.ST_SCROLL_FX)) return;
+  G.registerPlugin(ScrollTrigger);
+  G.matchMedia().add('(min-width: 900px)', function () {
+    var made = [];
+    document.querySelectorAll('.st [data-ring]').forEach(function (row) {
+      var sec = row.closest('.st');
+      var cards = Array.prototype.slice.call(row.children).filter(function (c) { return c.classList.contains('rg-card'); });
+      var n = cards.length;
+      if (n < 3) return;
+      var step = Math.min(48, 360 / n), rad = Math.PI / 180, R = 300, active = -1, st = null;
+      var obj = { pos: 0 };
+      sec.classList.add('is-ring');
+      var nav = document.createElement('div');
+      nav.className = 'rg-nav';
+      var prev = document.createElement('button'), next = document.createElement('button'), dots = document.createElement('div');
+      prev.type = next.type = 'button';
+      prev.className = next.className = 'rg-arrow';
+      prev.textContent = String.fromCharCode(8592); next.textContent = String.fromCharCode(8594);
+      prev.setAttribute('aria-label', 'Previous card'); next.setAttribute('aria-label', 'Next card');
+      dots.className = 'rg-dots';
+      var dotEls = cards.map(function (c, i) {
+        var d = document.createElement('button');
+        d.type = 'button'; d.className = 'rg-dot'; d.setAttribute('aria-label', 'Show card ' + (i + 1) + ' of ' + n);
+        d.addEventListener('click', function () { go(i); });
+        dots.appendChild(d);
+        return d;
+      });
+      nav.appendChild(prev); nav.appendChild(dots); nav.appendChild(next);
+      row.insertAdjacentElement('afterend', nav);
+      var go = function (i) {
+        i = Math.max(0, Math.min(n - 1, i));
+        if (st) window.scrollTo({ top: st.start + (i / (n - 1)) * (st.end - st.start), behavior: 'smooth' });
+      };
+      prev.addEventListener('click', function () { go(Math.max(0, active) - 1); });
+      next.addEventListener('click', function () { go(Math.max(0, active) + 1); });
+      var onClick = [], onFocus = [];
+      cards.forEach(function (c, i) {
+        var click = function (e) { if (i !== active) { e.preventDefault(); go(i); } };
+        var focus = function () { if (i !== active) go(i); };
+        c.addEventListener('click', click); c.addEventListener('focus', focus);
+        onClick.push(click); onFocus.push(focus);
+      });
+      var measure = function () {
+        var w = cards[0].offsetWidth || 300;
+        R = (w * 0.85) / (2 * Math.sin(step * rad / 2));
+      };
+      var render = function () {
+        var pos = obj.pos, near = Math.round(pos);
+        cards.forEach(function (c, i) {
+          var a = (i - pos) * step, abs = Math.abs(a);
+          var o = Math.max(0, 1 - Math.max(0, abs - 30) / 75);
+          G.set(c, {
+            xPercent: -50, yPercent: -50,
+            x: Math.sin(a * rad) * R, z: Math.cos(a * rad) * R - R,
+            rotationY: a, scale: 1 - Math.min(abs, 90) / 450,
+            autoAlpha: o < 0.04 ? 0 : o,
+            filter: abs < 8 ? 'none' : 'blur(' + Math.min(3, (abs - 8) / 22).toFixed(2) + 'px)',
+            zIndex: 100 - Math.round(abs)
+          });
+        });
+        if (near !== active) {
+          active = near;
+          cards.forEach(function (c, i) { c.classList.toggle('is-active', i === near); });
+          dotEls.forEach(function (d, i) { if (i === near) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+        }
+      };
+      // A sticky header stays on screen, so the section pins just below it instead of under it
+      var head = function () { var h = 0; document.querySelectorAll('.st').forEach(function (m) { if (m !== sec && m.querySelector('[data-sticky-flag]')) h = Math.max(h, m.offsetHeight); }); return h; };
+      measure(); render();
+      var tw = G.to(obj, {
+        pos: n - 1, ease: 'none', onUpdate: render,
+        scrollTrigger: {
+          trigger: sec, start: function () { return 'top ' + head(); }, end: function () { return '+=' + Math.round((n - 1) * window.innerHeight * 0.55); },
+          pin: true, scrub: 0.5, anticipatePin: 1, invalidateOnRefresh: true,
+          snap: { snapTo: 1 / (n - 1), duration: { min: 0.2, max: 0.6 }, delay: 0.08, ease: 'power2.inOut' },
+          onRefresh: function () { measure(); render(); }
+        }
+      });
+      st = tw.scrollTrigger;
+      made.push(function () {
+        st.kill(); tw.kill();
+        cards.forEach(function (c, i) { c.removeEventListener('click', onClick[i]); c.removeEventListener('focus', onFocus[i]); c.classList.remove('is-active'); G.set(c, { clearProps: 'all' }); });
+        nav.remove(); sec.classList.remove('is-ring');
+      });
+    });
+    return function () { made.forEach(function (f) { f(); }); };
+  });
+})();`,
+};
+
 BEHAVIORS.drawpath = {
   /* SVG line drawn by scrolling. Markup: [data-drawpath] holding <path data-draw> elements
      and [data-draw-step] items. Base: the line is fully drawn and every step is shown. With

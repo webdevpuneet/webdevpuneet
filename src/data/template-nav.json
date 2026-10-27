@@ -332,7 +332,7 @@
   ]
  },
  "section": {
-  "total": 65,
+  "total": 66,
   "categories": [
    {
     "id": "hero",
@@ -621,6 +621,10 @@
      {
       "id": "scroll-path",
       "name": "Scroll Path Timeline"
+     },
+     {
+      "id": "scroll-ring",
+      "name": "3D Scroll Carousel"
      }
     ]
    },

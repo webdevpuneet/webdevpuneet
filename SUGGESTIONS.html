@@ -138,6 +138,21 @@
     <p class="muted">Category: Popups · Added 2026-10-26</p>
     <p><strong>Why:</strong> frequently requested and links to the privacy page. <strong>Caution:</strong> the consent wording is a legal matter, so it should ship with neutral default text and a note that the owner must check it for their country.</p>
   </div>
+
+  <div class="sug">
+    <div class="sug-head"><h3>8. Scroll-Driven 3D Carousel (GSAP)</h3><span class="pill doing">Building</span><span class="pill done">Top pick</span></div>
+    <p class="muted">Category: Scroll &amp; motion · Added 2026-10-27</p>
+    <p><strong>Why:</strong> a popular "showcase" look (centre card faces forward, side cards curve away in perspective, glowing rounded cards) that the library does not have. It suits product, portfolio and app-screens sections, and reuses the existing GSAP + ScrollTrigger runtime.</p>
+    <ul>
+      <li><strong>Layout:</strong> the section is pinned; cards sit on a ring (<code>perspective</code>, <code>transform-style: preserve-3d</code>, <code>rotateY()</code> + <code>translateZ()</code> per card). Scrolling rotates the ring (ScrollTrigger <code>pin</code> + <code>scrub</code>), so the active card changes as the page scrolls.</li>
+      <li><strong>Depth:</strong> side cards get lower opacity, slight blur and scale from their angle; the active card gets the glow border.</li>
+      <li><strong>Variants:</strong> Cylinder ring (cards curve away on both sides, as in the reference), Coverflow (flat row, angled sides), Tilted stack.</li>
+      <li><strong>Editable:</strong> 5-8 cards (image, title, link), accent/glow colour, ring radius, scroll length, glow on/off.</li>
+      <li><strong>Behaviour:</strong> dots and arrows as well as scroll; click a side card to bring it forward; swipe on touch.</li>
+      <li><strong>Fallbacks:</strong> phones and <code>prefers-reduced-motion</code> become a plain swipeable strip; content visible without JavaScript.</li>
+      <li><strong>Build:</strong> one new scroll behaviour in the existing scroll-section setup, no new plugin needed (core + ScrollTrigger; optional Observer for swipe).</li>
+    </ul>
+  </div>
 </section>
 
 <section id="site">
@@ -179,6 +194,8 @@
   <table>
     <thead><tr><th style="width:120px">Date</th><th>Change</th></tr></thead>
     <tbody>
+      <tr><td>2026-10-27</td><td>Idea 8 built as the <code>scroll-ring</code> section (3D Scroll Carousel) with SEO page content; still needs a preview image and a browser check, so status is Building.</td></tr>
+      <tr><td>2026-10-27</td><td>Added idea 8, Scroll-Driven 3D Carousel (GSAP), marked as a top pick.</td></tr>
       <tr><td>2026-10-26</td><td>Document created with 7 section-template ideas (Opening Hours &amp; Location marked as the top pick) and 4 site ideas.</td></tr>
     </tbody>
   </table>

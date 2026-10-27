@@ -56,6 +56,7 @@ import scrollGallery from './scroll-gallery.js';
 import scrollStory from './scroll-story.js';
 import scrollStack from './scroll-stack.js';
 import scrollPath from './scroll-path.js';
+import scrollRing from './scroll-ring.js';
 import restaurantMenu from './restaurant-menu.js';
 import propertyListings from './property-listings.js';
 import productGrid from './product-grid.js';
@@ -130,6 +131,7 @@ export const SECTION_TEMPLATES = [
   scrollStory,
   scrollStack,
   scrollPath,
+  scrollRing,
   restaurantMenu,
   propertyListings,
   productGrid,
