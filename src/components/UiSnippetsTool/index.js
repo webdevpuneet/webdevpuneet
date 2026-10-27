@@ -1144,20 +1144,30 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   // Centre the Home / search / Prev / Next / Random group on the whole toolbar once it is wide enough.
   const previewHdrRef = useRef(null);
   // Console button: lives in the empty strip to the right of the preview when there is room (>= 30px),
-  // otherwise falls back to a pill inside the preview. sideLeft = x of that strip, null = no room.
+  // otherwise falls back to a pill inside the preview. sideLeft = x of that strip (null = no room);
+  // sideTop = its y, kept within the preview's visible part (null = preview scrolled out of view, hide it).
   const stageRef = useRef(null);
   const [sideLeft, setSideLeft] = useState(null);
+  const [sideTop, setSideTop] = useState(null);
   useEffect(() => {
     if (!showEditor) return;
+    const TAB_H = 110;
+    let raf = 0;
     const measure = () => {
       const r = stageRef.current?.getBoundingClientRect();
-      setSideLeft(r && window.innerWidth - r.right >= 30 ? Math.round(r.right) + 2 : null);
+      if (!r) return;
+      setSideLeft(window.innerWidth - r.right >= 30 ? Math.round(r.right) + 2 : null);
+      // Sit near the bottom of the window, but never below the preview's own bottom edge
+      const top = Math.min(window.innerHeight - 84 - TAB_H, r.bottom - 12 - TAB_H);
+      setSideTop(top >= r.top + 8 ? Math.round(top) : null);
     };
+    const schedule = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(measure); };
     measure();
-    window.addEventListener('resize', measure);
-    const ro = typeof ResizeObserver !== 'undefined' && stageRef.current ? new ResizeObserver(measure) : null;
+    window.addEventListener('resize', schedule);
+    window.addEventListener('scroll', schedule, true); // capture: also scrolls of inner containers
+    const ro = typeof ResizeObserver !== 'undefined' && stageRef.current ? new ResizeObserver(schedule) : null;
     if (ro) ro.observe(stageRef.current);
-    return () => { window.removeEventListener('resize', measure); ro && ro.disconnect(); };
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', schedule); window.removeEventListener('scroll', schedule, true); ro && ro.disconnect(); };
   }, [showEditor, activeId]);
   const [hdrW, setHdrW] = useState(0);
   const navCentered = hdrW >= 640;
@@ -2406,11 +2416,11 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                     </div>
                   </div>
                 )}
-                {!(open && !outside) && (
+                {!(open && !outside) && !(outside && sideTop === null) && (
                   <button
                     type="button"
                     className={`${outside ? s.consoleTab : s.consoleFab} ${n === 0 ? s.consoleFabEmpty : ''} ${open ? s.consoleTabOn : ''}`}
-                    style={outside ? { left: sideLeft } : undefined}
+                    style={outside ? { left: sideLeft, top: sideTop, bottom: 'auto' } : undefined}
                     onClick={n > 0 ? () => setConsoleOpen(v => !v) : undefined}
                     aria-disabled={n === 0}
                     aria-expanded={open}
