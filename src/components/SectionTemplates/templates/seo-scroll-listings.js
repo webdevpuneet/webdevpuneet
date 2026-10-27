@@ -4,14 +4,30 @@
 
 export const SCROLL_LISTINGS_SEO = {
   'scroll-ring': {
-    keywords: ['3d carousel', 'scroll driven 3d carousel', 'coverflow carousel', 'cylinder carousel', 'gsap 3d carousel scroll', 'rotating card carousel', '3d ring carousel html'],
+    keywords: ['3d carousel', 'scroll driven 3d carousel', 'coverflow carousel', 'cylinder carousel', 'gsap 3d carousel scroll', 'rotating card carousel', '3d ring carousel html', '3d tilt cards hover', 'card carousel with reflection', 'swipeable 3d carousel mobile', 'carousel with caption and button'],
     about: {
       title: '3D Scroll Carousel — Free GSAP Coverflow Section',
-      description: `**3D Scroll Carousel** is a scroll-driven 3D carousel, also known as a coverflow or cylinder carousel. Cards sit on a ring in perspective: the centre card faces forward with a glowing border while the cards on each side curve away, dim and blur. As visitors scroll, the ring turns and the next card swings to the front.
+      description: `**3D Scroll Carousel** is a scroll-driven 3D carousel, also known as a coverflow or cylinder carousel, with four styles to choose from. Cards sit in perspective: the centre card faces forward with a glowing border while the others curve away, dim and blur. As visitors scroll, the carousel turns and the next card swings to the front.
 
-**How the effect works**
+**Four styles in one section**
 
-The section pins to the screen and GSAP ScrollTrigger ties the ring's rotation to scroll progress. Each card is placed on a circle with a translate and rotateY, so the depth is real CSS 3D rather than a flat trick, and the scroll snaps so a card always lands in the centre.
+Pick **Cylinder ring** (cards on a circle, as on Spline-style sites), **Coverflow** (a flat row with angled sides, like the classic iTunes look), **Tilted stack** (cards behind each other that peel away to the left) or **Arc** (a shallow curve with the cards fanned out). Switching style is one setting; your cards and links stay the same.
+
+**Drag and swipe on every device**
+
+On phones and tablets there is no pinning: the carousel stays in the page and visitors drag or swipe it with a finger, and it follows the touch and settles on a card. On desktop you can also drag it with the mouse, one card per swipe, as well as scroll. Vertical page scrolling still works normally on touch screens.
+
+**Depth you can feel**
+
+On devices with a mouse, the front card tilts toward the pointer and its image shifts slightly the other way, so the card feels like a physical object. Cards can also have a soft reflection underneath and a glowing floor in your brand colour. Touch screens and visitors who prefer reduced motion skip the tilt automatically.
+
+**Details on the cards or in a caption**
+
+Show each card's tag, title and text on the card, or switch to image-only cards with a caption below the carousel that changes as the front card changes, with a button linking to that card's page. You set the button text, and a thin progress bar shows how far through the cards the visitor is. The caption is announced politely to screen readers as it changes.
+
+**How the scrolling works**
+
+The section pins to the screen and GSAP ScrollTrigger ties the carousel's position to scroll progress. Each card is placed with real CSS 3D transforms (translate, rotateY and perspective), and the scroll snaps so a card always lands in the centre.
 
 **More than scrolling**
 
@@ -21,50 +37,78 @@ Arrows, dots, a click on any side card, and keyboard focus all bring a card to t
 
 On phones, without JavaScript, with reduced motion and while you edit it, the section is a swipeable row of the same cards with scroll snapping, so nothing is ever hidden and every link is in the HTML.
 
+**Every setting and option**
+
+**Heading group:** an optional eyebrow, a heading where words wrapped in asterisks are coloured with your brand colour, and an optional intro text.
+
+**Style:** Cylinder ring, Coverflow, Tilted stack or Arc, chosen from a list. The cards, links and settings stay the same when you switch.
+
+**Card details:** On the cards, or Below the carousel (image-only cards with a caption and a button). **Caption button text:** the wording of the button, such as View details or Read the story.
+
+**Mouse tilt and depth:** On or Off. On mouse devices the front card tilts up to about 9 degrees toward the pointer and its image shifts the other way. Touch screens and reduced motion skip it.
+
+**Reflection and glowing floor:** On or Off. A soft reflection under each card (Chrome, Edge and Safari; Firefox shows the glowing floor only) and a brand-coloured glow under the carousel.
+
+**Cards:** 3 to 8 cards, each with an image (uploaded or linked), image alt text, a tag, a title, a text line and a link. Add, remove, duplicate and reorder them, or change their order with the arrows in the panel.
+
+**Colours, fonts and shape:** every colour comes from the theme (brand, background, card surface, text, muted text), so the glow, the active border and the dots follow your brand colour. Choose any theme preset or brand kit, a heading and body font pair, the corner radius, the content width and the overall text size, spacing and gap scale.
+
+**Motion in the Website Builder:** the heading can use entrance animations and headline effects such as words rising or a line reveal, and scroll animations can be added on top. The carousel itself always runs its own scroll rotation.
+
+**Ways to move it:** scrolling (one card per step, with snapping), dragging or swiping, the previous and next arrows, the dots, a progress bar that shows where you are, a click on any side card, and keyboard focus on a card. The scroll length is about half a screen per card, measured from the window, so it stays right after a resize, and the section sits just below a sticky header when there is one.
+
+**Where it runs:** on screens 900 pixels and wider the section pins and scrolling turns the carousel. On phones and tablets the same 3D carousel stays in the page and is dragged or swiped. Without JavaScript or with reduced motion it is a swipeable row of the same cards with scroll snapping. In the editor the carousel shows a middle card in front, and you can drag it or use the arrows and dots.
+
+**Accessibility and SEO:** the carousel is marked as a labelled region, arrows and dots are real buttons with labels, the dot for the front card is marked as current, and every card is a normal link in the HTML, so search engines, AI assistants and screen readers read all of it.
+
 **Edit and export**
 
-Cards are an editable list of 3 to 8, each with an image, tag, title, text and link. The glow colour follows your brand colour. Export HTML, a ZIP, React or Vue, or fork it into [My Code](/ui-snippets/mycode/). Pair it with the [Horizontal Scroll Gallery](/website-section-templates/scroll-gallery/) or [Stacking Cards](/website-section-templates/scroll-stack/) for a page of scroll moments.
+Edit everything in the browser, then export HTML, a ZIP, React, Vue or a Next.js site, or fork it into [My Code](/ui-snippets/mycode/). It is already placed in the [SaaS](/website-builder/templates/saas/), [Mobile App](/website-builder/templates/app/), [Creative Agency](/website-builder/templates/agency/) and [Personal Portfolio](/website-builder/templates/portfolio/) website templates, and you can add it to any page in the [Website Builder](/website-builder/). Pair it with the [Horizontal Scroll Gallery](/website-section-templates/scroll-gallery/) or [Stacking Cards](/website-section-templates/scroll-stack/) for a page of scroll moments.
 
 **Getting the most from it**
 
-Use images with the same aspect ratio, ideally screenshots or product shots with clear subjects, because side cards are partly turned away. Five or six cards suit the ring best. Give every card a descriptive title and its own link, since the text stays in the HTML for search engines and AI assistants to read, and keep the first card strong because it is the first thing visitors see.`,
+Use images with the same aspect ratio, ideally screenshots or product shots with clear subjects, because side cards are partly turned away. Five or six cards suit the ring best; Coverflow and Arc work well with five to seven. Give every card a descriptive title and its own link, since the text stays in the HTML for search engines and AI assistants to read, and keep the first card strong because it is the first thing visitors see.`,
     },
     features: [
-      'Cards on a 3D ring that rotates as visitors scroll',
-      'Glowing centre card; side cards curve away, dim and blur',
-      'Scroll snaps so a card always lands in the centre',
+      'Four styles: cylinder ring, coverflow, tilted stack and arc',
+      'Scroll-driven rotation with snapping to each card',
+      'Glowing centre card; others curve away, dim and blur',
+      'Front card tilts toward the mouse with image parallax',
+      'Caption and button below, with a progress bar',
       'Arrows, dots, side-card clicks and keyboard focus',
       '3 to 8 cards with image, tag, title, text and link',
-      'Glow follows the brand colour; dark theme by default',
-      'Swipeable row on phones, without JS and with reduced motion',
-      'Export HTML, a ZIP, React or Vue, or fork to My Code',
+      'Drag and swipe 3D carousel on phones and tablets',
     ],
     why: [
       { icon: '◐', title: 'Depth that shows the range', desc: 'Seeing several cards at once in 3D tells visitors there is more to explore, while the centre card keeps the focus.' },
-      { icon: '⇣', title: 'Driven by the scroll they already do', desc: 'No new gesture is needed: scrolling turns the ring, and arrows, dots and clicks are there for everyone else.' },
+      { icon: '⇣', title: 'Driven by the scroll they already do', desc: 'No new gesture is needed: scrolling turns the carousel, and arrows, dots and clicks are there for everyone else.' },
       { icon: '✓', title: 'Content stays in the HTML', desc: 'Every card is a real link with real text, readable by search engines and screen readers, with or without the motion.' },
     ],
     useCases: [
       { icon: '📱', title: 'App and product tours', desc: 'Show six app screens or product views as a rotating ring so visitors tour the interface by scrolling, with the front card linking to the matching feature page or a free trial.' },
-      { icon: '🎨', title: 'Portfolio highlights', desc: 'Present five standout projects as glowing cards on a ring, each with a client tag, title and link to its case study, giving a studio homepage a memorable centrepiece.' },
-      { icon: '🛍️', title: 'Collections and lookbooks', desc: 'Turn a seasonal collection into a 3D coverflow of product photos, where the card in front shows the name and price and links straight to the product page.' },
-      { icon: '✈️', title: 'Destinations and services', desc: 'Let travel brands and agencies spin through destinations, packages or service tiers, with a short description and a booking link on every card in the ring.' },
+      { icon: '🎨', title: 'Portfolio highlights', desc: 'Present five standout projects as glowing cards in the coverflow style, each with a client tag, title and link to its case study, giving a studio homepage a memorable centrepiece.' },
+      { icon: '🛍️', title: 'Collections and lookbooks', desc: 'Turn a seasonal collection into a 3D carousel of product photos with a reflection under each one, where the front card shows the name and price and links to the product page.' },
+      { icon: '✈️', title: 'Destinations and services', desc: 'Let travel brands and agencies fan out destinations, packages or service tiers in the arc style, with a short description and a booking link on every card.' },
     ],
     faqs: [
-      { q: 'What is a 3D scroll carousel?', a: 'It is a carousel whose items sit on a circle in 3D space and rotate in perspective, with the centre item facing forward. Here the rotation is tied to the scroll position, so scrolling turns the ring. It is also called a coverflow or cylinder carousel.' },
-      { q: 'How is the rotation linked to scrolling?', a: 'GSAP ScrollTrigger pins the section and scrubs a progress value from the first card to the last. Each card is placed on a circle with translate and rotateY from that value, and the scroll snaps so one card always sits in front.' },
-      { q: 'What happens on phones and without JavaScript?', a: 'Below 900px, without JavaScript and for people who prefer reduced motion, the section is a normal swipeable row of cards with scroll snapping. All the text and links are in the HTML either way.' },
-      { q: 'Is it accessible, and can I use it in React?', a: 'Yes to both. Cards are ordinary links, focusing a card brings it to the front, and arrows and dots are real buttons. Export it as a React or Vue component; GSAP and ScrollTrigger load from the CDN links in the export.' },
+      { q: 'What is a 3D scroll carousel?', a: 'It is a carousel whose items sit in 3D space and move in perspective, with the centre item facing forward. Here the movement is tied to the scroll position, so scrolling turns it. It is also called a coverflow or cylinder carousel.' },
+      { q: 'Which styles are included?', a: 'Four: a cylinder ring with the cards on a circle, a coverflow row with angled sides, a tilted stack where cards peel away, and a shallow arc. Choose one in the Style & effects settings; the cards stay the same.' },
+      { q: 'How is the rotation linked to scrolling?', a: 'GSAP ScrollTrigger pins the section and scrubs a progress value from the first card to the last. Each card is placed from that value with translate, rotateY and perspective, and the scroll snaps so one card always sits in front.' },
+      { q: 'Does it work on phones, without JavaScript and for accessibility?', a: 'Yes. Below 900px the same 3D carousel is dragged or swiped with a finger without pinning the page, and without JavaScript or with reduced motion it is a swipeable row with scroll snapping. The mouse tilt only runs on mouse devices. Cards are real links, focusing one brings it to the front, and arrows and dots are buttons.' },
     ],
     aiPrompt: {
-      paragraph: 'Ask an AI assistant to extend the carousel: add auto-rotation when idle, tilt the ring with the mouse, or show a caption under the front card.',
+      paragraph: 'Ask an AI assistant to extend the carousel: add auto-rotate when idle, per-card glow colours, or a short looping video on the front card.',
       prompt: `Create a scroll-driven 3D carousel section in HTML, CSS and GSAP.
 
 - A header with eyebrow, heading and intro text, then 5 to 6 rounded cards (image, tag, title, text) as links.
 - Base layout: a swipeable flex row with scroll-snap.
 - With GSAP ScrollTrigger on screens 900px and wider: pin the section and tween a progress value from 0 to cardCount - 1 with scrub and snap to 1 / (cardCount - 1).
-- On every update place each card on a ring inside a container with perspective: angle = (index - progress) * 48deg, x = sin(angle) * radius, z = cos(angle) * radius - radius, rotationY = angle; fade, shrink and blur cards as the angle grows and hide them past about 90deg.
-- Mark the card nearest the front as active with a pink glow border, and add arrows and dots that scroll to a card.
+- On every update place each card inside a container with perspective. For a cylinder ring: angle = (index - progress) * 48deg, x = sin(angle) * radius, z = cos(angle) * radius - radius, rotationY = angle. Fade, shrink and blur cards as the angle grows and hide them past about 90deg.
+- Offer a style option (ring, coverflow, stack, arc) that only changes how x, z and rotationY are computed from (index - progress).
+- Below 900px skip the pin and let the user drag or swipe: follow the pointer with obj.pos = start - dx / (cardWidth * 0.6) and settle on the nearest card on release.
+- Optionally show a caption under the carousel (tag, title, text and a button) that cross-fades with the front card, plus a thin progress bar.
+- Mark the card nearest the front as active with a pink glow border. On mouse devices tilt it up to 9deg toward the pointer with gsap.to and shift its image slightly the opposite way.
+- Add a soft reflection with -webkit-box-reflect, a glowing ellipse under the cards, and arrows and dots that scroll to a card.
 - Use gsap.matchMedia so phones keep the swipeable row; respect prefers-reduced-motion.
 - Theme colours as CSS custom properties.`,
     },
@@ -492,7 +536,7 @@ export const SCROLL_LISTINGS_CATEGORY_SEO = {
     keywords: ['scroll animation sections', 'gsap scroll templates', '3d carousel scroll', 'horizontal scroll section', 'scrollytelling template', 'stacking cards scroll'],
     intro: `Scroll effects turn a long page into an experience. These sections use GSAP ScrollTrigger to pin, scrub and reveal content as visitors scroll, while staying complete, readable layouts on phones, without JavaScript and for people who prefer reduced motion.
 
-The **[3D Scroll Carousel](/website-section-templates/scroll-ring/)** puts cards on a ring in perspective and turns it as you scroll, with a glowing centre card. The **[Horizontal Scroll Gallery](/website-section-templates/scroll-gallery/)** pins and slides a row of cards sideways as you scroll down. The **[Pinned Scroll Story](/website-section-templates/scroll-story/)** keeps an image stage in view while steps scroll past and crossfades to each step's picture. **[Stacking Cards](/website-section-templates/scroll-stack/)** pins features one over another like a deck being dealt. The **[Scroll Path Timeline](/website-section-templates/scroll-path/)** draws an SVG line through your milestones as you read.
+The **[3D Scroll Carousel](/website-section-templates/scroll-ring/)** puts cards in perspective and turns them as you scroll, in four styles (ring, coverflow, stack and arc) with mouse tilt and reflections. The **[Horizontal Scroll Gallery](/website-section-templates/scroll-gallery/)** pins and slides a row of cards sideways as you scroll down. The **[Pinned Scroll Story](/website-section-templates/scroll-story/)** keeps an image stage in view while steps scroll past and crossfades to each step's picture. **[Stacking Cards](/website-section-templates/scroll-stack/)** pins features one over another like a deck being dealt. The **[Scroll Path Timeline](/website-section-templates/scroll-path/)** draws an SVG line through your milestones as you read.
 
 Every section is editable in the browser and shares one theme with the rest of the library. In the [Website Builder](/website-builder/) you can add scroll animations to any section too: pin, scrub, keyframes and effects, without writing code.`,
     faqs: [

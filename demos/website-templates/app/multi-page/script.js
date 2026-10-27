@@ -77,6 +77,218 @@
   });
 })();
 (function () {
+  var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!G || reduce) return;
+  if (window.ScrollTrigger) G.registerPlugin(ScrollTrigger);
+  var still = window.ST_STILL && !window.ST_SCROLL_FX;
+  var hover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
+
+  function build(row, pinned) {
+    var sec = row.closest('.st');
+    var cards = Array.prototype.slice.call(row.children).filter(function (c) { return c.classList.contains('rg-card'); });
+    var n = cards.length;
+    if (n < 3) return null;
+    var style = row.getAttribute('data-style') || 'ring';
+    var tiltOn = hover && row.getAttribute('data-tilt') !== 'off';
+    var reflect = row.getAttribute('data-reflect') !== 'off';
+    var below = row.getAttribute('data-details') === 'below';
+    var ctaText = row.getAttribute('data-cta') || 'View details';
+    var imgs = cards.map(function (c) { return c.querySelector('.rg-img'); });
+    var step = Math.min(48, 360 / n), rad = Math.PI / 180, R = 300, W = 300, active = -1, st = null;
+    var obj = { pos: pinned ? 0 : Math.floor((n - 1) / 2) }; // free mode: a middle card in front, cards on both sides
+    var T = { nx: 0, ny: 0 };
+    sec.classList.add('is-ring');
+    sec.classList.toggle('is-pin', pinned);
+    sec.classList.toggle('rg-reflect', reflect);
+    sec.classList.toggle('rg-below', below);
+
+    var nav = document.createElement('div');
+    nav.className = 'rg-nav';
+    var prev = document.createElement('button'), next = document.createElement('button'), dots = document.createElement('div');
+    prev.type = next.type = 'button';
+    prev.className = next.className = 'rg-arrow';
+    prev.textContent = String.fromCharCode(8592); next.textContent = String.fromCharCode(8594);
+    prev.setAttribute('aria-label', 'Previous card'); next.setAttribute('aria-label', 'Next card');
+    dots.className = 'rg-dots';
+    var dotEls = cards.map(function (c, i) {
+      var d = document.createElement('button');
+      d.type = 'button'; d.className = 'rg-dot'; d.setAttribute('aria-label', 'Show card ' + (i + 1) + ' of ' + n);
+      d.addEventListener('click', function () { go(i); });
+      dots.appendChild(d);
+      return d;
+    });
+    nav.appendChild(prev); nav.appendChild(dots); nav.appendChild(next);
+    var bar = document.createElement('div');
+    bar.className = 'rg-progress'; bar.setAttribute('aria-hidden', 'true');
+    var fill = document.createElement('i');
+    bar.appendChild(fill);
+    var extra = [nav, bar], cap = null, capTag, capTitle, capText, capBtn;
+    if (below) {
+      cap = document.createElement('div');
+      cap.className = 'rg-cap';
+      cap.setAttribute('aria-live', 'polite');
+      capTag = document.createElement('span'); capTag.className = 'rg-cap-tag';
+      capTitle = document.createElement('span'); capTitle.className = 'rg-cap-title';
+      capText = document.createElement('span'); capText.className = 'rg-cap-text';
+      capBtn = document.createElement('a'); capBtn.className = 'rg-cap-btn';
+      cap.appendChild(capTag); cap.appendChild(capTitle); cap.appendChild(capText); cap.appendChild(capBtn);
+      extra.unshift(cap);
+    }
+    var anchor = row;
+    extra.forEach(function (el) { anchor.insertAdjacentElement('afterend', el); anchor = el; });
+
+    var go = function (i) {
+      i = clamp(i, 0, n - 1);
+      if (pinned) { if (st) window.scrollTo({ top: st.start + (i / (n - 1)) * (st.end - st.start), behavior: 'smooth' }); }
+      else G.to(obj, { pos: i, duration: 0.6, ease: 'power2.inOut', overwrite: true, onUpdate: render });
+    };
+    prev.addEventListener('click', function () { go(Math.max(0, active) - 1); });
+    next.addEventListener('click', function () { go(Math.max(0, active) + 1); });
+    var onClick = [], onFocus = [];
+    if (!still) cards.forEach(function (c, i) {
+      var click = function (e) { if (i !== active) { e.preventDefault(); go(i); } };
+      var focus = function () { if (i !== active) go(i); };
+      c.addEventListener('click', click); c.addEventListener('focus', focus);
+      onClick.push(click); onFocus.push(focus);
+    });
+
+    var measure = function () {
+      W = cards[0].offsetWidth || 300;
+      R = (W * 1.1) / (2 * Math.sin(step * rad / 2));
+    };
+    // Where a card sits when it is "off" places from the front (negative = left)
+    var place = function (off) {
+      var abs = Math.abs(off), sg = off < 0 ? -1 : 1, c = Math.min(abs, 1), p;
+      if (style === 'coverflow') {
+        p = { x: sg * (c * W * 0.62 + Math.max(0, abs - 1) * W * 0.3), y: 0, z: -c * W * 0.55 - Math.max(0, abs - 1) * W * 0.12, ry: sg * c * 52, rz: 0, o: 1 - Math.max(0, abs - 1.1) * 0.5, s: 1 - Math.min(abs, 2) * 0.05 };
+      } else if (style === 'stack') {
+        if (off >= 0) p = { x: off * W * 0.13, y: -off * 12, z: -off * W * 0.35, ry: -Math.min(off, 3) * 5, rz: 0, o: 1 - off * 0.24, s: 1 - off * 0.04 };
+        else p = { x: off * W * 0.7, y: 0, z: 0, ry: off * 40, rz: off * 4, o: 1 + off * 1.3, s: 1 };
+      } else if (style === 'arc') {
+        p = { x: off * W * 0.95, y: off * off * W * 0.07, z: -off * off * W * 0.2, ry: off * 22, rz: off * 2.5, o: 1 - Math.max(0, abs - 1.2) * 0.6, s: 1 - Math.min(abs, 2) * 0.04 };
+      } else {
+        var a = off * step, aa = Math.abs(a);
+        p = { x: Math.sin(a * rad) * R, y: 0, z: Math.cos(a * rad) * R - R, ry: a, rz: 0, o: 1 - Math.max(0, aa - 30) / 75, s: 1 - Math.min(aa, 90) / 450 };
+      }
+      p.abs = abs;
+      return p;
+    };
+    var showCaption = function (c) {
+      var t = function (sel) { var e = c.querySelector(sel); return e ? e.textContent : ''; };
+      capTag.textContent = t('.rg-tag'); capTitle.textContent = t('.rg-title'); capText.textContent = t('.rg-text');
+      capBtn.textContent = ctaText; capBtn.setAttribute('href', c.getAttribute('href') || '#');
+      capBtn.setAttribute('aria-label', ctaText + ': ' + t('.rg-title'));
+      G.fromTo(cap.children, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.45, stagger: 0.05, ease: 'power3.out', overwrite: true });
+    };
+    var render = function () {
+      var pos = obj.pos, near = Math.round(pos);
+      cards.forEach(function (c, i) {
+        var p = place(i - pos), w = Math.max(0, 1 - p.abs * 1.6);
+        var o = clamp(p.o, 0, 1);
+        G.set(c, {
+          xPercent: -50, yPercent: reflect ? -58 : -50,
+          x: p.x, y: p.y, z: p.z,
+          rotationY: p.ry + (tiltOn ? T.nx * 9 * w : 0), rotationX: tiltOn ? T.ny * -7 * w : 0, rotationZ: p.rz,
+          scale: p.s,
+          autoAlpha: o < 0.04 ? 0 : o,
+          filter: p.abs < 0.17 ? 'none' : 'blur(' + Math.min(3, p.abs * 2 - 0.3).toFixed(2) + 'px)',
+          zIndex: 100 - Math.round(p.abs * 10)
+        });
+        if (tiltOn && imgs[i]) G.set(imgs[i], { x: -T.nx * 10 * w, y: -T.ny * 7 * w, scale: 1 + 0.06 * w });
+      });
+      G.set(fill, { scaleX: n > 1 ? clamp(pos / (n - 1), 0, 1) : 1 });
+      if (near !== active) {
+        active = near;
+        cards.forEach(function (c, i) { c.classList.toggle('is-active', i === near); });
+        dotEls.forEach(function (d, i) { if (i === near) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+        if (cap) showCaption(cards[near]);
+      }
+    };
+
+    // Mouse tilt
+    var onMove, onLeave;
+    if (tiltOn) {
+      var aim = function (nx, ny) { G.to(T, { nx: nx, ny: ny, duration: 0.6, ease: 'power3.out', overwrite: 'auto', onUpdate: render }); };
+      onMove = function (e) { var r = row.getBoundingClientRect(); aim(clamp((e.clientX - r.left - r.width / 2) / (r.width / 2), -1, 1), clamp((e.clientY - r.top - r.height / 2) / (r.height / 2), -1, 1)); };
+      onLeave = function () { aim(0, 0); };
+      sec.addEventListener('pointermove', onMove); sec.addEventListener('pointerleave', onLeave);
+    }
+
+    // Drag or swipe: free mode follows the finger and settles on a card; pinned mode moves one card per swipe
+    var drag = null, suppress = false;
+    var onDown = function (e) { if (e.button > 0) return; drag = { x: e.clientX, y: e.clientY, pos: obj.pos, on: false }; };
+    var onDrag = function (e) {
+      if (!drag) return;
+      var dx = e.clientX - drag.x;
+      if (!drag.on) {
+        if (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(e.clientY - drag.y)) return;
+        drag.on = true;
+        try { row.setPointerCapture(e.pointerId); } catch (err) { /* not supported */ }
+        row.classList.add('is-drag');
+        if (!pinned) G.killTweensOf(obj);
+      }
+      if (!pinned) { obj.pos = clamp(drag.pos - dx / (W * 0.6), 0, n - 1); render(); }
+    };
+    var onUp = function (e) {
+      var d = drag; drag = null;
+      if (!d || !d.on) return;
+      row.classList.remove('is-drag');
+      suppress = true; setTimeout(function () { suppress = false; }, 60);
+      var dx = e.clientX - d.x;
+      if (pinned) { if (Math.abs(dx) > 50) go(Math.max(0, active) + (dx < 0 ? 1 : -1)); return; }
+      var target = Math.round(d.pos - dx / (W * 0.6));
+      if (target === Math.round(d.pos) && Math.abs(dx) > 40) target += dx < 0 ? 1 : -1;
+      go(target);
+    };
+    var onSwallow = function (e) { if (suppress) { e.preventDefault(); e.stopPropagation(); } };
+    row.addEventListener('pointerdown', onDown); row.addEventListener('pointermove', onDrag);
+    row.addEventListener('pointerup', onUp); row.addEventListener('pointercancel', onUp);
+    row.addEventListener('click', onSwallow, true);
+
+    var cleanup = function () {
+      if (onMove) { sec.removeEventListener('pointermove', onMove); sec.removeEventListener('pointerleave', onLeave); }
+      row.removeEventListener('pointerdown', onDown); row.removeEventListener('pointermove', onDrag);
+      row.removeEventListener('pointerup', onUp); row.removeEventListener('pointercancel', onUp);
+      row.removeEventListener('click', onSwallow, true);
+      G.killTweensOf(T); G.killTweensOf(obj);
+      cards.forEach(function (c, i) { c.removeEventListener('click', onClick[i]); c.removeEventListener('focus', onFocus[i]); c.classList.remove('is-active'); G.set(c, { clearProps: 'all' }); if (imgs[i]) G.set(imgs[i], { clearProps: 'all' }); });
+      extra.forEach(function (el) { el.remove(); });
+      row.classList.remove('is-drag');
+      sec.style.removeProperty('--rg-head');
+      sec.classList.remove('is-ring', 'is-pin', 'rg-reflect', 'rg-below');
+    };
+    // A sticky header stays on screen, so the section pins just below it and is that much shorter
+    var head = function () { var h = 0; document.querySelectorAll('.st').forEach(function (m) { if (m !== sec && m.querySelector('[data-sticky-flag]')) h = Math.max(h, m.offsetHeight); }); return h; };
+    var setHead = function () { sec.style.setProperty('--rg-head', (pinned ? head() : 0) + 'px'); };
+    setHead(); measure(); render();
+    if (!pinned) return cleanup;
+
+    var tw = G.to(obj, {
+      pos: n - 1, ease: 'none', onUpdate: render,
+      scrollTrigger: {
+        trigger: sec, start: function () { return 'top ' + head(); }, end: function () { return '+=' + Math.round((n - 1) * window.innerHeight * 0.55); },
+        pin: true, scrub: 0.5, anticipatePin: 1, invalidateOnRefresh: true,
+        snap: { snapTo: 1 / (n - 1), inertia: false, duration: { min: 0.2, max: 0.6 }, delay: 0.08, ease: 'power2.inOut' },
+        onRefresh: function () { setHead(); measure(); render(); }
+      }
+    });
+    st = tw.scrollTrigger;
+    return function () { st.kill(); tw.kill(); cleanup(); };
+  }
+
+  var mm = G.matchMedia();
+  var run = function (pinned) {
+    return function () {
+      var made = [];
+      document.querySelectorAll('.st [data-ring]').forEach(function (row) { var c = build(row, pinned); if (c) made.push(c); });
+      return function () { made.forEach(function (f) { f(); }); };
+    };
+  };
+  mm.add('(min-width: 900px)', run(!still && !!window.ScrollTrigger));
+  mm.add('(max-width: 899px)', run(false));
+})();
+(function () {
   var G = window.gsap;
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!G || reduce || window.ST_STILL) return;

@@ -36,8 +36,8 @@ const BASE = `/${TOOL}/`;
 const GALLERY_PAGE = 8; // 2 rows of 4
 /* Sections whose effect is driven by scrolling (pinned galleries, stacking cards, drawn lines): their
    preview is a scrollable viewport with room before and after, instead of a frame grown to full height */
-const SCROLL_FX = new Set(['hscroll', 'story', 'stack', 'drawpath']);
-const SCROLL_FX_HEAD = '<script>window.ST_SCROLL_FX=true</script><style>html{background:#e8ebf0}body::after{content:"";display:block;height:40vh;background:#e8ebf0}</style>';
+const SCROLL_FX = new Set(['hscroll', 'story', 'stack', 'drawpath', 'ring']);
+const scrollFxHead = tail => `<script>window.ST_SCROLL_FX=true</script><style>html{background:#e8ebf0}body::after{content:"";display:block;height:${tail}vh;background:#e8ebf0}</style>`; // tail: blank space after the section (the 3D carousel needs none)
 const DEVICES = [
   { id: 'desktop', label: 'Desktop', w: 1280, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2" /><path d="M8 21h8M12 17v4" /></svg> },
   { id: 'tablet', label: 'Tablet', w: 820, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2" /><path d="M11 18h2" /></svg> },
@@ -445,7 +445,7 @@ export function SectionTemplateEditor({ id }) {
   const previewHtml = useMemo(
     // Navbars get room below them in the preview, so their menus have space to open
     // ST_PREVIEW: forms simulate success instead of sending anything
-    () => previewImages(documentHtml(t, state, { imageSrc: previewSrc, clean: false, fontFaces, motion: playing > 0, extraHead: `<script>window.ST_PREVIEW=true</script>${scrollFx ? SCROLL_FX_HEAD : ''}${t.previewMinHeight ? `<style>body{min-height:${t.previewMinHeight}px;background:#f1f5f9}</style>` : ''}` }), origin),
+    () => previewImages(documentHtml(t, state, { imageSrc: previewSrc, clean: false, fontFaces, motion: playing > 0, extraHead: `<script>window.ST_PREVIEW=true</script>${scrollFx ? scrollFxHead((t.behaviors || []).includes('ring') ? 0 : 40) : ''}${t.previewMinHeight ? `<style>body{min-height:${t.previewMinHeight}px;background:#f1f5f9}</style>` : ''}` }), origin),
     [t, state, previewSrc, fontFaces, origin, playing, scrollFx],
   );
   /* Click-to-edit: text is typed right in the preview, any other bound element points to its
@@ -896,7 +896,7 @@ export function SectionTemplateEditor({ id }) {
               <>
                 {origin && scale > 0 && (
                   <div className={x.frameOuter} style={{ width: dev.w * scale }}>
-                    <div className={x.frameBox}><SectionFrame key={`${device}-${playing}-${scrollFx}`} html={shownHtml} width={dev.w} scale={scale} onDoc={onPreviewDoc} fixedH={scrollFx && stageH ? Math.max(360, Math.round((stageH - 110) / scale)) : 0} /></div>
+                    <div className={x.frameBox}><SectionFrame key={`${device}-${playing}-${scrollFx}`} html={shownHtml} width={dev.w} scale={scale} onDoc={onPreviewDoc} fixedH={scrollFx && stageH ? Math.max(360, Math.round((stageH - 92) / scale)) : 0} /></div>
                   </div>
                 )}
                 <p className={x.stageHint}>{dev.label} · {dev.w}px{scale < 1 ? ` · shown at ${Math.round(scale * 100)}%` : ''} · {scrollFx ? 'scroll inside the preview to see the effect' : 'edit the text, images and colours in the panel'}</p>
