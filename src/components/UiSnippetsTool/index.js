@@ -1170,12 +1170,29 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
     return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', schedule); window.removeEventListener('scroll', schedule, true); ro && ro.disconnect(); };
   }, [showEditor, activeId]);
   const [hdrW, setHdrW] = useState(0);
-  const navCentered = hdrW >= 640;
+  const [navW, setNavW] = useState(262);        // width of the Refresh / Search / Prev / Home / Next / Random group
+  const [navCentered, setNavCentered] = useState(false);
   useEffect(() => {
     const el = previewHdrRef.current;
     if (!el || typeof ResizeObserver === 'undefined') return;
-    const ro = new ResizeObserver(() => setHdrW(el.clientWidth));
+    const measure = () => {
+      const w = el.clientWidth;
+      const nav = el.querySelector('.' + s.previewNav);
+      const act = el.querySelector('.' + s.previewActions);
+      const kids = nav ? [...nav.children] : [];
+      const nw = kids.reduce((sum, c) => sum + c.getBoundingClientRect().width, 0) + Math.max(0, kids.length - 1) * 6;
+      const rightW = act ? act.getBoundingClientRect().width : 0;
+      // Centre the group on the bar only if it clears the right-hand buttons and a minimal title on the left
+      const side = Math.max(rightW + 16, 90);
+      setHdrW(w);
+      if (nw) setNavW(nw);
+      setNavCentered(nw > 0 && w >= 2 * side + nw);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
     ro.observe(el);
+    const act = el.querySelector('.' + s.previewActions);
+    if (act) ro.observe(act);
     return () => ro.disconnect();
   });
   const [homeMenuPos, setHomeMenuPos] = useState(null); // fixed-position coords of the home-button drop-down, null = closed
@@ -1929,6 +1946,21 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   // Save / Fork / Export / sync. Rendered in the header normally, or in the preview
   // toolbar (left of the device buttons) when the header sits in the code column.
   const forkPos = useScrollToolbarMenu(showSave, setShowSave, savePopRef);
+  // Refresh sits first in the centred Search / Prev / Next group; when that group is not shown
+  // (new blank snippet, nothing saved yet) it falls back to the right-hand buttons.
+  const hasPreviewNav = (activeIsCustom && customSorted.length > 0) || (!activeIsCustom && !!activeSn);
+  const refreshBtn = (
+    <button
+      className={`${s.navBtn} ${s.refreshBtn}`}
+      onClick={() => setPreviewKey(k => k + 1)}
+      title="Refresh preview — click if nothing appears"
+      aria-label="Refresh preview"
+    >
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+      </svg>
+    </button>
+  );
   const headerRightEl = (
         <div className={s.headerRight}>
           {/* Save — update existing or open dialog for new blank */}
@@ -1942,18 +1974,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               Save
             </button>
           )}
-          {showEditor && !isMobile && (
-            <button
-              className={`${s.iconBtn} ${s.refreshBtn}`}
-              onClick={() => setPreviewKey(k => k + 1)}
-              title="Refresh preview — click if nothing appears"
-              aria-label="Refresh preview"
-            >
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
-              </svg>
-            </button>
-          )}
+          {showEditor && !isMobile && !hasPreviewNav && refreshBtn}
           {showEditor && !isMobile && (
             <DeviceMenu
               mode={previewMode}
@@ -1976,6 +1997,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               aria-label="Fork this snippet"
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="5" r="2.5"/><circle cx="18" cy="5" r="2.5"/><circle cx="12" cy="19" r="2.5"/><path d="M6 7.5v2a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-2"/><line x1="12" y1="11.5" x2="12" y2="16.5"/></svg>
+              Fork
             </button>
             {showSave && (
               <div className={s.savePopover} style={forkPos || undefined}>
@@ -2198,7 +2220,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             <div className={s.previewScroll}>
             {(activeSn?.title || activeSn?.name) && (() => {
               // When Prev / Next / Random are centred on the bar, leave them room (about 115px each side of centre)
-              const maxW = navCentered ? Math.floor(hdrW / 2 - 135) : 170;
+              const maxW = navCentered ? Math.floor(hdrW / 2 - navW / 2 - 20) : 170;
               return maxW >= 50 ? (
                 <span className={s.previewTitle} style={{ maxWidth: maxW }} title={activeSn.title || activeSn.name}>{activeSn.title || activeSn.name}</span>
               ) : null;
@@ -2207,6 +2229,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             {/* — My Code prev / next — */}
             {activeIsCustom && customSorted.length > 0 && (
               <div className={s.previewNav}>
+                {refreshBtn}
                 <a
                   className={s.navBtn}
                   href="/ui-snippets/mycode/"
@@ -2253,6 +2276,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
             {/* — Library prev / next — */}
             {!activeIsCustom && activeSn && (
               <div className={s.previewNav}>
+                {refreshBtn}
                 <SnippetSearch
                   snippets={sortOrder === 'newest' ? VISIBLE_SNIPPETS_NEWEST : VISIBLE_SNIPPETS}
                   categoryLabels={CATEGORY_LABELS}

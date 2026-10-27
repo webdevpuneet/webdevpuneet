@@ -1453,7 +1453,6 @@ button.navCount:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(-
 /* Refresh sits directly beside the PREVIEW label — without this the header's
    space-between pushes it to the far right whenever the prev/next nav is
    absent (blank My Code snippets). */
-.refreshBtn { margin-right: auto; }
 .iconBtnActive { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); }
 .iconBtnAccent { color: var(--accent); border-color: var(--accent); }
 .iconBtnAccent:hover { background: var(--accent-dim); color: var(--accent); }
