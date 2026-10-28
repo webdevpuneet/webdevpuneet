@@ -128,16 +128,12 @@ const PROMOS = [
     title: 'Emails that look right in every inbox',
     desc: 'Welcome emails, receipts, newsletters and sales emails with Outlook-safe buttons, dark mode and merge tags for Mailchimp, Klaviyo, HubSpot and Brevo.',
     points: ['Welcome, order, newsletter and holiday emails', 'Outlook-safe buttons and dark mode built in', 'Copy the HTML straight into your email tool'],
-    shots: [['welcome', 'Welcome Email'], ['order-confirmation', 'Order Confirmation Email'], ['newsletter', 'Newsletter Email']],
-    base: '/email-templates/', img: '/images/email-templates/previews/',
   },
   {
     id: 'social', accent: '#7c3aed', tag: 'Social post templates', href: '/social-post-templates/', cta: 'Browse social post templates',
     title: 'Posts, Stories and carousels in minutes',
     desc: 'Quotes, launches, tips and seasonal posts in every size for Instagram, Facebook, X, LinkedIn and Pinterest. Edit the text, apply your brand and download.',
     points: ['Every size from a single design', 'Download PNG, JPG, PDF or MP4', 'Create dozens at once from a spreadsheet'],
-    shots: [['big-quote', 'Big Quote post'], ['product-launch', 'Product Launch post'], ['tip-of-the-day', 'Tip of the Day post']],
-    base: '/social-post-templates/', img: '/images/social-post-templates/previews/',
   },
 ];
 
@@ -340,13 +336,6 @@ export default async function Home() {
                     {p.points.map(pt => <li key={pt}><span aria-hidden="true"><Check /></span>{pt}</li>)}
                   </ul>
                   <a href={p.href} className={styles.promoBtn}>{p.cta} <Arrow /></a>
-                </div>
-                <div className={styles.promoShots}>
-                  {p.shots.map(([sid, label]) => (
-                    <a key={sid} href={`${p.base}${sid}/`} className={styles.promoShot} title={label}>
-                      <InViewImg src={`${p.img}${sid}.png`} alt={label} width={400} height={500} />
-                    </a>
-                  ))}
                 </div>
               </article>
             ))}
