@@ -1,5 +1,10 @@
 import HomeOmniSearch from '@/components/HomeOmniSearch';
 import HomeToolSearch from '@/components/HomeToolSearch';
+import ProfileHeroCard from '@/components/ProfileHeroCard';
+import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
+import { getLatestSnippets } from '@/lib/snippet-related';
+import { SNIPPET_SEARCH_INDEX } from '@/lib/snippet-search-index';
+import { CATEGORIES as SNIPPET_CATEGORY_LIST } from '@/components/UiSnippetsTool/categories';
 import InViewImg from '@/components/InViewImg';
 import AdSlot from '@/components/AdSlot';
 import { fetchLatestBlogPosts } from '@/lib/blog-feed';
@@ -24,11 +29,11 @@ const TEMPLATE_COUNT = WEBSITE_TEMPLATES.length + SECTION_TEMPLATES.length + EMA
 const SNIPPETS_ROUNDED = (Math.floor(SNIPPET_COUNT / 100) * 100).toLocaleString('en-US');
 const TOOLS_ROUNDED = Math.floor(TOOL_COUNT / 10) * 10;
 
-const TITLE = 'Build Websites, Explore UI & Create Faster — Free Tools';
-const DESCRIPTION = `${SNIPPETS_ROUNDED}+ copy-paste UI snippets, a free website builder with ${WEBSITE_TEMPLATES.length} templates, ${PLAYGROUND_COUNT} coding playgrounds and ${TOOLS_ROUNDED}+ developer tools. All in your browser, no signup.`;
+const TITLE = 'Free Website Templates, UI Snippets & Coding Playgrounds';
+const DESCRIPTION = `${WEBSITE_TEMPLATES.length} website templates, ${SECTION_TEMPLATES.length} sections, email and social templates, ${SNIPPETS_ROUNDED}+ UI snippets and ${PLAYGROUND_COUNT} coding playgrounds. See, edit and learn, with or without AI. Free.`;
 
-const OG_TITLE = 'Build Websites. Explore UI. Create Faster.';
-const OG_IMAGE = { url: 'https://webdevpuneet.com/images/home-og.jpg', width: 1200, height: 630, alt: 'webdevpuneet.com — build websites, explore UI components, coding playgrounds and developer tools' };
+const OG_TITLE = 'Web Design Ideas You Can See, Edit and Learn From';
+const OG_IMAGE = { url: 'https://webdevpuneet.com/images/home-og.jpg', width: 1200, height: 630, alt: 'webdevpuneet.com — website templates, UI snippets and coding playgrounds you can see, edit and learn from' };
 
 export const metadata = {
   title: TITLE,
@@ -106,10 +111,10 @@ const itemListSchema = {
 
 /* ── Content ── */
 const HERO_BENEFITS = [
+  { n: `${WEBSITE_TEMPLATES.length}`, label: 'website templates' },
+  { n: `${SECTION_TEMPLATES.length}`, label: 'sections' },
   { n: `${SNIPPETS_ROUNDED}+`, label: 'UI snippets' },
-  { n: 'Free', label: 'website builder' },
   { n: `${PLAYGROUND_COUNT}`, label: 'coding playgrounds' },
-  { n: `${TOOLS_ROUNDED}+`, label: 'developer tools' },
 ];
 
 const BUILDER_POINTS = [
@@ -120,59 +125,15 @@ const BUILDER_POINTS = [
 
 const BUILDER_SECTIONS = ['Navbar', 'Hero', 'Features', 'Pricing', 'Testimonials', 'FAQ', 'Footer'];
 const BUILDER_SWATCHES = ['#4f46e5', '#059669', '#e11d48', '#d97706', '#0f172a'];
-const BUILDER_TEMPLATE_STRIP = ['restaurant', 'real-estate', 'fitness', 'portfolio'];
 // Templates the animated builder mock cycles through (4: the loop in page.module.css is 14s = 4 x 3.5s)
 const BUILDER_MOCK_TEMPLATES = ['saas', 'restaurant', 'fitness', 'portfolio'];
 
-const SNIPPET_CATEGORIES = [
-  { slug: 'buttons', title: 'Buttons & interactions' },
-  { slug: 'cards', title: 'Cards & layouts' },
-  { slug: 'navigation', title: 'Navigation' },
-  { slug: 'forms', title: 'Forms & inputs' },
-  { slug: 'animations', title: 'CSS animations' },
-  { slug: 'dashboards', title: 'Dashboards' },
-];
+// Every public snippet category with its snippet count, for the "all categories" row
+const CATEGORY_COUNTS = {};
+for (const sn of SNIPPET_SEARCH_INDEX) CATEGORY_COUNTS[sn.category] = (CATEGORY_COUNTS[sn.category] || 0) + 1;
+const ALL_SNIPPET_CATEGORIES = SNIPPET_CATEGORY_LIST.filter(c => c.id !== 'all' && !c.devOnly && CATEGORY_COUNTS[c.id]);
 
-const PATHS = [
-  {
-    id: 'build', label: 'Build', accent: '#4f46e5',
-    blurb: 'Create websites and interfaces from editable templates.',
-    links: [
-      { label: 'Website Builder', href: '/website-builder/' },
-      { label: `${WEBSITE_TEMPLATES.length} Website Templates`, href: '/website-builder/' },
-      { label: 'Website Section Templates', href: '/website-section-templates/' },
-      { label: 'Email Templates', href: '/email-templates/' },
-      { label: 'Social Post Templates', href: '/social-post-templates/' },
-    ],
-    cta: 'Explore building tools', href: '/website-builder/',
-  },
-  {
-    id: 'explore', label: 'Explore', accent: '#059669',
-    blurb: 'Find ready-made components and everyday developer utilities.',
-    links: [
-      { label: 'UI Snippets', href: '/ui-snippets/' },
-      { label: 'CSS Generators', href: '/css-tools/' },
-      { label: 'Layout Builders', href: '/flexbox-builder/' },
-      { label: 'Code Formatters', href: '/json-formatter/' },
-      { label: 'All Developer Tools', href: '/tools/' },
-    ],
-    cta: 'Explore resources', href: '/tools/',
-  },
-  {
-    id: 'learn', label: 'Learn', accent: '#d97706',
-    blurb: 'Learn frontend development by changing real code.',
-    links: [
-      { label: 'HTML Playground', href: '/html-playground/' },
-      { label: 'CSS Playground', href: '/css-playground/' },
-      { label: 'JavaScript Playground', href: '/js-playground/' },
-      { label: 'React Playground', href: '/react-playground/' },
-      { label: 'GSAP Playground', href: '/gsap-playground/' },
-    ],
-    cta: 'Start learning', href: '/learn-to-code/',
-  },
-];
 
-const FEATURED_TOOL_SLUGS = ['gradient-generator', 'responsive-preview-tool', 'flexbox-builder', 'carousel-builder', 'navbar-builder', 'css-animation-generator'];
 const FEATURED_PLAYGROUND_SLUGS = ['html-playground', 'css-playground', 'js-playground', 'react-playground'];
 
 const FAQS = [
@@ -226,10 +187,9 @@ function SectionHead({ id, eyebrow, title, desc, href, linkLabel }) {
 
 export default async function Home() {
   const blogPosts = (await fetchLatestBlogPosts(4)).slice(0, 3);
-  const featuredTools = FEATURED_TOOL_SLUGS.map(s => LIVE_TOOLS.find(t => t.slug === s)).filter(Boolean);
+  const latestSnippets = getLatestSnippets(60);
   const featuredPlaygrounds = FEATURED_PLAYGROUND_SLUGS.map(s => LIVE_TOOLS.find(t => t.slug === s)).filter(Boolean);
   const mockTemplates = BUILDER_MOCK_TEMPLATES.map(id => WEBSITE_TEMPLATES.find(x => x.id === id)).filter(Boolean);
-  const builderStrip = BUILDER_TEMPLATE_STRIP.map(id => WEBSITE_TEMPLATES.find(t => t.id === id)).filter(Boolean);
   // Plain data for the client-side tool finder; only categories that actually have tools.
   const searchTools = TOOLS.map(({ slug, name, sub, desc, icon, accent, category }) => ({ slug, name, sub, desc, icon, accent, category }));
   const toolCategories = CATEGORY_META.filter(c => c.id !== 'learn' && TOOLS.some(t => t.category === c.id));
@@ -243,22 +203,25 @@ export default async function Home() {
       {/* ── 1. Hero ── */}
       <section className={styles.hero}>
         <div className={styles.heroInner}>
-          <p className={styles.heroEyebrow}>Free frontend development workspace</p>
+          <div className={styles.heroCopy}>
+          <p className={styles.heroEyebrow}>Free templates, snippets and coding playgrounds</p>
           <h1 className={styles.heroTitle}>
-            Build Websites. Explore UI. <span className={styles.heroGrad}>Create Faster.</span>
+            Web design ideas you can <span className={styles.heroGrad}>see, edit and learn from.</span>
           </h1>
           <p className={styles.heroText}>
-            Discover {SNIPPETS_ROUNDED}+ copy-paste UI components, build complete websites with editable templates, and use free browser-based developer tools and coding playgrounds. No installation or signup required.
+            Start from a professional website, section, email or UI snippet, use it as it is, or take it into AI. Then learn how it works in {PLAYGROUND_COUNT} free coding playgrounds. No sign-up, nothing to install.
           </p>
           <div className={styles.heroCtas}>
-            <a href="/ui-snippets/" className={styles.btnPrimary}>Explore UI Snippets <Arrow /></a>
-            <a href="/website-builder/" className={styles.btnSecondary}>Open Website Builder</a>
+            <a href="/website-builder/" className={styles.btnPrimary}>Browse website templates <Arrow /></a>
+            <a href="/ui-snippets/" className={styles.btnSecondary}>Explore UI snippets</a>
           </div>
           <ul className={styles.heroBenefits}>
             {HERO_BENEFITS.map(b => (
               <li key={b.label}><strong>{b.n}</strong> {b.label}</li>
             ))}
           </ul>
+          </div>
+          <div className={styles.heroProfile}><ProfileHeroCard /></div>
         </div>
       </section>
 
@@ -328,88 +291,36 @@ export default async function Home() {
                 <svg className={styles.mockCursor} width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 8-6 1.8L10.5 19z" fill="#0f172a" stroke="#fff" strokeWidth="1.6" strokeLinejoin="round"/></svg>
               </div>
             </div>
-            <div className={styles.builderStrip}>
-              {builderStrip.map(t => (
-                <a key={t.id} href={`/website-builder/templates/${t.id}/`} className={styles.builderThumb} title={t.name}>
-                  <InViewImg src={`/images/website-templates/thumb/${t.id}.jpg`} alt={t.name} width={640} height={400} />
-                </a>
-              ))}
-            </div>
           </div>
         </section>
 
         {/* ── 3. UI Snippets ── */}
         <section className={styles.section} aria-labelledby="h2-snippets">
-          <SectionHead
-            id="h2-snippets"
-            eyebrow={`${SNIPPET_COUNT.toLocaleString('en-US')} components`}
-            title="Ready-to-Use UI Components"
-            desc="Browse, preview, customise and export HTML, CSS and JavaScript components for your next project — or export them to React, Tailwind, Vue and Angular."
-            href="/ui-snippets/"
-            linkLabel="Explore all UI snippets"
-          />
-          <div className={styles.snippetSearch}><HomeOmniSearch snippetsOnly /></div>
-          <div className={styles.snippetGrid}>
-            {SNIPPET_CATEGORIES.map(c => (
-              <a key={c.slug} href={`/ui-snippets/${c.slug}/`} className={styles.snippetCard}>
-                <span className={styles.snippetImg}>
-                  <InViewImg src={`/images/ui-snippets/${c.slug}.png`} alt="" width={1200} height={635} />
-                </span>
-                <span className={styles.snippetCardFoot}>
-                  <span className={styles.snippetCardTitle}>{c.title}</span>
-                  <Arrow />
-                </span>
-              </a>
-            ))}
+          <div className={styles.snipTop}>
+            <div className={styles.snipIntro}>
+              <p className={styles.eyebrow}>{SNIPPET_COUNT.toLocaleString('en-US')} components</p>
+              <h2 id="h2-snippets" className={styles.sectionTitle}>Ready-to-Use UI Components</h2>
+              <p className={styles.sectionDesc}>Browse, preview, customise and export HTML, CSS and JavaScript components for your next project — or export them to React, Tailwind, Vue and Angular.</p>
+            </div>
+            <div className={styles.snippetSearch}><HomeOmniSearch snippetsOnly /></div>
           </div>
-          <div className={styles.centerCta}>
-            <a href="/ui-snippets/" className={styles.btnPrimary}>Explore All UI Snippets <Arrow /></a>
+          <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} flush />
+          <div className={styles.catPanel}>
+            <div className={styles.catPanelHead}>
+              <h3 className={styles.catPanelTitle}>Browse by category <span>{ALL_SNIPPET_CATEGORIES.length} categories</span></h3>
+              <a href="/ui-snippets/" className={styles.headLink}>Explore all UI snippets <Arrow /></a>
+            </div>
+            <nav className={styles.catChips} aria-label="All UI snippet categories">
+              {ALL_SNIPPET_CATEGORIES.map(c => (
+                <a key={c.id} href={`/ui-snippets/${c.id}/`} className={styles.catChip}>
+                  {c.label}<span>{CATEGORY_COUNTS[c.id].toLocaleString('en-US')}</span>
+                </a>
+              ))}
+            </nav>
           </div>
         </section>
 
-        {/* ── 4. Build / Explore / Learn ── */}
-        <section className={styles.section} aria-labelledby="h2-paths">
-          <SectionHead id="h2-paths" title="Where Do You Want to Start?" desc="Three ways in. Every product is free and runs in your browser." />
-          <div className={styles.paths}>
-            {PATHS.map(p => (
-              <article key={p.id} className={styles.pathCard} style={{ '--path-accent': p.accent }}>
-                <h3 className={styles.pathTitle}>{p.label}</h3>
-                <p className={styles.pathBlurb}>{p.blurb}</p>
-                <ul className={styles.pathLinks}>
-                  {p.links.map(l => <li key={l.label}><a href={l.href}>{l.label}</a></li>)}
-                </ul>
-                <a href={p.href} className={styles.pathCta}>{p.cta} <Arrow /></a>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* ── 5. Developer tools ── */}
-        <section className={styles.section} aria-labelledby="h2-tools">
-          <SectionHead
-            id="h2-tools"
-            eyebrow={`${TOOL_COUNT} tools`}
-            title="Free Developer Tools"
-            desc="Generate CSS, build layouts, format code and solve everyday development tasks directly in your browser."
-            href="/tools/"
-            linkLabel="Browse all developer tools"
-          />
-          <div className={styles.shotGrid}>
-            {featuredTools.map(t => (
-              <a key={t.slug} href={`/${t.slug}/`} className={styles.shotCard}>
-                <span className={styles.shotImg}><InViewImg src={`/images/${t.slug}.png`} alt="" /></span>
-                <span className={styles.shotBody}>
-                  <span className={styles.shotTitle}>{t.name}</span>
-                  <span className={styles.shotSub}>{t.sub}</span>
-                </span>
-              </a>
-            ))}
-          </div>
-          <h3 className={styles.subHead}>Find a tool</h3>
-          <HomeToolSearch tools={searchTools} categories={toolCategories} />
-        </section>
-
-        {/* ── 6. Playgrounds ── */}
+        {/* ── 3b. Playgrounds (above "Where Do You Want to Start?") ── */}
         <section className={`${styles.section} ${styles.learnBand}`} aria-labelledby="h2-learn">
           <SectionHead
             id="h2-learn"
@@ -437,7 +348,20 @@ export default async function Home() {
           </p>
         </section>
 
-        {/* ── 7. Tutorials ── */}
+        {/* ── 3c. Developer tools (after Learn to Code) ── */}
+        <section className={styles.section} aria-labelledby="h2-tools">
+          <SectionHead
+            id="h2-tools"
+            eyebrow={`${TOOL_COUNT} tools`}
+            title="Free Developer Tools"
+            desc="Generate CSS, build layouts, format code and solve everyday development tasks directly in your browser."
+            href="/tools/"
+            linkLabel="Browse all developer tools"
+          />
+          <HomeToolSearch tools={searchTools} categories={toolCategories} />
+        </section>
+
+        {/* ── 3d. Tutorials (after Developer tools) ── */}
         <section className={styles.section} aria-labelledby="h2-blog">
           <SectionHead
             id="h2-blog"
@@ -449,19 +373,13 @@ export default async function Home() {
           {blogPosts.length === 0 ? (
             <p className={styles.sectionDesc}>Couldn&apos;t load the latest posts right now — <a href="https://webdevpuneet.com/blog/">browse the blog directly</a>.</p>
           ) : (
-            <div className={styles.blogGrid}>
+            <div className={styles.tutGrid}>
               {blogPosts.map(post => (
-                <a key={post.href} href={post.href} className={styles.blogCard}>
-                  <span className={styles.blogImg}>
-                    {post.thumb
-                      ? <InViewImg src={post.thumb} alt="" />
-                      : <span className={styles.blogImgFallback} aria-hidden="true">{'</>'}</span>}
-                  </span>
-                  <span className={styles.blogBody}>
-                    <span className={styles.blogTitle}>{post.title}</span>
-                    {post.excerpt && <span className={styles.blogExcerpt}>{post.excerpt}</span>}
-                    <span className={styles.blogMore}>Read the article <Arrow /></span>
-                  </span>
+                <a key={post.href} href={post.href} className={styles.tutItem}>
+                  {post.date && <span className={styles.tutDate}>{new Date(post.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>}
+                  <span className={styles.tutTitle}>{post.title}</span>
+                  {post.excerpt && <span className={styles.tutExcerpt}>{post.excerpt}</span>}
+                  <span className={styles.tutMore}>Read the article <Arrow /></span>
                 </a>
               ))}
             </div>
@@ -473,11 +391,17 @@ export default async function Home() {
         {/* ── 8. Short intro + FAQ ── */}
         <section className={styles.introFaq} aria-labelledby="h2-intro">
           <div className={styles.intro}>
-            <h2 id="h2-intro" className={styles.sectionTitle}>Everything You Need to Build for the Web</h2>
-            <p>
-              webdevpuneet.com brings together {SNIPPET_COUNT.toLocaleString('en-US')} free UI components, {TEMPLATE_COUNT} website, email and social templates, {PLAYGROUND_COUNT} interactive coding playgrounds and {TOOL_COUNT} developer tools. Build websites, experiment with code and create reusable interfaces directly in your browser.
-            </p>
-            <p className={styles.introMeta}>Built and maintained by <a href="/puneet/">Puneet Sharma</a>, frontend developer and UI engineer.</p>
+            <div className={styles.introAi}>
+              <h2 id="h2-intro" className={styles.sectionTitle}>Use it as it is, or take it into AI</h2>
+              <p>Every UI snippet, section, website, email and social post template page has a ready-made prompt you can paste into ChatGPT, Claude or Copilot to rebuild, restyle or extend it. Prefer to skip AI? The code is clean and ready to use.</p>
+              <div className={styles.introAiLinks}>
+                <a href="/ui-snippets/">UI snippets</a>
+                <a href="/website-section-templates/">Section templates</a>
+                <a href="/website-builder/">Website templates</a>
+                <a href="/email-templates/">Email templates</a>
+                <a href="/social-post-templates/">Social posts</a>
+              </div>
+            </div>
           </div>
           <div className={styles.faq}>
             <h2 className={styles.faqTitle}>Frequently Asked Questions</h2>
@@ -488,6 +412,12 @@ export default async function Home() {
               </details>
             ))}
           </div>
+        </section>
+
+        {/* ── 9. Quiet Hire me band ── */}
+        <section className={styles.hireBand} aria-label="Hire Puneet Sharma">
+          <p className={styles.hireBandText}><strong>Need it built?</strong> I&apos;m Puneet, the developer behind these templates. I can build, customise and launch your site from them.</p>
+          <a href="/puneet/" className={styles.hireBandLink}>Hire me <Arrow /></a>
         </section>
       </div>
     </div>

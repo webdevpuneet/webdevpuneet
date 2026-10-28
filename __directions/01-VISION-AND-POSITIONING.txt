@@ -17,9 +17,9 @@ WE ARE NOT COMPETING WITH AI
      understand it. Every page explains what is going on in plain language.
   3. Assets you can trust.      Professional, accessible, responsive, SEO-ready code that holds up
      in a real project. Exported as HTML, ZIP, React, Vue, Next.js or forked into My Code.
-  4. AI as a partner, not a rival. Every template and snippet page carries a ready-made AI prompt
-     so users can take our starting point into ChatGPT / Claude / Copilot and extend it. We are
-     the best starting point for AI work, and the best check on what AI produces.
+  4. AI as a partner, not a rival. UI snippet, section, website, email and social template pages carry a
+     ready-made AI prompt so users can take our starting point into ChatGPT / Claude / Copilot and
+     extend it. We are the best starting point for AI work, and the best check on what AI produces.
   5. A human when you need one. When a project needs judgement, polish or delivery, the user can
      hire Puneet (/puneet/). See 03-LEADS-HIRE-ME.txt.
 

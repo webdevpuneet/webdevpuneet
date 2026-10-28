@@ -70,6 +70,9 @@
   color: var(--text2);
 }
 
+.tagline { margin: 12px 0 0; font-size: 13.5px; line-height: 1.55; color: var(--text2); }
+.tagline strong { color: var(--text); font-weight: 700; }
+.upDot { width: 7px; height: 7px; border-radius: 50%; background: #14a800; }
 .buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 .primary,
 .secondary {

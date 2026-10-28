@@ -3,7 +3,7 @@
 const agencyLandingPageTemplate = {
   id: 'agency-landing-page-template',
   title: 'Creative Agency Website Template',
-  lastmod: '2026-10-25',
+  lastmod: '2026-10-28',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -14,7 +14,7 @@ const agencyLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-floating" data-uid="smvnkxd7sf1yr">
+    <section class="st st-navbar-floating" data-uid="smvrrymfjxjm6">
       <div class="st-wrap">
         <header class="nf">
           <a class="st-brand" href="#">
@@ -34,7 +34,7 @@ const agencyLandingPageTemplate = {
       </div>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-centered-gradient-hero" data-uid="smvnkxd7s50vm">
+    <section class="st st-centered-gradient-hero" data-uid="smvrrymfjvniv">
       <div class="cg-glow" aria-hidden="true"></div>
       <div class="cg st-wrap">
         <span class="st-eyebrow cg-eyebrow" data-anim="item">Brand, web &amp; product design</span>
@@ -48,7 +48,7 @@ const agencyLandingPageTemplate = {
         <div class="cg-media" data-anim="media"><img width="1200" height="820" src="https://webdevpuneet.com/images/section-templates/hero-dashboard.png" alt="Acme app dashboard"></div>
       </div>
     </section>
-    <section id="features" class="st st-features-bento" data-uid="smvnkxd7se1qq">
+    <section id="features" class="st st-features-bento" data-uid="smvrrymfjwxyi">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services</p>
@@ -95,7 +95,7 @@ const agencyLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvnkxd7s7ls2">
+    <section id="results" class="st st-stats-counters" data-uid="smvrrymfkqa3c">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Results</p>
@@ -126,7 +126,7 @@ const agencyLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="customers" class="st st-case-study-showcase" data-uid="smvnkxd7s460o">
+    <section id="customers" class="st st-case-study-showcase" data-uid="smvrrymfk3ywv">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Selected work</p>
@@ -172,7 +172,56 @@ const agencyLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="team" class="st st-team-carousel" data-uid="smvnkxd7sv4ve">
+    <section id="showcase" class="st st-scroll-ring" data-uid="smvrrymfk14na">
+      <div class="st-wrap rg-head">
+        <p class="st-eyebrow" data-anim="item">More work</p>
+        <h2 class="st-h2" data-anim="item" data-anim-text>A few more <span class="hl">projects we love</span></h2>
+        <p class="st-lead" data-anim="item">Brand, web and product work for founders and growing teams. Click any project to see the story.</p>
+      </div>
+      <div class="rg-row" data-style="arc" data-tilt="on" data-reflect="on" data-details="below" data-cta="Read the story" data-ring role="region" aria-roledescription="carousel" aria-label="Featured cards">
+        <a class="rg-card" href="#results">
+          <img class="rg-img" width="1200" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/hero-dashboard.png" alt="A data product dashboard designed by Northstar">
+          <span class="rg-body">
+            <span class="rg-tag">Product</span>
+            <span class="rg-title">Lumen Analytics</span>
+            <span class="rg-text">A new brand, site and product tour for a data company.</span>
+          </span>
+        </a>
+        <a class="rg-card" href="#results">
+          <img class="rg-img" width="1200" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/tpl-product.jpg" alt="An audio brand product page">
+          <span class="rg-body">
+            <span class="rg-tag">E-commerce</span>
+            <span class="rg-title">Sona Audio</span>
+            <span class="rg-text">A launch campaign that sold out in nine days.</span>
+          </span>
+        </a>
+        <a class="rg-card" href="#results">
+          <img class="rg-img" width="1200" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/tpl-hotel.jpg" alt="A boutique hotel website at dusk">
+          <span class="rg-body">
+            <span class="rg-tag">Hospitality</span>
+            <span class="rg-title">Casa Mar</span>
+            <span class="rg-text">A booking-first website for a small coastal hotel.</span>
+          </span>
+        </a>
+        <a class="rg-card" href="#results">
+          <img class="rg-img" width="1200" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/tpl-podcast.jpg" alt="A podcast studio with two microphones">
+          <span class="rg-body">
+            <span class="rg-tag">Brand</span>
+            <span class="rg-title">Off the Record</span>
+            <span class="rg-text">Identity, site and artwork for a weekly show.</span>
+          </span>
+        </a>
+        <a class="rg-card" href="#results">
+          <img class="rg-img" width="1200" height="900" loading="lazy" src="https://webdevpuneet.com/images/section-templates/tpl-event.jpg" alt="A conference stage with spotlights">
+          <span class="rg-body">
+            <span class="rg-tag">Event</span>
+            <span class="rg-title">Futurelab Summit</span>
+            <span class="rg-text">Branding and a ticketing site for a two-day event.</span>
+          </span>
+        </a>
+      </div>
+    </section>
+    <section id="team" class="st st-team-carousel" data-uid="smvrrymfkwdme">
       <div class="st-wrap">
         <div class="tc2-top">
           <header class="st-head st-head--left tc2-head">
@@ -231,7 +280,7 @@ const agencyLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers-2" class="st st-testimonial-spotlight" data-uid="smvnkxd7sfgxr">
+    <section id="customers-2" class="st st-testimonial-spotlight" data-uid="smvrrymfk01j5">
       <div class="st-wrap">
         <figure class="ts-card">
           <span class="ts-mark" aria-hidden="true">“</span>
@@ -250,7 +299,7 @@ const agencyLandingPageTemplate = {
         </figure>
       </div>
     </section>
-    <section id="blog" class="st st-blog-list" data-uid="smvnkxd7s7m2o">
+    <section id="blog" class="st st-blog-list" data-uid="smvrrymfk3vj0">
       <div class="st-wrap">
         <div class="bl-top">
           <header class="st-head st-head--left bl-head">
@@ -299,7 +348,7 @@ const agencyLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section class="st st-floating-social-share" data-uid="smvnkxd7swy4v">
+    <section class="st st-floating-social-share" data-uid="smvrrymfkx18z">
       <div class="ss" data-ss data-side="left" data-align="center" style="--ss-top:50%" data-mobile="bar" data-look="network" data-shape="attached" data-size="default" data-tips="on" data-start="open" data-copied="Link copied">
         <div class="ss-panel" role="group" aria-label="Share this page">
           <ul class="ss-list"><li class="ss-item"><a class="ss-btn" data-net="linkedin" data-share="https://www.linkedin.com/sharing/share-offsite/?url={url}" href="https://www.linkedin.com/sharing/share-offsite/" target="_blank" rel="noopener noreferrer" style="--c:#0A66C2" aria-label="Share on LinkedIn (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span class="ss-tip" aria-hidden="true">LinkedIn</span></a></li><li class="ss-item"><a class="ss-btn" data-net="x" data-share="https://x.com/intent/post?url={url}&amp;text={title}&amp;via={via}&amp;hashtags={tags}" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer" style="--c:#111111" aria-label="Share on X (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="ss-tip" aria-hidden="true">X</span></a></li><li class="ss-item"><a class="ss-btn" data-net="facebook" data-share="https://www.facebook.com/sharer/sharer.php?u={url}" href="https://www.facebook.com/sharer/sharer.php" target="_blank" rel="noopener noreferrer" style="--c:#1877F2" aria-label="Share on Facebook (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="ss-tip" aria-hidden="true">Facebook</span></a></li><li class="ss-item"><a class="ss-btn" data-net="email" data-share="mailto:?subject={title}&amp;body={text}" href="mailto:" style="--c:#6B7280" aria-label="Share on Email"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.970 5.700a1.940 1.940 0 0 1-2.060 0L2 7"/></svg><span class="ss-tip" aria-hidden="true">Email</span></a></li><li class="ss-item"><button type="button" class="ss-btn" data-net="copy" style="--c:#0F7B3F" aria-label="Copy link"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="13" height="13" x="8" y="8" rx="2.500"/><path d="M16 8V6.500A2.500 2.500 0 0 0 13.500 4h-7A2.500 2.500 0 0 0 4 6.500v7A2.500 2.500 0 0 0 6.500 16H8"/></svg><svg class="ss-ic ss-ic--done" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="ss-tip" aria-hidden="true">Copy link</span></button></li><li class="ss-item ss-item--hide"><button type="button" class="ss-hide" data-ss-hide aria-expanded="true" aria-label="Hide share buttons"><svg class="ss-ic ss-ic--hide" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></button></li></ul>
@@ -308,7 +357,7 @@ const agencyLandingPageTemplate = {
         <span class="ss-live" role="status" aria-live="polite"></span>
       </div>
     </section>
-    <section id="contact" class="st st-footer-giant" data-uid="smvnkxd7t176m">
+    <section id="contact" class="st st-footer-giant" data-uid="smvrrymfknth2">
       <footer class="fgi">
         <div class="st-wrap">
           <div class="fgi-cta">
@@ -473,6 +522,53 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .cs-link{color:var(--st-brand);font-weight:700;text-decoration:none}
 .cs-link:hover{text-decoration:underline}
 @container st (max-width:860px){.cs-card{grid-template-columns:1fr}.cs-card:nth-child(even) .cs-media{order:0}.cs-media{min-height:0;aspect-ratio:16/10}}
+/* 3D Scroll Carousel */
+.st-scroll-ring{padding:clamp(64px,8cqi,112px) 0;overflow:hidden;background:radial-gradient(ellipse 70% 55% at 50% 72%,color-mix(in srgb,var(--st-brand) 20%,var(--st-bg)),var(--st-bg) 72%)}
+.rg-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;margin-bottom:clamp(28px,4cqi,52px)}
+.rg-head .st-lead{max-width:34em}
+.rg-row{display:flex;gap:clamp(16px,2cqi,28px);overflow-x:auto;scroll-snap-type:x mandatory;--rg-in:max(var(--st-pad),calc((100% - var(--st-max) * 1px) / 2 + var(--st-pad)));padding:18px var(--rg-in) 28px;scroll-padding-inline:var(--rg-in);scrollbar-width:none}
+.rg-row::-webkit-scrollbar{display:none}
+.rg-card{flex:none;width:clamp(240px,72cqi,320px);scroll-snap-align:start;display:flex;flex-direction:column;overflow:hidden;color:inherit;text-decoration:none;border-radius:calc(var(--st-radius) * 1px);background:var(--st-surface);border:1px solid color-mix(in srgb,var(--st-brand) 35%,transparent);box-shadow:0 0 32px -6px color-mix(in srgb,var(--st-brand) 45%,transparent)}
+.rg-img{width:100%;aspect-ratio:4/3;object-fit:cover;background:color-mix(in srgb,var(--st-text) 8%,transparent);-webkit-user-drag:none;user-select:none}
+.rg-body{display:flex;flex-direction:column;gap:6px;padding:16px 18px 20px}
+.rg-tag{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--st-brand)}
+.rg-title{font:700 clamp(18px,.7cqi + 14px,21px)/1.25 var(--st-font-heading)}
+.rg-text{color:var(--st-muted);font-size:15px;line-height:1.5}
+.rg-card:focus-visible{outline:3px solid var(--st-brand);outline-offset:4px}
+.st-scroll-ring.is-ring .rg-img{aspect-ratio:3/2}
+.st-scroll-ring.is-ring .rg-row{position:relative;display:block;overflow:visible;scroll-snap-type:none;padding:0;height:clamp(330px,64cqi,420px);perspective:1500px;perspective-origin:50% 40%;touch-action:pan-y;cursor:grab}
+.st-scroll-ring.is-ring .rg-row.is-drag{cursor:grabbing}
+.st-scroll-ring.is-ring .rg-card{position:absolute;left:50%;top:50%;width:clamp(210px,62cqi,320px);will-change:transform,opacity;backface-visibility:hidden;transition:box-shadow .4s}
+.st-scroll-ring.is-ring .rg-card.is-active{border-color:var(--st-brand);box-shadow:0 0 0 1px var(--st-brand),0 0 70px -4px color-mix(in srgb,var(--st-brand) 65%,transparent)}
+.st-scroll-ring.is-pin{padding-block:clamp(24px,4vh,56px);min-height:calc(100vh - var(--rg-head,0px));box-sizing:border-box;display:flex;flex-direction:column;justify-content:center}
+.st-scroll-ring.is-pin .rg-head{margin-bottom:clamp(8px,2vh,28px);gap:8px}
+.st-scroll-ring.is-pin .rg-row{height:clamp(300px,calc(100vh - var(--rg-head,0px) - 420px),540px)}
+.st-scroll-ring.is-pin .rg-card{width:clamp(220px,calc((100vh - var(--rg-head,0px) - 420px) * .85),340px)}
+.st-scroll-ring.is-ring .rg-row::after{content:"";position:absolute;left:50%;bottom:-4px;width:min(820px,84%);height:90px;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 50%,color-mix(in srgb,var(--st-brand) 50%,transparent),transparent 70%);filter:blur(16px);pointer-events:none;z-index:0}
+.st-scroll-ring.rg-reflect .rg-card{-webkit-box-reflect:below 4px linear-gradient(transparent 80%,rgba(255,255,255,.16))}
+.st-scroll-ring.rg-reflect .rg-nav{margin-top:clamp(36px,6vh,56px)}
+.st-scroll-ring.rg-below .rg-body{display:none}
+.st-scroll-ring.rg-below .rg-img{aspect-ratio:16/10}
+.st-scroll-ring.rg-below .rg-row{height:clamp(240px,48cqi,340px)}
+.st-scroll-ring.rg-below.is-pin .rg-row{height:clamp(220px,calc(100vh - var(--rg-head,0px) - 600px),420px)}
+.st-scroll-ring.rg-below.is-pin .rg-card{width:clamp(200px,calc((100vh - var(--rg-head,0px) - 600px) * 1.5),400px)}
+.rg-cap{position:relative;z-index:200;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;max-width:34em;margin:clamp(24px,5vh,44px) auto 0;padding:0 24px}
+.st-scroll-ring.rg-below .rg-cap{margin-top:clamp(4px,1.5vh,14px)}
+.st-scroll-ring.rg-below.rg-reflect .rg-cap{margin-top:clamp(10px,2.5vh,24px)}
+.rg-cap-tag{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--st-brand)}
+.rg-cap-title{font:700 clamp(22px,1.2cqi + 15px,30px)/1.2 var(--st-font-heading)}
+.rg-cap-text{color:var(--st-muted);font-size:16px;line-height:1.5}
+.rg-cap-btn{margin-top:8px;display:inline-flex;align-items:center;padding:10px 22px;border-radius:999px;background:var(--st-brand);color:var(--st-brandText);font-weight:700;font-size:15px;text-decoration:none}
+.rg-cap-btn:focus-visible{outline:3px solid var(--st-text);outline-offset:3px}
+.rg-nav{position:relative;z-index:200;display:flex;align-items:center;justify-content:center;gap:14px;margin-top:clamp(16px,2.5cqi,28px)}
+.rg-arrow{width:44px;height:44px;border-radius:50%;border:1px solid color-mix(in srgb,var(--st-brand) 55%,transparent);background:transparent;color:var(--st-text);font-size:18px;line-height:1;cursor:pointer;transition:background .2s,color .2s}
+.rg-arrow:hover{background:var(--st-brand);color:var(--st-brandText)}
+.rg-arrow:focus-visible,.rg-dot:focus-visible{outline:3px solid var(--st-brand);outline-offset:3px}
+.rg-dots{display:flex;gap:8px}
+.rg-dot{width:10px;height:10px;padding:0;border-radius:50%;border:0;background:color-mix(in srgb,var(--st-text) 28%,transparent);cursor:pointer;transition:background .2s,transform .2s}
+.rg-dot[aria-current="true"]{background:var(--st-brand);transform:scale(1.35)}
+.rg-progress{position:relative;z-index:200;width:min(180px,40%);height:3px;margin:14px auto 0;border-radius:3px;overflow:hidden;background:color-mix(in srgb,var(--st-text) 16%,transparent)}
+.rg-progress i{display:block;height:100%;transform-origin:0 50%;background:var(--st-brand)}
 /* Team Carousel */
 .st-team-carousel{padding:clamp(64px,8cqi,112px) 0}
 .tc2-top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:clamp(28px,3.4cqi,44px)}
@@ -750,6 +846,218 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   });
 })();
 (function () {
+  var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!G || reduce) return;
+  if (window.ScrollTrigger) G.registerPlugin(ScrollTrigger);
+  var still = window.ST_STILL && !window.ST_SCROLL_FX;
+  var hover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
+
+  function build(row, pinned) {
+    var sec = row.closest('.st');
+    var cards = Array.prototype.slice.call(row.children).filter(function (c) { return c.classList.contains('rg-card'); });
+    var n = cards.length;
+    if (n < 3) return null;
+    var style = row.getAttribute('data-style') || 'ring';
+    var tiltOn = hover && row.getAttribute('data-tilt') !== 'off';
+    var reflect = row.getAttribute('data-reflect') !== 'off';
+    var below = row.getAttribute('data-details') === 'below';
+    var ctaText = row.getAttribute('data-cta') || 'View details';
+    var imgs = cards.map(function (c) { return c.querySelector('.rg-img'); });
+    var step = Math.min(48, 360 / n), rad = Math.PI / 180, R = 300, W = 300, active = -1, st = null;
+    var obj = { pos: pinned ? 0 : Math.floor((n - 1) / 2) }; // free mode: a middle card in front, cards on both sides
+    var T = { nx: 0, ny: 0 };
+    sec.classList.add('is-ring');
+    sec.classList.toggle('is-pin', pinned);
+    sec.classList.toggle('rg-reflect', reflect);
+    sec.classList.toggle('rg-below', below);
+
+    var nav = document.createElement('div');
+    nav.className = 'rg-nav';
+    var prev = document.createElement('button'), next = document.createElement('button'), dots = document.createElement('div');
+    prev.type = next.type = 'button';
+    prev.className = next.className = 'rg-arrow';
+    prev.textContent = String.fromCharCode(8592); next.textContent = String.fromCharCode(8594);
+    prev.setAttribute('aria-label', 'Previous card'); next.setAttribute('aria-label', 'Next card');
+    dots.className = 'rg-dots';
+    var dotEls = cards.map(function (c, i) {
+      var d = document.createElement('button');
+      d.type = 'button'; d.className = 'rg-dot'; d.setAttribute('aria-label', 'Show card ' + (i + 1) + ' of ' + n);
+      d.addEventListener('click', function () { go(i); });
+      dots.appendChild(d);
+      return d;
+    });
+    nav.appendChild(prev); nav.appendChild(dots); nav.appendChild(next);
+    var bar = document.createElement('div');
+    bar.className = 'rg-progress'; bar.setAttribute('aria-hidden', 'true');
+    var fill = document.createElement('i');
+    bar.appendChild(fill);
+    var extra = [nav, bar], cap = null, capTag, capTitle, capText, capBtn;
+    if (below) {
+      cap = document.createElement('div');
+      cap.className = 'rg-cap';
+      cap.setAttribute('aria-live', 'polite');
+      capTag = document.createElement('span'); capTag.className = 'rg-cap-tag';
+      capTitle = document.createElement('span'); capTitle.className = 'rg-cap-title';
+      capText = document.createElement('span'); capText.className = 'rg-cap-text';
+      capBtn = document.createElement('a'); capBtn.className = 'rg-cap-btn';
+      cap.appendChild(capTag); cap.appendChild(capTitle); cap.appendChild(capText); cap.appendChild(capBtn);
+      extra.unshift(cap);
+    }
+    var anchor = row;
+    extra.forEach(function (el) { anchor.insertAdjacentElement('afterend', el); anchor = el; });
+
+    var go = function (i) {
+      i = clamp(i, 0, n - 1);
+      if (pinned) { if (st) window.scrollTo({ top: st.start + (i / (n - 1)) * (st.end - st.start), behavior: 'smooth' }); }
+      else G.to(obj, { pos: i, duration: 0.6, ease: 'power2.inOut', overwrite: true, onUpdate: render });
+    };
+    prev.addEventListener('click', function () { go(Math.max(0, active) - 1); });
+    next.addEventListener('click', function () { go(Math.max(0, active) + 1); });
+    var onClick = [], onFocus = [];
+    if (!still) cards.forEach(function (c, i) {
+      var click = function (e) { if (i !== active) { e.preventDefault(); go(i); } };
+      var focus = function () { if (i !== active) go(i); };
+      c.addEventListener('click', click); c.addEventListener('focus', focus);
+      onClick.push(click); onFocus.push(focus);
+    });
+
+    var measure = function () {
+      W = cards[0].offsetWidth || 300;
+      R = (W * 1.1) / (2 * Math.sin(step * rad / 2));
+    };
+    // Where a card sits when it is "off" places from the front (negative = left)
+    var place = function (off) {
+      var abs = Math.abs(off), sg = off < 0 ? -1 : 1, c = Math.min(abs, 1), p;
+      if (style === 'coverflow') {
+        p = { x: sg * (c * W * 0.62 + Math.max(0, abs - 1) * W * 0.3), y: 0, z: -c * W * 0.55 - Math.max(0, abs - 1) * W * 0.12, ry: sg * c * 52, rz: 0, o: 1 - Math.max(0, abs - 1.1) * 0.5, s: 1 - Math.min(abs, 2) * 0.05 };
+      } else if (style === 'stack') {
+        if (off >= 0) p = { x: off * W * 0.13, y: -off * 12, z: -off * W * 0.35, ry: -Math.min(off, 3) * 5, rz: 0, o: 1 - off * 0.24, s: 1 - off * 0.04 };
+        else p = { x: off * W * 0.7, y: 0, z: 0, ry: off * 40, rz: off * 4, o: 1 + off * 1.3, s: 1 };
+      } else if (style === 'arc') {
+        p = { x: off * W * 0.95, y: off * off * W * 0.07, z: -off * off * W * 0.2, ry: off * 22, rz: off * 2.5, o: 1 - Math.max(0, abs - 1.2) * 0.6, s: 1 - Math.min(abs, 2) * 0.04 };
+      } else {
+        var a = off * step, aa = Math.abs(a);
+        p = { x: Math.sin(a * rad) * R, y: 0, z: Math.cos(a * rad) * R - R, ry: a, rz: 0, o: 1 - Math.max(0, aa - 30) / 75, s: 1 - Math.min(aa, 90) / 450 };
+      }
+      p.abs = abs;
+      return p;
+    };
+    var showCaption = function (c) {
+      var t = function (sel) { var e = c.querySelector(sel); return e ? e.textContent : ''; };
+      capTag.textContent = t('.rg-tag'); capTitle.textContent = t('.rg-title'); capText.textContent = t('.rg-text');
+      capBtn.textContent = ctaText; capBtn.setAttribute('href', c.getAttribute('href') || '#');
+      capBtn.setAttribute('aria-label', ctaText + ': ' + t('.rg-title'));
+      G.fromTo(cap.children, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.45, stagger: 0.05, ease: 'power3.out', overwrite: true });
+    };
+    var render = function () {
+      var pos = obj.pos, near = Math.round(pos);
+      cards.forEach(function (c, i) {
+        var p = place(i - pos), w = Math.max(0, 1 - p.abs * 1.6);
+        var o = clamp(p.o, 0, 1);
+        G.set(c, {
+          xPercent: -50, yPercent: reflect ? -58 : -50,
+          x: p.x, y: p.y, z: p.z,
+          rotationY: p.ry + (tiltOn ? T.nx * 9 * w : 0), rotationX: tiltOn ? T.ny * -7 * w : 0, rotationZ: p.rz,
+          scale: p.s,
+          autoAlpha: o < 0.04 ? 0 : o,
+          filter: p.abs < 0.17 ? 'none' : 'blur(' + Math.min(3, p.abs * 2 - 0.3).toFixed(2) + 'px)',
+          zIndex: 100 - Math.round(p.abs * 10)
+        });
+        if (tiltOn && imgs[i]) G.set(imgs[i], { x: -T.nx * 10 * w, y: -T.ny * 7 * w, scale: 1 + 0.06 * w });
+      });
+      G.set(fill, { scaleX: n > 1 ? clamp(pos / (n - 1), 0, 1) : 1 });
+      if (near !== active) {
+        active = near;
+        cards.forEach(function (c, i) { c.classList.toggle('is-active', i === near); });
+        dotEls.forEach(function (d, i) { if (i === near) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+        if (cap) showCaption(cards[near]);
+      }
+    };
+
+    // Mouse tilt
+    var onMove, onLeave;
+    if (tiltOn) {
+      var aim = function (nx, ny) { G.to(T, { nx: nx, ny: ny, duration: 0.6, ease: 'power3.out', overwrite: 'auto', onUpdate: render }); };
+      onMove = function (e) { var r = row.getBoundingClientRect(); aim(clamp((e.clientX - r.left - r.width / 2) / (r.width / 2), -1, 1), clamp((e.clientY - r.top - r.height / 2) / (r.height / 2), -1, 1)); };
+      onLeave = function () { aim(0, 0); };
+      sec.addEventListener('pointermove', onMove); sec.addEventListener('pointerleave', onLeave);
+    }
+
+    // Drag or swipe: free mode follows the finger and settles on a card; pinned mode moves one card per swipe
+    var drag = null, suppress = false;
+    var onDown = function (e) { if (e.button > 0) return; drag = { x: e.clientX, y: e.clientY, pos: obj.pos, on: false }; };
+    var onDrag = function (e) {
+      if (!drag) return;
+      var dx = e.clientX - drag.x;
+      if (!drag.on) {
+        if (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(e.clientY - drag.y)) return;
+        drag.on = true;
+        try { row.setPointerCapture(e.pointerId); } catch (err) { /* not supported */ }
+        row.classList.add('is-drag');
+        if (!pinned) G.killTweensOf(obj);
+      }
+      if (!pinned) { obj.pos = clamp(drag.pos - dx / (W * 0.6), 0, n - 1); render(); }
+    };
+    var onUp = function (e) {
+      var d = drag; drag = null;
+      if (!d || !d.on) return;
+      row.classList.remove('is-drag');
+      suppress = true; setTimeout(function () { suppress = false; }, 60);
+      var dx = e.clientX - d.x;
+      if (pinned) { if (Math.abs(dx) > 50) go(Math.max(0, active) + (dx < 0 ? 1 : -1)); return; }
+      var target = Math.round(d.pos - dx / (W * 0.6));
+      if (target === Math.round(d.pos) && Math.abs(dx) > 40) target += dx < 0 ? 1 : -1;
+      go(target);
+    };
+    var onSwallow = function (e) { if (suppress) { e.preventDefault(); e.stopPropagation(); } };
+    row.addEventListener('pointerdown', onDown); row.addEventListener('pointermove', onDrag);
+    row.addEventListener('pointerup', onUp); row.addEventListener('pointercancel', onUp);
+    row.addEventListener('click', onSwallow, true);
+
+    var cleanup = function () {
+      if (onMove) { sec.removeEventListener('pointermove', onMove); sec.removeEventListener('pointerleave', onLeave); }
+      row.removeEventListener('pointerdown', onDown); row.removeEventListener('pointermove', onDrag);
+      row.removeEventListener('pointerup', onUp); row.removeEventListener('pointercancel', onUp);
+      row.removeEventListener('click', onSwallow, true);
+      G.killTweensOf(T); G.killTweensOf(obj);
+      cards.forEach(function (c, i) { c.removeEventListener('click', onClick[i]); c.removeEventListener('focus', onFocus[i]); c.classList.remove('is-active'); G.set(c, { clearProps: 'all' }); if (imgs[i]) G.set(imgs[i], { clearProps: 'all' }); });
+      extra.forEach(function (el) { el.remove(); });
+      row.classList.remove('is-drag');
+      sec.style.removeProperty('--rg-head');
+      sec.classList.remove('is-ring', 'is-pin', 'rg-reflect', 'rg-below');
+    };
+    // A sticky header stays on screen, so the section pins just below it and is that much shorter
+    var head = function () { var h = 0; document.querySelectorAll('.st').forEach(function (m) { if (m !== sec && m.querySelector('[data-sticky-flag]')) h = Math.max(h, m.offsetHeight); }); return h; };
+    var setHead = function () { sec.style.setProperty('--rg-head', (pinned ? head() : 0) + 'px'); };
+    setHead(); measure(); render();
+    if (!pinned) return cleanup;
+
+    var tw = G.to(obj, {
+      pos: n - 1, ease: 'none', onUpdate: render,
+      scrollTrigger: {
+        trigger: sec, start: function () { return 'top ' + head(); }, end: function () { return '+=' + Math.round((n - 1) * window.innerHeight * 0.55); },
+        pin: true, scrub: 0.5, anticipatePin: 1, invalidateOnRefresh: true,
+        snap: { snapTo: 1 / (n - 1), inertia: false, duration: { min: 0.2, max: 0.6 }, delay: 0.08, ease: 'power2.inOut' },
+        onRefresh: function () { setHead(); measure(); render(); }
+      }
+    });
+    st = tw.scrollTrigger;
+    return function () { st.kill(); tw.kill(); cleanup(); };
+  }
+
+  var mm = G.matchMedia();
+  var run = function (pinned) {
+    return function () {
+      var made = [];
+      document.querySelectorAll('.st [data-ring]').forEach(function (row) { var c = build(row, pinned); if (c) made.push(c); });
+      return function () { made.forEach(function (f) { f(); }); };
+    };
+  };
+  mm.add('(min-width: 900px)', run(!still && !!window.ScrollTrigger));
+  mm.add('(max-width: 899px)', run(false));
+})();
+(function () {
   var G = window.gsap;
   if (G && window.Draggable) G.registerPlugin(Draggable);
   if (G && window.InertiaPlugin) G.registerPlugin(InertiaPlugin);
@@ -947,7 +1255,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
   seo: {
     "title": "Creative Agency Website HTML Template — Free Snippet",
     "description": "A dark creative agency website in HTML, CSS and JS: glowing hero, bento services, counting stats, team carousel, case study and a giant wordmark footer.",
-    "subtitle": "Creative Agency Website template · 10 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
+    "subtitle": "Creative Agency Website template · 11 website sections · Plain HTML, CSS & JS · Customise it in the Website Builder",
     "startTemplate": {
       "id": "agency",
       "name": "Creative Agency Website",
@@ -986,6 +1294,12 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "role": "one featured client story with the problem, the work and the result, more persuasive than ten thumbnails"
       },
       {
+        "id": "scroll-ring",
+        "name": "3D Scroll Carousel",
+        "url": "/website-section-templates/scroll-ring/",
+        "role": "a coverflow-style carousel of more projects, so visitors can keep browsing work after the featured case study without leaving the page"
+      },
+      {
         "id": "team-carousel",
         "name": "Team Carousel",
         "url": "/website-section-templates/team-carousel/",
@@ -1021,7 +1335,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       "description": "Agency sites fail in one of two ways: they look like every other agency, or they say nothing a buyer can check. This layout sidesteps both by pairing confident visuals with evidence. The centred hero sets the tone, the bento grid explains the services without a wall of text, the animated counters turn \"we are experienced\" into numbers, and the case study shows one real piece of work end to end, which persuades a prospect more than a gallery of ten thumbnails.\n\nThe people matter too. A draggable team carousel puts faces to the studio, and the editorial journal shows how the team thinks, which is what a buyer is really hiring. The footer ends with a giant wordmark and a single line, \"Let's talk\", so the last thing a visitor sees is the action you want.\n\nReplace the sample studio with yours and keep the proportions: one hero, one case study, real numbers. It is the layout of the [Creative Agency Website template](/website-builder/templates/agency/); open it in the [Website Builder](/website-builder/) to add the Services, Work, About and Contact pages that share one navbar and theme, then export."
     },
     "features": [
-      "10 ready-made website sections assembled into one finished creative agency website page: Floating Pill Navbar, Centred Gradient Hero, Bento Grid Features, Animated Stats Counters, Case Study Showcase, Team Carousel, Testimonial Spotlight, Editorial Post List, Floating Social Share Bar, Big Wordmark Footer",
+      "11 ready-made website sections assembled into one finished creative agency website page: Floating Pill Navbar, Centred Gradient Hero, Bento Grid Features, Animated Stats Counters, Case Study Showcase, 3D Scroll Carousel, Team Carousel, Testimonial Spotlight, Editorial Post List, Floating Social Share Bar, Big Wordmark Footer",
       "Every section links to its own page in the Website Section Templates library, where you can edit it on its own",
       "One theme drives the whole page (colours, fonts, corner radius, width), so changing the brand takes a minute",
       "Container-query responsive: each section adapts to the width it is placed in, from phone to desktop",
@@ -1086,7 +1400,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       },
       {
         "q": "Which website sections is this landing page built from?",
-        "a": "It is assembled from 10 templates in the free Website Section Templates library: Floating Pill Navbar, Centred Gradient Hero, Bento Grid Features, Animated Stats Counters, Case Study Showcase, Team Carousel, Testimonial Spotlight, Editorial Post List, Floating Social Share Bar, Big Wordmark Footer. Each one has its own page where you can edit it separately."
+        "a": "It is assembled from 11 templates in the free Website Section Templates library: Floating Pill Navbar, Centred Gradient Hero, Bento Grid Features, Animated Stats Counters, Case Study Showcase, 3D Scroll Carousel, Team Carousel, Testimonial Spotlight, Editorial Post List, Floating Social Share Bar, Big Wordmark Footer. Each one has its own page where you can edit it separately."
       },
       {
         "q": "How is this snippet different from the template in the Website Builder?",

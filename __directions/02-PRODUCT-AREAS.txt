@@ -14,7 +14,8 @@ Hire Me, and the next ideas. The advisor updates the "Next ideas" lists as work 
             React, Vue, Next.js site, Fork to My Code.
    Bar      Real industry copy, every page title 50-60 and description 150-160, one h1 per page,
             images with alt text, no broken links, demo exported and uploaded, images captured.
-   AI       Template pages carry an AI prompt; users can paste a template's section into AI to restyle it.
+   AI       Each template page has a "Build with AI" prompt generated from its own sections, colours,
+            fonts and pages (SectionTemplates/templates/ai-prompts.js).
    Hire Me  Highest-intent area: "Want this live this week? I build it from this template."
    Next     - Industries still missing: music school/teacher, venue/label, SaaS docs, e-commerce
               catalogue, medical clinic, accountant, architect, travel agency, food truck, barber.

@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
+import { emailAiPrompt } from '@/components/EmailTemplates/templates/ai-prompts.js';
 import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import { EmailTemplateEditor, EmailShot } from '@/components/EmailTemplates';
 import { EMAIL_TEMPLATES, emailTemplateById, emailCategoryById, relatedEmailTemplates } from '@/components/EmailTemplates/templates/index.js';
@@ -71,6 +72,7 @@ export default async function EmailTemplatePage({ params }) {
     { q: `Is the ${t.name} template free for commercial use?`, a: 'Yes. It is free for personal and commercial email, with no sign-up and no watermark. Everything runs in your browser, and your edits are saved locally.' },
   ];
 
+  const emailAi = emailAiPrompt(t);
   const sections = [
     { type: 'features', label: "What's included", heading: 'Features', items: seo.features },
     {
@@ -88,6 +90,7 @@ export default async function EmailTemplatePage({ params }) {
         </div>
       ),
     },
+    { type: 'aiPrompt', label: 'Build with AI', heading: 'Build, Understand, Optimize, and Extend It With AI', paragraph: emailAi.paragraph, prompt: emailAi.prompt },
     { type: 'cards', label: 'Why use it', heading: `Why Use the ${t.name} Template`, columns: 3, items: seo.why },
     { type: 'cards', label: 'How it’s different', heading: 'How It’s Different From Other Free Email Templates', columns: 3, items: EMAIL_DIFFERENT },
     {

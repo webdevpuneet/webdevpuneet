@@ -3,7 +3,7 @@
 const productStoreLandingPageTemplate = {
   id: 'product-store-landing-page-template',
   title: 'Product Landing Page Store Template',
-  lastmod: '2026-10-25',
+  lastmod: '2026-10-28',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -13,7 +13,7 @@ const productStoreLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-announcement" data-uid="smvnkxde8qssb">
+    <section class="st st-navbar-announcement" data-uid="smvrrymki5hbw">
       <div class="na-bar" data-dismissable>
         <p class="st-wrap na-bar-in"><span>Free shipping and 30-day returns on every order</span> <a class="na-bar-link" href="#faq"><span>Learn more</span> <span aria-hidden="true">→</span></a></p>
         <button type="button" class="na-close" data-dismiss aria-label="Dismiss announcement"><span aria-hidden="true">×</span></button>
@@ -42,7 +42,7 @@ const productStoreLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-app-product-hero" data-uid="smvnkxde80qbg">
+    <section class="st st-app-product-hero" data-uid="smvrrymki4att">
       <div class="ap st-wrap">
         <div class="ap-copy">
           <span class="st-eyebrow" data-anim="item">Sona One · wireless headphones</span>
@@ -62,7 +62,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-alternating" data-uid="smvnkxde8v12u">
+    <section id="features" class="st st-features-alternating" data-uid="smvrrymkiwoj4">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Features</p>
@@ -100,7 +100,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-video-section" data-uid="smvnkxde8dw82">
+    <section id="gallery" class="st st-video-section" data-uid="smvrrymkiuj35">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">See it in action</p>
@@ -130,7 +130,7 @@ const productStoreLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvnkxde8klc9">
+    <section id="results" class="st st-stats-counters" data-uid="smvrrymki1drl">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Why people switch</p>
@@ -161,7 +161,7 @@ const productStoreLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvnkxde8dfb7">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvrrymki9g6e">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Reviews</p>
@@ -196,7 +196,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-product-grid" data-uid="smvnkxde8qd0w">
+    <section class="st st-product-grid" data-uid="smvrrymkioz6q">
       <div class="st-wrap">
         <div class="pg-top">
           <header class="st-head st-head--left pg-head">
@@ -260,7 +260,7 @@ const productStoreLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvnkxde8b7w5">
+    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvrrymkiuub4">
       <div class="st-wrap ps">
         <div class="ps-copy">
           <header class="st-head st-head--left ps-head">
@@ -289,7 +289,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvnkxde8gg4l">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvrrymkifvsa">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -317,7 +317,7 @@ const productStoreLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still unsure?</span> <a href="mailto:hello@webdevpuneet.com"><span>Chat with us</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvnkxde8bp5l">
+    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvrrymkijrvq">
       <div class="st-wrap">
         <div class="cb" data-spotlight data-anim="media">
           <h2 class="st-h2 cb-title" data-anim="item" data-anim-text>Hear the difference <span class="hl">today</span></h2>
@@ -330,7 +330,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvnkxde8f7qk">
+    <section class="st st-popup-modal" data-uid="smvrrymki8d9z">
       <div class="pu" data-pu data-trigger="exit" data-delay="8" data-scroll="50" data-days="7" data-pos="center" data-layout="left" data-autoplay="0" data-pu-id="qbkxs8">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -356,7 +356,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvnkxde81r7x">
+    <section class="st st-footer-columns" data-uid="smvrrymkijixr">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -1058,7 +1058,8 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         timer = setInterval(function () { var d = root.querySelector('.pu-dialog'); if (!paused && d && !d.hidden && !document.hidden) go(idx() + 1); }, secs * 1000);
       }
     });
-    if (inline) {
+    var btnMode = !!window.ST_POPUP_BUTTON; // Website Builder preview: a floating button opens the popup instead of showing it inline
+    if (inline && !btnMode) {
       root.classList.add('is-preview');
       dlg.hidden = false;
       if (back) back.hidden = true;
@@ -1072,11 +1073,12 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     var KEY = 'pu-' + (root.getAttribute('data-pu-id') || 'x');
     try {
       var seen = parseInt(localStorage.getItem(KEY), 10);
-      if (days > 0 && seen && Date.now() - seen < days * 86400000) return;
+      if (!btnMode && days > 0 && seen && Date.now() - seen < days * 86400000) return;
     } catch (e) {}
     var modal = (root.getAttribute('data-pos') || 'center') === 'center'; // only the centre popup dims the page and traps focus
     dlg.setAttribute('aria-modal', modal ? 'true' : 'false');
-    var shown = false, last = null, undo = [];
+    var shown = false, last = null, undo = [], quiet = btnMode; // in the builder preview the popup never pulls focus out of the side panel
+    var setOpenFlag = function (v) { if (!btnMode) return; try { if (v) window.parent.__wbPuOpen = KEY; else if (window.parent.__wbPuOpen === KEY) window.parent.__wbPuOpen = ''; } catch (e) {} };
     var focusables = function () { return Array.prototype.filter.call(dlg.querySelectorAll('a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])'), function (el) { return el.offsetParent !== null; }); };
     var onKey = function (e) {
       if (e.key === 'Escape') { e.preventDefault(); hide(); return; }
@@ -1096,15 +1098,17 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       if (back) back.hidden = false;
       void dlg.offsetWidth;
       root.classList.add('is-open');
-      if (modal) {
+      setOpenFlag(true);
+      if (modal && !quiet) {
         var f = focusables();
         var target = dlg.querySelector('input') || f[1] || f[0] || dlg;
         try { target.focus({ preventScroll: true }); } catch (e) {}
       }
       document.addEventListener('keydown', onKey);
-      try { if (days > 0) localStorage.setItem(KEY, String(Date.now())); } catch (e) {}
+      try { if (days > 0 && !btnMode) localStorage.setItem(KEY, String(Date.now())); } catch (e) {}
     }
     function hide() {
+      setOpenFlag(false);
       root.classList.remove('is-open');
       root.querySelectorAll('.vs-embed').forEach(function (v) { var box = v.parentNode; v.remove(); if (box) box.classList.remove('is-playing'); });
       document.removeEventListener('keydown', onKey);
@@ -1114,6 +1118,19 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     root.querySelectorAll('[data-pu-close]').forEach(function (b) { b.addEventListener('click', hide); });
     var on = function (target, ev, fn, opts) { target.addEventListener(ev, fn, opts); undo.push(function () { target.removeEventListener(ev, fn, opts); }); };
     var started = Date.now();
+    if (btnMode) {
+      // The popup follows its own trigger (delay, exit intent, scroll) exactly like the published page; a floating
+      // button also opens and closes it on demand, and it stays open across preview reloads while it is being edited
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'wb-pu-btn';
+      btn.textContent = 'Popup preview';
+      btn.setAttribute('aria-label', 'Open the popup');
+      btn.style.cssText = 'position:fixed;left:16px;bottom:' + (16 + document.querySelectorAll('.wb-pu-btn').length * 48) + 'px;z-index:999;padding:0 16px;height:38px;border:0;border-radius:999px;background:#4f46e5;color:#fff;font:700 13px/1 system-ui,sans-serif;box-shadow:0 8px 22px rgba(15,23,42,.35);cursor:pointer';
+      btn.addEventListener('click', function () { if (root.classList.contains('is-open')) hide(); else { shown = false; show(); } });
+      document.body.appendChild(btn);
+      try { if (window.parent.__wbPuOpen === KEY) show(); } catch (e) {}
+    }
     if (trigger === 'scroll') {
       var check = function () {
         var h = document.documentElement.scrollHeight - window.innerHeight;

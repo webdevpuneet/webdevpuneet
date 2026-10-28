@@ -3,7 +3,7 @@
 const podcastLandingPageTemplate = {
   id: 'podcast-landing-page-template',
   title: 'Podcast Website Template',
-  lastmod: '2026-10-25',
+  lastmod: '2026-10-28',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -11,7 +11,7 @@ const podcastLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvnkxddwcsw0">
+    <section class="st st-navbar-simple" data-uid="smvrrymk89y7t">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" /></svg></span><span>Off the Record</span></span>
@@ -31,7 +31,7 @@ const podcastLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvnkxddw3v6n">
+    <section class="st st-image-background-hero" data-uid="smvrrymk8dgve">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-podcast.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -51,7 +51,7 @@ const podcastLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="blog" class="st st-blog-list" data-uid="smvnkxddwlaoz">
+    <section id="blog" class="st st-blog-list" data-uid="smvrrymk8fjtx">
       <div class="st-wrap">
         <div class="bl-top">
           <header class="st-head st-head--left bl-head">
@@ -91,7 +91,7 @@ const podcastLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="gallery" class="st st-video-section" data-uid="smvnkxddws5m0">
+    <section id="gallery" class="st st-video-section" data-uid="smvrrymk85fnb">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Watch</p>
@@ -121,7 +121,7 @@ const podcastLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvnkxddw9qn5">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvrrymk87r0u">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Listen anywhere</p>
@@ -156,7 +156,7 @@ const podcastLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvnkxddwlxyz">
+    <section id="team" class="st st-team-grid" data-uid="smvrrymk8uezl">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Your hosts</p>
@@ -191,7 +191,7 @@ const podcastLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-marquee" data-uid="smvnkxddwpkzo">
+    <section id="customers" class="st st-testimonials-marquee" data-uid="smvrrymk81rbo">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Listener reviews</p>
@@ -274,7 +274,7 @@ const podcastLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-newsletter" data-uid="smvnkxddwj6en">
+    <section id="get-started" class="st st-cta-newsletter" data-uid="smvrrymk84brb">
       <div class="st-wrap">
         <div class="cn" data-anim="media">
           <span class="st-icon cn-icon" data-anim="item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span>
@@ -288,7 +288,7 @@ const podcastLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvnkxddw5cqf">
+    <section class="st st-popup-modal" data-uid="smvrrymk8higx">
       <div class="pu" data-pu data-trigger="scroll" data-delay="8" data-scroll="60" data-days="7" data-pos="bottom-right" data-layout="left" data-autoplay="0" data-pu-id="1cn8zbs">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -314,7 +314,7 @@ const podcastLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-floating-social-share" data-uid="smvnkxddwk41d">
+    <section class="st st-floating-social-share" data-uid="smvrrymk8ywj3">
       <div class="ss" data-ss data-side="right" data-align="center" style="--ss-top:50%" data-mobile="bar" data-look="network" data-shape="attached" data-size="default" data-tips="on" data-start="open" data-copied="Link copied">
         <div class="ss-panel" role="group" aria-label="Share this page">
           <ul class="ss-list"><li class="ss-item"><a class="ss-btn" data-net="x" data-share="https://x.com/intent/post?url={url}&amp;text={title}&amp;via={via}&amp;hashtags={tags}" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer" style="--c:#111111" aria-label="Share on X (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="ss-tip" aria-hidden="true">X</span></a></li><li class="ss-item"><a class="ss-btn" data-net="whatsapp" data-share="https://wa.me/?text={text}" href="https://wa.me/" target="_blank" rel="noopener noreferrer" style="--c:#128C7E" aria-label="Share on WhatsApp (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.7-5.1A9 9 0 1 1 8.1 19.3z"/><path d="M9 8.5c0 3.300 2.700 6 6 6l1.300-1.500-2.200-1.100-.9.900c-.9-.4-1.700-1.200-2.100-2.100l.9-.9-1.100-2.200z"/></svg><span class="ss-tip" aria-hidden="true">WhatsApp</span></a></li><li class="ss-item"><a class="ss-btn" data-net="reddit" data-share="https://www.reddit.com/submit?url={url}&amp;title={title}" href="https://www.reddit.com/submit" target="_blank" rel="noopener noreferrer" style="--c:#E03D00" aria-label="Share on Reddit (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="14" rx="8" ry="5.500"/><circle cx="4.500" cy="11.200" r="1.600"/><circle cx="19.500" cy="11.200" r="1.600"/><circle cx="9" cy="13.500" r="1" fill="currentColor"/><circle cx="15" cy="13.500" r="1" fill="currentColor"/><path d="M9.500 16.500c1.500 1 3.500 1 5 0"/><path d="M12 8.500 13.200 3l4.300 1"/><circle cx="18.500" cy="4.500" r="1.500"/></svg><span class="ss-tip" aria-hidden="true">Reddit</span></a></li><li class="ss-item"><a class="ss-btn" data-net="email" data-share="mailto:?subject={title}&amp;body={text}" href="mailto:" style="--c:#6B7280" aria-label="Share on Email"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.970 5.700a1.940 1.940 0 0 1-2.060 0L2 7"/></svg><span class="ss-tip" aria-hidden="true">Email</span></a></li><li class="ss-item"><button type="button" class="ss-btn" data-net="copy" style="--c:#0F7B3F" aria-label="Copy link"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="13" height="13" x="8" y="8" rx="2.500"/><path d="M16 8V6.500A2.500 2.500 0 0 0 13.500 4h-7A2.500 2.500 0 0 0 4 6.500v7A2.500 2.500 0 0 0 6.500 16H8"/></svg><svg class="ss-ic ss-ic--done" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="ss-tip" aria-hidden="true">Copy link</span></button></li><li class="ss-item ss-item--hide"><button type="button" class="ss-hide" data-ss-hide aria-expanded="true" aria-label="Hide share buttons"><svg class="ss-ic ss-ic--hide" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></button></li></ul>
@@ -323,7 +323,7 @@ const podcastLandingPageTemplate = {
         <span class="ss-live" role="status" aria-live="polite"></span>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvnkxddxfth4">
+    <section class="st st-footer-minimal" data-uid="smvrrymk8tzv4">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -951,7 +951,8 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         timer = setInterval(function () { var d = root.querySelector('.pu-dialog'); if (!paused && d && !d.hidden && !document.hidden) go(idx() + 1); }, secs * 1000);
       }
     });
-    if (inline) {
+    var btnMode = !!window.ST_POPUP_BUTTON; // Website Builder preview: a floating button opens the popup instead of showing it inline
+    if (inline && !btnMode) {
       root.classList.add('is-preview');
       dlg.hidden = false;
       if (back) back.hidden = true;
@@ -965,11 +966,12 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     var KEY = 'pu-' + (root.getAttribute('data-pu-id') || 'x');
     try {
       var seen = parseInt(localStorage.getItem(KEY), 10);
-      if (days > 0 && seen && Date.now() - seen < days * 86400000) return;
+      if (!btnMode && days > 0 && seen && Date.now() - seen < days * 86400000) return;
     } catch (e) {}
     var modal = (root.getAttribute('data-pos') || 'center') === 'center'; // only the centre popup dims the page and traps focus
     dlg.setAttribute('aria-modal', modal ? 'true' : 'false');
-    var shown = false, last = null, undo = [];
+    var shown = false, last = null, undo = [], quiet = btnMode; // in the builder preview the popup never pulls focus out of the side panel
+    var setOpenFlag = function (v) { if (!btnMode) return; try { if (v) window.parent.__wbPuOpen = KEY; else if (window.parent.__wbPuOpen === KEY) window.parent.__wbPuOpen = ''; } catch (e) {} };
     var focusables = function () { return Array.prototype.filter.call(dlg.querySelectorAll('a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])'), function (el) { return el.offsetParent !== null; }); };
     var onKey = function (e) {
       if (e.key === 'Escape') { e.preventDefault(); hide(); return; }
@@ -989,15 +991,17 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       if (back) back.hidden = false;
       void dlg.offsetWidth;
       root.classList.add('is-open');
-      if (modal) {
+      setOpenFlag(true);
+      if (modal && !quiet) {
         var f = focusables();
         var target = dlg.querySelector('input') || f[1] || f[0] || dlg;
         try { target.focus({ preventScroll: true }); } catch (e) {}
       }
       document.addEventListener('keydown', onKey);
-      try { if (days > 0) localStorage.setItem(KEY, String(Date.now())); } catch (e) {}
+      try { if (days > 0 && !btnMode) localStorage.setItem(KEY, String(Date.now())); } catch (e) {}
     }
     function hide() {
+      setOpenFlag(false);
       root.classList.remove('is-open');
       root.querySelectorAll('.vs-embed').forEach(function (v) { var box = v.parentNode; v.remove(); if (box) box.classList.remove('is-playing'); });
       document.removeEventListener('keydown', onKey);
@@ -1007,6 +1011,19 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     root.querySelectorAll('[data-pu-close]').forEach(function (b) { b.addEventListener('click', hide); });
     var on = function (target, ev, fn, opts) { target.addEventListener(ev, fn, opts); undo.push(function () { target.removeEventListener(ev, fn, opts); }); };
     var started = Date.now();
+    if (btnMode) {
+      // The popup follows its own trigger (delay, exit intent, scroll) exactly like the published page; a floating
+      // button also opens and closes it on demand, and it stays open across preview reloads while it is being edited
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'wb-pu-btn';
+      btn.textContent = 'Popup preview';
+      btn.setAttribute('aria-label', 'Open the popup');
+      btn.style.cssText = 'position:fixed;left:16px;bottom:' + (16 + document.querySelectorAll('.wb-pu-btn').length * 48) + 'px;z-index:999;padding:0 16px;height:38px;border:0;border-radius:999px;background:#4f46e5;color:#fff;font:700 13px/1 system-ui,sans-serif;box-shadow:0 8px 22px rgba(15,23,42,.35);cursor:pointer';
+      btn.addEventListener('click', function () { if (root.classList.contains('is-open')) hide(); else { shown = false; show(); } });
+      document.body.appendChild(btn);
+      try { if (window.parent.__wbPuOpen === KEY) show(); } catch (e) {}
+    }
     if (trigger === 'scroll') {
       var check = function () {
         var h = document.documentElement.scrollHeight - window.innerHeight;

@@ -2152,6 +2152,7 @@ import podcastLandingPageTemplate from './snippets/podcast-landing-page-template
 import productStoreLandingPageTemplate from './snippets/product-store-landing-page-template.js';
 import schoolLandingPageTemplate from './snippets/school-landing-page-template.js';
 import churchLandingPageTemplate from './snippets/church-landing-page-template.js';
+import musicLandingPageTemplate from './snippets/music-landing-page-template.js';
 export const SNIPPETS = [
   cubeCarousel,
   verticalStorySlider,
@@ -4276,6 +4277,7 @@ export const SNIPPETS = [
   productStoreLandingPageTemplate,
   schoolLandingPageTemplate,
   churchLandingPageTemplate,
+  musicLandingPageTemplate,
 ];
 
 // Snippets visible in production listings/sitemaps — noindex/test snippets only show on localhost

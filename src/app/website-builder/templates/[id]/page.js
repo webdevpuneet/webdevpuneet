@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
+import { websiteAiPrompt } from '@/components/SectionTemplates/templates/ai-prompts.js';
 import PlaygroundTopAd from '@/components/PlaygroundTopAd';
 import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import { WEBSITE_TEMPLATES, websiteTemplateById } from '@/components/SectionTemplates/templates/starters.js';
@@ -75,6 +76,7 @@ export default async function WebsiteTemplatePage({ params }) {
     { q: 'Can I download the template as HTML?', a: multi ? `Yes. As one page you get a ZIP with index.html and an assets folder. As a ${pages.length}-page website you get one HTML file per page (${pages.map(pg => pg.file).join(', ')}), a shared styles.css and script.js, and an assets folder with your images, then upload it to any web host. Links between pages also work when you open the files from your computer.` : 'Yes. Download a ZIP with index.html and an assets folder with your images, then upload it to any web host.' },
   ];
 
+  const ai = websiteAiPrompt(t, { theme, fontNames: fonts, pages });
   const SECTIONS = [
     ...(multi ? [{ type: 'features', label: 'Multi-page version', heading: `Pages in the ${pages.length}-Page ${t.name} Template`, items: pages.map(pg => `${pg.name} (${pg.file}): ${pg.n} sections${pg.file === 'index.html' ? ', the home page' : ''}`) }] : []),
     { type: 'features', label: "What's included", heading: `Sections in the ${t.name} Template`, items: parts.map(p => `${p.name}: ${p.description.split('. ')[0].replace(/\.$/, '')}`) },
@@ -90,6 +92,7 @@ ${multi ? `Use it as one scrolling page, or as a ${pages.length}-page website ($
 The template ships with a ${fonts[0]} and ${fonts[1]} font pairing and a colour theme suited to ${nameLower} websites; switch to any Google Font, upload your own, or apply your brand kit in one click.`,
     },
     ...(seo?.about ? [{ type: 'text', label: 'Make it yours', heading: `How to Get the Most From the ${t.name} Template`, quickFacts: false, boxed: true, text: seo.about }] : []),
+    { type: 'aiPrompt', label: 'Build with AI', heading: 'Build, Understand, Optimize, and Extend It With AI', paragraph: ai.paragraph, prompt: ai.prompt },
     ...(seo?.checklist ? [{ type: 'features', label: 'Checklist', heading: `What a ${nameLower} Website Needs`, items: seo.checklist }] : []),
     { type: 'cards', label: 'Who it’s for', heading: 'Best For', columns: 3, items: t.bestFor.map((b, i) => ({ icon: ['★', '◆', '●'][i % 3], title: b, desc: `A ready-made starting point for ${b.toLowerCase()}, with real copy you can adapt in minutes.` })) },
     {

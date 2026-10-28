@@ -3,7 +3,7 @@
 const eventLandingPageTemplate = {
   id: 'event-landing-page-template',
   title: 'Event & Conference Website Template',
-  lastmod: '2026-10-25',
+  lastmod: '2026-10-28',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -15,7 +15,7 @@ const eventLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-announcement" data-uid="smvnkxdbtb2e7">
+    <section class="st st-navbar-announcement" data-uid="smvrrymio782v">
       <div class="na-bar" data-dismissable>
         <p class="st-wrap na-bar-in"><span>🎟️ Early-bird tickets end 30 September</span> <a class="na-bar-link" href="#pricing"><span>Save 40%</span> <span aria-hidden="true">→</span></a></p>
         <button type="button" class="na-close" data-dismiss aria-label="Dismiss announcement"><span aria-hidden="true">×</span></button>
@@ -44,7 +44,7 @@ const eventLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvnkxdbu3pkn">
+    <section class="st st-image-background-hero" data-uid="smvrrymioev11">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-event.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -64,7 +64,7 @@ const eventLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-alternating" data-uid="smvnkxdbu5njs">
+    <section id="features" class="st st-features-alternating" data-uid="smvrrymio68z8">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Schedule</p>
@@ -93,7 +93,7 @@ const eventLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="team" class="st st-team-carousel" data-uid="smvnkxdbubav3">
+    <section id="team" class="st st-team-carousel" data-uid="smvrrymiobv2w">
       <div class="st-wrap">
         <div class="tc2-top">
           <header class="st-head st-head--left tc2-head">
@@ -152,7 +152,7 @@ const eventLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvnkxdbu84mt">
+    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvrrymio9wvs">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Tickets</p>
@@ -195,7 +195,7 @@ const eventLandingPageTemplate = {
         <p class="p3-note" data-anim="item">All prices exclude VAT. Tickets are transferable.</p>
       </div>
     </section>
-    <section class="st st-logo-cloud" data-uid="smvnkxdbuocia">
+    <section class="st st-logo-cloud" data-uid="smvrrymiouh6s">
       <div class="st-wrap">
         <p class="lc-title" data-anim="item">Proudly supported by <span class="hl">our sponsors</span></p>
       </div>
@@ -228,7 +228,7 @@ const eventLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvnkxdbu5rvt">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvrrymio2jng">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -256,7 +256,7 @@ const eventLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvnkxdbuh10g">
+    <section class="st st-popup-modal" data-uid="smvrrymioirer">
       <div class="pu" data-pu data-trigger="delay" data-delay="10" data-scroll="50" data-days="7" data-pos="bottom-right" data-layout="left" data-autoplay="0" data-pu-id="qfowe4">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -276,7 +276,7 @@ const eventLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-floating-social-share" data-uid="smvnkxdbufhqg">
+    <section class="st st-floating-social-share" data-uid="smvrrymiodpkp">
       <div class="ss" data-ss data-side="left" data-align="center" style="--ss-top:50%" data-mobile="bar" data-look="network" data-shape="attached" data-size="default" data-tips="on" data-start="open" data-copied="Link copied">
         <div class="ss-panel" role="group" aria-label="Share this page">
           <ul class="ss-list"><li class="ss-item"><a class="ss-btn" data-net="x" data-share="https://x.com/intent/post?url={url}&amp;text={title}&amp;via={via}&amp;hashtags={tags}" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer" style="--c:#111111" aria-label="Share on X (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="ss-tip" aria-hidden="true">X</span></a></li><li class="ss-item"><a class="ss-btn" data-net="linkedin" data-share="https://www.linkedin.com/sharing/share-offsite/?url={url}" href="https://www.linkedin.com/sharing/share-offsite/" target="_blank" rel="noopener noreferrer" style="--c:#0A66C2" aria-label="Share on LinkedIn (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span class="ss-tip" aria-hidden="true">LinkedIn</span></a></li><li class="ss-item"><a class="ss-btn" data-net="whatsapp" data-share="https://wa.me/?text={text}" href="https://wa.me/" target="_blank" rel="noopener noreferrer" style="--c:#128C7E" aria-label="Share on WhatsApp (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.7-5.1A9 9 0 1 1 8.1 19.3z"/><path d="M9 8.5c0 3.300 2.700 6 6 6l1.300-1.500-2.200-1.100-.9.900c-.9-.4-1.700-1.200-2.100-2.100l.9-.9-1.100-2.200z"/></svg><span class="ss-tip" aria-hidden="true">WhatsApp</span></a></li><li class="ss-item"><a class="ss-btn" data-net="facebook" data-share="https://www.facebook.com/sharer/sharer.php?u={url}" href="https://www.facebook.com/sharer/sharer.php" target="_blank" rel="noopener noreferrer" style="--c:#1877F2" aria-label="Share on Facebook (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="ss-tip" aria-hidden="true">Facebook</span></a></li><li class="ss-item"><button type="button" class="ss-btn" data-net="copy" style="--c:#0F7B3F" aria-label="Copy link"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="13" height="13" x="8" y="8" rx="2.500"/><path d="M16 8V6.500A2.500 2.500 0 0 0 13.500 4h-7A2.500 2.500 0 0 0 4 6.500v7A2.500 2.500 0 0 0 6.500 16H8"/></svg><svg class="ss-ic ss-ic--done" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="ss-tip" aria-hidden="true">Copy link</span></button></li><li class="ss-item ss-item--hide"><button type="button" class="ss-hide" data-ss-hide aria-expanded="true" aria-label="Hide share buttons"><svg class="ss-ic ss-ic--hide" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></button></li></ul>
@@ -285,7 +285,7 @@ const eventLandingPageTemplate = {
         <span class="ss-live" role="status" aria-live="polite"></span>
       </div>
     </section>
-    <section id="contact" class="st st-footer-giant" data-uid="smvnkxdbu9p13">
+    <section id="contact" class="st st-footer-giant" data-uid="smvrrymio471k">
       <footer class="fgi">
         <div class="st-wrap">
           <div class="fgi-cta">
@@ -975,7 +975,8 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         timer = setInterval(function () { var d = root.querySelector('.pu-dialog'); if (!paused && d && !d.hidden && !document.hidden) go(idx() + 1); }, secs * 1000);
       }
     });
-    if (inline) {
+    var btnMode = !!window.ST_POPUP_BUTTON; // Website Builder preview: a floating button opens the popup instead of showing it inline
+    if (inline && !btnMode) {
       root.classList.add('is-preview');
       dlg.hidden = false;
       if (back) back.hidden = true;
@@ -989,11 +990,12 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     var KEY = 'pu-' + (root.getAttribute('data-pu-id') || 'x');
     try {
       var seen = parseInt(localStorage.getItem(KEY), 10);
-      if (days > 0 && seen && Date.now() - seen < days * 86400000) return;
+      if (!btnMode && days > 0 && seen && Date.now() - seen < days * 86400000) return;
     } catch (e) {}
     var modal = (root.getAttribute('data-pos') || 'center') === 'center'; // only the centre popup dims the page and traps focus
     dlg.setAttribute('aria-modal', modal ? 'true' : 'false');
-    var shown = false, last = null, undo = [];
+    var shown = false, last = null, undo = [], quiet = btnMode; // in the builder preview the popup never pulls focus out of the side panel
+    var setOpenFlag = function (v) { if (!btnMode) return; try { if (v) window.parent.__wbPuOpen = KEY; else if (window.parent.__wbPuOpen === KEY) window.parent.__wbPuOpen = ''; } catch (e) {} };
     var focusables = function () { return Array.prototype.filter.call(dlg.querySelectorAll('a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])'), function (el) { return el.offsetParent !== null; }); };
     var onKey = function (e) {
       if (e.key === 'Escape') { e.preventDefault(); hide(); return; }
@@ -1013,15 +1015,17 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       if (back) back.hidden = false;
       void dlg.offsetWidth;
       root.classList.add('is-open');
-      if (modal) {
+      setOpenFlag(true);
+      if (modal && !quiet) {
         var f = focusables();
         var target = dlg.querySelector('input') || f[1] || f[0] || dlg;
         try { target.focus({ preventScroll: true }); } catch (e) {}
       }
       document.addEventListener('keydown', onKey);
-      try { if (days > 0) localStorage.setItem(KEY, String(Date.now())); } catch (e) {}
+      try { if (days > 0 && !btnMode) localStorage.setItem(KEY, String(Date.now())); } catch (e) {}
     }
     function hide() {
+      setOpenFlag(false);
       root.classList.remove('is-open');
       root.querySelectorAll('.vs-embed').forEach(function (v) { var box = v.parentNode; v.remove(); if (box) box.classList.remove('is-playing'); });
       document.removeEventListener('keydown', onKey);
@@ -1031,6 +1035,19 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     root.querySelectorAll('[data-pu-close]').forEach(function (b) { b.addEventListener('click', hide); });
     var on = function (target, ev, fn, opts) { target.addEventListener(ev, fn, opts); undo.push(function () { target.removeEventListener(ev, fn, opts); }); };
     var started = Date.now();
+    if (btnMode) {
+      // The popup follows its own trigger (delay, exit intent, scroll) exactly like the published page; a floating
+      // button also opens and closes it on demand, and it stays open across preview reloads while it is being edited
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'wb-pu-btn';
+      btn.textContent = 'Popup preview';
+      btn.setAttribute('aria-label', 'Open the popup');
+      btn.style.cssText = 'position:fixed;left:16px;bottom:' + (16 + document.querySelectorAll('.wb-pu-btn').length * 48) + 'px;z-index:999;padding:0 16px;height:38px;border:0;border-radius:999px;background:#4f46e5;color:#fff;font:700 13px/1 system-ui,sans-serif;box-shadow:0 8px 22px rgba(15,23,42,.35);cursor:pointer';
+      btn.addEventListener('click', function () { if (root.classList.contains('is-open')) hide(); else { shown = false; show(); } });
+      document.body.appendChild(btn);
+      try { if (window.parent.__wbPuOpen === KEY) show(); } catch (e) {}
+    }
     if (trigger === 'scroll') {
       var check = function () {
         var h = document.documentElement.scrollHeight - window.innerHeight;

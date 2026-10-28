@@ -7,6 +7,7 @@ import styles from './styles.module.css';
 // with the hero title and search. "Email me" opens a small popover with the
 // address and a copy button instead of a mailto: link.
 const EMAIL = 'puneet438@gmail.com';
+const UPWORK = 'https://www.upwork.com/freelancers/~017de423dd2d0e2767';
 
 export default function ProfileHeroCard() {
   const [emailOpen, setEmailOpen] = useState(false);
@@ -49,8 +50,12 @@ export default function ProfileHeroCard() {
         </div>
         <span className={styles.available}><i aria-hidden="true" /> Open to freelance work</span>
       </div>
+      <p className={styles.tagline}><strong>Need it built for you?</strong> I make the templates on this site and take on client projects: Figma to HTML, React and WordPress.</p>
       <div className={styles.buttons}>
-        <a className={styles.primary} href="/puneet/">Hire Me</a>
+        <a className={styles.primary} href="/puneet/">Hire me</a>
+        <a className={styles.secondary} href={UPWORK} target="_blank" rel="noopener noreferrer">
+          <span className={styles.upDot} aria-hidden="true" /> Available on Upwork
+        </a>
         <div className={styles.emailWrap} ref={emailRef}>
           <button
             type="button"

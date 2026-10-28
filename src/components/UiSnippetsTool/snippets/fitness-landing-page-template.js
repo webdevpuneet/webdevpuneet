@@ -3,7 +3,7 @@
 const fitnessLandingPageTemplate = {
   id: 'fitness-landing-page-template',
   title: 'Gym & Fitness Website Template',
-  lastmod: '2026-10-25',
+  lastmod: '2026-10-28',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -12,7 +12,7 @@ const fitnessLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvnkxda1r27m">
+    <section class="st st-navbar-simple" data-uid="smvrrymh2nzot">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg></span><span>IRONHOUSE</span></span>
@@ -34,7 +34,7 @@ const fitnessLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvnkxda2wh49">
+    <section class="st st-image-background-hero" data-uid="smvrrymh2qzr0">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-fitness.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -54,7 +54,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvnkxda2n9kw">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvrrymh2ps2j">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Classes</p>
@@ -95,7 +95,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="timetable" class="st st-class-timetable" data-uid="smvnkxda23u0q">
+    <section id="timetable" class="st st-class-timetable" data-uid="smvrrymh2iyav">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Timetable</p>
@@ -159,7 +159,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvnkxda2frpu">
+    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvrrymh2rrv9">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Membership</p>
@@ -206,7 +206,7 @@ const fitnessLandingPageTemplate = {
         <p class="p3-note" data-anim="item">Students and NHS staff get 20% off. Prices include VAT.</p>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvnkxda2vy3e">
+    <section id="team" class="st st-team-grid" data-uid="smvrrymh2bh61">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Coaches</p>
@@ -257,7 +257,7 @@ const fitnessLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-marquee" data-uid="smvnkxda2lowv">
+    <section id="customers" class="st st-testimonials-marquee" data-uid="smvrrymh2szaz">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Members</p>
@@ -324,7 +324,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-before-after-slider" data-uid="smvnkxda27shf">
+    <section id="gallery" class="st st-before-after-slider" data-uid="smvrrymh28kr6">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Member progress</p>
@@ -347,7 +347,7 @@ const fitnessLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvnkxda22egs">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvrrymh2ppdb">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -375,7 +375,7 @@ const fitnessLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvnkxda2ugih">
+    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvrrymh2ueku">
       <div class="st-wrap">
         <div class="cb" data-spotlight data-anim="media">
           <h2 class="st-h2 cb-title" data-anim="item" data-anim-text>Your first week is <span class="hl">on us</span></h2>
@@ -388,7 +388,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvnkxda28t9q">
+    <section class="st st-popup-modal" data-uid="smvrrymh2hbtb">
       <div class="pu" data-pu data-trigger="scroll" data-delay="8" data-scroll="40" data-days="7" data-pos="center" data-layout="left" data-autoplay="0" data-pu-id="pewc8w">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -414,7 +414,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvnkxda2ln1g">
+    <section class="st st-footer-minimal" data-uid="smvrrymh2j69b">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -1055,7 +1055,8 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         timer = setInterval(function () { var d = root.querySelector('.pu-dialog'); if (!paused && d && !d.hidden && !document.hidden) go(idx() + 1); }, secs * 1000);
       }
     });
-    if (inline) {
+    var btnMode = !!window.ST_POPUP_BUTTON; // Website Builder preview: a floating button opens the popup instead of showing it inline
+    if (inline && !btnMode) {
       root.classList.add('is-preview');
       dlg.hidden = false;
       if (back) back.hidden = true;
@@ -1069,11 +1070,12 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     var KEY = 'pu-' + (root.getAttribute('data-pu-id') || 'x');
     try {
       var seen = parseInt(localStorage.getItem(KEY), 10);
-      if (days > 0 && seen && Date.now() - seen < days * 86400000) return;
+      if (!btnMode && days > 0 && seen && Date.now() - seen < days * 86400000) return;
     } catch (e) {}
     var modal = (root.getAttribute('data-pos') || 'center') === 'center'; // only the centre popup dims the page and traps focus
     dlg.setAttribute('aria-modal', modal ? 'true' : 'false');
-    var shown = false, last = null, undo = [];
+    var shown = false, last = null, undo = [], quiet = btnMode; // in the builder preview the popup never pulls focus out of the side panel
+    var setOpenFlag = function (v) { if (!btnMode) return; try { if (v) window.parent.__wbPuOpen = KEY; else if (window.parent.__wbPuOpen === KEY) window.parent.__wbPuOpen = ''; } catch (e) {} };
     var focusables = function () { return Array.prototype.filter.call(dlg.querySelectorAll('a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])'), function (el) { return el.offsetParent !== null; }); };
     var onKey = function (e) {
       if (e.key === 'Escape') { e.preventDefault(); hide(); return; }
@@ -1093,15 +1095,17 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
       if (back) back.hidden = false;
       void dlg.offsetWidth;
       root.classList.add('is-open');
-      if (modal) {
+      setOpenFlag(true);
+      if (modal && !quiet) {
         var f = focusables();
         var target = dlg.querySelector('input') || f[1] || f[0] || dlg;
         try { target.focus({ preventScroll: true }); } catch (e) {}
       }
       document.addEventListener('keydown', onKey);
-      try { if (days > 0) localStorage.setItem(KEY, String(Date.now())); } catch (e) {}
+      try { if (days > 0 && !btnMode) localStorage.setItem(KEY, String(Date.now())); } catch (e) {}
     }
     function hide() {
+      setOpenFlag(false);
       root.classList.remove('is-open');
       root.querySelectorAll('.vs-embed').forEach(function (v) { var box = v.parentNode; v.remove(); if (box) box.classList.remove('is-playing'); });
       document.removeEventListener('keydown', onKey);
@@ -1111,6 +1115,19 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
     root.querySelectorAll('[data-pu-close]').forEach(function (b) { b.addEventListener('click', hide); });
     var on = function (target, ev, fn, opts) { target.addEventListener(ev, fn, opts); undo.push(function () { target.removeEventListener(ev, fn, opts); }); };
     var started = Date.now();
+    if (btnMode) {
+      // The popup follows its own trigger (delay, exit intent, scroll) exactly like the published page; a floating
+      // button also opens and closes it on demand, and it stays open across preview reloads while it is being edited
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'wb-pu-btn';
+      btn.textContent = 'Popup preview';
+      btn.setAttribute('aria-label', 'Open the popup');
+      btn.style.cssText = 'position:fixed;left:16px;bottom:' + (16 + document.querySelectorAll('.wb-pu-btn').length * 48) + 'px;z-index:999;padding:0 16px;height:38px;border:0;border-radius:999px;background:#4f46e5;color:#fff;font:700 13px/1 system-ui,sans-serif;box-shadow:0 8px 22px rgba(15,23,42,.35);cursor:pointer';
+      btn.addEventListener('click', function () { if (root.classList.contains('is-open')) hide(); else { shown = false; show(); } });
+      document.body.appendChild(btn);
+      try { if (window.parent.__wbPuOpen === KEY) show(); } catch (e) {}
+    }
     if (trigger === 'scroll') {
       var check = function () {
         var h = document.documentElement.scrollHeight - window.innerHeight;

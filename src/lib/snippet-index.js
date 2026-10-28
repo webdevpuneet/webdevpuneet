@@ -2090,6 +2090,7 @@ export const SNIPPET_INDEX = [
   {"id":"product-store-landing-page-template","title":"Product Landing Page Store Template","category":"landing-pages"},
   {"id":"school-landing-page-template","title":"School Website Template","category":"landing-pages"},
   {"id":"church-landing-page-template","title":"Church Website Template","category":"landing-pages"},
+  {"id":"music-landing-page-template","title":"Music Artist & Band Website Template","category":"landing-pages"},
 ];
 
 // Mirrors VISIBLE_SNIPPETS in UiSnippetsTool/snippets.js: dev-only snippets

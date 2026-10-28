@@ -109,91 +109,6 @@
   });
 })();
 (function () {
-  var G = window.gsap;
-  if (G && window.Draggable) G.registerPlugin(Draggable);
-  if (G && window.InertiaPlugin) G.registerPlugin(InertiaPlugin);
-  if (G && window.ScrollToPlugin) G.registerPlugin(ScrollToPlugin);
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var fine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
-  document.querySelectorAll('.st').forEach(function (sec) {
-    var track = sec.querySelector('[data-carousel]');
-    if (!track) return;
-    var prev = sec.querySelector('[data-carousel-prev]');
-    var next = sec.querySelector('[data-carousel-next]');
-    var max = function () { return Math.max(0, track.scrollWidth - track.clientWidth); };
-    var points = function () {
-      var first = track.children[0];
-      if (!first) return [0];
-      return Array.prototype.map.call(track.children, function (c) { return Math.min(max(), c.offsetLeft - first.offsetLeft); });
-    };
-    var nearest = function (x) { return points().reduce(function (a, p) { return Math.abs(p - x) < Math.abs(a - x) ? p : a; }, 0); };
-    var update = function () {
-      var x = track.scrollLeft;
-      if (prev) prev.disabled = x <= 2;
-      if (next) next.disabled = x >= max() - 2;
-    };
-    var go = function (dir) {
-      var ps = points(), x = track.scrollLeft, target = x;
-      if (dir > 0) { for (var i = 0; i < ps.length; i++) if (ps[i] > x + 4) { target = ps[i]; break; } }
-      else { for (var j = ps.length - 1; j >= 0; j--) if (ps[j] < x - 4) { target = ps[j]; break; } }
-      if (G && window.ScrollToPlugin && !reduce) G.to(track, { scrollTo: { x: target }, duration: 0.6, ease: 'power3.out', onUpdate: update });
-      else track.scrollTo({ left: target, behavior: reduce ? 'auto' : 'smooth' });
-    };
-    if (prev) prev.addEventListener('click', function () { go(-1); });
-    if (next) next.addEventListener('click', function () { go(1); });
-    track.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    update();
-    // Mouse drag with momentum on desktop; touch keeps native scrolling and snap.
-    // An invisible proxy is dragged and its x is mapped onto the track's native scrollLeft,
-    // so the slides' markup and layout never change.
-    if (G && window.Draggable && fine) {
-      track.classList.add('is-draggable');
-      var proxy = document.createElement('div');
-      var start = 0;
-      var apply = function () { track.scrollLeft = start - this.x; update(); };
-      Draggable.create(proxy, {
-        type: 'x',
-        trigger: track,
-        inertia: !!window.InertiaPlugin && !reduce,
-        dragClickables: false,
-        onPress: function () { G.killTweensOf(track); start = track.scrollLeft; G.set(proxy, { x: 0 }); this.update(); },
-        onDrag: apply,
-        onThrowUpdate: apply,
-        snap: { x: function (v) { return start - nearest(Math.max(0, Math.min(max(), start - v))); } },
-        onRelease: function () { if (!this.tween) { G.to(track, { scrollTo: window.ScrollToPlugin ? { x: nearest(track.scrollLeft) } : undefined, duration: 0.4, ease: 'power3.out', onUpdate: update }); } }
-      });
-    }
-  });
-})();
-(function () {
-  var G = window.gsap;
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var fine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
-  if (!G || reduce || !fine) return;
-  document.querySelectorAll('.st').forEach(function (sec) {
-    var rows = sec.querySelectorAll('[data-preview]');
-    if (!rows.length) return;
-    var card = document.createElement('div');
-    card.className = 'st-hover-card';
-    card.setAttribute('aria-hidden', 'true');
-    sec.appendChild(card);
-    G.set(card, { xPercent: -50, yPercent: -50, scale: 0.6, opacity: 0 });
-    var x = G.quickTo(card, 'x', { duration: 0.45, ease: 'power3.out' });
-    var y = G.quickTo(card, 'y', { duration: 0.45, ease: 'power3.out' });
-    sec.addEventListener('pointermove', function (e) { var r = sec.getBoundingClientRect(); x(e.clientX - r.left); y(e.clientY - r.top); });
-    Array.prototype.forEach.call(rows, function (row) {
-      var img = row.querySelector('[data-preview-img]');
-      row.addEventListener('pointerenter', function () {
-        if (!img || !img.getAttribute('src')) return;
-        card.style.backgroundImage = 'url("' + img.getAttribute('src').replace(/"/g, '%22') + '")';
-        G.to(card, { opacity: 1, scale: 1, rotate: -4, duration: 0.35, ease: 'power3.out', overwrite: 'auto' });
-      });
-      row.addEventListener('pointerleave', function () { G.to(card, { opacity: 0, scale: 0.6, rotate: 0, duration: 0.3, ease: 'power2.in', overwrite: 'auto' }); });
-    });
-  });
-})();
-(function () {
   var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!G || reduce) return;
   if (window.ScrollTrigger) G.registerPlugin(ScrollTrigger);
@@ -404,6 +319,91 @@
   };
   mm.add('(min-width: 900px)', run(!still && !!window.ScrollTrigger));
   mm.add('(max-width: 899px)', run(false));
+})();
+(function () {
+  var G = window.gsap;
+  if (G && window.Draggable) G.registerPlugin(Draggable);
+  if (G && window.InertiaPlugin) G.registerPlugin(InertiaPlugin);
+  if (G && window.ScrollToPlugin) G.registerPlugin(ScrollToPlugin);
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+  document.querySelectorAll('.st').forEach(function (sec) {
+    var track = sec.querySelector('[data-carousel]');
+    if (!track) return;
+    var prev = sec.querySelector('[data-carousel-prev]');
+    var next = sec.querySelector('[data-carousel-next]');
+    var max = function () { return Math.max(0, track.scrollWidth - track.clientWidth); };
+    var points = function () {
+      var first = track.children[0];
+      if (!first) return [0];
+      return Array.prototype.map.call(track.children, function (c) { return Math.min(max(), c.offsetLeft - first.offsetLeft); });
+    };
+    var nearest = function (x) { return points().reduce(function (a, p) { return Math.abs(p - x) < Math.abs(a - x) ? p : a; }, 0); };
+    var update = function () {
+      var x = track.scrollLeft;
+      if (prev) prev.disabled = x <= 2;
+      if (next) next.disabled = x >= max() - 2;
+    };
+    var go = function (dir) {
+      var ps = points(), x = track.scrollLeft, target = x;
+      if (dir > 0) { for (var i = 0; i < ps.length; i++) if (ps[i] > x + 4) { target = ps[i]; break; } }
+      else { for (var j = ps.length - 1; j >= 0; j--) if (ps[j] < x - 4) { target = ps[j]; break; } }
+      if (G && window.ScrollToPlugin && !reduce) G.to(track, { scrollTo: { x: target }, duration: 0.6, ease: 'power3.out', onUpdate: update });
+      else track.scrollTo({ left: target, behavior: reduce ? 'auto' : 'smooth' });
+    };
+    if (prev) prev.addEventListener('click', function () { go(-1); });
+    if (next) next.addEventListener('click', function () { go(1); });
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+    // Mouse drag with momentum on desktop; touch keeps native scrolling and snap.
+    // An invisible proxy is dragged and its x is mapped onto the track's native scrollLeft,
+    // so the slides' markup and layout never change.
+    if (G && window.Draggable && fine) {
+      track.classList.add('is-draggable');
+      var proxy = document.createElement('div');
+      var start = 0;
+      var apply = function () { track.scrollLeft = start - this.x; update(); };
+      Draggable.create(proxy, {
+        type: 'x',
+        trigger: track,
+        inertia: !!window.InertiaPlugin && !reduce,
+        dragClickables: false,
+        onPress: function () { G.killTweensOf(track); start = track.scrollLeft; G.set(proxy, { x: 0 }); this.update(); },
+        onDrag: apply,
+        onThrowUpdate: apply,
+        snap: { x: function (v) { return start - nearest(Math.max(0, Math.min(max(), start - v))); } },
+        onRelease: function () { if (!this.tween) { G.to(track, { scrollTo: window.ScrollToPlugin ? { x: nearest(track.scrollLeft) } : undefined, duration: 0.4, ease: 'power3.out', onUpdate: update }); } }
+      });
+    }
+  });
+})();
+(function () {
+  var G = window.gsap;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+  if (!G || reduce || !fine) return;
+  document.querySelectorAll('.st').forEach(function (sec) {
+    var rows = sec.querySelectorAll('[data-preview]');
+    if (!rows.length) return;
+    var card = document.createElement('div');
+    card.className = 'st-hover-card';
+    card.setAttribute('aria-hidden', 'true');
+    sec.appendChild(card);
+    G.set(card, { xPercent: -50, yPercent: -50, scale: 0.6, opacity: 0 });
+    var x = G.quickTo(card, 'x', { duration: 0.45, ease: 'power3.out' });
+    var y = G.quickTo(card, 'y', { duration: 0.45, ease: 'power3.out' });
+    sec.addEventListener('pointermove', function (e) { var r = sec.getBoundingClientRect(); x(e.clientX - r.left); y(e.clientY - r.top); });
+    Array.prototype.forEach.call(rows, function (row) {
+      var img = row.querySelector('[data-preview-img]');
+      row.addEventListener('pointerenter', function () {
+        if (!img || !img.getAttribute('src')) return;
+        card.style.backgroundImage = 'url("' + img.getAttribute('src').replace(/"/g, '%22') + '")';
+        G.to(card, { opacity: 1, scale: 1, rotate: -4, duration: 0.35, ease: 'power3.out', overwrite: 'auto' });
+      });
+      row.addEventListener('pointerleave', function () { G.to(card, { opacity: 0, scale: 0.6, rotate: 0, duration: 0.3, ease: 'power2.in', overwrite: 'auto' }); });
+    });
+  });
 })();
 (function () {
   var editing = window.ST_STILL || window.ST_PREVIEW;

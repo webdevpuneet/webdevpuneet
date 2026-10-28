@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import SeoSection from '@/components/SeoSection';
 import IndexOnly from '@/components/SeoSection/IndexOnly';
 import AdSlot from '@/components/AdSlot';
+import { SOCIAL_EXTRA_PROMPTS } from '@/components/SocialPostTemplates/templates/ai-prompts-extra.js';
 import { TemplateEditor } from '@/components/SocialPostTemplates';
 import HomeTemplatesCarousel from '@/components/HomeTemplatesCarousel';
 import TemplateShot from '@/components/SocialPostTemplates/Shot';
@@ -77,6 +78,7 @@ export default async function SocialPostTemplatePage({ params }) {
 
   const emailMatches = emailsForSocial(t.id).map(id => EMAIL_TEMPLATES.find(x => x.id === id)).filter(Boolean);
 
+  const socialAi = seo.aiPrompt || SOCIAL_EXTRA_PROMPTS[t.id];
   const sections = [
     { type: 'features', label: "What's included", heading: 'Features', items: seo.features },
     {
@@ -94,6 +96,7 @@ export default async function SocialPostTemplatePage({ params }) {
         </div>
       ),
     },
+    ...(socialAi ? [{ type: 'aiPrompt', label: 'Build with AI', heading: 'Build, Understand, Optimize, and Extend It With AI', paragraph: socialAi.paragraph, prompt: socialAi.prompt }] : []),
     { type: 'cards', label: 'Why use it', heading: `Why Use the ${t.name} Template`, columns: 3, items: TEMPLATE_WHY[t.id] },
     { type: 'cards', label: 'How it’s different', heading: 'How It’s Different From Canva-Style Templates', columns: 3, items: TEMPLATE_DIFFERENT },
     {

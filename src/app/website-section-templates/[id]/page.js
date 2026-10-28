@@ -88,6 +88,7 @@ export default async function WebsiteSectionTemplatePage({ params }) {
         </div>
       ),
     },
+    ...(seo.aiPrompt ? [{ type: 'aiPrompt', label: 'Build with AI', heading: 'Build, Understand, Optimize, and Extend It With AI', paragraph: seo.aiPrompt.paragraph, prompt: seo.aiPrompt.prompt }] : []),
     { type: 'cards', label: 'Why use it', heading: `Why Use the ${t.name}`, columns: 3, items: seo.why },
     { type: 'cards', label: 'How it’s different', heading: 'How It’s Different From Other Free Section Templates', columns: 3, items: SECTION_DIFFERENT },
     {

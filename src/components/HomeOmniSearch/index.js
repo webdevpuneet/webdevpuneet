@@ -266,7 +266,11 @@ export default function HomeOmniSearch({ snippetsOnly = false }) {
                           className={`${styles.resultRow} ${highlight === idx ? styles.resultRowActive : ''}`}
                           onMouseEnter={() => setHighlight(idx)}
                         >
-                          <span className={styles.resultIcon}>{'</>'}</span>
+                          <span className={styles.resultThumb} aria-hidden="true">
+                            <span className={styles.resultThumbFallback}>{'</>'}</span>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={`/images/ui-snippets/previews/${s.id}.png`} alt="" loading="lazy" onError={e => { e.currentTarget.style.display = 'none'; }} />
+                          </span>
                           <span className={styles.resultBody}>
                             <span className={styles.resultTitle}>{s.title}</span>
                             <span className={styles.resultSub}>{s.category}</span>

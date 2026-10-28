@@ -1,6 +1,24 @@
 ADVISOR LOG (newest first)
 Format: date · area · suggested / chosen / done · note
 
+2026-10-28 · home · done · UI snippets section: the six category image cards replaced by a row of every snippet category
+           (with counts) and the Latest UI Snippets strip (60 newest, paged); hero is two columns at full width.
+2026-10-28 · home · done · Hero profile card (name, role, "Open to freelance work", Hire me -> /puneet/, Available on
+           Upwork, Email me); "Learn to Code Interactively" moved above "Where Do You Want to Start?".
+2026-10-28 · ui snippets · done · Landing-page snippets regenerated from the website templates: 13 were stale (popup
+           behaviour, art, carousel), new Music snippet (music-landing-page-template) with hand-written SEO text
+           (scripts/landing-page-content/batch-4.mjs); carousel roles added for SaaS/App/Agency/Portfolio; the
+           generator now keeps unchanged snippets byte-identical; indexes, tags and previews refreshed; snippet count
+           2087. Fixed: the carousel sat in the wrong place in SaaS, Agency and Portfolio (extras order).
+           Not deployed; the 4 re-exported demos are not uploaded yet.
+2026-10-28 · home · done · Home page repositioned: hero "Web design ideas you can see, edit and learn from", templates
+           first (primary button, hero numbers), new "Works with AI" strip, quiet "Need it built? Hire me" band
+           (/puneet/), new page title/description (56 / 155); Library is the default sidebar tab on home.
+           Found and fixed: section template pages were not showing their AI prompt (now they do).
+           Not deployed yet. To do: refresh home-og.jpg.
+2026-10-28 · ai · done · "Build with AI" prompts on website (24, generated from sections/theme/fonts/pages), email (27, generated
+           from purpose/subject/blocks/colours) and social (34: 30 existing now shown + 4 seasonal written)
+           template pages; home strip links all five page types. Not deployed.
 2026-10-28 · all · done · __directions is now the only copy: deleted the root blog/, ui-snippets-ideas/,
            TEMPLATES-ROADMAP.html, SUGGESTIONS.html, MIGRATION-LOG.md, DEVLOG.md, content-audit.md,
            usecases-audit.csv and MEMORY.md; comments, project notes and memory point here now.

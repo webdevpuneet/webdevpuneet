@@ -19,6 +19,8 @@ const names = list => list.map(name => ({ name }));
 
 export const STARTER_EXTRAS = {
   saas: [
+    { after: 'features-alternating', section: ['video-section', { fields: { eyebrow: 'Product tour', heading: 'See Acme in *two minutes*', lead: 'A quick walk through the roadmap, the task board and the weekly report, using a real team’s workspace.', poster: IMG('hero-dashboard.png'), posterAlt: 'The Acme workspace showing a roadmap and a task board', videoTitle: 'Acme product tour: roadmaps, tasks and reports', duration: '2:05', playLabel: 'Play the product tour' }, lists: { points: [{ title: 'One workspace', text: 'Roadmap, tasks and reports live together, so nothing is copied between tools.' }, { title: 'Ready in minutes', text: 'Import from a spreadsheet or another tool and invite your team the same day.' }, { title: 'Reports that write themselves', text: 'Every Friday a summary of what shipped and what slipped is ready to send.' }] } }] },
+    { after: 'pricing-three-tier', section: ['pricing-comparison', { fields: { eyebrow: 'Compare plans', heading: 'Everything in *every Acme plan*', lead: 'Compare what each plan includes, from projects and people to support and security.' } }] },
     { after: 'video-section', section: ring({ eyebrow: 'Product tour', heading: 'Every Acme screen, *one scroll away*', lead: 'Scroll to turn the carousel through the board, the thread, the rules and the weekly report. Click any card to bring it forward.', style: 'ring', details: 'cards' }, [
       rc('hero-dashboard.png', 'The Acme project dashboard with a bar chart and summary cards', 'Plan', 'A dashboard for the whole team', 'Roadmaps, sprints and owners in one clear view.', '#features'),
       rc('feature-collab.png', 'A task board with comments and assignees', 'Collaborate', 'Feedback where the work lives', 'Comment, mention and decide in the thread.', '#features'),
@@ -26,8 +28,6 @@ export const STARTER_EXTRAS = {
       rc('feature-analytics.png', 'A line chart showing weekly progress', 'Report', 'Progress you can share', 'Live charts replace the status spreadsheet.', '#features'),
       rc('hero-phone.png', 'The Acme mobile app on a phone', 'Mobile', 'Everything in your pocket', 'The full workspace on iOS and Android.', '#features'),
     ]) },
-    { after: 'features-alternating', section: ['video-section', { fields: { eyebrow: 'Product tour', heading: 'See Acme in *two minutes*', lead: 'A quick walk through the roadmap, the task board and the weekly report, using a real team’s workspace.', poster: IMG('hero-dashboard.png'), posterAlt: 'The Acme workspace showing a roadmap and a task board', videoTitle: 'Acme product tour: roadmaps, tasks and reports', duration: '2:05', playLabel: 'Play the product tour' }, lists: { points: [{ title: 'One workspace', text: 'Roadmap, tasks and reports live together, so nothing is copied between tools.' }, { title: 'Ready in minutes', text: 'Import from a spreadsheet or another tool and invite your team the same day.' }, { title: 'Reports that write themselves', text: 'Every Friday a summary of what shipped and what slipped is ready to send.' }] } }] },
-    { after: 'pricing-three-tier', section: ['pricing-comparison', { fields: { eyebrow: 'Compare plans', heading: 'Everything in *every Acme plan*', lead: 'Compare what each plan includes, from projects and people to support and security.' } }] },
   ],
 
   app: [
@@ -134,6 +134,10 @@ export const STARTER_EXTRAS = {
   ],
 
   agency: [
+    { after: 'stats-counters', section: ['case-study-showcase', { fields: { eyebrow: 'Selected work', heading: 'Work that *moved the numbers*', lead: 'Two recent projects, from the first workshop to the results.' }, lists: { cases: [
+      { image: IMG('hero-dashboard.png'), imageAlt: 'The new Lumen website and dashboard on a laptop', client: 'Lumen Analytics', tag: 'Brand · Website · Product', headline: 'A new brand and site that *doubled demo requests*', summary: 'We rebuilt the identity, the website and the product tour for a data company that was hard to explain in a sentence.', stat1: '+118%', label1: 'demo requests', stat2: '2.4×', label2: 'time on site', stat3: '9 wks', label3: 'from kick-off to launch', quote: 'Northstar made us look like the company we had become.', person: 'Priya Raman', role: 'Head of Growth, Lumen', linkText: 'Read the Lumen story', url: '#' },
+      { image: IMG('tpl-product.jpg'), imageAlt: 'The Sona Audio product page on a pale blue background', client: 'Sona Audio', tag: 'E-commerce · Campaign', headline: 'A launch campaign that *sold out in nine days*', summary: 'Positioning, photography and a one-page store for the first product from a new audio brand.', stat1: '9 days', label1: 'to sell out', stat2: '$1.2M', label2: 'first-year revenue', stat3: '', label3: '', quote: 'We had a waiting list before the first ad ran.', person: 'Daniel Okoye', role: 'Founder, Sona', linkText: 'Read the Sona story', url: '#' },
+    ] } }] },
     { after: 'case-study-showcase', section: ring({ eyebrow: 'More work', heading: 'A few more *projects we love*', lead: 'Brand, web and product work for founders and growing teams. Click any project to see the story.', style: 'arc', details: 'below', ctaLabel: 'Read the story' }, [
       rc('hero-dashboard.png', 'A data product dashboard designed by Northstar', 'Product', 'Lumen Analytics', 'A new brand, site and product tour for a data company.', '#results'),
       rc('tpl-product.jpg', 'An audio brand product page', 'E-commerce', 'Sona Audio', 'A launch campaign that sold out in nine days.', '#results'),
@@ -141,13 +145,13 @@ export const STARTER_EXTRAS = {
       rc('tpl-podcast.jpg', 'A podcast studio with two microphones', 'Brand', 'Off the Record', 'Identity, site and artwork for a weekly show.', '#results'),
       rc('tpl-event.jpg', 'A conference stage with spotlights', 'Event', 'Futurelab Summit', 'Branding and a ticketing site for a two-day event.', '#results'),
     ]) },
-    { after: 'stats-counters', section: ['case-study-showcase', { fields: { eyebrow: 'Selected work', heading: 'Work that *moved the numbers*', lead: 'Two recent projects, from the first workshop to the results.' }, lists: { cases: [
-      { image: IMG('hero-dashboard.png'), imageAlt: 'The new Lumen website and dashboard on a laptop', client: 'Lumen Analytics', tag: 'Brand · Website · Product', headline: 'A new brand and site that *doubled demo requests*', summary: 'We rebuilt the identity, the website and the product tour for a data company that was hard to explain in a sentence.', stat1: '+118%', label1: 'demo requests', stat2: '2.4×', label2: 'time on site', stat3: '9 wks', label3: 'from kick-off to launch', quote: 'Northstar made us look like the company we had become.', person: 'Priya Raman', role: 'Head of Growth, Lumen', linkText: 'Read the Lumen story', url: '#' },
-      { image: IMG('tpl-product.jpg'), imageAlt: 'The Sona Audio product page on a pale blue background', client: 'Sona Audio', tag: 'E-commerce · Campaign', headline: 'A launch campaign that *sold out in nine days*', summary: 'Positioning, photography and a one-page store for the first product from a new audio brand.', stat1: '9 days', label1: 'to sell out', stat2: '$1.2M', label2: 'first-year revenue', stat3: '', label3: '', quote: 'We had a waiting list before the first ad ran.', person: 'Daniel Okoye', role: 'Founder, Sona', linkText: 'Read the Sona story', url: '#' },
-    ] } }] },
   ],
 
   portfolio: [
+    { after: 'features-icon-grid', section: ['case-study-showcase', { fields: { eyebrow: 'Case studies', heading: 'Projects *and their results*', lead: 'Two recent projects with the numbers that mattered to the client.' }, lists: { cases: [
+      { image: IMG('hero-dashboard.png'), imageAlt: 'A redesigned analytics dashboard on a laptop', client: 'Fieldnote', tag: 'Product design', headline: 'Redesigning onboarding to *cut drop-off by a third*', summary: 'Six weeks of research, prototypes and tests to make a notes app’s first ten minutes clearer.', stat1: '-34%', label1: 'drop-off', stat2: '+22%', label2: 'week-one activation', stat3: '', label3: '', quote: 'Alex asked better questions than anyone else we had worked with.', person: 'Mina Park', role: 'CEO, Fieldnote', linkText: 'Read the case study', url: '#' },
+      { image: IMG('tpl-course.png'), imageAlt: 'A course website with a lesson list', client: 'Design Academy', tag: 'Website', headline: 'A course site that *tripled enrolments*', summary: 'A new structure, clearer pricing and a lighter page for a design school’s main course.', stat1: '3×', label1: 'enrolments', stat2: '-1.4 s', label2: 'load time', stat3: '', label3: '', quote: '', person: '', role: '', linkText: 'Read the case study', url: '#' },
+    ] } }] },
     { after: 'case-study-showcase', section: ring({ eyebrow: 'More projects', heading: 'Recent work, *up close*', lead: 'Drag or scroll through a few more projects. Each one links to the full story.', style: 'coverflow', details: 'below', ctaLabel: 'View the project' }, [
       rc('tpl-course.png', 'A course website with a lesson list', 'Website', 'Design Academy', 'A clearer structure and pricing for a design school.', '#features'),
       rc('hero-dashboard.png', 'An analytics dashboard on a laptop', 'Product design', 'Fieldnote', 'Onboarding that cut drop-off by a third.', '#features'),
@@ -155,10 +159,6 @@ export const STARTER_EXTRAS = {
       rc('tpl-booking.png', 'A booking calendar', 'Product', 'Slotwise', 'A booking flow that fits on one screen.', '#features'),
       rc('tpl-restaurant.jpg', 'A restaurant menu page', 'Brand', 'Brasa', 'Identity and menu design for a wood-fired restaurant.', '#features'),
     ]) },
-    { after: 'features-icon-grid', section: ['case-study-showcase', { fields: { eyebrow: 'Case studies', heading: 'Projects *and their results*', lead: 'Two recent projects with the numbers that mattered to the client.' }, lists: { cases: [
-      { image: IMG('hero-dashboard.png'), imageAlt: 'A redesigned analytics dashboard on a laptop', client: 'Fieldnote', tag: 'Product design', headline: 'Redesigning onboarding to *cut drop-off by a third*', summary: 'Six weeks of research, prototypes and tests to make a notes app’s first ten minutes clearer.', stat1: '-34%', label1: 'drop-off', stat2: '+22%', label2: 'week-one activation', stat3: '', label3: '', quote: 'Alex asked better questions than anyone else we had worked with.', person: 'Mina Park', role: 'CEO, Fieldnote', linkText: 'Read the case study', url: '#' },
-      { image: IMG('tpl-course.png'), imageAlt: 'A course website with a lesson list', client: 'Design Academy', tag: 'Website', headline: 'A course site that *tripled enrolments*', summary: 'A new structure, clearer pricing and a lighter page for a design school’s main course.', stat1: '3×', label1: 'enrolments', stat2: '-1.4 s', label2: 'load time', stat3: '', label3: '', quote: '', person: '', role: '', linkText: 'Read the case study', url: '#' },
-    ] } }] },
   ],
 
   'online-course': [

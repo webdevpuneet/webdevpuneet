@@ -77,92 +77,6 @@
   });
 })();
 (function () {
-  var G = window.gsap;
-  if (G && window.Draggable) G.registerPlugin(Draggable);
-  if (G && window.InertiaPlugin) G.registerPlugin(InertiaPlugin);
-  if (G && window.ScrollToPlugin) G.registerPlugin(ScrollToPlugin);
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var fine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
-  document.querySelectorAll('.st').forEach(function (sec) {
-    var track = sec.querySelector('[data-carousel]');
-    if (!track) return;
-    var prev = sec.querySelector('[data-carousel-prev]');
-    var next = sec.querySelector('[data-carousel-next]');
-    var max = function () { return Math.max(0, track.scrollWidth - track.clientWidth); };
-    var points = function () {
-      var first = track.children[0];
-      if (!first) return [0];
-      return Array.prototype.map.call(track.children, function (c) { return Math.min(max(), c.offsetLeft - first.offsetLeft); });
-    };
-    var nearest = function (x) { return points().reduce(function (a, p) { return Math.abs(p - x) < Math.abs(a - x) ? p : a; }, 0); };
-    var update = function () {
-      var x = track.scrollLeft;
-      if (prev) prev.disabled = x <= 2;
-      if (next) next.disabled = x >= max() - 2;
-    };
-    var go = function (dir) {
-      var ps = points(), x = track.scrollLeft, target = x;
-      if (dir > 0) { for (var i = 0; i < ps.length; i++) if (ps[i] > x + 4) { target = ps[i]; break; } }
-      else { for (var j = ps.length - 1; j >= 0; j--) if (ps[j] < x - 4) { target = ps[j]; break; } }
-      if (G && window.ScrollToPlugin && !reduce) G.to(track, { scrollTo: { x: target }, duration: 0.6, ease: 'power3.out', onUpdate: update });
-      else track.scrollTo({ left: target, behavior: reduce ? 'auto' : 'smooth' });
-    };
-    if (prev) prev.addEventListener('click', function () { go(-1); });
-    if (next) next.addEventListener('click', function () { go(1); });
-    track.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    update();
-    // Mouse drag with momentum on desktop; touch keeps native scrolling and snap.
-    // An invisible proxy is dragged and its x is mapped onto the track's native scrollLeft,
-    // so the slides' markup and layout never change.
-    if (G && window.Draggable && fine) {
-      track.classList.add('is-draggable');
-      var proxy = document.createElement('div');
-      var start = 0;
-      var apply = function () { track.scrollLeft = start - this.x; update(); };
-      Draggable.create(proxy, {
-        type: 'x',
-        trigger: track,
-        inertia: !!window.InertiaPlugin && !reduce,
-        dragClickables: false,
-        onPress: function () { G.killTweensOf(track); start = track.scrollLeft; G.set(proxy, { x: 0 }); this.update(); },
-        onDrag: apply,
-        onThrowUpdate: apply,
-        snap: { x: function (v) { return start - nearest(Math.max(0, Math.min(max(), start - v))); } },
-        onRelease: function () { if (!this.tween) { G.to(track, { scrollTo: window.ScrollToPlugin ? { x: nearest(track.scrollLeft) } : undefined, duration: 0.4, ease: 'power3.out', onUpdate: update }); } }
-      });
-    }
-  });
-})();
-(function () {
-  var G = window.gsap;
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  document.querySelectorAll('.st form[data-form]').forEach(function (form) {
-    var ok = form.querySelector('[data-form-success]');
-    var bad = form.querySelector('[data-form-error]');
-    var btn = form.querySelector('[type="submit"]');
-    var done = function () {
-      var fields = form.querySelectorAll('[data-form-fields]');
-      var show = function () {
-        Array.prototype.forEach.call(fields, function (f) { f.hidden = true; });
-        if (ok) { ok.hidden = false; ok.focus && ok.focus(); if (G && !reduce) G.from(ok, { y: 16, opacity: 0, duration: 0.5, ease: 'power3.out', clearProps: 'transform,opacity' }); }
-      };
-      if (G && !reduce && fields.length) G.to(fields, { opacity: 0, y: -10, duration: 0.25, onComplete: show }); else show();
-    };
-    form.addEventListener('submit', function (e) {
-      if (!window.fetch) return;
-      e.preventDefault();
-      if (bad) bad.hidden = true;
-      if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true'); }
-      var finish = function () { if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy'); } };
-      if (window.ST_PREVIEW) { setTimeout(function () { finish(); done(); }, 600); return; }
-      fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
-        .then(function (r) { finish(); if (r.ok) done(); else if (bad) bad.hidden = false; })
-        .catch(function () { finish(); if (bad) bad.hidden = false; });
-    });
-  });
-})();
-(function () {
   var G = window.gsap, reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!G || reduce) return;
   if (window.ScrollTrigger) G.registerPlugin(ScrollTrigger);
@@ -373,6 +287,92 @@
   };
   mm.add('(min-width: 900px)', run(!still && !!window.ScrollTrigger));
   mm.add('(max-width: 899px)', run(false));
+})();
+(function () {
+  var G = window.gsap;
+  if (G && window.Draggable) G.registerPlugin(Draggable);
+  if (G && window.InertiaPlugin) G.registerPlugin(InertiaPlugin);
+  if (G && window.ScrollToPlugin) G.registerPlugin(ScrollToPlugin);
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+  document.querySelectorAll('.st').forEach(function (sec) {
+    var track = sec.querySelector('[data-carousel]');
+    if (!track) return;
+    var prev = sec.querySelector('[data-carousel-prev]');
+    var next = sec.querySelector('[data-carousel-next]');
+    var max = function () { return Math.max(0, track.scrollWidth - track.clientWidth); };
+    var points = function () {
+      var first = track.children[0];
+      if (!first) return [0];
+      return Array.prototype.map.call(track.children, function (c) { return Math.min(max(), c.offsetLeft - first.offsetLeft); });
+    };
+    var nearest = function (x) { return points().reduce(function (a, p) { return Math.abs(p - x) < Math.abs(a - x) ? p : a; }, 0); };
+    var update = function () {
+      var x = track.scrollLeft;
+      if (prev) prev.disabled = x <= 2;
+      if (next) next.disabled = x >= max() - 2;
+    };
+    var go = function (dir) {
+      var ps = points(), x = track.scrollLeft, target = x;
+      if (dir > 0) { for (var i = 0; i < ps.length; i++) if (ps[i] > x + 4) { target = ps[i]; break; } }
+      else { for (var j = ps.length - 1; j >= 0; j--) if (ps[j] < x - 4) { target = ps[j]; break; } }
+      if (G && window.ScrollToPlugin && !reduce) G.to(track, { scrollTo: { x: target }, duration: 0.6, ease: 'power3.out', onUpdate: update });
+      else track.scrollTo({ left: target, behavior: reduce ? 'auto' : 'smooth' });
+    };
+    if (prev) prev.addEventListener('click', function () { go(-1); });
+    if (next) next.addEventListener('click', function () { go(1); });
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+    // Mouse drag with momentum on desktop; touch keeps native scrolling and snap.
+    // An invisible proxy is dragged and its x is mapped onto the track's native scrollLeft,
+    // so the slides' markup and layout never change.
+    if (G && window.Draggable && fine) {
+      track.classList.add('is-draggable');
+      var proxy = document.createElement('div');
+      var start = 0;
+      var apply = function () { track.scrollLeft = start - this.x; update(); };
+      Draggable.create(proxy, {
+        type: 'x',
+        trigger: track,
+        inertia: !!window.InertiaPlugin && !reduce,
+        dragClickables: false,
+        onPress: function () { G.killTweensOf(track); start = track.scrollLeft; G.set(proxy, { x: 0 }); this.update(); },
+        onDrag: apply,
+        onThrowUpdate: apply,
+        snap: { x: function (v) { return start - nearest(Math.max(0, Math.min(max(), start - v))); } },
+        onRelease: function () { if (!this.tween) { G.to(track, { scrollTo: window.ScrollToPlugin ? { x: nearest(track.scrollLeft) } : undefined, duration: 0.4, ease: 'power3.out', onUpdate: update }); } }
+      });
+    }
+  });
+})();
+(function () {
+  var G = window.gsap;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.st form[data-form]').forEach(function (form) {
+    var ok = form.querySelector('[data-form-success]');
+    var bad = form.querySelector('[data-form-error]');
+    var btn = form.querySelector('[type="submit"]');
+    var done = function () {
+      var fields = form.querySelectorAll('[data-form-fields]');
+      var show = function () {
+        Array.prototype.forEach.call(fields, function (f) { f.hidden = true; });
+        if (ok) { ok.hidden = false; ok.focus && ok.focus(); if (G && !reduce) G.from(ok, { y: 16, opacity: 0, duration: 0.5, ease: 'power3.out', clearProps: 'transform,opacity' }); }
+      };
+      if (G && !reduce && fields.length) G.to(fields, { opacity: 0, y: -10, duration: 0.25, onComplete: show }); else show();
+    };
+    form.addEventListener('submit', function (e) {
+      if (!window.fetch) return;
+      e.preventDefault();
+      if (bad) bad.hidden = true;
+      if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true'); }
+      var finish = function () { if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy'); } };
+      if (window.ST_PREVIEW) { setTimeout(function () { finish(); done(); }, 600); return; }
+      fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+        .then(function (r) { finish(); if (r.ok) done(); else if (bad) bad.hidden = false; })
+        .catch(function () { finish(); if (bad) bad.hidden = false; });
+    });
+  });
 })();
 (function () {
   var editing = window.ST_STILL || window.ST_PREVIEW;

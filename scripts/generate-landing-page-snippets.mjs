@@ -14,12 +14,13 @@ import { sectionTemplateById } from '../src/components/SectionTemplates/template
 import { BATCH_1 } from './landing-page-content/batch-1.mjs';
 import { BATCH_2 } from './landing-page-content/batch-2.mjs';
 import { BATCH_3 } from './landing-page-content/batch-3.mjs';
+import { BATCH_4 } from './landing-page-content/batch-4.mjs';
 
-const CONTENT = { ...BATCH_1, ...BATCH_2, ...BATCH_3 };
+const CONTENT = { ...BATCH_1, ...BATCH_2, ...BATCH_3, ...BATCH_4 };
 const SNIP_DIR = path.resolve('src/components/UiSnippetsTool/snippets');
 const REGISTRY = path.resolve('src/components/UiSnippetsTool/snippets.js');
 const CHECK = process.argv.includes('--check');
-const TODAY = '2026-10-25';
+const TODAY = '2026-10-28';
 const suffix = '-landing-page-template';
 const esc = s => s.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
 const camel = id => id.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase());
@@ -109,9 +110,12 @@ const ${camel(id)} = {
 
 export default ${camel(id)};
 `;
-  fs.writeFileSync(path.join(SNIP_DIR, `${id}.js`), out);
+  const file = path.join(SNIP_DIR, `${id}.js`);
+  const old = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null;
+  const same = old !== null && old.replace(/lastmod: '[^']*'/, '') === out.replace(/lastmod: '[^']*'/, '');
+  if (!same) fs.writeFileSync(file, out); // unchanged snippets keep their file and their lastmod
   ids.push(id);
-  console.log('✓', id, `${(out.length / 1024).toFixed(0)} KB`);
+  console.log(same ? '=' : (old === null ? '+' : '✓'), id, `${(out.length / 1024).toFixed(0)} KB`, same ? 'unchanged' : (old === null ? 'new' : 'updated'));
 }
 
 // Register in snippets.js (idempotent): imports after the last snippet import, array entries before `];`
