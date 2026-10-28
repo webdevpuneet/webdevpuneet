@@ -1882,6 +1882,24 @@ export default function Sidebar() {
                     onToggle={() => setFavOpen(v => !v)}
                   />
                   <SidebarLink href="/ui-snippets/" icon="/icons/ui-snippets.svg" label="UI Snippets" active={/^\/ui-snippets(\/|$)/.test(pathname)} />
+                  {/* Every snippet category as a plain, always-rendered link (crawlable on every page), two per row */}
+                  <div className={styles.groupBody}>
+                    <nav aria-label="UI snippet categories">
+                      <ul className={`${styles.list} ${styles.compactList} ${styles.snipCatList}`}>
+                        {UI_SNIPPET_CATEGORIES_SIDEBAR.map(cat => (
+                          <li key={cat.id} className={`${styles.item} ${pathname === `/ui-snippets/${cat.id}/` ? styles.active : ''}`}>
+                            <a href={`/ui-snippets/${cat.id}/`} title={`${cat.label} UI snippets`}>
+                              <span className={styles.itemInner}>
+                                <span className={styles.info}>
+                                  <span className={styles.name}>{cat.label}</span>
+                                </span>
+                              </span>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </nav>
+                  </div>
                   <SidebarLink href="/website-builder/" icon="/icons/website-builder.svg" label="Website Builder &amp; Templates" active={/^\/website-builder(\/|$)/.test(pathname)} />
                   <SidebarLink href="/website-section-templates/" icon="/icons/website-section-templates.svg" label="Website Section Templates" active={/^\/website-section-templates(\/|$)/.test(pathname)} />
                   <SidebarLink href="/email-templates/" icon="/icons/email-templates.svg" label="Email Templates" active={/^\/email-templates(\/|$)/.test(pathname)} />

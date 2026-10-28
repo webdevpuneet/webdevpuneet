@@ -3,6 +3,8 @@
 // It only adds and updates files (no -delete), and skips files whose size is unchanged.
 //   node scripts/upload-demos.mjs --preview     list what would be uploaded, transfer nothing
 //   node scripts/upload-demos.mjs               upload
+//   node scripts/upload-demos.mjs saas agency   only those demos, compared by modification time (use it when a
+//                                               change keeps a file the same size, e.g. sections reordered)
 // Make the demos first with: node scripts/export-website-demos.mjs
 import fs from 'node:fs';
 import os from 'node:os';
@@ -11,6 +13,7 @@ import { execFileSync } from 'node:child_process';
 
 const WINSCP = 'C:\\Program Files (x86)\\WinSCP\\WinSCP.com';
 const preview = process.argv.includes('--preview');
+const only = process.argv.slice(2).filter(a => !a.startsWith('--'));
 const local = path.resolve('demos/website-templates');
 if (!fs.existsSync(local)) { console.error('✗ demos/website-templates not found. Run scripts/export-website-demos.mjs first.'); process.exit(1); }
 
@@ -25,8 +28,11 @@ const script = [
   'option confirm off',
   `mkdir "${remote.replace(/\/website-templates$/, '')}"`,
   `mkdir "${remote}"`,
+  ...only.map(id => `mkdir "${remote}/${id}"`), // before batch abort: an existing folder is fine
   'option batch abort',
-  `synchronize remote ${preview ? '-preview ' : ''}-criteria=size "${esc(local)}" "${esc(remote)}"`,
+  ...(only.length
+    ? only.map(id => `synchronize remote ${preview ? '-preview ' : ''}-criteria=time "${esc(path.join(local, id))}" "${remote}/${id}"`)
+    : [`synchronize remote ${preview ? '-preview ' : ''}-criteria=size "${esc(local)}" "${esc(remote)}"`]),
   'close',
   'exit',
 ].join('\n');
