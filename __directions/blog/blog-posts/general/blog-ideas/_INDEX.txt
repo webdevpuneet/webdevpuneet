@@ -1,0 +1,126 @@
+FWD TOOLS / WEBDEVPUNEET — BLOG QUEUE INDEX
+===========================================
+
+HOW THIS WORKS
+--------------
+Each topic file (CSS.txt, GSAP.txt, JavaScript.txt, React.txt, UX.txt) holds a
+priority-ordered queue of final post titles. Publish top-down.
+
+After writing a post:
+  1. Change  [ ]  to  [x]  on that line
+  2. Append  -> general-blogNN.txt
+  3. Add the same line to the PUBLISHED list below
+
+Marking convention:
+  [ ]  not written yet
+  [x]  published
+  [~]  partially covered elsewhere — only write as a deeper dive (see note on line)
+
+
+PUBLISHED SO FAR (general-blog1 .. general-blog37)
+-------------------------------------------------
+[x] How to Learn HTML, CSS, JavaScript and React in the Age of AI (Without Getting Left Behind) -> general-blog1.txt
+[x] CSS clamp() Explained, with 10 Live Fluid-Sizing Demos You Can Drag                         -> general-blog2.txt
+[x] CSS :has() Selector: 10 Practical Examples You Can Click and Edit                           -> general-blog3.txt
+[x] CSS Container Queries: A Practical Guide with Real Examples                                 -> general-blog4.txt
+[x] CSS Grid vs Flexbox: When Should You Use Each?                                              -> general-blog5.txt
+[x] React useState vs useReducer: When Should You Use Each?                                     -> general-blog6.txt
+[x] JavaScript Debounce vs Throttle: When Should You Use Each?                                  -> general-blog7.txt
+[x] HTML Form Validation Without JavaScript: 10 Useful Techniques                               -> general-blog8.txt
+[x] HTML <input> Types You Should Actually Use in Modern Forms                                  -> general-blog9.txt
+[x] How to Detect When an Element Enters the Viewport Without a Library                         -> general-blog10.txt
+[x] How to Center Anything in CSS: 10 Modern Techniques                                         -> general-blog11.txt
+[x] GSAP Tutorial for Beginners: Animate Your First HTML Element                                -> general-blog12.txt
+[x] How to Animate CSS Properties with GSAP (With Live Examples)                                -> general-blog13.txt
+[x] React useRef Explained: 8 Practical Uses Beyond the DOM                                     -> general-blog14.txt
+[x] CSS Subgrid Explained: 8 Real Layout Problems It Solves                                     -> general-blog15.txt
+[x] JavaScript Event Delegation Explained with Real UI Examples                                 -> general-blog16.txt
+[x] useEffect Explained: 8 Common Mistakes and How to Fix Them                                  -> general-blog17.txt
+[x] How to Detect Clicks Outside an Element in JavaScript: 9 Common Mistakes                    -> general-blog18.txt
+[x] useMemo vs useCallback: What They Actually Do (8 Re-Render Demos)                           -> general-blog19.txt
+[x] GSAP ScrollTrigger Tutorial: Animate Elements on Scroll (9 Live Demos)                       -> general-blog20.txt
+[x] 11 Loading State Examples You Can Copy                                                      -> general-blog21.txt
+[x] Native CSS Nesting: A Practical Guide to 10 Rules You'll Actually Use                        -> general-blog22.txt
+[x] How to Copy Text to the Clipboard in JavaScript (and Handle It Failing): 9 Common Mistakes   -> general-blog23.txt
+[x] Why Your React Component Re-Renders (and How to Prove It)                                   -> general-blog24.txt
+[x] How to Create a Parallax Effect with GSAP ScrollTrigger (8 Live Demos)                       -> general-blog25.txt
+[x] 10 Empty State Examples with HTML and CSS                                                    -> general-blog26.txt
+[x] CSS Cascade Layers (@layer) Explained with Practical Examples                                -> general-blog27.txt
+[x] How to Build Accessible Tabs with Vanilla JavaScript                                         -> general-blog28.txt
+[x] React Keys Explained: Why Your List Breaks on Reorder                                        -> general-blog29.txt
+[x] GSAP Timeline vs ScrollTrigger: Understanding the Difference                                 -> general-blog30.txt
+[x] 12 Form UX Patterns You Can Copy                                                             -> general-blog31.txt
+[x] CSS @property Explained: Animatable Custom Properties with Live Demos                        -> general-blog32.txt
+[x] How to Build an Accordion Without a JavaScript Library                                       -> general-blog33.txt
+[x] useLayoutEffect vs useEffect: When the Difference Actually Matters                           -> general-blog34.txt
+[x] ScrollTrigger snap: Section-by-Section Scrolling (7 Live Demos)                               -> general-blog35.txt
+[x] 14 Microinteractions You Can Build with CSS Alone                                             -> general-blog36.txt
+[x] CSS Scroll-Driven Animations: The Complete Guide with Live Demos                              -> general-blog37.txt
+
+
+DEMO BUCKETS USED (demos/a1/NN/)
+--------------------------------
+01 -> blog2    02 -> blog3    03 -> blog4    04 -> blog5    05 -> blog6
+06 -> blog7    07 -> blog8    08 -> blog9    09 -> blog10   10 -> blog11
+11 -> blog12   12 -> blog13   13 -> blog14   14 -> blog15   15 -> blog16
+16 -> blog17   17 -> blog18   18 -> blog19   19 -> blog20   20 -> blog21
+21 -> blog22   22 -> blog23   23 -> blog24   24 -> blog25   25 -> blog26
+26 -> blog27   27 -> blog28   28 -> blog29   29 -> blog30   30 -> blog31
+31 -> blog32   32 -> blog33   33 -> blog34   34 -> blog35   35 -> blog36
+36 -> blog37
+Next free bucket: 37
+
+
+QUEUE SIZE
+----------
+CSS.txt          62 ready  (+2 deep-dive-only)
+GSAP.txt         57 ready  (+9 deep-dive-only)
+JavaScript.txt   62 ready  (+2 deep-dive-only)
+React.txt        64 ready  (+7 deep-dive-only)
+UX.txt           73 ready
+Total           318 posts ready to write
+
+At 1 post/day  -> about 11 months of runway
+At 2 posts/day -> about 5.5 months of runway
+
+SUGGESTED DAILY ROTATION (keeps the blog varied and the internal links spread)
+Mon CSS · Tue JavaScript · Wed React · Thu GSAP · Fri UX · Sat CSS · Sun JavaScript
+For 2/day, pair one technical post (CSS/JS/React/GSAP) with one UX post —
+the UX posts are faster to write and link naturally back to the technical ones.
+
+
+CROSS-FILE DEDUP RULES
+----------------------
+Some topics appear in more than one source list. Each now has ONE home file —
+do not write the same build twice under a different framing:
+
+  Click-outside detection ....... vanilla in JavaScript.txt / hook in React.txt
+  Debounced search .............. vanilla in JavaScript.txt / hook in React.txt
+  Multi-step form ............... vanilla in JavaScript.txt / React in React.txt
+  Password strength meter ....... vanilla in JavaScript.txt / React in React.txt
+  Toast notifications ........... vanilla in JavaScript.txt / React in React.txt
+                                  UX decision angle in UX.txt (toast vs alert)
+  Modal ......................... CSS-only in CSS.txt / vanilla in JavaScript.txt
+                                  React in React.txt / UX angle in UX.txt
+  Tabs & accordion .............. build in JavaScript.txt + React.txt
+                                  UX comparison in UX.txt
+  Skeleton loading .............. CSS animation in CSS.txt
+                                  React version in React.txt
+                                  UX comparison in UX.txt
+  Infinite scroll ............... React build in React.txt
+                                  UX comparison in UX.txt
+  clamp() / responsive type ..... CSS mechanics PUBLISHED (blog2)
+                                  UX impact angle stays in UX.txt
+  prefers-reduced-motion ........ UX.txt (accessibility angle)
+  Loading / error / empty states  JavaScript.txt (vanilla), React.txt (React),
+                                  UX.txt (pattern galleries)
+
+GAP WORTH FILLING
+-----------------
+There is no HTML.txt yet, but two HTML posts are already published (blog8, blog9).
+Candidate follow-ups if you want an HTML queue:
+  Semantic HTML: 15 Tags You Should Be Using
+  HTML dialog Element Explained with Live Demos
+  HTML details/summary: Accordions Without JavaScript
+  ARIA for Developers: The 10 Attributes You'll Actually Use
+  HTML Meta Tags Checklist for 2026

@@ -1,0 +1,100 @@
+CSS — BLOG QUEUE
+================
+Publish top-down. Mark done: [ ] -> [x] and append "-> general-blogNN.txt"
+[~] = partially covered by a published post; only write as a deeper dive.
+
+ALREADY PUBLISHED — DO NOT REPEAT
+---------------------------------
+[x] CSS clamp() Explained, with 10 Live Fluid-Sizing Demos You Can Drag -> general-blog2.txt
+[x] CSS :has() Selector: 10 Practical Examples You Can Click and Edit   -> general-blog3.txt
+[x] CSS Container Queries: A Practical Guide with Real Examples         -> general-blog4.txt
+[x] CSS Grid vs Flexbox: When Should You Use Each?                      -> general-blog5.txt
+[x] How to Center Anything in CSS: 10 Modern Techniques                 -> general-blog11.txt
+[x] CSS Subgrid Explained: 8 Real Layout Problems It Solves             -> general-blog15.txt
+
+
+TIER 1 — MODERN CSS (highest search value, strong demo potential)
+-----------------------------------------------------------------
+[x] Native CSS Nesting: A Practical Guide with Live Examples -> general-blog22.txt (published as "A Practical Guide to 10 Rules You'll Actually Use")
+[x] CSS Cascade Layers (@layer) Explained with Practical Examples -> general-blog27.txt
+[x] CSS @property Explained: Animatable Custom Properties with Live Demos -> general-blog32.txt
+[x] CSS Scroll-Driven Animations: The Complete Guide with Live Demos -> general-blog37.txt
+[ ] CSS Anchor Positioning Explained: Tooltips, Popovers and Menus
+[ ] View Transitions in CSS: Smoother Page and State Changes
+[ ] CSS :is() and :where(): Cleaner Selectors and the Specificity Trap
+[ ] CSS Logical Properties Explained: 10 Practical Examples
+[ ] CSS text-wrap: balance and pretty — Better Headlines for Free
+[ ] Modern CSS Features Every Front-End Developer Should Know in 2026
+[ ] Modern CSS Reset: What You Actually Need in 2026
+
+TIER 2 — CONCEPTS DEVELOPERS GET WRONG
+---------------------------------------
+[ ] z-index and Stacking Contexts Explained Visually
+[ ] position: sticky — 7 Reasons It Silently Fails
+[ ] CSS Units Compared: px, rem, em, %, vw, ch and When Each Wins
+[ ] 100vh Is Broken on Mobile: dvh, svh and lvh Explained
+[ ] CSS Overflow Explained: hidden vs clip vs auto vs scroll
+[ ] CSS Specificity Explained Without the Diagrams
+[ ] Margin Collapsing Explained (and How to Stop It)
+[ ] CSS aspect-ratio: 8 Layout Problems It Solves
+[ ] CSS Grid auto-fit vs auto-fill: The Difference, Visually
+[ ] CSS Transitions vs Animations: When to Use Each
+[~] CSS min(), max() and clamp(): Which One Do You Actually Need?  (clamp covered in blog2 — lead with min/max)
+
+TIER 3 — EFFECT COLLECTIONS (best fit for FWD Tools snippets)
+--------------------------------------------------------------
+[ ] 20 CSS Hover Effects You Can Copy and Customize
+[ ] 15 CSS Button Hover Effects with Live Demos
+[ ] 20 CSS Card Hover Effects You Can Copy
+[ ] 15 CSS Image Hover Effects with Live Demos
+[ ] 10 CSS Text Effects Without a Single Line of JavaScript
+[ ] 20 CSS Loading Animations You Can Copy
+[ ] 10 CSS Glassmorphism Effects with Live Demos
+[ ] 15 CSS Gradient Effects for Modern Websites
+[ ] 10 CSS Glow and Neon Effects You Can Copy
+[ ] 10 CSS 3D Effects Without JavaScript
+[ ] CSS Blend Modes: 12 Effects You Can Copy
+[ ] CSS Filters: 12 Visual Effects with Live Demos
+[ ] clip-path and mask: 10 Reveal Effects with Live Demos
+
+TIER 4 — BUILD IT WITHOUT JAVASCRIPT
+-------------------------------------
+[ ] How to Build a Responsive Card Grid Without JavaScript
+[ ] How to Build a Responsive Navbar with HTML and CSS
+[ ] How to Build a CSS-Only Dropdown Menu
+[ ] How to Build a Modal with CSS Only (No JavaScript)
+[ ] How to Build a Carousel with CSS Scroll Snap
+[ ] How to Build a Skeleton Loading Animation with CSS
+[ ] How to Build Equal-Height Cards with CSS Grid
+[ ] How to Build a Sticky Sidebar That Actually Works
+[ ] How to Build an Accordion with details and summary
+[ ] How to Build a Tooltip with Pure CSS
+
+TIER 5 — LAYOUT DEEP DIVES
+---------------------------
+[ ] CSS Grid Complete Guide: 12 Layouts You'll Actually Build
+[ ] Flexbox Complete Guide: 12 Layout Patterns with Live Demos
+[ ] CSS Grid Masonry: 3 Approaches Compared
+[ ] CSS Grid Dashboard Layout: A Step-by-Step Build
+[ ] Responsive Layouts Without a Single Media Query
+[ ] CSS gap: Replacing Every Margin Hack You Still Use
+[ ] object-fit and object-position Explained with Live Demos
+[ ] Responsive Images: srcset, sizes and picture Explained
+
+TIER 6 — FIXES, PERFORMANCE AND ARCHITECTURE
+---------------------------------------------
+[ ] How to Stop Horizontal Scrolling on Mobile: 8 Common Causes
+[ ] How to Fix the 10 Most Common CSS Layout Problems
+[ ] How to Make Any Website Responsive: A CSS Checklist
+[ ] How to Debug CSS Layout with Browser DevTools
+[ ] CSS Truncation: Ellipsis, Line Clamp and Fade-Out Compared
+[ ] content-visibility: Faster Rendering for Long Pages
+[ ] CSS Selector Performance: What Actually Matters in 2026
+[ ] CSS Custom Properties: 12 Advanced Theming Patterns
+[ ] CSS Variables for Dark Mode: One Palette, Two Themes
+[ ] Fluid Spacing Scales with clamp(): Padding, Gaps and Sections
+[ ] CSS Counters: Automatic Numbering Without JavaScript
+[ ] :focus-within: 8 Interactions It Makes Trivial
+[ ] CSS Print Styles: Make Any Page Printable
+[ ] How to Write Maintainable CSS in 2026
+[ ] Modern CSS Architecture for Large Websites

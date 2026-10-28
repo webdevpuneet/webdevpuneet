@@ -1,0 +1,61 @@
+LEADS: HIRE ME ACROSS THE SITE
+Last updated 2026-10-28. Destination: https://webdevpuneet.com/puneet/
+
+GOAL
+  Every template, snippet, tool and article is proof of skill. When someone has a real project,
+  the next step should be one click away, worded for exactly what they were looking at.
+  Leads come from intent, so the offer appears where intent is highest and stays quiet elsewhere.
+
+RULES (so it helps, never annoys)
+  1. Never inside the user's exported files. Exports stay clean (no links, no watermark). The offer
+     lives on our pages, in our editors and on our demos. (An opt-in "Made with" credit is fine.)
+  2. Contextual copy. Say what we would do for THIS item:
+       website template  "Want this site live this week? I'll build it from this template."
+       section template  "Need this section in your React or WordPress site? I can add it."
+       email template    "Need it coded for Mailchimp / Klaviyo and tested in every inbox?"
+       social template   "Need a month of on-brand posts? I'll design the set."
+       UI snippet        "Need this component in your app? I'll build and integrate it."
+       playground / tool "Stuck on a real project? Get a code review."
+  3. Right moment. Highest intent: right after an export or download, on the template page next to
+     the export buttons, on demo sites, at the end of an article. Lowest intent: tool pages
+     (keep it to one quiet line).
+  4. One per view. One Hire Me offer per screen, never a popup on first visit.
+  5. Track the source. Every link carries where it came from:
+       /puneet/?ref=<area>&id=<item-id>&cta=<placement>
+       area: website | section | email | social | snippet | playground | tool | blog | demo
+       cta:  page-card | after-export | editor-toolbar | demo-bar | author-box | sidebar
+     Clarity and Statcounter already record the landing URL, so we can count leads per area.
+  6. Make /puneet/ ready: read the ref and pre-fill "I'm interested in: <item>" in a short form,
+     and show a matching case study or the item itself.
+
+PLACEMENTS (build in this order, best value first)
+  P1  After export / download success (website builder, sections, email, social): a small card
+      under the success message with the contextual line and "Hire me" -> /puneet/?ref=...&cta=after-export
+  P2  Template detail pages (/website-builder/templates/<id>/, /website-section-templates/<id>/,
+      /email-templates/<id>/, /social-post-templates/<id>/): a "Need it built?" card beside the
+      export / use buttons and again before the FAQ.
+  P3  Demo bar on every website demo (export-website-demos.mjs already adds a top bar linking the
+      template page): add " · Want it built? Hire me" with ref=demo.
+  P4  Blog author box at the end of every WordPress post.
+  P5  UI snippet pages: one line under the code panel.
+  P6  Editors' toolbars: a quiet "Get it built" button (website builder, section editor).
+  P7  Playgrounds and tools: one quiet line in the footer area.
+  The sidebar already has a "Hire Me" line on every page (src/components/Sidebar/index.js).
+
+/puneet/ UPGRADE (needed so the clicks convert)
+  - Short enquiry form (name, email, what you need, budget range, timeline, link) + the ref fields
+    hidden; send to email or a form service (Formspree or similar).
+  - "I can build this for you" block that shows the template / item from ?id= when present.
+  - Packages with clear starting prices (template setup, custom section, email coding, code review).
+  - Response promise ("I reply within one working day").
+
+MEASURE (weekly)
+  - Clicks to /puneet/ by ref and cta; enquiries sent; enquiries per 1,000 template views.
+  - Which areas produce real projects; move effort there.
+
+STATUS
+  2026-10-28  A first build (HireMeCard on template pages, after-export links, demo-bar link) was
+              discarded at Puneet's request; no Hire Me placements in the code. Ask before building again.
+  2026-10-28  Plan written. Nothing built yet beyond the existing sidebar link and the about / home
+              "Built by Puneet" links. Next step: P1 + P2 for website and section templates, and the
+              /puneet/ form.

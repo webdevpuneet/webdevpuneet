@@ -1,0 +1,111 @@
+UX — BLOG QUEUE
+===============
+Publish top-down. Mark done: [ ] -> [x] and append "-> general-blogNN.txt"
+These are UX-angle posts: decisions, comparisons and pattern galleries.
+Implementation-heavy versions live in CSS.txt / JavaScript.txt / React.txt.
+
+ALREADY PUBLISHED — DO NOT REPEAT
+---------------------------------
+(none yet — UX is an untouched category, good for variety between tech posts)
+
+
+TIER 1 — PATTERN GALLERIES (demo-rich, best fit for FWD Tools snippets)
+------------------------------------------------------------------------
+[ ] 50 UX Patterns Every Front-End Developer Should Know
+[x] 20 Form UX Patterns with HTML, CSS and JavaScript -> general-blog31.txt (published as "12 Form UX Patterns You Can Copy" — 12 distinct patterns earned the topic, not padded to 20)
+[x] 15 Loading State Examples You Can Copy -> general-blog21.txt (published as "11 Loading State Examples You Can Copy" — 11 distinct patterns earned the topic, not padded to 15)
+[x] 10 Empty State Examples with HTML and CSS -> general-blog26.txt
+[ ] 20 Better Error Message Examples for Web Forms
+[x] 15 Microinteractions You Can Build with CSS Alone -> general-blog36.txt (published as "14 Microinteractions You Can Build with CSS Alone")
+[ ] 10 Mobile Navigation Patterns with Live Demos
+[ ] 15 Modal UX Patterns with HTML, CSS and JS
+[ ] 20 Button UX Examples Every Developer Should Know
+[ ] 10 Search UX Patterns with Working JavaScript Demos
+
+TIER 2 — "WHICH ONE?" DECISION POSTS (strong search intent)
+------------------------------------------------------------
+[ ] Skeleton Screens vs Spinners: Which Actually Feels Faster?
+[ ] Modal vs Drawer: Which Should You Use?
+[ ] Tabs vs Accordion: Which Is Better for UX?
+[ ] Pagination vs Infinite Scroll: A Real UX Comparison
+[ ] Dropdown vs Autocomplete: Which Is Better?
+[ ] Toast vs Alert vs Banner: When to Use Each
+[ ] Inline Errors vs Error Summary: Which Works Better?
+[ ] Button vs Link: Which Should Developers Use?
+[ ] Sidebar vs Bottom Navigation on Mobile
+[ ] Inline Validation vs Submit Validation: Which UX Wins?
+[ ] Dropdown vs Radio Buttons vs Segmented Controls
+[ ] Search Button vs Always-Visible Search Box
+
+TIER 3 — MISTAKES AND FIXES
+----------------------------
+[ ] 10 UX Mistakes That Make Websites Hard to Use
+[ ] 12 Button UX Mistakes Developers Should Avoid
+[ ] Why Disabled Buttons Hurt UX (and What to Do Instead)
+[ ] 15 Mobile UX Mistakes Developers Make
+[ ] Dark Patterns to Avoid (and Their Honest Alternatives)
+[ ] Cookie Banners That Don't Ruin the First Impression
+[ ] Notification Fatigue: How Much Feedback Is Too Much?
+[ ] Placeholder-Only Labels Are a Bug: Better Form Labelling
+
+TIER 4 — FORMS AND INPUT UX
+----------------------------
+[ ] How to Design Better Form Validation UX
+[ ] How to Improve UX for Long Web Forms
+[ ] How to Design Better Error Messages for Web Apps
+[ ] Password UX: Show/Hide, Rules and Letting People Paste
+[ ] Error Recovery: Designing for the Second Attempt
+[ ] Autosave UX: When to Use It and How to Signal It
+[ ] How to Prevent Accidental Data Loss in Web Apps
+[ ] Designing Better Multi-Step Forms
+
+TIER 5 — NAVIGATION, SEARCH AND DATA UX
+----------------------------------------
+[ ] How to Build a Better Website Search Experience
+[ ] Autocomplete UX: Best Practices for Developers
+[ ] Filter UX: How to Design Better Product Filters
+[ ] Sorting UX: Small Details That Make a Big Difference
+[ ] Data Table UX: Density, Sorting and Bulk Actions
+[ ] Breadcrumbs: When Do They Actually Help?
+[ ] Sticky Headers: Good UX or Just Annoying?
+[ ] Settings Pages: Organizing Options People Can Actually Find
+[ ] 404 and Error Pages: Turning Dead Ends Into Paths
+[ ] Onboarding UX: Tours, Checklists, or Nothing at All?
+[ ] Progressive Disclosure: Showing Less, Sooner
+
+TIER 6 — INTERACTION AND FEEDBACK
+----------------------------------
+[ ] Modal UX: When to Use One and When Not To
+[ ] How to Design Better Confirmation Dialogs
+[ ] Destructive Actions: Confirm, Undo, or Both?
+[ ] Undo: The UX Pattern Every Developer Should Know
+[ ] Optimistic UI: How to Make Web Apps Feel Instant
+[ ] Perceived Performance: 10 Tricks That Buy You 300ms
+[ ] How to Handle API Errors Without Frustrating Users
+[ ] Designing for Slow Networks and Failed Requests
+[ ] Microcopy That Works: Writing Buttons, Errors and Empty States
+
+TIER 7 — UX YOU IMPLEMENT IN CSS
+---------------------------------
+[ ] CSS :focus-visible and Better Keyboard UX
+[ ] How to Design Focus States People Can Actually See
+[ ] Using prefers-reduced-motion for Accessible Animation
+[ ] CSS Animations That Improve UX Without Being Distracting
+[ ] Hover Effects: Useful UX vs Unnecessary Decoration
+[ ] Smooth Scrolling: When It Helps and When It Hurts
+[ ] How to Prevent Layout Shift (CLS) for Better UX
+[ ] Dark Mode UX: Common Mistakes and Best Practices
+[ ] Color Contrast: Practical Accessibility for Developers
+[ ] Responsive Typography and Its Impact on Readability
+[ ] How Font Choice Affects Web UX
+[ ] How Much Whitespace Does a Website Actually Need?
+[ ] Designing Touch-Friendly Buttons and Controls
+[ ] Touch Target Sizes: What the Guidelines Actually Say
+
+TIER 8 — ACCESSIBILITY AS UX
+-----------------------------
+[ ] Accessible Names: What Screen Readers Actually Announce
+[ ] Keyboard-Only Testing: A 10-Minute Audit You Can Run Today
+[ ] How to Make Navigation Easier on Mobile
+[ ] Multi-Language UX: What Breaks When the Text Gets Longer
+[ ] Scroll Depth and Layout: Where People Actually Stop Reading

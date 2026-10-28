@@ -1,0 +1,110 @@
+REACT — BLOG QUEUE
+==================
+Publish top-down. Mark done: [ ] -> [x] and append "-> general-blogNN.txt"
+[~] = partially covered by a published post; only write as a deeper dive.
+Vanilla versions of these builds live in JavaScript.txt — don't write both.
+
+ALREADY PUBLISHED — DO NOT REPEAT
+---------------------------------
+[x] React useState vs useReducer: When Should You Use Each? -> general-blog6.txt
+[x] React useRef Explained: 8 Practical Uses Beyond the DOM -> general-blog14.txt
+[x] useEffect Explained: 10 Common Mistakes and How to Fix Them -> general-blog17.txt (published as "8 Common Mistakes" — 8 demos earned the topic)
+
+Covered as single demos inside blog14 — only revisit as a full deep dive:
+[~] usePrevious Hook (blog14 demo 3)
+[~] Click-Outside Hook (blog14 demo 7)
+[~] Controlled vs Uncontrolled Components (blog14 demo 5)
+[~] forwardRef and useImperativeHandle (blog14 demo 8)
+
+
+TIER 1 — HOOKS PEOPLE ACTUALLY SEARCH FOR
+------------------------------------------
+[~] When You Should NOT Use useEffect: 8 Better Alternatives (derived-state and event-handler cases already covered as blog17 demos #6–#7 — only write as a deeper dive covering the remaining alternatives)
+[x] useMemo vs useCallback: What They Actually Do (with Re-Render Demos) -> general-blog19.txt (published as "8 Re-Render Demos")
+[x] Why Your React Component Re-Renders (and How to Prove It) -> general-blog24.txt
+[~] React.memo Explained with Before-and-After Demos (blog19 demo #2 + blog24 demo #5 already cover this with before/after render counters — only revisit as a full deeper dive)
+[x] useLayoutEffect vs useEffect: When the Difference Actually Matters -> general-blog34.txt
+[x] React Keys Explained: Why Your List Breaks on Reorder -> general-blog29.txt
+[ ] React Strict Mode: Why Your Effects Run Twice
+[ ] useId, useTransition and useDeferredValue: The Underused Hooks
+[ ] useSyncExternalStore: Subscribing to State Outside React
+
+TIER 2 — CUSTOM HOOKS TO BUILD
+-------------------------------
+[ ] 10 Custom React Hooks You'll Reuse in Every Project
+[ ] How to Build a useLocalStorage Hook
+[ ] How to Build a useMediaQuery Hook
+[ ] How to Build a useDebounce Hook
+[ ] How to Build a useFetch Hook with Loading, Error and Abort
+[ ] How to Build a useOnScreen Hook with IntersectionObserver
+[ ] How to Build a useKeyboardShortcut Hook
+[ ] How to Build a useCopyToClipboard Hook
+
+TIER 3 — STATE AND ARCHITECTURE
+--------------------------------
+[ ] React State Management: useState vs Context vs useReducer
+[ ] React Props vs Context: Which One Should You Use?
+[ ] React Context Performance: Why It Re-Renders Everything
+[ ] How to Share State Between React Components: 5 Patterns
+[ ] Lifting State Up vs Colocating State: Where Should State Live?
+[ ] 10 React Component Patterns Every Developer Should Know
+[ ] How to Build Reusable React Components Without Overengineering
+[ ] React Conditional Rendering: 10 Practical Patterns
+[ ] React Portals Explained: Modals, Tooltips and Toasts Done Right
+
+TIER 4 — FORMS
+---------------
+[ ] React Forms Without a Library: Validation, Errors and Submission
+[ ] Build a Multi-Step Form (Wizard) in React
+[ ] Build a Debounced Search Box in React
+[ ] Build a Password Strength Meter in React
+[ ] Build an Autosave Editor in React
+[ ] React Form Validation with Zod and Native Inputs
+
+TIER 5 — COMPONENTS TO BUILD FROM SCRATCH
+------------------------------------------
+[ ] Build a Reusable Modal Component in React
+[ ] Build a Toast Notification System in React
+[ ] Build an Accessible Tabs Component in React
+[ ] Build an Accordion Component in React
+[ ] Build a Searchable Dropdown in React from Scratch
+[ ] Build a Data Table in React: Sorting, Search and Pagination
+[ ] Build Infinite Scroll in React Without a Library
+[ ] Build a Drag-and-Drop File Upload in React
+[ ] Build a File Upload with Real Progress in React
+[ ] Build an Image Gallery with Lightbox in React
+[ ] Build a Command Palette (Cmd+K) in React
+[ ] Build a Kanban Board with Drag and Drop in React
+[ ] Build a Theme Switcher with Context and CSS Variables
+
+TIER 6 — PERFORMANCE
+---------------------
+[ ] React Performance: 15 Optimizations You Can Actually Measure
+[ ] How to Find Unnecessary Re-Renders in React
+[ ] How to Render 10,000 Rows in React (Virtualization Explained)
+[ ] Build a Virtualized List in React Without a Library
+[ ] React Lazy Loading and Code Splitting Explained
+[ ] How to Reduce Your React Bundle Size
+[ ] React Suspense Explained with Practical Examples
+[ ] Common React Performance Mistakes Developers Make
+
+TIER 7 — MODERN REACT / NEXT.JS
+--------------------------------
+[ ] React vs Next.js: What's the Actual Difference?
+[ ] Server Components vs Client Components Explained Simply
+[ ] How React Hydration Actually Works
+[ ] Static vs Dynamic Rendering in React Apps
+[ ] How to Build SEO-Friendly React Pages
+
+TIER 8 — ERRORS, UX AND ACCESSIBILITY
+--------------------------------------
+[ ] React Error Boundaries Explained (with a Live Demo)
+[ ] How to Handle API Errors Properly in React
+[ ] How to Cancel Requests in React (AbortController + Effects)
+[ ] React Loading States: Skeletons, Spinners and Optimistic UI
+[ ] Optimistic Updates in React: A Practical CRUD Example
+[ ] React Accessibility Checklist: 20 Things to Fix Before Launch
+[ ] React Keyboard Navigation: Roving Tabindex Explained
+[ ] React Animation: CSS, GSAP or Framer Motion?
+[ ] Migrating Class Components to Hooks
+[ ] React Testing: What's Actually Worth Testing in a UI

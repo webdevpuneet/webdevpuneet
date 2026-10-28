@@ -1,0 +1,458 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  JavaScript Event Delegation: 10 Practical Examples with closest() and Event Bubbling
+
+  SEO TITLE (55 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  JavaScript Event Delegation: 10 Examples with closest()
+
+  SEO DESCRIPTION (154 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  JavaScript event delegation in 10 live demos: one listener for dynamic lists, target vs currentTarget, closest(), data-action routing and stopPropagation.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>Every developer hits the same wall eventually: you attach a click listener to every button in a list, then the app adds a new button, and it just doesn't work. The fix people reach for first is re-running the same <code>addEventListener</code> loop after every update &mdash; which is fragile, easy to forget, and wastes memory attaching hundreds of near-identical listeners. Event delegation solves this with one idea: <strong>put the listener on a stable ancestor instead of on the elements that keep changing, and let the browser's own event bubbling tell you what was actually clicked.</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The 10 demos below are all live and interactive. Several include a side-by-side comparison so you can see the exact failure delegation prevents, not just take it on faith. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> &mdash; webdevpuneet's free in-browser editor. Change a line, break it on purpose, see what happens &mdash; that's a faster way to build real intuition than any explanation.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The one-sentence rule</h2>
+<!-- /wp:heading -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// Instead of this &mdash; one listener per item, re-run after every DOM change:
+document.querySelectorAll('.item').forEach(function (item) {
+  item.addEventListener('click', handleClick);
+});
+
+// Do this &mdash; one listener on a parent that never changes:
+document.querySelector('.list').addEventListener('click', function (e) {
+  var item = e.target.closest('.item');   // find the item that was actually clicked
+  if (item) handleClick.call(item, e);
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Clicking a child element doesn't just fire a listener on that element &mdash; the event <em>bubbles</em> upward through every ancestor, in order, unless something stops it. A listener on <code>.list</code> sees every click that happens inside it, whether the target was there when the page loaded or was created a second ago. <code>event.target</code> tells you exactly which element was clicked; <code>.closest()</code> walks up from there to find the meaningful container you actually care about. That's the entire mechanism. Every demo below is one consequence of it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. One Listener Handles Every Item You Ever Add</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Add new to-dos, then click any of them &mdash; the ones on the page at load time and the ones you just typed.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/15/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Dynamic To-Do List Event Delegation Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>list.addEventListener('click', function (e) {
+  var delBtn = e.target.closest('.del');
+  if (delBtn) { delBtn.closest('.item').remove(); return; }
+
+  var item = e.target.closest('.item');
+  if (item) item.classList.toggle('done');
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is the case that motivates the whole pattern. There's exactly one click listener in this demo, attached once to <code>&lt;ul class="list"&gt;</code>, and it's never touched again &mdash; not when an item is deleted, not when a brand-new item is typed in. <code>.closest('.del')</code> checks whether the click landed on a delete button first, and if not, <code>.closest('.item')</code> checks whether it landed on the row itself. New items work immediately because they're new descendants of an element that already has the listener; nothing about the listener needs to know they exist.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any list, feed, or board where items get added, removed, or reordered after the initial render. <strong>Tip:</strong> this is also why frameworks like React don't need you to think about delegation manually &mdash; they typically attach one listener per event type at the root and dispatch synthetically, which is delegation as an internal implementation detail.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. Per-Item Listeners vs One Delegated Listener</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Add 200 rows to both grids and watch the counters. One grid's listener count stays at 1 forever.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/15/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Direct Listeners vs Delegated Listener Cost Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// Direct: a new closure and a new listener for every cell, forever.
+cells.forEach(function (cell) {
+  cell.addEventListener('click', handleClick);
+});
+
+// Delegated: one listener, attached once, regardless of cell count.
+grid.addEventListener('click', function (e) {
+  var cell = e.target.closest('.cell');
+  if (cell) handleClick.call(cell, e);
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Both grids behave identically to a user &mdash; click any cell in either one and something highlights. The difference is entirely in setup cost. The direct approach attaches a fresh listener (and a fresh closure capturing scope) to every single cell as it's created, so the count climbs linearly with the number of cells and every element added later needs the exact same wiring repeated. The delegated approach never grows past one listener, because the container itself is doing the listening; it just asks "was this click inside a <code>.cell</code>?" every time.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> large lists, tables, and grids &mdash; anywhere the item count is large or unbounded. <strong>Tip:</strong> the memory difference matters most for elements you frequently create and destroy (virtualized lists, live search results) &mdash; direct listeners on discarded elements are exactly the kind of thing that causes slow memory creep if you forget to clean them up, and delegation sidesteps the cleanup question entirely.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. event.target vs event.currentTarget</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The listener lives on the outer toolbar. Click the icon, the label, or the button padding and see which element each property reports.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/15/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="event.target vs event.currentTarget Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>toolbar.addEventListener('click', function (e) {
+  e.target;         // the exact element the user clicked &mdash; changes every time
+  e.currentTarget;  // the element the listener is attached to &mdash; always .toolbar
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This distinction trips people up because both properties are just "the element," but they answer different questions. <code>currentTarget</code> is fixed for the lifetime of that listener call &mdash; it's always whatever you called <code>addEventListener</code> on, in this case the toolbar div. <code>target</code> is whatever the pointer was actually over, which could be three levels deeper: an icon span, a text label, or the button itself. Delegation works because you attach to <code>currentTarget</code> but make your decisions based on <code>target</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> building the mental model before writing delegated code &mdash; most delegation bugs come from confusing these two. <strong>Tip:</strong> inside an arrow function, <code>this</code> isn't rebound to the listener's element, so reach for <code>e.currentTarget</code> there; a regular <code>function</code> listener gets the same value on <code>this</code> for free.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. Rescuing Clicks with closest()</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click directly on the trash glyph &mdash; not just the button padding &mdash; in both lists.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/15/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="closest() Rescuing Nested Element Clicks Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// Fragile: breaks the moment the button gets an icon, a span, anything nested.
+if (e.target.className === 'del') { ... }
+
+// Robust: walks up from whatever was clicked until it finds a match.
+var btn = e.target.closest('.del');
+if (btn) { ... }</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The naive version checks <code>e.target</code> directly against an exact match, which is a hidden assumption that the button will only ever contain a bare text node. The instant someone wraps the label in a <code>&lt;span&gt;</code> for icon alignment or i18n, <code>e.target</code> becomes that span, its class list doesn't match, and the handler silently does nothing &mdash; one of the most common real-world delegation bugs, and one that's invisible in a quick manual test if you happen to click the padding instead of the icon. <code>.closest()</code> removes the assumption entirely by walking upward until it finds an ancestor (or itself) matching the selector, so it doesn't matter which descendant absorbed the click.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> the default choice for delegated click handling &mdash; reach for <code>.closest()</code> over an exact <code>target</code> match essentially every time. <strong>Tip:</strong> <code>.closest()</code> is supported in every current browser and returns <code>null</code> when nothing matches, which is why it composes so cleanly with a plain <code>if</code> check.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Delegated Table Row Actions with data-action</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Edit, duplicate, and delete are three different behaviors, routed through one listener via a <code>data-action</code> attribute.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/15/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Delegated Table Row Actions with data-action Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>tbody.addEventListener('click', function (e) {
+  var btn = e.target.closest('button[data-action]');
+  if (!btn) return;
+  var row = btn.closest('tr');
+
+  if (btn.dataset.action === 'delete')    row.remove();
+  if (btn.dataset.action === 'duplicate') row.after(row.cloneNode(true));
+  if (btn.dataset.action === 'edit')      row.classList.toggle('editing');
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Delegation isn't limited to one kind of action per container &mdash; a single listener can route to many behaviors by reading a data attribute off whichever element was clicked. This scales well: adding a fourth action later means adding one more branch to the same function, not wiring up a new listener anywhere. It also means rows created by "Duplicate" work immediately, because they inherit the exact same buttons with the exact same <code>data-action</code> values, and the listener never had to be told they exist.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> admin tables, task lists, and any UI where each row exposes several distinct actions. <strong>Tip:</strong> prefer <code>data-action</code> values over parsing button text or class names for routing &mdash; text changes for localization, but a data attribute stays a stable contract between markup and script.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. Delegated Dropdown Menu with Dynamic Items</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Add a custom option to the menu, then select it &mdash; the selection listener was written before that option existed.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/15/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Delegated Dropdown Menu with Dynamic Items Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>menu.addEventListener('click', function (e) {
+  var opt = e.target.closest('.opt');
+  if (opt) selectOption(opt);
+});
+// Adding a new &lt;li class="opt"&gt; later needs zero new listener code.</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Menus are a good stress test for delegation because their contents are often genuinely unknown at write time &mdash; populated from search results, recently-used lists, or in this case, user-created options. Attaching per-item listeners here would mean re-binding every time the list changes, including for items the menu itself creates in response to a click. The delegated version treats "select an option" as a property of the menu container, not of any individual option, which matches how the UI actually behaves.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> menus, comboboxes, and autocomplete lists where the option set is fetched, filtered, or user-extended at runtime. <strong>Tip:</strong> the outside-click-to-close handler in this demo is attached to <code>document</code>, which is delegation in the other direction &mdash; one global listener answering "did this click happen outside the menu?" instead of tracking blur state on every option.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. Delegating input Events Across Dynamic Form Rows</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Add more comment fields freely &mdash; one <code>input</code> listener on the form tracks every field's character count.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/15/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Delegated Input Events Across Dynamic Form Rows Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>form.addEventListener('input', function (e) {
+  var textarea = e.target.closest('textarea');
+  if (!textarea) return;
+  updateCounter(textarea);
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Delegation isn't a click-only trick &mdash; most events that matter for forms bubble the same way, including <code>input</code>, <code>change</code>, and <code>focusin</code>/<code>focusout</code> (note: plain <code>focus</code> and <code>blur</code> do <em>not</em> bubble, which is exactly why the "in" variants exist). This demo generalizes the pattern from click to typing: whichever textarea the user is typing in, at the moment they're typing in it, is what <code>e.target</code> resolves to, and a field added five minutes into the session is handled identically to one that was there from the start.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> multi-step forms, repeatable field groups ("add another attendee"), and any form built from a template that gets cloned. <strong>Tip:</strong> when you do need <code>focus</code>/<code>blur</code> behavior delegated, listen for <code>focusin</code>/<code>focusout</code> instead &mdash; same idea, but those two are designed to bubble so delegation actually works.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. When Delegation Breaks: a Stray stopPropagation()</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Info" on each card, then click empty space on each card. One card's inner button quietly breaks the outer listener.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/15/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="stopPropagation Breaking Delegation Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// Inside the card's own inner button handler:
+innerBtn.addEventListener('click', function (e) {
+  e.stopPropagation();   // this click will now NEVER reach the outer listener
+  showInfo();
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is the demo worth studying if delegation has ever "randomly" stopped working for you. <code>stopPropagation()</code> does exactly what it says &mdash; it prevents the event from bubbling past the element that called it, which means any delegated listener sitting further up the tree simply never runs for that click. It's easy to add a <code>stopPropagation()</code> call for one specific reason (stopping an inner click from also triggering an outer "select card" behavior) and forget that it silently also blocks anything else listening higher up, including code you write later and code from a library you didn't write at all.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> debugging "my delegated listener isn't firing" &mdash; check every element between the click target and your listener for a <code>stopPropagation()</code> call before assuming your selector logic is wrong. <strong>Tip:</strong> reach for <code>stopPropagation()</code> only when you specifically need to stop a click from also being seen by an ancestor; if you just don't want a default browser action (like a link navigating), <code>preventDefault()</code> is almost always the one you actually want, and it doesn't affect bubbling at all.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">9. Delegating Keyboard Activation, Not Just Clicks</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>These star ratings are <code>&lt;span role="button"&gt;</code>, not real buttons. Tab to a star and press Enter or Space, or just click.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/15/9.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Delegated Keyboard Activation Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>rows.addEventListener('click', function (e) {
+  var star = e.target.closest('.star');
+  if (star) rate(star);
+});
+
+rows.addEventListener('keydown', function (e) {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  var star = e.target.closest('.star');
+  if (star) { e.preventDefault(); rate(star); }
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>A real <code>&lt;button&gt;</code> gets Enter and Space activation for free from the browser. A custom interactive element built from a <code>&lt;span&gt;</code> with <code>role="button"</code> gets none of that &mdash; you're responsible for reimplementing it, and delegation applies just as well to that responsibility as it does to clicks. One <code>keydown</code> listener on the container checks the key, then uses the exact same <code>.closest('.star')</code> lookup the click listener uses, so both input methods route through the same "what was activated" logic and stay in sync as rows are added.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any custom control (star ratings, custom checkboxes, chip selectors) built from non-native elements &mdash; delegated keyboard handling is what keeps it accessible without duplicating logic per instance. <strong>Tip:</strong> if you're building this for real, prefer a native <code>&lt;button&gt;</code> in the first place whenever you can style your way there &mdash; this pattern is for the cases where a genuinely custom element is unavoidable.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">10. One Header Listener Sorts Any Number of Columns</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click a column header to sort by it, click again to reverse. Adding a column needs zero new listener code.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/15/10.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Delegated Sortable Table Headers Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>thead.addEventListener('click', function (e) {
+  var th = e.target.closest('th');
+  if (!th) return;
+  sortBy(th.dataset.key, th.dataset.type);   // read config off the element itself
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This is delegation combined with data-driven configuration, and it's the pattern that scales best to real applications. Instead of writing a separate <code>addEventListener</code> call &mdash; and a separate handler &mdash; for each column, the single <code>thead</code> listener reads <code>data-key</code> and <code>data-type</code> off whatever header was clicked and treats sorting as one generic operation parameterized by that data. Add a fourth column to the markup with its own <code>data-key</code> and it sorts correctly with no script changes at all, because the listener was never coupled to a specific column in the first place.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> data tables, especially ones where columns are configurable, added by a CMS, or driven by an API response. <strong>Tip:</strong> this "read config from data attributes on the clicked element" shape generalizes well beyond sorting &mdash; filter chips, tab bars, and settings toggles all benefit from the same one-listener-plus-dataset approach.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Common pitfalls</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Matching on e.target instead of walking up with closest().</strong> Demo #4 shows this directly &mdash; a button with any nested markup breaks an exact-match check, while <code>.closest()</code> doesn't care how deep the actual click landed.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Forgetting that stopPropagation() blocks everything above it, not just the one behavior you were trying to stop.</strong> Demo #8 isolates this &mdash; it's the single most common reason a "correctly written" delegated listener appears to do nothing.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Assuming every event bubbles.</strong> Most do (<code>click</code>, <code>input</code>, <code>keydown</code>), but <code>focus</code> and <code>blur</code> don't &mdash; use <code>focusin</code>/<code>focusout</code> for delegated focus handling, as in demo #7's note.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Hardcoding behavior per element instead of reading it from the element.</strong> Demos #5 and #10 both route through a single handler by reading <code>data-*</code> attributes off whatever was clicked, which is what lets new elements work without new code.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Reaching for delegation when a native element would have solved it for free.</strong> Demo #9's keyboard handling exists because <code>&lt;span role="button"&gt;</code> has no built-in activation &mdash; a real <code>&lt;button&gt;</code> wouldn't need it. Delegate because you have to, not by default.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Does event delegation work with every event type?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>It works with any event that bubbles, which covers most of the ones you'll use for delegation: <code>click</code>, <code>input</code>, <code>keydown</code>/<code>keyup</code>, <code>change</code>, <code>mousedown</code>/<code>mouseup</code>, and <code>submit</code>. A few don't bubble by design &mdash; plain <code>focus</code> and <code>blur</code> are the ones people trip over most, and both have bubbling equivalents (<code>focusin</code>, <code>focusout</code>) built for exactly this use case, as shown in demo #7.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Is delegation always faster than direct listeners?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>For setup cost and memory, yes &mdash; one listener is cheaper than many, and demo #2 makes that difference visible directly. For the cost of handling a single click, the difference is negligible either way; the win is almost entirely about not re-binding listeners as the DOM changes, not about making an individual click faster.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What's the difference between closest() and matches()?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><code>element.matches(selector)</code> answers "does this exact element match?" and returns a boolean. <code>element.closest(selector)</code> answers "does this element, or the nearest ancestor of it, match?" and returns the matching element (or <code>null</code>). Delegation almost always wants <code>closest()</code>, because the actual click target is often a descendant (an icon, a span) of the element you actually care about &mdash; that's the exact scenario in demo #4.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Can stopPropagation() break code I don't control?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes, and that's the trap in demo #8. If any element between your click target and your delegated listener calls <code>stopPropagation()</code> &mdash; including code from a third-party widget or component library &mdash; your listener simply never sees that click. There's no error, no warning; it just silently doesn't fire. When a delegated listener "randomly" stops working for specific elements, this is the first thing to check.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Do frameworks like React need manual event delegation?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Not from you &mdash; React (and most modern frameworks) implements this internally, typically attaching one native listener per event type near the root and dispatching synthetic events to your component handlers from there. Understanding the underlying mechanism in these demos still matters because it explains framework behavior you'll otherwise find surprising, like why <code>stopPropagation()</code> on a synthetic event behaves the way it does relative to native listeners mixed into the same tree.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to internalize this is to click <strong>Fork &amp; Edit</strong> on demo #4 and change the naive list's exact-match check to <code>e.target.closest('.del')</code>, the same line the fixed list already uses &mdash; on that exact same markup, it immediately starts catching the clicks on the wrapped trash glyph that it was missing before. That single experiment explains more than any diagram. Once you've got a version you like, save it to <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop into a real project.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/js-playground/">JavaScript Playground</a> &mdash; webdevpuneet's full in-browser JS sandbox &mdash; and rebuild demo #5's delegated table actions from scratch with a fourth <code>data-action</code> of your own. Typing it out yourself, not just reading it, is what makes the pattern stick. For more tutorials like this one, browse the <a href="https://webdevpuneet.com/blog/category/javascript/">JavaScript</a> category on the blog.</p>
+<!-- /wp:paragraph -->

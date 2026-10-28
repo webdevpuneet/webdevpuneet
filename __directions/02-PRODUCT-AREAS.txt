@@ -1,0 +1,99 @@
+PRODUCT AREAS
+Last updated 2026-10-28. Counts are from the code on this date.
+
+For every area: what it is, where it lives, the quality bar, how it works with AI, how it leads to
+Hire Me, and the next ideas. The advisor updates the "Next ideas" lists as work is done.
+
+--------------------------------------------------------------------------------------------------
+1. WEBSITE BUILDER + WEBSITE TEMPLATES
+   URL      /website-builder/  ·  gallery /website-builder/templates/  ·  /website-builder/templates/<id>/
+   Code     src/components/WebsiteBuilder, src/components/SectionTemplates/templates/starters*.js,
+            site.js (multi-page, exports), nextjs.js (Next.js export)
+   Demos    demos/website-templates/<id>/one-page|multi-page (export-website-demos.mjs, upload-demos.mjs)
+   Now      24 website templates across 13 industries, one-page and multi-page; exports: HTML, ZIP,
+            React, Vue, Next.js site, Fork to My Code.
+   Bar      Real industry copy, every page title 50-60 and description 150-160, one h1 per page,
+            images with alt text, no broken links, demo exported and uploaded, images captured.
+   AI       Template pages carry an AI prompt; users can paste a template's section into AI to restyle it.
+   Hire Me  Highest-intent area: "Want this live this week? I build it from this template."
+   Next     - Industries still missing: music school/teacher, venue/label, SaaS docs, e-commerce
+              catalogue, medical clinic, accountant, architect, travel agency, food truck, barber.
+            - "Start from your brief": pick industry + tone, get a pre-filled template (no AI needed).
+            - One-click "publish to Netlify / GitHub Pages" guide page (lead magnet).
+
+2. WEBSITE SECTION TEMPLATES
+   URL      /website-section-templates/  ·  /website-section-templates/<id>/  ·  /category/<cat>/
+   Code     src/components/SectionTemplates (templates/*.js, behaviors.js, seo-*.js)
+   Roadmap  roadmaps/TEMPLATES-ROADMAP.html (root copy is the working file)
+   Now      72 sections in 19 categories incl. Scroll effects (GSAP) and Music; live editor, theme,
+            fonts, GSAP motion, scroll animation builder, exports.
+   Bar      SEO entry for every section (keywords, 300+ word about with every option, 8 features,
+            3 reasons, 4 use cases, 4 FAQs, AI prompt), preview + share image, A-grade audit passes.
+   AI       Every page has an AI prompt that recreates or extends the section.
+   Hire Me  "Need this section in your React / WordPress site? I can add it."
+   Next     - Suggested in SUGGESTIONS.html: Opening Hours & Location (top pick), Event Schedule &
+              Countdown, Donation Selector, Services with Booking, Coming Soon, Integrations Grid,
+              Cookie Banner, music extras (waveform player, lyrics, fan club tiers, press kit).
+            - 3D carousel extras: auto-rotate, per-card colours, video cards, ItemList schema.
+
+3. SOCIAL POST TEMPLATES
+   URL      /social-post-templates/   Code  src/components/SocialPostTemplates
+   Now      34 templates.
+   Bar      Correct export sizes per network, readable text at thumbnail size, brand kit applied.
+   AI       Prompt to write 10 caption variations for the post; prompt to adapt to another network.
+   Hire Me  "Need a month of on-brand posts? I can design the set."
+   Next     - Carousel (multi-slide) posts, story / reel cover sizes, quote and stat cards,
+              launch countdown posts that match the website templates (same brand kit).
+
+4. EMAIL TEMPLATES
+   URL      /email-templates/   Code  src/components/EmailTemplates
+   Now      27 templates.
+   Bar      Table layouts that survive Gmail / Outlook, PNG icons only (never SVG), alt text, dark-mode
+            check, plain-text version.
+   AI       Prompt for subject lines and preview text; prompt to rewrite copy for a segment.
+   Hire Me  "Need it coded for Mailchimp / Klaviyo and tested in 40 clients? Hire me."
+   Next     - Matching email for each website template industry (welcome, receipt, newsletter).
+            - Transactional set: password reset, order shipped, invoice.
+
+5. UI SNIPPETS (+ MY CODE)
+   URL      /ui-snippets/  ·  /ui-snippets/<id>/  ·  /ui-snippets/mycode/
+   Code     src/components/UiSnippetsTool (snippets/*.js), ui-snippets-ideas/
+   Now      about 2,080 snippets; live editor, React / Vue / Angular / Tailwind exports, My Code.
+   Goal     Snippets people enjoy learning from AND can drop into production (project-rules/MEMORY.md).
+   Bar      Use cases rewritten (usecases-audit.csv), no thin pages, related links, AI prompt.
+   AI       "Explain this snippet" and "convert to my stack" prompts.
+   Hire Me  "Need this component in your app? I can build and integrate it."
+   Next     - Finish the use-case rewrite batches; topic hub pages (forms, navigation, data viz);
+              learning paths that link snippets in order.
+
+6. CODING PLAYGROUNDS (LEARN TO CODE)
+   URL      /learn-to-code/ and 14 playgrounds: html, css, js, typescript, scss, tailwind,
+            bootstrap5, jquery, react, angular, vue, nextjs, gsap, svg
+   Now      Frontend only (backend playgrounds moved back to fwdtools on 2026-10-26).
+   Bar      Starter examples that run, short lessons, links to related snippets and tools.
+   AI       "Ask AI to explain this error" pattern; challenges users can solve with or without AI.
+   Hire Me  Soft: "Stuck on a real project? Book a code review."
+   Next     - Guided mini-courses (10 lessons each) built from existing snippets.
+            - Challenges with a check button (does your output match?).
+
+7. CSS & DEV TOOLS
+   URL      /css-tools/, /image-tools/, /tools/ and about 84 tools (generators, converters, checkers)
+   Bar      Instant result, copy button, explanation of the output, related tools, A-grade SEO page.
+   AI       Show the CSS a tool generates and a prompt to adapt it.
+   Hire Me  Soft: "Need help shipping this? Hire me."
+   Next     - Home page fixes (see SUGGESTIONS.html: repeated tools, phone layout, share image).
+
+8. BLOG (WordPress at /blog/)
+   Files    blog/blog-posts/{general,tools,tutorials,ui-snippets} drafts; WP output = one
+            <name>-wordpress.txt with header comment (title, SEO title/desc, paste steps + blocks).
+   Bar      Demos embed webdevpuneet.com/demos/, titles and descriptions to the SEO limits.
+   Hire Me  Author box at the end of every post linking /puneet/.
+   Next     - A post per new template family (e.g. "Free band website template", "3D scroll
+              carousel with GSAP"); a "UX" category in WordPress.
+
+9. PERSONAL SITE /puneet/ (the lead destination)
+   File     puneet/index.html (static), currently points to Upwork.
+   Next     - Add a short enquiry form (name, email, what you need, budget, timeline) that also
+              records which page sent the visitor (see 03-LEADS-HIRE-ME.txt).
+            - Case studies built from our own templates.
+--------------------------------------------------------------------------------------------------

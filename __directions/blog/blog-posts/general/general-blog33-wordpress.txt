@@ -1,0 +1,449 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  How to Build an Accordion Without a JavaScript Library
+
+  SEO TITLE (54 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  How to Build an Accordion Without a JavaScript Library
+
+  SEO DESCRIPTION (160 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  Build an accordion without a library: 9 live demos on animating to auto height, grid 0fr to 1fr, scrollHeight, single vs multi open, ARIA, keyboard and nesting.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>An accordion looks like the simplest possible widget: a button, a panel, a toggle. It's also one of the fastest ways to accidentally write CSS that can't animate at all, JavaScript that clips content the moment it changes, and markup that a mouse user will swear works perfectly while a keyboard or screen reader user can't operate it. None of that is because accordions are hard. It's because "smoothly expand and collapse a block of content to its real height" turns out to touch three things CSS and JS don't make obvious by default: how height transitions actually work (or don't), how to keep a measured pixel value honest as content changes, and how to describe open/closed state to assistive technology, not just to a stylesheet.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The 9 demos below are all live and interactive, and each one puts a working technique next to a broken or naive one so you can watch the actual difference, not just read about it. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> &mdash; webdevpuneet's free in-browser editor &mdash; and if you'd rather start from a blank file and build your own accordion alongside these, the <a href="https://webdevpuneet.com/js-playground/">JavaScript Playground</a> is webdevpuneet's in-browser JS sandbox for exactly that.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The core pattern</h2>
+<!-- /wp:heading -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>function setupAccordion(root, options) {
+  options = options || {};
+  var singleOpen = !!options.singleOpen;
+  var triggers = Array.prototype.filter.call(
+    root.querySelectorAll('.acc-trigger'),
+    function (t) { return t.closest('.acc') === root; } // exclude nested accordions
+  );
+
+  triggers.forEach(function (trigger) {
+    var panel = document.getElementById(trigger.getAttribute('aria-controls'));
+
+    trigger.addEventListener('click', function () {
+      var isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      if (singleOpen && !isOpen) closeAllExcept(trigger, triggers);
+      trigger.setAttribute('aria-expanded', String(!isOpen));
+      panel.classList.toggle('open', !isOpen); // CSS grid-template-rows does the animating
+    });
+  });
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Every accordion is really the same four decisions, made well or made badly: how the height animates (a fixed number, a genuine auto, or something JS measures), how open/closed state is reflected in the DOM and its ARIA attributes, whether opening one panel closes the others, and how the trigger is marked up so it works for every input method, not just a mouse. <code>Element.closest()</code> in the setup above is doing quieter but equally important work: it stops a parent accordion's trigger query from accidentally scooping up a trigger that belongs to a nested accordion rendered inside one of its own panels. Keep this four-part shape &mdash; animation technique, ARIA state, single vs. multi, and input-method coverage &mdash; in mind as you go through the 9 demos below; each one gets exactly one of those four pieces wrong, then right.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. height: auto Can't Be Transitioned At All</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click each "Shipping details" trigger. The broken panel appears and disappears instantly with no animation, because it's transitioning to and from <code>height: auto</code>. The fixed one slides open and closed.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/32/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="height: auto Can't Be Transitioned At All Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// BROKEN: transitioning height between 0 and auto -- CSS has no pixel
+// value for "auto" to interpolate toward, so the transition is skipped
+panel.style.transition = 'height .3s ease';
+panel.classList.toggle('open'); // .open sets height: auto
+
+// FIXED: transition between two REAL numbers instead
+panel.style.transition = 'max-height .3s ease';
+panel.classList.toggle('open'); // .open sets max-height: 200px</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>A CSS transition works by interpolating a property between a starting numeric value and an ending numeric value, sampling in-between values on every frame. <code>auto</code> isn't a number the browser can sample partway through &mdash; it's an instruction to compute whatever height the content naturally needs, resolved once, at the moment it's needed. Ask a transition to animate toward <code>auto</code> and the browser has nothing to interpolate against, so per the CSS spec it just skips straight to the end value instead, which is exactly the instant snap you see in the broken column. This is usually the very first wall anyone hits building an accordion from scratch, because <code>height: 0</code> to <code>height: auto</code> reads like it should obviously work &mdash; it's the natural way to describe "collapsed" and "expanded" in plain English, and nothing about it throws an error. The fixed column sidesteps the problem entirely by transitioning <code>max-height</code> between two real numbers (0 and a fixed ceiling) instead, which is a legitimate animation even though, as the next demo shows, that particular fix brings a new problem of its own.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> understanding why the very first accordion most people write doesn't animate &mdash; this is the baseline bug every other technique in this post is a response to. <strong>Tip:</strong> if you're debugging a panel that "just snaps" with no console error at all, check whether either end of your transitioned property is <code>auto</code>; that's almost always the cause. This is finally changing: <code>interpolate-size: allow-keywords</code> on <code>:root</code> lets <code>height: 0</code> to <code>height: auto</code> animate directly, but only in Chromium-based browsers so far, so treat it as an enhancement on top of the techniques below rather than a replacement.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. The max-height Hack Times Short Content Wrong</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Both columns use the same 400ms transition. Open "Short answer" in each, then "Long answer." In the broken column, both are timed against the same fixed 800px ceiling, so the short one visibly finishes in a fraction of that time.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/32/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="The max-height Hack Times Short Content Wrong Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// BROKEN: always animates toward the SAME fixed ceiling, regardless of
+// how tall the real content actually is
+panel.style.maxHeight = panel.classList.contains('open') ? '800px' : '0';
+
+// FIXED: grid-template-rows animates as a FRACTION of the content's own
+// intrinsic size, so the same duration always looks proportionate
+panel.style.gridTemplateRows = panel.classList.contains('open') ? '1fr' : '0fr';</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The max-height hack from demo 1 does animate, but it animates against the wrong reference point: a hand-picked ceiling like 800px, not the content's actual rendered height. A CSS transition's duration applies to the full numeric range it's declared against, so a 400ms transition from 0 to 800px spends that entire 400ms crossing 800 pixels of distance &mdash; even when the real content is one word tall and finishes rendering after the first 30 of those pixels. The visible result is exactly what the broken column shows: short content appears to snap into place almost instantly, long content uses the full duration, and the same transition feels wildly inconsistent depending on what's inside it, even though nothing in the code changed between the two panels. <code>grid-template-rows: 0fr</code> to <code>1fr</code> fixes this by animating a fraction of the row track's own intrinsic size rather than a number picked in advance &mdash; the row genuinely doesn't know its own height until layout resolves it, so the animation always spans exactly the real distance, whether that's 20 pixels or 400.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> recognizing that "it animates" and "it animates correctly" aren't the same claim &mdash; max-height passes the first bar and fails the second. <strong>Tip:</strong> if an accordion's open animation feels inconsistent between short and long panels, check whether it's using a fixed max-height number; that's almost always why.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. grid-template-rows: 0fr to 1fr Animates to True Auto Height</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Open "Return policy" in each column. The left panel's ceiling was hand-picked to fit this exact paragraph &mdash; add one more sentence later and it silently clips. The right panel never needed a number at all.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/32/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="grid-template-rows: 0fr to 1fr Animates to True Auto Height Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// The panel is a single-row CSS grid, not a plain block
+// .acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s ease; }
+// .acc-panel.open { grid-template-rows: 1fr; }
+// .acc-panel-inner { overflow: hidden; min-height: 0; } -- required for the collapse to reach 0
+
+trigger.addEventListener('click', function () {
+  panel.classList.toggle('open'); // that's the entire JS -- no height measured anywhere
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>grid-template-rows</code> is animatable, and a single-row grid track defined in <code>fr</code> units resolves against the content's own intrinsic size rather than a value anyone has to supply. Setting the track to <code>0fr</code> collapses it to zero height regardless of what's inside, and <code>1fr</code> claims the track's full natural share of space &mdash; which, in a grid with only one row, is exactly the content's real rendered height, computed by the layout engine on every frame of the transition, not guessed once in advance. The one requirement that makes this work is putting <code>overflow: hidden</code> and <code>min-height: 0</code> on the child wrapping the actual content, because without <code>min-height: 0</code> a grid item defaults to not shrinking below its content's minimum size, which would stop the row from ever reaching a true zero. This is the technique that gets demo 1's animation and demo 2's correct timing simultaneously, with zero JavaScript measuring anything &mdash; no <code>scrollHeight</code>, no resize listener, nothing to keep in sync if the content changes later.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> the default choice for any accordion built today &mdash; it's the least code, the fewest edge cases, and needs no maintenance as content changes. <strong>Tip:</strong> browser support for animating <code>grid-template-rows</code> is broad in evergreen browsers, but if you need to support something older, demo 4's JS-measured approach is the fallback.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. Measuring scrollHeight and Cleaning Up to auto</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Open each "FAQ answer" panel, then click "Add a sentence" while it's open. The broken panel's max-height was frozen at the old scrollHeight when it opened, so the new line gets clipped. The fixed panel resets itself so it re-measures correctly.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/32/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Measuring scrollHeight and Cleaning Up to auto Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// Open: measure the real height once, and transition toward that exact number
+panel.style.maxHeight = panel.scrollHeight + 'px';
+
+// FIXED: once the open transition finishes, let go of the fixed ceiling
+panel.addEventListener('transitionend', function (e) {
+  if (e.propertyName === 'max-height' && trigger.getAttribute('aria-expanded') === 'true') {
+    panel.style.maxHeight = 'none'; // future content changes reflow normally
+  }
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>When a real auto-height technique like demo 3's grid trick isn't available, <code>scrollHeight</code> gives JavaScript the exact pixel height of a panel's content, which can be set as <code>max-height</code> to get a precisely-timed animation without guessing a ceiling number in advance. The bug in the broken column isn't the measurement itself &mdash; it's that the measurement is taken exactly once, at the moment the panel opens, and then never revisited. If the content changes afterward &mdash; new text loads in, a user expands something nested, a web font swaps in at a different size &mdash; the old fixed pixel ceiling is still sitting there from before, and the new, taller content gets clipped at that stale boundary with no visual warning that anything is wrong. The fix is a <code>transitionend</code> listener that fires once the opening animation completes and swaps the fixed pixel value for <code>max-height: none</code>, returning the panel to ordinary auto-sizing behavior for as long as it stays open &mdash; closing it re-measures and re-pins to a real number first, so there's still something concrete for the closing transition to animate from.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> older-browser support, or any layout where the grid-template-rows technique genuinely doesn't fit. <strong>Tip:</strong> always pair a JS-measured max-height with a transitionend cleanup step &mdash; a scrollHeight value with no cleanup is a bug waiting for the content to change.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Single-Open vs Multi-Open, Same Component</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Open "Shipping" then "Returns" in each column &mdash; both accordions are built from the same setup function. On the left, opening one panel closes the other automatically. On the right, both stay open at once.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/32/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Single-Open vs Multi-Open, Same Component Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>function setupAccordion(root) {
+  var singleOpen = root.getAttribute('data-single-open') === 'true';
+  var triggers = root.querySelectorAll('.acc-trigger');
+
+  triggers.forEach(function (trigger) {
+    trigger.addEventListener('click', function () {
+      var isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      if (singleOpen && !isOpen) closeAllExcept(trigger, triggers);
+      toggle(trigger, !isOpen);
+    });
+  });
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Single-open and multi-open aren't two different components &mdash; they're the same toggle logic with one extra branch that only runs in single-open mode: before opening the clicked panel, close every other panel in its group first. Reading that branch off a data attribute (or an options object, as in the core pattern above) means the choice becomes a configuration decision made once per accordion instance, not a structural fork in the codebase maintained as two separate implementations that can drift apart over time. The closing step itself just iterates the group's other triggers, setting <code>aria-expanded="false"</code> and removing the open class the same way a manual click would &mdash; there's no special-cased "force close" path, which keeps the animation, the ARIA state, and the manual toggle path all going through identical code regardless of which mode is active. Which mode is right is a content decision, not a technical one, and the FAQ section below goes into when each is the better fit.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> building one reusable accordion component instead of two &mdash; the mode belongs in configuration, not in a second copy of the toggle logic. <strong>Tip:</strong> keep the "close others" step operating on the same trigger list the manual toggle uses; a separate list for it is how the two modes quietly fall out of sync.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. The Accessible ARIA Shape of a Trigger and Panel</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click each "Payment methods" trigger and watch the box underneath that shows what a screen reader has to work with. The broken version exposes nothing; the fixed version exposes the same information sighted users get from the chevron rotating.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/32/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="The Accessible ARIA Shape of a Trigger and Panel Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// BROKEN: a &lt;div&gt; has no role, no keyboard behavior, and nothing to expose
+// &lt;div class="acc-trigger"&gt;Payment methods&lt;/div&gt;
+
+// FIXED: a &lt;button&gt; plus two attributes describes the whole relationship
+// &lt;button aria-expanded="false" aria-controls="panelId"&gt;Payment methods&lt;/button&gt;
+trigger.addEventListener('click', function () {
+  var isOpen = trigger.getAttribute('aria-expanded') === 'true';
+  trigger.setAttribute('aria-expanded', String(!isOpen)); // the only state that matters
+});</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>A sighted mouse user gets the open/closed state of an accordion item for free, from the chevron's rotation and the panel's visible height &mdash; nothing about that visual information reaches a screen reader unless it's also expressed in the accessibility tree. <code>aria-expanded</code> is the attribute that does that job: set to <code>"true"</code> or <code>"false"</code> on the trigger, it's announced automatically the moment the element receives focus, telling the user exactly what a sighted user sees without them needing to first activate the trigger to find out. <code>aria-controls</code> does a related but distinct job, declaring which specific element in the DOM this trigger expands and collapses, which is what lets some assistive technology offer a direct way to jump to that panel's content. A plain <code>&lt;div&gt;</code> with a click handler has neither of these by default and nothing native to build them from &mdash; it can be made accessible with enough manual ARIA and a hand-rolled keyboard handler, but a real <code>&lt;button&gt;</code> gets most of the underlying semantics for free and only needs these two attributes added on top.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> the non-negotiable minimum for any accordion trigger, regardless of which animation technique backs it. <strong>Tip:</strong> update <code>aria-expanded</code> in the same function that toggles the visual open class &mdash; if they're set in two different places, it's easy for one to update without the other.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. A Real button Gives You Keyboard Support Free</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click the dashed focus target first, press Tab once to reach the trigger below it, then press Enter or Space without clicking. The div trigger won't even take focus; the button trigger opens normally.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/32/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A Real button Gives You Keyboard Support Free Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// BROKEN: a div has no built-in focusability or keydown behavior --
+// clicking it works only because of a mouse-only 'click' listener
+trigger.addEventListener('click', function () { toggle(); });
+
+// FIXED: a real &lt;button&gt; is focusable by default and fires 'click' for
+// Enter AND Space automatically -- no extra keydown handler required
+trigger.addEventListener('click', function () { toggle(); }); // same listener, different element</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>This demo's JavaScript is identical in both columns &mdash; the entire difference is one HTML tag. A <code>&lt;div&gt;</code> is not part of the tab order by default and has no built-in response to any key at all; making it merely reachable would need an explicit <code>tabindex="0"</code>, and making Enter and Space activate it would need a manual <code>keydown</code> listener checking for both keys, then calling <code>preventDefault()</code> on Space to stop the page from scrolling. A <code>&lt;button&gt;</code> needs none of that, because both behaviors are part of its native implementation in every browser: it's automatically part of the tab order, and both Enter and Space are already wired to fire its <code>click</code> event, exactly the same event a mouse click fires. This is precisely why this bug survives so easily in real projects &mdash; a developer testing with a mouse sees a fully working accordion in either version, and the gap only becomes visible to someone who tries to use it with a keyboard alone, which is usually a much smaller fraction of manual testing than it should be.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> the simplest, highest-leverage accessibility fix available for this pattern &mdash; swapping a div for a button costs nothing and closes an entire category of bugs at once. <strong>Tip:</strong> if you've already built a div-based trigger and can't change the element, at minimum add <code>role="button"</code>, <code>tabindex="0"</code>, and a keydown handler for both Enter and Space &mdash; but a real button remains strictly less code.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. Nested Accordions Without the Parent Collapsing</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Open "Support" in each column, then open "Chat hours" nested inside it. The broken parent's own trigger query scoops up the nested trigger as if it were one of its own top-level triggers, so opening the nested item collapses Support right out from under it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/32/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Nested Accordions Without the Parent Collapsing Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// BROKEN: querySelectorAll searches the WHOLE subtree, nested accordion included
+var triggers = root.querySelectorAll('.acc-trigger'); // grabs the nested trigger too
+
+// FIXED: only include triggers whose nearest .acc ancestor is THIS root
+var triggers = Array.prototype.filter.call(
+  root.querySelectorAll('.acc-trigger'),
+  function (t) { return t.closest('.acc') === root; }
+);</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>querySelectorAll</code> matches every descendant that fits the selector, with no awareness of which logical component each match belongs to &mdash; if a nested accordion is rendered inside one of a parent accordion's panels, the parent's own query for <code>.acc-trigger</code> matches the nested trigger too, purely because it happens to live somewhere underneath in the DOM tree. In single-open mode, that nested trigger silently becomes a member of the parent's own close-group: clicking it runs the parent's "close every other trigger in my group" logic, which includes the parent panel the nested accordion is actually sitting inside, so opening a small nested item collapses the much larger panel containing it. The fix scopes each accordion's own trigger list to only the triggers whose nearest ancestor matching <code>.acc</code> is that exact root element, using <code>closest()</code> to walk upward and stop at the first match &mdash; a nested trigger's nearest <code>.acc</code> is the nested accordion's own root, not the parent's, so it's correctly excluded and left to manage itself. Adding <code>stopPropagation()</code> on the nested trigger's own click handler is a reasonable second layer of defense on top of this, though the scoped query is what actually fixes the root cause.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any accordion pattern likely to contain another accordion inside its content &mdash; FAQ pages with sub-categories are the most common real case. <strong>Tip:</strong> whenever a component queries its own descendants for interactive children, ask what happens if a full copy of that same component is nested inside one of them &mdash; this bug generalizes well beyond accordions.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">9. Starting a Panel Open by Default, Correctly</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Both panels are meant to start open before anything is clicked. Look now, before touching either one &mdash; the broken panel loads visually collapsed despite its content being meant to show immediately, and its <code>aria-expanded</code> lies about the real state.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/32/9.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Starting a Panel Open by Default, Correctly Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// BROKEN: markup only ever describes the CLOSED state on load
+// &lt;button aria-expanded="false" aria-controls="panel"&gt;...&lt;/button&gt;
+// &lt;div class="acc-panel" id="panel"&gt;...&lt;/div&gt;  -- grid-template-rows defaults to 0fr
+
+// FIXED: the initial HTML already carries the open state -- nothing to fix on load
+// &lt;button aria-expanded="true" aria-controls="panel" class="open"&gt;...&lt;/button&gt;
+// &lt;div class="acc-panel open" id="panel"&gt;...&lt;/div&gt;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>"Open by default" is a decision about the initial state of the markup, not something a script should have to fix after the page has already rendered. The broken version in this demo has fully correct click-toggle logic &mdash; the bug is entirely upstream of it, in HTML that never actually describes the open state anywhere: <code>aria-expanded="false"</code> is hardcoded, and the panel's default CSS collapses it to zero height unless a class says otherwise. The result is a panel that's supposed to greet a new visitor already expanded but instead requires them to notice a collapsed trigger and click it themselves, defeating the entire point of defaulting it open. The fix has nothing to do with JavaScript timing tricks like running code after <code>DOMContentLoaded</code> to force it open &mdash; it's simply writing the already-open state directly into the initial HTML, so <code>aria-expanded="true"</code>, the visible open class, and the panel's rendered height all agree with each other from the very first paint, with the toggle logic afterward working identically for both directions.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any accordion item that needs to be expanded on page load, such as the first FAQ entry or a highlighted section. <strong>Tip:</strong> if you find yourself writing JS that runs once on load specifically to open a panel, that's usually a sign the default state belongs in the HTML instead.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Common pitfalls</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Trying to transition height: auto directly.</strong> Demo 1's bug is the one nearly everyone hits first &mdash; CSS cannot interpolate toward or from a keyword that has no numeric value to sample.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Treating "it animates" as the finish line.</strong> Demo 2's max-height hack does animate, but timed against the wrong number it makes short content look broken even though nothing errors.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Measuring height once and never again.</strong> Demo 4's scrollHeight bug only appears once content changes after the panel is already open &mdash; a transitionend cleanup step is what keeps it correct going forward.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Treating a div as a button.</strong> Demos 6 and 7 are the same root cause in two forms &mdash; a div has no default role, no default focusability, and no default keyboard behavior, all of which a real button provides for free.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Letting a component's own query grab a nested copy of itself.</strong> Demo 8's collapsing-parent bug only shows up once an accordion is nested inside another &mdash; scope descendant queries to the nearest matching ancestor, not the whole subtree.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Is an accordion the same thing as the native details/summary element?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>They solve the same basic problem &mdash; a trigger that reveals hidden content &mdash; but <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> come with a fixed, largely un-styleable disclosure triangle and toggle behavior baked into the browser, whereas an "accordion" in the conventional web sense usually implies a group of these that coordinate with each other (demo 5's single-open mode) and a custom smooth-height animation (demos 1 through 4), though the gap has narrowed: giving several <code>&lt;details&gt;</code> elements the same <code>name</code> attribute now makes them an exclusive group natively (opening one closes the others, in every major browser since 2024), and Chromium can animate the panel with <code>::details-content</code> plus <code>interpolate-size</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">When should I just use details/summary instead of building this from scratch?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>For a single, independent collapsible block with no animation requirement and no need to coordinate with siblings &mdash; a "show more" toggle, an FAQ answer that's fine snapping open &mdash; <code>&lt;details&gt;</code> gets you real semantics, native keyboard support, and zero JavaScript for free, and it's a legitimate first choice worth trying before reaching for a custom build. Single-open coordination is now covered too: give each <code>&lt;details&gt;</code> in the group the same <code>name="faq"</code> and the browser closes the others for you. Once you need a smooth height animation that works in every browser, coordination the <code>name</code> attribute can't express, or a design that departs from the native disclosure behaviour, you're back to the pattern in this post.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Single-open or multi-open &mdash; which is more usable?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Neither is universally correct; it depends on whether the panels compete for the same attention. Single-open (demo 5's <code>singleOpen: true</code>) suits FAQ-style content where panels are mutually exclusive answers to different questions and showing several at once mostly adds scrolling with no benefit. Multi-open suits reference material someone might want to compare side by side, like several spec sheets or settings sections a user is actively cross-referencing &mdash; forcing those closed the moment a second one opens actively gets in the way.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Does the simplest accordion need JavaScript at all?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A single panel with no animation can be done with zero JavaScript using <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code>, or even a checkbox-and-label CSS trick for a snap-only toggle. The moment you want a smooth height transition (demos 1 through 4), single-open coordination between multiple items (demo 5), or state that needs to be correct and consistent on first load (demo 9), you're usually writing at least a small amount of JavaScript. The one exception is single-open coordination itself: <code>&lt;details name="group"&gt;</code> handles "close every sibling" natively with zero script, as long as native details elements fit your design.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Why does my accordion's aria-expanded get out of sync with what's actually visible?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This is almost always demo 9's bug, or a variant of it &mdash; the attribute and the visual state are set in two different places in the code (or one of them is only set on the very first click) instead of a single toggle function that updates both together, as shown in the core pattern at the top of this post. Auditing every place that changes the open class and confirming <code>aria-expanded</code> is set in that exact same spot is the fastest way to find where they diverged.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The fastest way to internalize all of this is to open demo 8 &mdash; the collapsing-parent bug &mdash; with <strong>Fork &amp; Edit</strong>, and try removing the <code>closest('.acc') === root</code> filter from the fixed column to watch it start collapsing exactly like the broken one, even though the rest of the code still looks correct at a glance. Once you've got a version you're happy with, save it to <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop into a real project.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/js-playground/">JavaScript Playground</a> &mdash; webdevpuneet's full in-browser JavaScript sandbox &mdash; and rebuild demo 5's single-open/multi-open component from scratch with a third mode of your own, such as "always keep exactly one open, never fully closed." Typing it out yourself, not just reading it, is what makes it stick. For more tutorials like this one, browse the <a href="https://webdevpuneet.com/blog/category/javascript/">JavaScript</a> category on the blog.</p>
+<!-- /wp:paragraph -->

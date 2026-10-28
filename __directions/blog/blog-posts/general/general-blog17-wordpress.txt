@@ -1,0 +1,449 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  useEffect Explained: 8 Common Mistakes and How to Fix Them
+
+  SEO TITLE (58 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  useEffect Explained: 8 Common Mistakes and How to Fix Them
+
+  SEO DESCRIPTION (153 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  8 common React useEffect mistakes with live broken-vs-fixed demos: missing deps, stale closures, leaked intervals, object deps, race conditions and more.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>Almost every confusing <code>useEffect</code> bug comes from the same handful of misunderstandings, repeated in different clothes: treating the dependency array as optional, closing over a value that's already gone stale, forgetting that objects are compared by reference, or reaching for an effect when the answer was a plain calculation or an event handler all along. None of these are edge cases &mdash; they're the ones nearly every React developer hits in their first few months, and several of them ship into production because nothing crashes when they're wrong; the UI just quietly does the incorrect thing.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The 8 demos below are all live and interactive, and every one that has a "broken" side keeps it running right next to the fix so you can watch the actual difference in behavior, not just read about it. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> &mdash; webdevpuneet's free in-browser editor. Change a dependency array, delete a cleanup function, see what breaks &mdash; that's a faster way to build real intuition than any explanation.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The one-sentence rule</h2>
+<!-- /wp:heading -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>useEffect(function () {
+  // runs after React commits this render to the screen
+  doSomething(value);
+
+  return function () {
+    // runs before the NEXT effect run, and once more on unmount
+    undoSomething();
+  };
+}, [value]); // React re-runs the effect only when something in THIS array changed</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p><code>useEffect</code> is a way to say "after the screen updates, synchronize something outside React with what just changed" &mdash; a subscription, a timer, the document title, a network request. The dependency array is not a performance knob you can skip; it's the actual list of values the effect closes over, and it's how React decides whether to re-run. Get it wrong in either direction &mdash; too few values, or a value that changes identity every render even though its contents don't &mdash; and the effect runs at the wrong time, not just too often or too rarely. Every demo below is one specific way that goes wrong, and the one-line fix for it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">When should you actually use useEffect?</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Half of the mistakes below aren't really about dependency arrays or cleanup functions &mdash; they're about reaching for an effect when nothing outside React was involved in the first place. Before writing one, it's worth checking which category the logic actually falls into.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Use an Effect for:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li>Synchronizing with an external system (a non-React widget, a map instance, a chart library)</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Subscriptions (WebSockets, event emitters, external stores)</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Timers (<code>setInterval</code>, <code>setTimeout</code> that needs to persist across renders)</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Browser APIs (<code>document.title</code>, focus management, <code>IntersectionObserver</code>)</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Network synchronization (fetching data that depends on props or state)</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p><strong>Don't use an Effect for:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li>Calculating derived values (demo #6 below &mdash; just compute it during render)</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Handling user events (demo #7 below &mdash; put the logic in the handler that caused it)</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Transforming data for rendering (filtering, sorting, formatting &mdash; do it inline or with <code>useMemo</code>)</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li>Updating state simply because another state changed (a giveaway that the "derived" state should be a calculation instead)</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p>The syntax of <code>useEffect</code> is genuinely small &mdash; a function and a dependency array. Most of the pain people associate with it actually comes from using it in the second list above, where no dependency array or cleanup function would have fixed the real problem: the effect shouldn't have existed. Keep that distinction in mind as you go through the 8 demos &mdash; #1 through #5 are genuine effect mistakes (timing, closures, cleanup, race conditions), while #6, #7, and #8 are really about recognizing when an effect was the wrong tool to begin with.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. No Dependency Array Runs After Every Single Render</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Both counters share one unrelated "tick" button. Watch the effect-run count on each side as you click it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/16/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Missing Dependency Array Runs on Every Render Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>useEffect(function () {
+  // no array at all -- runs after EVERY render, no matter what changed
+});
+
+useEffect(function () {
+  // empty array -- runs exactly once, after the first render
+}, []);</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Leaving off the dependency array entirely doesn't mean "run once" &mdash; it means React has no list to compare against, so it treats the effect as always needing to re-run. Clicking the unrelated tick button in this demo causes a render for a reason that has nothing to do with either effect, and the "no array" side still fires anyway, climbing every time. The empty-array side runs once, at mount, and never again, because comparing against an empty list never finds a difference. The visual proof here uses a ref rather than state to track the run count deliberately &mdash; calling <code>setState</code> unconditionally inside a no-array effect is itself a classic way to create an accidental infinite render loop, which is the same runaway loop demo #4 shows from a different angle.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> understanding that "I forgot the array" and "I meant an empty array" are two completely different behaviors, not a stricter/looser version of the same thing. <strong>Tip:</strong> if you genuinely need something to run after every render, that's usually a sign the logic belongs somewhere else &mdash; a plain calculation during render, or the event handler that actually caused the change.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. Stale Closure from a Missing Dependency</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "+1" a few times, then click Start on each side. The broken one keeps adding 1 to a frozen old count; the fixed one reads the real current count.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/16/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Stale Closure from a Missing Dependency Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>useEffect(function () {
+  var id = setInterval(function () {
+    setLog(count + 1);   // "count" is whatever it was WHEN THIS EFFECT RAN
+  }, 500);
+  return function () { clearInterval(id); };
+}, [count]);   // include it, and a new interval is created with a fresh closure</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>A JavaScript closure captures the actual variable binding available when the function was created &mdash; not a live, ever-updating reference. When <code>count</code> is missing from the dependency array, the interval callback is created once and keeps reading whatever <code>count</code> equaled at that exact moment, forever, even as the real value moves on. Including <code>count</code> in the array is what makes React tear down the old interval and create a new one &mdash; with a fresh closure over the current value &mdash; every time the count actually changes. In the demo, bump the count while both intervals are already running: the broken side keeps adding to the number it started with, while the fixed side always adds to whatever the count genuinely is right now.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any effect that sets up a timer, subscription, or event listener that reads component state inside its callback &mdash; the dependency array is what keeps that callback from going stale. <strong>Tip:</strong> if a value legitimately shouldn't trigger a re-subscription but the callback still needs its current value, a ref that's updated on every render (not included in the array) is the usual escape hatch &mdash; that's worth its own dedicated post.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. Forgetting the Cleanup Function Leaks the Interval</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Mount a timer, let it tick a few times, then unmount it. Without a cleanup function, it keeps running invisibly and logging in the background.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/16/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Forgetting the Cleanup Function Leaks the Interval Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>useEffect(function () {
+  var id = setInterval(tick, 500);
+  return function () { clearInterval(id); };   // &lt;-- easy to forget, never optional
+}, []);</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>React doesn't know what <code>setInterval</code>, <code>addEventListener</code>, or a subscription's <code>.connect()</code> actually did &mdash; it only knows to call whatever function your effect returns, right before the next effect run and once more on unmount. Skip the <code>return</code> statement, and nothing ever tells the browser to stop that timer. In this demo, unmounting the component removes it from the screen entirely, but the log panel underneath &mdash; driven by the same leaked interval, writing to a plain variable outside React &mdash; keeps growing. The component is gone; the interval it created is not.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any effect that creates something with an explicit teardown API &mdash; timers, event listeners, subscriptions, observers, WebSocket connections. If the thing you created has a matching "stop" method, your effect needs a cleanup function that calls it. <strong>Tip:</strong> a missing cleanup function rarely throws an error or shows up in a quick test &mdash; it shows up as a slow memory leak or duplicate event handlers after a user navigates around your app for a few minutes, which is exactly what makes it worth checking for deliberately rather than waiting to notice.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. A New Object Every Render Breaks the Dependency Array</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Both effects depend on a filter object built the same way. Click Start on each and watch what happens to the run count.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/16/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A New Object Every Render Breaks the Dependency Array Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// BROKEN: a new object, every single render
+var filters = { min: minPrice };
+
+// FIXED: the same object reference until minPrice actually changes
+var filters = useMemo(function () {
+  return { min: minPrice };
+}, [minPrice]);</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>React compares dependency array entries with <code>Object.is</code> &mdash; essentially <code>===</code> &mdash; which checks identity, not contents. <code>{ min: 10 }</code> built on one render and <code>{ min: 10 }</code> built on the next are never <code>===</code> to each other, even though they look identical, because object literals create a brand-new reference every time they're evaluated. If that object is a dependency and the effect also updates state, the result is a genuine infinite loop: render creates a new object, effect sees a "changed" dependency and runs, running updates state, updating state triggers a render, which creates another new object. This demo caps the broken side at 40 runs specifically so it can't freeze your tab &mdash; in real, unguarded code, this exact shape is one of the most common causes of a page that locks up or spikes to 100% CPU. <code>useMemo</code> fixes it by returning the exact same object reference across renders until <code>minPrice</code> itself changes, which is the actual value the effect should care about.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> recognizing "Maximum update depth exceeded" or an unexplained CPU spike as a reference-identity problem first, before assuming the logic itself is wrong. <strong>Tip:</strong> this applies identically to arrays and to inline functions passed as dependencies &mdash; <code>useMemo</code> for computed values, <code>useCallback</code> for functions, same underlying reason. If your project runs the React Compiler, it memoizes values like this filter object for you; without it, <code>useMemo</code> is the manual version of the same fix.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Race Condition from a Missing Ignore Flag</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Ada" then immediately click "Bo" &mdash; Ada's search is deliberately slower. Watch which name ends up on screen.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/16/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Race Condition from a Missing Ignore Flag Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>useEffect(function () {
+  var ignore = false;
+  fetchResults(query).then(function (data) {
+    if (!ignore) setResults(data);   // check BEFORE applying a late response
+  });
+  return function () { ignore = true; };   // flips true the moment a newer request starts
+}, [query]);</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Nothing about <code>fetch</code> or a promise guarantees that requests resolve in the order they were sent. A fast, later request can finish before a slow, earlier one &mdash; and without anything to stop it, the earlier response still calls <code>setResults</code> when it eventually arrives, overwriting the correct, more recent answer with a stale one. The fix isn't cancelling the actual network request &mdash; it's a local <code>ignore</code> flag, scoped to that one specific effect run, that a fresh effect run's cleanup function flips to <code>true</code> before applying its own response. In the demo, searching "Ada" and immediately searching "Bo" means Bo's fast response arrives first &mdash; the broken panel still lets Ada's slow response clobber it a moment later; the fixed panel's stale response checks the flag and quietly no-ops.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any effect that fetches data based on a value that can change again before the request finishes &mdash; search-as-you-type, tab switching, paginated data, anything driven by fast user input. <strong>Tip:</strong> if you're using a data-fetching library (React Query, SWR, or React's own <code>use</code> with Suspense), this exact problem is already solved for you internally &mdash; this pattern matters most when you're calling <code>fetch</code> directly inside a plain <code>useEffect</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. Derived State Doesn't Need an Effect</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Type in the cart. Both totals end up correct &mdash; but watch the render counter while you type.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/16/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Derived State Doesn't Need an Effect Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// Unnecessary: its own state, kept in sync with an effect
+useEffect(function () { setTotal(qty * price); }, [qty, price]);
+
+// Just calculate it -- no state, no effect, no extra render
+var total = qty * price;</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>If a value can be computed directly from props or state already available during render, it doesn't need to be state itself &mdash; storing it separately and syncing it with an effect means every change to the inputs causes two renders instead of one: the first with the stale, not-yet-recalculated value, and a second, effect-triggered one with the corrected value. Neither render is wrong forever, but the first one is genuinely wasted work the browser has to do and, briefly, paint. In this demo, both cart totals are numerically correct at rest &mdash; the difference only shows up in the render counter, which is exactly why this mistake is easy to ship without noticing: nothing about the final UI looks broken, it's just quietly doing more work than it needs to.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> catching state that's actually just a calculation wearing a <code>useState</code> costume &mdash; totals, filtered lists, formatted strings, anything fully determined by other values you already have. <strong>Tip:</strong> the giveaway is usually an effect whose entire body is a single <code>setSomething(...)</code> call with no external system involved &mdash; no timer, no subscription, no network call, nothing outside React. If that's all it does, it's very likely a candidate to become a plain variable instead.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. A Side Effect That Should Be an Event Handler</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Load saved cart" on each side &mdash; it sets a quantity directly, the way restoring from storage would. No item was actually added, so no toast should appear.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/16/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="A Side Effect That Should Be an Event Handler Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// Reacts to a STATE CHANGE -- can't tell WHY qty changed
+useEffect(function () {
+  if (qty &gt; 0) showToast('Item added');
+}, [qty]);
+
+// Reacts to the ACTUAL EVENT -- knows exactly what just happened
+function handleAdd() {
+  setQty(qty + 1);
+  showToast('Item added');
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>An effect that watches a piece of state and reacts when it changes has no way to know <em>why</em> it changed &mdash; only that it did. If quantity can change for more than one reason (a user clicking "Add," but also loading a saved cart, undoing an action, or syncing from a server), an effect keyed to quantity fires the same way for all of them, even the ones that shouldn't trigger an "item added" toast at all. The fix is recognizing that "the user clicked Add" is an event you already have direct access to &mdash; it belongs in the click handler that causes it, not inferred after the fact from a state change. In the demo, loading a saved cart sets the same quantity state both panels track; the broken panel's effect can't distinguish that from a real add and shows the toast anyway, while the fixed panel's load handler simply never calls the toast function.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> analytics events, toasts, confirmations, and any "when the user does X" logic &mdash; if you can name the user action that should trigger it, it almost always belongs in that action's handler. <strong>Tip:</strong> this is one of the most common patterns in the official React docs' "You Might Not Need an Effect" guidance, and for good reason &mdash; it's the single easiest category of unnecessary effect to actually remove once you're looking for it.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. One Effect, Two Unrelated Concerns</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Change the theme (unrelated to chat). Watch whether the chat connection below reconnects when it has no reason to.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/16/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="One Effect, Two Unrelated Concerns Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// One effect, two concerns -- theme changes force a chat reconnect
+useEffect(function () {
+  connectToChat();
+  document.title = 'Theme: ' + theme;
+}, [theme]);
+
+// Split by concern -- each effect has only the dependency it actually needs
+useEffect(function () { connectToChat(); }, []);
+useEffect(function () { document.title = 'Theme: ' + theme; }, [theme]);</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>A dependency array has to honestly list every value the effect body reads &mdash; there's no way to include a value for one line and exempt it for another. Once an unrelated concern shares an effect with something that does depend on a fast-changing value, that unrelated concern is forced to re-run on the same schedule, whether it needs to or not. In the demo, switching between light and dark theme has nothing to do with the chat connection, but the combined effect reconnects anyway because <code>theme</code> is in its dependency array. Splitting into two effects &mdash; one with an empty array for the connection, one with <code>[theme]</code> for the title &mdash; lets each concern re-run only on its own actual schedule.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any effect whose body you'd describe with the word "and" &mdash; connects to chat <em>and</em> updates the title, logs analytics <em>and</em> starts a timer. That "and" is usually the sign it should be two effects. <strong>Tip:</strong> this is also why <code>useEffect</code> can be called as many times as you want inside one component &mdash; there's no cost to splitting by concern, and the dependency arrays end up smaller and more honest as a direct result.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Common pitfalls</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Treating the dependency array as a performance setting instead of a correctness requirement.</strong> Demos #1 and #2 both come from the same root cause &mdash; the array isn't optional tuning, it's the actual list of values the effect's closure depends on.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Assuming two objects with the same contents are the same dependency.</strong> Demo #4 is the direct proof &mdash; <code>{ min: 10 }</code> is never <code>===</code> to another <code>{ min: 10 }</code>, no matter how identical they look.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Forgetting that a promise can resolve out of order.</strong> Demo #5's race condition exists because nothing about async code guarantees the request sent first finishes first.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Reaching for an effect before checking if it's just a calculation or an event.</strong> Demos #6 and #7 are both "you might not need an effect" in disguise &mdash; one is derivable during render, the other already has a real event to hook into.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Cramming multiple concerns into one effect because they happen to run at the same time.</strong> Demo #8 shows the actual cost &mdash; an unrelated concern gets forced onto a schedule it never needed.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Why does my effect run twice in development?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>In development, Strict Mode (React 18 and later) deliberately mounts, unmounts, and remounts every component once to surface exactly the bugs these demos cover &mdash; a missing cleanup function becomes obvious immediately, instead of only showing up later as a slow leak in production. It's intentional and only happens in development; a correctly cleaned-up effect (like demo #3's fixed version would be) handles the extra mount/unmount cycle without any visible difference.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Do I need to add every function I call inside an effect to the dependency array?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>If the function is defined inside the component (and therefore recreated every render), yes, in principle &mdash; though a new function reference every render creates the exact same "always different" problem demo #4 shows with objects. The usual fixes are moving the function outside the component if it doesn't need any props or state, or wrapping it in <code>useCallback</code> if it does, so its reference stays stable across renders that don't actually change its behavior.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What's the actual difference between useEffect and useLayoutEffect?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p><code>useEffect</code> usually runs after the browser has painted the updated screen (React can run it earlier, before paint, when the update came from a click or keypress) &mdash; asynchronous relative to what the user sees. <code>useLayoutEffect</code> runs synchronously, after React updates the DOM but before the browser paints &mdash; useful for measuring layout (like an element's size or position) and adjusting something before the user ever sees a flicker. Every demo in this post correctly uses <code>useEffect</code>; reach for <code>useLayoutEffect</code> only when you specifically need to prevent a visual flash caused by a DOM read-then-write.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Can I make useEffect's callback itself async?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Not directly &mdash; <code>useEffect</code> expects its callback to return either nothing or a cleanup function, and an <code>async</code> function always returns a promise instead. Demo #5 sidesteps this entirely by chaining <code>.then()</code> on the promise rather than using <code>await</code>, which keeps the effect callback itself synchronous. If you do want <code>await</code>-style syntax, the fix is the same idea one level deeper: define a separate <code>async</code> function inside the effect and call it immediately, keeping the outer effect function itself synchronous.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Why does the linter warn about missing dependencies, and should I always listen to it?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The <code>exhaustive-deps</code> ESLint rule is checking for exactly the stale-closure bug in demo #2 &mdash; it flags any value your effect reads that isn't listed in the array. It's right often enough that disabling it should be rare and deliberate, not a reflex; when it seems wrong, the more common resolution is restructuring the effect (as in several demos above) rather than silencing the warning.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Every demo above ships its full HTML, CSS and JS in the <strong>HTML / CSS / JS</strong> tabs in its own top bar. The fastest way to internalize this is to click <strong>Fork &amp; Edit</strong> on demo #4 &mdash; the infinite-loop one &mdash; and swap the <code>useMemo</code>'d object back for a plain object literal on the fixed side. Watch it immediately start climbing toward the same 40-run cap the broken side hits. That single experiment explains more than any diagram. Once you've got a version you like, save it to <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop into a real project.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/react-playground/">React Playground</a> &mdash; webdevpuneet's full in-browser React sandbox &mdash; and rebuild demo #5's race-condition fix from scratch against a search box of your own. Typing it out yourself, not just reading it, is what makes the pattern stick. For more tutorials like this one, browse the <a href="https://webdevpuneet.com/blog/category/react/">React</a> category on the blog.</p>
+<!-- /wp:paragraph -->

@@ -1,0 +1,19 @@
+ADVISOR LOG (newest first)
+Format: date · area · suggested / chosen / done · note
+
+2026-10-28 · leads · discarded · Hire Me card, after-export links and demo-bar link were built, then
+           discarded at Puneet's request (code fully reverted). Ask before building again.
+2026-10-28 · all · done · Created __directions (vision, product areas, Hire Me plan, daily playbook,
+           quality bars) and copied blog, roadmaps, logs, audits and ideas into it.
+2026-10-28 · leads · suggested · Build Hire Me P1 (after-export card) + P2 (template page card) for
+           website and section templates, with ?ref tracking, and add an enquiry form to /puneet/.
+2026-10-28 · ship · suggested · Confirm tools.zip from the 2026-10-27 deploy was extracted; then check
+           the music pages, the music demo audio and the 3D carousel page live.
+2026-10-28 · content · suggested · Blog post + social post for the Music template ("Free band website
+           template with audio player and tour dates"), using our own social template.
+
+2026-10-27 · sections · done · 3D Scroll Carousel (scroll-ring) v1.2: 4 styles, tilt, reflection, touch
+           drag, caption; added to SaaS, App, Agency, Portfolio templates; demos uploaded.
+2026-10-27 · templates · done · Music category (6 sections) + Music Artist & Band website template.
+2026-10-27 · seo · done · A-grade audit (385 checks, 0 failed); engine fix: one h1 on every exported page.
+2026-10-27 · ui snippets · done · Preview toolbar Refresh button shows the word "Refresh" instead of an icon.

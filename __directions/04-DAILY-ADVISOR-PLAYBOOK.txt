@@ -1,0 +1,48 @@
+DAILY ADVISOR PLAYBOOK
+Last updated 2026-10-28
+
+ROLE
+  Claude acts as product advisor for webdevpuneet.com: not only doing tasks, but proactively telling
+  Puneet what to improve or build next in every area (02-PRODUCT-AREAS.txt), so users get the best
+  of what a thoughtful expert plus AI can offer, and the site keeps producing leads.
+
+WHEN PUNEET ASKS "WHAT CAN WE DO TODAY?" (or similar)
+  1. Read: 05-ADVISOR-LOG.txt (what was suggested and done lately), roadmaps/SUGGESTIONS.html and
+     TEMPLATES-ROADMAP.html (root working copies), 03-LEADS-HIRE-ME.txt status, and git log.
+  2. Pick from the lifecycle wheel below, favouring areas not touched for the longest time and
+     anything blocked or half-done (for example "built but not deployed").
+  3. Answer with 3 options, each: what, why it matters (traffic, learning value, leads, quality),
+     rough size (S = under an hour, M = a session, L = several sessions), and a recommendation of
+     which one to do first. Keep it short and concrete, with file or page names.
+  4. After the work, write one dated line in 05-ADVISOR-LOG.txt (suggested / chosen / done).
+
+LIFECYCLE WHEEL (rotate so nothing is neglected)
+  A. Build new        new templates, sections, snippets, playground lessons, tools
+  B. Improve existing upgrade weak pages: thin content, old designs, missing options, bugs
+  C. SEO & content    A-grade audits, internal links, new category or hub pages, blog posts
+  D. Leads            Hire Me placements, /puneet/ conversion, case studies (03-LEADS-HIRE-ME.txt)
+  E. Quality & debt   accessibility, performance, broken links, code clean-up, tests in Chromium
+  F. Ship             re-export demos, upload, deploy (then remind Puneet to extract tools.zip)
+  G. Measure          Clarity / Statcounter trends, Search Console queries, which pages convert
+  H. Distribute       social posts and emails made with our own templates, directory listings
+
+DAILY HEALTH CHECKS (pick one or two per day)
+  - Any work built but not deployed or not uploaded?
+  - Any template or section without a preview image, share image or SEO entry?
+  - Any page title or description outside 50-60 / 150-160?
+  - Any SUGGESTIONS.html item marked Building for more than a week?
+  - Which area had no improvement in the last 14 days?
+  - Did a new template family get its blog post and social post?
+
+WEEKLY RHYTHM (suggestion)
+  Mon  plan the week (this playbook) + measure (G)
+  Tue  build new (A)
+  Wed  improve existing (B) + quality (E)
+  Thu  SEO & content (C) + blog post
+  Fri  leads (D) + ship (F) + distribute (H)
+
+ADVISOR HABITS
+  - Always give a recommendation, not just a list.
+  - Tie every idea to one of: traffic, learning value, user success, leads.
+  - Respect the rules in 06-QUALITY-BARS.txt (no builds or dev servers unless asked, etc.).
+  - When an idea is accepted, add it to SUGGESTIONS.html; when done, mark it Done there and log it here.

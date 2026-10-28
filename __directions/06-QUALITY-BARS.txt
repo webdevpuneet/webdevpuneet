@@ -1,0 +1,37 @@
+QUALITY BARS AND WORKING RULES
+Last updated 2026-10-28
+
+A-GRADE SEO (every new or changed page)
+  - Title 50-60 characters, meta description 150-160, both unique across the site; primary keyword
+    in both. Show the counts when proposing them.
+  - Exactly one h1 on every exported page (page.js ensureH1 promotes the first heading on pages
+    without one).
+  - About text 300+ words with 5+ sub-headings that documents EVERY option and capability.
+  - 2+ internal links that resolve (related sections, the website template that uses it, My Code).
+  - 8 features, 3 reasons, 4 use cases (18-42 words each), 4 FAQs (answers 25-70 words), AI prompt.
+  - Every image has alt text of 10+ characters; preview and share (og) images exist.
+  - Structured data that parses (FAQPage, BreadcrumbList, CreativeWork; MusicEvent where relevant).
+  - Sitemap, llms.txt and static routes come from the registries (scripts/postbuild.js).
+  - The audit script used on 2026-10-27 checked 385 points; re-run the same checks for new work.
+
+ACCESSIBILITY
+  - Real buttons and links with labels; visible focus; reduced motion respected; content visible
+    without JavaScript; keyboard paths for carousels, players and menus.
+
+PERFORMANCE
+  - Animate transform and opacity; load GSAP plugins only when used; lazy-load below-the-fold images.
+
+TEMPLATES
+  - Real industry copy, fictional brands, example links/emails use webdevpuneet.com (never yoursite.com).
+  - Email templates: icons must be PNG images, never SVG.
+  - Demos are noindex and link back to their template page.
+
+WORKING RULES (from Puneet)
+  - Never run builds or dev servers to test unless asked; headless Chromium (Playwright) is allowed.
+  - Deploy only when asked: NEXT_DIST_DIR=.next-deploy npm run deploy, then Puneet extracts
+    /tools.zip on the server and deletes it.
+  - Demos: node scripts/export-website-demos.mjs, then node scripts/upload-demos.mjs (--preview first).
+    The upload compares file size, so same-size edits are not re-sent.
+  - New tools go in test mode first unless Puneet asks for live.
+  - Blog drafts are rebranded to webdevpuneet.com; WordPress output is one <name>-wordpress.txt.
+  - Read and update TEMPLATES-ROADMAP.html and SUGGESTIONS.html when working on templates.

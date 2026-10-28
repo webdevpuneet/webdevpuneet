@@ -1,0 +1,45 @@
+VISION AND POSITIONING
+Last updated 2026-10-28
+
+ONE SENTENCE
+  webdevpuneet.com gives people professional web design ideas and visual assets they can see,
+  touch, learn from and use: templates, sections, snippets, playgrounds and tools that make the
+  craft of the web understandable, whether they then build it themselves, with AI, or with Puneet.
+
+WE ARE NOT COMPETING WITH AI
+  AI can write code on request. What it cannot do well is show someone a hundred finished,
+  tasteful, tested options side by side, let them poke at real working examples, and teach them
+  *why* something looks and behaves the way it does. That is our job:
+
+  1. Inspiration you can see.  Real, finished designs (website templates, sections, emails, social
+     posts, snippets) with live previews and demos, not a blank prompt box.
+  2. Learning you can touch.   Playgrounds and editable snippets: change a value, break it,
+     understand it. Every page explains what is going on in plain language.
+  3. Assets you can trust.      Professional, accessible, responsive, SEO-ready code that holds up
+     in a real project. Exported as HTML, ZIP, React, Vue, Next.js or forked into My Code.
+  4. AI as a partner, not a rival. Every template and snippet page carries a ready-made AI prompt
+     so users can take our starting point into ChatGPT / Claude / Copilot and extend it. We are
+     the best starting point for AI work, and the best check on what AI produces.
+  5. A human when you need one. When a project needs judgement, polish or delivery, the user can
+     hire Puneet (/puneet/). See 03-LEADS-HIRE-ME.txt.
+
+WHO IT IS FOR
+  - Beginners and students learning HTML, CSS, JavaScript and frameworks (playgrounds, snippets).
+  - Designers and developers who want a fast, good-looking starting point (templates, sections).
+  - Small businesses, creators and marketers who need a site, an email or a social post today
+    (website builder, email and social templates).
+  - People already using AI who want better inputs and a way to check outputs.
+  - Clients who want it done for them (Hire Me).
+
+WHAT MAKES A PAGE "OURS"
+  - It shows something real and finished, not a placeholder.
+  - It teaches: what it is, how it works, when to use it, how to change it.
+  - It is free to use, with no sign-up and no watermark in exports.
+  - It is A-grade on SEO, accessibility and performance (06-QUALITY-BARS.txt).
+  - It offers a next step: edit, export, fork, ask AI, or hire Puneet.
+
+SUCCESS LOOKS LIKE
+  - Search traffic to template, snippet, playground and tool pages keeps growing.
+  - People stay, edit and export (engagement, exports, forks to My Code).
+  - A steady flow of qualified Hire Me enquiries from the pages that show the most intent.
+  - The library is known as the place to find and learn real, modern web UI.

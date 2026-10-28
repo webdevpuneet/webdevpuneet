@@ -1,0 +1,370 @@
+<!--
+================================================================
+  POST TITLE (paste into the WordPress title field — it becomes the page H1)
+  React Keys Explained: Why Your List Breaks on Reorder
+
+  SEO TITLE (53 chars, target 50–60, max 60 — "Optimize SEO" panel → SEO TITLE)
+  React Keys Explained: Why Your List Breaks on Reorder
+
+  SEO DESCRIPTION (160 chars, target 150–160, max 160 — "Optimize SEO" panel → SEO DESCRIPTION)
+  React keys explained with 8 live demos: why index keys misattach state on insert, remove and sort, when index keys are safe, duplicate keys and keyed Fragments.
+
+  HOW TO PASTE: click the first line after this comment, press Ctrl+Shift+End, Ctrl+C.
+  In WordPress click "Type / to choose a block", then Ctrl+V.
+  Fallback: ⋮ menu → Code editor → paste.
+================================================================
+-->
+
+
+<!-- wp:paragraph -->
+<p>"Just use the index" is advice that works fine right up until a list does the one thing lists actually do: gain an item, lose an item, or change order. Then, without a single visible error, inputs start holding the wrong text, checkboxes start belonging to the wrong row, and a component you swore had no bugs starts leaking one item's local state into another's. None of this throws &mdash; React doesn't know it did anything wrong, because from its side of the reconciliation, nothing did. The key you gave it told React exactly which DOM node to reuse for which row, and it obeyed. This post is about what a key actually does during reconciliation, the specific list operations that turn an index key into a misattachment bug, and the cases &mdash; append-only lists, for example &mdash; where index keys are completely fine.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The 8 demos below are all live and interactive, and most of them lean on the same tell: an uncontrolled input that keeps whatever you typed into it while the label sitting next to it changes underneath. That mismatch is the single clearest proof that a DOM node got reused for the wrong piece of data. Every embed also has a <strong>Fork &amp; Edit</strong> button that opens the exact snippet, already running, in <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> &mdash; webdevpuneet's free in-browser editor. If you'd rather build a keyed list from a blank slate, the <a href="https://webdevpuneet.com/react-playground/">React Playground</a> is webdevpuneet's full in-browser React sandbox, no install or build step required for either.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Ground rules before you start keying lists</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>A key's only job is to answer one question during reconciliation: for this element at this position in this array, is it the same instance as the element that was here last render, or a different one? React doesn't compare object contents to figure this out &mdash; it builds a map from key to child on the old render and a map from key to child on the new render, then matches them up by key. A match means "reuse the existing component instance and its DOM node, just update its props" &mdash; internal state survives, uncontrolled input values survive, nothing unmounts. A miss on one side and a hit on the other means "unmount this, mount that" &mdash; a completely fresh instance, fresh DOM node, fresh state, from zero. When you don't pass an explicit key, React falls back to the element's position in the array as an implicit one, which is exactly the same thing as writing <code>key={i}</code> yourself &mdash; it isn't a safer default, it's the same trap with the training wheels hidden. Every demo below is really testing one thing: does the key you handed React still point at the same logical item after the array changes, or does it now point at whatever happens to occupy that array slot.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">1. Index-as-Key Plus an Insert at the Front</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Type something into one of the inputs, then click "Insert new item at top." Watch what you typed jump to a different row.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/28/1.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Index-as-Key Plus an Insert at the Front Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>items.map(function (item, i) {
+  return e(Row, { key: i, item: item }); // key is POSITION, not identity
+});
+
+// items = [A, B, C] -&gt; unshift NEW -&gt; items = [NEW, A, B, C]
+// key 0 used to mean "A" -- now it means "NEW."
+// React reuses the DOM node that WAS row A for row NEW instead.</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Before the insert, key 0 maps to item A, key 1 to B, key 2 to C &mdash; three DOM nodes, each holding whatever text you typed into its input. After unshifting a new item onto the front, the array is [NEW, A, B, C], but the keys React sees are still 0, 1, 2, 3 in that same order, because they were never tied to the items themselves &mdash; they were tied to array position. React's key-matching finds key 0 on both sides and calls it a match: same instance, just update its props. So the DOM node that used to render item A &mdash; including whatever text sits in its input, because an uncontrolled input's value lives on the DOM node, not in React's props &mdash; gets relabeled "NEW" and keeps your typed text. Every other row shifts down by exactly one slot for the same reason, each one now showing the previous row's label with the previous row's input value still attached. Nothing crashed, nothing warned; React did precisely what its key map told it to do, and the key map was lying about identity the whole time.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> understanding why "the wrong row has my typed text" bugs never come with a stack trace &mdash; reconciliation isn't aware anything went wrong. <strong>Tip:</strong> this exact failure mode &mdash; index key plus an insert anywhere but the very end &mdash; is the single most common source of "my form inside a list has a state leak" bug reports.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">2. Index-as-Key Plus a Remove From the Middle</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Type into each input so you can tell them apart, then remove "Item B." Watch which typed value survives, and next to which label.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/28/2.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Index-as-Key Plus a Remove From the Middle Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// items = [A, B, C, D], keys 0/1/2/3
+items.filter(function (it) { return it.label !== 'B'; });
+// items = [A, C, D] -- but the KEYS at those slots are still 0/1/2
+
+// key 1 used to be B's input; now it's re-labeled C and keeps B's text
+// key 2 used to be C's input; now it's re-labeled D and keeps C's text</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Removal is the mirror image of insertion, and it's just as invisible. Filtering out item B leaves [A, C, D], and React assigns keys 0, 1, 2 to that new array purely by position &mdash; it has no idea key 1 used to mean B and now means C, because the key was never anything but a slot number to begin with. React's key-matching still finds keys 0, 1, and 2 present on both the old and new render, so it treats all three as reused instances and simply patches their props: the DOM node that used to be B's row (holding whatever you typed into B's input) gets relabeled C and keeps B's text; the node that used to be C's row gets relabeled D and keeps C's text. Only the very last key &mdash; the one that genuinely has no match on the new side because the array got shorter &mdash; actually unmounts. Everything at or after the deleted item shifts identity by one slot while dragging its old DOM state along for the ride, which is the opposite of what "remove one item" should visibly do.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> recognizing that a "removed" row in a broken-key list isn't actually the one that gets torn down &mdash; it's whichever row ends up at the highest surviving index. <strong>Tip:</strong> the giveaway in production is usually subtler than this demo: a checked checkbox, a scroll position, or an open accordion state that jumps to the wrong row after a delete, not an obviously broken input.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">3. Stable id Key Fixes Both, Side by Side</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Type into both left and right inputs, then click "Insert at top (both)" once. Compare where your typed text ends up.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/28/3.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Stable id Key Fixes It, Side by Side Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// BROKEN: key travels with array position
+items.map(function (item, i) { return e(Row, { key: i, item: item }); });
+
+// FIXED: key travels with the item itself, wherever it ends up in the array
+items.map(function (item) { return e(Row, { key: item.id, item: item }); });</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>The fix for both of the previous demos is one word: replace the index with a value that identifies the item itself and doesn't change when the item moves &mdash; a database id, a UUID generated once at creation time, anything stable and unique among siblings. With <code>key={item.id}</code>, inserting a new item at the top doesn't disturb any existing key: A keeps key 1, B keeps key 2, C keeps key 3, and the new item shows up with a brand-new key React has never seen before. React's key-matching correctly identifies three reused instances (which it moves to their new positions in the output, DOM node and all &mdash; no unmount, no remount) and exactly one genuinely new instance (which it mounts fresh, with an empty, untouched input). Your typed text in A, B, and C's inputs stays exactly where you typed it, because the DOM nodes those inputs live on never stopped being A's, B's, and C's nodes &mdash; they just moved down visually. The two columns run the identical insert on identical data; the only difference is what identifies a row to React.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> the default choice for any list whose items can be inserted, removed, or reordered &mdash; which is most lists backed by real, mutable data. <strong>Tip:</strong> if your data doesn't already have a stable id, generate one once when the item is created (not on every render) &mdash; <code>crypto.randomUUID()</code> at creation time works, a fresh random value computed inside <code>.map()</code> does not, because that regenerates a different key on every single render.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">4. Sorting: DOM Nodes Reused vs Recreated</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Sort A↔Z" a few times with the stable key on. Nothing flashes. Toggle "unstable key" on and sort again &mdash; every row flashes and the mount count jumps.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/28/4.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Sorting a List: Nodes Reused vs Nodes Recreated Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// stable key -- sort only reorders the ARRAY; React moves existing
+// DOM nodes into their new positions, it never unmounts them
+e(Row, { key: item.id, item: item });
+
+// unstable key -- a fresh value every render means no key ever matches
+// across renders, so React unmounts + remounts ALL rows on every sort
+e(Row, { key: item.id + '-' + Math.random(), item: item });</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>A reorder is a useful case to isolate because, done correctly, it proves keys aren't just about preventing bugs &mdash; they're what lets React avoid unnecessary DOM work at all. When the key is the item's stable id, sorting the array doesn't change which keys exist, only their order; React's key-matching finds all four keys present on both sides, so every row is a "move," never an "unmount + mount." The CSS flash animation on each row only plays once, the instant a DOM node is actually inserted into the document &mdash; a moved node was never removed and reinserted, so it never replays. Toggle on the random key and every row's key becomes different on every single render, matching nothing from the previous render; React can no longer tell "this is Fig, just moved" from "this is a new row that happens to say Fig," so it tears down and rebuilds all four DOM nodes on every sort. The mount counter &mdash; which only increments inside a <code>useEffect</code> with an empty dependency array, meaning it only ever fires on a genuine mount &mdash; jumps by 4 every time, and every row flashes together as proof.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> confirming, with a counter instead of a guess, whether a sort or filter operation is actually reusing your list's DOM or silently rebuilding it every time. <strong>Tip:</strong> this is also why sortable/draggable list libraries insist on stable keys &mdash; their drag animations depend on the same DOM node persisting across a reorder, exactly like this demo's flash depends on it not persisting.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5. Duplicate Keys: What React Actually Does</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Open devtools console. Click "Give item 2 a duplicate key," then "Remove item 1" and watch which label actually disappears.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/28/5.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Duplicate Keys: What React Actually Does Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>e('div', { key: '1' }, 'Item One');
+e('div', { key: '1' }, 'Item Two');  // same key as above -- collision
+
+// React logs: "Encountered two children with the same key."
+// then keeps only ONE entry in its key map for "1" -- the later
+// sibling silently overwrites the earlier one's slot</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Keys only have to be unique among siblings at a given level, which means React builds exactly one key-to-child map per list, and that map is a plain object &mdash; it can't hold two entries under the same key any more than a JavaScript object literal can have two properties with the same name. When a second sibling claims a key already present in that render's map, React logs a warning to the console (this demo loads React's development build specifically so that warning actually fires &mdash; the production build strips console warnings entirely) and the later entry overwrites the earlier one in the map. This doesn't mean the duplicate row's UI vanishes &mdash; both <code>&lt;div&gt;</code>s still render to the DOM in order, because rendering the tree and building the key map are separate steps &mdash; but it does mean React's understanding of "which key belongs to which child" for the next reconciliation is now wrong for one of them. Remove the first item after introducing the duplicate and watch closely: which visible row actually disappears is no longer something you can predict from the UI alone, because the key map that reconciliation relies on only ever had room for one of the two colliding entries.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> understanding that a duplicate-key warning isn't cosmetic &mdash; it's React telling you its internal bookkeeping for that list is now ambiguous, before you've noticed anything wrong on screen. <strong>Tip:</strong> duplicate keys almost always come from deriving a key from something that isn't actually unique &mdash; a label, a category name, a truncated string &mdash; rather than from a genuine id; if two items can plausibly share whatever you're using as a key, they eventually will.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">6. Index-as-Key Is Fine When the List Only Ever Appends</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Type into a couple of the inputs, then click "Add item to end" repeatedly. Nothing you typed moves or gets misattached.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/28/6.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Index-as-Key Is Fine When the List Never Reorders Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// safe: this list ONLY appends -- it never inserts before an existing
+// row, never removes one, and never reorders
+labels.map(function (label, i) { return e(Row, { key: i, label: label }); });
+
+labels.concat(['new label']); // adds key N+1; keys 0..N are untouched</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>"Never use index as key" is a rule of thumb that overcorrects, and this demo exists to say so directly: index keys are only unsafe when an operation changes which item sits at an index that already has a mounted row. Appending to the end doesn't do that &mdash; a list of 3 items has keys 0, 1, 2; appending a fourth item adds key 3, a key React has never seen before, while keys 0, 1, and 2 keep pointing at the exact same items they always did. There's no insertion before an existing index, no removal that shifts later indices down, no reorder that reassigns which item an index refers to &mdash; so the one condition that makes index keys dangerous (an index's meaning changing between renders) simply never occurs here. The mount counter proves it: it only increments for genuinely new rows, and it stays flat for every row that existed before the append, no matter how many times you click. A static log feed, an append-only activity list, a fixed set of form fields rendered once and never reordered &mdash; all of these are legitimate, safe uses of <code>key={i}</code>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> append-only lists &mdash; activity feeds, chat logs, print/audit trails &mdash; where new entries are always added at the end and existing entries are never inserted before, removed, or reordered. <strong>Tip:</strong> the moment a list gains a "remove," "insert above," or "sort" feature, its index keys stop being safe on that day &mdash; treat it as a decision tied to the list's actual operations, not a blanket rule either way.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">7. Keying a Form by the Selected Item's id</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Pick a person, edit their notes field, then switch to another person. Watch the notes field reset instead of leaking their old text.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/28/7.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="Keying a Form by Selected Item id to Force a Reset Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>// switching people gives EditForm a brand-new key every time,
+// so React discards the old instance's state and mounts a fresh one
+e(EditForm, { key: selectedId, person: person });</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Everything so far has been about keys inside an array of siblings, but the same mechanism works just as well on a single component rendered outside a list, and it's worth calling out as its own deliberate pattern rather than a side effect to avoid. Here, <code>EditForm</code> isn't itself part of a list &mdash; it's one component whose key is tied to which list item is currently selected. Clicking a different person changes <code>selectedId</code>, which changes the key React sees for that exact same JSX position, which means React's key-matching finds no match at all between renders: the old <code>EditForm</code> instance, along with whatever half-finished text sits in its uncontrolled notes field, is unmounted and discarded, and a brand-new instance mounts in its place with fresh, empty fields. This is the identical unmount-and-remount mechanic that makes index keys dangerous in demos #1 and #2 &mdash; the only difference is that here it's intentional and exactly what you want. It replaces a pattern that otherwise needs a manual "reset all these fields" effect keyed off the selection changing, with one prop.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> any component with internal or uncontrolled state (a form, a stepper, an accordion's open state) that needs to fully reset whenever the thing it's editing changes, without writing manual reset logic. <strong>Tip:</strong> this only works cleanly for state you're fine losing entirely on switch &mdash; if you need to preserve per-item draft state across selections (so switching back restores unsaved edits), you need the draft stored in a parent, not blown away by a remount.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">8. key on Fragment: List Items Without a Wrapper div</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Click "Shuffle rows." Each glossary entry is a &lt;dt&gt;/&lt;dd&gt; pair, siblings in a real &lt;dl&gt;, with no div wrapping them.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<iframe src="https://webdevpuneet.com/demos/a1/28/8.html" style="width:100%;height:480px;border:0;border-radius:10px;overflow:hidden;" loading="lazy" title="key on Fragment: List Items Without a Wrapper div Demo by webdevpuneet.com"></iframe>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<p><strong>The rule:</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:code -->
+<pre class="wp-block-code"><code>function Term(props) {
+  return e(React.Fragment, { key: props.term.id },
+    e('dt', null, props.term.word),
+    e('dd', null, props.term.def)
+  ); // Fragment takes the key; it renders ZERO DOM nodes of its own
+}</code></pre>
+<!-- /wp:code -->
+
+<!-- wp:paragraph -->
+<p>Every demo up to this point has had one root element per list item, which is also where a common assumption breaks: what happens when a list item legitimately needs to return two or more sibling elements &mdash; a <code>&lt;dt&gt;</code>/<code>&lt;dd&gt;</code> pair inside a <code>&lt;dl&gt;</code>, a table's <code>&lt;td&gt;</code> cells, anything where a wrapping <code>&lt;div&gt;</code> would either be invalid HTML or would break CSS selectors that depend on direct siblings. <code>.map()</code> still needs somewhere to put a key, since keys attach to the outermost thing returned for each iteration, but that outermost thing doesn't have to be a real DOM element. <code>React.Fragment</code> (in JSX that's <code>&lt;Fragment key={id}&gt;</code>; the <code>&lt;&gt;&hellip;&lt;/&gt;</code> shorthand can't take a key at all) accepts a <code>key</code> prop exactly like any host element, satisfying React's requirement for keyed list children, while contributing nothing to the actual rendered DOM tree &mdash; its children become direct children of whatever real element contains the list. Shuffling the terms here still reorders three genuine <code>&lt;dt&gt;</code>/<code>&lt;dd&gt;</code> pairs as direct children of one <code>&lt;dl&gt;</code>, with correct reconciliation behavior identical to any other keyed list, because a Fragment participates in key-matching exactly like a regular element does &mdash; it's just invisible in the output.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Best for:</strong> list items that must render multiple sibling elements into a parent with strict child requirements &mdash; definition lists, table rows' cells, or any layout where an extra wrapper <code>&lt;div&gt;</code> would break semantics or CSS. <strong>Tip:</strong> a keyed Fragment is required here, not optional &mdash; returning a bare array of elements from a component without keys on each, or wrapping them in an unkeyed Fragment, brings back the exact "missing key" warning and the same reconciliation risks as an unkeyed list.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Common pitfalls</h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item -->
+<li><strong>Using the array index as key on a list that inserts or removes anywhere but the very end.</strong> Demos #1 and #2 show a DOM node's identity staying pinned to a position instead of an item, so typed text and other per-row state silently attaches to the wrong data.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Assuming "never use index as key" applies to every list unconditionally.</strong> Demo #6 shows an append-only list where index keys are completely safe, because the one condition that breaks them &mdash; an index's meaning changing between renders &mdash; never occurs.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Generating a "stable" key inside the render function itself.</strong> A key like <code>item.id + '-' + Math.random()</code> or <code>Date.now()</code> computed on every render is a new value every time, which defeats key-matching entirely &mdash; demo #4's unstable-key toggle is this exact mistake made visible.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Deriving a key from something that isn't actually unique among siblings.</strong> Demo #5 shows what happens when two rows collide on the same key: a console warning, and an internal key-to-child map that can only hold one of them, making which row survives a later removal unpredictable.</li>
+<!-- /wp:list-item -->
+<!-- wp:list-item -->
+<li><strong>Wrapping a multi-element list item in an extra div just to hold the key.</strong> Demo #8 shows a keyed <code>React.Fragment</code> doing the same job &mdash; satisfying reconciliation's key requirement &mdash; without inserting an element into the DOM that wasn't supposed to be there.</li>
+<!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Frequently asked questions</h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Is it ever actually okay to use the array index as a key?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Yes, specifically when the list never inserts before an existing item, never removes an item, and never reorders &mdash; only appends to the end, or the list is rendered once and never changes at all. Demo #6 shows this directly: an index's meaning only becomes wrong when an operation shifts which item occupies that index between renders, and a pure-append list never does that.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Why does React warn about a missing key on a list at all?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Without an explicit key, React falls back to using each element's position as an implicit key, which is exactly as fragile as writing <code>key={i}</code> yourself &mdash; the warning exists because that fallback is usually wrong for any list that can change shape, and the warning is React's only way to flag that risk before it turns into a visible bug like the ones in demos #1 and #2.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Do keys need to be unique across the whole app, or just among siblings?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Only unique among the siblings in that specific list &mdash; React builds one key-to-child map per level of the tree, so the same key value can appear in a completely different list elsewhere in the app with zero conflict. It only becomes a problem, as demo #5 shows, when two children in the <em>same</em> list share a key.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">What exactly happens when two siblings share a key?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>React logs a "two children with the same key" warning in development, and because its key-to-child map can only hold one entry per key value, one of the colliding children's identity gets silently overwritten in that map &mdash; both still render to the DOM on the current pass, but which one React considers "the child at that key" for the next reconciliation becomes unpredictable, as demo #5's remove-after-duplicate step shows.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Does key={item.id} guarantee good performance, or just correctness?</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Both, and they come from the same mechanism. A stable id lets React's key-matching correctly identify reused instances across a reorder, insert, or removal, which fixes the misattachment bugs in demos #1–#3 &mdash; and because reused instances are moved rather than torn down and rebuilt, as demo #4's flash animation and mount counter prove, the same fix also means less DOM work than an unstable key that forces a full remount on every change.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The fastest way to make any of this stick is to Fork &amp; Edit demo #3 &mdash; the side-by-side comparison &mdash; and change the operation from an insert at the top to a removal from the middle on both columns. Watching the same key-versus-index gap reappear under a different operation, instead of just an insert, is what turns "index keys are risky" from something you've read into something you've actually reproduced. Once you've got a version you like, save it to <a href="https://webdevpuneet.com/ui-snippets/mycode/">My Code</a> and it's yours to keep, tweak further, or drop into a real project.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><strong>Recommended next step:</strong> open the <a href="https://webdevpuneet.com/react-playground/">React Playground</a> &mdash; webdevpuneet's full in-browser React sandbox &mdash; and build a small todo list from scratch with add, remove, and reorder buttons, keyed by a stable id you generate at creation time. Wiring up all three operations yourself, on data you control, is what makes the reconciliation behavior these demos isolate individually click into place as one coherent mental model. For more tutorials like this one, browse the <a href="https://webdevpuneet.com/blog/category/react/">React</a> category on the blog.</p>
+<!-- /wp:paragraph -->
