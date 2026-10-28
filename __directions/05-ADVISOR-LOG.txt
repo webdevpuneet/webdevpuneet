@@ -1,6 +1,9 @@
 ADVISOR LOG (newest first)
 Format: date · area · suggested / chosen / done · note
 
+2026-10-28 · all · done · __directions is now the only copy: deleted the root blog/, ui-snippets-ideas/,
+           TEMPLATES-ROADMAP.html, SUGGESTIONS.html, MIGRATION-LOG.md, DEVLOG.md, content-audit.md,
+           usecases-audit.csv and MEMORY.md; comments, project notes and memory point here now.
 2026-10-28 · leads · discarded · Hire Me card, after-export links and demo-bar link were built, then
            discarded at Puneet's request (code fully reverted). Ask before building again.
 2026-10-28 · all · done · Created __directions (vision, product areas, Hire Me plan, daily playbook,

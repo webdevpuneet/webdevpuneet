@@ -1,7 +1,7 @@
 # Project Memory Index
 
 - [Next.js Project Setup](project_nextjs_setup.md) — Next.js 15 + React 19 app unifying all tools under a shared layout
-- [Always update DEVLOG.md](feedback_devlog.md) — append a dated summary to DEVLOG.md after every significant task
+- [Always update DEVLOG.md](feedback_devlog.md) — append a dated summary to __directions/logs/DEVLOG.md after every significant task
 - [New Tool Checklist](project_new_tool_checklist.md) — files to create/update every time a new tool is added (component, page, sidebar, sitemap, icons)
 - [Update SEO text when adding features](feedback_seo_updates.md) — always update page.js SEO (features, howToUse, FAQs, schema) when features are added to any tool
 - [SEO content volume requirement](feedback_seo_content_volume.md) — every tool page must have 800–1200+ words across about, howToUse, features, useCases, and FAQs

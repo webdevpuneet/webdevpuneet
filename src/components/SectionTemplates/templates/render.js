@@ -2,7 +2,7 @@
    the server-rendered template pages (code for crawlers) and scripts/capture-section-
    previews.mjs all build exactly the same markup.
 
-   Bindings in a section's html (see TEMPLATES-ROADMAP.html):
+   Bindings in a section's html (see __directions/roadmaps/TEMPLATES-ROADMAP.html):
      data-edit="key"   empty element, filled with the field's rich text
      data-href="key"   <a> gets href from a link field
      data-image="key"  <img> gets src (and alt from `${key}Alt`) from an image field

@@ -7,7 +7,7 @@ metadata:
   originSessionId: 28e96bb0-52c8-4375-b1e9-527521547fdf
 ---
 
-Tool blog posts (blog/blog-posts/tools/*.txt) must skip "how it works under the hood" / algorithm-internals sections (e.g. no LCS/dynamic-programming explanations). Lead with what the tool does, who it's for, and how it helps the user — written for Google search intent and general readers, not a developer-audience deep-dive.
+Tool blog posts (__directions/blog/blog-posts/tools/*.txt) must skip "how it works under the hood" / algorithm-internals sections (e.g. no LCS/dynamic-programming explanations). Lead with what the tool does, who it's for, and how it helps the user — written for Google search intent and general readers, not a developer-audience deep-dive.
 
 **Why:** These posts are for SEO/user acquisition on webdevpuneet.com — readers searching "diff checker online" want to know if the tool solves their problem, not how the DP table is built. A prior draft included a full LCS/backtracking algorithm walkthrough; the user cut it and said "there is no need to explain how it works but what it does who it is for - for all tools."
 

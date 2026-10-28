@@ -34,4 +34,4 @@ WORKING RULES (from Puneet)
     The upload compares file size, so same-size edits are not re-sent.
   - New tools go in test mode first unless Puneet asks for live.
   - Blog drafts are rebranded to webdevpuneet.com; WordPress output is one <name>-wordpress.txt.
-  - Read and update TEMPLATES-ROADMAP.html and SUGGESTIONS.html when working on templates.
+  - Read and update __directions/roadmaps/TEMPLATES-ROADMAP.html and SUGGESTIONS.html when working on templates.

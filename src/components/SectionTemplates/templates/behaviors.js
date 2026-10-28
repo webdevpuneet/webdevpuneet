@@ -2,7 +2,7 @@
    next). A template lists the ones it uses in `behaviors: ['billing']`; the page then gets
    one small script per behaviour plus the GSAP plugins it animates with.
 
-   Rules (see TEMPLATES-ROADMAP.html → Motion & JS libraries):
+   Rules (see __directions/roadmaps/TEMPLATES-ROADMAP.html → Motion & JS libraries):
    - Work without GSAP: the plain state change always happens; GSAP only animates it.
    - Skip animation for prefers-reduced-motion.
    - Scope everything to each `.st` section; never use ids.

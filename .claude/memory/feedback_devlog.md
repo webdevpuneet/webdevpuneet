@@ -4,7 +4,7 @@ description: User wants DEVLOG.md updated every time significant work is done on
 type: feedback
 ---
 
-Always create or update DEVLOG.md in the project root whenever significant work is done.
+Always create or update __directions/logs/DEVLOG.md whenever significant work is done.
 
 **Why:** User explicitly requested a documentation file in the root folder that records what has been done for the tools, updated every time.
 

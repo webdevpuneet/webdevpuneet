@@ -7,7 +7,7 @@ metadata:
   originSessionId: 56e319f8-32a7-4afd-8726-85c01b922529
 ---
 
-Every tutorial blog post in `blog/blog-posts/tutorials/` must include an `<h2>Build, understand, optimize, and extend it with AI</h2>` section, placed directly before the final `<h2>Final thought</h2>` section.
+Every tutorial blog post in `__directions/blog/blog-posts/tutorials/` must include an `<h2>Build, understand, optimize, and extend it with AI</h2>` section, placed directly before the final `<h2>Final thought</h2>` section.
 
 **Why:** User wants readers pointed at using an AI coding assistant (e.g. Claude) to understand the snippet's trickier mechanics, optimize it, and extend it with new features — not just read the post passively.
 

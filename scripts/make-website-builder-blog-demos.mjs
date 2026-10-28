@@ -1,4 +1,4 @@
-// Live demo pages for the Website Builder blog post (blog/blog-posts/tools/tools-blog7-wordpress.txt),
+// Live demo pages for the Website Builder blog post (__directions/blog/blog-posts/tools/tools-blog7-wordpress.txt),
 // written to demos/a1/43/. Every page is a real export from the builder engine (the same code the
 // "Download ZIP" button runs), with its images copied next to it so the demos never depend on
 // unreleased site images.

@@ -24,7 +24,7 @@ Hire Me, and the next ideas. The advisor updates the "Next ideas" lists as work 
 2. WEBSITE SECTION TEMPLATES
    URL      /website-section-templates/  ·  /website-section-templates/<id>/  ·  /category/<cat>/
    Code     src/components/SectionTemplates (templates/*.js, behaviors.js, seo-*.js)
-   Roadmap  roadmaps/TEMPLATES-ROADMAP.html (root copy is the working file)
+   Roadmap  roadmaps/TEMPLATES-ROADMAP.html
    Now      72 sections in 19 categories incl. Scroll effects (GSAP) and Music; live editor, theme,
             fonts, GSAP motion, scroll animation builder, exports.
    Bar      SEO entry for every section (keywords, 300+ word about with every option, 8 features,
@@ -57,10 +57,10 @@ Hire Me, and the next ideas. The advisor updates the "Next ideas" lists as work 
 
 5. UI SNIPPETS (+ MY CODE)
    URL      /ui-snippets/  ·  /ui-snippets/<id>/  ·  /ui-snippets/mycode/
-   Code     src/components/UiSnippetsTool (snippets/*.js), ui-snippets-ideas/
+   Code     src/components/UiSnippetsTool (snippets/*.js), __directions/ideas/
    Now      about 2,080 snippets; live editor, React / Vue / Angular / Tailwind exports, My Code.
    Goal     Snippets people enjoy learning from AND can drop into production (project-rules/MEMORY.md).
-   Bar      Use cases rewritten (usecases-audit.csv), no thin pages, related links, AI prompt.
+   Bar      Use cases rewritten (audits/usecases-audit.csv), no thin pages, related links, AI prompt.
    AI       "Explain this snippet" and "convert to my stack" prompts.
    Hire Me  "Need this component in your app? I can build and integrate it."
    Next     - Finish the use-case rewrite batches; topic hub pages (forms, navigation, data viz);
@@ -84,7 +84,7 @@ Hire Me, and the next ideas. The advisor updates the "Next ideas" lists as work 
    Next     - Home page fixes (see SUGGESTIONS.html: repeated tools, phone layout, share image).
 
 8. BLOG (WordPress at /blog/)
-   Files    blog/blog-posts/{general,tools,tutorials,ui-snippets} drafts; WP output = one
+   Files    __directions/blog/blog-posts/{general,tools,tutorials,ui-snippets} drafts; WP output = one
             <name>-wordpress.txt with header comment (title, SEO title/desc, paste steps + blocks).
    Bar      Demos embed webdevpuneet.com/demos/, titles and descriptions to the SEO limits.
    Hire Me  Author box at the end of every post linking /puneet/.

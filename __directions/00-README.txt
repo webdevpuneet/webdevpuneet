@@ -14,24 +14,20 @@ READ IN THIS ORDER
   05-ADVISOR-LOG.txt              dated log of advice given and what was done (newest first)
   06-QUALITY-BARS.txt             the A-grade checklists: SEO, accessibility, performance, templates, workflow rules
 
-COPIED REFERENCE MATERIAL (copies made 2026-10-28)
-  blog/                     blog drafts and published posts (copy of webdevpuneet/blog/)
-  roadmaps/TEMPLATES-ROADMAP.html   section / website templates roadmap (copy)
-  roadmaps/SUGGESTIONS.html          idea list with status pills and change log (copy)
-  logs/MIGRATION-LOG.md     fwdtools -> webdevpuneet migration log (copy)
-  logs/DEVLOG.md            development log (copy)
-  audits/content-audit.md   content audit (copy)
-  audits/usecases-audit.csv UI snippet use-case audit (copy)
-  ideas/ideas1.txt          UI snippet ideas (copy of ui-snippets-ideas/)
-  project-rules/MEMORY.md   project rules and the UI Snippets goal (copy)
+REFERENCE MATERIAL (moved here 2026-10-28; this folder is now the ONLY copy)
+  blog/                     blog drafts and published posts
+  roadmaps/TEMPLATES-ROADMAP.html   section / website templates roadmap
+  roadmaps/SUGGESTIONS.html          idea list with status pills and change log
+  logs/MIGRATION-LOG.md     fwdtools -> webdevpuneet migration log
+  logs/DEVLOG.md            development log
+  audits/content-audit.md   content audit
+  audits/usecases-audit.csv UI snippet use-case audit
+  ideas/ideas1.txt          UI snippet ideas
+  project-rules/MEMORY.md   project rules and the UI Snippets goal
 
-  IMPORTANT: the originals still sit in the project root because scripts and code comments point
-  at them (for example scripts/make-website-builder-blog-demos.mjs reads blog/). Until we decide
-  otherwise, the ROOT files stay the working copies and the copies here are snapshots. When a root
-  file changes in a meaningful way, re-copy it here (or ask the advisor to). Option for later: make
-  __directions the single source and point the scripts here, then delete the root copies.
+  The originals in the project root were deleted on 2026-10-28. Edit these files here.
 
 HOW TO ADD SOMETHING
-  - A new idea: add it to roadmaps/SUGGESTIONS.html (root copy) and mention it in 05-ADVISOR-LOG.txt.
+  - A new idea: add it to roadmaps/SUGGESTIONS.html and mention it in 05-ADVISOR-LOG.txt.
   - A new rule: add it to 06-QUALITY-BARS.txt.
   - A change of direction: edit 01 or 02 and write one dated line in 05-ADVISOR-LOG.txt.

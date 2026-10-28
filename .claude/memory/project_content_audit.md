@@ -15,10 +15,10 @@ Started 2026-07-02: user wants the same comprehensive SEO content treatment mesh
 **Decisions locked in:**
 - Order: tool pages first, then UI snippets.
 - Sequence: strict newest-first by `lastmod` in `src/lib/tools-registry.js` (confirmed explicitly — do NOT reorder by thinness even though newest tools already have good content).
-- Tracking: `content-audit.md` at repo root is the source of truth checklist — mark `[x]` per page as it's completed, bump that tool's `lastmod`, log in DEVLOG.md.
+- Tracking: `__directions/audits/content-audit.md` is the source of truth checklist — mark `[x]` per page as it's completed, bump that tool's `lastmod`, log in DEVLOG.md.
 - Structure: do NOT copy the exact same section template onto every page — see [feedback_seo_per_tool_structure](feedback_seo_per_tool_structure.md). Pick whichever SeoSection section types fit each specific tool.
 
-**How to apply:** at the start of any future session touching this work, read `content-audit.md` first to see what's done and what's next in the newest-first order, rather than re-deriving the tool list from scratch.
+**How to apply:** at the start of any future session touching this work, read `__directions/audits/content-audit.md` first to see what's done and what's next in the newest-first order, rather than re-deriving the tool list from scratch.
 
 **2026-07-17 addition:** every UI snippet's `seo` object also needs an `aiPrompt` field (paragraph + copy-paste recreate-it prompt, tailored per-snippet) rendering a "Build, Understand, Optimize, and Extend It With AI" section — see the "UI Snippets only" subsection in `content-audit.md` for the exact shape. Implemented in `SeoSection`/`normalizeSections` (supports `<pre>` blocks inside `text` sections now).
 
