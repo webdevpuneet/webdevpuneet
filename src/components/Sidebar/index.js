@@ -432,6 +432,80 @@ function SidebarLink({ href, icon, label, active }) {
   );
 }
 
+/* ─────────────────────────────────────────────────────────────
+   UiSnippetsCategories - the UI Snippets link with every category under it, two per row.
+   Open by default (folded on the template pages); the chevron folds the list. The links stay in the page when it is folded
+   (height 0, hidden from keyboard and screen readers), so crawlers still see them everywhere.
+───────────────────────────────────────────────────────────── */
+// Open everywhere except on the template pages (website builder, sections, email, social posts),
+// where those pages' own lists are the focus and the snippet categories start folded.
+const startsOpen = pathname => !/^\/(website-builder|website-section-templates|email-templates|social-post-templates)(\/|$)/.test(pathname || '');
+
+function UiSnippetsCategories({ pathname }) {
+  const [open, setOpen] = useState(() => startsOpen(pathname));
+  const bodyRef = useRef(null);
+  const first = useRef(true);
+
+  // A page change re-applies the default; a manual click wins until the next page change
+  const lastPath = useRef(pathname);
+  useEffect(() => {
+    if (lastPath.current === pathname) return;
+    lastPath.current = pathname;
+    setOpen(startsOpen(pathname));
+  }, [pathname]);
+
+  useEffect(() => {
+    const el = bodyRef.current;
+    if (!el) return undefined;
+    if (first.current) { first.current = false; return undefined; }
+    if (open) {
+      el.style.height = el.scrollHeight + 'px';
+      const t = setTimeout(() => { el.style.height = 'auto'; }, 220);
+      return () => clearTimeout(t);
+    }
+    el.style.height = el.scrollHeight + 'px';
+    requestAnimationFrame(() => { el.style.height = '0px'; });
+    return undefined;
+  }, [open]);
+
+  return (
+    <div className={styles.uiSnipGroup}>
+      <div className={styles.uiSnipHead}>
+        <SidebarLink href="/ui-snippets/" icon="/icons/ui-snippets.svg" label="UI Snippets" active={/^\/ui-snippets(\/|$)/.test(pathname)} />
+        <button
+          type="button"
+          className={styles.uiSnipToggle}
+          aria-expanded={open}
+          aria-controls="ui-snippet-categories"
+          aria-label={open ? 'Collapse UI snippet categories' : 'Expand UI snippet categories'}
+          onClick={() => setOpen(v => !v)}
+        >
+          <svg className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`} width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <polyline points="6,9 12,15 18,9" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      </div>
+      <div id="ui-snippet-categories" ref={bodyRef} className={`${styles.groupBody} ${open ? '' : styles.uiSnipClosed}`} style={{ height: open ? 'auto' : '0px' }}>
+        <nav aria-label="UI snippet categories">
+          <ul className={`${styles.list} ${styles.compactList} ${styles.snipCatList}`}>
+            {UI_SNIPPET_CATEGORIES_SIDEBAR.map(cat => (
+              <li key={cat.id} className={`${styles.item} ${pathname === `/ui-snippets/${cat.id}/` ? styles.active : ''}`}>
+                <a href={`/ui-snippets/${cat.id}/`} title={`${cat.label} UI snippets`}>
+                  <span className={styles.itemInner}>
+                    <span className={styles.info}>
+                      <span className={styles.name}>{cat.label}</span>
+                    </span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  );
+}
+
 function PlaygroundsGroup({ activeSlug, open, onToggle }) {
   const bodyRef = useRef(null);
   const [everOpened, setEverOpened] = useState(open);
@@ -1881,25 +1955,7 @@ export default function Sidebar() {
                     open={favOpen}
                     onToggle={() => setFavOpen(v => !v)}
                   />
-                  <SidebarLink href="/ui-snippets/" icon="/icons/ui-snippets.svg" label="UI Snippets" active={/^\/ui-snippets(\/|$)/.test(pathname)} />
-                  {/* Every snippet category as a plain, always-rendered link (crawlable on every page), two per row */}
-                  <div className={styles.groupBody}>
-                    <nav aria-label="UI snippet categories">
-                      <ul className={`${styles.list} ${styles.compactList} ${styles.snipCatList}`}>
-                        {UI_SNIPPET_CATEGORIES_SIDEBAR.map(cat => (
-                          <li key={cat.id} className={`${styles.item} ${pathname === `/ui-snippets/${cat.id}/` ? styles.active : ''}`}>
-                            <a href={`/ui-snippets/${cat.id}/`} title={`${cat.label} UI snippets`}>
-                              <span className={styles.itemInner}>
-                                <span className={styles.info}>
-                                  <span className={styles.name}>{cat.label}</span>
-                                </span>
-                              </span>
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </nav>
-                  </div>
+                  <UiSnippetsCategories pathname={pathname} />
                   <SidebarLink href="/website-builder/" icon="/icons/website-builder.svg" label="Website Builder &amp; Templates" active={/^\/website-builder(\/|$)/.test(pathname)} />
                   <SidebarLink href="/website-section-templates/" icon="/icons/website-section-templates.svg" label="Website Section Templates" active={/^\/website-section-templates(\/|$)/.test(pathname)} />
                   <SidebarLink href="/email-templates/" icon="/icons/email-templates.svg" label="Email Templates" active={/^\/email-templates(\/|$)/.test(pathname)} />
