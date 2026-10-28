@@ -3,8 +3,6 @@ import HomeToolSearch from '@/components/HomeToolSearch';
 import ProfileHeroCard from '@/components/ProfileHeroCard';
 import HomeSnippetsCarousel from '@/components/HomeSnippetsCarousel';
 import { getLatestSnippets } from '@/lib/snippet-related';
-import { SNIPPET_SEARCH_INDEX } from '@/lib/snippet-search-index';
-import { CATEGORIES as SNIPPET_CATEGORY_LIST } from '@/components/UiSnippetsTool/categories';
 import InViewImg from '@/components/InViewImg';
 import AdSlot from '@/components/AdSlot';
 import { fetchLatestBlogPosts } from '@/lib/blog-feed';
@@ -123,18 +121,32 @@ const BUILDER_POINTS = [
   { title: 'Export your website code', text: 'Download clean HTML or a ZIP with every image, and host it anywhere.' },
 ];
 
+// Home promo cards for the email and social post template libraries
+const PROMOS = [
+  {
+    id: 'email', accent: '#d97706', tag: 'Email templates', href: '/email-templates/', cta: 'Browse email templates',
+    title: 'Emails that look right in every inbox',
+    desc: 'Welcome emails, receipts, newsletters and sales emails with Outlook-safe buttons, dark mode and merge tags for Mailchimp, Klaviyo, HubSpot and Brevo.',
+    points: ['Welcome, order, newsletter and holiday emails', 'Outlook-safe buttons and dark mode built in', 'Copy the HTML straight into your email tool'],
+    shots: [['welcome', 'Welcome Email'], ['order-confirmation', 'Order Confirmation Email'], ['newsletter', 'Newsletter Email']],
+    base: '/email-templates/', img: '/images/email-templates/previews/',
+  },
+  {
+    id: 'social', accent: '#7c3aed', tag: 'Social post templates', href: '/social-post-templates/', cta: 'Browse social post templates',
+    title: 'Posts, Stories and carousels in minutes',
+    desc: 'Quotes, launches, tips and seasonal posts in every size for Instagram, Facebook, X, LinkedIn and Pinterest. Edit the text, apply your brand and download.',
+    points: ['Every size from a single design', 'Download PNG, JPG, PDF or MP4', 'Create dozens at once from a spreadsheet'],
+    shots: [['big-quote', 'Big Quote post'], ['product-launch', 'Product Launch post'], ['tip-of-the-day', 'Tip of the Day post']],
+    base: '/social-post-templates/', img: '/images/social-post-templates/previews/',
+  },
+];
+
 const BUILDER_SECTIONS = ['Navbar', 'Hero', 'Features', 'Pricing', 'Testimonials', 'FAQ', 'Footer'];
 const BUILDER_SWATCHES = ['#4f46e5', '#059669', '#e11d48', '#d97706', '#0f172a'];
 // Templates the animated builder mock cycles through (4: the loop in page.module.css is 14s = 4 x 3.5s)
 const BUILDER_MOCK_TEMPLATES = ['saas', 'restaurant', 'fitness', 'portfolio'];
 
-// Every public snippet category with its snippet count, for the "all categories" row
-const CATEGORY_COUNTS = {};
-for (const sn of SNIPPET_SEARCH_INDEX) CATEGORY_COUNTS[sn.category] = (CATEGORY_COUNTS[sn.category] || 0) + 1;
-const ALL_SNIPPET_CATEGORIES = SNIPPET_CATEGORY_LIST.filter(c => c.id !== 'all' && !c.devOnly && CATEGORY_COUNTS[c.id]);
 
-
-const FEATURED_PLAYGROUND_SLUGS = ['html-playground', 'css-playground', 'js-playground', 'react-playground'];
 
 const FAQS = [
   {
@@ -188,10 +200,13 @@ function SectionHead({ id, eyebrow, title, desc, href, linkLabel }) {
 export default async function Home() {
   const blogPosts = (await fetchLatestBlogPosts(4)).slice(0, 3);
   const latestSnippets = getLatestSnippets(60);
-  const featuredPlaygrounds = FEATURED_PLAYGROUND_SLUGS.map(s => LIVE_TOOLS.find(t => t.slug === s)).filter(Boolean);
   const mockTemplates = BUILDER_MOCK_TEMPLATES.map(id => WEBSITE_TEMPLATES.find(x => x.id === id)).filter(Boolean);
   // Plain data for the client-side tool finder; only categories that actually have tools.
   const searchTools = TOOLS.map(({ slug, name, sub, desc, icon, accent, category }) => ({ slug, name, sub, desc, icon, accent, category }));
+  // Priority order: HTML, CSS, JS, SVG, TypeScript, React, GSAP first, then the rest
+  const PLAYGROUND_PRIORITY = ['html-playground', 'css-playground', 'js-playground', 'svg-playground', 'typescript-playground', 'react-playground', 'gsap-playground'];
+  const rank = slug => { const r = PLAYGROUND_PRIORITY.indexOf(slug); return r === -1 ? PLAYGROUND_PRIORITY.length : r; };
+  const searchPlaygrounds = [...PLAYGROUNDS].sort((x, y) => rank(x.slug) - rank(y.slug)).map(({ slug, name, sub, desc, icon, accent, category }) => ({ slug, name, sub, desc, icon, accent, category }));
   const toolCategories = CATEGORY_META.filter(c => c.id !== 'learn' && TOOLS.some(t => t.category === c.id));
 
   return (
@@ -212,8 +227,8 @@ export default async function Home() {
             Start from a professional website, section, email or UI snippet, use it as it is, or take it into AI. Then learn how it works in {PLAYGROUND_COUNT} free coding playgrounds. No sign-up, nothing to install.
           </p>
           <div className={styles.heroCtas}>
-            <a href="/website-builder/" className={styles.btnPrimary}>Browse website templates <Arrow /></a>
-            <a href="/ui-snippets/" className={styles.btnSecondary}>Explore UI snippets</a>
+            <a href="/ui-snippets/" className={styles.btnPrimary}>Explore UI snippets <Arrow /></a>
+            <a href="/website-builder/" className={styles.btnSecondary}>Browse website templates</a>
           </div>
           <ul className={styles.heroBenefits}>
             {HERO_BENEFITS.map(b => (
@@ -227,7 +242,20 @@ export default async function Home() {
 
       <div className={styles.main}>
 
-        {/* ── 2. Featured product: Website Builder ── */}
+        {/* ── 2. UI Snippets (above the Website Builder) ── */}
+        <section className={styles.section} aria-labelledby="h2-snippets">
+          <div className={styles.snipTop}>
+            <div className={styles.snipIntro}>
+              <p className={styles.eyebrow}>{SNIPPET_COUNT.toLocaleString('en-US')} components</p>
+              <h2 id="h2-snippets" className={styles.sectionTitle}>Ready-to-Use UI Components</h2>
+              <p className={styles.sectionDesc}>Browse, preview, customise and export HTML, CSS and JavaScript components for your next project — or export them to React, Tailwind, Vue and Angular.</p>
+            </div>
+            <div className={styles.snippetSearch}><HomeOmniSearch snippetsOnly /></div>
+          </div>
+          <div className={styles.latestStrip}><HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} flush /></div>
+        </section>
+
+        {/* ── 3. Featured product: Website Builder ── */}
         <section className={styles.builder} aria-labelledby="h2-builder">
           <div className={styles.builderText}>
             <p className={styles.builderTag}>Featured · Website Builder</p>
@@ -294,65 +322,53 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* ── 3. UI Snippets ── */}
-        <section className={styles.section} aria-labelledby="h2-snippets">
-          <div className={styles.snipTop}>
-            <div className={styles.snipIntro}>
-              <p className={styles.eyebrow}>{SNIPPET_COUNT.toLocaleString('en-US')} components</p>
-              <h2 id="h2-snippets" className={styles.sectionTitle}>Ready-to-Use UI Components</h2>
-              <p className={styles.sectionDesc}>Browse, preview, customise and export HTML, CSS and JavaScript components for your next project — or export them to React, Tailwind, Vue and Angular.</p>
-            </div>
-            <div className={styles.snippetSearch}><HomeOmniSearch snippetsOnly /></div>
-          </div>
-          <HomeSnippetsCarousel items={latestSnippets.items} total={latestSnippets.total} flush />
-          <div className={styles.catPanel}>
-            <div className={styles.catPanelHead}>
-              <h3 className={styles.catPanelTitle}>Browse by category <span>{ALL_SNIPPET_CATEGORIES.length} categories</span></h3>
-              <a href="/ui-snippets/" className={styles.headLink}>Explore all UI snippets <Arrow /></a>
-            </div>
-            <nav className={styles.catChips} aria-label="All UI snippet categories">
-              {ALL_SNIPPET_CATEGORIES.map(c => (
-                <a key={c.id} href={`/ui-snippets/${c.id}/`} className={styles.catChip}>
-                  {c.label}<span>{CATEGORY_COUNTS[c.id].toLocaleString('en-US')}</span>
-                </a>
-              ))}
-            </nav>
+        {/* ── 3a. Email and social post templates ── */}
+        <section className={styles.section} aria-labelledby="h2-send">
+          <SectionHead
+            id="h2-send"
+            title="Emails and Social Posts, Ready to Send"
+            desc="Edit in your browser, apply your brand, then copy the HTML for your email tool or download the post in every size."
+          />
+          <div className={styles.promoGrid}>
+            {PROMOS.map(p => (
+              <article key={p.id} className={styles.promo} style={{ '--promo': p.accent }}>
+                <div className={styles.promoText}>
+                  <p className={styles.promoTag}>{p.tag}</p>
+                  <h3 className={styles.promoTitle}>{p.title}</h3>
+                  <p className={styles.promoDesc}>{p.desc}</p>
+                  <ul className={styles.promoPoints}>
+                    {p.points.map(pt => <li key={pt}><span aria-hidden="true"><Check /></span>{pt}</li>)}
+                  </ul>
+                  <a href={p.href} className={styles.promoBtn}>{p.cta} <Arrow /></a>
+                </div>
+                <div className={styles.promoShots}>
+                  {p.shots.map(([sid, label]) => (
+                    <a key={sid} href={`${p.base}${sid}/`} className={styles.promoShot} title={label}>
+                      <InViewImg src={`${p.img}${sid}.png`} alt={label} width={400} height={500} />
+                    </a>
+                  ))}
+                </div>
+              </article>
+            ))}
           </div>
         </section>
 
-        {/* ── 3b. Playgrounds (above "Where Do You Want to Start?") ── */}
-        <section className={`${styles.section} ${styles.learnBand}`} aria-labelledby="h2-learn">
+        {/* ── 3b. Playgrounds: same finder layout as the developer tools below ── */}
+        <section className={styles.section} aria-labelledby="h2-learn">
           <SectionHead
             id="h2-learn"
-            eyebrow={`${PLAYGROUND_COUNT} playgrounds`}
             title="Learn to Code Interactively"
             desc="Write code, change the examples and see the result instantly. Short lessons, a live editor and progress saved in your browser."
             href="/learn-to-code/"
             linkLabel="Explore all playgrounds"
           />
-          <div className={styles.playGrid}>
-            {featuredPlaygrounds.map(t => (
-              <a key={t.slug} href={`/${t.slug}/`} className={styles.shotCard}>
-                <span className={styles.shotImg}><InViewImg src={`/images/${t.slug}.png`} alt="" /></span>
-                <span className={styles.shotBody}>
-                  <span className={styles.shotTitle}>{t.name}</span>
-                  <span className={styles.shotSub}>{t.sub}</span>
-                </span>
-              </a>
-            ))}
-          </div>
-          <p className={styles.moreLine}>
-            Also: {PLAYGROUNDS.filter(t => !FEATURED_PLAYGROUND_SLUGS.includes(t.slug)).slice(0, 10).map((t, i) => (
-              <span key={t.slug}>{i > 0 && ' · '}<a href={`/${t.slug}/`}>{t.name.replace(/ Playground$/, '')}</a></span>
-            ))} · <a href="/learn-to-code/">and more</a>
-          </p>
+          <HomeToolSearch tools={searchPlaygrounds} categories={[]} noun="playgrounds" allHref="/learn-to-code/" searchable={false} />
         </section>
 
         {/* ── 3c. Developer tools (after Learn to Code) ── */}
         <section className={styles.section} aria-labelledby="h2-tools">
           <SectionHead
             id="h2-tools"
-            eyebrow={`${TOOL_COUNT} tools`}
             title="Free Developer Tools"
             desc="Generate CSS, build layouts, format code and solve everyday development tasks directly in your browser."
             href="/tools/"
