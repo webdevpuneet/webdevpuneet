@@ -1,6 +1,10 @@
 ADVISOR LOG (newest first)
 Format: date · area · suggested / chosen / done · note
 
+2026-10-29 · plan · suggested · (A) finish and ship: check the 10-28 deploy live, refresh home-og.jpg, close ideas 8/9; (B) build the
+           Opening Hours & Location section and add it to the local-business templates; (C) blog + social post for the
+           Music template. Recommended A, then B.
+2026-10-29 · tracking · done · Statcounter disabled (STATCOUNTER_ENABLED=false, policy pages dated Oct 29); deploy started.
 2026-10-28 · home · done · UI snippets section: the six category image cards replaced by a row of every snippet category
            (with counts) and the Latest UI Snippets strip (60 newest, paged); hero is two columns at full width.
 2026-10-28 · home · done · Hero profile card (name, role, "Open to freelance work", Hire me -> /puneet/, Available on
