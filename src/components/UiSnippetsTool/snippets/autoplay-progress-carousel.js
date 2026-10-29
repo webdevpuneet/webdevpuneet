@@ -205,16 +205,18 @@ restart();`,
       { q: 'How do I change the slide content?', a: 'Edit the .apc-slide blocks. Set the --a and --b custom properties for the gradient colors, then change the eyebrow, heading, text, CTA link and the .apc-art stat badge (or remove it).' },
     ],
     aiPrompt: {
-      paragraph: `Paste this snippet's HTML, CSS, and JS into an AI coding assistant like Claude and ask it to explain exactly how getComputedStyle is used to capture the fill's exact paused position, and why that value has to be read before the transition is cancelled rather than after. It's also worth asking the assistant to add prefers-reduced-motion support that disables autoplay for users who've requested it, or to add clickable dots/arrows alongside the existing hover-pause behavior so a visitor can also jump manually between slides.`,
-      prompt: `Build an autoplaying hero carousel in plain HTML, CSS, and vanilla JavaScript with Stories/Shorts-style segmented progress bars across the top — no library.
+      paragraph: `Paste this snippet's HTML, CSS, and JS into an AI coding assistant like Claude and ask it to explain exactly how getComputedStyle is used to capture the fill's exact paused position, and why that value has to be read before the transition is cancelled rather than after. It's also worth asking the assistant to add prefers-reduced-motion support that disables autoplay for users who've requested it, or to add previous/next arrows and a keyboard-focus pause alongside the existing hover-pause behavior, since the hover pause only helps mouse users.`,
+      prompt: `Build a polished autoplaying hero carousel in plain HTML, CSS, and vanilla JavaScript with Stories/Shorts-style segmented progress bars across the top — no library.
 
 Requirements:
-- Several full-bleed hero slides stacked on top of each other, crossfading via an opacity transition, with only one visible (active) at a time.
-- A row of thin progress bar segments above the slides, generated dynamically from the slide count — the segment for the current slide fills from empty to full over a fixed duration using a CSS width transition, segments for already-shown slides display fully filled, and upcoming ones display empty.
+- Several full-bleed hero slides (about 760x380, rounded, with a soft shadow) stacked on top of each other, crossfading via an opacity transition, with only one visible (active) at a time. Give each slide a gradient from two CSS custom properties (--a, --b), faint decorative circles, an eyebrow pill, a heading, a short paragraph, a white CTA button, and a circular stat badge on the right (hidden below 600px). The slide's text elements fade up one after another when the slide becomes active.
+- A zero-padded slide counter ("01 / 03") in the bottom-left that updates with the active slide.
+- A row of thin progress bar segments above the slides, each a real <button> with an aria-label ("Go to slide N") that jumps to that slide when clicked, generated dynamically from the slide count — the segment for the current slide fills from empty to full over a fixed duration using a CSS width transition, segments for already-shown slides display fully filled, and upcoming ones display empty.
 - When the active segment finishes filling, automatically advance to the next slide (wrapping back to the first after the last) and begin filling the new segment.
 - On mouse hover over the whole carousel, the currently-filling segment must freeze at its exact current fill position — read the actual live rendered width at that moment rather than estimating or resetting to a fixed value — and the auto-advance timer must be cancelled.
 - On mouse leave, the segment must resume filling smoothly from that exact frozen position (not restart from zero) toward 100%, and a new auto-advance timer must be set for only the remaining time needed to finish that fill, calculated from how much of the bar was already filled when the pause began.
 - Display a small visible text indicator confirming to the user that autoplay is currently paused, shown only while hovering.
+- Respect prefers-reduced-motion: when set, do not autoplay (bars stay clickable, the active bar shows full) and skip the text entrance animation.
 - Every time a segment needs to start (or restart) its fill animation, force a layout reflow between resetting its width to zero and applying the new transition, so the reset is guaranteed to render before the fill animation begins.`,
     },
   },
