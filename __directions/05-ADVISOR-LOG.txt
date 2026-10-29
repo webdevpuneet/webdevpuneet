@@ -1,6 +1,8 @@
 ADVISOR LOG (newest first)
 Format: date · area · suggested / chosen / done · note
 
+2026-10-29 · ui snippets · done · Redesigned autoplay-progress-carousel, avatar-upload, bootstrap-paste-to-upload and lamp-header (code, SEO,
+           AI prompts, preview images). New standing rule: the UI SNIPPET UPDATE CHECKLIST in 06-QUALITY-BARS.txt applies to every snippet change.
 2026-10-29 · plan · suggested · (A) finish and ship: check the 10-28 deploy live, refresh home-og.jpg, close ideas 8/9; (B) build the
            Opening Hours & Location section and add it to the local-business templates; (C) blog + social post for the
            Music template. Recommended A, then B.

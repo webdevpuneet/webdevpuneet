@@ -12,7 +12,7 @@ READ IN THIS ORDER
   03-LEADS-HIRE-ME.txt            how every template, tool and page turns interest into Hire Me leads (/puneet/)
   04-DAILY-ADVISOR-PLAYBOOK.txt   how "what can we do today?" is answered, across the whole project lifecycle
   05-ADVISOR-LOG.txt              dated log of advice given and what was done (newest first)
-  06-QUALITY-BARS.txt             the A-grade checklists: SEO, accessibility, performance, templates, workflow rules
+  06-QUALITY-BARS.txt             the A-grade checklists: SEO, accessibility, performance, templates, UI snippet update checklist, workflow rules
 
 REFERENCE MATERIAL (moved here 2026-10-28; this folder is now the ONLY copy)
   blog/                     blog drafts and published posts

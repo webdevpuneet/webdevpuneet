@@ -1,5 +1,5 @@
 QUALITY BARS AND WORKING RULES
-Last updated 2026-10-28
+Last updated 2026-10-29
 
 A-GRADE SEO (every new or changed page)
   - Title 50-60 characters, meta description 150-160, both unique across the site; primary keyword
@@ -25,6 +25,21 @@ TEMPLATES
   - Real industry copy, fictional brands, example links/emails use webdevpuneet.com (never yoursite.com).
   - Email templates: icons must be PNG images, never SVG.
   - Demos are noindex and link back to their template page.
+
+UI SNIPPET UPDATE CHECKLIST (every time a snippet in src/components/UiSnippetsTool/snippets/ is redesigned or changed)
+  Do ALL of these in the same pass, not just the code:
+  1. Code: html / css / js in snippets/<id>.js; bump lastmod to today.
+  2. SEO title 50-60 chars and description 150-160 chars (show the counts). Re-check them even if the title is unchanged.
+  3. SEO text that describes the old design: about article, howToUse steps, features, useCases and FAQs must match the new
+     behaviour. Search the file for stale words (old class names, old keyframes, removed features) and fix them.
+  4. AI prompt: update BOTH aiPrompt.paragraph (suggested follow-ups must not offer what already exists) and
+     aiPrompt.prompt (the requirements must describe the new design and behaviour).
+  5. Preview image: re-capture with  node scripts/capture-snippet-previews.mjs <id>  (headless Chromium, allowed), then OPEN the
+     png and check it. If the snippet has an entrance animation longer than 0.5s, the script's 500ms wait catches it half-drawn:
+     use a temporary copy of the script with a longer waitForTimeout, and delete the copy afterwards.
+  6. Syntax-check the edited file (import it with node) and print title / description lengths.
+  7. Do not deploy unless asked; mention that live pages keep the old image until the next deploy.
+  8. Add a dated line to 05-ADVISOR-LOG.txt (area: ui snippets).
 
 WORKING RULES (from Puneet)
   - Never run builds or dev servers to test unless asked; headless Chromium (Playwright) is allowed.
