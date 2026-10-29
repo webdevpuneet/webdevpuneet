@@ -981,6 +981,52 @@ function ExportMenu({ options }) {
   );
 }
 
+/* AI Prompt: dropdown with the snippet's hand-written AI prompt and a Copy button.
+   Rendered only for library snippets that have their own aiPrompt (not the generic fallback). */
+function AiPromptMenu({ prompt }) {
+  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const ref = useRef(null);
+  const fixedPos = useScrollToolbarMenu(open, setOpen, ref);
+
+  useEffect(() => {
+    if (!open) return;
+    function onDoc(e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false); }
+    function onKey(e) { if (e.key === 'Escape') setOpen(false); }
+    document.addEventListener('mousedown', onDoc);
+    document.addEventListener('keydown', onKey);
+    return () => { document.removeEventListener('mousedown', onDoc); document.removeEventListener('keydown', onKey); };
+  }, [open]);
+
+  useEffect(() => { setCopied(false); }, [prompt]);
+
+  function copy() {
+    navigator.clipboard.writeText(prompt).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    }).catch(() => {});
+  }
+
+  return (
+    <div className={`${s.popoverAnchor} ${s.forkAnchor}`} ref={ref}>
+      <button className={s.iconBtn} onClick={() => setOpen(v => !v)} title="Copy an AI prompt that recreates this snippet" aria-label="AI Prompt" aria-haspopup="true" aria-expanded={open}>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 3v4M17 5h4"/></svg>
+        <span className={s.exportLabel}>AI Prompt</span>
+      </button>
+      {open && <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 299 }} />}
+      {open && (
+        <div className={`${s.exportMenu} ${s.aiPromptMenu}`} style={fixedPos || undefined}>
+          <div className={s.aiPromptHead}>
+            <span className={s.exportMenuHead} style={{ border: 'none', padding: 0, margin: 0 }}>AI prompt</span>
+            <button className={s.saveConfirmBtn} onClick={copy}>{copied ? '✓ Copied' : 'Copy'}</button>
+          </div>
+          <pre className={s.aiPromptBody}>{prompt}</pre>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* — Main component ------------------------------------------------------------ */
 // id -> {id, title, category} for every library snippet.
 const SNIPPET_META = new Map(SNIPPETS.map(sn => [sn.id, sn]));
@@ -1239,8 +1285,13 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   const shownLibIdRef = useRef(null);
   const libReqRef     = useRef(null);
 
+  // Hand-written AI prompt of the open library snippet ({id, prompt}); landing-page
+  // template snippets (startTemplate) have none, matching the snippet page.
+  const [libAiPrompt, setLibAiPrompt] = useState(null);
   function applyLibSnippet(sn) {
     shownLibIdRef.current = sn.id;
+    const p = !sn.seo?.startTemplate && sn.seo?.aiPrompt?.prompt;
+    setLibAiPrompt(p ? { id: sn.id, prompt: p } : null);
     htmlRef.current = sn.html; cssRef.current = sn.css; jsRef.current = sn.js || '';
     setActiveId(sn.id); setActiveIsCustom(false);
     setHtmlCode(sn.html); setCssCode(sn.css); setJsCode(sn.js || '');
@@ -2048,6 +2099,10 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
               </div>
             )}
           </div>}
+
+          {showEditor && !isMobile && !activeIsCustom && libAiPrompt && libAiPrompt.id === activeId && (
+            <AiPromptMenu prompt={libAiPrompt.prompt} />
+          )}
 
           {!isMobile && showEditor && (
             <>
