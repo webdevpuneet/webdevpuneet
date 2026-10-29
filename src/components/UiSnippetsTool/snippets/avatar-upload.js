@@ -2,103 +2,181 @@ const avatarUpload = {
   id: 'avatar-upload',
   title: 'Avatar Upload',
   category: 'forms',
-  html: `<div class="au">
-  <label class="au-ring" title="Upload a photo">
-    <input type="file" class="au-input" accept="image/*">
-    <img class="au-img" alt="" hidden>
-    <span class="au-placeholder">
-      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    </span>
-    <span class="au-edit">
-      <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-    </span>
-  </label>
+  lastmod: '2026-10-29',
+  html: `<div class="au" id="auCard">
+  <div class="au-banner"></div>
+  <div class="au-body">
+    <label class="au-ring" title="Upload a profile photo">
+      <input type="file" class="au-input" accept="image/*" aria-label="Upload a profile photo">
+      <img class="au-img" alt="Your profile photo" hidden>
+      <span class="au-placeholder">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </span>
+      <span class="au-drop">Drop here</span>
+      <span class="au-edit">
+        <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      </span>
+    </label>
 
-  <div class="au-meta">
-    <p class="au-name">Profile photo</p>
-    <p class="au-hint">JPG or PNG, square works best.</p>
-    <button type="button" class="au-remove" hidden>Remove photo</button>
+    <h2 class="au-name">Profile photo</h2>
+    <p class="au-hint" id="auHint">Drag &amp; drop or browse. JPG, PNG or WebP, up to 5 MB.</p>
+    <p class="au-error" id="auError" role="alert" hidden></p>
+
+    <div class="au-actions">
+      <button type="button" class="au-btn" id="auPick">Upload photo</button>
+      <button type="button" class="au-remove" hidden>Remove</button>
+    </div>
   </div>
 </div>`,
   css: `* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: system-ui, sans-serif;
-  background: #f8fafc;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at 20% 10%, #e0e7ff, transparent 45%), #f1f5f9;
   min-height: 100vh;
   display: flex; align-items: center; justify-content: center;
+  padding: 24px;
 }
 
-.au { display: flex; align-items: center; gap: 18px; }
+.au {
+  width: 100%; max-width: 340px;
+  background: #fff;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(30, 41, 59, 0.14), 0 2px 6px rgba(30, 41, 59, 0.06);
+  text-align: center;
+}
+.au-banner {
+  height: 96px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6 55%, #ec4899);
+}
+.au-body { padding: 0 28px 28px; }
 
+/* Avatar ring sits half over the banner */
 .au-ring {
   position: relative;
-  width: 96px; height: 96px;
+  width: 124px; height: 124px;
+  margin: -62px auto 16px;
   border-radius: 50%;
   background: #eef2ff;
-  border: 2px dashed #c7d2fe;
+  border: 5px solid #fff;
+  box-shadow: 0 0 0 2px #c7d2fe, 0 10px 24px rgba(79, 70, 229, 0.25);
   display: grid; place-items: center;
   cursor: pointer; overflow: hidden;
-  transition: border-color 0.15s, background 0.15s;
+  transition: box-shadow 0.2s, transform 0.2s;
 }
-.au-ring:hover { border-color: #6366f1; background: #e0e7ff; }
-.au-ring:focus-within { box-shadow: 0 0 0 4px rgba(99,102,241,0.25); }
+.au-ring:hover { transform: scale(1.03); box-shadow: 0 0 0 2px #818cf8, 0 12px 28px rgba(79, 70, 229, 0.32); }
+.au-ring:focus-within { box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.45), 0 10px 24px rgba(79, 70, 229, 0.25); }
 
 .au-input { position: absolute; width: 1px; height: 1px; opacity: 0; }
-
 .au-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
-.au-placeholder svg { width: 34px; height: 34px; fill: none; stroke: #818cf8; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.au-placeholder svg { width: 46px; height: 46px; fill: none; stroke: #818cf8; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 
-/* Camera badge bottom-right — appears solid once an image is set */
+/* Hover overlay with the camera icon */
 .au-edit {
-  position: absolute;
-  right: 4px; bottom: 4px;
-  width: 28px; height: 28px;
+  position: absolute; inset: 0;
   display: grid; place-items: center;
-  background: #6366f1;
-  border: 2px solid #f8fafc;
-  border-radius: 50%;
-  opacity: 0; transform: scale(0.6);
-  transition: opacity 0.18s, transform 0.18s;
+  background: rgba(30, 27, 75, 0.5);
+  opacity: 0; transition: opacity 0.2s;
 }
-.au-ring:hover .au-edit, .au-ring.has-img .au-edit { opacity: 1; transform: scale(1); }
-.au-edit svg { width: 14px; height: 14px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.au-edit svg { width: 28px; height: 28px; fill: none; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.au-ring:hover .au-edit { opacity: 1; }
 
-.au-ring.has-img { border-style: solid; border-color: #e2e8f0; background: #fff; }
+/* Shown only while a file is dragged over the card */
+.au-drop {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  background: rgba(99, 102, 241, 0.88);
+  color: #fff; font-size: 13px; font-weight: 700;
+  opacity: 0; pointer-events: none; transition: opacity 0.15s;
+}
+.au.dragging .au-drop { opacity: 1; }
+.au.dragging .au-ring { transform: scale(1.06); }
+
 .au-ring.has-img .au-placeholder { display: none; }
 
-.au-name { font-size: 15px; font-weight: 700; color: #1e293b; }
-.au-hint { font-size: 12.5px; color: #94a3b8; margin: 3px 0 9px; }
-.au-remove {
-  font-size: 12.5px; font-weight: 600; color: #dc2626;
-  background: none; border: none; cursor: pointer; padding: 0;
+.au-name { font-size: 19px; font-weight: 800; color: #0f172a; letter-spacing: -0.01em; }
+.au-hint { font-size: 13px; line-height: 1.5; color: #64748b; margin: 6px 0 0; }
+.au-error { font-size: 13px; font-weight: 600; color: #dc2626; background: #fef2f2; border-radius: 10px; padding: 8px 12px; margin-top: 12px; }
+
+.au-actions { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 20px; }
+.au-btn {
+  font: inherit; font-size: 14px; font-weight: 700; color: #fff;
+  background: linear-gradient(135deg, #6366f1, #7c3aed);
+  border: none; border-radius: 12px; padding: 10px 20px; cursor: pointer;
+  box-shadow: 0 8px 18px rgba(99, 102, 241, 0.35);
+  transition: transform 0.15s, box-shadow 0.15s;
 }
-.au-remove:hover { text-decoration: underline; }`,
+.au-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 22px rgba(99, 102, 241, 0.42); }
+.au-btn:focus-visible { outline: 3px solid rgba(99, 102, 241, 0.4); outline-offset: 2px; }
+.au-remove {
+  font: inherit; font-size: 14px; font-weight: 600; color: #475569;
+  background: #f1f5f9; border: none; border-radius: 12px; padding: 10px 16px; cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.au-remove:hover { background: #fee2e2; color: #dc2626; }`,
   js: `function initAvatarUpload() {
-  const ring = document.querySelector('.au-ring');
-  if (!ring) return;                       // not mounted yet
-  const input = ring.querySelector('.au-input');
-  const img = ring.querySelector('.au-img');
-  const removeBtn = document.querySelector('.au-remove');
+  const card = document.querySelector('.au');
+  if (!card) return;                       // not mounted yet
+  const ring = card.querySelector('.au-ring');
+  const input = card.querySelector('.au-input');
+  const img = card.querySelector('.au-img');
+  const pickBtn = card.querySelector('.au-btn');
+  const removeBtn = card.querySelector('.au-remove');
+  const hint = card.querySelector('.au-hint');
+  const error = card.querySelector('.au-error');
+  const MAX_BYTES = 5 * 1024 * 1024;       // 5 MB
+  const DEFAULT_HINT = hint.textContent;
   let currentUrl = null;
 
-  input.addEventListener('change', () => {
-    const file = input.files[0];
-    if (!file || !file.type.startsWith('image/')) return;
+  function formatSize(bytes) {
+    return bytes < 1048576 ? Math.round(bytes / 1024) + ' KB' : (bytes / 1048576).toFixed(1) + ' MB';
+  }
+
+  function showError(msg) { error.textContent = msg; error.hidden = false; }
+
+  function setFile(file) {
+    error.hidden = true;
+    if (!file.type.startsWith('image/')) return showError('Please choose an image file.');
+    if (file.size > MAX_BYTES) return showError('That image is ' + formatSize(file.size) + '. Max size is 5 MB.');
     if (currentUrl) URL.revokeObjectURL(currentUrl);
     currentUrl = URL.createObjectURL(file);     // instant local preview, no upload
     img.src = currentUrl;
     img.hidden = false;
     ring.classList.add('has-img');
+    hint.textContent = file.name + ' · ' + formatSize(file.size);
+    pickBtn.textContent = 'Change photo';
     removeBtn.hidden = false;
-  });
+  }
+
+  input.addEventListener('change', () => { if (input.files[0]) setFile(input.files[0]); });
+  pickBtn.addEventListener('click', () => input.click());
 
   removeBtn.addEventListener('click', () => {
     if (currentUrl) { URL.revokeObjectURL(currentUrl); currentUrl = null; }
     input.value = '';
     img.hidden = true; img.removeAttribute('src');
     ring.classList.remove('has-img');
+    hint.textContent = DEFAULT_HINT;
+    pickBtn.textContent = 'Upload photo';
+    error.hidden = true;
     removeBtn.hidden = true;
+  });
+
+  // Drag and drop anywhere on the card
+  ['dragenter', 'dragover'].forEach((t) => card.addEventListener(t, (e) => {
+    e.preventDefault(); card.classList.add('dragging');
+  }));
+  ['dragleave', 'drop'].forEach((t) => card.addEventListener(t, (e) => {
+    e.preventDefault();
+    if (t === 'dragleave' && card.contains(e.relatedTarget)) return;
+    card.classList.remove('dragging');
+  }));
+  card.addEventListener('drop', (e) => {
+    const file = e.dataTransfer.files[0];
+    if (!file) return;
+    try { input.files = e.dataTransfer.files; } catch (err) {}   // keeps the file in the form
+    setFile(file);
   });
 }
 
@@ -108,7 +186,7 @@ else requestAnimationFrame(initAvatarUpload);`,
 
   seo: {
     title: 'Avatar Upload — Profile Picture Preview Snippet',
-    description: 'A circular avatar upload with instant local image preview, a camera edit badge, and a remove button, on a real file input. Exports to React, Vue & Tailwind.',
+    description: 'Profile picture upload card with drag-and-drop, instant preview, a 5 MB size check and a remove button, built on a real file input. Copy the HTML, CSS & JS.',
     about: {
       title: 'Avatar Upload — Circular Dropzone, Instant Preview & Camera Edit Badge',
       description: `An avatar upload — a circular control for choosing a profile picture with an instant preview — is one of the most-searched form snippets because nearly every app with user accounts (and every [profile card](/ui-snippets/profile-card/)) needs one, and doing it well (preview, remove, no broken images, no memory leaks) takes more than a bare file input. This snippet is a complete, accessible avatar uploader: a **circular dropzone** with a placeholder icon, an **instant local preview** of the chosen image, a **camera edit badge**, and a **remove button** — all built on a real \`<input type="file">\` so it submits and is keyboard-operable.
@@ -121,9 +199,17 @@ The moment a user picks an image, it appears in the circle — no upload, no ser
 
 Object URLs hold the file in memory until you release them, so a naive implementation that calls \`createObjectURL\` on every change slowly leaks memory. This snippet tracks the current URL in a \`currentUrl\` variable and calls \`URL.revokeObjectURL(currentUrl)\` before creating a new one (when the user picks a different photo) and when removing the photo. This cleanup is the detail most avatar-upload tutorials miss, and it is what makes the component safe to use repeatedly. It is the object-URL equivalent of clearing up after yourself.
 
-**The placeholder, preview, and edit states**
+**A profile-card presentation**
 
-The control has three visual states driven by a \`.has-img\` class. **Empty**: a dashed indigo ring with a person-silhouette placeholder icon, signaling "click to add a photo." **Hover**: the ring darkens and a camera badge pops in at the bottom-right. **Filled**: once an image is set, the ring becomes a solid border, the placeholder hides behind the photo, and the camera badge stays visible so users know they can change it. The camera badge animates in with a scale-and-fade, and its border matches the page background so it looks cleanly attached to the avatar edge. These states make the affordance obvious at every step.
+The uploader is styled as a small profile card: a gradient banner with the avatar ring overlapping its lower edge (a negative top margin), so even the empty state looks like a finished profile header. The ring has a white border and a soft indigo glow, with an "Upload photo" button beneath it for visitors who don't realise the circle is clickable.
+
+**Empty, hover, drag and filled states**
+
+The control has four visual states. **Empty**: a person-silhouette placeholder inside the ring. **Hover**: the ring lifts slightly and a dark overlay with a camera icon fades in. **Dragging**: a file dragged over the card turns the ring indigo with a "Drop here" label. **Filled**: a \`.has-img\` class hides the placeholder, the file name and size replace the hint text, and the button changes to "Change photo".
+
+**Drag and drop, with validation**
+
+The card listens for \`dragenter\`, \`dragover\`, \`dragleave\` and \`drop\`. On drop, the file is assigned back to the real input (\`input.files = e.dataTransfer.files\`) so it still submits with the form, then it goes through the same \`setFile()\` function as a normal pick. That function rejects non-image files and anything over 5 MB (change \`MAX_BYTES\`) with an inline \`role="alert"\` message, before any preview is created.
 
 **The remove control**
 
@@ -135,7 +221,7 @@ The whole control is a \`<label>\` wrapping a hidden-but-present \`<input type="
 
 **Customizing the uploader**
 
-Re-theme by changing the empty ring's dashed color, the hover state, the camera badge color, and the focus ring. Resize by changing the ring's width/height (keep it a circle) and scaling the badge. To enforce a max file size, check \`file.size\` in the handler and show an error if it is too large. To crop to a square before upload, pair this with a cropping step, or rely on \`object-fit: cover\` plus a server-side crop. To actually upload, send the \`file\` (from \`input.files[0]\`) via \`fetch\` with \`FormData\` when the form submits — the preview and the upload are independent, so the UI stays responsive. The structure — label, hidden input, img, placeholder, badge, remove — stays the same.
+Re-theme by changing the banner gradient, the ring glow, the hover overlay, the button color, and the focus ring. Resize by changing the ring's width/height (keep it a circle) and scaling the badge. To enforce a max file size, check \`file.size\` in the handler and show an error if it is too large. To crop to a square before upload, pair this with a cropping step, or rely on \`object-fit: cover\` plus a server-side crop. To actually upload, send the \`file\` (from \`input.files[0]\`) via \`fetch\` with \`FormData\` when the form submits — the preview and the upload are independent, so the UI stays responsive. The structure — label, hidden input, img, placeholder, badge, remove — stays the same.
 
 **Accessibility and behaviour notes**
 
@@ -144,20 +230,25 @@ Keep the native input so the control is keyboard-focusable and submits with the 
     howToUse: {
       type: 'steps',
       items: [
-        { title: 'Copy the control', text: 'Copy the .au-ring label with its hidden <input type="file">, the <img> preview, placeholder, camera badge, and the .au-remove button, plus the script.' },
+        { title: 'Copy the control', text: 'Copy the .au card with its .au-ring label, hidden <input type="file">, <img> preview, placeholder, hover overlay, and the Upload and Remove buttons, plus the script.' },
         { title: 'Keep the object-URL cleanup', text: 'The handler revokes the previous URL.createObjectURL before making a new one (and on remove). Keep this — it prevents a memory leak from repeated previews.' },
         { title: 'Wire up the actual upload', text: 'On form submit, send input.files[0] via fetch with FormData. The local preview is independent, so the UI stays instant.' },
-        { title: 'Validate the file', text: 'The handler checks file.type starts with image/. Add a file.size check to enforce a maximum and show an error if too large.' },
-        { title: 'Re-theme and resize', text: 'Change the dashed ring color, hover, camera badge, and focus ring; resize by changing the ring width/height (keep it circular).' },
+        { title: 'Set the size limit', text: 'setFile() already rejects non-images and files over MAX_BYTES (5 MB), showing an inline error. Change the constant to suit your server.' },
+        { title: 'Try drag and drop', text: 'Drag an image onto the card. It highlights, then previews the file and shows its name and size.' },
+        { title: 'Re-theme and resize', text: 'Change the banner gradient, ring glow, hover overlay, button, and focus ring; resize by changing the ring width/height (keep it circular).' },
         { title: 'Export in your format', text: 'Click "HTML" for a standalone file, "JSX" for a React component, or "Tailwind" for a React + Tailwind version.' },
       ],
     },
     features: [
+      'Profile-card layout: gradient banner, overlapping avatar ring, and an Upload / Change photo button',
+      'Drag and drop onto the card, with a "Drop here" highlight while dragging',
+      'Built-in validation: image type check and a 5 MB size limit with an inline error message',
+      'Shows the chosen file name and size once a photo is set',
       'Circular dropzone with a placeholder icon, hover, and filled states',
       'Instant local image preview via URL.createObjectURL (no upload needed)',
       'object-fit: cover crops any photo to a clean square avatar',
       'Revokes the previous object URL on change and remove — no memory leak',
-      'Animated camera edit badge that signals you can change the photo',
+      'Camera overlay on hover that signals you can change the photo',
       'Remove button resets the input, preview, and state correctly',
       'Built on a real <input type="file" accept="image/*"> — submits and is keyboard-operable',
       'focus-within ring for keyboard users; hidden input kept in the tab order',
@@ -189,7 +280,7 @@ Requirements:
 - A label element wrapping a genuinely present (not display:none) file input restricted to accept="image/*", hidden visually via near-zero opacity and a 1px size so it stays in the tab order and keyboard-focusable, with a visible focus ring on the wrapping circle when the input has focus (using :focus-within).
 - On file selection, validate that the chosen file's type starts with "image/", then generate an instant local preview using URL.createObjectURL (not FileReader/base64), setting it as the source of an img element that uses object-fit: cover to crop any aspect ratio into a clean circle.
 - Track the currently active object URL in a variable and call URL.revokeObjectURL on it both immediately before creating a new preview URL and when the photo is removed, so repeated selections never leak memory.
-- The control must visually shift between three states driven by a single CSS class: an empty state with a dashed border and placeholder icon, a hover state that reveals a small camera "edit" badge in the corner, and a filled state where the border becomes solid, the placeholder hides, and the camera badge stays visible to indicate the photo can be changed.
+- The control must visually shift between three states driven by a single CSS class: an empty state with a placeholder icon, a hover state that reveals a camera overlay, and a filled state where the placeholder hides and the button text changes to "Change photo".
 - A "remove photo" button, hidden until a photo is set, must revoke the object URL, reset the file input's value (not attempt to set it), clear and hide the img element, and revert the control back to its empty state.
 - Ensure picking the exact same file a second time in a row still triggers a fresh change event and a fresh preview, which requires the input's value to actually be cleared on removal.`,
     },
