@@ -1,6 +1,7 @@
 ADVISOR LOG (newest first)
 Format: date · area · suggested / chosen / done · note
 
+2026-10-29 · ui snippets · done · bootstrap-multi-file-upload-queue rebuilt (drag-drop, type tiles, retry, 10 MB check, escaped file names - the old version put file names into innerHTML) with SEO, AI prompt and preview updated.
 2026-10-29 · ui snippets · done · embla-carousel-auto-scroll-logos redesigned as a full section (card, headline, shaped logo chips, stats, controls) with SEO, AI prompt and preview updated per the checklist.
 2026-10-29 · ui snippets · done · Redesigned autoplay-progress-carousel, avatar-upload, bootstrap-paste-to-upload and lamp-header (code, SEO,
            AI prompts, preview images). New standing rule: the UI SNIPPET UPDATE CHECKLIST in 06-QUALITY-BARS.txt applies to every snippet change.
