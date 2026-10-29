@@ -14,7 +14,7 @@ export default function Terms() {
     <div className={styles.page}>
       <div className={styles.inner}>
         <h1 className={styles.title}>Terms &amp; Conditions</h1>
-        <p className={styles.updated}>Last updated: October 20, 2026</p>
+        <p className={styles.updated}>Last updated: October 29, 2026</p>
 
         <section className={styles.section}>
           <h2>1. Acceptance of Terms</h2>
