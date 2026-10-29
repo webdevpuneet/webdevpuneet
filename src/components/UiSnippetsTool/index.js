@@ -981,8 +981,21 @@ function ExportMenu({ options }) {
   );
 }
 
-/* AI Prompt: dropdown with the snippet's hand-written AI prompt and a Copy button.
-   Rendered only for library snippets that have their own aiPrompt (not the generic fallback). */
+// Same fallback prompt as the snippet page's "Build with AI" section (ui-snippets/[slug]/page.js),
+// used when a snippet has no hand-written aiPrompt.
+function genericAiPrompt(sn) {
+  const cat = (sn.category || SNIPPET_META.get(sn.id)?.category || 'ui').toLowerCase();
+  const title = sn.title || SNIPPET_META.get(sn.id)?.title || 'snippet';
+  return `Build a ${cat} component called "${title}" using plain HTML, CSS${sn.js ? ', and vanilla JavaScript' : ''} — no framework, no build step.
+
+Requirements:
+- Match the structure and behavior of the "${title}" snippet from the UI Snippets Library.
+- Keep the markup semantic and the styling self-contained (no external dependencies beyond what the original snippet uses).${sn.js ? '\n- Keep the JavaScript vanilla, with no framework runtime required.' : ''}
+- Make it easy to restyle via CSS custom properties or class overrides so it can be dropped into a real project.`;
+}
+
+/* AI Prompt: dropdown with the snippet's AI prompt (hand-written, else the generic one the
+   "Build with AI" section shows) and a Copy button. Not shown for landing-page template snippets. */
 function AiPromptMenu({ prompt }) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -1009,9 +1022,9 @@ function AiPromptMenu({ prompt }) {
 
   return (
     <div className={`${s.popoverAnchor} ${s.forkAnchor}`} ref={ref}>
-      <button className={s.iconBtn} onClick={() => setOpen(v => !v)} title="Copy an AI prompt that recreates this snippet" aria-label="AI Prompt" aria-haspopup="true" aria-expanded={open}>
+      <button className={s.iconBtn} onClick={() => setOpen(v => !v)} title="AI Prompt — copy a prompt that recreates this snippet" aria-label="AI Prompt" aria-haspopup="true" aria-expanded={open}>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 3v4M17 5h4"/></svg>
-        <span className={s.exportLabel}>AI Prompt</span>
+        <span className={s.exportLabel}>AI</span>
       </button>
       {open && <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 299 }} />}
       {open && (
@@ -1290,8 +1303,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   const [libAiPrompt, setLibAiPrompt] = useState(null);
   function applyLibSnippet(sn) {
     shownLibIdRef.current = sn.id;
-    const p = !sn.seo?.startTemplate && sn.seo?.aiPrompt?.prompt;
-    setLibAiPrompt(p ? { id: sn.id, prompt: p } : null);
+    setLibAiPrompt(sn.seo?.startTemplate ? null : { id: sn.id, prompt: sn.seo?.aiPrompt?.prompt || genericAiPrompt(sn) });
     htmlRef.current = sn.html; cssRef.current = sn.css; jsRef.current = sn.js || '';
     setActiveId(sn.id); setActiveIsCustom(false);
     setHtmlCode(sn.html); setCssCode(sn.css); setJsCode(sn.js || '');
@@ -2008,7 +2020,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
       title="Refresh preview — click if nothing appears"
       aria-label="Refresh preview"
     >
-      <span className={s.navBtnText}>Refresh</span>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><polyline points="21 3 21 9 15 9"/></svg>
     </button>
   );
   const headerRightEl = (
