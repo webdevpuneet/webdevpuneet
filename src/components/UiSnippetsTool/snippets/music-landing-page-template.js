@@ -14,7 +14,7 @@ const musicLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-floating" data-uid="smvrrymllamn4">
+    <section class="st st-navbar-floating" data-uid="smvulbpms08dx">
       <div class="st-wrap">
         <header class="nf">
           <a class="st-brand" href="#">
@@ -35,7 +35,7 @@ const musicLandingPageTemplate = {
       </div>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-music-hero" data-uid="smvrrymllfyy4">
+    <section class="st st-music-hero" data-uid="smvulbpmsp8tc">
       <div class="mh-bg" role="img" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-music.jpg')" aria-label="The singer at the microphone under cyan and pink stage lights"></div>
       <div class="mh-shade" aria-hidden="true"></div>
       <div class="mh st-wrap">
@@ -55,7 +55,7 @@ const musicLandingPageTemplate = {
       </div>
       <div class="mh-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     </section>
-    <section id="new-release" class="st st-release-spotlight" data-uid="smvrrymllq9i1">
+    <section id="new-release" class="st st-release-spotlight" data-uid="smvulbpmswp62">
       <div class="st-wrap rs">
         <div class="rs-art" data-anim="media">
           <span class="rs-disc" aria-hidden="true"></span>
@@ -80,7 +80,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="listen" class="st st-audio-player" data-uid="smvrrymlle02l">
+    <section id="listen" class="st st-audio-player" data-uid="smvulbpms5znd">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Listen</p>
@@ -144,7 +144,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="tour" class="st st-tour-dates" data-uid="smvrrymllt3s9">
+    <section id="tour" class="st st-tour-dates" data-uid="smvulbpmsolf7">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">On tour</p>
@@ -195,7 +195,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="music" class="st st-discography" data-uid="smvrrymlleoi1">
+    <section id="music" class="st st-discography" data-uid="smvulbpmsb5i5">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Discography</p>
@@ -243,7 +243,7 @@ const musicLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="videos" class="st st-video-section" data-uid="smvrrymll97nc">
+    <section id="videos" class="st st-video-section" data-uid="smvulbpmsegxg">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Live session</p>
@@ -273,7 +273,7 @@ const musicLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvrrymllcd7z">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvulbpms76kd">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -309,7 +309,7 @@ const musicLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-carousel" data-uid="smvrrymllo35y">
+    <section id="customers" class="st st-testimonials-carousel" data-uid="smvulbpmsg8co">
       <div class="st-wrap">
         <div class="tc-top">
           <header class="st-head st-head--left tc-head">
@@ -350,7 +350,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="merch" class="st st-product-grid" data-uid="smvrrymll6nlx">
+    <section id="merch" class="st st-product-grid" data-uid="smvulbpmsfc4r">
       <div class="st-wrap">
         <div class="pg-top">
           <header class="st-head st-head--left pg-head">
@@ -413,7 +413,7 @@ const musicLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvrrymllrido">
+    <section id="contact" class="st st-booking-form" data-uid="smvulbpms0gy1">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -471,7 +471,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-newsletter" data-uid="smvrrymllw7ke">
+    <section id="get-started" class="st st-cta-newsletter" data-uid="smvulbpmsod4f">
       <div class="st-wrap">
         <div class="cn" data-anim="media">
           <span class="st-icon cn-icon" data-anim="item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span>
@@ -485,7 +485,7 @@ const musicLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvrrymlljzy0">
+    <section class="st st-footer-minimal" data-uid="smvulbpms2dly">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -1575,7 +1575,11 @@ html.stg-open{overflow:hidden}
         "q": "How is this snippet different from the template in the Website Builder?",
         "a": "It is the same page. Here you read and edit the HTML, CSS and JavaScript directly with a live preview; in the Website Builder you edit it with forms, change the theme once for the whole page, add pages and export a finished site."
       }
-    ]
+    ],
+    "aiPrompt": {
+      "paragraph": "Give this prompt to an AI assistant to generate your own version of the Music Artist & Band Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
+      "prompt": "Build a complete music artist & band website for “Velvet Static” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Floating Pill Navbar\n2. Music Artist Hero: “Velvet Static”\n3. New Release Spotlight: “Static Hearts”\n4. Audio Player & Track List: “Press play on the new songs”\n5. Tour Dates & Tickets: “See us live”\n6. Discography Grid: “Albums, EPs and singles”\n7. Video Section with Poster: “Lights Out in Lisbon, live in the church”\n8. Filterable Image Gallery: “On stage and in the studio”\n9. Testimonial Carousel: “What they are saying”\n10. Product Grid: “Take the music home”\n11. Booking Request Form: “Bookings, press and licensing”\n12. Newsletter Signup CTA: “Be first to hear what is next”\n13. Minimal Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #22d3ee, page background #07090f, cards #111522, text #f4f7fb, muted text #a3adc2. Corner radius 14px, content width 1200px.\n- Headings in Space Grotesk, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable music copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Velvet Static: Dream-Pop Band From Lisbon. New Album, Tour”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a music business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Music (music.html)\n- Tour (tour.html)\n- Videos (videos.html)\n- Merch (merch.html)\n- About (about.html)\n- Contact (contact.html)\n- Privacy (privacy.html)"
+    }
   },
 };
 

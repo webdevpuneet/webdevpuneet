@@ -950,10 +950,11 @@ Requirements:
     ...(sn.seo?.aiPrompt    && { aiPrompt: sn.seo.aiPrompt }),
   };
 
-  // Landing-page template snippets: no "Build with AI" block. Instead, the website section templates
-  // the page is built from (after About) and a "Start using this template" button (above the code).
+  // Landing-page template snippets also show the website section templates the page is built from
+  // (after About) and a "Start using this template" button (above the code). Their AI prompt is the
+  // template's own, written into the snippet by scripts/generate-landing-page-snippets.mjs.
   const start = sn.seo?.startTemplate;
-  if (start) SEO.aiPrompt = undefined;
+  SEO.aiPrompt = { ...SEO.aiPrompt, label: 'Extend with AI', heading: start ? 'Take This Template Further With AI' : 'Take This Snippet Further With AI' };
 
   // Navigation snippets (and the standalone hamburger button) point readers at the
   // Navbar Builder for a complete, responsive navbar: a call-out under the source

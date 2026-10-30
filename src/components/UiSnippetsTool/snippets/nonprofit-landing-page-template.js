@@ -11,7 +11,7 @@ const nonprofitLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvrrymivi6tk">
+    <section class="st st-navbar-simple" data-uid="smvulbphshwtx">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" /><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" /></svg></span><span>GreenRoots</span></span>
@@ -31,7 +31,7 @@ const nonprofitLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvrrymivav78">
+    <section class="st st-image-background-hero" data-uid="smvulbphtnue6">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-nature.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -51,7 +51,7 @@ const nonprofitLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvrrymivk2xl">
+    <section id="results" class="st st-stats-counters" data-uid="smvulbphtomzk">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our impact</p>
@@ -82,7 +82,7 @@ const nonprofitLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="how-it-works" class="st st-features-steps" data-uid="smvrrymivo9t8">
+    <section id="how-it-works" class="st st-features-steps" data-uid="smvulbphtcp0a">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How your gift helps</p>
@@ -112,7 +112,7 @@ const nonprofitLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvrrymivaroe">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvulbphtd9go">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our work</p>
@@ -138,7 +138,7 @@ const nonprofitLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvrrymivxmsz">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvulbphtsy7v">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Stories</p>
@@ -173,7 +173,7 @@ const nonprofitLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvrrymiv1uwd">
+    <section id="team" class="st st-team-grid" data-uid="smvulbphtrf47">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our team</p>
@@ -230,7 +230,7 @@ const nonprofitLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvrrymiv463w">
+    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvulbphtnkjp">
       <div class="st-wrap">
         <div class="cb" data-spotlight data-anim="media">
           <h2 class="st-h2 cb-title" data-anim="item" data-anim-text>Plant trees <span class="hl">today</span></h2>
@@ -243,7 +243,7 @@ const nonprofitLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvrrymivlhzx">
+    <section class="st st-popup-modal" data-uid="smvulbphty9f4">
       <div class="pu" data-pu data-trigger="delay" data-delay="14" data-scroll="50" data-days="7" data-pos="center" data-layout="left" data-autoplay="0" data-pu-id="6vd216">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -264,7 +264,7 @@ const nonprofitLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-floating-social-share" data-uid="smvrrymivf5xn">
+    <section class="st st-floating-social-share" data-uid="smvulbphteup1">
       <div class="ss" data-ss data-side="right" data-align="center" style="--ss-top:50%" data-mobile="bar" data-look="network" data-shape="attached" data-size="default" data-tips="on" data-start="open" data-copied="Link copied">
         <div class="ss-panel" role="group" aria-label="Share this page">
           <ul class="ss-list"><li class="ss-item"><a class="ss-btn" data-net="facebook" data-share="https://www.facebook.com/sharer/sharer.php?u={url}" href="https://www.facebook.com/sharer/sharer.php" target="_blank" rel="noopener noreferrer" style="--c:#1877F2" aria-label="Share on Facebook (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="ss-tip" aria-hidden="true">Facebook</span></a></li><li class="ss-item"><a class="ss-btn" data-net="x" data-share="https://x.com/intent/post?url={url}&amp;text={title}&amp;via={via}&amp;hashtags={tags}" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer" style="--c:#111111" aria-label="Share on X (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="ss-tip" aria-hidden="true">X</span></a></li><li class="ss-item"><a class="ss-btn" data-net="whatsapp" data-share="https://wa.me/?text={text}" href="https://wa.me/" target="_blank" rel="noopener noreferrer" style="--c:#128C7E" aria-label="Share on WhatsApp (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.7-5.1A9 9 0 1 1 8.1 19.3z"/><path d="M9 8.5c0 3.300 2.700 6 6 6l1.300-1.500-2.200-1.100-.9.900c-.9-.4-1.700-1.200-2.100-2.100l.9-.9-1.100-2.200z"/></svg><span class="ss-tip" aria-hidden="true">WhatsApp</span></a></li><li class="ss-item"><a class="ss-btn" data-net="email" data-share="mailto:?subject={title}&amp;body={text}" href="mailto:" style="--c:#6B7280" aria-label="Share on Email"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.970 5.700a1.940 1.940 0 0 1-2.060 0L2 7"/></svg><span class="ss-tip" aria-hidden="true">Email</span></a></li><li class="ss-item"><button type="button" class="ss-btn" data-net="copy" style="--c:#0F7B3F" aria-label="Copy link"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="13" height="13" x="8" y="8" rx="2.500"/><path d="M16 8V6.500A2.500 2.500 0 0 0 13.500 4h-7A2.500 2.500 0 0 0 4 6.500v7A2.500 2.500 0 0 0 6.500 16H8"/></svg><svg class="ss-ic ss-ic--done" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="ss-tip" aria-hidden="true">Copy link</span></button></li><li class="ss-item ss-item--hide"><button type="button" class="ss-hide" data-ss-hide aria-expanded="true" aria-label="Hide share buttons"><svg class="ss-ic ss-ic--hide" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></button></li></ul>
@@ -273,7 +273,7 @@ const nonprofitLandingPageTemplate = {
         <span class="ss-live" role="status" aria-live="polite"></span>
       </div>
     </section>
-    <section class="st st-footer-newsletter" data-uid="smvrrymivl9g7">
+    <section class="st st-footer-newsletter" data-uid="smvulbphtwan2">
       <footer class="st-wrap fn">
         <div class="fn-top">
           <div class="fn-news" data-anim="item">
@@ -1308,7 +1308,11 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "q": "How is this snippet different from the template in the Website Builder?",
         "a": "It is the same page. Here you read and edit the HTML, CSS and JavaScript directly with a live preview; in the Website Builder you edit it with forms, change the theme once for the whole page, add pages and export a finished site."
       }
-    ]
+    ],
+    "aiPrompt": {
+      "paragraph": "Give this prompt to an AI assistant to generate your own version of the Nonprofit & Charity Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
+      "prompt": "Build a complete nonprofit & charity website for “GreenRoots” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Every tree is a fresh start”\n3. Animated Stats Counters: “What your support has done”\n4. How It Works Steps: “From donation to forest”\n5. Icon Grid Features: “Programmes that last”\n6. Testimonial Wall: “Voices from the field”\n7. Team Grid: “The people behind the trees”\n8. Gradient CTA Banner: “Plant trees today”\n9. Popup & Promo Modal\n10. Floating Social Share Bar\n11. Footer With Newsletter\n\nLook and feel:\n- Colours as CSS custom properties: brand #15803d, page background #ffffff, cards #f0f8f2, text #0f1f14, muted text #4b5f52. Corner radius 14px, content width 1200px.\n- Headings in Merriweather, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable community copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Nonprofit Website Template — Free Charity HTML Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a community business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- About (about.html)\n- Privacy (privacy.html)"
+    }
   },
 };
 

@@ -3,7 +3,7 @@
 const dentalLandingPageTemplate = {
   id: 'dental-landing-page-template',
   title: 'Dental Clinic Website Template',
-  lastmod: '2026-10-25',
+  lastmod: '2026-10-28',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -11,7 +11,7 @@ const dentalLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvnkxdagt4iz">
+    <section class="st st-navbar-simple" data-uid="smvulbpg3lbud">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" /></svg></span><span>Brightsmile Dental</span></span>
@@ -32,7 +32,7 @@ const dentalLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-saas-split-hero" data-uid="smvnkxdag7sqw">
+    <section class="st st-saas-split-hero" data-uid="smvulbpg3roo7">
       <div class="sh st-wrap">
         <div class="sh-copy">
           <a class="st-pill sh-badge" data-anim="item" href="#contact"><span>Now welcoming new patients</span></a>
@@ -49,7 +49,7 @@ const dentalLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvnkxdagwupy">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvulbpg3dfo5">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Treatments</p>
@@ -90,7 +90,7 @@ const dentalLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="how-it-works" class="st st-features-steps" data-uid="smvnkxdagm9d6">
+    <section id="how-it-works" class="st st-features-steps" data-uid="smvulbpg3gdor">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Your first visit</p>
@@ -120,7 +120,7 @@ const dentalLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-before-after-slider" data-uid="smvnkxdag9nhj">
+    <section id="gallery" class="st st-before-after-slider" data-uid="smvulbpg3yn8q">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Smile results</p>
@@ -143,7 +143,7 @@ const dentalLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvnkxdagvemv">
+    <section id="team" class="st st-team-grid" data-uid="smvulbpg3qtv1">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our team</p>
@@ -194,7 +194,7 @@ const dentalLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvnkxdagvpws">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvulbpg32eon">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Patient reviews</p>
@@ -229,7 +229,7 @@ const dentalLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-split" data-uid="smvnkxdagajsl">
+    <section id="faq" class="st st-faq-split" data-uid="smvulbpg3cz6r">
       <div class="st-wrap fs2">
         <div class="fs2-side">
           <header class="st-head st-head--left fs2-head">
@@ -264,7 +264,7 @@ const dentalLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvnkxdagemrz">
+    <section id="contact" class="st st-booking-form" data-uid="smvulbpg37kss">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -325,7 +325,7 @@ const dentalLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact-2" class="st st-contact-map" data-uid="smvnkxdag52in">
+    <section id="contact-2" class="st st-contact-map" data-uid="smvulbpg46ofm">
       <div class="st-wrap cm">
         <div class="cm-info">
           <header class="st-head st-head--left cm-head">
@@ -350,7 +350,7 @@ const dentalLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvnkxdagt59z">
+    <section class="st st-footer-minimal" data-uid="smvulbpg4axm4">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -988,7 +988,11 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "q": "How is this snippet different from the template in the Website Builder?",
         "a": "It is the same page. Here you read and edit the HTML, CSS and JavaScript directly with a live preview; in the Website Builder you edit it with forms, change the theme once for the whole page, add pages and export a finished site."
       }
-    ]
+    ],
+    "aiPrompt": {
+      "paragraph": "Give this prompt to an AI assistant to generate your own version of the Dental Clinic Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
+      "prompt": "Build a complete dental clinic website for “Brightsmile Dental” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. SaaS Split Hero: “Gentle dentistry for the whole family”\n3. Icon Grid Features: “Care for every smile”\n4. How It Works Steps: “What to expect”\n5. Before & After Slider: “Real smile makeovers”\n6. Team Grid: “Meet your dentists”\n7. Testimonial Wall: “Smiles say it best”\n8. Split FAQ With Contact Card: “Questions patients ask”\n9. Booking Request Form: “Request your first visit”\n10. Contact With Map: “Find the clinic”\n11. Minimal Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #0284c7, page background #ffffff, cards #f0f8fd, text #0c1f2e, muted text #4b6275. Corner radius 16px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable health & fitness copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Brightsmile Dental: Gentle Family Dentist in Central London”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a health & fitness business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Treatments (treatments.html)\n- Our team (team.html)\n- Book online (book.html)\n- Privacy (privacy.html)"
+    }
   },
 };
 

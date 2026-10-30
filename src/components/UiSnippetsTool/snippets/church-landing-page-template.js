@@ -3,7 +3,7 @@
 const churchLandingPageTemplate = {
   id: 'church-landing-page-template',
   title: 'Church Website Template',
-  lastmod: '2026-10-25',
+  lastmod: '2026-10-28',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -11,7 +11,7 @@ const churchLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-floating" data-uid="smvnkxdeudf0e">
+    <section class="st st-navbar-floating" data-uid="smvulbpmb66uk">
       <div class="st-wrap">
         <header class="nf">
           <a class="st-brand" href="#">
@@ -31,7 +31,7 @@ const churchLandingPageTemplate = {
       </div>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvnkxdev5vme">
+    <section class="st st-image-background-hero" data-uid="smvulbpmcvnb8">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-church.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -51,7 +51,7 @@ const churchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="journey" class="st st-scroll-path" data-uid="smvnkxdevdtiq">
+    <section id="journey" class="st st-scroll-path" data-uid="smvulbpmcszti">
       <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.15" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><g fill="currentColor"><path data-float data-spin d="M120 118 C123.3 136.7 123.3 136.7 142 140 C123.3 143.3 123.3 143.3 120 162 C116.7 143.3 116.7 143.3 98 140 C116.7 136.7 116.7 136.7 120 118Z"/><path data-float data-spin d="M340 606 C342.1 617.9 342.1 617.9 354 620 C342.1 622.1 342.1 622.1 340 634 C337.9 622.1 337.9 622.1 326 620 C337.9 617.9 337.9 617.9 340 606Z"/><path data-float data-spin d="M560 78 C561.8 88.2 561.8 88.2 572 90 C561.8 91.8 561.8 91.8 560 102 C558.2 91.8 558.2 91.8 548 90 C558.2 88.2 558.2 88.2 560 78Z"/><path data-float data-spin d="M820 660 C823 677 823 677 840 680 C823 683 823 683 820 700 C817 683 817 683 800 680 C817 677 817 677 820 660Z"/><path data-float data-spin d="M1020 154 C1023.9 176.1 1023.9 176.1 1046 180 C1023.9 183.9 1023.9 183.9 1020 206 C1016.1 183.9 1016.1 183.9 994 180 C1016.1 176.1 1016.1 176.1 1020 154Z"/><path data-float data-spin d="M1120 508 C1121.8 518.2 1121.8 518.2 1132 520 C1121.8 521.8 1121.8 521.8 1120 532 C1118.2 521.8 1118.2 521.8 1108 520 C1118.2 518.2 1118.2 518.2 1120 508Z"/><path data-float data-spin d="M240 370 C241.5 378.5 241.5 378.5 250 380 C241.5 381.5 241.5 381.5 240 390 C238.5 381.5 238.5 381.5 230 380 C238.5 378.5 238.5 378.5 240 370Z"/><path data-float data-spin d="M700 371 C701.35 378.65 701.35 378.65 709 380 C701.35 381.35 701.35 381.35 700 389 C698.65 381.35 698.65 381.35 691 380 C698.65 378.65 698.65 378.65 700 371Z"/><path data-float data-spin d="M920 406 C922.1 417.9 922.1 417.9 934 420 C922.1 422.1 922.1 422.1 920 434 C917.9 422.1 917.9 422.1 906 420 C917.9 417.9 917.9 417.9 920 406Z"/><path data-float data-spin d="M460 292 C461.2 298.8 461.2 298.8 468 300 C461.2 301.2 461.2 301.2 460 308 C458.8 301.2 458.8 301.2 452 300 C458.8 298.8 458.8 298.8 460 292Z"/></g></svg></div>
       <div class="st-wrap">
         <header class="st-head">
@@ -101,7 +101,7 @@ const churchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvnkxdevb4yh">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvulbpmcx15v">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Get involved</p>
@@ -136,7 +136,7 @@ const churchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvnkxdevqwt2">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvulbpmc9252">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -172,7 +172,7 @@ const churchLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvnkxdevdjex">
+    <section id="team" class="st st-team-grid" data-uid="smvulbpmcvdsv">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our leaders</p>
@@ -223,7 +223,7 @@ const churchLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="blog" class="st st-blog-cards" data-uid="smvnkxdev1uqy">
+    <section id="blog" class="st st-blog-cards" data-uid="smvulbpmc46z1">
       <div class="st-wrap">
         <div class="bc-top">
           <header class="st-head st-head--left bc-head">
@@ -257,7 +257,7 @@ const churchLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="contact" class="st st-contact-map" data-uid="smvnkxdevhrf9">
+    <section id="contact" class="st st-contact-map" data-uid="smvulbpmcj4hj">
       <div class="st-wrap cm">
         <div class="cm-info">
           <header class="st-head st-head--left cm-head">
@@ -282,7 +282,7 @@ const churchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-floating-social-share" data-uid="smvnkxdevp3pk">
+    <section class="st st-floating-social-share" data-uid="smvulbpmcbvpl">
       <div class="ss" data-ss data-side="right" data-align="center" style="--ss-top:50%" data-mobile="bar" data-look="network" data-shape="attached" data-size="default" data-tips="on" data-start="open" data-copied="Link copied">
         <div class="ss-panel" role="group" aria-label="Share this page">
           <ul class="ss-list"><li class="ss-item"><a class="ss-btn" data-net="facebook" data-share="https://www.facebook.com/sharer/sharer.php?u={url}" href="https://www.facebook.com/sharer/sharer.php" target="_blank" rel="noopener noreferrer" style="--c:#1877F2" aria-label="Share on Facebook (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="ss-tip" aria-hidden="true">Facebook</span></a></li><li class="ss-item"><a class="ss-btn" data-net="whatsapp" data-share="https://wa.me/?text={text}" href="https://wa.me/" target="_blank" rel="noopener noreferrer" style="--c:#128C7E" aria-label="Share on WhatsApp (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.7-5.1A9 9 0 1 1 8.1 19.3z"/><path d="M9 8.5c0 3.300 2.700 6 6 6l1.300-1.500-2.200-1.100-.9.900c-.9-.4-1.700-1.200-2.100-2.100l.9-.9-1.100-2.200z"/></svg><span class="ss-tip" aria-hidden="true">WhatsApp</span></a></li><li class="ss-item"><a class="ss-btn" data-net="email" data-share="mailto:?subject={title}&amp;body={text}" href="mailto:" style="--c:#6B7280" aria-label="Share on Email"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.970 5.700a1.940 1.940 0 0 1-2.060 0L2 7"/></svg><span class="ss-tip" aria-hidden="true">Email</span></a></li><li class="ss-item"><button type="button" class="ss-btn" data-net="copy" style="--c:#0F7B3F" aria-label="Copy link"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="13" height="13" x="8" y="8" rx="2.500"/><path d="M16 8V6.500A2.500 2.500 0 0 0 13.500 4h-7A2.500 2.500 0 0 0 4 6.500v7A2.500 2.500 0 0 0 6.500 16H8"/></svg><svg class="ss-ic ss-ic--done" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="ss-tip" aria-hidden="true">Copy link</span></button></li><li class="ss-item ss-item--hide"><button type="button" class="ss-hide" data-ss-hide aria-expanded="true" aria-label="Hide share buttons"><svg class="ss-ic ss-ic--hide" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></button></li></ul>
@@ -291,7 +291,7 @@ const churchLandingPageTemplate = {
         <span class="ss-live" role="status" aria-live="polite"></span>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvnkxdevkpte">
+    <section class="st st-footer-minimal" data-uid="smvulbpmcbwsa">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -1161,7 +1161,11 @@ html.stg-open{overflow:hidden}
         "q": "How is this snippet different from the template in the Website Builder?",
         "a": "It is the same page. Here you read and edit the HTML, CSS and JavaScript directly with a live preview; in the Website Builder you edit it with forms, change the theme once for the whole page, add pages and export a finished site."
       }
-    ]
+    ],
+    "aiPrompt": {
+      "paragraph": "Give this prompt to an AI assistant to generate your own version of the Church Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
+      "prompt": "Build a complete church website for “Grace Chapel” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Floating Pill Navbar\n2. Image Background Hero: “You are welcome here”\n3. Scroll Path Timeline: “What to expect”\n4. Icon Grid Features: “A place for everyone”\n5. Filterable Image Gallery: “Life at Grace Chapel”\n6. Team Grid: “The people who serve”\n7. Blog Post Cards: “Events & gatherings”\n8. Contact With Map: “Plan your visit”\n9. Floating Social Share Bar\n10. Minimal Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #7c3aed, page background #fdfcff, cards #f5f3ff, text #1e1b2e, muted text #5b5670. Corner radius 16px, content width 1200px.\n- Headings in Playfair Display, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable community copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Grace Chapel Riverside: Sunday Services at 9:30 and 11:30”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a community business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Events (events.html)\n- Visit (visit.html)\n- Privacy (privacy.html)"
+    }
   },
 };
 

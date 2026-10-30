@@ -12,7 +12,7 @@ const fitnessLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvrrymh2nzot">
+    <section class="st st-navbar-simple" data-uid="smvulbpfnaihr">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" /></svg></span><span>IRONHOUSE</span></span>
@@ -34,7 +34,7 @@ const fitnessLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvrrymh2qzr0">
+    <section class="st st-image-background-hero" data-uid="smvulbpfo3s03">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-fitness.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -54,7 +54,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvrrymh2ps2j">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvulbpfonb1x">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Classes</p>
@@ -95,7 +95,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="timetable" class="st st-class-timetable" data-uid="smvrrymh2iyav">
+    <section id="timetable" class="st st-class-timetable" data-uid="smvulbpfo8nyq">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Timetable</p>
@@ -159,7 +159,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvrrymh2rrv9">
+    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvulbpfo9gr2">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Membership</p>
@@ -206,7 +206,7 @@ const fitnessLandingPageTemplate = {
         <p class="p3-note" data-anim="item">Students and NHS staff get 20% off. Prices include VAT.</p>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvrrymh2bh61">
+    <section id="team" class="st st-team-grid" data-uid="smvulbpfovmjy">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Coaches</p>
@@ -257,7 +257,7 @@ const fitnessLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-marquee" data-uid="smvrrymh2szaz">
+    <section id="customers" class="st st-testimonials-marquee" data-uid="smvulbpfouo38">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Members</p>
@@ -324,7 +324,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-before-after-slider" data-uid="smvrrymh28kr6">
+    <section id="gallery" class="st st-before-after-slider" data-uid="smvulbpfosn31">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Member progress</p>
@@ -347,7 +347,7 @@ const fitnessLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvrrymh2ppdb">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvulbpfof0ns">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -375,7 +375,7 @@ const fitnessLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvrrymh2ueku">
+    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvulbpfodl97">
       <div class="st-wrap">
         <div class="cb" data-spotlight data-anim="media">
           <h2 class="st-h2 cb-title" data-anim="item" data-anim-text>Your first week is <span class="hl">on us</span></h2>
@@ -388,7 +388,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvrrymh2hbtb">
+    <section class="st st-popup-modal" data-uid="smvulbpfoivse">
       <div class="pu" data-pu data-trigger="scroll" data-delay="8" data-scroll="40" data-days="7" data-pos="center" data-layout="left" data-autoplay="0" data-pu-id="pewc8w">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -414,7 +414,7 @@ const fitnessLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvrrymh2j69b">
+    <section class="st st-footer-minimal" data-uid="smvulbpfoketa">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -1408,7 +1408,11 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "q": "How is this snippet different from the template in the Website Builder?",
         "a": "It is the same page. Here you read and edit the HTML, CSS and JavaScript directly with a live preview; in the Website Builder you edit it with forms, change the theme once for the whole page, add pages and export a finished site."
       }
-    ]
+    ],
+    "aiPrompt": {
+      "paragraph": "Give this prompt to an AI assistant to generate your own version of the Gym & Fitness Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
+      "prompt": "Build a complete gym & fitness website for “IRONHOUSE” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Stronger every single week”\n3. Icon Grid Features: “Find your training”\n4. Class Timetable: “This week at IRONHOUSE”\n5. Three-Tier Pricing: “Simple, flexible plans”\n6. Team Grid: “Coaches who care”\n7. Testimonial Marquee: “Results that speak”\n8. Before & After Slider: “Twelve weeks, real change”\n9. FAQ Accordion: “Before you start”\n10. Gradient CTA Banner: “Your first week is on us”\n11. Popup & Promo Modal\n12. Minimal Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #a3e635, page background #0a0a0a, cards #161616, text #fafafa, muted text #a3a3a3. Corner radius 8px, content width 1200px.\n- Headings in Oswald, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable health & fitness copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Gym Website Template — Free Fitness Studio HTML Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a health & fitness business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Pricing (pricing.html)\n- About (about.html)\n- FAQ (faq.html)\n- Log in (login.html)\n- Sign up (register.html)\n- Blog (blog.html)\n- Article (article.html)\n- Privacy (privacy.html)"
+    }
   },
 };
 

@@ -14,7 +14,7 @@ const portfolioLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-floating" data-uid="smvrrymfv1afw">
+    <section class="st st-navbar-floating" data-uid="smvulbpdzluom">
       <div class="st-wrap">
         <header class="nf">
           <a class="st-brand" href="#">
@@ -34,7 +34,7 @@ const portfolioLandingPageTemplate = {
       </div>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-portfolio-hero" data-uid="smvrrymfv7sis">
+    <section class="st st-portfolio-hero" data-uid="smvulbpe0ej0g">
       <div class="pf st-wrap">
         <div class="pf-copy">
           <span class="pf-status" data-anim="item"><i aria-hidden="true"></i><span>Available for freelance work</span></span>
@@ -57,7 +57,7 @@ const portfolioLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvrrymfvwwjj">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvulbpe02x4a">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services</p>
@@ -83,7 +83,7 @@ const portfolioLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-case-study-showcase" data-uid="smvrrymfvt1id">
+    <section id="customers" class="st st-case-study-showcase" data-uid="smvulbpe02cis">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Case studies</p>
@@ -124,7 +124,7 @@ const portfolioLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="showcase" class="st st-scroll-ring" data-uid="smvrrymfvsya2">
+    <section id="showcase" class="st st-scroll-ring" data-uid="smvulbpe0aj6t">
       <div class="st-wrap rg-head">
         <p class="st-eyebrow" data-anim="item">More projects</p>
         <h2 class="st-h2" data-anim="item" data-anim-text>Recent work, <span class="hl">up close</span></h2>
@@ -173,7 +173,7 @@ const portfolioLandingPageTemplate = {
         </a>
       </div>
     </section>
-    <section id="customers-2" class="st st-testimonials-carousel" data-uid="smvrrymfvcerd">
+    <section id="customers-2" class="st st-testimonials-carousel" data-uid="smvulbpe0h2px">
       <div class="st-wrap">
         <div class="tc-top">
           <header class="st-head st-head--left tc-head">
@@ -230,7 +230,7 @@ const portfolioLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="blog" class="st st-blog-cards" data-uid="smvrrymfv5nya">
+    <section id="blog" class="st st-blog-cards" data-uid="smvulbpe0kiy8">
       <div class="st-wrap">
         <div class="bc-top">
           <header class="st-head st-head--left bc-head">
@@ -264,7 +264,7 @@ const portfolioLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="contact" class="st st-contact-split-form" data-uid="smvrrymfvc3dk">
+    <section id="contact" class="st st-contact-split-form" data-uid="smvulbpe0b57u">
       <div class="st-wrap cs2">
         <div class="cs2-info">
           <header class="st-head st-head--left cs2-head">
@@ -313,7 +313,7 @@ const portfolioLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-floating-social-share" data-uid="smvrrymfvo8am">
+    <section class="st st-floating-social-share" data-uid="smvulbpe0ybmx">
       <div class="ss" data-ss data-side="right" data-align="center" style="--ss-top:50%" data-mobile="bar" data-look="network" data-shape="attached" data-size="default" data-tips="on" data-start="open" data-copied="Link copied">
         <div class="ss-panel" role="group" aria-label="Share this page">
           <ul class="ss-list"><li class="ss-item"><a class="ss-btn" data-net="linkedin" data-share="https://www.linkedin.com/sharing/share-offsite/?url={url}" href="https://www.linkedin.com/sharing/share-offsite/" target="_blank" rel="noopener noreferrer" style="--c:#0A66C2" aria-label="Share on LinkedIn (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg><span class="ss-tip" aria-hidden="true">LinkedIn</span></a></li><li class="ss-item"><a class="ss-btn" data-net="x" data-share="https://x.com/intent/post?url={url}&amp;text={title}&amp;via={via}&amp;hashtags={tags}" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer" style="--c:#111111" aria-label="Share on X (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="ss-tip" aria-hidden="true">X</span></a></li><li class="ss-item"><a class="ss-btn" data-net="email" data-share="mailto:?subject={title}&amp;body={text}" href="mailto:" style="--c:#6B7280" aria-label="Share on Email"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.970 5.700a1.940 1.940 0 0 1-2.060 0L2 7"/></svg><span class="ss-tip" aria-hidden="true">Email</span></a></li><li class="ss-item"><button type="button" class="ss-btn" data-net="copy" style="--c:#0F7B3F" aria-label="Copy link"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="13" height="13" x="8" y="8" rx="2.500"/><path d="M16 8V6.500A2.500 2.500 0 0 0 13.500 4h-7A2.500 2.500 0 0 0 4 6.500v7A2.500 2.500 0 0 0 6.500 16H8"/></svg><svg class="ss-ic ss-ic--done" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="ss-tip" aria-hidden="true">Copy link</span></button></li><li class="ss-item ss-item--hide"><button type="button" class="ss-hide" data-ss-hide aria-expanded="true" aria-label="Hide share buttons"><svg class="ss-ic ss-ic--hide" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></button></li></ul>
@@ -322,7 +322,7 @@ const portfolioLandingPageTemplate = {
         <span class="ss-live" role="status" aria-live="polite"></span>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvrrymfvvupb">
+    <section class="st st-footer-minimal" data-uid="smvulbpe0dk45">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -1326,7 +1326,11 @@ a.cs2-value:hover{color:var(--st-brand)}
         "q": "How is this snippet different from the template in the Website Builder?",
         "a": "It is the same page. Here you read and edit the HTML, CSS and JavaScript directly with a live preview; in the Website Builder you edit it with forms, change the theme once for the whole page, add pages and export a finished site."
       }
-    ]
+    ],
+    "aiPrompt": {
+      "paragraph": "Give this prompt to an AI assistant to generate your own version of the Personal Portfolio Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
+      "prompt": "Build a complete personal portfolio website for “Alex Rivera” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Floating Pill Navbar\n2. Personal Portfolio Hero: “I design and build websites people love to use”\n3. Icon Grid Features: “How I can help”\n4. Case Study Showcase: “Projects and their results”\n5. 3D Scroll Carousel: “Recent work, up close”\n6. Testimonial Carousel: “What clients say”\n7. Blog Post Cards: “Notes on design and code”\n8. Contact Form With Details: “Let’s work together”\n9. Floating Social Share Bar\n10. Minimal Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #a16207, page background #fbf8f1, cards #f1eadb, text #2a2110, muted text #6f6450. Corner radius 14px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable creative copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Personal Portfolio Website Template — Free HTML Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a creative business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Blog (blog.html)\n- Contact (contact.html)\n- Article (article.html)\n- Privacy (privacy.html)"
+    }
   },
 };
 

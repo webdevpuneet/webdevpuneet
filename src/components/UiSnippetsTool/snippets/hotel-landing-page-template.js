@@ -14,7 +14,7 @@ const hotelLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvrrymjbkh2b">
+    <section class="st st-navbar-simple" data-uid="smvulbpilf8ae">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg></span><span>Casa Mar</span></span>
@@ -34,7 +34,7 @@ const hotelLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvrrymjbn62l">
+    <section class="st st-image-background-hero" data-uid="smvulbpilw6uw">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-hotel.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -54,7 +54,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="work" class="st st-scroll-gallery" data-uid="smvrrymjbxgv0">
+    <section id="work" class="st st-scroll-gallery" data-uid="smvulbpilvomt">
       <div class="st-wrap hs-head">
         <div class="hs-titles">
           <p class="st-eyebrow" data-anim="item">Rooms &amp; suites</p>
@@ -89,8 +89,8 @@ const hotelLandingPageTemplate = {
         </a>
       </div>
     </section>
-    <section id="highlights" class="st st-scroll-stack" data-uid="smvrrymjb9l54">
-      <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.15" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="art-glow-smvrrymjb9l54"><stop offset="0" stop-color="currentColor"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></radialGradient></defs><ellipse data-float cx="600" cy="80" rx="620" ry="380" fill="url(#art-glow-smvrrymjb9l54)"/><ellipse data-float cx="1100" cy="760" rx="420" ry="300" fill="url(#art-glow-smvrrymjb9l54)"/></svg></div>
+    <section id="highlights" class="st st-scroll-stack" data-uid="smvulbpilrxmy">
+      <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.15" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="art-glow-smvulbpilrxmy"><stop offset="0" stop-color="currentColor"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></radialGradient></defs><ellipse data-float cx="600" cy="80" rx="620" ry="380" fill="url(#art-glow-smvulbpilrxmy)"/><ellipse data-float cx="1100" cy="760" rx="420" ry="300" fill="url(#art-glow-smvulbpilrxmy)"/></svg></div>
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The experience</p>
@@ -141,7 +141,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvrrymjbywn4">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvulbpimow6p">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -177,7 +177,7 @@ const hotelLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-carousel" data-uid="smvrrymjb7oi9">
+    <section id="customers" class="st st-testimonials-carousel" data-uid="smvulbpimhb3c">
       <div class="st-wrap">
         <div class="tc-top">
           <header class="st-head st-head--left tc-head">
@@ -218,7 +218,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvrrymjb27rp">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvulbpimwku4">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -245,7 +245,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvrrymjbltkj">
+    <section id="contact" class="st st-booking-form" data-uid="smvulbpim3xun">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -304,7 +304,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact-2" class="st st-contact-map" data-uid="smvrrymjbb5sp">
+    <section id="contact-2" class="st st-contact-map" data-uid="smvulbpimnoi2">
       <div class="st-wrap cm">
         <div class="cm-info">
           <header class="st-head st-head--left cm-head">
@@ -329,7 +329,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvrrymjb5wv8">
+    <section class="st st-popup-modal" data-uid="smvulbpimzigi">
       <div class="pu" data-pu data-trigger="delay" data-delay="15" data-scroll="50" data-days="7" data-pos="bottom-center" data-layout="left" data-autoplay="0" data-pu-id="ncmalq">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -349,7 +349,7 @@ const hotelLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvrrymjbena1">
+    <section class="st st-footer-minimal" data-uid="smvulbpimta26">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -1516,7 +1516,11 @@ html.stg-open{overflow:hidden}
         "q": "How is this snippet different from the template in the Website Builder?",
         "a": "It is the same page. Here you read and edit the HTML, CSS and JavaScript directly with a live preview; in the Website Builder you edit it with forms, change the theme once for the whole page, add pages and export a finished site."
       }
-    ]
+    ],
+    "aiPrompt": {
+      "paragraph": "Give this prompt to an AI assistant to generate your own version of the Boutique Hotel Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
+      "prompt": "Build a complete boutique hotel website for “Casa Mar” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Slow mornings, salt-water days”\n3. Horizontal Scroll Gallery: “Find your room”\n4. Stacking Cards: “Everything for a slow stay”\n5. Filterable Image Gallery: “A look around Casa Mar”\n6. Testimonial Carousel: “Guests come back”\n7. FAQ Accordion: “Before you arrive”\n8. Booking Request Form: “Request your stay”\n9. Contact With Map: “Two minutes from the sea”\n10. Popup & Promo Modal\n11. Minimal Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #0f766e, page background #fbf8f3, cards #f1ebe1, text #1f2a24, muted text #5c665f. Corner radius 14px, content width 1200px.\n- Headings in Playfair Display, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable travel & hospitality copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Casa Mar: Boutique Hotel Two Minutes From the Algarve Sea”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a travel & hospitality business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Rooms (rooms.html)\n- Experience (experience.html)\n- Book (book.html)\n- Privacy (privacy.html)"
+    }
   },
 };
 

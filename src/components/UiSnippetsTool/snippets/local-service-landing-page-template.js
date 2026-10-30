@@ -3,7 +3,7 @@
 const localServiceLandingPageTemplate = {
   id: 'local-service-landing-page-template',
   title: 'Local Service Business Website Template',
-  lastmod: '2026-10-25',
+  lastmod: '2026-10-28',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -14,7 +14,7 @@ const localServiceLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvnkxdaru4mp">
+    <section class="st st-navbar-simple" data-uid="smvulbpgctlf1">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /><path d="M20 3v4" /><path d="M22 5h-4" /><path d="M4 17v2" /><path d="M5 18H3" /></svg></span><span>Sparkle &amp; Co</span></span>
@@ -34,7 +34,7 @@ const localServiceLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-saas-split-hero" data-uid="smvnkxdaryuo4">
+    <section class="st st-saas-split-hero" data-uid="smvulbpgc5lss">
       <div class="sh st-wrap">
         <div class="sh-copy">
           <a class="st-pill sh-badge" data-anim="item" href="#features"><span>Insured &amp; background-checked cleaners</span></a>
@@ -51,7 +51,7 @@ const localServiceLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvnkxdar37w9">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvulbpgcqsdu">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services</p>
@@ -92,7 +92,7 @@ const localServiceLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="how-it-works" class="st st-features-steps" data-uid="smvnkxdarnkq0">
+    <section id="how-it-works" class="st st-features-steps" data-uid="smvulbpgc66qv">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How it works</p>
@@ -122,7 +122,7 @@ const localServiceLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-before-after-slider" data-uid="smvnkxdar21xa">
+    <section id="gallery" class="st st-before-after-slider" data-uid="smvulbpgc8jbk">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The difference</p>
@@ -157,7 +157,7 @@ const localServiceLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvnkxdarg6vz">
+    <section id="results" class="st st-stats-counters" data-uid="smvulbpgc2r34">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Trusted locally</p>
@@ -188,7 +188,7 @@ const localServiceLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-carousel" data-uid="smvnkxdarut6d">
+    <section id="customers" class="st st-testimonials-carousel" data-uid="smvulbpgc7b7l">
       <div class="st-wrap">
         <div class="tc-top">
           <header class="st-head st-head--left tc-head">
@@ -245,7 +245,7 @@ const localServiceLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvnkxdarbjem">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvulbpgcdvul">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -273,7 +273,7 @@ const localServiceLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="contact" class="st st-contact-split-form" data-uid="smvnkxdarsodq">
+    <section id="contact" class="st st-contact-split-form" data-uid="smvulbpgcu0cj">
       <div class="st-wrap cs2">
         <div class="cs2-info">
           <header class="st-head st-head--left cs2-head">
@@ -322,7 +322,7 @@ const localServiceLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvnkxdargdd8">
+    <section class="st st-footer-columns" data-uid="smvulbpgcplui">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -1050,7 +1050,11 @@ a.cs2-value:hover{color:var(--st-brand)}
         "q": "How is this snippet different from the template in the Website Builder?",
         "a": "It is the same page. Here you read and edit the HTML, CSS and JavaScript directly with a live preview; in the Website Builder you edit it with forms, change the theme once for the whole page, add pages and export a finished site."
       }
-    ]
+    ],
+    "aiPrompt": {
+      "paragraph": "Give this prompt to an AI assistant to generate your own version of the Local Service Business Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
+      "prompt": "Build a complete local service business website for “Sparkle & Co” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. SaaS Split Hero: “A spotless home, without lifting a finger”\n3. Icon Grid Features: “Cleaning for every space”\n4. How It Works Steps: “Booked in three easy steps”\n5. Before & After Slider: “Spotless, every time”\n6. Animated Stats Counters: “Cleaning homes since 2015”\n7. Testimonial Carousel: “Loved by local families”\n8. FAQ Accordion: “Good to know”\n9. Contact Form With Details: “Get your fixed price”\n10. Multi-Column Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #ea580c, page background #ffffff, cards #fff6ef, text #1c1917, muted text #57534e. Corner radius 12px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable local business copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Local Business Website Template — Free HTML Service Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a local business business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- FAQ (faq.html)\n- Contact (contact.html)\n- Privacy (privacy.html)"
+    }
   },
 };
 

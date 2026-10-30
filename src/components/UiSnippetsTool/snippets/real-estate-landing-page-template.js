@@ -3,7 +3,7 @@
 const realEstateLandingPageTemplate = {
   id: 'real-estate-landing-page-template',
   title: 'Real Estate Agency Website Template',
-  lastmod: '2026-10-25',
+  lastmod: '2026-10-28',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -12,7 +12,7 @@ const realEstateLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvnkxd9lhnsw">
+    <section class="st st-navbar-simple" data-uid="smvulbpfa4l8v">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg></span><span>Harbor Homes</span></span>
@@ -33,7 +33,7 @@ const realEstateLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvnkxd9l9nqf">
+    <section class="st st-image-background-hero" data-uid="smvulbpfavfzn">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-realestate.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -53,7 +53,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="listings" class="st st-property-listings" data-uid="smvnkxd9lzp90">
+    <section id="listings" class="st st-property-listings" data-uid="smvulbpfanzkw">
       <div class="st-wrap">
         <div class="pl-head">
           <div class="pl-titles">
@@ -159,7 +159,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvnkxd9lr6u9">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvulbpfa4mc1">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services</p>
@@ -200,7 +200,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="how-it-works" class="st st-features-steps" data-uid="smvnkxd9lvnju">
+    <section id="how-it-works" class="st st-features-steps" data-uid="smvulbpfbdvkq">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How it works</p>
@@ -230,7 +230,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvnkxd9l1mve">
+    <section id="results" class="st st-stats-counters" data-uid="smvulbpfbbbn3">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our results</p>
@@ -261,7 +261,7 @@ const realEstateLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvnkxd9lp2f8">
+    <section id="team" class="st st-team-grid" data-uid="smvulbpfbtumg">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our agents</p>
@@ -312,7 +312,7 @@ const realEstateLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvnkxd9lyuk9">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvulbpfb65kq">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Reviews</p>
@@ -347,7 +347,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvnkxd9lfbch">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvulbpfbc5b7">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -375,7 +375,7 @@ const realEstateLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="contact" class="st st-contact-split-form" data-uid="smvnkxd9lb9vv">
+    <section id="contact" class="st st-contact-split-form" data-uid="smvulbpfbj4ge">
       <div class="st-wrap cs2">
         <div class="cs2-info">
           <header class="st-head st-head--left cs2-head">
@@ -420,7 +420,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvnkxd9lwhf3">
+    <section class="st st-footer-columns" data-uid="smvulbpfb59vv">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -1097,7 +1097,11 @@ a.cs2-value:hover{color:var(--st-brand)}
         "q": "How is this snippet different from the template in the Website Builder?",
         "a": "It is the same page. Here you read and edit the HTML, CSS and JavaScript directly with a live preview; in the Website Builder you edit it with forms, change the theme once for the whole page, add pages and export a finished site."
       }
-    ]
+    ],
+    "aiPrompt": {
+      "paragraph": "Give this prompt to an AI assistant to generate your own version of the Real Estate Agency Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
+      "prompt": "Build a complete real estate agency website for “Harbor Homes” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Find the home that fits your life”\n3. Property Listings: “Homes ready to view”\n4. Icon Grid Features: “Everything for your next move”\n5. How It Works Steps: “Selling in three simple steps”\n6. Animated Stats Counters: “Numbers that speak for us”\n7. Team Grid: “Local people, local knowledge”\n8. Testimonial Wall: “Happy homeowners”\n9. FAQ Accordion: “Questions answered”\n10. Contact Form With Details: “Book your free valuation”\n11. Multi-Column Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #0f766e, page background #ffffff, cards #f0f7f5, text #0f1f1c, muted text #4b5f5a. Corner radius 12px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable real estate copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Real Estate Website Template — Free HTML Agency Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a real estate business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- About (about.html)\n- FAQ (faq.html)\n- Contact (contact.html)\n- Privacy (privacy.html)"
+    }
   },
 };
 

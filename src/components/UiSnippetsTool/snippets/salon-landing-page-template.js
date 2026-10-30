@@ -11,7 +11,7 @@ const salonLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvrrymjljril">
+    <section class="st st-navbar-simple" data-uid="smvulbpiy7lpw">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /><path d="M20 3v4" /><path d="M22 5h-4" /><path d="M4 17v2" /><path d="M5 18H3" /></svg></span><span>Bloom Studio</span></span>
@@ -31,7 +31,7 @@ const salonLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvrrymjl4kr9">
+    <section class="st st-image-background-hero" data-uid="smvulbpiyv9y4">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-salon.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -51,8 +51,8 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="menu" class="st st-restaurant-menu" data-uid="smvrrymjlymzo">
-      <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.08" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><filter id="art-blur-smvrrymjlymzo" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="60"/></filter></defs><g filter="url(#art-blur-smvrrymjlymzo)" fill="currentColor"><circle data-float cx="180" cy="160" r="190"/><circle data-float cx="1040" cy="260" r="220"/><circle data-float cx="640" cy="720" r="200"/></g></svg></div>
+    <section id="menu" class="st st-restaurant-menu" data-uid="smvulbpizh7d3">
+      <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.08" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><filter id="art-blur-smvulbpizh7d3" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="60"/></filter></defs><g filter="url(#art-blur-smvulbpizh7d3)" fill="currentColor"><circle data-float cx="180" cy="160" r="190"/><circle data-float cx="1040" cy="260" r="220"/><circle data-float cx="640" cy="720" r="200"/></g></svg></div>
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services &amp; prices</p>
@@ -117,7 +117,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-before-after-slider" data-uid="smvrrymjlbnqc">
+    <section id="gallery" class="st st-before-after-slider" data-uid="smvulbpizoapf">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Results</p>
@@ -152,7 +152,7 @@ const salonLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvrrymjlzp3g">
+    <section id="team" class="st st-team-grid" data-uid="smvulbpizt5i2">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our stylists</p>
@@ -203,7 +203,7 @@ const salonLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvrrymjl3kpu">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvulbpiz1ts9">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Client love</p>
@@ -238,7 +238,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvrrymjloge5">
+    <section id="contact" class="st st-booking-form" data-uid="smvulbpizy0ti">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -299,7 +299,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact-2" class="st st-contact-map" data-uid="smvrrymjlcm6m">
+    <section id="contact-2" class="st st-contact-map" data-uid="smvulbpizp3kj">
       <div class="st-wrap cm">
         <div class="cm-info">
           <header class="st-head st-head--left cm-head">
@@ -324,7 +324,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvrrymjledd5">
+    <section class="st st-popup-modal" data-uid="smvulbpiznz4q">
       <div class="pu" data-pu data-trigger="delay" data-delay="10" data-scroll="50" data-days="7" data-pos="bottom-right" data-layout="left" data-autoplay="0" data-pu-id="1pcpcek">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -344,7 +344,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvrrymjla1zj">
+    <section class="st st-footer-minimal" data-uid="smvulbpiz47g3">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -1207,7 +1207,11 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "q": "How is this snippet different from the template in the Website Builder?",
         "a": "It is the same page. Here you read and edit the HTML, CSS and JavaScript directly with a live preview; in the Website Builder you edit it with forms, change the theme once for the whole page, add pages and export a finished site."
       }
-    ]
+    ],
+    "aiPrompt": {
+      "paragraph": "Give this prompt to an AI assistant to generate your own version of the Hair & Beauty Salon Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
+      "prompt": "Build a complete hair & beauty salon website for “Bloom Studio” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Leave feeling like yourself, only better”\n3. Restaurant Menu: “Cut, colour and care”\n4. Before & After Slider: “Colour and cut, before and after”\n5. Team Grid: “The people behind the chair”\n6. Testimonial Wall: “Kind words from regulars”\n7. Booking Request Form: “Request your appointment”\n8. Contact With Map: “Find the studio”\n9. Popup & Promo Modal\n10. Minimal Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #be185d, page background #fff8f7, cards #f8e9e6, text #3b1d24, muted text #7b5960. Corner radius 18px, content width 1200px.\n- Headings in Playfair Display, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable health & beauty copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Bloom Studio: Hair, Colour and Beauty Salon in Hackney”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a health & beauty business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Services (services.html)\n- Stylists (team.html)\n- Book (book.html)\n- Privacy (privacy.html)"
+    }
   },
 };
 

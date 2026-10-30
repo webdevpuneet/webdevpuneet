@@ -1423,8 +1423,8 @@ function featuresBeforeAbout(list) {
 function aiPromptSection(aiPrompt) {
   return {
     type: 'aiPrompt',
-    label: 'Build with AI',
-    heading: 'Build, Understand, Optimize, and Extend It With AI',
+    label: aiPrompt.label || 'Build with AI',
+    heading: aiPrompt.heading || 'Build, Understand, Optimize, and Extend It With AI',
     paragraph: aiPrompt.paragraph,
     prompt: aiPrompt.prompt,
   };

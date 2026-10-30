@@ -12,7 +12,7 @@ const restaurantLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvrrymggsgyu">
+    <section class="st st-navbar-simple" data-uid="smvulbpes2htn">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg></span><span>Olive &amp; Ember</span></span>
@@ -32,7 +32,7 @@ const restaurantLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvrrymghpski">
+    <section class="st st-image-background-hero" data-uid="smvulbpeshhlp">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-restaurant.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -52,7 +52,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="menu" class="st st-restaurant-menu" data-uid="smvrrymghe57z">
+    <section id="menu" class="st st-restaurant-menu" data-uid="smvulbpesi4le">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">From the kitchen</p>
@@ -118,7 +118,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvrrymghw0ir">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvulbpesaps9">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -150,7 +150,7 @@ const restaurantLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-rows" data-uid="smvrrymgh9jc3">
+    <section id="pricing" class="st st-pricing-rows" data-uid="smvulbpes0v9n">
       <div class="st-wrap">
         <div class="pl-top">
           <header class="st-head st-head--left pl-head">
@@ -199,7 +199,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvrrymght11e">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvulbpes2gpi">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Guest reviews</p>
@@ -234,7 +234,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvrrymghay3s">
+    <section id="contact" class="st st-booking-form" data-uid="smvulbpesy59z">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -295,7 +295,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact-2" class="st st-contact-map" data-uid="smvrrymghkdis">
+    <section id="contact-2" class="st st-contact-map" data-uid="smvulbpesq7xa">
       <div class="st-wrap cm">
         <div class="cm-info">
           <header class="st-head st-head--left cm-head">
@@ -320,7 +320,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvrrymgh9jgt">
+    <section class="st st-popup-modal" data-uid="smvulbpet1vj1">
       <div class="pu" data-pu data-trigger="delay" data-delay="12" data-scroll="50" data-days="7" data-pos="bottom-left" data-layout="left" data-autoplay="0" data-pu-id="1ingh17">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -340,7 +340,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvrrymgh3qbm">
+    <section class="st st-footer-minimal" data-uid="smvulbpet74dl">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -1346,7 +1346,11 @@ html.stg-open{overflow:hidden}
         "q": "How is this snippet different from the template in the Website Builder?",
         "a": "It is the same page. Here you read and edit the HTML, CSS and JavaScript directly with a live preview; in the Website Builder you edit it with forms, change the theme once for the whole page, add pages and export a finished site."
       }
-    ]
+    ],
+    "aiPrompt": {
+      "paragraph": "Give this prompt to an AI assistant to generate your own version of the Restaurant Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
+      "prompt": "Build a complete restaurant website for “Olive & Ember” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “Seasonal plates, slow evenings”\n3. Restaurant Menu: “Dishes guests come back for”\n4. Filterable Image Gallery: “From the kitchen and the room”\n5. Pricing List Rows: “Let the kitchen choose for you”\n6. Testimonial Wall: “Loved by locals and travellers”\n7. Booking Request Form: “Request a table”\n8. Contact With Map: “Find our table”\n9. Popup & Promo Modal\n10. Minimal Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #b45309, page background #fffaf3, cards #f6ecdf, text #2a1a10, muted text #6b5444. Corner radius 10px, content width 1200px.\n- Headings in Playfair Display, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable food & drink copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Olive & Ember: Wood-Fired Restaurant in Alfama, Lisbon”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a food & drink business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Menu (menu.html)\n- About (about.html)\n- Visit (visit.html)\n- Privacy (privacy.html)"
+    }
   },
 };
 

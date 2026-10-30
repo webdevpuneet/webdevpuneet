@@ -13,7 +13,7 @@ const productStoreLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-announcement" data-uid="smvrrymki5hbw">
+    <section class="st st-navbar-announcement" data-uid="smvulbpkz76nv">
       <div class="na-bar" data-dismissable>
         <p class="st-wrap na-bar-in"><span>Free shipping and 30-day returns on every order</span> <a class="na-bar-link" href="#faq"><span>Learn more</span> <span aria-hidden="true">→</span></a></p>
         <button type="button" class="na-close" data-dismiss aria-label="Dismiss announcement"><span aria-hidden="true">×</span></button>
@@ -42,7 +42,7 @@ const productStoreLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-app-product-hero" data-uid="smvrrymki4att">
+    <section class="st st-app-product-hero" data-uid="smvulbpkzbu8a">
       <div class="ap st-wrap">
         <div class="ap-copy">
           <span class="st-eyebrow" data-anim="item">Sona One · wireless headphones</span>
@@ -62,7 +62,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-alternating" data-uid="smvrrymkiwoj4">
+    <section id="features" class="st st-features-alternating" data-uid="smvulbpkzgzbq">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Features</p>
@@ -100,7 +100,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-video-section" data-uid="smvrrymkiuj35">
+    <section id="gallery" class="st st-video-section" data-uid="smvulbpkzslu4">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">See it in action</p>
@@ -130,7 +130,7 @@ const productStoreLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvrrymki1drl">
+    <section id="results" class="st st-stats-counters" data-uid="smvulbpkzhuin">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Why people switch</p>
@@ -161,7 +161,7 @@ const productStoreLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvrrymki9g6e">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvulbpkzc8w6">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Reviews</p>
@@ -196,7 +196,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-product-grid" data-uid="smvrrymkioz6q">
+    <section class="st st-product-grid" data-uid="smvulbpkzemo7">
       <div class="st-wrap">
         <div class="pg-top">
           <header class="st-head st-head--left pg-head">
@@ -260,7 +260,7 @@ const productStoreLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvrrymkiuub4">
+    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvulbpkz04po">
       <div class="st-wrap ps">
         <div class="ps-copy">
           <header class="st-head st-head--left ps-head">
@@ -289,7 +289,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvrrymkifvsa">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvulbpl0dq4u">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -317,7 +317,7 @@ const productStoreLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still unsure?</span> <a href="mailto:hello@webdevpuneet.com"><span>Chat with us</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvrrymkijrvq">
+    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvulbpl0hhuv">
       <div class="st-wrap">
         <div class="cb" data-spotlight data-anim="media">
           <h2 class="st-h2 cb-title" data-anim="item" data-anim-text>Hear the difference <span class="hl">today</span></h2>
@@ -330,7 +330,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvrrymki8d9z">
+    <section class="st st-popup-modal" data-uid="smvulbpl0j0eg">
       <div class="pu" data-pu data-trigger="exit" data-delay="8" data-scroll="50" data-days="7" data-pos="center" data-layout="left" data-autoplay="0" data-pu-id="qbkxs8">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -356,7 +356,7 @@ const productStoreLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvrrymkijixr">
+    <section class="st st-footer-columns" data-uid="smvulbpl0khcy">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -1379,7 +1379,11 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "q": "How is this snippet different from the template in the Website Builder?",
         "a": "It is the same page. Here you read and edit the HTML, CSS and JavaScript directly with a live preview; in the Website Builder you edit it with forms, change the theme once for the whole page, add pages and export a finished site."
       }
-    ]
+    ],
+    "aiPrompt": {
+      "paragraph": "Give this prompt to an AI assistant to generate your own version of the Product Landing Page Store template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
+      "prompt": "Build a complete product landing page store website for “Sona” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Navbar With Announcement Bar\n2. App Product Hero: “Quiet the world. Hear everything.”\n3. Alternating Feature Rows: “Made for long days”\n4. Video Section with Poster: “Sona One, in two minutes”\n5. Animated Stats Counters: “Numbers that speak”\n6. Testimonial Wall: “Loved by 3,200 listeners”\n7. Product Grid: “Pairs well with Sona One”\n8. Single Plan Pricing: “Get Sona One”\n9. FAQ Accordion: “Questions, answered”\n10. Gradient CTA Banner: “Hear the difference today”\n11. Popup & Promo Modal\n12. Multi-Column Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #0284c7, page background #ffffff, cards #f0f9ff, text #0f172a, muted text #475569. Corner radius 18px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable retail copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Sona One Wireless Headphones: 40-Hour Noise Cancelling”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a retail business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Support (support.html)\n- Log in (login.html)\n- Sign up (register.html)\n- Journal (blog.html)\n- Article (article.html)\n- Privacy (privacy.html)"
+    }
   },
 };
 

@@ -11,7 +11,7 @@ const appLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvrrymezf94k">
+    <section class="st st-navbar-simple" data-uid="smvulbpct6k79">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg></span><span>Pocketly</span></span>
@@ -32,7 +32,7 @@ const appLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-app-product-hero" data-uid="smvrrymezja9s">
+    <section class="st st-app-product-hero" data-uid="smvulbpcthrm0">
       <div class="ap st-wrap">
         <div class="ap-copy">
           <span class="st-eyebrow" data-anim="item">iPhone &amp; Android</span>
@@ -52,7 +52,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-split-image" data-uid="smvrrymezmfda">
+    <section id="features" class="st st-features-split-image" data-uid="smvulbpctjs9y">
       <div class="st-wrap fs">
         <div class="fs-copy">
           <header class="st-head st-head--left fs-head">
@@ -81,7 +81,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="showcase" class="st st-scroll-ring" data-uid="smvrrymez3poc">
+    <section id="showcase" class="st st-scroll-ring" data-uid="smvulbpctfwa5">
       <div class="st-wrap rg-head">
         <p class="st-eyebrow" data-anim="item">Inside the app</p>
         <h2 class="st-h2" data-anim="item" data-anim-text>Swipe through <span class="hl">every screen</span></h2>
@@ -130,7 +130,7 @@ const appLandingPageTemplate = {
         </a>
       </div>
     </section>
-    <section id="how-it-works" class="st st-features-steps" data-uid="smvrrymez8795">
+    <section id="how-it-works" class="st st-features-steps" data-uid="smvulbpctwzjb">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How it works</p>
@@ -160,7 +160,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-marquee" data-uid="smvrrymezqvya">
+    <section id="customers" class="st st-testimonials-marquee" data-uid="smvulbpctn37j">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Reviews</p>
@@ -243,7 +243,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-split-image" data-uid="smvrrymezod8z">
+    <section id="get-started" class="st st-cta-split-image" data-uid="smvulbpcu43zc">
       <div class="st-wrap">
         <div class="cs">
           <div class="cs-copy">
@@ -259,7 +259,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-split" data-uid="smvrrymezyby9">
+    <section id="faq" class="st st-faq-split" data-uid="smvulbpcu79h5">
       <div class="st-wrap fs2">
         <div class="fs2-side">
           <header class="st-head st-head--left fs2-head">
@@ -302,7 +302,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvrrymez6tsc">
+    <section class="st st-footer-minimal" data-uid="smvulbpcu4niz">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -1105,7 +1105,11 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "q": "How is this snippet different from the template in the Website Builder?",
         "a": "It is the same page. Here you read and edit the HTML, CSS and JavaScript directly with a live preview; in the Website Builder you edit it with forms, change the theme once for the whole page, add pages and export a finished site."
       }
-    ]
+    ],
+    "aiPrompt": {
+      "paragraph": "Give this prompt to an AI assistant to generate your own version of the Mobile App Landing Page template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
+      "prompt": "Build a complete mobile app website for “Pocketly” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. App Product Hero: “Your money, finally organised”\n3. Split Features With Image: “See where your money really goes”\n4. 3D Scroll Carousel: “Swipe through every screen”\n5. How It Works Steps: “Set up in two minutes”\n6. Testimonial Marquee: “People are talking”\n7. Split CTA With Image: “Your budget, in your pocket”\n8. Split FAQ With Contact Card: “Frequently asked questions”\n9. Minimal Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #38bdf8, page background #04131f, cards #0c2234, text #e0f2fe, muted text #93b4c9. Corner radius 14px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in Inter (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable software copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Mobile App Landing Page Template — Free HTML Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a software business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- FAQ (faq.html)\n- Log in (login.html)\n- Sign up (register.html)\n- Privacy (privacy.html)"
+    }
   },
 };
 

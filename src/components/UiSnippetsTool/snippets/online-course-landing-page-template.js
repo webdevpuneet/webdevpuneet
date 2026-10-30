@@ -12,7 +12,7 @@ const onlineCourseLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvrrymi5s2kd">
+    <section class="st st-navbar-simple" data-uid="smvulbpgqv79f">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /><path d="M22 10v6" /><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></svg></span><span>Design Academy</span></span>
@@ -33,7 +33,7 @@ const onlineCourseLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-saas-split-hero" data-uid="smvrrymi6ty3h">
+    <section class="st st-saas-split-hero" data-uid="smvulbpgqb9d9">
       <div class="sh st-wrap">
         <div class="sh-copy">
           <a class="st-pill sh-badge" data-anim="item" href="#pricing"><span>New cohort starts 4 November</span></a>
@@ -50,7 +50,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvrrymi66wqu">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvulbpgqvc7i">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">What you’ll learn</p>
@@ -91,7 +91,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-video-section" data-uid="smvrrymi6c7q1">
+    <section id="gallery" class="st st-video-section" data-uid="smvulbpgqmx9u">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Course preview</p>
@@ -121,7 +121,7 @@ const onlineCourseLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="features-2" class="st st-features-alternating" data-uid="smvrrymi6krvu">
+    <section id="features-2" class="st st-features-alternating" data-uid="smvulbpgqoxi9">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Curriculum</p>
@@ -159,7 +159,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonial-spotlight" data-uid="smvrrymi6wykb">
+    <section id="customers" class="st st-testimonial-spotlight" data-uid="smvulbpgqwoua">
       <div class="st-wrap">
         <figure class="ts-card">
           <span class="ts-mark" aria-hidden="true">“</span>
@@ -178,7 +178,7 @@ const onlineCourseLandingPageTemplate = {
         </figure>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvrrymi6kbg0">
+    <section id="pricing" class="st st-pricing-single-plan" data-uid="smvulbpgqbd7w">
       <div class="st-wrap ps">
         <div class="ps-copy">
           <header class="st-head st-head--left ps-head">
@@ -207,7 +207,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvrrymi68vv9">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvulbpgr4h39">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -235,7 +235,7 @@ const onlineCourseLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvrrymi69vgf">
+    <section class="st st-popup-modal" data-uid="smvulbpgrdy4i">
       <div class="pu" data-pu data-trigger="scroll" data-delay="8" data-scroll="50" data-days="7" data-pos="bottom-right" data-layout="left" data-autoplay="0" data-pu-id="1kxmbuq">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -256,7 +256,7 @@ const onlineCourseLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvrrymi6y33q">
+    <section class="st st-footer-minimal" data-uid="smvulbpgr6er6">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -1114,7 +1114,11 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
         "q": "How is this snippet different from the template in the Website Builder?",
         "a": "It is the same page. Here you read and edit the HTML, CSS and JavaScript directly with a live preview; in the Website Builder you edit it with forms, change the theme once for the whole page, add pages and export a finished site."
       }
-    ]
+    ],
+    "aiPrompt": {
+      "paragraph": "Give this prompt to an AI assistant to generate your own version of the Online Course Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
+      "prompt": "Build a complete online course website for “Design Academy” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. SaaS Split Hero: “Learn UI design in 8 weeks”\n3. Icon Grid Features: “Skills you’ll actually use”\n4. Video Section with Poster: “Watch the first lesson”\n5. Alternating Feature Rows: “Eight weeks, step by step”\n6. Testimonial Spotlight: “Priya Raman”\n7. Single Plan Pricing: “One price, everything included”\n8. FAQ Accordion: “Questions about the course”\n9. Popup & Promo Modal\n10. Minimal Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #f97316, page background #fffcf8, cards #fff1e6, text #1c1917, muted text #57534e. Corner radius 14px, content width 1200px.\n- Headings in Plus Jakarta Sans, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable education copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Online Course Landing Page Template — Free HTML Template”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a education business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Pricing (pricing.html)\n- FAQ (faq.html)\n- Log in (login.html)\n- Sign up (register.html)\n- Journal (blog.html)\n- Article (article.html)\n- Privacy (privacy.html)"
+    }
   },
 };
 

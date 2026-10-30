@@ -3,7 +3,7 @@
 const schoolLandingPageTemplate = {
   id: 'school-landing-page-template',
   title: 'School Website Template',
-  lastmod: '2026-10-25',
+  lastmod: '2026-10-28',
   category: 'landing-pages',
   cdnUrls: [
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js",
@@ -12,7 +12,7 @@ const schoolLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvnkxdekpgrg">
+    <section class="st st-navbar-simple" data-uid="smvulbplkaf5d">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" /><path d="M22 10v6" /><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></svg></span><span>Brookfield Primary</span></span>
@@ -33,7 +33,7 @@ const schoolLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvnkxdek3bu4">
+    <section class="st st-image-background-hero" data-uid="smvulbplka2uz">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-school.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -53,7 +53,7 @@ const schoolLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvnkxdektbbe">
+    <section id="results" class="st st-stats-counters" data-uid="smvulbplkuo1f">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Brookfield in numbers</p>
@@ -84,7 +84,7 @@ const schoolLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvnkxdek5jdv">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvulbplkt3ks">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Learning</p>
@@ -125,7 +125,7 @@ const schoolLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvnkxdekxltm">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvulbplk0clr">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -157,7 +157,7 @@ const schoolLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="timetable" class="st st-class-timetable" data-uid="smvnkxdek7cnb">
+    <section id="timetable" class="st st-class-timetable" data-uid="smvulbplk8wd2">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The school day</p>
@@ -221,7 +221,7 @@ const schoolLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvnkxdek8jih">
+    <section id="team" class="st st-team-grid" data-uid="smvulbplkc8z0">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our staff</p>
@@ -272,7 +272,7 @@ const schoolLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="faq" class="st st-faq-grid" data-uid="smvnkxdekhyzv">
+    <section id="faq" class="st st-faq-grid" data-uid="smvulbplkjg7a">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">For parents</p>
@@ -307,7 +307,7 @@ const schoolLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="contact" class="st st-contact-map" data-uid="smvnkxdek6zo9">
+    <section id="contact" class="st st-contact-map" data-uid="smvulbplk9e0v">
       <div class="st-wrap cm">
         <div class="cm-info">
           <header class="st-head st-head--left cm-head">
@@ -332,7 +332,7 @@ const schoolLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvnkxdektzkl">
+    <section class="st st-footer-columns" data-uid="smvulbplkpep5">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -1065,7 +1065,11 @@ html.stg-open{overflow:hidden}
         "q": "How is this snippet different from the template in the Website Builder?",
         "a": "It is the same page. Here you read and edit the HTML, CSS and JavaScript directly with a live preview; in the Website Builder you edit it with forms, change the theme once for the whole page, add pages and export a finished site."
       }
-    ]
+    ],
+    "aiPrompt": {
+      "paragraph": "Give this prompt to an AI assistant to generate your own version of the School Website template: swap in your business name, services and tone, add or remove sections, translate it, or turn the page into a Next.js project or a WordPress theme. Use the template above as the visual reference, so you and the AI start from a design that already works.",
+      "prompt": "Build a complete school website for “Brookfield Primary” as clean HTML, CSS and a little JavaScript.\n\nPage structure, top to bottom:\n1. Simple Sticky Navbar\n2. Image Background Hero: “A school where every child is known”\n3. Animated Stats Counters: “Small school, big results”\n4. Icon Grid Features: “What our pupils learn”\n5. Filterable Image Gallery: “Life at Brookfield”\n6. Class Timetable: “A week at Brookfield”\n7. Team Grid: “Meet the team”\n8. FAQ Grid: “Admissions & the school day”\n9. Contact With Map: “Come and say hello”\n10. Multi-Column Footer\n\nLook and feel:\n- Colours as CSS custom properties: brand #1d4ed8, page background #ffffff, cards #eff6ff, text #0f172a, muted text #475569. Corner radius 14px, content width 1200px.\n- Headings in Lora, body text in DM Sans (load both from Google Fonts with display=swap).\n- Mobile first. Sections use CSS grid or flexbox and stack cleanly below 700px.\n\nContent:\n- Write real, believable education copy for every section instead of lorem ipsum: specific offers, numbers, names and calls to action.\n- One clear primary action in the hero and again near the end.\n\nQuality:\n- Semantic HTML (header, main, section, footer) with exactly one h1, the hero headline, and one h2 per section.\n- Accessible: alt text on every image, visible focus states, labelled form fields, buttons and links with clear text, and prefers-reduced-motion respected.\n- SEO: title “Brookfield Primary School: Small Classes, Big Hearts”, a meta description of 150 to 160 characters, Open Graph tags and JSON-LD that suits a education business.\n- Optional: a subtle GSAP ScrollTrigger fade-up on section headings, with content visible without JavaScript.\n\nAlso create these pages with the same navbar, footer and theme, and link them from the menu:\n- Admissions (admissions.html)\n- Visit (visit.html)\n- Privacy (privacy.html)"
+    }
   },
 };
 
