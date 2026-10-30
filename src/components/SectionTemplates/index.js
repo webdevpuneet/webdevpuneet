@@ -36,7 +36,7 @@ const BASE = `/${TOOL}/`;
 const GALLERY_PAGE = 8; // 2 rows of 4
 /* Sections whose effect is driven by scrolling (pinned galleries, stacking cards, drawn lines): their
    preview is a scrollable viewport with room before and after, instead of a frame grown to full height */
-const SCROLL_FX = new Set(['hscroll', 'story', 'stack', 'drawpath', 'ring']);
+const SCROLL_FX = new Set(['hscroll', 'story', 'stack', 'drawpath', 'ring', 'htimeline', 'kenburns']);
 const scrollFxHead = tail => `<script>window.ST_SCROLL_FX=true</script><style>html{background:#e8ebf0}body::after{content:"";display:block;height:${tail}vh;background:#e8ebf0}</style>`; // tail: blank space after the section (the 3D carousel needs none)
 const DEVICES = [
   { id: 'desktop', label: 'Desktop', w: 1280, icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2" /><path d="M8 21h8M12 17v4" /></svg> },

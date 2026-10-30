@@ -36,4 +36,8 @@ GOTCHAS FOUND
     based on `clean`; let the behaviour remove it on real pages instead.
   - container-type on .st makes fixed children relative to the section: floating sections set container-type:normal and
     overflow:visible.
+  - Scroll-driven sections (pinned or scrubbed): add the behaviour name to SCROLL_FX in src/components/SectionTemplates/index.js.
+    Otherwise the section editor preview is not a scrollable viewport and never runs the pin (it works on exported pages only).
+    Found on 2026-10-30 for htimeline and kenburns. Test it by building the preview document the editor builds
+    (documentHtml with ST_PREVIEW + the scroll head) inside an iframe.
   - Counters (counter()) cannot be read back through getComputedStyle in tests; check them in a screenshot.
