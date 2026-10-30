@@ -11,7 +11,7 @@ const podcastLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuvixxj73m5">
+    <section class="st st-navbar-simple" data-uid="smvuw56wxeq58">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3" /></svg></span><span>Off the Record</span></span>
@@ -31,7 +31,7 @@ const podcastLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuvixxjuug9">
+    <section class="st st-image-background-hero" data-uid="smvuw56wx90x2">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-podcast.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -51,7 +51,7 @@ const podcastLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="blog" class="st st-blog-list" data-uid="smvuvixxjf4tx">
+    <section id="blog" class="st st-blog-list" data-uid="smvuw56wyefdi">
       <div class="st-wrap">
         <div class="bl-top">
           <header class="st-head st-head--left bl-head">
@@ -91,7 +91,7 @@ const podcastLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="gallery" class="st st-video-section" data-uid="smvuvixxj8q6u">
+    <section id="gallery" class="st st-video-section" data-uid="smvuw56wydp9t">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Watch</p>
@@ -121,7 +121,7 @@ const podcastLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuvixxjcggt">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuw56wyp3xw">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Listen anywhere</p>
@@ -156,7 +156,7 @@ const podcastLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="team" class="st st-team-accordion" data-uid="smvuvixxjosxo">
+    <section id="team" class="st st-team-accordion" data-uid="smvuw56wyxy57">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Who is talking</p>
@@ -199,7 +199,7 @@ const podcastLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-marquee" data-uid="smvuvixxjhra3">
+    <section id="customers" class="st st-testimonials-marquee" data-uid="smvuw56wyiiwz">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Listener reviews</p>
@@ -282,7 +282,7 @@ const podcastLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-newsletter" data-uid="smvuvixxj6jpi">
+    <section id="get-started" class="st st-cta-newsletter" data-uid="smvuw56wyl2xi">
       <div class="st-wrap">
         <div class="cn" data-anim="media">
           <span class="st-icon cn-icon" data-anim="item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span>
@@ -296,7 +296,7 @@ const podcastLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuvixxjyxjs">
+    <section class="st st-popup-modal" data-uid="smvuw56wy8k7y">
       <div class="pu" data-pu data-trigger="scroll" data-delay="8" data-scroll="60" data-days="7" data-pos="bottom-right" data-layout="left" data-autoplay="0" data-pu-id="1cn8zbs">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -322,7 +322,7 @@ const podcastLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-floating-social-share" data-uid="smvuvixxj1l0r">
+    <section class="st st-floating-social-share" data-uid="smvuw56wygqo1">
       <div class="ss" data-ss data-side="right" data-align="center" style="--ss-top:50%" data-mobile="bar" data-look="network" data-shape="attached" data-size="default" data-tips="on" data-start="open" data-copied="Link copied">
         <div class="ss-panel" role="group" aria-label="Share this page">
           <ul class="ss-list"><li class="ss-item"><a class="ss-btn" data-net="x" data-share="https://x.com/intent/post?url={url}&amp;text={title}&amp;via={via}&amp;hashtags={tags}" href="https://x.com/intent/post" target="_blank" rel="noopener noreferrer" style="--c:#111111" aria-label="Share on X (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="ss-tip" aria-hidden="true">X</span></a></li><li class="ss-item"><a class="ss-btn" data-net="whatsapp" data-share="https://wa.me/?text={text}" href="https://wa.me/" target="_blank" rel="noopener noreferrer" style="--c:#128C7E" aria-label="Share on WhatsApp (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.7-5.1A9 9 0 1 1 8.1 19.3z"/><path d="M9 8.5c0 3.300 2.700 6 6 6l1.300-1.500-2.200-1.100-.9.900c-.9-.4-1.700-1.200-2.100-2.100l.9-.9-1.100-2.200z"/></svg><span class="ss-tip" aria-hidden="true">WhatsApp</span></a></li><li class="ss-item"><a class="ss-btn" data-net="reddit" data-share="https://www.reddit.com/submit?url={url}&amp;title={title}" href="https://www.reddit.com/submit" target="_blank" rel="noopener noreferrer" style="--c:#E03D00" aria-label="Share on Reddit (opens in a new tab)"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="14" rx="8" ry="5.500"/><circle cx="4.500" cy="11.200" r="1.600"/><circle cx="19.500" cy="11.200" r="1.600"/><circle cx="9" cy="13.500" r="1" fill="currentColor"/><circle cx="15" cy="13.500" r="1" fill="currentColor"/><path d="M9.500 16.500c1.500 1 3.500 1 5 0"/><path d="M12 8.500 13.200 3l4.300 1"/><circle cx="18.500" cy="4.500" r="1.500"/></svg><span class="ss-tip" aria-hidden="true">Reddit</span></a></li><li class="ss-item"><a class="ss-btn" data-net="email" data-share="mailto:?subject={title}&amp;body={text}" href="mailto:" style="--c:#6B7280" aria-label="Share on Email"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.970 5.700a1.940 1.940 0 0 1-2.060 0L2 7"/></svg><span class="ss-tip" aria-hidden="true">Email</span></a></li><li class="ss-item"><button type="button" class="ss-btn" data-net="copy" style="--c:#0F7B3F" aria-label="Copy link"><svg class="ss-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="13" height="13" x="8" y="8" rx="2.500"/><path d="M16 8V6.500A2.500 2.500 0 0 0 13.500 4h-7A2.500 2.500 0 0 0 4 6.500v7A2.500 2.500 0 0 0 6.500 16H8"/></svg><svg class="ss-ic ss-ic--done" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span class="ss-tip" aria-hidden="true">Copy link</span></button></li><li class="ss-item ss-item--hide"><button type="button" class="ss-hide" data-ss-hide aria-expanded="true" aria-label="Hide share buttons"><svg class="ss-ic ss-ic--hide" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg></button></li></ul>
@@ -331,7 +331,7 @@ const podcastLandingPageTemplate = {
         <span class="ss-live" role="status" aria-live="polite"></span>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuvixxjm49p">
+    <section class="st st-footer-minimal" data-uid="smvuw56wyviz4">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -347,7 +347,7 @@ const podcastLandingPageTemplate = {
         <p class="fm-copy">© 2026 Off the Record Podcast</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuvixxjsch9">
+    <section class="st st-back-to-top" data-uid="smvuw56wye331">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>

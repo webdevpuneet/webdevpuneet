@@ -101,11 +101,11 @@ export default {
 </div>`,
   css: `.st-timeline-horizontal{padding:clamp(64px,8cqi,112px) 0}
 .tlh{position:relative;display:flex;align-items:center;gap:8px}
-.tlh-track{flex:1;min-width:0;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab;outline:none;border-radius:calc(var(--st-radius) * 1px)}
+.tlh-track{flex:1;min-width:0;padding-block:14px 46px;margin-block:-14px -46px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab;outline:none;border-radius:calc(var(--st-radius) * 1px)}
 .tlh-track::-webkit-scrollbar{display:none}
 .tlh-track.is-dragging{cursor:grabbing;scroll-snap-type:none;user-select:none}
 .tlh-track:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--st-brand) 55%,transparent)}
-.tlh-list{--tl-card-h:158px;--tl-item-w:240px;position:relative;display:flex;width:max-content;min-width:100%;margin:0;padding:0;list-style:none;counter-reset:tl}
+.tlh-list{--tl-card-h:158px;--tl-item-w:240px;position:relative;display:flex;width:max-content;min-width:100%;margin:0;padding:0 28px;list-style:none;counter-reset:tl}
 .tlh-list::before{content:"";position:absolute;left:0;right:0;top:calc(var(--tl-card-h) + 22px);height:4px;margin-top:-2px;border-radius:2px;background:color-mix(in srgb,var(--st-text) 14%,transparent)}
 .tlh-list::after{content:"";position:absolute;left:0;top:calc(var(--tl-card-h) + 22px);height:4px;margin-top:-2px;border-radius:2px;width:var(--tl-fill,0px);background:linear-gradient(90deg,color-mix(in srgb,var(--st-brand) 55%,transparent),var(--st-brand));transition:width .7s cubic-bezier(.4,0,.2,1)}
 .tlh-item{counter-increment:tl;position:relative;display:flex;flex:1 0 var(--tl-item-w);flex-direction:column;align-items:center;justify-content:flex-start;min-width:var(--tl-item-w);height:calc(var(--tl-card-h) * 2 + 44px);scroll-snap-align:center}

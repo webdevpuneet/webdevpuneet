@@ -11,7 +11,7 @@ const appLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuvixsnm02b">
+    <section class="st st-navbar-simple" data-uid="smvuw56q43s3y">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></svg></span><span>Pocketly</span></span>
@@ -32,7 +32,7 @@ const appLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-app-product-hero" data-uid="smvuvixsn7b57">
+    <section class="st st-app-product-hero" data-uid="smvuw56q4npug">
       <div class="ap st-wrap">
         <div class="ap-copy">
           <span class="st-eyebrow" data-anim="item">iPhone &amp; Android</span>
@@ -52,7 +52,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-split-image" data-uid="smvuvixsnzgt1">
+    <section id="features" class="st st-features-split-image" data-uid="smvuw56q49pei">
       <div class="st-wrap fs">
         <div class="fs-copy">
           <header class="st-head st-head--left fs-head">
@@ -81,7 +81,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="showcase" class="st st-scroll-ring" data-uid="smvuvixsnr8vt">
+    <section id="showcase" class="st st-scroll-ring" data-uid="smvuw56q4gvkn">
       <div class="st-wrap rg-head">
         <p class="st-eyebrow" data-anim="item">Inside the app</p>
         <h2 class="st-h2" data-anim="item" data-anim-text>Swipe through <span class="hl">every screen</span></h2>
@@ -130,7 +130,7 @@ const appLandingPageTemplate = {
         </a>
       </div>
     </section>
-    <section id="how-it-works" class="st st-features-steps" data-uid="smvuvixsna3nq">
+    <section id="how-it-works" class="st st-features-steps" data-uid="smvuw56q4yr6h">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How it works</p>
@@ -160,7 +160,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-marquee" data-uid="smvuvixsni4h2">
+    <section id="customers" class="st st-testimonials-marquee" data-uid="smvuw56q4nnfh">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Reviews</p>
@@ -243,7 +243,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-split-image" data-uid="smvuvixsnhdkh">
+    <section id="get-started" class="st st-cta-split-image" data-uid="smvuw56q4aedu">
       <div class="st-wrap">
         <div class="cs">
           <div class="cs-copy">
@@ -259,7 +259,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-split" data-uid="smvuvixsnotxz">
+    <section id="faq" class="st st-faq-split" data-uid="smvuw56q4l5lw">
       <div class="st-wrap fs2">
         <div class="fs2-side">
           <header class="st-head st-head--left fs2-head">
@@ -302,7 +302,7 @@ const appLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuvixsn3j27">
+    <section class="st st-footer-minimal" data-uid="smvuw56q4imlj">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -318,7 +318,7 @@ const appLandingPageTemplate = {
         <p class="fm-copy">© 2026 Pocketly Ltd.</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuvixsnptl3">
+    <section class="st st-back-to-top" data-uid="smvuw56q4w9a0">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>

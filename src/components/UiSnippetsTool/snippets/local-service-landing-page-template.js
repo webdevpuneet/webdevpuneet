@@ -14,7 +14,7 @@ const localServiceLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/InertiaPlugin.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuvixvd4msx">
+    <section class="st st-navbar-simple" data-uid="smvuw56tngk5c">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /><path d="M20 3v4" /><path d="M22 5h-4" /><path d="M4 17v2" /><path d="M5 18H3" /></svg></span><span>Sparkle &amp; Co</span></span>
@@ -34,7 +34,7 @@ const localServiceLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-saas-split-hero" data-uid="smvuvixvdowh5">
+    <section class="st st-saas-split-hero" data-uid="smvuw56tn3cf1">
       <div class="sh st-wrap">
         <div class="sh-copy">
           <a class="st-pill sh-badge" data-anim="item" href="#features"><span>Insured &amp; background-checked cleaners</span></a>
@@ -51,7 +51,7 @@ const localServiceLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuvixvd49k9">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuw56tnukd8">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services</p>
@@ -92,7 +92,7 @@ const localServiceLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="how-it-works" class="st st-features-steps" data-uid="smvuvixvdp5kn">
+    <section id="how-it-works" class="st st-features-steps" data-uid="smvuw56tnsb2g">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How it works</p>
@@ -122,7 +122,7 @@ const localServiceLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-before-after-slider" data-uid="smvuvixvdeqgd">
+    <section id="gallery" class="st st-before-after-slider" data-uid="smvuw56tnv2id">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The difference</p>
@@ -157,7 +157,7 @@ const localServiceLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvuvixvdlk1y">
+    <section id="results" class="st st-stats-counters" data-uid="smvuw56toerio">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Trusted locally</p>
@@ -188,7 +188,7 @@ const localServiceLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-carousel" data-uid="smvuvixvdzxa8">
+    <section id="customers" class="st st-testimonials-carousel" data-uid="smvuw56to7mg4">
       <div class="st-wrap">
         <div class="tc-top">
           <header class="st-head st-head--left tc-head">
@@ -245,7 +245,7 @@ const localServiceLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuvixvdaupr">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvuw56towwby">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -273,7 +273,7 @@ const localServiceLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="contact" class="st st-contact-split-form" data-uid="smvuvixvda5vk">
+    <section id="contact" class="st st-contact-split-form" data-uid="smvuw56to5yv1">
       <div class="st-wrap cs2">
         <div class="cs2-info">
           <header class="st-head st-head--left cs2-head">
@@ -322,7 +322,7 @@ const localServiceLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvuvixvdeu4f">
+    <section class="st st-footer-columns" data-uid="smvuw56todnn8">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -355,7 +355,7 @@ const localServiceLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuvixvd6xzh">
+    <section class="st st-back-to-top" data-uid="smvuw56torxxs">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -364,7 +364,7 @@ const localServiceLandingPageTemplate = {
         <button type="button" class="btt-btn" aria-label="Back to top" title="Back to top"><svg class="btt-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
       </div>
     </section>
-    <section class="st st-accessibility-toolbar" data-uid="smvuvixvd8hkl">
+    <section class="st st-accessibility-toolbar" data-uid="smvuw56tocdps">
       <div class="a11y" data-a11y data-pos="left" data-remember="on">
         <button type="button" class="a11y-fab" aria-expanded="false" data-a11y-open aria-label="Open accessibility tools">
           <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="7.500" r="1.200" fill="currentColor"/><path d="M7 10.500l5 1 5-1M12 11.500v3.500M9.500 19l2.500-4 2.500 4"/></svg>

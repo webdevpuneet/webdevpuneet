@@ -13,7 +13,7 @@ const saasLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuvixqw02mh">
+    <section class="st st-navbar-simple" data-uid="smvuw56p2fxz1">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z" /><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65" /><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65" /></svg></span><span>Acme</span></span>
@@ -35,7 +35,7 @@ const saasLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-saas-split-hero" data-uid="smvuvixqxuegu">
+    <section class="st st-saas-split-hero" data-uid="smvuw56p2306z">
       <div class="sh st-wrap">
         <div class="sh-copy">
           <a class="st-pill sh-badge" data-anim="item" href="https://webdevpuneet.com/changelog"><span>New: Automations are here →</span></a>
@@ -52,7 +52,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-logo-cloud" data-uid="smvuvixqyye5n">
+    <section class="st st-logo-cloud" data-uid="smvuw56p25s02">
       <div class="st-wrap">
         <p class="lc-title" data-anim="item">Trusted by <span class="hl">2,000+ teams</span> at fast-growing companies</p>
       </div>
@@ -85,7 +85,7 @@ const saasLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuvixqyugef">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuw56p3uufq">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Features</p>
@@ -127,7 +127,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features-2" class="st st-features-alternating" data-uid="smvuvixqy3xcb">
+    <section id="features-2" class="st st-features-alternating" data-uid="smvuw56p38zc2">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How it helps</p>
@@ -167,7 +167,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-video-section" data-uid="smvuvixqypvqz">
+    <section id="gallery" class="st st-video-section" data-uid="smvuw56p35w9j">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Product tour</p>
@@ -197,7 +197,7 @@ const saasLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="showcase" class="st st-scroll-ring" data-uid="smvuvixqyvvkq">
+    <section id="showcase" class="st st-scroll-ring" data-uid="smvuw56p3i49h">
       <div class="st-wrap rg-head">
         <p class="st-eyebrow" data-anim="item">Product tour</p>
         <h2 class="st-h2" data-anim="item" data-anim-text>Every Acme screen, <span class="hl">one scroll away</span></h2>
@@ -246,7 +246,7 @@ const saasLandingPageTemplate = {
         </a>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvuvixqyw0j1">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvuw56p39so7">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Wall of love</p>
@@ -305,7 +305,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvuvixqzjw5u">
+    <section id="pricing" class="st st-pricing-three-tier" data-uid="smvuw56p373i7">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Pricing</p>
@@ -352,7 +352,7 @@ const saasLandingPageTemplate = {
         <p class="p3-note" data-anim="item">All paid plans include a 14-day free trial. Prices in USD, taxes may apply.</p>
       </div>
     </section>
-    <section id="pricing-2" class="st st-pricing-comparison" data-uid="smvuvixqz5gzb">
+    <section id="pricing-2" class="st st-pricing-comparison" data-uid="smvuw56p38p3l">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Compare plans</p>
@@ -458,7 +458,7 @@ const saasLandingPageTemplate = {
         <p class="st-form-note pc-note">Prices are per month, billed yearly. Cancel any time.</p>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuvixqzca1l">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvuw56p3nng3">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -494,7 +494,7 @@ const saasLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvuvixqze5vz">
+    <section id="get-started" class="st st-cta-gradient-banner" data-uid="smvuw56p39tg1">
       <div class="st-wrap">
         <div class="cb" data-spotlight data-anim="media">
           <h2 class="st-h2 cb-title" data-anim="item" data-anim-text>Ready to ship your best work yet?</h2>
@@ -507,7 +507,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuvixqzty28">
+    <section class="st st-popup-modal" data-uid="smvuw56p3n7jv">
       <div class="pu" data-pu data-trigger="exit" data-delay="8" data-scroll="50" data-days="7" data-pos="center" data-layout="left" data-autoplay="0" data-pu-id="hrcwe3">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -533,7 +533,7 @@ const saasLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvuvixqzloki">
+    <section class="st st-footer-columns" data-uid="smvuw56p3hed5">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -570,7 +570,7 @@ const saasLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuvixqzfnl0">
+    <section class="st st-back-to-top" data-uid="smvuw56p3gffm">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>

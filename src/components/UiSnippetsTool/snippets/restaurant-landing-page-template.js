@@ -12,7 +12,7 @@ const restaurantLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuvixu7gq8b">
+    <section class="st st-navbar-simple" data-uid="smvuw56s566q4">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg></span><span>Olive &amp; Ember</span></span>
@@ -32,7 +32,7 @@ const restaurantLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuvixu7iwjj">
+    <section class="st st-image-background-hero" data-uid="smvuw56s5hcki">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-restaurant.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -52,7 +52,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="menu" class="st st-restaurant-menu" data-uid="smvuvixu7citk">
+    <section id="menu" class="st st-restaurant-menu" data-uid="smvuw56s5if1z">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">From the kitchen</p>
@@ -118,7 +118,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuvixu77y1r">
+    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuw56s5iq9w">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">From the farm</p>
@@ -160,7 +160,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-gallery-grid" data-uid="smvuvixu7oib3">
+    <section id="gallery" class="st st-gallery-grid" data-uid="smvuw56s5h6cy">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Gallery</p>
@@ -192,7 +192,7 @@ const restaurantLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="pricing" class="st st-pricing-rows" data-uid="smvuvixu7dovt">
+    <section id="pricing" class="st st-pricing-rows" data-uid="smvuw56s53ipo">
       <div class="st-wrap">
         <div class="pl-top">
           <header class="st-head st-head--left pl-head">
@@ -241,7 +241,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvuvixu74z5s">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvuw56s5xbfb">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Guest reviews</p>
@@ -276,7 +276,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvuvixu7yph1">
+    <section id="contact" class="st st-booking-form" data-uid="smvuw56s5oyci">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -337,7 +337,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact-2" class="st st-contact-map" data-uid="smvuvixu7k1ya">
+    <section id="contact-2" class="st st-contact-map" data-uid="smvuw56s53j54">
       <div class="st-wrap cm">
         <div class="cm-info">
           <header class="st-head st-head--left cm-head">
@@ -362,7 +362,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuvixu70be0">
+    <section class="st st-popup-modal" data-uid="smvuw56s55zn1">
       <div class="pu" data-pu data-trigger="delay" data-delay="12" data-scroll="50" data-days="7" data-pos="bottom-left" data-layout="left" data-autoplay="0" data-pu-id="1ingh17">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -382,7 +382,7 @@ const restaurantLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuvixu74fim">
+    <section class="st st-footer-minimal" data-uid="smvuw56s5q2b2">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -398,7 +398,7 @@ const restaurantLandingPageTemplate = {
         <p class="fm-copy">© 2026 Olive &amp; Ember</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuvixu7zsef">
+    <section class="st st-back-to-top" data-uid="smvuw56s51fq3">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -524,6 +524,8 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .zs.is-zs .zs-ui{position:absolute;right:clamp(16px,3cqi,32px);bottom:clamp(16px,3cqi,32px);z-index:60;display:flex;align-items:center;gap:12px;color:#fff;font:700 13px/1 var(--st-font-heading);letter-spacing:.08em}
 .zs-bar{display:block;width:clamp(60px,10cqi,120px);height:3px;border-radius:2px;background:rgba(255,255,255,.3);overflow:hidden}
 .zs-bar i{display:block;width:100%;height:100%;background:#fff;transform:scaleX(0);transform-origin:0 50%}
+/* The frozen frame used for previews and thumbnails: no heading, just the stack part way through its zoom */
+.st-scroll-zoom:has(.zs.is-zs-still) .st-head{display:none}
 @container st (max-width:560px){.zs.is-zs .zs-list{height:clamp(380px,calc(100vh - 150px),620px)}.zs-layer{aspect-ratio:4/3}}
 /* Filterable Image Gallery */
 .st-gallery-grid{padding:clamp(56px,7cqi,104px) 0}
@@ -911,18 +913,18 @@ html.stg-open{overflow:hidden}
 
     if (still || !G || !window.ScrollTrigger) {
       if (!still) return;
-      // A frame from the effect for previews: the first image fills the stage, the second is part way through its zoom
-      root.classList.add('is-zs');
-      var mid = s0 + (1 - s0) * 0.5;
-      layers.forEach(function (l, i) { if (i > 1) l.style.visibility = 'hidden'; });
-      var small = dir === 'in' ? layers[1] : layers[0];
-      small.style.transform = 'scale(' + mid + ')';
-      small.style.borderRadius = Math.round(RADIUS * 0.6) + 'px';
-      small.style.boxShadow = SHADOW_ON;
-      if (caps[0]) caps[0].style.opacity = '0';
-      if (caps[1]) caps[1].style.opacity = '0';
-      if (count) count.textContent = label(0);
-      if (bar) bar.style.transform = 'scaleX(' + (0.5 / (n - 1)).toFixed(3) + ')';
+      // A frame from the effect for previews and thumbnails: the back image fills the stage and the next image is a slightly
+      // smaller card with a shadow in front of it, part way through its zoom, with the counter and progress bar. No heading, no captions.
+      root.classList.add('is-zs', 'is-zs-still');
+      layers.forEach(function (l, i) { l.style.zIndex = String(i + 1); if (i > 1) l.style.visibility = 'hidden'; });
+      if (layers[1]) {
+        layers[1].style.transform = 'scale(0.88)';
+        layers[1].style.borderRadius = '24px';
+        layers[1].style.boxShadow = SHADOW_ON;
+      }
+      caps.forEach(function (c) { if (c) c.style.opacity = '0'; });
+      if (count) count.textContent = label(1);
+      if (bar) bar.style.transform = 'scaleX(' + Math.min(1, 1.45 / (n - 1)).toFixed(3) + ')';
       return;
     }
 

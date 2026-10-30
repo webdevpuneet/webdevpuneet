@@ -103,18 +103,18 @@
 
     if (still || !G || !window.ScrollTrigger) {
       if (!still) return;
-      // A frame from the effect for previews: the first image fills the stage, the second is part way through its zoom
-      root.classList.add('is-zs');
-      var mid = s0 + (1 - s0) * 0.5;
-      layers.forEach(function (l, i) { if (i > 1) l.style.visibility = 'hidden'; });
-      var small = dir === 'in' ? layers[1] : layers[0];
-      small.style.transform = 'scale(' + mid + ')';
-      small.style.borderRadius = Math.round(RADIUS * 0.6) + 'px';
-      small.style.boxShadow = SHADOW_ON;
-      if (caps[0]) caps[0].style.opacity = '0';
-      if (caps[1]) caps[1].style.opacity = '0';
-      if (count) count.textContent = label(0);
-      if (bar) bar.style.transform = 'scaleX(' + (0.5 / (n - 1)).toFixed(3) + ')';
+      // A frame from the effect for previews and thumbnails: the back image fills the stage and the next image is a slightly
+      // smaller card with a shadow in front of it, part way through its zoom, with the counter and progress bar. No heading, no captions.
+      root.classList.add('is-zs', 'is-zs-still');
+      layers.forEach(function (l, i) { l.style.zIndex = String(i + 1); if (i > 1) l.style.visibility = 'hidden'; });
+      if (layers[1]) {
+        layers[1].style.transform = 'scale(0.88)';
+        layers[1].style.borderRadius = '24px';
+        layers[1].style.boxShadow = SHADOW_ON;
+      }
+      caps.forEach(function (c) { if (c) c.style.opacity = '0'; });
+      if (count) count.textContent = label(1);
+      if (bar) bar.style.transform = 'scaleX(' + Math.min(1, 1.45 / (n - 1)).toFixed(3) + ')';
       return;
     }
 

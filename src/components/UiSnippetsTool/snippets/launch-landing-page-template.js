@@ -11,7 +11,7 @@ const launchLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-announcement" data-uid="smvuvixswzuea">
+    <section class="st st-navbar-announcement" data-uid="smvuw56qix4hv">
       <div class="na-bar" data-dismissable>
         <p class="st-wrap na-bar-in"><span>🚀 Launching on Product Hunt, 12 November</span> <a class="na-bar-link" href="#get-started"><span>Get notified</span> <span aria-hidden="true">→</span></a></p>
         <button type="button" class="na-close" data-dismiss aria-label="Dismiss announcement"><span aria-hidden="true">×</span></button>
@@ -40,7 +40,7 @@ const launchLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-centered-gradient-hero" data-uid="smvuvixswjh6s">
+    <section class="st st-centered-gradient-hero" data-uid="smvuw56qi710o">
       <div class="cg-glow" aria-hidden="true"></div>
       <div class="cg st-wrap">
         <span class="st-eyebrow cg-eyebrow" data-anim="item">Coming soon</span>
@@ -54,7 +54,7 @@ const launchLandingPageTemplate = {
         <div class="cg-media" data-anim="media"><img width="1200" height="820" src="https://webdevpuneet.com/images/section-templates/hero-dashboard.png" alt="Acme app dashboard"></div>
       </div>
     </section>
-    <section id="features" class="st st-features-bento" data-uid="smvuvixswvv0u">
+    <section id="features" class="st st-features-bento" data-uid="smvuw56qiili4">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">What’s inside</p>
@@ -101,7 +101,7 @@ const launchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuvixswc950">
+    <section id="timeline" class="st st-timeline-horizontal" data-uid="smvuw56qi8niu">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Roadmap</p>
@@ -158,7 +158,7 @@ const launchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="get-started" class="st st-cta-newsletter" data-uid="smvuvixswy58i">
+    <section id="get-started" class="st st-cta-newsletter" data-uid="smvuw56qig25z">
       <div class="st-wrap">
         <div class="cn" data-anim="media">
           <span class="st-icon cn-icon" data-anim="item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg></span>
@@ -172,7 +172,7 @@ const launchLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-newsletter" data-uid="smvuvixswcle6">
+    <section class="st st-footer-newsletter" data-uid="smvuw56qi8qqv">
       <footer class="st-wrap fn">
         <div class="fn-top">
           <div class="fn-news" data-anim="item">
@@ -326,11 +326,11 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 /* Horizontal Timeline */
 .st-timeline-horizontal{padding:clamp(64px,8cqi,112px) 0}
 .tlh{position:relative;display:flex;align-items:center;gap:8px}
-.tlh-track{flex:1;min-width:0;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab;outline:none;border-radius:calc(var(--st-radius) * 1px)}
+.tlh-track{flex:1;min-width:0;padding-block:14px 46px;margin-block:-14px -46px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab;outline:none;border-radius:calc(var(--st-radius) * 1px)}
 .tlh-track::-webkit-scrollbar{display:none}
 .tlh-track.is-dragging{cursor:grabbing;scroll-snap-type:none;user-select:none}
 .tlh-track:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--st-brand) 55%,transparent)}
-.tlh-list{--tl-card-h:158px;--tl-item-w:240px;position:relative;display:flex;width:max-content;min-width:100%;margin:0;padding:0;list-style:none;counter-reset:tl}
+.tlh-list{--tl-card-h:158px;--tl-item-w:240px;position:relative;display:flex;width:max-content;min-width:100%;margin:0;padding:0 28px;list-style:none;counter-reset:tl}
 .tlh-list::before{content:"";position:absolute;left:0;right:0;top:calc(var(--tl-card-h) + 22px);height:4px;margin-top:-2px;border-radius:2px;background:color-mix(in srgb,var(--st-text) 14%,transparent)}
 .tlh-list::after{content:"";position:absolute;left:0;top:calc(var(--tl-card-h) + 22px);height:4px;margin-top:-2px;border-radius:2px;width:var(--tl-fill,0px);background:linear-gradient(90deg,color-mix(in srgb,var(--st-brand) 55%,transparent),var(--st-brand));transition:width .7s cubic-bezier(.4,0,.2,1)}
 .tlh-item{counter-increment:tl;position:relative;display:flex;flex:1 0 var(--tl-item-w);flex-direction:column;align-items:center;justify-content:flex-start;min-width:var(--tl-item-w);height:calc(var(--tl-card-h) * 2 + 44px);scroll-snap-align:center}

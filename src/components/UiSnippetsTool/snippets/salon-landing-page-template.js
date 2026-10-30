@@ -11,7 +11,7 @@ const salonLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuvixx27b2g">
+    <section class="st st-navbar-simple" data-uid="smvuw56w8f96n">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /><path d="M20 3v4" /><path d="M22 5h-4" /><path d="M4 17v2" /><path d="M5 18H3" /></svg></span><span>Bloom Studio</span></span>
@@ -31,7 +31,7 @@ const salonLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuvixx2bvya">
+    <section class="st st-image-background-hero" data-uid="smvuw56w8v060">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-salon.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -51,8 +51,8 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="menu" class="st st-restaurant-menu" data-uid="smvuvixx2ge00">
-      <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.08" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><filter id="art-blur-smvuvixx2ge00" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="60"/></filter></defs><g filter="url(#art-blur-smvuvixx2ge00)" fill="currentColor"><circle data-float cx="180" cy="160" r="190"/><circle data-float cx="1040" cy="260" r="220"/><circle data-float cx="640" cy="720" r="200"/></g></svg></div>
+    <section id="menu" class="st st-restaurant-menu" data-uid="smvuw56w8wztu">
+      <div class="st-art" aria-hidden="true" style="color:var(--st-brand);opacity:0.08" data-art-anim="float"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><filter id="art-blur-smvuw56w8wztu" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="60"/></filter></defs><g filter="url(#art-blur-smvuw56w8wztu)" fill="currentColor"><circle data-float cx="180" cy="160" r="190"/><circle data-float cx="1040" cy="260" r="220"/><circle data-float cx="640" cy="720" r="200"/></g></svg></div>
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services &amp; prices</p>
@@ -117,7 +117,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuvixx2c7zk">
+    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuw56w8gfta">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The studio</p>
@@ -159,7 +159,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="gallery" class="st st-before-after-slider" data-uid="smvuvixx2jqud">
+    <section id="gallery" class="st st-before-after-slider" data-uid="smvuw56w8js14">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Results</p>
@@ -194,7 +194,7 @@ const salonLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="team" class="st st-team-accordion" data-uid="smvuvixx2fxog">
+    <section id="team" class="st st-team-accordion" data-uid="smvuw56w86jrz">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">The team</p>
@@ -259,7 +259,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvuvixx2fpq7">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvuw56w8s8wi">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Client love</p>
@@ -294,7 +294,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact" class="st st-booking-form" data-uid="smvuvixx2ufxi">
+    <section id="contact" class="st st-booking-form" data-uid="smvuw56w8c2zb">
       <div class="st-wrap bk">
         <div class="bk-info">
           <header class="st-head st-head--left bk-head">
@@ -355,7 +355,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="contact-2" class="st st-contact-map" data-uid="smvuvixx2z2fz">
+    <section id="contact-2" class="st st-contact-map" data-uid="smvuw56w8593u">
       <div class="st-wrap cm">
         <div class="cm-info">
           <header class="st-head st-head--left cm-head">
@@ -380,7 +380,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-popup-modal" data-uid="smvuvixx2zc31">
+    <section class="st st-popup-modal" data-uid="smvuw56w8ynrc">
       <div class="pu" data-pu data-trigger="delay" data-delay="10" data-scroll="50" data-days="7" data-pos="bottom-right" data-layout="left" data-autoplay="0" data-pu-id="1pcpcek">
         <div class="pu-backdrop" data-pu-close hidden></div>
         <div class="pu-dialog" role="dialog" aria-modal="true" aria-labelledby="pu-heading" tabindex="-1" hidden>
@@ -400,7 +400,7 @@ const salonLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-minimal" data-uid="smvuvixx2qgpk">
+    <section class="st st-footer-minimal" data-uid="smvuw56w8u3dm">
       <footer class="st-wrap fm">
         <div class="fm-row" data-anim="item">
           <a class="st-brand" href="#">
@@ -416,7 +416,7 @@ const salonLandingPageTemplate = {
         <p class="fm-copy">© 2026 Bloom Studio</p>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuvixx2zbsy">
+    <section class="st st-back-to-top" data-uid="smvuw56w8opsl">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -542,6 +542,8 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .zs.is-zs .zs-ui{position:absolute;right:clamp(16px,3cqi,32px);bottom:clamp(16px,3cqi,32px);z-index:60;display:flex;align-items:center;gap:12px;color:#fff;font:700 13px/1 var(--st-font-heading);letter-spacing:.08em}
 .zs-bar{display:block;width:clamp(60px,10cqi,120px);height:3px;border-radius:2px;background:rgba(255,255,255,.3);overflow:hidden}
 .zs-bar i{display:block;width:100%;height:100%;background:#fff;transform:scaleX(0);transform-origin:0 50%}
+/* The frozen frame used for previews and thumbnails: no heading, just the stack part way through its zoom */
+.st-scroll-zoom:has(.zs.is-zs-still) .st-head{display:none}
 @container st (max-width:560px){.zs.is-zs .zs-list{height:clamp(380px,calc(100vh - 150px),620px)}.zs-layer{aspect-ratio:4/3}}
 /* Before & After Slider */
 .st-before-after-slider{padding:clamp(56px,7cqi,104px) 0}
@@ -923,18 +925,18 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 
     if (still || !G || !window.ScrollTrigger) {
       if (!still) return;
-      // A frame from the effect for previews: the first image fills the stage, the second is part way through its zoom
-      root.classList.add('is-zs');
-      var mid = s0 + (1 - s0) * 0.5;
-      layers.forEach(function (l, i) { if (i > 1) l.style.visibility = 'hidden'; });
-      var small = dir === 'in' ? layers[1] : layers[0];
-      small.style.transform = 'scale(' + mid + ')';
-      small.style.borderRadius = Math.round(RADIUS * 0.6) + 'px';
-      small.style.boxShadow = SHADOW_ON;
-      if (caps[0]) caps[0].style.opacity = '0';
-      if (caps[1]) caps[1].style.opacity = '0';
-      if (count) count.textContent = label(0);
-      if (bar) bar.style.transform = 'scaleX(' + (0.5 / (n - 1)).toFixed(3) + ')';
+      // A frame from the effect for previews and thumbnails: the back image fills the stage and the next image is a slightly
+      // smaller card with a shadow in front of it, part way through its zoom, with the counter and progress bar. No heading, no captions.
+      root.classList.add('is-zs', 'is-zs-still');
+      layers.forEach(function (l, i) { l.style.zIndex = String(i + 1); if (i > 1) l.style.visibility = 'hidden'; });
+      if (layers[1]) {
+        layers[1].style.transform = 'scale(0.88)';
+        layers[1].style.borderRadius = '24px';
+        layers[1].style.boxShadow = SHADOW_ON;
+      }
+      caps.forEach(function (c) { if (c) c.style.opacity = '0'; });
+      if (count) count.textContent = label(1);
+      if (bar) bar.style.transform = 'scaleX(' + Math.min(1, 1.45 / (n - 1)).toFixed(3) + ')';
       return;
     }
 

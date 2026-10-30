@@ -12,7 +12,7 @@ const realEstateLandingPageTemplate = {
     "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"
   ],
   html: `
-    <section class="st st-navbar-simple" data-uid="smvuvixuhe8nu">
+    <section class="st st-navbar-simple" data-uid="smvuw56sjsa4t">
       <header class="st-wrap nb">
         <a class="st-brand" href="#">
           <span class="st-brand-mark"><span class="st-brand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg></span><span>Harbor Homes</span></span>
@@ -33,7 +33,7 @@ const realEstateLandingPageTemplate = {
       </header>
       <i hidden data-sticky-flag></i>
     </section>
-    <section class="st st-image-background-hero" data-uid="smvuvixuhlg56">
+    <section class="st st-image-background-hero" data-uid="smvuw56sj6lkv">
       <div class="ib-bg" role="img" aria-label="Background photo" style="background-image:url('https://webdevpuneet.com/images/section-templates/tpl-realestate.jpg')"></div>
       <div class="ib-shade" aria-hidden="true"></div>
       <div class="ib st-wrap">
@@ -53,7 +53,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="listings" class="st st-property-listings" data-uid="smvuvixuhg4oc">
+    <section id="listings" class="st st-property-listings" data-uid="smvuw56sjqq9f">
       <div class="st-wrap">
         <div class="pl-head">
           <div class="pl-titles">
@@ -159,7 +159,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuvixuh4x7w">
+    <section id="zoom" class="st st-scroll-zoom" data-uid="smvuw56sj3gvj">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Featured homes</p>
@@ -201,7 +201,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="features" class="st st-features-icon-grid" data-uid="smvuvixuhj4tz">
+    <section id="features" class="st st-features-icon-grid" data-uid="smvuw56sjh424">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Services</p>
@@ -242,7 +242,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="how-it-works" class="st st-features-steps" data-uid="smvuvixuhl9xx">
+    <section id="how-it-works" class="st st-features-steps" data-uid="smvuw56sjw25x">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">How it works</p>
@@ -272,7 +272,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="results" class="st st-stats-counters" data-uid="smvuvixuh39mc">
+    <section id="results" class="st st-stats-counters" data-uid="smvuw56sjo8qd">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our results</p>
@@ -303,7 +303,7 @@ const realEstateLandingPageTemplate = {
         </dl>
       </div>
     </section>
-    <section id="team" class="st st-team-grid" data-uid="smvuvixuhc8yt">
+    <section id="team" class="st st-team-grid" data-uid="smvuw56sjk5m7">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Our agents</p>
@@ -354,7 +354,7 @@ const realEstateLandingPageTemplate = {
         </ul>
       </div>
     </section>
-    <section id="customers" class="st st-testimonials-grid" data-uid="smvuvixuh8ran">
+    <section id="customers" class="st st-testimonials-grid" data-uid="smvuw56sjbp9j">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">Reviews</p>
@@ -389,7 +389,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section id="faq" class="st st-faq-accordion" data-uid="smvuvixuh0asd">
+    <section id="faq" class="st st-faq-accordion" data-uid="smvuw56sjnmw8">
       <div class="st-wrap">
         <header class="st-head">
           <p class="st-eyebrow" data-anim="item">FAQ</p>
@@ -417,7 +417,7 @@ const realEstateLandingPageTemplate = {
         <p class="fq-contact" data-anim="item"><span>Still have a question?</span> <a href="mailto:hello@webdevpuneet.com"><span>Talk to our team</span> <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
-    <section id="contact" class="st st-contact-split-form" data-uid="smvuvixuhdeh3">
+    <section id="contact" class="st st-contact-split-form" data-uid="smvuw56sjv7jz">
       <div class="st-wrap cs2">
         <div class="cs2-info">
           <header class="st-head st-head--left cs2-head">
@@ -462,7 +462,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </div>
     </section>
-    <section class="st st-footer-columns" data-uid="smvuvixuh87um">
+    <section class="st st-footer-columns" data-uid="smvuw56skouhx">
       <footer class="st-wrap fo">
         <div class="fo-top">
           <div class="fo-brand" data-anim="item">
@@ -495,7 +495,7 @@ const realEstateLandingPageTemplate = {
         </div>
       </footer>
     </section>
-    <section class="st st-back-to-top" data-uid="smvuvixuhh6ls">
+    <section class="st st-back-to-top" data-uid="smvuw56skb0cr">
       <div class="btt" data-btt data-enabled="on" data-distance="500" data-pos="right" data-appear="fade" data-speed="0.8" data-mobile="on" data-shadow="on" style="--btt-size:52px;--btt-off:24px;--btt-radius:50%;--btt-speed:0.8s">
         <div class="btt-demo" aria-hidden="true">
           <span class="btt-bar btt-bar--lg"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--md"></span><span class="btt-bar"></span><span class="btt-bar btt-bar--sm"></span>
@@ -645,6 +645,8 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:84px}
 .zs.is-zs .zs-ui{position:absolute;right:clamp(16px,3cqi,32px);bottom:clamp(16px,3cqi,32px);z-index:60;display:flex;align-items:center;gap:12px;color:#fff;font:700 13px/1 var(--st-font-heading);letter-spacing:.08em}
 .zs-bar{display:block;width:clamp(60px,10cqi,120px);height:3px;border-radius:2px;background:rgba(255,255,255,.3);overflow:hidden}
 .zs-bar i{display:block;width:100%;height:100%;background:#fff;transform:scaleX(0);transform-origin:0 50%}
+/* The frozen frame used for previews and thumbnails: no heading, just the stack part way through its zoom */
+.st-scroll-zoom:has(.zs.is-zs-still) .st-head{display:none}
 @container st (max-width:560px){.zs.is-zs .zs-list{height:clamp(380px,calc(100vh - 150px),620px)}.zs-layer{aspect-ratio:4/3}}
 /* Icon Grid Features */
 .st-features-icon-grid{padding:clamp(64px,8cqi,112px) 0}
@@ -926,18 +928,18 @@ a.cs2-value:hover{color:var(--st-brand)}
 
     if (still || !G || !window.ScrollTrigger) {
       if (!still) return;
-      // A frame from the effect for previews: the first image fills the stage, the second is part way through its zoom
-      root.classList.add('is-zs');
-      var mid = s0 + (1 - s0) * 0.5;
-      layers.forEach(function (l, i) { if (i > 1) l.style.visibility = 'hidden'; });
-      var small = dir === 'in' ? layers[1] : layers[0];
-      small.style.transform = 'scale(' + mid + ')';
-      small.style.borderRadius = Math.round(RADIUS * 0.6) + 'px';
-      small.style.boxShadow = SHADOW_ON;
-      if (caps[0]) caps[0].style.opacity = '0';
-      if (caps[1]) caps[1].style.opacity = '0';
-      if (count) count.textContent = label(0);
-      if (bar) bar.style.transform = 'scaleX(' + (0.5 / (n - 1)).toFixed(3) + ')';
+      // A frame from the effect for previews and thumbnails: the back image fills the stage and the next image is a slightly
+      // smaller card with a shadow in front of it, part way through its zoom, with the counter and progress bar. No heading, no captions.
+      root.classList.add('is-zs', 'is-zs-still');
+      layers.forEach(function (l, i) { l.style.zIndex = String(i + 1); if (i > 1) l.style.visibility = 'hidden'; });
+      if (layers[1]) {
+        layers[1].style.transform = 'scale(0.88)';
+        layers[1].style.borderRadius = '24px';
+        layers[1].style.boxShadow = SHADOW_ON;
+      }
+      caps.forEach(function (c) { if (c) c.style.opacity = '0'; });
+      if (count) count.textContent = label(1);
+      if (bar) bar.style.transform = 'scaleX(' + Math.min(1, 1.45 / (n - 1)).toFixed(3) + ')';
       return;
     }
 
