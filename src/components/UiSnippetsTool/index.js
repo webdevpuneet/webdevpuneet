@@ -1203,8 +1203,9 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
   // Centre the Home / search / Prev / Next / Random group on the whole toolbar once it is wide enough.
   const previewHdrRef = useRef(null);
   // Console button: lives in the empty strip to the right of the preview when there is room (>= 30px),
-  // otherwise falls back to a pill inside the preview. sideLeft = x of that strip (null = no room);
-  // sideTop = its y, kept within the preview's visible part (null = preview scrolled out of view, hide it).
+  // otherwise falls back to a pill inside the preview. sideLeft / sideTop are PAGE coordinates of the
+  // preview's bottom-right corner (null = no room): the tab is absolutely positioned in <body>, so it
+  // scrolls with the page natively instead of being re-placed (and lagging) on every scroll.
   const stageRef = useRef(null);
   const [sideLeft, setSideLeft] = useState(null);
   const [sideTop, setSideTop] = useState(null);
@@ -1215,18 +1216,20 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
     const measure = () => {
       const r = stageRef.current?.getBoundingClientRect();
       if (!r) return;
-      setSideLeft(window.innerWidth - r.right >= 30 ? Math.round(r.right) + 2 : null);
-      // Sit near the bottom of the window, but never below the preview's own bottom edge
-      const top = Math.min(window.innerHeight - 84 - TAB_H, r.bottom - 12 - TAB_H);
-      setSideTop(top >= r.top + 8 ? Math.round(top) : null);
+      setSideLeft(window.innerWidth - r.right >= 30 ? Math.round(r.right + window.scrollX) + 2 : null);
+      // Pinned to the preview's bottom edge; hidden when the preview is too short to hold it
+      const top = r.bottom - 12 - TAB_H;
+      setSideTop(top >= r.top + 8 ? Math.round(top + window.scrollY) : null);
     };
     const schedule = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(measure); };
+    // Page scrolls move the tab by themselves; only inner scroll containers can shift the preview
+    const onScroll = e => { if (e.target !== document && e.target !== window) schedule(); };
     measure();
     window.addEventListener('resize', schedule);
-    window.addEventListener('scroll', schedule, true); // capture: also scrolls of inner containers
+    window.addEventListener('scroll', onScroll, true); // capture: also scrolls of inner containers
     const ro = typeof ResizeObserver !== 'undefined' && stageRef.current ? new ResizeObserver(schedule) : null;
     if (ro) ro.observe(stageRef.current);
-    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', schedule); window.removeEventListener('scroll', schedule, true); ro && ro.disconnect(); };
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', schedule); window.removeEventListener('scroll', onScroll, true); ro && ro.disconnect(); };
   }, [showEditor, activeId]);
   const [hdrW, setHdrW] = useState(0);
   const [navW, setNavW] = useState(262);        // width of the Refresh / Search / Prev / Home / Next / Random group
@@ -2506,7 +2509,7 @@ export default function UiSnippetsTool({ initialSnippetId, isHome = false, initi
                     </div>
                   </div>
                 )}
-                {!(open && !outside) && !(outside && sideTop === null) && (
+                {!(open && !outside) && !(outside && sideTop === null) && (btn => (outside ? createPortal(btn, document.body) : btn))(
                   <button
                     type="button"
                     className={`${outside ? s.consoleTab : s.consoleFab} ${n === 0 ? s.consoleFabEmpty : ''} ${open ? s.consoleTabOn : ''}`}
