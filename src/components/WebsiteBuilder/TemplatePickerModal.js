@@ -13,8 +13,15 @@ import { isSite } from '@/components/SectionTemplates/templates/site.js';
 import { panHandlers } from '@/components/HomeTemplatesCarousel';
 import { WEBSITE_TEMPLATES, TEMPLATE_INDUSTRIES } from '@/components/SectionTemplates/templates/starters.js';
 import { starterPageList } from '@/components/SectionTemplates/templates/site.js';
+import { pageFromStarter, pageDocumentHtml } from '@/components/SectionTemplates/templates/page.js';
 
 const fullOf = id => `/images/website-templates/full/${id}.jpg`;
+const ICON = { fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', width: 18, height: 18, viewBox: '0 0 24 24', 'aria-hidden': true };
+const DEVICES = [ // same preview sizes as the section picker
+  ['desktop', 'Desktop', '100%', <svg key="d" {...ICON}><rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8M12 17v4" /></svg>],
+  ['tablet', 'Tablet', '820px', <svg key="t" {...ICON}><rect x="4" y="2" width="16" height="20" rx="2" /><path d="M12 18h.01" /></svg>],
+  ['phone', 'Mobile', '390px', <svg key="p" {...ICON}><rect x="7" y="2" width="10" height="20" rx="2" /><path d="M12 18h.01" /></svg>],
+];
 const DEMOS = 'https://webdevpuneet.com/demos/website-templates/'; // live demos (scripts/export-website-demos.mjs)
 const ARROW = <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>;
 const ago = iso => { try { return new Date(iso).toLocaleDateString(undefined, { day: 'numeric', month: 'short' }); } catch { return ''; } };
@@ -51,6 +58,7 @@ export default function TemplatePickerModal({ open, onClose, onUse, saved = [], 
   const [ind, setInd] = useState('all');
   const [chosen, setChosen] = useState(null);
   const [shown, setShown] = useState(PAGE);
+  const [device, setDevice] = useState('desktop');
   const searchRef = useRef(null);
   const dialogRef = useRef(null);
   const lastFocus = useRef(null);
@@ -63,11 +71,14 @@ export default function TemplatePickerModal({ open, onClose, onUse, saved = [], 
       .filter(t => !words.length || words.every(w => `${t.name} ${t.industry} ${t.blurb}`.toLowerCase().includes(w)));
   }, [q, ind]);
   const pages = useMemo(() => (chosen ? starterPageList(chosen.id) : []), [chosen]);
+  // Live preview document: the template's one-page version, rendered like the section picker's preview
+  const doc = useMemo(() => (chosen ? pageDocumentHtml(pageFromStarter(chosen.id), { clean: true, extraHead: '<style>html{scroll-behavior:auto}</style>' }) : ''), [chosen]);
 
   useEffect(() => {
     if (!open) return;
     lastFocus.current = document.activeElement;
     setChosen(null);
+    setDevice('desktop');
     const t = setTimeout(() => searchRef.current?.focus(), 30);
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -93,10 +104,17 @@ export default function TemplatePickerModal({ open, onClose, onUse, saved = [], 
   if (!open) return null;
 
   return (
-    <div className={b.modalBack} onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }}>
-      <div ref={dialogRef} className={b.modal} role="dialog" aria-modal="true" aria-label="Start from a template">
+    <div className={chosen ? `${b.modalBack} ${b.modalBackWide}` : b.modalBack} onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }}>
+      <div ref={dialogRef} className={chosen ? `${b.modal} ${b.modalWide}` : b.modal} role="dialog" aria-modal="true" aria-label="Start from a template">
         <header className={b.modalHead}>
           <h2 className={b.modalTitle}>{chosen ? chosen.name : 'Start from a template'}</h2>
+          {chosen && (
+            <div className={b.headDevices} role="radiogroup" aria-label="Preview size">
+              {DEVICES.map(([id, label, , icon]) => (
+                <button key={id} type="button" role="radio" aria-checked={device === id} aria-label={label} title={label} className={`${b.deviceBtn} ${device === id ? b.catOn : ''}`} onClick={() => setDevice(id)}>{icon}</button>
+              ))}
+            </div>
+          )}
           {!chosen && (
             <input ref={searchRef} className={b.modalSearch} type="search" value={q} onChange={e => setQ(e.target.value)} placeholder={`Search ${WEBSITE_TEMPLATES.length} website templates (restaurant, gym, SaaS…)`} aria-label="Search website templates" />
           )}
@@ -154,9 +172,8 @@ export default function TemplatePickerModal({ open, onClose, onUse, saved = [], 
         ) : (
           <div className={b.modalDetail}>
             <div className={b.modalPreviewCol}>
-              <div className={b.modalFrameWrap} style={{ overflowY: 'auto', display: 'block' }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={fullOf(chosen.id)} alt={`${chosen.name} template preview`} style={{ display: 'block', width: '100%', maxWidth: 1100, margin: '0 auto' }} />
+              <div className={b.modalFrameWrap} style={{ paddingTop: 14 }}>
+                <iframe key={chosen.id} className={b.modalFrame} style={{ width: DEVICES.find(d => d[0] === device)[2] }} title={`${chosen.name} template preview`} srcDoc={doc} sandbox="allow-scripts" />
               </div>
             </div>
             <aside className={b.modalSide}>
