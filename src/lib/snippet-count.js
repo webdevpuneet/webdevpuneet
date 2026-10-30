@@ -6,4 +6,4 @@
 // (src/components/UiSnippetsTool/snippets.js) just to read `.length` would bundle
 // every snippet's HTML/CSS/JS into pages that only need the number. A dev-time
 // check in that file warns if this constant drifts from the real count.
-export const SNIPPET_COUNT = 2087;
+export const SNIPPET_COUNT = 2088;

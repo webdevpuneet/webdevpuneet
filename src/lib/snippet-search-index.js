@@ -2091,4 +2091,5 @@ export const SNIPPET_SEARCH_INDEX = [
   {"id":"school-landing-page-template","title":"School Website Template","category":"landing-pages"},
   {"id":"church-landing-page-template","title":"Church Website Template","category":"landing-pages"},
   {"id":"music-landing-page-template","title":"Music Artist & Band Website Template","category":"landing-pages"},
+  {"id":"accessibility-toolbar-widget","title":"Accessibility Toolbar Widget","category":"misc"},
 ];

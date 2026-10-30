@@ -713,7 +713,7 @@ The button and the panel are real buttons with labels, visible focus rings and E
 
 **Customise it**
 
-Choose the button corner, switch individual options on or off, rename every label for your language, and set the brand colour and corner radius in the theme. Export HTML, a ZIP, React or Vue, or fork it into [My Code](/ui-snippets/mycode/). To pair it with an exit offer or promo, see the [Popup & Promo Modal](/website-section-templates/popup-modal/).
+Choose the button corner, switch individual options on or off, rename every label for your language, and set the brand colour and corner radius in the theme. Export HTML, a ZIP, React or Vue, or fork it into [My Code](/ui-snippets/mycode/). Try every option on a demo page in the [Accessibility Toolbar Widget UI snippet](/ui-snippets/accessibility-toolbar-widget/), or pair it with an exit offer or promo in the [Popup & Promo Modal](/website-section-templates/popup-modal/).
 
 **An honest note**
 

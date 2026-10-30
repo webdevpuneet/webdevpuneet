@@ -1,6 +1,7 @@
 ADVISOR LOG (newest first)
 Format: date · area · suggested / chosen / done · note
 
+2026-10-30 · ui snippets · done · New snippet accessibility-toolbar-widget (misc), generated from the template export by scripts/generate-accessibility-snippet.mjs with a demo page (Maple Grove School) so each option visibly changes the page; SEO, AI prompt, preview done, tested headless (12 checks); links to and from the section template. SNIPPET_COUNT 2087 -> 2088. Not deployed.
 2026-10-30 · section templates · done · New Accessibility Toolbar Widget section (accessibility-toolbar, new Accessibility category, 73 sections): ten visitor options, saved choices, tested headless (28 checks), SEO, preview and og done. Not deployed. Could also be offered as an Elementor HTML-widget export (scripted section, see ideas/ELEMENTOR-EXPORT-NOTES.txt group 2).
 2026-10-30 · elementor · done · Elementor MCP connected to the test WordPress site; centred-gradient-hero rebuilt with native widgets as a draft (pilot). Findings and open questions in ideas/ELEMENTOR-EXPORT-NOTES.txt. Recommended next: finish the pilot (glow, headline highlight, import test), then 7 more sections.
 2026-10-29 · ui snippets · done · bootstrap-multi-file-upload-queue rebuilt (drag-drop, type tiles, retry, 10 MB check, escaped file names - the old version put file names into innerHTML) with SEO, AI prompt and preview updated.

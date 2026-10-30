@@ -138,7 +138,7 @@ export default {
   </div>
 </div>`,
   css: `.st-accessibility-toolbar{overflow:visible;container-type:normal;height:0;min-height:0;background:transparent}
-.st-accessibility-toolbar:has(.a11y.is-preview){height:auto;padding:clamp(24px,4vw,48px) var(--st-pad);background:color-mix(in srgb,var(--st-text) 8%,var(--st-bg))}
+.st-accessibility-toolbar:has(.a11y.is-preview){height:auto;min-height:680px;padding:clamp(16px,2vw,24px) var(--st-pad);background:color-mix(in srgb,var(--st-text) 8%,var(--st-bg))}
 .a11y{--a11y-w:380px}
 .a11y-fab{position:fixed;bottom:20px;z-index:2147483000;display:grid;place-items:center;width:58px;height:58px;padding:0;border:3px solid #fff;border-radius:50%;background:var(--st-brand);color:var(--st-btn-text);cursor:pointer;box-shadow:0 10px 28px -6px rgba(15,23,42,.5);transition:transform .2s ease,box-shadow .2s ease}
 .a11y[data-pos=right] .a11y-fab{right:20px}
@@ -170,7 +170,7 @@ export default {
 .a11y-pip.on{background:var(--st-brand)}
 .a11y-note{margin:4px 2px 0;font-size:12.5px;color:var(--st-muted);text-align:center}
 .a11y-note:empty{display:none}
-.a11y.is-preview .a11y-fab{display:none}
+.a11y.is-preview .a11y-fab{position:absolute}
 .a11y.is-preview .a11y-panel{position:relative;inset:auto;margin:0 auto;opacity:1;transform:none;max-height:none}
 .a11y-mask{position:fixed;left:0;right:0;z-index:2147482000;background:rgba(0,0,0,.78);pointer-events:none}
 @media (max-width:480px){.a11y-grid{gap:8px}.a11y-tile{min-height:76px;padding:10px}}

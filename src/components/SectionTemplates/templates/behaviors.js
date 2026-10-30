@@ -1767,11 +1767,13 @@ BEHAVIORS.a11y = {
       });
     }
 
-    root.querySelectorAll('[data-a11y-close]').forEach(function (b) { b.addEventListener('click', function (e) { if (inline && !btnMode) { e.preventDefault(); return; } close(true); }); });
+    root.querySelectorAll('[data-a11y-close]').forEach(function (b) { b.addEventListener('click', function (e) { if (inline && !btnMode) { e.preventDefault(); panel.hidden = true; fab.setAttribute('aria-expanded', 'false'); return; } close(true); }); });
 
     if (inline && !btnMode) {
       root.classList.add('is-preview');
       panel.hidden = false;
+      fab.setAttribute('aria-expanded', 'true');
+      fab.addEventListener('click', function () { panel.hidden = !panel.hidden; fab.setAttribute('aria-expanded', String(!panel.hidden)); });
       tiles.forEach(function (t) {
         t.addEventListener('click', function () { var f = t.getAttribute('data-feature'); state[f] = ((state[f] || 0) + 1) % ((LEVELS[f] || 1) + 1); paint(); });
       });
